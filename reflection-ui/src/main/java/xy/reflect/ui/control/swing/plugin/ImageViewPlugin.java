@@ -19,7 +19,12 @@ import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowser;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileNameFilterConfiguration;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.SelectionModeConfiguration;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -29,7 +34,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ImagePanel;
 
-public class ImageViewPlugin extends FileBrowserPlugin {
+public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override
 	public String getControlTitle() {
@@ -52,7 +57,7 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 	}
 
 	@Override
-	protected Component createControl(Object renderer, IFieldControlInput input,
+	public ImageView createControl(Object renderer, IFieldControlInput input,
 			AbstractConfiguration controlCustomization) {
 		return new ImageView((SwingRenderer) renderer, input, (ImageViewConfiguration) controlCustomization);
 	}
@@ -66,7 +71,7 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 
 	}
 
-	protected class ImageView extends JPanel implements IAdvancedFieldControl {
+	public class ImageView extends JPanel implements IAdvancedFieldControl {
 		private static final long serialVersionUID = 1L;
 
 		protected SwingRenderer swingRenderer;
@@ -156,7 +161,8 @@ public class ImageViewPlugin extends FileBrowserPlugin {
 				}
 
 			};
-			FileBrowser browser = new FileBrowser(swingRenderer, fileBrowserInput, fileBrowserConfiguration);
+			FileBrowser browser = new FileBrowserPlugin().createControl(swingRenderer, fileBrowserInput,
+					fileBrowserConfiguration);
 			browser.openDialog();
 			if (imageFileHolder[0] == null) {
 				return;

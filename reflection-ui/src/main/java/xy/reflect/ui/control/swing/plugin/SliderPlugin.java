@@ -1,7 +1,5 @@
 package xy.reflect.ui.control.swing.plugin;
 
-import java.awt.Component;
-
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -41,7 +39,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 	}
 
 	@Override
-	protected Component createControl(Object renderer, IFieldControlInput input,
+	public Slider createControl(Object renderer, IFieldControlInput input,
 			AbstractConfiguration controlCustomization) {
 		return new Slider((SwingRenderer) renderer, input, (SliderConfiguration) controlCustomization);
 	}
@@ -57,7 +55,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	}
 
-	protected class Slider extends JSlider implements IAdvancedFieldControl {
+	public class Slider extends JSlider implements IAdvancedFieldControl {
 		private static final long serialVersionUID = 1L;
 
 		protected SwingRenderer swingRenderer;

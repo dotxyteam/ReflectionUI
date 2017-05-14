@@ -6,6 +6,7 @@ import java.util.List;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
@@ -59,21 +60,39 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	public ITypeInfo guessSubType(Object instance) {
 		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getTypeOptions());
-		Collections.reverse(options);
-		ITypeInfo result = null;
+		ITypeInfo polymorphicTypeAsValidOption = null;
+		ITypeInfo validSubType = null;
 		for (ITypeInfo type : options) {
 			if (type.supportsInstance(instance)) {
-				return type;
+				if (type.getName().equals(polymorphicType.getName())) {
+					polymorphicTypeAsValidOption = type;
+				} else {
+					if (validSubType != null) {
+						throw new ReflectionUIError(
+								"Failed to guess the polymorphic value type option: Ambiguity detected: More than 1 valid types found:"
+										+ "\n- " + validSubType.getName() + "\n- " + type.getName());
+					}
+					validSubType = type;
+				}
 			}
 		}
-		if (result == null) {
-			result = reflectionUI
-					.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
-			if(result.getName().equals(polymorphicType.getName())){
-				result = blockPolymorphism(result);
+		if (validSubType != null) {
+			ITypeInfo actualType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
+			if (actualType.getName().equals(polymorphicType.getName())) {
+				throw new ReflectionUIError("Polymorphism inconsistency detected:" + "\n- Base type: "
+						+ polymorphicType.getName() + "\n- Current sub-type: " + validSubType.getName()
+						+ "\n- Actual type: " + actualType.getName());
 			}
+			return validSubType;
 		}
-		return result;
+		if (polymorphicTypeAsValidOption != null) {
+			return polymorphicTypeAsValidOption;
+		}
+		ITypeInfo actualType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
+		if (actualType.getName().equals(polymorphicType.getName())) {
+			return blockPolymorphism(actualType);
+		}
+		return null;
 	}
 
 	@Override

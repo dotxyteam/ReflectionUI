@@ -34,11 +34,11 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 	}
 
 	@Override
-	public Component createControl(Object renderer, IFieldControlInput input) {
+	public ColorControl createControl(Object renderer, IFieldControlInput input) {
 		return new ColorControl((SwingRenderer) renderer, input);
 	}
 
-	protected class ColorControl extends DialogAccessControl {
+	public class ColorControl extends DialogAccessControl {
 		protected static final long serialVersionUID = 1L;
 
 		public ColorControl(SwingRenderer swingRenderer, IFieldControlInput input) {

@@ -21,7 +21,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractSimpleCustomizableFieldControlPlugin extends AbstractSimpleFieldControlPlugin
 		implements ICustomizableFieldControlPlugin {
 
-	protected abstract Component createControl(Object renderer, IFieldControlInput input,
+	public abstract Component createControl(Object renderer, IFieldControlInput input,
 			AbstractConfiguration controlConfiguration);
 
 	protected abstract AbstractConfiguration getDefaultControlConfiguration();

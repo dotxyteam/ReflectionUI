@@ -47,9 +47,7 @@ public class InfoFilterProxy implements IInfoFilter {
 
 	@Override
 	public String toString() {
-		return delegate.toString();
+		return "InfoFilterProxy [base=" + delegate + "]";
 	}
-	
-	
-	
+
 }

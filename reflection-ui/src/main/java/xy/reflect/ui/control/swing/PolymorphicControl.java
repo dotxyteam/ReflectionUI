@@ -174,7 +174,12 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 								try {
 									super.setValue(value);
 								} finally {
-									refreshDynamicControl();
+									SwingUtilities.invokeLater(new Runnable() {										
+										@Override
+										public void run() {
+											refreshDynamicControl();
+										}
+									});
 								}
 							}
 						}, instance, input.getModificationsTarget()).applyAndGetOpposite();

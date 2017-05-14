@@ -42,12 +42,12 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 	}
 
 	@Override
-	protected AbstractConfiguration getDefaultControlConfiguration() {
+	public AbstractConfiguration getDefaultControlConfiguration() {
 		return new FileBrowserConfiguration();
 	}
 
 	@Override
-	protected Component createControl(Object renderer, IFieldControlInput input,
+	public FileBrowser createControl(Object renderer, IFieldControlInput input,
 			AbstractConfiguration controlConfiguration) {
 		return new FileBrowser((SwingRenderer) renderer, input, (FileBrowserConfiguration) controlConfiguration);
 	}
@@ -93,7 +93,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 	}
 
-	protected class FileBrowser extends DialogAccessControl implements IAdvancedFieldControl {
+	public class FileBrowser extends DialogAccessControl implements IAdvancedFieldControl {
 
 		protected static final long serialVersionUID = 1L;
 
@@ -177,7 +177,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		protected void openDialog() {
+		public void openDialog() {
 			final JFileChooser fileChooser = new JFileChooser();
 			File currentFile = (File) data.getValue();
 			fileChooser.setCurrentDirectory(lastDirectory);

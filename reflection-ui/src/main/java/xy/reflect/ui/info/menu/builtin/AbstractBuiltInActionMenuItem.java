@@ -12,4 +12,8 @@ public abstract class AbstractBuiltInActionMenuItem extends AbstractActionMenuIt
 		return true;
 	}
 
+	public String getName(final Object form, final Object renderer) {
+		return getName();
+	}
+
 }

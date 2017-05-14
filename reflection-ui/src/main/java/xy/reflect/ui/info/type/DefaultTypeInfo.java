@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.type;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -46,6 +48,21 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	public Class<?> getJavaType() {
 		return javaType;
+	}
+
+	@Override
+	public boolean canPersist() {
+		return true;
+	}
+
+	@Override
+	public void save(Object object, OutputStream out) {
+		ReflectionUIUtils.saveXML(object, out);
+	}
+
+	@Override
+	public void load(Object object, InputStream in) {
+		ReflectionUIUtils.loadXML(object, in);
 	}
 
 	@Override
@@ -123,7 +140,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 						continue;
 					}
 					constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor));
-				}				
+				}
 			}
 		}
 		return constructors;

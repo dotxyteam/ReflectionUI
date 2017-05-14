@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.field;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -319,6 +321,19 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
+
+		@Override
+		public boolean canPersist() {
+			return false;
+		}
+
+		@Override
+		public void save(Object object, OutputStream out) {
+		}
+
+		@Override
+		public void load(Object object, InputStream in) {
+		}
 
 		@Override
 		public FieldsLayout getFieldsLayout() {

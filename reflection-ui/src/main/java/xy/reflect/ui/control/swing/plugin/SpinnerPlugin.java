@@ -1,6 +1,5 @@
 package xy.reflect.ui.control.swing.plugin;
 
-import java.awt.Component;
 import java.awt.ComponentOrientation;
 
 import javax.swing.JSpinner;
@@ -45,7 +44,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 	}
 
 	@Override
-	protected Component createControl(Object renderer, IFieldControlInput input,
+	public Spinner createControl(Object renderer, IFieldControlInput input,
 			AbstractConfiguration controlCustomization) {
 		return new Spinner((SwingRenderer) renderer, input, (SpinnerConfiguration) controlCustomization);
 	}
@@ -73,7 +72,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 	}
 
-	protected class Spinner extends JSpinner implements IAdvancedFieldControl {
+	public class Spinner extends JSpinner implements IAdvancedFieldControl {
 		private static final long serialVersionUID = 1L;
 
 		protected SwingRenderer swingRenderer;

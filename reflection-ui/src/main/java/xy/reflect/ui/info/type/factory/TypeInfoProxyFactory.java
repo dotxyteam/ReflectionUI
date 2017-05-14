@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.type.factory;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -200,7 +202,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		field.setValue(object, value);
 	}
 
-	protected Runnable getNextUpdateCustomUndoJob(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+	protected Runnable getNextUpdateCustomUndoJob(Object object, Object value, IFieldInfo field,
+			ITypeInfo containingType) {
 		return field.getNextUpdateCustomUndoJob(object, value);
 	}
 
@@ -408,6 +411,18 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return type.isImmutable();
 	}
 
+	protected boolean canPersist(ITypeInfo type) {
+		return type.canPersist();
+	}
+
+	protected void save(ITypeInfo type, Object object, OutputStream out) {
+		type.save(object, out);
+	}
+
+	protected void load(ITypeInfo type, Object object, InputStream in) {
+		type.load(object, in);
+	}
+
 	protected boolean isModificationStackAccessible(ITypeInfo type) {
 		return type.isModificationStackAccessible();
 	}
@@ -564,6 +579,21 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public boolean isImmutable() {
 			return TypeInfoProxyFactory.this.isImmutable(base);
+		}
+
+		@Override
+		public boolean canPersist() {
+			return TypeInfoProxyFactory.this.canPersist(base);
+		}
+
+		@Override
+		public void save(Object object, OutputStream out) {
+			TypeInfoProxyFactory.this.save(base, object, out);
+		}
+
+		@Override
+		public void load(Object object, InputStream in) {
+			TypeInfoProxyFactory.this.load(base, object, in);
 		}
 
 		@Override
@@ -843,8 +873,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	}
 
-	public class GeneratedEnumerationTypeInfoProxy extends GeneratedBasicTypeInfoProxy
-			implements IEnumerationTypeInfo {
+	public class GeneratedEnumerationTypeInfoProxy extends GeneratedBasicTypeInfoProxy implements IEnumerationTypeInfo {
 
 		public GeneratedEnumerationTypeInfoProxy(IEnumerationTypeInfo type) {
 			super(type);
@@ -1047,7 +1076,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
+			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base
+					+ ", containingType=" + containingType + "]";
 		}
 
 	}
@@ -1215,7 +1245,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public String toString() {
 			return "GeneratedMethodInfoProxy [signature=" + getSignature() + ", factory=" + factory + ", base=" + base
-					+ "]";
+					+ ", containingType=" + containingType + "]";
 		}
 
 	}
@@ -1334,7 +1364,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
+			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base
+					+ ", method=" + method + ", containingType=" + containingType + "]";
 		}
 
 	}

@@ -61,6 +61,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.MethodAction;
+import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
@@ -84,6 +85,7 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
+@SuppressWarnings("unused")
 public class SwingRendererUtils {
 
 	public static final Image NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -581,7 +583,7 @@ public class SwingRendererUtils {
 				return maxBounds.getSize();
 			}
 		}
-		return getDefaultScreenSize();		
+		return getDefaultScreenSize();
 	}
 
 	public static Dimension getDefaultScreenSize() {
@@ -897,6 +899,7 @@ public class SwingRendererUtils {
 		for (Menu menu : menuModel.getMenus()) {
 			menuBar.add(createJMenu(menu, swingRenderer));
 		}
+		SwingRendererUtils.handleComponentSizeChange(menuBar);
 	}
 
 	public static JMenu createJMenu(Menu menu, SwingRenderer swingRenderer) {
@@ -952,6 +955,7 @@ public class SwingRendererUtils {
 			result.setText(actionItem.getName());
 			result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
 			if (actionItem instanceof AbstractBuiltInActionMenuItem) {
+				result.setText(((AbstractBuiltInActionMenuItem) actionItem).getName(form, swingRenderer));
 				if (!((AbstractBuiltInActionMenuItem) actionItem).isEnabled(form, swingRenderer)) {
 					result.setEnabled(false);
 				}
@@ -1014,6 +1018,14 @@ public class SwingRendererUtils {
 			result.removeAll(findDescendantForms(form, swingRenderer));
 		}
 		return result;
+	}
+
+	public static void updateWindowMenu(JPanel form, SwingRenderer swingRenderer) {
+		JPanel topForm = SwingRendererUtils.findMostAncestorForm(form, swingRenderer);
+		if (topForm == null) {
+			topForm = form;
+		}
+		swingRenderer.updateMenuBar(topForm);
 	}
 
 }

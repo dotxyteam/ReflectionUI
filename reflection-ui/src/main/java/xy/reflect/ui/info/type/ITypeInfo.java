@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.type;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import xy.reflect.ui.info.IInfo;
@@ -9,6 +11,12 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 
 public interface ITypeInfo extends IInfo {
+
+	boolean canPersist();
+
+	void save(Object object, OutputStream out);
+
+	void load(Object object, InputStream in);
 
 	boolean isImmutable();
 

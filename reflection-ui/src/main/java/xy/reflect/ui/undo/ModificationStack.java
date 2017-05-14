@@ -18,11 +18,38 @@ public class ModificationStack {
 	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 	protected boolean invalidated = false;
 	protected boolean wasInvalidated = false;
-
-	protected IModificationListener ALL_LISTENERS_PROXY = new IModificationListener() {
+	protected long stateVersion = 0;
+	protected IModificationListener internalListener = new IModificationListener() {
+		
+		@Override
+		public void handleUdno(IModification undoModification) {
+			stateVersion--;
+		}
+		
+		@Override
+		public void handleRedo(IModification modification) {
+			stateVersion++;
+		}
+		
+		@Override
+		public void handlePush(IModification undoModification) {
+			stateVersion++;
+		}
+		
+		@Override
+		public void handleInvalidationCleared() {			
+		}
+		
+		@Override
+		public void handleInvalidate() {
+			stateVersion++;
+		}
+	}; 
+	protected IModificationListener allListenersProxy = new IModificationListener() {
 
 		@Override
 		public void handlePush(IModification undoModification) {
+			internalListener.handlePush(undoModification);
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handlePush(undoModification);
@@ -31,6 +58,7 @@ public class ModificationStack {
 
 		@Override
 		public void handleUdno(IModification undoModification) {
+			internalListener.handleUdno(undoModification);
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleUdno(undoModification);
@@ -39,6 +67,7 @@ public class ModificationStack {
 
 		@Override
 		public void handleRedo(IModification modification) {
+			internalListener.handleRedo(modification);
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleRedo(modification);
@@ -47,6 +76,7 @@ public class ModificationStack {
 
 		@Override
 		public void handleInvalidate() {
+			internalListener.handleInvalidate();
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleInvalidate();
@@ -55,6 +85,7 @@ public class ModificationStack {
 
 		@Override
 		public void handleInvalidationCleared() {
+			internalListener.handleInvalidationCleared();
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleInvalidationCleared();
@@ -91,11 +122,6 @@ public class ModificationStack {
 		return listeners.toArray(new IModificationListener[listeners.size()]);
 	}
 
-	@Override
-	public String toString() {
-		return ModificationStack.class.getSimpleName() + "[" + name + "]";
-	}
-
 	public void apply(IModification modif) {
 		try {
 			pushUndo(modif.applyAndGetOpposite());
@@ -110,12 +136,12 @@ public class ModificationStack {
 		}
 		if (compositeStack.size() > 0) {
 			compositeStack.peek().pushUndo(undoModif);
-		} else {
-			validate();
-			undoStack.push(undoModif);
-			redoStack.clear();
-			ALL_LISTENERS_PROXY.handlePush(undoModif);
+			return true;
 		}
+		validate();
+		undoStack.push(undoModif);
+		redoStack.clear();
+		allListenersProxy.handlePush(undoModif);
 		return true;
 	}
 
@@ -141,7 +167,7 @@ public class ModificationStack {
 			invalidate();
 			return;
 		}
-		ALL_LISTENERS_PROXY.handleUdno(undoModif);
+		allListenersProxy.handleUdno(undoModif);
 	}
 
 	public void redo() {
@@ -158,7 +184,7 @@ public class ModificationStack {
 			invalidate();
 			return;
 		}
-		ALL_LISTENERS_PROXY.handleRedo(modif);
+		allListenersProxy.handleRedo(modif);
 	}
 
 	public void undoAll() {
@@ -236,7 +262,7 @@ public class ModificationStack {
 
 	public void invalidate() {
 		wasInvalidated = invalidated = true;
-		ALL_LISTENERS_PROXY.handleInvalidate();
+		allListenersProxy.handleInvalidate();
 	}
 
 	protected void validate() {
@@ -245,7 +271,7 @@ public class ModificationStack {
 			undoStack.clear();
 			compositeStack.clear();
 			invalidated = false;
-			ALL_LISTENERS_PROXY.handleInvalidationCleared();
+			allListenersProxy.handleInvalidationCleared();
 		}
 	}
 
@@ -273,6 +299,15 @@ public class ModificationStack {
 
 	public IModification toCompositeModification(IInfo target, String title) {
 		return new CompositeModification(target, title, UndoOrder.LIFO, getUndoModifications(UndoOrder.LIFO));
+	}
+
+	public long getStateVersion() {
+		return stateVersion;
+	}
+
+	@Override
+	public String toString() {
+		return ModificationStack.class.getSimpleName() + "[" + name + "]";
 	}
 
 }

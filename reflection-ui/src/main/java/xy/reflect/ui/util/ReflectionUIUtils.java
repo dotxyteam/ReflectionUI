@@ -44,6 +44,8 @@ import com.thoughtworks.paranamer.AdaptiveParanamer;
 import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
@@ -1102,15 +1104,47 @@ public class ReflectionUIUtils {
 	public static Object copyThroughSerialization(Serializable object) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(object);
+			serialize(object, baos);
 			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			Object copy = ois.readObject();
+			Object copy = deserialize(bais);
 			return copy;
 		} catch (Throwable t) {
 			throw new ReflectionUIError("Could not copy object through serialization: " + t.toString());
 		}
+	}
+
+	public static void serialize(Object object, OutputStream out) {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(out);
+			oos.writeObject(object);
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Failed to serialize object: " + t.toString());
+		}
+	}
+
+	public static Object deserialize(InputStream in) {
+		try {
+			ObjectInputStream ois = new ObjectInputStream(in);
+			return ois.readObject();
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Failed to deserialize object: " + t.toString());
+		}
+	}
+
+	protected static XStream getXStream() {
+		XStream result = new XStream();
+		result.registerConverter(new JavaBeanConverter(result.getMapper()), -20);
+		return result;
+	}
+
+	public static void saveXML(Object object, OutputStream out) {
+		XStream xstream = getXStream();
+		xstream.toXML(object, out);
+	}
+
+	public static void loadXML(Object object, InputStream in) {
+		XStream xstream = getXStream();
+		xstream.fromXML(in, object);
 	}
 
 	public static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI,

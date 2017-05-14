@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.type.factory;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -162,7 +164,20 @@ public class MethodInvocationDataAsObjectFactory {
 
 	}
 
-	public class TypeInfo   extends AbstractInfo implements ITypeInfo {
+	public class TypeInfo extends AbstractInfo implements ITypeInfo {
+
+		@Override
+		public boolean canPersist() {
+			return false;
+		}
+
+		@Override
+		public void save(Object object, OutputStream out) {
+		}
+
+		@Override
+		public void load(Object object, InputStream in) {
+		}
 
 		@Override
 		public ResourcePath getIconImagePath() {
@@ -305,7 +320,7 @@ public class MethodInvocationDataAsObjectFactory {
 	}
 
 	public class FieldInfo extends MethodParameterAsFieldInfo {
-		
+
 		public FieldInfo(IParameterInfo param) {
 			super(MethodInvocationDataAsObjectFactory.this.method, param);
 		}

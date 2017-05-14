@@ -42,7 +42,8 @@ public abstract class AbstractDelegatingInfoFilter implements IInfoFilter {
 
 	@Override
 	public String toString() {
-		return getDelegate().toString();
+		return "DelegatingInfoFilter [getDelegate()=" + getDelegate() + "]";
 	}
 
+	
 }

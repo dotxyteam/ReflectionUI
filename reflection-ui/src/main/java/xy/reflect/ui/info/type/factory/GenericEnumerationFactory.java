@@ -1,5 +1,7 @@
 package xy.reflect.ui.info.type.factory;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -175,6 +177,19 @@ public class GenericEnumerationFactory {
 	}
 
 	public class TypeInfo extends AbstractInfo implements IEnumerationTypeInfo {
+
+		@Override
+		public boolean canPersist() {
+			return false;
+		}
+
+		@Override
+		public void save(Object object, OutputStream out) {
+		}
+
+		@Override
+		public void load(Object object, InputStream in) {
+		}
 
 		@Override
 		public boolean isDynamicEnumeration() {
