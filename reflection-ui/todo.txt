@@ -1,6 +1,9 @@
+- separate customizations features in another project not open source
 - talk about reflectionui in rcp forums 
-- save/load/export/import/to clipboard/to file functions/menus by default
+- allow to add undo/redo ... save/load/export/import methods
+- allow to export/import to/from clipboard
 - allow menu shortcuts/accelerators
+- nice status bar at bottom ???
 - update website:
 	* screenshots
 	* examples 

@@ -3,8 +3,8 @@ package xy.reflect.ui.info.menu.builtin.swing;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.type.ITypeInfo;
