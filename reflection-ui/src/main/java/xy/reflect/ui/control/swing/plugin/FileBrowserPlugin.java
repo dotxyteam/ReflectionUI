@@ -125,7 +125,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 						@Override
 						public Object getValue() {
 							File currentFile = (File) base.getValue();
-							if(currentFile == null){
+							if (currentFile == null) {
 								return null;
 							}
 							return currentFile.getPath();
@@ -163,12 +163,18 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			} else {
 				throw new ReflectionUIError();
 			}
+			int i=0;
 			for (FileNameFilterConfiguration filter : controlConfiguration.fileNameFilters) {
 				String swingFilterDescription = filter.description + "(*."
 						+ ReflectionUIUtils.stringJoin(filter.extensions, ", *.") + ")";
 				String[] swingFilterExtensions = filter.extensions.toArray(new String[filter.extensions.size()]);
-				fileChooser.addChoosableFileFilter(
-						new FileNameExtensionFilter(swingFilterDescription, swingFilterExtensions));
+				FileNameExtensionFilter newFileFilter = new FileNameExtensionFilter(swingFilterDescription,
+						swingFilterExtensions);
+				fileChooser.addChoosableFileFilter(newFileFilter);
+				if (i == 0) {
+					fileChooser.setFileFilter(newFileFilter);
+				}
+				i++;
 			}
 		}
 

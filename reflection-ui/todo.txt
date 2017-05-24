@@ -1,3 +1,4 @@
+- save/save as: check existing file
 - separate customizations features in another project not open source
 - talk about reflectionui in rcp forums 
 - allow to add undo/redo ... save/load/export/import methods

@@ -1,9 +1,7 @@
 package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.io.File;
 import java.io.IOException;
@@ -98,23 +96,29 @@ public class SwingCustomizer extends SwingRenderer {
 	@Override
 	public JPanel createForm(Object object, IInfoFilter infoFilter) {
 		final JPanel result = super.createForm(object, infoFilter);
-		result.addAncestorListener(new AncestorListener() {
+		if (isCustomizationsEditorEnabled()) {
+			result.addAncestorListener(new AncestorListener() {
 
-			@Override
-			public void ancestorRemoved(AncestorEvent event) {
-				getCustomizationController().formRemoved(result);
-			}
+				@Override
+				public void ancestorRemoved(AncestorEvent event) {
+					getCustomizationController().formRemoved(result);
+				}
 
-			@Override
-			public void ancestorMoved(AncestorEvent event) {
-			}
+				@Override
+				public void ancestorMoved(AncestorEvent event) {
+				}
 
-			@Override
-			public void ancestorAdded(AncestorEvent event) {
-				getCustomizationController().formAdded(result);
-			}
-		});
+				@Override
+				public void ancestorAdded(AncestorEvent event) {
+					getCustomizationController().formAdded(result);
+				}
+			});
+		}
 		return result;
+	}
+
+	public boolean isCustomizationsEditorEnabled() {
+		return infoCustomizationsOutputFilePath != null;
 	}
 
 	@Override
@@ -165,90 +169,29 @@ public class SwingCustomizer extends SwingRenderer {
 	}
 
 	@Override
-	public FieldControlPlaceHolder createFieldControlPlaceHolder(JPanel form, IFieldInfo field) {
-		return new FieldControlPlaceHolder(this, form, field) {
-			private static final long serialVersionUID = 1L;
-			protected Component infoCustomizationsComponent;
-
-			@Override
-			public void refreshUI(boolean recreate) {
-				refreshInfoCustomizationsControl();
-				super.refreshUI(recreate);
-			}
-
-			protected void refreshInfoCustomizationsControl() {
-				if (areCustomizationsEditable(getObject()) == (infoCustomizationsComponent != null)) {
-					return;
-				}
-				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.makeButtonForFieldInfo(this);
-					add(infoCustomizationsComponent, BorderLayout.EAST);
-					SwingRendererUtils.handleComponentSizeChange(this);
-				} else {
-					remove(infoCustomizationsComponent);
-					infoCustomizationsComponent = null;
-					refreshInfoCustomizationsControl();
-				}
-			}
-
-		};
+	public CustomizingFieldControlPlaceHolder createFieldControlPlaceHolder(JPanel form, IFieldInfo field) {
+		return new CustomizingFieldControlPlaceHolder(this, form, field);
 	}
 
 	@Override
-	public MethodControlPlaceHolder createMethodControlPlaceHolder(JPanel form, IMethodInfo method) {
-		return new MethodControlPlaceHolder(this, form, method) {
-			private static final long serialVersionUID = 1L;
-			protected Component infoCustomizationsComponent;
-
-			@Override
-			public void refreshUI(boolean recreate) {
-				if (areCustomizationsEditable(getObject())) {
-					refreshInfoCustomizationsControl();
-				}
-				super.refreshUI(recreate);
-			}
-
-			protected void refreshInfoCustomizationsControl() {
-				if (infoCustomizationsComponent == null) {
-					infoCustomizationsComponent = customizationTools.makeButtonForMethodInfo(this);
-					add(infoCustomizationsComponent, BorderLayout.WEST);
-					SwingRendererUtils.handleComponentSizeChange(this);
-				} else {
-					remove(infoCustomizationsComponent);
-					infoCustomizationsComponent = null;
-					refreshInfoCustomizationsControl();
-				}
-			}
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (result == null) {
-					return null;
-				}
-				if (infoCustomizationsComponent != null) {
-					result.width += infoCustomizationsComponent.getPreferredSize().width;
-				}
-				return result;
-			}
-
-		};
+	public CustomizingMethodControlPlaceHolder createMethodControlPlaceHolder(JPanel form, IMethodInfo method) {
+		return new CustomizingMethodControlPlaceHolder(this, form, method);
 	}
 
 	public ImageIcon getCustomizationsIcon() {
 		return SwingRendererUtils.CUSTOMIZATION_ICON;
 	}
 
-	protected boolean areCustomizationsEditable(Object object) {
+	public boolean areCustomizationsEditable(Object object) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (!isCustomizationsEditorEnabled()) {
+			return false;
+		}
 		if (!customizationOptions.isInEditMode()) {
 			return false;
 		}
 		if (!infoCustomizations
 				.equals(type.getSpecificProperties().get(InfoCustomizations.CURRENT_PROXY_SOURCE_PROPERTY_KEY))) {
-			return false;
-		}
-		if (infoCustomizationsOutputFilePath == null) {
 			return false;
 		}
 		if (Boolean.TRUE.equals(type.getSpecificProperties().get(CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY))) {

@@ -1321,10 +1321,15 @@ public class SwingRenderer {
 				public void run() {
 					while (true) {
 						if (!runner.isAlive()) {
-							JDialog dialog = dialogBuilder.getCreatedDialog();
+							final JDialog dialog = dialogBuilder.getCreatedDialog();
 							if (dialog != null) {
 								if (dialog.isVisible()) {
-									dialog.dispose();
+									SwingUtilities.invokeLater(new Runnable() {
+										@Override
+										public void run() {
+											dialog.dispose();
+										}
+									});
 									break;
 								}
 							}

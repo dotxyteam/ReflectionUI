@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing.customizer;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public class CustomizationController {
 	protected SwingCustomizer swingCustomizer;
 	protected Set<JPanel> activeForms = new HashSet<JPanel>();
 	protected JFrame window;
+	protected Rectangle lastWindowBounds;
 
 	protected CustomizationController(SwingCustomizer swingCustomizer) {
 		this.swingCustomizer = swingCustomizer;
@@ -61,10 +63,14 @@ public class CustomizationController {
 		decorations.getMaximizeButton().setVisible(false);
 		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		window.pack();
+		if(lastWindowBounds != null){
+			window.setBounds(lastWindowBounds);
+		}
 		window.setVisible(true);
 	}
 
 	protected void closeWindow() {
+		lastWindowBounds = window.getBounds();
 		window.dispose();
 		window = null;
 	}
