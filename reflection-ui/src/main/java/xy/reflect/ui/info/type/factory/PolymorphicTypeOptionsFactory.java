@@ -70,7 +70,8 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 					if (validSubType != null) {
 						throw new ReflectionUIError(
 								"Failed to guess the polymorphic value type option: Ambiguity detected: More than 1 valid types found:"
-										+ "\n- " + validSubType.getName() + "\n- " + type.getName());
+										+ "\n- " + validSubType.getName() + "\n- " + type.getName()
+										+ "\nInheritance between these types is not supported");
 					}
 					validSubType = type;
 				}

@@ -183,12 +183,12 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		public void openDialog() {
+		public void openDialog(Component owner) {
 			final JFileChooser fileChooser = new JFileChooser();
 			File currentFile = (File) data.getValue();
 			fileChooser.setCurrentDirectory(lastDirectory);
 			configureFileChooser(fileChooser, currentFile);
-			int returnVal = fileChooser.showDialog(this, swingRenderer.prepareStringToDisplay(getDialogTitle()));
+			int returnVal = fileChooser.showDialog(owner, swingRenderer.prepareStringToDisplay(getDialogTitle()));
 			if (returnVal != JFileChooser.APPROVE_OPTION) {
 				return;
 			}

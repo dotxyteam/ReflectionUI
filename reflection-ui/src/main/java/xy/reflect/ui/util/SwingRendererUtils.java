@@ -573,17 +573,21 @@ public class SwingRendererUtils {
 			window.validate();
 		}
 	}
-
-	public static Dimension getScreenSize(Component c) {
+	
+	public static Rectangle getScreenBounds(Component c) {
 		Window window = getWindowAncestorOrSelf(c);
 		if (window != null) {
 			GraphicsDevice device = getWindowCurrentGraphicsDevice(window);
 			if (device != null) {
 				Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(device);
-				return maxBounds.getSize();
+				return maxBounds;
 			}
 		}
-		return getDefaultScreenSize();
+		return new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+	}
+
+	public static Dimension getScreenSize(Component c) {
+		return getScreenBounds(c).getSize();
 	}
 
 	public static Dimension getDefaultScreenSize() {

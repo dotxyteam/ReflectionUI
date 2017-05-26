@@ -70,8 +70,8 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		protected void openDialog() {
-			Color newColor = JColorChooser.showDialog(this, "Choose a color", statusControl.getBackground());
+		protected void openDialog(Component owner) {
+			Color newColor = JColorChooser.showDialog(owner, "Choose a color", statusControl.getBackground());
 			if (newColor == null) {
 				return;
 			}

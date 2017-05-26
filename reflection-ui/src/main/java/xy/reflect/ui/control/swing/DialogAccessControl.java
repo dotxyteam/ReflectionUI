@@ -115,7 +115,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					openDialog();
+					openDialog(DialogAccessControl.this);
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
 				}
@@ -147,15 +147,15 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		});
 	}
 
-	protected void openDialog() {
-		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder();
+	protected void openDialog(Component owner) {
+		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder(owner);
 		subDialogBuilder.showDialog();
 		if (subDialogBuilder.isParentModificationStackImpacted()) {
 			updateControls();
 		}
 	}
 
-	protected AbstractEditorBuilder getSubDialogBuilder() {
+	protected AbstractEditorBuilder getSubDialogBuilder(final Component owner) {
 		return new AbstractEditorBuilder() {
 
 			@Override
@@ -215,7 +215,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 			@Override
 			public Component getOwnerComponent() {
-				return DialogAccessControl.this;
+				return owner;
 			}
 
 			@Override

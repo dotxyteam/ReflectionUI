@@ -821,54 +821,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected boolean itemPositionSupportsAllClipboardItems(BufferedItemPosition itemPosition) {
-		boolean result = true;
-		for (Object clipboardItem : clipboard) {
-			if (!itemPosition.supportsItem(clipboardItem)) {
-				result = false;
-				break;
-			}
-		}
-		return result;
-	}
-
 	protected AbstractStandardListAction createClearAction() {
-		return new AbstractStandardListAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				if (!userConfirms("Remove all the items?")) {
-					return false;
-				}
-				getModificationStack()
-						.apply(createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).clear());
-				toPostSelectHolder[0] = Collections.emptyList();
-				return true;
-			}
-
-			@Override
-			protected String getActionTitle() {
-				return "Remove All";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Clear '" + getRootListTitle() + "'";
-			}
-
-			@Override
-			public boolean isValid() {
-				if (getRootListRawValue().length > 0) {
-					if (createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).canClear()) {
-						if (getRootListType().isRemovalAllowed()) {
-							return true;
-						}
-					}
-				}
-				return false;
-			}
-		};
+		return new ClearAction();
 	}
 
 	protected boolean userConfirms(String question) {
@@ -877,52 +831,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractStandardListAction createMoveAction(final int offset) {
-		return new AbstractStandardListAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				List<BufferedItemPosition> selection = getSelection();
-				if (offset > 0) {
-					selection = new ArrayList<BufferedItemPosition>(selection);
-					Collections.reverse(selection);
-				}
-				List<BufferedItemPosition> newSelection = new ArrayList<BufferedItemPosition>();
-				for (BufferedItemPosition itemPosition : selection) {
-					int index = itemPosition.getIndex();
-					getModificationStack().apply(createListModificationFactory(itemPosition).move(index, offset));
-					newSelection.add(itemPosition.getSibling(index + offset));
-				}
-				toPostSelectHolder[0] = newSelection;
-				return true;
-			}
-
-			@Override
-			protected String getActionTitle() {
-				return (offset > 0) ? "Move Down" : "Move Up";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Move '" + getRootListTitle() + "' item(s)";
-			}
-
-			@Override
-			public boolean isValid() {
-				List<BufferedItemPosition> selection = getSelection();
-				if (selection.size() > 0) {
-					if (canMoveAll(selection, offset)) {
-						if (allSelectionItemsInSameList()) {
-							if (selection.get(0).getContainingListType().isOrdered()) {
-								return true;
-							}
-						}
-					}
-				}
-				return false;
-			}
-
-		};
+		return new MoveAction(offset);
 
 	}
 
@@ -1016,61 +925,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractStandardListAction createRemoveAction() {
-		return new AbstractStandardListAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				if (userConfirms("Remove the element(s)?")) {
-					List<BufferedItemPosition> selection = getSelection();
-					selection = new ArrayList<BufferedItemPosition>(selection);
-					Collections.reverse(selection);
-					List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
-					for (BufferedItemPosition itemPosition : selection) {
-						int index = itemPosition.getIndex();
-						getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
-						updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
-						BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
-						if (affectedPosition != null) {
-							toPostSelect.add(affectedPosition);
-						}
-					}
-					toPostSelectHolder[0] = toPostSelect;
-					return true;
-				} else {
-					return false;
-				}
-			}
-
-			@Override
-			protected String getActionTitle() {
-				return "Remove";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Remove '" + getRootListTitle() + "' item(s)";
-			}
-
-			@Override
-			public boolean isValid() {
-				List<BufferedItemPosition> selection = getSelection();
-				if (selection.size() == 0) {
-					return false;
-				}
-				if (selection.size() > 0) {
-					for (BufferedItemPosition selectionItem : selection) {
-						if (!createListModificationFactory(selectionItem).canRemove(selectionItem.getIndex())) {
-							return false;
-						}
-						if (!selectionItem.getContainingListType().isRemovalAllowed()) {
-							return false;
-						}
-					}
-				}
-				return true;
-			}
-		};
+		return new RemoveAction();
 	}
 
 	protected void updatePositionsAfterItemRemoval(List<BufferedItemPosition> toUpdate, BufferedItemPosition removed) {
@@ -1086,116 +941,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractStandardListAction createInsertAction(final InsertPosition insertPosition) {
-		return new AbstractStandardListAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				BufferedItemPosition newItemPosition = getNewItemPosition();
-				IListTypeInfo listType = newItemPosition.getContainingListType();
-				Object newItem = createItem(newItemPosition);
-				if (newItem == null) {
-					return false;
-				}
-				if (!listType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
-					ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
-					if (dialogBuilder.isCancelled()) {
-						return false;
-					}
-					newItem = dialogBuilder.getCurrentObjectValue();
-				}
-				getModificationStack()
-						.apply(createListModificationFactory(newItemPosition).add(newItemPosition.getIndex(), newItem));
-				BufferedItemPosition toSelect = newItemPosition;
-				if (!listType.isOrdered()) {
-					int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue())
-							.indexOf(newItem);
-					toSelect = newItemPosition.getSibling(indexToSelect);
-				}
-				toPostSelectHolder[0] = Collections.singletonList(toSelect);
-				return true;
-			}
-
-			@Override
-			protected String getActionTitle() {
-				BufferedItemPosition newItemPosition = getNewItemPosition();
-				if (newItemPosition == null) {
-					return null;
-				}
-				IListTypeInfo listType = newItemPosition.getContainingListType();
-				ITypeInfo itemType = listType.getItemType();
-
-				String buttonText = "Insert";
-				{
-					if (itemType != null) {
-						buttonText += " " + getItemTitle(newItemPosition);
-					}
-					if (listType.isOrdered()) {
-						if (insertPosition == InsertPosition.AFTER) {
-							buttonText += " After";
-						} else if (insertPosition == InsertPosition.BEFORE) {
-							buttonText += " Before";
-						}
-					} else {
-						if (insertPosition == InsertPosition.AFTER) {
-							return null;
-						} else if (insertPosition == InsertPosition.BEFORE) {
-							return null;
-						}
-					}
-					buttonText += " ...";
-				}
-				return buttonText;
-			}
-
-			private BufferedItemPosition getNewItemPosition() {
-				BufferedItemPosition singleSelection = getSingleSelection();
-				final int index;
-				if (singleSelection == null) {
-					return null;
-				} else {
-					if (insertPosition == InsertPosition.AFTER) {
-						index = singleSelection.getIndex();
-						return singleSelection.getSibling(index + 1);
-					} else {
-						return singleSelection;
-					}
-
-				}
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Insert item into '" + getRootListTitle() + "'";
-			}
-
-			@Override
-			public boolean isValid() {
-				BufferedItemPosition newItemPosition = getNewItemPosition();
-				if (newItemPosition != null) {
-					if (newItemPosition.getContainingListType().isInsertionAllowed()) {
-						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex())) {
-							if (insertPosition == InsertPosition.BEFORE) {
-								if (newItemPosition.getContainingListType().isOrdered()) {
-									return true;
-								}
-							}
-							if (insertPosition == InsertPosition.AFTER) {
-								if (newItemPosition.getContainingListType().isOrdered()) {
-									return true;
-								}
-							}
-							if (insertPosition == InsertPosition.UNKNOWN) {
-								if (!newItemPosition.getContainingListType().isOrdered()) {
-									return true;
-								}
-							}
-						}
-					}
-				}
-				return false;
-			}
-		};
+		return new InsertAction(insertPosition);
 	}
 
 	protected ItemUIBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition,
@@ -1230,89 +976,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractStandardListAction createAddChildAction() {
-		return new AbstractStandardListAction() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
-				IListTypeInfo subListType = newSubItemPosition.getContainingListType();
-				Object newSubListItem = createItem(getNewSubItemPosition());
-				if (newSubListItem == null) {
-					return false;
-				}
-				if (!subListType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
-					ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
-					if (dialogBuilder.isCancelled()) {
-						return false;
-					}
-					newSubListItem = dialogBuilder.getCurrentObjectValue();
-				}
-				getModificationStack().apply(createListModificationFactory(newSubItemPosition)
-						.add(newSubItemPosition.getIndex(), newSubListItem));
-				if (!subListType.isOrdered()) {
-					newSubItemPosition = newSubItemPosition.getSibling(
-							Arrays.asList(newSubItemPosition.retrieveContainingListRawValue()).indexOf(newSubListItem));
-				}
-				BufferedItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
-				toPostSelectHolder[0] = Collections.singletonList(toSelect);
-				return true;
-			}
-
-			@Override
-			public boolean isValid() {
-				BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
-				if (newSubItemPosition == null) {
-					return false;
-				}
-				if (!createListModificationFactory(newSubItemPosition).canAdd(newSubItemPosition.getIndex())) {
-					return false;
-				}
-				if (!newSubItemPosition.getContainingListType().isInsertionAllowed()) {
-					return false;
-				}
-				return true;
-			}
-
-			protected BufferedItemPosition getNewSubItemPosition() {
-				BufferedItemPosition result = null;
-				BufferedItemPosition singleSelection = getSingleSelection();
-				if (singleSelection != null) {
-					result = singleSelection.getSubItemPosition(-1);
-				}
-				if (getSelection().size() == 0) {
-					result = itemPositionFactory.getRootItemPosition(-1);
-				}
-				if (result != null) {
-					result = result.getSibling(result.getContainingListSize());
-				}
-				return result;
-			}
-
-			@Override
-			protected String getActionTitle() {
-				BufferedItemPosition subItemPosition = getNewSubItemPosition();
-				final IListTypeInfo subListType = subItemPosition.getContainingListType();
-				final ITypeInfo subListItemType = subListType.getItemType();
-				String title = "Add";
-				if (subItemPosition.getDepth() > 0) {
-					title += " Child";
-				}
-				if (subListItemType != null) {
-					title += " " + getItemTitle(subItemPosition);
-				}
-				title += "...";
-				return title;
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Add item into '" + getRootListTitle() + "'";
-			}
-
-		};
-	}
+		return new AddChildAction();
+	};
 
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
 		Object encapsulatedObject = new ItemUIBuilder(itemPosition).getEncapsulatedObject();
@@ -1360,91 +1025,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractStandardListAction createCopyAction() {
-		return new AbstractStandardListAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				clipboard.clear();
-				List<BufferedItemPosition> selection = getSelection();
-				for (BufferedItemPosition itemPosition : selection) {
-					clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
-				}
-				return false;
-			}
-
-			@Override
-			protected String getActionTitle() {
-				return "Copy";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return null;
-			}
-
-			@Override
-			public boolean isValid() {
-				List<BufferedItemPosition> selection = getSelection();
-				if (selection.size() > 0) {
-					if (canCopyAll(selection)) {
-						return true;
-					}
-				}
-				return false;
-			}
-
-		};
+		return new CopyAction();
 	}
 
 	protected AbstractStandardListAction createCutAction() {
-		return new AbstractStandardListAction() {
-
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				clipboard.clear();
-				List<BufferedItemPosition> selection = getSelection();
-				selection = new ArrayList<BufferedItemPosition>(selection);
-				Collections.reverse(selection);
-				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
-				for (BufferedItemPosition itemPosition : selection) {
-					clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
-					int index = itemPosition.getIndex();
-					getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
-					updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
-					BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
-					if (affectedPosition != null) {
-						toPostSelect.add(affectedPosition);
-					}
-				}
-				toPostSelectHolder[0] = toPostSelect;
-				return true;
-			}
-
-			@Override
-			protected String getActionTitle() {
-				return "Cut";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Cut '" + getRootListTitle() + "' item(s)";
-			}
-
-			@Override
-			public boolean isValid() {
-				List<BufferedItemPosition> selection = getSelection();
-				if (selection.size() > 0) {
-					if (canCopyAll(selection) && canRemoveAll(selection)) {
-						return true;
-					}
-				}
-				return false;
-			}
-
-		};
+		return new CutAction();
 	}
 
 	protected BufferedItemPosition getPositionsAffectedByItemRemoval(BufferedItemPosition itemPosition) {
@@ -1456,170 +1041,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractStandardListAction createPasteAction(final InsertPosition insertPosition) {
-		return new AbstractStandardListAction() {
-
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				BufferedItemPosition newItemPosition = getNewItemPosition();
-				int index = newItemPosition.getIndex();
-				int initialIndex = index;
-				for (Object clipboardItem : clipboard) {
-					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
-					getModificationStack()
-							.apply(createListModificationFactory(newItemPosition).add(index, clipboardItem));
-					index++;
-				}
-				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
-				IListTypeInfo listType = newItemPosition.getContainingListType();
-				index = initialIndex;
-				for (int i = 0; i < clipboard.size(); i++) {
-					Object clipboardItem = clipboard.get(i);
-					if (listType.isOrdered()) {
-						index = initialIndex + i;
-					} else {
-						index = Arrays.asList(newItemPosition.retrieveContainingListRawValue()).indexOf(clipboardItem);
-					}
-					if (index != -1) {
-						toPostSelect.add(newItemPosition.getSibling(index));
-					}
-				}
-				toPostSelectHolder[0] = toPostSelect;
-				return true;
-			}
-
-			protected BufferedItemPosition getNewItemPosition() {
-				List<BufferedItemPosition> selection = getSelection();
-				if (selection.size() == 1) {
-					BufferedItemPosition singleSelection = selection.get(0);
-					int index = singleSelection.getIndex();
-					return singleSelection.getSibling(index + 1);
-				} else {
-					return null;
-				}
-			}
-
-			@Override
-			protected String getActionTitle() {
-				String result;
-				if (insertPosition == InsertPosition.AFTER) {
-					result = "Paste After";
-				} else if (insertPosition == InsertPosition.BEFORE) {
-					result = "Paste Before";
-				} else {
-					result = "Paste";
-				}
-				return result;
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Paste item(s) into '" + getRootListTitle() + "'";
-			}
-
-			@Override
-			public boolean isValid() {
-				if (clipboard.size() > 0) {
-					BufferedItemPosition newItemPosition = getNewItemPosition();
-					if (newItemPosition != null) {
-						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex(),
-								clipboard)) {
-							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
-								if (newItemPosition.getContainingListType().isOrdered()) {
-									if (insertPosition == InsertPosition.BEFORE) {
-										return true;
-									}
-									if (insertPosition == InsertPosition.AFTER) {
-										return true;
-									}
-								} else {
-									if (insertPosition == InsertPosition.UNKNOWN) {
-										return true;
-									}
-								}
-							}
-						}
-					}
-				}
-				return false;
-			}
-		};
+		return new PasteAction(insertPosition);
 	}
 
 	protected AbstractStandardListAction createPasteIntoAction() {
-		return new AbstractStandardListAction() {
-
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				BufferedItemPosition subItemPosition = getNewItemPosition();
-				int newSubListItemIndex = subItemPosition.getContainingListSize();
-				int newSubListItemInitialIndex = newSubListItemIndex;
-				subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
-				for (Object clipboardItem : clipboard) {
-					clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
-					getModificationStack().apply(
-							createListModificationFactory(subItemPosition).add(newSubListItemIndex, clipboardItem));
-					newSubListItemIndex++;
-				}
-				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
-				IListTypeInfo subListType = subItemPosition.getContainingListType();
-				newSubListItemIndex = newSubListItemInitialIndex;
-				for (int i = 0; i < clipboard.size(); i++) {
-					Object clipboardItem = clipboard.get(i);
-					if (subListType.isOrdered()) {
-						newSubListItemInitialIndex = newSubListItemInitialIndex + i;
-					} else {
-						newSubListItemInitialIndex = Arrays.asList(subItemPosition.retrieveContainingListRawValue())
-								.indexOf(clipboardItem);
-					}
-					if (newSubListItemInitialIndex != -1) {
-						toPostSelect.add(subItemPosition.getSibling(newSubListItemInitialIndex));
-					}
-				}
-				toPostSelectHolder[0] = toPostSelect;
-				return true;
-			}
-
-			protected BufferedItemPosition getNewItemPosition() {
-				List<BufferedItemPosition> selection = getSelection();
-				if (selection.size() == 0) {
-					return itemPositionFactory.getRootItemPosition(0);
-				}
-				if (selection.size() == 1) {
-					return selection.get(0).getSubItemPosition(0);
-				}
-				return null;
-			}
-
-			@Override
-			protected String getActionTitle() {
-				return "Paste Into";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return "Paste item(s) into '" + getRootListTitle() + "'";
-			}
-
-			@Override
-			protected boolean isValid() {
-				if (clipboard.size() > 0) {
-					BufferedItemPosition newItemPosition = getNewItemPosition();
-					if (newItemPosition != null) {
-						if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex(),
-								clipboard)) {
-							if (itemPositionSupportsAllClipboardItems(newItemPosition)) {
-								return true;
-							}
-						}
-					}
-				}
-				return false;
-			}
-		};
+		return new PasteIntoAction();
 	}
 
 	public ITypeInfo getRootListItemType() {
@@ -1815,43 +1241,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractStandardListAction createOpenItemAction() {
-		return new AbstractStandardListAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				BufferedItemPosition itemPosition = getSingleSelection();
-				ItemUIBuilder dialogBuilder = new ItemUIBuilder(itemPosition);
-				dialogBuilder.showDialog();
-				return dialogBuilder.isParentModificationStackImpacted();
-			}
-
-			@Override
-			protected String getActionTitle() {
-				return "Open";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return getItemModificationTitle();
-			}
-
-			@Override
-			public boolean isValid() {
-				if (getDetailsAccessMode().hasDetailsDisplayArea()) {
-					return false;
-				}
-				BufferedItemPosition singleSelectedPosition = getSingleSelection();
-				if (singleSelectedPosition != null) {
-					if (!new ItemUIBuilder(singleSelectedPosition).isObjectFormEmpty()) {
-						if (singleSelectedPosition.getContainingListType().canViewItemDetails()) {
-							return true;
-						}
-					}
-				}
-				return false;
-			}
-		};
+		return new OpenItemAction();
 	}
 
 	protected String getItemModificationTitle() {
@@ -2427,4 +1817,608 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected enum InsertPosition {
 		AFTER, BEFORE, UNKNOWN
 	}
+
+	protected class AddChildAction extends AbstractStandardListAction {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
+			IListTypeInfo subListType = newSubItemPosition.getContainingListType();
+			Object newSubListItem = createItem(getNewSubItemPosition());
+			if (newSubListItem == null) {
+				return false;
+			}
+			if (!subListType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
+				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
+				if (dialogBuilder.isCancelled()) {
+					return false;
+				}
+				newSubListItem = dialogBuilder.getCurrentObjectValue();
+			}
+			getModificationStack().apply(createListModificationFactory(newSubItemPosition)
+					.add(newSubItemPosition.getIndex(), newSubListItem));
+			if (!subListType.isOrdered()) {
+				newSubItemPosition = newSubItemPosition.getSibling(
+						Arrays.asList(newSubItemPosition.retrieveContainingListRawValue()).indexOf(newSubListItem));
+			}
+			BufferedItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
+			toPostSelectHolder[0] = Collections.singletonList(toSelect);
+			return true;
+		}
+
+		@Override
+		public boolean isValid() {
+			BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
+			if (newSubItemPosition == null) {
+				return false;
+			}
+			if (!createListModificationFactory(newSubItemPosition).canAdd(newSubItemPosition.getIndex())) {
+				return false;
+			}
+			if (!newSubItemPosition.getContainingListType().isInsertionAllowed()) {
+				return false;
+			}
+			return true;
+		}
+
+		protected BufferedItemPosition getNewSubItemPosition() {
+			BufferedItemPosition result = null;
+			BufferedItemPosition singleSelection = getSingleSelection();
+			if (singleSelection != null) {
+				result = singleSelection.getSubItemPosition(-1);
+			}
+			if (getSelection().size() == 0) {
+				result = itemPositionFactory.getRootItemPosition(-1);
+			}
+			if (result != null) {
+				result = result.getSibling(result.getContainingListSize());
+			}
+			return result;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			BufferedItemPosition subItemPosition = getNewSubItemPosition();
+			final IListTypeInfo subListType = subItemPosition.getContainingListType();
+			final ITypeInfo subListItemType = subListType.getItemType();
+			String title = "Add";
+			if (subItemPosition.getDepth() > 0) {
+				title += " Child";
+			}
+			if (subListItemType != null) {
+				title += " " + getItemTitle(subItemPosition);
+			}
+			title += "...";
+			return title;
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Add item into '" + getRootListTitle() + "'";
+		}
+
+	}
+
+	protected class ClearAction extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			if (!userConfirms("Remove all the items?")) {
+				return false;
+			}
+			getModificationStack()
+					.apply(createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).clear());
+			toPostSelectHolder[0] = Collections.emptyList();
+			return true;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return "Remove All";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Clear '" + getRootListTitle() + "'";
+		}
+
+		@Override
+		public boolean isValid() {
+			if (getRootListRawValue().length > 0) {
+				if (createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).canClear()) {
+					if (getRootListType().isRemovalAllowed()) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
+
+	protected class CopyAction extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			clipboard.clear();
+			List<BufferedItemPosition> selection = getSelection();
+			for (BufferedItemPosition itemPosition : selection) {
+				clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
+			}
+			return false;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return "Copy";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return null;
+		}
+
+		@Override
+		public boolean isValid() {
+			List<BufferedItemPosition> selection = getSelection();
+			if (selection.size() > 0) {
+				if (canCopyAll(selection)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	}
+
+	protected class CutAction extends AbstractStandardListAction {
+
+		protected static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			clipboard.clear();
+			List<BufferedItemPosition> selection = getSelection();
+			selection = new ArrayList<BufferedItemPosition>(selection);
+			Collections.reverse(selection);
+			List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
+			for (BufferedItemPosition itemPosition : selection) {
+				clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
+				int index = itemPosition.getIndex();
+				getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
+				updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
+				BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
+				if (affectedPosition != null) {
+					toPostSelect.add(affectedPosition);
+				}
+			}
+			toPostSelectHolder[0] = toPostSelect;
+			return true;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return "Cut";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Cut '" + getRootListTitle() + "' item(s)";
+		}
+
+		@Override
+		public boolean isValid() {
+			List<BufferedItemPosition> selection = getSelection();
+			if (selection.size() > 0) {
+				if (canCopyAll(selection) && canRemoveAll(selection)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+	}
+
+	protected class InsertAction extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+
+		protected InsertPosition insertPosition;
+
+		public InsertAction(InsertPosition insertPosition) {
+			this.insertPosition = insertPosition;
+		}
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			BufferedItemPosition newItemPosition = getNewItemPosition();
+			IListTypeInfo listType = newItemPosition.getContainingListType();
+			Object newItem = createItem(newItemPosition);
+			if (newItem == null) {
+				return false;
+			}
+			if (!listType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
+				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
+				if (dialogBuilder.isCancelled()) {
+					return false;
+				}
+				newItem = dialogBuilder.getCurrentObjectValue();
+			}
+			getModificationStack()
+					.apply(createListModificationFactory(newItemPosition).add(newItemPosition.getIndex(), newItem));
+			BufferedItemPosition toSelect = newItemPosition;
+			if (!listType.isOrdered()) {
+				int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue()).indexOf(newItem);
+				toSelect = newItemPosition.getSibling(indexToSelect);
+			}
+			toPostSelectHolder[0] = Collections.singletonList(toSelect);
+			return true;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			BufferedItemPosition newItemPosition = getNewItemPosition();
+			if (newItemPosition == null) {
+				return null;
+			}
+			IListTypeInfo listType = newItemPosition.getContainingListType();
+			ITypeInfo itemType = listType.getItemType();
+
+			String buttonText = "Insert";
+			{
+				if (itemType != null) {
+					buttonText += " " + getItemTitle(newItemPosition);
+				}
+				if (insertPosition == InsertPosition.AFTER) {
+					buttonText += " After";
+				} else if (insertPosition == InsertPosition.BEFORE) {
+					buttonText += " Before";
+				}
+				buttonText += " ...";
+			}
+			return buttonText;
+		}
+
+		protected BufferedItemPosition getNewItemPosition() {
+			BufferedItemPosition singleSelection = getSingleSelection();
+			final int index;
+			if (singleSelection == null) {
+				return null;
+			} else {
+				if (insertPosition == InsertPosition.AFTER) {
+					index = singleSelection.getIndex();
+					return singleSelection.getSibling(index + 1);
+				} else {
+					return singleSelection;
+				}
+
+			}
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Insert into '" + getRootListTitle() + "'";
+		}
+
+		@Override
+		public boolean isValid() {
+			BufferedItemPosition newItemPosition = getNewItemPosition();
+			if (newItemPosition != null) {
+				if (newItemPosition.getContainingListType().isInsertionAllowed()) {
+					if (createListModificationFactory(newItemPosition).canAdd(newItemPosition.getIndex())) {
+						if (insertPosition == InsertPosition.BEFORE) {
+							if (newItemPosition.getContainingListType().isOrdered()) {
+								return true;
+							}
+						}
+						if (insertPosition == InsertPosition.AFTER) {
+							if (newItemPosition.getContainingListType().isOrdered()) {
+								return true;
+							}
+						}
+						if (insertPosition == InsertPosition.UNKNOWN) {
+							if (!newItemPosition.getContainingListType().isOrdered()) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
+	}
+
+	protected class MoveAction extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+		protected int offset;
+
+		public MoveAction(int offset) {
+			this.offset = offset;
+		}
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			List<BufferedItemPosition> selection = getSelection();
+			if (offset > 0) {
+				selection = new ArrayList<BufferedItemPosition>(selection);
+				Collections.reverse(selection);
+			}
+			List<BufferedItemPosition> newSelection = new ArrayList<BufferedItemPosition>();
+			for (BufferedItemPosition itemPosition : selection) {
+				int index = itemPosition.getIndex();
+				getModificationStack().apply(createListModificationFactory(itemPosition).move(index, offset));
+				newSelection.add(itemPosition.getSibling(index + offset));
+			}
+			toPostSelectHolder[0] = newSelection;
+			return true;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return (offset > 0) ? "Move Down" : "Move Up";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Move '" + getRootListTitle() + "' item(s)";
+		}
+
+		@Override
+		public boolean isValid() {
+			List<BufferedItemPosition> selection = getSelection();
+			if (selection.size() > 0) {
+				if (canMoveAll(selection, offset)) {
+					if (allSelectionItemsInSameList()) {
+						if (selection.get(0).getContainingListType().isOrdered()) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+
+	}
+
+	protected class OpenItemAction extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			BufferedItemPosition itemPosition = getSingleSelection();
+			ItemUIBuilder dialogBuilder = new ItemUIBuilder(itemPosition);
+			dialogBuilder.showDialog();
+			return dialogBuilder.isParentModificationStackImpacted();
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return "Open";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return getItemModificationTitle();
+		}
+
+		@Override
+		public boolean isValid() {
+			if (getDetailsAccessMode().hasDetailsDisplayArea()) {
+				return false;
+			}
+			BufferedItemPosition singleSelectedPosition = getSingleSelection();
+			if (singleSelectedPosition != null) {
+				if (!new ItemUIBuilder(singleSelectedPosition).isObjectFormEmpty()) {
+					if (singleSelectedPosition.getContainingListType().canViewItemDetails()) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
+
+	protected class PasteAction extends InsertAction {
+
+		protected static final long serialVersionUID = 1L;
+
+		public PasteAction(InsertPosition insertPosition) {
+			super(insertPosition);
+		}
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			BufferedItemPosition newItemPosition = getNewItemPosition();
+			int index = newItemPosition.getIndex();
+			int initialIndex = index;
+			for (Object clipboardItem : clipboard) {
+				clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
+				getModificationStack().apply(createListModificationFactory(newItemPosition).add(index, clipboardItem));
+				index++;
+			}
+			List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
+			IListTypeInfo listType = newItemPosition.getContainingListType();
+			index = initialIndex;
+			for (int i = 0; i < clipboard.size(); i++) {
+				Object clipboardItem = clipboard.get(i);
+				if (listType.isOrdered()) {
+					index = initialIndex + i;
+				} else {
+					index = Arrays.asList(newItemPosition.retrieveContainingListRawValue()).indexOf(clipboardItem);
+				}
+				if (index != -1) {
+					toPostSelect.add(newItemPosition.getSibling(index));
+				}
+			}
+			toPostSelectHolder[0] = toPostSelect;
+			return true;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			BufferedItemPosition newItemPosition = getNewItemPosition();
+			if (newItemPosition == null) {
+				return null;
+			}
+			String buttonText = "Paste";
+			{
+				if (insertPosition == InsertPosition.AFTER) {
+					buttonText += " After";
+				} else if (insertPosition == InsertPosition.BEFORE) {
+					buttonText += " Before";
+				}
+			}
+			return buttonText;
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Paste into '" + getRootListTitle() + "'";
+		}
+
+		@Override
+		public boolean isValid() {
+			if (!super.isValid()) {
+				return false;
+			}
+			if (clipboard.size() == 0) {
+				return false;
+			}
+			BufferedItemPosition newItemPosition = getNewItemPosition();
+			if (!createListModificationFactory(newItemPosition).canAddAll(newItemPosition.getIndex(), clipboard)) {
+				return false;
+			}
+			return true;
+		}
+	}
+
+	protected class PasteIntoAction extends AbstractStandardListAction {
+
+		protected static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			BufferedItemPosition subItemPosition = getNewItemPosition();
+			int newSubListItemIndex = subItemPosition.getContainingListSize();
+			int newSubListItemInitialIndex = newSubListItemIndex;
+			subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
+			for (Object clipboardItem : clipboard) {
+				clipboardItem = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
+				getModificationStack()
+						.apply(createListModificationFactory(subItemPosition).add(newSubListItemIndex, clipboardItem));
+				newSubListItemIndex++;
+			}
+			List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
+			IListTypeInfo subListType = subItemPosition.getContainingListType();
+			newSubListItemIndex = newSubListItemInitialIndex;
+			for (int i = 0; i < clipboard.size(); i++) {
+				Object clipboardItem = clipboard.get(i);
+				if (subListType.isOrdered()) {
+					newSubListItemInitialIndex = newSubListItemInitialIndex + i;
+				} else {
+					newSubListItemInitialIndex = Arrays.asList(subItemPosition.retrieveContainingListRawValue())
+							.indexOf(clipboardItem);
+				}
+				if (newSubListItemInitialIndex != -1) {
+					toPostSelect.add(subItemPosition.getSibling(newSubListItemInitialIndex));
+				}
+			}
+			toPostSelectHolder[0] = toPostSelect;
+			return true;
+		}
+
+		protected BufferedItemPosition getNewItemPosition() {
+			List<BufferedItemPosition> selection = getSelection();
+			if (selection.size() == 0) {
+				return itemPositionFactory.getRootItemPosition(0);
+			}
+			if (selection.size() == 1) {
+				return selection.get(0).getSubItemPosition(0);
+			}
+			return null;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return "Paste Into";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Paste item(s) into '" + getRootListTitle() + "'";
+		}
+
+		@Override
+		protected boolean isValid() {
+			if (clipboard.size() > 0) {
+				BufferedItemPosition newItemPosition = getNewItemPosition();
+				if (newItemPosition != null) {
+					if (createListModificationFactory(newItemPosition).canAddAll(newItemPosition.getIndex(),
+							clipboard)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
+
+	protected class RemoveAction extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			if (userConfirms("Remove the element(s)?")) {
+				List<BufferedItemPosition> selection = getSelection();
+				selection = new ArrayList<BufferedItemPosition>(selection);
+				Collections.reverse(selection);
+				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
+				for (BufferedItemPosition itemPosition : selection) {
+					int index = itemPosition.getIndex();
+					getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
+					updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
+					BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
+					if (affectedPosition != null) {
+						toPostSelect.add(affectedPosition);
+					}
+				}
+				toPostSelectHolder[0] = toPostSelect;
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return "Remove";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return "Remove '" + getRootListTitle() + "' item(s)";
+		}
+
+		@Override
+		public boolean isValid() {
+			List<BufferedItemPosition> selection = getSelection();
+			if (selection.size() == 0) {
+				return false;
+			}
+			if (selection.size() > 0) {
+				for (BufferedItemPosition selectionItem : selection) {
+					if (!createListModificationFactory(selectionItem).canRemove(selectionItem.getIndex())) {
+						return false;
+					}
+					if (!selectionItem.getContainingListType().isRemovalAllowed()) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+	}
+
 }

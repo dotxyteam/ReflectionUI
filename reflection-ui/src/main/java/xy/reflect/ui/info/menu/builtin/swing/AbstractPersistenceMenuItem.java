@@ -96,7 +96,7 @@ public abstract class AbstractPersistenceMenuItem extends AbstractBuiltInActionM
 		};
 		FileBrowser browser = new FileBrowserPlugin().createControl(swingRenderer, fileBrowserInput,
 				fileBrowserConfiguration);
-		browser.openDialog();
+		browser.openDialog(form);
 		return fileHolder[0];
 	}
 

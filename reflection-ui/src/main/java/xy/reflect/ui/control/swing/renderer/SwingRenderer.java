@@ -285,7 +285,6 @@ public class SwingRenderer {
 					validateFormInBackgroundAndReportOnStatusBar(form);
 					SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
 				}
-				SwingRendererUtils.adjustWindowInitialBounds(window);
 			}
 		});
 	}

@@ -37,7 +37,7 @@ public class ListModificationFactory {
 		return ListModification.isCompatibleWith(anyItemPosition);
 	}
 
-	public boolean canAdd(int index, List<Object> items) {
+	public boolean canAddAll(int index, List<Object> items) {
 		if (!canAdd(index)) {
 			return false;
 		}

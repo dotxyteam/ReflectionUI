@@ -943,6 +943,51 @@
                         <hidden>false</hidden>
                         <itemName>Item [value=ResourcePath [path=src/main/resources/xy/ui/testing/inspect.png, pathKind=RELATIVE_FILE, chosenAlternativeIndex=0, getSpecification()=src/main/resources/xy/ui/testing/inspect.png]]</itemName>
                     </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-43f2</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/SystemExitCallInterceptionAction.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=0, getSpecification()=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/SystemExitCallInterceptionAction.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-43f1</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=src/main/resources/xy/ui/testing/SystemExitCallInterceptionAction.png, pathKind=RELATIVE_FILE, chosenAlternativeIndex=0, getSpecification()=src/main/resources/xy/ui/testing/SystemExitCallInterceptionAction.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-42f6</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/SystemExitCallInterceptionAction.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=1, getSpecification()=src/main/resources/xy/ui/testing/SystemExitCallInterceptionAction.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-413d</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/SystemExitCallInterceptionAction.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=1, getSpecification()=&lt;class-path-resource&gt; xy/ui/testing/SystemExitCallInterceptionAction.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-413c</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=xy/ui/testing/SystemExitCallInterceptionAction.png, pathKind=CLASS_PATH_RESOURCE, chosenAlternativeIndex=0, getSpecification()=&lt;class-path-resource&gt; xy/ui/testing/SystemExitCallInterceptionAction.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-36e9</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/stop.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=0, getSpecification()=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/stop.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-36e8</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=xy/ui/testing/stop.png, pathKind=CLASS_PATH_RESOURCE, chosenAlternativeIndex=0, getSpecification()=&lt;class-path-resource&gt; xy/ui/testing/stop.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-36e7</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=src/main/resources/xy/ui/testing/stop.png, pathKind=RELATIVE_FILE, chosenAlternativeIndex=0, getSpecification()=src/main/resources/xy/ui/testing/stop.png]]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-550b51e:15c428485b9:-36d6</uniqueIdentifier>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=ResourcePath [path=/media/olitank/data/prog/git/SwingTestingToolkit/swing-testing-toolkit/src/main/resources/xy/ui/testing/stop.png, pathKind=ABSOLUTE_FILE, chosenAlternativeIndex=1, getSpecification()=&lt;class-path-resource&gt; xy/ui/testing/stop.png]]</itemName>
+                    </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
             <valueOptionsFieldName>alternativeOptions</valueOptionsFieldName>
