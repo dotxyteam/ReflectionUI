@@ -509,7 +509,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 										return delegate.isReadOnly();
 									}
 
-									public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+									public Runnable getNextInvocationUndoJob(Object object,
+											InvocationData invocationData) {
 										return delegate.getNextInvocationUndoJob(object, invocationData);
 									}
 
@@ -942,8 +943,6 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 				inheritMembers(inputFields, inputMethods, menuModel);
 				addDeclaredMembers(inputFields, inputMethods, menuModel);
 				evolveMembers();
-				outputFields = removeHiddenFields(outputFields);
-				outputMethods = removeHiddenMethods(outputMethods);
 			} else {
 				inheritMembers(outputFields, outputMethods, menuModel);
 			}
@@ -1212,6 +1211,9 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		}
 
 		protected List<IFieldInfo> removeHiddenFields(List<IFieldInfo> fields) {
+			if (containingTypeCustomization == null) {
+				return fields;
+			}
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 			for (IFieldInfo field : fields) {
 				FieldCustomization f = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
@@ -1227,6 +1229,9 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		}
 
 		protected List<IMethodInfo> removeHiddenMethods(List<IMethodInfo> methods) {
+			if (containingTypeCustomization == null) {
+				return methods;
+			}
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo method : methods) {
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
@@ -1242,11 +1247,11 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 		}
 
 		public List<IFieldInfo> getOutputFields() {
-			return outputFields;
+			return removeHiddenFields(outputFields);
 		}
 
 		public List<IMethodInfo> getOutputMethods() {
-			return outputMethods;
+			return removeHiddenMethods(outputMethods);
 		}
 
 		public MenuModel getMenuModel() {
@@ -1747,7 +1752,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					@Override
 					public Object[] getValueOptions(Object object) {
 						if (f.getValueOptionsFieldName() != null) {
-							IFieldInfo valueOptionsfield = ReflectionUIUtils.findInfoByName(containingType.getFields(),
+							IFieldInfo valueOptionsfield = ReflectionUIUtils.findInfoByName(outputFields,
 									f.getValueOptionsFieldName());
 							if (valueOptionsfield == null) {
 								throw new ReflectionUIError(
@@ -1920,8 +1925,8 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 						@Override
 						public void setValue(Object object, Object value) {
-							IMethodInfo customMethod = ReflectionUIUtils
-									.findMethodBySignature(containingType.getMethods(), f.getCustomSetterSignature());
+							IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(outputMethods,
+									f.getCustomSetterSignature());
 							if (customMethod == null) {
 								throw new ReflectionUIError("Field '" + f.getFieldName()
 										+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");

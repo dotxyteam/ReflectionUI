@@ -572,6 +572,7 @@ public class SwingRendererUtils {
 		if (window != null) {
 			window.validate();
 		}
+		c.repaint();		
 	}
 	
 	public static Rectangle getScreenBounds(Component c) {

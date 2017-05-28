@@ -1291,7 +1291,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				detailsArea.removeAll();
 				detailsControlItem = null;
 				detailsControl = null;
-				SwingRendererUtils.handleComponentSizeChange(ListControl.this);
+				SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			}
 		}
 		if (detailsControlItemPosition == null) {

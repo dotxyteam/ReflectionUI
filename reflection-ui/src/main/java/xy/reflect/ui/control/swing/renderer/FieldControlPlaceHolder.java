@@ -266,8 +266,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	public IFieldControlData getInitialControlData() {
 		Object object = getObject();
 		IFieldInfo field = FieldControlPlaceHolder.this.field;
-		Object[] valueOptions = field.getValueOptions(object);
-		if (valueOptions != null) {
+		if (ValueOptionsAsEnumerationFieldInfo.hasValueOptions(object, field)) {
 			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, object, field);
 		}
 		final ITypeInfoProxyFactory typeSpecificities = field.getTypeSpecificities();

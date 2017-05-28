@@ -5,13 +5,14 @@ import java.awt.Component;
 import java.io.File;
 
 import javax.swing.BorderFactory;
-import javax.swing.JColorChooser;
+import  javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
@@ -65,16 +66,18 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		protected Component createChangeControl() {
-			return null;
-		}
-
-		@Override
 		protected void openDialog(Component owner) {
-			Color newColor = JColorChooser.showDialog(owner, "Choose a color", statusControl.getBackground());
-			if (newColor == null) {
+			DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(owner);
+			dialogBuilder.setTitle( "Choose a color");
+			Color initialColor = statusControl.getBackground();
+			JColorChooser colorChooser = new JColorChooser(initialColor != null ? initialColor : Color.white);
+			dialogBuilder.setContentComponent(colorChooser);
+			dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(null, null));
+			swingRenderer.showDialog(dialogBuilder.createDialog(), true);			
+			if (!dialogBuilder.wasOkPressed()) {
 				return;
 			}
+			Color newColor  = colorChooser.getColor();
 			data.setValue(newColor);
 			updateControls();
 		}

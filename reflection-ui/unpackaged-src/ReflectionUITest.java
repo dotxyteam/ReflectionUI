@@ -35,6 +35,7 @@ import xy.reflect.ui.util.SystemProperties;
 public class ReflectionUITest {
 
 	public static class Test {
+		public Color thecolor = Color.BLUE;
 		public Object anyObject;
 		public Exception theException = new ClassCastException();
 		public Exception theException2 = new Exception();

@@ -1,6 +1,8 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
+import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -163,7 +166,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			} else {
 				throw new ReflectionUIError();
 			}
-			int i=0;
+			int i = 0;
 			for (FileNameFilterConfiguration filter : controlConfiguration.fileNameFilters) {
 				String swingFilterDescription = filter.description + "(*."
 						+ ReflectionUIUtils.stringJoin(filter.extensions, ", *.") + ")";
@@ -188,10 +191,28 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			File currentFile = (File) data.getValue();
 			fileChooser.setCurrentDirectory(lastDirectory);
 			configureFileChooser(fileChooser, currentFile);
-			int returnVal = fileChooser.showDialog(owner, swingRenderer.prepareStringToDisplay(getDialogTitle()));
-			if (returnVal != JFileChooser.APPROVE_OPTION) {
+
+			final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(owner);
+			fileChooser.setApproveButtonText(swingRenderer.prepareStringToDisplay(getDialogTitle()));
+			fileChooser.rescanCurrentDirectory();
+			final boolean[] ok = new boolean[] { false };
+			fileChooser.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (e.getActionCommand().equals(javax.swing.JFileChooser.APPROVE_SELECTION)) {
+						ok[0] = true;
+						dialogBuilder.getCreatedDialog().dispose();
+					} else if (e.getActionCommand().equals(javax.swing.JFileChooser.CANCEL_SELECTION)) {
+						dialogBuilder.getCreatedDialog().dispose();
+					}
+				}
+			});
+			dialogBuilder.setContentComponent(fileChooser);
+			swingRenderer.showDialog(dialogBuilder.createDialog(), true);
+			if (!ok[0]) {
 				return;
 			}
+
 			lastDirectory = fileChooser.getCurrentDirectory();
 			data.setValue(fileChooser.getSelectedFile());
 			updateControls();

@@ -35,6 +35,16 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 		};
 		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false);
 	}
+	
+	public static boolean hasValueOptions(Object object, IFieldInfo field) {
+		Object[] valueOptions;
+		try {
+			valueOptions = field.getValueOptions(object);
+			return valueOptions != null;
+		} catch (Throwable t) {
+			return true;
+		}
+	}
 
 	@Override
 	public Object[] getValueOptions(Object object) {
