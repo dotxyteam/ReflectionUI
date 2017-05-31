@@ -113,6 +113,7 @@ public abstract class AbstractPersistenceMenuItem extends AbstractBuiltInActionM
 			lastPersistedVersionByForm.put((JPanel) form, modifStack.getStateVersion());
 		} catch (Throwable t) {
 			lastPersistedVersionByForm.put((JPanel) form, -1l);
+			throw new ReflectionUIError(t);
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
