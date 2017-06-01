@@ -32,16 +32,14 @@ public class SaveMenuItem extends SaveAsMenuItem {
 
 	@Override
 	public String getName(final Object form, final Object renderer) {
-		if (isEnabled(form, renderer)) {
-			File file = lastFileByForm.get((JPanel) form);
-			if (file != null) {
-				return super.getName(form, renderer) + file.getPath();
-			}
+		String result = super.getName(form, renderer);
+		File file = lastFileByForm.get((JPanel) form);
+		if (file != null) {
+			result += " " + file.getPath();
 		}
-		return super.getName(form, renderer);
+		return result;
 	}
 
-	
 	@Override
 	protected File retrieveFile(final SwingRenderer swingRenderer, JPanel form) {
 		File file = lastFileByForm.get(form);

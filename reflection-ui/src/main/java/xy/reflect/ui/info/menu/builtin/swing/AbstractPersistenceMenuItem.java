@@ -97,7 +97,17 @@ public abstract class AbstractPersistenceMenuItem extends AbstractBuiltInActionM
 		FileBrowser browser = new FileBrowserPlugin().createControl(swingRenderer, fileBrowserInput,
 				fileBrowserConfiguration);
 		browser.openDialog(form);
-		return fileHolder[0];
+		File result = fileHolder[0];
+		if (result != null) {
+			if (result.exists()) {
+				if (!swingRenderer.openQuestionDialog(form,
+						"The file '" + result.getPath() + "' already exists.\nDo you want to replace it?",
+						fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
+					result = null;
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
