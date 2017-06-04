@@ -51,7 +51,7 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Listener;
-import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -1130,7 +1130,7 @@ public class InfoCustomizations implements Serializable {
 			return result;
 		}
 
-		public Mapper<Object> find() {
+		public Filter<Object> find() {
 			if ((conversionClassName == null) || (conversionClassName.length() == 0)) {
 				if ((conversionMethodSignature == null) || (conversionMethodSignature.length() == 0)) {
 					return null;
@@ -1148,9 +1148,9 @@ public class InfoCustomizations implements Serializable {
 				}
 				final Class<?> conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
 				if (conversionMethodName == null) {
-					return new Mapper<Object>() {
+					return new Filter<Object>() {
 						@Override
-						public Object map(Object obj) {
+						public Object get(Object obj) {
 							try {
 								return conversionClass.getDeclaredConstructor(conversionMethodParameterTypes)
 										.newInstance(obj);
@@ -1161,9 +1161,9 @@ public class InfoCustomizations implements Serializable {
 						}
 					};
 				} else {
-					return new Mapper<Object>() {
+					return new Filter<Object>() {
 						@Override
-						public Object map(Object obj) {
+						public Object get(Object obj) {
 							try {
 								Method method = conversionClass.getMethod(conversionMethodName,
 										conversionMethodParameterTypes);
@@ -1287,36 +1287,36 @@ public class InfoCustomizations implements Serializable {
 		protected ConversionMethodFinder conversionMethodFinder;
 		protected ConversionMethodFinder reverseConversionMethodFinder;
 
-		public Mapper<Object> buildOverallConversionMethod() {
-			Mapper<Object> result = null;
+		public Filter<Object> buildOverallConversionMethod() {
+			Filter<Object> result = null;
 			if (conversionMethodFinder != null) {
 				result = conversionMethodFinder.find();
 			}
 			if (preMapping != null) {
-				Mapper<Object> preConversionMethod = preMapping.buildOverallConversionMethod();
+				Filter<Object> preConversionMethod = preMapping.buildOverallConversionMethod();
 				if (preConversionMethod != null) {
 					if (result == null) {
 						result = preConversionMethod;
 					} else {
-						result = new Mapper.Chain<Object>(preConversionMethod, result);
+						result = new Filter.Chain<Object>(preConversionMethod, result);
 					}
 				}
 			}
 			return result;
 		}
 
-		public Mapper<Object> buildOverallReverseConversionMethod() {
-			Mapper<Object> result = null;
+		public Filter<Object> buildOverallReverseConversionMethod() {
+			Filter<Object> result = null;
 			if (reverseConversionMethodFinder != null) {
 				result = reverseConversionMethodFinder.find();
 			}
 			if (preMapping != null) {
-				Mapper<Object> preReverseConversionMethod = preMapping.buildOverallReverseConversionMethod();
+				Filter<Object> preReverseConversionMethod = preMapping.buildOverallReverseConversionMethod();
 				if (preReverseConversionMethod != null) {
 					if (result == null) {
 						result = preReverseConversionMethod;
 					} else {
-						result = new Mapper.Chain<Object>(preReverseConversionMethod, result);
+						result = new Filter.Chain<Object>(preReverseConversionMethod, result);
 					}
 				}
 			}
@@ -1643,8 +1643,8 @@ public class InfoCustomizations implements Serializable {
 				this.data = null;
 			} else {
 				if (preConversion != null) {
-					Mapper<Object> conversionMethod = preConversion.buildOverallConversionMethod();
-					object = conversionMethod.map(object);
+					Filter<Object> conversionMethod = preConversion.buildOverallConversionMethod();
+					object = conversionMethod.get(object);
 				}
 				this.data = ReflectionUIUtils.serializeToHexaText(object);
 			}
@@ -1656,8 +1656,8 @@ public class InfoCustomizations implements Serializable {
 			} else {
 				Object result = ReflectionUIUtils.deserializeFromHexaText(data);
 				if (preConversion != null) {
-					Mapper<Object> reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
-					result = reverseConversionMethod.map(result);
+					Filter<Object> reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
+					result = reverseConversionMethod.get(result);
 				}
 				return result;
 			}

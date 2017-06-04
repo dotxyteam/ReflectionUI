@@ -3,17 +3,17 @@ package xy.reflect.ui.info.field;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
-import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class ChangedTypeFieldInfo extends FieldInfoProxy {
 
 	protected ITypeInfo newType;
-	protected Mapper<Object> conversionMethod;
-	protected Mapper<Object> reverseConversionMethod;
+	protected Filter<Object> conversionMethod;
+	protected Filter<Object> reverseConversionMethod;
 
-	public ChangedTypeFieldInfo(IFieldInfo base, ITypeInfo newType, Mapper<Object> conversionMethod,
-			Mapper<Object> reverseConversionMethod) {
+	public ChangedTypeFieldInfo(IFieldInfo base, ITypeInfo newType, Filter<Object> conversionMethod,
+			Filter<Object> reverseConversionMethod) {
 		super(base);
 		this.newType = newType;
 		this.conversionMethod = conversionMethod;
@@ -28,7 +28,7 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 			return null;
 		}
 		try {
-			return conversionMethod.map(value);
+			return conversionMethod.get(value);
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}
@@ -42,7 +42,7 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 			return null;
 		}
 		try {
-			return reverseConversionMethod.map(value);
+			return reverseConversionMethod.get(value);
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}
