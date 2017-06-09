@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -13,7 +15,9 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -65,10 +69,115 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 	public static class ImageViewConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
-		public boolean preserveRatio = true;
+		public SizeConstraint sizeConstraint;
+	}
+
+	public static abstract class SizeConstraint extends AbstractConfiguration {
+		private static final long serialVersionUID = 1L;
+
 		public int canvasWidth = 100;
 		public int canvasHeight = 100;
 
+		public abstract void configure(JPanel imagePanelContainer, ImagePanel imagePanel);
+
+	}
+
+	public static class StretchingSizeConstraint extends SizeConstraint {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void configure(JPanel imagePanelContainer, ImagePanel imagePanel) {
+			Dimension size = new Dimension(canvasWidth, canvasHeight);
+			imagePanel.setPreferredSize(size);
+			imagePanel.setMinimumSize(size);
+			imagePanel.setMaximumSize(size);
+			imagePanel.preserveRatio(false);
+			imagePanelContainer.setLayout(new BorderLayout());
+			imagePanelContainer.add(imagePanel, BorderLayout.CENTER);
+		}
+	}
+
+	public static class ScalingSizeConstraint extends SizeConstraint {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void configure(JPanel imagePanelContainer, ImagePanel imagePanel) {
+			Dimension size = new Dimension(canvasWidth, canvasHeight);
+			imagePanel.setPreferredSize(size);
+			imagePanel.setMinimumSize(size);
+			imagePanel.setMaximumSize(size);
+			imagePanel.preserveRatio(true);
+			imagePanelContainer.setLayout(new BorderLayout());
+			imagePanelContainer.add(imagePanel, BorderLayout.CENTER);
+		}
+	}
+
+	public static class ScrollableSizeConstraint extends SizeConstraint {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void configure(JPanel imagePanelContainer, ImagePanel imagePanel) {
+			imagePanel.preserveRatio(true);
+			JScrollPane scrollPane = new JScrollPane(imagePanel);
+			Dimension size = new Dimension(canvasWidth, canvasHeight);
+			scrollPane.setPreferredSize(size);
+			scrollPane.setMinimumSize(size);
+			scrollPane.setMaximumSize(size);
+			imagePanelContainer.setLayout(new BorderLayout());
+			imagePanelContainer.add(scrollPane, BorderLayout.CENTER);
+		}
+	}
+
+	public static class ZoomableSizeConstraint extends SizeConstraint {
+		private static final long serialVersionUID = 1L;
+
+		float ZOOM_CHANGE_FACTOR = 1.1f;
+
+		@Override
+		public void configure(JPanel imagePanelContainer, final ImagePanel imagePanel) {
+			imagePanel.preserveRatio(true);
+			JPanel zoomPanel = new JPanel();
+			{
+				zoomPanel.setLayout(new BorderLayout());
+				JButton biggerButton = new JButton("+");
+				{
+					zoomPanel.add(biggerButton, BorderLayout.EAST);
+					biggerButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Dimension size = imagePanel.getSize();
+							size.width *= ZOOM_CHANGE_FACTOR;
+							size.height *= ZOOM_CHANGE_FACTOR;
+							imagePanel.setPreferredSize(size);
+							SwingRendererUtils.handleComponentSizeChange(imagePanel);
+						}
+					});
+				}
+				JButton smallerButton = new JButton("-");
+				{
+					zoomPanel.add(smallerButton, BorderLayout.WEST);
+					smallerButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Dimension size = imagePanel.getSize();
+							size.width /= ZOOM_CHANGE_FACTOR;
+							size.height /= ZOOM_CHANGE_FACTOR;
+							imagePanel.setPreferredSize(size);
+							SwingRendererUtils.handleComponentSizeChange(imagePanel);
+						}
+					});
+				}
+			}
+			JScrollPane scrollPane = new JScrollPane(imagePanel);
+			Dimension size = new Dimension(canvasWidth, canvasHeight);
+			scrollPane.setPreferredSize(size);
+			scrollPane.setMinimumSize(size);
+			scrollPane.setMaximumSize(size);
+			imagePanelContainer.setLayout(new BorderLayout());
+			imagePanelContainer.add(scrollPane, BorderLayout.CENTER);
+			imagePanelContainer.add(SwingRendererUtils.flowInLayout(zoomPanel, GridBagConstraints.CENTER),
+					BorderLayout.NORTH);
+		}
 	}
 
 	public class ImageView extends JPanel implements IAdvancedFieldControl {
@@ -80,6 +189,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		protected ImageViewConfiguration controlCustomization;
 		protected Class<?> numberClass;
 		protected ImagePanel imagePanel;
+		protected JPanel imagePanelContainer;
 
 		public ImageView(SwingRenderer swingRenderer, IFieldControlInput input,
 				ImageViewConfiguration controlCustomization) {
@@ -96,22 +206,10 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				throw new ReflectionUIError(e1);
 			}
 			setLayout(new BorderLayout());
-			add(SwingRendererUtils.flowInLayout(imagePanel = createImagePanel(), GridBagConstraints.CENTER),
-					BorderLayout.CENTER);
-
+			imagePanelContainer = new JPanel();
+			add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER), BorderLayout.CENTER);
 			if (!data.isGetOnly()) {
-				for (Component c : Arrays.asList(this, imagePanel)) {
-					c.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mousePressed(MouseEvent e) {
-							try {
-								onBrowseImage();
-							} catch (Throwable t) {
-								ImageView.this.swingRenderer.handleExceptionsFromDisplayedUI(ImageView.this, t);
-							}
-						}
-					});
-				}
+				browseOnMousePressed(this);
 			}
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
@@ -120,8 +218,32 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			refreshUI();
 		}
 
+		protected void browseOnMousePressed(Component c) {
+			c.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					try {
+						onBrowseImage();
+					} catch (Throwable t) {
+						ImageView.this.swingRenderer.handleExceptionsFromDisplayedUI(ImageView.this, t);
+					}
+				}
+			});
+		}
+
 		protected ImagePanel createImagePanel() {
 			ImagePanel result = new ImagePanel();
+			Image image = (Image) data.getValue();
+			if (image != null) {
+				result.setImage(image);
+				Dimension size = new Dimension(image.getWidth(null), image.getHeight(null));
+				result.setPreferredSize(size);
+				result.setMinimumSize(size);
+				result.setMaximumSize(size);
+			}
+			if (!data.isGetOnly()) {
+				browseOnMousePressed(result);
+			}
 			return result;
 		}
 
@@ -189,12 +311,16 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public boolean refreshUI() {
-			Dimension size = new Dimension(controlCustomization.canvasWidth, controlCustomization.canvasHeight);
-			imagePanel.setPreferredSize(size);
-			imagePanel.setMinimumSize(size);
-			imagePanel.setMaximumSize(size);
-			imagePanel.setImage((Image) data.getValue());
-			imagePanel.preserveRatio(controlCustomization.preserveRatio);
+			imagePanelContainer.removeAll();
+			imagePanel = createImagePanel();
+			if (controlCustomization.sizeConstraint == null) {
+				imagePanel.preserveRatio(true);
+				imagePanelContainer.setLayout(new BorderLayout());
+				imagePanelContainer.add(imagePanel, BorderLayout.CENTER);
+			} else {
+				controlCustomization.sizeConstraint.configure(imagePanelContainer, imagePanel);
+			}
+			SwingRendererUtils.handleComponentSizeChange(this);
 			return true;
 		}
 

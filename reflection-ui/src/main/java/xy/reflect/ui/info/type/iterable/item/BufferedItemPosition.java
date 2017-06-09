@@ -49,6 +49,8 @@ public class BufferedItemPosition extends ItemPosition {
 	public void refreshBranch() {
 		if (isRoot()) {
 			((BufferedItemPositionFactory) factory).refresh();
+		} else {
+			((BufferedItemPosition) parentItemPosition).refreshBranch();
 		}
 		bufferedSubListRawValue = null;
 		fakeItem = null;

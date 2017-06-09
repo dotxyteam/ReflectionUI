@@ -3,40 +3,38 @@ package xy.reflect.ui.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActionBuilder {
+public class FututreActionBuilder {
 
 	protected Action currentAction;
 
-	public Runnable begin(Performer performer) {
-		currentAction = new Action(performer);
+	public Runnable will(FuturePerformance performance) {
+		currentAction = new Action(performance);
 		return currentAction;
 	}
 
 	public void setOption(String key, Object value) {
-		checkCurrentAction();
+		if (currentAction == null) {
+			throw new IllegalStateException("Cannot set action option: The performance was not specified");
+		}
 		currentAction.getOptions().put(key, value);
 	}
 
-	public void end() {
-		checkCurrentAction();
+	public void build() {
+		if (currentAction == null) {
+			throw new IllegalStateException("Cannot build action: The performance was not specified");
+		}
 		currentAction.setReady(true);
 		currentAction = null;
-	}
-
-	protected void checkCurrentAction() {
-		if (currentAction == null) {
-			throw new IllegalStateException("Cannot end action creation: Did not begin");
-		}
 	}
 
 	protected class Action implements Runnable {
 
 		protected boolean ready = false;
-		protected Performer performer;
+		protected FuturePerformance performance;
 		protected Map<String, Object> options = new HashMap<String, Object>();
 
-		public Action(Performer performer) {
-			this.performer = performer;
+		public Action(FuturePerformance performance) {
+			this.performance = performance;
 		}
 
 		public boolean isReady() {
@@ -56,12 +54,12 @@ public class ActionBuilder {
 			if (!ready) {
 				throw new IllegalStateException("Cannot run action: Action creation is not finished");
 			}
-			performer.perform(options);
+			performance.perform(options);
 		}
 
 	}
 
-	public interface Performer {
+	public interface FuturePerformance {
 
 		public void perform(Map<String, Object> options);
 

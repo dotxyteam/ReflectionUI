@@ -357,19 +357,26 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 		if (actionsToPresent.size() > 0) {
 			if (actionsToPresent.size() == 1) {
-				SwingRendererUtils.setMultilineToolTipText(result,
-						(String) actionsToPresent.get(0).getValue(Action.NAME));
+				String tooltipText = (String) actionsToPresent.get(0).getValue(Action.SHORT_DESCRIPTION);
+				if (tooltipText == null) {
+					tooltipText = (String) actionsToPresent.get(0).getValue(Action.NAME);
+				}
+				SwingRendererUtils.setMultilineToolTipText(result, tooltipText);
 			} else if (actionsToPresent.size() > 1) {
-				StringBuilder tooltip = new StringBuilder();
+				StringBuilder tooltipTextBuilder = new StringBuilder();
 				boolean firstAction = true;
 				for (AbstractAction action : actionsToPresent) {
 					if (!firstAction) {
-						tooltip.append("\nor\n");
+						tooltipTextBuilder.append("\nor\n");
 					}
-					tooltip.append(action.getValue(Action.NAME));
+					String itemTooltipText = (String) action.getValue(Action.SHORT_DESCRIPTION);
+					if (itemTooltipText == null) {
+						itemTooltipText = (String) action.getValue(Action.NAME);
+					}
+					tooltipTextBuilder.append(itemTooltipText);
 					firstAction = false;
 				}
-				SwingRendererUtils.setMultilineToolTipText(result, tooltip.toString());
+				SwingRendererUtils.setMultilineToolTipText(result, tooltipTextBuilder.toString());
 			}
 			result.addActionListener(new ActionListener() {
 				@Override
@@ -1065,6 +1072,26 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			@Override
+			protected String getActionTitle() {
+				return dynamicProperty.getCaption() + "...";
+			}
+
+			@Override
+			protected String getActionDescription() {
+				return dynamicProperty.getOnlineHelp();
+			}
+
+			@Override
+			protected String getCompositeModificationTitle() {
+				return ControlDataValueModification.getTitle(dynamicProperty);
+			}
+
+			@Override
+			public boolean isValid() {
+				return dynamicProperty.isEnabled();
+			}
+
+			@Override
 			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 				AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
 
@@ -1114,7 +1141,13 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					public Object getInitialObjectValue() {
 						return dynamicProperty.getValue(AbstractListProperty.NO_OWNER);
 					}
+					
+					@Override
+					protected Object[] getEncapsulationFieldValueOptions() {
+						return dynamicProperty.getValueOptions(AbstractListProperty.NO_OWNER);
+					}
 
+					
 					@Override
 					public String getCumulatedModificationsTitle() {
 						return "Edit "
@@ -1134,11 +1167,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					@Override
 					public Component getOwnerComponent() {
 						return ListControl.this;
-					}
-
-					@Override
-					public String getEditorWindowTitle() {
-						return dynamicProperty.getType().getCaption();
 					}
 
 					@Override
@@ -1162,27 +1190,27 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return subDialogBuilder.isParentModificationStackImpacted();
 			}
 
-			@Override
-			protected String getActionTitle() {
-				return dynamicProperty.getCaption() + "...";
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return ControlDataValueModification.getTitle(dynamicProperty);
-			}
-
-			@Override
-			public boolean isValid() {
-				return dynamicProperty.isEnabled();
-			}
-
 		};
 	}
 
 	protected AbstractAction createDynamicActionHook(final AbstractListAction dynamicAction) {
-		return new AbstractAction(swingRenderer.prepareStringToDisplay(dynamicAction.getCaption())) {
+		return new AbstractAction() {
 			protected static final long serialVersionUID = 1L;
+
+			@Override
+			public Object getValue(String key) {
+				if (Action.NAME.equals(key)) {
+					return swingRenderer.prepareStringToDisplay(dynamicAction.getCaption());
+				} else if (Action.SHORT_DESCRIPTION.equals(key)) {
+					String result = dynamicAction.getOnlineHelp();
+					if (result != null) {
+						result = swingRenderer.prepareStringToDisplay(result);
+					}
+					return result;
+				} else {
+					return super.getValue(key);
+				}
+			}
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1648,9 +1676,19 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		public Object getValue(String key) {
 			if (Action.NAME.equals(key)) {
 				return swingRenderer.prepareStringToDisplay(getActionTitle());
+			} else if (Action.SHORT_DESCRIPTION.equals(key)) {
+				String result = getActionDescription();
+				if (result != null) {
+					result = swingRenderer.prepareStringToDisplay(result);
+				}
+				return result;
 			} else {
 				return super.getValue(key);
 			}
+		}
+
+		protected String getActionDescription() {
+			return null;
 		}
 
 		@Override
@@ -1987,6 +2025,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
 			for (BufferedItemPosition itemPosition : selection) {
 				clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
+			}
+			for (BufferedItemPosition itemPosition : selection) {
 				int index = itemPosition.getIndex();
 				getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
 				updatePositionsAfterItemRemoval(toPostSelect, itemPosition);

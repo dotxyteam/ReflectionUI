@@ -678,14 +678,13 @@ public class SwingRenderer {
 		validateFormInBackgroundAndReportOnStatusBar(form);
 	}
 
-	public void setDisplayedInfoCategory(JPanel form, InfoCategory category) {
+	public void setDisplayedInfoCategory(JPanel form, String categoryCaption, int categoryPosition) {
 		JTabbedPane categoriesControl = (JTabbedPane) getCategoriesControlByForm().get(form);
 		if (categoriesControl != null) {
 			for (int i = 0; i < categoriesControl.getTabCount(); i++) {
-				String categoryCaption = categoriesControl.getTitleAt(i);
-				if (category.getCaption().equals(categoryCaption)) {
-					if (category.getPosition() != -1) {
-						if (category.getPosition() != i) {
+				if (categoryCaption.equals(categoriesControl.getTitleAt(i))) {
+					if (categoryPosition != -1) {
+						if (categoryPosition != i) {
 							continue;
 						}
 					}
@@ -694,6 +693,10 @@ public class SwingRenderer {
 				}
 			}
 		}
+	}
+
+	public void setDisplayedInfoCategory(JPanel form, InfoCategory category) {
+		setDisplayedInfoCategory(form, category.getCaption(), category.getPosition());
 	}
 
 	public InfoCategory getDisplayedInfoCategory(JPanel form) {

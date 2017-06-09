@@ -40,4 +40,19 @@ public class SaveAsMenuItem extends AbstractPersistenceMenuItem {
 		}
 	}
 
+	@Override
+	protected File retrieveFile(SwingRenderer swingRenderer, JPanel form) {
+		File result = super.retrieveFile(swingRenderer, form);
+		if (result != null) {
+			if (result.exists()) {
+				if (!swingRenderer.openQuestionDialog(form,
+						"The file '" + result.getPath() + "' already exists.\nDo you want to replace it?",
+						fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
+					result = null;
+				}
+			}
+		}
+		return result;
+	}
+
 }

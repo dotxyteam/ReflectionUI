@@ -11,7 +11,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.util.ActionBuilder;
+import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -19,7 +19,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
-	protected ActionBuilder undoJobBuilder = new ActionBuilder();
+	protected FututreActionBuilder undoJobBuilder = new FututreActionBuilder();
 
 	public SubFieldInfo(IFieldInfo theField, IFieldInfo theSubField) {
 		super();
@@ -88,15 +88,14 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
 				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
 				theField, ControlDataValueModification.getTitle(theField));
-
 		undoJobBuilder.setOption("oppositeSubFieldModification", oppositeSubFieldModification);
 		undoJobBuilder.setOption("oppositeFieldModification", oppositeFieldModification);
-		undoJobBuilder.end();
+		undoJobBuilder.build();
 	}
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-		return undoJobBuilder.begin(new ActionBuilder.Performer() {
+		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				IModification oppositeSubFieldModification = (IModification) options.get("oppositeSubFieldModification");

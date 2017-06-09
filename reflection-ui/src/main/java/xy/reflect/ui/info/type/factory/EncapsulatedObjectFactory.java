@@ -232,7 +232,7 @@ public class EncapsulatedObjectFactory {
 		return fieldType;
 	}
 
-	protected Object[] getFieldValueOptions(Object object) {
+	protected Object[] getFieldValueOptions() {
 		return null;
 	}
 
@@ -603,7 +603,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			return null;
+			return getFieldValueOptions();
 		}
 
 		@Override
@@ -621,7 +621,7 @@ public class EncapsulatedObjectFactory {
 			return fieldCategory;
 		}
 
-		private EncapsulatedObjectFactory getOuterType() {
+		protected EncapsulatedObjectFactory getOuterType() {
 			return EncapsulatedObjectFactory.this;
 		}
 

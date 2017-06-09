@@ -17,7 +17,7 @@ import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.IrreversibleModificationException;
-import xy.reflect.ui.util.ActionBuilder;
+import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -25,7 +25,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
-	protected ActionBuilder undoJobBuilder = new ActionBuilder();
+	protected FututreActionBuilder undoJobBuilder = new FututreActionBuilder();
 
 	public SubMethodInfo(IFieldInfo theField, IMethodInfo theSubMethod) {
 		super();
@@ -123,7 +123,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 		undoJobBuilder.setOption("oppositeSubMethodModification", oppositeSubMethodModification);
 		undoJobBuilder.setOption("oppositeFieldModification", oppositeFieldModification);
-		undoJobBuilder.end();
+		undoJobBuilder.build();
 		return result;
 
 	}
@@ -134,7 +134,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 		if (theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData) == null) {
 			return null;
 		}
-		return undoJobBuilder.begin(new ActionBuilder.Performer() {
+		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 
 			@Override
 			public void perform(Map<String, Object> options) {

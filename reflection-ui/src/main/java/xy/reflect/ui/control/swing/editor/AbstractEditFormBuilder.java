@@ -132,7 +132,12 @@ public abstract class AbstractEditFormBuilder {
 
 	public EncapsulatedObjectFactory getEncapsulation() {
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
-				getEncapsulationTypeName(), getEncapsulationFieldType());
+				getEncapsulationTypeName(), getEncapsulationFieldType()) {
+			@Override
+			protected Object[] getFieldValueOptions() {
+				return getEncapsulationFieldValueOptions();
+			}
+		};
 		result.setTypeModificationStackAccessible(isEncapsulationTypeModificationStackAccessible());
 		result.setTypeCaption(getEncapsulationTypeCaption());
 		result.setFieldCaption(getEncapsulatedFieldCaption());
@@ -154,16 +159,20 @@ public abstract class AbstractEditFormBuilder {
 		result.setFieldFormControlEmbedded(isObjectFormExpanded());
 		result.setFieldFormControlFilter(getObjectFormFilter());
 		result.setFieldFormControlMandatory(isObjectCustomControlForbidden());
-		
+
 		return result;
 	}
-	public boolean isObjectCustomControlForbidden(){
+
+	public boolean isObjectCustomControlForbidden() {
 		return false;
 	}
 
-	
 	protected ValueReturnMode getEncapsulationFieldValueReturnMode() {
 		return hasParentObject() ? getObjectValueReturnMode() : ValueReturnMode.DIRECT_OR_PROXY;
+	}
+
+	protected Object[] getEncapsulationFieldValueOptions() {
+		return null;
 	}
 
 	protected boolean isEncapsulationFieldGetOnly() {

@@ -11,7 +11,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.undo.IrreversibleModificationException;
-import xy.reflect.ui.util.ActionBuilder;
+import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -19,7 +19,7 @@ public class ChainedMethodsInfo implements IMethodInfo {
 
 	protected IMethodInfo method1;
 	protected IMethodInfo method2;
-	protected ActionBuilder undoJobBuilder = new ActionBuilder();
+	protected FututreActionBuilder undoJobBuilder = new FututreActionBuilder();
 
 	public ChainedMethodsInfo(IMethodInfo method1, IMethodInfo method2) {
 		if (method2.getParameters().size() != 1) {
@@ -78,14 +78,14 @@ public class ChainedMethodsInfo implements IMethodInfo {
 
 		undoJobBuilder.setOption("method1UndoJob", method1UndoJob);
 		undoJobBuilder.setOption("method2UndoJob", method2UndoJob);
-		undoJobBuilder.end();
+		undoJobBuilder.build();
 
 		return result;
 	}
 
 	@Override
 	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
-		return undoJobBuilder.begin(new ActionBuilder.Performer() {
+		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				Runnable method1UndoJob = (Runnable) options.get("method1UndoJob");
