@@ -118,7 +118,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		@Override
 		public void configure(JPanel imagePanelContainer, ImagePanel imagePanel) {
 			imagePanel.preserveRatio(true);
-			JScrollPane scrollPane = new JScrollPane(imagePanel);
+			JScrollPane scrollPane = new JScrollPane(
+					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
 			Dimension size = new Dimension(canvasWidth, canvasHeight);
 			scrollPane.setPreferredSize(size);
 			scrollPane.setMinimumSize(size);
@@ -131,11 +132,15 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 	public static class ZoomableSizeConstraint extends SizeConstraint {
 		private static final long serialVersionUID = 1L;
 
-		float ZOOM_CHANGE_FACTOR = 1.1f;
+		float ZOOM_CHANGE_FACTOR = 1.2f;
 
 		@Override
 		public void configure(JPanel imagePanelContainer, final ImagePanel imagePanel) {
 			imagePanel.preserveRatio(true);
+			if ((imagePanel.getPreferredSize().width > canvasWidth)
+					|| (imagePanel.getPreferredSize().height > canvasHeight)) {
+				imagePanel.setPreferredSize(new Dimension(canvasWidth, canvasHeight));
+			}
 			JPanel zoomPanel = new JPanel();
 			{
 				zoomPanel.setLayout(new BorderLayout());
@@ -168,7 +173,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					});
 				}
 			}
-			JScrollPane scrollPane = new JScrollPane(imagePanel);
+			JScrollPane scrollPane = new JScrollPane(
+					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
 			Dimension size = new Dimension(canvasWidth, canvasHeight);
 			scrollPane.setPreferredSize(size);
 			scrollPane.setMinimumSize(size);
