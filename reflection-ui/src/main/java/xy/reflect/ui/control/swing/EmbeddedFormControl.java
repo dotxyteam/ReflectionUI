@@ -17,6 +17,7 @@ import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.ControlDataValueModification;
+import xy.reflect.ui.undo.ForwardingModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -53,8 +54,6 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	public JPanel getSubForm() {
 		return subForm;
 	}
-
-	
 
 	@Override
 	public boolean requestCustomFocus() {
@@ -103,9 +102,10 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 					return input.getModificationStack();
 				}
 			};
-			SwingRendererUtils.forwardFormModifications(swingRenderer, subForm, childModifAcceptedGetter,
-					childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
-					childModifTitleGetter, parentModifStackGetter);
+			swingRenderer.getModificationStackByForm().put(subForm,
+					new ForwardingModificationStack(swingRenderer, subForm, childModifAcceptedGetter,
+							childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter,
+							childModifTargetGetter, childModifTitleGetter, parentModifStackGetter));
 		}
 	}
 

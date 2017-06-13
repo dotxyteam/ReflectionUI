@@ -13,7 +13,6 @@ import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -95,7 +94,7 @@ public class ModificationStackControls {
 			@Override
 			public String get() {
 				if (modificationStack.getRedoSize() > 0) {
-					return modificationStack.getRedoModifications(UndoOrder.LIFO)[0].getTitle();
+					return modificationStack.getRedoModifications()[0].getTitle();
 				} else {
 					return null;
 				}
@@ -145,7 +144,7 @@ public class ModificationStackControls {
 			@Override
 			public String get() {
 				if (modificationStack.getUndoSize() > 0) {
-					return modificationStack.getUndoModifications(UndoOrder.LIFO)[0].getTitle();
+					return modificationStack.getUndoModifications()[0].getTitle();
 				} else {
 					return null;
 				}

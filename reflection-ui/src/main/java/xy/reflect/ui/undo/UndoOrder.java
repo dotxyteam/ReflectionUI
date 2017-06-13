@@ -7,6 +7,6 @@ public enum UndoOrder {
 	}
 	
 	public static UndoOrder getInverse(){
-		return LIFO;
+		return FIFO;
 	}
 };

@@ -61,12 +61,9 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.MethodAction;
-import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ResourcePath.PathKind;
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractActionMenuItem;
@@ -79,13 +76,7 @@ import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.AbstractModification;
-import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.IModificationListener;
-import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.UndoOrder;
 
-@SuppressWarnings("unused")
 public class SwingRendererUtils {
 
 	public static final Image NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -411,160 +402,6 @@ public class SwingRendererUtils {
 		return swingRenderer.getObjectByForm().keySet().contains(c);
 	}
 
-	public static void forwardFormModifications(final SwingRenderer swingRenderer, final JPanel form,
-			final Accessor<Boolean> valueModifAcceptedGetter, final Accessor<ValueReturnMode> valueReturnModeGetter,
-			final Accessor<Boolean> valueReplacedGetter, final Accessor<IModification> commitModifGetter,
-			final Accessor<IInfo> editSessionTargetGetter, final Accessor<String> editSessionTitleGetter,
-			final Accessor<ModificationStack> parentObjectModifStackGetter) {
-		swingRenderer.getModificationStackForwardingStatusByForm().put(form, true);
-		swingRenderer.getModificationStackByForm().put(form, new ModificationStack(null) {
-
-			@Override
-			public String toString() {
-				return "Forward Modifications Of " + form.toString() + " To " + parentObjectModifStackGetter.get();
-			}
-
-			@Override
-			public boolean pushUndo(IModification undoModif) {
-				ModificationStack valueModifStack = new ModificationStack(null);
-				valueModifStack.pushUndo(undoModif);
-				Boolean valueModifAccepted = valueModifAcceptedGetter.get();
-				ValueReturnMode valueReturnMode = valueReturnModeGetter.get();
-				boolean valueReplaced = valueReplacedGetter.get();
-				IModification commitModif = commitModifGetter.get();
-				String editSessionTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
-				String editSessionTitlePrefix = editSessionTitleGetter.get();
-				if (editSessionTitlePrefix != null) {
-					editSessionTitle = ReflectionUIUtils.composeMessage(editSessionTitlePrefix, editSessionTitle);
-				}
-				ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
-				IInfo editSessionTarget = editSessionTargetGetter.get();
-				return ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
-						valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
-						editSessionTitle, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
-			}
-
-			@Override
-			public void invalidate() {
-				ModificationStack valueModifStack = new ModificationStack(null);
-				valueModifStack.invalidate();
-				Boolean valueModifAccepted = valueModifAcceptedGetter.get();
-				ValueReturnMode valueReturnMode = valueReturnModeGetter.get();
-				boolean valueReplaced = valueReplacedGetter.get();
-				IModification commitModif = commitModifGetter.get();
-				String editSessionTitle = null;
-				IInfo editSessionTarget = editSessionTargetGetter.get();
-				ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
-				ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
-						valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
-						editSessionTitle, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
-			}
-
-			@Override
-			public void beginComposite() {
-				ModificationStack parentModifStack = parentObjectModifStackGetter.get();
-				parentModifStack.beginComposite();
-			}
-
-			@Override
-			public boolean endComposite(IInfo childModifTarget, String title, UndoOrder order) {
-				ModificationStack parentModifStack = parentObjectModifStackGetter.get();
-				return parentModifStack.endComposite(childModifTarget, title, order);
-			}
-
-			@Override
-			public void abortComposite() {
-				ModificationStack parentModifStack = parentObjectModifStackGetter.get();
-				parentModifStack.abortComposite();
-			}
-
-			@Override
-			public void undo() {
-				throw getUnsupportedOperationError("undo");
-			}
-
-			@Override
-			public void redo() {
-				throw getUnsupportedOperationError("redo");
-			}
-
-			@Override
-			public void addListener(IModificationListener listener) {
-				throw getUnsupportedOperationError("addListener");
-			}
-
-			@Override
-			public boolean isInvalidated() {
-				throw getUnsupportedOperationError("isInvalidated");
-			}
-
-			@Override
-			public boolean wasInvalidated() {
-				throw getUnsupportedOperationError("wasInvalidated");
-			}
-
-			@Override
-			public void removeListener(IModificationListener listener) {
-				throw getUnsupportedOperationError("removeListener");
-			}
-
-			@Override
-			public IModificationListener[] getListeners() {
-				throw getUnsupportedOperationError("getListeners");
-			}
-
-			@Override
-			public int getUndoSize() {
-				throw getUnsupportedOperationError("getUndoSize");
-			}
-
-			@Override
-			public int getRedoSize() {
-				throw getUnsupportedOperationError("getRedoSize");
-			}
-
-			@Override
-			public IModification[] getUndoModifications(UndoOrder order) {
-				throw getUnsupportedOperationError("getUndoModifications");
-			}
-
-			@Override
-			public IModification[] getRedoModifications(UndoOrder order) {
-				throw getUnsupportedOperationError("getRedoModifications");
-			}
-
-			@Override
-			public boolean isInComposite() {
-				throw getUnsupportedOperationError("isInComposite");
-			}
-
-			@Override
-			public Boolean canUndo() {
-				throw getUnsupportedOperationError("canUndo");
-			}
-
-			@Override
-			public Boolean canRedo() {
-				throw getUnsupportedOperationError("canRedo");
-			}
-
-			@Override
-			public boolean isNull() {
-				throw getUnsupportedOperationError("isNull");
-			}
-
-			@Override
-			public IModification toCompositeModification(IInfo target, String title) {
-				throw getUnsupportedOperationError("toCompositeModification");
-			}
-
-			UnsupportedOperationException getUnsupportedOperationError(String operationName) {
-				return new UnsupportedOperationException("<" + operationName
-						+ "> is not allowed on a root (non-forwarding) " + ModificationStack.class.getSimpleName());
-			}
-
-		});
-	}
 
 	public static void handleComponentSizeChange(Component c) {
 		c.invalidate();

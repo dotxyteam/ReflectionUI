@@ -24,7 +24,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class AbstractPersistenceMenuItem extends AbstractBuiltInActionMenuItem {
+public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public abstract class AbstractPersistenceMenuItem extends AbstractBuiltInActionM
 
 	protected abstract void persist(SwingRenderer swingRenderer, JPanel form, File file);
 
-	public AbstractPersistenceMenuItem() {
+	public AbstractFileMenuItem() {
 		fileBrowserConfiguration.selectionMode = SelectionModeConfiguration.FILES_ONLY;
 	}
 

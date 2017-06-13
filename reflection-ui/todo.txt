@@ -1,3 +1,5 @@
+- ListControl issue: can make tree table control larger but not smaller
+to its original length
 - save/save as: check existing file
 - separate customizations features in another project not open source
 - talk about reflectionui in rcp forums 

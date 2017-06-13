@@ -6,7 +6,7 @@ import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfigura
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.undo.ModificationStack;
 
-public class SaveMenuItem extends SaveAsMenuItem {
+public class SaveMenuItem extends AbstractSaveMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 

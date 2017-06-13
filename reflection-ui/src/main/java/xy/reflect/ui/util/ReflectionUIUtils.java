@@ -881,7 +881,7 @@ public class ReflectionUIUtils {
 		valueModifStack.pushUndo(valueUndoModification);
 		finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted,
 				valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
-		return parentObjectModifStack.toCompositeModification(editSessionTarget, editSessionTitle);
+		return parentObjectModifStack.toCompositeUndoModification(editSessionTarget, editSessionTitle);
 	}
 
 	public static boolean finalizeParentObjectValueEditSession(final ModificationStack parentObjectModifStack,
@@ -908,7 +908,7 @@ public class ReflectionUIUtils {
 										parentObjectModifStack.invalidate();
 									} else {
 										parentObjectModifStack
-												.pushUndo(valueModifStack.toCompositeModification(null, null));
+												.pushUndo(valueModifStack.toCompositeUndoModification(null, null));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {

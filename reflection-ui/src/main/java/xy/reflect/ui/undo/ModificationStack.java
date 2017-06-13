@@ -1,6 +1,7 @@
 package xy.reflect.ui.undo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -20,31 +21,31 @@ public class ModificationStack {
 	protected boolean wasInvalidated = false;
 	protected long stateVersion = 0;
 	protected IModificationListener internalListener = new IModificationListener() {
-		
+
 		@Override
 		public void handleUdno(IModification undoModification) {
 			stateVersion--;
 		}
-		
+
 		@Override
 		public void handleRedo(IModification modification) {
 			stateVersion++;
 		}
-		
+
 		@Override
 		public void handlePush(IModification undoModification) {
 			stateVersion++;
 		}
-		
+
 		@Override
-		public void handleInvalidationCleared() {			
+		public void handleInvalidationCleared() {
 		}
-		
+
 		@Override
 		public void handleInvalidate() {
 			stateVersion++;
 		}
-	}; 
+	};
 	protected IModificationListener allListenersProxy = new IModificationListener() {
 
 		@Override
@@ -193,20 +194,12 @@ public class ModificationStack {
 		}
 	}
 
-	public IModification[] getUndoModifications(UndoOrder order) {
-		List<IModification> list = new ArrayList<IModification>(undoStack);
-		if (order == UndoOrder.LIFO) {
-			Collections.reverse(list);
-		}
-		return list.toArray(new IModification[list.size()]);
+	public IModification[] getUndoModifications() {
+		return undoStack.toArray(new IModification[undoStack.size()]);
 	}
 
-	public IModification[] getRedoModifications(UndoOrder order) {
-		List<IModification> list = new ArrayList<IModification>(redoStack);
-		if (order == UndoOrder.LIFO) {
-			Collections.reverse(list);
-		}
-		return list.toArray(new IModification[list.size()]);
+	public IModification[] getRedoModifications() {
+		return redoStack.toArray(new IModification[redoStack.size()]);
 	}
 
 	public void beginComposite() {
@@ -232,8 +225,14 @@ public class ModificationStack {
 		} else {
 			compositeParent = this;
 		}
+		IModification[] undoModifs = topComposite.getUndoModifications();
+		if (order == UndoOrder.getInverse()) {
+			List<IModification> list = new ArrayList<IModification>(Arrays.asList(undoModifs));
+			Collections.reverse(list);
+			list.toArray(undoModifs);
+		}
 		CompositeModification compositeUndoModif = new CompositeModification(target,
-				AbstractModification.getUndoTitle(title), order, topComposite.getUndoModifications(order));
+				AbstractModification.getUndoTitle(title), order, undoModifs);
 		return compositeParent.pushUndo(compositeUndoModif);
 	}
 
@@ -297,8 +296,8 @@ public class ModificationStack {
 		return true;
 	}
 
-	public IModification toCompositeModification(IInfo target, String title) {
-		return new CompositeModification(target, title, UndoOrder.LIFO, getUndoModifications(UndoOrder.LIFO));
+	public IModification toCompositeUndoModification(IInfo target, String title) {
+		return new CompositeModification(target, title, UndoOrder.getNormal(), getUndoModifications());
 	}
 
 	public long getStateVersion() {

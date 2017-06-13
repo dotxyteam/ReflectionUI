@@ -16,6 +16,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
+import xy.reflect.ui.undo.ForwardingModificationStack;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
@@ -334,8 +335,9 @@ public abstract class AbstractEditFormBuilder {
 				return result;
 			}
 		};
-		SwingRendererUtils.forwardFormModifications(getSwingRenderer(), form, childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
-				childModifTitleGetter, parentModifStackGetter);
+		getSwingRenderer().getModificationStackByForm().put(form,
+				new ForwardingModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
+						childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
+						childModifTitleGetter, parentModifStackGetter));
 	}
 }

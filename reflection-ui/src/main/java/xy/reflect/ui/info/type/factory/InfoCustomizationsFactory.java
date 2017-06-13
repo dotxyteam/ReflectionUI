@@ -36,7 +36,6 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodAsFieldInfo;
 import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
-import xy.reflect.ui.info.field.NerverNullFieldInfo;
 import xy.reflect.ui.info.field.NullStatusFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
@@ -76,7 +75,6 @@ import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-@SuppressWarnings("unused")
 public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 	protected ReflectionUI reflectionUI;

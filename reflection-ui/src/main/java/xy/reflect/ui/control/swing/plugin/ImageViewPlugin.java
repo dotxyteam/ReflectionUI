@@ -132,8 +132,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 	public static class ZoomableSizeConstraint extends SizeConstraint {
 		private static final long serialVersionUID = 1L;
 
-		float ZOOM_CHANGE_FACTOR = 1.2f;
-
+		
 		@Override
 		public void configure(JPanel imagePanelContainer, final ImagePanel imagePanel) {
 			imagePanel.preserveRatio(true);
@@ -143,6 +142,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 			JPanel zoomPanel = new JPanel();
 			{
+				final float ZOOM_CHANGE_FACTOR = 1.3f;
 				zoomPanel.setLayout(new BorderLayout());
 				JButton biggerButton = new JButton("+");
 				{

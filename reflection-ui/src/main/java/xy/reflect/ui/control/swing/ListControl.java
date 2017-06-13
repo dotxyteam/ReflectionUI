@@ -1141,13 +1141,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					public Object getInitialObjectValue() {
 						return dynamicProperty.getValue(AbstractListProperty.NO_OWNER);
 					}
-					
+
 					@Override
 					protected Object[] getEncapsulationFieldValueOptions() {
 						return dynamicProperty.getValueOptions(AbstractListProperty.NO_OWNER);
 					}
 
-					
 					@Override
 					public String getCumulatedModificationsTitle() {
 						return "Edit "
@@ -1319,7 +1318,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				detailsArea.removeAll();
 				detailsControlItem = null;
 				detailsControl = null;
-				SwingRendererUtils.handleComponentSizeChange(detailsArea);
+				if (detailsControlItemPosition == null) {
+					SwingRendererUtils.handleComponentSizeChange(detailsArea);
+				}
 			}
 		}
 		if (detailsControlItemPosition == null) {
@@ -1334,9 +1335,26 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			detailsArea.add(swingRenderer.createWindowScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
 			swingRenderer.validateFormInBackgroundAndReportOnStatusBar(detailsControl);
-			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
+			SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
+			scrollUntilVisible(detailsControlItemPosition);
+			SwingUtilities.invokeLater(new Runnable() {				
+				@Override
+				public void run() {
+					scrollUntilVisible(detailsControlItemPosition);
+				}
+			});
 		}
+	}
+
+	public void scrollUntilVisible(BufferedItemPosition itemPosition) {
+		ItemNode node = findNode(itemPosition);
+		if (node == null) {
+			return;
+		}
+		TreePath treePath = new TreePath(node.getPath());
+		int row = treeTableComponent.getRowForPath(treePath);
+		treeTableComponent.scrollRowToVisible(row);
 	}
 
 	protected void openDetailsDialogOnItemDoubleClick() {
@@ -1489,7 +1507,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 		runnable.run();
 
-		setSelection(Collections.<BufferedItemPosition>emptyList());
+		setSelection(Collections.<BufferedItemPosition> emptyList());
 		int i = 0;
 		for (Iterator<BufferedItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
 			BufferedItemPosition wasSelectedPosition = it.next();

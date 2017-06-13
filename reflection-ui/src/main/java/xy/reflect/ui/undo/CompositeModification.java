@@ -45,9 +45,9 @@ public class CompositeModification implements IModification {
 	public IModification applyAndGetOpposite() {
 		List<IModification> oppositeModifications = new ArrayList<IModification>();
 		for (IModification modif : modifications) {
-			if (undoOrder == UndoOrder.LIFO) {
+			if (undoOrder == UndoOrder.getNormal()) {
 				oppositeModifications.add(0, modif.applyAndGetOpposite());
-			} else if (undoOrder == UndoOrder.FIFO) {
+			} else if (undoOrder == UndoOrder.getInverse()) {
 				oppositeModifications.add(modif.applyAndGetOpposite());
 			} else {
 				throw new ReflectionUIError();
@@ -66,7 +66,11 @@ public class CompositeModification implements IModification {
 		if (title != null) {
 			return title;
 		} else {
-			return ReflectionUIUtils.stringJoin(Arrays.asList(modifications), ", ");
+			List<String> result = new ArrayList<String>();
+			for (IModification modif : modifications) {
+				result.add(modif.getTitle());
+			}
+			return ReflectionUIUtils.stringJoin(result, ", ");
 		}
 	}
 

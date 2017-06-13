@@ -30,17 +30,6 @@
         </itemCustomizations>
     </enumerationCustomizations>
     <enumerationCustomizations>
-        <uniqueIdentifier>-761a7c8f:15c8ce6cc1b:d8d</uniqueIdentifier>
-        <dynamicEnumerationForced>false</dynamicEnumerationForced>
-        <enumerationTypeName>SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem]</enumerationTypeName>
-        <itemCustomizations>
-            <uniqueIdentifier>-761a7c8f:15c8ce6cc1b:d95</uniqueIdentifier>
-            <customCaption>Save Menu Item</customCaption>
-            <hidden>false</hidden>
-            <itemName>xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem</itemName>
-        </itemCustomizations>
-    </enumerationCustomizations>
-    <enumerationCustomizations>
         <uniqueIdentifier>-761a7c8f:15c8ce6cc1b:2963</uniqueIdentifier>
         <dynamicEnumerationForced>false</dynamicEnumerationForced>
         <enumerationTypeName>SubTypesEnumeration [polymorphicType=xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem]</enumerationTypeName>
@@ -26199,6 +26188,10 @@
         </javaClassBasedTypeInfoFinder>
         <javaClassBasedTypeInfoFinder>
             <uniqueIdentifier>2d3d8432:15c0358d95d:-3295</uniqueIdentifier>
+            <className>xy.reflect.ui.info.menu.builtin.swing.SaveMenuItem</className>
+        </javaClassBasedTypeInfoFinder>
+        <javaClassBasedTypeInfoFinder>
+            <uniqueIdentifier>2d3d8432:15c0358d95d:-3295</uniqueIdentifier>
             <className>xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem</className>
         </javaClassBasedTypeInfoFinder>
         <typeName>xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem</typeName>
@@ -26360,7 +26353,7 @@
         <methodsCustomizations>
             <uniqueIdentifier>2d3d8432:15c0358d95d:-343b</uniqueIdentifier>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
@@ -28112,7 +28105,7 @@
         <methodsCustomizations>
             <uniqueIdentifier>2d3d8432:15c0358d95d:-a7e</uniqueIdentifier>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
@@ -28315,7 +28308,7 @@
         <methodsCustomizations>
             <uniqueIdentifier>-761a7c8f:15c8ce6cc1b:4f59</uniqueIdentifier>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
@@ -28507,7 +28500,7 @@
         <methodsCustomizations>
             <uniqueIdentifier>2d3d8432:15c0358d95d:-15da</uniqueIdentifier>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
@@ -28646,8 +28639,60 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <fieldsCustomizations>
+                        <uniqueIdentifier>4d70d561:15c94522c86:-3d58</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <fieldName>name</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <getterGenerated>false</getterGenerated>
+                        <nullReplacement>
+                            <uniqueIdentifier>4d70d561:15c94522c86:-3d57</uniqueIdentifier>
+                        </nullReplacement>
+                        <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+                        <nullValueDistinctForced>false</nullValueDistinctForced>
+                        <setterGenerated>false</setterGenerated>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
+                    <fieldsCustomizations>
+                        <uniqueIdentifier>4d70d561:15c94522c86:-3d56</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <displayedAsSingletonList>false</displayedAsSingletonList>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <fieldName>iconImagePath</fieldName>
+                        <formControlCreationForced>false</formControlCreationForced>
+                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
+                        <getOnlyForced>false</getOnlyForced>
+                        <getterGenerated>false</getterGenerated>
+                        <nullReplacement>
+                            <uniqueIdentifier>4d70d561:15c94522c86:-3d55</uniqueIdentifier>
+                        </nullReplacement>
+                        <nullStatusFieldDisplayed>false</nullStatusFieldDisplayed>
+                        <nullValueDistinctForced>false</nullValueDistinctForced>
+                        <setterGenerated>false</setterGenerated>
+                        <specificTypeCustomizations/>
+                    </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
                     <menuModel/>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>4d70d561:15c94522c86:-3d54</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodSignature>xy.reflect.ui.info.menu.builtin.ExitMenuItem ()</methodSignature>
+                        <parametersFormDisplayed>false</parametersFormDisplayed>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <specificReturnValueTypeCustomizations/>
+                        <validating>false</validating>
+                    </methodsCustomizations>
                     <typeName>xy.reflect.ui.info.menu.builtin.ExitMenuItem</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
@@ -30702,6 +30747,42 @@
                 <specificProperties/>
                 <defaultValue>
                     <uniqueIdentifier>3ebd2b6a:15be695bb9a:-4690</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>renderer</parameterName>
+            </parametersCustomizations>
+            <parametersFormDisplayed>false</parametersFormDisplayed>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <specificReturnValueTypeCustomizations/>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>4d70d561:15c94522c86:-2fe3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.lang.String getName(java.lang.Object, java.lang.Object)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>4d70d561:15c94522c86:-2fe2</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>4d70d561:15c94522c86:-2fe1</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>form</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>4d70d561:15c94522c86:-2fe0</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>4d70d561:15c94522c86:-2fdf</uniqueIdentifier>
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
                 <hidden>false</hidden>
@@ -35298,10 +35379,6 @@
             <specificReturnValueTypeCustomizations/>
             <validating>false</validating>
         </methodsCustomizations>
-        <javaClassBasedTypeInfoFinder>
-            <uniqueIdentifier>2d3d8432:15c0358d95d:-3295</uniqueIdentifier>
-            <className>xy.reflect.ui.info.menu.builtin.swing.SaveMenuItem</className>
-        </javaClassBasedTypeInfoFinder>
         <typeName>xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
