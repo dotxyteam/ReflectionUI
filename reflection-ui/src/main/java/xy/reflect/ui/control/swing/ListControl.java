@@ -482,7 +482,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void initializeTreeTableControl() {
 		rootNode = createRootNode();
-		treeTableComponent = new JXTreeTable(createTreeTableModel());
+		treeTableComponent = new JXTreeTable(createTreeTableModel()) {
+			private static final long serialVersionUID = 1L;
+			 @Override
+			    public String getToolTipText(MouseEvent event) {
+			  	try {
+					return super.getToolTipText(event);
+				} catch (Throwable t) {
+					return null;
+				}
+			}
+		};
 		TableColumnModel columnModel = treeTableComponent.getColumnModel();
 		{
 			List<IColumnInfo> columnInfos = getStructuralInfo().getColumns();
@@ -1338,7 +1348,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
 			scrollUntilVisible(detailsControlItemPosition);
-			SwingUtilities.invokeLater(new Runnable() {				
+			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					scrollUntilVisible(detailsControlItemPosition);
