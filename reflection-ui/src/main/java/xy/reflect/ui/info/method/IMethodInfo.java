@@ -69,7 +69,7 @@ public interface IMethodInfo extends IInfo {
 
 		@Override
 		public boolean isReadOnly() {
-			return false;
+			return true;
 		}
 
 		@Override
