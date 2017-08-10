@@ -12,8 +12,6 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HelpMenuItem extends AbstractBuiltInActionMenuItem {
 
-	private static final long serialVersionUID = 1L;
-
 	public HelpMenuItem() {
 		name = "Help";
 	}

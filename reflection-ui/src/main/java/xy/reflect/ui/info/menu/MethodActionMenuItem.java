@@ -1,12 +1,15 @@
 package xy.reflect.ui.info.menu;
 
+import javax.swing.JPanel;
+
 import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.swing.MethodAction;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodActionMenuItem extends AbstractActionMenuItem {
-
-	private static final long serialVersionUID = 1L;
 
 	protected IMethodInfo method;
 
@@ -22,6 +25,25 @@ public class MethodActionMenuItem extends AbstractActionMenuItem {
 
 	public void setMethod(IMethodInfo method) {
 		this.method = method;
+	}
+
+	@Override
+	public void execute(Object genericForm, Object renderer) {
+		SwingRenderer swingRenderer = (SwingRenderer) renderer;
+		JPanel form = (JPanel) genericForm;
+		IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form, method);
+		MethodAction methodAction = swingRenderer.createMethodAction(input);
+		methodAction.execute(form);
+	}
+
+	@Override
+	public boolean isEnabled(Object object, Object renderer) {
+		return true;
+	}
+
+	@Override
+	public String getName(Object form, Object renderer) {
+		return getName();
 	}
 
 	@Override

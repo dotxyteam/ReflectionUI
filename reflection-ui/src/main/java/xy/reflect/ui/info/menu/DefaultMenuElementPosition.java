@@ -1,33 +1,32 @@
 package xy.reflect.ui.info.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import xy.reflect.ui.util.ReflectionUIUtils;
-
 public class DefaultMenuElementPosition implements IMenuElementPosition {
 
-	protected List<IMenuItemContainer> elementAncestors;
+	protected IMenuElementPosition parent;
 	protected String elementName;
 	protected MenuElementKind elementKind;
 
-	public DefaultMenuElementPosition(String elementName, MenuElementKind elementKind,
-			List<IMenuItemContainer> elementAncestors) {
+	public DefaultMenuElementPosition(String elementName, MenuElementKind elementKind, IMenuElementPosition parent) {
 		this.elementName = elementName;
 		this.elementKind = elementKind;
-		this.elementAncestors = elementAncestors;
+		this.parent = parent;
+	}
+
+	public DefaultMenuElementPosition getRoot() {
+		IMenuElementPosition result = this;
+		while (result.getParent() != null) {
+			result = result.getParent();
+		}
+		return null;
 	}
 
 	@Override
 	public IMenuElementPosition getParent() {
-		if(elementAncestors.size() == 0){
-			return null;
-		}
-		IMenuItemContainer parentElement = elementAncestors.get(0);
-		List<IMenuItemContainer> parentElementAncestors = new ArrayList<IMenuItemContainer>(elementAncestors);
-		parentElementAncestors.remove(0);
-		return new DefaultMenuElementPosition(parentElement.getName(),
-				ReflectionUIUtils.getMenuElementKind(parentElement), parentElementAncestors);
+		return parent;
+	}
+
+	public void setParent(IMenuElementPosition parent) {
+		this.parent = parent;
 	}
 
 	@Override
@@ -35,16 +34,24 @@ public class DefaultMenuElementPosition implements IMenuElementPosition {
 		return elementName;
 	}
 
+	public void setElementName(String elementName) {
+		this.elementName = elementName;
+	}
+
 	@Override
 	public MenuElementKind getElementKind() {
 		return elementKind;
+	}
+
+	public void setElementKind(MenuElementKind elementKind) {
+		this.elementKind = elementKind;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((elementAncestors == null) ? 0 : elementAncestors.hashCode());
+		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
 		result = prime * result + ((elementKind == null) ? 0 : elementKind.hashCode());
 		result = prime * result + ((elementName == null) ? 0 : elementName.hashCode());
 		return result;
@@ -59,10 +66,10 @@ public class DefaultMenuElementPosition implements IMenuElementPosition {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultMenuElementPosition other = (DefaultMenuElementPosition) obj;
-		if (elementAncestors == null) {
-			if (other.elementAncestors != null)
+		if (parent == null) {
+			if (other.parent != null)
 				return false;
-		} else if (!elementAncestors.equals(other.elementAncestors))
+		} else if (!parent.equals(other.parent))
 			return false;
 		if (elementKind != other.elementKind)
 			return false;
@@ -76,8 +83,7 @@ public class DefaultMenuElementPosition implements IMenuElementPosition {
 
 	@Override
 	public String toString() {
-		return "DefaultMenuElementPosition [elementName=" + elementName + ", elementKind=" + elementKind
-				+ ", elementAncestors=" + elementAncestors + "]";
+		return "DefaultMenuElementPosition [elementName=" + elementName + ", elementKind=" + elementKind + "]";
 	}
 
 }

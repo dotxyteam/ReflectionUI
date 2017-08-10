@@ -59,6 +59,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.menu.MenuItemCategory;
@@ -1225,6 +1226,14 @@ public class ReflectionUIUtils {
 			}
 		}
 		return toolTipText;
+	}
+
+	public static List<IMenuElementPosition> getAncestors(IMenuElementPosition elementPosition) {
+		List<IMenuElementPosition> result = new ArrayList<IMenuElementPosition>();
+		while (elementPosition.getParent() != null) {
+			result.add(elementPosition.getParent());
+		}
+		return result;
 	}
 
 }

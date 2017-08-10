@@ -58,9 +58,7 @@ import javax.swing.UIManager;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
-import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
-import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ResourcePath.PathKind;
@@ -71,8 +69,6 @@ import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.MethodActionMenuItem;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -402,16 +398,15 @@ public class SwingRendererUtils {
 		return swingRenderer.getObjectByForm().keySet().contains(c);
 	}
 
-
 	public static void handleComponentSizeChange(Component c) {
 		c.invalidate();
 		Window window = SwingUtilities.getWindowAncestor(c);
 		if (window != null) {
 			window.validate();
 		}
-		c.repaint();		
+		c.repaint();
 	}
-	
+
 	public static Rectangle getScreenBounds(Component c) {
 		Window window = getWindowAncestorOrSelf(c);
 		if (window != null) {
@@ -777,16 +772,7 @@ public class SwingRendererUtils {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (actionItem instanceof MethodActionMenuItem) {
-						IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form,
-								((MethodActionMenuItem) actionItem).getMethod());
-						MethodAction methodAction = swingRenderer.createMethodAction(input);
-						methodAction.execute(form);
-					} else if (actionItem instanceof AbstractBuiltInActionMenuItem) {
-						((AbstractBuiltInActionMenuItem) actionItem).execute(form, swingRenderer);
-					} else {
-						throw new ReflectionUIError();
-					}
+					actionItem.execute(form, swingRenderer);
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
 				}
@@ -794,14 +780,11 @@ public class SwingRendererUtils {
 
 		});
 		try {
-			result.setText(actionItem.getName());
-			result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
-			if (actionItem instanceof AbstractBuiltInActionMenuItem) {
-				result.setText(((AbstractBuiltInActionMenuItem) actionItem).getName(form, swingRenderer));
-				if (!((AbstractBuiltInActionMenuItem) actionItem).isEnabled(form, swingRenderer)) {
-					result.setEnabled(false);
-				}
+			result.setText(actionItem.getName(form, swingRenderer));
+			if (!actionItem.isEnabled(form, swingRenderer)) {
+				result.setEnabled(false);
 			}
+			result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 			if (result.getText() == null) {

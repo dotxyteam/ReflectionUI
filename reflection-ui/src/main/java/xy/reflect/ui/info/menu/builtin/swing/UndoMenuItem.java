@@ -5,8 +5,6 @@ import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 
 public class UndoMenuItem extends AbstractBuiltInActionMenuItem {
 
-	private static final long serialVersionUID = 1L;
-
 	public UndoMenuItem() {
 		name = "Undo";
 	}

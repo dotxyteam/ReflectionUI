@@ -17,6 +17,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ConversionMethodFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.IMenuItemContainerCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.JavaClassBasedTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
@@ -29,9 +30,8 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.AbstractMenuElement;
 import xy.reflect.ui.info.menu.IMenuElement;
-import xy.reflect.ui.info.menu.IMenuItemContainer;
-import xy.reflect.ui.info.menu.Menu;
-import xy.reflect.ui.info.menu.MenuItemCategory;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
+import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -100,18 +100,20 @@ class CustomizationToolsUI extends ReflectionUI {
 			protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 				if (info instanceof GenericEnumerationFactory.ItemInfo) {
 					Object item = ((GenericEnumerationFactory.ItemInfo) info).getItem();
-					if (item instanceof IMenuElement) {
-						List<IMenuElement> path = InfoCustomizations
-								.getMenuElementPath(swingCustomizer.getInfoCustomizations(), (IMenuElement) item);
-						if (path == null) {
-							return ((IMenuElement) item).getName();
+					if (item instanceof IMenuItemContainerCustomization) {
+						IMenuElementPosition position = InfoCustomizations.getMenuElementPosition(
+								swingCustomizer.getInfoCustomizations(), (IMenuItemContainerCustomization) item);
+						if (position == null) {
+							return ((IMenuItemContainerCustomization) item).getName();
 						}
 						List<String> result = new ArrayList<String>();
-						for (IMenuElement pathItem : path) {
-							if (pathItem instanceof Menu) {
-								result.add(pathItem.getName());
-							} else if (pathItem instanceof MenuItemCategory) {
-								result.add("(" + pathItem.getName() + ")");
+						result.add(position.getElementName());
+						while (position.getParent() != null) {
+							position = position.getParent();
+							if (position.getElementKind()==MenuElementKind.MENU) {
+								result.add(position.getElementName());
+							} else if (position.getElementKind()==MenuElementKind.ITEM_CATEGORY) {
+								result.add("(" + position.getElementName() + ")");
 							} else {
 								throw new ReflectionUIError();
 							}
@@ -131,7 +133,7 @@ class CustomizationToolsUI extends ReflectionUI {
 				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
 					TypeCustomization tc = InfoCustomizations.findParentTypeCustomization(
 							swingCustomizer.getInfoCustomizations(), (MethodCustomization) object);
-					List<IMenuItemContainer> result = InfoCustomizations.getAllMenuItemContainers(tc);
+					List<IMenuItemContainerCustomization> result = InfoCustomizations.getAllMenuItemContainerCustomizations(tc);
 					return result.toArray();
 				} else {
 					return super.getValueOptions(object, field, containingType);

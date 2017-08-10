@@ -4,10 +4,12 @@ import xy.reflect.ui.info.ResourcePath;
 
 public abstract class AbstractActionMenuItem extends AbstractMenuItem {
 
-	private static final long serialVersionUID = 1L;
-
 	protected ResourcePath iconImagePath;
-
+	
+	public abstract void execute(Object form, Object renderer);
+	public abstract boolean isEnabled(Object object, Object renderer);
+	public abstract String getName(final Object form, final Object renderer);
+	
 	public AbstractActionMenuItem(String name, ResourcePath iconImagePath) {
 		super(name);
 		this.iconImagePath = iconImagePath;
@@ -24,6 +26,8 @@ public abstract class AbstractActionMenuItem extends AbstractMenuItem {
 	public void setIconImagePath(ResourcePath iconImagePath) {
 		this.iconImagePath = iconImagePath;
 	}
+	
+	
 
 	
 }

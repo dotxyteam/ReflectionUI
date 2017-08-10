@@ -74,8 +74,12 @@ public class SystemProperties {
 		return System.getProperty(SystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "false").equals("true");
 	}
 
+	public static String getInfoCustomizationToolsCustomizationsFilePath() {
+		return System.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH);
+	}
+
 	public static boolean isInfoCustomizationToolsCustomizationAllowed() {
-		return System.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH) != null;
+		return getInfoCustomizationToolsCustomizationsFilePath() != null;
 	}
 
 	public static boolean isDebugModeActive() {

@@ -26,8 +26,6 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem {
 
-	private static final long serialVersionUID = 1L;
-
 	protected static Map<JPanel, File> lastFileByForm = new MapMaker().weakKeys().makeMap();
 	protected static Map<JPanel, Long> lastPersistedVersionByForm = new MapMaker().weakKeys().makeMap();
 

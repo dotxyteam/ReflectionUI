@@ -2,6 +2,7 @@ package xy.reflect.ui.info.menu;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.util.ReflectionUIError;
@@ -21,16 +22,20 @@ public class MenuModel implements Serializable {
 		this.menus = menus;
 	}
 
-	public IMenuElement importContribution(IMenuElementPosition position, IMenuElement element) {
-		if (position.getElementKind() != ReflectionUIUtils.getMenuElementKind(element)) {
-			throw new ReflectionUIError("Failed to add menu contribution: Position '" + position
-					+ "' does not match element '" + element + "'");
-		}
-		if (position.getParent() == null) {
+	public IMenuElement importContribution(IMenuElementPosition containerPosition, IMenuElement element) {
+		if (containerPosition == null) {
 			return importContributionIn(element, null);
 		} else {
-			IMenuElementPosition containerPosition = position.getParent();
-			IMenuItemContainer container = getContainer(containerPosition);
+			if ((containerPosition.getElementKind() != MenuElementKind.ITEM_CATEGORY)
+					&& (containerPosition.getElementKind() != MenuElementKind.MENU)) {
+				throw new ReflectionUIError("Failed to add menu contribution '" + element + "' in '" + containerPosition
+						+ "': Invalid container");
+			}
+			IMenuItemContainer container = (IMenuItemContainer) findElement(containerPosition);
+			if (container == null) {
+				throw new ReflectionUIError("Failed to add menu contribution '" + element + "' in '" + containerPosition
+						+ "': Container not found: '" + containerPosition + "'");
+			}
 			return importContributionIn(element, container);
 		}
 	}
@@ -66,10 +71,39 @@ public class MenuModel implements Serializable {
 		}
 	}
 
-	protected IMenuItemContainer getContainer(IMenuElementPosition containerPosition) {
-		IMenuItemContainer container = createContainer(containerPosition);
-		container = (IMenuItemContainer) importContribution(containerPosition, container);
-		return container;
+	protected IMenuElement findElement(IMenuElementPosition elementPosition) {
+		if (elementPosition.getParent() == null) {
+			if (elementPosition.getElementKind() != MenuElementKind.MENU) {
+				throw new ReflectionUIError("Illegal root elemnt '" + elementPosition + "'. Root element kind must be '"
+						+ MenuElementKind.MENU + "'");
+			}
+		}
+		List<IMenuElementPosition> ancestorPositions = ReflectionUIUtils.getAncestors(elementPosition);
+		ancestorPositions = new ArrayList<IMenuElementPosition>(ancestorPositions);
+		Collections.reverse(ancestorPositions);
+		IMenuItemContainer container = null;
+		for (IMenuElementPosition ancestorPosition : ancestorPositions) {
+			container = (IMenuItemContainer) findChildElement(container, ancestorPosition.getElementKind(),
+					ancestorPosition.getElementName());
+			if (container == null) {
+				return null;
+			}
+		}
+		IMenuElement result = findChildElement(container, elementPosition.getElementKind(),
+				elementPosition.getElementName());
+		return result;
+	}
+
+	protected IMenuElement findChildElement(IMenuItemContainer container, MenuElementKind childElementKind,
+			String childElementName) {
+		for (IMenuElement childElement : getChildren(container)) {
+			if (ReflectionUIUtils.getMenuElementKind(childElement) == childElementKind) {
+				if (childElement.getName().equals(childElementName)) {
+					return childElement;
+				}
+			}
+		}
+		return null;
 	}
 
 	protected List<IMenuElement> getChildren(IMenuElement element) {

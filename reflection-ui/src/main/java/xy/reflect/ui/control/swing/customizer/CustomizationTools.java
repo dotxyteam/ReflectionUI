@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
@@ -71,16 +71,6 @@ public class CustomizationTools {
 		toolsUI = createToolsUI();
 		toolsCustomizationsFactory = createInfoCustomizationsFactory();
 		toolsRenderer = createToolsRenderer();
-		URL url = ReflectionUI.class.getResource("resource/customizations-tools.icu");
-		try {
-			File customizationsFile = FileUtils.getStreamAsFile(url.openStream());
-			String customizationsFilePath = customizationsFile.getPath();
-			toolsCustomizationsFactory.getInfoCustomizations().loadFromFile(new File(customizationsFilePath),
-					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
-		} catch (IOException e) {
-			throw new ReflectionUIError(e);
-		}
-
 	}
 
 	public SwingRenderer getToolsRenderer() {
@@ -104,10 +94,8 @@ public class CustomizationTools {
 
 	protected SwingRenderer createToolsRenderer() {
 		if (isToolsCustomizationAllowed()) {
-			String customizationToolsCustomizationsOutputFilePath = System
-					.getProperty(SystemProperties.INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH);
 			return new SwingCustomizer(toolsUI, toolsCustomizationsFactory.getInfoCustomizations(),
-					customizationToolsCustomizationsOutputFilePath) {
+					SystemProperties.getInfoCustomizationToolsCustomizationsFilePath()) {
 
 				@Override
 				protected CustomizationTools createCustomizationTools() {
@@ -202,7 +190,21 @@ public class CustomizationTools {
 	}
 
 	protected InfoCustomizationsFactory createInfoCustomizationsFactory() {
-		return new InfoCustomizationsFactory(toolsUI, new InfoCustomizations());
+		InfoCustomizations infoCustomizations = new InfoCustomizations();
+		try {
+			String customizationsFilePath = SystemProperties.getInfoCustomizationToolsCustomizationsFilePath();
+			if (customizationsFilePath == null) {
+				customizationsFilePath = FileUtils
+						.getStreamAsFile(
+								ReflectionUI.class.getResource("resource/customizations-tools.icu").openStream())
+						.getPath();
+			}
+			infoCustomizations.loadFromFile(new File(customizationsFilePath),
+					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
+		} catch (IOException e) {
+			throw new ReflectionUIError(e);
+		}
+		return new InfoCustomizationsFactory(toolsUI, infoCustomizations);
 	}
 
 	public Component makeButtonForTypeInfo(final Object object) {

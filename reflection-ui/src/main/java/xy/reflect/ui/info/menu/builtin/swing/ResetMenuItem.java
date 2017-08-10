@@ -5,8 +5,6 @@ import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 
 public class ResetMenuItem extends AbstractBuiltInActionMenuItem {
 
-	private static final long serialVersionUID = 1L;
-
 	public ResetMenuItem() {
 		name = "Reset";
 	}

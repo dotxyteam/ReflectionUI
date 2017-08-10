@@ -6,8 +6,10 @@ import java.util.List;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo.ValueListItem;
@@ -31,27 +33,38 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> columnFields;
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo rootItemType;
-	protected ListCustomization customization;
+	protected ListCustomization listCustomization;
 	protected List<IColumnInfo> columns;
 	protected IListTypeInfo listType;
+	protected ITypeInfo rootItemType;
 
 	public CustomizedStructuralInfo(ReflectionUI reflectionUI, IListStructuralInfo base, IListTypeInfo listType,
-			ListCustomization customization) {
+			ListCustomization listCustomization) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.listType = listType;
-		this.customization = customization;
+		this.listCustomization = listCustomization;
 		this.reflectionUI = reflectionUI;
-		this.rootItemType = listType.getItemType();
+		this.rootItemType = findRootItemType();
 		this.columnFields = collectFields();
 		this.columns = getColumns();
 
 	}
 
+	protected ITypeInfo findRootItemType() {
+		TreeStructureDiscoverySettings treeStructure = listCustomization.getTreeStructureDiscoverySettings();
+		if (treeStructure != null) {
+			ITypeInfoFinder nodeTypeFinder = treeStructure.getCustomBaseNodeTypeFinder();
+			if (nodeTypeFinder != null) {
+				return nodeTypeFinder.find(reflectionUI);
+			}
+		}
+		return listType.getItemType();
+	}
+
 	@Override
 	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
-		if (customization.getTreeStructureDiscoverySettings() == null) {
+		if (listCustomization.getTreeStructureDiscoverySettings() == null) {
 			return super.getItemSubListField(itemPosition);
 		}
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
@@ -99,7 +112,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	protected boolean isValidSubListNodeItemType(ITypeInfo type) {
-		if (customization.getTreeStructureDiscoverySettings().isHeterogeneousTree()) {
+		if (listCustomization.getTreeStructureDiscoverySettings().isHeterogeneousTree()) {
 			return true;
 		}
 		if (ReflectionUIUtils.equalsOrBothNull(rootItemType, type)) {
@@ -125,7 +138,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
 				String methodSignature = method.getSignature();
-				for (InfoFilter filter : customization.getMethodsExcludedFromItemDetails()) {
+				for (InfoFilter filter : listCustomization.getMethodsExcludedFromItemDetails()) {
 					if (filter.matches(methodSignature)) {
 						return true;
 					}
@@ -135,13 +148,13 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 			@Override
 			public boolean excludeField(IFieldInfo field) {
-				if (customization.getTreeStructureDiscoverySettings() != null) {
+				if (listCustomization.getTreeStructureDiscoverySettings() != null) {
 					List<IFieldInfo> subListCandidateFields = getItemSubListCandidateFields(itemPosition);
 					if (subListCandidateFields.contains(field)) {
 						return true;
 					}
 				}
-				for (InfoFilter filter : customization.getFieldsExcludedFromItemDetails()) {
+				for (InfoFilter filter : listCustomization.getFieldsExcludedFromItemDetails()) {
 					if (filter.matches(field.getName())) {
 						return true;
 					}
@@ -163,27 +176,28 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		final List<IColumnInfo> result = new ArrayList<IColumnInfo>();
 		result.addAll(super.getColumns());
 
-		if (customization.isStringValueColumnAdded()) {
+		if (listCustomization.isStringValueColumnAdded()) {
 			result.add(0, new StringValueColumnInfo(reflectionUI));
 		}
-		if (customization.isFieldColumnsAdded()) {
+		if (listCustomization.isFieldColumnsAdded()) {
 			int insertindex = 0;
 			for (final IFieldInfo field : columnFields) {
 				result.add(insertindex, new FieldColumnInfo(reflectionUI, rootItemType, field));
 				insertindex++;
 			}
 		}
-		if (customization.isItemTypeColumnAdded()) {
+		if (listCustomization.isItemTypeColumnAdded()) {
 			result.add(0, new TypeNameColumnInfo(reflectionUI));
 		}
-		if (customization.isPositionColumnAdded()) {
+		if (listCustomization.isPositionColumnAdded()) {
 			result.add(0, new PositionColumnInfo());
 		}
 
 		final List<IColumnInfo> filteredResult = new ArrayList<IColumnInfo>();
 
 		for (IColumnInfo column : result) {
-			final ColumnCustomization c = InfoCustomizations.getColumnCustomization(customization, column.getName());
+			final ColumnCustomization c = InfoCustomizations.getColumnCustomization(listCustomization,
+					column.getName());
 			if (c != null) {
 				if (c.isHidden()) {
 					continue;
@@ -198,6 +212,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 				}
 				if (c.getMinimalCharacterCount() != null) {
 					column = new ColumnInfoProxy(column) {
+
 						@Override
 						public int getMinimalCharacterCount() {
 							return c.getMinimalCharacterCount();
@@ -208,7 +223,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 			filteredResult.add(column);
 		}
 
-		List<String> customOrder = customization.getColumnsCustomOrder();
+		List<String> customOrder = listCustomization.getColumnsCustomOrder();
 		if (customOrder != null) {
 			Collections.sort(filteredResult, ReflectionUIUtils.getInfosComparator(customOrder, filteredResult));
 		}
@@ -235,7 +250,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((customization == null) ? 0 : customization.hashCode());
+		result = prime * result + ((listCustomization == null) ? 0 : listCustomization.hashCode());
 		result = prime * result + ((listType == null) ? 0 : listType.hashCode());
 		return result;
 	}
@@ -249,10 +264,10 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		CustomizedStructuralInfo other = (CustomizedStructuralInfo) obj;
-		if (customization == null) {
-			if (other.customization != null)
+		if (listCustomization == null) {
+			if (other.listCustomization != null)
 				return false;
-		} else if (!customization.equals(other.customization))
+		} else if (!listCustomization.equals(other.listCustomization))
 			return false;
 		if (listType == null) {
 			if (other.listType != null)
@@ -264,8 +279,8 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 
 	@Override
 	public String toString() {
-		return "CustomizedStructuralInfo [customization=" + customization + ", listType=" + listType + ", base=" + base
-				+ "]";
+		return "CustomizedStructuralInfo [customization=" + listCustomization + ", listType=" + listType + ", base="
+				+ base + "]";
 	}
 
 }

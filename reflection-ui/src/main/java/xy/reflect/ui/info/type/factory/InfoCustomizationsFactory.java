@@ -42,8 +42,8 @@ import xy.reflect.ui.info.field.ValueAsListFieldInfo;
 import xy.reflect.ui.info.field.VirtualFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
-import xy.reflect.ui.info.menu.IMenuItemContainer;
-import xy.reflect.ui.info.menu.MenuElementKind;
+import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.menu.MethodActionMenuItem;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
@@ -75,6 +75,7 @@ import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+@SuppressWarnings("unused")
 public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 
 	protected ReflectionUI reflectionUI;
@@ -955,7 +956,7 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 					.getVirtualFieldDeclarations()) {
 				inputFields.add(createVirtualField(virtualFieldDeclaration));
 			}
-			menuModel.importContributions(containingTypeCustomization.getMenuModel());
+			menuModel.importContributions(containingTypeCustomization.getMenuModelCustomization().createMenuModel());
 		}
 
 		protected IFieldInfo createVirtualField(VirtualFieldDeclaration virtualFieldDeclaration) {
@@ -1459,15 +1460,12 @@ public class InfoCustomizationsFactory extends TypeInfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.getMenuLocation() != null) {
-					List<IMenuItemContainer> ancestors = InfoCustomizations
-							.getMenuElementAncestors(containingTypeCustomization, mc.getMenuLocation());
-					if (ancestors != null) {
-						ancestors = new ArrayList<IMenuItemContainer>(ancestors);
-						ancestors.add(0, mc.getMenuLocation());
-						DefaultMenuElementPosition menuPosition = new DefaultMenuElementPosition(method.getCaption(),
-								MenuElementKind.ITEM, ancestors);
-						menuModel.importContribution(menuPosition,
-								new MethodActionMenuItem(new GeneratedMethodInfoProxy(method, containingType)));
+					IMenuElementPosition menuItemContainerPosition = InfoCustomizations.getMenuElementPosition(
+							containingTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
+					if (menuItemContainerPosition != null) {
+						IMenuElement actionMenuItem = new MethodActionMenuItem(
+								new GeneratedMethodInfoProxy(method, containingType));
+						menuModel.importContribution(menuItemContainerPosition, actionMenuItem);
 					}
 				}
 				return method;

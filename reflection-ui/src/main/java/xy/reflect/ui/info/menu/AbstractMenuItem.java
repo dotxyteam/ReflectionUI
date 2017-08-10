@@ -1,8 +1,6 @@
 package xy.reflect.ui.info.menu;
 
 public abstract class AbstractMenuItem extends AbstractMenuElement {
-	private static final long serialVersionUID = 1L;
-
 	protected String name = "";
 	
 	public AbstractMenuItem(String name) {

@@ -3,21 +3,7 @@ package xy.reflect.ui.info.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-
-import xy.reflect.ui.info.menu.builtin.ExitMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.HelpMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.OpenMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.RedoMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.ResetMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.SaveMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.UndoMenuItem;
-
 public class MenuItemCategory extends AbstractMenuElement implements IMenuItemContainer {
-	private static final long serialVersionUID = 1L;
-
 	protected String name = "";
 	protected List<AbstractMenuItem> items = new ArrayList<AbstractMenuItem>();
 
@@ -38,15 +24,6 @@ public class MenuItemCategory extends AbstractMenuElement implements IMenuItemCo
 	}
 
 	@Override
-	@XmlElements({ @XmlElement(name = "menu", type = Menu.class),
-			@XmlElement(name = "exitMenuItem", type = ExitMenuItem.class),
-			@XmlElement(name = "helpMenuItem", type = HelpMenuItem.class),
-			@XmlElement(name = "undoMenuItem", type = UndoMenuItem.class),
-			@XmlElement(name = "redoMenuItem", type = RedoMenuItem.class),
-			@XmlElement(name = "resetMenuItem", type = ResetMenuItem.class),
-			@XmlElement(name = "openMenuItem", type = OpenMenuItem.class),
-			@XmlElement(name = "saveMenuItem", type = SaveMenuItem.class),
-			@XmlElement(name = "saveAsMenuItem", type = SaveAsMenuItem.class) })
 	public List<AbstractMenuItem> getItems() {
 		return items;
 	}
