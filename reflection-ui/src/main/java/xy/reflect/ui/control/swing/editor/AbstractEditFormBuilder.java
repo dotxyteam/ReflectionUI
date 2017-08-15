@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.control.IContext;
-import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -144,7 +143,7 @@ public abstract class AbstractEditFormBuilder {
 		result.setFieldCaption(getEncapsulatedFieldCaption());
 		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 		{
-			typeSpecificProperties.put(SwingCustomizer.CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY,
+			typeSpecificProperties.put(SwingRenderer.CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY,
 					!isEncapsulationTypeCustomizationAllowed());
 			result.setTypeSpecificProperties(typeSpecificProperties);
 		}

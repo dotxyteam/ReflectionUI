@@ -69,17 +69,10 @@ import xy.reflect.ui.control.swing.NullControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.PrimitiveValueControl;
 import xy.reflect.ui.control.swing.TextControl;
-import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
-import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
-import xy.reflect.ui.control.swing.plugin.SliderPlugin;
-import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
-import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -104,12 +97,14 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.Visitor;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 import xy.reflect.ui.util.component.WrapLayout;
 
 public class SwingRenderer {
+
+	public static final String CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY = SwingRenderer.class.getName()
+			+ ".CUSTOMIZATIONS_FORBIDDEN";
 
 	protected static SwingRenderer defaultInstance;
 
@@ -150,13 +145,7 @@ public class SwingRenderer {
 
 	public static SwingRenderer getDefault() {
 		if (defaultInstance == null) {
-			if (SystemProperties.areDefaultInfoCustomizationsActive()
-					&& !SystemProperties.areCustomizationToolsDisabled()) {
-				defaultInstance = new SwingCustomizer(ReflectionUI.getDefault(), InfoCustomizations.getDefault(),
-						SystemProperties.getDefaultInfoCustomizationsFilePath());
-			} else {
-				defaultInstance = new SwingRenderer(ReflectionUI.getDefault());
-			}
+			defaultInstance = new SwingRenderer(ReflectionUI.getDefault());
 		}
 		return defaultInstance;
 
@@ -604,11 +593,6 @@ public class SwingRenderer {
 
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
-		result.add(new SliderPlugin());
-		result.add(new SpinnerPlugin());
-		result.add(new FileBrowserPlugin());
-		result.add(new ColorPickerPlugin());
-		result.add(new ImageViewPlugin());
 		return result;
 	}
 

@@ -8,11 +8,9 @@ import java.util.Map;
 import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.StandardEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
@@ -28,8 +26,8 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder().maximumSize(SystemProperties.getStandardCacheSize())
-			.<ITypeInfoSource, ITypeInfo>build().asMap();
+	protected Map<ITypeInfoSource, ITypeInfo> typeInfoBySource = CacheBuilder.newBuilder()
+			.maximumSize(SystemProperties.getStandardCacheSize()).<ITypeInfoSource, ITypeInfo>build().asMap();
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
 			.<Object, ITypeInfo>build().asMap();
 
@@ -38,18 +36,7 @@ public class ReflectionUI {
 
 	public static ReflectionUI getDefault() {
 		if (defaultInstance == null) {
-			defaultInstance = new ReflectionUI() {
-
-				@Override
-				public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-					ITypeInfo result = super.getTypeInfo(typeSource);
-					if (SystemProperties.areDefaultInfoCustomizationsActive()) {
-						result = new InfoCustomizationsFactory(this, InfoCustomizations.getDefault()).get(result);
-					}
-					return result;
-				}
-
-			};
+			defaultInstance = new ReflectionUI();
 		}
 		return defaultInstance;
 	}

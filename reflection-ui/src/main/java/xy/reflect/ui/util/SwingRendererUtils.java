@@ -83,8 +83,6 @@ public class SwingRendererUtils {
 	public static final ImageIcon REMOVE_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/remove.png"));
 	public static final ImageIcon UP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/up.png"));
 	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
-	public static final ImageIcon CUSTOMIZATION_ICON = new ImageIcon(
-			ReflectionUI.class.getResource("resource/custom.png"));
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
 	public static Map<String, Image> IMAGE_CACHE = new HashMap<String, Image>();
