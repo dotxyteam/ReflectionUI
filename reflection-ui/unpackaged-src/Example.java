@@ -16,14 +16,7 @@ public class Example {
 		/* Most basic use case: */
 		Object myObject = new Date();
 		SwingRenderer.getDefault().openObjectFrame(myObject);
-		/*
-		 * You can customize a lot of aspects of the generated UI by using the
-		 * integrated customizations editor (displayed by default). When you are
-		 * done customizing, the customizations editor must be hidden by setting
-		 * the following JVM property:
-		 * "-Dxy.reflect.ui.infoCustomizationsToolsHidden=true".
-		 */
-
+		
 		/* You can open a dialog instead of a frame: */
 		SwingRenderer.getDefault().openObjectDialog(null, myObject);
 
