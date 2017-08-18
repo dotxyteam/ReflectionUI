@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>reflection-ui</artifactId>
-	<version>3.0.3</version>
+	<version>3.0.6</version>
 	<name>Reflection UI</name>
 	<description>Generates automatically the GUI of any Java object</description>
 	<url>http://javacollection.net/reflectionui/</url>
@@ -119,13 +119,16 @@
 				<version>1.8</version>
 				<executions>
 					<execution>
-						<phase>generate-resources</phase>
+						<phase>package</phase>
 						<configuration>
 							<target>
-								<ant antfile="tools/build-html-examples/build.xml">
-									<property name="basedir" value="${basedir}/tools/build-html-examples">
-									</property>
-								</ant>
+								<echoxml file="${basedir}/tools/last-deployed-maven-artifact.xml">
+									<dependency>
+										<groupId>${project.groupId}</groupId>
+										<artifactId>${project.artifactId}</artifactId>
+										<version>${project.version}</version>
+									</dependency>
+								</echoxml>
 							</target>
 						</configuration>
 						<goals>
