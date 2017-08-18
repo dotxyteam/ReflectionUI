@@ -119,7 +119,7 @@
 				<version>1.8</version>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>deploy</phase>
 						<configuration>
 							<target>
 								<echoxml file="${basedir}/tools/last-deployed-maven-artifact.xml">
