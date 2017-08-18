@@ -447,7 +447,7 @@ public class SwingRendererUtils {
 			} else {
 				widthGrowth = 0;
 			}
-			heightGrowth = 2 * characterSize;
+			heightGrowth = 4 * characterSize;
 			bounds.width += widthGrowth;
 			bounds.height += heightGrowth;
 		}
