@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
@@ -40,11 +41,28 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		{
 			updateTextComponent();
 			scrollPane = createScrollPane();
+			updateScrollPolicy();
 			scrollPane.setViewportView(textComponent);
 			scrollPane.setBorder(null);
 			add(scrollPane, BorderLayout.CENTER);
 		}
 		SwingRendererUtils.handleComponentSizeChange(this);
+	}
+
+	protected void updateScrollPolicy() {
+		if (scrollPane != null) {
+			if (isMultiline()) {
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			} else {
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			}
+		}
+	}
+
+	protected boolean isMultiline() {
+		return textComponent.getText().indexOf('\n') != -1;
 	}
 
 	protected JScrollPane createScrollPane() {
@@ -55,18 +73,15 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
-				result = fixScrollPaneSizeWHenVerticalBarVisible(result);
-				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
-				result.width = Math.min(result.width, characterSize * 20);
-				result.height = Math.min(result.height, SwingRendererUtils.getScreenSize(this).height / 3);
-				return result;
-			}
-
-			private Dimension fixScrollPaneSizeWHenVerticalBarVisible(Dimension size) {
-				if (getHorizontalScrollBar().isVisible()) {
-					size.height += getHorizontalScrollBar().getPreferredSize().height;
+				if (isMultiline()) {
+					result.height += getHorizontalScrollBar().getPreferredSize().height;
 				}
-				return size;
+				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
+				int maxPreferredWidth = characterSize * 20;
+				int maxPreferredHeight = SwingRendererUtils.getScreenSize(this).height / 3;
+				result.width = Math.min(result.width, maxPreferredWidth);
+				result.height = Math.min(result.height, maxPreferredHeight);
+				return result;
 			}
 		};
 	}
@@ -88,6 +103,12 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 				textComponentEditHappened();
 			}
 
+			@Override
+			public void setText(String t) {
+				super.setText(t);
+				updateScrollPolicy();
+			}
+
 		};
 		if (data.isGetOnly()) {
 			result.setEditable(false);
@@ -106,6 +127,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void textComponentEditHappened() {
+		updateScrollPolicy();
 		if (listenerDisabled) {
 			return;
 		}
@@ -125,7 +147,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		listenerDisabled = true;
 		try {
 			String newText = (String) data.getValue();
-			if(newText == null){
+			if (newText == null) {
 				newText = "";
 			}
 			if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
