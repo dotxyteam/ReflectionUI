@@ -2,30 +2,30 @@ package xy.reflect.ui.info.menu;
 
 public class DefaultMenuElementPosition implements IMenuElementPosition {
 
-	protected IMenuElementPosition parent;
+	protected DefaultMenuElementPosition parent;
 	protected String elementName;
 	protected MenuElementKind elementKind;
 
-	public DefaultMenuElementPosition(String elementName, MenuElementKind elementKind, IMenuElementPosition parent) {
+	public DefaultMenuElementPosition(String elementName, MenuElementKind elementKind, DefaultMenuElementPosition parent) {
 		this.elementName = elementName;
 		this.elementKind = elementKind;
 		this.parent = parent;
 	}
 
 	public DefaultMenuElementPosition getRoot() {
-		IMenuElementPosition result = this;
+		DefaultMenuElementPosition result = this;
 		while (result.getParent() != null) {
 			result = result.getParent();
 		}
-		return null;
+		return result;
 	}
 
 	@Override
-	public IMenuElementPosition getParent() {
+	public DefaultMenuElementPosition getParent() {
 		return parent;
 	}
 
-	public void setParent(IMenuElementPosition parent) {
+	public void setParent(DefaultMenuElementPosition parent) {
 		this.parent = parent;
 	}
 
