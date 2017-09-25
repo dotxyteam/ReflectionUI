@@ -761,16 +761,16 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static JMenuItem createJMenuActionItem(final AbstractActionMenuItem actionItem,
+	public static JMenuItem createJMenuActionItem(final AbstractActionMenuItem actionMenuItem,
 			final SwingRenderer swingRenderer) {
-		final JPanel form = swingRenderer.getFormByActionMenuItem().get(actionItem);
+		final JPanel form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
 		JMenuItem result = new JMenuItem(new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					actionItem.execute(form, swingRenderer);
+					actionMenuItem.execute(form, swingRenderer);
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
 				}
@@ -778,11 +778,11 @@ public class SwingRendererUtils {
 
 		});
 		try {
-			result.setText(actionItem.getName(form, swingRenderer));
-			if (!actionItem.isEnabled(form, swingRenderer)) {
+			result.setText(actionMenuItem.getName(form, swingRenderer));
+			if (!actionMenuItem.isEnabled(form, swingRenderer)) {
 				result.setEnabled(false);
 			}
-			result.setIcon(getMenuItemIcon(swingRenderer, actionItem));
+			result.setIcon(getMenuItemIcon(swingRenderer, actionMenuItem));
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 			if (result.getText() == null) {

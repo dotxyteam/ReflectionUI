@@ -127,34 +127,30 @@ public class ReflectionUI {
 		logError(ReflectionUIUtils.getPrintedStackTrace(t));
 	}
 
-	public static void main(String[] args) {
-		try {
-			Class<?> clazz = Object.class;
-			String usageText = "Expected arguments: [ <className> | --help ]"
-					+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
-					+ "\n  => --help: Displays this help message" + "\n"
-					+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
-			if (args.length == 0) {
-				clazz = Object.class;
-			} else if (args.length == 1) {
-				if (args[0].equals("--help")) {
-					System.out.println(usageText);
-					return;
-				} else {
-					clazz = Class.forName(args[0]);
-				}
-			} else {
-				throw new IllegalArgumentException(usageText);
-			}
-			Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
-					ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz)));
-			if (object == null) {
+	public static void main(String[] args) throws Exception{
+		Class<?> clazz = Object.class;
+		String usageText = "Expected arguments: [ <className> | --help ]"
+				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
+				+ "\n  => --help: Displays this help message" + "\n"
+				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
+		if (args.length == 0) {
+			clazz = Object.class;
+		} else if (args.length == 1) {
+			if (args[0].equals("--help")) {
+				System.out.println(usageText);
 				return;
+			} else {
+				clazz = Class.forName(args[0]);
 			}
-			SwingRenderer.getDefault().openObjectFrame(object);
-		} catch (Throwable t) {
-			SwingRenderer.getDefault().handleExceptionsFromDisplayedUI(null, t);
+		} else {
+			throw new IllegalArgumentException(usageText);
 		}
+		Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
+				ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz)));
+		if (object == null) {
+			return;
+		}
+		SwingRenderer.getDefault().openObjectFrame(object);
 	}
 
 	@Override

@@ -1,3 +1,6 @@
+- advertise:
+	. on RCP forums ???
+- add website checks
 - in this context of chained transformations values origin should be traceable
 in case of inconsistance
 - ListControl issue: can make tree table control larger but not smaller

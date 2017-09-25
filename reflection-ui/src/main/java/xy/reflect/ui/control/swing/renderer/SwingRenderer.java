@@ -93,6 +93,7 @@ import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -926,7 +927,6 @@ public class SwingRenderer {
 
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
 		try {
-
 			if (type.isConcrete() && (type.getConstructors().size() > 0)) {
 				List<IMethodInfo> constructors = type.getConstructors();
 				final IMethodInfo chosenConstructor;
@@ -1037,10 +1037,7 @@ public class SwingRenderer {
 					}
 				}
 			}
-
-		} catch (
-
-		Throwable t) {
+		} catch (Throwable t) {
 			throw new ReflectionUIError(
 					"Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
 
@@ -1143,7 +1140,13 @@ public class SwingRenderer {
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
-		openObjectDialog(activatorComponent, error);
+		String statckTraceString = ReflectionUIUtils.getPrintedStackTrace(error);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
+				reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(statckTraceString)), "Error Details", "");
+		encapsulation.setFieldGetOnly(true);
+		encapsulation.setFieldNullValueDistinct(false);
+		Object encapsulatedValue = encapsulation.getInstance(Accessor.<Object>returning(statckTraceString));
+		openObjectDialog(activatorComponent, encapsulatedValue);
 	}
 
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
@@ -1408,6 +1411,7 @@ public class SwingRenderer {
 			} else {
 				throw new ReflectionUIError();
 			}
+			captionControlLayoutConstraints.weightx = 0.0;
 			captionControlLayoutConstraints.weighty = 1.0;
 			captionControlLayoutConstraints.anchor = GridBagConstraints.WEST;
 			container.add(captionControl, captionControlLayoutConstraints);
@@ -1465,7 +1469,8 @@ public class SwingRenderer {
 	}
 
 	public Component createSeparateCaptionControl(String caption) {
-		return new JLabel(prepareStringToDisplay(caption + ": "));
+		JLabel result = new JLabel(prepareStringToDisplay(caption + ": "));
+		return result;
 	}
 
 	public void updateMenuBar(final JPanel form) {

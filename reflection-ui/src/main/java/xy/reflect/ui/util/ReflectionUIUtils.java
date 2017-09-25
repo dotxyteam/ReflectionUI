@@ -1232,6 +1232,7 @@ public class ReflectionUIUtils {
 		List<IMenuElementPosition> result = new ArrayList<IMenuElementPosition>();
 		while (elementPosition.getParent() != null) {
 			result.add(elementPosition.getParent());
+			elementPosition = elementPosition.getParent();
 		}
 		return result;
 	}
