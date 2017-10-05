@@ -37,7 +37,6 @@ public class NullControl extends JPanel implements IAdvancedFieldControl {
 		setLayout(new BorderLayout());
 		add(labelComponent = createLabelComponent(), BorderLayout.CENTER);
 		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-
 		setupAction();
 	}
 

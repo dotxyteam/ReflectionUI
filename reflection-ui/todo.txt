@@ -1,3 +1,4 @@
+- null control can disappear when form layout is horizontal
 - advertise:
 	. on RCP forums ???
 - add website checks

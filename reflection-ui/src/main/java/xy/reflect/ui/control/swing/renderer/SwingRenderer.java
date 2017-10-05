@@ -95,6 +95,7 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -126,10 +127,9 @@ public class SwingRenderer {
 			.weakKeys().makeMap();
 	protected Map<JPanel, Container> categoriesControlByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, Boolean> refreshRequestQueuedByForm = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, Boolean> refreshRequestExecutingByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, DelayedUpdateProcess> updateProcessByForm = new MapMaker().weakKeys().makeMap();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -176,12 +176,8 @@ public class SwingRenderer {
 		return modificationStackForwardingStatusByForm;
 	}
 
-	public Map<JPanel, Boolean> getRefreshRequestQueuedByForm() {
-		return refreshRequestQueuedByForm;
-	}
-
-	public Map<JPanel, Boolean> getRefreshRequestExecutingByForm() {
-		return refreshRequestExecutingByForm;
+	public Map<JPanel, DelayedUpdateProcess> getUpdateProcessByForm() {
+		return updateProcessByForm;
 	}
 
 	public Map<Component, IFieldControlPlugin> getPluginByFieldControl() {
@@ -444,26 +440,22 @@ public class SwingRenderer {
 	}
 
 	public void ensureFormGetsRefreshed(final JPanel form) {
-		Thread thread = new Thread("Refresher[of=" + form + "]") {
+		DelayedUpdateProcess formUpdateProcess = getUpdateProcessByForm().get(form);
+		if (formUpdateProcess == null) {
+			formUpdateProcess = createFormUpdateProcess(form);
+			getUpdateProcessByForm().put(form, formUpdateProcess);
+		}
+		formUpdateProcess.schedule();
+	}
+
+	public DelayedUpdateProcess createFormUpdateProcess(final JPanel form) {
+		return new DelayedUpdateProcess() {
 			@Override
-			public void run() {
-				if (isRefreshRequestQueued()) {
-					return;
-				}
-				setRefreshRequestQueued(true);
-				while (isRefreshRequestExecuting()) {
-					try {
-						sleep(100);
-					} catch (InterruptedException e) {
-						throw new ReflectionUIError(e);
-					}
-				}
-				setRefreshRequestQueued(false);
-				setRefreshRequestExecuting(true);
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
+			protected void run() {
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
 							refreshAllFieldControls(form, false);
 							Object object = getObjectByForm().get(form);
 							for (JPanel otherForm : SwingRendererUtils.findObjectForms(object, SwingRenderer.this)) {
@@ -476,30 +468,13 @@ public class SwingRenderer {
 									}
 								}
 							}
-						} finally {
-							setRefreshRequestExecuting(false);
 						}
-					}
-				});
-			}
-
-			private void setRefreshRequestExecuting(boolean b) {
-				getRefreshRequestExecutingByForm().put(form, b);
-			}
-
-			private void setRefreshRequestQueued(boolean b) {
-				getRefreshRequestQueuedByForm().put(form, b);
-			}
-
-			private boolean isRefreshRequestExecuting() {
-				return Boolean.TRUE.equals(getRefreshRequestExecutingByForm().get(form));
-			}
-
-			private boolean isRefreshRequestQueued() {
-				return Boolean.TRUE.equals(getRefreshRequestQueuedByForm().get(form));
+					});
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
 			}
 		};
-		thread.start();
 	}
 
 	public Component createErrorControl(final Throwable t) {
