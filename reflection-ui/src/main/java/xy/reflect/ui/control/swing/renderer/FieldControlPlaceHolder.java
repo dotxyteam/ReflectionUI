@@ -26,6 +26,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -91,6 +92,52 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	@Override
 	public ModificationStack getModificationStack() {
 		return this.swingRenderer.getModificationStackByForm().get(form);
+	}
+
+	public DelayedUpdateProcess createDelayedUpdateProcess(final Runnable updateJob) {
+		DelayedUpdateProcess result = new DelayedUpdateProcess() {
+
+			@Override
+			protected void run() {
+				updateJob.run();
+			}
+		};
+		result.setDelayMilliseconds(500);
+		return result;
+	}
+
+	public IFieldControlData handleStressfulUpdates(final IFieldControlData data) {
+		return new FieldControlDataProxy(data) {
+
+			Object delayedFieldValue;
+			boolean delaying = false;
+			DelayedUpdateProcess delayedUpdateProcess = createDelayedUpdateProcess(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						data.setValue(delayedFieldValue);
+					} finally {
+						delaying = false;
+					}
+				}
+			});
+
+			@Override
+			public Object getValue() {
+				if (delaying) {
+					return delayedFieldValue;
+				} else {
+					return data.getValue();
+				}
+			}
+
+			@Override
+			public void setValue(Object newValue) {
+				delayedFieldValue = newValue;
+				delaying = true;
+				delayedUpdateProcess.schedule();
+			}
+		};
 	}
 
 	public IFieldControlData makeFieldModificationsUndoable(final IFieldControlData data) {
@@ -250,7 +297,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		}
 	}
 
-	protected boolean isFieldControlObsolete() {
+	public boolean isFieldControlObsolete() {
 		IFieldControlData newInitialControlData;
 		try {
 			newInitialControlData = getInitialControlData();
@@ -283,6 +330,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		result = indicateWhenBusy(result);
 		result = handleValueAccessIssues(result);
 		result = makeFieldModificationsUndoable(result);
+		result = handleStressfulUpdates(result);
 		return result;
 	}
 

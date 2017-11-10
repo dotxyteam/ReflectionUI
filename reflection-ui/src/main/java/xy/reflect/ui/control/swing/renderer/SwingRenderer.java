@@ -95,7 +95,6 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -129,8 +128,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
-	protected Map<JPanel, DelayedUpdateProcess> updateProcessByForm = new MapMaker().weakKeys().makeMap();
-
+	
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
@@ -176,10 +174,7 @@ public class SwingRenderer {
 		return modificationStackForwardingStatusByForm;
 	}
 
-	public Map<JPanel, DelayedUpdateProcess> getUpdateProcessByForm() {
-		return updateProcessByForm;
-	}
-
+	
 	public Map<Component, IFieldControlPlugin> getPluginByFieldControl() {
 		return pluginByFieldControl;
 	}
@@ -408,7 +403,7 @@ public class SwingRenderer {
 					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(result))) {
 						return;
 					}
-					ensureFormGetsRefreshed(result);
+					onFieldsUpdate(result);
 				}
 			};
 
@@ -439,42 +434,24 @@ public class SwingRenderer {
 		return result;
 	}
 
-	public void ensureFormGetsRefreshed(final JPanel form) {
-		DelayedUpdateProcess formUpdateProcess = getUpdateProcessByForm().get(form);
-		if (formUpdateProcess == null) {
-			formUpdateProcess = createFormUpdateProcess(form);
-			getUpdateProcessByForm().put(form, formUpdateProcess);
-		}
-		formUpdateProcess.schedule();
-	}
-
-	public DelayedUpdateProcess createFormUpdateProcess(final JPanel form) {
-		return new DelayedUpdateProcess() {
+	public void onFieldsUpdate(final JPanel form) {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
-			protected void run() {
-				try {
-					SwingUtilities.invokeAndWait(new Runnable() {
-						@Override
-						public void run() {
-							refreshAllFieldControls(form, false);
-							Object object = getObjectByForm().get(form);
-							for (JPanel otherForm : SwingRendererUtils.findObjectForms(object, SwingRenderer.this)) {
-								if (otherForm != form) {
-									ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
-									if (otherForm.isDisplayable()) {
-										getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.TRUE);
-										otherModifStack.invalidate();
-										getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.FALSE);
-									}
-								}
-							}
+			public void run() {
+				refreshAllFieldControls(form, false);
+				Object object = getObjectByForm().get(form);
+				for (JPanel otherForm : SwingRendererUtils.findObjectForms(object, SwingRenderer.this)) {
+					if (otherForm != form) {
+						ModificationStack otherModifStack = getModificationStackByForm().get(otherForm);
+						if (otherForm.isDisplayable()) {
+							getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.TRUE);
+							otherModifStack.invalidate();
+							getFieldsUpdateListenerDisabledByForm().put(otherForm, Boolean.FALSE);
 						}
-					});
-				} catch (Exception e) {
-					throw new ReflectionUIError(e);
+					}
 				}
 			}
-		};
+		});
 	}
 
 	public Component createErrorControl(final Throwable t) {
