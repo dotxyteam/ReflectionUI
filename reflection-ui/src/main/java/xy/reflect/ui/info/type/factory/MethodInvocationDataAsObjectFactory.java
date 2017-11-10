@@ -240,7 +240,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 		@Override
 		public String getOnlineHelp() {
-			return null;
+			return method.getOnlineHelp();
 		}
 
 		@Override

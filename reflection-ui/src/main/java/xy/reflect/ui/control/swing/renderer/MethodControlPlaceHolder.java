@@ -74,7 +74,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		return result;
 	}
 
-	protected int getIndentWidth() {
+	public int getIndentWidth() {
 		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
 	}
 

@@ -110,10 +110,7 @@ public class MethodAction extends AbstractAction {
 		}
 		JPanel methodForm = swingRenderer.createForm(createParametersObject(invocationData));
 		List<Component> toolbarControls = new ArrayList<Component>();
-		String doc = data.getOnlineHelp();
-		if ((doc != null) && (doc.trim().length() > 0)) {
-			toolbarControls.add(swingRenderer.createOnlineHelpControl(doc));
-		}
+		toolbarControls.addAll(swingRenderer.createFormCommonToolbarControls(methodForm));
 		final JButton invokeButton = new JButton(data.getCaption());
 		{
 			invokeButton.addActionListener(new ActionListener() {

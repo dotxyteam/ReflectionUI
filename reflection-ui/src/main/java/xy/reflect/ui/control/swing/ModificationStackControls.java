@@ -144,7 +144,8 @@ public class ModificationStackControls {
 			@Override
 			public String get() {
 				if (modificationStack.getUndoSize() > 0) {
-					return modificationStack.getUndoModifications()[0].getTitle();
+					return modificationStack.getUndoModifications()[modificationStack.getUndoModifications().length - 1]
+							.getTitle();
 				} else {
 					return null;
 				}

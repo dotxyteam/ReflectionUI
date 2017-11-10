@@ -11,7 +11,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class MethodControl extends JButton {
+public class MethodControl extends JButton implements ActionListener {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -33,17 +33,17 @@ public class MethodControl extends JButton {
 			SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));
 		}
 		setIcon(SwingRendererUtils.getMethodIcon(swingRenderer, data));
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MethodAction action = swingRenderer.createMethodAction(input);
-				try {
-					action.actionPerformed(e);
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(MethodControl.this, t);
-				}
-			}
-		});
+		addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		MethodAction action = swingRenderer.createMethodAction(input);
+		try {
+			action.actionPerformed(e);
+		} catch (Throwable t) {
+			swingRenderer.handleExceptionsFromDisplayedUI(MethodControl.this, t);
+		}
 	}
 
 	@Override
