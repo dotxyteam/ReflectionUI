@@ -900,7 +900,7 @@ public class ReflectionUIUtils {
 		boolean parentObjectImpacted = false;
 		if (valueModifAccepted) {
 			if (!valueModifStack.isNull()) {
-				parentObjectImpacted = parentObjectModifStack.insideComposite(editSessionTarget, editSessionTitle + "'",
+				parentObjectImpacted = parentObjectModifStack.insideComposite(editSessionTarget, editSessionTitle,
 						UndoOrder.FIFO, new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
@@ -1007,9 +1007,12 @@ public class ReflectionUIUtils {
 				}
 				return resultHolder[0];
 			} else {
-				Object result = data.invoke(invocationData);
-				modifStack.invalidate();
-				return result;
+				try {
+					Object result = data.invoke(invocationData);
+					return result;
+				} finally {
+					modifStack.invalidate();
+				}
 			}
 		}
 	}
