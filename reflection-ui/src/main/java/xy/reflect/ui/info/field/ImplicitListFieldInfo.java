@@ -347,7 +347,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public boolean isItemConstructorSelectable() {
-			return false;
+			return true;
 		}
 
 		@Override

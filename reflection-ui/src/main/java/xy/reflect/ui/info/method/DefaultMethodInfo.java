@@ -57,7 +57,7 @@ public class DefaultMethodInfo   extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isNullReturnValueDistinct() {
-		return false;
+		return !getReturnValueType().isPrimitive();
 	}
 
 	@Override

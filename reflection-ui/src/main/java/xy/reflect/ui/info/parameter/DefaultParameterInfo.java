@@ -100,7 +100,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	@Override
 	public boolean isNullValueDistinct() {
-		return false;
+		return !getType().isPrimitive();
 	}
 
 	@Override

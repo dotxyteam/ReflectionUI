@@ -78,7 +78,7 @@ public class MethodAsFieldInfo   extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullValueDistinct() {
-		return false;
+		return !getType().isPrimitive();
 	}
 
 	@Override
