@@ -30,7 +30,7 @@ public class Example {
 		hideSomeFieldsAndMethods();
 		addVirtualFieldsAndMethods();
 		overrideToStringMethod();
-		customizeCopyPasteFeature();
+		customizeCopyCutPasteFeature();
 	}
 
 	private static void openObjectDialog() {
@@ -43,7 +43,7 @@ public class Example {
 
 	private static void justCreateObjectForm() {
 		/*
-		 * create JPanel-based form in order to include it in GUI as a sub-component.
+		 * create JPanel-based form in order to include it in a GUI as a sub-component.
 		 */
 		Object myObject = new Example();
 		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject), "As a form",
@@ -71,8 +71,7 @@ public class Example {
 					}
 
 					/*
-					 * Many more methods can be overriden. Explore the class TypeInfoProxyFactory to
-					 * find out...
+					 * Many more methods can be overriden. Explore the class to find out...
 					 */
 
 				}.wrapType(super.getTypeInfo(typeSource));
@@ -84,19 +83,21 @@ public class Example {
 	}
 
 	private static void preventFromSettingNull() {
-		/*
-		 * By default the generated UI will allow to set <null> on non-primitive values.
-		 * However usually the developers would not allow to set <null> from their UI in
-		 * spite of the fact that it is allowed by the language. The methods below allow
-		 * to selectively disable the nullable facet of any value displayed in the
-		 * generated UI.
-		 */
 		Object myObject = new Example();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				return new InfoProxyFactory() {
+
+					/*
+					 * By default the generated UI will allow to set <null> on non-primitive values.
+					 * However usually the developers would not allow to set <null> from their UI in
+					 * spite of the fact that it is allowed by the language. The methods below allow
+					 * to selectively disable the nullable facet of any value displayed in the
+					 * generated UI.
+					 */
+
 					@Override
 					protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method,
 							ITypeInfo containingType) {
@@ -126,6 +127,7 @@ public class Example {
 							return false;
 						}
 					}
+
 				}.wrapType(super.getTypeInfo(typeSource));
 			}
 
@@ -134,73 +136,17 @@ public class Example {
 		swingRenderer.openObjectDialog(null, myObject, "Never null fields", null, false, true);
 	}
 
-	private static void overrideToStringMethod() {
-		/*
-		 * if your class "toString" method (used by some field controls) is not
-		 * implemented as you want then:
-		 */
-		Object myObject = new Example();
-		ReflectionUI reflectionUI = new ReflectionUI() {
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyFactory() {
-					@Override
-					public String toString(ITypeInfo type, Object object) {
-						return "OVERRIDEN: " + super.toString(type, object);
-					}
-
-				}.wrapType(super.getTypeInfo(typeSource));
-			}
-
-		};
-		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Overriden toString() methods", null, false, true);
-	}
-
-	private static void customizeCopyPasteFeature() {
-		/*
-		 * copy/cut/paste: By default this feature is enabled on collections/arrays but
-		 * only for Serializable items. If your item class does not implement the
-		 * Serializable interface yet you want to allow to copy its instances (or if you
-		 * want to customize the copy process) then override the following methods. Here
-		 * actually we will disable this feature on all lists:
-		 */
-		Object myObject = new Example();
-		ReflectionUI reflectionUI = new ReflectionUI() {
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyFactory() {
-
-					@Override
-					public boolean canCopy(ITypeInfo type, Object object) {
-						return false;
-					}
-
-					@Override
-					public Object copy(ITypeInfo type, Object object) {
-						throw new AssertionError();
-					}
-
-				}.wrapType(super.getTypeInfo(typeSource));
-			}
-
-		};
-		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Disabled copy/cut/paste in lists", null, false, true);
-	}
-
 	private static void hideSomeFieldsAndMethods() {
-		/*
-		 * This is how you can hide fields and methods:
-		 */
 		Object myObject = new Example();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				return new InfoProxyFactory() {
+
+					/*
+					 * This is how you can hide fields and methods:
+					 */
 
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {
@@ -237,16 +183,17 @@ public class Example {
 	}
 
 	private static void addVirtualFieldsAndMethods() {
-		/*
-		 * This is how you can add virtual fields and methods that would generally be
-		 * calculated from the existing ones:
-		 */
 		Object myObject = new Example();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 				return new InfoProxyFactory() {
+
+					/*
+					 * This is how you can add virtual fields and methods that would generally be
+					 * calculated from the existing ones:
+					 */
 
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {
@@ -310,6 +257,66 @@ public class Example {
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
 		swingRenderer.openObjectDialog(null, myObject, "Added virtual members", null, false, true);
+	}
+
+	private static void overrideToStringMethod() {
+		Object myObject = new Example();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+
+					/*
+					 * If some of your classes "toString" methods (used by some field controls) are
+					 * not implemented as you want then:
+					 */
+
+					@Override
+					public String toString(ITypeInfo type, Object object) {
+						return "OVERRIDEN: " + super.toString(type, object);
+					}
+
+				}.wrapType(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Overriden toString() methods", null, false, true);
+	}
+
+	private static void customizeCopyCutPasteFeature() {
+		Object myObject = new Example();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+
+					/*
+					 * copy/cut/paste: By default this feature is enabled on collections/arrays but
+					 * only for Serializable items. If your item class does not implement the
+					 * Serializable interface yet you want to allow to copy its instances (or if you
+					 * want to customize the copy process) then override the following methods. Here
+					 * actually we will simply disable the feature on all lists:
+					 */
+
+					@Override
+					public boolean canCopy(ITypeInfo type, Object object) {
+						return false;
+					}
+
+					@Override
+					public Object copy(ITypeInfo type, Object object) {
+						throw new AssertionError();
+					}
+
+				}.wrapType(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Disabled copy/cut/paste in lists", null, false, true);
 	}
 
 	/*
