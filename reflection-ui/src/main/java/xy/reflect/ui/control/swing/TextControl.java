@@ -3,14 +3,21 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.Action;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.text.DefaultEditorKit;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -87,7 +94,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected JTextArea createTextComponent() {
-		JTextArea result = new JTextArea() {
+		final JTextArea result = new JTextArea() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -123,6 +130,47 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			});
 		}
 		result.setBorder(new JTextField().getBorder());
+		result.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				maybeShowPopup(e);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				maybeShowPopup(e);
+			}
+
+			private void maybeShowPopup(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					JPopupMenu popup = new JPopupMenu();
+					popup.add(new JMenuItem(new DefaultEditorKit.CopyAction() {
+						private static final long serialVersionUID = 1L;
+
+						{
+							putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Copy"));
+						}
+					}));
+					if (result.isEditable()) {
+						popup.add(new JMenuItem(new DefaultEditorKit.CutAction() {
+							private static final long serialVersionUID = 1L;
+
+							{
+								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Cut"));
+							}
+						}));
+						popup.add(new JMenuItem(new DefaultEditorKit.PasteAction() {
+							private static final long serialVersionUID = 1L;
+
+							{
+								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Paste"));
+							}
+						}));
+					}
+					popup.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
 		return result;
 	}
 
