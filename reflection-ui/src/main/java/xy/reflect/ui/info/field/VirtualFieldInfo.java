@@ -12,6 +12,8 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
@@ -58,7 +60,18 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		return getValueByField(object).get(this);
+		Map<IFieldInfo, Object> valueByField = getValueByField(object);
+		if (!valueByField.containsKey(this)) {
+			if (getType().isPrimitive()) {
+				try {
+					valueByField.put(this, ClassUtils
+							.getDefaultPrimitiveValue(ClassUtils.forNameEvenIfPrimitive(getType().getName())));
+				} catch (ClassNotFoundException e) {
+					throw new ReflectionUIError(e);
+				}
+			}
+		}
+		return valueByField.get(this);
 	}
 
 	protected Map<IFieldInfo, Object> getValueByField(Object object) {
@@ -87,7 +100,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullValueDistinct() {
-		return false;
+		return !getType().isPrimitive();
 	}
 
 	@Override
