@@ -742,8 +742,11 @@ public class SwingRendererUtils {
 		for (AbstractMenuItem item : menu.getItems()) {
 			result.add(createJMenuItem(item, swingRenderer));
 		}
-		for (MenuItemCategory category : menu.getItemCategories()) {
-			result.addSeparator();
+		for (int i = 0; i < menu.getItemCategories().size(); i++) {
+			if (i > 0) {
+				result.addSeparator();
+			}
+			MenuItemCategory category = menu.getItemCategories().get(i);
 			for (AbstractMenuItem item : category.getItems()) {
 				result.add(createJMenuItem(item, swingRenderer));
 			}

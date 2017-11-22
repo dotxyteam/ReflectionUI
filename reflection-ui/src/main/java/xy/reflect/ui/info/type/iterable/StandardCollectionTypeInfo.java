@@ -164,7 +164,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public boolean isItemConstructorSelectable() {
-		return false;
+		return true;
 	}
 
 	@Override
