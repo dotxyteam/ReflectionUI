@@ -17,7 +17,7 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -71,7 +71,7 @@ public class DefaultMethodInfo   extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+	public IInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}
 

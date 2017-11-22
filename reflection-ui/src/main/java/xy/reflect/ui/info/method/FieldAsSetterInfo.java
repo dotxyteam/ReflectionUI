@@ -12,7 +12,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
@@ -93,7 +93,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+	public IInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}
 

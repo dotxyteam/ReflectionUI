@@ -50,7 +50,7 @@ public class EncapsulatedObjectFactory {
 	protected boolean fieldFormControlMandatory = false;
 	protected boolean fieldFormControlEmbedded = false;
 	protected IInfoFilter fieldFormControlFilter = IInfoFilter.DEFAULT;
-	protected ITypeInfoProxyFactory fieldTypeSpecificities;
+	protected IInfoProxyFactory fieldTypeSpecificities;
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, String typeName, ITypeInfo fieldType) {
 		this.reflectionUI = reflectionUI;
@@ -220,11 +220,11 @@ public class EncapsulatedObjectFactory {
 		this.fieldSpecificProperties = fieldSpecificProperties;
 	}
 
-	public ITypeInfoProxyFactory getFieldTypeSpecificities() {
+	public IInfoProxyFactory getFieldTypeSpecificities() {
 		return fieldTypeSpecificities;
 	}
 
-	public void setFieldTypeSpecificities(ITypeInfoProxyFactory fieldTypeSpecificities) {
+	public void setFieldTypeSpecificities(IInfoProxyFactory fieldTypeSpecificities) {
 		this.fieldTypeSpecificities = fieldTypeSpecificities;
 	}
 
@@ -592,7 +592,7 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public ITypeInfoProxyFactory getTypeSpecificities() {
+		public IInfoProxyFactory getTypeSpecificities() {
 			return null;
 		}
 

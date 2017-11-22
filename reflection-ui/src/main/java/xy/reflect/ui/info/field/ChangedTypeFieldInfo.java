@@ -2,7 +2,7 @@ package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -82,7 +82,7 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getTypeSpecificities() {
+	public IInfoProxyFactory getTypeSpecificities() {
 		return null;
 	}
 

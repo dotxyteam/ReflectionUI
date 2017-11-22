@@ -20,7 +20,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -108,7 +108,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getTypeSpecificities() {
+	public IInfoProxyFactory getTypeSpecificities() {
 		return null;
 	}
 

@@ -18,7 +18,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -62,7 +62,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getTypeSpecificities() {
+	public IInfoProxyFactory getTypeSpecificities() {
 		return null;
 	}
 

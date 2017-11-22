@@ -8,7 +8,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 public class Example {
@@ -33,7 +33,7 @@ public class Example {
 
 			@Override
 			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new TypeInfoProxyFactory() {
+				return new InfoProxyFactory() {
 
 					/*
 					 * For instance you can uppercase all the field captions this way:

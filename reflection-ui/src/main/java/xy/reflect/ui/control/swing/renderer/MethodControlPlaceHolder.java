@@ -24,7 +24,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -185,7 +185,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 	public IMethodControlData getInitialControlData() {
 		IMethodInfo method = MethodControlPlaceHolder.this.method;
-		final ITypeInfoProxyFactory typeSpecificities = method.getReturnValueTypeSpecificities();
+		final IInfoProxyFactory typeSpecificities = method.getReturnValueTypeSpecificities();
 		if (method.getReturnValueType() != null) {
 			if (typeSpecificities != null) {
 				method = new MethodInfoProxy(method) {

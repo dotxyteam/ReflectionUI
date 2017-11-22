@@ -14,7 +14,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -69,7 +69,7 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getTypeSpecificities() {
+	public IInfoProxyFactory getTypeSpecificities() {
 		return null;
 	}
 

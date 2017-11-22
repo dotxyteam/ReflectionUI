@@ -8,7 +8,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class FilteredTypeFactory extends TypeInfoProxyFactory {
+public class FilteredTypeFactory extends InfoProxyFactory {
 
 	protected IInfoFilter infoFilter;
 

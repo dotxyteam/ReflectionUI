@@ -7,7 +7,7 @@ import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractConstructorInfo extends AbstractInfo implements IMethodInfo {
@@ -53,7 +53,7 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+	public IInfoProxyFactory getReturnValueTypeSpecificities() {
 		return null;
 	}
 

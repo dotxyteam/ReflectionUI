@@ -6,11 +6,11 @@ import java.util.List;
 
 import xy.reflect.ui.info.type.ITypeInfo;
 
-public class TypeInfoProxyFactorChain implements ITypeInfoProxyFactory {
+public class InfoProxyFactorChain implements IInfoProxyFactory {
 
-	protected List<ITypeInfoProxyFactory> factories = new ArrayList<ITypeInfoProxyFactory>();
+	protected List<IInfoProxyFactory> factories = new ArrayList<IInfoProxyFactory>();
 
-	public TypeInfoProxyFactorChain(ITypeInfoProxyFactory... factories) {
+	public InfoProxyFactorChain(IInfoProxyFactory... factories) {
 		super();
 		this.factories.addAll(Arrays.asList(factories));
 	}
@@ -18,7 +18,7 @@ public class TypeInfoProxyFactorChain implements ITypeInfoProxyFactory {
 	@Override
 	public ITypeInfo wrapType(ITypeInfo type) {
 		ITypeInfo result = type;
-		for (ITypeInfoProxyFactory factory : factories) {
+		for (IInfoProxyFactory factory : factories) {
 			result = factory.wrapType(result);
 		}
 		return result;

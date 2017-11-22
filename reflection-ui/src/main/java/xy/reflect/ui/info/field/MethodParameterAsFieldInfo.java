@@ -13,7 +13,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 
 public class MethodParameterAsFieldInfo   extends AbstractInfo implements IFieldInfo {
 	protected IParameterInfo param;
@@ -82,7 +82,7 @@ public class MethodParameterAsFieldInfo   extends AbstractInfo implements IField
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getTypeSpecificities() {
+	public IInfoProxyFactory getTypeSpecificities() {
 		return null;
 	}
 

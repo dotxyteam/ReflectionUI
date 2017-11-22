@@ -32,7 +32,7 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
-public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
+public class InfoProxyFactory implements IInfoProxyFactory {
 
 	public String getIdentifier() {
 		return getClass().getName();
@@ -54,7 +54,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TypeInfoProxyFactory other = (TypeInfoProxyFactory) obj;
+		InfoProxyFactory other = (InfoProxyFactory) obj;
 		if (getIdentifier() == null) {
 			if (other.getIdentifier() != null)
 				return false;
@@ -124,7 +124,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public ITypeInfo unwrapType(final ITypeInfo type) {
 		GeneratedBasicTypeInfoProxy proxy = (GeneratedBasicTypeInfoProxy) type;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
 		return proxy.base;
@@ -132,7 +132,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public IFieldInfo unwrapField(final IFieldInfo field) {
 		GeneratedFieldInfoProxy proxy = (GeneratedFieldInfoProxy) field;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
 		return proxy.base;
@@ -140,7 +140,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public IMethodInfo unwrapMethod(final IMethodInfo method) {
 		GeneratedMethodInfoProxy proxy = (GeneratedMethodInfoProxy) method;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
 		return proxy.base;
@@ -148,7 +148,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public IParameterInfo unwrapParameter(final IParameterInfo param) {
 		GeneratedParameterInfoProxy proxy = (GeneratedParameterInfoProxy) param;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
 		return proxy.base;
@@ -159,7 +159,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return false;
 		}
 		GeneratedBasicTypeInfoProxy proxy = (GeneratedBasicTypeInfoProxy) type;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			return false;
 		}
 		return true;
@@ -170,7 +170,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return false;
 		}
 		GeneratedFieldInfoProxy proxy = (GeneratedFieldInfoProxy) field;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			return false;
 		}
 		return true;
@@ -181,7 +181,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return false;
 		}
 		GeneratedMethodInfoProxy proxy = (GeneratedMethodInfoProxy) method;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			return false;
 		}
 		return true;
@@ -192,7 +192,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			return false;
 		}
 		GeneratedParameterInfoProxy proxy = (GeneratedParameterInfoProxy) param;
-		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			return false;
 		}
 		return true;
@@ -234,7 +234,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return wrapFieldType(field.getType());
 	}
 
-	protected ITypeInfoProxyFactory getTypeSpecificities(IFieldInfo field, ITypeInfo containingType) {
+	protected IInfoProxyFactory getTypeSpecificities(IFieldInfo field, ITypeInfo containingType) {
 		return field.getTypeSpecificities();
 	}
 
@@ -337,7 +337,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return wrapMethodReturnValueType(method.getReturnValueType());
 	}
 
-	protected ITypeInfoProxyFactory getReturnValueTypeSpecificities(IMethodInfo method, ITypeInfo containingType) {
+	protected IInfoProxyFactory getReturnValueTypeSpecificities(IMethodInfo method, ITypeInfo containingType) {
 		return method.getReturnValueTypeSpecificities();
 	}
 
@@ -600,10 +600,10 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public class GeneratedBasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
 
-		protected String GENERATED_PROXY_FACTORY_LIST_KEY = TypeInfoProxyFactory.class.getName()
+		protected String GENERATED_PROXY_FACTORY_LIST_KEY = InfoProxyFactory.class.getName()
 				+ "GENERATED_PROXY_FACTORY_LIST";
 
-		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
+		protected InfoProxyFactory factory = InfoProxyFactory.this;
 		protected ITypeInfo base;
 
 		public GeneratedBasicTypeInfoProxy(ITypeInfo type) {
@@ -611,64 +611,64 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			check();
 		}
 
-		public TypeInfoProxyFactory getFactory() {
+		public InfoProxyFactory getFactory() {
 			return factory;
 		}
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base);
+			return InfoProxyFactory.this.getName(base);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(base);
+			return InfoProxyFactory.this.getCaption(base);
 		}
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return TypeInfoProxyFactory.this.supportsInstance(base, object);
+			return InfoProxyFactory.this.supportsInstance(base, object);
 		}
 
 		@Override
 		public boolean isConcrete() {
-			return TypeInfoProxyFactory.this.isConcrete(base);
+			return InfoProxyFactory.this.isConcrete(base);
 		}
 
 		@Override
 		public boolean isPrimitive() {
-			return TypeInfoProxyFactory.this.isPrimitive(base);
+			return InfoProxyFactory.this.isPrimitive(base);
 		}
 
 		@Override
 		public boolean isImmutable() {
-			return TypeInfoProxyFactory.this.isImmutable(base);
+			return InfoProxyFactory.this.isImmutable(base);
 		}
 
 		@Override
 		public boolean canPersist() {
-			return TypeInfoProxyFactory.this.canPersist(base);
+			return InfoProxyFactory.this.canPersist(base);
 		}
 
 		@Override
 		public void save(Object object, OutputStream out) {
-			TypeInfoProxyFactory.this.save(base, object, out);
+			InfoProxyFactory.this.save(base, object, out);
 		}
 
 		@Override
 		public void load(Object object, InputStream in) {
-			TypeInfoProxyFactory.this.load(base, object, in);
+			InfoProxyFactory.this.load(base, object, in);
 		}
 
 		@Override
 		public boolean isModificationStackAccessible() {
-			return TypeInfoProxyFactory.this.isModificationStackAccessible(base);
+			return InfoProxyFactory.this.isModificationStackAccessible(base);
 		}
 
 		@Override
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-			for (ITypeInfo subType : TypeInfoProxyFactory.this.getPolymorphicInstanceSubTypes(base)) {
+			for (ITypeInfo subType : InfoProxyFactory.this.getPolymorphicInstanceSubTypes(base)) {
 				result.add(wrapSubType(subType));
 			}
 			return result;
@@ -677,7 +677,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public List<IMethodInfo> getMethods() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo method : TypeInfoProxyFactory.this.getMethods(base)) {
+			for (IMethodInfo method : InfoProxyFactory.this.getMethods(base)) {
 				result.add(wrapMethod(method, base));
 			}
 			return result;
@@ -686,7 +686,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-			for (IFieldInfo field : TypeInfoProxyFactory.this.getFields(base)) {
+			for (IFieldInfo field : InfoProxyFactory.this.getFields(base)) {
 				result.add(wrapField(field, base));
 			}
 			return result;
@@ -695,7 +695,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public List<IMethodInfo> getConstructors() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo constructor : TypeInfoProxyFactory.this.getConstructors(base)) {
+			for (IMethodInfo constructor : InfoProxyFactory.this.getConstructors(base)) {
 				result.add(wrapConstructor(constructor, base));
 			}
 			return result;
@@ -703,73 +703,73 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String toString(Object object) {
-			return TypeInfoProxyFactory.this.toString(base, object);
+			return InfoProxyFactory.this.toString(base, object);
 		}
 
 		@Override
 		public boolean canCopy(Object object) {
-			return TypeInfoProxyFactory.this.canCopy(base, object);
+			return InfoProxyFactory.this.canCopy(base, object);
 		}
 
 		@Override
 		public Object copy(Object object) {
-			return TypeInfoProxyFactory.this.copy(base, object);
+			return InfoProxyFactory.this.copy(base, object);
 		}
 
 		@Override
 		public ResourcePath getIconImagePath() {
-			return TypeInfoProxyFactory.this.getIconImagePath(base);
+			return InfoProxyFactory.this.getIconImagePath(base);
 		}
 
 		@Override
 		public FieldsLayout getFieldsLayout() {
-			return TypeInfoProxyFactory.this.getFieldsLayout(base);
+			return InfoProxyFactory.this.getFieldsLayout(base);
 		}
 
 		@Override
 		public MenuModel getMenuModel() {
-			return TypeInfoProxyFactory.this.getMenuModel(base);
+			return InfoProxyFactory.this.getMenuModel(base);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(base);
+			return InfoProxyFactory.this.getOnlineHelp(base);
 		}
 
 		@Override
 		public void validate(Object object) throws Exception {
-			TypeInfoProxyFactory.this.validate(base, object);
+			InfoProxyFactory.this.validate(base, object);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			Map<String, Object> result = new HashMap<String, Object>(
-					TypeInfoProxyFactory.this.getSpecificProperties(base));
+					InfoProxyFactory.this.getSpecificProperties(base));
 			@SuppressWarnings("unchecked")
-			List<TypeInfoProxyFactory> factories = (List<TypeInfoProxyFactory>) base.getSpecificProperties()
+			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
 					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
 			if (factories == null) {
-				factories = new ArrayList<TypeInfoProxyFactory>();
+				factories = new ArrayList<InfoProxyFactory>();
 			}
-			factories.add(TypeInfoProxyFactory.this);
+			factories.add(InfoProxyFactory.this);
 			result.put(GENERATED_PROXY_FACTORY_LIST_KEY, factories);
 			return result;
 		}
 
 		private void check() {
 			@SuppressWarnings("unchecked")
-			List<TypeInfoProxyFactory> factories = (List<TypeInfoProxyFactory>) base.getSpecificProperties()
+			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
 					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
 			if (factories != null) {
 				List<String> factoryIds = new ArrayList<String>();
-				for (TypeInfoProxyFactory factory : factories) {
+				for (InfoProxyFactory factory : factories) {
 					factoryIds.add(factory.getIdentifier());
 				}
 				Collections.reverse(factoryIds);
 				if (factoryIds.contains(factory.getIdentifier())) {
 					StringBuilder msg = new StringBuilder();
 					msg.append("Duplicate proxy creation detected:" + "\nNew proxy factory identifier:\n- "
-							+ TypeInfoProxyFactory.this.getIdentifier() + "\nExisting factories identifers:\n");
+							+ InfoProxyFactory.this.getIdentifier() + "\nExisting factories identifers:\n");
 					for (String id : factoryIds) {
 						msg.append("- " + id + "\n");
 					}
@@ -780,8 +780,8 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			}
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
+		private InfoProxyFactory getOuterType() {
+			return InfoProxyFactory.this;
 		}
 
 		@Override
@@ -833,97 +833,97 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public boolean isItemConstructorSelectable() {
-			return TypeInfoProxyFactory.this.isItemConstructorSelectable((IListTypeInfo) base);
+			return InfoProxyFactory.this.isItemConstructorSelectable((IListTypeInfo) base);
 		}
 
 		@Override
 		public Object[] toArray(Object listValue) {
-			return TypeInfoProxyFactory.this.toArray((IListTypeInfo) base, listValue);
+			return InfoProxyFactory.this.toArray((IListTypeInfo) base, listValue);
 		}
 
 		@Override
 		public boolean isItemNullValueDistinct() {
-			return TypeInfoProxyFactory.this.isItemNullValueDistinct((IListTypeInfo) base);
+			return InfoProxyFactory.this.isItemNullValueDistinct((IListTypeInfo) base);
 		}
 
 		@Override
 		public ValueReturnMode getItemReturnMode() {
-			return TypeInfoProxyFactory.this.getItemReturnMode((IListTypeInfo) base);
+			return InfoProxyFactory.this.getItemReturnMode((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean isOrdered() {
-			return TypeInfoProxyFactory.this.isOrdered((IListTypeInfo) base);
+			return InfoProxyFactory.this.isOrdered((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean isInsertionAllowed() {
-			return TypeInfoProxyFactory.this.isInsertionAllowed((IListTypeInfo) base);
+			return InfoProxyFactory.this.isInsertionAllowed((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean isRemovalAllowed() {
-			return TypeInfoProxyFactory.this.isRemovalAllowed((IListTypeInfo) base);
+			return InfoProxyFactory.this.isRemovalAllowed((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean canViewItemDetails() {
-			return TypeInfoProxyFactory.this.canViewItemDetails((IListTypeInfo) base);
+			return InfoProxyFactory.this.canViewItemDetails((IListTypeInfo) base);
 		}
 
 		@Override
 		public IListStructuralInfo getStructuralInfo() {
-			return TypeInfoProxyFactory.this.getStructuralInfo((IListTypeInfo) base);
+			return InfoProxyFactory.this.getStructuralInfo((IListTypeInfo) base);
 		}
 
 		@Override
 		public IListItemDetailsAccessMode getDetailsAccessMode() {
-			return TypeInfoProxyFactory.this.getDetailsAccessMode((IListTypeInfo) base);
+			return InfoProxyFactory.this.getDetailsAccessMode((IListTypeInfo) base);
 		}
 
 		@Override
 		public ITypeInfo getItemType() {
-			return TypeInfoProxyFactory.this.getItemType((IListTypeInfo) base);
+			return InfoProxyFactory.this.getItemType((IListTypeInfo) base);
 		}
 
 		@Override
 		public void replaceContent(Object listValue, Object[] array) {
-			TypeInfoProxyFactory.this.replaceContent((IListTypeInfo) base, listValue, array);
+			InfoProxyFactory.this.replaceContent((IListTypeInfo) base, listValue, array);
 		}
 
 		@Override
 		public Object fromArray(Object[] array) {
-			return TypeInfoProxyFactory.this.fromArray((IListTypeInfo) base, array);
+			return InfoProxyFactory.this.fromArray((IListTypeInfo) base, array);
 		}
 
 		@Override
 		public boolean canInstanciateFromArray() {
-			return TypeInfoProxyFactory.this.canInstanciateFromArray((IListTypeInfo) base);
+			return InfoProxyFactory.this.canInstanciateFromArray((IListTypeInfo) base);
 		}
 
 		@Override
 		public boolean canReplaceContent() {
-			return TypeInfoProxyFactory.this.canReplaceContent((IListTypeInfo) base);
+			return InfoProxyFactory.this.canReplaceContent((IListTypeInfo) base);
 		}
 
 		@Override
 		public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
 				List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, anyRootListItemPosition,
+			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, anyRootListItemPosition,
 					selection);
 		}
 
 		@Override
 		public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
 				List<? extends ItemPosition> selection) {
-			return TypeInfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, anyRootListItemPosition,
+			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, anyRootListItemPosition,
 					selection);
 		}
 
 		@Override
 		public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo constructor : TypeInfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base,
+			for (IMethodInfo constructor : InfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base,
 					listValue)) {
 				result.add(wrapConstructor(constructor, base));
 			}
@@ -945,17 +945,17 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public boolean isDynamicEnumeration() {
-			return TypeInfoProxyFactory.this.isDynamicEnumeration((IEnumerationTypeInfo) base);
+			return InfoProxyFactory.this.isDynamicEnumeration((IEnumerationTypeInfo) base);
 		}
 
 		@Override
 		public Object[] getPossibleValues() {
-			return TypeInfoProxyFactory.this.getPossibleValues((IEnumerationTypeInfo) base);
+			return InfoProxyFactory.this.getPossibleValues((IEnumerationTypeInfo) base);
 		}
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(Object object) {
-			IEnumerationItemInfo itemInfo = TypeInfoProxyFactory.this.getValueInfo((IEnumerationTypeInfo) base, object);
+			IEnumerationItemInfo itemInfo = InfoProxyFactory.this.getValueInfo((IEnumerationTypeInfo) base, object);
 			return wrapEnumerationItemInfo(itemInfo, base);
 		}
 
@@ -975,12 +975,12 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public IFieldInfo getKeyField() {
-			return TypeInfoProxyFactory.this.getKeyField((IMapEntryTypeInfo) base);
+			return InfoProxyFactory.this.getKeyField((IMapEntryTypeInfo) base);
 		}
 
 		@Override
 		public IFieldInfo getValueField() {
-			return TypeInfoProxyFactory.this.getValueField((IMapEntryTypeInfo) base);
+			return InfoProxyFactory.this.getValueField((IMapEntryTypeInfo) base);
 		}
 
 		@Override
@@ -993,7 +993,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public class GeneratedFieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
-		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
+		protected InfoProxyFactory factory = InfoProxyFactory.this;
 
 		protected IFieldInfo base;
 		protected ITypeInfo containingType;
@@ -1005,97 +1005,97 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base, containingType);
+			return InfoProxyFactory.this.getName(base, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(base, containingType);
+			return InfoProxyFactory.this.getCaption(base, containingType);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			TypeInfoProxyFactory.this.setValue(object, value, base, containingType);
+			InfoProxyFactory.this.setValue(object, value, base, containingType);
 		}
 
 		@Override
 		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-			return TypeInfoProxyFactory.this.getNextUpdateCustomUndoJob(object, value, base, containingType);
+			return InfoProxyFactory.this.getNextUpdateCustomUndoJob(object, value, base, containingType);
 		}
 
 		@Override
 		public boolean isGetOnly() {
-			return TypeInfoProxyFactory.this.isGetOnly(base, containingType);
+			return InfoProxyFactory.this.isGetOnly(base, containingType);
 		}
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return TypeInfoProxyFactory.this.getValueReturnMode(base, containingType);
+			return InfoProxyFactory.this.getValueReturnMode(base, containingType);
 		}
 
 		@Override
 		public boolean isNullValueDistinct() {
-			return TypeInfoProxyFactory.this.isNullValueDistinct(base, containingType);
+			return InfoProxyFactory.this.isNullValueDistinct(base, containingType);
 		}
 
 		@Override
 		public String getNullValueLabel() {
-			return TypeInfoProxyFactory.this.getNullValueLabel(base, containingType);
+			return InfoProxyFactory.this.getNullValueLabel(base, containingType);
 
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			return TypeInfoProxyFactory.this.getValue(object, base, containingType);
+			return InfoProxyFactory.this.getValue(object, base, containingType);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			return TypeInfoProxyFactory.this.getValueOptions(object, base, containingType);
+			return InfoProxyFactory.this.getValueOptions(object, base, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxyFactory.this.getType(base, containingType);
+			return InfoProxyFactory.this.getType(base, containingType);
 		}
 
 		@Override
-		public ITypeInfoProxyFactory getTypeSpecificities() {
-			return TypeInfoProxyFactory.this.getTypeSpecificities(base, containingType);
+		public IInfoProxyFactory getTypeSpecificities() {
+			return InfoProxyFactory.this.getTypeSpecificities(base, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxyFactory.this.getCategory(base, containingType);
+			return InfoProxyFactory.this.getCategory(base, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(base, containingType);
+			return InfoProxyFactory.this.getOnlineHelp(base, containingType);
 		}
 
 		@Override
 		public boolean isFormControlMandatory() {
-			return TypeInfoProxyFactory.this.isFormControlMandatory(base, containingType);
+			return InfoProxyFactory.this.isFormControlMandatory(base, containingType);
 		}
 
 		@Override
 		public boolean isFormControlEmbedded() {
-			return TypeInfoProxyFactory.this.isFormControlEmbedded(base, containingType);
+			return InfoProxyFactory.this.isFormControlEmbedded(base, containingType);
 		}
 
 		@Override
 		public IInfoFilter getFormControlFilter() {
-			return TypeInfoProxyFactory.this.getFormControlFilter(base, containingType);
+			return InfoProxyFactory.this.getFormControlFilter(base, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(base, containingType);
+			return InfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
+		private InfoProxyFactory getOuterType() {
+			return InfoProxyFactory.this;
 		}
 
 		@Override
@@ -1148,7 +1148,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public class GeneratedMethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
-		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
+		protected InfoProxyFactory factory = InfoProxyFactory.this;
 
 		protected IMethodInfo base;
 		protected ITypeInfo containingType;
@@ -1160,48 +1160,48 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base, containingType);
+			return InfoProxyFactory.this.getName(base, containingType);
 		}
 
 		@Override
 		public String getSignature() {
-			return TypeInfoProxyFactory.this.getSignature(base, containingType);
+			return InfoProxyFactory.this.getSignature(base, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(base, containingType);
+			return InfoProxyFactory.this.getCaption(base, containingType);
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return TypeInfoProxyFactory.this.getReturnValueType(base, containingType);
+			return InfoProxyFactory.this.getReturnValueType(base, containingType);
 		}
 
 		@Override
-		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
-			return TypeInfoProxyFactory.this.getReturnValueTypeSpecificities(base, containingType);
+		public IInfoProxyFactory getReturnValueTypeSpecificities() {
+			return InfoProxyFactory.this.getReturnValueTypeSpecificities(base, containingType);
 		}
 
 		@Override
 		public boolean isNullReturnValueDistinct() {
-			return TypeInfoProxyFactory.this.isNullReturnValueDistinct(base, containingType);
+			return InfoProxyFactory.this.isNullReturnValueDistinct(base, containingType);
 		}
 
 		@Override
 		public boolean isReturnValueDetached() {
-			return TypeInfoProxyFactory.this.isReturnValueDetached(base, containingType);
+			return InfoProxyFactory.this.isReturnValueDetached(base, containingType);
 		}
 
 		@Override
 		public boolean isReturnValueIgnored() {
-			return TypeInfoProxyFactory.this.isReturnValueIgnored(base, containingType);
+			return InfoProxyFactory.this.isReturnValueIgnored(base, containingType);
 		}
 
 		@Override
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-			for (IParameterInfo param : TypeInfoProxyFactory.this.getParameters(base, containingType)) {
+			for (IParameterInfo param : InfoProxyFactory.this.getParameters(base, containingType)) {
 				result.add(wrapParameter(param, base, containingType));
 			}
 			return result;
@@ -1209,61 +1209,61 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public Object invoke(Object object, InvocationData invocationData) {
-			return TypeInfoProxyFactory.this.invoke(object, invocationData, base, containingType);
+			return InfoProxyFactory.this.invoke(object, invocationData, base, containingType);
 		}
 
 		@Override
 		public String getConfirmationMessage(Object object, InvocationData invocationData) {
-			return TypeInfoProxyFactory.this.getConfirmationMessage(object, invocationData, base, containingType);
+			return InfoProxyFactory.this.getConfirmationMessage(object, invocationData, base, containingType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return TypeInfoProxyFactory.this.isReadOnly(base, containingType);
+			return InfoProxyFactory.this.isReadOnly(base, containingType);
 		}
 
 		@Override
 		public String getNullReturnValueLabel() {
-			return TypeInfoProxyFactory.this.getNullReturnValueLabel(base, containingType);
+			return InfoProxyFactory.this.getNullReturnValueLabel(base, containingType);
 		}
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return TypeInfoProxyFactory.this.getValueReturnMode(base, containingType);
+			return InfoProxyFactory.this.getValueReturnMode(base, containingType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return TypeInfoProxyFactory.this.getCategory(base, containingType);
+			return InfoProxyFactory.this.getCategory(base, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(base, containingType);
+			return InfoProxyFactory.this.getOnlineHelp(base, containingType);
 		}
 
 		@Override
 		public ResourcePath getIconImagePath() {
-			return TypeInfoProxyFactory.this.getIconImagePath(base, containingType);
+			return InfoProxyFactory.this.getIconImagePath(base, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(base, containingType);
+			return InfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
 		@Override
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-			TypeInfoProxyFactory.this.validateParameters(base, containingType, object, invocationData);
+			InfoProxyFactory.this.validateParameters(base, containingType, object, invocationData);
 		}
 
 		@Override
 		public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
-			return TypeInfoProxyFactory.this.getNextInvocationUndoJob(base, containingType, object, invocationData);
+			return InfoProxyFactory.this.getNextInvocationUndoJob(base, containingType, object, invocationData);
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
+		private InfoProxyFactory getOuterType() {
+			return InfoProxyFactory.this;
 		}
 
 		@Override
@@ -1324,7 +1324,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public class GeneratedParameterInfoProxy extends AbstractInfoProxy implements IParameterInfo {
 
-		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
+		protected InfoProxyFactory factory = InfoProxyFactory.this;
 
 		protected IParameterInfo base;
 		protected IMethodInfo method;
@@ -1338,46 +1338,46 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base, method, containingType);
+			return InfoProxyFactory.this.getName(base, method, containingType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(base, method, containingType);
+			return InfoProxyFactory.this.getCaption(base, method, containingType);
 		}
 
 		@Override
 		public boolean isNullValueDistinct() {
-			return TypeInfoProxyFactory.this.isNullValueDistinct(base, method, containingType);
+			return InfoProxyFactory.this.isNullValueDistinct(base, method, containingType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return TypeInfoProxyFactory.this.getType(base, method, containingType);
+			return InfoProxyFactory.this.getType(base, method, containingType);
 		}
 
 		@Override
 		public int getPosition() {
-			return TypeInfoProxyFactory.this.getPosition(base, method, containingType);
+			return InfoProxyFactory.this.getPosition(base, method, containingType);
 		}
 
 		@Override
 		public Object getDefaultValue() {
-			return TypeInfoProxyFactory.this.getDefaultValue(base, method, containingType);
+			return InfoProxyFactory.this.getDefaultValue(base, method, containingType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(base, method, containingType);
+			return InfoProxyFactory.this.getOnlineHelp(base, method, containingType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(base, method, containingType);
+			return InfoProxyFactory.this.getSpecificProperties(base, method, containingType);
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
+		private InfoProxyFactory getOuterType() {
+			return InfoProxyFactory.this;
 		}
 
 		@Override
@@ -1436,7 +1436,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 	public class GeneratedEnumerationItemInfoProxy extends AbstractInfoProxy implements IEnumerationItemInfo {
 
-		protected TypeInfoProxyFactory factory = TypeInfoProxyFactory.this;
+		protected InfoProxyFactory factory = InfoProxyFactory.this;
 
 		protected IEnumerationItemInfo base;
 		protected ITypeInfo parentEnumType;
@@ -1448,31 +1448,31 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 
 		@Override
 		public String getName() {
-			return TypeInfoProxyFactory.this.getName(base, parentEnumType);
+			return InfoProxyFactory.this.getName(base, parentEnumType);
 		}
 
 		@Override
 		public String getCaption() {
-			return TypeInfoProxyFactory.this.getCaption(base, parentEnumType);
+			return InfoProxyFactory.this.getCaption(base, parentEnumType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return TypeInfoProxyFactory.this.getOnlineHelp(base, parentEnumType);
+			return InfoProxyFactory.this.getOnlineHelp(base, parentEnumType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return TypeInfoProxyFactory.this.getSpecificProperties(base, parentEnumType);
+			return InfoProxyFactory.this.getSpecificProperties(base, parentEnumType);
 		}
 
 		@Override
 		public ResourcePath getIconImagePath() {
-			return TypeInfoProxyFactory.this.getIconImagePath(base, parentEnumType);
+			return InfoProxyFactory.this.getIconImagePath(base, parentEnumType);
 		}
 
-		private TypeInfoProxyFactory getOuterType() {
-			return TypeInfoProxyFactory.this;
+		private InfoProxyFactory getOuterType() {
+			return InfoProxyFactory.this;
 		}
 
 		@Override

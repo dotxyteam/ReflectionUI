@@ -23,7 +23,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.DelayedUpdateProcess;
@@ -316,7 +316,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		if (ValueOptionsAsEnumerationFieldInfo.hasValueOptions(object, field)) {
 			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, object, field);
 		}
-		final ITypeInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
+		final IInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
 		if (typeSpecificities != null) {
 			field = new FieldInfoProxy(field) {
 				@Override

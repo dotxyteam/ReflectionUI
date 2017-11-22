@@ -76,7 +76,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.TypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPositionFactory;
@@ -1018,7 +1018,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType, final BufferedItemPosition newItemPosition) {
-		return new TypeInfoProxyFactory() {
+		return new InfoProxyFactory() {
 
 			@Override
 			protected List<IMethodInfo> getConstructors(ITypeInfo type) {

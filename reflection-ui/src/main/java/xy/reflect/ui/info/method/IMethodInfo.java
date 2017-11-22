@@ -10,7 +10,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public interface IMethodInfo extends IInfo {
@@ -53,7 +53,7 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
-		public ITypeInfoProxyFactory getReturnValueTypeSpecificities() {
+		public IInfoProxyFactory getReturnValueTypeSpecificities() {
 			return null;
 		}
 
@@ -144,7 +144,7 @@ public interface IMethodInfo extends IInfo {
 
 	ResourcePath getIconImagePath();
 
-	ITypeInfoProxyFactory getReturnValueTypeSpecificities();
+	IInfoProxyFactory getReturnValueTypeSpecificities();
 
 	boolean isReturnValueDetached();
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class NullStatusFieldInfo extends FieldInfoProxy {
@@ -68,7 +68,7 @@ public class NullStatusFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
-	public ITypeInfoProxyFactory getTypeSpecificities() {
+	public IInfoProxyFactory getTypeSpecificities() {
 		return null;
 	}
 

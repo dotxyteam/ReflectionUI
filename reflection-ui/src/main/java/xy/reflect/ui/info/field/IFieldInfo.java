@@ -10,7 +10,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.ITypeInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 
 public interface IFieldInfo extends IInfo {
 
@@ -79,7 +79,7 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public ITypeInfoProxyFactory getTypeSpecificities() {
+		public IInfoProxyFactory getTypeSpecificities() {
 			return null;
 		}
 
@@ -117,7 +117,7 @@ public interface IFieldInfo extends IInfo {
 
 	ITypeInfo getType();
 
-	ITypeInfoProxyFactory getTypeSpecificities();
+	IInfoProxyFactory getTypeSpecificities();
 
 	Object getValue(Object object);
 

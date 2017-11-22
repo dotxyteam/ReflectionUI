@@ -30,7 +30,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	}
 
 	protected static ITypeInfo blockPolymorphism(final ITypeInfo type) {
-		return new TypeInfoProxyFactory() {
+		return new InfoProxyFactory() {
 
 			@Override
 			protected String getCaption(ITypeInfo type) {
