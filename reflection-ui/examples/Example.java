@@ -1,11 +1,17 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
@@ -14,21 +20,42 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 public class Example {
 
 	public static void main(String[] args) {
+		/*
+		 * Each of the following methods demonstrates a feature of the library.
+		 */
+		openObjectDialog();
+		justCreateObjectForm();
+		controlReflectionInterpretation();
+		preventFromSettingNull();
+		hideSomeFieldsAndMethods();
+		addVirtualFieldsAndMethods();
+		overrideToStringMethod();
+		customizeCopyPasteFeature();
+	}
 
-		/* Most basic use case: */
-		Object myObject = new Date();
-		SwingRenderer.getDefault().openObjectFrame(myObject);
-
-		/* You can open a dialog instead of a frame: */
+	private static void openObjectDialog() {
+		/*
+		 * Most basic use case: opening an object dialog
+		 */
+		Object myObject = new Example();
 		SwingRenderer.getDefault().openObjectDialog(null, myObject);
+	}
 
-		/* You can just create a form and then insert it in any container: */
-		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject));
+	private static void justCreateObjectForm() {
+		/*
+		 * create JPanel-based form in order to include it in GUI as a sub-component.
+		 */
+		Object myObject = new Example();
+		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject), "As a form",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
 
+	private static void controlReflectionInterpretation() {
 		/*
 		 * If you want to take control of the object discovery and interpretation
 		 * process, then you must create custom ReflectionUI and SwingRenderer objects:
 		 */
+		Object myObject = new Example();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -44,12 +71,32 @@ public class Example {
 					}
 
 					/*
-					 * By default the generated UI will allow to set <null> on non-primitive values.
-					 * However usually the developers would not allow to set <null> from their UI in
-					 * spite of the fact that it is allowed by the language. The methods below allow
-					 * to selectively disable the nullable facet of any value displayed in the
-					 * generated UI.
+					 * Many more methods can be overriden. Explore the class TypeInfoProxyFactory to
+					 * find out...
 					 */
+
+				}.wrapType(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Uppercase field captions", null, false, true);
+	}
+
+	private static void preventFromSettingNull() {
+		/*
+		 * By default the generated UI will allow to set <null> on non-primitive values.
+		 * However usually the developers would not allow to set <null> from their UI in
+		 * spite of the fact that it is allowed by the language. The methods below allow
+		 * to selectively disable the nullable facet of any value displayed in the
+		 * generated UI.
+		 */
+		Object myObject = new Example();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
 					@Override
 					protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method,
 							ITypeInfo containingType) {
@@ -79,44 +126,269 @@ public class Example {
 							return false;
 						}
 					}
+				}.wrapType(super.getTypeInfo(typeSource));
+			}
 
-					/*
-					 * if your class "toString" method (used in some field controls) is not
-					 * implemented as you want then:
-					 */
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Never null fields", null, false, true);
+	}
+
+	private static void overrideToStringMethod() {
+		/*
+		 * if your class "toString" method (used by some field controls) is not
+		 * implemented as you want then:
+		 */
+		Object myObject = new Example();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
 					@Override
 					public String toString(ITypeInfo type, Object object) {
-						return "overriden: " + super.toString(type, object).toUpperCase();
+						return "OVERRIDEN: " + super.toString(type, object);
 					}
-
-					/*
-					 * copy/cut/paste: By default this functionality is enabled only for
-					 * Serializable objects. If your class does not implement the Serializable
-					 * interface then override the following methods:
-					 */
-					@Override
-					public boolean canCopy(ITypeInfo type, Object object) {
-						// TODO: replace with your code
-						return super.canCopy(type, object);
-					}
-
-					@Override
-					public Object copy(ITypeInfo type, Object object) {
-						// TODO: replace with your code
-						return super.copy(type, object);
-					}
-
-					/*
-					 * Many more methods can be overriden. Explore the class TypeInfoProxyFactory to
-					 * find out...
-					 */
 
 				}.wrapType(super.getTypeInfo(typeSource));
 			}
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "uppercase field captions", null, false, true);
-
+		swingRenderer.openObjectDialog(null, myObject, "Overriden toString() methods", null, false, true);
 	}
+
+	private static void customizeCopyPasteFeature() {
+		/*
+		 * copy/cut/paste: By default this feature is enabled on collections/arrays but
+		 * only for Serializable items. If your item class does not implement the
+		 * Serializable interface yet you want to allow to copy its instances (or if you
+		 * want to customize the copy process) then override the following methods. Here
+		 * actually we will disable this feature on all lists:
+		 */
+		Object myObject = new Example();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+
+					@Override
+					public boolean canCopy(ITypeInfo type, Object object) {
+						return false;
+					}
+
+					@Override
+					public Object copy(ITypeInfo type, Object object) {
+						throw new AssertionError();
+					}
+
+				}.wrapType(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Disabled copy/cut/paste in lists", null, false, true);
+	}
+
+	private static void hideSomeFieldsAndMethods() {
+		/*
+		 * This is how you can hide fields and methods:
+		 */
+		Object myObject = new Example();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+
+					@Override
+					protected List<IFieldInfo> getFields(ITypeInfo type) {
+						if (type.getName().equals(Example.class.getName())) {
+							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+							while (result.size() > 1) {
+								result.remove(0);
+							}
+							return result;
+						} else {
+							return super.getFields(type);
+						}
+					}
+
+					@Override
+					protected List<IMethodInfo> getMethods(ITypeInfo type) {
+						if (type.getName().equals(Example.class.getName())) {
+							List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
+							while (result.size() > 1) {
+								result.remove(0);
+							}
+							return result;
+						} else {
+							return super.getMethods(type);
+						}
+					}
+
+				}.wrapType(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Hidden members", null, false, true);
+	}
+
+	private static void addVirtualFieldsAndMethods() {
+		/*
+		 * This is how you can add virtual fields and methods that would generally be
+		 * calculated from the existing ones:
+		 */
+		Object myObject = new Example();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+
+					@Override
+					protected List<IFieldInfo> getFields(ITypeInfo type) {
+						if (type.getName().equals(Example.class.getName())) {
+							final List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
+							result.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+
+								@Override
+								public String getName() {
+									return "numberOfFields";
+								}
+
+								@Override
+								public String getCaption() {
+									return "(Virtual) Number Of Fields";
+								}
+
+								@Override
+								public Object getValue(Object object) {
+									return result.size();
+								}
+
+							});
+							return result;
+						} else {
+							return super.getFields(type);
+						}
+					}
+
+					@Override
+					protected List<IMethodInfo> getMethods(ITypeInfo type) {
+						if (type.getName().equals(Example.class.getName())) {
+							List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
+							result.add(new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
+
+								@Override
+								public String getName() {
+									return "invokeAdditionalMethod";
+								}
+
+								@Override
+								public String getCaption() {
+									return "(Virtual) Invoke Additional Method";
+								}
+
+								@Override
+								public Object invoke(Object object, InvocationData invocationData) {
+									return null;
+								}
+
+							});
+							return result;
+						} else {
+							return super.getMethods(type);
+						}
+					}
+
+				}.wrapType(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Added virtual members", null, false, true);
+	}
+
+	/*
+	 * Example fields
+	 */
+
+	private String text = "a text";
+	private int number = 10;
+	private boolean checked = true;
+	private Date complexValue = new Date();
+	private double readOnly = Math.PI;
+	private Enumerated enumerated = Enumerated.ENUM_VALUE1;
+	private List<String> list = new ArrayList<String>(Arrays.asList("item1", "item2", "item3", "item4", "item5"));
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	public Date getComplexValue() {
+		return complexValue;
+	}
+
+	public void setComplexValue(Date complexValue) {
+		this.complexValue = complexValue;
+	}
+
+	public double getReadOnly() {
+		return readOnly;
+	}
+
+	public Enumerated getEnumerated() {
+		return enumerated;
+	}
+
+	public void setEnumerated(Enumerated enumerated) {
+		this.enumerated = enumerated;
+	}
+
+	public List<String> getList() {
+		return list;
+	}
+
+	public void setList(List<String> list) {
+		this.list = list;
+	}
+
+	/*
+	 * Example methods
+	 */
+
+	public String invokeMethod(int param1, int param2) {
+		return "return value";
+	}
+
+	/*
+	 * Example enumeration
+	 */
+	public enum Enumerated {
+		ENUM_VALUE1, ENUM_VALUE2, ENUM_VALUE3
+	}
+
 }
