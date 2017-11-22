@@ -39,30 +39,6 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		this.contextId = contextId;
 	}
 
-	public static CapsuleFieldInfo translateProxy(IFieldInfo field) {
-		if (field instanceof CapsuleFieldInfo) {
-			return (CapsuleFieldInfo) field;
-		}
-		if (field instanceof EncapsulatedFieldInfoProxy) {
-			EncapsulatedFieldInfoProxy subFieldProxy = (EncapsulatedFieldInfoProxy) field;
-			IFieldInfo baseField = subFieldProxy.getBase();
-			CapsuleFieldInfo baseResult = translateProxy(baseField);
-			List<IFieldInfo> resultEncapsulatedFields = new ArrayList<IFieldInfo>();
-			List<IMethodInfo> resultEncapsulatedMethods = new ArrayList<IMethodInfo>();
-			for (IFieldInfo baseEncapsulatedField : baseResult.getEncapsulatedFields()) {
-				resultEncapsulatedFields
-						.add(subFieldProxy.getOuterType().new EncapsulatedFieldInfoProxy(baseEncapsulatedField));
-			}
-			for (IMethodInfo baseEncapsulatedMethod : baseResult.getEncapsulatedMethods()) {
-				resultEncapsulatedMethods
-						.add(subFieldProxy.getOuterType().new EncapsulatedMethodInfoProxy(baseEncapsulatedMethod));
-			}
-			return new CapsuleFieldInfo(baseResult.reflectionUI, baseResult.fieldName, resultEncapsulatedFields,
-					resultEncapsulatedMethods, baseResult.contextId);
-		}
-		return null;
-	}
-
 	public List<IFieldInfo> getEncapsulatedFields() {
 		return encapsulatedFields;
 	}
