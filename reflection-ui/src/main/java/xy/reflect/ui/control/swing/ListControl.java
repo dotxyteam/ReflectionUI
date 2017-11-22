@@ -1038,7 +1038,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				return "addSpecificItemContructors[listType=" + newItemPosition.getContainingListType() + "]";
 			}
 
-		}.get(itemType);
+		}.wrapType(itemType);
 	}
 
 	protected AbstractStandardListAction createCopyAction() {

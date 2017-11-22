@@ -4,6 +4,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 
 public interface ITypeInfoProxyFactory {
 
-	ITypeInfo get(ITypeInfo type);
+	ITypeInfo wrapType(ITypeInfo type);
 
 }

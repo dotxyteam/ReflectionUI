@@ -191,7 +191,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 				method = new MethodInfoProxy(method) {
 					@Override
 					public ITypeInfo getReturnValueType() {
-						return typeSpecificities.get(super.getReturnValueType());
+						return typeSpecificities.wrapType(super.getReturnValueType());
 					}
 				};
 			}

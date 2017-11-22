@@ -782,7 +782,7 @@ public class SwingRenderer {
 				return menuModel;
 			}
 
-		}.get(rawType);
+		}.wrapType(rawType);
 		return result;
 	}
 

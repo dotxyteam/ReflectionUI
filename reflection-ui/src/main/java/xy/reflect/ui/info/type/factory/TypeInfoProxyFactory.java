@@ -69,7 +69,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 	}
 
 	@Override
-	public ITypeInfo get(final ITypeInfo type) {
+	public ITypeInfo wrapType(final ITypeInfo type) {
 
 		if (type instanceof IListTypeInfo) {
 			return new GeneratedListTypeInfoProxy((IListTypeInfo) type);
@@ -82,27 +82,47 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		}
 	}
 
-	protected ITypeInfo wrapSubType(ITypeInfo type) {
+	public ITypeInfo wrapSubType(ITypeInfo type) {
 		return type;
 	}
 
-	protected ITypeInfo wrapItemType(ITypeInfo type) {
+	public ITypeInfo wrapItemType(ITypeInfo type) {
 		return type;
 	}
 
-	protected ITypeInfo wrapMethodReturnValueType(ITypeInfo type) {
+	public ITypeInfo wrapMethodReturnValueType(ITypeInfo type) {
 		return type;
 	}
 
-	protected ITypeInfo wrapParameterType(ITypeInfo type) {
+	public ITypeInfo wrapParameterType(ITypeInfo type) {
 		return type;
 	}
 
-	protected ITypeInfo wrapFieldType(ITypeInfo type) {
+	public ITypeInfo wrapFieldType(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo getUnderProxy(final ITypeInfo type) {
+	public IFieldInfo wrapField(IFieldInfo field, ITypeInfo containingType) {
+		return new GeneratedFieldInfoProxy(field, containingType);
+	}
+
+	public IParameterInfo wrapParameter(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		return new GeneratedParameterInfoProxy(param, method, containingType);
+	}
+
+	public IEnumerationItemInfo wrapEnumerationItemInfo(IEnumerationItemInfo itemInfo, ITypeInfo parentEnumType) {
+		return new GeneratedEnumerationItemInfoProxy(itemInfo, parentEnumType);
+	}
+
+	public IMethodInfo wrapConstructor(IMethodInfo constructor, ITypeInfo containingType) {
+		return new GeneratedConstructorInfoProxy(constructor, containingType);
+	}
+
+	public IMethodInfo wrapMethod(IMethodInfo method, ITypeInfo containingType) {
+		return new GeneratedMethodInfoProxy(method, containingType);
+	}
+
+	public ITypeInfo unwrapType(final ITypeInfo type) {
 		GeneratedBasicTypeInfoProxy proxy = (GeneratedBasicTypeInfoProxy) type;
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
@@ -110,7 +130,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return proxy.base;
 	}
 
-	public IFieldInfo getUnderProxy(final IFieldInfo field) {
+	public IFieldInfo unwrapField(final IFieldInfo field) {
 		GeneratedFieldInfoProxy proxy = (GeneratedFieldInfoProxy) field;
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
@@ -118,7 +138,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return proxy.base;
 	}
 
-	public IMethodInfo getUnderProxy(final IMethodInfo method) {
+	public IMethodInfo unwrapMethod(final IMethodInfo method) {
 		GeneratedMethodInfoProxy proxy = (GeneratedMethodInfoProxy) method;
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
@@ -126,12 +146,56 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		return proxy.base;
 	}
 
-	public IParameterInfo getUnderProxy(final IParameterInfo param) {
+	public IParameterInfo unwrapParameter(final IParameterInfo param) {
 		GeneratedParameterInfoProxy proxy = (GeneratedParameterInfoProxy) param;
 		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
 			throw new ReflectionUIError();
 		}
 		return proxy.base;
+	}
+
+	public boolean isWrappingType(final ITypeInfo type) {
+		if (!(type instanceof GeneratedBasicTypeInfoProxy)) {
+			return false;
+		}
+		GeneratedBasicTypeInfoProxy proxy = (GeneratedBasicTypeInfoProxy) type;
+		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isWrappingField(final IFieldInfo field) {
+		if (!(field instanceof GeneratedFieldInfoProxy)) {
+			return false;
+		}
+		GeneratedFieldInfoProxy proxy = (GeneratedFieldInfoProxy) field;
+		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isWrappingMethod(final IMethodInfo method) {
+		if (!(method instanceof GeneratedMethodInfoProxy)) {
+			return false;
+		}
+		GeneratedMethodInfoProxy proxy = (GeneratedMethodInfoProxy) method;
+		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isWrappingParameter(final IParameterInfo param) {
+		if (!(param instanceof GeneratedParameterInfoProxy)) {
+			return false;
+		}
+		GeneratedParameterInfoProxy proxy = (GeneratedParameterInfoProxy) param;
+		if (!proxy.factory.equals(TypeInfoProxyFactory.this)) {
+			return false;
+		}
+		return true;
 	}
 
 	protected Method getDebugInfoEnclosingMethod() {
@@ -440,11 +504,11 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
-		return new GeneratedFieldInfoProxy(type.getKeyField(), type);
+		return wrapField(type.getKeyField(), type);
 	}
 
 	protected IFieldInfo getValueField(IMapEntryTypeInfo type) {
-		return new GeneratedFieldInfoProxy(type.getValueField(), type);
+		return wrapField(type.getValueField(), type);
 	}
 
 	protected boolean isFormControlMandatory(IFieldInfo field, ITypeInfo containingType) {
@@ -614,7 +678,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public List<IMethodInfo> getMethods() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo method : TypeInfoProxyFactory.this.getMethods(base)) {
-				result.add(new GeneratedMethodInfoProxy(method, base));
+				result.add(wrapMethod(method, base));
 			}
 			return result;
 		}
@@ -623,7 +687,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 			for (IFieldInfo field : TypeInfoProxyFactory.this.getFields(base)) {
-				result.add(new GeneratedFieldInfoProxy(field, base));
+				result.add(wrapField(field, base));
 			}
 			return result;
 		}
@@ -632,7 +696,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public List<IMethodInfo> getConstructors() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo constructor : TypeInfoProxyFactory.this.getConstructors(base)) {
-				result.add(new GeneratedConstructorInfoProxy(constructor, base));
+				result.add(wrapConstructor(constructor, base));
 			}
 			return result;
 		}
@@ -861,7 +925,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo constructor : TypeInfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base,
 					listValue)) {
-				result.add(new GeneratedConstructorInfoProxy(constructor, base));
+				result.add(wrapConstructor(constructor, base));
 			}
 			return result;
 		}
@@ -892,7 +956,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		@Override
 		public IEnumerationItemInfo getValueInfo(Object object) {
 			IEnumerationItemInfo itemInfo = TypeInfoProxyFactory.this.getValueInfo((IEnumerationTypeInfo) base, object);
-			return new GeneratedEnumerationItemInfoProxy(itemInfo, base);
+			return wrapEnumerationItemInfo(itemInfo, base);
 		}
 
 		@Override
@@ -1138,7 +1202,7 @@ public class TypeInfoProxyFactory implements ITypeInfoProxyFactory {
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 			for (IParameterInfo param : TypeInfoProxyFactory.this.getParameters(base, containingType)) {
-				result.add(new GeneratedParameterInfoProxy(param, base, containingType));
+				result.add(wrapParameter(param, base, containingType));
 			}
 			return result;
 		}

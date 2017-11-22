@@ -37,7 +37,7 @@ public interface IParameterInfo extends IInfo {
 
 		@Override
 		public boolean isNullValueDistinct() {
-			return false;
+			return true;
 		}
 
 		@Override

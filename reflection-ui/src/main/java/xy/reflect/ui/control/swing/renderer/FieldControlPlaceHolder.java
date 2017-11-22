@@ -321,7 +321,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			field = new FieldInfoProxy(field) {
 				@Override
 				public ITypeInfo getType() {
-					return typeSpecificities.get(super.getType());
+					return typeSpecificities.wrapType(super.getType());
 				}
 			};
 		}

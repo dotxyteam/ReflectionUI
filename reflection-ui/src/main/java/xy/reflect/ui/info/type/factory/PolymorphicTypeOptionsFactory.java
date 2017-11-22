@@ -47,7 +47,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 				return Collections.emptyList();
 			}
 
-		}.get(type);
+		}.wrapType(type);
 	}
 
 	public List<ITypeInfo> getTypeOptions() {

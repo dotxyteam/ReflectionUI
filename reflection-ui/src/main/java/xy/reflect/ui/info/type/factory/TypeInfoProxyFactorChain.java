@@ -16,10 +16,10 @@ public class TypeInfoProxyFactorChain implements ITypeInfoProxyFactory {
 	}
 
 	@Override
-	public ITypeInfo get(ITypeInfo type) {
+	public ITypeInfo wrapType(ITypeInfo type) {
 		ITypeInfo result = type;
 		for (ITypeInfoProxyFactory factory : factories) {
-			result = factory.get(result);
+			result = factory.wrapType(result);
 		}
 		return result;
 	}
