@@ -12,8 +12,6 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
-import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
@@ -61,16 +59,6 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public Object getValue(Object object) {
 		Map<IFieldInfo, Object> valueByField = getValueByField(object);
-		if (!valueByField.containsKey(this)) {
-			if (getType().isPrimitive()) {
-				try {
-					valueByField.put(this, ClassUtils
-							.getDefaultPrimitiveValue(ClassUtils.forNameEvenIfPrimitive(getType().getName())));
-				} catch (ClassNotFoundException e) {
-					throw new ReflectionUIError(e);
-				}
-			}
-		}
 		return valueByField.get(this);
 	}
 
