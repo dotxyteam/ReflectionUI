@@ -77,6 +77,34 @@ public class ModificationStackControls {
 		return result;
 	}
 
+	protected Component createUndoButton(final SwingRenderer swingRenderer) {
+		Runnable action = new Runnable() {
+			@Override
+			public void run() {
+				modificationStack.undo();
+			}
+		};
+		Accessor<Boolean> enabled = new Accessor<Boolean>() {
+			@Override
+			public Boolean get() {
+				return modificationStack.canUndo();
+			}
+		};
+		Accessor<String> tooltipText = new Accessor<String>() {
+			@Override
+			public String get() {
+				if (modificationStack.getUndoSize() > 0) {
+					return modificationStack.getUndoModifications()[modificationStack.getUndoModifications().length - 1]
+							.getTitle();
+				} else {
+					return null;
+				}
+			}
+		};
+		JButton button = createButton(swingRenderer, "Undo", action, enabled, tooltipText);
+		return button;
+	}
+
 	protected Component createRedoButton(final SwingRenderer swingRenderer) {
 		Runnable action = new Runnable() {
 			@Override
@@ -94,7 +122,8 @@ public class ModificationStackControls {
 			@Override
 			public String get() {
 				if (modificationStack.getRedoSize() > 0) {
-					return modificationStack.getRedoModifications()[0].getTitle();
+					return modificationStack.getRedoModifications()[modificationStack.getRedoModifications().length - 1]
+							.getTitle();
 				} else {
 					return null;
 				}
@@ -124,34 +153,6 @@ public class ModificationStackControls {
 			}
 		};
 		JButton button = createButton(swingRenderer, "Reset", action, enabled, tooltipText);
-		return button;
-	}
-
-	protected Component createUndoButton(final SwingRenderer swingRenderer) {
-		Runnable action = new Runnable() {
-			@Override
-			public void run() {
-				modificationStack.undo();
-			}
-		};
-		Accessor<Boolean> enabled = new Accessor<Boolean>() {
-			@Override
-			public Boolean get() {
-				return modificationStack.canUndo();
-			}
-		};
-		Accessor<String> tooltipText = new Accessor<String>() {
-			@Override
-			public String get() {
-				if (modificationStack.getUndoSize() > 0) {
-					return modificationStack.getUndoModifications()[modificationStack.getUndoModifications().length - 1]
-							.getTitle();
-				} else {
-					return null;
-				}
-			}
-		};
-		JButton button = createButton(swingRenderer, "Undo", action, enabled, tooltipText);
 		return button;
 	}
 
