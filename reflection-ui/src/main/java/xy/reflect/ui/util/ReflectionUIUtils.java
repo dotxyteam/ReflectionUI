@@ -874,23 +874,23 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static IModification finalizeParentObjectValueEditSession(IModification valueUndoModification,
+	public static IModification finalizeSeparateObjectValueEditSession(IModification valueUndoModification,
 			boolean valueModifAccepted, ValueReturnMode valueReturnMode, boolean valueReplaced,
 			IModification commitModif, IInfo editSessionTarget, String editSessionTitle) {
-		ModificationStack parentObjectModifStack = new ModificationStack(null);
+		ModificationStack objectModifStack = new ModificationStack(null);
 		ModificationStack valueModifStack = new ModificationStack(null);
 		valueModifStack.pushUndo(valueUndoModification);
-		finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack, valueModifAccepted,
-				valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
-		return parentObjectModifStack.toCompositeUndoModification(editSessionTarget, editSessionTitle);
+		finalizeSeparateObjectValueEditSession(objectModifStack, valueModifStack, valueModifAccepted, valueReturnMode,
+				valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
+		return objectModifStack.toCompositeUndoModification(editSessionTarget, editSessionTitle);
 	}
 
-	public static boolean finalizeParentObjectValueEditSession(final ModificationStack parentObjectModifStack,
+	public static boolean finalizeSeparateObjectValueEditSession(final ModificationStack objectModifStack,
 			final ModificationStack valueModifStack, boolean valueModifAccepted, final ValueReturnMode valueReturnMode,
 			final boolean valueReplaced, final IModification commitModif, IInfo editSessionTarget,
 			String editSessionTitle, final Listener<String> debugLogListener) {
 
-		if (parentObjectModifStack == null) {
+		if (objectModifStack == null) {
 			throw new ReflectionUIError();
 		}
 		if (valueModifStack == null) {
@@ -900,15 +900,15 @@ public class ReflectionUIUtils {
 		boolean parentObjectImpacted = false;
 		if (valueModifAccepted) {
 			if (!valueModifStack.isNull()) {
-				parentObjectImpacted = parentObjectModifStack.insideComposite(editSessionTarget, editSessionTitle,
+				parentObjectImpacted = objectModifStack.insideComposite(editSessionTarget, editSessionTitle,
 						UndoOrder.FIFO, new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
 								if (valueReturnMode != ValueReturnMode.CALCULATED) {
 									if (valueModifStack.wasInvalidated()) {
-										parentObjectModifStack.invalidate();
+										objectModifStack.invalidate();
 									} else {
-										parentObjectModifStack
+										objectModifStack
 												.pushUndo(valueModifStack.toCompositeUndoModification(null, null));
 									}
 								}
@@ -917,7 +917,7 @@ public class ReflectionUIUtils {
 										if (debugLogListener != null) {
 											debugLogListener.handle("Executing " + commitModif);
 										}
-										parentObjectModifStack.apply(commitModif);
+										objectModifStack.apply(commitModif);
 									}
 								}
 								return true;
@@ -937,7 +937,7 @@ public class ReflectionUIUtils {
 							debugLogListener.handle("WARNING: Cannot undo invalidated sub-modification stack: "
 									+ valueModifStack + "\n=> Invalidating parent modification stack");
 						}
-						parentObjectModifStack.invalidate();
+						objectModifStack.invalidate();
 						parentObjectImpacted = true;
 					}
 				}
@@ -946,7 +946,7 @@ public class ReflectionUIUtils {
 		return parentObjectImpacted;
 	}
 
-	public static boolean canEditParentObjectValue(boolean valueImmutable, ValueReturnMode valueReturnMode,
+	public static boolean canEditSeparateObjectValue(boolean valueImmutable, ValueReturnMode valueReturnMode,
 			boolean canCommit) {
 		if ((valueReturnMode != ValueReturnMode.CALCULATED) && !valueImmutable) {
 			return true;

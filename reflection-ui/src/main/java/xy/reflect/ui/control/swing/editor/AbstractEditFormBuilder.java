@@ -140,7 +140,6 @@ public abstract class AbstractEditFormBuilder {
 		};
 		result.setTypeModificationStackAccessible(isEncapsulationTypeModificationStackAccessible());
 		result.setTypeCaption(getEncapsulationTypeCaption());
-		result.setFieldCaption(getEncapsulatedFieldCaption());
 		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 		{
 			typeSpecificProperties.put(SwingRenderer.CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY,
@@ -153,13 +152,13 @@ public abstract class AbstractEditFormBuilder {
 				result.setFieldName(customEncapsulationFieldName);
 			}
 		}
+		result.setFieldCaption(getEncapsulatedFieldCaption());
 		result.setFieldGetOnly(isEncapsulationFieldGetOnly());
 		result.setFieldNullValueDistinct(isObjectNullValueDistinct());
 		result.setFieldValueReturnMode(getEncapsulationFieldValueReturnMode());
 		result.setFieldFormControlEmbedded(isObjectFormExpanded());
 		result.setFieldFormControlFilter(getObjectFormFilter());
 		result.setFieldFormControlMandatory(isObjectCustomControlForbidden());
-
 		return result;
 	}
 
@@ -236,12 +235,12 @@ public abstract class AbstractEditFormBuilder {
 		return true;
 	}
 
-	public JPanel createForm(boolean realTimeLinkWithParent) {
+	public JPanel createForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
 		Object encapsulated = getEncapsulatedObject();
 		JPanel result = getSwingRenderer().createForm(encapsulated);
 		if (realTimeLinkWithParent) {
 			if (canPotentiallyModifyParentObject()) {
-				forwardEditFormModificationsToParentObject(result);
+				forwardEditFormModificationsToParentObject(result, exclusiveLinkWithParent);
 			}
 			if (refreshesEditFormOnModification()) {
 				refreshEditFormOnModification(result);
@@ -259,7 +258,7 @@ public abstract class AbstractEditFormBuilder {
 			return false;
 		}
 		ensureObjectValueIsInitialized();
-		return ReflectionUIUtils.canEditParentObjectValue(
+		return ReflectionUIUtils.canEditSeparateObjectValue(
 				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
 				getObjectValueReturnMode(), canCommit());
 	}
@@ -283,7 +282,7 @@ public abstract class AbstractEditFormBuilder {
 		return true;
 	}
 
-	protected void forwardEditFormModificationsToParentObject(final JPanel form) {
+	protected void forwardEditFormModificationsToParentObject(final JPanel form, boolean exclusiveLinkWithParent) {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
@@ -334,9 +333,11 @@ public abstract class AbstractEditFormBuilder {
 				return result;
 			}
 		};
+		boolean exclusiveForwarding = exclusiveLinkWithParent;
 		getSwingRenderer().getModificationStackByForm().put(form,
 				new ForwardingModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
 						childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
-						childModifTitleGetter, parentModifStackGetter));
+						childModifTitleGetter, parentModifStackGetter, exclusiveForwarding));
 	}
+
 }

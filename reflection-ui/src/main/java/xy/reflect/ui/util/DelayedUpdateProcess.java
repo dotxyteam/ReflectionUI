@@ -1,10 +1,15 @@
 package xy.reflect.ui.util;
 
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 public abstract class DelayedUpdateProcess {
 
-	private boolean updateActionInQueue;
-	private Object updateMutex = new Object();
 	private long delayMilliseconds = 500;
+	private boolean dirty = false;
+	private ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 1, 1L, TimeUnit.MILLISECONDS,
+			new LinkedBlockingQueue<Runnable>());
 
 	protected abstract void run();
 
@@ -17,24 +22,25 @@ public abstract class DelayedUpdateProcess {
 	}
 
 	public void schedule() {
-		if (updateActionInQueue) {
+		dirty = true;
+		if (executor.getQueue().size() > 0) {
 			return;
 		}
-		updateActionInQueue = true;
-		new Thread("DelayedUpdateProcessor[of=" + DelayedUpdateProcess.this + "]") {
+		executor.submit(new Runnable() {
 			@Override
 			public void run() {
-				synchronized (updateMutex) {
-					try {
-						sleep(delayMilliseconds);
-					} catch (InterruptedException e) {
-						throw new AssertionError(e);
-					}
-					updateActionInQueue = false;
-					DelayedUpdateProcess.this.run();
+				if (!dirty) {
+					return;
 				}
+				try {
+					Thread.sleep(delayMilliseconds);
+				} catch (InterruptedException e) {
+					throw new AssertionError(e);
+				}
+				dirty = false;
+				DelayedUpdateProcess.this.run();
 			}
-		}.start();
+		});
 	}
 
 }

@@ -77,7 +77,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	}
 
 	public JFrame createFrame() {
-		createdEditForm = createForm(true);
+		createdEditForm = createForm(false, false);
 		createdFrame = new JFrame();
 		getSwingRenderer().setupWindow(createdFrame, createdEditForm, createAnyWindowToolbarControls(),
 				getEditorWindowTitle(), getObjectIconImage());
@@ -98,7 +98,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	}
 
 	public JDialog createDialog() {
-		createdEditForm = createForm(false);
+		createdEditForm = createForm(false, false);
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(createdEditForm);
 		dialogBuilder.setTitle(getEditorWindowTitle());
@@ -165,7 +165,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		}
 		boolean valueModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
 		String editSessionTitle = getCumulatedModificationsTitle();
-		parentModificationStackImpacted = ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
+		parentModificationStackImpacted = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
 				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
 				editSessionTitle, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}

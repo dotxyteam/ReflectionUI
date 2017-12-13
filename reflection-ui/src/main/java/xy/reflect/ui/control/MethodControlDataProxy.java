@@ -2,7 +2,6 @@ package xy.reflect.ui.control;
 
 import java.util.List;
 import java.util.Map;
-
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.InvocationData;
@@ -17,7 +16,7 @@ public class MethodControlDataProxy implements IMethodControlData {
 		super();
 		this.base = base;
 	}
-
+	
 	@Override
 	public String getConfirmationMessage(InvocationData invocationData) {
 		return base.getConfirmationMessage(invocationData);

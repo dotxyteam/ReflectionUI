@@ -27,7 +27,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -128,7 +127,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
-	
+
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
 	}
@@ -174,7 +173,6 @@ public class SwingRenderer {
 		return modificationStackForwardingStatusByForm;
 	}
 
-	
 	public Map<Component, IFieldControlPlugin> getPluginByFieldControl() {
 		return pluginByFieldControl;
 	}
@@ -1539,4 +1537,9 @@ public class SwingRenderer {
 	public Color getNullColor() {
 		return SwingRendererUtils.getNonEditableTextBackgroundColor();
 	}
+
+	public long getDataUpdateDelayMilliseconds() {
+		return 500;
+	}
+
 }

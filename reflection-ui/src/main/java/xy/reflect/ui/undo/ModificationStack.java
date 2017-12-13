@@ -20,6 +20,7 @@ public class ModificationStack {
 	protected boolean invalidated = false;
 	protected boolean wasInvalidated = false;
 	protected long stateVersion = 0;
+
 	protected IModificationListener internalListener = new IModificationListener() {
 
 		@Override
@@ -45,6 +46,13 @@ public class ModificationStack {
 		public void handleInvalidate() {
 			stateVersion++;
 		}
+
+		@Override
+		public void handleForget() {
+			stateVersion++;
+		}
+		
+		
 	};
 	protected IModificationListener allListenersProxy = new IModificationListener() {
 
@@ -90,6 +98,15 @@ public class ModificationStack {
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleInvalidationCleared();
+			}
+		}
+
+		@Override
+		public void handleForget() {
+			internalListener.handleForget();
+			for (IModificationListener listener : new ArrayList<IModificationListener>(
+					ModificationStack.this.listeners)) {
+				listener.handleForget();
 			}
 		}
 
@@ -272,6 +289,16 @@ public class ModificationStack {
 			invalidated = false;
 			allListenersProxy.handleInvalidationCleared();
 		}
+	}
+
+	public void forget() {
+		if (compositeStack.size() > 0) {
+			throw new ReflectionUIError("Cannot forget while composite modification creation is ongoing");
+		}
+		undoStack.clear();
+		redoStack.clear();
+		invalidated = wasInvalidated = false;
+		allListenersProxy.handleInvalidate();
 	}
 
 	public Boolean canUndo() {

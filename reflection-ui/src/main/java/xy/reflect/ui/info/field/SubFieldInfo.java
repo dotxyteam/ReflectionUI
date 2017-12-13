@@ -73,7 +73,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isGetOnly() {
-		if (!ReflectionUIUtils.canEditParentObjectValue(false, theField.getValueReturnMode(), !theField.isGetOnly())) {
+		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(), !theField.isGetOnly())) {
 			return true;
 		}
 		return theSubField.isGetOnly();
@@ -84,7 +84,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 		Object fieldValue = getTheFieldValue(object);
 		IModification oppositeSubFieldModification = new ControlDataValueModification(
 				new DefaultFieldControlData(fieldValue, theSubField), subFieldValue, theSubField).applyAndGetOpposite();
-		IModification oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
+		IModification oppositeFieldModification = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
 				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
 				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
 				theField, ControlDataValueModification.getTitle(theField));

@@ -213,7 +213,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 		};
-		return typeEnumerationControlBuilder.createForm(true);
+		return typeEnumerationControlBuilder.createForm(true, false);
 	}
 
 	protected void refreshTypeEnumerationControl() {
@@ -307,7 +307,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 
 		};
-		return dynamicControlBuilder.createForm(true);
+		return dynamicControlBuilder.createForm(true, false);
 	}
 
 	protected void refreshDynamicControl() {

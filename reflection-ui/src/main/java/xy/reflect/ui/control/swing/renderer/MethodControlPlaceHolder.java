@@ -27,6 +27,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -76,6 +77,21 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 	public int getIndentWidth() {
 		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
+	}
+
+	public IMethodControlData delayInvocations(final IMethodControlData data) {
+		return new MethodControlDataProxy(data) {
+
+			@Override
+			public Object invoke(InvocationData invocationData) {
+				try {
+					Thread.sleep(swingRenderer.getDataUpdateDelayMilliseconds());
+				} catch (InterruptedException e) {
+					throw new ReflectionUIError(e);
+				}
+				return data.invoke(invocationData);
+			}
+		};
 	}
 
 	public IMethodControlData makeMethodModificationsUndoable(final IMethodControlData data) {
@@ -201,6 +217,8 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 		result = indicateWhenBusy(result);
 		result = makeMethodModificationsUndoable(result);
+		result = delayInvocations(result);
+
 		return result;
 	}
 

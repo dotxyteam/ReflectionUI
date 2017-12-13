@@ -265,7 +265,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				return data.getValue();
 			}
 		};
-		JPanel result = subFormBuilder.createForm(true);
+		JPanel result = subFormBuilder.createForm(true, false);
 		result.setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return result;
 	}

@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing.renderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.Map;
-
 import javax.swing.JPanel;
 
 import xy.reflect.ui.control.FieldContext;
@@ -94,24 +93,16 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		return this.swingRenderer.getModificationStackByForm().get(form);
 	}
 
-	public DelayedUpdateProcess createDelayedUpdateProcess(final Runnable updateJob) {
-		DelayedUpdateProcess result = new DelayedUpdateProcess() {
-
-			@Override
-			protected void run() {
-				updateJob.run();
-			}
-		};
-		result.setDelayMilliseconds(500);
-		return result;
-	}
-
 	public IFieldControlData handleStressfulUpdates(final IFieldControlData data) {
 		return new FieldControlDataProxy(data) {
 
 			Object delayedFieldValue;
 			boolean delaying = false;
-			DelayedUpdateProcess delayedUpdateProcess = createDelayedUpdateProcess(new Runnable() {
+			DelayedUpdateProcess delayedUpdateProcess = new DelayedUpdateProcess() {
+				{
+					setDelayMilliseconds(swingRenderer.getDataUpdateDelayMilliseconds());
+				}
+
 				@Override
 				public void run() {
 					try {
@@ -120,7 +111,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 						delaying = false;
 					}
 				}
-			});
+			};
 
 			@Override
 			public Object getValue() {

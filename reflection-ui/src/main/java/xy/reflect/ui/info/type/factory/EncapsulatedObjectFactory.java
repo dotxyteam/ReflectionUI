@@ -29,6 +29,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class EncapsulatedObjectFactory {
 
+	public static final String IS_ENCAPSULATION_FIELD_PROPERTY_KEY = EncapsulatedObjectFactory.class.getName()
+			+ ".IS_ENCAPSULATION_FIELD";
+
 	protected ReflectionUI reflectionUI;
 
 	protected String typeName;
@@ -315,7 +318,7 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public void load(Object object, InputStream in) {
 		}
-		
+
 		@Override
 		public String getName() {
 			return typeName;
@@ -577,7 +580,9 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return fieldSpecificProperties;
+			Map<String, Object> result = new HashMap<String, Object>(fieldSpecificProperties);
+			result.put(IS_ENCAPSULATION_FIELD_PROPERTY_KEY, true);
+			return result;
 		}
 
 		@Override

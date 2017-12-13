@@ -1,7 +1,6 @@
 package xy.reflect.ui.control;
 
 import java.util.Map;
-
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;

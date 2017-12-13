@@ -81,7 +81,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isReadOnly() {
-		if (!ReflectionUIUtils.canEditParentObjectValue(false, theField.getValueReturnMode(), !theField.isGetOnly())) {
+		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(), !theField.isGetOnly())) {
 			return true;
 		}
 		return theSubMethod.isReadOnly();
@@ -103,7 +103,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 			oppositeSubMethodModification = null;
 		} else {
 			final Object[] resultHolder = new Object[1];
-			oppositeSubMethodModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
+			oppositeSubMethodModification = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
 					IModification.FAKE_MODIFICATION, true, theSubMethod.getValueReturnMode(), true,
 					new InvokeMethodModification(
 							new DefaultMethodControlData(fieldValue, new MethodInfoProxy(theSubMethod) {
@@ -116,7 +116,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 					theSubMethod, InvokeMethodModification.getTitle(theSubMethod));
 			result = resultHolder[0];
 		}
-		IModification oppositeFieldModification = ReflectionUIUtils.finalizeParentObjectValueEditSession(
+		IModification oppositeFieldModification = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
 				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
 				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
 				theField, ControlDataValueModification.getTitle(theField));

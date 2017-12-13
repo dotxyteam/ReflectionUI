@@ -19,12 +19,13 @@ public class ForwardingModificationStack extends ModificationStack {
 	protected Accessor<String> editSessionTitleGetter;
 	protected Accessor<ModificationStack> parentObjectModifStackGetter;
 	protected Accessor<IModification> commitModifGetter;
+	private boolean exclusiveForwarding;
 
 	public ForwardingModificationStack(SwingRenderer swingRenderer, JPanel form,
 			Accessor<Boolean> valueModifAcceptedGetter, Accessor<ValueReturnMode> valueReturnModeGetter,
 			Accessor<Boolean> valueReplacedGetter, Accessor<IModification> commitModifGetter,
 			Accessor<IInfo> editSessionTargetGetter, Accessor<String> editSessionTitleGetter,
-			Accessor<ModificationStack> parentObjectModifStackGetter) {
+			Accessor<ModificationStack> parentObjectModifStackGetter, boolean exclusiveForwarding) {
 		super(null);
 		this.swingRenderer = swingRenderer;
 		this.form = form;
@@ -35,7 +36,7 @@ public class ForwardingModificationStack extends ModificationStack {
 		this.editSessionTargetGetter = editSessionTargetGetter;
 		this.editSessionTitleGetter = editSessionTitleGetter;
 		this.parentObjectModifStackGetter = parentObjectModifStackGetter;
-
+		this.exclusiveForwarding = exclusiveForwarding;
 		swingRenderer.getModificationStackForwardingStatusByForm().put(form, true);
 
 	}
@@ -46,7 +47,7 @@ public class ForwardingModificationStack extends ModificationStack {
 			return false;
 		}
 		boolean result = super.pushUndo(undoModif);
-		if(isInComposite()){
+		if (isInComposite()) {
 			return result;
 		}
 		ModificationStack valueModifStack = new ModificationStack(null);
@@ -55,12 +56,12 @@ public class ForwardingModificationStack extends ModificationStack {
 
 					@Override
 					protected void shiftBackward() {
-						ForwardingModificationStack.this.superUndo();
+						ForwardingModificationStack.this.super_undo();
 					}
 
 					@Override
 					protected void shiftForeward() {
-						ForwardingModificationStack.this.superRedo();
+						ForwardingModificationStack.this.super_redo();
 					}
 
 				});
@@ -75,7 +76,7 @@ public class ForwardingModificationStack extends ModificationStack {
 		}
 		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
 		IInfo editSessionTarget = editSessionTargetGetter.get();
-		return ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
+		return ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
 				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
 				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 	}
@@ -83,6 +84,10 @@ public class ForwardingModificationStack extends ModificationStack {
 	@Override
 	public void invalidate() {
 		super.invalidate();
+		forwardInvalidation();
+	}
+
+	protected void forwardInvalidation() {
 		ModificationStack valueModifStack = new ModificationStack(null);
 		valueModifStack.invalidate();
 		Boolean valueModifAccepted = valueModifAcceptedGetter.get();
@@ -92,30 +97,41 @@ public class ForwardingModificationStack extends ModificationStack {
 		String editSessionTitle = null;
 		IInfo editSessionTarget = editSessionTargetGetter.get();
 		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
-		ReflectionUIUtils.finalizeParentObjectValueEditSession(parentObjectModifStack, valueModifStack,
+		ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
 				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
 				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 	}
 
 	@Override
+	public void forget() {
+		super.forget();
+		if (exclusiveForwarding) {
+			ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
+			parentObjectModifStack.forget();
+		} else {
+			forwardInvalidation();
+		}
+	}
+
+	@Override
 	public void undo() {
-		superUndo();
+		super_undo();
 		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
 		parentObjectModifStack.invalidate();
 	}
 
 	@Override
 	public void redo() {
-		superRedo();
+		super_redo();
 		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
 		parentObjectModifStack.invalidate();
 	}
 
-	protected void superUndo() {
+	protected void super_undo() {
 		super.undo();
 	}
 
-	protected void superRedo() {
+	protected void super_redo() {
 		super.redo();
 	}
 
