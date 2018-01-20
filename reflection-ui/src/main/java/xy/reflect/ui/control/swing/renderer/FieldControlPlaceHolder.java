@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.Map;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -41,7 +44,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	protected String errorMessageDisplayedOnPlaceHolder;
 	protected IFieldControlData controlData;
 	protected IFieldControlData lastInitialControlData;
-	protected boolean layoutUpdateNeeded = true;
+	protected boolean layoutInContainerUpdateNeeded = true;
+	protected int positionInContainer = -1;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, JPanel form, IFieldInfo field) {
 		super();
@@ -50,6 +54,68 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		this.field = field;
 		setLayout(new BorderLayout());
 		refreshUI(false);
+		if (field.getAutoUpdatePeriodMilliseconds() >= 0) {
+			refreshUIPeriodically();
+		}
+	}
+
+	public void refreshUIPeriodically() {
+		addAncestorListener(new AncestorListener() {
+
+			Thread thread;
+
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+				thread = new Thread("AutoUpdater of " + FieldControlPlaceHolder.this) {
+					boolean updating = false;
+
+					@Override
+					public void run() {
+						while (true) {
+							if (isInterrupted()) {
+								break;
+							}
+							if (field.getAutoUpdatePeriodMilliseconds() > 0) {
+								try {
+									sleep(field.getAutoUpdatePeriodMilliseconds());
+								} catch (InterruptedException e) {
+									break;
+								}
+							}
+							while (updating) {
+								try {
+									sleep(1);
+								} catch (InterruptedException e) {
+									break;
+								}
+							}
+							updating = true;
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									refreshUI(false);
+									if (isLayoutInContainerUpdateNeeded()) {
+										swingRenderer.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
+									}
+									updating = false;
+								}
+							});
+						}
+					}
+				};
+				thread.start();
+			}
+
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				thread.interrupt();
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+			}
+
+		});
 	}
 
 	public IFieldInfo getField() {
@@ -73,12 +139,20 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		this.controlData = controlData;
 	}
 
-	public boolean isLayoutUpdateNeeded() {
-		return layoutUpdateNeeded;
+	public boolean isLayoutInContainerUpdateNeeded() {
+		return layoutInContainerUpdateNeeded;
 	}
 
-	public void setLayoutUpdateNeeded(boolean layoutUpdateNeeded) {
-		this.layoutUpdateNeeded = layoutUpdateNeeded;
+	public void setLayoutInContainerUpdateNeeded(boolean layoutUpdateNeeded) {
+		this.layoutInContainerUpdateNeeded = layoutUpdateNeeded;
+	}
+
+	public int getPositionInContainer() {
+		return positionInContainer;
+	}
+
+	public void setPositionInContainer(int positionInContainer) {
+		this.positionInContainer = positionInContainer;
 	}
 
 	@Override
@@ -94,6 +168,9 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	}
 
 	public IFieldControlData handleStressfulUpdates(final IFieldControlData data) {
+		if (!(swingRenderer.getDataUpdateDelayMilliseconds() > 0)) {
+			return data;
+		}
 		return new FieldControlDataProxy(data) {
 
 			Object delayedFieldValue;
@@ -268,8 +345,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			} catch (Throwable t) {
 				fieldControl = this.swingRenderer.createErrorControl(t);
 			}
-			add(fieldControl, BorderLayout.CENTER);
-			layoutUpdateNeeded = true;
+			add(fieldControl, BorderLayout.CENTER);			
+			layoutInContainerUpdateNeeded = true;
 		} else {
 			if (isFieldControlObsolete()) {
 				refreshUI(true);

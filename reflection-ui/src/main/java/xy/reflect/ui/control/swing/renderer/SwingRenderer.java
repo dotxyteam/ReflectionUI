@@ -12,6 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -309,19 +310,25 @@ public class SwingRenderer {
 
 	public Container createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
 		JPanel fieldsPanel = new JPanel();
-		fieldsPanel.setLayout(new GridBagLayout());
+		fieldsPanel.setLayout(getFieldsPanelLayout());
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = fielControlPlaceHolders.get(i);
 			{
 				fieldsPanel.add(fieldControlPlaceHolder);
-				updateFieldControlLayout(fieldControlPlaceHolder, i);
+				fieldControlPlaceHolder.setLayoutInContainerUpdateNeeded(true);
+				fieldControlPlaceHolder.setPositionInContainer(i);
+				updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
 			}
 		}
 		return fieldsPanel;
 	}
 
-	public int getLayoutSpacing(Container container) {
-		return SwingRendererUtils.getStandardCharacterWidth(container) * 1;
+	public LayoutManager getFieldsPanelLayout() {
+		return new GridBagLayout();
+	}
+
+	public int getLayoutSpacing(JPanel fieldsPanel) {
+		return SwingRendererUtils.getStandardCharacterWidth(fieldsPanel) * 1;
 	}
 
 	public JFrame createFrame(Component content, String title, Image iconImage,
@@ -337,7 +344,7 @@ public class SwingRenderer {
 	}
 
 	public Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
-		Container result = new JPanel();
+		JPanel result = new JPanel();
 		int spacing = getLayoutSpacing(result);
 		result.setLayout(new WrapLayout(WrapLayout.CENTER, spacing, spacing));
 		for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
@@ -1218,7 +1225,9 @@ public class SwingRenderer {
 			for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
 				FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
 				fieldControlPlaceHolder.refreshUI(recreate);
-				updateFieldControlLayout(fieldControlPlaceHolder, i);
+				if (fieldControlPlaceHolder.isLayoutInContainerUpdateNeeded()) {
+					updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
+				}
 			}
 		}
 		finalizeFormUpdate(form);
@@ -1330,20 +1339,15 @@ public class SwingRenderer {
 
 	}
 
-	public void updateFieldControlLayout(FieldControlPlaceHolder fieldControlPlaceHolder, int fieldIndex) {
-
-		if (!fieldControlPlaceHolder.isLayoutUpdateNeeded()) {
-			return;
-		}
-
+	public void updateFieldControlLayoutInContainer(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
 		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
-		Container container = fieldControlPlaceHolder.getParent();
-		int spacing = getLayoutSpacing(container);
+		JPanel fieldsPanel = (JPanel) fieldControlPlaceHolder.getParent();
+		int spacing = getLayoutSpacing(fieldsPanel);
 
 		Component captionControl = getCaptionControlByFieldControlPlaceHolder().get(fieldControlPlaceHolder);
 		if (captionControl != null) {
-			container.remove(captionControl);
+			fieldsPanel.remove(captionControl);
 			getCaptionControlByFieldControlPlaceHolder().remove(fieldControlPlaceHolder);
 		}
 		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showsCaption()
@@ -1354,17 +1358,17 @@ public class SwingRenderer {
 			captionControlLayoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
 				captionControlLayoutConstraints.gridx = 0;
-				captionControlLayoutConstraints.gridy = fieldIndex;
+				captionControlLayoutConstraints.gridy = fieldControlPlaceHolder.getPositionInContainer();
 			} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
 				captionControlLayoutConstraints.gridy = 0;
-				captionControlLayoutConstraints.gridx = fieldIndex;
+				captionControlLayoutConstraints.gridx = fieldControlPlaceHolder.getPositionInContainer();
 			} else {
 				throw new ReflectionUIError();
 			}
 			captionControlLayoutConstraints.weightx = 0.0;
 			captionControlLayoutConstraints.weighty = 1.0;
 			captionControlLayoutConstraints.anchor = GridBagConstraints.WEST;
-			container.add(captionControl, captionControlLayoutConstraints);
+			fieldsPanel.add(captionControl, captionControlLayoutConstraints);
 			getCaptionControlByFieldControlPlaceHolder().put(fieldControlPlaceHolder, captionControl);
 		}
 
@@ -1377,7 +1381,7 @@ public class SwingRenderer {
 			} else {
 				fieldControlPlaceHolderLayoutConstraints.gridx = 1;
 			}
-			fieldControlPlaceHolderLayoutConstraints.gridy = fieldIndex;
+			fieldControlPlaceHolderLayoutConstraints.gridy = fieldControlPlaceHolder.getPositionInContainer();
 		} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
 			if (!shouldHaveSeparateCaptionControl) {
 				fieldControlPlaceHolderLayoutConstraints.gridheight = 2;
@@ -1385,7 +1389,7 @@ public class SwingRenderer {
 			} else {
 				fieldControlPlaceHolderLayoutConstraints.gridy = 1;
 			}
-			fieldControlPlaceHolderLayoutConstraints.gridx = fieldIndex;
+			fieldControlPlaceHolderLayoutConstraints.gridx = fieldControlPlaceHolder.getPositionInContainer();
 		} else {
 			throw new ReflectionUIError();
 		}
@@ -1393,8 +1397,8 @@ public class SwingRenderer {
 		fieldControlPlaceHolderLayoutConstraints.weighty = 1.0;
 		fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
 		fieldControlPlaceHolderLayoutConstraints.anchor = GridBagConstraints.NORTH;
-		container.remove(fieldControlPlaceHolder);
-		container.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
+		fieldsPanel.remove(fieldControlPlaceHolder);
+		fieldsPanel.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
 
 		IFieldInfo field = fieldControlPlaceHolder.getField();
 		if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().length() > 0)) {
@@ -1402,19 +1406,21 @@ public class SwingRenderer {
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
 				layoutConstraints.gridx = 2;
-				layoutConstraints.gridy = fieldIndex;
+				layoutConstraints.gridy = fieldControlPlaceHolder.getPositionInContainer();
 				layoutConstraints.weighty = 1.0;
 			} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
 				layoutConstraints.gridy = 2;
-				layoutConstraints.gridx = fieldIndex;
+				layoutConstraints.gridx = fieldControlPlaceHolder.getPositionInContainer();
 				layoutConstraints.weightx = 1.0;
 			} else {
 				throw new ReflectionUIError();
 			}
-			container.add(createOnlineHelpControl(field.getOnlineHelp()), layoutConstraints);
+			fieldsPanel.add(createOnlineHelpControl(field.getOnlineHelp()), layoutConstraints);
 		}
+		
+		SwingRendererUtils.handleComponentSizeChange(fieldsPanel);
 
-		fieldControlPlaceHolder.setLayoutUpdateNeeded(false);
+		fieldControlPlaceHolder.setLayoutInContainerUpdateNeeded(false);
 
 	}
 
