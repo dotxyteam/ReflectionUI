@@ -113,6 +113,11 @@ public interface IFieldInfo extends IInfo {
 			return "NULL_FIELD_INFO";
 		}
 
+		@Override
+		public long getAutoUpdatePeriodMilliseconds() {
+			return -1;
+		}
+
 	};
 
 	ITypeInfo getType();
@@ -142,5 +147,7 @@ public interface IFieldInfo extends IInfo {
 	boolean isFormControlEmbedded();
 
 	IInfoFilter getFormControlFilter();
+	
+	long getAutoUpdatePeriodMilliseconds();
 
 }

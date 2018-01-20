@@ -15,7 +15,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 
-public class MethodParameterAsFieldInfo   extends AbstractInfo implements IFieldInfo {
+public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected IParameterInfo param;
 	protected IMethodInfo method;
 
@@ -45,7 +45,7 @@ public class MethodParameterAsFieldInfo   extends AbstractInfo implements IField
 	@Override
 	public Object getValue(Object object) {
 		Map<IParameterInfo, Object> valueByParameter = getValueByParameter(object);
-		if(!valueByParameter.containsKey(param)){
+		if (!valueByParameter.containsKey(param)) {
 			return param.getDefaultValue();
 		}
 		return valueByParameter.get(param);
@@ -134,6 +134,11 @@ public class MethodParameterAsFieldInfo   extends AbstractInfo implements IField
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
 	}
 
 	@Override

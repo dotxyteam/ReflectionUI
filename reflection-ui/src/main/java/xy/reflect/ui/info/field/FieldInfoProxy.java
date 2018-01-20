@@ -105,6 +105,10 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base.getSpecificProperties();
 	}
 
+	public long getAutoUpdatePeriodMilliseconds() {
+		return base.getAutoUpdatePeriodMilliseconds();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

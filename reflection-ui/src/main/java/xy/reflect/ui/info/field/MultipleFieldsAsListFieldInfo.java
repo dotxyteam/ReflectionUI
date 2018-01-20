@@ -154,6 +154,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
+	}
+
+	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}

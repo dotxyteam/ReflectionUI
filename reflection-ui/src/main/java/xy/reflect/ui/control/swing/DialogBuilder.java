@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DialogBuilder {
@@ -133,6 +134,13 @@ public class DialogBuilder {
 			public void dispose() {
 				if (disposed) {
 					return;
+				}
+				if (swingRenderer.getDataUpdateDelayMilliseconds() > 0) {
+					try {
+						Thread.sleep(swingRenderer.getDataUpdateDelayMilliseconds());
+					} catch (InterruptedException e) {
+						throw new ReflectionUIError(e);
+					}
 				}
 				super.dispose();
 				if (whenClosing != null) {

@@ -127,6 +127,11 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

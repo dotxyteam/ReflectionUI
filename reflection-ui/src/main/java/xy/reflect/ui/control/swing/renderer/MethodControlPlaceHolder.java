@@ -84,10 +84,12 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 			@Override
 			public Object invoke(InvocationData invocationData) {
-				try {
-					Thread.sleep(swingRenderer.getDataUpdateDelayMilliseconds());
-				} catch (InterruptedException e) {
-					throw new ReflectionUIError(e);
+				if (swingRenderer.getDataUpdateDelayMilliseconds() > 0) {
+					try {
+						Thread.sleep(swingRenderer.getDataUpdateDelayMilliseconds());
+					} catch (InterruptedException e) {
+						throw new ReflectionUIError(e);
+					}
 				}
 				return data.invoke(invocationData);
 			}

@@ -50,6 +50,7 @@ public class EncapsulatedObjectFactory {
 	protected String fieldNullValueLabel;
 	protected String fieldOnlineHelp;
 	protected InfoCategory fieldCategory;
+	protected long fieldAutoUpdatePeriodMilliseconds = -1;
 	protected boolean fieldFormControlMandatory = false;
 	protected boolean fieldFormControlEmbedded = false;
 	protected IInfoFilter fieldFormControlFilter = IInfoFilter.DEFAULT;
@@ -181,6 +182,14 @@ public class EncapsulatedObjectFactory {
 
 	public void setFieldCategory(InfoCategory fieldCategory) {
 		this.fieldCategory = fieldCategory;
+	}
+
+	public long getFieldAutoUpdatePeriodMilliseconds() {
+		return fieldAutoUpdatePeriodMilliseconds;
+	}
+
+	public void setFieldAutoUpdatePeriodMilliseconds(long fieldAutoUpdatePeriodMilliseconds) {
+		this.fieldAutoUpdatePeriodMilliseconds = fieldAutoUpdatePeriodMilliseconds;
 	}
 
 	public ValueReturnMode getFieldValueReturnMode() {
@@ -624,6 +633,11 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public InfoCategory getCategory() {
 			return fieldCategory;
+		}
+
+		@Override
+		public long getAutoUpdatePeriodMilliseconds() {
+			return fieldAutoUpdatePeriodMilliseconds;
 		}
 
 		protected EncapsulatedObjectFactory getOuterType() {

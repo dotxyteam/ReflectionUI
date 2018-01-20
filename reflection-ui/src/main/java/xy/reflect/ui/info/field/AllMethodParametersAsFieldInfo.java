@@ -142,6 +142,11 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	public IInfoFilter getFormControlFilter() {
 		return IInfoFilter.DEFAULT;
 	}
+	
+	@Override
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
+	}
 
 	@Override
 	public int hashCode() {

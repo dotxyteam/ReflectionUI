@@ -522,6 +522,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	protected IInfoFilter getFormControlFilter(IFieldInfo field, ITypeInfo containingType) {
 		return field.getFormControlFilter();
 	}
+	
+	protected long getAutoUpdatePeriodMilliseconds(IFieldInfo field, ITypeInfo containingType) {
+		return field.getAutoUpdatePeriodMilliseconds();
+	}
 
 	protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
 		return field.getOnlineHelp();
@@ -1087,6 +1091,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public IInfoFilter getFormControlFilter() {
 			return InfoProxyFactory.this.getFormControlFilter(base, containingType);
+		}
+		
+		public long getAutoUpdatePeriodMilliseconds() {
+			return InfoProxyFactory.this.getAutoUpdatePeriodMilliseconds(base, containingType);
 		}
 
 		@Override

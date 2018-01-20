@@ -73,7 +73,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isGetOnly() {
-		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(), !theField.isGetOnly())) {
+		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(),
+				!theField.isGetOnly())) {
 			return true;
 		}
 		return theSubField.isGetOnly();
@@ -98,7 +99,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
-				IModification oppositeSubFieldModification = (IModification) options.get("oppositeSubFieldModification");
+				IModification oppositeSubFieldModification = (IModification) options
+						.get("oppositeSubFieldModification");
 				IModification oppositeFieldModification = (IModification) options.get("oppositeFieldModification");
 				oppositeSubFieldModification.applyAndGetOpposite();
 				oppositeFieldModification.applyAndGetOpposite();
@@ -132,6 +134,11 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public InfoCategory getCategory() {
 		return theField.getCategory();
+	}
+
+	@Override
+	public long getAutoUpdatePeriodMilliseconds() {
+		return Math.max(theField.getAutoUpdatePeriodMilliseconds(), theSubField.getAutoUpdatePeriodMilliseconds());
 	}
 
 	@Override

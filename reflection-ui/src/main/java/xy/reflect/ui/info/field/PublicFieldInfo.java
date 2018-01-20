@@ -16,7 +16,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class PublicFieldInfo   extends AbstractInfo implements IFieldInfo {
+public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected Field javaField;
 	protected ReflectionUI reflectionUI;
@@ -108,13 +108,11 @@ public class PublicFieldInfo   extends AbstractInfo implements IFieldInfo {
 		return ValueReturnMode.DIRECT_OR_PROXY;
 	}
 
-	
 	@Override
 	public String getName() {
 		return javaField.getName();
 	}
 
-	
 	public static boolean isCompatibleWith(Field field) {
 		return true;
 	}
@@ -145,10 +143,15 @@ public class PublicFieldInfo   extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
+	}
+
+	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return javaField.hashCode();
@@ -167,10 +170,10 @@ public class PublicFieldInfo   extends AbstractInfo implements IFieldInfo {
 		}
 		return javaField.equals(((PublicFieldInfo) obj).javaField);
 	}
+
 	@Override
 	public String toString() {
 		return "PublicFieldInfo [javaField=" + javaField + "]";
 	}
-
 
 };

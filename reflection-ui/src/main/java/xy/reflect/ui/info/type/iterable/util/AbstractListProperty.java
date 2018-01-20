@@ -68,6 +68,10 @@ public abstract class AbstractListProperty extends AbstractInfo implements IFiel
 		return IInfoFilter.DEFAULT;
 	}
 
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
+	}
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

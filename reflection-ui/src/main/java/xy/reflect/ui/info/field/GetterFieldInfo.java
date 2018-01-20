@@ -226,6 +226,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
+	}
+
+	@Override
 	public int hashCode() {
 		return javaGetterMethod.hashCode();
 	}

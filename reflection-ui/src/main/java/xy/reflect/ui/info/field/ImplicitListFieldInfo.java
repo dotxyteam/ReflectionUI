@@ -191,6 +191,10 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public IInfoFilter getFormControlFilter() {
 		return IInfoFilter.DEFAULT;
 	}
+	
+	public long getAutoUpdatePeriodMilliseconds() {
+		return -1;
+	}
 
 	@Override
 	public int hashCode() {
