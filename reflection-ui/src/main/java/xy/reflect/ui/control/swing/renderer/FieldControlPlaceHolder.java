@@ -72,22 +72,26 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 					@Override
 					public void run() {
 						while (true) {
-							if (isInterrupted()) {
-								break;
-							}
 							if (field.getAutoUpdatePeriodMilliseconds() > 0) {
 								try {
 									sleep(field.getAutoUpdatePeriodMilliseconds());
 								} catch (InterruptedException e) {
-									break;
+									interrupt();
 								}
 							}
 							while (updating) {
+								if (isInterrupted()) {
+									break;
+								}
 								try {
 									sleep(1);
 								} catch (InterruptedException e) {
+									interrupt();
 									break;
 								}
+							}
+							if (isInterrupted()) {
+								break;
 							}
 							updating = true;
 							SwingUtilities.invokeLater(new Runnable() {
