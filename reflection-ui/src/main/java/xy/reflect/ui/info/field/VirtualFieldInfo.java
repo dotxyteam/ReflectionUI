@@ -32,6 +32,11 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}

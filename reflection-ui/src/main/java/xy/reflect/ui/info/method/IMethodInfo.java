@@ -23,6 +23,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isHidden() {
+			return false;
+		}
+
+		@Override
 		public String getSignature() {
 			return ReflectionUIUtils.buildMethodSignature(this);
 		}
@@ -153,5 +158,7 @@ public interface IMethodInfo extends IInfo {
 	boolean isReturnValueIgnored();
 
 	String getConfirmationMessage(Object object, InvocationData invocationData);
+
+	boolean isHidden();
 
 }

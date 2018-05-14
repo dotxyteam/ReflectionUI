@@ -49,6 +49,11 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
@@ -142,7 +147,7 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	public IInfoFilter getFormControlFilter() {
 		return IInfoFilter.DEFAULT;
 	}
-	
+
 	@Override
 	public long getAutoUpdatePeriodMilliseconds() {
 		return -1;

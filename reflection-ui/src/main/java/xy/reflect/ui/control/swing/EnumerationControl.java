@@ -110,14 +110,11 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				}
 			}
 		});
-		if (data.isGetOnly())
-
-		{
+		if (data.isGetOnly()){
 			comboBox.setEnabled(false);
 		} else {
 			comboBox.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
 		}
-
 		refreshUI();
 
 	}

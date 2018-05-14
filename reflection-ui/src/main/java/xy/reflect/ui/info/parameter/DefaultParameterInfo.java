@@ -69,6 +69,11 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

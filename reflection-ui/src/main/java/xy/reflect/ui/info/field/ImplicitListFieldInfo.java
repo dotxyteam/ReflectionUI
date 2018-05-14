@@ -85,6 +85,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
@@ -191,7 +196,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public IInfoFilter getFormControlFilter() {
 		return IInfoFilter.DEFAULT;
 	}
-	
+
 	public long getAutoUpdatePeriodMilliseconds() {
 		return -1;
 	}

@@ -164,12 +164,12 @@ public class SwingRendererUtils {
 	}
 
 	public static JPanel findParentForm(Component component, SwingRenderer swingRenderer) {
-		Component candidateForm = component.getParent();
-		while (candidateForm != null) {
-			if (swingRenderer.getObjectByForm().keySet().contains(candidateForm)) {
-				return (JPanel) candidateForm;
+		Component candidate = component.getParent();
+		while (candidate != null) {
+			if (swingRenderer.getObjectByForm().keySet().contains(candidate)) {
+				return (JPanel) candidate;
 			}
-			candidateForm = candidateForm.getParent();
+			candidate = candidate.getParent();
 		}
 		return null;
 	}
@@ -213,32 +213,12 @@ public class SwingRendererUtils {
 		return c.getFontMetrics(font).charWidth('a');
 	}
 
-	public static Color fixSeveralColorRenderingIssues(Color color) {
-		return new Color(color.getRGB());
-	}
-
 	public static void setMultilineToolTipText(JComponent c, String toolTipText) {
 		if (toolTipText == null) {
 			c.setToolTipText(null);
 		} else {
 			c.setToolTipText("<HTML>" + ReflectionUIUtils.escapeHTML(toolTipText, true) + "</HTML>");
 		}
-	}
-
-	public static Color getEditableTextBackgroundColor() {
-		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextArea().getBackground());
-	}
-
-	public static Color getEditableTextForegroundColor() {
-		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextArea().getForeground());
-	}
-
-	public static Color getNonEditableTextForegroundColor() {
-		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JTextArea().getDisabledTextColor());
-	}
-
-	public static Color getNonEditableTextBackgroundColor() {
-		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JPanel().getBackground());
 	}
 
 	public static void disableComponentTree(JComponent c, final boolean revert) {
@@ -852,6 +832,30 @@ public class SwingRendererUtils {
 			topForm = form;
 		}
 		swingRenderer.updateMenuBar(topForm);
+	}
+
+	public static Color fixSeveralColorRenderingIssues(Color color) {
+		return new Color(color.getRGB());
+	}
+
+	public static Color getDisabledTextBackgroundColor() {
+		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
+	}
+
+	public static Color getEditableTextBackgroundColor() {
+		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.background"));
+	}
+
+	public static Color getEditableTextForegroundColor() {
+		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.foreground"));
+	}
+
+	public static Color getNonEditableTextForegroundColor() {
+		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.disabledText"));
+	}
+
+	public static Color getNonEditableTextBackgroundColor() {
+		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
 	}
 
 }

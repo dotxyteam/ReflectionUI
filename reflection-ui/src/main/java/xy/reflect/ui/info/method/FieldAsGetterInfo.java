@@ -33,6 +33,11 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}

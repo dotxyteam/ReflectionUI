@@ -119,10 +119,9 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		};
 		if (data.isGetOnly()) {
 			result.setEditable(false);
-			result.setBackground(ReflectionUIUtils.getDisabledTextBackgroundColor());
+			result.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
 		} else {
 			result.getDocument().addUndoableEditListener(new UndoableEditListener() {
-
 				@Override
 				public void undoableEditHappened(UndoableEditEvent e) {
 					TextControl.this.textComponentEditHappened();

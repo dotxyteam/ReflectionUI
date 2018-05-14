@@ -105,6 +105,11 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 	public String getName() {
 		return param.getName();
 	}
+	
+	@Override
+	public boolean isHidden() {
+		return param.isHidden();
+	}
 
 	@Override
 	public InfoCategory getCategory() {

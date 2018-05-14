@@ -13,7 +13,7 @@ import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodAsFieldInfo   extends AbstractInfo implements IFieldInfo {
+public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo method;
 
@@ -30,6 +30,11 @@ public class MethodAsFieldInfo   extends AbstractInfo implements IFieldInfo {
 	@Override
 	public String getName() {
 		return method.getName() + ".result";
+	}
+
+	@Override
+	public boolean isHidden() {
+		return false;
 	}
 
 	@Override

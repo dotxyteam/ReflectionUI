@@ -547,6 +547,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public boolean isHidden() {
+			return false;
+		}
+
+		@Override
 		public String getCaption() {
 			return fieldCaption;
 		}

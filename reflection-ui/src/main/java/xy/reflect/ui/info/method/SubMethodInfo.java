@@ -47,6 +47,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}
@@ -81,7 +86,8 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isReadOnly() {
-		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(), !theField.isGetOnly())) {
+		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(),
+				!theField.isGetOnly())) {
 			return true;
 		}
 		return theSubMethod.isReadOnly();

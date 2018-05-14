@@ -19,7 +19,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class NullControl extends JPanel implements IAdvancedFieldControl {
 
@@ -105,7 +105,7 @@ public class NullControl extends JPanel implements IAdvancedFieldControl {
 				if ("".equals(data.getValue())) {
 					result.setBackground(swingRenderer.getNullColor());
 				} else {
-					result.setBackground(ReflectionUIUtils.getDisabledTextBackgroundColor());
+					result.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
 				}
 				result.addMouseListener(new MouseAdapter() {
 					@Override

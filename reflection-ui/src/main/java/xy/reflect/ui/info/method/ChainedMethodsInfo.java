@@ -36,6 +36,11 @@ public class ChainedMethodsInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.composeMessage(method1.getCaption(), method2.getCaption());
 	}

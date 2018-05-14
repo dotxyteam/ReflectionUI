@@ -31,6 +31,11 @@ public interface IParameterInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isHidden() {
+			return false;
+		}
+
+		@Override
 		public String getCaption() {
 			return "";
 		}
@@ -68,5 +73,7 @@ public interface IParameterInfo extends IInfo {
 	Object getDefaultValue();
 
 	int getPosition();
+
+	boolean isHidden();
 
 }

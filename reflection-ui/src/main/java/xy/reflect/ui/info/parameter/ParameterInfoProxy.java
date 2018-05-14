@@ -21,6 +21,10 @@ public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterI
 		return base.getName();
 	}
 
+	public boolean isHidden() {
+		return base.isHidden();
+	}
+
 	public String getCaption() {
 		return base.getCaption();
 	}
@@ -50,7 +54,6 @@ public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterI
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
 	}
-
 
 	@Override
 	public int hashCode() {

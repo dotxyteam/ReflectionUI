@@ -128,6 +128,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = getGetterMethodInfo().getReturnValueType();

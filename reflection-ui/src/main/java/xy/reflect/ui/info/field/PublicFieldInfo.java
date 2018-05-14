@@ -39,6 +39,11 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public void setValue(Object object, Object value) {
 		try {
 			javaField.set(object, value);

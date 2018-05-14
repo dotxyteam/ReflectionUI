@@ -140,6 +140,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public boolean isReadOnly() {
 		return Modifier.isStatic(javaMethod.getModifiers());
 	}

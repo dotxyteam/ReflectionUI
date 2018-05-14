@@ -226,6 +226,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return param.getName();
 	}
 
+	protected boolean isHidden(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		return param.isHidden();
+	}
+
 	protected InfoCategory getCategory(IFieldInfo field, ITypeInfo containingType) {
 		return field.getCategory();
 	}
@@ -303,6 +307,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return field.getName();
 	}
 
+	protected boolean isHidden(IFieldInfo field, ITypeInfo containingType) {
+		return field.isHidden();
+	}
+
 	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
 		return method.getCategory();
 	}
@@ -359,6 +367,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected String getName(IMethodInfo method, ITypeInfo containingType) {
 		return method.getName();
+	}
+
+	protected boolean isHidden(IMethodInfo method, ITypeInfo containingType) {
+		return method.isHidden();
 	}
 
 	protected String getSignature(IMethodInfo method, ITypeInfo containingType) {
@@ -522,7 +534,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	protected IInfoFilter getFormControlFilter(IFieldInfo field, ITypeInfo containingType) {
 		return field.getFormControlFilter();
 	}
-	
+
 	protected long getAutoUpdatePeriodMilliseconds(IFieldInfo field, ITypeInfo containingType) {
 		return field.getAutoUpdatePeriodMilliseconds();
 	}
@@ -747,8 +759,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			Map<String, Object> result = new HashMap<String, Object>(
-					InfoProxyFactory.this.getSpecificProperties(base));
+			Map<String, Object> result = new HashMap<String, Object>(InfoProxyFactory.this.getSpecificProperties(base));
 			@SuppressWarnings("unchecked")
 			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
 					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
@@ -913,15 +924,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
 				List<? extends ItemPosition> selection) {
-			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, anyRootListItemPosition,
-					selection);
+			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, anyRootListItemPosition, selection);
 		}
 
 		@Override
 		public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
 				List<? extends ItemPosition> selection) {
-			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, anyRootListItemPosition,
-					selection);
+			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, anyRootListItemPosition, selection);
 		}
 
 		@Override
@@ -1013,6 +1022,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public boolean isHidden() {
+			return InfoProxyFactory.this.isHidden(base, containingType);
+		}
+
+		@Override
 		public String getCaption() {
 			return InfoProxyFactory.this.getCaption(base, containingType);
 		}
@@ -1092,7 +1106,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public IInfoFilter getFormControlFilter() {
 			return InfoProxyFactory.this.getFormControlFilter(base, containingType);
 		}
-		
+
 		public long getAutoUpdatePeriodMilliseconds() {
 			return InfoProxyFactory.this.getAutoUpdatePeriodMilliseconds(base, containingType);
 		}
@@ -1169,6 +1183,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base, containingType);
+		}
+
+		@Override
+		public boolean isHidden() {
+			return InfoProxyFactory.this.isHidden(base, containingType);
 		}
 
 		@Override
@@ -1347,6 +1366,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base, method, containingType);
+		}
+
+		@Override
+		public boolean isHidden() {
+			return InfoProxyFactory.this.isHidden(base, method, containingType);
 		}
 
 		@Override

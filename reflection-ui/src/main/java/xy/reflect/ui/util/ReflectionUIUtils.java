@@ -1,6 +1,5 @@
 package xy.reflect.ui.util;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -556,10 +555,6 @@ public class ReflectionUIUtils {
 			}
 		}
 		return sb.toString();
-	}
-
-	public static Color getDisabledTextBackgroundColor() {
-		return SwingRendererUtils.fixSeveralColorRenderingIssues(new JPanel().getBackground());
 	}
 
 	public static List<Field> getALlFields(Class<?> type) {

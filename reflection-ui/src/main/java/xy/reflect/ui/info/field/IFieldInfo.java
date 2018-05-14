@@ -25,6 +25,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isHidden() {
+			return false;
+		}
+
+		@Override
 		public String getOnlineHelp() {
 			return null;
 		}
@@ -149,5 +154,7 @@ public interface IFieldInfo extends IInfo {
 	IInfoFilter getFormControlFilter();
 	
 	long getAutoUpdatePeriodMilliseconds();
+
+	boolean isHidden();
 
 }

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,19 +25,35 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
+	public static final String CONTAINING_CAPSULE_FIELD_PROPERTY_KEY = CapsuleFieldInfo.class.getName();
+
 	protected List<IFieldInfo> encapsulatedFields;
 	protected List<IMethodInfo> encapsulatedMethods;
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
 	protected String contextId;
+	private ITypeInfo containingType;
 
 	public CapsuleFieldInfo(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
-			List<IMethodInfo> encapsulatedMethods, String contextId) {
+			List<IMethodInfo> encapsulatedMethods, String contextId, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
 		this.encapsulatedFields = encapsulatedFields;
 		this.encapsulatedMethods = encapsulatedMethods;
 		this.contextId = contextId;
+		this.containingType = containingType;
+	}
+
+	public IFieldInfo createEncapsulatedFieldInfoProxy(IFieldInfo field) {
+		return new EncapsulatedFieldInfoProxy(field);
+	}
+
+	public IMethodInfo createEncapsulatedMethodInfoProxy(IMethodInfo method) {
+		return new EncapsulatedMethodInfoProxy(method);
+	}
+
+	public ITypeInfo getContainingType() {
+		return containingType;
 	}
 
 	public List<IFieldInfo> getEncapsulatedFields() {
@@ -54,6 +71,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public String getName() {
 		return fieldName;
+	}
+
+	@Override
+	public boolean isHidden() {
+		return false;
 	}
 
 	@Override
@@ -308,7 +330,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 			for (IFieldInfo field : CapsuleFieldInfo.this.encapsulatedFields) {
-				result.add(new EncapsulatedFieldInfoProxy(field));
+				result.add(createEncapsulatedFieldInfoProxy(field));
 			}
 			return result;
 		}
@@ -317,7 +339,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public List<IMethodInfo> getMethods() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo method : CapsuleFieldInfo.this.encapsulatedMethods) {
-				result.add(new EncapsulatedMethodInfoProxy(method));
+				result.add(createEncapsulatedMethodInfoProxy(method));
 			}
 			return result;
 		}
@@ -464,6 +486,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			super.setValue(object, value);
 		}
 
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+			result.put(CONTAINING_CAPSULE_FIELD_PROPERTY_KEY, CapsuleFieldInfo.this);
+			return result;
+		}
+
 	}
 
 	public class EncapsulatedMethodInfoProxy extends MethodInfoProxy {
@@ -492,6 +521,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 			object = ((Value) object).getObject();
 			super.validateParameters(object, invocationData);
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+			result.put(CONTAINING_CAPSULE_FIELD_PROPERTY_KEY, CapsuleFieldInfo.this);
+			return result;
 		}
 
 	}

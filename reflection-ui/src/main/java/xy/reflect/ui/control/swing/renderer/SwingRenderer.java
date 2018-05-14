@@ -76,6 +76,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.menu.AbstractActionMenuItem;
 import xy.reflect.ui.info.menu.IMenuElement;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -745,6 +746,25 @@ public class SwingRenderer {
 			infoFilter = IInfoFilter.DEFAULT;
 		}
 		final ITypeInfo rawType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		infoFilter = new InfoFilterProxy(infoFilter) {
+
+			@Override
+			public boolean excludeField(IFieldInfo field) {
+				if (field.isHidden()) {
+					return true;
+				}
+				return super.excludeField(field);
+			}
+
+			@Override
+			public boolean excludeMethod(IMethodInfo method) {
+				if (method.isHidden()) {
+					return true;
+				}
+				return super.excludeMethod(method);
+			}
+
+		};
 		ITypeInfo result = new FilteredTypeFactory(infoFilter) {
 
 			List<IFieldInfo> fields;
@@ -1417,7 +1437,7 @@ public class SwingRenderer {
 			}
 			fieldsPanel.add(createOnlineHelpControl(field.getOnlineHelp()), layoutConstraints);
 		}
-		
+
 		SwingRendererUtils.handleComponentSizeChange(fieldsPanel);
 
 		fieldControlPlaceHolder.setLayoutInContainerUpdateNeeded(false);

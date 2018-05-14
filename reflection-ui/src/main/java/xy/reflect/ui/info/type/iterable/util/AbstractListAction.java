@@ -18,6 +18,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractListAction extends AbstractInfo implements IMethodInfo {
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {
 		return null;
 	}

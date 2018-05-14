@@ -23,6 +23,11 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}

@@ -40,6 +40,11 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		return theSubField.getType();
 	}

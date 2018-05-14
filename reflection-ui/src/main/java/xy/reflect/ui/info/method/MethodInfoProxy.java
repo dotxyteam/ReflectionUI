@@ -28,6 +28,10 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.getSignature();
 	}
 
+	public boolean isHidden() {
+		return base.isHidden();
+	}
+
 	public boolean isNullReturnValueDistinct() {
 		return base.isNullReturnValueDistinct();
 	}

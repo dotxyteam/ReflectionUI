@@ -19,6 +19,11 @@ public abstract class AbstractListProperty extends AbstractInfo implements IFiel
 
 	};
 
+	@Override
+	public boolean isHidden() {
+		return false;
+	}
+
 	public boolean isEnabled() {
 		return true;
 	}
