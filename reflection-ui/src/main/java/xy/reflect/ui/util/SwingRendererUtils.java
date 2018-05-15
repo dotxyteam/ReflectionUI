@@ -499,7 +499,7 @@ public class SwingRendererUtils {
 		return listenersToRemove.size();
 	}
 
-	public static ResourcePath putImageInCached(Image image) {
+	public static ResourcePath putImageInCache(Image image) {
 		String imagePathSpecification = ResourcePath
 				.formatMemoryObjectSpecification(Integer.toString(image.hashCode()));
 		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);

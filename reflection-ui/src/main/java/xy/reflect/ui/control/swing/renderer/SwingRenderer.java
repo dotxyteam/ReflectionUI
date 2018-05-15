@@ -615,6 +615,12 @@ public class SwingRenderer {
 		}
 	}
 
+	public void rebuildAllDisplayedForms() {
+		for (JPanel form : SwingRendererUtils.excludeSubForms(SwingRendererUtils.getAllDisplayedForms(this), this)) {
+			rebuildForm(form);
+		}
+	}
+
 	public void finalizeFormUpdate(JPanel form) {
 		updateMenuBar(form);
 		SwingRendererUtils.handleComponentSizeChange(form);
@@ -1207,7 +1213,7 @@ public class SwingRenderer {
 			@Override
 			protected ResourcePath getItemIconImagePath(Object choice) {
 				Image image = iconImages.get(choice);
-				return SwingRendererUtils.putImageInCached(image);
+				return SwingRendererUtils.putImageInCache(image);
 			}
 
 			@Override

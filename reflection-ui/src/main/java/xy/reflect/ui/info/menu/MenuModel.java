@@ -7,6 +7,7 @@ import java.util.List;
 
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.Visitor;
 
 public class MenuModel implements Serializable {
@@ -22,9 +23,9 @@ public class MenuModel implements Serializable {
 		this.menus = menus;
 	}
 
-	public IMenuElement importContribution(IMenuElementPosition containerPosition, IMenuElement element) {
+	public void importContribution(IMenuElementPosition containerPosition, IMenuElement element) {
 		if (containerPosition == null) {
-			return importContributionIn(element, null);
+			importContributionIn(element, null);
 		} else {
 			if ((containerPosition.getElementKind() != MenuElementKind.ITEM_CATEGORY)
 					&& (containerPosition.getElementKind() != MenuElementKind.MENU)) {
@@ -36,7 +37,7 @@ public class MenuModel implements Serializable {
 				throw new ReflectionUIError("Failed to add menu contribution '" + element + "' in '" + containerPosition
 						+ "': Container not found: '" + containerPosition + "'");
 			}
-			return importContributionIn(element, container);
+			importContributionIn(element, container);
 		}
 	}
 
@@ -120,15 +121,38 @@ public class MenuModel implements Serializable {
 		return result;
 	}
 
-	protected IMenuElement importContributionIn(IMenuElement element, IMenuItemContainer container) {
+	protected void importContributionIn(IMenuElement element, IMenuItemContainer container) {
 		for (IMenuElement containerChild : getChildren(container)) {
 			if (same(element, containerChild)) {
 				if (!(containerChild instanceof IMenuItemContainer)) {
-					throw new ReflectionUIError(
-							"Duplicate menu item detected (cannot merge): '" + containerChild.getName() + "'");
+					final String errorMenuName = "Duplicate menu detected: " + element.getName() + " (id="
+							+ element.hashCode() + ")";
+					element = new AbstractActionMenuItem(errorMenuName, null) {
+
+						{
+							setIconImagePath(
+									SwingRendererUtils.putImageInCache(SwingRendererUtils.ERROR_ICON.getImage()));
+						}
+
+						@Override
+						public void execute(Object form, Object renderer) {
+						}
+
+						@Override
+						public boolean isEnabled(Object object, Object renderer) {
+							return true;
+						}
+
+						@Override
+						public String getName(Object form, Object renderer) {
+							return errorMenuName;
+						}
+					};
+					importContributionIn(element, container);
+					return;
 				}
 				importChildrenContributions((IMenuItemContainer) element, (IMenuItemContainer) containerChild);
-				return containerChild;
+				return;
 			}
 		}
 		if (element instanceof IMenuItemContainer) {
@@ -159,7 +183,6 @@ public class MenuModel implements Serializable {
 		} else {
 			throw new ReflectionUIError();
 		}
-		return element;
 	}
 
 	protected IMenuItemContainer createSameContainer(IMenuItemContainer element) {
