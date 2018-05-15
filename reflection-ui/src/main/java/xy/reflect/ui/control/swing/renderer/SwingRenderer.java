@@ -615,9 +615,10 @@ public class SwingRenderer {
 		}
 	}
 
-	public void rebuildAllDisplayedForms() {
+	public void rebuildAllDisplayedFormAndMenus() {
 		for (JPanel form : SwingRendererUtils.excludeSubForms(SwingRendererUtils.getAllDisplayedForms(this), this)) {
 			rebuildForm(form);
+			updateMenuBar(form);			
 		}
 	}
 
