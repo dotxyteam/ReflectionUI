@@ -226,7 +226,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 	@Override
 	public String toString() {
-		return "MethodControlPlaceHolder [form=" + form + ", method=" + method + "]";
+		return "MethodControlPlaceHolder [method=" + method + ", form=" + form + "]";
 	}
 
 	protected class InitialMethodControlData implements IMethodControlData {

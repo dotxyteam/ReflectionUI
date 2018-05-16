@@ -349,7 +349,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			} catch (Throwable t) {
 				fieldControl = this.swingRenderer.createErrorControl(t);
 			}
-			add(fieldControl, BorderLayout.CENTER);			
+			add(fieldControl, BorderLayout.CENTER);
 			layoutInContainerUpdateNeeded = true;
 		} else {
 			if (isFieldControlObsolete()) {
@@ -464,7 +464,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 	@Override
 	public String toString() {
-		return "FieldControlPlaceHolder [form=" + form + ", field=" + field + "]";
+		return "FieldControlPlaceHolder [field=" + field + ", form=" + form + "]";
 	}
 
 	protected class InitialFieldControlData implements IFieldControlData {

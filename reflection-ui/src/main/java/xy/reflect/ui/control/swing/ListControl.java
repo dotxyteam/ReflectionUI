@@ -1337,7 +1337,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if (detailsControl != null) {
-			swingRenderer.refreshAllFieldControls(detailsControl, false);
+			swingRenderer.refreshForm(detailsControl);
 		} else {
 			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true, false);
 			detailsArea.removeAll();

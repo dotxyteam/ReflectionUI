@@ -593,7 +593,7 @@ public class SwingRendererUtils {
 		final Object[] result = new Object[1];
 		final String title;
 		if ((data.getCaption() == null) || (data.getCaption().length() == 0)) {
-			title = "Getting Value";
+			title = "Getting Value(s)";
 		} else {
 			title = "Getting " + data.getCaption();
 		}
@@ -856,6 +856,13 @@ public class SwingRendererUtils {
 
 	public static Color getNonEditableTextBackgroundColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
+	}
+
+	public static void rebuildAllDisplayedFormAndMenus(SwingRenderer swingRenderer) {
+		for (JPanel form : excludeSubForms(getAllDisplayedForms(swingRenderer), swingRenderer)) {
+			swingRenderer.refreshForm(form);
+			swingRenderer.updateMenuBar(form);
+		}
 	}
 
 }

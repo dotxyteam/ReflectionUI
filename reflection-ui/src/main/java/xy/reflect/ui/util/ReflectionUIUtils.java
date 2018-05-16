@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -80,6 +81,23 @@ public class ReflectionUIUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
 	public static final String METHOD_SIGNATURE_REGEX = "(\\s*[^ ]+\\s*)(\\s+[^ ]+\\s*)?\\(([^\\)]*)\\)\\s*";
+
+	public static <BASE, C extends BASE> List<BASE> convertCollection(Collection<C> ts) {
+		List<BASE> result = new ArrayList<BASE>();
+		for (C t : ts) {
+			result.add((BASE) t);
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <BASE, C extends BASE> List<C> convertCollectionUnsafely(Collection<BASE> bs) {
+		List<C> result = new ArrayList<C>();
+		for (BASE b : bs) {
+			result.add((C) b);
+		}
+		return result;
+	}
 
 	public static File getCanonicalParent(File file) {
 		try {
