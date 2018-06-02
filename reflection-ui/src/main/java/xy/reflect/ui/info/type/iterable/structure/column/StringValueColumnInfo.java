@@ -38,13 +38,13 @@ public class StringValueColumnInfo   extends AbstractInfo implements IColumnInfo
 	}
 
 	@Override
-	public boolean hasCellValue(ItemPosition itemPosition) {
+	public boolean hasCellValue(ItemPosition itemPosition, Object rootListValue) {
 		return true;
 	}
 
 	@Override
-	public String getCellValue(ItemPosition itemPosition) {
-		return ReflectionUIUtils.toString(reflectionUI, itemPosition.getItem());
+	public String getCellValue(ItemPosition itemPosition, Object rootListValue) {
+		return ReflectionUIUtils.toString(reflectionUI, itemPosition.getItem(rootListValue));
 	}
 
 	@Override

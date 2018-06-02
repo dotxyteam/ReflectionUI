@@ -23,15 +23,15 @@ public class FieldColumnInfo extends AbstractInfo implements IColumnInfo {
 	}
 
 	@Override
-	public String getCellValue(ItemPosition itemPosition) {
-		Object item = itemPosition.getItem();
+	public String getCellValue(ItemPosition itemPosition, Object rootListValue) {
+		Object item = itemPosition.getItem(rootListValue);
 		Object value = field.getValue(item);
 		return ReflectionUIUtils.toString(reflectionUI, value);
 	}
 
 	@Override
-	public boolean hasCellValue(ItemPosition itemPosition) {
-		Object item = itemPosition.getItem();
+	public boolean hasCellValue(ItemPosition itemPosition, Object rootListValue) {
+		Object item = itemPosition.getItem(rootListValue);
 		return ownerType.supportsInstance(item);
 	}
 

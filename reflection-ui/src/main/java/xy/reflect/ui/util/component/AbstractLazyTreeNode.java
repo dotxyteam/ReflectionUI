@@ -19,7 +19,7 @@ public abstract class AbstractLazyTreeNode extends DefaultMutableTreeNode {
 		childrenLoaded = true;
 		int i = 0;
 		for (AbstractLazyTreeNode node: createChildrenNodes()) {
-			super.insert(node, i);
+			super.insert(node, i); 
 			i++;
 		}
 	}

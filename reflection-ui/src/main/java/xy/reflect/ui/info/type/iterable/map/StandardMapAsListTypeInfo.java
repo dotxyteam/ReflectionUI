@@ -65,7 +65,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
-		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterConstrucor(this);
+		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterMethod(getConstructors());
 		Map result = (Map) constructor.invoke(null, new InvocationData());
 		replaceContent(result, array);
 		return result;

@@ -36,9 +36,9 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	boolean canViewItemDetails();
 
-	List<AbstractListAction> getDynamicActions(ItemPosition anyRootItemPosition, List<? extends ItemPosition> selection);
+	List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue);
 
-	List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootItemPosition, List<? extends ItemPosition> selection);
+	List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue);
 
 	List<IMethodInfo> getAdditionalItemConstructors(Object listValue);
 	

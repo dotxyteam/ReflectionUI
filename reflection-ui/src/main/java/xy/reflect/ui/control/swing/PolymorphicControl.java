@@ -54,9 +54,6 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(), polymorphicType);
 
 		setLayout(new BorderLayout());
-		if (data.getCaption().length() > 0) {
-			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-		}
 		refreshUI();
 	}
 
@@ -174,7 +171,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 								try {
 									super.setValue(value);
 								} finally {
-									SwingUtilities.invokeLater(new Runnable() {										
+									SwingUtilities.invokeLater(new Runnable() {
 										@Override
 										public void run() {
 											refreshDynamicControl();
@@ -339,6 +336,9 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	@Override
 	public boolean refreshUI() {
+		if (data.getCaption().length() > 0) {
+			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+		}
 		refreshTypeEnumerationControl();
 		refreshDynamicControl();
 		return true;

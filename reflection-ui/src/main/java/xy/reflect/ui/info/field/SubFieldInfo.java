@@ -2,15 +2,12 @@ package xy.reflect.ui.info.field;
 
 import java.util.Map;
 
-import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
-import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -19,7 +16,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
-	protected FututreActionBuilder undoJobBuilder = new FututreActionBuilder();
+	protected FututreActionBuilder undoJobBuilder;
 
 	public SubFieldInfo(IFieldInfo theField, IFieldInfo theSubField) {
 		super();
@@ -77,40 +74,60 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isGetOnly() {
-		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(),
-				!theField.isGetOnly())) {
-			return true;
-		}
-		return theSubField.isGetOnly();
-	}
-
-	@Override
 	public void setValue(Object object, Object subFieldValue) {
 		Object fieldValue = getTheFieldValue(object);
-		IModification oppositeSubFieldModification = new ControlDataValueModification(
-				new DefaultFieldControlData(fieldValue, theSubField), subFieldValue, theSubField).applyAndGetOpposite();
-		IModification oppositeFieldModification = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
-				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
-				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
-				theField, ControlDataValueModification.getTitle(theField));
-		undoJobBuilder.setOption("oppositeSubFieldModification", oppositeSubFieldModification);
-		undoJobBuilder.setOption("oppositeFieldModification", oppositeFieldModification);
-		undoJobBuilder.build();
+		theSubField.setValue(fieldValue, subFieldValue);
+		if (isTheFieldUpdatePerformedAfterInvocation()) {
+			if (undoJobBuilder != null) {
+				Runnable theFieldUndoJob = theField.getNextUpdateCustomUndoJob(object, fieldValue);
+				if (theFieldUndoJob == null) {
+					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(object, theField);
+				}
+				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
+			}
+			theField.setValue(object, fieldValue);
+		}
+		if (undoJobBuilder != null) {
+			undoJobBuilder.build();
+		}
 	}
 
 	@Override
-	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+	public Runnable getNextUpdateCustomUndoJob(Object object, Object subFieldValue) {
+		Object fieldValue = getTheFieldValue(object);
+		final Runnable theSubFieldUndoJob = theSubField.getNextUpdateCustomUndoJob(fieldValue, subFieldValue);
+		if (theSubFieldUndoJob == null) {
+			undoJobBuilder = null;
+			return null;
+		}
+		undoJobBuilder = new FututreActionBuilder();
 		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
-				IModification oppositeSubFieldModification = (IModification) options
-						.get("oppositeSubFieldModification");
-				IModification oppositeFieldModification = (IModification) options.get("oppositeFieldModification");
-				oppositeSubFieldModification.applyAndGetOpposite();
-				oppositeFieldModification.applyAndGetOpposite();
+				theSubFieldUndoJob.run();
+				if (isTheFieldUpdatePerformedAfterInvocation()) {
+					Runnable theFieldUndoJob = (Runnable) options.get("theFieldUndoJob");
+					theFieldUndoJob.run();
+				}
 			}
 		});
+	}
+
+	protected boolean isTheFieldUpdatePerformedAfterInvocation() {
+		if (isGetOnly()) {
+			return false;
+		}
+		return !theField.isGetOnly();
+	}
+
+	@Override
+	public boolean isGetOnly() {
+		if (theField.getValueReturnMode() == ValueReturnMode.CALCULATED) {
+			if (theField.isGetOnly()) {
+				return true;
+			}
+		}
+		return theSubField.isGetOnly();
 	}
 
 	protected Object getTheFieldValue(Object object) {

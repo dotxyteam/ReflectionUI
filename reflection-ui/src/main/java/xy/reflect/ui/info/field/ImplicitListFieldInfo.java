@@ -502,14 +502,14 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
-				List<? extends ItemPosition> selection) {
+		public List<AbstractListAction> getDynamicActions(
+				List<? extends ItemPosition> selection, Object rootListValue) {
 			return Collections.emptyList();
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
-				List<? extends ItemPosition> selection) {
+		public List<AbstractListProperty> getDynamicProperties(
+				List<? extends ItemPosition> selection, Object rootListValue) {
 			return Collections.emptyList();
 		}
 

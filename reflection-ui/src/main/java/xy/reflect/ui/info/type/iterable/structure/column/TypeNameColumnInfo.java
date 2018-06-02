@@ -19,13 +19,13 @@ public class TypeNameColumnInfo   extends AbstractInfo implements IColumnInfo {
 	}
 
 	@Override
-	public boolean hasCellValue(ItemPosition itemPosition) {
+	public boolean hasCellValue(ItemPosition itemPosition, Object rootListValue) {
 		return true;
 	}
 
 	@Override
-	public String getCellValue(ItemPosition itemPosition) {
-		Object item = itemPosition.getItem();
+	public String getCellValue(ItemPosition itemPosition, Object rootListValue) {
+		Object item = itemPosition.getItem(rootListValue);
 		if (item == null) {
 			return "";
 		}

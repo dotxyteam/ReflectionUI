@@ -7,7 +7,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
-public class ListStructuralInfoProxy implements IListStructuralInfo{
+public class ListStructuralInfoProxy implements IListStructuralInfo {
 
 	protected IListStructuralInfo base;
 
@@ -15,18 +15,16 @@ public class ListStructuralInfoProxy implements IListStructuralInfo{
 		this.base = base;
 	}
 
-	
 	public List<IColumnInfo> getColumns() {
 		return base.getColumns();
 	}
 
-
-	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
-		return base.getItemSubListField(itemPosition);
+	public IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue) {
+		return base.getItemSubListField(itemPosition, rootListValue);
 	}
 
-	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition) {
-		return base.getItemInfoFilter(itemPosition);
+	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition, Object rootListValue) {
+		return base.getItemInfoFilter(itemPosition, rootListValue);
 	}
 
 	@Override
@@ -58,7 +56,5 @@ public class ListStructuralInfoProxy implements IListStructuralInfo{
 	public String toString() {
 		return base.toString();
 	}
-	
-	
-	
+
 }

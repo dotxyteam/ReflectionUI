@@ -1,14 +1,8 @@
 package xy.reflect.ui.info.type.iterable.item;
 
-import xy.reflect.ui.control.IFieldControlData;
-
-public class BufferedItemPositionFactory extends ItemPositionFactory {
+public abstract class BufferedItemPositionFactory extends ItemPositionFactory {
 
 	protected Object[] bufferedRootListRawValue;
-
-	public BufferedItemPositionFactory(IFieldControlData containingListDataIfRoot) {
-		super(containingListDataIfRoot);
-	}
 
 	@Override
 	public BufferedItemPosition getRootItemPosition(int index) {
@@ -21,9 +15,9 @@ public class BufferedItemPositionFactory extends ItemPositionFactory {
 	}
 
 	@Override
-	public Object[] retrieveRootListRawValue() {
+	public Object[] retrieveRootListRawValue(Object rootListValue) {
 		if (bufferedRootListRawValue == null) {
-			bufferedRootListRawValue = super.retrieveRootListRawValue();
+			bufferedRootListRawValue = super.retrieveRootListRawValue(rootListValue);
 		}
 		return bufferedRootListRawValue;
 	}
@@ -31,7 +25,5 @@ public class BufferedItemPositionFactory extends ItemPositionFactory {
 	public void refresh() {
 		bufferedRootListRawValue = null;
 	}
-	
-	
 
 }

@@ -12,9 +12,9 @@ public interface IListStructuralInfo {
 
 	List<IColumnInfo> getColumns();
 
-	IFieldInfo getItemSubListField(ItemPosition itemPosition);
+	IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue);
 
 	IInfoFilter getItemInfoFilter(
-			ItemPosition itemPosition);
+			ItemPosition itemPosition, Object rootListValue);
 
 }

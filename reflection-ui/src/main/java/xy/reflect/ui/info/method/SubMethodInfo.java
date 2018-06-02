@@ -3,8 +3,6 @@ package xy.reflect.ui.info.method;
 import java.util.List;
 import java.util.Map;
 
-import xy.reflect.ui.control.DefaultFieldControlData;
-import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
@@ -13,10 +11,6 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
-import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.InvokeMethodModification;
-import xy.reflect.ui.undo.IrreversibleModificationException;
 import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -25,7 +19,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
-	protected FututreActionBuilder undoJobBuilder = new FututreActionBuilder();
+	protected FututreActionBuilder undoJobBuilder;
 
 	public SubMethodInfo(IFieldInfo theField, IMethodInfo theSubMethod) {
 		super();
@@ -85,15 +79,6 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public boolean isReadOnly() {
-		if (!ReflectionUIUtils.canEditSeparateObjectValue(false, theField.getValueReturnMode(),
-				!theField.isGetOnly())) {
-			return true;
-		}
-		return theSubMethod.isReadOnly();
-	}
-
-	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {
 		Object fieldValue = getTheFieldValue(object);
 		return theSubMethod.getConfirmationMessage(fieldValue, invocationData);
@@ -102,34 +87,20 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
 		Object fieldValue = getTheFieldValue(object);
-		Object result;
-		IModification oppositeSubMethodModification;
-		if (theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData) == null) {
-			result = theSubMethod.invoke(fieldValue, invocationData);
-			oppositeSubMethodModification = null;
-		} else {
-			final Object[] resultHolder = new Object[1];
-			oppositeSubMethodModification = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
-					IModification.FAKE_MODIFICATION, true, theSubMethod.getValueReturnMode(), true,
-					new InvokeMethodModification(
-							new DefaultMethodControlData(fieldValue, new MethodInfoProxy(theSubMethod) {
-								@Override
-								public Object invoke(Object object, InvocationData invocationData) {
-									resultHolder[0] = super.invoke(object, invocationData);
-									return resultHolder[0];
-								}
-							}), invocationData, theSubMethod),
-					theSubMethod, InvokeMethodModification.getTitle(theSubMethod));
-			result = resultHolder[0];
+		Object result = theSubMethod.invoke(fieldValue, invocationData);
+		if (isTheFieldUpdatePerformedAfterInvocation()) {
+			if (undoJobBuilder != null) {
+				Runnable theFieldUndoJob = theField.getNextUpdateCustomUndoJob(object, fieldValue);
+				if (theFieldUndoJob == null) {
+					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(object, theField);
+				}
+				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
+			}
+			theField.setValue(object, fieldValue);
 		}
-		IModification oppositeFieldModification = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
-				IModification.FAKE_MODIFICATION, true, theField.getValueReturnMode(), true,
-				new ControlDataValueModification(new DefaultFieldControlData(object, theField), fieldValue, theField),
-				theField, ControlDataValueModification.getTitle(theField));
-
-		undoJobBuilder.setOption("oppositeSubMethodModification", oppositeSubMethodModification);
-		undoJobBuilder.setOption("oppositeFieldModification", oppositeFieldModification);
-		undoJobBuilder.build();
+		if (undoJobBuilder != null) {
+			undoJobBuilder.build();
+		}
 		return result;
 
 	}
@@ -137,23 +108,39 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public Runnable getNextInvocationUndoJob(Object object, final InvocationData invocationData) {
 		Object fieldValue = getTheFieldValue(object);
-		if (theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData) == null) {
+		final Runnable theSubMethodUndoJob = theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData);
+		if (theSubMethodUndoJob == null) {
+			undoJobBuilder = null;
 			return null;
 		}
+		undoJobBuilder = new FututreActionBuilder();
 		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
-
 			@Override
 			public void perform(Map<String, Object> options) {
-				IModification oppositeSubMethodModification = (IModification) options
-						.get("oppositeSubMethodModification");
-				IModification oppositeFieldModification = (IModification) options.get("oppositeFieldModification");
-				if (oppositeSubMethodModification == null) {
-					throw new IrreversibleModificationException();
+				theSubMethodUndoJob.run();
+				if (isTheFieldUpdatePerformedAfterInvocation()) {
+					Runnable theFieldUndoJob = (Runnable) options.get("theFieldUndoJob");
+					theFieldUndoJob.run();
 				}
-				oppositeSubMethodModification.applyAndGetOpposite();
-				oppositeFieldModification.applyAndGetOpposite();
 			}
 		});
+	}
+
+	protected boolean isTheFieldUpdatePerformedAfterInvocation() {
+		if (isReadOnly()) {
+			return false;
+		}
+		return !theField.isGetOnly();
+	}
+
+	@Override
+	public boolean isReadOnly() {
+		if (theField.getValueReturnMode() == ValueReturnMode.CALCULATED) {
+			if (theField.isGetOnly()) {
+				return true;
+			}
+		}
+		return theSubMethod.isReadOnly();
 	}
 
 	@Override

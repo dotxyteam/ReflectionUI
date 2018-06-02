@@ -82,13 +82,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public boolean canInstanciateFromArray() {
-		return isConcrete() && (ReflectionUIUtils.getZeroParameterConstrucor(this) != null) && canReplaceContent();
+		return isConcrete() && (ReflectionUIUtils.getZeroParameterMethod(getConstructors()) != null) && canReplaceContent();
 	}
 
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
-		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterConstrucor(this);
+		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterMethod(getConstructors());
 		Collection result = (Collection) constructor.invoke(null, new InvocationData());
 		replaceContent(result, array);
 		return result;
@@ -146,14 +146,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
-			List<? extends ItemPosition> selection) {
+	public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue) {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
-			List<? extends ItemPosition> selection) {
+	public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+			Object rootListValue) {
 		return Collections.emptyList();
 	}
 

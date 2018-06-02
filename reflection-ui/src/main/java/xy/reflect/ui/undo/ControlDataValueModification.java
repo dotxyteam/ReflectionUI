@@ -2,6 +2,7 @@ package xy.reflect.ui.undo;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ControlDataValueModification extends AbstractModification {
 
@@ -41,13 +42,7 @@ public class ControlDataValueModification extends AbstractModification {
 	protected Runnable createUndoJob() {
 		Runnable result = data.getNextUpdateCustomUndoJob(newValue);
 		if (result == null) {
-			final Object oldValue = data.getValue();
-			result = new Runnable() {
-				@Override
-				public void run() {
-					data.setValue(oldValue);
-				}
-			};
+			result = ReflectionUIUtils.createDefaultUndoJob(data);
 		}
 		return result;
 	}

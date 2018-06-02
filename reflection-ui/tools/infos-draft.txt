@@ -1,35 +1,139 @@
-- IInfos Analysis: 
-	
-	1) Controls feed from FieldInfo and TypeInfo.
-	These infos are extracted from the code directly.
-	Sometimes controls also feed from code extensions: Customizations.
-	But there is an ambiguity: TypeCustomization eg is not an
-	info extension but rather an info change specification, a proxy
-	of the exsisting infos. On the other hand, FileControlConfiguration
-	is an actual extension of the File TypeInfo+FieldInfo. 
+ ARCHITECTURE
+ ------------
+ 
+ The aim of ReflectionUI is to allow to build appropriate UIs from objects
+ without coding (or with very few coding=). Since there is not enough information 
+ in objects to build a user friendly UI, enrichment and customization are then needed.
+ To achieve this goal, 2 main layers have been created:
+ - IInfo layer: an abstract GUI model
+ - Rendering layer: GUI elements layer
+ 
+ 
+ 
+ 	IInfo layer
+ 	-----------
+ It defines an abstract GUI model that is an extended subset of the object 
+ oriented model: Classes are ITypeInfo objects, field are IFielInfo objects, etc.
+ This model is then mainly composed of interfaces + default implementations.
+ Here are the important elements:
+ 
+ 		IFieldInfo interface
+ 		--------------------
+ This interface represents a field in the object oriented paradigm.  It then allows
+ to define how a field should be represented. By default the field representation
+ will be based on its type.
+ 
+ 		IMethodInfo interface
+ 		---------------------
+ This interface represents a method in the object oriented paradigm.  It then allows
+ to define how the method representation should behave. By default the method representation
+ is an action button that would require parameters values and display the return value
+ in a child dialog.
+ 
+ 		ITypeInfo interface
+ 		-------------------
+ This interface represents a class in the object oriented paradigm.  It then allows
+ to define how an object UI of a given class should look like and behave.
+ It mainly provides UI informations about fields and methods.
+ 2 important interfaces are derived from ITypeInfo:
+ 
+ 			IListTypeInfo interface
+ 			-----------------------
+ This interface allows to describe list-like objects. Various specificities are
+ handled like ordering, hierarchy (trees), columns, etc. By default as much information
+ as possible is extracted from the standard list-like classes (arrays, collections).
+ Hierarchical and tabular features are described by the following types:
+ 
+ 				IListStructuralInfo interface
+ 				-----------------------------
+ This is the main class describing the hierarchical and tabular structure bound to
+ a IListTypeInfo instance. 
+ 
+ 				ItemPosition class
+ 				------------------
+ This class defines a location and a path to an element in a hierarchical list (or a tree).
+ The path is actually the set of informations (field value access infos, list item access infos)
+ needed to retrieve or update the value held by a node. Note that the ItemPosition will also 
+ allow to check if a node is read-only, its value return mode (reference or copy), etc.
+ Typically an ItemPosition will have ancestor ItemPositions allowing to access all the 
+ ancestor nodes of the current node.
+ Remark: the ItemPosition works in conjunction with the IFieldInfo or IMethodInfo it associated 
+ with. It retrieves the node value from the value returned by the I*Info and updates the value
+ that should then be committed by the I*Info.  
 
-	2) TypeInfo, FieldInfo ... are abstract GUI model elements. 
-	They are indeed enrichment of code model elements, enough to feed
-	a basic usable GUI. Ideally the same Infos could be used to feed
-	efficiently very different UI systems (ex: conolse UI an GUI).
-	Class is 
-		* what data do we have 
-		* what can we done with it.
-	TypeInfo is 
-		* what data do we have ++ and how is it displayed  
-		* what can we do with it ++ and how should we do it
-	unfortunately these infos cannot all be generated from the
-	code and moreover, some of them need to be changed because
-	the language did not allow to specify them properly (Eg:
-	String Not Nullable). To cover this need we use Customizations. 
-	Basically Infos conceptualize any GUI as a set of forms.   
-	A form organizes and displays controls. A default control 
-	displays basic information: primitive, list, enumeration, 
-	method and sub form.
-	In real world application default controls are not enough.
-	we need to replace them with custom controls that will 
-	display the same data in a more elegant way. Some of these
-	custom controls may have variations. this is where plugins
-	become useful by providing these controls and their variations
-	through ControlConfiguration objects. These objects are therefore
-	stored as specific properties of any appropriate info.  
+ 				IColumnInfo interface
+ 				---------------------
+ This interface allows to enrich the abstract UI model of list-like objects by
+ providing multiple user-friendly (organized and formatted) views of list items.
+   
+  				
+ 			IEnumerationTypeInfo interface
+ 			------------------------------ 
+ This interface allows to define objects as being enumeration items. By default only 
+ enum types are interpreted as IEnumerationTypeInfo instances.
+ 
+ 		ReflectionUI class
+ 		------------------
+ This is the class that will build the default implementations
+ of IInfo interfaces from objects. Note that it is possible to build implementations
+ from other sources such as databases, etc. These default implementations will
+ usually need to be customized since there is not enough informations in objects
+ to build a user friendly UI.
+ 
+ 		InfoProxyFactory class
+ 		----------------------
+  This class helps to build proxies of IInfo interfaces in order to customize the 
+  default implementations.
+ 
+ 
+ 
+ 	Rendering layer
+ 	---------------
+ This is the layer of the GUI elements that are created according the
+ supplied IInfo instances. This layer is itself divided into the
+ following components:
+ 
+ 		Forms
+ 		-----
+ Every UI generated by this library is actually a form. This is the main
+ GUI element. Forms are therefore bound to a windowing toolkit.
+ 
+ 		Controls
+ 		--------
+ Each form is composed of field and method controls. Some
+ field controls can contain sub forms so that any complex UI structure
+ can be generated. Controls are therefore bound to a windowing toolkit.
+ 
+ 		Control place holders
+ 		--------------------
+ Controls are not directly integrated in forms. They are contained in
+ place holders: instances of FieldControlPlaceHolder & MethodControlPlaceHolder.
+ The place holders can provide basic control features that will ease the development
+ of new controls. Eg: refreshing, error display, undo management strategy, etc.
+ Controls can take control of these features by implementing the IAdvancedFieldControl
+ interface. Place holders will also handle common features like busy indication,
+ update synchronization and delaying, etc.
+  
+ 		Control data layer
+ 		------------------
+ This layer contains mainly these elements: IFieldControlData & IMethodControlData.
+ These interfaces represent the minimum set of informations needed by the controls
+ to achieve their work (how to get/set a value, field caption, etc).These interfaces
+ implementations will then act as a glue between the controls and the IInfo instances.
+ These control data interfaces were separated from their IInfo counterparts to
+ simplify the development of new controls. Note that this layer is not bound to
+ any windowing toolkit.
+ 
+ 		ModificationStack class
+ 		-----------------------
+ This class provides a feature that is common in GUIs: undo management.   
+ Note that this class relies on the control data layer and therefore is not bound to any 
+ windowing toolkit.
+ 
+ 		Renderers
+ 		---------
+ These are some of the main components of this library. For now only one renderer
+ is available: SwingRenderer. A renderer is actually a factory of GUI elements.
+ It will then create control data instances, controls, forms, ModificationStack objects
+ and glue them all together to provide a working UI.
+  

@@ -1,13 +1,11 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -208,10 +206,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		} finally {
 			listenerDisabled = false;
 		}
-	}
-
-	protected Component createIconTrol() {
-		return new JLabel();
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -27,8 +26,8 @@ public class ItemPosition implements Cloneable {
 		return containingListFieldIfNotRoot;
 	}
 
-	public int getContainingListSize() {
-		return retrieveContainingListRawValue().length;
+	public int getContainingListSize(Object rootListValue) {
+		return retrieveContainingListRawValue(rootListValue).length;
 	}
 
 	public ItemPosition getParentItemPosition() {
@@ -54,18 +53,18 @@ public class ItemPosition implements Cloneable {
 
 	public String getContainingListTitle() {
 		if (isRoot()) {
-			return factory.getRootListData().getCaption();
+			return factory.getRootListTitle();
 		} else {
 			return containingListFieldIfNotRoot.getCaption();
 		}
 	}
 
-	public Object getItem() {
+	public Object getItem(Object rootListValue) {
 		Object[] containingListRawValue;
 		if (isRoot()) {
-			containingListRawValue = factory.retrieveRootListRawValue();
+			containingListRawValue = factory.retrieveRootListRawValue(rootListValue);
 		} else {
-			containingListRawValue = parentItemPosition.retrieveSubListRawValue();
+			containingListRawValue = parentItemPosition.retrieveSubListRawValue(rootListValue);
 		}
 		if ((index >= 0) && (index < containingListRawValue.length)) {
 			return containingListRawValue[index];
@@ -93,9 +92,9 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public List<? extends ItemPosition> getFollowingSiblings() {
+	public List<? extends ItemPosition> getFollowingSiblings(Object rootListValue) {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
-		int containingListSize = getContainingListSize();
+		int containingListSize = getContainingListSize(rootListValue);
 		for (int i = getIndex() + 1; i < containingListSize; i++) {
 			result.add(getSibling(i));
 		}
@@ -118,63 +117,63 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public Object retrieveContainingListValue() {
+	public Object retrieveContainingListValue(Object rootListValue) {
 		if (isRoot()) {
-			return factory.retrieveRootListValue();
+			return rootListValue;
 		} else {
-			return parentItemPosition.retrieveSubListValue();
+			return parentItemPosition.retrieveSubListValue(rootListValue);
 		}
 	}
 
-	public Object[] retrieveContainingListRawValue() {
+	public Object[] retrieveContainingListRawValue(Object rootListValue) {
 		if (isRoot()) {
-			return factory.retrieveRootListRawValue();
+			return factory.retrieveRootListRawValue(rootListValue);
 		} else {
-			return parentItemPosition.retrieveSubListRawValue();
+			return parentItemPosition.retrieveSubListRawValue(rootListValue);
 		}
 	}
 
-	public Object[] retrieveSubListRawValue() {
-		Object subListValue = retrieveSubListValue();
+	public Object[] retrieveSubListRawValue(Object rootListValue) {
+		Object subListValue = retrieveSubListValue(rootListValue);
 		if (subListValue == null) {
 			return null;
 		} else {
-			IListTypeInfo subListType = (IListTypeInfo) getSubListField().getType();
+			IListTypeInfo subListType = (IListTypeInfo) getSubListField(rootListValue).getType();
 			return subListType.toArray(subListValue);
 		}
 	}
 
-	public Object retrieveSubListValue() {
-		IFieldInfo subListField = getSubListField();
+	public Object retrieveSubListValue(Object rootListValue) {
+		IFieldInfo subListField = getSubListField(rootListValue);
 		if (subListField == null) {
 			return null;
 		}
-		final Object item = getItem();
+		final Object item = getItem(rootListValue);
 		return subListField.getValue(item);
 	}
 
-	public IFieldInfo getSubListField() {
+	public IFieldInfo getSubListField(final Object rootListValue) {
 		IListStructuralInfo treeInfo = getStructuralInfo();
 		if (treeInfo == null) {
 			return null;
 		}
-		final Object item = getItem();
+		final Object item = getItem(rootListValue);
 		return treeInfo.getItemSubListField(new DelegatingItemPosition(this) {
 			@Override
-			public Object getItem() {
+			public Object getItem(Object rootListValue) {
 				return item;
 			}
-		});
+		}, rootListValue);
 	}
 
-	public ItemPosition getSubItemPosition(int index) {
-		Object[] subListRawValue = retrieveSubListRawValue();
+	public ItemPosition getSubItemPosition(int index, Object rootListValue) {
+		Object[] subListRawValue = retrieveSubListRawValue(rootListValue);
 		if (subListRawValue == null) {
 			return null;
 		}
 		ItemPosition result = clone();
 		result.parentItemPosition = this;
-		result.containingListFieldIfNotRoot = getSubListField();
+		result.containingListFieldIfNotRoot = getSubListField(rootListValue);
 		result.index = index;
 		return result;
 	}
@@ -183,14 +182,14 @@ public class ItemPosition implements Cloneable {
 		return getRoot().getContainingListType().getStructuralInfo();
 	}
 
-	public List<? extends ItemPosition> getSubItemPositions() {
-		Object[] subListRawValue = retrieveSubListRawValue();
+	public List<? extends ItemPosition> getSubItemPositions(Object rootListValue) {
+		Object[] subListRawValue = retrieveSubListRawValue(rootListValue);
 		if (subListRawValue == null) {
 			return Collections.emptyList();
 		}
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		for (int index = 0; index < subListRawValue.length; index++) {
-			result.add(getSubItemPosition(index));
+			result.add(getSubItemPosition(index, rootListValue));
 
 		}
 		return result;
@@ -208,10 +207,6 @@ public class ItemPosition implements Cloneable {
 		return current;
 	}
 
-	public IFieldControlData getRootListData() {
-		return factory.getRootListData();
-	}
-
 	public ValueReturnMode getItemReturnMode() {
 		ValueReturnMode result = ValueReturnMode.combine(geContainingListReturnMode(),
 				getContainingListType().getItemReturnMode());
@@ -223,7 +218,7 @@ public class ItemPosition implements Cloneable {
 
 	public ValueReturnMode geContainingListReturnMode() {
 		if (isRoot()) {
-			return factory.getRootListData().getValueReturnMode();
+			return factory.getRootListValueReturnMode();
 		} else {
 			return containingListFieldIfNotRoot.getValueReturnMode();
 		}
@@ -231,9 +226,110 @@ public class ItemPosition implements Cloneable {
 
 	public boolean isContainingListGetOnly() {
 		if (isRoot()) {
-			return factory.getRootListData().isGetOnly();
+			return factory.isRootListGetOnly();
 		} else {
 			return containingListFieldIfNotRoot.isGetOnly();
+		}
+	}
+
+	public boolean isContainingListEditable(Object rootListValue) {
+		if (!isRoot()) {
+			ItemPosition parentItemPosition = getParentItemPosition();
+			if (!parentItemPosition.isContainingListEditable(rootListValue)) {
+				return false;
+			}
+		}
+		IListTypeInfo listType = getContainingListType();
+		if (listType.canReplaceContent()) {
+			Object containingListValue = retrieveContainingListValue(rootListValue);
+			if (containingListValue != null) {
+				if (geContainingListReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
+					return true;
+				}
+				if (!isContainingListGetOnly()) {
+					return true;
+				}
+			}
+		}
+		if (listType.canInstanciateFromArray()) {
+			if (!isContainingListGetOnly()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Object updateContainingList(Object[] newContainingListRawValue, Object rootListValue) {
+		Object newRootListValue = null;
+		boolean done = false;
+		ItemPosition parentItemPosition = getParentItemPosition();
+		Object parentItem = isRoot() ? null : parentItemPosition.getItem(rootListValue);
+
+		checkContainingListRawValue(newContainingListRawValue);
+		IListTypeInfo listType = getContainingListType();
+		if (listType.canReplaceContent()) {
+			Object containingListValue = retrieveContainingListValue(rootListValue);
+			if (containingListValue != null) {
+				if (!done) {
+					if (geContainingListReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
+						listType.replaceContent(containingListValue, newContainingListRawValue);
+						done = true;
+					}
+				}
+				if (!done) {
+					if (!isContainingListGetOnly()) {
+						listType.replaceContent(containingListValue, newContainingListRawValue);
+						if (!isRoot()) {
+							getContainingListFieldIfNotRoot().setValue(parentItem, containingListValue);
+						}
+						done = true;
+					}
+				}
+			}
+		}
+		if (!done) {
+			if (listType.canInstanciateFromArray()) {
+				if (!isContainingListGetOnly()) {
+					Object containingListValue = listType.fromArray(newContainingListRawValue);
+					if (isRoot()) {
+						newRootListValue = containingListValue;
+					} else {
+						getContainingListFieldIfNotRoot().setValue(parentItem, containingListValue);
+					}
+					done = true;
+				}
+			}
+		}
+
+		if (!done) {
+			throw new ReflectionUIError();
+		}
+
+		if (!isRoot()) {
+			Object[] parentItemContainingListRawValue = getParentItemPosition()
+					.retrieveContainingListRawValue(rootListValue);
+			if (parentItem != parentItemContainingListRawValue[parentItemPosition.getIndex()]) {
+				parentItemContainingListRawValue[parentItemPosition.getIndex()] = parentItem;
+			}
+			newRootListValue = parentItemPosition.updateContainingList(parentItemContainingListRawValue, rootListValue);
+		}
+
+		return newRootListValue;
+	}
+
+	public void checkContainingListRawValue(Object[] listRawValue) {
+		IListTypeInfo listType = getContainingListType();
+		ITypeInfo itemType = listType.getItemType();
+		if (itemType != null) {
+			for (Object item : listRawValue) {
+				if (item != null) {
+					if (!itemType.supportsInstance(item)) {
+						throw new ReflectionUIError("Item not supported: '" + item + "'. Was expecting instance of '"
+								+ itemType.getName() + "'");
+
+					}
+				}
+			}
 		}
 	}
 
@@ -309,7 +405,7 @@ public class ItemPosition implements Cloneable {
 
 	@Override
 	public String toString() {
-		return "ItemPosition [item=" + getItem() + ", path=" + getPath() + "]";
+		return "ItemPosition [path=" + getPath() + "]";
 	}
 
 }

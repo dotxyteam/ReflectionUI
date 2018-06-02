@@ -48,6 +48,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
@@ -262,10 +263,6 @@ public class ReflectionUIUtils {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		e.printStackTrace(new PrintStream(out));
 		return out.toString();
-	}
-
-	public static IMethodInfo getZeroParameterConstrucor(ITypeInfo type) {
-		return getNParametersMethod(type.getConstructors(), 0);
 	}
 
 	public static IMethodInfo getNParametersMethod(List<IMethodInfo> methods, int n) {
@@ -798,7 +795,7 @@ public class ReflectionUIUtils {
 				}
 			}
 
-			IMethodInfo constructor = getZeroParameterConstrucor(type);
+			IMethodInfo constructor = getZeroParameterMethod(type.getConstructors());
 			if (constructor == null) {
 				throw new ReflectionUIError("Default constructor not found");
 			}
@@ -959,9 +956,9 @@ public class ReflectionUIUtils {
 		return parentObjectImpacted;
 	}
 
-	public static boolean canEditSeparateObjectValue(boolean valueImmutable, ValueReturnMode valueReturnMode,
+	public static boolean canEditSeparateObjectValue(boolean valueKnownAsImmutable, ValueReturnMode valueReturnMode,
 			boolean canCommit) {
-		if ((valueReturnMode != ValueReturnMode.CALCULATED) && !valueImmutable) {
+		if ((valueReturnMode != ValueReturnMode.CALCULATED) && !valueKnownAsImmutable) {
 			return true;
 		}
 		if (canCommit) {
@@ -1253,4 +1250,17 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
+	public static Runnable createDefaultUndoJob(final IFieldControlData data) {
+		final Object oldValue = data.getValue();
+		return new Runnable() {
+			@Override
+			public void run() {
+				data.setValue(oldValue);
+			}
+		};
+	}
+
+	public static Runnable createDefaultUndoJob(Object object, IFieldInfo field) {
+		return createDefaultUndoJob(new DefaultFieldControlData(object, field));
+	}
 }

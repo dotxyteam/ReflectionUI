@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -71,6 +72,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	public boolean refreshUI() {
 		setNullStatusControlState(data.getValue() == null);
 		refreshSubControl();
+		((JComponent)subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return true;
 	}
 
@@ -184,7 +186,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
-		result.setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return result;
 	}
 
@@ -266,7 +267,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 			}
 		};
 		JPanel result = subFormBuilder.createForm(true, false);
-		result.setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return result;
 	}
 

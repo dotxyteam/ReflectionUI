@@ -401,14 +401,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.canReplaceContent();
 	}
 
-	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, ItemPosition anyRootListItemPosition,
-			List<? extends ItemPosition> selection) {
-		return type.getDynamicActions(anyRootListItemPosition, selection);
+	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection,
+			Object rootListValue) {
+		return type.getDynamicActions(selection, rootListValue);
 	}
 
-	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type, ItemPosition anyRootListItemPosition,
-			List<? extends ItemPosition> selection) {
-		return type.getDynamicProperties(anyRootListItemPosition, selection);
+	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type,
+			List<? extends ItemPosition> selection, Object rootListValue) {
+		return type.getDynamicProperties(selection, rootListValue);
 	}
 
 	protected List<IMethodInfo> getAdditionalItemConstructors(IListTypeInfo type, Object listValue) {
@@ -922,15 +922,15 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(ItemPosition anyRootListItemPosition,
-				List<? extends ItemPosition> selection) {
-			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, anyRootListItemPosition, selection);
+		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection,
+				Object rootListValue) {
+			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, selection, rootListValue);
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(ItemPosition anyRootListItemPosition,
-				List<? extends ItemPosition> selection) {
-			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, anyRootListItemPosition, selection);
+		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+				Object rootListValue) {
+			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection, rootListValue);
 		}
 
 		@Override

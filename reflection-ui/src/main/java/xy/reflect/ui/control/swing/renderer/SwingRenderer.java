@@ -894,8 +894,16 @@ public class SwingRenderer {
 
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
 		try {
-			if (type.isConcrete() && (type.getConstructors().size() > 0)) {
-				List<IMethodInfo> constructors = type.getConstructors();
+			List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
+			{
+				for (IMethodInfo ctor : type.getConstructors()) {
+					if (ctor.isHidden()) {
+						continue;
+					}
+					constructors.add(ctor);
+				}
+			}
+			if (type.isConcrete() && (constructors.size() > 0)) {
 				final IMethodInfo chosenConstructor;
 				if (constructors.size() == 1) {
 					chosenConstructor = constructors.get(0);
@@ -1007,9 +1015,7 @@ public class SwingRenderer {
 		} catch (Throwable t) {
 			throw new ReflectionUIError(
 					"Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
-
 		}
-
 	}
 
 	public Object openSelectionDialog(Component parentComponent, IEnumerationTypeInfo enumType, Object initialEnumItem,
@@ -1315,9 +1321,7 @@ public class SwingRenderer {
 					for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
 						FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
 						fieldControlPlaceHolder.refreshUI(false);
-						if (fieldControlPlaceHolder.isLayoutInContainerUpdateNeeded()) {
-							updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
-						}
+						updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
 					}
 				}
 				return;

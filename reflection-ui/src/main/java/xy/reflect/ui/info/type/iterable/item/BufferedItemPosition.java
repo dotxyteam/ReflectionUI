@@ -23,7 +23,7 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public Object getItem() {
+	public Object getItem(Object rootListValue) {
 		if (fakeItem != null) {
 			if (fakeItem == NULL_FAKE_ITEM) {
 				return null;
@@ -31,7 +31,7 @@ public class BufferedItemPosition extends ItemPosition {
 				return fakeItem;
 			}
 		}
-		return super.getItem();
+		return super.getItem(rootListValue);
 	}
 
 	public void setFakeItem(Object item) {
@@ -84,33 +84,33 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public List<BufferedItemPosition> getFollowingSiblings() {
+	public List<BufferedItemPosition> getFollowingSiblings(Object rootListValue) {
 		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
-		for (ItemPosition i : super.getFollowingSiblings()) {
+		for (ItemPosition i : super.getFollowingSiblings(rootListValue)) {
 			result.add((BufferedItemPosition) i);
 		}
 		return result;
 	}
 
 	@Override
-	public IFieldInfo getSubListField() {
+	public IFieldInfo getSubListField(Object rootListValue) {
 		if (bufferedSubListField == null) {
-			bufferedSubListField = super.getSubListField();
+			bufferedSubListField = super.getSubListField(rootListValue);
 		}
 		return bufferedSubListField;
 	}
 
 	@Override
-	public Object[] retrieveSubListRawValue() {
+	public Object[] retrieveSubListRawValue(Object rootListValue) {
 		if (bufferedSubListRawValue == null) {
-			bufferedSubListRawValue = super.retrieveSubListRawValue();
+			bufferedSubListRawValue = super.retrieveSubListRawValue(rootListValue);
 		}
 		return bufferedSubListRawValue;
 	}
 
 	@Override
-	public BufferedItemPosition getSubItemPosition(int index) {
-		BufferedItemPosition result = (BufferedItemPosition) super.getSubItemPosition(index);
+	public BufferedItemPosition getSubItemPosition(int index, Object rootListValue) {
+		BufferedItemPosition result = (BufferedItemPosition) super.getSubItemPosition(index, rootListValue);
 		if (result != null) {
 			result.bufferedSubListField = null;
 			result.bufferedSubListRawValue = null;
@@ -119,9 +119,9 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public List<BufferedItemPosition> getSubItemPositions() {
+	public List<BufferedItemPosition> getSubItemPositions(Object rootListValue) {
 		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
-		for (ItemPosition i : super.getSubItemPositions()) {
+		for (ItemPosition i : super.getSubItemPositions(rootListValue)) {
 			result.add((BufferedItemPosition) i);
 		}
 		return result;
@@ -131,7 +131,7 @@ public class BufferedItemPosition extends ItemPosition {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((getItem() == null) ? 0 : getItem().hashCode());
+		result = prime * result + ((fakeItem == null) ? 0 : fakeItem.hashCode());
 		return result;
 	}
 
@@ -144,10 +144,10 @@ public class BufferedItemPosition extends ItemPosition {
 		if (getClass() != obj.getClass())
 			return false;
 		BufferedItemPosition other = (BufferedItemPosition) obj;
-		if (getItem() == null) {
-			if (other.getItem() != null)
+		if (fakeItem == null) {
+			if (other.fakeItem != null)
 				return false;
-		} else if (!getItem().equals(other.getItem()))
+		} else if (!fakeItem.equals(other.fakeItem))
 			return false;
 		return true;
 	}
