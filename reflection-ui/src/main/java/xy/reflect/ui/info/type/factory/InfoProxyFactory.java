@@ -511,6 +511,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getCaption();
 	}
 
+	protected void onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
+		type.onFormVisibilityChange(object, visible);
+	}
+
 	protected String getName(ITypeInfo type) {
 		return type.getName();
 	}
@@ -634,6 +638,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base);
+		}
+
+		@Override
+		public void onFormVisibilityChange(Object object, boolean visible) {
+			InfoProxyFactory.this.onFormVisibilityChange(base, object, visible);
 		}
 
 		@Override

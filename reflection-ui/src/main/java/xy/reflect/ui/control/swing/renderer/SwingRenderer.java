@@ -129,6 +129,7 @@ public class SwingRenderer {
 	protected Map<JPanel, Boolean> busyIndicationDisabledByForm = new MapMaker().weakKeys().makeMap();
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
+	protected Map<JPanel, IModificationListener> fieldsUpdateListenerByForm = new MapMaker().weakKeys().makeMap();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -165,6 +166,10 @@ public class SwingRenderer {
 
 	public Map<JPanel, ModificationStack> getModificationStackByForm() {
 		return modificationStackByForm;
+	}
+
+	public Map<JPanel, IModificationListener> getFieldsUpdateListenerByForm() {
+		return fieldsUpdateListenerByForm;
 	}
 
 	public Map<JPanel, Boolean> getFieldsUpdateListenerDisabledByForm() {
@@ -403,32 +408,14 @@ public class SwingRenderer {
 		}
 		result.addAncestorListener(new AncestorListener() {
 
-			IModificationListener fieldsUpdateListener = new AbstractSimpleModificationListener() {
-				@Override
-				protected void handleAnyEvent(IModification modification) {
-					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(result))) {
-						return;
-					}
-					onFieldsUpdate(result);
-				}
-			};
-
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
-				if (Boolean.TRUE.equals(getModificationStackForwardingStatusByForm().get(result))) {
-					return;
-				}
-				ModificationStack modifStack = getModificationStackByForm().get(result);
-				modifStack.addListener(fieldsUpdateListener);
+				formShown(result);
 			}
 
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
-				if (Boolean.TRUE.equals(getModificationStackForwardingStatusByForm().get(result))) {
-					return;
-				}
-				ModificationStack modifStack = getModificationStackByForm().get(result);
-				modifStack.removeListener(fieldsUpdateListener);
+				formHidden(result);
 			}
 
 			@Override
@@ -438,6 +425,37 @@ public class SwingRenderer {
 		});
 		fillForm(result);
 		return result;
+	}
+
+	public void formShown(final JPanel form) {
+		if (!Boolean.TRUE.equals(getModificationStackForwardingStatusByForm().get(form))) {
+			ModificationStack modifStack = getModificationStackByForm().get(form);
+			IModificationListener fieldsUpdateListener = new AbstractSimpleModificationListener() {
+				@Override
+				protected void handleAnyEvent(IModification modification) {
+					if (Boolean.TRUE.equals(getFieldsUpdateListenerDisabledByForm().get(form))) {
+						return;
+					}
+					onFieldsUpdate(form);
+				}
+			};
+			getFieldsUpdateListenerByForm().put(form, fieldsUpdateListener);
+			modifStack.addListener(fieldsUpdateListener);
+		}
+		Object object = getObjectByForm().get(form);
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		type.onFormVisibilityChange(object, true);
+	}
+
+	public void formHidden(JPanel form) {
+		if (!Boolean.TRUE.equals(getModificationStackForwardingStatusByForm().get(form))) {
+			IModificationListener fieldsUpdateListener = getFieldsUpdateListenerByForm().get(form);
+			ModificationStack modifStack = getModificationStackByForm().get(form);
+			modifStack.removeListener(fieldsUpdateListener);
+		}
+		Object object = getObjectByForm().get(form);
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		type.onFormVisibilityChange(object, false);
 	}
 
 	public void onFieldsUpdate(final JPanel form) {
@@ -1234,11 +1252,11 @@ public class SwingRenderer {
 	}
 
 	public void refreshForm(final JPanel form) {
-		refreshForm(form, false);
+		refreshForm(form, false, false);
 	}
 
-	public void refreshForm(final JPanel form, boolean recreateControls) {
-		if (!recreateControls) {
+	public void refreshForm(final JPanel form, boolean forceUpdateLayout, boolean forceRecreateControls) {
+		if (!forceRecreateControls) {
 			ITypeInfo type = getFormFilteredType(form);
 
 			SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = getFieldControlPlaceHoldersByCategoryByForm()
@@ -1321,7 +1339,9 @@ public class SwingRenderer {
 					for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
 						FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
 						fieldControlPlaceHolder.refreshUI(false);
-						updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
+						if (forceUpdateLayout) {
+							updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
+						}
 					}
 				}
 				return;

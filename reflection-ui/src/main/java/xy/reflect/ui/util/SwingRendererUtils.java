@@ -858,9 +858,10 @@ public class SwingRendererUtils {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
 	}
 
-	public static void rebuildAllDisplayedFormAndMenus(SwingRenderer swingRenderer) {
+	public static void refreshAllDisplayedFormAndMenus(SwingRenderer swingRenderer, boolean forceUpdateLayout,
+			boolean forceRecreateControls) {
 		for (JPanel form : excludeSubForms(getAllDisplayedForms(swingRenderer), swingRenderer)) {
-			swingRenderer.refreshForm(form);
+			swingRenderer.refreshForm(form, forceUpdateLayout, forceRecreateControls);
 			swingRenderer.updateMenuBar(form);
 		}
 	}

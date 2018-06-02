@@ -167,6 +167,10 @@ public class MethodInvocationDataAsObjectFactory {
 	public class TypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
+		public void onFormVisibilityChange(Object object, boolean visible) {
+		}
+
+		@Override
 		public boolean canPersist() {
 			return false;
 		}

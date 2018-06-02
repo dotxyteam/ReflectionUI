@@ -46,6 +46,10 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		this.javaType = javaType;
 	}
 
+	@Override
+	public void onFormVisibilityChange(Object object, boolean visible) {
+	}
+
 	public Class<?> getJavaType() {
 		return javaType;
 	}

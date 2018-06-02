@@ -190,6 +190,12 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 						data.setValue(delayedFieldValue);
 					} finally {
 						delaying = false;
+						SwingUtilities.invokeLater(new Runnable() {							
+							@Override
+							public void run() {
+								refreshUI(false);
+							}
+						});
 					}
 				}
 			};

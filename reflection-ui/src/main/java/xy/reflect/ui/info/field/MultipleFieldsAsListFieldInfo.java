@@ -291,6 +291,10 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public void onFormVisibilityChange(Object object, boolean visible) {
+		}
+
+		@Override
 		public void save(Object object, OutputStream out) {
 		}
 

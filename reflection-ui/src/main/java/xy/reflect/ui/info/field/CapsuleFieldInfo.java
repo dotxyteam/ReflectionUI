@@ -31,16 +31,14 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected List<IMethodInfo> encapsulatedMethods;
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
-	protected String contextId;
-	private ITypeInfo containingType;
+	protected ITypeInfo containingType;
 
 	public CapsuleFieldInfo(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
-			List<IMethodInfo> encapsulatedMethods, String contextId, ITypeInfo containingType) {
+			List<IMethodInfo> encapsulatedMethods, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
 		this.encapsulatedFields = encapsulatedFields;
 		this.encapsulatedMethods = encapsulatedMethods;
-		this.contextId = contextId;
 		this.containingType = containingType;
 	}
 
@@ -65,7 +63,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public String getContextId() {
-		return contextId;
+		return "EncapsulationContext [containingType=" + containingType.getName() + "]";
 	}
 
 	@Override
@@ -174,7 +172,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contextId == null) ? 0 : contextId.hashCode());
+		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
 		result = prime * result + ((encapsulatedFields == null) ? 0 : encapsulatedFields.hashCode());
 		result = prime * result + ((encapsulatedMethods == null) ? 0 : encapsulatedMethods.hashCode());
@@ -190,10 +188,10 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		CapsuleFieldInfo other = (CapsuleFieldInfo) obj;
-		if (contextId == null) {
-			if (other.contextId != null)
+		if (containingType == null) {
+			if (other.containingType != null)
 				return false;
-		} else if (!contextId.equals(other.contextId))
+		} else if (!containingType.equals(other.containingType))
 			return false;
 		if (fieldName == null) {
 			if (other.fieldName != null)
@@ -215,8 +213,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return "CapsuleField [fieldName=" + fieldName + ", contextId=" + contextId + ", fields=" + encapsulatedFields
-				+ ", methods=" + encapsulatedMethods + "]";
+		return "CapsuleField [fieldName=" + fieldName + ", contextId=" + getContextId() + ", fields="
+				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
 	public class Value {
@@ -274,6 +272,10 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
+		public void onFormVisibilityChange(Object object, boolean visible) {
+		}
+
+		@Override
 		public boolean canPersist() {
 			return false;
 		}
@@ -288,7 +290,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return "CapsuleFieldType [context=" + contextId + ", fieldName=" + fieldName + "]";
+			return "CapsuleFieldType [context=" + getContextId() + ", fieldName=" + fieldName + "]";
 		}
 
 		@Override
