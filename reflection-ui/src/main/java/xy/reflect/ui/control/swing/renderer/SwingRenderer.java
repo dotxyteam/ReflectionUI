@@ -28,6 +28,12 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -130,6 +136,9 @@ public class SwingRenderer {
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IModificationListener> fieldsUpdateListenerByForm = new MapMaker().weakKeys().makeMap();
+
+	protected ExecutorService busyDialogRunner = Executors.newSingleThreadExecutor();
+	protected ExecutorService busyDialogCloser = Executors.newSingleThreadExecutor();
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
@@ -1403,7 +1412,7 @@ public class SwingRenderer {
 
 	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {
 		final Throwable[] exceptionThrown = new Throwable[1];
-		final Thread runner = new Thread("BusyDialogRunner: " + title) {
+		final Future<?> busyDialogRunnerJob = busyDialogRunner.submit(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -1412,20 +1421,20 @@ public class SwingRenderer {
 					exceptionThrown[0] = t;
 				}
 			}
-		};
-		runner.start();
+		});
 		try {
-			runner.join(1000);
-		} catch (InterruptedException e) {
+			busyDialogRunnerJob.get(1000, TimeUnit.MILLISECONDS);
+		} catch (TimeoutException e1) {
+		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}
-		if (runner.isAlive()) {
+		if (!busyDialogRunnerJob.isDone()) {
 			final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
-			final Thread closer = new Thread("BusyDialogCloser: " + title) {
+			busyDialogCloser.submit(new Runnable() {
 				@Override
 				public void run() {
 					while (true) {
-						if (!runner.isAlive()) {
+						if (busyDialogRunnerJob.isDone()) {
 							final JDialog dialog = dialogBuilder.getCreatedDialog();
 							if (dialog != null) {
 								if (dialog.isVisible()) {
@@ -1435,19 +1444,18 @@ public class SwingRenderer {
 											dialog.dispose();
 										}
 									});
-									break;
 								}
 							}
+							break;
 						}
 						try {
-							sleep(1000);
+							Thread.sleep(1000);
 						} catch (InterruptedException e) {
 							throw new ReflectionUIError(e);
 						}
 					}
 				}
-			};
-			closer.start();
+			});
 			final JXBusyLabel busyLabel = new JXBusyLabel();
 			busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			busyLabel.setText("Please wait...");
@@ -1460,7 +1468,7 @@ public class SwingRenderer {
 			dialog.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent e) {
-					runner.interrupt();
+					busyDialogRunnerJob.cancel(true);
 				}
 			});
 			showDialog(dialog, true, false);
