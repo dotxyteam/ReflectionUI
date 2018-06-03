@@ -47,7 +47,8 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
-	public void onFormVisibilityChange(Object object, boolean visible) {
+	public boolean  onFormVisibilityChange(Object object, boolean visible) {
+		return false;
 	}
 
 	public Class<?> getJavaType() {

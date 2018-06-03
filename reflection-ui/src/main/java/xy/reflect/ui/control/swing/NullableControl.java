@@ -53,7 +53,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		setLayout(new BorderLayout());
 		nullStatusControl = createNullStatusControl();
 		add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
-		refreshUI();
+		refreshUI(true);
 	}
 
 	public Component getSubControl() {
@@ -69,10 +69,10 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean refreshUI() {
+	public boolean refreshUI(boolean refreshStructure) {
 		setNullStatusControlState(data.getValue() == null);
-		refreshSubControl();
-		((JComponent)subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		refreshSubControl(refreshStructure);
+		((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		return true;
 	}
 
@@ -83,7 +83,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		} else {
 			nullControlAction.run();
 		}
-		refreshUI();
+		refreshUI(false);
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -107,7 +107,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	public void refreshSubControl() {
+	public void refreshSubControl(boolean refreshStructure) {
 		Object value = data.getValue();
 		if (value == null) {
 			if (subControl != null) {
@@ -120,7 +120,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			if (newValueType.equals(subControlValueType)) {
 				if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-					subFormBuilder.refreshEditForm((JPanel) subControl);
+					subFormBuilder.refreshEditForm((JPanel) subControl, refreshStructure);
 					return;
 				}
 			}

@@ -147,7 +147,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		detailsArea = new JPanel();
 		layoutControls();
 
-		refreshStructure();
+		refreshTreeControl();
 		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
 			openDetailsDialogOnItemDoubleClick();
 		} else {
@@ -181,7 +181,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		selectionListeners.add(new Listener<List<BufferedItemPosition>>() {
 			@Override
 			public void handle(List<BufferedItemPosition> event) {
-				updateDetailsArea();
+				updateDetailsArea(false);
 			}
 		});
 	}
@@ -1382,7 +1382,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected void updateDetailsArea() {
+	protected void updateDetailsArea(boolean refreshStructure) {
 		BufferedItemPosition singleSelection = getSingleSelection();
 		if (!ReflectionUIUtils.equalsOrBothNull(singleSelection, detailsControlItemPosition)) {
 			detailsControlItemPosition = singleSelection;
@@ -1399,7 +1399,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if (detailsControl != null) {
-			swingRenderer.refreshForm(detailsControl);
+			swingRenderer.refreshForm(detailsControl, refreshStructure);
 		} else {
 			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true, false);
 			detailsArea.removeAll();
@@ -1476,7 +1476,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return input.getModificationStack();
 	}
 
-	protected void refreshStructure() {
+	protected void refreshTreeControl() {
 		restoringColumnWidthsAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
@@ -1511,12 +1511,17 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean refreshUI() {
-		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+	public boolean refreshUI(final boolean refreshStructure) {
+		if (refreshStructure) {
+			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+		}
 		restoringSelectionAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
-				refreshStructure();
+				refreshTreeControl();
+				if (getDetailsAccessMode().hasDetailsDisplayOption()) {
+					updateDetailsArea(refreshStructure);
+				}
 			}
 		});
 		return true;
@@ -1665,11 +1670,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				restoringSelectionAsMuchAsPossible(new Runnable() {
 					@Override
 					public void run() {
-						refreshStructure();
+						refreshTreeControl();
 					}
 				});
 			} else {
-				refreshStructure();
+				refreshTreeControl();
 				setSelection(newSelection);
 			}
 			return new RefreshStructureModification(oldSelection);
@@ -1798,7 +1803,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			if (modifTitle == null) {
 				List<BufferedItemPosition> initialSelection = getSelection();
 				if (perform(toPostSelectHolder)) {
-					refreshStructure();
+					refreshTreeControl();
 					if (toPostSelectHolder[0] != null) {
 						setSelection(toPostSelectHolder[0]);
 					} else {

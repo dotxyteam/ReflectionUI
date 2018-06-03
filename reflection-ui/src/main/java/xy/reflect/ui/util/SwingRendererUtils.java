@@ -557,7 +557,7 @@ public class SwingRendererUtils {
 	public static Icon getMethodIcon(SwingRenderer swingRenderer, IMethodControlData data) {
 		Image iconImage = swingRenderer.getMethodIconImage(data);
 		if (iconImage != null) {
-			return SwingRendererUtils.getSmallIcon(iconImage);
+			return new ImageIcon(iconImage);
 		} else {
 			return null;
 		}
@@ -858,10 +858,9 @@ public class SwingRendererUtils {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
 	}
 
-	public static void refreshAllDisplayedFormAndMenus(SwingRenderer swingRenderer, boolean forceUpdateLayout,
-			boolean forceRecreateControls) {
+	public static void refreshAllDisplayedFormAndMenus(SwingRenderer swingRenderer, boolean refreshStructure) {
 		for (JPanel form : excludeSubForms(getAllDisplayedForms(swingRenderer), swingRenderer)) {
-			swingRenderer.refreshForm(form, forceUpdateLayout, forceRecreateControls);
+			swingRenderer.refreshForm(form, refreshStructure);
 			swingRenderer.updateMenuBar(form);
 		}
 	}

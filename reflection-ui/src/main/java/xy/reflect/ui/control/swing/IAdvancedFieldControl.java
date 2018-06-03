@@ -7,7 +7,7 @@ public interface IAdvancedFieldControl {
 
 	boolean showsCaption();
 
-	boolean refreshUI();
+	boolean refreshUI(boolean refreshStructure);
 
 	boolean handlesModificationStackUpdate();
 

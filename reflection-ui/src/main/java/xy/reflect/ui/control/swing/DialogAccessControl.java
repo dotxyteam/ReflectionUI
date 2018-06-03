@@ -246,7 +246,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void updateStatusControl() {
-		((TextControl) statusControl).refreshUI();
+		((TextControl) statusControl).refreshUI(false);
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean refreshUI() {
+	public boolean refreshUI(boolean refreshStructure) {
 		return false;
 	}
 

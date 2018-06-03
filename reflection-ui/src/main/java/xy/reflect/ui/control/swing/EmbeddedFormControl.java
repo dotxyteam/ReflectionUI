@@ -13,6 +13,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
@@ -42,7 +43,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		this.input = input;
 		this.data = retrieveData();
 		setLayout(new BorderLayout());
-		refreshUI();
+		refreshUI(true);
 	}
 
 	protected IFieldControlData retrieveData() {
@@ -66,7 +67,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
 				protected void handleAnyEvent(IModification modification) {
-					refreshUI();
+					refreshUI(false);
 				}
 			});
 		} else {
@@ -121,9 +122,11 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean refreshUI() {
-		if (data.getCaption().length() > 0) {
-			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+	public boolean refreshUI(boolean refreshStructure) {
+		if (refreshStructure) {
+			if (data.getCaption().length() > 0) {
+				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+			}
 		}
 		if (subForm == null) {
 			subFormObject = data.getValue();
@@ -136,21 +139,28 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			forwardSubFormModifications();
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
-			Object newSubFormObject = data.getValue();
+			final Object newSubFormObject = data.getValue();
 			if (newSubFormObject == null) {
 				throw new ReflectionUIError();
 			}
 			if (newSubFormObject == subFormObject) {
-				swingRenderer.refreshForm(subForm);
+				swingRenderer.refreshForm(subForm, refreshStructure);
 			} else {
-				Object subFormObjectType = swingRenderer.getReflectionUI()
+				final ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
-				Object newSubFormObjectType = swingRenderer.getReflectionUI()
+				final ITypeInfo newSubFormObjectType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
 				if (subFormObjectType.equals(newSubFormObjectType)) {
 					swingRenderer.getObjectByForm().put(subForm, newSubFormObject);
+					swingRenderer.showBusyDialogWhile(this, new Runnable() {
+						@Override
+						public void run() {
+							subFormObjectType.onFormVisibilityChange(subFormObject, false);
+							newSubFormObjectType.onFormVisibilityChange(newSubFormObject, true);
+						}
+					}, "Refreshing " + swingRenderer.getObjectTitle(newSubFormObject) + "...");
 					subFormObject = newSubFormObject;
-					swingRenderer.refreshForm(subForm);
+					swingRenderer.refreshForm(subForm, refreshStructure);
 				} else {
 					return false;
 				}

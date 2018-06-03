@@ -104,7 +104,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				try {
 					Object selected = comboBox.getSelectedItem();
 					data.setValue(selected);
-					refreshUI();
+					refreshUI(false);
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(EnumerationControl.this, t);
 				}
@@ -115,7 +115,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 		} else {
 			comboBox.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
 		}
-		refreshUI();
+		refreshUI(true);
 
 	}
 
@@ -172,8 +172,8 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean refreshUI() {
-		if (enumType.isDynamicEnumeration()) {
+	public boolean refreshUI(boolean refreshStructure) {
+		if (enumType.isDynamicEnumeration() || refreshStructure) {
 			possibleValues = collectPossibleValues();
 		}
 		List<Object> extendedPossibleValues = new ArrayList<Object>(possibleValues);

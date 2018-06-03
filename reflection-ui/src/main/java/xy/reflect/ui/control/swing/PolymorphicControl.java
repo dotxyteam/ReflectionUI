@@ -54,7 +54,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(), polymorphicType);
 
 		setLayout(new BorderLayout());
-		refreshUI();
+		refreshUI(true);
 	}
 
 	protected JPanel createTypeEnumerationControl() {
@@ -131,7 +131,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
-									refreshTypeEnumerationControl();
+									refreshTypeEnumerationControl(false);
 								}
 							});
 							return false;
@@ -174,7 +174,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 									SwingUtilities.invokeLater(new Runnable() {
 										@Override
 										public void run() {
-											refreshDynamicControl();
+											refreshDynamicControl(false);
 										}
 									});
 								}
@@ -213,9 +213,9 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		return typeEnumerationControlBuilder.createForm(true, false);
 	}
 
-	protected void refreshTypeEnumerationControl() {
+	protected void refreshTypeEnumerationControl(boolean refreshStructure) {
 		if (typeEnumerationControl != null) {
-			typeEnumerationControlBuilder.refreshEditForm(typeEnumerationControl);
+			typeEnumerationControlBuilder.refreshEditForm(typeEnumerationControl, refreshStructure);
 		} else {
 			add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
 			SwingRendererUtils.handleComponentSizeChange(this);
@@ -307,7 +307,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		return dynamicControlBuilder.createForm(true, false);
 	}
 
-	protected void refreshDynamicControl() {
+	protected void refreshDynamicControl(boolean refreshStructure) {
 		ITypeInfo instanceType = (ITypeInfo) typeOptionsFactory
 				.unwrapInstance(typeEnumerationControlBuilder.getCurrentObjectValue());
 		if ((lastInstanceType == null) && (instanceType == null)) {
@@ -322,7 +322,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
-				dynamicControlBuilder.refreshEditForm(dynamicControl);
+				dynamicControlBuilder.refreshEditForm(dynamicControl, refreshStructure);
 			} else {
 				remove(dynamicControl);
 				dynamicControl = null;
@@ -335,12 +335,14 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean refreshUI() {
-		if (data.getCaption().length() > 0) {
-			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+	public boolean refreshUI(boolean refreshStructure) {
+		if (refreshStructure) {
+			if (data.getCaption().length() > 0) {
+				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+			}
 		}
-		refreshTypeEnumerationControl();
-		refreshDynamicControl();
+		refreshTypeEnumerationControl(refreshStructure);
+		refreshDynamicControl(refreshStructure);
 		return true;
 	}
 

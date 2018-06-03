@@ -272,7 +272,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
-		public void onFormVisibilityChange(Object object, boolean visible) {
+		public boolean  onFormVisibilityChange(Object object, boolean visible) {
+			return false;
 		}
 
 		@Override

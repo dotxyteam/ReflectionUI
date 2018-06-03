@@ -268,14 +268,14 @@ public abstract class AbstractEditFormBuilder {
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				refreshEditForm(form);
+				refreshEditForm(form, false);
 			}
 		});
 	}
 
-	public void refreshEditForm(JPanel form) {
+	public void refreshEditForm(JPanel form, boolean refreshStructure) {
 		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
-		getSwingRenderer().refreshForm(form);
+		getSwingRenderer().refreshForm(form, refreshStructure);
 	}
 
 	protected boolean shouldAcceptNewObjectValue(Object value) {

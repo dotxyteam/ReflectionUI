@@ -291,7 +291,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public void onFormVisibilityChange(Object object, boolean visible) {
+		public boolean onFormVisibilityChange(Object object, boolean visible) {
+			return false;
 		}
 
 		@Override

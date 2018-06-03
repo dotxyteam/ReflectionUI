@@ -220,7 +220,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean refreshUI() {
+	public boolean refreshUI(boolean refreshStructure) {
 		updateTextComponent();
 		return true;
 	}

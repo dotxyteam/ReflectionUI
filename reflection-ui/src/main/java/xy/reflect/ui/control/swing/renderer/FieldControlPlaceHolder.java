@@ -190,7 +190,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 						data.setValue(delayedFieldValue);
 					} finally {
 						delaying = false;
-						SwingUtilities.invokeLater(new Runnable() {							
+						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
 								refreshUI(false);
@@ -257,7 +257,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 					if (!lastFieldValueInitialized) {
 						throw new ReflectionUIError(t);
 					} else {
-						t.printStackTrace();
+						swingRenderer.getReflectionUI().logError(t);
 						displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 					}
 				}
@@ -341,13 +341,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		return field;
 	}
 
-	public void refreshUI(boolean recreate) {
-		if (recreate) {
-			if (fieldControl != null) {
-				remove(fieldControl);
-				fieldControl = null;
-			}
-		}
+	public void refreshUI(boolean refreshStructure) {
 		if (fieldControl == null) {
 			try {
 				controlData = lastInitialControlData = getInitialControlData();
@@ -359,19 +353,28 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			layoutInContainerUpdateNeeded = true;
 		} else {
 			if (isFieldControlObsolete()) {
-				refreshUI(true);
+				destroyFieldControl();
+				refreshUI(refreshStructure);
 			} else {
 				boolean refreshed = false;
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
-						refreshed = ((IAdvancedFieldControl) fieldControl).refreshUI();
+						refreshed = ((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure);
 					} catch (Throwable ignore) {
 					}
 				}
 				if (!refreshed) {
-					refreshUI(true);
+					destroyFieldControl();
+					refreshUI(refreshStructure);
 				}
 			}
+		}
+	}
+
+	protected void destroyFieldControl() {
+		if (fieldControl != null) {
+			remove(fieldControl);
+			fieldControl = null;
 		}
 	}
 
@@ -423,6 +426,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			return new NullableControl(this.swingRenderer, this);
 		}
 		Object value = controlData.getValue();
+		controlData = new BufferedFieldControlData(controlData, value);
 		if (value == null) {
 			return new NullControl(swingRenderer, this);
 		}

@@ -150,7 +150,7 @@ public class NullControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean refreshUI() {
+	public boolean refreshUI(boolean refreshStructure) {
 		return false;
 	}
 

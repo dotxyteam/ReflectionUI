@@ -11,13 +11,15 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	protected ITypeInfo newType;
 	protected Filter<Object> conversionMethod;
 	protected Filter<Object> reverseConversionMethod;
+	protected boolean nullValueConverted;
 
 	public ChangedTypeFieldInfo(IFieldInfo base, ITypeInfo newType, Filter<Object> conversionMethod,
-			Filter<Object> reverseConversionMethod) {
+			Filter<Object> reverseConversionMethod, boolean nullValueConverted) {
 		super(base);
 		this.newType = newType;
 		this.conversionMethod = conversionMethod;
 		this.reverseConversionMethod = reverseConversionMethod;
+		this.nullValueConverted = nullValueConverted;
 	}
 
 	protected Object convert(Object value) {
@@ -25,7 +27,9 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 			return value;
 		}
 		if (value == null) {
-			return null;
+			if (!nullValueConverted ) {
+				return null;
+			}
 		}
 		try {
 			return conversionMethod.get(value);

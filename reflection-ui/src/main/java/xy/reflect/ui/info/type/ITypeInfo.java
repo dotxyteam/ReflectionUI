@@ -50,7 +50,7 @@ public interface ITypeInfo extends IInfo {
 
 	MenuModel getMenuModel();
 
-	void onFormVisibilityChange(Object object, boolean visible);
+	boolean onFormVisibilityChange(Object object, boolean visible);
 
 	enum FieldsLayout {
 		VERTICAL_FLOW, HORIZONTAL_FLOW

@@ -47,7 +47,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		this.form = form;
 		this.method = method;
 		setLayout(new BorderLayout());
-		refreshUI(false);
+		refreshUI();
 	}
 
 	public JPanel getForm() {
@@ -182,23 +182,15 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		return new MethodControl(this.swingRenderer, this);
 	}
 
-	public void refreshUI(boolean recreate) {
-		if (recreate) {
-			if (methodControl != null) {
-				remove(methodControl);
-				methodControl = null;
-			}
-		}
-		if (methodControl == null) {
-			controlData = getInitialControlData();
-			methodControl = createMethodControl();
-			add(methodControl, BorderLayout.CENTER);
-			SwingRendererUtils.handleComponentSizeChange(this);
-		} else {
+	public void refreshUI() {
+		if (methodControl != null) {
 			remove(methodControl);
 			methodControl = null;
-			refreshUI(false);
 		}
+		controlData = getInitialControlData();
+		methodControl = createMethodControl();
+		add(methodControl, BorderLayout.CENTER);
+		SwingRendererUtils.handleComponentSizeChange(this);
 	}
 
 	public IMethodControlData getInitialControlData() {
