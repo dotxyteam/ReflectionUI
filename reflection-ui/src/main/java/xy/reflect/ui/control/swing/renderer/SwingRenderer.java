@@ -31,6 +31,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -137,8 +138,24 @@ public class SwingRenderer {
 	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
 	protected Map<JPanel, IModificationListener> fieldsUpdateListenerByForm = new MapMaker().weakKeys().makeMap();
 
-	protected ExecutorService busyDialogRunner = Executors.newSingleThreadExecutor();
-	protected ExecutorService busyDialogCloser = Executors.newSingleThreadExecutor();
+	protected ExecutorService busyDialogRunner = Executors.newSingleThreadExecutor(new ThreadFactory() {
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread result = new Thread(r);
+			result.setName("busyDialogRunner");
+			result.setDaemon(true);
+			return result;
+		}
+	});
+	protected ExecutorService busyDialogCloser = Executors.newSingleThreadExecutor(new ThreadFactory() {
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread result = new Thread(r);
+			result.setName("busyDialogCloser");
+			result.setDaemon(true);
+			return result;
+		}
+	});
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
