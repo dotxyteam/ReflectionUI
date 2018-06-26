@@ -19,11 +19,11 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.object = object;
-		this.enumFactory = createArrayAsEnumerationFactory();
+		this.enumFactory = createEnumerationFactory();
 		this.enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
 	}
 
-	protected GenericEnumerationFactory createArrayAsEnumerationFactory() {
+	protected GenericEnumerationFactory createEnumerationFactory() {
 		ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		String enumTypeName = "ValueOptions [ownerType=" + ownerType.getName() + ", field=" + base.getName() + "]";
 		Iterable<Object> iterable = new Iterable<Object>() {
@@ -33,7 +33,7 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 				return Arrays.asList(valueOptions).iterator();
 			}
 		};
-		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", true);
+		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false);
 	}
 	
 	public static boolean hasValueOptions(Object object, IFieldInfo field) {

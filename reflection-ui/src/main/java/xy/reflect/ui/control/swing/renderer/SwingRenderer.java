@@ -476,7 +476,7 @@ public class SwingRenderer {
 			public void run() {
 				formUpdateNeeded[0] = type.onFormVisibilityChange(object, true);
 			}
-		}, "Setting up " + getObjectTitle(object) + "...");
+		}, getObjectTitle(object) + " - Setting up...");
 		if (formUpdateNeeded[0]) {
 			refreshForm(form, false);
 		}
@@ -495,7 +495,7 @@ public class SwingRenderer {
 			public void run() {
 				type.onFormVisibilityChange(object, false);
 			}
-		}, "Cleaning up " + getObjectTitle(object) + "...");
+		}, getObjectTitle(object) + " - Cleaning up...");
 	}
 
 	public void onFieldsUpdate(final JPanel form) {
