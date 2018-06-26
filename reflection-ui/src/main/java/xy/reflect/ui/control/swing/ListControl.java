@@ -157,6 +157,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		setupContexteMenu();
 		updateToolbar();
 		initializeSelectionListening();
+		refreshUI(true);
 	}
 
 	public Object getRootListValue() {
