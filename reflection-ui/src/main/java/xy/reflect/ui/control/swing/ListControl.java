@@ -43,7 +43,6 @@ import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -80,10 +79,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
-import xy.reflect.ui.info.type.iterable.item.BufferedItemPositionFactory;
+import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.ListLengthUnit;
 import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
@@ -114,7 +114,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected JPanel toolbar;
 	protected Object rootListValue;
 	protected ItemNode rootNode;
-	protected BufferedItemPositionFactory itemPositionFactory;
+	protected AbstractBufferedItemPositionFactory itemPositionFactory;
 	protected static List<Object> clipboard = new ArrayList<Object>();
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
 	protected IListStructuralInfo structuralInfo;
@@ -147,7 +147,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		detailsArea = new JPanel();
 		layoutControls();
 
-		refreshTreeControl();
+		refreshTreeModelAndControl();
 		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
 			openDetailsDialogOnItemDoubleClick();
 		} else {
@@ -157,7 +157,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		setupContexteMenu();
 		updateToolbar();
 		initializeSelectionListening();
-		refreshUI(true);
+		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+		refreshUI(false);
 	}
 
 	public Object getRootListValue() {
@@ -198,29 +199,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				if (result == null) {
 					return null;
 				}
-				Dimension screenSize = SwingRendererUtils.getScreenSize(this);
-				int characterSize = SwingRendererUtils.getStandardCharacterWidth(treeTableComponent);
-				{
-					result.width = Math.max(result.width, characterSize * 20);
-				}
-				{
-					int minHeight = (int) (characterSize * 15);
-					int maxHeight = (int) (screenSize.height * 0.60);
-					result.height = minHeight;
-					Dimension treeTableComponentPreferredSize = treeTableComponent.getPreferredSize();
-					if (treeTableComponentPreferredSize != null) {
-						JTableHeader header = treeTableComponent.getTableHeader();
-						if (header != null) {
-							treeTableComponentPreferredSize.height += header.getHeight();
-						}
-						treeTableComponentPreferredSize.height += (characterSize * 5);
-						result.height = Math.max(result.height, treeTableComponentPreferredSize.height);
-					}
-					Dimension toolbarSize = toolbar.getPreferredSize();
-					if (toolbarSize != null) {
-						result.height = Math.max(result.height, toolbarSize.height);
-					}
-					result.height = Math.min(result.height, maxHeight);
+				IListStructuralInfo structure = getStructuralInfo();
+				if (structure.getLengthUnit() == ListLengthUnit.PIXELS) {
+					result.height = structure.getLength();
+				} else if (structure.getLengthUnit() == ListLengthUnit.SCREEN_PERCENT) {
+					Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+					result.height = Math.round((structure.getLength() / 100f) * screenSize.height);
+				} else {
+					throw new ReflectionUIError();
 				}
 				return result;
 			}
@@ -546,30 +532,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		});
 	}
 
-	protected BufferedItemPositionFactory createItemPositionfactory() {
-		return new BufferedItemPositionFactory() {
-
-			@Override
-			public IListTypeInfo getRootListType() {
-				return (IListTypeInfo) listData.getType();
-			}
-
-			@Override
-			public ValueReturnMode getRootListValueReturnMode() {
-				return listData.getValueReturnMode();
-			}
-
-			@Override
-			public boolean isRootListGetOnly() {
-				return listData.isGetOnly();
-			}
-
-			@Override
-			public String getRootListTitle() {
-				return listData.getCaption();
-			}
-
-		};
+	protected AbstractBufferedItemPositionFactory createItemPositionfactory() {
+		return new ItemPositionfactory();
 	}
 
 	protected TreeTableModel createTreeTableModel() {
@@ -1477,7 +1441,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return input.getModificationStack();
 	}
 
-	protected void refreshTreeControl() {
+	protected void refreshTreeModelAndControl() {
 		restoringColumnWidthsAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
@@ -1514,12 +1478,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
 		if (refreshStructure) {
-			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+			return false;
 		}
 		restoringSelectionAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
-				refreshTreeControl();
+				refreshTreeModelAndControl();
 				if (getDetailsAccessMode().hasDetailsDisplayOption()) {
 					updateDetailsArea(refreshStructure);
 				}
@@ -1671,11 +1635,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				restoringSelectionAsMuchAsPossible(new Runnable() {
 					@Override
 					public void run() {
-						refreshTreeControl();
+						refreshTreeModelAndControl();
 					}
 				});
 			} else {
-				refreshTreeControl();
+				refreshTreeModelAndControl();
 				setSelection(newSelection);
 			}
 			return new RefreshStructureModification(oldSelection);
@@ -1804,7 +1768,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			if (modifTitle == null) {
 				List<BufferedItemPosition> initialSelection = getSelection();
 				if (perform(toPostSelectHolder)) {
-					refreshTreeControl();
+					refreshTreeModelAndControl();
 					if (toPostSelectHolder[0] != null) {
 						setSelection(toPostSelectHolder[0]);
 					} else {
@@ -2566,5 +2530,55 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return true;
 		}
 	}
+
+	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {
+
+		@Override
+		public IListTypeInfo getRootListType() {
+			return (IListTypeInfo) listData.getType();
+		}
+
+		@Override
+		public ValueReturnMode getRootListValueReturnMode() {
+			return listData.getValueReturnMode();
+		}
+
+		@Override
+		public boolean isRootListGetOnly() {
+			return listData.isGetOnly();
+		}
+
+		@Override
+		public String getRootListTitle() {
+			return listData.getCaption();
+		}
+
+		private ListControl getOuterType() {
+			return ListControl.this;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ItemPositionfactory other = (ItemPositionfactory) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			return true;
+		}
+
+	};
 
 }

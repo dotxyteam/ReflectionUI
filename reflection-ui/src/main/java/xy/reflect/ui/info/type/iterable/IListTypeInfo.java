@@ -13,7 +13,7 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 
 public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
-	
+
 	Object[] toArray(Object listValue);
 
 	boolean canInstanciateFromArray();
@@ -28,7 +28,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	IListItemDetailsAccessMode getDetailsAccessMode();
 
-	boolean isOrdered(); 
+	boolean isOrdered();
 
 	boolean isInsertionAllowed();
 
@@ -41,9 +41,9 @@ public interface IListTypeInfo extends ITypeInfo {
 	List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue);
 
 	List<IMethodInfo> getAdditionalItemConstructors(Object listValue);
-	
+
 	boolean isItemNullValueDistinct();
-	
+
 	ValueReturnMode getItemReturnMode();
 
 	boolean isItemConstructorSelectable();

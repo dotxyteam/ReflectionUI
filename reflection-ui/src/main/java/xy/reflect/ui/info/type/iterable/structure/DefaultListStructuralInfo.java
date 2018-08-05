@@ -15,27 +15,32 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	protected ReflectionUI reflectionUI;
 
 	public DefaultListStructuralInfo(ReflectionUI reflectionUI) {
-		this.reflectionUI=reflectionUI;
+		this.reflectionUI = reflectionUI;
 	}
 
-	
+	@Override
+	public ListLengthUnit getLengthUnit() {
+		return ListLengthUnit.SCREEN_PERCENT;
+	}
+
+	@Override
+	public int getLength() {
+		return 40;
+	}
+
 	@Override
 	public List<IColumnInfo> getColumns() {
 		return Collections.<IColumnInfo>singletonList(new StringValueColumnInfo(reflectionUI));
 	}
-
 
 	@Override
 	public IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue) {
 		return null;
 	}
 
-
 	@Override
 	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition, Object rootListValue) {
 		return IInfoFilter.DEFAULT;
 	}
-
-	
 
 }

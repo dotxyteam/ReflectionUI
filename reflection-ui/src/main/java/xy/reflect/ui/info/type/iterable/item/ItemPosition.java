@@ -13,7 +13,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 
 public class ItemPosition implements Cloneable {
 
-	protected ItemPositionFactory factory;
+	protected AbstractItemPositionFactory factory;
 	protected ItemPosition parentItemPosition;
 	protected int index;
 	protected IFieldInfo containingListFieldIfNotRoot;

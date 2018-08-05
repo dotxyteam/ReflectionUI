@@ -857,6 +857,15 @@ public class SwingRendererUtils {
 	public static Color getNonEditableTextBackgroundColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
 	}
+	
+	public static Color getListSelectionBackgroundColor() {
+		return fixSeveralColorRenderingIssues(UIManager.getColor("Tree.selectionBackground"));
+	}
+	
+	public static Color getListSelectionForegroundColor() {
+		return fixSeveralColorRenderingIssues(UIManager.getColor("Tree.selectionForeground"));
+	}
+
 
 	public static void refreshAllDisplayedFormAndMenus(SwingRenderer swingRenderer, boolean refreshStructure) {
 		for (JPanel form : excludeSubForms(getAllDisplayedForms(swingRenderer), swingRenderer)) {

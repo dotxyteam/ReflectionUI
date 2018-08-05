@@ -82,7 +82,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public boolean canInstanciateFromArray() {
-		return isConcrete() && (ReflectionUIUtils.getZeroParameterMethod(getConstructors()) != null) && canReplaceContent();
+		return isConcrete() && (ReflectionUIUtils.getZeroParameterMethod(getConstructors()) != null)
+				&& canReplaceContent();
 	}
 
 	@SuppressWarnings({ "rawtypes" })

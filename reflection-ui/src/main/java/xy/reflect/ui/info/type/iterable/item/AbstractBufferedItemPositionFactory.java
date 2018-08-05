@@ -1,6 +1,6 @@
 package xy.reflect.ui.info.type.iterable.item;
 
-public abstract class BufferedItemPositionFactory extends ItemPositionFactory {
+public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPositionFactory {
 
 	protected Object[] bufferedRootListRawValue;
 

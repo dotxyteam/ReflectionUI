@@ -3,7 +3,7 @@ package xy.reflect.ui.info.type.iterable.item;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
-public abstract class ItemPositionFactory {
+public abstract class AbstractItemPositionFactory {
 
 	public abstract IListTypeInfo getRootListType();
 

@@ -7,14 +7,20 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
-
 public interface IListStructuralInfo {
 
 	List<IColumnInfo> getColumns();
 
 	IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue);
 
-	IInfoFilter getItemInfoFilter(
-			ItemPosition itemPosition, Object rootListValue);
+	IInfoFilter getItemInfoFilter(ItemPosition itemPosition, Object rootListValue);
+
+	ListLengthUnit getLengthUnit();
+
+	int getLength();
+
+	enum ListLengthUnit {
+		PIXELS, SCREEN_PERCENT
+	}
 
 }

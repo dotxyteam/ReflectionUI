@@ -337,7 +337,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean  onFormVisibilityChange(Object object, boolean visible) {
+		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return false;
 		}
 

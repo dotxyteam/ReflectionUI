@@ -48,7 +48,7 @@ public class BufferedItemPosition extends ItemPosition {
 
 	public void refreshBranch() {
 		if (isRoot()) {
-			((BufferedItemPositionFactory) factory).refresh();
+			((AbstractBufferedItemPositionFactory) factory).refresh();
 		} else {
 			((BufferedItemPosition) parentItemPosition).refreshBranch();
 		}
