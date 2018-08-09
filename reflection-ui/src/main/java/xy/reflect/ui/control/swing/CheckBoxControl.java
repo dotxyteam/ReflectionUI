@@ -24,7 +24,6 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 			setEnabled(false);
 		}
 
-		setSelected(Boolean.TRUE.equals(data.getValue()));
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -36,6 +35,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 			}
 		});
 		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
+		refreshUI(false);
 	}
 
 	@Override
@@ -50,7 +50,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		return false;
+		if(refreshStructure) {
+			return false;
+		}
+		setSelected(Boolean.TRUE.equals(data.getValue()));
+		return true;
 	}
 
 	@Override
