@@ -111,6 +111,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected IFieldControlData listData;
 
 	protected JXTreeTable treeTableComponent;
+	protected JScrollPane treeTableComponentScrollPane;
 	protected JPanel toolbar;
 	protected Object rootListValue;
 	protected ItemNode rootNode;
@@ -190,27 +191,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	protected void layoutControls() {
 		setLayout(new BorderLayout());
-		JScrollPane treeTableComponentScrollPane = new JScrollPane(treeTableComponent) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (result == null) {
-					return null;
-				}
-				IListStructuralInfo structure = getStructuralInfo();
-				if (structure.getLengthUnit() == ListLengthUnit.PIXELS) {
-					result.height = structure.getLength();
-				} else if (structure.getLengthUnit() == ListLengthUnit.SCREEN_PERCENT) {
-					Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
-					result.height = Math.round((structure.getLength() / 100f) * screenSize.height);
-				} else {
-					throw new ReflectionUIError();
-				}
-				return result;
-			}
-		};
 		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
 			JPanel listPanel = new JPanel();
 			listPanel.setLayout(new BorderLayout());
@@ -486,6 +466,27 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				} catch (Throwable t) {
 					return null;
 				}
+			}
+		};
+		treeTableComponentScrollPane = new JScrollPane(treeTableComponent) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result == null) {
+					return null;
+				}
+				IListStructuralInfo structure = getStructuralInfo();
+				if (structure.getLengthUnit() == ListLengthUnit.PIXELS) {
+					result.height = structure.getLength();
+				} else if (structure.getLengthUnit() == ListLengthUnit.SCREEN_PERCENT) {
+					Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+					result.height = Math.round((structure.getLength() / 100f) * screenSize.height);
+				} else {
+					throw new ReflectionUIError();
+				}
+				return result;
 			}
 		};
 		TableColumnModel columnModel = treeTableComponent.getColumnModel();
