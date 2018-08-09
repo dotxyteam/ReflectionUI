@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing.renderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.Map;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
@@ -46,6 +47,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	protected IFieldControlData lastInitialControlData;
 	protected boolean layoutInContainerUpdateNeeded = true;
 	protected int positionInContainer = -1;
+	protected boolean ancestorVisible = false;
+	protected Thread autoRefreshThread;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, JPanel form, IFieldInfo field) {
 		super();
@@ -53,66 +56,18 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		this.form = form;
 		this.field = field;
 		setLayout(new BorderLayout());
-		refreshUI(false);
-		if (field.getAutoUpdatePeriodMilliseconds() >= 0) {
-			refreshUIPeriodically();
-		}
-	}
-
-	public void refreshUIPeriodically() {
 		addAncestorListener(new AncestorListener() {
-
-			Thread thread;
 
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
-				thread = new Thread("AutoUpdater of " + FieldControlPlaceHolder.this) {
-					boolean updating = false;
-
-					@Override
-					public void run() {
-						while (true) {
-							if (field.getAutoUpdatePeriodMilliseconds() > 0) {
-								try {
-									sleep(field.getAutoUpdatePeriodMilliseconds());
-								} catch (InterruptedException e) {
-									interrupt();
-								}
-							}
-							while (updating) {
-								if (isInterrupted()) {
-									break;
-								}
-								try {
-									sleep(1);
-								} catch (InterruptedException e) {
-									interrupt();
-									break;
-								}
-							}
-							if (isInterrupted()) {
-								break;
-							}
-							updating = true;
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									refreshUI(false);
-									if (isLayoutInContainerUpdateNeeded()) {
-										swingRenderer.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
-									}
-									updating = false;
-								}
-							});
-						}
-					}
-				};
-				thread.start();
+				ancestorVisible = true;
+				updateAutoRefeshState();
 			}
 
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
-				thread.interrupt();
+				ancestorVisible = false;
+				updateAutoRefeshState();
 			}
 
 			@Override
@@ -120,6 +75,83 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			}
 
 		});
+		refreshUI(false);
+	}
+
+	public void updateAutoRefeshState() {
+		if ((field.getAutoUpdatePeriodMilliseconds() >= 0) && ancestorVisible) {
+			startAutoRefresh();
+		} else {
+			stopAutoRefresh();
+		}
+	}
+
+	public boolean isAutoRefreshActive() {
+		return (autoRefreshThread != null) && (autoRefreshThread.isAlive());
+	}
+
+	public void startAutoRefresh() {
+		if (isAutoRefreshActive()) {
+			return;
+		}
+		System.out.println("starting auto-refresh for (" + hashCode() + ")" + this);
+		autoRefreshThread = new Thread("AutoUpdater of " + FieldControlPlaceHolder.this) {
+			boolean updating = false;
+
+			@Override
+			public void run() {
+				while (true) {
+					if (field.getAutoUpdatePeriodMilliseconds() > 0) {
+						try {
+							sleep(field.getAutoUpdatePeriodMilliseconds());
+						} catch (InterruptedException e) {
+							interrupt();
+						}
+					}
+					while (updating) {
+						if (isInterrupted()) {
+							break;
+						}
+						try {
+							sleep(1);
+						} catch (InterruptedException e) {
+							interrupt();
+							break;
+						}
+					}
+					if (isInterrupted()) {
+						break;
+					}
+					updating = true;
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							refreshUI(false);
+							if (isLayoutInContainerUpdateNeeded()) {
+								swingRenderer.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
+							}
+							updating = false;
+						}
+					});
+				}
+			}
+		};
+		autoRefreshThread.start();
+	}
+
+	public void stopAutoRefresh() {
+		if (!isAutoRefreshActive()) {
+			return;
+		}
+		System.out.println("stopping auto-refresh for (" + hashCode() + ")" + this);
+		while (autoRefreshThread.isAlive()) {
+			autoRefreshThread.interrupt();
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
 	}
 
 	public IFieldInfo getField() {
@@ -369,9 +401,12 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				}
 			}
 		}
+		if (refreshStructure) {
+			updateAutoRefeshState();
+		}
 	}
 
-	protected void destroyFieldControl() {
+	public void destroyFieldControl() {
 		if (fieldControl != null) {
 			remove(fieldControl);
 			fieldControl = null;
