@@ -47,12 +47,6 @@ public class ModificationStack {
 			stateVersion++;
 		}
 
-		@Override
-		public void handleForget() {
-			stateVersion++;
-		}
-		
-		
 	};
 	protected IModificationListener allListenersProxy = new IModificationListener() {
 
@@ -98,15 +92,6 @@ public class ModificationStack {
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleInvalidationCleared();
-			}
-		}
-
-		@Override
-		public void handleForget() {
-			internalListener.handleForget();
-			for (IModificationListener listener : new ArrayList<IModificationListener>(
-					ModificationStack.this.listeners)) {
-				listener.handleForget();
 			}
 		}
 

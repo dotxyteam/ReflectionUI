@@ -1,11 +1,8 @@
 package xy.reflect.ui.control.swing.renderer;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dialog.ModalityType;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -25,16 +22,10 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXBusyLabel;
@@ -51,7 +42,7 @@ import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.MethodAction;
-import xy.reflect.ui.control.swing.ModificationStackControls;
+import xy.reflect.ui.control.swing.WindowManager;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -72,7 +63,6 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.ScrollPaneOptions;
 
 public class SwingRenderer {
 
@@ -83,7 +73,7 @@ public class SwingRenderer {
 
 	protected ReflectionUI reflectionUI;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
-	protected Map<AbstractActionMenuItem, JPanel> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
+	protected Map<AbstractActionMenuItem, Form> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
 	protected ExecutorService busyDialogRunner = Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -134,8 +124,7 @@ public class SwingRenderer {
 		return allDisplayedForms;
 	}
 
-	
-	public Map<AbstractActionMenuItem, JPanel> getFormByActionMenuItem() {
+	public Map<AbstractActionMenuItem, Form> getFormByActionMenuItem() {
 		return formByMethodActionMenuItem;
 	}
 
@@ -154,73 +143,6 @@ public class SwingRenderer {
 		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 	}
 
-	public void setupWindow(final Window window, final Component content, List<? extends Component> toolbarControls,
-			String title, Image iconImage) {
-		SwingRendererUtils.setTitle(window, prepareStringToDisplay(title));
-		if (iconImage == null) {
-			window.setIconImage(SwingRendererUtils.NULL_IMAGE);
-		} else {
-			window.setIconImage(iconImage);
-		}
-
-		final JPanel contentPane = new JPanel();
-		setContentPane(window, contentPane);
-		contentPane.setLayout(new BorderLayout());
-		if (content != null) {
-			if (SwingRendererUtils.isForm(content, this)) {
-				Form form = (Form) content;
-				setMenuBar(window, createMenuBar(form));
-				form.updateMenuBar();
-				setStatusBar(window, createStatusBar(form));
-				setStatusBarErrorMessage(form.getStatusBar(), null);
-			}
-			JScrollPane scrollPane = createWindowScrollPane(content);
-			scrollPane.getViewport().setOpaque(false);
-			contentPane.add(scrollPane, BorderLayout.CENTER);
-		}
-
-		if (toolbarControls != null) {
-			if (toolbarControls.size() > 0) {
-				contentPane.add(createToolBar(toolbarControls), BorderLayout.SOUTH);
-			}
-		}
-
-		SwingRendererUtils.adjustWindowInitialBounds(window);
-		window.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				if (SwingRendererUtils.isForm(content, SwingRenderer.this)) {
-					Form form = (Form) content;
-					form.validateFormInBackgroundAndReportOnStatusBar();
-					SwingRendererUtils.requestAnyComponentFocus(form, SwingRenderer.this);
-				}
-			}
-		});
-	}
-
-	public void setStatusBar(Window window, Component statusBar) {
-		Container contentPane = SwingRendererUtils.getContentPane(window);
-		contentPane.add(statusBar, BorderLayout.NORTH);
-	}
-
-	public void setMenuBar(Window window, JMenuBar menuBar) {
-		SwingRendererUtils.setMenuBar(window, menuBar);
-	}
-
-	public JMenuBar createMenuBar(Form form) {
-		JMenuBar result = new JMenuBar();
-		form.setMenuBar(result);
-		return result;
-	}
-
-	public JFrame createFrame(Component content, String title, Image iconImage,
-			List<? extends Component> toolbarControls) {
-		JFrame frame = new JFrame();
-		setupWindow(frame, content, toolbarControls, title, iconImage);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		return frame;
-	}
-
 	public MethodAction createMethodAction(IMethodControlInput input) {
 		return new MethodAction(this, input);
 	}
@@ -233,79 +155,9 @@ public class SwingRenderer {
 		return new Form(this, object, infoFilter);
 	}
 
-	
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
 		return result;
-	}
-
-	
-	public Component createStatusBar(Form form) {
-		JLabel result = new JLabel();
-		result.setOpaque(true);
-		result.setFont(new JToolTip().getFont());
-		result.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		form.setStatusBar(result);
-		return result;
-	}
-
-	public void setStatusBarErrorMessage(Component statusBar, String errorMsg) {
-		if (statusBar == null) {
-			return;
-		}
-		if (errorMsg == null) {
-			statusBar.setVisible(false);
-		} else {
-			((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
-			statusBar.setBackground(new Color(255, 245, 242));
-			statusBar.setForeground(new Color(255, 0, 0));
-			((JLabel) statusBar).setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
-			SwingRendererUtils.setMultilineToolTipText(((JLabel)statusBar), errorMsg);
-			statusBar.setVisible(true);
-		}
-		SwingRendererUtils.handleComponentSizeChange(statusBar);
-	}
-
-	public Component createToolBar(List<? extends Component> toolbarControls) {
-		JPanel result = new JPanel();
-		result.setBorder(BorderFactory.createRaisedBevelBorder());
-		result.setLayout(new FlowLayout(FlowLayout.CENTER));
-		for (Component tool : toolbarControls) {
-			result.add(tool);
-		}
-		return result;
-	}
-
-	public List<Component> createFormCommonToolbarControls(final Form form) {
-		Object object = form.getObject();
-		if (object == null) {
-			return null;
-		}
-		List<Component> result = new ArrayList<Component>();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if ((type.getOnlineHelp() != null) && (type.getOnlineHelp().length() > 0)) {
-			result.add(createToolBarOnlineHelpControl(type.getOnlineHelp()));
-		}
-		if (type.isModificationStackAccessible()) {
-			final ModificationStack modificationStack = form.getModificationStack();
-			if (modificationStack != null) {
-				result.addAll(new ModificationStackControls(modificationStack).create(this));
-			}
-		}
-		return result;
-	}
-
-	public Component createToolBarOnlineHelpControl(String onlineHelp) {
-		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, this);
-	}
-
-	public void setContentPane(Window window, Container contentPane) {
-		SwingRendererUtils.setContentPane(window, contentPane);
-	}
-
-	public JScrollPane createWindowScrollPane(Component content) {
-		return new JScrollPane(new ScrollPaneOptions(content, true, false));
 	}
 
 	public InfoCategory getNullInfoCategory() {
@@ -790,6 +642,10 @@ public class SwingRenderer {
 
 	public long getDataUpdateDelayMilliseconds() {
 		return 500;
+	}
+
+	public WindowManager createWindowManager(Window window) {
+		return new WindowManager(this, window);
 	}
 
 }

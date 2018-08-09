@@ -9,10 +9,9 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.Form;
+import xy.reflect.ui.control.swing.WindowManager;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -66,7 +65,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 
 	protected List<? extends Component> createAnyWindowToolbarControls() {
 		List<Component> result = new ArrayList<Component>();
-		List<Component> commonToolbarControls = getSwingRenderer().createFormCommonToolbarControls(createdEditForm);
+		List<Component> commonToolbarControls = createdEditForm.createFormToolbarControls();
 		if (commonToolbarControls != null) {
 			result.addAll(commonToolbarControls);
 		}
@@ -80,7 +79,8 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	public JFrame createFrame() {
 		createdEditForm = createForm(false, false);
 		createdFrame = new JFrame();
-		getSwingRenderer().setupWindow(createdFrame, createdEditForm, createAnyWindowToolbarControls(),
+		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
+		windowManager.set(createdEditForm, createAnyWindowToolbarControls(),
 				getEditorWindowTitle(), getObjectIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
@@ -144,7 +144,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		}
 	}
 
-	public JPanel getCreatedEditForm() {
+	public Form getCreatedEditForm() {
 		return createdEditForm;
 	}
 
@@ -166,9 +166,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		}
 		boolean valueModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
 		String editSessionTitle = getCumulatedModificationsTitle();
-		parentModificationStackImpacted = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
-				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget,
-				editSessionTitle, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
+		parentModificationStackImpacted = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
+				parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced,
+				commitModif, editSessionTarget, editSessionTitle,
+				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}
 
 	public boolean isCancelled() {

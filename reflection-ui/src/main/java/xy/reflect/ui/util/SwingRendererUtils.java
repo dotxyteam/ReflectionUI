@@ -748,7 +748,7 @@ public class SwingRendererUtils {
 
 	public static JMenuItem createJMenuActionItem(final AbstractActionMenuItem actionMenuItem,
 			final SwingRenderer swingRenderer) {
-		final JPanel form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
+		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
 		JMenuItem result = new JMenuItem(new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 

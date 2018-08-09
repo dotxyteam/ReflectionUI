@@ -153,7 +153,8 @@ public class DialogBuilder {
 				disposed = true;
 			}
 		};
-		swingRenderer.setupWindow(dialog, contentComponent, toolbarComponents, title, iconImage);
+		WindowManager windowManager = swingRenderer.createWindowManager(dialog);
+		windowManager.set(contentComponent, toolbarComponents, title, iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}

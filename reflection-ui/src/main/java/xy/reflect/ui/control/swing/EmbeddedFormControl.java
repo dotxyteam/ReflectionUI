@@ -19,7 +19,7 @@ import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.ControlDataValueModification;
-import xy.reflect.ui.undo.ForwardingModificationStack;
+import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -50,7 +50,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		return input.getControlData();
 	}
 
-	public JPanel getSubForm() {
+	public Form getSubForm() {
 		return subForm;
 	}
 
@@ -95,17 +95,17 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 					return ControlDataValueModification.getTitle(input.getModificationsTarget());
 				}
 			};
-			Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
+			Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {
 				@Override
 				public ModificationStack get() {
 					return input.getModificationStack();
 				}
 			};
-			boolean exclusiveForwarding = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
+			boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
-			subForm.setModificationStack(new ForwardingModificationStack(swingRenderer, subForm,
+			subForm.setModificationStack(new SlaveModificationStack(swingRenderer, subForm,
 					childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter,
-					childModifTargetGetter, childModifTitleGetter, parentModifStackGetter, exclusiveForwarding));
+					childModifTargetGetter, childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
 		}
 	}
 

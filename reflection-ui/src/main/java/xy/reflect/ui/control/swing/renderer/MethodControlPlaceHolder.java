@@ -51,7 +51,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 		refreshUI();
 	}
 
-	public JPanel getForm() {
+	public Form getForm() {
 		return form;
 	}
 

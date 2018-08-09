@@ -1,6 +1,7 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -16,10 +17,12 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -50,6 +53,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.FilteredTypeFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
+import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
@@ -65,11 +69,10 @@ public class Form extends JPanel {
 
 	protected SwingRenderer swingRenderer;
 	protected Object object;
-	protected JLabel statusBar;
+	protected Component statusBar;
 
 	protected ModificationStack modificationStack;
 	protected boolean fieldsUpdateListenerDisabled = false;
-	protected boolean modificationStackForwardingStatus = false;
 	protected IInfoFilter infoFilter;
 	protected JMenuBar menuBar;
 	protected SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory;
@@ -79,7 +82,7 @@ public class Form extends JPanel {
 	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Container categoriesControl;
 	protected boolean busyIndicationDisabled;
-	protected IModificationListener fieldsUpdateListener;
+	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
 		this.swingRenderer = swingRenderer;
@@ -104,6 +107,9 @@ public class Form extends JPanel {
 
 		});
 		fillForm();
+		menuBar = createMenuBar();
+		statusBar = createStatusBar();
+		setStatusBarErrorMessage(null);
 	}
 
 	public Object getObject() {
@@ -112,14 +118,6 @@ public class Form extends JPanel {
 
 	public void setObject(Object object) {
 		this.object = object;
-	}
-
-	public JLabel getStatusBar() {
-		return statusBar;
-	}
-
-	public void setStatusBar(JLabel statusBar) {
-		this.statusBar = statusBar;
 	}
 
 	public SwingRenderer getSwingRenderer() {
@@ -146,14 +144,6 @@ public class Form extends JPanel {
 		this.fieldsUpdateListenerDisabled = fieldsUpdateListenerDisabled;
 	}
 
-	public boolean isModificationStackForwardingStatus() {
-		return modificationStackForwardingStatus;
-	}
-
-	public void setModificationStackForwardingStatus(boolean modificationStackForwardingStatus) {
-		this.modificationStackForwardingStatus = modificationStackForwardingStatus;
-	}
-
 	public IInfoFilter getInfoFilter() {
 		return infoFilter;
 	}
@@ -166,8 +156,8 @@ public class Form extends JPanel {
 		return menuBar;
 	}
 
-	public void setMenuBar(JMenuBar menuBar) {
-		this.menuBar = menuBar;
+	public Component getStatusBar() {
+		return statusBar;
 	}
 
 	public Map<Component, IFieldControlPlugin> getPluginByFieldControl() {
@@ -178,18 +168,8 @@ public class Form extends JPanel {
 		return fieldControlPlaceHoldersByCategory;
 	}
 
-	public void setFieldControlPlaceHoldersByCategory(
-			SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory) {
-		this.fieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
-	}
-
 	public SortedMap<InfoCategory, List<MethodControlPlaceHolder>> getMethodControlPlaceHoldersByCategory() {
 		return methodControlPlaceHoldersByCategory;
-	}
-
-	public void setMethodControlPlaceHoldersByCategory(
-			SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
-		this.methodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
 	}
 
 	public Map<FieldControlPlaceHolder, Component> getCaptionControlByFieldControlPlaceHolder() {
@@ -252,9 +232,6 @@ public class Form extends JPanel {
 	}
 
 	public void validateFormInBackgroundAndReportOnStatusBar() {
-		if (statusBar == null) {
-			return;
-		}
 		new Thread("Validator: " + object) {
 			@Override
 			public void run() {
@@ -263,7 +240,7 @@ public class Form extends JPanel {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							swingRenderer.setStatusBarErrorMessage(statusBar, null);
+							setStatusBarErrorMessage(null);
 						}
 					});
 				} catch (Exception e) {
@@ -271,7 +248,7 @@ public class Form extends JPanel {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							swingRenderer.setStatusBarErrorMessage(statusBar, errorMsg);
+							setStatusBarErrorMessage(errorMsg);
 						}
 					});
 				}
@@ -280,18 +257,23 @@ public class Form extends JPanel {
 		}.start();
 	}
 
+	public void setStatusBarErrorMessage(String errorMsg) {
+		if (errorMsg == null) {
+			statusBar.setVisible(false);
+		} else {
+			((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
+			statusBar.setBackground(new Color(255, 245, 242));
+			statusBar.setForeground(new Color(255, 0, 0));
+			((JLabel) statusBar).setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
+			SwingRendererUtils.setMultilineToolTipText(((JLabel) statusBar), errorMsg);
+			statusBar.setVisible(true);
+		}
+		SwingRendererUtils.handleComponentSizeChange(statusBar);
+	}
+
 	public void formShown() {
 		swingRenderer.getAllDisplayedForms().add(this);
-		if (!modificationStackForwardingStatus) {
-			fieldsUpdateListener = new AbstractSimpleModificationListener() {
-				@Override
-				protected void handleAnyEvent(IModification modification) {
-					if (fieldsUpdateListenerDisabled) {
-						return;
-					}
-					onFieldsUpdate();
-				}
-			};
+		if (!isModificationStackSlave()) {
 			modificationStack.addListener(fieldsUpdateListener);
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
@@ -309,7 +291,7 @@ public class Form extends JPanel {
 	}
 
 	public void formHidden() {
-		if (!modificationStackForwardingStatus) {
+		if (!isModificationStackSlave()) {
 			modificationStack.removeListener(fieldsUpdateListener);
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
@@ -321,6 +303,22 @@ public class Form extends JPanel {
 			}
 		}, swingRenderer.getObjectTitle(object) + " - Cleaning up...");
 		swingRenderer.getAllDisplayedForms().remove(this);
+	}
+
+	public boolean isModificationStackSlave() {
+		return modificationStack instanceof SlaveModificationStack;
+	}
+
+	public IModificationListener createFieldsUpdateListener() {
+		return new AbstractSimpleModificationListener() {
+			@Override
+			protected void handleAnyEvent(IModification modification) {
+				if (fieldsUpdateListenerDisabled) {
+					return;
+				}
+				onFieldsUpdate();
+			}
+		};
 	}
 
 	public void onFieldsUpdate() {
@@ -343,18 +341,26 @@ public class Form extends JPanel {
 	}
 
 	public void fillForm() {
-		ITypeInfo type = getFormFilteredType();
+		setLayout(new BorderLayout());
 
-		fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(type.getFields());
-		methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(type.getMethods());
-
-		layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
-		SwingRendererUtils.handleComponentSizeChange(this);
+		JPanel membersPanel = createMembersPanel();
+		{
+			add(membersPanel, BorderLayout.CENTER);
+			ITypeInfo type = getFormFilteredType();
+			fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(type.getFields());
+			methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(type.getMethods());
+			layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, membersPanel);
+		}
 	}
 
-	public void layoutFormControls(Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
+	public JPanel createMembersPanel() {
+		return new JPanel();
+	}
+
+	public void layoutMemberControls(
+			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
-			Container container) {
+			JPanel membersPanel) {
 		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
 		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
 		allCategories.addAll(methodControlPlaceHoldersByCategory.keySet());
@@ -370,17 +376,31 @@ public class Form extends JPanel {
 			if (methodControlPlaceHolders == null) {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
-			layoutFormCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, container);
+			layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
 		} else if (allCategories.size() > 0) {
-			container.setLayout(new BorderLayout());
+			membersPanel.setLayout(new BorderLayout());
 			categoriesControl = createFormCategoriesControl(allCategories, fieldControlPlaceHoldersByCategory,
 					methodControlPlaceHoldersByCategory);
-			container.add(categoriesControl, BorderLayout.CENTER);
+			membersPanel.add(categoriesControl, BorderLayout.CENTER);
 			Form form = SwingRendererUtils.findParentForm(categoriesControl, swingRenderer);
 			if (form == null) {
 				throw new ReflectionUIError();
 			}
 		}
+	}
+
+	public Component createStatusBar() {
+		JLabel result = new JLabel();
+		result.setOpaque(true);
+		result.setFont(new JToolTip().getFont());
+		result.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		return result;
+	}
+
+	public JMenuBar createMenuBar() {
+		JMenuBar result = new JMenuBar();
+		return result;
 	}
 
 	public Container createFormCategoriesControl(SortedSet<InfoCategory> allCategories,
@@ -404,7 +424,7 @@ public class Form extends JPanel {
 
 			JPanel tabContent = new JPanel();
 			tab.add(tabContent, BorderLayout.NORTH);
-			layoutFormCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+			layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
 		}
 		return result;
 	}
@@ -560,13 +580,13 @@ public class Form extends JPanel {
 		}
 	}
 
-	public void layoutFormCategoryControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
-			final List<MethodControlPlaceHolder> methodControlPlaceHolders, Container container) {
+	public void layoutCategoryControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
+			final List<MethodControlPlaceHolder> methodControlPlaceHolders, JPanel membersPanel) {
 		Container fieldsPanel = (fielControlPlaceHolders.size() == 0) ? null
 				: createFieldsPanel(fielControlPlaceHolders);
 		Container methodsPanel = (methodControlPlaceHolders.size() == 0) ? null
 				: createMethodsPanel(methodControlPlaceHolders);
-		layoutFormCategoryPanels(container, fieldsPanel, methodsPanel);
+		layoutFormCategoryPanels(membersPanel, fieldsPanel, methodsPanel);
 	}
 
 	public Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
@@ -580,93 +600,12 @@ public class Form extends JPanel {
 	}
 
 	public void refreshForm(boolean refreshStructure) {
-		boolean needsToRecreateControls = false;
-
-		ITypeInfo type = getFormFilteredType();
-		if (refreshStructure) {
-
-			SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
-			SortedMap<InfoCategory, List<MethodControlPlaceHolder>> displayedMethodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
-
-			SortedMap<InfoCategory, List<FieldControlPlaceHolder>> newFieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(
-					type.getFields());
-			SortedMap<InfoCategory, List<MethodControlPlaceHolder>> newMethodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
-					type.getMethods());
-
-			if (!newFieldControlPlaceHoldersByCategory.keySet()
-					.equals(displayedFieldControlPlaceHoldersByCategory.keySet())) {
-				needsToRecreateControls = true;
-			}
-
-			if (!newMethodControlPlaceHoldersByCategory.keySet()
-					.equals(displayedMethodControlPlaceHoldersByCategory.keySet())) {
-				needsToRecreateControls = true;
-			}
-
-			if (!needsToRecreateControls) {
-				for (InfoCategory category : newFieldControlPlaceHoldersByCategory.keySet()) {
-					List<FieldControlPlaceHolder> fieldControlPlaceHolders = newFieldControlPlaceHoldersByCategory
-							.get(category);
-					List<FieldControlPlaceHolder> displayedFieldControlPlaceHolders = displayedFieldControlPlaceHoldersByCategory
-							.get(category);
-					if (displayedFieldControlPlaceHolders.size() != fieldControlPlaceHolders.size()) {
-						needsToRecreateControls = true;
-						break;
-					}
-					for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
-						FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
-						FieldControlPlaceHolder displayedFieldControlPlaceHolder = displayedFieldControlPlaceHolders
-								.get(i);
-						if (!fieldControlPlaceHolder.getField().equals(displayedFieldControlPlaceHolder.getField())) {
-							needsToRecreateControls = true;
-							break;
-						}
-					}
-					if (needsToRecreateControls) {
-						break;
-					}
-				}
-			}
-
-			if (!needsToRecreateControls) {
-				for (InfoCategory category : newMethodControlPlaceHoldersByCategory.keySet()) {
-					List<MethodControlPlaceHolder> methodControlPlaceHolders = newMethodControlPlaceHoldersByCategory
-							.get(category);
-					List<MethodControlPlaceHolder> displayedMethodControlPlaceHolders = displayedMethodControlPlaceHoldersByCategory
-							.get(category);
-					if (displayedMethodControlPlaceHolders.size() != methodControlPlaceHolders.size()) {
-						needsToRecreateControls = true;
-						break;
-					}
-					for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
-						MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
-						MethodControlPlaceHolder displayedMethodControlPlaceHolder = displayedMethodControlPlaceHolders
-								.get(i);
-						if (!methodControlPlaceHolder.getMethod()
-								.equals(displayedMethodControlPlaceHolder.getMethod())) {
-							needsToRecreateControls = true;
-							break;
-						}
-					}
-					if (needsToRecreateControls) {
-						break;
-					}
-				}
-			}
-
-			if (needsToRecreateControls) {
-				fieldControlPlaceHoldersByCategory = newFieldControlPlaceHoldersByCategory;
-				methodControlPlaceHoldersByCategory = newMethodControlPlaceHoldersByCategory;
-			}
-
-		}
-
-		if (needsToRecreateControls) {
+		if (refreshStructure && refreshMemberControlLists()) {
 			InfoCategory displayedCategory = getDisplayedInfoCategory();
 			try {
 				removeAll();
-				layoutFormControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
-				finalizeFormUpdate();
+				layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
+				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
 				if (displayedCategory != null) {
 					setDisplayedInfoCategory(displayedCategory);
@@ -695,7 +634,88 @@ public class Form extends JPanel {
 				}
 			}
 		}
+		finalizeFormUpdate();
+	}
 
+	public boolean refreshMemberControlLists() {
+
+		boolean modificationsDetected = false;
+
+		ITypeInfo type = getFormFilteredType();
+
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
+		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> displayedMethodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
+
+		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> newFieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(
+				type.getFields());
+		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> newMethodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
+				type.getMethods());
+
+		if (!newFieldControlPlaceHoldersByCategory.keySet()
+				.equals(displayedFieldControlPlaceHoldersByCategory.keySet())) {
+			modificationsDetected = true;
+		}
+
+		if (!newMethodControlPlaceHoldersByCategory.keySet()
+				.equals(displayedMethodControlPlaceHoldersByCategory.keySet())) {
+			modificationsDetected = true;
+		}
+
+		if (!modificationsDetected) {
+			for (InfoCategory category : newFieldControlPlaceHoldersByCategory.keySet()) {
+				List<FieldControlPlaceHolder> fieldControlPlaceHolders = newFieldControlPlaceHoldersByCategory
+						.get(category);
+				List<FieldControlPlaceHolder> displayedFieldControlPlaceHolders = displayedFieldControlPlaceHoldersByCategory
+						.get(category);
+				if (displayedFieldControlPlaceHolders.size() != fieldControlPlaceHolders.size()) {
+					modificationsDetected = true;
+					break;
+				}
+				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
+					FieldControlPlaceHolder displayedFieldControlPlaceHolder = displayedFieldControlPlaceHolders.get(i);
+					if (!fieldControlPlaceHolder.getField().equals(displayedFieldControlPlaceHolder.getField())) {
+						modificationsDetected = true;
+						break;
+					}
+				}
+				if (modificationsDetected) {
+					break;
+				}
+			}
+		}
+
+		if (!modificationsDetected) {
+			for (InfoCategory category : newMethodControlPlaceHoldersByCategory.keySet()) {
+				List<MethodControlPlaceHolder> methodControlPlaceHolders = newMethodControlPlaceHoldersByCategory
+						.get(category);
+				List<MethodControlPlaceHolder> displayedMethodControlPlaceHolders = displayedMethodControlPlaceHoldersByCategory
+						.get(category);
+				if (displayedMethodControlPlaceHolders.size() != methodControlPlaceHolders.size()) {
+					modificationsDetected = true;
+					break;
+				}
+				for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
+					MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
+					MethodControlPlaceHolder displayedMethodControlPlaceHolder = displayedMethodControlPlaceHolders
+							.get(i);
+					if (!methodControlPlaceHolder.getMethod().equals(displayedMethodControlPlaceHolder.getMethod())) {
+						modificationsDetected = true;
+						break;
+					}
+				}
+				if (modificationsDetected) {
+					break;
+				}
+			}
+		}
+
+		if (modificationsDetected) {
+			fieldControlPlaceHoldersByCategory = newFieldControlPlaceHoldersByCategory;
+			methodControlPlaceHoldersByCategory = newMethodControlPlaceHoldersByCategory;
+		}
+
+		return modificationsDetected;
 	}
 
 	public void setDisplayedInfoCategory(String categoryCaption, int categoryPosition) {
@@ -730,15 +750,15 @@ public class Form extends JPanel {
 	}
 
 	public void finalizeFormUpdate() {
-		updateMenuBar();
-		SwingRendererUtils.handleComponentSizeChange(this);
-		validateFormInBackgroundAndReportOnStatusBar();
+		if (menuBar.getParent() != null) {
+			updateMenuBar();
+		}
+		if (statusBar.getParent() != null) {
+			validateFormInBackgroundAndReportOnStatusBar();
+		}
 	}
 
 	public void updateMenuBar() {
-		if (menuBar == null) {
-			return;
-		}
 		MenuModel menuModel = new MenuModel();
 		addMenuContribution(menuModel);
 		SwingRendererUtils.updateMenubar(menuBar, menuModel, swingRenderer);
@@ -887,6 +907,10 @@ public class Form extends JPanel {
 		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, swingRenderer);
 	}
 
+	public Component createToolBarOnlineHelpControl(String onlineHelp) {
+		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, swingRenderer);
+	}
+
 	public Component createSeparateFieldCaptionControl(String caption) {
 		JLabel result = new JLabel(swingRenderer.prepareStringToDisplay(caption + ": "));
 		return result;
@@ -992,6 +1016,24 @@ public class Form extends JPanel {
 
 	public Component createCustomMethodControl(IMethodControlInput input) {
 		return null;
+	}
+
+	public List<Component> createFormToolbarControls() {
+		if (object == null) {
+			return null;
+		}
+		List<Component> result = new ArrayList<Component>();
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if ((type.getOnlineHelp() != null) && (type.getOnlineHelp().length() > 0)) {
+			result.add(createToolBarOnlineHelpControl(type.getOnlineHelp()));
+		}
+		if (type.isModificationStackAccessible()) {
+			if (modificationStack != null) {
+				result.addAll(new ModificationStackControls(modificationStack).create(swingRenderer));
+			}
+		}
+		return result;
 	}
 
 	@Override

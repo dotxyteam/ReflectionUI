@@ -102,6 +102,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
+import xy.reflect.ui.util.component.ScrollPaneOptions;
 
 public class ListControl extends JPanel implements IAdvancedFieldControl {
 
@@ -1367,11 +1368,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		if (detailsControl != null) {
 			detailsControl.refreshForm(refreshStructure);
 		} else {
-			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true, false);
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
-			detailsArea.add(swingRenderer.createWindowScrollPane(detailsControl), BorderLayout.CENTER);
-			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
+			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true, false);
+			Component statusBar = detailsControl.getStatusBar();
+			{
+				detailsArea.add(statusBar, BorderLayout.NORTH);
+			}
+			detailsArea.add(createDetailsAreaScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 			SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
@@ -1383,6 +1387,10 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
+	}
+
+	protected Component createDetailsAreaScrollPane(Form detailsControl) {
+		return new JScrollPane(new ScrollPaneOptions(detailsControl, true, false));
 	}
 
 	public void scrollUntilVisible(BufferedItemPosition itemPosition) {

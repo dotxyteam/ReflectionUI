@@ -7,7 +7,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class ForwardingModificationStack extends ModificationStack {
+public class SlaveModificationStack extends ModificationStack {
 
 	protected SwingRenderer swingRenderer;
 	protected Form form;
@@ -16,15 +16,15 @@ public class ForwardingModificationStack extends ModificationStack {
 	protected Accessor<Boolean> valueReplacedGetter;
 	protected Accessor<IInfo> editSessionTargetGetter;
 	protected Accessor<String> editSessionTitleGetter;
-	protected Accessor<ModificationStack> parentObjectModifStackGetter;
+	protected Accessor<ModificationStack> masterModificationStackGetter;
 	protected Accessor<IModification> commitModifGetter;
-	private boolean exclusiveForwarding;
+	protected boolean exclusiveLinkWithParent;
 
-	public ForwardingModificationStack(SwingRenderer swingRenderer, Form form,
-			Accessor<Boolean> valueModifAcceptedGetter, Accessor<ValueReturnMode> valueReturnModeGetter,
-			Accessor<Boolean> valueReplacedGetter, Accessor<IModification> commitModifGetter,
-			Accessor<IInfo> editSessionTargetGetter, Accessor<String> editSessionTitleGetter,
-			Accessor<ModificationStack> parentObjectModifStackGetter, boolean exclusiveForwarding) {
+	public SlaveModificationStack(SwingRenderer swingRenderer, Form form, Accessor<Boolean> valueModifAcceptedGetter,
+			Accessor<ValueReturnMode> valueReturnModeGetter, Accessor<Boolean> valueReplacedGetter,
+			Accessor<IModification> commitModifGetter, Accessor<IInfo> editSessionTargetGetter,
+			Accessor<String> editSessionTitleGetter, Accessor<ModificationStack> masterModificationStackGetter,
+			boolean exclusiveLinkWithParent) {
 		super(null);
 		this.swingRenderer = swingRenderer;
 		this.form = form;
@@ -34,8 +34,8 @@ public class ForwardingModificationStack extends ModificationStack {
 		this.commitModifGetter = commitModifGetter;
 		this.editSessionTargetGetter = editSessionTargetGetter;
 		this.editSessionTitleGetter = editSessionTitleGetter;
-		this.parentObjectModifStackGetter = parentObjectModifStackGetter;
-		this.exclusiveForwarding = exclusiveForwarding;
+		this.masterModificationStackGetter = masterModificationStackGetter;
+		this.exclusiveLinkWithParent = exclusiveLinkWithParent;
 
 	}
 
@@ -49,20 +49,19 @@ public class ForwardingModificationStack extends ModificationStack {
 			return result;
 		}
 		ModificationStack valueModifStack = new ModificationStack(null);
-		valueModifStack.pushUndo(
-				new ModificationStackShitfModification(this, -1, undoModif.getTitle(), undoModif.getTarget()) {
+		valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle(), undoModif.getTarget()) {
 
-					@Override
-					protected void shiftBackward() {
-						ForwardingModificationStack.this.super_undo();
-					}
+			@Override
+			protected void shiftBackward() {
+				SlaveModificationStack.this.super_undo();
+			}
 
-					@Override
-					protected void shiftForeward() {
-						ForwardingModificationStack.this.super_redo();
-					}
+			@Override
+			protected void shiftForeward() {
+				SlaveModificationStack.this.super_redo();
+			}
 
-				});
+		});
 		Boolean valueModifAccepted = valueModifAcceptedGetter.get();
 		ValueReturnMode valueReturnMode = valueReturnModeGetter.get();
 		boolean valueReplaced = valueReplacedGetter.get();
@@ -72,7 +71,7 @@ public class ForwardingModificationStack extends ModificationStack {
 		if (editSessionTitlePrefix != null) {
 			editSessionTitle = ReflectionUIUtils.composeMessage(editSessionTitlePrefix, editSessionTitle);
 		}
-		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		IInfo editSessionTarget = editSessionTargetGetter.get();
 		return ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
 				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
@@ -94,7 +93,7 @@ public class ForwardingModificationStack extends ModificationStack {
 		IModification commitModif = commitModifGetter.get();
 		String editSessionTitle = null;
 		IInfo editSessionTarget = editSessionTargetGetter.get();
-		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
 				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
 				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
@@ -103,8 +102,8 @@ public class ForwardingModificationStack extends ModificationStack {
 	@Override
 	public void forget() {
 		super.forget();
-		if (exclusiveForwarding) {
-			ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
+		if (exclusiveLinkWithParent) {
+			ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 			parentObjectModifStack.forget();
 		} else {
 			forwardInvalidation();
@@ -114,14 +113,14 @@ public class ForwardingModificationStack extends ModificationStack {
 	@Override
 	public void undo() {
 		super_undo();
-		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		parentObjectModifStack.invalidate();
 	}
 
 	@Override
 	public void redo() {
 		super_redo();
-		ModificationStack parentObjectModifStack = parentObjectModifStackGetter.get();
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		parentObjectModifStack.invalidate();
 	}
 
@@ -135,8 +134,8 @@ public class ForwardingModificationStack extends ModificationStack {
 
 	@Override
 	public String toString() {
-		return ForwardingModificationStack.class.getSimpleName() + "[of " + form.toString() + ", to "
-				+ parentObjectModifStackGetter.get() + "]";
+		return SlaveModificationStack.class.getSimpleName() + "[of " + form.toString() + ", to "
+				+ masterModificationStackGetter.get() + "]";
 	}
 
 }

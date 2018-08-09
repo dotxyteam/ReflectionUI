@@ -6,5 +6,4 @@ public interface IModificationListener {
 	void handleRedo(IModification modification);
 	void handleInvalidate();
 	void handleInvalidationCleared();
-	void handleForget();	
 }

@@ -14,7 +14,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
-import xy.reflect.ui.undo.ForwardingModificationStack;
+import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
@@ -321,7 +321,7 @@ public abstract class AbstractEditFormBuilder {
 				return getCumulatedModificationsTitle();
 			}
 		};
-		Accessor<ModificationStack> parentModifStackGetter = new Accessor<ModificationStack>() {
+		Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {
 
 			@Override
 			public ModificationStack get() {
@@ -332,10 +332,9 @@ public abstract class AbstractEditFormBuilder {
 				return result;
 			}
 		};
-		boolean exclusiveForwarding = exclusiveLinkWithParent;
-		form.setModificationStack(new ForwardingModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
+		form.setModificationStack(new SlaveModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
 				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
-				childModifTitleGetter, parentModifStackGetter, exclusiveForwarding));
+				childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
 	}
 
 }
