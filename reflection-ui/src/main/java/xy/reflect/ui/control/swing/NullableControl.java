@@ -120,7 +120,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			if (newValueType.equals(subControlValueType)) {
 				if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-					subFormBuilder.refreshEditForm((JPanel) subControl, refreshStructure);
+					subFormBuilder.refreshEditForm((Form) subControl, refreshStructure);
 					return;
 				}
 			}
@@ -288,14 +288,14 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public void validateSubForm() throws Exception {
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			swingRenderer.validateForm((JPanel) subControl);
+			((Form) subControl).validateForm();
 		}
 	}
 
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			swingRenderer.addFormMenuContribution((JPanel) subControl, menuModel);
+			((Form) subControl).addMenuContribution(menuModel);
 		}
 	}
 

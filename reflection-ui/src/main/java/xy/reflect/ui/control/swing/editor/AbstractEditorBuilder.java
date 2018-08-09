@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import xy.reflect.ui.control.swing.DialogBuilder;
+import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -22,7 +23,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 
 	protected DialogBuilder dialogBuilder;
-	protected JPanel createdEditForm;
+	protected Form createdEditForm;
 	protected JFrame createdFrame;
 	protected boolean parentModificationStackImpacted = false;
 
@@ -181,7 +182,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		if (createdEditForm == null) {
 			return null;
 		}
-		return getSwingRenderer().getModificationStackByForm().get(createdEditForm);
+		return createdEditForm.getModificationStack();
 	}
 
 	public boolean isParentModificationStackImpacted() {

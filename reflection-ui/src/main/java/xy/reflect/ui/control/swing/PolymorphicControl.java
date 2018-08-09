@@ -40,8 +40,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected AbstractEditFormBuilder typeEnumerationControlBuilder;
 	protected AbstractEditFormBuilder dynamicControlBuilder;
-	protected JPanel dynamicControl;
-	protected JPanel typeEnumerationControl;
+	protected Form dynamicControl;
+	protected Form typeEnumerationControl;
 
 	protected ITypeInfo lastInstanceType;
 	protected IFieldControlInput input;
@@ -57,7 +57,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		refreshUI(true);
 	}
 
-	protected JPanel createTypeEnumerationControl() {
+	protected Form createTypeEnumerationControl() {
 		typeEnumerationControlBuilder = new AbstractEditFormBuilder() {
 
 			ITypeInfo enumType = swingRenderer.getReflectionUI()
@@ -226,7 +226,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		return actualFieldValueType.getCaption();
 	}
 
-	protected JPanel createDynamicControl(final ITypeInfo instanceType) {
+	protected Form createDynamicControl(final ITypeInfo instanceType) {
 		dynamicControlBuilder = new AbstractEditFormBuilder() {
 
 			@Override
@@ -339,7 +339,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		if (refreshStructure) {
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-			}else {
+			} else {
 				setBorder(null);
 			}
 		}
@@ -371,14 +371,14 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	@Override
 	public void validateSubForm() throws Exception {
 		if (dynamicControl != null) {
-			swingRenderer.validateForm(dynamicControl);
+			dynamicControl.validateForm();
 		}
 	}
 
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
 		if (dynamicControl != null) {
-			swingRenderer.addFormMenuContribution(dynamicControl, menuModel);
+			dynamicControl.addMenuContribution(menuModel);
 		}
 	}
 

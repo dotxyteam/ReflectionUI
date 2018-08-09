@@ -35,7 +35,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	protected Component iconControl;
 	protected JButton button;
 	protected Object subFormObject;
-	protected JPanel subForm;
+	protected Form subForm;
 	protected IFieldControlInput input;
 
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -63,7 +63,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		if (!ReflectionUIUtils.canEditSeparateObjectValue(
 				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subFormObject),
 				data.getValueReturnMode(), !data.isGetOnly())) {
-			ModificationStack childModifStack = swingRenderer.getModificationStackByForm().get(subForm);
+			ModificationStack childModifStack = subForm.getModificationStack();
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
 				protected void handleAnyEvent(IModification modification) {
@@ -103,11 +103,9 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			};
 			boolean exclusiveForwarding = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
-			swingRenderer.getModificationStackByForm().put(subForm,
-					new ForwardingModificationStack(swingRenderer, subForm, childModifAcceptedGetter,
-							childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter,
-							childModifTargetGetter, childModifTitleGetter, parentModifStackGetter,
-							exclusiveForwarding));
+			subForm.setModificationStack(new ForwardingModificationStack(swingRenderer, subForm,
+					childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter,
+					childModifTargetGetter, childModifTitleGetter, parentModifStackGetter, exclusiveForwarding));
 		}
 	}
 
@@ -146,14 +144,14 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 				throw new ReflectionUIError();
 			}
 			if (newSubFormObject == subFormObject) {
-				swingRenderer.refreshForm(subForm, refreshStructure);
+				subForm.refreshForm(refreshStructure);
 			} else {
 				final ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 				final ITypeInfo newSubFormObjectType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
 				if (subFormObjectType.equals(newSubFormObjectType)) {
-					swingRenderer.getObjectByForm().put(subForm, newSubFormObject);
+					subForm.setObject(newSubFormObject);
 					swingRenderer.showBusyDialogWhile(this, new Runnable() {
 						@Override
 						public void run() {
@@ -162,7 +160,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 						}
 					}, "Refreshing " + swingRenderer.getObjectTitle(newSubFormObject) + "...");
 					subFormObject = newSubFormObject;
-					swingRenderer.refreshForm(subForm, refreshStructure);
+					subForm.refreshForm(refreshStructure);
 				} else {
 					return false;
 				}
@@ -178,12 +176,12 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 
 	@Override
 	public void validateSubForm() throws Exception {
-		swingRenderer.validateForm(subForm);
+		subForm.validateForm();
 	}
 
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
-		swingRenderer.addFormMenuContribution(subForm, menuModel);
+		subForm.addMenuContribution(menuModel);
 	}
 
 	@Override

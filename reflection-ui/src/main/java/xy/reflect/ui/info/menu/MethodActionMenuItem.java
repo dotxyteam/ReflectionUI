@@ -1,9 +1,8 @@
 package xy.reflect.ui.info.menu;
 
-import javax.swing.JPanel;
-
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -30,8 +29,8 @@ public class MethodActionMenuItem extends AbstractActionMenuItem {
 	@Override
 	public void execute(Object genericForm, Object renderer) {
 		SwingRenderer swingRenderer = (SwingRenderer) renderer;
-		JPanel form = (JPanel) genericForm;
-		IMethodControlInput input = swingRenderer.createMethodControlPlaceHolder(form, method);
+		Form form = (Form) genericForm;
+		IMethodControlInput input = form.createMethodControlPlaceHolder(method);
 		MethodAction methodAction = swingRenderer.createMethodAction(input);
 		methodAction.execute(form);
 	}

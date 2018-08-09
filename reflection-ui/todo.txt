@@ -1,3 +1,13 @@
+- Form class addition:
+	. a form must be autonomous
+		* refresh itself by default
+		* have a status bar and validate itself by default
+		* this behaviour must be overridable by parent component:
+			# replace modif stack
+			# change status bar visibility (may be not necessary)
+	. create window manager class that will handle similarities between frame and dialogs
+	. remove some form setters
+	. move createFieldErrorControl from form to fcph
 - ItemPosition must not reference control data classes:
 	. there must a method ItemPosition.updateItem(...) that returns a rootListValue
 	that can be the same or a new version if needed

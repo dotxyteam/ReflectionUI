@@ -9,8 +9,6 @@ import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
@@ -108,7 +106,7 @@ public class MethodAction extends AbstractAction {
 		} else {
 			invocationData = new InvocationData();
 		}
-		JPanel methodForm = swingRenderer.createForm(createParametersObject(invocationData));
+		Form methodForm = swingRenderer.createForm(createParametersObject(invocationData));
 		List<Component> toolbarControls = new ArrayList<Component>();
 		toolbarControls.addAll(swingRenderer.createFormCommonToolbarControls(methodForm));
 		final JButton invokeButton = new JButton(data.getCaption());

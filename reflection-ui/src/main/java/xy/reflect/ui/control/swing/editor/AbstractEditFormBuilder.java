@@ -3,9 +3,8 @@ package xy.reflect.ui.control.swing.editor;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JPanel;
-
 import xy.reflect.ui.control.IContext;
+import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -235,9 +234,9 @@ public abstract class AbstractEditFormBuilder {
 		return true;
 	}
 
-	public JPanel createForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
+	public Form createForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
 		Object encapsulated = getEncapsulatedObject();
-		JPanel result = getSwingRenderer().createForm(encapsulated);
+		Form result = getSwingRenderer().createForm(encapsulated);
 		if (realTimeLinkWithParent) {
 			if (canPotentiallyModifyParentObject()) {
 				forwardEditFormModificationsToParentObject(result, exclusiveLinkWithParent);
@@ -263,8 +262,8 @@ public abstract class AbstractEditFormBuilder {
 				getObjectValueReturnMode(), canCommit());
 	}
 
-	protected void refreshEditFormOnModification(final JPanel form) {
-		ModificationStack childModificationStack = getSwingRenderer().getModificationStackByForm().get(form);
+	protected void refreshEditFormOnModification(final Form form) {
+		ModificationStack childModificationStack = form.getModificationStack();
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
@@ -273,16 +272,16 @@ public abstract class AbstractEditFormBuilder {
 		});
 	}
 
-	public void refreshEditForm(JPanel form, boolean refreshStructure) {
+	public void refreshEditForm(Form form, boolean refreshStructure) {
 		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
-		getSwingRenderer().refreshForm(form, refreshStructure);
+		form.refreshForm(refreshStructure);
 	}
 
 	protected boolean shouldAcceptNewObjectValue(Object value) {
 		return true;
 	}
 
-	protected void forwardEditFormModificationsToParentObject(final JPanel form, boolean exclusiveLinkWithParent) {
+	protected void forwardEditFormModificationsToParentObject(final Form form, boolean exclusiveLinkWithParent) {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
@@ -334,10 +333,9 @@ public abstract class AbstractEditFormBuilder {
 			}
 		};
 		boolean exclusiveForwarding = exclusiveLinkWithParent;
-		getSwingRenderer().getModificationStackByForm().put(form,
-				new ForwardingModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
-						childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
-						childModifTitleGetter, parentModifStackGetter, exclusiveForwarding));
+		form.setModificationStack(new ForwardingModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
+				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
+				childModifTitleGetter, parentModifStackGetter, exclusiveForwarding));
 	}
 
 }

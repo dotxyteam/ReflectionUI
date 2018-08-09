@@ -1,6 +1,5 @@
 package xy.reflect.ui.util;
 
-import java.awt.Component;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,8 +28,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JPanel;
-
 import org.apache.commons.codec.binary.Base64;
 
 import com.fasterxml.classmate.MemberResolver;
@@ -52,7 +49,6 @@ import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
-import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -973,14 +969,6 @@ public class ReflectionUIUtils {
 		}
 		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
 		return valueType.isImmutable();
-	}
-
-	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {
-		JPanel form = SwingRendererUtils.findParentForm(component, swingRenderer);
-		if (form == null) {
-			return null;
-		}
-		return swingRenderer.getModificationStackByForm().get(form);
 	}
 
 	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,

@@ -20,6 +20,7 @@ import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.AWTEventListenerProxy;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
@@ -41,6 +42,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -58,6 +60,7 @@ import javax.swing.UIManager;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ResourcePath;
@@ -72,6 +75,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.undo.ModificationStack;
 
 public class SwingRendererUtils {
 
@@ -163,20 +167,20 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static JPanel findParentForm(Component component, SwingRenderer swingRenderer) {
+	public static Form findParentForm(Component component, SwingRenderer swingRenderer) {
 		Component candidate = component.getParent();
 		while (candidate != null) {
-			if (swingRenderer.getObjectByForm().keySet().contains(candidate)) {
-				return (JPanel) candidate;
+			if (isForm(candidate, swingRenderer)) {
+				return (Form) candidate;
 			}
 			candidate = candidate.getParent();
 		}
 		return null;
 	}
 
-	public static List<JPanel> findAncestorForms(Component component, SwingRenderer swingRenderer) {
-		List<JPanel> result = new ArrayList<JPanel>();
-		JPanel ancestor = null;
+	public static List<Form> findAncestorForms(Component component, SwingRenderer swingRenderer) {
+		List<Form> result = new ArrayList<Form>();
+		Form ancestor = null;
 		while (null != (ancestor = findParentForm(component, swingRenderer))) {
 			result.add(ancestor);
 			component = ancestor;
@@ -184,19 +188,19 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static JPanel findMostAncestorForm(Component component, SwingRenderer swingRenderer) {
-		List<JPanel> ancestors = findAncestorForms(component, swingRenderer);
+	public static Form findMostAncestorForm(Component component, SwingRenderer swingRenderer) {
+		List<Form> ancestors = findAncestorForms(component, swingRenderer);
 		if (ancestors.size() == 0) {
 			return null;
 		}
 		return ancestors.get(ancestors.size() - 1);
 	}
 
-	public static List<JPanel> findDescendantForms(Container container, SwingRenderer swingRenderer) {
-		List<JPanel> result = new ArrayList<JPanel>();
+	public static List<Form> findDescendantForms(Container container, SwingRenderer swingRenderer) {
+		List<Form> result = new ArrayList<Form>();
 		for (Component childComponent : container.getComponents()) {
 			if (isForm(childComponent, swingRenderer)) {
-				result.add((JPanel) childComponent);
+				result.add((Form) childComponent);
 			}
 			if (childComponent instanceof Container) {
 				result.addAll(findDescendantForms((Container) childComponent, swingRenderer));
@@ -317,22 +321,10 @@ public class SwingRendererUtils {
 		return new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	}
 
-	public static List<JPanel> getAllDisplayedForms(SwingRenderer swingRenderer) {
-		List<JPanel> result = new ArrayList<JPanel>();
-		for (Map.Entry<JPanel, Object> entry : swingRenderer.getObjectByForm().entrySet()) {
-			JPanel form = entry.getKey();
-			if (form.isDisplayable()) {
-				result.add(form);
-			}
-		}
-		return result;
-	}
-
 	public static List<Object> getAllDisplayedObjects(SwingRenderer swingRenderer) {
 		List<Object> result = new ArrayList<Object>();
-		for (JPanel form : getAllDisplayedForms(swingRenderer)) {
-			Object object = swingRenderer.getObjectByForm().get(form);
-			result.add(object);
+		for (Form form : swingRenderer.getAllDisplayedForms()) {
+			result.add(form.getObject());
 		}
 		return result;
 	}
@@ -373,7 +365,14 @@ public class SwingRendererUtils {
 	}
 
 	public static boolean isForm(Component c, SwingRenderer swingRenderer) {
-		return swingRenderer.getObjectByForm().keySet().contains(c);
+		if (!(c instanceof Form)) {
+			return false;
+		}
+		Form form = (Form) c;
+		if (form.getSwingRenderer() != swingRenderer) {
+			return false;
+		}
+		return true;
 	}
 
 	public static void handleComponentSizeChange(Component c) {
@@ -643,7 +642,7 @@ public class SwingRendererUtils {
 			}
 		}
 		if (isForm(c, swingRenderer)) {
-			return swingRenderer.requestFormFocus((JPanel) c);
+			return ((Form) c).requestFormFocus();
 		}
 		if (c.requestFocusInWindow()) {
 			return true;
@@ -686,23 +685,26 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static List<JPanel> findObjectForms(Object object, SwingRenderer swingRenderer) {
-		return ReflectionUIUtils.getKeysFromValue(swingRenderer.getObjectByForm(), object);
+	public static List<Form> findObjectDisplayedForms(Object object, SwingRenderer swingRenderer) {
+		List<Form> result = new ArrayList<Form>();
+		for (Form form : swingRenderer.getAllDisplayedForms()) {
+			if (form.getObject() == object) {
+				result.add(form);
+			}
+		}
+		return result;
 	}
 
-	public static JPanel findFirstObjectActiveForm(Object object, SwingRenderer swingRenderer) {
-		for (JPanel form : findObjectForms(object, swingRenderer)) {
-			if (form.isDisplayable()) {
-				return form;
-			}
+	public static Form findObjectFirstDisplayedForm(Object object, SwingRenderer swingRenderer) {
+		for (Form form : findObjectDisplayedForms(object, swingRenderer)) {
+			return form;
 		}
 		return null;
 	}
 
-	public static JPanel findFirstObjectDescendantForm(Object object, Container container,
-			SwingRenderer swingRenderer) {
-		for (JPanel form : findDescendantForms(container, swingRenderer)) {
-			if (object == swingRenderer.getObjectByForm().get(form)) {
+	public static Form findFirstObjectDescendantForm(Object object, Container container, SwingRenderer swingRenderer) {
+		for (Form form : findDescendantForms(container, swingRenderer)) {
+			if (object == form.getObject()) {
 				return form;
 			}
 		}
@@ -818,20 +820,20 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static List<JPanel> excludeSubForms(List<JPanel> forms, SwingRenderer swingRenderer) {
-		List<JPanel> result = new ArrayList<JPanel>(forms);
-		for (JPanel form : forms) {
+	public static List<Form> excludeSubForms(List<Form> forms, SwingRenderer swingRenderer) {
+		List<Form> result = new ArrayList<Form>(forms);
+		for (Form form : forms) {
 			result.removeAll(findDescendantForms(form, swingRenderer));
 		}
 		return result;
 	}
 
-	public static void updateWindowMenu(JPanel form, SwingRenderer swingRenderer) {
-		JPanel topForm = SwingRendererUtils.findMostAncestorForm(form, swingRenderer);
+	public static void updateWindowMenu(Form form, SwingRenderer swingRenderer) {
+		Form topForm = SwingRendererUtils.findMostAncestorForm(form, swingRenderer);
 		if (topForm == null) {
 			topForm = form;
 		}
-		swingRenderer.updateMenuBar(topForm);
+		topForm.updateMenuBar();
 	}
 
 	public static Color fixSeveralColorRenderingIssues(Color color) {
@@ -857,21 +859,43 @@ public class SwingRendererUtils {
 	public static Color getNonEditableTextBackgroundColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
 	}
-	
+
 	public static Color getListSelectionBackgroundColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Tree.selectionBackground"));
 	}
-	
+
 	public static Color getListSelectionForegroundColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Tree.selectionForeground"));
 	}
 
-
-	public static void refreshAllDisplayedFormAndMenus(SwingRenderer swingRenderer, boolean refreshStructure) {
-		for (JPanel form : excludeSubForms(getAllDisplayedForms(swingRenderer), swingRenderer)) {
-			swingRenderer.refreshForm(form, refreshStructure);
-			swingRenderer.updateMenuBar(form);
+	public static void refreshAllDisplayedFormsAndMenus(SwingRenderer swingRenderer, boolean refreshStructure) {
+		for (Form form : excludeSubForms(swingRenderer.getAllDisplayedForms(), swingRenderer)) {
+			form.refreshForm(refreshStructure);
+			form.updateMenuBar();
 		}
+	}
+
+	public static Component createOnlineHelpControl(String onlineHelp, SwingRenderer swingRenderer) {
+		final JButton result = new JButton(HELP_ICON);
+		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
+		result.setContentAreaFilled(false);
+		result.setFocusable(false);
+		setMultilineToolTipText(result, swingRenderer.prepareStringToDisplay(onlineHelp));
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showTooltipNow(result);
+			}
+		});
+		return result;
+	}
+
+	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {
+		Form form = findParentForm(component, swingRenderer);
+		if (form == null) {
+			return null;
+		}
+		return form.getModificationStack();
 	}
 
 }

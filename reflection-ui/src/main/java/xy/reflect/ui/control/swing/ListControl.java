@@ -121,7 +121,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected IListStructuralInfo structuralInfo;
 
 	protected JPanel detailsArea;
-	protected JPanel detailsControl;
+	protected Form detailsControl;
 	protected IListItemDetailsAccessMode detailsMode;
 	protected BufferedItemPosition detailsControlItemPosition;
 	protected Object detailsControlItem;
@@ -1365,14 +1365,14 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if (detailsControl != null) {
-			swingRenderer.refreshForm(detailsControl, refreshStructure);
+			detailsControl.refreshForm(refreshStructure);
 		} else {
 			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true, false);
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
 			detailsArea.add(swingRenderer.createWindowScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsArea.add(swingRenderer.createStatusBar(detailsControl), BorderLayout.NORTH);
-			swingRenderer.validateFormInBackgroundAndReportOnStatusBar(detailsControl);
+			detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 			SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
 			scrollUntilVisible(detailsControlItemPosition);

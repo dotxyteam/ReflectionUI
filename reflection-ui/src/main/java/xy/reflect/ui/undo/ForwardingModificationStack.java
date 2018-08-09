@@ -1,7 +1,6 @@
 package xy.reflect.ui.undo;
 
-import javax.swing.JPanel;
-
+import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -11,7 +10,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ForwardingModificationStack extends ModificationStack {
 
 	protected SwingRenderer swingRenderer;
-	protected JPanel form;
+	protected Form form;
 	protected Accessor<Boolean> valueModifAcceptedGetter;
 	protected Accessor<ValueReturnMode> valueReturnModeGetter;
 	protected Accessor<Boolean> valueReplacedGetter;
@@ -21,7 +20,7 @@ public class ForwardingModificationStack extends ModificationStack {
 	protected Accessor<IModification> commitModifGetter;
 	private boolean exclusiveForwarding;
 
-	public ForwardingModificationStack(SwingRenderer swingRenderer, JPanel form,
+	public ForwardingModificationStack(SwingRenderer swingRenderer, Form form,
 			Accessor<Boolean> valueModifAcceptedGetter, Accessor<ValueReturnMode> valueReturnModeGetter,
 			Accessor<Boolean> valueReplacedGetter, Accessor<IModification> commitModifGetter,
 			Accessor<IInfo> editSessionTargetGetter, Accessor<String> editSessionTitleGetter,
@@ -37,7 +36,6 @@ public class ForwardingModificationStack extends ModificationStack {
 		this.editSessionTitleGetter = editSessionTitleGetter;
 		this.parentObjectModifStackGetter = parentObjectModifStackGetter;
 		this.exclusiveForwarding = exclusiveForwarding;
-		swingRenderer.getModificationStackForwardingStatusByForm().put(form, true);
 
 	}
 

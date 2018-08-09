@@ -14,6 +14,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.MethodControlDataProxy;
+import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -36,12 +37,12 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	protected static final long serialVersionUID = 1L;
 
 	protected final SwingRenderer swingRenderer;
-	protected JPanel form;
+	protected Form form;
 	protected Component methodControl;
 	protected IMethodInfo method;
 	protected IMethodControlData controlData;
 
-	public MethodControlPlaceHolder(SwingRenderer swingRenderer, JPanel form, IMethodInfo method) {
+	public MethodControlPlaceHolder(SwingRenderer swingRenderer, Form form, IMethodInfo method) {
 		super();
 		this.swingRenderer = swingRenderer;
 		this.form = form;
@@ -61,8 +62,8 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 			return null;
 		}
 		int maxMethodControlWidth = 0;
-		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = swingRenderer
-				.getMethodControlPlaceHoldersByCategoryByForm().get(form);
+		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = form
+				.getMethodControlPlaceHoldersByCategory();
 		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
 			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
 					.get(category)) {
@@ -145,7 +146,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	}
 
 	public Object getObject() {
-		return this.swingRenderer.getObjectByForm().get(form);
+		return form.getObject();
 	}
 
 	@Override
@@ -160,7 +161,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 
 	@Override
 	public ModificationStack getModificationStack() {
-		return this.swingRenderer.getModificationStackByForm().get(form);
+		return form.getModificationStack();
 	}
 
 	@Override
@@ -175,7 +176,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	}
 
 	public Component createMethodControl() {
-		Component result = this.swingRenderer.createCustomMethodControl(this);
+		Component result = form.createCustomMethodControl(this);
 		if (result != null) {
 			return result;
 		}

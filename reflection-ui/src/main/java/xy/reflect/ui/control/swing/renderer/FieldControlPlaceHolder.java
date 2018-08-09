@@ -16,6 +16,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
+import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.NullControl;
 import xy.reflect.ui.control.swing.NullableControl;
@@ -40,7 +41,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 	protected final SwingRenderer swingRenderer;
 	protected Component fieldControl;
-	protected JPanel form;
+	protected Form form;
 	protected IFieldInfo field;
 	protected String errorMessageDisplayedOnPlaceHolder;
 	protected IFieldControlData controlData;
@@ -50,7 +51,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	protected boolean ancestorVisible = false;
 	protected Thread autoRefreshThread;
 
-	public FieldControlPlaceHolder(SwingRenderer swingRenderer, JPanel form, IFieldInfo field) {
+	public FieldControlPlaceHolder(SwingRenderer swingRenderer, Form form, IFieldInfo field) {
 		super();
 		this.swingRenderer = swingRenderer;
 		this.form = form;
@@ -128,7 +129,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 						public void run() {
 							refreshUI(false);
 							if (isLayoutInContainerUpdateNeeded()) {
-								swingRenderer.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
+								form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
 							}
 							updating = false;
 						}
@@ -159,10 +160,10 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	}
 
 	public Object getObject() {
-		return this.swingRenderer.getObjectByForm().get(form);
+		return form.getObject();
 	}
 
-	public JPanel getForm() {
+	public Form getForm() {
 		return form;
 	}
 
@@ -200,7 +201,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 	@Override
 	public ModificationStack getModificationStack() {
-		return this.swingRenderer.getModificationStackByForm().get(form);
+		return form.getModificationStack();
 	}
 
 	public IFieldControlData handleStressfulUpdates(final IFieldControlData data) {
@@ -315,9 +316,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		return new FieldControlDataProxy(data) {
 
 			private boolean isBusyIndicationDisabled() {
-				JPanel form = SwingRendererUtils.findParentForm(FieldControlPlaceHolder.this, swingRenderer);
-				return Boolean.TRUE
-						.equals(FieldControlPlaceHolder.this.swingRenderer.getBusyIndicationDisabledByForm().get(form));
+				return form.isBusyIndicationDisabled();
 			}
 
 			@Override
@@ -379,7 +378,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				controlData = lastInitialControlData = getInitialControlData();
 				fieldControl = createFieldControl();
 			} catch (Throwable t) {
-				fieldControl = this.swingRenderer.createErrorControl(t);
+				fieldControl = form.createFieldErrorControl(t);
 			}
 			add(fieldControl, BorderLayout.CENTER);
 			layoutInContainerUpdateNeeded = true;
@@ -452,7 +451,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 	public Component createFieldControl() {
 		if (!controlData.isFormControlMandatory()) {
-			Component result = this.swingRenderer.createCustomFieldControl(this);
+			Component result = form.createCustomFieldControl(this);
 			if (result != null) {
 				return result;
 			}
