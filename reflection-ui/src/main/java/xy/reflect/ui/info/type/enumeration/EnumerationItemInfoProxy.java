@@ -13,6 +13,10 @@ public class EnumerationItemInfoProxy extends AbstractInfoProxy implements IEnum
 		this.base = base;
 	}
 
+	public Object getItem() {
+		return base.getItem();
+	}
+
 	public String getName() {
 		return base.getName();
 	}

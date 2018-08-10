@@ -75,6 +75,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
 public class SwingRendererUtils {
@@ -91,7 +92,8 @@ public class SwingRendererUtils {
 			ReflectionUI.class.getResource("resource/save-all.png"));
 	public static Map<String, Image> IMAGE_CACHE = new HashMap<String, Image>();
 
-	public static Icon getSmallIcon(Image image) {
+	public static ImageIcon getSmallIcon(ImageIcon icon) {
+		Image image = icon.getImage();
 		image = SwingRendererUtils.scalePreservingRatio(image, 16, 16, Image.SCALE_SMOOTH);
 		return new ImageIcon(image);
 	}
@@ -541,19 +543,19 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Icon geObjectIcon(SwingRenderer swingRenderer, Object object) {
+	public static ImageIcon geObjectIcon(SwingRenderer swingRenderer, Object object) {
 		if (object == null) {
 			return null;
 		}
 		Image iconImage = swingRenderer.getObjectIconImage(object);
 		if (iconImage != null) {
-			return SwingRendererUtils.getSmallIcon(iconImage);
+			return new ImageIcon(iconImage);
 		} else {
 			return null;
 		}
 	}
 
-	public static Icon getMethodIcon(SwingRenderer swingRenderer, IMethodControlData data) {
+	public static ImageIcon getMethodIcon(SwingRenderer swingRenderer, IMethodControlData data) {
 		Image iconImage = swingRenderer.getMethodIconImage(data);
 		if (iconImage != null) {
 			return new ImageIcon(iconImage);
@@ -562,10 +564,19 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Icon getMenuItemIcon(SwingRenderer swingRenderer, AbstractActionMenuItem menuItem) {
+	public static ImageIcon getEnumerationItemIcon(SwingRenderer swingRenderer, IEnumerationItemInfo itemInfo) {
+		Image iconImage = swingRenderer.getEnumerationItemIconImage(itemInfo);
+		if (iconImage != null) {
+			return new ImageIcon(iconImage);
+		} else {
+			return null;
+		}
+	}
+
+	public static ImageIcon getMenuItemIcon(SwingRenderer swingRenderer, AbstractActionMenuItem menuItem) {
 		Image iconImage = swingRenderer.getMenuIconImage(menuItem);
 		if (iconImage != null) {
-			return SwingRendererUtils.getSmallIcon(iconImage);
+			return new ImageIcon(iconImage);
 		} else {
 			return null;
 		}
@@ -767,7 +778,11 @@ public class SwingRendererUtils {
 			if (!actionMenuItem.isEnabled(form, swingRenderer)) {
 				result.setEnabled(false);
 			}
-			result.setIcon(getMenuItemIcon(swingRenderer, actionMenuItem));
+			ImageIcon icon = getMenuItemIcon(swingRenderer, actionMenuItem);
+			if(icon != null) {
+				icon = getSmallIcon(icon);
+			}
+			result.setIcon(icon);
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 			if (result.getText() == null) {

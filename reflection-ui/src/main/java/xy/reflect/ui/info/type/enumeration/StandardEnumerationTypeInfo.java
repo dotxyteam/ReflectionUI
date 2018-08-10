@@ -85,6 +85,11 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 				}
 
 				@Override
+				public Object getItem() {
+					return object;
+				}
+
+				@Override
 				public String getCaption() {
 					return object.toString();
 				}

@@ -7,4 +7,6 @@ public interface IEnumerationItemInfo extends IInfo{
 	
 	ResourcePath getIconImagePath();
 
+	Object getItem();
+
 }

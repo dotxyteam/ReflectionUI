@@ -51,6 +51,10 @@ public class ResourcePath implements Serializable{
 		return specification.substring(ResourcePath.MEMORY_OBJECT_PREFIX.length());
 	}
 
+	public String getPath() {
+		return path;
+	}
+
 	public String getSpecification() {
 		ResourcePath chosen = getChosen();
 		if (chosen.pathKind == PathKind.CLASS_PATH_RESOURCE) {

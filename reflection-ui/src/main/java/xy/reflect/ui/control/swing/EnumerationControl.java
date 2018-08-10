@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -21,11 +20,9 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class EnumerationControl extends JPanel implements IAdvancedFieldControl {
@@ -110,7 +107,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				}
 			}
 		});
-		if (data.isGetOnly()){
+		if (data.isGetOnly()) {
 			comboBox.setEnabled(false);
 		} else {
 			comboBox.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
@@ -144,17 +141,10 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			return null;
 		} else {
 			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
-			ResourcePath imagePath = itemInfo.getIconImagePath();
-			if (imagePath == null) {
+			if (itemInfo == null) {
 				return null;
 			} else {
-				Image iconImage = SwingRendererUtils.loadImageThroughcache(imagePath,
-						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
-				if (iconImage == null) {
-					return null;
-				} else {
-					return SwingRendererUtils.getSmallIcon(iconImage);
-				}
+				return SwingRendererUtils.getEnumerationItemIcon(swingRenderer, itemInfo);
 			}
 		}
 	}

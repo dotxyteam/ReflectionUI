@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -241,7 +242,11 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected void updateIconControl() {
-		((JLabel) iconControl).setIcon(SwingRendererUtils.geObjectIcon(swingRenderer, data.getValue()));
+		ImageIcon icon = SwingRendererUtils.geObjectIcon(swingRenderer, data.getValue());
+		if (icon != null) {
+			icon = SwingRendererUtils.getSmallIcon(icon);
+		}
+		((JLabel) iconControl).setIcon(icon);
 		iconControl.setVisible(((JLabel) iconControl).getIcon() != null);
 	}
 

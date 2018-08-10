@@ -394,6 +394,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			}
 			add(fieldControl, BorderLayout.CENTER);
 			layoutInContainerUpdateNeeded = true;
+			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			if (isFieldControlObsolete()) {
 				destroyFieldControl();
@@ -551,19 +552,16 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		}
 
 		if (currentPlugin != null) {
-			if (getControlData().isNullValueDistinct()) {
-				if (!currentPlugin.displaysDistinctNullValue()) {
-					return new NullableControl(this.swingRenderer, this);
+			if (!getControlData().isNullValueDistinct() || currentPlugin.displaysDistinctNullValue()) {
+				Component result;
+				try {
+					result = currentPlugin.createControl(swingRenderer, this);
+				} catch (Throwable t) {
+					result = createFieldErrorControl(t);
 				}
+				form.getPluginByFieldControl().put(result, currentPlugin);
+				return result;
 			}
-			Component result;
-			try {
-				result = currentPlugin.createControl(swingRenderer, this);
-			} catch (Throwable t) {
-				result = createFieldErrorControl(t);
-			}
-			form.getPluginByFieldControl().put(result, currentPlugin);
-			return result;
 		}
 
 		return null;

@@ -1690,11 +1690,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				label.setText(swingRenderer.prepareStringToDisplay(text));
 			}
 
-			Image imageIcon = getCellIconImage(node, columnIndex);
-			if (imageIcon == null) {
+			Image iconImage = getCellIconImage(node, columnIndex);
+			if (iconImage == null) {
 				label.setIcon(null);
 			} else {
-				label.setIcon(new ImageIcon(imageIcon));
+				label.setIcon(new ImageIcon(iconImage));
 			}
 
 		}

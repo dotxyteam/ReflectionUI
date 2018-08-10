@@ -52,6 +52,7 @@ import xy.reflect.ui.info.menu.AbstractActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
@@ -188,6 +189,14 @@ public class SwingRenderer {
 		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
+	public Image getEnumerationItemIconImage(IEnumerationItemInfo itemInfo) {
+		ResourcePath imagePath = itemInfo.getIconImagePath();
+		if (imagePath == null) {
+			return null;
+		}
+		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+	}
+
 	public Image getMenuIconImage(AbstractActionMenuItem menuItem) {
 		ResourcePath imagePath = menuItem.getIconImagePath();
 		if (imagePath == null) {
@@ -198,7 +207,7 @@ public class SwingRenderer {
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
 		reflectionUI.logError(t);
-		openErrorDialog(activatorComponent, "An Error Occured", t);
+		openErrorDialog(activatorComponent, "An Error Occured", null, t);
 	}
 
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
@@ -392,6 +401,7 @@ public class SwingRenderer {
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
+		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(
 				SwingRendererUtils.getMessageJOptionPane(prepareStringToDisplay(msg), JOptionPane.INFORMATION_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
@@ -399,7 +409,7 @@ public class SwingRenderer {
 		showDialog(dialogBuilder.createDialog(), true);
 	}
 
-	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
+	public void openErrorDialog(Component activatorComponent, String title, Image iconImage, final Throwable error) {
 		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
@@ -414,6 +424,7 @@ public class SwingRenderer {
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
+		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(SwingRendererUtils.getMessageJOptionPane(
 				prepareStringToDisplay(ReflectionUIUtils.getPrettyErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);

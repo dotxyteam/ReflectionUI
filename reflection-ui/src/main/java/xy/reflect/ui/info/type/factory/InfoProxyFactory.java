@@ -511,7 +511,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getCaption();
 	}
 
-	protected boolean  onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
+	protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
 		return type.onFormVisibilityChange(object, visible);
 	}
 
@@ -601,6 +601,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	protected String getName(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 		return info.getName();
 	}
+	
+	protected Object getItem(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		return info.getItem();
+	}
 
 	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 		return info.getSpecificProperties();
@@ -641,7 +645,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean  onFormVisibilityChange(Object object, boolean visible) {
+		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return InfoProxyFactory.this.onFormVisibilityChange(base, object, visible);
 		}
 
@@ -1490,6 +1494,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base, parentEnumType);
+		}
+
+		@Override
+		public Object getItem() {
+			return InfoProxyFactory.this.getItem(base, parentEnumType);
 		}
 
 		@Override
