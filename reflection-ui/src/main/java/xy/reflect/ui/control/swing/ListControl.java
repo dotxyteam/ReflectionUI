@@ -148,7 +148,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		toolbar = new JPanel();
 		detailsArea = new JPanel();
 
-		refreshTreeModelAndControl();
 		openDetailsDialogOnItemDoubleClick();
 		updateDetailsAreaOnSelection();
 		updateToolbarOnSelection();
@@ -1452,7 +1451,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		return input.getModificationStack();
 	}
 
-	protected void refreshTreeModelAndControl() {
+	protected void refreshTreeModelAndControl(boolean refreshStructure) {
 		restoringColumnWidthsAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
@@ -1491,7 +1490,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		restoringSelectionAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
-				refreshTreeModelAndControl();
+				refreshTreeModelAndControl(refreshStructure);
 			}
 		});
 		if (refreshStructure) {
@@ -1648,11 +1647,11 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				restoringSelectionAsMuchAsPossible(new Runnable() {
 					@Override
 					public void run() {
-						refreshTreeModelAndControl();
+						refreshTreeModelAndControl(false);
 					}
 				});
 			} else {
-				refreshTreeModelAndControl();
+				refreshTreeModelAndControl(false);
 				setSelection(newSelection);
 			}
 			return new RefreshStructureModification(oldSelection);
@@ -1781,7 +1780,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			if (modifTitle == null) {
 				List<BufferedItemPosition> initialSelection = getSelection();
 				if (perform(toPostSelectHolder)) {
-					refreshTreeModelAndControl();
+					refreshTreeModelAndControl(false);
 					if (toPostSelectHolder[0] != null) {
 						setSelection(toPostSelectHolder[0]);
 					} else {

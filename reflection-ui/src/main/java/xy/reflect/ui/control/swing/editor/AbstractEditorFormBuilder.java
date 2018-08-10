@@ -22,7 +22,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class AbstractEditFormBuilder {
+public abstract class AbstractEditorFormBuilder {
 
 	protected Object initialObjectValue;
 	protected boolean objectValueInitialized = false;
@@ -174,18 +174,18 @@ public abstract class AbstractEditFormBuilder {
 	}
 
 	protected boolean isEncapsulationFieldGetOnly() {
-		return isInreadOnlyMode() || !canReplaceObjectValue();
+		return isInReadOnlyMode() || !canReplaceObjectValue();
 	}
 
 	protected boolean isEncapsulationTypeModificationStackAccessible() {
-		return !isInreadOnlyMode();
+		return !isInReadOnlyMode();
 	}
 
-	protected boolean refreshesEditFormOnModification() {
-		return isInreadOnlyMode();
+	protected boolean refreshesEditorFormOnModification() {
+		return isInReadOnlyMode();
 	}
 
-	protected boolean isInreadOnlyMode() {
+	protected boolean isInReadOnlyMode() {
 		return hasParentObject() ? !canPotentiallyModifyParentObject() : false;
 	}
 
@@ -239,10 +239,10 @@ public abstract class AbstractEditFormBuilder {
 		Form result = getSwingRenderer().createForm(encapsulated);
 		if (realTimeLinkWithParent) {
 			if (canPotentiallyModifyParentObject()) {
-				forwardEditFormModificationsToParentObject(result, exclusiveLinkWithParent);
+				forwardEditorFormModificationsToParentObject(result, exclusiveLinkWithParent);
 			}
-			if (refreshesEditFormOnModification()) {
-				refreshEditFormOnModification(result);
+			if (refreshesEditorFormOnModification()) {
+				refreshEditorFormOnModification(result);
 			}
 		}
 		return result;
@@ -262,26 +262,26 @@ public abstract class AbstractEditFormBuilder {
 				getObjectValueReturnMode(), canCommit());
 	}
 
-	protected void refreshEditFormOnModification(final Form form) {
+	protected void refreshEditorFormOnModification(final Form form) {
 		ModificationStack childModificationStack = form.getModificationStack();
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				refreshEditForm(form, false);
+				refreshEditorForm(form, false);
 			}
 		});
 	}
 
-	public void refreshEditForm(Form form, boolean refreshStructure) {
+	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
 		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
-		form.refreshForm(refreshStructure);
+		editorForm.refreshForm(refreshStructure);
 	}
 
 	protected boolean shouldAcceptNewObjectValue(Object value) {
 		return true;
 	}
 
-	protected void forwardEditFormModificationsToParentObject(final Form form, boolean exclusiveLinkWithParent) {
+	protected void forwardEditorFormModificationsToParentObject(final Form form, boolean exclusiveLinkWithParent) {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {

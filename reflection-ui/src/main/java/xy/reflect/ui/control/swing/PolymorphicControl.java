@@ -13,7 +13,7 @@ import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
+import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -38,8 +38,8 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	protected ITypeInfo polymorphicType;
 	protected PolymorphicTypeOptionsFactory typeOptionsFactory;
 
-	protected AbstractEditFormBuilder typeEnumerationControlBuilder;
-	protected AbstractEditFormBuilder dynamicControlBuilder;
+	protected AbstractEditorFormBuilder typeEnumerationControlBuilder;
+	protected AbstractEditorFormBuilder dynamicControlBuilder;
 	protected Form dynamicControl;
 	protected Form typeEnumerationControl;
 
@@ -58,7 +58,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	protected Form createTypeEnumerationControl() {
-		typeEnumerationControlBuilder = new AbstractEditFormBuilder() {
+		typeEnumerationControlBuilder = new AbstractEditorFormBuilder() {
 
 			ITypeInfo enumType = swingRenderer.getReflectionUI()
 					.getTypeInfo(typeOptionsFactory.getInstanceTypeInfoSource());
@@ -215,7 +215,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 
 	protected void refreshTypeEnumerationControl(boolean refreshStructure) {
 		if (typeEnumerationControl != null) {
-			typeEnumerationControlBuilder.refreshEditForm(typeEnumerationControl, refreshStructure);
+			typeEnumerationControlBuilder.refreshEditorForm(typeEnumerationControl, refreshStructure);
 		} else {
 			add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
 			SwingRendererUtils.handleComponentSizeChange(this);
@@ -227,7 +227,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	protected Form createDynamicControl(final ITypeInfo instanceType) {
-		dynamicControlBuilder = new AbstractEditFormBuilder() {
+		dynamicControlBuilder = new AbstractEditorFormBuilder() {
 
 			@Override
 			public IContext getContext() {
@@ -322,7 +322,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			if (lastInstanceType.equals(instanceType)) {
-				dynamicControlBuilder.refreshEditForm(dynamicControl, refreshStructure);
+				dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
 			} else {
 				remove(dynamicControl);
 				dynamicControl = null;

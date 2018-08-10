@@ -17,7 +17,7 @@ import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.editor.AbstractEditFormBuilder;
+import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -39,7 +39,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	protected Component subControl;
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
-	protected AbstractEditFormBuilder subFormBuilder;
+	protected AbstractEditorFormBuilder subFormBuilder;
 	protected Runnable nullControlAction;
 
 	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -120,7 +120,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			if (newValueType.equals(subControlValueType)) {
 				if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-					subFormBuilder.refreshEditForm((Form) subControl, refreshStructure);
+					subFormBuilder.refreshEditorForm((Form) subControl, refreshStructure);
 					return;
 				}
 			}
@@ -190,7 +190,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected Component createSubForm() {
-		subFormBuilder = new AbstractEditFormBuilder() {
+		subFormBuilder = new AbstractEditorFormBuilder() {
 
 			@Override
 			public IContext getContext() {

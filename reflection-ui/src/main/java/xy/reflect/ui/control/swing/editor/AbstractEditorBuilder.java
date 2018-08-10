@@ -19,10 +19,10 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
+public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 	protected DialogBuilder dialogBuilder;
-	protected Form createdEditForm;
+	protected Form createdEditorForm;
 	protected JFrame createdFrame;
 	protected boolean parentModificationStackImpacted = false;
 
@@ -65,7 +65,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 
 	protected List<? extends Component> createAnyWindowToolbarControls() {
 		List<Component> result = new ArrayList<Component>();
-		List<Component> commonToolbarControls = createdEditForm.createFormToolbarControls();
+		List<Component> commonToolbarControls = createdEditorForm.createFormToolbarControls();
 		if (commonToolbarControls != null) {
 			result.addAll(commonToolbarControls);
 		}
@@ -77,10 +77,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	}
 
 	public JFrame createFrame() {
-		createdEditForm = createForm(false, false);
+		createdEditorForm = createForm(false, false);
 		createdFrame = new JFrame();
 		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
-		windowManager.set(createdEditForm, createAnyWindowToolbarControls(),
+		windowManager.set(createdEditorForm, createAnyWindowToolbarControls(),
 				getEditorWindowTitle(), getObjectIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
@@ -99,9 +99,9 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	}
 
 	public JDialog createDialog() {
-		createdEditForm = createForm(false, false);
+		createdEditorForm = createForm(false, false);
 		dialogBuilder = createDelegateDialogBuilder();
-		dialogBuilder.setContentComponent(createdEditForm);
+		dialogBuilder.setContentComponent(createdEditorForm);
 		dialogBuilder.setTitle(getEditorWindowTitle());
 		dialogBuilder.setIconImage(getObjectIconImage());
 
@@ -144,8 +144,8 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 		}
 	}
 
-	public Form getCreatedEditForm() {
-		return createdEditForm;
+	public Form getCreatedEditorForm() {
+		return createdEditorForm;
 	}
 
 	protected void impactParent() {
@@ -180,10 +180,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditFormBuilder {
 	}
 
 	public ModificationStack getObjectModificationStack() {
-		if (createdEditForm == null) {
+		if (createdEditorForm == null) {
 			return null;
 		}
-		return createdEditForm.getModificationStack();
+		return createdEditorForm.getModificationStack();
 	}
 
 	public boolean isParentModificationStackImpacted() {

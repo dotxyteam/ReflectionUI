@@ -53,7 +53,7 @@ public interface ITypeInfo extends IInfo {
 	boolean onFormVisibilityChange(Object object, boolean visible);
 
 	enum FieldsLayout {
-		VERTICAL_FLOW, HORIZONTAL_FLOW
+		HORIZONTAL_FLOW, VERTICAL_FLOW
 
 	}
 
