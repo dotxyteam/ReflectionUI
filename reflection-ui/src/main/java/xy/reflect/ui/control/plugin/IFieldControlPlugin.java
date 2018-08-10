@@ -11,6 +11,8 @@ public interface IFieldControlPlugin {
 
 	boolean handles(IFieldControlInput input);
 
+	boolean displaysDistinctNullValue();
+
 	Component createControl(Object renderer, IFieldControlInput input);
 
 	String getControlTitle();

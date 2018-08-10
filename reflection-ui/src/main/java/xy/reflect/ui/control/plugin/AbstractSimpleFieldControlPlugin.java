@@ -7,14 +7,11 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 
 	protected abstract boolean handles(Class<?> javaType);
 
-	protected abstract boolean displaysDistinctNullValue();
-
 	@Override
 	public String getIdentifier() {
 		return getClass().getName();
 	}
 
-	
 	@Override
 	public boolean handles(IFieldControlInput input) {
 		final Class<?> javaType;
@@ -22,11 +19,6 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 			javaType = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
 		} catch (ClassNotFoundException e) {
 			return false;
-		}
-		if (input.getControlData().isNullValueDistinct()) {
-			if (!displaysDistinctNullValue()) {
-				return false;
-			}
 		}
 		if (!handles(javaType)) {
 			return false;

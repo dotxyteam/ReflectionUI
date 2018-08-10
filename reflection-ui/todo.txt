@@ -1,3 +1,4 @@
+- refresh recreates many many controls uselessly: fix it
 - SlaveModifStack.exclusiveLinkWithParent: there must be a better way to design it 
 - ModifStack.forget() should not forward an invalidation. It is not a reflection of
 the object state. It is a choice made by the user that does not delete but hides   

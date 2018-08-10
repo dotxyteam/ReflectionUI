@@ -137,7 +137,6 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			}
 			return s;
 		}
-
 	}
 
 	protected Icon getValueIcon(Object value) {

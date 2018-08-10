@@ -176,11 +176,15 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 	}
 
 	public Component createMethodControl() {
-		Component result = form.createCustomMethodControl(this);
+		Component result = createCustomMethodControl();
 		if (result != null) {
 			return result;
 		}
 		return new MethodControl(this.swingRenderer, this);
+	}
+
+	public Component createCustomMethodControl() {
+		return null;
 	}
 
 	public void refreshUI() {

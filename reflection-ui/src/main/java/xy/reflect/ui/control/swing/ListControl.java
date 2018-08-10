@@ -147,20 +147,16 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		initializeTreeTableControl();
 		toolbar = new JPanel();
 		detailsArea = new JPanel();
-		layoutControls();
 
 		refreshTreeModelAndControl();
-		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
-			openDetailsDialogOnItemDoubleClick();
-		} else {
-			updateDetailsAreaOnSelection();
-		}
+		openDetailsDialogOnItemDoubleClick();
+		updateDetailsAreaOnSelection();
 		updateToolbarOnSelection();
 		setupContexteMenu();
 		updateToolbar();
 		initializeSelectionListening();
 		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
-		refreshUI(false);
+		refreshUI(true);
 	}
 
 	public Object getRootListValue() {
@@ -185,6 +181,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		selectionListeners.add(new Listener<List<BufferedItemPosition>>() {
 			@Override
 			public void handle(List<BufferedItemPosition> event) {
+				if (!getDetailsAccessMode().hasDetailsDisplayArea()) {
+					return;
+				}
 				updateDetailsArea(false);
 			}
 		});
@@ -1407,6 +1406,9 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
+				if (!getDetailsAccessMode().hasDetailsDisplayOption()) {
+					return;
+				}
 				try {
 					if (me.getClickCount() != 2) {
 						return;
@@ -1486,18 +1488,20 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
-		if (refreshStructure) {
-			return false;
-		}
 		restoringSelectionAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
 				refreshTreeModelAndControl();
-				if (getDetailsAccessMode().hasDetailsDisplayOption()) {
-					updateDetailsArea(refreshStructure);
-				}
 			}
 		});
+		if (refreshStructure) {
+			removeAll();
+			layoutControls();
+			if (getDetailsAccessMode().hasDetailsDisplayArea()) {
+				updateDetailsArea(true);
+			}
+			SwingRendererUtils.handleComponentSizeChange(this);
+		}
 		return true;
 	}
 

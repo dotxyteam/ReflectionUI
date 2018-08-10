@@ -9,17 +9,26 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.plugin.IFieldControlPlugin;
+import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
+import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.NullControl;
 import xy.reflect.ui.control.swing.NullableControl;
+import xy.reflect.ui.control.swing.PolymorphicControl;
+import xy.reflect.ui.control.swing.PrimitiveValueControl;
+import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -27,9 +36,12 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -378,7 +390,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				controlData = lastInitialControlData = getInitialControlData();
 				fieldControl = createFieldControl();
 			} catch (Throwable t) {
-				fieldControl = form.createFieldErrorControl(t);
+				fieldControl = createFieldErrorControl(t);
 			}
 			add(fieldControl, BorderLayout.CENTER);
 			layoutInContainerUpdateNeeded = true;
@@ -451,7 +463,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 	public Component createFieldControl() {
 		if (!controlData.isFormControlMandatory()) {
-			Component result = form.createCustomFieldControl(this);
+			Component result = createCustomFieldControl();
 			if (result != null) {
 				return result;
 			}
@@ -480,6 +492,101 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		} else {
 			return new DialogAccessControl(this.swingRenderer, this);
 		}
+	}
+
+	public Component createCustomFieldControl() {
+		IFieldControlPlugin currentPlugin = null;
+		String chosenPluginId = (String) getControlData().getSpecificProperties()
+				.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
+			for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
+				if (plugin.getIdentifier().equals(chosenPluginId)) {
+					if (plugin.handles(this)) {
+						currentPlugin = plugin;
+						break;
+					}
+				}
+			}
+		}
+
+		if (currentPlugin == null) {
+			if (getControlData().getType() instanceof IEnumerationTypeInfo) {
+				return new EnumerationControl(swingRenderer, this);
+			}
+			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(getControlData().getType())) {
+				return new PolymorphicControl(swingRenderer, this);
+			}
+			if (!getControlData().isNullValueDistinct()) {
+				ITypeInfo fieldType = getControlData().getType();
+				if (fieldType instanceof IListTypeInfo) {
+					return new ListControl(swingRenderer, this);
+				}
+				final Class<?> javaType;
+				try {
+					javaType = ClassUtils.getCachedClassforName(fieldType.getName());
+				} catch (ClassNotFoundException e) {
+					return null;
+				}
+				if (boolean.class.equals(javaType) || Boolean.class.equals(javaType)) {
+					return new CheckBoxControl(swingRenderer, this);
+				}
+				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+					return new PrimitiveValueControl(swingRenderer, this);
+				}
+				if (String.class.equals(javaType)) {
+					return new TextControl(swingRenderer, this);
+				}
+			}
+		}
+
+		if (currentPlugin == null) {
+			if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
+				for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
+					if (plugin.handles(this)) {
+						currentPlugin = plugin;
+						break;
+					}
+				}
+			}
+		}
+
+		if (currentPlugin != null) {
+			if (getControlData().isNullValueDistinct()) {
+				if (!currentPlugin.displaysDistinctNullValue()) {
+					return new NullableControl(this.swingRenderer, this);
+				}
+			}
+			Component result;
+			try {
+				result = currentPlugin.createControl(swingRenderer, this);
+			} catch (Throwable t) {
+				result = createFieldErrorControl(t);
+			}
+			form.getPluginByFieldControl().put(result, currentPlugin);
+			return result;
+		}
+
+		return null;
+	}
+
+	public Component createFieldErrorControl(final Throwable t) {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		reflectionUI.logError(t);
+		JPanel result = new JPanel();
+		result.setLayout(new BorderLayout());
+		result.add(new NullControl(swingRenderer, new FieldControlInputProxy(IFieldControlInput.NULL_CONTROL_INPUT) {
+			@Override
+			public IFieldControlData getControlData() {
+				return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
+					@Override
+					public String getNullValueLabel() {
+						return ReflectionUIUtils.getPrettyErrorMessage(t);
+					}
+				};
+			}
+		}), BorderLayout.CENTER);
+		SwingRendererUtils.setErrorBorder(result);
+		return result;
 	}
 
 	public void displayError(String msg) {

@@ -30,11 +30,6 @@ import javax.swing.event.AncestorListener;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.FieldControlDataProxy;
-import xy.reflect.ui.control.FieldControlInputProxy;
-import xy.reflect.ui.control.IFieldControlData;
-import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
@@ -49,15 +44,12 @@ import xy.reflect.ui.info.menu.IMenuElement;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.FilteredTypeFactory;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -678,6 +670,11 @@ public class Form extends JPanel {
 						modificationsDetected = true;
 						break;
 					}
+					if (!fieldControlPlaceHolder.getFieldControl().getClass()
+							.equals(displayedFieldControlPlaceHolder.getFieldControl().getClass())) {
+						modificationsDetected = true;
+						break;
+					}
 				}
 				if (modificationsDetected) {
 					break;
@@ -700,6 +697,11 @@ public class Form extends JPanel {
 					MethodControlPlaceHolder displayedMethodControlPlaceHolder = displayedMethodControlPlaceHolders
 							.get(i);
 					if (!methodControlPlaceHolder.getMethod().equals(displayedMethodControlPlaceHolder.getMethod())) {
+						modificationsDetected = true;
+						break;
+					}
+					if (!methodControlPlaceHolder.getMethodControl().getClass()
+							.equals(displayedMethodControlPlaceHolder.getMethodControl().getClass())) {
 						modificationsDetected = true;
 						break;
 					}
@@ -922,100 +924,6 @@ public class Form extends JPanel {
 
 	public int getLayoutSpacing(JPanel fieldsPanel) {
 		return SwingRendererUtils.getStandardCharacterWidth(fieldsPanel) * 1;
-	}
-
-	public Component createFieldErrorControl(final Throwable t) {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		reflectionUI.logError(t);
-		JPanel result = new JPanel();
-		result.setLayout(new BorderLayout());
-		result.add(new NullControl(swingRenderer, new FieldControlInputProxy(IFieldControlInput.NULL_CONTROL_INPUT) {
-			@Override
-			public IFieldControlData getControlData() {
-				return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
-					@Override
-					public String getNullValueLabel() {
-						return ReflectionUIUtils.getPrettyErrorMessage(t);
-					}
-				};
-			}
-		}), BorderLayout.CENTER);
-		SwingRendererUtils.setErrorBorder(result);
-		return result;
-	}
-
-	public Component createCustomFieldControl(IFieldControlInput input) {
-		IFieldControlPlugin currentPlugin = null;
-		String chosenPluginId = (String) input.getControlData().getSpecificProperties()
-				.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
-		if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
-			for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
-				if (plugin.getIdentifier().equals(chosenPluginId)) {
-					if (plugin.handles(input)) {
-						currentPlugin = plugin;
-						break;
-					}
-				}
-			}
-		}
-
-		if (currentPlugin == null) {
-			if (input.getControlData().getType() instanceof IEnumerationTypeInfo) {
-				return new EnumerationControl(swingRenderer, input);
-			}
-			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(input.getControlData().getType())) {
-				return new PolymorphicControl(swingRenderer, input);
-			}
-			if (!input.getControlData().isNullValueDistinct()) {
-				ITypeInfo fieldType = input.getControlData().getType();
-				if (fieldType instanceof IListTypeInfo) {
-					return new ListControl(swingRenderer, input);
-				}
-				final Class<?> javaType;
-				try {
-					javaType = ClassUtils.getCachedClassforName(fieldType.getName());
-				} catch (ClassNotFoundException e) {
-					return null;
-				}
-				if (boolean.class.equals(javaType) || Boolean.class.equals(javaType)) {
-					return new CheckBoxControl(swingRenderer, input);
-				}
-				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
-					return new PrimitiveValueControl(swingRenderer, input);
-				}
-				if (String.class.equals(javaType)) {
-					return new TextControl(swingRenderer, input);
-				}
-			}
-		}
-
-		if (currentPlugin == null) {
-			if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
-				for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
-					if (plugin.handles(input)) {
-						currentPlugin = plugin;
-						break;
-					}
-				}
-			}
-		}
-
-		if (currentPlugin != null) {
-			Component result;
-			try {
-				result = currentPlugin.createControl(swingRenderer, input);
-			} catch (Throwable t) {
-				result = createFieldErrorControl(t);
-			}
-			getPluginByFieldControl().put(result, currentPlugin);
-			return result;
-		}
-
-		return null;
-	}
-
-	public Component createCustomMethodControl(IMethodControlInput input) {
-		return null;
 	}
 
 	public List<Component> createFormToolbarControls() {
