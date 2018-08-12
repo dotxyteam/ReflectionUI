@@ -15,10 +15,6 @@ public class ListStructuralInfoProxy implements IListStructuralInfo {
 		this.base = base;
 	}
 
-	public ListLengthUnit getLengthUnit() {
-		return base.getLengthUnit();
-	}
-
 	public int getLength() {
 		return base.getLength();
 	}

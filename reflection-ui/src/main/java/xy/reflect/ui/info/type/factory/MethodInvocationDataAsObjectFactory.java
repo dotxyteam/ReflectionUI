@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.factory;
 
+import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -165,6 +166,10 @@ public class MethodInvocationDataAsObjectFactory {
 	}
 
 	public class TypeInfo extends AbstractInfo implements ITypeInfo {
+		@Override
+		public Dimension getFormPreferredSize() {
+			return null;
+		}
 
 		@Override
 		public boolean onFormVisibilityChange(Object object, boolean visible) {

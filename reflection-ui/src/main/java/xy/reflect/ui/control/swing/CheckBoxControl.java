@@ -9,21 +9,20 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
+
 	protected SwingRenderer swingRenderer;
+	protected IFieldControlInput input;
 	protected IFieldControlData data;
 
 	public CheckBoxControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
+		this.input = input;
 		this.data = input.getControlData();
-
-		if (data.isGetOnly()) {
-			setEnabled(false);
-		}
-
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -34,8 +33,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 				}
 			}
 		});
-		setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
-		refreshUI(false);
+		refreshUI(true);
 	}
 
 	@Override
@@ -50,8 +48,10 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		if(refreshStructure) {
-			return false;
+		if (refreshStructure) {
+			setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
+			setEnabled(!data.isGetOnly());
+			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		setSelected(Boolean.TRUE.equals(data.getValue()));
 		return true;

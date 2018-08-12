@@ -19,13 +19,8 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	}
 
 	@Override
-	public ListLengthUnit getLengthUnit() {
-		return ListLengthUnit.SCREEN_PERCENT;
-	}
-
-	@Override
 	public int getLength() {
-		return 40;
+		return -1;
 	}
 
 	@Override

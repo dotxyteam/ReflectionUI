@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -195,6 +196,48 @@ public class Form extends JPanel {
 
 	public void setFieldsUpdateListener(IModificationListener fieldsUpdateListener) {
 		this.fieldsUpdateListener = fieldsUpdateListener;
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension result = super.getPreferredSize();
+		if (result == null) {
+			return null;
+		}
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		Dimension size = type.getFormPreferredSize();
+		if (size != null) {
+			if (size.width > 0) {
+				result.width = size.width;
+			}
+			if (size.height > 0) {
+				result.height = size.height;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		Dimension size = type.getFormPreferredSize();
+		if (size != null) {
+			return getPreferredSize();
+		}
+		return super.getMinimumSize();
+	}
+
+	@Override
+	public Dimension getMaximumSize() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		Dimension size = type.getFormPreferredSize();
+		if (size != null) {
+			return getPreferredSize();
+		}
+		return super.getMaximumSize();
 	}
 
 	public void validateForm() throws Exception {
@@ -767,7 +810,8 @@ public class Form extends JPanel {
 	}
 
 	public void addMenuContribution(MenuModel menuModel) {
-		ITypeInfo type = getFormFilteredType();
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		MenuModel formMenuModel = type.getMenuModel();
 		formMenuModel.visit(new Visitor<IMenuElement>() {
 			@Override

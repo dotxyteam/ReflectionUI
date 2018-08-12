@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type.factory;
 
+import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
@@ -518,6 +519,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	protected String getName(ITypeInfo type) {
 		return type.getName();
 	}
+	
+	protected Dimension getFormPreferredSize(ITypeInfo type) {
+		return type.getFormPreferredSize();
+	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
 		return wrapField(type.getKeyField(), type);
@@ -601,7 +606,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	protected String getName(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 		return info.getName();
 	}
-	
+
 	protected Object getItem(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 		return info.getItem();
 	}
@@ -642,6 +647,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base);
+		}
+
+		@Override
+		public Dimension getFormPreferredSize() {
+			return InfoProxyFactory.this.getFormPreferredSize(base);
 		}
 
 		@Override

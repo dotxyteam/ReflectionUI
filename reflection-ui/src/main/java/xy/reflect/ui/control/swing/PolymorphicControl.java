@@ -57,6 +57,20 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		refreshUI(true);
 	}
 
+	@Override
+	public boolean refreshUI(boolean refreshStructure) {
+		if (refreshStructure) {
+			if (data.getCaption().length() > 0) {
+				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+			} else {
+				setBorder(null);
+			}
+		}
+		refreshTypeEnumerationControl(refreshStructure);
+		refreshDynamicControl(refreshStructure);
+		return true;
+	}
+
 	protected Form createTypeEnumerationControl() {
 		typeEnumerationControlBuilder = new AbstractEditorFormBuilder() {
 
@@ -332,20 +346,6 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 			}
 		}
 		lastInstanceType = instanceType;
-	}
-
-	@Override
-	public boolean refreshUI(boolean refreshStructure) {
-		if (refreshStructure) {
-			if (data.getCaption().length() > 0) {
-				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-			} else {
-				setBorder(null);
-			}
-		}
-		refreshTypeEnumerationControl(refreshStructure);
-		refreshDynamicControl(refreshStructure);
-		return true;
 	}
 
 	@Override

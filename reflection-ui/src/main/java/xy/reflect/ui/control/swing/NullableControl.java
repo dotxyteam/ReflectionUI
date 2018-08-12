@@ -56,6 +56,16 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		refreshUI(true);
 	}
 
+	@Override
+	public boolean refreshUI(boolean refreshStructure) {
+		setNullStatusControlState(data.getValue() == null);
+		refreshSubControl(refreshStructure);
+		if (refreshStructure) {
+			nullStatusControl.setEnabled(!data.isGetOnly());
+		}
+		return true;
+	}
+
 	public Component getSubControl() {
 		return subControl;
 	}
@@ -66,14 +76,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 
 	protected boolean getNullStatusControlState() {
 		return !((JCheckBox) nullStatusControl).isSelected();
-	}
-
-	@Override
-	public boolean refreshUI(boolean refreshStructure) {
-		setNullStatusControlState(data.getValue() == null);
-		refreshSubControl(refreshStructure);
-		((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
-		return true;
 	}
 
 	protected void onNullingControlStateChange() {
@@ -136,6 +138,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			subControl = createSubForm();
 		}
+		((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		add(subControl, BorderLayout.CENTER);
 		SwingRendererUtils.handleComponentSizeChange(this);
 	}
@@ -152,7 +155,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 				}
 			}
 		});
-		result.setEnabled(!data.isGetOnly());
 		return result;
 	}
 

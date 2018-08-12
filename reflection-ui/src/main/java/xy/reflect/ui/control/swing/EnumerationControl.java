@@ -107,11 +107,6 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 				}
 			}
 		});
-		if (data.isGetOnly()) {
-			comboBox.setEnabled(false);
-		} else {
-			comboBox.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
-		}
 		refreshUI(true);
 
 	}
@@ -177,6 +172,15 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 			comboBox.setSelectedItem(currentValue);
 		} finally {
 			listenerDisabled = false;
+		}
+		if (refreshStructure) {
+			if (data.isGetOnly()) {
+				comboBox.setEnabled(false);
+				comboBox.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
+			} else {
+				comboBox.setEnabled(true);
+				comboBox.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
+			}
 		}
 		return true;
 	}

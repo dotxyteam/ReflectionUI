@@ -15,12 +15,6 @@ public interface IListStructuralInfo {
 
 	IInfoFilter getItemInfoFilter(ItemPosition itemPosition, Object rootListValue);
 
-	ListLengthUnit getLengthUnit();
-
 	int getLength();
-
-	enum ListLengthUnit {
-		PIXELS, SCREEN_PERCENT
-	}
 
 }

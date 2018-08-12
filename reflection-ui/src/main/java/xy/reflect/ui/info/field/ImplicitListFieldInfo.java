@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.field;
 
+import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -330,6 +331,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
+
+		@Override
+		public Dimension getFormPreferredSize() {
+			return null;
+		}
 
 		@Override
 		public boolean canPersist() {

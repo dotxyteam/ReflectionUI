@@ -44,14 +44,19 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 		textComponent = createTextComponent();
 		{
-			updateTextComponent();
 			scrollPane = createScrollPane();
 			updateScrollPolicy();
 			scrollPane.setViewportView(textComponent);
 			scrollPane.setBorder(null);
 			add(scrollPane, BorderLayout.CENTER);
 		}
-		SwingRendererUtils.handleComponentSizeChange(this);
+		refreshUI(true);
+	}
+
+	@Override
+	public boolean refreshUI(boolean refreshStructure) {
+		updateTextComponent(refreshStructure);
+		return true;
 	}
 
 	protected void updateScrollPolicy() {
@@ -115,17 +120,12 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			}
 
 		};
-		if (data.isGetOnly()) {
-			result.setEditable(false);
-			result.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
-		} else {
-			result.getDocument().addUndoableEditListener(new UndoableEditListener() {
-				@Override
-				public void undoableEditHappened(UndoableEditEvent e) {
-					TextControl.this.textComponentEditHappened();
-				}
-			});
-		}
+		result.getDocument().addUndoableEditListener(new UndoableEditListener() {
+			@Override
+			public void undoableEditHappened(UndoableEditEvent e) {
+				TextControl.this.textComponentEditHappened();
+			}
+		});
 		result.setBorder(new JTextField().getBorder());
 		result.addMouseListener(new MouseAdapter() {
 			@Override
@@ -188,7 +188,16 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		data.setValue(newStringValue);
 	}
 
-	protected void updateTextComponent() {
+	protected void updateTextComponent(boolean refreshStructure) {
+		if(refreshStructure) {
+			if (data.isGetOnly()) {
+				textComponent.setEditable(false);
+				textComponent.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
+			} else {
+				textComponent.setEditable(true);
+				textComponent.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
+			}			
+		}
 		listenerDisabled = true;
 		try {
 			String newText = (String) data.getValue();
@@ -216,12 +225,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	@Override
 	public boolean displayError(String msg) {
 		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textComponent, msg, swingRenderer);
-		return true;
-	}
-
-	@Override
-	public boolean refreshUI(boolean refreshStructure) {
-		updateTextComponent();
 		return true;
 	}
 

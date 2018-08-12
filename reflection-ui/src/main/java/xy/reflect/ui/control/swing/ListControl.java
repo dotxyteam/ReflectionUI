@@ -83,7 +83,6 @@ import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.ListLengthUnit;
 import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
@@ -154,7 +153,6 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		setupContexteMenu();
 		updateToolbar();
 		initializeSelectionListening();
-		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
 		refreshUI(true);
 	}
 
@@ -477,13 +475,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 					return null;
 				}
 				IListStructuralInfo structure = getStructuralInfo();
-				if (structure.getLengthUnit() == ListLengthUnit.PIXELS) {
+				if (structure.getLength() != -1) {
 					result.height = structure.getLength();
-				} else if (structure.getLengthUnit() == ListLengthUnit.SCREEN_PERCENT) {
-					Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
-					result.height = Math.round((structure.getLength() / 100f) * screenSize.height);
-				} else {
-					throw new ReflectionUIError();
 				}
 				return result;
 			}
@@ -1495,10 +1488,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		});
 		if (refreshStructure) {
 			removeAll();
+			detailsMode = null;
 			layoutControls();
 			if (getDetailsAccessMode().hasDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
+			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		return true;

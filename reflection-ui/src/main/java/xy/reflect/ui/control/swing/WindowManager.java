@@ -22,7 +22,7 @@ public class WindowManager {
 
 	protected Window window;
 	protected SwingRenderer swingRenderer;
-	
+
 	public WindowManager(SwingRenderer swingRenderer, Window window) {
 		this.swingRenderer = swingRenderer;
 		this.window = window;
@@ -42,7 +42,7 @@ public class WindowManager {
 		return new JScrollPane(new ScrollPaneOptions(content, true, false));
 	}
 
-	protected void layoutContentPane(Container contentPane) {
+	protected void setContentPane(Container contentPane) {
 		SwingRendererUtils.setContentPane(window, contentPane);
 	}
 
@@ -56,48 +56,57 @@ public class WindowManager {
 	}
 
 	public void set(final Component content, List<? extends Component> toolbarControls, String title, Image iconImage) {
-		SwingRendererUtils.setTitle(window, swingRenderer.prepareStringToDisplay(title));
-		if (iconImage == null) {
-			window.setIconImage(SwingRendererUtils.NULL_IMAGE);
-		} else {
-			window.setIconImage(iconImage);
-		}
+		setTitle(title);
+		setIconImage(iconImage);
+		set(content, toolbarControls);
+		adjustBounds();
+	}
 
-		final JPanel contentPane = new JPanel();
-		layoutContentPane(contentPane);
+	public void adjustBounds() {
+		SwingRendererUtils.adjustWindowInitialBounds(window);
+	}
+
+	public void set(Component content, List<? extends Component> toolbarControls) {
+		JPanel contentPane = new JPanel();
+		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, swingRenderer)) {
-				Form form = (Form) content;
+				final Form form = (Form) content;
 				layoutMenuBar(form.getMenuBar());
 				layoutStatusBar(form.getStatusBar());
+				if (SwingRendererUtils.isForm(content, swingRenderer)) {
+					window.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowOpened(WindowEvent e) {
+							form.updateMenuBar();
+							form.validateFormInBackgroundAndReportOnStatusBar();
+							SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
+						}
+					});
+				}
 			}
 			JScrollPane scrollPane = createScrollPane(content);
 			scrollPane.getViewport().setOpaque(false);
 			contentPane.add(scrollPane, BorderLayout.CENTER);
 		}
-
 		if (toolbarControls != null) {
 			if (toolbarControls.size() > 0) {
 				contentPane.add(createToolBar(toolbarControls), BorderLayout.SOUTH);
 			}
 		}
+	}
 
-		SwingRendererUtils.adjustWindowInitialBounds(window);
-		window.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				if (SwingRendererUtils.isForm(content, swingRenderer)) {
-					Form form = (Form) content;
-					form.updateMenuBar();
-					form.validateFormInBackgroundAndReportOnStatusBar();
-					SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
-				}
-			}
-		});
-		
-		
-		
+	public void setIconImage(Image iconImage) {
+		if (iconImage == null) {
+			window.setIconImage(SwingRendererUtils.NULL_IMAGE);
+		} else {
+			window.setIconImage(iconImage);
+		}
+	}
+
+	public void setTitle(String title) {
+		SwingRendererUtils.setTitle(window, swingRenderer.prepareStringToDisplay(title));
 	}
 
 	@Override

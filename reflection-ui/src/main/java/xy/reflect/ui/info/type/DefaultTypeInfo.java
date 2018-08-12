@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type;
 
+import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -47,7 +48,12 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
-	public boolean  onFormVisibilityChange(Object object, boolean visible) {
+	public Dimension getFormPreferredSize() {
+		return null;
+	}
+
+	@Override
+	public boolean onFormVisibilityChange(Object object, boolean visible) {
 		return false;
 	}
 

@@ -71,7 +71,18 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			add(iconControl, BorderLayout.EAST);
 		}
 
-		updateControls();
+		refreshUI(true);
+	}
+
+	@Override
+	public boolean refreshUI(boolean refreshStructure) {
+		if (statusControl != null) {
+			updateStatusControl(refreshStructure);
+		}
+		if (iconControl != null) {
+			updateIconControl(refreshStructure);
+		}
+		return true;
 	}
 
 	protected Component createIconControl() {
@@ -152,7 +163,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder(owner);
 		subDialogBuilder.showDialog();
 		if (subDialogBuilder.isParentModificationStackImpacted()) {
-			updateControls();
+			refreshUI(false);
 		}
 	}
 
@@ -236,12 +247,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		};
 	}
 
-	protected void updateControls() {
-		updateStatusControl();
-		updateIconControl();
-	}
-
-	protected void updateIconControl() {
+	protected void updateIconControl(boolean refreshStructure) {
 		ImageIcon icon = SwingRendererUtils.geObjectIcon(swingRenderer, data.getValue());
 		if (icon != null) {
 			icon = SwingRendererUtils.getSmallIcon(icon);
@@ -250,8 +256,8 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		iconControl.setVisible(((JLabel) iconControl).getIcon() != null);
 	}
 
-	protected void updateStatusControl() {
-		((TextControl) statusControl).refreshUI(false);
+	protected void updateStatusControl(boolean refreshStructure) {
+		((TextControl) statusControl).refreshUI(refreshStructure);
 	}
 
 	@Override
@@ -261,11 +267,6 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 
 	@Override
 	public boolean showsCaption() {
-		return false;
-	}
-
-	@Override
-	public boolean refreshUI(boolean refreshStructure) {
 		return false;
 	}
 

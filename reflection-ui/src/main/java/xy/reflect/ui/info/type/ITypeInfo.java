@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.type;
 
+import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -52,9 +53,10 @@ public interface ITypeInfo extends IInfo {
 
 	boolean onFormVisibilityChange(Object object, boolean visible);
 
-	enum FieldsLayout {
-		HORIZONTAL_FLOW, VERTICAL_FLOW
+	Dimension getFormPreferredSize();
 
+	public enum FieldsLayout {
+		HORIZONTAL_FLOW, VERTICAL_FLOW
 	}
 
 }

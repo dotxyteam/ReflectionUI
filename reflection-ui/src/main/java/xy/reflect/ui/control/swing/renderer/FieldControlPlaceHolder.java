@@ -107,7 +107,6 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		if (isAutoRefreshActive()) {
 			return;
 		}
-		System.out.println("starting auto-refresh for (" + hashCode() + ")" + this);
 		autoRefreshThread = new Thread("AutoUpdater of " + FieldControlPlaceHolder.this) {
 			boolean updating = false;
 
@@ -156,7 +155,6 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		if (!isAutoRefreshActive()) {
 			return;
 		}
-		System.out.println("stopping auto-refresh for (" + hashCode() + ")" + this);
 		while (autoRefreshThread.isAlive()) {
 			autoRefreshThread.interrupt();
 			try {
@@ -497,7 +495,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 	public Component createCustomFieldControl() {
 		IFieldControlPlugin currentPlugin = null;
-		String chosenPluginId = (String) getControlData().getSpecificProperties()
+		String chosenPluginId = (String) controlData.getSpecificProperties()
 				.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
 		if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
 			for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
@@ -511,14 +509,14 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		}
 
 		if (currentPlugin == null) {
-			if (getControlData().getType() instanceof IEnumerationTypeInfo) {
+			if (controlData.getType() instanceof IEnumerationTypeInfo) {
 				return new EnumerationControl(swingRenderer, this);
 			}
-			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(getControlData().getType())) {
+			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType())) {
 				return new PolymorphicControl(swingRenderer, this);
 			}
-			if (!getControlData().isNullValueDistinct()) {
-				ITypeInfo fieldType = getControlData().getType();
+			if (!controlData.isNullValueDistinct()) {
+				ITypeInfo fieldType = controlData.getType();
 				if (fieldType instanceof IListTypeInfo) {
 					return new ListControl(swingRenderer, this);
 				}
@@ -552,7 +550,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		}
 
 		if (currentPlugin != null) {
-			if (!getControlData().isNullValueDistinct() || currentPlugin.displaysDistinctNullValue()) {
+			if (!controlData.isNullValueDistinct() || currentPlugin.canDisplayDistinctNullValue()) {
 				Component result;
 				try {
 					result = currentPlugin.createControl(swingRenderer, this);
@@ -561,6 +559,8 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				}
 				form.getPluginByFieldControl().put(result, currentPlugin);
 				return result;
+			} else {
+				controlData = currentPlugin.filterDistinctNullValueControlData(controlData);
 			}
 		}
 

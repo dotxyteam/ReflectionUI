@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.plugin;
 
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.util.ClassUtils;
 
@@ -24,6 +25,11 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public IFieldControlData filterDistinctNullValueControlData(IFieldControlData controlData) {
+		return controlData;
 	}
 
 }
