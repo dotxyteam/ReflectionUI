@@ -44,6 +44,16 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public void setValue(Object object, Object value) {
 		try {
 			javaField.set(object, value);

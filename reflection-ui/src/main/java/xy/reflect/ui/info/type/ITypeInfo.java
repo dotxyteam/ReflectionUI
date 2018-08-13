@@ -49,6 +49,8 @@ public interface ITypeInfo extends IInfo {
 
 	ITypeInfo.FieldsLayout getFieldsLayout();
 
+	ITypeInfo.MethodsLayout getMethodsLayout();
+
 	MenuModel getMenuModel();
 
 	boolean onFormVisibilityChange(Object object, boolean visible);
@@ -56,6 +58,10 @@ public interface ITypeInfo extends IInfo {
 	Dimension getFormPreferredSize();
 
 	public enum FieldsLayout {
+		HORIZONTAL_FLOW, VERTICAL_FLOW
+	}
+
+	public enum MethodsLayout {
 		HORIZONTAL_FLOW, VERTICAL_FLOW
 	}
 

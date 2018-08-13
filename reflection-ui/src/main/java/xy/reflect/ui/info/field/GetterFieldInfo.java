@@ -133,6 +133,16 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = getGetterMethodInfo().getReturnValueType();

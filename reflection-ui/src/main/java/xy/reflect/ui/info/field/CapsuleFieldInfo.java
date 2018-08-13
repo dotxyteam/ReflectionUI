@@ -73,6 +73,16 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public boolean isHidden() {
 		return false;
 	}
@@ -278,7 +288,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean  onFormVisibilityChange(Object object, boolean visible) {
+		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return false;
 		}
 
@@ -424,6 +434,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+		
+		@Override
+		public MethodsLayout getMethodsLayout() {
+			return MethodsLayout.HORIZONTAL_FLOW;
 		}
 
 		@Override

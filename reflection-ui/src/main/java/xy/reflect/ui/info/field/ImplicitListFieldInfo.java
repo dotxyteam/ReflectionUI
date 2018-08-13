@@ -91,6 +91,16 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
@@ -358,6 +368,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public MethodsLayout getMethodsLayout() {
+			return MethodsLayout.HORIZONTAL_FLOW;
 		}
 
 		@Override

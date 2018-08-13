@@ -21,6 +21,14 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base;
 	}
 
+	public double getDisplayAreaHorizontalWeight() {
+		return base.getDisplayAreaHorizontalWeight();
+	}
+
+	public double getDisplayAreaVerticalWeight() {
+		return base.getDisplayAreaVerticalWeight();
+	}
+
 	@Override
 	public Object getValue(Object object) {
 		return base.getValue(object);

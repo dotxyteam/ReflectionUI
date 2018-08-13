@@ -1,3 +1,6 @@
+- allow to disable the window scroll pane ??? 
+- Form preferred size issue when resizing window smaller.
+Try to allow layout weight setting through FieldCustomization
 - geometric attributes are merged with behavioral attributes 
 - refresh recreates many many controls uselessly: fix it ???
  may not be serious since it happens only when refreshStructure=true

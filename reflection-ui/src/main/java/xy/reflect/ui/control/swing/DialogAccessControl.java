@@ -1,6 +1,5 @@
 package xy.reflect.ui.control.swing;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -47,28 +46,25 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
-		setLayout(new BorderLayout());
+		setLayout(new GridBagLayout());
 
 		statusControl = createStatusControl(input);
 		actionControl = createChangeControl();
 		iconControl = createIconControl();
 
 		if (actionControl != null) {
-			add(SwingRendererUtils.flowInLayout(actionControl, GridBagConstraints.CENTER), BorderLayout.WEST);
+			GridBagConstraints c = new GridBagConstraints();
+			add(SwingRendererUtils.flowInLayout(actionControl, GridBagConstraints.CENTER), c);
 		}
 		if (statusControl != null) {
-			JPanel centerPanel = new JPanel();
-			{
-				add(centerPanel, BorderLayout.CENTER);
-				centerPanel.setLayout(new GridBagLayout());
-				GridBagConstraints c = new GridBagConstraints();
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.weightx = 1.0;
-				centerPanel.add(statusControl, c);
-			}
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1.0;
+			add(statusControl, c);
 		}
 		if (iconControl != null) {
-			add(iconControl, BorderLayout.EAST);
+			GridBagConstraints c = new GridBagConstraints();
+			add(SwingRendererUtils.flowInLayout(iconControl, GridBagConstraints.CENTER), c);
 		}
 
 		refreshUI(true);
@@ -86,25 +82,7 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	protected Component createIconControl() {
-		return new JLabel() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (result != null) {
-					if (statusControl != null) {
-						Dimension textControlPreferredSize = statusControl.getPreferredSize();
-						if (textControlPreferredSize != null) {
-							result.height = textControlPreferredSize.height;
-						}
-					}
-				}
-				return result;
-			}
-
-		};
+		return new JLabel();
 	}
 
 	protected Component createChangeControl() {
@@ -115,9 +93,10 @@ public class DialogAccessControl extends JPanel implements IAdvancedFieldControl
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
-				if (result != null) {
-					result.width = result.height;
+				if (result == null) {
+					return null;
 				}
+				result.width = result.height;
 				return result;
 			}
 

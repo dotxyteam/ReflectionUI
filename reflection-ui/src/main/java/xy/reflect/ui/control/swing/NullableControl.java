@@ -60,6 +60,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	public boolean refreshUI(boolean refreshStructure) {
 		setNullStatusControlState(data.getValue() == null);
 		refreshSubControl(refreshStructure);
+		((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		if (refreshStructure) {
 			nullStatusControl.setEnabled(!data.isGetOnly());
 		}
@@ -138,7 +139,6 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			subControl = createSubForm();
 		}
-		((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
 		add(subControl, BorderLayout.CENTER);
 		SwingRendererUtils.handleComponentSizeChange(this);
 	}

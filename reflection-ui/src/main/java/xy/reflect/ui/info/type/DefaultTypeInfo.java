@@ -82,6 +82,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
+	public MethodsLayout getMethodsLayout() {
+		return MethodsLayout.HORIZONTAL_FLOW;
+	}
+
+	@Override
 	public MenuModel getMenuModel() {
 		return new MenuModel();
 	}

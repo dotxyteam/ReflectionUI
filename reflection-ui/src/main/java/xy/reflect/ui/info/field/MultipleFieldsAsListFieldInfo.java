@@ -140,6 +140,16 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public String getOnlineHelp() {
 		return null;
 	}
@@ -317,6 +327,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public MethodsLayout getMethodsLayout() {
+			return MethodsLayout.HORIZONTAL_FLOW;
 		}
 
 		@Override

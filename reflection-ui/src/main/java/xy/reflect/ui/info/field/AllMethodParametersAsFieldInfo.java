@@ -44,6 +44,16 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public String getName() {
 		return fieldName;
 	}

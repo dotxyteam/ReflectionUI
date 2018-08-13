@@ -7,6 +7,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
@@ -45,6 +47,7 @@ import xy.reflect.ui.info.menu.IMenuElement;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.factory.FilteredTypeFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.SlaveModificationStack;
@@ -55,7 +58,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.Visitor;
-import xy.reflect.ui.util.component.WrapLayout;
 
 public class Form extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -216,28 +218,6 @@ public class Form extends JPanel {
 			}
 		}
 		return result;
-	}
-
-	@Override
-	public Dimension getMinimumSize() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		Dimension size = type.getFormPreferredSize();
-		if (size != null) {
-			return getPreferredSize();
-		}
-		return super.getMinimumSize();
-	}
-
-	@Override
-	public Dimension getMaximumSize() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		Dimension size = type.getFormPreferredSize();
-		if (size != null) {
-			return getPreferredSize();
-		}
-		return super.getMaximumSize();
 	}
 
 	public void validateForm() throws Exception {
@@ -626,12 +606,39 @@ public class Form extends JPanel {
 
 	public Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
 		JPanel result = new JPanel();
-		int spacing = getLayoutSpacing(result);
-		result.setLayout(new WrapLayout(WrapLayout.CENTER, spacing, spacing));
 		for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
 			result.add(methodControlPlaceHolder);
+			updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 		}
-		return result;
+		return new JScrollPane(SwingRendererUtils.flowInLayout(result, GridBagConstraints.CENTER)) {
+
+			private static final long serialVersionUID = 1L;
+
+			{
+				setBorder(null);
+			}
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result == null) {
+					return null;
+				}
+				if (getHorizontalScrollBar() != null) {
+					result.height += getHorizontalScrollBar().getHeight();
+				}
+				if (getVerticalScrollBar() != null) {
+					result.width += getVerticalScrollBar().getWidth();
+				}
+				return result;
+			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				return getPreferredSize();
+			}
+
+		};
 	}
 
 	public void refreshForm(boolean refreshStructure) {
@@ -665,6 +672,7 @@ public class Form extends JPanel {
 					for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
 						MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
 						methodControlPlaceHolder.refreshUI();
+						updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 					}
 				}
 			}
@@ -865,10 +873,11 @@ public class Form extends JPanel {
 
 	public void updateFieldControlLayoutInContainer(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		IFieldInfo field = fieldControlPlaceHolder.getField();
 		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
 		JPanel fieldsPanel = (JPanel) fieldControlPlaceHolder.getParent();
-		int spacing = getLayoutSpacing(fieldsPanel);
+		int spacing = getLayoutSpacing();
 
 		Component captionControl = getCaptionControlByFieldControlPlaceHolder().get(fieldControlPlaceHolder);
 		if (captionControl != null) {
@@ -918,14 +927,13 @@ public class Form extends JPanel {
 		} else {
 			throw new ReflectionUIError();
 		}
-		fieldControlPlaceHolderLayoutConstraints.weightx = 1.0;
-		fieldControlPlaceHolderLayoutConstraints.weighty = 1.0;
+		fieldControlPlaceHolderLayoutConstraints.weightx = field.getDisplayAreaHorizontalWeight();
+		fieldControlPlaceHolderLayoutConstraints.weighty = field.getDisplayAreaVerticalWeight();
 		fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
 		fieldControlPlaceHolderLayoutConstraints.anchor = GridBagConstraints.NORTH;
 		fieldsPanel.remove(fieldControlPlaceHolder);
 		fieldsPanel.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
 
-		IFieldInfo field = fieldControlPlaceHolder.getField();
 		if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().length() > 0)) {
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
@@ -949,6 +957,31 @@ public class Form extends JPanel {
 
 	}
 
+	public void updateMethodControlLayoutInContainer(MethodControlPlaceHolder methodControlPlaceHolder) {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		MethodsLayout methodsOrientation = type.getMethodsLayout();
+		JPanel methodsPanel = (JPanel) methodControlPlaceHolder.getParent();
+		int spacing = getLayoutSpacing();
+		GridLayout newLayout;
+		if (methodsOrientation == MethodsLayout.HORIZONTAL_FLOW) {
+			newLayout = new GridLayout(1, 0, spacing, spacing);
+		} else if (methodsOrientation == MethodsLayout.VERTICAL_FLOW) {
+			newLayout = new GridLayout(0, 1, spacing, spacing);
+		} else {
+			throw new ReflectionUIError();
+		}
+		if (methodsPanel.getLayout() instanceof GridLayout) {
+			GridLayout oldLayout = (GridLayout) methodsPanel.getLayout();
+			if ((oldLayout.getRows() == newLayout.getRows()) && (oldLayout.getColumns() == newLayout.getColumns())
+					&& (oldLayout.getHgap() == newLayout.getHgap()) && (oldLayout.getVgap() == newLayout.getVgap())) {
+				return;
+			}
+		}
+		methodsPanel.setLayout(newLayout);
+		SwingRendererUtils.handleComponentSizeChange(methodsPanel);
+	}
+
 	public Component createFieldOnlineHelpControl(String onlineHelp) {
 		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, swingRenderer);
 	}
@@ -966,8 +999,8 @@ public class Form extends JPanel {
 		return new GridBagLayout();
 	}
 
-	public int getLayoutSpacing(JPanel fieldsPanel) {
-		return SwingRendererUtils.getStandardCharacterWidth(fieldsPanel) * 1;
+	public int getLayoutSpacing() {
+		return SwingRendererUtils.getStandardCharacterWidth(this) * 1;
 	}
 
 	public List<Component> createFormToolbarControls() {

@@ -236,11 +236,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 
 	@Override
 	public Dimension getMinimumSize() {
-		return getMinimumSizeWhilePreventingHeightLossOnResize();
-	}
-
-	protected Dimension getMinimumSizeWhilePreventingHeightLossOnResize() {
-		return new Dimension(super.getMinimumSize().width, getPreferredSize().height);
+		return getPreferredSize();
 	}
 
 	protected void updateToolbar() {

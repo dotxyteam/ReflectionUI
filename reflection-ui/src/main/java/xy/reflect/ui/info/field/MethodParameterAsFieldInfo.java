@@ -97,6 +97,16 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.INDETERMINATE;
 	}
@@ -105,7 +115,7 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 	public String getName() {
 		return param.getName();
 	}
-	
+
 	@Override
 	public boolean isHidden() {
 		return param.isHidden();

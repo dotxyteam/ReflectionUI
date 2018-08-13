@@ -24,6 +24,16 @@ public abstract class AbstractListProperty extends AbstractInfo implements IFiel
 		return false;
 	}
 
+	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
 	public boolean isEnabled() {
 		return true;
 	}

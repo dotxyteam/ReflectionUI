@@ -178,7 +178,7 @@ public class GenericEnumerationFactory {
 	}
 
 	public class TypeInfo extends AbstractInfo implements IEnumerationTypeInfo {
-		
+
 		@Override
 		public Dimension getFormPreferredSize() {
 			return null;
@@ -210,6 +210,11 @@ public class GenericEnumerationFactory {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public MethodsLayout getMethodsLayout() {
+			return MethodsLayout.HORIZONTAL_FLOW;
 		}
 
 		@Override

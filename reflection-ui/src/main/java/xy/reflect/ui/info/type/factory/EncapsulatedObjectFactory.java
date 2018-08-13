@@ -355,6 +355,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public MethodsLayout getMethodsLayout() {
+			return MethodsLayout.HORIZONTAL_FLOW;
+		}
+
+		@Override
 		public MenuModel getMenuModel() {
 			return new MenuModel();
 		}
@@ -555,6 +560,16 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public String getName() {
 			return fieldName;
+		}
+
+		@Override
+		public double getDisplayAreaHorizontalWeight() {
+			return 1.0;
+		}
+
+		@Override
+		public double getDisplayAreaVerticalWeight() {
+			return 1.0;
 		}
 
 		@Override

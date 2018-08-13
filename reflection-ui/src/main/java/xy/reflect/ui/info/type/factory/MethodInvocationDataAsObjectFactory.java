@@ -200,6 +200,11 @@ public class MethodInvocationDataAsObjectFactory {
 		}
 
 		@Override
+		public MethodsLayout getMethodsLayout() {
+			return MethodsLayout.HORIZONTAL_FLOW;
+		}
+
+		@Override
 		public MenuModel getMenuModel() {
 			return new MenuModel();
 		}

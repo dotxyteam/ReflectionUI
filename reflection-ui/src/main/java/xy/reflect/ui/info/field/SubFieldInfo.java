@@ -42,6 +42,16 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		return theSubField.getType();
 	}

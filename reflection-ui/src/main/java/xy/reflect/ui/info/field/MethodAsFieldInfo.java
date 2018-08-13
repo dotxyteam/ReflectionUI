@@ -38,6 +38,16 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public double getDisplayAreaHorizontalWeight() {
+		return 1.0;
+	}
+
+	@Override
+	public double getDisplayAreaVerticalWeight() {
+		return 1.0;
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.composeMessage(method.getCaption(), " Result");
 	}

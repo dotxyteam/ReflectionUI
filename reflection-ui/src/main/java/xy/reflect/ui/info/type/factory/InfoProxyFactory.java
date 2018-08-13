@@ -21,6 +21,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
+import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -296,6 +297,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getFieldsLayout();
 	}
 
+	protected MethodsLayout getMethodsLayout(ITypeInfo type) {
+		return type.getMethodsLayout();
+	}
+
 	protected MenuModel getMenuModel(ITypeInfo type) {
 		return type.getMenuModel();
 	}
@@ -310,6 +315,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected boolean isHidden(IFieldInfo field, ITypeInfo containingType) {
 		return field.isHidden();
+	}
+
+	protected double getDisplayAreaHorizontalWeight(IFieldInfo field, ITypeInfo containingType) {
+		return field.getDisplayAreaHorizontalWeight();
+	}
+
+	protected double getDisplayAreaVerticalWeight(IFieldInfo field, ITypeInfo containingType) {
+		return field.getDisplayAreaVerticalWeight();
 	}
 
 	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
@@ -519,7 +532,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	protected String getName(ITypeInfo type) {
 		return type.getName();
 	}
-	
+
 	protected Dimension getFormPreferredSize(ITypeInfo type) {
 		return type.getFormPreferredSize();
 	}
@@ -763,6 +776,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public FieldsLayout getFieldsLayout() {
 			return InfoProxyFactory.this.getFieldsLayout(base);
+		}
+
+		@Override
+		public MethodsLayout getMethodsLayout() {
+			return InfoProxyFactory.this.getMethodsLayout(base);
 		}
 
 		@Override
@@ -1047,6 +1065,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isHidden() {
 			return InfoProxyFactory.this.isHidden(base, containingType);
+		}
+
+		@Override
+		public double getDisplayAreaHorizontalWeight() {
+			return InfoProxyFactory.this.getDisplayAreaHorizontalWeight(base, containingType);
+		}
+
+		@Override
+		public double getDisplayAreaVerticalWeight() {
+			return InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, containingType);
 		}
 
 		@Override

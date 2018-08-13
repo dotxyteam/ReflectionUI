@@ -576,27 +576,20 @@ public class SwingRenderer {
 			busyDialogCloser.submit(new Runnable() {
 				@Override
 				public void run() {
-					while (true) {
-						if (busyDialogRunnerJob.isDone()) {
-							final JDialog dialog = dialogBuilder.getCreatedDialog();
-							if (dialog != null) {
-								if (dialog.isVisible()) {
-									SwingUtilities.invokeLater(new Runnable() {
-										@Override
-										public void run() {
-											dialog.dispose();
-										}
-									});
-								}
-							}
-							break;
-						}
+					while ((dialogBuilder.getCreatedDialog() == null)
+							|| (!dialogBuilder.getCreatedDialog().isVisible())) {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
 							throw new ReflectionUIError(e);
 						}
 					}
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							dialogBuilder.getCreatedDialog().dispose();
+						}
+					});
 				}
 			});
 			final JXBusyLabel busyLabel = new JXBusyLabel();

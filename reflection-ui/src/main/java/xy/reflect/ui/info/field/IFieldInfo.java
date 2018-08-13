@@ -25,6 +25,16 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public double getDisplayAreaHorizontalWeight() {
+			return 1.0;
+		}
+
+		@Override
+		public double getDisplayAreaVerticalWeight() {
+			return 1.0;
+		}
+
+		@Override
 		public boolean isHidden() {
 			return false;
 		}
@@ -152,9 +162,13 @@ public interface IFieldInfo extends IInfo {
 	boolean isFormControlEmbedded();
 
 	IInfoFilter getFormControlFilter();
-	
+
 	long getAutoUpdatePeriodMilliseconds();
 
 	boolean isHidden();
+
+	double getDisplayAreaHorizontalWeight();
+
+	double getDisplayAreaVerticalWeight();
 
 }
