@@ -78,6 +78,7 @@ public class Form extends JPanel {
 	protected Container categoriesControl;
 	protected boolean busyIndicationDisabled;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
+	protected boolean visibilityEventsDisabled = false;
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
 		this.swingRenderer = swingRenderer;
@@ -88,11 +89,17 @@ public class Form extends JPanel {
 
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
+				if(visibilityEventsDisabled) {
+					return;
+				}				
 				formShown();
 			}
 
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
+				if(visibilityEventsDisabled) {
+					return;
+				}				
 				formHidden();
 			}
 
@@ -931,8 +938,17 @@ public class Form extends JPanel {
 		fieldControlPlaceHolderLayoutConstraints.weighty = field.getDisplayAreaVerticalWeight();
 		fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
 		fieldControlPlaceHolderLayoutConstraints.anchor = GridBagConstraints.NORTH;
-		fieldsPanel.remove(fieldControlPlaceHolder);
-		fieldsPanel.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
+		for (Form subForm : SwingRendererUtils.findDescendantForms(fieldControlPlaceHolder, swingRenderer)) {
+			subForm.visibilityEventsDisabled = true;
+		}
+		try {
+			fieldsPanel.remove(fieldControlPlaceHolder);
+			fieldsPanel.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
+		} finally {
+			for (Form subForm : SwingRendererUtils.findDescendantForms(fieldControlPlaceHolder, swingRenderer)) {
+				subForm.visibilityEventsDisabled = false;
+			}
+		}
 
 		if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().length() > 0)) {
 			GridBagConstraints layoutConstraints = new GridBagConstraints();

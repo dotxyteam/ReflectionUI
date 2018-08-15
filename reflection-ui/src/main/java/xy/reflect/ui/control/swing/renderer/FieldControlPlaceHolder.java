@@ -326,7 +326,13 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		return new FieldControlDataProxy(data) {
 
 			private boolean isBusyIndicationDisabled() {
-				return form.isBusyIndicationDisabled();
+				if (form.isBusyIndicationDisabled()) {
+					return true;
+				}
+				if (field.getAutoUpdatePeriodMilliseconds() >= 0) {
+					return true;
+				}
+				return false;
 			}
 
 			@Override

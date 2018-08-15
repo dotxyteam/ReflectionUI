@@ -576,8 +576,8 @@ public class SwingRenderer {
 			busyDialogCloser.submit(new Runnable() {
 				@Override
 				public void run() {
-					while ((dialogBuilder.getCreatedDialog() == null)
-							|| (!dialogBuilder.getCreatedDialog().isVisible())) {
+					while ((dialogBuilder.getCreatedDialog() == null) || (!dialogBuilder.getCreatedDialog().isVisible())
+							|| (!busyDialogRunnerJob.isDone())) {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
