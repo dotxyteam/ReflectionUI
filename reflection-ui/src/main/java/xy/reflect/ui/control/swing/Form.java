@@ -616,7 +616,7 @@ public class Form extends JPanel {
 			private static final long serialVersionUID = 1L;
 
 			{
-				setBorder(BorderFactory.createEmptyBorder());
+				SwingRendererUtils.removeScrollPaneBorder(this);
 			}
 
 			@Override

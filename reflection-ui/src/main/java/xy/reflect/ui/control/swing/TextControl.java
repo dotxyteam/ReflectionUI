@@ -6,7 +6,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -81,9 +80,9 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			protected static final long serialVersionUID = 1L;
 
 			{
-				setBorder(BorderFactory.createEmptyBorder());
-				setViewportBorder(BorderFactory.createEmptyBorder());				
+				SwingRendererUtils.removeScrollPaneBorder(this);
 			}
+
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
@@ -193,14 +192,14 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected void updateTextComponent(boolean refreshStructure) {
-		if(refreshStructure) {
+		if (refreshStructure) {
 			if (data.isGetOnly()) {
 				textComponent.setEditable(false);
 				textComponent.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
 			} else {
 				textComponent.setEditable(true);
 				textComponent.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
-			}			
+			}
 		}
 		listenerDisabled = true;
 		try {

@@ -639,10 +639,15 @@ public class SwingRendererUtils {
 		msgComponent.setEditable(false);
 		msgComponent.setBackground(getNonEditableTextBackgroundColor());
 		final JScrollPane scrollPane = new JScrollPane(msgComponent);
-		scrollPane.setBorder(null);
+		removeScrollPaneBorder(scrollPane);
 		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {});
 		return result;
+	}
+
+	public static void removeScrollPaneBorder(JScrollPane scrollPane) {
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setViewportBorder(BorderFactory.createEmptyBorder());
 	}
 
 	public static boolean requestAnyComponentFocus(Component c, SwingRenderer swingRenderer) {
