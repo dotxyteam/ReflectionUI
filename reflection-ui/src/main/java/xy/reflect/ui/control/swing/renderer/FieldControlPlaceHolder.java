@@ -500,19 +500,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	}
 
 	public Component createCustomFieldControl() {
-		IFieldControlPlugin currentPlugin = null;
-		String chosenPluginId = (String) controlData.getSpecificProperties()
-				.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
-		if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
-			for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
-				if (plugin.getIdentifier().equals(chosenPluginId)) {
-					if (plugin.handles(this)) {
-						currentPlugin = plugin;
-						break;
-					}
-				}
-			}
-		}
+		IFieldControlPlugin currentPlugin = getCurrentPlugin();
 
 		if (currentPlugin == null) {
 			if (controlData.getType() instanceof IEnumerationTypeInfo) {
@@ -544,17 +532,6 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 			}
 		}
 
-		if (currentPlugin == null) {
-			if (!IFieldControlPlugin.NONE_IDENTIFIER.equals(chosenPluginId)) {
-				for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
-					if (plugin.handles(this)) {
-						currentPlugin = plugin;
-						break;
-					}
-				}
-			}
-		}
-
 		if (currentPlugin != null) {
 			if (!controlData.isNullValueDistinct() || currentPlugin.canDisplayDistinctNullValue()) {
 				Component result;
@@ -563,7 +540,6 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				} catch (Throwable t) {
 					result = createFieldErrorControl(t);
 				}
-				form.getPluginByFieldControl().put(result, currentPlugin);
 				return result;
 			} else {
 				controlData = currentPlugin.filterDistinctNullValueControlData(controlData);
@@ -591,6 +567,11 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		}), BorderLayout.CENTER);
 		SwingRendererUtils.setErrorBorder(result);
 		return result;
+	}
+
+	public IFieldControlPlugin getCurrentPlugin() {
+		return SwingRendererUtils.getCurrentFieldControlPlugin(swingRenderer,
+				controlData.getType().getSpecificProperties(), this);
 	}
 
 	public void displayError(String msg) {

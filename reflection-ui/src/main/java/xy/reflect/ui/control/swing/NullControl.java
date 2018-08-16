@@ -119,7 +119,6 @@ public class NullControl extends JPanel implements IAdvancedFieldControl {
 			@Override
 			protected JScrollPane createScrollPane() {
 				JScrollPane result = super.createScrollPane();
-				result.setViewportBorder(null);
 				return result;
 			}
 		};

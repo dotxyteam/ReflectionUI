@@ -33,7 +33,6 @@ import javax.swing.event.AncestorListener;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -74,7 +73,6 @@ public class Form extends JPanel {
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory;
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
-	protected Map<Component, IFieldControlPlugin> pluginByFieldControl = new MapMaker().weakKeys().makeMap();
 	protected Container categoriesControl;
 	protected boolean busyIndicationDisabled;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
@@ -89,17 +87,17 @@ public class Form extends JPanel {
 
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
-				if(visibilityEventsDisabled) {
+				if (visibilityEventsDisabled) {
 					return;
-				}				
+				}
 				formShown();
 			}
 
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
-				if(visibilityEventsDisabled) {
+				if (visibilityEventsDisabled) {
 					return;
-				}				
+				}
 				formHidden();
 			}
 
@@ -160,10 +158,6 @@ public class Form extends JPanel {
 
 	public Component getStatusBar() {
 		return statusBar;
-	}
-
-	public Map<Component, IFieldControlPlugin> getPluginByFieldControl() {
-		return pluginByFieldControl;
 	}
 
 	public SortedMap<InfoCategory, List<FieldControlPlaceHolder>> getFieldControlPlaceHoldersByCategory() {
@@ -622,7 +616,7 @@ public class Form extends JPanel {
 			private static final long serialVersionUID = 1L;
 
 			{
-				setBorder(null);
+				setBorder(BorderFactory.createEmptyBorder());
 			}
 
 			@Override

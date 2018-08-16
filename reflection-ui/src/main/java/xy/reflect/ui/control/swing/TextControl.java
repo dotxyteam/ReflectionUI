@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -47,7 +48,6 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 			scrollPane = createScrollPane();
 			updateScrollPolicy();
 			scrollPane.setViewportView(textComponent);
-			scrollPane.setBorder(null);
 			add(scrollPane, BorderLayout.CENTER);
 		}
 		refreshUI(true);
@@ -80,6 +80,10 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 
 			protected static final long serialVersionUID = 1L;
 
+			{
+				setBorder(BorderFactory.createEmptyBorder());
+				setViewportBorder(BorderFactory.createEmptyBorder());				
+			}
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();

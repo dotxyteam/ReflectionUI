@@ -144,7 +144,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	public String getTitle() {
-		return ReflectionUIUtils.composeMessage(data.getCaption(), "Execution");
+		return ReflectionUIUtils.composeMessage(data.getCaption(), "Executing");
 	}
 
 	protected void invoke(InvocationData invocationData, Component activatorComponent) {

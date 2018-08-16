@@ -8,7 +8,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 public interface IFieldControlPlugin {
 
 	public String CHOSEN_PROPERTY_KEY = IFieldControlPlugin.class.getName() + ".CHOSEN";
-	public String NONE_IDENTIFIER = IFieldControlPlugin.class.getName() + ".NONE";
 
 	boolean handles(IFieldControlInput input);
 

@@ -59,7 +59,9 @@ import javax.swing.UIManager;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -593,7 +595,7 @@ public class SwingRendererUtils {
 			public void run() {
 				result[0] = data.invoke(invocationData);
 			}
-		}, ReflectionUIUtils.composeMessage(data.getCaption(), "Execution"));
+		}, ReflectionUIUtils.composeMessage(data.getCaption(), "Executing"));
 		return result[0];
 
 	}
@@ -779,7 +781,7 @@ public class SwingRendererUtils {
 				result.setEnabled(false);
 			}
 			ImageIcon icon = getMenuItemIcon(swingRenderer, actionMenuItem);
-			if(icon != null) {
+			if (icon != null) {
 				icon = getSmallIcon(icon);
 			}
 			result.setIcon(icon);
@@ -911,6 +913,22 @@ public class SwingRendererUtils {
 			return null;
 		}
 		return form.getModificationStack();
+	}
+
+	public static IFieldControlPlugin getCurrentFieldControlPlugin(SwingRenderer swingRenderer,
+			Map<String, Object> specificProperties, IFieldControlInput input) {
+		String chosenPluginId = (String) specificProperties.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		if (chosenPluginId != null) {
+			for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
+				if (plugin.getIdentifier().equals(chosenPluginId)) {
+					if (plugin.handles(input)) {
+						return plugin;
+					}
+				}
+			}
+		}
+		return null;
+
 	}
 
 }

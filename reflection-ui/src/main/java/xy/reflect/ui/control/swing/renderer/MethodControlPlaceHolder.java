@@ -133,7 +133,7 @@ public class MethodControlPlaceHolder extends JPanel implements IMethodControlIn
 										result.run();
 									}
 								}, AbstractModification.getUndoTitle(
-										ReflectionUIUtils.composeMessage(data.getCaption(), "Execution")));
+										ReflectionUIUtils.composeMessage(data.getCaption(), "Executing")));
 					}
 				};
 			}
