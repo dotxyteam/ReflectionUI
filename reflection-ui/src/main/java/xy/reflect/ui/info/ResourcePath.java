@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import xy.reflect.ui.util.FileUtils;
 
-public class ResourcePath implements Serializable{
+public class ResourcePath implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	protected static final String CLASSPATH_RESOURCE_PREFIX = "<class-path-resource> ";
 	protected static final String MEMORY_OBJECT_PREFIX = "<memory> ";
 	protected static final int SELF_ALTERNATIVE_INDEX = 0;
@@ -56,13 +56,16 @@ public class ResourcePath implements Serializable{
 	}
 
 	public String getSpecification() {
-		ResourcePath chosen = getChosen();
-		if (chosen.pathKind == PathKind.CLASS_PATH_RESOURCE) {
-			return ResourcePath.formatClassPathResourceSpecification(chosen.path);
-		} else if (chosen.pathKind == PathKind.MEMORY_OBJECT) {
-			return ResourcePath.formatMemoryObjectSpecification(chosen.path);
+		return getChosen().getDefaultSpecification();
+	}
+
+	public String getDefaultSpecification() {
+		if (pathKind == PathKind.CLASS_PATH_RESOURCE) {
+			return ResourcePath.formatClassPathResourceSpecification(path);
+		} else if (pathKind == PathKind.MEMORY_OBJECT) {
+			return ResourcePath.formatMemoryObjectSpecification(path);
 		} else {
-			return chosen.path;
+			return path;
 		}
 	}
 
