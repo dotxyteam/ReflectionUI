@@ -11,6 +11,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -281,6 +282,16 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public class ValueTypeInfo extends AbstractInfo implements ITypeInfo {
+
+		@Override
+		public ResourcePath getFormBackgroundImagePath() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormForegroundColor() {
+			return null;
+		}
 
 		@Override
 		public Dimension getFormPreferredSize() {

@@ -181,6 +181,22 @@ public class SwingRenderer {
 		return null;
 	}
 
+	public Image getObjectFormBackgroundImage(Object object) {
+		if (object != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			ResourcePath imagePath = type.getFormBackgroundImagePath();
+			if (imagePath == null) {
+				return null;
+			}
+			Image result = SwingRendererUtils.loadImageThroughcache(imagePath,
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
 	public Image getMethodIconImage(IMethodControlData data) {
 		ResourcePath imagePath = data.getIconImagePath();
 		if (imagePath == null) {

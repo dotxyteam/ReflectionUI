@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfoProxy;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -533,6 +534,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getName();
 	}
 
+	protected ResourcePath getFormBackgroundImagePath(ITypeInfo type) {
+		return type.getFormBackgroundImagePath();
+	}
+
+	protected ColorSpecification getFormForegroundColor(ITypeInfo type) {
+		return type.getFormForegroundColor();
+	}
+
 	protected Dimension getFormPreferredSize(ITypeInfo type) {
 		return type.getFormPreferredSize();
 	}
@@ -660,6 +669,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base);
+		}
+
+		@Override
+		public ResourcePath getFormBackgroundImagePath() {
+			return InfoProxyFactory.this.getFormBackgroundImagePath(base);
+		}
+
+		@Override
+		public ColorSpecification getFormForegroundColor() {
+			return InfoProxyFactory.this.getFormForegroundColor(base);
 		}
 
 		@Override

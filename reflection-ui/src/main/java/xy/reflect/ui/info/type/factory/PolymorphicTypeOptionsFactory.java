@@ -2,7 +2,9 @@ package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -14,19 +16,27 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	protected ITypeInfo polymorphicType;
 
 	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
-		super(reflectionUI, collectTypeOptions(polymorphicType).toArray(),
-				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "");
+		super(reflectionUI, getTypeOptionsCollector(polymorphicType),
+				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "", false);
 		this.polymorphicType = polymorphicType;
 	}
 
-	protected static List<ITypeInfo> collectTypeOptions(final ITypeInfo polymorphicType) {
-		final List<ITypeInfo> result = new ArrayList<ITypeInfo>(polymorphicType.getPolymorphicInstanceSubTypes());
-		{
-			if (polymorphicType.isConcrete()) {
-				result.add(0, blockPolymorphism(polymorphicType));
+	protected static Iterable<ITypeInfo> getTypeOptionsCollector(final ITypeInfo polymorphicType) {
+		return new Iterable<ITypeInfo>() {
+
+			@Override
+			public Iterator<ITypeInfo> iterator() {
+				final List<ITypeInfo> result = new ArrayList<ITypeInfo>(
+						polymorphicType.getPolymorphicInstanceSubTypes());
+				{
+					if (polymorphicType.isConcrete()) {
+						result.add(0, blockPolymorphism(polymorphicType));
+					}
+				}
+				return result.iterator();
 			}
-		}
-		return result;
+		};
+
 	}
 
 	protected static ITypeInfo blockPolymorphism(final ITypeInfo type) {

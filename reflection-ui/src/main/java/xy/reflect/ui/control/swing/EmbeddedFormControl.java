@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -24,8 +24,9 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
 
-public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl {
+public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -103,9 +104,9 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 			};
 			boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
-			subForm.setModificationStack(new SlaveModificationStack(swingRenderer, subForm,
-					childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter,
-					childModifTargetGetter, childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
+			subForm.setModificationStack(new SlaveModificationStack(swingRenderer, subForm, childModifAcceptedGetter,
+					childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
+					childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
 		}
 	}
 
@@ -124,6 +125,9 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 		if (refreshStructure) {
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+				if (data.getFormForegroundColor() != null) {
+					((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+				}
 			} else {
 				setBorder(null);
 			}
@@ -170,7 +174,7 @@ public class EmbeddedFormControl extends JPanel implements IAdvancedFieldControl
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return true;
 	}
 

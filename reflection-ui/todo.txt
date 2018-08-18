@@ -1,3 +1,12 @@
+- remove awt colors from IInfo model
+- parameters displayed in form issues:
+	. cannot change replace null value
+	. strange object displayed when distinct null value enabled
+- polymorphic control issues:
+	. enumeration not updated when subtypes changed 
+	. type enum as option buttons selection cleared on refreshUI
+- it seems like:
+	modif stack triggers form refresh too early because control data update is delayed
 - allow to disable the window scroll pane ??? 
 - Form preferred size issue when resizing window smaller.
 Try to allow layout weight setting through FieldCustomization

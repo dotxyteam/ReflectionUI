@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.component.ControlScrollPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 
 public class WindowManager {
@@ -29,7 +31,7 @@ public class WindowManager {
 	}
 
 	public Component createToolBar(List<? extends Component> toolbarControls) {
-		JPanel result = new JPanel();
+		JPanel result = new ControlPanel();
 		result.setBorder(BorderFactory.createRaisedBevelBorder());
 		result.setLayout(new FlowLayout(FlowLayout.CENTER));
 		for (Component tool : toolbarControls) {
@@ -39,7 +41,7 @@ public class WindowManager {
 	}
 
 	protected JScrollPane createScrollPane(Component content) {
-		return new JScrollPane(new ScrollPaneOptions(content, true, false));
+		return new ControlScrollPane(new ScrollPaneOptions(content, true, false));
 	}
 
 	protected void setContentPane(Container contentPane) {
@@ -67,7 +69,7 @@ public class WindowManager {
 	}
 
 	public void set(Component content, List<? extends Component> toolbarControls) {
-		JPanel contentPane = new JPanel();
+		JPanel contentPane = new ControlPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout());
 		if (content != null) {

@@ -1,6 +1,8 @@
 package xy.reflect.ui.control;
 
 import java.util.Map;
+
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -82,6 +84,11 @@ public class DefaultFieldControlData implements IFieldControlData {
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return field.getSpecificProperties();
+	}
+
+	@Override
+	public ColorSpecification getFormForegroundColor() {
+		return null;
 	}
 
 	@Override

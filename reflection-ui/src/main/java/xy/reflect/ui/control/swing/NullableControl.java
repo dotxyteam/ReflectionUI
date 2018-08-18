@@ -8,8 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -29,8 +29,9 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
 
-public class NullableControl extends JPanel implements IAdvancedFieldControl {
+public class NullableControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
@@ -61,6 +62,10 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 		setNullStatusControlState(data.getValue() == null);
 		refreshSubControl(refreshStructure);
 		((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
+		if (data.getFormForegroundColor() != null) {
+			((TitledBorder) ((JComponent) subControl).getBorder())
+					.setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+		}
 		if (refreshStructure) {
 			nullStatusControl.setEnabled(!data.isGetOnly());
 		}
@@ -283,7 +288,7 @@ public class NullableControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return true;
 	}
 

@@ -7,9 +7,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -20,8 +20,9 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
 
-public class NullControl extends JPanel implements IAdvancedFieldControl {
+public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected Runnable action;
@@ -37,6 +38,9 @@ public class NullControl extends JPanel implements IAdvancedFieldControl {
 		setLayout(new BorderLayout());
 		add(labelComponent = createLabelComponent(), BorderLayout.CENTER);
 		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+		if (data.getFormForegroundColor() != null) {
+			((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+		}
 		setupAction();
 	}
 
@@ -159,7 +163,7 @@ public class NullControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return false;
 	}
 

@@ -5,11 +5,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
-import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
-public class ScrollPaneOptions extends JPanel implements Scrollable {
+public class ScrollPaneOptions extends ControlPanel implements Scrollable {
 
 	protected static final long serialVersionUID = 1L;
 	protected boolean limitWidthToViewport;

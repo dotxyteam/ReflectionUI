@@ -38,9 +38,9 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	}
 
 	protected MethodInvocationDataAsObjectFactory createFactory() {
-		return new MethodInvocationDataAsObjectFactory(reflectionUI, method,
-				"MethodSetupObject [context=MethodParametersAsFieldContext [methodSignature=" + method.getSignature()
-						+ ", fieldName=" + fieldName + "]]");
+		String contextId = "MethodParametersAsFieldContext [methodSignature=" + method.getSignature() + ", fieldName="
+				+ fieldName + "]";
+		return new MethodInvocationDataAsObjectFactory(reflectionUI, method, contextId);
 	}
 
 	@Override
@@ -145,12 +145,12 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 
 	@Override
 	public boolean isFormControlMandatory() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isFormControlEmbedded() {
-		return true;
+		return false;
 	}
 
 	@Override

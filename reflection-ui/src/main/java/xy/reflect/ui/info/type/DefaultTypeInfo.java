@@ -15,6 +15,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -45,6 +46,16 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		}
 		this.reflectionUI = reflectionUI;
 		this.javaType = javaType;
+	}
+
+	@Override
+	public ResourcePath getFormBackgroundImagePath() {
+		return null;
+	}
+
+	@Override
+	public ColorSpecification getFormForegroundColor() {
+		return null;
 	}
 
 	@Override

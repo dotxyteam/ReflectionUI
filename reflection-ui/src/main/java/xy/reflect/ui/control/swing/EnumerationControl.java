@@ -13,7 +13,6 @@ import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.control.IFieldControlData;
@@ -23,8 +22,9 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
 
-public class EnumerationControl extends JPanel implements IAdvancedFieldControl {
+public class EnumerationControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 
@@ -172,7 +172,7 @@ public class EnumerationControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return false;
 	}
 

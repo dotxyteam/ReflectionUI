@@ -23,6 +23,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
+		setOpaque(false);
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -50,6 +51,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	public boolean refreshUI(boolean refreshStructure) {
 		if (refreshStructure) {
 			setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
+			setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
 			setEnabled(!data.isGetOnly());
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
@@ -58,7 +60,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return false;
 	}
 

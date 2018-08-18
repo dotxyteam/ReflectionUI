@@ -243,8 +243,7 @@ public class MethodAction extends AbstractAction {
 		};
 		Object controlDataAsMethodOwner = data;
 		MethodInvocationDataAsObjectFactory factory = new MethodInvocationDataAsObjectFactory(
-				swingRenderer.getReflectionUI(), controlDataAsMethod,
-				"MethodSetupObject [context=" + input.getContext().getIdentifier() + "]");
+				swingRenderer.getReflectionUI(), controlDataAsMethod, input.getContext().getIdentifier());
 		return factory.getInstance(controlDataAsMethodOwner, invocationData);
 	}
 

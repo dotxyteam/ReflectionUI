@@ -29,6 +29,7 @@ import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.PrimitiveValueControl;
 import xy.reflect.ui.control.swing.TextControl;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -46,8 +47,9 @@ import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
 
-public class FieldControlPlaceHolder extends JPanel implements IFieldControlInput {
+public class FieldControlPlaceHolder extends ControlPanel implements IFieldControlInput {
 
 	protected static final long serialVersionUID = 1L;
 
@@ -125,7 +127,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 							break;
 						}
 						try {
-							sleep(1);
+							sleep(10);
 						} catch (InterruptedException e) {
 							interrupt();
 							break;
@@ -215,9 +217,6 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	}
 
 	public IFieldControlData handleStressfulUpdates(final IFieldControlData data) {
-		if (!(swingRenderer.getDataUpdateDelayMilliseconds() > 0)) {
-			return data;
-		}
 		return new FieldControlDataProxy(data) {
 
 			Object delayedFieldValue;
@@ -243,8 +242,25 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				}
 			};
 
+			boolean isDelayedUpdateDisabled() {
+				if (!(swingRenderer.getDataUpdateDelayMilliseconds() > 0)) {
+					return true;
+				}
+				Component c = fieldControl;
+				if ((c instanceof IAdvancedFieldControl)) {
+					IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
+					if (fieldControl.handlesModificationStackAndStress()) {
+						return true;
+					}
+				}
+				return false;
+			}
+
 			@Override
 			public Object getValue() {
+				if (isDelayedUpdateDisabled()) {
+					return data.getValue();
+				}
 				if (delaying) {
 					return delayedFieldValue;
 				} else {
@@ -254,6 +270,10 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 
 			@Override
 			public void setValue(Object newValue) {
+				if (isDelayedUpdateDisabled()) {
+					data.setValue(newValue);
+					return;
+				}
 				delayedFieldValue = newValue;
 				delaying = true;
 				delayedUpdateProcess.schedule();
@@ -269,7 +289,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 				Component c = fieldControl;
 				if ((c instanceof IAdvancedFieldControl)) {
 					IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
-					if (fieldControl.handlesModificationStackUpdate()) {
+					if (fieldControl.handlesModificationStackAndStress()) {
 						data.setValue(newValue);
 						return;
 					}
@@ -481,13 +501,18 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		if (value == null) {
 			return new NullControl(swingRenderer, this);
 		}
-		final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
+		ITypeInfo actualValueType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(value));
 		if (!controlData.getType().getName().equals(actualValueType.getName())) {
+			final IInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
+			if (typeSpecificities != null) {
+				actualValueType = typeSpecificities.wrapType(actualValueType);
+			}
+			final ITypeInfo finalActualValueType = actualValueType;
 			controlData = new FieldControlDataProxy(controlData) {
 				@Override
 				public ITypeInfo getType() {
-					return actualValueType;
+					return finalActualValueType;
 				}
 			};
 			return createFieldControl();
@@ -552,7 +577,7 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 	public Component createFieldErrorControl(final Throwable t) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		reflectionUI.logError(t);
-		JPanel result = new JPanel();
+		JPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
 		result.add(new NullControl(swingRenderer, new FieldControlInputProxy(IFieldControlInput.NULL_CONTROL_INPUT) {
 			@Override
@@ -671,6 +696,13 @@ public class FieldControlPlaceHolder extends JPanel implements IFieldControlInpu
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return finalField.getSpecificProperties();
+		}
+
+		@Override
+		public ColorSpecification getFormForegroundColor() {
+			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			return type.getFormForegroundColor();
 		}
 
 		private FieldControlPlaceHolder getOuterType() {

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -28,8 +28,9 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
 
-public class PolymorphicControl extends JPanel implements IAdvancedFieldControl {
+public class PolymorphicControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -62,6 +63,10 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 		if (refreshStructure) {
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+				if (data.getFormForegroundColor() != null) {
+					((TitledBorder) getBorder())
+							.setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+				}
 			} else {
 				setBorder(null);
 			}
@@ -359,7 +364,7 @@ public class PolymorphicControl extends JPanel implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return true;
 	}
 

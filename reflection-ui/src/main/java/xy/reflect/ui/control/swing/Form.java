@@ -23,7 +23,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
@@ -57,8 +56,12 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.Visitor;
+import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.component.ControlScrollPane;
+import xy.reflect.ui.util.component.ControlTabbedPane;
+import xy.reflect.ui.util.component.ImagePanel;
 
-public class Form extends JPanel {
+public class Form extends ImagePanel {
 	private static final long serialVersionUID = 1L;
 
 	protected SwingRenderer swingRenderer;
@@ -106,10 +109,10 @@ public class Form extends JPanel {
 			}
 
 		});
-		fillForm();
 		menuBar = createMenuBar();
 		statusBar = createStatusBar();
 		setStatusBarErrorMessage(null);
+		fillForm();
 	}
 
 	public Object getObject() {
@@ -260,7 +263,8 @@ public class Form extends JPanel {
 						}
 					});
 				} catch (Exception e) {
-					final String errorMsg = new ReflectionUIError(e).toString();
+					swingRenderer.getReflectionUI().logDebug(e);
+					final String errorMsg = ReflectionUIUtils.getPrettyErrorMessage(e);
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
@@ -362,15 +366,14 @@ public class Form extends JPanel {
 		JPanel membersPanel = createMembersPanel();
 		{
 			add(membersPanel, BorderLayout.CENTER);
-			ITypeInfo type = getFormFilteredType();
-			fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(type.getFields());
-			methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(type.getMethods());
-			layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, membersPanel);
+			fieldControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
+			methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
+			refreshForm(true);
 		}
 	}
 
 	public JPanel createMembersPanel() {
-		return new JPanel();
+		return new ControlPanel();
 	}
 
 	public void layoutMemberControls(
@@ -422,7 +425,7 @@ public class Form extends JPanel {
 	public Container createFormCategoriesControl(SortedSet<InfoCategory> allCategories,
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
-		final JTabbedPane result = new JTabbedPane();
+		final JTabbedPane result = new ControlTabbedPane();
 		for (final InfoCategory category : allCategories) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
 			if (fieldControlPlaceHolders == null) {
@@ -434,11 +437,11 @@ public class Form extends JPanel {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
 
-			JPanel tab = new JPanel();
+			JPanel tab = new ControlPanel();
 			result.addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
 			tab.setLayout(new BorderLayout());
 
-			JPanel tabContent = new JPanel();
+			JPanel tabContent = new ControlPanel();
 			tab.add(tabContent, BorderLayout.NORTH);
 			layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
 		}
@@ -606,12 +609,12 @@ public class Form extends JPanel {
 	}
 
 	public Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
-		JPanel result = new JPanel();
+		JPanel result = new ControlPanel();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
 			result.add(methodControlPlaceHolder);
 			updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 		}
-		return new JScrollPane(SwingRendererUtils.flowInLayout(result, GridBagConstraints.CENTER)) {
+		return new ControlScrollPane(SwingRendererUtils.flowInLayout(result, GridBagConstraints.CENTER)) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -643,6 +646,11 @@ public class Form extends JPanel {
 	}
 
 	public void refreshForm(boolean refreshStructure) {
+		if (refreshStructure) {
+			setPreservingRatio(true);
+			setFillingAreaWhenPreservingRatio(true);
+			setImage(swingRenderer.getObjectFormBackgroundImage(object));
+		}
 		if (refreshStructure && refreshMemberControlLists()) {
 			InfoCategory displayedCategory = getDisplayedInfoCategory();
 			try {
@@ -858,7 +866,7 @@ public class Form extends JPanel {
 	}
 
 	public Container createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
-		JPanel fieldsPanel = new JPanel();
+		JPanel fieldsPanel = new ControlPanel();
 		fieldsPanel.setLayout(getFieldsPanelLayout());
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = fielControlPlaceHolders.get(i);
@@ -888,7 +896,7 @@ public class Form extends JPanel {
 		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showsCaption()
 				&& (fieldControlPlaceHolder.getField().getCaption().length() > 0);
 		if (shouldHaveSeparateCaptionControl) {
-			captionControl = createSeparateFieldCaptionControl(fieldControlPlaceHolder.getField().getCaption());
+			captionControl = createSeparateFieldCaptionControl(fieldControlPlaceHolder.getField());
 			GridBagConstraints captionControlLayoutConstraints = new GridBagConstraints();
 			captionControlLayoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
@@ -1000,8 +1008,13 @@ public class Form extends JPanel {
 		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, swingRenderer);
 	}
 
-	public Component createSeparateFieldCaptionControl(String caption) {
-		JLabel result = new JLabel(swingRenderer.prepareStringToDisplay(caption + ": "));
+	public Component createSeparateFieldCaptionControl(IFieldInfo field) {
+		JLabel result = new JLabel(swingRenderer.prepareStringToDisplay(field.getCaption() + ": "));
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormForegroundColor() != null) {
+			result.setForeground(SwingRendererUtils.getColor(type.getFormForegroundColor()));
+		}
 		return result;
 	}
 

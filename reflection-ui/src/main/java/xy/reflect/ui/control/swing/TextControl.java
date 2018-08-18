@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -23,8 +22,10 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.component.ControlScrollPane;
 
-public class TextControl extends JPanel implements IAdvancedFieldControl {
+public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -75,7 +76,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected JScrollPane createScrollPane() {
-		return new JScrollPane() {
+		return new ControlScrollPane() {
 
 			protected static final long serialVersionUID = 1L;
 
@@ -174,31 +175,16 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected void textComponentEditHappened() {
-		updateScrollPolicy();
-		if (listenerDisabled) {
-			return;
-		}
-		try {
-			onTextChange(textComponent.getText());
-		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logError(t);
-			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
-		}
-	}
-
-	protected void onTextChange(String newStringValue) {
-		data.setValue(newStringValue);
-	}
-
 	protected void updateTextComponent(boolean refreshStructure) {
 		if (refreshStructure) {
 			if (data.isGetOnly()) {
 				textComponent.setEditable(false);
-				textComponent.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
+				textComponent.setOpaque(false);
+				textComponent.setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
 			} else {
 				textComponent.setEditable(true);
-				textComponent.setBackground(SwingRendererUtils.getEditableTextBackgroundColor());
+				textComponent.setOpaque(true);
+				textComponent.setForeground(null);
 			}
 		}
 		listenerDisabled = true;
@@ -220,6 +206,23 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	protected void textComponentEditHappened() {
+		updateScrollPolicy();
+		if (listenerDisabled) {
+			return;
+		}
+		try {
+			onTextChange(textComponent.getText());
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logError(t);
+			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
+		}
+	}
+
+	protected void onTextChange(String newStringValue) {
+		data.setValue(newStringValue);
+	}
+
 	@Override
 	public Dimension getMinimumSize() {
 		return super.getPreferredSize();
@@ -237,7 +240,7 @@ public class TextControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return false;
 	}
 

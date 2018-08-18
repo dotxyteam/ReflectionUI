@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import javax.swing.JPanel;
-
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
@@ -31,8 +29,9 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.ControlPanel;
 
-public class MethodControlPlaceHolder extends JPanel implements IMethodControlInput {
+public class MethodControlPlaceHolder extends ControlPanel implements IMethodControlInput {
 
 	protected static final long serialVersionUID = 1L;
 

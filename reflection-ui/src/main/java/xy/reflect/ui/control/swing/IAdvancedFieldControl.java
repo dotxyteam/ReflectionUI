@@ -9,7 +9,7 @@ public interface IAdvancedFieldControl {
 
 	boolean refreshUI(boolean refreshStructure);
 
-	boolean handlesModificationStackUpdate();
+	boolean handlesModificationStackAndStress();
 
 	void validateSubForm() throws Exception;
 

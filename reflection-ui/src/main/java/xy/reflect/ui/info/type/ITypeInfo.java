@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -56,6 +57,10 @@ public interface ITypeInfo extends IInfo {
 	boolean onFormVisibilityChange(Object object, boolean visible);
 
 	Dimension getFormPreferredSize();
+
+	ResourcePath getFormBackgroundImagePath();
+
+	ColorSpecification getFormForegroundColor();
 
 	public enum FieldsLayout {
 		HORIZONTAL_FLOW, VERTICAL_FLOW

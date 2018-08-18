@@ -11,6 +11,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -178,6 +179,16 @@ public class GenericEnumerationFactory {
 	}
 
 	public class TypeInfo extends AbstractInfo implements IEnumerationTypeInfo {
+
+		@Override
+		public ResourcePath getFormBackgroundImagePath() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormForegroundColor() {
+			return null;
+		}
 
 		@Override
 		public Dimension getFormPreferredSize() {

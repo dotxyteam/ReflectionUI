@@ -65,6 +65,7 @@ import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -79,6 +80,8 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.component.ControlScrollPane;
 
 public class SwingRendererUtils {
 
@@ -159,7 +162,7 @@ public class SwingRendererUtils {
 	}
 
 	public static JPanel flowInLayout(Component c, int gridBagConstraintsAnchor) {
-		JPanel result = new JPanel();
+		JPanel result = new ControlPanel();
 		result.setLayout(new GridBagLayout());
 		GridBagConstraints contraints = new GridBagConstraints();
 		contraints.gridx = 0;
@@ -638,7 +641,7 @@ public class SwingRendererUtils {
 		msgComponent.setText(msg);
 		msgComponent.setEditable(false);
 		msgComponent.setBackground(getNonEditableTextBackgroundColor());
-		final JScrollPane scrollPane = new JScrollPane(msgComponent);
+		final JScrollPane scrollPane = new ControlScrollPane(msgComponent);
 		removeScrollPaneBorder(scrollPane);
 		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,
 				new Object[] {});
@@ -870,10 +873,6 @@ public class SwingRendererUtils {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.background"));
 	}
 
-	public static Color getEditableTextForegroundColor() {
-		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.foreground"));
-	}
-
 	public static Color getNonEditableTextForegroundColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.disabledText"));
 	}
@@ -934,6 +933,28 @@ public class SwingRendererUtils {
 		}
 		return null;
 
+	}
+
+	public static Color getColor(ColorSpecification colorSpec) {
+		if (colorSpec == null) {
+			return null;
+		}
+		return new Color(colorSpec.getRed(), colorSpec.getGreen(), colorSpec.getBlue());
+	}
+
+	public static void setColor(ColorSpecification colorSpec, Color color) {
+		colorSpec.setRed(color.getRed());
+		colorSpec.setGreen(color.getGreen());
+		colorSpec.setBlue(color.getBlue());
+	}
+	
+	public static ColorSpecification getColorSpecification(Color color) {
+		if (color == null) {
+			return null;
+		}
+		ColorSpecification result = new ColorSpecification();
+		setColor(result, color);
+		return result;
 	}
 
 }

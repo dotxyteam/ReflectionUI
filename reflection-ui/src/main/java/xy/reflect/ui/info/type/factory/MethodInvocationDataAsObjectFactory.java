@@ -10,6 +10,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
@@ -27,12 +28,12 @@ public class MethodInvocationDataAsObjectFactory {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
-	protected String typeName;
+	protected String contextId;
 
-	public MethodInvocationDataAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String typeName) {
+	public MethodInvocationDataAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
-		this.typeName = typeName;
+		this.contextId = contextId;
 	}
 
 	public Instance getInstance(Object object, InvocationData invocationData) {
@@ -71,7 +72,7 @@ public class MethodInvocationDataAsObjectFactory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
+		result = prime * result + ((contextId == null) ? 0 : contextId.hashCode());
 		result = prime * result + ((method == null) ? 0 : method.hashCode());
 		return result;
 	}
@@ -85,10 +86,10 @@ public class MethodInvocationDataAsObjectFactory {
 		if (getClass() != obj.getClass())
 			return false;
 		MethodInvocationDataAsObjectFactory other = (MethodInvocationDataAsObjectFactory) obj;
-		if (typeName == null) {
-			if (other.typeName != null)
+		if (contextId == null) {
+			if (other.contextId != null)
 				return false;
-		} else if (!typeName.equals(other.typeName))
+		} else if (!contextId.equals(other.contextId))
 			return false;
 		if (method == null) {
 			if (other.method != null)
@@ -100,7 +101,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 	@Override
 	public String toString() {
-		return "MethodSetupObjectFactory [method=" + method + ", typeName=" + typeName + "]";
+		return "MethodSetupObjectFactory [method=" + method + ", contextId=" + contextId + "]";
 	}
 
 	public class Instance {
@@ -118,6 +119,10 @@ public class MethodInvocationDataAsObjectFactory {
 
 		public InvocationData getInvocationData() {
 			return invocationData;
+		}
+
+		private MethodInvocationDataAsObjectFactory getOuterType() {
+			return MethodInvocationDataAsObjectFactory.this;
 		}
 
 		@Override
@@ -154,18 +159,25 @@ public class MethodInvocationDataAsObjectFactory {
 			return true;
 		}
 
-		private MethodInvocationDataAsObjectFactory getOuterType() {
-			return MethodInvocationDataAsObjectFactory.this;
-		}
-
 		@Override
 		public String toString() {
-			return "MethodParametersAsObject [object=" + object + ", invocationData=" + invocationData + "]";
+			return "Instance [object=" + object + ", invocationData=" + invocationData + "]";
 		}
 
 	}
 
 	public class TypeInfo extends AbstractInfo implements ITypeInfo {
+
+		@Override
+		public ResourcePath getFormBackgroundImagePath() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormForegroundColor() {
+			return null;
+		}
+
 		@Override
 		public Dimension getFormPreferredSize() {
 			return null;
@@ -245,7 +257,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 		@Override
 		public String getName() {
-			return typeName;
+			return "MethodSetupObject [context=" + contextId + "]";
 		}
 
 		@Override
@@ -271,7 +283,7 @@ public class MethodInvocationDataAsObjectFactory {
 		@Override
 		public String toString(Object object) {
 			Instance instance = (Instance) object;
-			return method.toString() + "\n<= invoked with: " + instance.invocationData.toString();
+			return instance.invocationData.toString();
 		}
 
 		@Override

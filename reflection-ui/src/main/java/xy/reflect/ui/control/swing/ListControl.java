@@ -38,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -101,9 +102,12 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
+import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.component.ControlScrollPane;
+import xy.reflect.ui.util.component.ControlSplitPane;
 import xy.reflect.ui.util.component.ScrollPaneOptions;
 
-public class ListControl extends JPanel implements IAdvancedFieldControl {
+public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -144,8 +148,8 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 		this.listData = input.getControlData();
 
 		initializeTreeTableControl();
-		toolbar = new JPanel();
-		detailsArea = new JPanel();
+		toolbar = new ControlPanel();
+		detailsArea = new ControlPanel();
 
 		openDetailsDialogOnItemDoubleClick();
 		updateDetailsAreaOnSelection();
@@ -189,31 +193,31 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	protected void layoutControls() {
 		setLayout(new BorderLayout());
 		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
-			JPanel listPanel = new JPanel();
+			JPanel listPanel = new ControlPanel();
 			listPanel.setLayout(new BorderLayout());
 			listPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
 			listPanel.add(toolbar, BorderLayout.EAST);
-			final JSplitPane splitPane = new JSplitPane();
+			final JSplitPane splitPane = new ControlSplitPane();
 			add(splitPane, BorderLayout.CENTER);
 			final double dividerLocation;
 			if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-				splitPane.setLeftComponent(new JScrollPane(listPanel));
+				splitPane.setLeftComponent(new ControlScrollPane(listPanel));
 				splitPane.setRightComponent(detailsArea);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-				splitPane.setRightComponent(new JScrollPane(listPanel));
+				splitPane.setRightComponent(new ControlScrollPane(listPanel));
 				splitPane.setLeftComponent(detailsArea);
 				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				splitPane.setTopComponent(new JScrollPane(listPanel));
+				splitPane.setTopComponent(new ControlScrollPane(listPanel));
 				splitPane.setBottomComponent(detailsArea);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				splitPane.setBottomComponent(new JScrollPane(listPanel));
+				splitPane.setBottomComponent(new ControlScrollPane(listPanel));
 				splitPane.setTopComponent(detailsArea);
 				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else {
@@ -417,7 +421,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean handlesModificationStackUpdate() {
+	public boolean handlesModificationStackAndStress() {
 		return true;
 	}
 
@@ -461,7 +465,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 				}
 			}
 		};
-		treeTableComponentScrollPane = new JScrollPane(treeTableComponent) {
+		treeTableComponentScrollPane = new ControlScrollPane(treeTableComponent) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -1377,7 +1381,7 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 	}
 
 	protected Component createDetailsAreaScrollPane(Form detailsControl) {
-		return new JScrollPane(new ScrollPaneOptions(detailsControl, true, false));
+		return new ControlScrollPane(new ScrollPaneOptions(detailsControl, true, false));
 	}
 
 	public void scrollUntilVisible(BufferedItemPosition itemPosition) {
@@ -1489,7 +1493,12 @@ public class ListControl extends JPanel implements IAdvancedFieldControl {
 			if (getDetailsAccessMode().hasDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
-			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+			treeTableComponentScrollPane.setBorder(
+					BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+			if (listData.getFormForegroundColor() != null) {
+				((TitledBorder) treeTableComponentScrollPane.getBorder())
+						.setTitleColor(SwingRendererUtils.getColor(listData.getFormForegroundColor()));
+			}
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		return true;
