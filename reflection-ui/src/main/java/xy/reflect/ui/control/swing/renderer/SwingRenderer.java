@@ -442,10 +442,14 @@ public class SwingRenderer {
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(SwingRendererUtils.getMessageJOptionPane(
-				prepareStringToDisplay(ReflectionUIUtils.getPrettyErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
+				prepareStringToDisplay(getErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
 		dialogBuilder.setToolbarComponents(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);
+	}
+
+	public String getErrorMessage(Throwable error) {
+		return ReflectionUIUtils.getPrettyErrorMessage(error);
 	}
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {

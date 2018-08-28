@@ -1,17 +1,13 @@
-- remove awt colors from IInfo model
-- parameters displayed in form issues:
-	. cannot change replace null value
-	. strange object displayed when distinct null value enabled
-- polymorphic control issues:
-	. enumeration not updated when subtypes changed 
-	. type enum as option buttons selection cleared on refreshUI
-- it seems like:
-	modif stack triggers form refresh too early because control data update is delayed
+- allow to specify global gui infos (Ex: reflectionUI.getGlobalInfo
+	. defaults (background/foreground color, ...)
+	. buttons background image/color and foreground color
+	. windows background (color and/or image)
+	. window decorations (system, custom, ...)
+	. ...
+- allow to specify form background color
 - allow to disable the window scroll pane ??? 
-- Form preferred size issue when resizing window smaller.
-Try to allow layout weight setting through FieldCustomization
 - geometric attributes are merged with behavioral attributes 
-- refresh recreates many many controls uselessly: fix it ???
+- refresh recreates many many controls for uselessly: fix it ???
  may not be serious since it happens only when refreshStructure=true
 - SlaveModifStack.exclusiveLinkWithParent: there must be a better way to design it 
 - ModifStack.forget() should not forward an invalidation. It is not a reflection of
@@ -19,21 +15,6 @@ the object state. It is a choice made by the user that does not delete but hides
 all the memories about what happened to the object. Also note that loading an object
 state from a file can be easily reverted by saving the object state before in a 
 memory stream. 
-- Form class addition:
-	. a form must be autonomous
-		* refresh itself by default
-		* have a status bar and validate itself by default
-		* this behaviour must be overridable by parent component:
-			# replace modif stack
-			# change status bar visibility (may be not necessary)
-	. create window manager class that will handle similarities between frame and dialogs
-	. remove some form setters
-	. move createFieldErrorControl from form to fcph
-- ItemPosition must not reference control data classes:
-	. there must a method ItemPosition.updateItem(...) that returns a rootListValue
-	that can be the same or a new version if needed
-	. there must be a Modification(ItemPosition, rawListData) that runs the updateItem method 
-	and uses the returned value to run a ControlDataCModification
 - IControl*Input should be merged with I*ControlData
 - modificationsTarget must be are just used to get
 the name of the member involved in the modification.
@@ -43,86 +24,35 @@ It should be "fieldCaption" & "methodCaption" only
 	. on RCP forums ???
 - add website checks
 - in this context of chained transformations values origin should be traceable
-in case of inconsistance
+in case of inconsistency???
 - ListControl issue: can make tree table control larger but not smaller
 to its original length
-- save/save as: check existing file
-- separate customizations features in another project not open source
-- talk about reflectionui in rcp forums 
-- allow to add undo/redo ... save/load/export/import methods
 - allow to export/import to/from clipboard
 - allow menu shortcuts/accelerators
-- nice status bar at bottom ???
 - update website:
 	* screenshots
 	* examples 
 	* ...
-	* update github sites (all projects)
-- imageView: allow actual image size
-- accept icons size ???
+	* update github sites
 - new controls:
 	. dateChooser
-	. embedded controls list control???
 - display null equivalence greyed ???
 - remove method return value specificities ???
-- image control in scroll pane ???
 - parameters should get their customizations from
 	parameterAsField customizations ???
 - listControl: allow to edit multiple items at the same time
-- add customizationContext class
 - allow to disable copy/cut/paste on lists
-- every customization should have its opposite for more power
-- reset column order option
-- evolve customizations:
-	* add ParameterCustomization.inputFieldName???
-	* add Field.nullStatusBooleanFieldName???
-	* sub-(field|method) customization 
-- customization controller
-	* ask to save customizations before disposing ??? 
 - add ITypeInfo.equals() ???
 	=> not urgent at first sight
-- clean:
-	* check Info class names
-		. find better names if possible
 - what was decided about valiation of controls with no caption ???
-- date control plugin ???
-- password control plugin
-- how to deal with hidden nullables when the value remains null
 - indent toString()s ???
-- allow to set (min) list size ???
-- should not need to exclude list item members:
-	columns should be able to feed from the uncustomized type???
-	but what about items inside and outside the list at the same time ???
-	=> think about it
-
 - reflectionUI is often excluded from hashCode() and equals()
 	=> justified ?
-- allow to specify ImplicitListField in customizations
 - dialog/panel creation is sometimes slow but no busy dialog shown
 	<= multiple small showBusyDialogWHile() calls are done
 	=> find a way to show the busy dialog anyway
-- check how duplicate field names are handled
-- ListControl calls too much list.toArray()
-	=> optimize
 . allow to execute dynamic actions or change dynamic properties on 
 multiple nodes
-. restore all control states on refresh,
-	even non-focused controls???
-ex: embedded form tabbed pane selection
-. expose more customizations feature
-	. screenshot
-. allow to customize List item double click defaut action ???
-- allow to unlock cutomization toolls at runtime
-- allow to customize icons for:
-	. fields: can be postponed as field controls need to be updated
-- icon on title bar???
-- allow to customize online help on list properties/actions
-- allow to override default tooltips help on method controls
-- provide swingRenderer.openAutoRollbackableDialog()
-- normally a field control must be customizable for only 1 field.
-Currently, customizations affects all fields having the same type  
-- allow to clean customizations
-- ITypeInfo.getName() should not be used for finding controls???
 - write hashCode() & equals() of some inner classes where the IDE
 could not generate them
 - Type params must be get from the IField/MethodInfo, not ITypeInfo
@@ -130,43 +60,18 @@ just like in the Java spec.
 	. add IFieldInfo.getTypeParameters()
 	https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/reflect/TypeUtils.html
 	. maybe take a shortcut and implement it in a next future version
-- add IListType:
-	. getItemGetter(int)
-	. getItemSetter(int,Obj)
 - ReflectionUI parameter is often useless. Check
 - polymorphiControl:
-	. what if a polymorphic base type is a valid option itself (is concrete)?
 	. what if there is only 1 subtype. use polymorphic control anyway?
-- customizations editor recreates controls
-and forms and often invalidates the customized UI
-Ex: DialogAccessControl recreated while dialog open 
-- secure cache ReflectionUI.precomputedTypeInfoByObject
 - cleaning for end-developer:
 	. add ReflectionUIError explicit messages
-- rethink about read-only forms
-- expose liscontrol selectionListening
-- liscontrol:
-	- allow to remove toolbar ???
-- add ITypeInfo.hasValueOptions()???
-- icons, expanded field value, ... should be part of basic type info,
-not swing specific properties, as it common to most renderers and can
-be ignored if not displayable??? 
 - remove IListTypeInfo.getObjectSpecificItemConstructors???
-- ITypeInfo.isModificationStackAccessible
-	=> must be a SwingSpecificProperty???
-- field periodic auto-update???
 - allow to sort list view
 - update ScreenShots
 - update Example
 - Fix all the tests
 - MultipleFieldAsList with only 1 item???
-- customizations :
-	. filter lists: remove renamed or deleted targets???
-- preset customizations object names must be special 
-	. ex: prefixe with '.': Field ".position" or ".type"
 - add class MetodSignature???
-- add Customizations:
-	. methods default param values
-- For null field, allow custom instanciation
-- menus???
 - update translatable strings
+
+

@@ -262,7 +262,7 @@ public class MethodInvocationDataAsObjectFactory {
 
 		@Override
 		public String getCaption() {
-			return ReflectionUIUtils.composeMessage(method.getCaption(), "Executing");
+			return ReflectionUIUtils.composeMessage(method.getCaption(), "Execution");
 		}
 
 		@Override
