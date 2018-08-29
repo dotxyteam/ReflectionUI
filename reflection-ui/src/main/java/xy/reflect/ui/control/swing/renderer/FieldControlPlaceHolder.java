@@ -2,6 +2,7 @@ package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -63,7 +64,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected boolean layoutInContainerUpdateNeeded = true;
 	protected int positionInContainer = -1;
 	protected boolean ancestorVisible = false;
-	protected Thread autoRefreshThread;
+	protected AutoUpdateThread autoUpdateThread;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, Form form, IFieldInfo field) {
 		super();
@@ -102,63 +103,27 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public boolean isAutoRefreshActive() {
-		return (autoRefreshThread != null) && (autoRefreshThread.isAlive());
+		return (autoUpdateThread != null) && (autoUpdateThread.isAlive());
 	}
 
 	public void startAutoRefresh() {
 		if (isAutoRefreshActive()) {
 			return;
 		}
-		autoRefreshThread = new Thread("AutoUpdater of " + FieldControlPlaceHolder.this) {
-			boolean updating = false;
+		autoUpdateThread = createAutoUpdateThread();
+		autoUpdateThread.start();
+	}
 
-			@Override
-			public void run() {
-				while (true) {
-					if (field.getAutoUpdatePeriodMilliseconds() > 0) {
-						try {
-							sleep(field.getAutoUpdatePeriodMilliseconds());
-						} catch (InterruptedException e) {
-							interrupt();
-						}
-					}
-					while (updating) {
-						if (isInterrupted()) {
-							break;
-						}
-						try {
-							sleep(10);
-						} catch (InterruptedException e) {
-							interrupt();
-							break;
-						}
-					}
-					if (isInterrupted()) {
-						break;
-					}
-					updating = true;
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							refreshUI(false);
-							if (isLayoutInContainerUpdateNeeded()) {
-								form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
-							}
-							updating = false;
-						}
-					});
-				}
-			}
-		};
-		autoRefreshThread.start();
+	public AutoUpdateThread createAutoUpdateThread() {
+		return new AutoUpdateThread();
 	}
 
 	public void stopAutoRefresh() {
 		if (!isAutoRefreshActive()) {
 			return;
 		}
-		while (autoRefreshThread.isAlive()) {
-			autoRefreshThread.interrupt();
+		while (autoUpdateThread.isAlive()) {
+			autoUpdateThread.interrupt();
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -742,6 +707,85 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			return "InitialFieldControlData [of=" + getOuterType() + ", finalField=" + finalField + "]";
 		}
 
+	}
+
+	protected class AutoUpdateThread extends Thread {
+
+		protected boolean updating = false;
+
+		public AutoUpdateThread() {
+			super("AutoUpdater of " + FieldControlPlaceHolder.this);
+		}
+
+		@Override
+		public void run() {
+			while (true) {
+				sleepUntilNextUpdateTime();
+				waitForCurrentUpdateEnd();
+				sleepWhileWindowInactive();
+				if (isInterrupted()) {
+					break;
+				}
+				update();
+			}
+		}
+
+		protected void sleepWhileWindowInactive() {
+			Window window = SwingUtilities.getWindowAncestor(FieldControlPlaceHolder.this);
+			if (window == null) {
+				return;
+			}
+			while (true) {
+				if (isInterrupted()) {
+					break;
+				}
+				if (window == SwingRendererUtils.getActiveWindow()) {
+					break;
+				}
+				relieveCPU();
+			}
+		}
+
+		protected void relieveCPU() {
+			try {
+				sleep(10);
+			} catch (InterruptedException e) {
+				interrupt();
+			}
+		}
+
+		protected void waitForCurrentUpdateEnd() {
+			while (updating) {
+				if (isInterrupted()) {
+					break;
+				}
+				relieveCPU();
+			}
+		}
+
+		protected void update() {
+			updating = true;
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					refreshUI(false);
+					if (isLayoutInContainerUpdateNeeded()) {
+						form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
+					}
+					updating = false;
+				}
+			});
+		}
+
+		protected void sleepUntilNextUpdateTime() {
+			if (field.getAutoUpdatePeriodMilliseconds() > 0) {
+				try {
+					sleep(field.getAutoUpdatePeriodMilliseconds());
+				} catch (InterruptedException e) {
+					interrupt();
+				}
+			}
+		}
 	}
 
 }
