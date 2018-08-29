@@ -923,16 +923,23 @@ public class SwingRendererUtils {
 			Map<String, Object> specificProperties, IFieldControlInput input) {
 		String chosenPluginId = (String) specificProperties.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
 		if (chosenPluginId != null) {
-			for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
-				if (plugin.getIdentifier().equals(chosenPluginId)) {
-					if (plugin.handles(input)) {
-						return plugin;
-					}
+			IFieldControlPlugin plugin = findFieldControlPlugin(swingRenderer, chosenPluginId);
+			if (plugin != null) {
+				if (plugin.handles(input)) {
+					return plugin;
 				}
 			}
 		}
 		return null;
+	}
 
+	public static IFieldControlPlugin findFieldControlPlugin(SwingRenderer swingRenderer, String pluginId) {
+		for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
+			if (plugin.getIdentifier().equals(pluginId)) {
+				return plugin;
+			}
+		}
+		return null;
 	}
 
 	public static Color getColor(ColorSpecification colorSpec) {
@@ -947,7 +954,7 @@ public class SwingRendererUtils {
 		colorSpec.setGreen(color.getGreen());
 		colorSpec.setBlue(color.getBlue());
 	}
-	
+
 	public static ColorSpecification getColorSpecification(Color color) {
 		if (color == null) {
 			return null;
