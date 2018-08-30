@@ -8,6 +8,8 @@ import java.util.Map;
 import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.app.DefaultApplicationInfo;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.StandardEnumerationTypeInfo;
@@ -101,6 +103,10 @@ public class ReflectionUI {
 			}
 		}
 		return result;
+	}
+	
+	public IApplicationInfo getApplicationInfo() {
+		return new DefaultApplicationInfo();
 	}
 
 	protected String formatLogMessage(String msg) {

@@ -14,6 +14,7 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -27,6 +28,7 @@ import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -138,7 +140,7 @@ public class MethodAction extends AbstractAction {
 
 		dialogBuilder.setContentComponent(methodForm);
 		dialogBuilder.setTitle(getTitle());
-		dialogBuilder.setToolbarComponents(toolbarControls);
+		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(toolbarControls));
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
 	}

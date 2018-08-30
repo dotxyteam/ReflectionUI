@@ -12,8 +12,8 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.MethodControlDataProxy;
-import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.MethodControl;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
@@ -205,7 +205,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 				method = new MethodInfoProxy(method) {
 					@Override
 					public ITypeInfo getReturnValueType() {
-						return typeSpecificities.wrapType(super.getReturnValueType());
+						return typeSpecificities.wrapTypeInfo(super.getReturnValueType());
 					}
 				};
 			}
@@ -230,6 +230,21 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 		public InitialMethodControlData(IMethodInfo finalMethod) {
 			this.finalMethod = finalMethod;
+		}
+
+		@Override
+		public ResourcePath getBackgroundImagePath() {
+			return swingRenderer.getReflectionUI().getApplicationInfo().getMethodControlBackgroundImagePath();
+		}
+
+		@Override
+		public ColorSpecification getBackgroundColor() {
+			return swingRenderer.getReflectionUI().getApplicationInfo().getMethodControlBackgroundColor();
+		}
+
+		@Override
+		public ColorSpecification getForegroundColor() {
+			return swingRenderer.getReflectionUI().getApplicationInfo().getMethodControlForegroundColor();
 		}
 
 		@Override

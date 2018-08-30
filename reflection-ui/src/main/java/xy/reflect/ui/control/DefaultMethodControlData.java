@@ -2,6 +2,8 @@ package xy.reflect.ui.control;
 
 import java.util.List;
 import java.util.Map;
+
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -18,6 +20,21 @@ public class DefaultMethodControlData implements IMethodControlData {
 		super();
 		this.object = object;
 		this.method = method;
+	}
+
+	@Override
+	public ResourcePath getBackgroundImagePath() {
+		return null;
+	}
+
+	@Override
+	public ColorSpecification getBackgroundColor() {
+		return null;
+	}
+
+	@Override
+	public ColorSpecification getForegroundColor() {
+		return null;
 	}
 
 	@Override

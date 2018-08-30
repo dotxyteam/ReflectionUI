@@ -15,6 +15,7 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -36,6 +37,9 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
 public class InfoProxyFactory implements IInfoProxyFactory {
+
+	protected static final String GENERATED_PROXY_FACTORY_LIST_KEY = InfoProxyFactory.class.getName()
+			+ "GENERATED_PROXY_FACTORY_LIST";
 
 	public String getIdentifier() {
 		return getClass().getName();
@@ -72,8 +76,12 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	@Override
-	public ITypeInfo wrapType(final ITypeInfo type) {
+	public IApplicationInfo wrapApplicationInfo(IApplicationInfo appInfo) {
+		return new GeneratedApplicationInfoProxy(appInfo);
+	}
 
+	@Override
+	public ITypeInfo wrapTypeInfo(final ITypeInfo type) {
 		if (type instanceof IListTypeInfo) {
 			return new GeneratedListTypeInfoProxy((IListTypeInfo) type);
 		} else if (type instanceof IEnumerationTypeInfo) {
@@ -85,31 +93,31 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 	}
 
-	public ITypeInfo wrapSubType(ITypeInfo type) {
+	public ITypeInfo wrapSubTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapItemType(ITypeInfo type) {
+	public ITypeInfo wrapItemTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapMethodReturnValueType(ITypeInfo type) {
+	public ITypeInfo wrapMethodReturnValueTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapParameterType(ITypeInfo type) {
+	public ITypeInfo wrapParameterTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapFieldType(ITypeInfo type) {
+	public ITypeInfo wrapFieldTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public IFieldInfo wrapField(IFieldInfo field, ITypeInfo containingType) {
+	public IFieldInfo wrapFieldInfo(IFieldInfo field, ITypeInfo containingType) {
 		return new GeneratedFieldInfoProxy(field, containingType);
 	}
 
-	public IParameterInfo wrapParameter(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	public IParameterInfo wrapParameterInfo(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return new GeneratedParameterInfoProxy(param, method, containingType);
 	}
 
@@ -117,15 +125,15 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return new GeneratedEnumerationItemInfoProxy(itemInfo, parentEnumType);
 	}
 
-	public IMethodInfo wrapConstructor(IMethodInfo constructor, ITypeInfo containingType) {
+	public IMethodInfo wrapConstructorInfo(IMethodInfo constructor, ITypeInfo containingType) {
 		return new GeneratedConstructorInfoProxy(constructor, containingType);
 	}
 
-	public IMethodInfo wrapMethod(IMethodInfo method, ITypeInfo containingType) {
+	public IMethodInfo wrapMethodInfo(IMethodInfo method, ITypeInfo containingType) {
 		return new GeneratedMethodInfoProxy(method, containingType);
 	}
 
-	public ITypeInfo unwrapType(final ITypeInfo type) {
+	public ITypeInfo unwrapTypeInfo(final ITypeInfo type) {
 		GeneratedBasicTypeInfoProxy proxy = (GeneratedBasicTypeInfoProxy) type;
 		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
@@ -133,7 +141,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return proxy.base;
 	}
 
-	public IFieldInfo unwrapField(final IFieldInfo field) {
+	public IFieldInfo unwrapFieldInfo(final IFieldInfo field) {
 		GeneratedFieldInfoProxy proxy = (GeneratedFieldInfoProxy) field;
 		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
@@ -141,7 +149,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return proxy.base;
 	}
 
-	public IMethodInfo unwrapMethod(final IMethodInfo method) {
+	public IMethodInfo unwrapMethodInfo(final IMethodInfo method) {
 		GeneratedMethodInfoProxy proxy = (GeneratedMethodInfoProxy) method;
 		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
@@ -149,7 +157,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return proxy.base;
 	}
 
-	public IParameterInfo unwrapParameter(final IParameterInfo param) {
+	public IParameterInfo unwrapParameterInfo(final IParameterInfo param) {
 		GeneratedParameterInfoProxy proxy = (GeneratedParameterInfoProxy) param;
 		if (!proxy.factory.equals(InfoProxyFactory.this)) {
 			throw new ReflectionUIError();
@@ -157,7 +165,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return proxy.base;
 	}
 
-	public boolean isWrappingType(final ITypeInfo type) {
+	public boolean isWrappingTypeInfo(final ITypeInfo type) {
 		if (!(type instanceof GeneratedBasicTypeInfoProxy)) {
 			return false;
 		}
@@ -168,7 +176,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return true;
 	}
 
-	public boolean isWrappingField(final IFieldInfo field) {
+	public boolean isWrappingFieldInfo(final IFieldInfo field) {
 		if (!(field instanceof GeneratedFieldInfoProxy)) {
 			return false;
 		}
@@ -179,7 +187,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return true;
 	}
 
-	public boolean isWrappingMethod(final IMethodInfo method) {
+	public boolean isWrappingMethodInfo(final IMethodInfo method) {
 		if (!(method instanceof GeneratedMethodInfoProxy)) {
 			return false;
 		}
@@ -190,7 +198,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return true;
 	}
 
-	public boolean isWrappingParameter(final IParameterInfo param) {
+	public boolean isWrappingParameterInfo(final IParameterInfo param) {
 		if (!(param instanceof GeneratedParameterInfoProxy)) {
 			return false;
 		}
@@ -214,7 +222,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return wrapParameterType(param.getType());
+		return wrapParameterTypeInfo(param.getType());
 	}
 
 	protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -238,7 +246,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
-		return wrapFieldType(field.getType());
+		return wrapFieldTypeInfo(field.getType());
 	}
 
 	protected IInfoProxyFactory getTypeSpecificities(IFieldInfo field, ITypeInfo containingType) {
@@ -357,7 +365,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
-		return wrapMethodReturnValueType(method.getReturnValueType());
+		return wrapMethodReturnValueTypeInfo(method.getReturnValueType());
 	}
 
 	protected IInfoProxyFactory getReturnValueTypeSpecificities(IMethodInfo method, ITypeInfo containingType) {
@@ -431,7 +439,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
-		return wrapItemType(type.getItemType());
+		return wrapItemTypeInfo(type.getItemType());
 	}
 
 	protected IListStructuralInfo getStructuralInfo(IListTypeInfo type) {
@@ -534,8 +542,56 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getName();
 	}
 
+	protected String getName(IApplicationInfo appInfo) {
+		return appInfo.getName();
+	}
+
+	protected String getCaption(IApplicationInfo appInfo) {
+		return appInfo.getCaption();
+	}
+	
+	protected ResourcePath getIconImagePath(IApplicationInfo appInfo) {
+		return appInfo.getIconImagePath();
+	}
+
+	protected String getOnlineHelp(IApplicationInfo appInfo) {
+		return appInfo.getOnlineHelp();
+	}
+
+	protected ColorSpecification getMainBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainBackgroundColor();
+	}
+
+	protected ColorSpecification getMainForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainForegroundColor();
+	}
+
+	protected ResourcePath getMainBackgroundImagePath(IApplicationInfo appInfo) {
+		return appInfo.getMainBackgroundImagePath();
+	}
+
+	protected ColorSpecification getMethodControlBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMethodControlBackgroundColor();
+	}
+
+	protected ResourcePath getMethodControlBackgroundImagePath(IApplicationInfo appInfo) {
+		return appInfo.getMethodControlBackgroundImagePath();
+	}
+
+	protected ColorSpecification getMethodControlForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMethodControlForegroundColor();
+	}
+
+	protected Map<String, Object> getSpecificProperties(IApplicationInfo appInfo) {
+		return appInfo.getSpecificProperties();
+	}
+
 	protected ResourcePath getFormBackgroundImagePath(ITypeInfo type) {
 		return type.getFormBackgroundImagePath();
+	}
+
+	protected ColorSpecification getFormBackgroundColor(ITypeInfo type) {
+		return type.getFormBackgroundColor();
 	}
 
 	protected ColorSpecification getFormForegroundColor(ITypeInfo type) {
@@ -547,11 +603,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
-		return wrapField(type.getKeyField(), type);
+		return wrapFieldInfo(type.getKeyField(), type);
 	}
 
 	protected IFieldInfo getValueField(IMapEntryTypeInfo type) {
-		return wrapField(type.getValueField(), type);
+		return wrapFieldInfo(type.getValueField(), type);
 	}
 
 	protected boolean isFormControlMandatory(IFieldInfo field, ITypeInfo containingType) {
@@ -649,10 +705,154 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return info.getCaption();
 	}
 
-	public class GeneratedBasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
+	public class GeneratedApplicationInfoProxy extends AbstractInfoProxy implements IApplicationInfo {
 
-		protected String GENERATED_PROXY_FACTORY_LIST_KEY = InfoProxyFactory.class.getName()
-				+ "GENERATED_PROXY_FACTORY_LIST";
+		protected InfoProxyFactory factory = InfoProxyFactory.this;
+		protected IApplicationInfo base;
+
+		public GeneratedApplicationInfoProxy(IApplicationInfo appInfo) {
+			this.base = appInfo;
+			check();
+		}
+
+		public InfoProxyFactory getFactory() {
+			return factory;
+		}
+
+		@Override
+		public String getName() {
+			return InfoProxyFactory.this.getName(base);
+		}
+
+		@Override
+		public String getCaption() {
+			return InfoProxyFactory.this.getCaption(base);
+		}
+
+		@Override
+		public ResourcePath getIconImagePath() {
+			return InfoProxyFactory.this.getIconImagePath(base);
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return InfoProxyFactory.this.getOnlineHelp(base);
+		}
+
+		@Override
+		public ColorSpecification getMainBackgroundColor() {
+			return InfoProxyFactory.this.getMainBackgroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getMainForegroundColor() {
+			return InfoProxyFactory.this.getMainForegroundColor(base);
+		}
+
+		@Override
+		public ResourcePath getMainBackgroundImagePath() {
+			return InfoProxyFactory.this.getMainBackgroundImagePath(base);
+		}
+
+		@Override
+		public ColorSpecification getMethodControlBackgroundColor() {
+			return InfoProxyFactory.this.getMethodControlBackgroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getMethodControlForegroundColor() {
+			return InfoProxyFactory.this.getMethodControlForegroundColor(base);
+		}
+
+		@Override
+		public ResourcePath getMethodControlBackgroundImagePath() {
+			return InfoProxyFactory.this.getMethodControlBackgroundImagePath(base);
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			Map<String, Object> result = new HashMap<String, Object>(InfoProxyFactory.this.getSpecificProperties(base));
+			@SuppressWarnings("unchecked")
+			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
+					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
+			if (factories == null) {
+				factories = new ArrayList<InfoProxyFactory>();
+			}
+			factories.add(InfoProxyFactory.this);
+			result.put(GENERATED_PROXY_FACTORY_LIST_KEY, factories);
+			return result;
+		}
+
+		private void check() {
+			@SuppressWarnings("unchecked")
+			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
+					.get(GENERATED_PROXY_FACTORY_LIST_KEY);
+			if (factories != null) {
+				List<String> factoryIds = new ArrayList<String>();
+				for (InfoProxyFactory factory : factories) {
+					factoryIds.add(factory.getIdentifier());
+				}
+				Collections.reverse(factoryIds);
+				if (factoryIds.contains(factory.getIdentifier())) {
+					StringBuilder msg = new StringBuilder();
+					msg.append("Duplicate proxy creation detected:" + "\nNew proxy factory identifier:\n- "
+							+ InfoProxyFactory.this.getIdentifier() + "\nExisting factories identifers:\n");
+					for (String id : factoryIds) {
+						msg.append("- " + id + "\n");
+					}
+					msg.append(
+							"If the factories actually differ, please override the getIdentifier() method to differenciate them");
+					throw new ReflectionUIError(msg.toString());
+				}
+			}
+		}
+
+		private InfoProxyFactory getOuterType() {
+			return InfoProxyFactory.this;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			GeneratedApplicationInfoProxy other = (GeneratedApplicationInfoProxy) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (base == null) {
+				if (other.base != null)
+					return false;
+			} else if (!base.equals(other.base))
+				return false;
+			if (factory == null) {
+				if (other.factory != null)
+					return false;
+			} else if (!factory.equals(other.factory))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "GeneratedApplicationInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
+		}
+
+	}
+
+	public class GeneratedBasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
 
 		protected InfoProxyFactory factory = InfoProxyFactory.this;
 		protected ITypeInfo base;
@@ -674,6 +874,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ResourcePath getFormBackgroundImagePath() {
 			return InfoProxyFactory.this.getFormBackgroundImagePath(base);
+		}
+
+		@Override
+		public ColorSpecification getFormBackgroundColor() {
+			return InfoProxyFactory.this.getFormBackgroundColor(base);
 		}
 
 		@Override
@@ -740,7 +945,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
 			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 			for (ITypeInfo subType : InfoProxyFactory.this.getPolymorphicInstanceSubTypes(base)) {
-				result.add(wrapSubType(subType));
+				result.add(wrapSubTypeInfo(subType));
 			}
 			return result;
 		}
@@ -749,7 +954,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public List<IMethodInfo> getMethods() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo method : InfoProxyFactory.this.getMethods(base)) {
-				result.add(wrapMethod(method, base));
+				result.add(wrapMethodInfo(method, base));
 			}
 			return result;
 		}
@@ -758,7 +963,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 			for (IFieldInfo field : InfoProxyFactory.this.getFields(base)) {
-				result.add(wrapField(field, base));
+				result.add(wrapFieldInfo(field, base));
 			}
 			return result;
 		}
@@ -767,7 +972,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public List<IMethodInfo> getConstructors() {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo constructor : InfoProxyFactory.this.getConstructors(base)) {
-				result.add(wrapConstructor(constructor, base));
+				result.add(wrapConstructorInfo(constructor, base));
 			}
 			return result;
 		}
@@ -998,7 +1203,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo constructor : InfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base,
 					listValue)) {
-				result.add(wrapConstructor(constructor, base));
+				result.add(wrapConstructorInfo(constructor, base));
 			}
 			return result;
 		}
@@ -1299,7 +1504,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 			for (IParameterInfo param : InfoProxyFactory.this.getParameters(base, containingType)) {
-				result.add(wrapParameter(param, base, containingType));
+				result.add(wrapParameterInfo(param, base, containingType));
 			}
 			return result;
 		}

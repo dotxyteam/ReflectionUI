@@ -174,6 +174,11 @@ public class MethodInvocationDataAsObjectFactory {
 		}
 
 		@Override
+		public ColorSpecification getFormBackgroundColor() {
+			return null;
+		}
+
+		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return null;
 		}

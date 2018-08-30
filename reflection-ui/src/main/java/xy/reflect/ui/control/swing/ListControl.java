@@ -67,6 +67,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -1038,7 +1039,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return "addSpecificItemContructors[listType=" + newItemPosition.getContainingListType() + "]";
 			}
 
-		}.wrapType(itemType);
+		}.wrapTypeInfo(itemType);
 	}
 
 	protected AbstractStandardListAction createCopyAction() {

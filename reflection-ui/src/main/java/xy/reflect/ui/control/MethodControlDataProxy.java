@@ -2,6 +2,8 @@ package xy.reflect.ui.control;
 
 import java.util.List;
 import java.util.Map;
+
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.InvocationData;
@@ -17,6 +19,18 @@ public class MethodControlDataProxy implements IMethodControlData {
 		this.base = base;
 	}
 	
+	public ResourcePath getBackgroundImagePath() {
+		return base.getBackgroundImagePath();
+	}
+
+	public ColorSpecification getBackgroundColor() {
+		return base.getBackgroundColor();
+	}
+
+	public ColorSpecification getForegroundColor() {
+		return base.getForegroundColor();
+	}
+
 	@Override
 	public String getConfirmationMessage(InvocationData invocationData) {
 		return base.getConfirmationMessage(invocationData);

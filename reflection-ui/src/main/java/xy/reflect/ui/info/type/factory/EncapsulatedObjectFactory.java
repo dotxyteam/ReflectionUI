@@ -323,6 +323,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public ColorSpecification getFormBackgroundColor() {
+			return null;
+		}
+
+		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return null;
 		}

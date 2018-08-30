@@ -40,13 +40,12 @@ import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogBuilder;
-import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.MethodAction;
-import xy.reflect.ui.control.swing.WindowManager;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -169,22 +168,6 @@ public class SwingRenderer {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			ResourcePath imagePath = type.getIconImagePath();
-			if (imagePath == null) {
-				return null;
-			}
-			Image result = SwingRendererUtils.loadImageThroughcache(imagePath,
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	public Image getObjectFormBackgroundImage(Object object) {
-		if (object != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			ResourcePath imagePath = type.getFormBackgroundImagePath();
 			if (imagePath == null) {
 				return null;
 			}
@@ -399,10 +382,16 @@ public class SwingRenderer {
 		return openQuestionDialog(activatorComponent, question, title, "Yes", "No");
 	}
 
-	public boolean openQuestionDialog(Component activatorComponent, String question, String title, String yesCaption,
-			String noCaption) {
-		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
-		dialogBuilder.setToolbarComponents(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
+	public boolean openQuestionDialog(Component activatorComponent, String question, String title,
+			final String yesCaption, final String noCaption) {
+		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+		dialogBuilder.setToolbarComponentsAccessor(new Accessor<List<Component>>() {
+			@Override
+			public List<Component> get() {
+				return new ArrayList<Component>(
+						dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
+			}
+		});
 		dialogBuilder.setContentComponent(SwingRendererUtils.getMessageJOptionPane(prepareStringToDisplay(question),
 				JOptionPane.QUESTION_MESSAGE));
 		dialogBuilder.setTitle(title);
@@ -420,7 +409,7 @@ public class SwingRenderer {
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(
 				SwingRendererUtils.getMessageJOptionPane(prepareStringToDisplay(msg), JOptionPane.INFORMATION_MESSAGE));
-		dialogBuilder.setToolbarComponents(buttons);
+		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
 	}
@@ -441,9 +430,9 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(SwingRendererUtils.getMessageJOptionPane(
-				prepareStringToDisplay(getErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
-		dialogBuilder.setToolbarComponents(buttons);
+		dialogBuilder.setContentComponent(SwingRendererUtils
+				.getMessageJOptionPane(prepareStringToDisplay(getErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
+		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
 	}
@@ -497,11 +486,12 @@ public class SwingRenderer {
 			}
 
 			@Override
-			public Image getObjectIconImage() {
-				if (iconImage == null) {
-					return super.getObjectIconImage();
-				}
-				return iconImage;
+			public Image getEditorWindowIconImage() {
+				if (iconImage != null) {
+					return iconImage;
+				}else {
+					return super.getEditorWindowIconImage();
+				}				
 			}
 
 		};
@@ -613,12 +603,18 @@ public class SwingRenderer {
 				}
 			});
 			final JXBusyLabel busyLabel = new JXBusyLabel();
-			busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			busyLabel.setText("Please wait...");
-			busyLabel.setVerticalTextPosition(SwingConstants.TOP);
-			busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-			busyLabel.setBusy(true);
-			dialogBuilder.setContentComponent(busyLabel);
+			{
+				IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+				if (appInfo.getMainForegroundColor() != null) {
+					busyLabel.setForeground(SwingRendererUtils.getColor(appInfo.getMainForegroundColor()));
+				}
+				busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				busyLabel.setText("Please wait...");
+				busyLabel.setVerticalTextPosition(SwingConstants.TOP);
+				busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+				busyLabel.setBusy(true);
+				dialogBuilder.setContentComponent(busyLabel);
+			}
 			dialogBuilder.setTitle(title);
 			final JDialog dialog = dialogBuilder.createDialog();
 			dialog.addWindowListener(new WindowAdapter() {

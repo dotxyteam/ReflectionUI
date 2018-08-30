@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public class InfoProxyFactorChain implements IInfoProxyFactory {
@@ -16,10 +17,19 @@ public class InfoProxyFactorChain implements IInfoProxyFactory {
 	}
 
 	@Override
-	public ITypeInfo wrapType(ITypeInfo type) {
+	public ITypeInfo wrapTypeInfo(ITypeInfo type) {
 		ITypeInfo result = type;
 		for (IInfoProxyFactory factory : factories) {
-			result = factory.wrapType(result);
+			result = factory.wrapTypeInfo(result);
+		}
+		return result;
+	}
+
+	@Override
+	public IApplicationInfo wrapApplicationInfo(IApplicationInfo appInfo) {
+		IApplicationInfo result = appInfo;
+		for (IInfoProxyFactory factory : factories) {
+			result = factory.wrapApplicationInfo(result);
 		}
 		return result;
 	}

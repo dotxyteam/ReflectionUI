@@ -11,8 +11,13 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.renderer.WindowManager;
+import xy.reflect.ui.info.app.IApplicationInfo;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DialogBuilder {
@@ -23,7 +28,7 @@ public class DialogBuilder {
 	protected Image iconImage;
 	protected Component ownerComponent;
 	protected Component contentComponent;
-	protected List<? extends Component> toolbarComponents;
+	protected Accessor<List<Component>> toolbarComponentsAccessor;
 	protected Runnable whenClosing;
 	protected boolean okPressed = false;
 
@@ -33,6 +38,12 @@ public class DialogBuilder {
 		super();
 		this.ownerComponent = ownerComponent;
 		this.swingRenderer = swingRenderer;
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getIconImagePath() != null) {
+			this.iconImage = SwingRendererUtils.loadImageThroughcache(appInfo.getIconImagePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		}
 	}
 
 	public boolean wasOkPressed() {
@@ -71,12 +82,12 @@ public class DialogBuilder {
 		this.iconImage = iconImage;
 	}
 
-	public List<? extends Component> getToolbarComponents() {
-		return toolbarComponents;
+	public Accessor<List<Component>> getToolbarComponentsAccessor() {
+		return toolbarComponentsAccessor;
 	}
 
-	public void setToolbarComponents(List<? extends Component> toolbarComponents) {
-		this.toolbarComponents = toolbarComponents;
+	public void setToolbarComponentsAccessor(Accessor<List<Component>> toolbarComponentsAccessor) {
+		this.toolbarComponentsAccessor = toolbarComponentsAccessor;
 	}
 
 	public Runnable getWhenClosing() {
@@ -154,7 +165,7 @@ public class DialogBuilder {
 			}
 		};
 		WindowManager windowManager = swingRenderer.createWindowManager(dialog);
-		windowManager.set(contentComponent, toolbarComponents, title, iconImage);
+		windowManager.set(contentComponent, toolbarComponentsAccessor, title, iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}

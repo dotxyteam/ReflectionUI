@@ -2,8 +2,8 @@ package xy.reflect.ui.info.menu;
 
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
-import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.MethodAction;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;

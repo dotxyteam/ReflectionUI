@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.control.IContext;
-import xy.reflect.ui.control.swing.Form;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;

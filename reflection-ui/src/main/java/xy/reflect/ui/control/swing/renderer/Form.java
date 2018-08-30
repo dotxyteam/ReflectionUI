@@ -1,4 +1,4 @@
-package xy.reflect.ui.control.swing;
+package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.util.ArrayList;
@@ -32,9 +33,9 @@ import javax.swing.event.AncestorListener;
 import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
-import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
-import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.ModificationStackControls;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -62,6 +63,7 @@ import xy.reflect.ui.util.component.ControlTabbedPane;
 import xy.reflect.ui.util.component.ImagePanel;
 
 public class Form extends ImagePanel {
+
 	private static final long serialVersionUID = 1L;
 
 	protected SwingRenderer swingRenderer;
@@ -80,6 +82,7 @@ public class Form extends ImagePanel {
 	protected boolean busyIndicationDisabled;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
+	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
 		this.swingRenderer = swingRenderer;
@@ -558,7 +561,7 @@ public class Form extends ImagePanel {
 				return menuModel;
 			}
 
-		}.wrapType(rawType);
+		}.wrapTypeInfo(rawType);
 		return result;
 	}
 
@@ -647,9 +650,30 @@ public class Form extends ImagePanel {
 
 	public void refreshForm(boolean refreshStructure) {
 		if (refreshStructure) {
+			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			setPreservingRatio(true);
 			setFillingAreaWhenPreservingRatio(true);
-			setImage(swingRenderer.getObjectFormBackgroundImage(object));
+			Color awtBackgroundColor;
+			{
+				if (type.getFormBackgroundColor() == null) {
+					awtBackgroundColor = null;
+				} else {
+					awtBackgroundColor = SwingRendererUtils.getColor(type.getFormBackgroundColor());
+				}
+				setBackground(awtBackgroundColor);
+			}
+			Image awtImage;
+			{
+				if (type.getFormBackgroundImagePath() == null) {
+					awtImage = null;
+				} else {
+					awtImage = SwingRendererUtils.loadImageThroughcache(type.getFormBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				setImage(awtImage);
+			}
+			setOpaque((awtBackgroundColor != null) && (awtImage == null));
 		}
 		if (refreshStructure && refreshMemberControlLists()) {
 			InfoCategory displayedCategory = getDisplayedInfoCategory();
@@ -687,6 +711,9 @@ public class Form extends ImagePanel {
 			}
 		}
 		finalizeFormUpdate();
+		for (IRefreshListener l : refreshListeners) {
+			l.onRefresh(refreshStructure);
+		}
 	}
 
 	public boolean refreshMemberControlLists() {
@@ -896,7 +923,7 @@ public class Form extends ImagePanel {
 		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showsCaption()
 				&& (fieldControlPlaceHolder.getField().getCaption().length() > 0);
 		if (shouldHaveSeparateCaptionControl) {
-			captionControl = createSeparateFieldCaptionControl(fieldControlPlaceHolder.getField());
+			captionControl = createSeparateFieldCaptionControl(fieldControlPlaceHolder);
 			GridBagConstraints captionControlLayoutConstraints = new GridBagConstraints();
 			captionControlLayoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
@@ -1008,12 +1035,11 @@ public class Form extends ImagePanel {
 		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, swingRenderer);
 	}
 
-	public Component createSeparateFieldCaptionControl(IFieldInfo field) {
-		JLabel result = new JLabel(swingRenderer.prepareStringToDisplay(field.getCaption() + ": "));
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getFormForegroundColor() != null) {
-			result.setForeground(SwingRendererUtils.getColor(type.getFormForegroundColor()));
+	public Component createSeparateFieldCaptionControl(FieldControlPlaceHolder fieldControlPlaceHolder) {
+		IFieldControlData data = fieldControlPlaceHolder.getControlData();
+		JLabel result = new JLabel(swingRenderer.prepareStringToDisplay(data.getCaption() + ": "));
+		if (data.getFormForegroundColor() != null) {
+			result.setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
 		}
 		return result;
 	}
@@ -1044,8 +1070,18 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
+	public List<IRefreshListener> getRefreshListeners() {
+		return refreshListeners;
+	}
+
 	@Override
 	public String toString() {
 		return "Form [id=" + hashCode() + ", object=" + object + "]";
+	}
+
+	public interface IRefreshListener {
+
+		void onRefresh(boolean refreshStructure);
+
 	}
 }

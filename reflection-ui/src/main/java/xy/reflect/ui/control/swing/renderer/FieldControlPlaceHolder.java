@@ -22,7 +22,6 @@ import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.EnumerationControl;
-import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.NullControl;
@@ -33,6 +32,7 @@ import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
@@ -438,7 +438,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			field = new FieldInfoProxy(field) {
 				@Override
 				public ITypeInfo getType() {
-					return typeSpecificities.wrapType(super.getType());
+					return typeSpecificities.wrapTypeInfo(super.getType());
 				}
 			};
 		}
@@ -471,7 +471,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		if (!controlData.getType().getName().equals(actualValueType.getName())) {
 			final IInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
 			if (typeSpecificities != null) {
-				actualValueType = typeSpecificities.wrapType(actualValueType);
+				actualValueType = typeSpecificities.wrapTypeInfo(actualValueType);
 			}
 			final ITypeInfo finalActualValueType = actualValueType;
 			controlData = new FieldControlDataProxy(controlData) {
@@ -667,7 +667,14 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		public ColorSpecification getFormForegroundColor() {
 			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
-			return type.getFormForegroundColor();
+			if (type.getFormForegroundColor() != null) {
+				return type.getFormForegroundColor();
+			}
+			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+			if (appInfo.getMainForegroundColor() != null) {
+				return appInfo.getMainForegroundColor();
+			}
+			return null;
 		}
 
 		private FieldControlPlaceHolder getOuterType() {

@@ -1,7 +1,13 @@
 package xy.reflect.ui.control.swing;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 
 import javax.swing.JButton;
 
@@ -17,11 +23,34 @@ public class MethodControl extends JButton implements ActionListener {
 	protected SwingRenderer swingRenderer;
 	protected IMethodControlInput input;
 	protected IMethodControlData data;
+	protected Color backgroundColor;
+	protected Color foregroundColor;
+	protected Image backgroundImage;
+	protected Image activatedBackgroundImage;
 
 	public MethodControl(SwingRenderer swingRenderer, IMethodControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
+		if (data.getBackgroundImagePath() == null) {
+			this.backgroundImage = null;
+		} else {
+			this.backgroundImage = SwingRendererUtils.loadImageThroughcache(data.getBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+			if(this.backgroundImage != null) {
+				this.activatedBackgroundImage = addBackgroundImageActivationEffect(this.backgroundImage);
+			}
+		}
+		if (data.getBackgroundColor() == null) {
+			this.backgroundColor = null;
+		} else {
+			this.backgroundColor = SwingRendererUtils.getColor(data.getBackgroundColor());
+		}
+		if (data.getForegroundColor() == null) {
+			this.foregroundColor = null;
+		} else {
+			this.foregroundColor = SwingRendererUtils.getColor(data.getForegroundColor());
+		}
 		initialize();
 	}
 
@@ -34,6 +63,37 @@ public class MethodControl extends JButton implements ActionListener {
 		}
 		setIcon(SwingRendererUtils.getMethodIcon(swingRenderer, data));
 		addActionListener(this);
+		if (backgroundColor != null) {
+			setBackground(backgroundColor);
+		}
+		if (foregroundColor != null) {
+			setForeground(foregroundColor);
+		}
+		if (backgroundImage != null) {
+			setContentAreaFilled(false);
+			setBorderPainted(false);
+		}
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		if (backgroundImage != null) {
+			if (getModel().isArmed()) {
+				g.drawImage(activatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
+			} else {
+				g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+			}
+		}
+		super.paintComponent(g);
+	}
+
+	protected BufferedImage addBackgroundImageActivationEffect(Image backgroundImage) {
+		BufferedImage result = new BufferedImage(backgroundImage.getWidth(null), backgroundImage.getHeight(null),
+				BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = result.createGraphics();
+		g.drawImage(backgroundImage, 0, 0, null);
+		g.dispose();
+		return new RescaleOp(0.5f, 64, null).filter(result, null);
 	}
 
 	@Override

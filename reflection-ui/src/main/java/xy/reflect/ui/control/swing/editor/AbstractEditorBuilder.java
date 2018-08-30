@@ -9,15 +9,20 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.DialogBuilder;
-import xy.reflect.ui.control.swing.Form;
-import xy.reflect.ui.control.swing.WindowManager;
+import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.WindowManager;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
@@ -42,9 +47,18 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return encapsulatedObjectType.getCaption();
 	}
 
-	public Image getObjectIconImage() {
+	public Image getEditorWindowIconImage() {
 		ensureObjectValueIsInitialized();
-		return getSwingRenderer().getObjectIconImage(initialObjectValue);
+		Image result = getSwingRenderer().getObjectIconImage(initialObjectValue);
+		if (result == null) {
+			ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
+			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+			if (appInfo.getIconImagePath() != null) {
+				result = SwingRendererUtils.loadImageThroughcache(appInfo.getIconImagePath(),
+						ReflectionUIUtils.getErrorLogListener(reflectionUI));
+			}
+		}
+		return result;
 	}
 
 	public String getCancelCaption() {
@@ -63,7 +77,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return Collections.emptyList();
 	}
 
-	protected List<? extends Component> createAnyWindowToolbarControls() {
+	protected List<Component> createAnyWindowToolbarControls() {
 		List<Component> result = new ArrayList<Component>();
 		List<Component> commonToolbarControls = createdEditorForm.createFormToolbarControls();
 		if (commonToolbarControls != null) {
@@ -80,8 +94,8 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		createdEditorForm = createForm(false, false);
 		createdFrame = new JFrame();
 		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
-		windowManager.set(createdEditorForm, createAnyWindowToolbarControls(),
-				getEditorWindowTitle(), getObjectIconImage());
+		windowManager.set(createdEditorForm, Accessor.returning(createAnyWindowToolbarControls()),
+				getEditorWindowTitle(), getEditorWindowIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}
@@ -103,19 +117,22 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(createdEditorForm);
 		dialogBuilder.setTitle(getEditorWindowTitle());
-		dialogBuilder.setIconImage(getObjectIconImage());
+		dialogBuilder.setIconImage(getEditorWindowIconImage());
 
-		List<Component> toolbarControls = new ArrayList<Component>(createAnyWindowToolbarControls());
-		{
-			if (isCancellable()) {
-				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
-						getCancelCaption());
-				toolbarControls.addAll(okCancelButtons);
-			} else {
-				toolbarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
+		dialogBuilder.setToolbarComponentsAccessor(new Accessor<List<Component>>() {
+			@Override
+			public List<Component> get() {
+				List<Component> toolbarControls = new ArrayList<Component>(createAnyWindowToolbarControls());
+				if (isCancellable()) {
+					List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
+							getCancelCaption());
+					toolbarControls.addAll(okCancelButtons);
+				} else {
+					toolbarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
+				}
+				return toolbarControls;
 			}
-			dialogBuilder.setToolbarComponents(toolbarControls);
-		}
+		});
 		return dialogBuilder.createDialog();
 	}
 

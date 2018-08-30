@@ -62,8 +62,8 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.swing.Form;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
@@ -422,21 +422,18 @@ public class SwingRendererUtils {
 		}
 		Rectangle maxBounds = SwingRendererUtils.getMaximumWindowBounds(getWindowCurrentGraphicsDevice(window));
 		int characterSize = getStandardCharacterWidth(window);
-		int minWidth = characterSize * 80;
 		window.setBounds(maxBounds);
 		window.pack();
 		Rectangle bounds = window.getBounds();
 		int widthGrowth, heightGrowth;
 		{
-			if (bounds.width < minWidth) {
-				widthGrowth = minWidth - bounds.width;
-			} else {
-				widthGrowth = 0;
-			}
+			widthGrowth = 4 * characterSize;
 			heightGrowth = 4 * characterSize;
 			bounds.width += widthGrowth;
 			bounds.height += heightGrowth;
 		}
+		int minWidth = characterSize * 80;
+		bounds.width = Math.max(bounds.width, minWidth);
 		bounds = maxBounds.intersection(bounds);
 		bounds.x = maxBounds.x + (maxBounds.width - bounds.width) / 2;
 		bounds.y = maxBounds.y + (maxBounds.height - bounds.height) / 2;
@@ -521,22 +518,27 @@ public class SwingRendererUtils {
 		}
 		Image result = SwingRendererUtils.IMAGE_CACHE.get(imagePath.getSpecification());
 		if (result == null) {
-			URL imageUrl;
-			if (imagePath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
-				imageUrl = SwingRendererUtils.class.getClassLoader()
-						.getResource(ResourcePath.extractClassPathResourceValue(imagePath.getSpecification()));
-			} else {
-				try {
-					imageUrl = new File(imagePath.getSpecification()).toURI().toURL();
-				} catch (MalformedURLException e) {
-					throw new ReflectionUIError(e);
-				}
-			}
 			try {
+				URL imageUrl;
+				if (imagePath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
+					String classPathResourceLocation = ResourcePath
+							.extractClassPathResourceValue(imagePath.getSpecification());
+					imageUrl = SwingRendererUtils.class.getClassLoader().getResource(classPathResourceLocation);
+					if (imageUrl == null) {
+						throw new ReflectionUIError(
+								"Class path resource not found: '" + classPathResourceLocation + "'");
+					}
+				} else {
+					try {
+						imageUrl = new File(imagePath.getSpecification()).toURI().toURL();
+					} catch (MalformedURLException e) {
+						throw new ReflectionUIError(e);
+					}
+				}
 				result = ImageIO.read(imageUrl);
 			} catch (IOException e) {
 				if (errorMessageListener != null) {
-					errorMessageListener.handle("Failed to load image from '" + imageUrl + "': " + e.toString());
+					errorMessageListener.handle("Failed to load image from '" + imagePath + "': " + e.toString());
 				}
 				result = NULL_IMAGE;
 			}

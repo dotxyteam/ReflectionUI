@@ -54,6 +54,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
+	public ColorSpecification getFormBackgroundColor() {
+		return null;
+	}
+
+	@Override
 	public ColorSpecification getFormForegroundColor() {
 		return null;
 	}

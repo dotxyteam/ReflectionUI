@@ -30,8 +30,12 @@ public class ResourcePath implements Serializable {
 		this("");
 	}
 
+	public ResourcePath(Class<?> classInResourcePackage, String resourceName) {
+		this(ResourcePath.formatClassPathResourceSpecification(
+				classInResourcePackage.getPackage().getName().replace(".", "/") + "/" + resourceName));
+	}
+
 	public ResourcePath(String specification) {
-		super();
 		setSpecification(specification);
 	}
 

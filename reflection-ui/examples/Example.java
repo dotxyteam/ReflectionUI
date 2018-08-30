@@ -74,7 +74,7 @@ public class Example {
 					 * Many more methods can be overriden. Explore the class to find out...
 					 */
 
-				}.wrapType(super.getTypeInfo(typeSource));
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
 			}
 
 		};
@@ -128,7 +128,7 @@ public class Example {
 						}
 					}
 
-				}.wrapType(super.getTypeInfo(typeSource));
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
 			}
 
 		};
@@ -174,7 +174,7 @@ public class Example {
 						}
 					}
 
-				}.wrapType(super.getTypeInfo(typeSource));
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
 			}
 
 		};
@@ -251,7 +251,7 @@ public class Example {
 						}
 					}
 
-				}.wrapType(super.getTypeInfo(typeSource));
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
 			}
 
 		};
@@ -277,7 +277,7 @@ public class Example {
 						return "OVERRIDEN: " + super.toString(type, object);
 					}
 
-				}.wrapType(super.getTypeInfo(typeSource));
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
 			}
 
 		};
@@ -311,7 +311,7 @@ public class Example {
 						throw new AssertionError();
 					}
 
-				}.wrapType(super.getTypeInfo(typeSource));
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
 			}
 
 		};

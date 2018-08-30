@@ -58,9 +58,11 @@ public interface ITypeInfo extends IInfo {
 
 	Dimension getFormPreferredSize();
 
-	ResourcePath getFormBackgroundImagePath();
+	ColorSpecification getFormBackgroundColor();
 
 	ColorSpecification getFormForegroundColor();
+
+	ResourcePath getFormBackgroundImagePath();
 
 	public enum FieldsLayout {
 		HORIZONTAL_FLOW, VERTICAL_FLOW

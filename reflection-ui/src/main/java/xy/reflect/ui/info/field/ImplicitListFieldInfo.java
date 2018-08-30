@@ -349,6 +349,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public ColorSpecification getFormBackgroundColor() {
+			return null;
+		}
+
+		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return null;
 		}

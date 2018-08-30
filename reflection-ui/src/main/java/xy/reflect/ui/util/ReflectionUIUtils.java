@@ -1217,22 +1217,18 @@ public class ReflectionUIUtils {
 	}
 
 	public static String formatMethodControlTooltipText(IMethodControlData data) {
-		String toolTipText = formatMethodControlCaption(data);
-		{
+		if (data.getOnlineHelp() != null) {
+			return data.getOnlineHelp();
+		} else {
+			String toolTipText = formatMethodControlCaption(data);
 			if (data.getParameters().size() > 0) {
 				if (toolTipText.length() > 0) {
 					toolTipText += "\n";
 				}
 				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(data.getParameters());
 			}
-			if ((data.getOnlineHelp() != null) && (data.getOnlineHelp().trim().length() > 0)) {
-				if (toolTipText.length() > 0) {
-					toolTipText += "\nDescription: ";
-				}
-				toolTipText += data.getOnlineHelp();
-			}
+			return toolTipText;
 		}
-		return toolTipText;
 	}
 
 	public static List<IMenuElementPosition> getAncestors(IMenuElementPosition elementPosition) {
