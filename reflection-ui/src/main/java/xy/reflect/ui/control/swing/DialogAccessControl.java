@@ -10,7 +10,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import xy.reflect.ui.control.FieldControlDataProxy;
+
+import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
@@ -119,7 +120,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 			@Override
 			public IFieldControlData getControlData() {
-				return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
+				return new DefaultFieldControlData(swingRenderer.getReflectionUI()) {
 
 					@Override
 					public Object getValue() {

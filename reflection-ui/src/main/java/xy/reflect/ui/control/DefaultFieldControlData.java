@@ -2,20 +2,28 @@ package xy.reflect.ui.control;
 
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public class DefaultFieldControlData implements IFieldControlData {
 
+	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IFieldInfo field;
 
-	public DefaultFieldControlData(Object object, IFieldInfo field) {
+	public DefaultFieldControlData(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
+		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.field = field;
+	}
+
+	public DefaultFieldControlData(ReflectionUI reflectionUI) {
+		this(reflectionUI, null, IFieldInfo.NULL_FIELD_INFO);
 	}
 
 	public Object getObject() {
@@ -28,12 +36,12 @@ public class DefaultFieldControlData implements IFieldControlData {
 
 	@Override
 	public Object getValue() {
-		return field.getValue(object);
+		return field.getValue(getObject());
 	}
 
 	@Override
 	public void setValue(Object value) {
-		field.setValue(object, value);
+		field.setValue(getObject(), value);
 	}
 
 	@Override
@@ -43,20 +51,17 @@ public class DefaultFieldControlData implements IFieldControlData {
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object newValue) {
-		return field.getNextUpdateCustomUndoJob(object, newValue);
+		return field.getNextUpdateCustomUndoJob(getObject(), newValue);
+	}
+
+	@Override
+	public ITypeInfo getType() {
+		return field.getType();
 	}
 
 	@Override
 	public boolean isGetOnly() {
 		return field.isGetOnly();
-	}
-
-	public boolean isNullValueDistinct() {
-		return field.isNullValueDistinct();
-	}
-
-	public String getNullValueLabel() {
-		return field.getNullValueLabel();
 	}
 
 	@Override
@@ -65,8 +70,13 @@ public class DefaultFieldControlData implements IFieldControlData {
 	}
 
 	@Override
-	public ITypeInfo getType() {
-		return field.getType();
+	public boolean isNullValueDistinct() {
+		return field.isNullValueDistinct();
+	}
+
+	@Override
+	public String getNullValueLabel() {
+		return field.getNullValueLabel();
 	}
 
 	public boolean isFormControlMandatory() {
@@ -88,6 +98,16 @@ public class DefaultFieldControlData implements IFieldControlData {
 
 	@Override
 	public ColorSpecification getFormForegroundColor() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormForegroundColor() != null) {
+				return type.getFormForegroundColor();
+			}
+		}
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getMainForegroundColor() != null) {
+			return appInfo.getMainForegroundColor();
+		}
 		return null;
 	}
 

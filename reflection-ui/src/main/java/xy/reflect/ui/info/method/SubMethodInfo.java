@@ -3,6 +3,7 @@ package xy.reflect.ui.info.method;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
@@ -17,12 +18,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
+	protected ReflectionUI reflectionUI;
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
 	protected FututreActionBuilder undoJobBuilder;
 
-	public SubMethodInfo(IFieldInfo theField, IMethodInfo theSubMethod) {
+	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod) {
 		super();
+		this.reflectionUI = reflectionUI;
 		this.theField = theField;
 		this.theSubMethod = theSubMethod;
 	}
@@ -92,7 +95,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 			if (undoJobBuilder != null) {
 				Runnable theFieldUndoJob = theField.getNextUpdateCustomUndoJob(object, fieldValue);
 				if (theFieldUndoJob == null) {
-					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(object, theField);
+					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(reflectionUI, object, theField);
 				}
 				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
 			}

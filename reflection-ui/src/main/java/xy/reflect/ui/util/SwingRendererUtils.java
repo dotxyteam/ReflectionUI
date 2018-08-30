@@ -1,5 +1,6 @@
 package xy.reflect.ui.util;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -46,28 +47,33 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ResourcePath.PathKind;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractActionMenuItem;
@@ -81,7 +87,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.component.ControlPanel;
-import xy.reflect.ui.util.component.ControlScrollPane;
 
 public class SwingRendererUtils {
 
@@ -638,15 +643,67 @@ public class SwingRendererUtils {
 
 	}
 
-	public static Component getMessageJOptionPane(String msg, int messageType) {
-		JTextArea msgComponent = new JTextArea();
-		msgComponent.setText(msg);
-		msgComponent.setEditable(false);
-		msgComponent.setBackground(getNonEditableTextBackgroundColor());
-		final JScrollPane scrollPane = new ControlScrollPane(msgComponent);
-		removeScrollPaneBorder(scrollPane);
-		JOptionPane result = new JOptionPane(scrollPane, messageType, JOptionPane.DEFAULT_OPTION, null,
-				new Object[] {});
+	public static Component getMessagePane(final String msg, int messageType,
+			final SwingRenderer swingRenderer) {
+		JPanel result = new ControlPanel();
+		result.setLayout(new BorderLayout());
+		{
+			TextControl textControl = new TextControl(swingRenderer, new IFieldControlInput() {
+
+				IFieldInfo field = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+					@Override
+					public Object getValue(Object object) {
+						return msg;
+					}
+				};
+
+				@Override
+				public IInfo getModificationsTarget() {
+					return field;
+				}
+
+				@Override
+				public ModificationStack getModificationStack() {
+					return new ModificationStack(null);
+				}
+
+				@Override
+				public IFieldControlData getControlData() {
+					return new DefaultFieldControlData(swingRenderer.getReflectionUI(), null, field) {
+
+						@Override
+						public ColorSpecification getFormForegroundColor() {
+							return swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor();
+						}
+
+					};
+				}
+
+				@Override
+				public IContext getContext() {
+					return IContext.NULL_CONTEXT;
+				}
+			});
+			result.add(textControl, BorderLayout.CENTER);
+		}
+		{
+			Icon icon;
+			if (messageType == JOptionPane.ERROR_MESSAGE) {
+				icon = UIManager.getIcon("OptionPane.errorIcon");
+			} else if (messageType == JOptionPane.INFORMATION_MESSAGE) {
+				icon = UIManager.getIcon("OptionPane.informationIcon");
+			} else if (messageType == JOptionPane.QUESTION_MESSAGE) {
+				icon = UIManager.getIcon("OptionPane.questionIcon");
+			} else if (messageType == JOptionPane.WARNING_MESSAGE) {
+				icon = UIManager.getIcon("OptionPane.warningIcon");
+			} else if (messageType == JOptionPane.PLAIN_MESSAGE) {
+				icon = null;
+			} else {
+				throw new ReflectionUIError();
+			}
+			JLabel iconControl = new JLabel(icon);
+			result.add(SwingRendererUtils.flowInLayout(iconControl, GridBagConstraints.NORTH), BorderLayout.WEST);
+		}
 		return result;
 	}
 

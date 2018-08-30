@@ -19,6 +19,7 @@ public class ControlTabbedPane extends JTabbedPane {
 	public void setUI(TabbedPaneUI newUI) {
 		if (newUI instanceof javax.swing.plaf.basic.BasicTabbedPaneUI) {
 			newUI = new javax.swing.plaf.basic.BasicTabbedPaneUI() {
+				
 				protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
 					if (!isOpaque()) {
 						int width = tabPane.getWidth();
@@ -70,6 +71,15 @@ public class ControlTabbedPane extends JTabbedPane {
 						super.paintContentBorder(g, tabPlacement, selectedIndex);
 					}
 				}
+
+				@Override
+				protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w,
+						int h, boolean isSelected) {
+					if (isOpaque()) {
+						super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
+					}						
+				}
+				
 			};
 		}
 		super.setUI(newUI);

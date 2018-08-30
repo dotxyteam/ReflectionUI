@@ -1186,8 +1186,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 					@Override
 					public IModification createCommitModification(Object newObjectValue) {
-						IFieldControlData data = new DefaultFieldControlData(AbstractListProperty.NO_OWNER,
-								dynamicProperty);
+						IFieldControlData data = new DefaultFieldControlData(swingRenderer.getReflectionUI(),
+								AbstractListProperty.NO_OWNER, dynamicProperty);
 						data = new FieldControlDataProxy(data) {
 							@Override
 							public void setValue(Object value) {
@@ -1198,7 +1198,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							}
 						};
 						return new ControlDataValueModification(
-								new DefaultFieldControlData(AbstractListProperty.NO_OWNER, dynamicProperty),
+								new DefaultFieldControlData(swingRenderer.getReflectionUI(),
+										AbstractListProperty.NO_OWNER, dynamicProperty),
 								newObjectValue, dynamicProperty);
 					}
 

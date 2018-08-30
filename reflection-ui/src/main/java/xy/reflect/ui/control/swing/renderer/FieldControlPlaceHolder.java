@@ -3,17 +3,16 @@ package xy.reflect.ui.control.swing.renderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Window;
-import java.util.Map;
-
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
-import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -29,14 +28,10 @@ import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.PrimitiveValueControl;
 import xy.reflect.ui.control.swing.TextControl;
-import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
-import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
@@ -544,10 +539,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		reflectionUI.logError(t);
 		JPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
-		result.add(new NullControl(swingRenderer, new FieldControlInputProxy(IFieldControlInput.NULL_CONTROL_INPUT) {
+		result.add(new NullControl(swingRenderer, new DefaultFieldControlInput(swingRenderer.getReflectionUI()) {
 			@Override
 			public IFieldControlData getControlData() {
-				return new FieldControlDataProxy(IFieldControlData.NULL_CONTROL_DATA) {
+				return new DefaultFieldControlData(swingRenderer.getReflectionUI()) {
 					@Override
 					public String getNullValueLabel() {
 						return ReflectionUIUtils.getPrettyErrorMessage(t);
@@ -593,88 +588,12 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return "FieldControlPlaceHolder [field=" + field + ", form=" + form + "]";
 	}
 
-	protected class InitialFieldControlData implements IFieldControlData {
+	protected class InitialFieldControlData extends DefaultFieldControlData {
 
 		protected IFieldInfo finalField;
 
 		public InitialFieldControlData(IFieldInfo finalField) {
-			this.finalField = finalField;
-		}
-
-		@Override
-		public Object getValue() {
-			return finalField.getValue(getObject());
-		}
-
-		@Override
-		public void setValue(Object value) {
-			finalField.setValue(getObject(), value);
-		}
-
-		@Override
-		public String getCaption() {
-			return finalField.getCaption();
-		}
-
-		@Override
-		public Runnable getNextUpdateCustomUndoJob(Object newValue) {
-			return finalField.getNextUpdateCustomUndoJob(getObject(), newValue);
-		}
-
-		@Override
-		public ITypeInfo getType() {
-			return finalField.getType();
-		}
-
-		@Override
-		public boolean isGetOnly() {
-			return finalField.isGetOnly();
-		}
-
-		@Override
-		public ValueReturnMode getValueReturnMode() {
-			return finalField.getValueReturnMode();
-		}
-
-		@Override
-		public boolean isNullValueDistinct() {
-			return finalField.isNullValueDistinct();
-		}
-
-		@Override
-		public String getNullValueLabel() {
-			return finalField.getNullValueLabel();
-		}
-
-		public boolean isFormControlMandatory() {
-			return finalField.isFormControlMandatory();
-		}
-
-		public boolean isFormControlEmbedded() {
-			return finalField.isFormControlEmbedded();
-		}
-
-		public IInfoFilter getFormControlFilter() {
-			return finalField.getFormControlFilter();
-		}
-
-		@Override
-		public Map<String, Object> getSpecificProperties() {
-			return finalField.getSpecificProperties();
-		}
-
-		@Override
-		public ColorSpecification getFormForegroundColor() {
-			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
-			if (type.getFormForegroundColor() != null) {
-				return type.getFormForegroundColor();
-			}
-			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-			if (appInfo.getMainForegroundColor() != null) {
-				return appInfo.getMainForegroundColor();
-			}
-			return null;
+			super(swingRenderer.getReflectionUI(), form.getObject(), finalField);
 		}
 
 		private FieldControlPlaceHolder getOuterType() {

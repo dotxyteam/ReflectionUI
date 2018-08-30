@@ -2,6 +2,7 @@ package xy.reflect.ui.info.field;
 
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -14,12 +15,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
+	protected ReflectionUI reflectionUI;
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
 	protected FututreActionBuilder undoJobBuilder;
 
-	public SubFieldInfo(IFieldInfo theField, IFieldInfo theSubField) {
+	public SubFieldInfo(ReflectionUI reflectionUI, IFieldInfo theField, IFieldInfo theSubField) {
 		super();
+		this.reflectionUI = reflectionUI;
 		this.theField = theField;
 		this.theSubField = theSubField;
 	}
@@ -91,7 +94,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 			if (undoJobBuilder != null) {
 				Runnable theFieldUndoJob = theField.getNextUpdateCustomUndoJob(object, fieldValue);
 				if (theFieldUndoJob == null) {
-					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(object, theField);
+					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(reflectionUI, object, theField);
 				}
 				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
 			}

@@ -1250,7 +1250,7 @@ public class ReflectionUIUtils {
 		};
 	}
 
-	public static Runnable createDefaultUndoJob(Object object, IFieldInfo field) {
-		return createDefaultUndoJob(new DefaultFieldControlData(object, field));
+	public static Runnable createDefaultUndoJob(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
+		return createDefaultUndoJob(new DefaultFieldControlData(reflectionUI, object, field));
 	}
 }

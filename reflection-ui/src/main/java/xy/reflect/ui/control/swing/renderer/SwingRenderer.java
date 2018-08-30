@@ -392,8 +392,8 @@ public class SwingRenderer {
 						dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
 			}
 		});
-		dialogBuilder.setContentComponent(SwingRendererUtils.getMessageJOptionPane(prepareStringToDisplay(question),
-				JOptionPane.QUESTION_MESSAGE));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(prepareStringToDisplay(question),
+				JOptionPane.QUESTION_MESSAGE, this));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.createDialog(), true);
 		return dialogBuilder.wasOkPressed();
@@ -407,8 +407,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(
-				SwingRendererUtils.getMessageJOptionPane(prepareStringToDisplay(msg), JOptionPane.INFORMATION_MESSAGE));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(prepareStringToDisplay(msg),
+				JOptionPane.INFORMATION_MESSAGE, this));
 		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -430,8 +430,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(SwingRendererUtils
-				.getMessageJOptionPane(prepareStringToDisplay(getErrorMessage(error)), JOptionPane.ERROR_MESSAGE));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(
+				prepareStringToDisplay(getErrorMessage(error)), JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -489,9 +489,9 @@ public class SwingRenderer {
 			public Image getEditorWindowIconImage() {
 				if (iconImage != null) {
 					return iconImage;
-				}else {
+				} else {
 					return super.getEditorWindowIconImage();
-				}				
+				}
 			}
 
 		};
