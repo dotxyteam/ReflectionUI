@@ -148,7 +148,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		this.input = input;
 		this.listData = input.getControlData();
 
-		initializeTreeTableControl();
+		initializeTreeTableModelAndControl();
 		toolbar = new ControlPanel();
 		detailsArea = new ControlPanel();
 
@@ -450,7 +450,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return detailsMode;
 	}
 
-	protected void initializeTreeTableControl() {
+	protected void initializeTreeTableModelAndControl() {
 		rootListValue = listData.getValue();
 		itemPositionFactory = createItemPositionfactory();
 		rootNode = createRootNode();
@@ -466,22 +466,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 		};
-		treeTableComponentScrollPane = new ControlScrollPane(treeTableComponent) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (result == null) {
-					return null;
-				}
-				IListStructuralInfo structure = getStructuralInfo();
-				if (structure.getLength() != -1) {
-					result.height = structure.getLength();
-				}
-				return result;
-			}
-		};
+		treeTableComponentScrollPane = createScrollPane();
+		treeTableComponentScrollPane.setViewportView(treeTableComponent);
 		TableColumnModel columnModel = treeTableComponent.getColumnModel();
 		{
 			List<IColumnInfo> columnInfos = getStructuralInfo().getColumns();
@@ -524,6 +510,25 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				});
 			}
 		});
+	}
+
+	protected JScrollPane createScrollPane() {
+		return new ControlScrollPane() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result == null) {
+					return null;
+				}
+				IListStructuralInfo structure = getStructuralInfo();
+				if (structure.getLength() != -1) {
+					result.height = structure.getLength();
+				}
+				return result;
+			}
+		};
 	}
 
 	protected AbstractBufferedItemPositionFactory createItemPositionfactory() {
@@ -844,7 +849,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected boolean userConfirms(String question) {
-		return swingRenderer.openQuestionDialog(SwingUtilities.getWindowAncestor(treeTableComponent), question, null,
+		return swingRenderer.openQuestionDialog(SwingUtilities.getWindowAncestor(ListControl.this), question, null,
 				"OK", "Cancel");
 	}
 
@@ -1325,7 +1330,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					fireSelectionEvent();
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(treeTableComponent, t);
+					swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
 				}
 			}
 		});
@@ -1446,7 +1451,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return input.getModificationStack();
 	}
 
-	protected void refreshTreeModelAndControl(boolean refreshStructure) {
+	protected void refreshTreeTableModelAndControl(boolean refreshStructure) {
 		restoringColumnWidthsAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
@@ -1485,7 +1490,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		restoringSelectionAsMuchAsPossible(new Runnable() {
 			@Override
 			public void run() {
-				refreshTreeModelAndControl(refreshStructure);
+				refreshTreeTableModelAndControl(refreshStructure);
 			}
 		});
 		if (refreshStructure) {
@@ -1649,11 +1654,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				restoringSelectionAsMuchAsPossible(new Runnable() {
 					@Override
 					public void run() {
-						refreshTreeModelAndControl(false);
+						refreshTreeTableModelAndControl(false);
 					}
 				});
 			} else {
-				refreshTreeModelAndControl(false);
+				refreshTreeTableModelAndControl(false);
 				setSelection(newSelection);
 			}
 			return new RefreshStructureModification(oldSelection);
@@ -1782,7 +1787,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (modifTitle == null) {
 				List<BufferedItemPosition> initialSelection = getSelection();
 				if (perform(toPostSelectHolder)) {
-					refreshTreeModelAndControl(false);
+					refreshTreeTableModelAndControl(false);
 					if (toPostSelectHolder[0] != null) {
 						setSelection(toPostSelectHolder[0]);
 					} else {

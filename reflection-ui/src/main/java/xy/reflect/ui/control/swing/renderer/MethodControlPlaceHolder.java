@@ -132,7 +132,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 										result.run();
 									}
 								}, AbstractModification.getUndoTitle(
-										ReflectionUIUtils.composeMessage(data.getCaption(), "Executing")));
+										ReflectionUIUtils.composeMessage(data.getCaption(), "Executing...")));
 					}
 				};
 			}

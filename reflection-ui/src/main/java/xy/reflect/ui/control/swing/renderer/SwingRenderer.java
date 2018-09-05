@@ -392,8 +392,8 @@ public class SwingRenderer {
 						dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
 			}
 		});
-		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(prepareStringToDisplay(question),
-				JOptionPane.QUESTION_MESSAGE, this));
+		dialogBuilder
+				.setContentComponent(SwingRendererUtils.getMessagePane(question, JOptionPane.QUESTION_MESSAGE, this));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.createDialog(), true);
 		return dialogBuilder.wasOkPressed();
@@ -407,8 +407,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(prepareStringToDisplay(msg),
-				JOptionPane.INFORMATION_MESSAGE, this));
+		dialogBuilder
+				.setContentComponent(SwingRendererUtils.getMessagePane(msg, JOptionPane.INFORMATION_MESSAGE, this));
 		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -430,8 +430,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(
-				prepareStringToDisplay(getErrorMessage(error)), JOptionPane.ERROR_MESSAGE, this));
+		dialogBuilder.setContentComponent(SwingRendererUtils
+				.getMessagePane(getErrorMessage(error), JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -443,12 +443,17 @@ public class SwingRenderer {
 
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
 		String statckTraceString = ReflectionUIUtils.getPrintedStackTrace(error);
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI,
-				reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(statckTraceString)), "Error Details", "");
-		encapsulation.setFieldGetOnly(true);
-		encapsulation.setFieldNullValueDistinct(false);
-		Object encapsulatedValue = encapsulation.getInstance(Accessor.<Object>returning(statckTraceString));
-		openObjectDialog(activatorComponent, encapsulatedValue);
+		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+		dialogBuilder.setToolbarComponentsAccessor(new Accessor<List<Component>>() {
+			@Override
+			public List<Component> get() {
+				return Collections.<Component>singletonList(dialogBuilder.createDialogClosingButton("Close", null));
+			}
+		});
+		dialogBuilder.setContentComponent(
+				SwingRendererUtils.getMessagePane(statckTraceString, JOptionPane.INFORMATION_MESSAGE, this));
+		dialogBuilder.setTitle("Error Details");
+		showDialog(dialogBuilder.createDialog(), true);
 	}
 
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {

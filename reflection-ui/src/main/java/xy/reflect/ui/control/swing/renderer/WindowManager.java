@@ -48,6 +48,9 @@ public class WindowManager {
 	}
 
 	protected void updateToolBar() {
+		if (toolBar == null) {
+			return;
+		}
 		List<? extends Component> toolBarControls;
 		if (toolBarControlsAccessor == null) {
 			toolBarControls = null;
@@ -159,9 +162,8 @@ public class WindowManager {
 			}
 			contentPane.setOpaque((awtBackgroundColor != null) && (awtImage == null));
 		}
-		if (toolBar != null) {
-			updateToolBar();
-		}
+		updateToolBar();
+		SwingRendererUtils.handleComponentSizeChange(window);
 	}
 
 	protected ImagePanel createContentPane() {

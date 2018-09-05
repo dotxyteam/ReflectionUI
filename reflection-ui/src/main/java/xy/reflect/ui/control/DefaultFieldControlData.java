@@ -36,64 +36,64 @@ public class DefaultFieldControlData implements IFieldControlData {
 
 	@Override
 	public Object getValue() {
-		return field.getValue(getObject());
+		return getField().getValue(getObject());
 	}
 
 	@Override
 	public void setValue(Object value) {
-		field.setValue(getObject(), value);
+		getField().setValue(getObject(), value);
 	}
 
 	@Override
 	public String getCaption() {
-		return field.getCaption();
+		return getField().getCaption();
 	}
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object newValue) {
-		return field.getNextUpdateCustomUndoJob(getObject(), newValue);
+		return getField().getNextUpdateCustomUndoJob(getObject(), newValue);
 	}
 
 	@Override
 	public ITypeInfo getType() {
-		return field.getType();
+		return getField().getType();
 	}
 
 	@Override
 	public boolean isGetOnly() {
-		return field.isGetOnly();
+		return getField().isGetOnly();
 	}
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return field.getValueReturnMode();
+		return getField().getValueReturnMode();
 	}
 
 	@Override
 	public boolean isNullValueDistinct() {
-		return field.isNullValueDistinct();
+		return getField().isNullValueDistinct();
 	}
 
 	@Override
 	public String getNullValueLabel() {
-		return field.getNullValueLabel();
+		return getField().getNullValueLabel();
 	}
 
 	public boolean isFormControlMandatory() {
-		return field.isFormControlMandatory();
+		return getField().isFormControlMandatory();
 	}
 
 	public boolean isFormControlEmbedded() {
-		return field.isFormControlEmbedded();
+		return getField().isFormControlEmbedded();
 	}
 
 	public IInfoFilter getFormControlFilter() {
-		return field.getFormControlFilter();
+		return getField().getFormControlFilter();
 	}
 
 	@Override
 	public Map<String, Object> getSpecificProperties() {
-		return field.getSpecificProperties();
+		return getField().getSpecificProperties();
 	}
 
 	@Override
@@ -115,8 +115,8 @@ public class DefaultFieldControlData implements IFieldControlData {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((field == null) ? 0 : field.hashCode());
-		result = prime * result + ((object == null) ? 0 : object.hashCode());
+		result = prime * result + ((getField() == null) ? 0 : getField().hashCode());
+		result = prime * result + ((getObject() == null) ? 0 : getObject().hashCode());
 		return result;
 	}
 
@@ -129,22 +129,22 @@ public class DefaultFieldControlData implements IFieldControlData {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultFieldControlData other = (DefaultFieldControlData) obj;
-		if (field == null) {
-			if (other.field != null)
+		if (getField() == null) {
+			if (other.getField() != null)
 				return false;
-		} else if (!field.equals(other.field))
+		} else if (!getField().equals(other.getField()))
 			return false;
-		if (object == null) {
-			if (other.object != null)
+		if (getObject() == null) {
+			if (other.getObject() != null)
 				return false;
-		} else if (!object.equals(other.object))
+		} else if (!getObject().equals(other.getObject()))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "FieldControlData [object=" + object + ", field=" + field + "]";
+		return "FieldControlData [object=" + getObject() + ", field=" + getField() + "]";
 	}
 
 }

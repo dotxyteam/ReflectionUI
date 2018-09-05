@@ -508,8 +508,8 @@ public class SwingRendererUtils {
 	}
 
 	public static ResourcePath putImageInCache(Image image) {
-		String imagePathSpecification = ResourcePath
-				.formatMemoryObjectSpecification(Integer.toString(image.hashCode()));
+		String imagePathSpecification = ResourcePath.formatMemoryObjectSpecification(
+				image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
 		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);
 		return new ResourcePath(imagePathSpecification);
 	}
@@ -605,7 +605,7 @@ public class SwingRendererUtils {
 			public void run() {
 				result[0] = data.invoke(invocationData);
 			}
-		}, ReflectionUIUtils.composeMessage(data.getCaption(), "Executing"));
+		}, ReflectionUIUtils.composeMessage(data.getCaption(), "Executing..."));
 		return result[0];
 
 	}
@@ -643,7 +643,7 @@ public class SwingRendererUtils {
 
 	}
 
-	public static Component getMessagePane(final String msg, int messageType,
+	public static Component getMessagePane(final String msg, int jOptionPaneMessageType,
 			final SwingRenderer swingRenderer) {
 		JPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
@@ -688,15 +688,15 @@ public class SwingRendererUtils {
 		}
 		{
 			Icon icon;
-			if (messageType == JOptionPane.ERROR_MESSAGE) {
+			if (jOptionPaneMessageType == JOptionPane.ERROR_MESSAGE) {
 				icon = UIManager.getIcon("OptionPane.errorIcon");
-			} else if (messageType == JOptionPane.INFORMATION_MESSAGE) {
+			} else if (jOptionPaneMessageType == JOptionPane.INFORMATION_MESSAGE) {
 				icon = UIManager.getIcon("OptionPane.informationIcon");
-			} else if (messageType == JOptionPane.QUESTION_MESSAGE) {
+			} else if (jOptionPaneMessageType == JOptionPane.QUESTION_MESSAGE) {
 				icon = UIManager.getIcon("OptionPane.questionIcon");
-			} else if (messageType == JOptionPane.WARNING_MESSAGE) {
+			} else if (jOptionPaneMessageType == JOptionPane.WARNING_MESSAGE) {
 				icon = UIManager.getIcon("OptionPane.warningIcon");
-			} else if (messageType == JOptionPane.PLAIN_MESSAGE) {
+			} else if (jOptionPaneMessageType == JOptionPane.PLAIN_MESSAGE) {
 				icon = null;
 			} else {
 				throw new ReflectionUIError();

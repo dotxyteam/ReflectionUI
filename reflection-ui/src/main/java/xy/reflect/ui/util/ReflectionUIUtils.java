@@ -350,7 +350,13 @@ public class ReflectionUIUtils {
 			ResolvedType declaringResolvedType = typeResolver.resolve(ofMember.getDeclaringClass());
 			ResolvedTypeWithMembers resolvedTypeWithMembers = memberResolver.resolve(declaringResolvedType, null, null);
 			if (ofMember instanceof Field) {
-				for (ResolvedField resolvedField : resolvedTypeWithMembers.getMemberFields()) {
+				ResolvedField[] resolvedFields;
+				if (Modifier.isStatic(ofMember.getModifiers())) {
+					resolvedFields = resolvedTypeWithMembers.getStaticFields();
+				} else {
+					resolvedFields = resolvedTypeWithMembers.getMemberFields();
+				}
+				for (ResolvedField resolvedField : resolvedFields) {
 					if (resolvedField.getRawMember().equals(ofMember)) {
 						resolvedType = resolvedField.getType();
 						break;

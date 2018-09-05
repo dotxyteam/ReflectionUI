@@ -108,39 +108,46 @@ public class MethodAction extends AbstractAction {
 		} else {
 			invocationData = new InvocationData();
 		}
-		Form methodForm = swingRenderer.createForm(createParametersObject(invocationData));
-		List<Component> toolbarControls = new ArrayList<Component>();
-		toolbarControls.addAll(methodForm.createFormToolbarControls());
-		final JButton invokeButton = new JButton(data.getCaption());
-		{
-			invokeButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(),
-							invocationData);
-					invoke(invocationData, invokeButton);
-					dialogBuilder.getCreatedDialog().dispose();
-				}
-			});
-			toolbarControls.add(invokeButton);
-		}
-		JButton cancelButton = new JButton("Cancel");
-		{
-			cancelButton.addActionListener(new ActionListener() {
+		final Form methodForm = swingRenderer.createForm(createParametersObject(invocationData));
+		Accessor<List<Component>> toolbarControlsAccessor = new Accessor<List<Component>>() {
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cancelled = true;
-					dialogBuilder.getCreatedDialog().dispose();
+			@Override
+			public List<Component> get() {
+				List<Component> toolbarControls = new ArrayList<Component>();
+				toolbarControls.addAll(methodForm.createFormToolbarControls());
+				final JButton invokeButton = new JButton(data.getCaption());
+				{
+					invokeButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(),
+									invocationData);
+							invoke(invocationData, invokeButton);
+							dialogBuilder.getCreatedDialog().dispose();
+						}
+					});
+					toolbarControls.add(invokeButton);
 				}
+				JButton cancelButton = new JButton("Cancel");
+				{
+					cancelButton.addActionListener(new ActionListener() {
 
-			});
-			toolbarControls.add(cancelButton);
-		}
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							cancelled = true;
+							dialogBuilder.getCreatedDialog().dispose();
+						}
+
+					});
+					toolbarControls.add(cancelButton);
+				}
+				return toolbarControls;
+			}
+		};
 
 		dialogBuilder.setContentComponent(methodForm);
 		dialogBuilder.setTitle(getTitle());
-		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(toolbarControls));
+		dialogBuilder.setToolbarComponentsAccessor(toolbarControlsAccessor);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
 	}

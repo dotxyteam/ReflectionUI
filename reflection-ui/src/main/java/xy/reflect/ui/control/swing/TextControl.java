@@ -91,9 +91,8 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 					result.height += getHorizontalScrollBar().getPreferredSize().height;
 				}
 				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
-				int maxPreferredWidth = characterSize * 20;
 				int maxPreferredHeight = SwingRendererUtils.getScreenSize(this).height / 3;
-				result.width = Math.min(result.width, maxPreferredWidth);
+				result.width = characterSize * 20;
 				result.height = Math.min(result.height, maxPreferredHeight);
 				return result;
 			}

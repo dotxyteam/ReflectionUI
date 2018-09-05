@@ -94,8 +94,12 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		createdEditorForm = createForm(false, false);
 		createdFrame = new JFrame();
 		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
-		windowManager.set(createdEditorForm, Accessor.returning(createAnyWindowToolbarControls()),
-				getEditorWindowTitle(), getEditorWindowIconImage());
+		windowManager.set(createdEditorForm, new Accessor<List<Component>>() {
+			@Override
+			public List<Component> get() {
+				return new ArrayList<Component>(createAnyWindowToolbarControls());
+			}
+		}, getEditorWindowTitle(), getEditorWindowIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}

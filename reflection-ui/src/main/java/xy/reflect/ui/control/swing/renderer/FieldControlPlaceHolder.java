@@ -2,6 +2,7 @@ package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Window;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -596,6 +597,11 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			super(swingRenderer.getReflectionUI(), form.getObject(), finalField);
 		}
 
+		@Override
+		public Object getObject() {
+			return form.getObject();
+		}
+
 		private FieldControlPlaceHolder getOuterType() {
 			return FieldControlPlaceHolder.this;
 		}
@@ -665,7 +671,18 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				if (isInterrupted()) {
 					break;
 				}
-				if (window == SwingRendererUtils.getActiveWindow()) {
+				boolean blockedByModalDialog = false;
+				for (Window ownedWindow : window.getOwnedWindows()) {
+					if (ownedWindow.isVisible()) {
+						if (ownedWindow instanceof Dialog) {
+							Dialog dialog = (Dialog) ownedWindow;
+							if (dialog.isModal()) {
+								blockedByModalDialog = true;
+							}
+						}
+					}
+				}
+				if (!blockedByModalDialog) {
 					break;
 				}
 				relieveCPU();

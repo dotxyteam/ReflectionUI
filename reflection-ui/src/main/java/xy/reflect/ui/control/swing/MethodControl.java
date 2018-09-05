@@ -37,7 +37,7 @@ public class MethodControl extends JButton implements ActionListener {
 		} else {
 			this.backgroundImage = SwingRendererUtils.loadImageThroughcache(data.getBackgroundImagePath(),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
-			if(this.backgroundImage != null) {
+			if (this.backgroundImage != null) {
 				this.activatedBackgroundImage = addBackgroundImageActivationEffect(this.backgroundImage);
 			}
 		}
@@ -93,7 +93,10 @@ public class MethodControl extends JButton implements ActionListener {
 		Graphics2D g = result.createGraphics();
 		g.drawImage(backgroundImage, 0, 0, null);
 		g.dispose();
-		return new RescaleOp(0.5f, 64, null).filter(result, null);
+		float scalefactor = 0.5f;
+		float offset = 64f;
+		return new RescaleOp(new float[] { scalefactor, scalefactor, scalefactor, 1f },
+				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
 	}
 
 	@Override
