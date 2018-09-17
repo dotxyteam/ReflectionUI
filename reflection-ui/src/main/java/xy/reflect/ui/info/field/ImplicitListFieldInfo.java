@@ -344,6 +344,10 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		@Override
+		public void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue) {
+		}
+
+		@Override
 		public ResourcePath getFormBackgroundImagePath() {
 			return null;
 		}

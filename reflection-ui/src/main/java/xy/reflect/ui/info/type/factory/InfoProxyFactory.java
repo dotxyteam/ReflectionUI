@@ -482,6 +482,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.toArray(listValue);
 	}
 
+	protected void onSelection(IListTypeInfo type, List<? extends ItemPosition> newSelection, Object rootListValue) {
+		type.onSelection(newSelection, rootListValue);
+	}
+
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		return type.getConstructors();
 	}
@@ -549,7 +553,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	protected String getCaption(IApplicationInfo appInfo) {
 		return appInfo.getCaption();
 	}
-	
+
 	protected ResourcePath getIconImagePath(IApplicationInfo appInfo) {
 		return appInfo.getIconImagePath();
 	}
@@ -1109,6 +1113,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
+		}
+
+		@Override
+		public void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue) {
+			InfoProxyFactory.this.onSelection((IListTypeInfo) base, newSelection, rootListValue);
 		}
 
 		@Override

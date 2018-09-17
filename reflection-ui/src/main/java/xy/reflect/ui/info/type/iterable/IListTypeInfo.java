@@ -48,4 +48,6 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	boolean isItemConstructorSelectable();
 
+	void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue);
+
 }
