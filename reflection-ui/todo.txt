@@ -1,3 +1,10 @@
+- IModification.getTarget() is useless. It was only for getting modification
+title. I think it was created for list dynamic actions. It seems obsolete now.
+May need to remove.
+- list control does not handle null values. then it does not allow
+to edit sub lists when they are null => NORMAL. But it is difficult
+as a developer to understand that the sub list is sometimes editable
+sometimes not. Find a solution. 
 - allow to specify global gui infos (Ex: reflectionUI.getGlobalInfo
 	. defaults (background/foreground color, ...)
 	. buttons background image/color and foreground color

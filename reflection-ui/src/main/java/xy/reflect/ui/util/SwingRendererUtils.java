@@ -14,7 +14,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -508,8 +507,8 @@ public class SwingRendererUtils {
 	}
 
 	public static ResourcePath putImageInCache(Image image) {
-		String imagePathSpecification = ResourcePath.formatMemoryObjectSpecification(
-				image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
+		String imagePathSpecification = ResourcePath
+				.formatMemoryObjectSpecification(image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
 		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);
 		return new ResourcePath(imagePathSpecification);
 	}
@@ -594,8 +593,27 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Window getActiveWindow() {
-		return KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
+	public static List<Window> getFrontWindows() {
+		List<Window> result = new ArrayList<Window>();
+		for (Window window : Window.getWindows()) {
+			if (window.isVisible()) {
+				Window[] ownedWindows = window.getOwnedWindows();
+				if ((ownedWindows == null) || (ownedWindows.length == 0)) {
+					result.add(window);
+				}
+				boolean allOwnedWindowInvisible = true;
+				for (Window ownedWindow : ownedWindows) {
+					if (ownedWindow.isVisible()) {
+						allOwnedWindowInvisible = false;
+						break;
+					}
+				}
+				if (allOwnedWindowInvisible) {
+					result.add(window);
+				}
+			}
+		}
+		return result;
 	}
 
 	public static Object showBusyDialogWhileInvokingMethod(Component activatorComponent, SwingRenderer swingRenderer,
@@ -630,11 +648,17 @@ public class SwingRendererUtils {
 
 	public static void showBusyDialogWhileSettingFieldValue(Component activatorComponent, SwingRenderer swingRenderer,
 			final IFieldControlData data, final Object value) {
+		final String title;
+		if ((data.getCaption() == null) || (data.getCaption().length() == 0)) {
+			title = "Setting Value(s)";
+		} else {
+			title = "Setting " + data.getCaption();
+		}
 		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
 			public void run() {
 				data.setValue(value);
 			}
-		}, "Setting " + data.getCaption());
+		}, title);
 
 	}
 
