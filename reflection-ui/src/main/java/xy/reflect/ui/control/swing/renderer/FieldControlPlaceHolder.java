@@ -2,10 +2,13 @@ package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -60,7 +63,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected boolean layoutInContainerUpdateNeeded = true;
 	protected int positionInContainer = -1;
 	protected boolean ancestorVisible = false;
-	protected AutoUpdateThread autoUpdateThread;
+	protected AutoUpdater autoUpdateThread;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, Form form, IFieldInfo field) {
 		super();
@@ -91,15 +94,20 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public void updateAutoRefeshState() {
+		if (isAutoRefreshActive()) {
+			stopAutoRefresh();
+		}
 		if ((field.getAutoUpdatePeriodMilliseconds() >= 0) && ancestorVisible) {
 			startAutoRefresh();
-		} else {
-			stopAutoRefresh();
 		}
 	}
 
 	public boolean isAutoRefreshActive() {
-		return (autoUpdateThread != null) && (autoUpdateThread.isAlive());
+		return (autoUpdateThread != null) && (autoUpdateThread.isRunning());
+	}
+
+	public AutoUpdater createAutoUpdateThread() {
+		return new AutoUpdater();
 	}
 
 	public void startAutoRefresh() {
@@ -110,22 +118,12 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		autoUpdateThread.start();
 	}
 
-	public AutoUpdateThread createAutoUpdateThread() {
-		return new AutoUpdateThread();
-	}
-
 	public void stopAutoRefresh() {
 		if (!isAutoRefreshActive()) {
 			return;
 		}
-		while (autoUpdateThread.isAlive()) {
-			autoUpdateThread.interrupt();
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
+		autoUpdateThread.stop();
+		autoUpdateThread = null;
 	}
 
 	public IFieldInfo getField() {
@@ -375,6 +373,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				controlData = lastInitialControlData = getInitialControlData();
 				fieldControl = createFieldControl();
 			} catch (Throwable t) {
+				swingRenderer.getReflectionUI().logError(t);
 				fieldControl = createFieldErrorControl(t);
 			}
 			add(fieldControl, BorderLayout.CENTER);
@@ -524,6 +523,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				try {
 					result = currentPlugin.createControl(swingRenderer, this);
 				} catch (Throwable t) {
+					swingRenderer.getReflectionUI().logError(t);
 					result = createFieldErrorControl(t);
 				}
 				return result;
@@ -641,94 +641,58 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	}
 
-	protected class AutoUpdateThread extends Thread {
+	protected class AutoUpdater extends Timer {
 
-		protected boolean updating = false;
+		private static final long serialVersionUID = 1L;
 
-		public AutoUpdateThread() {
-			super("AutoUpdater of " + FieldControlPlaceHolder.this);
-		}
-
-		@Override
-		public void run() {
-			while (true) {
-				sleepUntilNextUpdateTime();
-				waitForCurrentUpdateEnd();
-				sleepWhileWindowInactive();
-				if (isInterrupted()) {
-					break;
-				}
-				update();
+		public AutoUpdater() {
+			super(-1, null);
+			setInitialDelay(0);
+			if (field.getAutoUpdatePeriodMilliseconds() > Integer.MAX_VALUE) {
+				setDelay(Integer.MAX_VALUE);
+			} else if (field.getAutoUpdatePeriodMilliseconds() < Integer.MIN_VALUE) {
+				setDelay(Integer.MIN_VALUE);
+			} else {
+				setDelay((int) field.getAutoUpdatePeriodMilliseconds());
 			}
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					executePeriodically();
+				}
+			});
+			setRepeats(true);
 		}
 
-		protected void sleepWhileWindowInactive() {
-			Window window = SwingUtilities.getWindowAncestor(FieldControlPlaceHolder.this);
-			if (window == null) {
+		protected void executePeriodically() {
+			if (isWindowInactive()) {
 				return;
 			}
-			while (true) {
-				if (isInterrupted()) {
-					break;
-				}
-				boolean blockedByModalDialog = false;
-				for (Window ownedWindow : window.getOwnedWindows()) {
-					if (ownedWindow.isVisible()) {
-						if (ownedWindow instanceof Dialog) {
-							Dialog dialog = (Dialog) ownedWindow;
-							if (dialog.isModal()) {
-								blockedByModalDialog = true;
-							}
-						}
-					}
-				}
-				if (!blockedByModalDialog) {
-					break;
-				}
-				relieveCPU();
-			}
+			update();
 		}
 
-		protected void relieveCPU() {
-			try {
-				sleep(10);
-			} catch (InterruptedException e) {
-				interrupt();
+		protected boolean isWindowInactive() {
+			Window window = SwingUtilities.getWindowAncestor(FieldControlPlaceHolder.this);
+			if (window == null) {
+				return true;
 			}
-		}
-
-		protected void waitForCurrentUpdateEnd() {
-			while (updating) {
-				if (isInterrupted()) {
-					break;
-				}
-				relieveCPU();
+			if (!SwingRendererUtils.getFrontWindows().contains(window)) {
+				return true;
 			}
+			return false;
 		}
 
 		protected void update() {
-			updating = true;
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					refreshUI(false);
-					if (isLayoutInContainerUpdateNeeded()) {
-						form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
-					}
-					updating = false;
-				}
-			});
-		}
-
-		protected void sleepUntilNextUpdateTime() {
-			if (field.getAutoUpdatePeriodMilliseconds() > 0) {
-				try {
-					sleep(field.getAutoUpdatePeriodMilliseconds());
-				} catch (InterruptedException e) {
-					interrupt();
-				}
+			refreshUI(false);
+			if (isLayoutInContainerUpdateNeeded()) {
+				form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
 			}
 		}
+
+		public String toString() {
+			return "AutoUpdater of " + FieldControlPlaceHolder.this;
+		}
+
 	}
 
 }
