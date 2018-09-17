@@ -75,9 +75,9 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public List<BufferedItemPosition> getPreviousSiblings() {
+	public List<BufferedItemPosition> getPreviousSiblings(Object rootListValue) {
 		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
-		for (ItemPosition i : super.getPreviousSiblings()) {
+		for (ItemPosition i : super.getPreviousSiblings(rootListValue)) {
 			result.add((BufferedItemPosition) i);
 		}
 		return result;

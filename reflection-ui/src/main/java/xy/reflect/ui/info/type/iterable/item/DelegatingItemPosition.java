@@ -55,8 +55,8 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getDepth();
 	}
 
-	public List<? extends ItemPosition> getPreviousSiblings() {
-		return delegate.getPreviousSiblings();
+	public List<? extends ItemPosition> getPreviousSiblings(Object rootListValue) {
+		return delegate.getPreviousSiblings(rootListValue);
 	}
 
 	public List<? extends ItemPosition> getFollowingSiblings(Object rootListValue) {
@@ -98,7 +98,6 @@ public class DelegatingItemPosition extends ItemPosition {
 	public ItemPosition getRoot() {
 		return delegate.getRoot();
 	}
-
 
 	public ValueReturnMode getItemReturnMode() {
 		return delegate.getItemReturnMode();

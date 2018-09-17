@@ -1,6 +1,7 @@
 package xy.reflect.ui.util;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -9,9 +10,18 @@ public abstract class DelayedUpdateProcess {
 	private long delayMilliseconds = 500;
 	private boolean dirty = false;
 	private ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 1, 1L, TimeUnit.MILLISECONDS,
-			new LinkedBlockingQueue<Runnable>());
+			new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {				
+				@Override
+				public Thread newThread(Runnable r) {
+					return createThread(r);
+				}
+			});
 
 	protected abstract void run();
+
+	protected Thread createThread(Runnable r) {
+		return new Thread(r, DelayedUpdateProcess.class.getSimpleName() + " Executor");
+	}
 
 	public long getDelayMilliseconds() {
 		return delayMilliseconds;
