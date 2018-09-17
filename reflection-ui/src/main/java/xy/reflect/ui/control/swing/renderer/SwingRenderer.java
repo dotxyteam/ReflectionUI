@@ -357,7 +357,7 @@ public class SwingRenderer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T openInputDialog(Component parentComponent, T initialValue, String valueCaption, String title) {
+	public <T> T openInputDialog(Component activatorComponent, T initialValue, String valueCaption, String title) {
 		if (initialValue == null) {
 			throw new ReflectionUIError();
 		}
@@ -370,8 +370,19 @@ public class SwingRenderer {
 		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
 
-		if (!openObjectDialog(parentComponent, encapsulatedValue, title, getObjectIconImage(encapsulatedValue), true,
-				true).isCancelled()) {
+		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, encapsulatedValue, title,
+				getObjectIconImage(encapsulatedValue), true);
+		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+		dialogBuilder.setToolbarComponentsAccessor(new Accessor<List<Component>>() {
+			@Override
+			public List<Component> get() {
+				return new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(null, null));
+			}
+		});
+		dialogBuilder.setContentComponent(editorBuilder.createForm(false, false));
+		dialogBuilder.setTitle(title);
+		showDialog(dialogBuilder.createDialog(), true);
+		if (dialogBuilder.wasOkPressed()) {
 			return (T) valueHolder[0];
 		} else {
 			return null;
@@ -430,8 +441,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(SwingRendererUtils
-				.getMessagePane(getErrorMessage(error), JOptionPane.ERROR_MESSAGE, this));
+		dialogBuilder.setContentComponent(
+				SwingRendererUtils.getMessagePane(getErrorMessage(error), JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
