@@ -37,6 +37,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.ModificationStackControls;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -96,7 +97,11 @@ public class Form extends ImagePanel {
 				if (visibilityEventsDisabled) {
 					return;
 				}
-				formShown();
+				try {
+					formShown();
+				} catch (Throwable t) {
+					Form.this.swingRenderer.handleExceptionsFromDisplayedUI(Form.this, t);
+				}
 			}
 
 			@Override
@@ -104,7 +109,11 @@ public class Form extends ImagePanel {
 				if (visibilityEventsDisabled) {
 					return;
 				}
-				formHidden();
+				try {
+					formHidden();
+				} catch (Throwable t) {
+					Form.this.swingRenderer.handleExceptionsFromDisplayedUI(Form.this, t);
+				}
 			}
 
 			@Override
@@ -309,7 +318,12 @@ public class Form extends ImagePanel {
 			}
 		}, swingRenderer.getObjectTitle(object) + " - Setting up...");
 		if (formUpdateNeeded[0]) {
-			refreshForm(false);
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					refreshForm(false);
+				}
+			});
 		}
 	}
 
@@ -398,6 +412,7 @@ public class Form extends ImagePanel {
 			if (methodControlPlaceHolders == null) {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
+			categoriesControl = null;
 			layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
 		} else if (allCategories.size() > 0) {
 			membersPanel.setLayout(new BorderLayout());
@@ -662,6 +677,22 @@ public class Form extends ImagePanel {
 					awtBackgroundColor = SwingRendererUtils.getColor(type.getFormBackgroundColor());
 				}
 				setBackground(awtBackgroundColor);
+			}
+			if (categoriesControl != null) {
+				Color awtForegroundColor;
+				{
+					if (type.getFormForegroundColor() == null) {
+						IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+						if (appInfo.getMainForegroundColor() == null) {
+							awtForegroundColor = null;
+						} else {
+							awtForegroundColor = SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
+						}
+					} else {
+						awtForegroundColor = SwingRendererUtils.getColor(type.getFormForegroundColor());
+					}
+					categoriesControl.setForeground(awtForegroundColor);
+				}
 			}
 			Image awtImage;
 			{
