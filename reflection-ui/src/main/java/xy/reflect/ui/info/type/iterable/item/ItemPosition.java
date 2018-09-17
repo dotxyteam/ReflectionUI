@@ -83,7 +83,7 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public List<? extends ItemPosition> getPreviousSiblings() {
+	public List<? extends ItemPosition> getPreviousSiblings(Object rootListValue) {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		for (int i = 0; i < getIndex(); i++) {
 			result.add(getSibling(i));
