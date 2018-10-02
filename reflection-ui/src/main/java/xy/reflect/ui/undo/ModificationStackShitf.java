@@ -1,16 +1,12 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.info.IInfo;
-
 public class ModificationStackShitf extends AbstractModification {
 
 	protected ModificationStack modificationStack;
 	protected int offset;
 	protected String title;
 
-	public ModificationStackShitf(ModificationStack modificationStack, int offset, String title,
-			IInfo target) {
-		super(target);
+	public ModificationStackShitf(ModificationStack modificationStack, int offset, String title) {
 		this.modificationStack = modificationStack;
 		this.offset = offset;
 		this.title = title;

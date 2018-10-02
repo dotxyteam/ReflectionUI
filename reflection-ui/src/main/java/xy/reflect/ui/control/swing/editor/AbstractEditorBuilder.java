@@ -14,7 +14,6 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.WindowManager;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -175,7 +174,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			return;
 		}
 		ModificationStack valueModifStack = getObjectModificationStack();
-		IInfo editSessionTarget = getCumulatedModificationsTarget();
 		ValueReturnMode valueReturnMode = getObjectValueReturnMode();
 		Object currentValue = getCurrentObjectValue();
 		boolean valueReplaced = isObjectValueReplaced();
@@ -189,7 +187,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		String editSessionTitle = getCumulatedModificationsTitle();
 		parentModificationStackImpacted = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
 				parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced,
-				commitModif, editSessionTarget, editSessionTitle,
+				commitModif, editSessionTitle,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}
 

@@ -386,8 +386,8 @@ public class Form extends ImagePanel {
 			fieldControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
 			methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
 		}
-		
-		refreshForm(true);		
+
+		refreshForm(true);
 	}
 
 	public JPanel createMembersPanel() {
@@ -588,7 +588,7 @@ public class Form extends ImagePanel {
 	public FieldControlPlaceHolder getFieldControlPlaceHolder(String fieldName) {
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
-				if (fieldName.equals(fieldControlPlaceHolder.getModificationsTarget().getName())) {
+				if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
 					return fieldControlPlaceHolder;
 				}
 			}
@@ -741,7 +741,7 @@ public class Form extends ImagePanel {
 				setImage(awtImage);
 			}
 			setOpaque((awtBackgroundColor != null) && (awtImage == null));
-		}		
+		}
 		finalizeFormUpdate();
 		for (IRefreshListener l : refreshListeners) {
 			l.onRefresh(refreshStructure);

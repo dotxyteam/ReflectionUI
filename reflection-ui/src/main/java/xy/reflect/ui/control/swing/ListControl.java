@@ -72,7 +72,6 @@ import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.AbstractDelegatingInfoFilter;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -815,12 +814,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (listData.isGetOnly()) {
 					return IModification.NULL_MODIFICATION;
 				} else {
-					return new ControlDataValueModification(listData, rootListValue, getModificationsTarget());
+					return new ControlDataValueModification(listData, rootListValue);
 				}
 			}
 		};
-		return new BufferedListModificationFactory(itemPosition, rootListValue, getModificationsTarget(),
-				commitModifAccessor);
+		return new BufferedListModificationFactory(itemPosition, rootListValue, commitModifAccessor);
 	}
 
 	protected boolean allSelectionItemsInSameList() {
@@ -1072,10 +1070,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return (IListTypeInfo) listData.getType();
 	}
 
-	protected IInfo getModificationsTarget() {
-		return input.getModificationsTarget();
-	}
-
 	protected AbstractAction createDynamicPropertyHook(final AbstractListProperty dynamicProperty) {
 		return new AbstractStandardListAction() {
 			protected static final long serialVersionUID = 1L;
@@ -1092,7 +1086,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			protected String getCompositeModificationTitle() {
-				return ControlDataValueModification.getTitle(dynamicProperty);
+				return ControlDataValueModification.getTitle(dynamicProperty.getCaption());
 			}
 
 			@Override
@@ -1106,8 +1100,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 					@Override
 					public String getEncapsulationTypeCaption() {
-						return ReflectionUIUtils.composeMessage(getModificationsTarget().getCaption(),
-								dynamicProperty.getCaption());
+						return ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
 					}
 
 					@Override
@@ -1163,11 +1156,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					public IInfo getCumulatedModificationsTarget() {
-						return ListControl.this.getModificationsTarget();
-					}
-
-					@Override
 					public ModificationStack getParentObjectModificationStack() {
 						return ListControl.this.getModificationStack();
 					}
@@ -1187,7 +1175,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						return new ControlDataValueModification(
 								new DefaultFieldControlData(swingRenderer.getReflectionUI(),
 										AbstractListProperty.NO_OWNER, dynamicProperty),
-								newObjectValue, dynamicProperty);
+								newObjectValue);
 					}
 
 					@Override
@@ -1229,10 +1217,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			protected IMethodControlInput getMethodInput() {
 				return new IMethodControlInput() {
-					@Override
-					public IInfo getModificationsTarget() {
-						return ListControl.this.getModificationsTarget();
-					}
 
 					@Override
 					public ModificationStack getModificationStack() {
@@ -1269,8 +1253,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							@Override
 							public Object invoke(InvocationData invocationData) {
 								return ReflectionUIUtils.invokeMethodThroughModificationStack(base, invocationData,
-										ListControl.this.getModificationStack(),
-										ListControl.this.getModificationsTarget());
+										ListControl.this.getModificationStack());
 							}
 						};
 						return data;
@@ -1655,11 +1638,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public IInfo getTarget() {
-			return getModificationsTarget();
-		}
-
-		@Override
 		public IModification applyAndGetOpposite() {
 			List<BufferedItemPosition> oldSelection = getSelection();
 			if (newSelection == null) {
@@ -1842,25 +1820,23 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			} else {
 				final ModificationStack modifStack = getModificationStack();
 				try {
-					modifStack.insideComposite(getModificationsTarget(), modifTitle, UndoOrder.FIFO,
-							new Accessor<Boolean>() {
-								@Override
-								public Boolean get() {
-									if (modifStack.insideComposite(getModificationsTarget(),
-											modifTitle + " (without list control update)", UndoOrder.getNormal(),
-											new Accessor<Boolean>() {
-												@Override
-												public Boolean get() {
-													return perform(toPostSelectHolder);
-												}
-											})) {
-										modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
-										return true;
-									} else {
-										return false;
-									}
-								}
-							});
+					modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
+						@Override
+						public Boolean get() {
+							if (modifStack.insideComposite(modifTitle + " (without list control update)",
+									UndoOrder.getNormal(), new Accessor<Boolean>() {
+										@Override
+										public Boolean get() {
+											return perform(toPostSelectHolder);
+										}
+									})) {
+								modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+								return true;
+							} else {
+								return false;
+							}
+						}
+					});
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
 				}
@@ -1921,11 +1897,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public String getCumulatedModificationsTitle() {
 			return getItemModificationTitle();
-		}
-
-		@Override
-		public IInfo getCumulatedModificationsTarget() {
-			return getModificationsTarget();
 		}
 
 		@Override

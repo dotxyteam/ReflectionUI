@@ -20,7 +20,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -87,8 +86,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 	protected void onNullingControlStateChange() {
 		if (getNullStatusControlState()) {
-			ReflectionUIUtils.setValueThroughModificationStack(data, null, input.getModificationStack(),
-					input.getModificationsTarget());
+			ReflectionUIUtils.setValueThroughModificationStack(data, null, input.getModificationStack());
 		} else {
 			nullControlAction.run();
 		}
@@ -177,8 +175,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 					@Override
 					public void setValue(Object value) {
-						ReflectionUIUtils.setValueThroughModificationStack(base, value, input.getModificationStack(),
-								input.getModificationsTarget());
+						ReflectionUIUtils.setValueThroughModificationStack(base, value, input.getModificationStack());
 					}
 
 				};
@@ -227,7 +224,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 			@Override
 			public IModification createCommitModification(Object newObjectValue) {
-				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
+				return new ControlDataValueModification(data, newObjectValue);
 			}
 
 			@Override
@@ -242,12 +239,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return ControlDataValueModification.getTitle(input.getModificationsTarget());
-			}
-
-			@Override
-			public IInfo getCumulatedModificationsTarget() {
-				return input.getModificationsTarget();
+				return ControlDataValueModification.getTitle(data.getCaption());
 			}
 
 			@Override

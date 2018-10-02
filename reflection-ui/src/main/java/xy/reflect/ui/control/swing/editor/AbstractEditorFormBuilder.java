@@ -6,7 +6,6 @@ import java.util.Map;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -32,8 +31,6 @@ public abstract class AbstractEditorFormBuilder {
 	public abstract SwingRenderer getSwingRenderer();
 
 	public abstract ModificationStack getParentObjectModificationStack();
-
-	public abstract IInfo getCumulatedModificationsTarget();
 
 	public abstract String getCumulatedModificationsTitle();
 
@@ -309,12 +306,6 @@ public abstract class AbstractEditorFormBuilder {
 				return createCommitModification(getCurrentObjectValue());
 			}
 		};
-		Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {
-			@Override
-			public IInfo get() {
-				return getCumulatedModificationsTarget();
-			}
-		};
 		Accessor<String> childModifTitleGetter = new Accessor<String>() {
 			@Override
 			public String get() {
@@ -333,7 +324,7 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		};
 		form.setModificationStack(new SlaveModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
+				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, 
 				childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
 	}
 

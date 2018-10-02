@@ -1,7 +1,6 @@
 package xy.reflect.ui.undo;
 
 import xy.reflect.ui.control.IFieldControlData;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ControlDataValueModification extends AbstractModification {
@@ -9,23 +8,21 @@ public class ControlDataValueModification extends AbstractModification {
 	protected IFieldControlData data;
 	protected Object newValue;
 
-	public ControlDataValueModification(final IFieldControlData data, final Object newValue, IInfo target) {
-		super(target);
+	public ControlDataValueModification(final IFieldControlData data, final Object newValue) {
 		this.data = data;
 		this.newValue = newValue;
 	}
 
-	public static String getTitle(IInfo modificationTarget) {
-		String targetCaption = modificationTarget.getCaption();
+	public static String getTitle(String targetCaption) {
 		if ((targetCaption == null) || (targetCaption.length() == 0)) {
 			return "";
 		}
-		return "Edit '" + modificationTarget.getCaption() + "'";
+		return "Edit '" + targetCaption + "'";
 	}
 
 	@Override
 	public String getTitle() {
-		return getTitle(target);
+		return getTitle(data.getCaption());
 	}
 
 	@Override

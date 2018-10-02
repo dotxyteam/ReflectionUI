@@ -14,7 +14,6 @@ import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -102,7 +101,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			@Override
 			public Object invoke(InvocationData invocationData) {
 				return ReflectionUIUtils.invokeMethodThroughModificationStack(data, invocationData,
-						getModificationStack(), getModificationsTarget());
+						getModificationStack());
 			}
 
 		};
@@ -151,11 +150,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	@Override
 	public IMethodControlData getControlData() {
 		return controlData;
-	}
-
-	@Override
-	public IInfo getModificationsTarget() {
-		return method;
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.Mapper;
@@ -12,21 +11,19 @@ import xy.reflect.ui.util.Mapper;
 public class ListModificationFactory {
 
 	protected ItemPosition anyItemPosition;
-	protected IInfo modificationTarget;
 	protected Object rootListValue;
 	protected Mapper<Object, IModification> rootListValueCommitModificationAccessor;
 
-	public ListModificationFactory(ItemPosition anyListItemPosition, Object rootListValue, IInfo modificationTarget,
+	public ListModificationFactory(ItemPosition anyListItemPosition, Object rootListValue,
 			Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
 		this.anyItemPosition = anyListItemPosition;
-		this.modificationTarget = modificationTarget;
 		this.rootListValue = rootListValue;
 		this.rootListValueCommitModificationAccessor = rootListValueCommitModificationAccessor;
 	}
 
-	protected IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue, IInfo target,
+	protected IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue,
 			Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
-		return new ListModification(itemPosition, newListRawValue, rootListValue, target,
+		return new ListModification(itemPosition, newListRawValue, rootListValue,
 				rootListValueCommitModificationAccessor);
 	}
 
@@ -57,8 +54,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.add(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, modificationTarget,
-				rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
 	}
 
 	public boolean canRemove(int index) {
@@ -73,8 +69,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.remove(index);
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, modificationTarget,
-				rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
 	}
 
 	public boolean canSet(int index) {
@@ -102,8 +97,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.set(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, modificationTarget,
-				rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
 	}
 
 	public boolean canMove(int index, int offset) {
@@ -122,8 +116,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.add(index + offset, tmpList.remove(index));
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, modificationTarget,
-				rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
 	}
 
 	public boolean canClear() {
@@ -131,8 +124,7 @@ public class ListModificationFactory {
 	}
 
 	public IModification clear() {
-		return createListModification(anyItemPosition, new Object[0], modificationTarget,
-				rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, new Object[0], rootListValueCommitModificationAccessor);
 	}
 
 	protected static class ListModification implements IModification {
@@ -141,11 +133,9 @@ public class ListModificationFactory {
 		protected Object[] newListRawValue;
 		protected Object rootListValue;
 		protected Mapper<Object, IModification> rootListValueCommitModificationAccessor;
-		protected IInfo target;
 
-		public ListModification(ItemPosition itemPosition, Object[] newListRawValue, Object rootListValue, IInfo target,
+		public ListModification(ItemPosition itemPosition, Object[] newListRawValue, Object rootListValue,
 				Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
-			this.target = target;
 			this.itemPosition = itemPosition;
 			this.newListRawValue = newListRawValue;
 			this.rootListValue = rootListValue;
@@ -154,7 +144,7 @@ public class ListModificationFactory {
 
 		@Override
 		public String getTitle() {
-			return ControlDataValueModification.getTitle(target);
+			return ControlDataValueModification.getTitle(itemPosition.getContainingListTitle());
 		}
 
 		@Override
@@ -165,18 +155,13 @@ public class ListModificationFactory {
 				newRootListValue = rootListValue;
 			}
 			rootListValueCommitModificationAccessor.get(newRootListValue).applyAndGetOpposite();
-			return new ListModification(itemPosition, oldListRawValue, newRootListValue, target,
+			return new ListModification(itemPosition, oldListRawValue, newRootListValue,
 					rootListValueCommitModificationAccessor);
 		}
 
 		@Override
 		public boolean isNull() {
 			return false;
-		}
-
-		@Override
-		public IInfo getTarget() {
-			return target;
 		}
 
 	}

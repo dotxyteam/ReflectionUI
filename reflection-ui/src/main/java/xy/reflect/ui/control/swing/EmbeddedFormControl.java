@@ -10,7 +10,6 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -82,19 +81,13 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					if (data.isGetOnly()) {
 						return null;
 					}
-					return new ControlDataValueModification(data, subFormObject, input.getModificationsTarget());
-				}
-			};
-			Accessor<IInfo> childModifTargetGetter = new Accessor<IInfo>() {
-				@Override
-				public IInfo get() {
-					return input.getModificationsTarget();
+					return new ControlDataValueModification(data, subFormObject);
 				}
 			};
 			Accessor<String> childModifTitleGetter = new Accessor<String>() {
 				@Override
 				public String get() {
-					return ControlDataValueModification.getTitle(input.getModificationsTarget());
+					return ControlDataValueModification.getTitle(data.getCaption());
 				}
 			};
 			Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {
@@ -106,8 +99,8 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
 			subForm.setModificationStack(new SlaveModificationStack(swingRenderer, subForm, childModifAcceptedGetter,
-					childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTargetGetter,
-					childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
+					childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTitleGetter,
+					masterModifStackGetter, exclusiveLinkWithParent));
 		}
 	}
 
@@ -127,7 +120,8 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 				if (data.getFormForegroundColor() != null) {
-					((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+					((TitledBorder) getBorder())
+							.setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
 				}
 			} else {
 				setBorder(null);

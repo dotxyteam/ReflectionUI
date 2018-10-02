@@ -1,7 +1,5 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.info.IInfo;
-
 public class ModificationProxy implements IModification {
 	protected IModification delegate;
 
@@ -12,10 +10,6 @@ public class ModificationProxy implements IModification {
 
 	public IModification applyAndGetOpposite() {
 		return delegate.applyAndGetOpposite();
-	}
-
-	public IInfo getTarget() {
-		return delegate.getTarget();
 	}
 
 	public boolean isNull() {

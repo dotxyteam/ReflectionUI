@@ -1,6 +1,5 @@
 package xy.reflect.ui.control;
 
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
 public class FieldControlInputProxy implements IFieldControlInput {
@@ -14,10 +13,6 @@ public class FieldControlInputProxy implements IFieldControlInput {
 
 	public IFieldControlData getControlData() {
 		return base.getControlData();
-	}
-
-	public IInfo getModificationsTarget() {
-		return base.getModificationsTarget();
 	}
 
 	public ModificationStack getModificationStack() {

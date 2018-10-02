@@ -1,27 +1,15 @@
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.info.IInfo;
-
 public abstract class AbstractModification implements IModification {
 
 	protected String title;
 	protected Runnable doJob;
 	protected Runnable undoJob;
-	protected IInfo target;
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
 	protected abstract Runnable createDoJob();
 
 	protected abstract Runnable createUndoJob();
-
-	protected AbstractModification(IInfo target) {
-		this.target = target;
-	}
-
-	@Override
-	public IInfo getTarget() {
-		return target;
-	}
 
 	@Override
 	public boolean isNull() {
@@ -73,11 +61,6 @@ public abstract class AbstractModification implements IModification {
 
 		public AbstractModification getSourceModification() {
 			return AbstractModification.this;
-		}
-
-		@Override
-		public IInfo getTarget() {
-			return getSourceModification().target;
 		}
 
 		@Override

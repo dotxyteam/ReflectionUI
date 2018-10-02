@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -13,22 +12,15 @@ public class CompositeModification implements IModification {
 	protected IModification[] modifications;
 	protected String title;
 	protected UndoOrder undoOrder;
-	protected IInfo target;
-
-	public CompositeModification(IInfo target, String title, UndoOrder undoOrder, IModification... modifications) {
-		this.target = target;
+	
+	public CompositeModification(String title, UndoOrder undoOrder, IModification... modifications) {
 		this.title = title;
 		this.undoOrder = undoOrder;
 		this.modifications = modifications;
 	}
 
-	public CompositeModification(IInfo target, String title, UndoOrder undoOrder, List<IModification> modifications) {
-		this(target, title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
-	}
-
-	@Override
-	public IInfo getTarget() {
-		return target;
+	public CompositeModification(String title, UndoOrder undoOrder, List<IModification> modifications) {
+		this(title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
 	}
 
 	@Override
@@ -53,8 +45,7 @@ public class CompositeModification implements IModification {
 				throw new ReflectionUIError();
 			}
 		}
-		return new CompositeModification(target, AbstractModification.getUndoTitle(title), undoOrder,
-				oppositeModifications);
+		return new CompositeModification(AbstractModification.getUndoTitle(title), undoOrder, oppositeModifications);
 	}
 
 	public void setTitle(String title) {

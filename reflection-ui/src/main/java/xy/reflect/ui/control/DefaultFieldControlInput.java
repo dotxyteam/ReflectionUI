@@ -1,7 +1,6 @@
 package xy.reflect.ui.control;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
@@ -19,11 +18,6 @@ public class DefaultFieldControlInput implements IFieldControlInput {
 
 	public DefaultFieldControlInput(ReflectionUI reflectionUI) {
 		this(reflectionUI, null, IFieldInfo.NULL_FIELD_INFO);
-	}
-
-	@Override
-	public IInfo getModificationsTarget() {
-		return field;
 	}
 
 	@Override

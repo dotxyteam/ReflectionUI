@@ -888,19 +888,19 @@ public class ReflectionUIUtils {
 
 	public static IModification finalizeSeparateObjectValueEditSession(IModification valueUndoModification,
 			boolean valueModifAccepted, ValueReturnMode valueReturnMode, boolean valueReplaced,
-			IModification commitModif, IInfo editSessionTarget, String editSessionTitle) {
+			IModification commitModif, String editSessionTitle) {
 		ModificationStack objectModifStack = new ModificationStack(null);
 		ModificationStack valueModifStack = new ModificationStack(null);
 		valueModifStack.pushUndo(valueUndoModification);
 		finalizeSeparateObjectValueEditSession(objectModifStack, valueModifStack, valueModifAccepted, valueReturnMode,
-				valueReplaced, commitModif, editSessionTarget, editSessionTitle, null);
-		return objectModifStack.toCompositeUndoModification(editSessionTarget, editSessionTitle);
+				valueReplaced, commitModif, editSessionTitle, null);
+		return objectModifStack.toCompositeUndoModification(editSessionTitle);
 	}
 
 	public static boolean finalizeSeparateObjectValueEditSession(final ModificationStack objectModifStack,
 			final ModificationStack valueModifStack, boolean valueModifAccepted, final ValueReturnMode valueReturnMode,
-			final boolean valueReplaced, final IModification commitModif, IInfo editSessionTarget,
-			String editSessionTitle, final Listener<String> debugLogListener) {
+			final boolean valueReplaced, final IModification commitModif, String editSessionTitle,
+			final Listener<String> debugLogListener) {
 
 		if (objectModifStack == null) {
 			throw new ReflectionUIError();
@@ -912,16 +912,15 @@ public class ReflectionUIUtils {
 		boolean parentObjectImpacted = false;
 		if (valueModifAccepted) {
 			if (!valueModifStack.isNull()) {
-				parentObjectImpacted = objectModifStack.insideComposite(editSessionTarget, editSessionTitle,
-						UndoOrder.FIFO, new Accessor<Boolean>() {
+				parentObjectImpacted = objectModifStack.insideComposite(editSessionTitle, UndoOrder.FIFO,
+						new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
 								if (valueReturnMode != ValueReturnMode.CALCULATED) {
 									if (valueModifStack.wasInvalidated()) {
 										objectModifStack.invalidate();
 									} else {
-										objectModifStack
-												.pushUndo(valueModifStack.toCompositeUndoModification(null, null));
+										objectModifStack.pushUndo(valueModifStack.toCompositeUndoModification(null));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
@@ -978,8 +977,8 @@ public class ReflectionUIUtils {
 	}
 
 	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
-			ModificationStack modifStack, IInfo modificationTarget) {
-		ControlDataValueModification modif = new ControlDataValueModification(data, newValue, modificationTarget);
+			ModificationStack modifStack) {
+		ControlDataValueModification modif = new ControlDataValueModification(data, newValue);
 		try {
 			modifStack.apply(modif);
 		} catch (Throwable t) {
@@ -989,7 +988,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static Object invokeMethodThroughModificationStack(IMethodControlData data, InvocationData invocationData,
-			ModificationStack modifStack, IInfo modificationTarget) {
+			ModificationStack modifStack) {
 		if (data.isReadOnly()) {
 			return data.invoke(invocationData);
 		} else {
@@ -1002,7 +1001,7 @@ public class ReflectionUIUtils {
 						return resultHolder[0] = super.invoke(invocationData);
 					}
 				};
-				InvokeMethodModification modif = new InvokeMethodModification(data, invocationData, modificationTarget);
+				InvokeMethodModification modif = new InvokeMethodModification(data, invocationData);
 				try {
 					modifStack.apply(modif);
 				} catch (Throwable t) {

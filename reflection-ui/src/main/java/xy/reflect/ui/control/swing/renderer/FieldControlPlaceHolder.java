@@ -32,7 +32,6 @@ import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.PrimitiveValueControl;
 import xy.reflect.ui.control.swing.TextControl;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
@@ -253,8 +252,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 						return;
 					}
 				}
-				ReflectionUIUtils.setValueThroughModificationStack(data, newValue, getModificationStack(),
-						getModificationsTarget());
+				ReflectionUIUtils.setValueThroughModificationStack(data, newValue, getModificationStack());
 			}
 		};
 	}
@@ -360,11 +358,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	public Component getFieldControl() {
 		return fieldControl;
-	}
-
-	@Override
-	public IInfo getModificationsTarget() {
-		return field;
 	}
 
 	public void refreshUI(boolean refreshStructure) {

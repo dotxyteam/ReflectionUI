@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -215,7 +214,7 @@ public class ModificationStack {
 		return compositeStack.size() > 0;
 	}
 
-	public boolean endComposite(IInfo target, String title, UndoOrder order) {
+	public boolean endComposite(String title, UndoOrder order) {
 		if (invalidated) {
 			abortComposite();
 			return true;
@@ -233,8 +232,8 @@ public class ModificationStack {
 			Collections.reverse(list);
 			list.toArray(undoModifs);
 		}
-		CompositeModification compositeUndoModif = new CompositeModification(target,
-				AbstractModification.getUndoTitle(title), order, undoModifs);
+		CompositeModification compositeUndoModif = new CompositeModification(AbstractModification.getUndoTitle(title),
+				order, undoModifs);
 		return compositeParent.pushUndo(compositeUndoModif);
 	}
 
@@ -242,7 +241,7 @@ public class ModificationStack {
 		compositeStack.pop();
 	}
 
-	public boolean insideComposite(IInfo target, String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
+	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
 		beginComposite();
 		boolean ok;
 		try {
@@ -253,7 +252,7 @@ public class ModificationStack {
 			throw new ReflectionUIError(t);
 		}
 		if (ok) {
-			return endComposite(target, title, order);
+			return endComposite(title, order);
 		} else {
 			abortComposite();
 			return false;
@@ -308,8 +307,8 @@ public class ModificationStack {
 		return true;
 	}
 
-	public IModification toCompositeUndoModification(IInfo target, String title) {
-		return new CompositeModification(target, title, UndoOrder.getNormal(), getUndoModifications());
+	public IModification toCompositeUndoModification(String title) {
+		return new CompositeModification(title, UndoOrder.getNormal(), getUndoModifications());
 	}
 
 	public long getStateVersion() {

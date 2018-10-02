@@ -16,7 +16,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -199,7 +198,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 									});
 								}
 							}
-						}, instance, input.getModificationsTarget()).applyAndGetOpposite();
+						}, instance).applyAndGetOpposite();
 					}
 				};
 			}
@@ -211,12 +210,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return ControlDataValueModification.getTitle(input.getModificationsTarget());
-			}
-
-			@Override
-			public IInfo getCumulatedModificationsTarget() {
-				return input.getModificationsTarget();
+				return ControlDataValueModification.getTitle(data.getCaption());
 			}
 
 			@Override
@@ -276,7 +270,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public IModification createCommitModification(Object newObjectValue) {
-				return new ControlDataValueModification(data, newObjectValue, input.getModificationsTarget());
+				return new ControlDataValueModification(data, newObjectValue);
 			}
 
 			@Override
@@ -291,12 +285,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return ControlDataValueModification.getTitle(input.getModificationsTarget());
-			}
-
-			@Override
-			public IInfo getCumulatedModificationsTarget() {
-				return input.getModificationsTarget();
+				return ControlDataValueModification.getTitle(data.getCaption());
 			}
 
 			@Override

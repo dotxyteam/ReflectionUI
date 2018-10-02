@@ -123,13 +123,17 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	@Override
 	public String getName() {
-		StringBuilder result = new StringBuilder();
+		StringBuilder result = new StringBuilder("listFrom");
 		int i = 0;
 		for (IFieldInfo field : fields) {
 			if (i > 0) {
-				result.append("+");
+				result.append("And");
 			}
-			result.append(field.getName());
+			String fieldName = field.getName();
+			if (fieldName.length() > 0) {
+				fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+			}
+			result.append(fieldName);
 			i++;
 		}
 		return result.toString();
@@ -371,8 +375,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public String getName() {
-			return "ListItemTypeInfo [index=" + MultipleFieldsAsListFieldInfo.this.fields.indexOf(field) + ", of="
-					+ MultipleFieldsAsListFieldInfo.this.getName() + "]";
+			return "FieldAsListItemTypeInfo [index=" + MultipleFieldsAsListFieldInfo.this.fields.indexOf(field)
+					+ ", containingList=" + MultipleFieldsAsListFieldInfo.this.getName() + "]";
 		}
 
 		@Override
@@ -478,8 +482,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public String toString() {
-			return "ListItemTypeInfo [index=" + MultipleFieldsAsListFieldInfo.this.fields.indexOf(field) + ", of="
-					+ getOuterType() + "]";
+			return "FieldAsListItemTypeInfo [index=" + MultipleFieldsAsListFieldInfo.this.fields.indexOf(field)
+					+ ", containingList=" + getOuterType() + "]";
 		}
 
 	}
@@ -517,6 +521,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		public Object[] getValueOptions(Object object) {
 			object = ((ValueListItem) object).getObject();
 			return super.getValueOptions(object);
+		}
+
+		@Override
+		public boolean isHidden() {
+			return false;
 		}
 
 	}

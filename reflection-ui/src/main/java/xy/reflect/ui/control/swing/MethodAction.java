@@ -16,7 +16,6 @@ import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -310,12 +309,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return InvokeMethodModification.getTitle(input.getModificationsTarget());
-			}
-
-			@Override
-			public IInfo getCumulatedModificationsTarget() {
-				return input.getModificationsTarget();
+				return InvokeMethodModification.getTitle(data.getCaption());
 			}
 
 			@Override

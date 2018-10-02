@@ -4,7 +4,6 @@ import java.awt.Component;
 
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -57,11 +56,6 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 
 	@Override
 	public ModificationStack getParentObjectModificationStack() {
-		return null;
-	}
-
-	@Override
-	public IInfo getCumulatedModificationsTarget() {
 		return null;
 	}
 

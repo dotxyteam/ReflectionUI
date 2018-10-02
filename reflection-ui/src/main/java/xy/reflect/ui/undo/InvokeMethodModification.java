@@ -1,7 +1,6 @@
 package xy.reflect.ui.undo;
 
 import xy.reflect.ui.control.IMethodControlData;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -10,12 +9,7 @@ public class InvokeMethodModification extends AbstractModification {
 	protected IMethodControlData data;
 	protected InvocationData invocationData;
 
-	public static String getTitle(IInfo target) {
-		return target.getCaption();
-	}
-
-	public InvokeMethodModification(IMethodControlData data, InvocationData invocationData, IInfo target) {
-		super(target);
+	public InvokeMethodModification(IMethodControlData data, InvocationData invocationData) {
 		this.data = data;
 		this.invocationData = invocationData;
 	}
@@ -41,7 +35,11 @@ public class InvokeMethodModification extends AbstractModification {
 
 	@Override
 	public String getTitle() {
-		return "Execute '" + data.getCaption() + "'";
+		return getTitle(data.getCaption());
+	}
+
+	public static String getTitle(String targetCaption) {
+		return "Execute '" + targetCaption + "'";
 	}
 
 	@Override

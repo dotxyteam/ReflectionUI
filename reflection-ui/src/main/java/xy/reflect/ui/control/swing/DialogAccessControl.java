@@ -18,7 +18,6 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -191,12 +190,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return ControlDataValueModification.getTitle(input.getModificationsTarget());
-			}
-
-			@Override
-			public IInfo getCumulatedModificationsTarget() {
-				return input.getModificationsTarget();
+				return ControlDataValueModification.getTitle(data.getCaption());
 			}
 
 			@Override
@@ -216,7 +210,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 			@Override
 			public IModification createCommitModification(Object newObjectValue) {
-				return new ControlDataValueModification(data, newObjectValue, getCumulatedModificationsTarget());
+				return new ControlDataValueModification(data, newObjectValue);
 			}
 
 			@Override

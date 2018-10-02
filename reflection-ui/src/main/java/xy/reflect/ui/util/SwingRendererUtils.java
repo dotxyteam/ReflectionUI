@@ -69,7 +69,6 @@ import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -680,11 +679,6 @@ public class SwingRendererUtils {
 						return msg;
 					}
 				};
-
-				@Override
-				public IInfo getModificationsTarget() {
-					return field;
-				}
 
 				@Override
 				public ModificationStack getModificationStack() {

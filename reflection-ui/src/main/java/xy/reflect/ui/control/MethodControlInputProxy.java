@@ -1,6 +1,5 @@
 package xy.reflect.ui.control;
 
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
 public class MethodControlInputProxy implements IMethodControlInput {
@@ -14,10 +13,6 @@ public class MethodControlInputProxy implements IMethodControlInput {
 
 	public IMethodControlData getControlData() {
 		return base.getControlData();
-	}
-
-	public IInfo getModificationsTarget() {
-		return base.getModificationsTarget();
 	}
 
 	public ModificationStack getModificationStack() {
@@ -57,6 +52,5 @@ public class MethodControlInputProxy implements IMethodControlInput {
 	public String toString() {
 		return "MethodControlInputProxy [base=" + base + "]";
 	}
-	
-	
+
 }

@@ -42,7 +42,6 @@ import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -257,11 +256,6 @@ public class SwingRenderer {
 				MethodAction methodAction = createMethodAction(new IMethodControlInput() {
 
 					ModificationStack dummyModificationStack = new ModificationStack(null);
-
-					@Override
-					public IInfo getModificationsTarget() {
-						return chosenConstructor;
-					}
 
 					@Override
 					public ModificationStack getModificationStack() {

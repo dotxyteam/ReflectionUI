@@ -2,7 +2,6 @@ package xy.reflect.ui.undo;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -14,7 +13,6 @@ public class SlaveModificationStack extends ModificationStack {
 	protected Accessor<Boolean> valueModifAcceptedGetter;
 	protected Accessor<ValueReturnMode> valueReturnModeGetter;
 	protected Accessor<Boolean> valueReplacedGetter;
-	protected Accessor<IInfo> editSessionTargetGetter;
 	protected Accessor<String> editSessionTitleGetter;
 	protected Accessor<ModificationStack> masterModificationStackGetter;
 	protected Accessor<IModification> commitModifGetter;
@@ -22,9 +20,8 @@ public class SlaveModificationStack extends ModificationStack {
 
 	public SlaveModificationStack(SwingRenderer swingRenderer, Form form, Accessor<Boolean> valueModifAcceptedGetter,
 			Accessor<ValueReturnMode> valueReturnModeGetter, Accessor<Boolean> valueReplacedGetter,
-			Accessor<IModification> commitModifGetter, Accessor<IInfo> editSessionTargetGetter,
-			Accessor<String> editSessionTitleGetter, Accessor<ModificationStack> masterModificationStackGetter,
-			boolean exclusiveLinkWithParent) {
+			Accessor<IModification> commitModifGetter, Accessor<String> editSessionTitleGetter,
+			Accessor<ModificationStack> masterModificationStackGetter, boolean exclusiveLinkWithParent) {
 		super(null);
 		this.swingRenderer = swingRenderer;
 		this.form = form;
@@ -32,7 +29,6 @@ public class SlaveModificationStack extends ModificationStack {
 		this.valueReturnModeGetter = valueReturnModeGetter;
 		this.valueReplacedGetter = valueReplacedGetter;
 		this.commitModifGetter = commitModifGetter;
-		this.editSessionTargetGetter = editSessionTargetGetter;
 		this.editSessionTitleGetter = editSessionTitleGetter;
 		this.masterModificationStackGetter = masterModificationStackGetter;
 		this.exclusiveLinkWithParent = exclusiveLinkWithParent;
@@ -49,7 +45,7 @@ public class SlaveModificationStack extends ModificationStack {
 			return result;
 		}
 		ModificationStack valueModifStack = new ModificationStack(null);
-		valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle(), undoModif.getTarget()) {
+		valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle()) {
 
 			@Override
 			protected void shiftBackward() {
@@ -72,9 +68,8 @@ public class SlaveModificationStack extends ModificationStack {
 			editSessionTitle = ReflectionUIUtils.composeMessage(editSessionTitlePrefix, editSessionTitle);
 		}
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
-		IInfo editSessionTarget = editSessionTargetGetter.get();
 		return ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
-				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
+				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTitle,
 				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 	}
 
@@ -92,10 +87,9 @@ public class SlaveModificationStack extends ModificationStack {
 		boolean valueReplaced = valueReplacedGetter.get();
 		IModification commitModif = commitModifGetter.get();
 		String editSessionTitle = null;
-		IInfo editSessionTarget = editSessionTargetGetter.get();
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
-				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTarget, editSessionTitle,
+				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTitle,
 				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 	}
 
