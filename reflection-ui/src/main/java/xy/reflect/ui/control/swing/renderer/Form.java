@@ -385,8 +385,9 @@ public class Form extends ImagePanel {
 			add(membersPanel, BorderLayout.CENTER);
 			fieldControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
 			methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
-			refreshForm(true);
 		}
+		
+		refreshForm(true);		
 	}
 
 	public JPanel createMembersPanel() {
@@ -664,6 +665,41 @@ public class Form extends ImagePanel {
 	}
 
 	public void refreshForm(boolean refreshStructure) {
+		if (refreshStructure && refreshMemberControlLists()) {
+			InfoCategory displayedCategory = getDisplayedInfoCategory();
+			try {
+				removeAll();
+				layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
+				SwingRendererUtils.handleComponentSizeChange(this);
+			} finally {
+				if (displayedCategory != null) {
+					setDisplayedInfoCategory(displayedCategory);
+				}
+			}
+		} else {
+			for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+				List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+						.get(category);
+				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
+					fieldControlPlaceHolder.refreshUI(refreshStructure);
+					if (refreshStructure) {
+						updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
+					}
+				}
+			}
+			if (refreshStructure) {
+				for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+					List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
+							.get(category);
+					for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
+						MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
+						methodControlPlaceHolder.refreshUI();
+						updateMethodControlLayoutInContainer(methodControlPlaceHolder);
+					}
+				}
+			}
+		}
 		if (refreshStructure) {
 			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -705,42 +741,7 @@ public class Form extends ImagePanel {
 				setImage(awtImage);
 			}
 			setOpaque((awtBackgroundColor != null) && (awtImage == null));
-		}
-		if (refreshStructure && refreshMemberControlLists()) {
-			InfoCategory displayedCategory = getDisplayedInfoCategory();
-			try {
-				removeAll();
-				layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
-				SwingRendererUtils.handleComponentSizeChange(this);
-			} finally {
-				if (displayedCategory != null) {
-					setDisplayedInfoCategory(displayedCategory);
-				}
-			}
-		} else {
-			for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
-				List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-						.get(category);
-				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
-					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
-					fieldControlPlaceHolder.refreshUI(refreshStructure);
-					if (refreshStructure) {
-						updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
-					}
-				}
-			}
-			if (refreshStructure) {
-				for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-					List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-							.get(category);
-					for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
-						MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
-						methodControlPlaceHolder.refreshUI();
-						updateMethodControlLayoutInContainer(methodControlPlaceHolder);
-					}
-				}
-			}
-		}
+		}		
 		finalizeFormUpdate();
 		for (IRefreshListener l : refreshListeners) {
 			l.onRefresh(refreshStructure);
