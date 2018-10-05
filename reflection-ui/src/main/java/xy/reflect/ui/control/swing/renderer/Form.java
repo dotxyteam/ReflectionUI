@@ -69,12 +69,9 @@ public class Form extends ImagePanel {
 
 	protected SwingRenderer swingRenderer;
 	protected Object object;
-	protected Component statusBar;
-
 	protected ModificationStack modificationStack;
 	protected boolean fieldsUpdateListenerDisabled = false;
 	protected IInfoFilter infoFilter;
-	protected JMenuBar menuBar;
 	protected SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory;
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory;
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
@@ -84,6 +81,8 @@ public class Form extends ImagePanel {
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
+	protected Component statusBar;
+	protected JMenuBar menuBar;
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
 		this.swingRenderer = swingRenderer;
@@ -883,6 +882,7 @@ public class Form extends ImagePanel {
 		MenuModel menuModel = new MenuModel();
 		addMenuContribution(menuModel);
 		SwingRendererUtils.updateMenubar(menuBar, menuModel, swingRenderer);
+		menuBar.setVisible(menuBar.getComponentCount() > 0);
 	}
 
 	public void addMenuContribution(MenuModel menuModel) {

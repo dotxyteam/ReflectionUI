@@ -22,6 +22,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
 import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.ControlScrollPane;
 import xy.reflect.ui.util.component.ImagePanel;
@@ -29,9 +30,12 @@ import xy.reflect.ui.util.component.ScrollPaneOptions;
 
 public class WindowManager {
 
-	protected Window window;
 	protected SwingRenderer swingRenderer;
+	protected Window window;
+	protected AlternativeWindowDecorationsPanel alternativeDecorationsPanel;
 	protected ImagePanel contentPane;
+	protected ControlPanel topBarsContainer;
+	protected JScrollPane scrollPane;
 	protected JPanel toolBar;
 	protected Accessor<List<Component>> toolBarControlsAccessor;
 
@@ -68,25 +72,72 @@ public class WindowManager {
 		}
 	}
 
-	protected void layoutToolBar(JPanel toolbar) {
-		contentPane.add(toolbar, BorderLayout.SOUTH);
-	}
-
 	protected JScrollPane createScrollPane(Component content) {
-		return new ControlScrollPane(new ScrollPaneOptions(content, true, false));
+		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
+		result.setBorder(BorderFactory.createEmptyBorder());
+		return result;
 	}
 
 	protected void setContentPane(Container contentPane) {
-		SwingRendererUtils.setContentPane(window, contentPane);
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.isSystemIntegrationNative()) {
+			alternativeDecorationsPanel = null;
+			SwingRendererUtils.setUndecorated(window, false);
+			SwingRendererUtils.setContentPane(window, contentPane);
+		} else {
+			alternativeDecorationsPanel = createAlternativeWindowDecorationsPanel(
+					SwingRendererUtils.getWindowTitle(window), window, contentPane);
+			SwingRendererUtils.setContentPane(window, alternativeDecorationsPanel);
+		}
+	}
+
+	protected AlternativeWindowDecorationsPanel createAlternativeWindowDecorationsPanel(String windowTitle,
+			Window window, Component windowContent) {
+		return new AlternativeWindowDecorationsPanel(SwingRendererUtils.getWindowTitle(window), window, windowContent) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Color getDecorationsBackgroundColor() {
+				return getBackgroundColor();
+			}
+
+			@Override
+			public Color getDecorationsForegroundColor() {
+				return getForegroundColor();
+			}
+
+		};
+	}
+
+	protected ImagePanel createContentPane() {
+		ImagePanel result = new ImagePanel();
+		result.setPreservingRatio(true);
+		result.setFillingAreaWhenPreservingRatio(true);
+		result.setLayout(new BorderLayout());
+		topBarsContainer = new ControlPanel();
+		{
+			topBarsContainer.setLayout(new BorderLayout());
+			result.add(topBarsContainer, BorderLayout.NORTH);
+		}
+		return result;
 	}
 
 	protected void layoutMenuBar(JMenuBar menuBar) {
-		SwingRendererUtils.setMenuBar(window, menuBar);
+		topBarsContainer.add(menuBar, BorderLayout.NORTH);
 	}
 
 	protected void layoutStatusBar(Component statusBar) {
-		Container contentPane = SwingRendererUtils.getContentPane(window);
-		contentPane.add(statusBar, BorderLayout.NORTH);
+		topBarsContainer.add(statusBar, BorderLayout.SOUTH);
+	}
+
+	protected void layoutContent(Component content) {
+		contentPane.add(content, BorderLayout.CENTER);
+	}
+
+	protected void layoutToolBar(JPanel toolbar) {
+		contentPane.add(toolbar, BorderLayout.SOUTH);
 	}
 
 	public void set(final Component content, Accessor<List<Component>> toolbarControlsAccessor, String title,
@@ -104,7 +155,6 @@ public class WindowManager {
 		this.toolBarControlsAccessor = toolbarControlsAccessor;
 		contentPane = createContentPane();
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout());
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, swingRenderer)) {
 				final Form form = (Form) content;
@@ -127,9 +177,8 @@ public class WindowManager {
 					}
 				});
 			}
-			JScrollPane scrollPane = createScrollPane(content);
-			scrollPane.getViewport().setOpaque(false);
-			contentPane.add(scrollPane, BorderLayout.CENTER);
+			scrollPane = createScrollPane(content);
+			layoutContent(scrollPane);
 		}
 		toolBar = createToolBar();
 		layoutToolBar(toolBar);
@@ -138,39 +187,44 @@ public class WindowManager {
 	}
 
 	public void refreshWindowStructure() {
-		if (contentPane != null) {
-			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-			Color awtBackgroundColor;
-			{
-				if (appInfo.getMainBackgroundColor() != null) {
-					awtBackgroundColor = SwingRendererUtils.getColor(appInfo.getMainBackgroundColor());
-				} else {
-					awtBackgroundColor = UIManager.getColor("Panel.background");
-				}
-				contentPane.setBackground(awtBackgroundColor);
-			}
-			Image awtImage;
-			{
-				if (appInfo.getMainBackgroundImagePath() != null) {
-					awtImage = SwingRendererUtils.loadImageThroughcache(appInfo.getMainBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
-				} else {
-					awtImage = null;
-				}
-				contentPane.setImage(awtImage);
-			}
-			contentPane.setOpaque((awtBackgroundColor != null) && (awtImage == null));
-		}
+		Color backgroundColor = getBackgroundColor();
+		contentPane.setBackground(backgroundColor);
+		Image backgroundImage = getBackgroundImage();
+		contentPane.setImage(backgroundImage);
+		contentPane.setOpaque((backgroundColor != null) && (backgroundImage == null));
 		updateToolBar();
 		SwingRendererUtils.handleComponentSizeChange(window);
 	}
 
-	protected ImagePanel createContentPane() {
-		ImagePanel result = new ImagePanel();
-		result.setPreservingRatio(true);
-		result.setFillingAreaWhenPreservingRatio(true);
-		return result;
+	protected Image getBackgroundImage() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getMainBackgroundImagePath() != null) {
+			return SwingRendererUtils.loadImageThroughcache(appInfo.getMainBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		} else {
+			return null;
+		}
+	}
+
+	protected Color getBackgroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getMainBackgroundColor() != null) {
+			return SwingRendererUtils.getColor(appInfo.getMainBackgroundColor());
+		} else {
+			return UIManager.getColor("Panel.background");
+		}
+	}
+
+	protected Color getForegroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getMainForegroundColor() != null) {
+			return SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
+		} else {
+			return UIManager.getColor("Panel.foreground");
+		}
 	}
 
 	public void setIconImage(Image iconImage) {

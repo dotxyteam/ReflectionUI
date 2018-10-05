@@ -554,6 +554,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getCaption();
 	}
 
+	protected boolean isSystemIntegrationNative(IApplicationInfo appInfo) {
+		return appInfo.isSystemIntegrationNative();
+	}
+
 	protected ResourcePath getIconImagePath(IApplicationInfo appInfo) {
 		return appInfo.getIconImagePath();
 	}
@@ -731,6 +735,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getCaption() {
 			return InfoProxyFactory.this.getCaption(base);
+		}
+
+		@Override
+		public boolean isSystemIntegrationNative() {
+			return InfoProxyFactory.this.isSystemIntegrationNative(base);
 		}
 
 		@Override

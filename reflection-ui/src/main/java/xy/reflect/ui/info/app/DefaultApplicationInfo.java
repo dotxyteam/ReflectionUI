@@ -19,6 +19,11 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 	}
 
 	@Override
+	public boolean isSystemIntegrationNative() {
+		return false;
+	}
+
+	@Override
 	public ResourcePath getIconImagePath() {
 		return null;
 	}

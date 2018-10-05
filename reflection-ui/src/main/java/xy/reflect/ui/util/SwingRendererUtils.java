@@ -312,6 +312,16 @@ public class SwingRendererUtils {
 		}
 	}
 
+	public static void setUndecorated(Window window, boolean b) {
+		if (window instanceof JDialog) {
+			((JDialog) window).setUndecorated(b);
+		} else if (window instanceof JFrame) {
+			((JFrame) window).setUndecorated(b);
+		} else {
+			throw new ReflectionUIError();
+		}
+	}
+
 	public static boolean hasOrContainsFocus(Component c) {
 		if (c.isFocusOwner()) {
 			return true;
