@@ -22,6 +22,7 @@ import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -81,7 +82,7 @@ public class Form extends ImagePanel {
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
-	protected Component statusBar;
+	protected JLabel statusBar;
 	protected JMenuBar menuBar;
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
@@ -170,7 +171,7 @@ public class Form extends ImagePanel {
 		return menuBar;
 	}
 
-	public Component getStatusBar() {
+	public JLabel getStatusBar() {
 		return statusBar;
 	}
 
@@ -293,8 +294,6 @@ public class Form extends ImagePanel {
 			statusBar.setVisible(false);
 		} else {
 			((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
-			statusBar.setBackground(new Color(255, 245, 242));
-			statusBar.setForeground(new Color(255, 0, 0));
 			((JLabel) statusBar).setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
 			SwingRendererUtils.setMultilineToolTipText(((JLabel) statusBar), errorMsg);
 			statusBar.setVisible(true);
@@ -426,17 +425,18 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	public Component createStatusBar() {
+	public JLabel createStatusBar() {
 		JLabel result = new JLabel();
-		result.setOpaque(true);
+		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
-		result.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		result.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(), getLayoutSpacing(),
+				getLayoutSpacing()));
 		return result;
 	}
 
 	public JMenuBar createMenuBar() {
 		JMenuBar result = new JMenuBar();
+		result.setOpaque(false);
 		return result;
 	}
 
@@ -699,51 +699,60 @@ public class Form extends ImagePanel {
 				}
 			}
 		}
+		finalizeFormUpdate();
 		if (refreshStructure) {
-			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			setPreservingRatio(true);
 			setFillingAreaWhenPreservingRatio(true);
-			Color awtBackgroundColor;
-			{
-				if (type.getFormBackgroundColor() == null) {
-					awtBackgroundColor = null;
-				} else {
-					awtBackgroundColor = SwingRendererUtils.getColor(type.getFormBackgroundColor());
-				}
-				setBackground(awtBackgroundColor);
-			}
+			Color awtBackgroundColor = getControlsBackgroundColor();
+			Color awtForegroundColor = getControlsForegroundColor();
+			Image awtImage = getControlsBackgroundImage();
+			setBackground(awtBackgroundColor);
 			if (categoriesControl != null) {
-				Color awtForegroundColor;
-				{
-					if (type.getFormForegroundColor() == null) {
-						IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-						if (appInfo.getMainForegroundColor() == null) {
-							awtForegroundColor = null;
-						} else {
-							awtForegroundColor = SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
-						}
-					} else {
-						awtForegroundColor = SwingRendererUtils.getColor(type.getFormForegroundColor());
-					}
-					categoriesControl.setForeground(awtForegroundColor);
-				}
+				categoriesControl.setForeground(awtForegroundColor);
 			}
-			Image awtImage;
-			{
-				if (type.getFormBackgroundImagePath() == null) {
-					awtImage = null;
-				} else {
-					awtImage = SwingRendererUtils.loadImageThroughcache(type.getFormBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
-				}
-				setImage(awtImage);
-			}
+			setImage(awtImage);
 			setOpaque((awtBackgroundColor != null) && (awtImage == null));
+			menuBar.setForeground(awtForegroundColor);
+			statusBar.setForeground(awtForegroundColor);
 		}
-		finalizeFormUpdate();
 		for (IRefreshListener l : refreshListeners) {
 			l.onRefresh(refreshStructure);
+		}
+	}
+
+	public Color getControlsForegroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormForegroundColor() == null) {
+			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+			if (appInfo.getMainForegroundColor() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
+			}
+		} else {
+			return SwingRendererUtils.getColor(type.getFormForegroundColor());
+		}
+	}
+
+	public Color getControlsBackgroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormBackgroundColor() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.getColor(type.getFormBackgroundColor());
+		}
+	}
+
+	public Image getControlsBackgroundImage() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormBackgroundImagePath() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.loadImageThroughcache(type.getFormBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 		}
 	}
 
@@ -882,6 +891,14 @@ public class Form extends ImagePanel {
 		MenuModel menuModel = new MenuModel();
 		addMenuContribution(menuModel);
 		SwingRendererUtils.updateMenubar(menuBar, menuModel, swingRenderer);
+		Color awtBackgroundColor = getControlsBackgroundColor();
+		Color awtForegroundColor = getControlsForegroundColor();
+		for (int i = 0; i < menuBar.getMenuCount(); i++) {
+			JMenu menu = menuBar.getMenu(i);
+			menu.setBackground(awtBackgroundColor);
+			menu.setOpaque(awtBackgroundColor != null);
+			menu.setForeground(awtForegroundColor);
+		}
 		menuBar.setVisible(menuBar.getComponentCount() > 0);
 	}
 

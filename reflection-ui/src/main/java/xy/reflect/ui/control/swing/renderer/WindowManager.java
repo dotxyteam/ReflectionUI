@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
@@ -12,10 +13,14 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
+
+import org.jdesktop.swingx.StackLayout;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -33,7 +38,9 @@ public class WindowManager {
 	protected SwingRenderer swingRenderer;
 	protected Window window;
 	protected AlternativeWindowDecorationsPanel alternativeDecorationsPanel;
-	protected ImagePanel contentPane;
+	protected ControlPanel rootPane;
+	protected ImagePanel backgroundPane;
+	protected ControlPanel contentPane;
 	protected ControlPanel topBarsContainer;
 	protected JScrollPane scrollPane;
 	protected JPanel toolBar;
@@ -42,6 +49,88 @@ public class WindowManager {
 	public WindowManager(SwingRenderer swingRenderer, Window window) {
 		this.swingRenderer = swingRenderer;
 		this.window = window;
+	}
+
+	protected ControlPanel createRootPane() {
+		ControlPanel result = new ControlPanel();
+		result.setLayout(new StackLayout());
+		return result;
+	}
+
+	protected ImagePanel createBackgroundPane() {
+		ImagePanel result = new ImagePanel();
+		result.setPreservingRatio(true);
+		result.setFillingAreaWhenPreservingRatio(true);
+		return result;
+	}
+
+	protected AlternativeWindowDecorationsPanel createAlternativeWindowDecorationsPanel(Window window,
+			Component windowContent) {
+		String title = SwingRendererUtils.getWindowTitle(window);
+		Image iconImage = window.getIconImages().get(0);
+		ImageIcon icon = SwingRendererUtils.getSmallIcon(new ImageIcon(iconImage));
+		return new AlternativeWindowDecorationsPanel(title, icon, window, windowContent) {
+
+			private static final long serialVersionUID = 1L;
+
+			{
+				getTitleLabel().setHorizontalAlignment(JLabel.LEFT);
+				Font font = getTitleLabel().getFont();
+				{
+					font = new Font(font.getName(), Font.ITALIC, font.getSize());
+					getTitleLabel().setFont(font);
+				}
+			}
+
+			@Override
+			public Color getDecorationsBackgroundColor() {
+				Color result = getBackgroundColor();
+				if (result == null) {
+					result = UIManager.getColor("Panel.background");
+				}
+				return result;
+			}
+
+			@Override
+			public Color getDecorationsForegroundColor() {
+				Color result = getForegroundColor();
+				if (result == null) {
+					result = UIManager.getColor("Panel.foreground");
+				}
+				return result;
+			}
+
+			@Override
+			protected boolean isDecorationsBackgroundPainted() {
+				return getBackgroundColor() != null;
+			}
+
+		};
+	}
+
+	protected Color getAlternativeDecorationsBorderColor() {
+		Color result = getForegroundColor();
+		if (result == null) {
+			result = UIManager.getColor("Panel.foreground");
+		}
+		return result;
+	}
+
+	protected JScrollPane createScrollPane(Component content) {
+		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
+		result.setBorder(BorderFactory.createEmptyBorder());
+		return result;
+	}
+
+	protected ControlPanel createContentPane() {
+		ControlPanel result = new ControlPanel();
+		result.setLayout(new BorderLayout());
+		topBarsContainer = new ControlPanel();
+		{
+			topBarsContainer.setLayout(new BorderLayout());
+			result.add(topBarsContainer, BorderLayout.NORTH);
+		}
+		return result;
 	}
 
 	protected JPanel createToolBar() {
@@ -72,56 +161,25 @@ public class WindowManager {
 		}
 	}
 
-	protected JScrollPane createScrollPane(Component content) {
-		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
-		result.setBorder(BorderFactory.createEmptyBorder());
-		return result;
+	protected void layoutRootPane(ControlPanel rootPane) {
+		SwingRendererUtils.setContentPane(window, rootPane);
 	}
 
-	protected void setContentPane(Container contentPane) {
+	protected void layoutBackgroundPane(ImagePanel backgroundPane) {
+		rootPane.add(backgroundPane, StackLayout.BOTTOM);
+	}
+
+	protected void layoutContentPane(Container contentPane) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.isSystemIntegrationNative()) {
 			alternativeDecorationsPanel = null;
 			SwingRendererUtils.setUndecorated(window, false);
-			SwingRendererUtils.setContentPane(window, contentPane);
+			rootPane.add(contentPane, StackLayout.TOP);
 		} else {
-			alternativeDecorationsPanel = createAlternativeWindowDecorationsPanel(
-					SwingRendererUtils.getWindowTitle(window), window, contentPane);
-			SwingRendererUtils.setContentPane(window, alternativeDecorationsPanel);
+			alternativeDecorationsPanel = createAlternativeWindowDecorationsPanel(window, contentPane);
+			rootPane.add(alternativeDecorationsPanel, StackLayout.TOP);
 		}
-	}
-
-	protected AlternativeWindowDecorationsPanel createAlternativeWindowDecorationsPanel(String windowTitle,
-			Window window, Component windowContent) {
-		return new AlternativeWindowDecorationsPanel(SwingRendererUtils.getWindowTitle(window), window, windowContent) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Color getDecorationsBackgroundColor() {
-				return getBackgroundColor();
-			}
-
-			@Override
-			public Color getDecorationsForegroundColor() {
-				return getForegroundColor();
-			}
-
-		};
-	}
-
-	protected ImagePanel createContentPane() {
-		ImagePanel result = new ImagePanel();
-		result.setPreservingRatio(true);
-		result.setFillingAreaWhenPreservingRatio(true);
-		result.setLayout(new BorderLayout());
-		topBarsContainer = new ControlPanel();
-		{
-			topBarsContainer.setLayout(new BorderLayout());
-			result.add(topBarsContainer, BorderLayout.NORTH);
-		}
-		return result;
 	}
 
 	protected void layoutMenuBar(JMenuBar menuBar) {
@@ -153,8 +211,12 @@ public class WindowManager {
 
 	public void set(Component content, Accessor<List<Component>> toolbarControlsAccessor) {
 		this.toolBarControlsAccessor = toolbarControlsAccessor;
+		rootPane = createRootPane();
+		layoutRootPane(rootPane);
+		backgroundPane = createBackgroundPane();
+		layoutBackgroundPane(backgroundPane);
 		contentPane = createContentPane();
-		setContentPane(contentPane);
+		layoutContentPane(contentPane);
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, swingRenderer)) {
 				final Form form = (Form) content;
@@ -188,10 +250,14 @@ public class WindowManager {
 
 	public void refreshWindowStructure() {
 		Color backgroundColor = getBackgroundColor();
-		contentPane.setBackground(backgroundColor);
 		Image backgroundImage = getBackgroundImage();
-		contentPane.setImage(backgroundImage);
-		contentPane.setOpaque((backgroundColor != null) && (backgroundImage == null));
+		backgroundPane.setBackground(backgroundColor);
+		backgroundPane.setImage(backgroundImage);
+		backgroundPane.setOpaque((backgroundColor != null) && (backgroundImage == null));
+		if (alternativeDecorationsPanel != null) {
+			alternativeDecorationsPanel
+					.setBorder(BorderFactory.createLineBorder(getAlternativeDecorationsBorderColor(), 4));
+		}
 		updateToolBar();
 		SwingRendererUtils.handleComponentSizeChange(window);
 	}
@@ -213,7 +279,7 @@ public class WindowManager {
 		if (appInfo.getMainBackgroundColor() != null) {
 			return SwingRendererUtils.getColor(appInfo.getMainBackgroundColor());
 		} else {
-			return UIManager.getColor("Panel.background");
+			return null;
 		}
 	}
 
@@ -223,7 +289,7 @@ public class WindowManager {
 		if (appInfo.getMainForegroundColor() != null) {
 			return SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
 		} else {
-			return UIManager.getColor("Panel.foreground");
+			return null;
 		}
 	}
 

@@ -21,6 +21,23 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 	private final SideLabel bottomleft = new SideLabel(Side.SW);
 	private final SideLabel bottomright = new SideLabel(Side.SE);
 	private final JPanel contentPane = new JPanel(new BorderLayout());
+	private JLabel titleLabel = new JLabel("", JLabel.CENTER) {
+
+		private static final long serialVersionUID = 1L;
+
+		{
+			Font font = getFont();
+			font = new Font(font.getName(), Font.BOLD, Math.round(font.getSize() * 1.2f));
+			setFont(font);
+		}
+
+		@Override
+		public Color getForeground() {
+			return getDecorationsForegroundColor();
+		}
+
+	};
+	private final JPanel titlePanel = new JPanel(new BorderLayout());
 	private final JPanel resizePanel = new JPanel(new BorderLayout()) {
 
 		private static final long serialVersionUID = 1L;
@@ -30,8 +47,10 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 			Graphics2D g2 = (Graphics2D) g.create();
 			int w = getWidth();
 			int h = getHeight();
-			g2.setPaint(getDecorationsBackgroundColor());
-			g2.fillRect(0, 0, w, h);
+			if (isDecorationsBackgroundPainted()) {
+				g2.setPaint(getDecorationsBackgroundColor());
+				g2.fillRect(0, 0, w, top.getHeight() + titlePanel.getHeight());
+			}
 			if (isBorderPainted()) {
 				g2.setPaint(getDecorationsForegroundColor());
 				g2.drawRect(0, 0, w - 1, h - 1);
@@ -50,14 +69,14 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 	private JButton maximizeButton;
 	private JButton closeButton;
 
-	public AlternativeWindowDecorationsPanel(String windowTitle) {
+	public AlternativeWindowDecorationsPanel(String windowTitle, Icon windowIcon) {
 		super(new BorderLayout());
-		add(resizePanel, BorderLayout.CENTER);
-		init(windowTitle);
+		init(windowTitle, windowIcon);
 	}
 
-	public AlternativeWindowDecorationsPanel(String windowTitle, Window window, Component windowContent) {
-		this(windowTitle);
+	public AlternativeWindowDecorationsPanel(String windowTitle, Icon windowIcon, Window window,
+			Component windowContent) {
+		this(windowTitle, windowIcon);
 		configureWindow(window);
 		contentPane.add(windowContent);
 	}
@@ -70,6 +89,14 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return closeButton;
 	}
 
+	public JPanel getContentPane() {
+		return contentPane;
+	}
+
+	public JLabel getTitleLabel() {
+		return titleLabel;
+	}
+
 	protected Color getDecorationsBackgroundColor() {
 		return Color.RED;
 	}
@@ -78,30 +105,27 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return Color.YELLOW;
 	}
 
+	protected boolean isDecorationsBackgroundPainted() {
+		return false;
+	}
+
 	protected boolean isBorderPainted() {
 		return false;
 	}
 
-	public void init(String titleText) {
+	public void init(String title, Icon icon) {
 
-		JPanel titlePanel = new JPanel(new BorderLayout());
+		setOpaque(false);
+		add(resizePanel, BorderLayout.CENTER);
+
+		titleLabel.setText(title);
+		titleLabel.setIcon(icon);
+
 		DragWindowListener dwl = new DragWindowListener();
 		titlePanel.addMouseListener(dwl);
 		titlePanel.addMouseMotionListener(dwl);
 		titlePanel.setOpaque(false);
 		titlePanel.setBorder(BorderFactory.createEmptyBorder(W, W, W, W));
-
-		JLabel titleLabel = new JLabel(titleText, JLabel.CENTER) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Color getForeground() {
-				return getDecorationsForegroundColor();
-			}
-
-		};
-		titleLabel.setFont(getDecorationsFont());
 		titlePanel.add(titleLabel);
 		titlePanel.add(makeButtons(), BorderLayout.EAST);
 
@@ -133,10 +157,6 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		resizePanel.setOpaque(false);
 	}
 
-	public JPanel getContentPane() {
-		return contentPane;
-	}
-
 	private JPanel makeButtons() {
 		JPanel result = new JPanel();
 		result.setLayout(new FlowLayout());
@@ -152,7 +172,6 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		button.setFocusPainted(false);
 		button.setBorder(BorderFactory.createEmptyBorder());
 		button.setOpaque(false);
-		button.setFont(getDecorationsFont());
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -172,7 +191,6 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		button.setFocusPainted(false);
 		button.setBorder(BorderFactory.createEmptyBorder());
 		button.setOpaque(false);
-		button.setFont(getDecorationsFont());
 		button.addActionListener(new ActionListener() {
 
 			Rectangle minimizedBounds;
@@ -198,15 +216,13 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return button;
 	}
 
-	public Font getDecorationsFont() {
-		return new Font("Arial", Font.BOLD, 14);
-	}
-
 	public void configureWindow(Window window) {
 		if (window instanceof JFrame) {
 			((JFrame) window).setUndecorated(true);
 		} else if (window instanceof JDialog) {
 			((JDialog) window).setUndecorated(true);
+		} else {
+			throw new IllegalArgumentException();
 		}
 		ResizeWindowListener rwl = new ResizeWindowListener(window);
 		for (SideLabel l : Arrays.asList(left, right, top, bottom, topleft, topright, bottomleft, bottomright)) {

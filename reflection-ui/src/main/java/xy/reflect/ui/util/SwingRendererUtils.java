@@ -121,8 +121,8 @@ public class SwingRendererUtils {
 		}
 		BufferedImage result = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = result.createGraphics();
-		g.drawImage(image, imageBoundsInBox.x, imageBoundsInBox.y, imageBoundsInBox.x + imageBoundsInBox.width,
-				imageBoundsInBox.y + imageBoundsInBox.height, 0, 0, image.getWidth(null), image.getHeight(null), null);
+		g.drawImage(image.getScaledInstance(imageBoundsInBox.width, imageBoundsInBox.height, Image.SCALE_SMOOTH),
+				imageBoundsInBox.x, imageBoundsInBox.y, null);
 		g.dispose();
 		return result;
 	}
