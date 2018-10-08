@@ -77,39 +77,45 @@ public class WindowManager {
 				getTitleLabel().setHorizontalAlignment(JLabel.LEFT);
 				Font font = getTitleLabel().getFont();
 				{
-					font = new Font(font.getName(), Font.ITALIC, font.getSize());
+					font = new Font(font.getName(), Font.BOLD, font.getSize());
 					getTitleLabel().setFont(font);
 				}
 			}
 
 			@Override
-			public Color getDecorationsBackgroundColor() {
-				Color result = getBackgroundColor();
+			public Color getTitleBarColor() {
+				Color result = getTitleBackgroundColor();
 				if (result == null) {
-					result = UIManager.getColor("Panel.background");
+					result = Color.BLUE;
 				}
 				return result;
 			}
 
 			@Override
 			public Color getDecorationsForegroundColor() {
-				Color result = getForegroundColor();
+				Color result = null;
 				if (result == null) {
-					result = UIManager.getColor("Panel.foreground");
+					result = getTitleForegroundColor();
+				}
+				if (result == null) {
+					result = getMainForegroundColor();
+				}
+				if (result == null) {
+					result = Color.WHITE;
 				}
 				return result;
 			}
 
 			@Override
-			protected boolean isDecorationsBackgroundPainted() {
-				return getBackgroundColor() != null;
+			protected boolean isTitleBarPainted() {
+				return getTitleBackgroundColor() != null;
 			}
 
 		};
 	}
 
 	protected Color getAlternativeDecorationsBorderColor() {
-		Color result = getForegroundColor();
+		Color result = getMainForegroundColor();
 		if (result == null) {
 			result = UIManager.getColor("Panel.foreground");
 		}
@@ -249,8 +255,8 @@ public class WindowManager {
 	}
 
 	public void refreshWindowStructure() {
-		Color backgroundColor = getBackgroundColor();
-		Image backgroundImage = getBackgroundImage();
+		Color backgroundColor = getMainBackgroundColor();
+		Image backgroundImage = getMainBackgroundImage();
 		backgroundPane.setBackground(backgroundColor);
 		backgroundPane.setImage(backgroundImage);
 		backgroundPane.setOpaque((backgroundColor != null) && (backgroundImage == null));
@@ -262,7 +268,7 @@ public class WindowManager {
 		SwingRendererUtils.handleComponentSizeChange(window);
 	}
 
-	protected Image getBackgroundImage() {
+	protected Image getMainBackgroundImage() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getMainBackgroundImagePath() != null) {
@@ -273,7 +279,7 @@ public class WindowManager {
 		}
 	}
 
-	protected Color getBackgroundColor() {
+	protected Color getMainBackgroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getMainBackgroundColor() != null) {
@@ -283,11 +289,31 @@ public class WindowManager {
 		}
 	}
 
-	protected Color getForegroundColor() {
+	protected Color getMainForegroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getMainForegroundColor() != null) {
 			return SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
+		} else {
+			return null;
+		}
+	}
+
+	protected Color getTitleBackgroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getTitleBackgroundColor() != null) {
+			return SwingRendererUtils.getColor(appInfo.getTitleBackgroundColor());
+		} else {
+			return null;
+		}
+	}
+
+	protected Color getTitleForegroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getTitleForegroundColor() != null) {
+			return SwingRendererUtils.getColor(appInfo.getTitleForegroundColor());
 		} else {
 			return null;
 		}

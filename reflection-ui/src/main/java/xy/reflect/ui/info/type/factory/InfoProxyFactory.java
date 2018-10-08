@@ -590,6 +590,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getMethodControlForegroundColor();
 	}
 
+	protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getTitleBackgroundColor();
+	}
+
+	protected ColorSpecification getTitleForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getTitleForegroundColor();
+	}
+
 	protected Map<String, Object> getSpecificProperties(IApplicationInfo appInfo) {
 		return appInfo.getSpecificProperties();
 	}
@@ -775,6 +783,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ColorSpecification getMethodControlForegroundColor() {
 			return InfoProxyFactory.this.getMethodControlForegroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getTitleBackgroundColor() {
+			return InfoProxyFactory.this.getTitleBackgroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getTitleForegroundColor() {
+			return InfoProxyFactory.this.getTitleForegroundColor(base);
 		}
 
 		@Override

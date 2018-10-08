@@ -47,8 +47,8 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 			Graphics2D g2 = (Graphics2D) g.create();
 			int w = getWidth();
 			int h = getHeight();
-			if (isDecorationsBackgroundPainted()) {
-				g2.setPaint(getDecorationsBackgroundColor());
+			if (isTitleBarPainted()) {
+				g2.setPaint(getTitleBarColor());
 				g2.fillRect(0, 0, w, top.getHeight() + titlePanel.getHeight());
 			}
 			if (isBorderPainted()) {
@@ -97,7 +97,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return titleLabel;
 	}
 
-	protected Color getDecorationsBackgroundColor() {
+	protected Color getTitleBarColor() {
 		return Color.RED;
 	}
 
@@ -105,7 +105,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return Color.YELLOW;
 	}
 
-	protected boolean isDecorationsBackgroundPainted() {
+	protected boolean isTitleBarPainted() {
 		return false;
 	}
 

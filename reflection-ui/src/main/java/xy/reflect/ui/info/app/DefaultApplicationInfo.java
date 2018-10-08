@@ -68,4 +68,14 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 		return null;
 	}
 
+	@Override
+	public ColorSpecification getTitleBackgroundColor() {
+		return null;
+	}
+
+	@Override
+	public ColorSpecification getTitleForegroundColor() {
+		return null;
+	}
+
 }

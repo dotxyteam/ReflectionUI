@@ -16,6 +16,10 @@ public interface IApplicationInfo extends IInfo {
 
 	ColorSpecification getMethodControlForegroundColor();
 
+	ColorSpecification getTitleBackgroundColor();
+
+	ColorSpecification getTitleForegroundColor();
+
 	ResourcePath getMethodControlBackgroundImagePath();
 	
 	ResourcePath getIconImagePath();
