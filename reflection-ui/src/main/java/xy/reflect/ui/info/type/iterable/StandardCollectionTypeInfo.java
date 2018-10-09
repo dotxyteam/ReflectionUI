@@ -162,11 +162,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public boolean isItemConstructorSelectable() {
 		return true;
 	}

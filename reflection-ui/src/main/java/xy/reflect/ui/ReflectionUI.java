@@ -104,7 +104,7 @@ public class ReflectionUI {
 		}
 		return result;
 	}
-	
+
 	public IApplicationInfo getApplicationInfo() {
 		return new DefaultApplicationInfo();
 	}
@@ -133,7 +133,7 @@ public class ReflectionUI {
 		logError(ReflectionUIUtils.getPrintedStackTrace(t));
 	}
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		Class<?> clazz = Object.class;
 		String usageText = "Expected arguments: [ <className> | --help ]"
 				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
@@ -152,7 +152,7 @@ public class ReflectionUI {
 			throw new IllegalArgumentException(usageText);
 		}
 		Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
-				ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz)));
+				ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz)), null);
 		if (object == null) {
 			return;
 		}

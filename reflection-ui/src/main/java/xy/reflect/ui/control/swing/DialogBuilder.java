@@ -110,6 +110,11 @@ public class DialogBuilder {
 			}
 
 			@Override
+			protected boolean isApplicationInfoStyleLoaded() {
+				return false;
+			}
+
+			@Override
 			public String retrieveCaption() {
 				return caption;
 			}

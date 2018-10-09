@@ -421,8 +421,8 @@ public class EncapsulatedObjectFactory {
 			for (IMethodInfo ctor : fieldType.getConstructors()) {
 				result.add(new MethodInfoProxy(ctor) {
 					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						return getInstance(Accessor.returning(super.invoke(object, invocationData), true));
+					public Object invoke(Object parentObject, InvocationData invocationData) {
+						return getInstance(Accessor.returning(super.invoke(parentObject, invocationData), true));
 					}
 
 					@Override

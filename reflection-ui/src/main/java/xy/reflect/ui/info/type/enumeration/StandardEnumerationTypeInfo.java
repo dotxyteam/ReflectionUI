@@ -45,7 +45,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 			}
 
 			@Override
-			public Object invoke(Object object, InvocationData invocationData) {
+			public Object invoke(Object parentObject, InvocationData invocationData) {
 				return javaType.getEnumConstants()[0];
 			}
 

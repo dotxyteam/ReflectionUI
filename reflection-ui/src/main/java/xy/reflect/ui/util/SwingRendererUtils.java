@@ -988,7 +988,7 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Component createOnlineHelpControl(String onlineHelp, final SwingRenderer swingRenderer) {
+	public static Component createOnlineHelpControl(final String onlineHelp, final SwingRenderer swingRenderer) {
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
@@ -999,8 +999,18 @@ public class SwingRendererUtils {
 			}
 
 			@Override
+			protected boolean isApplicationInfoStyleLoaded() {
+				return false;
+			}
+
+			@Override
 			public String retrieveCaption() {
 				return "";
+			}
+
+			@Override
+			public String retrieveToolTipText() {
+				return swingRenderer.prepareStringToDisplay(onlineHelp);
 			}
 
 			@Override
@@ -1009,10 +1019,8 @@ public class SwingRendererUtils {
 			}
 
 		};
-		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);
-		setMultilineToolTipText(result, swingRenderer.prepareStringToDisplay(onlineHelp));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

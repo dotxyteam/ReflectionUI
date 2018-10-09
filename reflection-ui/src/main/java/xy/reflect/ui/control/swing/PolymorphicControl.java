@@ -141,8 +141,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					instance = instanceByEnumerationValueCache.get(selectedSubType);
 					if (instance == null) {
 						try {
-							instance = swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this,
-									selectedSubType);
+							instance = data.createValue(selectedSubType, true);
 						} catch (Throwable t) {
 							instance = null;
 						}

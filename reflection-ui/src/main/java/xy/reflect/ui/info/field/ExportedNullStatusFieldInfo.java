@@ -9,11 +9,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class NullStatusFieldInfo extends FieldInfoProxy {
+public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	
-	public NullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
+	public ExportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 	}
@@ -22,9 +22,9 @@ public class NullStatusFieldInfo extends FieldInfoProxy {
 		return value != null;
 	}
 
-	protected Object booleanTovalue(Boolean value) {
+	protected Object booleanTovalue(Boolean value, Object object) {
 		if ((Boolean) value) {
-			return ReflectionUIUtils.createDefaultInstance(super.getType());
+			return ReflectionUIUtils.createDefaultInstance(super.getType(), object);
 		} else {
 			return null;
 		}
@@ -38,12 +38,12 @@ public class NullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		super.setValue(object, booleanTovalue((Boolean) value));
+		super.setValue(object, booleanTovalue((Boolean) value, object));
 	}
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(final Object object, final Object newValue) {
-		final Object baseNewValue = booleanTovalue((Boolean) newValue);
+		final Object baseNewValue = booleanTovalue((Boolean) newValue, object);
 		Runnable result = super.getNextUpdateCustomUndoJob(object, baseNewValue);
 		if (result == null) {
 			final Object baseOldValue = super.getValue(object);

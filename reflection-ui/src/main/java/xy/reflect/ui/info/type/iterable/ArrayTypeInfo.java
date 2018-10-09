@@ -52,7 +52,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 			}
 
 			@Override
-			public Object invoke(Object object, InvocationData invocationData) {
+			public Object invoke(Object parentObject, InvocationData invocationData) {
 				return Array.newInstance(javaType.getComponentType(), 0);
 			}
 

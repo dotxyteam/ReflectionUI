@@ -434,10 +434,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getDynamicProperties(selection, rootListValue);
 	}
 
-	protected List<IMethodInfo> getAdditionalItemConstructors(IListTypeInfo type, Object listValue) {
-		return type.getAdditionalItemConstructors(listValue);
-	}
-
 	protected ITypeInfo getItemType(IListTypeInfo type) {
 		return wrapItemTypeInfo(type.getItemType());
 	}
@@ -554,8 +550,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getCaption();
 	}
 
-	protected boolean isSystemIntegrationNative(IApplicationInfo appInfo) {
-		return appInfo.isSystemIntegrationNative();
+	protected boolean isSystemIntegrationCrossPlatform(IApplicationInfo appInfo) {
+		return appInfo.isSystemIntegrationCrossPlatform();
 	}
 
 	protected ResourcePath getIconImagePath(IApplicationInfo appInfo) {
@@ -746,8 +742,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isSystemIntegrationNative() {
-			return InfoProxyFactory.this.isSystemIntegrationNative(base);
+		public boolean isSystemIntegrationCrossPlatform() {
+			return InfoProxyFactory.this.isSystemIntegrationCrossPlatform(base);
 		}
 
 		@Override
@@ -1232,16 +1228,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 				Object rootListValue) {
 			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection, rootListValue);
-		}
-
-		@Override
-		public List<IMethodInfo> getAdditionalItemConstructors(Object listValue) {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo constructor : InfoProxyFactory.this.getAdditionalItemConstructors((IListTypeInfo) base,
-					listValue)) {
-				result.add(wrapConstructorInfo(constructor, base));
-			}
-			return result;
 		}
 
 		@Override

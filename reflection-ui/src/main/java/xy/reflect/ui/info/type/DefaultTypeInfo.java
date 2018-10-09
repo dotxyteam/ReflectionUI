@@ -144,7 +144,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 				constructors.add(new AbstractConstructorInfo() {
 
 					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
+					public Object invoke(Object parentObject, InvocationData invocationData) {
 						if (String.class.equals(javaType)) {
 							return "";
 						} else {

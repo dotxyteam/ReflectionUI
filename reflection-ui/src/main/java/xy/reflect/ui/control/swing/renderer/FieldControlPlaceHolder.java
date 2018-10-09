@@ -584,10 +584,18 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	protected class InitialFieldControlData extends DefaultFieldControlData {
 
-		protected IFieldInfo finalField;
-
 		public InitialFieldControlData(IFieldInfo finalField) {
 			super(swingRenderer.getReflectionUI(), form.getObject(), finalField);
+		}
+
+		@Override
+		public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
+			if (selectableConstructor) {
+				return swingRenderer.onTypeInstanciationRequest(FieldControlPlaceHolder.this, typeToInstanciate, getObject());
+			} else {
+				return ReflectionUIUtils.createDefaultInstance(typeToInstanciate, getObject());
+			}
+		
 		}
 
 		@Override
@@ -604,7 +612,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((finalField == null) ? 0 : finalField.hashCode());
+			result = prime * result + super.hashCode();
 			return result;
 		}
 
@@ -619,17 +627,14 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			InitialFieldControlData other = (InitialFieldControlData) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
-			if (finalField == null) {
-				if (other.finalField != null)
-					return false;
-			} else if (!finalField.equals(other.finalField))
+			if (!super.equals(other))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "InitialFieldControlData [of=" + getOuterType() + ", finalField=" + finalField + "]";
+			return "InitialFieldControlData [of=" + getOuterType() + ", finalField=" + getField() + "]";
 		}
 
 	}

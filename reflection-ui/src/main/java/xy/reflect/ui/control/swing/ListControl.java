@@ -76,11 +76,9 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.AbstractDelegatingInfoFilter;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
@@ -104,7 +102,6 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.ControlScrollPane;
@@ -114,8 +111,8 @@ import xy.reflect.ui.util.component.ScrollPaneOptions;
 public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
+	
 	protected SwingRenderer swingRenderer;
-
 	protected IFieldControlData listData;
 
 	protected JXTreeTable treeTableComponent;
@@ -317,26 +314,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected JButton createTool(final String text, final Icon icon, boolean alwawsShowIcon,
 			final boolean alwawsShowMenu, AbstractAction... actions) {
-		final JButton result = new AbstractControlButton() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
-			public String retrieveCaption() {
-				return text;
-			}
-
-			@Override
-			public Icon retrieveIcon() {
-				return icon;
-			}
-
-		};
+		final JButton result = new JButton(text, icon);
 		result.setFocusable(false);
 		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
 		for (final AbstractAction action : actions) {
@@ -1026,37 +1004,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (typeToInstanciate == null) {
 			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class);
 		}
-		typeToInstanciate = addSpecificItemContructors(typeToInstanciate, itemPosition);
-		if (subListType.isItemConstructorSelectable()) {
-			return swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate);
-		} else {
-			return ReflectionUIUtils.createDefaultInstance(typeToInstanciate);
-		}
+		return listData.createValue(typeToInstanciate, subListType.isItemConstructorSelectable());
 	}
 
-	protected ITypeInfo addSpecificItemContructors(ITypeInfo itemType, final BufferedItemPosition newItemPosition) {
-		return new InfoProxyFactory() {
-
-			@Override
-			protected List<IMethodInfo> getConstructors(ITypeInfo type) {
-				List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getConstructors(type));
-				Object containingList = newItemPosition.retrieveContainingListValue(rootListValue);
-				IListTypeInfo containingListType = newItemPosition.getContainingListType();
-				List<IMethodInfo> specificItemConstructors = containingListType
-						.getAdditionalItemConstructors(containingList);
-				if (specificItemConstructors != null) {
-					result.addAll(specificItemConstructors);
-				}
-				return result;
-			}
-
-			@Override
-			public String toString() {
-				return "addSpecificItemContructors[listType=" + newItemPosition.getContainingListType() + "]";
-			}
-
-		}.wrapTypeInfo(itemType);
-	}
+	
 
 	protected AbstractStandardListAction createCopyAction() {
 		return new CopyAction();

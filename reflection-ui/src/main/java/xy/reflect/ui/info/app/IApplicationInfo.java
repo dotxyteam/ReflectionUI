@@ -24,7 +24,7 @@ public interface IApplicationInfo extends IInfo {
 	
 	ResourcePath getIconImagePath();
 
-	boolean isSystemIntegrationNative();
+	boolean isSystemIntegrationCrossPlatform();
 
 
 }

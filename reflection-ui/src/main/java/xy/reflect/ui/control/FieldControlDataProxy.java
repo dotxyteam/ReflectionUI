@@ -16,6 +16,10 @@ public class FieldControlDataProxy implements IFieldControlData {
 		this.base = base;
 	}
 
+	public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
+		return base.createValue(typeToInstanciate, selectableConstructor);
+	}
+
 	public Object getValue() {
 		return base.getValue();
 	}

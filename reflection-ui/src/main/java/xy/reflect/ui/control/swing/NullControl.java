@@ -25,7 +25,7 @@ import xy.reflect.ui.util.component.ControlPanel;
 public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
-	protected Runnable action;
+	protected Runnable activationAction;
 	protected IFieldControlInput input;
 	protected IFieldControlData data;
 	protected SwingRenderer swingRenderer;
@@ -41,23 +41,23 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		if (data.getFormForegroundColor() != null) {
 			((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
 		}
-		setupAction();
+		setupActivationAction();
 	}
 
-	protected void setupAction() {
+	protected void setupActivationAction() {
 		labelComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				runAction();
+				runActivationAction();
 			}
 		});
 		if (!input.getControlData().isGetOnly()) {
-			setAction(new Runnable() {
+			setActivationAction(new Runnable() {
 				@Override
 				public void run() {
 					Object newValue = null;
 					try {
-						newValue = swingRenderer.onTypeInstanciationRequest(NullControl.this, data.getType());
+						newValue = data.createValue(data.getType(), true);
 					} catch (Throwable t) {
 						swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
 					}
@@ -114,7 +114,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 				result.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mousePressed(MouseEvent e) {
-						runAction();
+						runActivationAction();
 					}
 				});
 				return result;
@@ -129,22 +129,22 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected void runAction() {
-		if (action != null) {
+	protected void runActivationAction() {
+		if (activationAction != null) {
 			try {
-				action.run();
+				activationAction.run();
 			} catch (Throwable t) {
 				swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
 			}
 		}
 	}
 
-	public Runnable getAction() {
-		return action;
+	public Runnable getActivationAction() {
+		return activationAction;
 	}
 
-	public void setAction(Runnable action) {
-		this.action = action;
+	public void setActivationAction(Runnable action) {
+		this.activationAction = action;
 	}
 
 	@Override

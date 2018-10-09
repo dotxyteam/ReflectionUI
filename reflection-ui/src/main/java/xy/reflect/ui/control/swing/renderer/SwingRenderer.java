@@ -208,7 +208,7 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", null, t);
 	}
 
-	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
+	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type, final Object parentObject) {
 		try {
 			List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
 			{
@@ -253,7 +253,7 @@ public class SwingRenderer {
 					}
 				}
 				final ITypeInfo finalType = type;
-				MethodAction methodAction = createMethodAction(new IMethodControlInput() {
+				MethodAction ctorAction = createMethodAction(new IMethodControlInput() {
 
 					ModificationStack dummyModificationStack = new ModificationStack(null);
 
@@ -269,12 +269,12 @@ public class SwingRenderer {
 
 					@Override
 					public IMethodControlData getControlData() {
-						return new DefaultMethodControlData(null, chosenConstructor);
+						return new DefaultMethodControlData(parentObject, chosenConstructor);
 					}
 				});
-				methodAction.setShouldDisplayReturnValueIfAny(false);
-				methodAction.execute(activatorComponent);
-				return methodAction.getReturnValue();
+				ctorAction.setShouldDisplayReturnValueIfAny(false);
+				ctorAction.execute(activatorComponent);
+				return ctorAction.getReturnValue();
 			} else {
 				if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 
@@ -282,7 +282,7 @@ public class SwingRenderer {
 					if (polyTypes.size() == 1) {
 						return
 
-						onTypeInstanciationRequest(activatorComponent, polyTypes.get(0));
+						onTypeInstanciationRequest(activatorComponent, polyTypes.get(0), parentObject);
 					} else
 
 					{
@@ -296,7 +296,7 @@ public class SwingRenderer {
 							return null;
 						}
 						return onTypeInstanciationRequest(activatorComponent,
-								(ITypeInfo) enumFactory.unwrapInstance(resultEnumItem));
+								(ITypeInfo) enumFactory.unwrapInstance(resultEnumItem), parentObject);
 					}
 				} else {
 					String typeCaption = type.getCaption();
@@ -319,7 +319,7 @@ public class SwingRenderer {
 					if (type == null) {
 						return null;
 					} else {
-						return onTypeInstanciationRequest(activatorComponent, type);
+						return onTypeInstanciationRequest(activatorComponent, type, parentObject);
 					}
 				}
 			}

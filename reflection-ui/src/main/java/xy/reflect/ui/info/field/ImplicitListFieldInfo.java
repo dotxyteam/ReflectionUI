@@ -23,6 +23,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -561,12 +562,40 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public ITypeInfo getItemType() {
-			return itemType;
+			return new InfoProxyFactory() {
+
+				@Override
+				protected List<IMethodInfo> getConstructors(ITypeInfo type) {
+					return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+						@Override
+						public ITypeInfo getReturnValueType() {
+							return ValueTypeInfo.this.getItemType();
+						}
+
+						@Override
+						public Object invoke(Object parentObject, InvocationData invocationData) {
+							Object result = getCreateMethod().invoke(parentObject,
+									new InvocationData(parentObject));
+							return result;
+						}
+
+						@Override
+						public List<IParameterInfo> getParameters() {
+							return Collections.emptyList();
+						}
+					});
+				}
+
+				@Override
+				public String toString() {
+					return "addItemContructor [listField=" + ImplicitListFieldInfo.this + "]";
+				}
+
+			}.wrapTypeInfo(itemType);
 		}
 
-		@Override
-		public List<IMethodInfo> getAdditionalItemConstructors(final Object listValue) {
-			final ValueInstance instance = (ValueInstance) listValue;
+		public List<IMethodInfo> getItemConstructors() {
 			return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
 
 				@Override
@@ -575,9 +604,9 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 				}
 
 				@Override
-				public Object invoke(Object nullObject, InvocationData invocationData) {
-					Object result = getCreateMethod().invoke(instance.getObject(),
-							new InvocationData(instance.getObject()));
+				public Object invoke(Object parentObject, InvocationData invocationData) {
+					Object result = getCreateMethod().invoke(parentObject,
+							new InvocationData(parentObject));
 					return result;
 				}
 

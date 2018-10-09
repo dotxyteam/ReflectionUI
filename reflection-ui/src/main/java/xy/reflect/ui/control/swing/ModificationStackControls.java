@@ -49,6 +49,11 @@ public class ModificationStackControls {
 			}
 
 			@Override
+			protected boolean isApplicationInfoStyleLoaded() {
+				return false;
+			}
+
+			@Override
 			public String retrieveCaption() {
 				return label;
 			}

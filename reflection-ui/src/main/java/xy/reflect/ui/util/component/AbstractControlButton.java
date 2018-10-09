@@ -35,7 +35,14 @@ public abstract class AbstractControlButton extends JButton {
 	private String toolTipText;
 	private Icon icon;
 
+	protected boolean isApplicationInfoStyleLoaded() {
+		return true;
+	}
+
 	public Image retrieveBackgroundImage() {
+		if (!isApplicationInfoStyleLoaded()) {
+			return null;
+		}
 		if (applicationInfo.getButtonBackgroundImagePath() == null) {
 			return null;
 		} else {
@@ -45,6 +52,9 @@ public abstract class AbstractControlButton extends JButton {
 	}
 
 	public Color retrieveBackgroundColor() {
+		if (!isApplicationInfoStyleLoaded()) {
+			return null;
+		}
 		if (applicationInfo.getButtonBackgroundColor() == null) {
 			return null;
 		} else {
@@ -53,6 +63,9 @@ public abstract class AbstractControlButton extends JButton {
 	}
 
 	public Color retrieveForegroundColor() {
+		if (!isApplicationInfoStyleLoaded()) {
+			return null;
+		}
 		if (applicationInfo.getButtonForegroundColor() == null) {
 			return null;
 		} else {
@@ -103,10 +116,16 @@ public abstract class AbstractControlButton extends JButton {
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
+	public void addNotify() {
 		if (!initialized) {
 			initialize();
+			initialized = true;
 		}
+		super.addNotify();
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
 		if (backgroundImage != null) {
 			if (getModel().isArmed()) {
 				g.drawImage(activatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
@@ -139,10 +158,10 @@ public abstract class AbstractControlButton extends JButton {
 
 	protected Color addBackgroundColorActivationEffect(Color color) {
 		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-		if (hsb[2] > 127f) {
-			hsb[2] -= 0.1f;
+		if (hsb[2] > 0.5f) {
+			hsb[2] -= 0.2f;
 		} else {
-			hsb[2] += 0.1f;
+			hsb[2] += 0.2f;
 		}
 		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 		return new Color(rgb);

@@ -115,7 +115,7 @@ public class MethodAction extends AbstractAction {
 			public List<Component> get() {
 				List<Component> toolbarControls = new ArrayList<Component>();
 				toolbarControls.addAll(methodForm.createFormToolbarControls());
-				final JButton invokeButton = createButton(data.getCaption());
+				final JButton invokeButton = createTool(data.getCaption());
 				{
 					invokeButton.addActionListener(new ActionListener() {
 						@Override
@@ -128,7 +128,7 @@ public class MethodAction extends AbstractAction {
 					});
 					toolbarControls.add(invokeButton);
 				}
-				JButton cancelButton = createButton("Cancel");
+				JButton cancelButton = createTool("Cancel");
 				{
 					cancelButton.addActionListener(new ActionListener() {
 
@@ -152,13 +152,18 @@ public class MethodAction extends AbstractAction {
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
 	}
 
-	protected JButton createButton(final String caption) {
+	protected JButton createTool(final String caption) {
 		return new AbstractControlButton() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public SwingRenderer getSwingRenderer() {
 				return swingRenderer;
+			}
+
+			@Override
+			protected boolean isApplicationInfoStyleLoaded() {
+				return false;
 			}
 
 			@Override

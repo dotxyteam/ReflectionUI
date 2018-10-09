@@ -26,6 +26,11 @@ public class DefaultFieldControlData implements IFieldControlData {
 		this(reflectionUI, null, IFieldInfo.NULL_FIELD_INFO);
 	}
 
+	@Override
+	public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
+		throw new UnsupportedOperationException();
+	}
+
 	public Object getObject() {
 		return object;
 	}

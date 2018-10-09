@@ -186,7 +186,7 @@ public class WindowManager {
 	protected void layoutContentPane(Container contentPane) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-		if (appInfo.isSystemIntegrationNative()) {
+		if (!appInfo.isSystemIntegrationCrossPlatform()) {
 			alternativeDecorationsPanel = null;
 			SwingRendererUtils.setUndecorated(window, false);
 			rootPane.add(contentPane, StackLayout.TOP);

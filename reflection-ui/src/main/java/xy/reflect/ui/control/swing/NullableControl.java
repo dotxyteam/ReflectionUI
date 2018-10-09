@@ -41,7 +41,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
 	protected AbstractEditorFormBuilder subFormBuilder;
-	protected Runnable nullControlAction;
+	protected Runnable nullControlActivationAction;
 
 	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -88,7 +88,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if (getNullStatusControlState()) {
 			ReflectionUIUtils.setValueThroughModificationStack(data, null, input.getModificationStack());
 		} else {
-			nullControlAction.run();
+			nullControlActivationAction.run();
 		}
 		refreshUI(false);
 		SwingUtilities.invokeLater(new Runnable() {
@@ -102,16 +102,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	@Override
 	public boolean requestCustomFocus() {
 		return SwingRendererUtils.requestAnyComponentFocus(subControl, swingRenderer);
-	}
-
-	protected Object generateNonNullValue() {
-		Object result = null;
-		try {
-			result = this.swingRenderer.onTypeInstanciationRequest(this, input.getControlData().getType());
-		} catch (Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
-		}
-		return result;
 	}
 
 	public void refreshSubControl(boolean refreshStructure) {
@@ -182,8 +172,8 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 		});
 		if (!data.isGetOnly()) {
-			nullControlAction = result.getAction();
-			result.setAction(new Runnable() {
+			nullControlActivationAction = result.getActivationAction();
+			result.setActivationAction(new Runnable() {
 				@Override
 				public void run() {
 					setNullStatusControlState(false);

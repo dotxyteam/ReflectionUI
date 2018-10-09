@@ -775,18 +775,18 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	public static Object createDefaultInstance(ITypeInfo type) {
-		return createDefaultInstance(type, true);
+	public static Object createDefaultInstance(ITypeInfo type, Object parentObject) {
+		return createDefaultInstance(type, parentObject, true);
 	}
 
-	public static Object createDefaultInstance(ITypeInfo type, boolean subTypeInstanceAllowed) {
+	public static Object createDefaultInstance(ITypeInfo type, Object parentObject, boolean subTypeInstanceAllowed) {
 		try {
 			if (!type.isConcrete()) {
 				if (subTypeInstanceAllowed) {
 					if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 						for (ITypeInfo subType : type.getPolymorphicInstanceSubTypes()) {
 							try {
-								return createDefaultInstance(subType, true);
+								return createDefaultInstance(subType, parentObject, true);
 							} catch (Throwable ignore) {
 							}
 						}
@@ -802,7 +802,7 @@ public class ReflectionUIUtils {
 				throw new ReflectionUIError("Default constructor not found");
 			}
 
-			return constructor.invoke(null, new InvocationData());
+			return constructor.invoke(parentObject, new InvocationData());
 
 		} catch (Throwable t) {
 			throw new ReflectionUIError(

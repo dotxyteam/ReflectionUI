@@ -3,7 +3,6 @@ package xy.reflect.ui.info.type.iterable;
 import java.util.List;
 
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -39,8 +38,6 @@ public interface IListTypeInfo extends ITypeInfo {
 	List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue);
 
 	List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue);
-
-	List<IMethodInfo> getAdditionalItemConstructors(Object listValue);
 
 	boolean isItemNullValueDistinct();
 
