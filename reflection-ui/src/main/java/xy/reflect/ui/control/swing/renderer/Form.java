@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -429,8 +430,10 @@ public class Form extends ImagePanel {
 		JLabel result = new JLabel();
 		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
-		result.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(), getLayoutSpacing(),
-				getLayoutSpacing()));
+		Border outsideBorder = BorderFactory.createRaisedBevelBorder();
+		Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
+				getLayoutSpacing(), getLayoutSpacing());
+		result.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 		return result;
 	}
 

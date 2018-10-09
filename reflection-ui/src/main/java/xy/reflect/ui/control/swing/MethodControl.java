@@ -1,102 +1,80 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 
-import javax.swing.JButton;
+import javax.swing.Icon;
 
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 
-public class MethodControl extends JButton implements ActionListener {
+public class MethodControl extends AbstractControlButton implements ActionListener {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
 	protected IMethodControlInput input;
 	protected IMethodControlData data;
-	protected Color backgroundColor;
-	protected Color foregroundColor;
-	protected Image backgroundImage;
-	protected Image activatedBackgroundImage;
 
 	public MethodControl(SwingRenderer swingRenderer, IMethodControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
-		if (data.getBackgroundImagePath() == null) {
-			this.backgroundImage = null;
-		} else {
-			this.backgroundImage = SwingRendererUtils.loadImageThroughcache(data.getBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
-			if (this.backgroundImage != null) {
-				this.activatedBackgroundImage = addBackgroundImageActivationEffect(this.backgroundImage);
-			}
-		}
-		if (data.getBackgroundColor() == null) {
-			this.backgroundColor = null;
-		} else {
-			this.backgroundColor = SwingRendererUtils.getColor(data.getBackgroundColor());
-		}
-		if (data.getForegroundColor() == null) {
-			this.foregroundColor = null;
-		} else {
-			this.foregroundColor = SwingRendererUtils.getColor(data.getForegroundColor());
-		}
-		initialize();
+		addActionListener(this);
 	}
 
-	protected void initialize() {
-		String caption = ReflectionUIUtils.formatMethodControlCaption(data);
-		setText(swingRenderer.prepareStringToDisplay(caption));
-		String toolTipText = ReflectionUIUtils.formatMethodControlTooltipText(data);
-		if (toolTipText.length() > 0) {
-			SwingRendererUtils.setMultilineToolTipText(this, swingRenderer.prepareStringToDisplay(toolTipText));
-		}
-		setIcon(SwingRendererUtils.getMethodIcon(swingRenderer, data));
-		addActionListener(this);
-		if (backgroundColor != null) {
-			setBackground(backgroundColor);
-		}
-		if (foregroundColor != null) {
-			setForeground(foregroundColor);
-		}
-		if (backgroundImage != null) {
-			setContentAreaFilled(false);
-			setBorderPainted(false);
+	@Override
+	public SwingRenderer getSwingRenderer() {
+		return swingRenderer;
+	}
+
+	@Override
+	public Color retrieveBackgroundColor() {
+		if (data.getBackgroundColor() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.getColor(data.getBackgroundColor());
 		}
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
-		if (backgroundImage != null) {
-			if (getModel().isArmed()) {
-				g.drawImage(activatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
-			} else {
-				g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
-			}
+	public Color retrieveForegroundColor() {
+		if (data.getForegroundColor() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.getColor(data.getForegroundColor());
 		}
-		super.paintComponent(g);
+
 	}
 
-	protected BufferedImage addBackgroundImageActivationEffect(Image backgroundImage) {
-		BufferedImage result = new BufferedImage(backgroundImage.getWidth(null), backgroundImage.getHeight(null),
-				BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g = result.createGraphics();
-		g.drawImage(backgroundImage, 0, 0, null);
-		g.dispose();
-		float scalefactor = 0.5f;
-		float offset = 64f;
-		return new RescaleOp(new float[] { scalefactor, scalefactor, scalefactor, 1f },
-				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
+	@Override
+	public Image retrieveBackgroundImage() {
+		if (data.getBackgroundImagePath() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.loadImageThroughcache(data.getBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+		}
+	}
+
+	@Override
+	public String retrieveCaption() {
+		return ReflectionUIUtils.formatMethodControlCaption(data);
+	}
+
+	@Override
+	public String retrieveToolTipText() {
+		return ReflectionUIUtils.formatMethodControlTooltipText(data);
+	}
+
+	@Override
+	public Icon retrieveIcon() {
+		return SwingRendererUtils.getMethodIcon(swingRenderer, data);
 	}
 
 	@Override

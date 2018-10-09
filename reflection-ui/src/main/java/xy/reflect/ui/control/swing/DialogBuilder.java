@@ -19,6 +19,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 
 public class DialogBuilder {
 
@@ -98,8 +99,22 @@ public class DialogBuilder {
 		this.whenClosing = whenClosing;
 	}
 
-	public JButton createDialogClosingButton(String caption, final Runnable beforeClosingAction) {
-		final JButton result = new JButton(swingRenderer.prepareStringToDisplay(caption));
+	public JButton createDialogClosingButton(final String caption, final Runnable beforeClosingAction) {
+		final JButton result = new AbstractControlButton() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return caption;
+			}
+
+		};
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

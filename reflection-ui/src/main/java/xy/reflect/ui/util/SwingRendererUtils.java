@@ -84,11 +84,12 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
 
 public class SwingRendererUtils {
 
-	public static final Image NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+	public static final BufferedImage NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
 	public static final ImageIcon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	public static final ImageIcon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
@@ -99,6 +100,10 @@ public class SwingRendererUtils {
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
 	public static Map<String, Image> IMAGE_CACHE = new HashMap<String, Image>();
+
+	public static boolean isNullImage(Image image) {
+		return (image.getWidth(null) * image.getHeight(null) == 1);
+	}
 
 	public static ImageIcon getSmallIcon(ImageIcon icon) {
 		Image image = icon.getImage();
@@ -983,8 +988,27 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Component createOnlineHelpControl(String onlineHelp, SwingRenderer swingRenderer) {
-		final JButton result = new JButton(HELP_ICON);
+	public static Component createOnlineHelpControl(String onlineHelp, final SwingRenderer swingRenderer) {
+		final JButton result = new AbstractControlButton() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return "";
+			}
+
+			@Override
+			public Icon retrieveIcon() {
+				return HELP_ICON;
+			}
+
+		};
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
 		result.setContentAreaFilled(false);
 		result.setFocusable(false);

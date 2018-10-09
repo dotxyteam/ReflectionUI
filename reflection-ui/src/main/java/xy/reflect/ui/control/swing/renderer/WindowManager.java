@@ -68,7 +68,12 @@ public class WindowManager {
 			Component windowContent) {
 		String title = SwingRendererUtils.getWindowTitle(window);
 		Image iconImage = window.getIconImages().get(0);
-		ImageIcon icon = SwingRendererUtils.getSmallIcon(new ImageIcon(iconImage));
+		ImageIcon icon;
+		if (SwingRendererUtils.isNullImage(iconImage)) {
+			icon = null;
+		} else {
+			icon = SwingRendererUtils.getSmallIcon(new ImageIcon(iconImage));
+		}
 		return new AlternativeWindowDecorationsPanel(title, icon, window, windowContent) {
 
 			private static final long serialVersionUID = 1L;
@@ -84,9 +89,12 @@ public class WindowManager {
 
 			@Override
 			public Color getTitleBarColor() {
-				Color result = getTitleBackgroundColor();
+				Color result = null;
 				if (result == null) {
-					result = Color.BLUE;
+					result = getTitleBackgroundColor();
+				}
+				if (result == null) {
+					result = UIManager.getColor("Panel.background");
 				}
 				return result;
 			}
@@ -101,7 +109,7 @@ public class WindowManager {
 					result = getMainForegroundColor();
 				}
 				if (result == null) {
-					result = Color.WHITE;
+					result = UIManager.getColor("Panel.foreground");
 				}
 				return result;
 			}

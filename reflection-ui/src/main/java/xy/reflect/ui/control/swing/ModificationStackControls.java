@@ -15,6 +15,7 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 
 public class ModificationStackControls {
 
@@ -25,9 +26,9 @@ public class ModificationStackControls {
 		this.modificationStack = modificationStack;
 	}
 
-	protected JButton createButton(final SwingRenderer swingRenderer, String label, final Runnable action,
+	protected JButton createButton(final SwingRenderer swingRenderer, final String label, final Runnable action,
 			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
-		final JButton result = new JButton(swingRenderer.prepareStringToDisplay(label)) {
+		final JButton result = new AbstractControlButton() {
 
 			protected static final long serialVersionUID = 1L;
 			IModificationListener listener = new AbstractSimpleModificationListener() {
@@ -40,6 +41,21 @@ public class ModificationStackControls {
 			{
 				updateState();
 				modificationStack.addListener(listener);
+			}
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return label;
+			}
+
+			@Override
+			public String retrieveToolTipText() {
+				return tooltipText.get();
 			}
 
 			@Override

@@ -30,6 +30,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 
 public class MethodAction extends AbstractAction {
 
@@ -114,7 +115,7 @@ public class MethodAction extends AbstractAction {
 			public List<Component> get() {
 				List<Component> toolbarControls = new ArrayList<Component>();
 				toolbarControls.addAll(methodForm.createFormToolbarControls());
-				final JButton invokeButton = new JButton(data.getCaption());
+				final JButton invokeButton = createButton(data.getCaption());
 				{
 					invokeButton.addActionListener(new ActionListener() {
 						@Override
@@ -127,7 +128,7 @@ public class MethodAction extends AbstractAction {
 					});
 					toolbarControls.add(invokeButton);
 				}
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = createButton("Cancel");
 				{
 					cancelButton.addActionListener(new ActionListener() {
 
@@ -149,6 +150,23 @@ public class MethodAction extends AbstractAction {
 		dialogBuilder.setToolbarComponentsAccessor(toolbarControlsAccessor);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
+	}
+
+	protected JButton createButton(final String caption) {
+		return new AbstractControlButton() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return caption;
+			}
+
+		};
 	}
 
 	public String getTitle() {

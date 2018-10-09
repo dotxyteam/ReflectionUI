@@ -28,6 +28,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
 
 public class DialogAccessControl extends ControlPanel implements IAdvancedFieldControl {
@@ -85,9 +86,19 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected Component createChangeControl() {
-		final JButton result = new JButton("...") {
+		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return "...";
+			}
 
 			@Override
 			public Dimension getPreferredSize() {

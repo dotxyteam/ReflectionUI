@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.IFieldControlData;
@@ -34,7 +33,6 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 
 	protected Component textControl;
 	protected Component iconControl;
-	protected JButton button;
 	protected Object subFormObject;
 	protected Form subForm;
 	protected IFieldControlInput input;

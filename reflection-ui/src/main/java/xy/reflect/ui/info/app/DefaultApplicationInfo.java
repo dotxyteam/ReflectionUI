@@ -1,10 +1,12 @@
 package xy.reflect.ui.info.app;
 
+import java.awt.Color;
 import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class DefaultApplicationInfo implements IApplicationInfo {
 
@@ -40,12 +42,12 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 
 	@Override
 	public ColorSpecification getMainBackgroundColor() {
-		return null;
+		return SwingRendererUtils.getColorSpecification(new Color(245, 245, 245));
 	}
 
 	@Override
 	public ColorSpecification getMainForegroundColor() {
-		return null;
+		return SwingRendererUtils.getColorSpecification(new Color(0, 0, 0));
 	}
 
 	@Override
@@ -54,28 +56,28 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 	}
 
 	@Override
-	public ColorSpecification getMethodControlBackgroundColor() {
-		return null;
+	public ColorSpecification getButtonBackgroundColor() {
+		return SwingRendererUtils.getColorSpecification(new Color(95, 179, 216));
 	}
 
 	@Override
-	public ColorSpecification getMethodControlForegroundColor() {
-		return null;
+	public ColorSpecification getButtonForegroundColor() {
+		return SwingRendererUtils.getColorSpecification(new Color(250, 250, 250));
 	}
 
 	@Override
-	public ResourcePath getMethodControlBackgroundImagePath() {
+	public ResourcePath getButtonBackgroundImagePath() {
 		return null;
 	}
 
 	@Override
 	public ColorSpecification getTitleBackgroundColor() {
-		return null;
+		return SwingRendererUtils.getColorSpecification(new Color(18, 81, 117));
 	}
 
 	@Override
 	public ColorSpecification getTitleForegroundColor() {
-		return null;
+		return SwingRendererUtils.getColorSpecification(new Color(255, 255, 255));
 	}
 
 }

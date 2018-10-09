@@ -228,17 +228,17 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 		@Override
 		public ResourcePath getBackgroundImagePath() {
-			return swingRenderer.getReflectionUI().getApplicationInfo().getMethodControlBackgroundImagePath();
+			return swingRenderer.getReflectionUI().getApplicationInfo().getButtonBackgroundImagePath();
 		}
 
 		@Override
 		public ColorSpecification getBackgroundColor() {
-			return swingRenderer.getReflectionUI().getApplicationInfo().getMethodControlBackgroundColor();
+			return swingRenderer.getReflectionUI().getApplicationInfo().getButtonBackgroundColor();
 		}
 
 		@Override
 		public ColorSpecification getForegroundColor() {
-			return swingRenderer.getReflectionUI().getApplicationInfo().getMethodControlForegroundColor();
+			return swingRenderer.getReflectionUI().getApplicationInfo().getButtonForegroundColor();
 		}
 
 		@Override

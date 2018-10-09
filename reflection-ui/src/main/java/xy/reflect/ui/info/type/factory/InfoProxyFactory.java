@@ -578,16 +578,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getMainBackgroundImagePath();
 	}
 
-	protected ColorSpecification getMethodControlBackgroundColor(IApplicationInfo appInfo) {
-		return appInfo.getMethodControlBackgroundColor();
+	protected ColorSpecification getButtonBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getButtonBackgroundColor();
 	}
 
-	protected ResourcePath getMethodControlBackgroundImagePath(IApplicationInfo appInfo) {
-		return appInfo.getMethodControlBackgroundImagePath();
+	protected ResourcePath getButtonBackgroundImagePath(IApplicationInfo appInfo) {
+		return appInfo.getButtonBackgroundImagePath();
 	}
 
-	protected ColorSpecification getMethodControlForegroundColor(IApplicationInfo appInfo) {
-		return appInfo.getMethodControlForegroundColor();
+	protected ColorSpecification getButtonForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getButtonForegroundColor();
 	}
 
 	protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
@@ -776,13 +776,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ColorSpecification getMethodControlBackgroundColor() {
-			return InfoProxyFactory.this.getMethodControlBackgroundColor(base);
+		public ColorSpecification getButtonBackgroundColor() {
+			return InfoProxyFactory.this.getButtonBackgroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getMethodControlForegroundColor() {
-			return InfoProxyFactory.this.getMethodControlForegroundColor(base);
+		public ColorSpecification getButtonForegroundColor() {
+			return InfoProxyFactory.this.getButtonForegroundColor(base);
 		}
 
 		@Override
@@ -796,8 +796,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ResourcePath getMethodControlBackgroundImagePath() {
-			return InfoProxyFactory.this.getMethodControlBackgroundImagePath(base);
+		public ResourcePath getButtonBackgroundImagePath() {
+			return InfoProxyFactory.this.getButtonBackgroundImagePath(base);
 		}
 
 		@Override
