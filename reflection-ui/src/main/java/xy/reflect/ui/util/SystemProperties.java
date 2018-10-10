@@ -25,11 +25,19 @@ public class SystemProperties {
 	@Usage("The value of this property is used as the maximum size of various caches used to optimize the reflection process")
 	public static final String STANDARD_CACHE_SIZE = PREFIX + ".standardCacheSize";
 
+	@Usage("If the value of this property is \"true\" then the default customizations are active.")
+	public static final String DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE = PREFIX + ".defaultCustomizationsActive";
+
+	@Usage("If the value of this property is set then the default customizations are loaded from and saved to the specified file instead of the default one.")
+	public static final String DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH = PREFIX + ".defaultCustomizationsFilePath";
 	
+	@Usage("If the value of this property is  \"true\" then customizations will be initialized if not found.")
+	public static final String CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND = PREFIX + ".createCustomizationsIfNotFound";
+
 	public static String describe() {
 		return describe(SystemProperties.class);
 	}
-		
+
 	public static String describe(Class<? extends SystemProperties> clazz) {
 		StringBuilder result = new StringBuilder();
 		for (Field field : clazz.getFields()) {
@@ -57,6 +65,21 @@ public class SystemProperties {
 
 	public static long getStandardCacheSize() {
 		return Long.valueOf(System.getProperty(SystemProperties.STANDARD_CACHE_SIZE, "1000"));
+	}
+
+	public static boolean areDefaultInfoCustomizationsActive() {
+		return System.getProperty(DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true").equals("true");
+	}
+
+	public static String getDefaultInfoCustomizationsFilePath() {
+		if (!areDefaultInfoCustomizationsActive()) {
+			return null;
+		}
+		return System.getProperty(DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH, "default.icu");
+	}
+
+	public static boolean areInfoCustomizationsCreatedIfNotFound() {
+		return System.getProperty(CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND, "true").equals("true");
 	}
 
 }
