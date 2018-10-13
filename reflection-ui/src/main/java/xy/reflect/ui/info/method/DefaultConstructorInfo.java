@@ -43,7 +43,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), javaConstructor, -1));
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), null));
 	}
 
 	@Override

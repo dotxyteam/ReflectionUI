@@ -1,3 +1,5 @@
+- alternate (with checkbox above) nullable control plugin 
+or change the nullable control depending on sub control showsCaptions() 
 - StandardMapAsList: pass key and value types as typeInfos not java classes????
 - IModification.getTarget() is useless. It was only for getting modification
 title. I think it was created for list dynamic actions. It seems obsolete now.
