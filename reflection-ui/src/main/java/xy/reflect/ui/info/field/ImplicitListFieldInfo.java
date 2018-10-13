@@ -22,16 +22,18 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.iterable.IListAction;
+import xy.reflect.ui.info.type.iterable.IListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
-import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -120,14 +122,9 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = new ValueTypeInfo();
+			type = (IListTypeInfo) reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
 		}
 		return type;
-	}
-
-	@Override
-	public IInfoProxyFactory getTypeSpecificities() {
-		return null;
 	}
 
 	@Override
@@ -345,6 +342,12 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		@Override
+		public ITypeInfoSource getSource() {
+			return new PrecomputedTypeInfoSource(this,
+					new SpecificitiesIdentifier(parentType.getName(), ImplicitListFieldInfo.this.getName()));
+		}
+
+		@Override
 		public void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue) {
 		}
 
@@ -549,14 +552,12 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection,
-				Object rootListValue) {
+		public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue) {
 			return Collections.emptyList();
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
-				Object rootListValue) {
+		public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue) {
 			return Collections.emptyList();
 		}
 
@@ -575,8 +576,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 						@Override
 						public Object invoke(Object parentObject, InvocationData invocationData) {
-							Object result = getCreateMethod().invoke(parentObject,
-									new InvocationData(parentObject));
+							Object result = getCreateMethod().invoke(parentObject, new InvocationData(parentObject));
 							return result;
 						}
 
@@ -605,8 +605,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 				@Override
 				public Object invoke(Object parentObject, InvocationData invocationData) {
-					Object result = getCreateMethod().invoke(parentObject,
-							new InvocationData(parentObject));
+					Object result = getCreateMethod().invoke(parentObject, new InvocationData(parentObject));
 					return result;
 				}
 

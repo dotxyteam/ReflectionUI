@@ -86,10 +86,6 @@ public class EncapsulatedObjectFactory {
 		return new ValueFieldInfo();
 	}
 
-	public ITypeInfoSource getInstanceTypeInfoSource() {
-		return new PrecomputedTypeInfoSource(new TypeInfo());
-	}
-
 	public String getTypeName() {
 		return typeName;
 	}
@@ -318,6 +314,11 @@ public class EncapsulatedObjectFactory {
 	public class TypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
+		public ITypeInfoSource getSource() {
+			return new PrecomputedTypeInfoSource(TypeInfo.this, null);
+		}
+
+		@Override
 		public ResourcePath getFormBackgroundImagePath() {
 			return null;
 		}
@@ -427,7 +428,7 @@ public class EncapsulatedObjectFactory {
 
 					@Override
 					public ITypeInfo getReturnValueType() {
-						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(TypeInfo.this));
+						return reflectionUI.getTypeInfo(TypeInfo.this.getSource());
 					}
 				});
 			}
@@ -650,11 +651,6 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public ITypeInfo getType() {
 			return fieldType;
-		}
-
-		@Override
-		public IInfoProxyFactory getTypeSpecificities() {
-			return null;
 		}
 
 		@Override

@@ -27,8 +27,19 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 
 	public static CustomizedSwingRenderer getDefault() {
 		if (defaultInstance == null) {
-			defaultInstance = new CustomizedSwingRenderer(CustomizedUI.getDefault(),
-					SystemProperties.getDefaultInfoCustomizationsFilePath());
+			Class<?> customClass = SystemProperties.getAlternateCustomizedSwingRendererClass();
+			if (customClass != null) {
+				try {
+					defaultInstance = (CustomizedSwingRenderer) customClass
+							.getConstructor(CustomizedUI.class, String.class).newInstance(CustomizedUI.getDefault(),
+									SystemProperties.getDefaultInfoCustomizationsFilePath());
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+			} else {
+				defaultInstance = new CustomizedSwingRenderer(CustomizedUI.getDefault(),
+						SystemProperties.getDefaultInfoCustomizationsFilePath());
+			}
 		}
 		return defaultInstance;
 	}

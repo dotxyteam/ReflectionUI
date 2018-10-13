@@ -8,21 +8,26 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
 public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IListTypeInfo listType;
+	protected ITypeInfo containingType;
 
-	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
+	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containingType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.listType = createListType();
+		this.containingType = containingType;
 	}
 
 	protected IListTypeInfo createListType() {
-		return new StandardCollectionTypeInfo(reflectionUI, ArrayList.class, super.getType()) {
+		return new StandardCollectionTypeInfo(reflectionUI, new JavaTypeInfoSource(ArrayList.class,
+				new SpecificitiesIdentifier(containingType.getName(), getName())), super.getType()) {
 
 			@Override
 			public boolean isInsertionAllowed() {
@@ -43,15 +48,14 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 			public boolean canInstanciateFromArray() {
 				return true;
 			}
-			
-			
 
 		};
 	}
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(listType));
+		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(listType,
+				new SpecificitiesIdentifier(containingType.getName(), getName())));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

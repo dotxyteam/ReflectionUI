@@ -9,7 +9,6 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 
 public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
@@ -42,10 +41,6 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 	public boolean isReturnValueIgnored() {
 		return base.isReturnValueIgnored();
-	}
-
-	public IInfoProxyFactory getReturnValueTypeSpecificities() {
-		return base.getReturnValueTypeSpecificities();
 	}
 
 	public String getName() {

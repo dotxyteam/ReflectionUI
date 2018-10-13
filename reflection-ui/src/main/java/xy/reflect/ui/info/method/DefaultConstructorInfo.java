@@ -11,7 +11,6 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -44,7 +43,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass()));
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), javaConstructor, -1));
 	}
 
 	@Override
@@ -55,11 +54,6 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	@Override
 	public boolean isReturnValueDetached() {
 		return false;
-	}
-
-	@Override
-	public IInfoProxyFactory getReturnValueTypeSpecificities() {
-		return null;
 	}
 
 	@Override

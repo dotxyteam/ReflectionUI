@@ -23,6 +23,8 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -129,7 +131,8 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 					@Override
 					public ITypeInfo getType() {
-						return new DefaultTypeInfo(swingRenderer.getReflectionUI(), String.class);
+						return new DefaultTypeInfo(swingRenderer.getReflectionUI(),
+								new JavaTypeInfoSource(String.class, null));
 					}
 
 				};
@@ -179,8 +182,8 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public ITypeInfo getObjectDeclaredType() {
-				return data.getType();
+			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+				return data.getType().getSource();
 			}
 
 			@Override

@@ -1,3 +1,4 @@
+- StandardMapAsList: pass key and value types as typeInfos not java classes????
 - IModification.getTarget() is useless. It was only for getting modification
 title. I think it was created for list dynamic actions. It seems obsolete now.
 May need to remove.

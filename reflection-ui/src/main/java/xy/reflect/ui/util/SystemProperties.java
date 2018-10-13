@@ -19,7 +19,7 @@ public class SystemProperties {
 
 	protected static final String PREFIX = ReflectionUI.class.getPackage().getName();
 
-	@Usage("If the value of this property is  \"true\" then ReflectionUI objects will print debug messages to the console output by default.")
+	@Usage("If the value of this property is \"true\" then ReflectionUI objects will print debug messages to the console output by default.")
 	public static final String DEBUG = PREFIX + ".debug";
 
 	@Usage("The value of this property is used as the maximum size of various caches used to optimize the reflection process")
@@ -30,9 +30,12 @@ public class SystemProperties {
 
 	@Usage("If the value of this property is set then the default customizations are loaded from and saved to the specified file instead of the default one.")
 	public static final String DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH = PREFIX + ".defaultCustomizationsFilePath";
-	
-	@Usage("If the value of this property is  \"true\" then customizations will be initialized if not found.")
+
+	@Usage("If the value of this property is \"true\" then customizations will be initialized if not found.")
 	public static final String CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND = PREFIX + ".createCustomizationsIfNotFound";
+
+	@Usage("If this property is set then CustomizedSwingRenderer.getDefault() will return an object of the specified class.")
+	public static final String ALTERNATE_DEFAULT_CUSTOMIZED_SWING_RENDERER_CLASS_NAME = PREFIX + ".alternateDefaultCustomizedSwingRendererClass";
 
 	public static String describe() {
 		return describe(SystemProperties.class);
@@ -80,6 +83,19 @@ public class SystemProperties {
 
 	public static boolean areInfoCustomizationsCreatedIfNotFound() {
 		return System.getProperty(CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND, "true").equals("true");
+	}
+
+	public static Class<?> getAlternateCustomizedSwingRendererClass() {
+		String className = System.getProperty(ALTERNATE_DEFAULT_CUSTOMIZED_SWING_RENDERER_CLASS_NAME);
+		if (className == null) {
+			return null;
+		} else {
+			try {
+				return Class.forName(className);
+			} catch (ClassNotFoundException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
 	}
 
 }

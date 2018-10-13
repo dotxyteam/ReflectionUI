@@ -23,7 +23,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected Class<?> valueJavaType;
 
 	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, Class<?> keyJavaType, Class<?> valueJavaType) {
-		super(reflectionUI, StandardMapEntry.class);
+		super(reflectionUI, new JavaTypeInfoSource(StandardMapEntry.class, null));
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}
@@ -80,9 +80,9 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 				@Override
 				public ITypeInfo getType() {
 					if (keyJavaType == null) {
-						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
+						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 					}
-					return reflectionUI.getTypeInfo(new JavaTypeInfoSource(keyJavaType));
+					return reflectionUI.getTypeInfo(new JavaTypeInfoSource(keyJavaType, null));
 				}
 			};
 		} catch (SecurityException e) {
@@ -100,9 +100,9 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 				@Override
 				public ITypeInfo getType() {
 					if (valueJavaType == null) {
-						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
+						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 					}
-					return reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueJavaType));
+					return reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueJavaType, null));
 				}
 			};
 		} catch (SecurityException e) {
@@ -134,7 +134,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 				@Override
 				public ITypeInfo getReturnValueType() {
-					return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardMapEntryTypeInfo.this));
+					return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardMapEntryTypeInfo.this, null));
 				}
 
 				@Override

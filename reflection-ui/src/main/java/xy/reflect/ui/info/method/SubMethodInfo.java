@@ -11,7 +11,6 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -56,11 +55,6 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public ITypeInfo getReturnValueType() {
 		return theSubMethod.getReturnValueType();
-	}
-
-	@Override
-	public IInfoProxyFactory getReturnValueTypeSpecificities() {
-		return theSubMethod.getReturnValueTypeSpecificities();
 	}
 
 	@Override

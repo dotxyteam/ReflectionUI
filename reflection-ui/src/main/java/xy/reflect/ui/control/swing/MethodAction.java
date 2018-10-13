@@ -24,6 +24,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -341,8 +342,8 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public ITypeInfo getObjectDeclaredType() {
-				return data.getReturnValueType();
+			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+				return data.getReturnValueType().getSource();
 			}
 
 			@Override

@@ -241,7 +241,7 @@ public class SwingRenderer {
 						}
 					};
 					IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-							.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+							.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 					Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose an option",
 							"Create " + type.getCaption());
 					if (resultEnumItem == null) {
@@ -289,7 +289,7 @@ public class SwingRenderer {
 						final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(
 								reflectionUI, type);
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-								.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+								.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
 								"Choose a type:", "New '" + type.getCaption() + "'");
 						if (resultEnumItem == null) {
@@ -312,7 +312,7 @@ public class SwingRenderer {
 					}
 					try {
 						type = reflectionUI
-								.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getCachedClassforName(className)));
+								.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getCachedClassforName(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}
@@ -558,7 +558,7 @@ public class SwingRenderer {
 
 		};
 		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-				.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+				.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 		Object resultEnumItem = openSelectionDialog(parentComponent, enumType,
 				enumFactory.getInstance(initialSelection), message, title);
 		if (resultEnumItem == null) {

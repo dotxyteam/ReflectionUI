@@ -74,7 +74,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 		if (treeStructure != null) {
 			ITypeInfoFinder nodeTypeFinder = treeStructure.getCustomBaseNodeTypeFinder();
 			if (nodeTypeFinder != null) {
-				return nodeTypeFinder.find(reflectionUI);
+				return nodeTypeFinder.find(reflectionUI, null);
 			}
 		}
 		return listType.getItemType();
@@ -86,22 +86,24 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 			return super.getItemSubListField(itemPosition, rootListValue);
 		}
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition, rootListValue);
+		Object item = itemPosition.getItem(rootListValue);
+		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 		if (candidateFields.size() == 0) {
 			return null;
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
 			if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition, rootListValue)) {
-				return getSubListsGroupingField(Collections.singletonList(candidateField));
+				return getSubListsGroupingField(Collections.singletonList(candidateField), actualItemType);
 			} else {
 				return candidateField;
 			}
 		} else {
-			return getSubListsGroupingField(candidateFields);
+			return getSubListsGroupingField(candidateFields, actualItemType);
 		}
 	}
 
-	protected IFieldInfo getSubListsGroupingField(List<IFieldInfo> subListFields) {
-		return new SubListsGroupingField(reflectionUI, subListFields);
+	protected IFieldInfo getSubListsGroupingField(List<IFieldInfo> subListFields, ITypeInfo actualItemType) {
+		return new SubListsGroupingField(reflectionUI, subListFields, actualItemType);
 	}
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition, Object rootListValue) {

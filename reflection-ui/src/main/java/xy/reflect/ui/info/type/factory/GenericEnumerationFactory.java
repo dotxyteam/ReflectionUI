@@ -24,6 +24,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -89,8 +90,8 @@ public class GenericEnumerationFactory {
 		return instance.getArrayItem();
 	}
 
-	public ITypeInfoSource getInstanceTypeInfoSource() {
-		return new PrecomputedTypeInfoSource(new TypeInfo());
+	public ITypeInfoSource getInstanceTypeInfoSource(SpecificitiesIdentifier specificitiesIdentifier) {
+		return new PrecomputedTypeInfoSource(new TypeInfo(), specificitiesIdentifier);
 	}
 
 	@Override
@@ -179,6 +180,11 @@ public class GenericEnumerationFactory {
 	}
 
 	public class TypeInfo extends AbstractInfo implements IEnumerationTypeInfo {
+
+		@Override
+		public ITypeInfoSource getSource() {
+			return new PrecomputedTypeInfoSource(TypeInfo.this, null);
+		}
 
 		@Override
 		public ResourcePath getFormBackgroundImagePath() {
@@ -307,7 +313,7 @@ public class GenericEnumerationFactory {
 
 					@Override
 					public ITypeInfo getReturnValueType() {
-						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(TypeInfo.this));
+						return reflectionUI.getTypeInfo(TypeInfo.this.getSource());
 					}
 
 					@Override

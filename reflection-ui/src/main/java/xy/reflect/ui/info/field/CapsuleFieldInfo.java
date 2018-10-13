@@ -21,8 +21,9 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
@@ -90,12 +91,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(new ValueTypeInfo()));
-	}
-
-	@Override
-	public IInfoProxyFactory getTypeSpecificities() {
-		return null;
+		return reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
 	}
 
 	@Override
@@ -284,6 +280,12 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
+		public ITypeInfoSource getSource() {
+			return new PrecomputedTypeInfoSource(this,
+					new SpecificitiesIdentifier(containingType.getName(), fieldName));
+		}
+
+		@Override
 		public ResourcePath getFormBackgroundImagePath() {
 			return null;
 		}
@@ -451,7 +453,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public FieldsLayout getFieldsLayout() {
 			return FieldsLayout.VERTICAL_FLOW;
 		}
-		
+
 		@Override
 		public MethodsLayout getMethodsLayout() {
 			return MethodsLayout.HORIZONTAL_FLOW;

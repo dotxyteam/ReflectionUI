@@ -21,6 +21,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -64,8 +65,8 @@ public class MethodInvocationDataAsObjectFactory {
 		return instance.getInvocationData();
 	}
 
-	public ITypeInfoSource getInstanceTypeInfoSource() {
-		return new PrecomputedTypeInfoSource(new TypeInfo());
+	public ITypeInfoSource getInstanceTypeInfoSource(SpecificitiesIdentifier specificitiesIdentifier) {
+		return new PrecomputedTypeInfoSource(new TypeInfo(), specificitiesIdentifier);
 	}
 
 	@Override
@@ -169,6 +170,11 @@ public class MethodInvocationDataAsObjectFactory {
 	public class TypeInfo extends AbstractInfo implements ITypeInfo {
 
 		@Override
+		public ITypeInfoSource getSource() {
+			return new PrecomputedTypeInfoSource(this, null);
+		}
+
+		@Override
 		public ResourcePath getFormBackgroundImagePath() {
 			return null;
 		}
@@ -255,7 +261,7 @@ public class MethodInvocationDataAsObjectFactory {
 		public List<IFieldInfo> getFields() {
 			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 			for (IParameterInfo param : method.getParameters()) {
-				result.add(new FieldInfo(param));
+				result.add(new FieldInfo(reflectionUI, param, this));
 			}
 			return result;
 		}
@@ -353,8 +359,8 @@ public class MethodInvocationDataAsObjectFactory {
 
 	public class FieldInfo extends MethodParameterAsFieldInfo {
 
-		public FieldInfo(IParameterInfo param) {
-			super(MethodInvocationDataAsObjectFactory.this.method, param);
+		public FieldInfo(ReflectionUI reflectionUI, IParameterInfo param, ITypeInfo containingType) {
+			super(reflectionUI, MethodInvocationDataAsObjectFactory.this.method, param, containingType);
 		}
 
 		@Override

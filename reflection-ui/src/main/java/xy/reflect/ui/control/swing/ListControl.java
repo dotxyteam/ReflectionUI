@@ -61,7 +61,6 @@ import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.control.CustomContext;
-import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
@@ -79,20 +78,24 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListAction;
+import xy.reflect.ui.info.type.iterable.IListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
-import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.BufferedListModificationFactory;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -111,7 +114,7 @@ import xy.reflect.ui.util.component.ScrollPaneOptions;
 public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
-	
+
 	protected SwingRenderer swingRenderer;
 	protected IFieldControlData listData;
 
@@ -270,16 +273,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, true, false, moveDownAction));
 		}
 
-		List<AbstractListProperty> dynamicProperties = getRootListType().getDynamicProperties(getSelection(),
-				rootListValue);
-		List<AbstractListAction> dynamicActions = getRootListType().getDynamicActions(getSelection(), rootListValue);
+		List<IListProperty> dynamicProperties = getRootListType().getDynamicProperties(getSelection(), rootListValue);
+		List<IListAction> dynamicActions = getRootListType().getDynamicActions(getSelection(), rootListValue);
 		if ((dynamicProperties.size() > 0) || (dynamicActions.size() > 0)) {
-			for (AbstractListProperty listProperty : dynamicProperties) {
+			for (IListProperty listProperty : dynamicProperties) {
 				AbstractAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
 				toolbar.add(createTool((String) dynamicPropertyHook.getValue(AbstractAction.NAME), null, true, false,
 						dynamicPropertyHook));
 			}
-			for (AbstractListAction listAction : dynamicActions) {
+			for (IListAction listAction : dynamicActions) {
 				AbstractAction dynamicActionHook = createDynamicActionHook(listAction);
 				toolbar.add(createTool((String) dynamicActionHook.getValue(AbstractAction.NAME), null, true, false,
 						dynamicActionHook));
@@ -736,10 +738,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		result.add(SEPARATOR_ACTION);
 
-		for (AbstractListProperty listProperty : getRootListType().getDynamicProperties(selection, rootListValue)) {
+		for (IListProperty listProperty : getRootListType().getDynamicProperties(selection, rootListValue)) {
 			result.add(createDynamicPropertyHook(listProperty));
 		}
-		for (AbstractListAction listAction : getRootListType().getDynamicActions(selection, rootListValue)) {
+		for (IListAction listAction : getRootListType().getDynamicActions(selection, rootListValue)) {
 			result.add(createDynamicActionHook(listAction));
 		}
 
@@ -805,7 +807,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected ListModificationFactory createListModificationFactory(BufferedItemPosition itemPosition) {
+	protected ListModificationFactory createListModificationFactory(BufferedItemPosition anyListItemPosition) {
 		Mapper<Object, IModification> commitModifAccessor = new Mapper<Object, IModification>() {
 			@Override
 			public IModification get(Object rootListValue) {
@@ -816,7 +818,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 		};
-		return new BufferedListModificationFactory(itemPosition, rootListValue, commitModifAccessor);
+		return new BufferedListModificationFactory(anyListItemPosition, rootListValue, commitModifAccessor);
 	}
 
 	protected boolean allSelectionItemsInSameList() {
@@ -1002,12 +1004,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		IListTypeInfo subListType = itemPosition.getContainingListType();
 		ITypeInfo typeToInstanciate = subListType.getItemType();
 		if (typeToInstanciate == null) {
-			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(), Object.class);
+			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(),
+					new JavaTypeInfoSource(Object.class, null));
 		}
 		return listData.createValue(typeToInstanciate, subListType.isItemConstructorSelectable());
 	}
-
-	
 
 	protected AbstractStandardListAction createCopyAction() {
 		return new CopyAction();
@@ -1041,203 +1042,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return (IListTypeInfo) listData.getType();
 	}
 
-	protected AbstractAction createDynamicPropertyHook(final AbstractListProperty dynamicProperty) {
-		return new AbstractStandardListAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			protected String getActionTitle() {
-				return dynamicProperty.getCaption() + "...";
-			}
-
-			@Override
-			protected String getActionDescription() {
-				return dynamicProperty.getOnlineHelp();
-			}
-
-			@Override
-			protected String getCompositeModificationTitle() {
-				return ControlDataValueModification.getTitle(dynamicProperty.getCaption());
-			}
-
-			@Override
-			public boolean isValid() {
-				return dynamicProperty.isEnabled();
-			}
-
-			@Override
-			protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-				AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
-
-					@Override
-					public String getEncapsulationTypeCaption() {
-						return ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
-					}
-
-					@Override
-					public IContext getContext() {
-						return input.getContext();
-					}
-
-					@Override
-					public IContext getSubContext() {
-						return new CustomContext("ListDynamicProperty [name=" + dynamicProperty.getName() + "]");
-					}
-
-					@Override
-					public boolean isObjectFormExpanded() {
-						return dynamicProperty.isFormControlEmbedded();
-					}
-
-					@Override
-					public boolean isObjectNullValueDistinct() {
-						return dynamicProperty.isNullValueDistinct();
-					}
-
-					@Override
-					public SwingRenderer getSwingRenderer() {
-						return swingRenderer;
-					}
-
-					@Override
-					public ValueReturnMode getObjectValueReturnMode() {
-						return ValueReturnMode.combine(listData.getValueReturnMode(),
-								dynamicProperty.getValueReturnMode());
-					}
-
-					@Override
-					public ITypeInfo getObjectDeclaredType() {
-						return dynamicProperty.getType();
-					}
-
-					@Override
-					public Object getInitialObjectValue() {
-						return dynamicProperty.getValue(AbstractListProperty.NO_OWNER);
-					}
-
-					@Override
-					protected Object[] getEncapsulationFieldValueOptions() {
-						return dynamicProperty.getValueOptions(AbstractListProperty.NO_OWNER);
-					}
-
-					@Override
-					public String getCumulatedModificationsTitle() {
-						return "Edit "
-								+ ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
-					}
-
-					@Override
-					public ModificationStack getParentObjectModificationStack() {
-						return ListControl.this.getModificationStack();
-					}
-
-					@Override
-					public Component getOwnerComponent() {
-						return ListControl.this;
-					}
-
-					@Override
-					public boolean canCommit() {
-						return !dynamicProperty.isGetOnly();
-					}
-
-					@Override
-					public IModification createCommitModification(Object newObjectValue) {
-						return new ControlDataValueModification(
-								new DefaultFieldControlData(swingRenderer.getReflectionUI(),
-										AbstractListProperty.NO_OWNER, dynamicProperty),
-								newObjectValue);
-					}
-
-					@Override
-					public IInfoFilter getObjectFormFilter() {
-						return dynamicProperty.getFormControlFilter();
-					}
-				};
-				subDialogBuilder.showDialog();
-				return subDialogBuilder.isParentModificationStackImpacted();
-			}
-
-		};
+	protected AbstractAction createDynamicPropertyHook(final IListProperty dynamicProperty) {
+		return new DynamicPropertyHook(dynamicProperty);
 	}
 
-	protected AbstractAction createDynamicActionHook(final AbstractListAction dynamicAction) {
-		return new AbstractAction() {
-			protected static final long serialVersionUID = 1L;
-
-			@Override
-			public Object getValue(String key) {
-				if (Action.NAME.equals(key)) {
-					return swingRenderer.prepareStringToDisplay(dynamicAction.getCaption());
-				} else if (Action.SHORT_DESCRIPTION.equals(key)) {
-					String result = dynamicAction.getOnlineHelp();
-					if (result != null) {
-						result = swingRenderer.prepareStringToDisplay(result);
-					}
-					return result;
-				} else {
-					return super.getValue(key);
-				}
-			}
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MethodAction action = swingRenderer.createMethodAction(getMethodInput());
-				action.execute(ListControl.this);
-			}
-
-			protected IMethodControlInput getMethodInput() {
-				return new IMethodControlInput() {
-
-					@Override
-					public ModificationStack getModificationStack() {
-						return ListControl.this.getModificationStack();
-					}
-
-					@Override
-					public IContext getContext() {
-						return new CustomContext("listDynamicAction [name=" + dynamicAction.getName() + ", listContext="
-								+ input.getContext() + "]");
-					}
-
-					@Override
-					public IMethodControlData getControlData() {
-						IMethodControlData data = new DefaultMethodControlData(rootListValue, dynamicAction);
-						data = new MethodControlDataProxy(data) {
-							@Override
-							public Object invoke(InvocationData invocationData) {
-								Object result = super.invoke(invocationData);
-								if (!listData.isGetOnly()) {
-									listData.setValue(rootListValue);
-								}
-								return result;
-							}
-						};
-						data = new MethodControlDataProxy(data) {
-							@Override
-							public Object invoke(InvocationData invocationData) {
-								return SwingRendererUtils.showBusyDialogWhileInvokingMethod(ListControl.this,
-										swingRenderer, base, invocationData);
-							}
-						};
-						data = new MethodControlDataProxy(data) {
-							@Override
-							public Object invoke(InvocationData invocationData) {
-								return ReflectionUIUtils.invokeMethodThroughModificationStack(base, invocationData,
-										ListControl.this.getModificationStack());
-							}
-						};
-						return data;
-					}
-				};
-			}
-
-			@Override
-			public boolean isEnabled() {
-				return dynamicAction.isEnabled();
-			}
-
-		};
+	protected AbstractAction createDynamicActionHook(final IListAction dynamicAction) {
+		return new DynamicActionHook(dynamicAction);
 	}
 
 	protected AbstractStandardListAction createOpenItemAction() {
@@ -1871,12 +1681,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public ITypeInfo getObjectDeclaredType() {
-			ITypeInfo result = bufferedItemPosition.getContainingListType().getItemType();
-			if (result == null) {
-				result = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
+		public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+			ITypeInfo itemType = bufferedItemPosition.getContainingListType().getItemType();
+			if (itemType != null) {
+				return itemType.getSource();
 			}
-			return result;
+			return new JavaTypeInfoSource(Object.class, null);
 		}
 
 		@Override
@@ -2535,6 +2345,219 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			return true;
 		}
+	}
+
+	protected class DynamicActionHook extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+
+		private IListAction dynamicAction;
+
+		public DynamicActionHook(IListAction dynamicAction) {
+			this.dynamicAction = dynamicAction;
+		}
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			MethodAction action = swingRenderer.createMethodAction(new IMethodControlInput() {
+
+				@Override
+				public ModificationStack getModificationStack() {
+					return ListControl.this.getModificationStack();
+				}
+
+				@Override
+				public IContext getContext() {
+					return new CustomContext("listDynamicAction [name=" + dynamicAction.getName() + ", listContext="
+							+ input.getContext() + "]");
+				}
+
+				@Override
+				public IMethodControlData getControlData() {
+					IMethodControlData data = new DefaultMethodControlData(rootListValue, dynamicAction);
+					data = new MethodControlDataProxy(data) {
+						@Override
+						public Object invoke(InvocationData invocationData) {
+							return SwingRendererUtils.showBusyDialogWhileInvokingMethod(ListControl.this, swingRenderer,
+									base, invocationData);
+						}
+					};
+					data = new MethodControlDataProxy(data) {
+						@Override
+						public Object invoke(InvocationData invocationData) {
+							return ReflectionUIUtils.invokeMethodThroughModificationStack(base, invocationData,
+									ListControl.this.getModificationStack());
+						}
+					};
+					return data;
+				}
+			});
+			action.execute(ListControl.this);
+			if (action.wasCancelled()) {
+				return false;
+			}
+			BufferedItemPosition anyRootItemPosition = getRootListItemPosition(-1);
+			if (anyRootItemPosition.isContainingListEditable(rootListValue)) {
+				Object[] newListRawValue = getRootListType().toArray(dynamicAction.getRootListValue());
+				ListModificationFactory listModificationfactory = createListModificationFactory(anyRootItemPosition);
+				getModificationStack()
+						.apply(listModificationfactory.createListModification(anyRootItemPosition, newListRawValue));
+			}
+			if (dynamicAction.getPostSelection() != null) {
+				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
+						dynamicAction.getPostSelection());
+			}
+			return true;
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return dynamicAction.getCaption();
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return InvokeMethodModification
+					.getTitle(ReflectionUIUtils.composeMessage(getRootListTitle(), dynamicAction.getCaption()));
+		}
+
+		@Override
+		public boolean isValid() {
+			return dynamicAction.isEnabled();
+		}
+
+		@Override
+		protected String getActionDescription() {
+			return dynamicAction.getOnlineHelp();
+		}
+	}
+
+	protected class DynamicPropertyHook extends AbstractStandardListAction {
+		protected static final long serialVersionUID = 1L;
+
+		private IListProperty dynamicProperty;
+
+		public DynamicPropertyHook(IListProperty dynamicProperty) {
+			this.dynamicProperty = dynamicProperty;
+		}
+
+		@Override
+		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
+
+				@Override
+				public String getEncapsulationTypeCaption() {
+					return ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
+				}
+
+				@Override
+				public IContext getContext() {
+					return input.getContext();
+				}
+
+				@Override
+				public IContext getSubContext() {
+					return new CustomContext("ListDynamicProperty [name=" + dynamicProperty.getName() + "]");
+				}
+
+				@Override
+				public boolean isObjectFormExpanded() {
+					return dynamicProperty.isFormControlEmbedded();
+				}
+
+				@Override
+				public boolean isObjectNullValueDistinct() {
+					return dynamicProperty.isNullValueDistinct();
+				}
+
+				@Override
+				public SwingRenderer getSwingRenderer() {
+					return swingRenderer;
+				}
+
+				@Override
+				public ValueReturnMode getObjectValueReturnMode() {
+					return ValueReturnMode.combine(listData.getValueReturnMode(), dynamicProperty.getValueReturnMode());
+				}
+
+				@Override
+				public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+					return dynamicProperty.getType().getSource();
+				}
+
+				@Override
+				public Object getInitialObjectValue() {
+					return dynamicProperty.getValue(AbstractListProperty.NO_OWNER);
+				}
+
+				@Override
+				protected Object[] getEncapsulationFieldValueOptions() {
+					return dynamicProperty.getValueOptions(AbstractListProperty.NO_OWNER);
+				}
+
+				@Override
+				public String getCumulatedModificationsTitle() {
+					return "Edit "
+							+ ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
+				}
+
+				@Override
+				public ModificationStack getParentObjectModificationStack() {
+					return ListControl.this.getModificationStack();
+				}
+
+				@Override
+				public Component getOwnerComponent() {
+					return ListControl.this;
+				}
+
+				@Override
+				public boolean canCommit() {
+					BufferedItemPosition anyRootItemPosition = getRootListItemPosition(-1);
+					return anyRootItemPosition.isContainingListEditable(rootListValue);
+				}
+
+				@Override
+				public IModification createCommitModification(Object newObjectValue) {
+					Object[] newListRawValue = getRootListType().toArray(dynamicProperty.getRootListValue());
+					BufferedItemPosition anyRootItemPosition = getRootListItemPosition(-1);
+					return createListModificationFactory(anyRootItemPosition)
+							.createListModification(anyRootItemPosition, newListRawValue);
+				}
+
+				@Override
+				public IInfoFilter getObjectFormFilter() {
+					return dynamicProperty.getFormControlFilter();
+				}
+			};
+			subDialogBuilder.showDialog();
+			if (dynamicProperty.getPostSelection() != null) {
+				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
+						dynamicProperty.getPostSelection());
+			}
+			return subDialogBuilder.isParentModificationStackImpacted();
+		}
+
+		@Override
+		protected String getActionTitle() {
+			return dynamicProperty.getCaption() + "...";
+		}
+
+		@Override
+		protected String getCompositeModificationTitle() {
+			return ControlDataValueModification
+					.getTitle(ReflectionUIUtils.composeMessage(getRootListTitle(), dynamicProperty.getCaption()));
+		}
+
+		@Override
+		public boolean isValid() {
+			return dynamicProperty.isEnabled();
+		}
+
+		@Override
+		protected String getActionDescription() {
+			return dynamicProperty.getOnlineHelp();
+		}
+
 	}
 
 	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {

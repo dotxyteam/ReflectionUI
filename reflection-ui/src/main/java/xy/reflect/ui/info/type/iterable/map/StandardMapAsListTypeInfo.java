@@ -20,10 +20,10 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, Class<?> keyJavaType,
+	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType,
 			Class<?> valueJavaType) {
-		super(reflectionUI, javaType,
-				reflectionUI.getTypeInfo(new JavaTypeInfoSource(StandardMapEntry.class, keyJavaType, valueJavaType)));
+		super(reflectionUI, source, reflectionUI.getTypeInfo(
+				new JavaTypeInfoSource(StandardMapEntry.class, new Class<?>[] { keyJavaType, valueJavaType }, null)));
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}
@@ -87,13 +87,13 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public boolean isOrdered() {
-		if (Map.class.equals(javaType)) {
+		if (Map.class.equals(getJavaType())) {
 			return false;
 		}
-		if (HashMap.class.equals(javaType)) {
+		if (HashMap.class.equals(getJavaType())) {
 			return false;
 		}
-		if (SortedMap.class.isAssignableFrom(javaType)) {
+		if (SortedMap.class.isAssignableFrom(getJavaType())) {
 			return false;
 		}
 		return true;
@@ -101,7 +101,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public String toString() {
-		return "StandardMapAsListTypeInfo [mapType=" + javaType + ", entryType=" + itemType + "]";
+		return "StandardMapAsListTypeInfo [source=" + source + ", entryType=" + itemType + "]";
 	}
 
 }

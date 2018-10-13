@@ -30,13 +30,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.fasterxml.classmate.MemberResolver;
-import com.fasterxml.classmate.ResolvedType;
-import com.fasterxml.classmate.ResolvedTypeWithMembers;
-import com.fasterxml.classmate.TypeResolver;
-import com.fasterxml.classmate.members.ResolvedConstructor;
-import com.fasterxml.classmate.members.ResolvedField;
-import com.fasterxml.classmate.members.ResolvedMethod;
 import com.thoughtworks.paranamer.AdaptiveParanamer;
 import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
@@ -67,7 +60,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
@@ -337,88 +329,6 @@ public class ReflectionUIUtils {
 			subString = subString.toLowerCase();
 		}
 		return result.substring(0, subStringStart) + subString + result.substring(subStringEnd);
-	}
-
-	public static List<Class<?>> getJavaGenericTypeParameters(final Class<?> type, final Member ofMember,
-			int methodArgumentPosition, Class<?> parameterizedBaseClass) {
-		TypeResolver typeResolver = new TypeResolver();
-		ResolvedType resolvedType = null;
-		if (ofMember == null) {
-			resolvedType = typeResolver.resolve(type);
-		} else {
-			MemberResolver memberResolver = new MemberResolver(typeResolver);
-			ResolvedType declaringResolvedType = typeResolver.resolve(ofMember.getDeclaringClass());
-			ResolvedTypeWithMembers resolvedTypeWithMembers = memberResolver.resolve(declaringResolvedType, null, null);
-			if (ofMember instanceof Field) {
-				ResolvedField[] resolvedFields;
-				if (Modifier.isStatic(ofMember.getModifiers())) {
-					resolvedFields = resolvedTypeWithMembers.getStaticFields();
-				} else {
-					resolvedFields = resolvedTypeWithMembers.getMemberFields();
-				}
-				for (ResolvedField resolvedField : resolvedFields) {
-					if (resolvedField.getRawMember().equals(ofMember)) {
-						resolvedType = resolvedField.getType();
-						break;
-					}
-				}
-			} else if (ofMember instanceof Method) {
-				ResolvedMethod[] resolvedMethods;
-				if (Modifier.isStatic(ofMember.getModifiers())) {
-					resolvedMethods = resolvedTypeWithMembers.getStaticMethods();
-				} else {
-					resolvedMethods = resolvedTypeWithMembers.getMemberMethods();
-				}
-				for (ResolvedMethod resolvedMethod : resolvedMethods) {
-					if (resolvedMethod.getRawMember().equals(ofMember)) {
-						if (methodArgumentPosition == -1) {
-							resolvedType = resolvedMethod.getType();
-						} else {
-							resolvedType = resolvedMethod.getArgumentType(methodArgumentPosition);
-						}
-						break;
-					}
-				}
-			} else if (ofMember instanceof Constructor) {
-				for (ResolvedConstructor resolvedConstructor : resolvedTypeWithMembers.getConstructors()) {
-					if (resolvedConstructor.getRawMember().equals(ofMember)) {
-						if (methodArgumentPosition == -1) {
-							resolvedType = resolvedConstructor.getType();
-						} else {
-							resolvedType = resolvedConstructor.getArgumentType(methodArgumentPosition);
-						}
-						break;
-					}
-				}
-			} else {
-				throw new ReflectionUIError();
-			}
-			if (resolvedType == null) {
-				throw new ReflectionUIError();
-			}
-		}
-		List<Class<?>> result = new ArrayList<Class<?>>();
-		List<ResolvedType> resolvedTypeParameters = resolvedType.typeParametersFor(parameterizedBaseClass);
-		if (resolvedTypeParameters == null) {
-			return null;
-		}
-		for (ResolvedType classParameter : resolvedTypeParameters) {
-			result.add(classParameter.getErasedType());
-		}
-		return result;
-	}
-
-	public static Class<?> getJavaGenericTypeParameter(final JavaTypeInfoSource javaTypeSource,
-			Class<?> parameterizedBaseClass, int index) {
-		List<Class<?>> parameterClasses = getJavaGenericTypeParameters(javaTypeSource.getJavaType(),
-				javaTypeSource.getTypedMember(), javaTypeSource.getParameterPosition(), parameterizedBaseClass);
-		if (parameterClasses == null) {
-			return null;
-		}
-		if (parameterClasses.size() <= index) {
-			return null;
-		}
-		return parameterClasses.get(index);
 	}
 
 	public static String[] splitLines(String s) {

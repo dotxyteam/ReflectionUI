@@ -12,8 +12,7 @@ public class BufferedListModificationFactory extends ListModificationFactory {
 	}
 
 	@Override
-	protected IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue,
-			Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
+	public IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue) {
 		return new BufferedListModification(itemPosition, newListRawValue, rootListValue,
 				rootListValueCommitModificationAccessor);
 	}

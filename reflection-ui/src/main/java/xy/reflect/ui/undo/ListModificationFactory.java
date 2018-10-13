@@ -21,8 +21,7 @@ public class ListModificationFactory {
 		this.rootListValueCommitModificationAccessor = rootListValueCommitModificationAccessor;
 	}
 
-	protected IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue,
-			Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
+	public IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue) {
 		return new ListModification(itemPosition, newListRawValue, rootListValue,
 				rootListValueCommitModificationAccessor);
 	}
@@ -54,7 +53,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.add(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canRemove(int index) {
@@ -69,7 +68,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.remove(index);
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canSet(int index) {
@@ -97,7 +96,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.set(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canMove(int index, int offset) {
@@ -116,7 +115,7 @@ public class ListModificationFactory {
 				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
 		tmpList.add(index + offset, tmpList.remove(index));
 		Object[] newListRawValue = tmpList.toArray();
-		return createListModification(anyItemPosition, newListRawValue, rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canClear() {
@@ -124,7 +123,7 @@ public class ListModificationFactory {
 	}
 
 	public IModification clear() {
-		return createListModification(anyItemPosition, new Object[0], rootListValueCommitModificationAccessor);
+		return createListModification(anyItemPosition, new Object[0]);
 	}
 
 	protected static class ListModification implements IModification {

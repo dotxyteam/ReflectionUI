@@ -14,25 +14,28 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
-	protected ReflectionUI reflectionUI;
-	protected IMethodInfo method;
-	protected String fieldName;
-
-	protected MethodInvocationDataAsObjectFactory factory;
 	protected static Map<Object, Map<IMethodInfo, InvocationData>> invocationDataByMethodByObject = new MapMaker()
 			.weakKeys().makeMap();
 
-	public AllMethodParametersAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, String fieldName) {
+	protected ReflectionUI reflectionUI;
+	protected IMethodInfo method;
+	protected String fieldName;
+	protected MethodInvocationDataAsObjectFactory factory;
+	protected ITypeInfo containingType;
+
+	public AllMethodParametersAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, String fieldName,
+			ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.fieldName = fieldName;
+		this.containingType = containingType;
 
 		this.factory = createFactory();
 	}
@@ -80,12 +83,8 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(factory.getInstanceTypeInfoSource());
-	}
-
-	@Override
-	public IInfoProxyFactory getTypeSpecificities() {
-		return null;
+		return reflectionUI.getTypeInfo(
+				factory.getInstanceTypeInfoSource(new SpecificitiesIdentifier(containingType.getName(), fieldName)));
 	}
 
 	@Override

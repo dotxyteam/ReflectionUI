@@ -3,10 +3,12 @@ package xy.reflect.ui.info.field;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
 public class NerverNullFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
+	protected ITypeInfo containgType;
 
 	protected static final Object NULL_REPLACEMENT = new Object() {
 		@Override
@@ -15,9 +17,10 @@ public class NerverNullFieldInfo extends FieldInfoProxy {
 		}
 	};
 
-	public NerverNullFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
+	public NerverNullFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containgType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
+		this.containgType = containgType;
 	}
 
 	@Override
@@ -36,7 +39,8 @@ public class NerverNullFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
+		return reflectionUI.getTypeInfo(
+				new JavaTypeInfoSource(Object.class, new SpecificitiesIdentifier(containgType.getName(), getName())));
 	}
 
 	@Override

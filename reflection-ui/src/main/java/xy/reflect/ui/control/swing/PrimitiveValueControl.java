@@ -8,6 +8,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -56,7 +57,7 @@ public class PrimitiveValueControl extends TextControl {
 
 			@Override
 			public ITypeInfo getType() {
-				return new DefaultTypeInfo(reflectionUI, String.class);
+				return new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(String.class, null));
 			}
 
 		};

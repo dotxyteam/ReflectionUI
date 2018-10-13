@@ -70,6 +70,8 @@ import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory.Instance;
+import xy.reflect.ui.info.type.iterable.IListAction;
+import xy.reflect.ui.info.type.iterable.IListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -77,6 +79,9 @@ import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Filter;
@@ -90,13 +95,19 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	protected CustomizedUI customizedUI;
+	protected InfoCustomizations infoCustomizations;
+
+	public InfoCustomizationsFactory(CustomizedUI customizedUI, InfoCustomizations infoCustomizations) {
+		this.customizedUI = customizedUI;
+		this.infoCustomizations = infoCustomizations;
+	}
 
 	public InfoCustomizationsFactory(CustomizedUI customizedUI) {
-		this.customizedUI = customizedUI;
+		this(customizedUI, customizedUI.getInfoCustomizations());
 	}
 
 	public InfoCustomizations getInfoCustomizations() {
-		return customizedUI.getInfoCustomizations();
+		return infoCustomizations;
 	}
 
 	@Override
@@ -245,14 +256,14 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo listType,
-			List<? extends ItemPosition> selection, final Object rootListValue) {
+	protected List<IListProperty> getDynamicProperties(IListTypeInfo listType, List<? extends ItemPosition> selection,
+			final Object rootListValue) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			List<AbstractListProperty> result = super.getDynamicProperties(listType, selection, rootListValue);
-			result = new ArrayList<AbstractListProperty>(result);
+			List<IListProperty> result = super.getDynamicProperties(listType, selection, rootListValue);
+			result = new ArrayList<IListProperty>(result);
 			for (final ListItemFieldShortcut shortcut : l.getAllowedItemFieldShortcuts()) {
 				final String fieldCaption;
 				if (shortcut.getCustomFieldCaption() != null) {
@@ -272,7 +283,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									IFieldInfo itemPositionAsField = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
-										ListModificationFactory listModificationFactory = new ListModificationFactory(
+										ListModificationFactory listModificationUtil = new ListModificationFactory(
 												itemPosition, rootListValue, new Mapper<Object, IModification>() {
 													@Override
 													public IModification get(Object i) {
@@ -292,18 +303,23 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 										@Override
 										public void setValue(Object object, Object value) {
-											listModificationFactory.set(itemPosition.getIndex(), item)
+											listModificationUtil.set(itemPosition.getIndex(), item)
 													.applyAndGetOpposite();
 										}
 
 										@Override
 										public boolean isGetOnly() {
-											return !listModificationFactory.canSet(itemPosition.getIndex());
+											return !listModificationUtil.canSet(itemPosition.getIndex());
 										}
 
 									};
 									SubFieldInfo delegate = new SubFieldInfo(customizedUI, itemPositionAsField,
 											itemField);
+
+									@Override
+									public Object getRootListValue() {
+										return rootListValue;
+									}
 
 									@Override
 									public boolean isEnabled() {
@@ -322,10 +338,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									public ITypeInfo getType() {
 										return delegate.getType();
-									}
-
-									public IInfoProxyFactory getTypeSpecificities() {
-										return delegate.getTypeSpecificities();
 									}
 
 									public Object getValue(Object object) {
@@ -396,6 +408,11 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					AbstractListProperty property = new AbstractListProperty() {
 
 						@Override
+						public Object getRootListValue() {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
 						public boolean isEnabled() {
 							return false;
 						}
@@ -440,11 +457,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 							throw new UnsupportedOperationException();
 						}
 
-						@Override
-						public IInfoProxyFactory getTypeSpecificities() {
-							return null;
-						}
-
 					};
 					result.add(property);
 
@@ -456,14 +468,14 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected List<AbstractListAction> getDynamicActions(IListTypeInfo listType, List<? extends ItemPosition> selection,
+	protected List<IListAction> getDynamicActions(IListTypeInfo listType, List<? extends ItemPosition> selection,
 			final Object rootListValue) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			List<AbstractListAction> result = super.getDynamicActions(listType, selection, rootListValue);
-			result = new ArrayList<AbstractListAction>(result);
+			List<IListAction> result = super.getDynamicActions(listType, selection, rootListValue);
+			result = new ArrayList<IListAction>(result);
 
 			for (final ListItemMethodShortcut shortcut : l.getAllowedItemMethodShortcuts()) {
 				final String methodName = ReflectionUIUtils
@@ -486,7 +498,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									IFieldInfo itemPositionAsField = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
-										ListModificationFactory listModificationFactory = new ListModificationFactory(
+										ListModificationFactory listModificationUtil = new ListModificationFactory(
 												itemPosition, rootListValue, new Mapper<Object, IModification>() {
 													@Override
 													public IModification get(Object i) {
@@ -506,18 +518,23 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 										@Override
 										public void setValue(Object object, Object value) {
-											listModificationFactory.set(itemPosition.getIndex(), item)
+											listModificationUtil.set(itemPosition.getIndex(), item)
 													.applyAndGetOpposite();
 										}
 
 										@Override
 										public boolean isGetOnly() {
-											return !listModificationFactory.canSet(itemPosition.getIndex());
+											return !listModificationUtil.canSet(itemPosition.getIndex());
 										}
 
 									};
 									SubMethodInfo delegate = new SubMethodInfo(customizedUI, itemPositionAsField,
 											itemMethod);
+
+									@Override
+									public Object getRootListValue() {
+										return rootListValue;
+									}
 
 									@Override
 									public String getName() {
@@ -536,10 +553,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									public ITypeInfo getReturnValueType() {
 										return delegate.getReturnValueType();
-									}
-
-									public IInfoProxyFactory getReturnValueTypeSpecificities() {
-										return delegate.getReturnValueTypeSpecificities();
 									}
 
 									public Object invoke(Object object, InvocationData invocationData) {
@@ -620,6 +633,11 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					result.add(new AbstractListAction() {
 
 						@Override
+						public Object getRootListValue() {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
 						public boolean isNullReturnValueDistinct() {
 							return false;
 						}
@@ -681,7 +699,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					Object newListInstance;
 					if (l.getEditOptions().getListInstanciationOption().getCustomInstanceTypeFinder() != null) {
 						ITypeInfo customInstanceType = l.getEditOptions().getListInstanciationOption()
-								.getCustomInstanceTypeFinder().find(customizedUI);
+								.getCustomInstanceTypeFinder().find(customizedUI, null);
 						newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType, null);
 					} else {
 						newListInstance = ReflectionUIUtils.createDefaultInstance(listType, null);
@@ -799,7 +817,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (tc.getPolymorphicSubTypeFinders() != null) {
 				List<ITypeInfo> result = new ArrayList<ITypeInfo>(super.getPolymorphicInstanceSubTypes(type));
 				for (ITypeInfoFinder finder : tc.getPolymorphicSubTypeFinders()) {
-					ITypeInfo subType = finder.find(customizedUI);
+					ITypeInfo subType = finder.find(customizedUI, null);
 					result.add(subType);
 				}
 				return result;
@@ -1203,7 +1221,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected IFieldInfo createVirtualField(VirtualFieldDeclaration virtualFieldDeclaration) {
 			try {
-				ITypeInfo fieldType = virtualFieldDeclaration.getFieldTypeFinder().find(customizedUI);
+				ITypeInfo fieldType = virtualFieldDeclaration.getFieldTypeFinder().find(customizedUI,
+						new SpecificitiesIdentifier(containingType.getName(), virtualFieldDeclaration.getFieldName()));
 				return new VirtualFieldInfo(virtualFieldDeclaration.getFieldName(), fieldType);
 			} catch (Throwable t) {
 				throw new ReflectionUIError("Type '" + containingType.getName() + "': Failed to create virtual field '"
@@ -1488,6 +1507,12 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 								return super.getName() + ".duplicateError";
 							}
 
+							@Override
+							public ITypeInfo getType() {
+								return customizedUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
+										new SpecificitiesIdentifier(containingType.getName(), getName())));
+							}
+
 						};
 						outputFields.set(outputFields.indexOf(field2), errorField);
 					}
@@ -1620,27 +1645,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 							return true;
 						}
 						return super.isReturnValueDetached();
-					}
-
-					@Override
-					public IInfoProxyFactory getReturnValueTypeSpecificities() {
-						IInfoProxyFactory result = new InfoCustomizationsFactory(customizedUI) {
-							@Override
-							public String getIdentifier() {
-								return "MethodReturnValueTypeSpecificities [containingTypeName="
-										+ containingType.getName() + ", methodSignature=" + base.getSignature() + "]";
-							}
-
-							@Override
-							public InfoCustomizations getInfoCustomizations() {
-								return mc.getSpecificReturnValueTypeCustomizations();
-							}
-						};
-						IInfoProxyFactory baseTypeSpecificities = base.getReturnValueTypeSpecificities();
-						if (baseTypeSpecificities != null) {
-							result = new InfoProxyFactorChain(baseTypeSpecificities, result);
-						}
-						return result;
 					}
 
 					@Override
@@ -1849,7 +1853,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
-					newFields.add(new MethodAsFieldInfo(method) {
+					newFields.add(new MethodAsFieldInfo(customizedUI, method, containingType) {
 						@Override
 						public boolean isHidden() {
 							return false;
@@ -1868,7 +1872,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (mc.isParametersFormDisplayed()) {
 					final AllMethodParametersAsFieldInfo methodParametersAsField = new AllMethodParametersAsFieldInfo(
-							customizedUI, method, method.getName() + ".parameters") {
+							customizedUI, method, method.getName() + ".parameters", containingType) {
 
 						@Override
 						public String getCaption() {
@@ -1919,7 +1923,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 						if (pc.isDisplayedAsField()) {
 							final IMethodInfo finalMethod = method;
 							final MethodParameterAsFieldInfo methodParameterAsField = new MethodParameterAsFieldInfo(
-									method, param) {
+									customizedUI, method, param, containingType) {
 
 								@Override
 								public String getName() {
@@ -2095,27 +2099,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
-					public IInfoProxyFactory getTypeSpecificities() {
-						IInfoProxyFactory result = new InfoCustomizationsFactory(customizedUI) {
-							@Override
-							public String getIdentifier() {
-								return "FieldTypeSpecificities [containingTypeName=" + containingType.getName()
-										+ ", fieldName=" + base.getName() + "]";
-							}
-
-							@Override
-							public InfoCustomizations getInfoCustomizations() {
-								return fc.getSpecificTypeCustomizations();
-							}
-						};
-						IInfoProxyFactory baseTypeSpecificities = super.getTypeSpecificities();
-						if (baseTypeSpecificities != null) {
-							return new InfoProxyFactorChain(baseTypeSpecificities, result);
-						}
-						return result;
-					}
-
-					@Override
 					public String getNullValueLabel() {
 						if (fc.getNullValueLabel() != null) {
 							return fc.getNullValueLabel();
@@ -2215,7 +2198,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isDisplayedAsSingletonList()) {
-					field = new ValueAsListFieldInfo(customizedUI, field);
+					field = new ValueAsListFieldInfo(customizedUI, field, containingType);
 				}
 				return field;
 			}
@@ -2228,7 +2211,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isNullStatusFieldExported()) {
-					newFields.add(new ExportedNullStatusFieldInfo(customizedUI, field) {
+					newFields.add(new ExportedNullStatusFieldInfo(customizedUI, field, containingType) {
 
 						@Override
 						public String getCaption() {
@@ -2316,6 +2299,15 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 							return false;
 						}
 
+						@Override
+						public ITypeInfo getType() {
+							return customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+								@Override
+								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+									return new SpecificitiesIdentifier(containingType.getName(), getName());
+								}
+							});
+						}
 					};
 					newFields.add(duplicateField);
 				}
@@ -2385,7 +2377,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
-					ITypeInfo newType = f.getTypeConversion().findNewType(customizedUI);
+					ITypeInfo newType = f.getTypeConversion().findNewType(customizedUI,
+							new SpecificitiesIdentifier(containingType.getName(), field.getName()));
 					Filter<Object> conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
 					Filter<Object> reverseConversionMethod = f.getTypeConversion()
 							.buildOverallReverseConversionMethod();

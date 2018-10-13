@@ -32,12 +32,10 @@ import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.PrimitiveValueControl;
 import xy.reflect.ui.control.swing.TextControl;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -421,15 +419,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		if (ValueOptionsAsEnumerationFieldInfo.hasValueOptions(object, field)) {
 			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, object, field);
 		}
-		final IInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
-		if (typeSpecificities != null) {
-			field = new FieldInfoProxy(field) {
-				@Override
-				public ITypeInfo getType() {
-					return typeSpecificities.wrapTypeInfo(super.getType());
-				}
-			};
-		}
 		final IFieldInfo finalField = field;
 		IFieldControlData result = new InitialFieldControlData(finalField);
 		result = indicateWhenBusy(result);
@@ -457,10 +446,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		ITypeInfo actualValueType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(value));
 		if (!controlData.getType().getName().equals(actualValueType.getName())) {
-			final IInfoProxyFactory typeSpecificities = field.getTypeSpecificities();
-			if (typeSpecificities != null) {
-				actualValueType = typeSpecificities.wrapTypeInfo(actualValueType);
-			}
 			final ITypeInfo finalActualValueType = actualValueType;
 			controlData = new FieldControlDataProxy(controlData) {
 				@Override

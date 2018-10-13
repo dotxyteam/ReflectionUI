@@ -19,10 +19,8 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -192,20 +190,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	public IMethodControlData getInitialControlData() {
-		IMethodInfo method = MethodControlPlaceHolder.this.method;
-		final IInfoProxyFactory typeSpecificities = method.getReturnValueTypeSpecificities();
-		if (method.getReturnValueType() != null) {
-			if (typeSpecificities != null) {
-				method = new MethodInfoProxy(method) {
-					@Override
-					public ITypeInfo getReturnValueType() {
-						return typeSpecificities.wrapTypeInfo(super.getReturnValueType());
-					}
-				};
-			}
-		}
-		final IMethodInfo finalMethod = method;
-		IMethodControlData result = new InitialMethodControlData(finalMethod);
+		IMethodControlData result = new InitialMethodControlData(method);
 
 		result = indicateWhenBusy(result);
 		result = makeMethodModificationsUndoable(result);

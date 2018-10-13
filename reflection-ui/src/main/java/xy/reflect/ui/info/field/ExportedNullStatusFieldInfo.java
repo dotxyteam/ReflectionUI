@@ -6,16 +6,19 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
-	
-	public ExportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
+	protected ITypeInfo containingType;
+
+	public ExportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containingType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
+		this.containingType = containingType;
 	}
 
 	protected Object valueToBoolean(Object value) {
@@ -29,7 +32,6 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 			return null;
 		}
 	}
-
 
 	@Override
 	public Object getValue(Object object) {
@@ -64,12 +66,8 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(boolean.class));
-	}
-
-	@Override
-	public IInfoProxyFactory getTypeSpecificities() {
-		return null;
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
+				new SpecificitiesIdentifier(containingType.getName(), getName())));
 	}
 
 	@Override

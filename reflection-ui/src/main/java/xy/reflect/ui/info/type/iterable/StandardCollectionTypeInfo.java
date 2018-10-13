@@ -19,8 +19,7 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.DefaultListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
-import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -28,8 +27,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	protected ITypeInfo itemType;
 
-	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, Class<?> javaType, ITypeInfo itemType) {
-		super(reflectionUI, javaType);
+	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, ITypeInfo itemType) {
+		super(reflectionUI, source);
 		this.itemType = itemType;
 	}
 
@@ -41,10 +40,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultListTypeCaption(this);
-	}
-
-	public Class<?> getJavaType() {
-		return javaType;
 	}
 
 	@Override
@@ -116,13 +111,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public boolean isOrdered() {
-		if (Set.class.equals(javaType)) {
+		if (Set.class.equals(getJavaType())) {
 			return false;
 		}
-		if (HashSet.class.equals(javaType)) {
+		if (HashSet.class.equals(getJavaType())) {
 			return false;
 		}
-		if (SortedSet.class.isAssignableFrom(javaType)) {
+		if (SortedSet.class.isAssignableFrom(getJavaType())) {
 			return false;
 		}
 		return true;
@@ -151,13 +146,12 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue) {
+	public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue) {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
-			Object rootListValue) {
+	public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue) {
 		return Collections.emptyList();
 	}
 
@@ -193,7 +187,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public String toString() {
-		return "StandardCollectionTypeInfo [listType=" + javaType + ", itemType=" + itemType + "]";
+		return "StandardCollectionTypeInfo [source=" + source + ", itemType=" + itemType + "]";
 	}
 
 }

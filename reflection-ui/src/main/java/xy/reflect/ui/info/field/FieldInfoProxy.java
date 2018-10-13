@@ -7,7 +7,6 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 
 public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
@@ -46,10 +45,6 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		return base.getType();
-	}
-
-	public IInfoProxyFactory getTypeSpecificities() {
-		return base.getTypeSpecificities();
 	}
 
 	@Override

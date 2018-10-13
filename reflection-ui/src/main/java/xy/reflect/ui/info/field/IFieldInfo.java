@@ -10,14 +10,14 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
 public interface IFieldInfo extends IInfo {
 
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
 		ReflectionUI reflectionUI = new ReflectionUI();
-		ITypeInfo type = new DefaultTypeInfo(reflectionUI, Object.class);
+		ITypeInfo type = new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(Object.class, null));
 
 		@Override
 		public String getName() {
@@ -94,11 +94,6 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public IInfoProxyFactory getTypeSpecificities() {
-			return null;
-		}
-
-		@Override
 		public InfoCategory getCategory() {
 			return null;
 		}
@@ -136,8 +131,6 @@ public interface IFieldInfo extends IInfo {
 	};
 
 	ITypeInfo getType();
-
-	IInfoProxyFactory getTypeSpecificities();
 
 	Object getValue(Object object);
 

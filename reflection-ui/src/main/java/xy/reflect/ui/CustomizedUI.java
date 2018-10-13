@@ -2,6 +2,8 @@ package xy.reflect.ui;
 
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -10,6 +12,7 @@ import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
 public class CustomizedUI extends ReflectionUI {
 
@@ -43,6 +46,15 @@ public class CustomizedUI extends ReflectionUI {
 		result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 		result = getTypeInfoBeforeCustomizations(result);
 		result = new InfoCustomizationsFactory(this).wrapTypeInfo(result);
+		SpecificitiesIdentifier specificitiesIdentifier = typeSource.getSpecificitiesIdentifier();
+		if (specificitiesIdentifier != null) {
+			TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
+					specificitiesIdentifier.getContainingTypeName());
+			FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
+					specificitiesIdentifier.getFieldName());
+			result = new InfoCustomizationsFactory(this, fieldCustomization.getSpecificTypeCustomizations())
+					.wrapTypeInfo(result);
+		}
 		result = getTypeInfoAfterCustomizations(result);
 		return result;
 	}

@@ -1,14 +1,26 @@
 package xy.reflect.ui.info.type.source;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 
 	protected ITypeInfo precomputedType;
+	protected SpecificitiesIdentifier specificitiesIdentifier;
 
-	public PrecomputedTypeInfoSource(ITypeInfo precomputedType) {
-		super();
+	public PrecomputedTypeInfoSource(ITypeInfo precomputedType, SpecificitiesIdentifier specificitiesIdentifier) {
 		this.precomputedType = precomputedType;
+		this.specificitiesIdentifier = specificitiesIdentifier;
+	}
+
+	@Override
+	public ITypeInfo getTypeInfo(ReflectionUI reflectionUI) {
+		return precomputedType;
+	}
+
+	@Override
+	public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+		return specificitiesIdentifier;
 	}
 
 	public ITypeInfo getPrecomputedType() {
@@ -20,6 +32,7 @@ public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((precomputedType == null) ? 0 : precomputedType.hashCode());
+		result = prime * result + ((specificitiesIdentifier == null) ? 0 : specificitiesIdentifier.hashCode());
 		return result;
 	}
 
@@ -37,9 +50,18 @@ public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 				return false;
 		} else if (!precomputedType.equals(other.precomputedType))
 			return false;
+		if (specificitiesIdentifier == null) {
+			if (other.specificitiesIdentifier != null)
+				return false;
+		} else if (!specificitiesIdentifier.equals(other.specificitiesIdentifier))
+			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "PrecomputedTypeInfoSource [precomputedType=" + precomputedType + ", specificitiesIdentifier="
+				+ specificitiesIdentifier + "]";
+	}
 
 }

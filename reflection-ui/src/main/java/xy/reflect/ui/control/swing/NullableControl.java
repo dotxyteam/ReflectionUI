@@ -24,6 +24,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -242,8 +243,8 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public ITypeInfo getObjectDeclaredType() {
-				return data.getType();
+			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+				return data.getType().getSource();
 			}
 
 			@Override

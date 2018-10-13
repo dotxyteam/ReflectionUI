@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.MapMaker;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -13,18 +14,24 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 
 public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected IParameterInfo param;
 	protected IMethodInfo method;
+	protected ReflectionUI reflectionUI;
+	protected ITypeInfo containingType;
 
 	protected static Map<Object, Map<IMethodInfo, Map<IParameterInfo, Object>>> valueByParameterByMethodByObject = new MapMaker()
 			.weakKeys().makeMap();
 
-	public MethodParameterAsFieldInfo(IMethodInfo method, IParameterInfo param) {
-		this.method = method;
+	public MethodParameterAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, IParameterInfo param,
+			ITypeInfo containingType) {
+		this.reflectionUI = reflectionUI;
 		this.param = param;
+		this.method = method;
+		this.containingType = containingType;
 	}
 
 	protected Map<IParameterInfo, Object> getValueByParameter(Object object) {
@@ -78,12 +85,12 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 
 	@Override
 	public ITypeInfo getType() {
-		return param.getType();
-	}
-
-	@Override
-	public IInfoProxyFactory getTypeSpecificities() {
-		return null;
+		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return new SpecificitiesIdentifier(containingType.getName(), getName());
+			}
+		});
 	}
 
 	@Override

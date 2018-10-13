@@ -7,8 +7,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
-import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 
 public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
@@ -35,9 +33,9 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	boolean canViewItemDetails();
 
-	List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue);
+	List<IListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue);
 
-	List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue);
+	List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue);
 
 	boolean isItemNullValueDistinct();
 

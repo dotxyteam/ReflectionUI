@@ -9,7 +9,6 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.undo.IrreversibleModificationException;
 import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -137,11 +136,7 @@ public class ChainedMethodsInfo implements IMethodInfo {
 		return method1.getIconImagePath();
 	}
 
-	@Override
-	public IInfoProxyFactory getReturnValueTypeSpecificities() {
-		return null;
-	}
-
+	
 	@Override
 	public boolean isReturnValueDetached() {
 		return method1.isReturnValueDetached() || method2.isReturnValueDetached();

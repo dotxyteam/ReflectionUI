@@ -12,12 +12,13 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 
 public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnumerationTypeInfo {
 
-	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI, Class<?> javaEnumType) {
-		super(reflectionUI, javaEnumType);
+	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {
+		super(reflectionUI, source);
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 
 	@Override
 	public Object[] getPossibleValues() {
-		return javaType.getEnumConstants();
+		return getJavaType().getEnumConstants();
 	}
 
 	@Override
@@ -41,12 +42,12 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 
 			@Override
 			public ITypeInfo getReturnValueType() {
-				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardEnumerationTypeInfo.this));
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardEnumerationTypeInfo.this, null));
 			}
 
 			@Override
 			public Object invoke(Object parentObject, InvocationData invocationData) {
-				return javaType.getEnumConstants()[0];
+				return getJavaType().getEnumConstants()[0];
 			}
 
 			@Override
@@ -104,7 +105,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 
 	@Override
 	public String toString() {
-		return "StandardEnumerationTypeInfo [javaType=" + javaType + "]";
+		return "StandardEnumerationTypeInfo [source=" + getSource() + "]";
 	}
 
 }

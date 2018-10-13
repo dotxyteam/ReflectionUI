@@ -2,6 +2,7 @@ package xy.reflect.ui.info.field;
 
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -9,15 +10,19 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo method;
+	protected ReflectionUI reflectionUI;
+	protected ITypeInfo containingType;
 
-	public MethodAsFieldInfo(IMethodInfo method) {
+	public MethodAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
+		this.reflectionUI = reflectionUI;
 		if (method.getParameters().size() > 0) {
 			throw new ReflectionUIError("Cannot create field from method having parameters");
 		}
@@ -25,6 +30,7 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 			throw new ReflectionUIError("Cannot create field from method having void return type");
 		}
 		this.method = method;
+		this.containingType = containingType;
 	}
 
 	@Override
@@ -64,12 +70,12 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return method.getReturnValueType();
-	}
-
-	@Override
-	public IInfoProxyFactory getTypeSpecificities() {
-		return null;
+		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(method.getReturnValueType().getSource()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return new SpecificitiesIdentifier(containingType.getName(), getName());
+			}
+		});
 	}
 
 	@Override

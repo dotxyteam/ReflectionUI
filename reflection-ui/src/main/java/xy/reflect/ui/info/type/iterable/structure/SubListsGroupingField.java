@@ -9,8 +9,8 @@ import xy.reflect.ui.info.type.ITypeInfo;
 
 public class SubListsGroupingField extends MultipleFieldsAsListFieldInfo {
 
-	public SubListsGroupingField(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
-		super(reflectionUI, fields);
+	public SubListsGroupingField(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo containingType) {
+		super(reflectionUI, fields, containingType);
 	}
 	
 	@Override

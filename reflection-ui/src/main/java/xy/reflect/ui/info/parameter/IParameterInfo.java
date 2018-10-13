@@ -7,13 +7,14 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
 public interface IParameterInfo extends IInfo {
 
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
 		ReflectionUI reflectionUI = new ReflectionUI();
-		ITypeInfo type = new DefaultTypeInfo(reflectionUI, Object.class);
+		ITypeInfo type = new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(Object.class, null));
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {

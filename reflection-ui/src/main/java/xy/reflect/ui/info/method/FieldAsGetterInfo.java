@@ -11,7 +11,6 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
@@ -60,11 +59,6 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public boolean isNullReturnValueDistinct() {
 		return field.isNullValueDistinct();
-	}
-
-	@Override
-	public IInfoProxyFactory getReturnValueTypeSpecificities() {
-		return field.getTypeSpecificities();
 	}
 
 	@Override

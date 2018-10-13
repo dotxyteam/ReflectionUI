@@ -21,6 +21,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.ControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
@@ -79,8 +80,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected Form createTypeEnumerationControl() {
 		typeEnumerationControlBuilder = new AbstractEditorFormBuilder() {
 
-			ITypeInfo enumType = swingRenderer.getReflectionUI()
-					.getTypeInfo(typeOptionsFactory.getInstanceTypeInfoSource());
 			Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
 
 			@Override
@@ -119,8 +118,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ITypeInfo getObjectDeclaredType() {
-				return enumType;
+			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+				return typeOptionsFactory.getInstanceTypeInfoSource(null);
 			}
 
 			@Override
@@ -297,8 +296,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ITypeInfo getObjectDeclaredType() {
-				return instanceType;
+			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+				return instanceType.getSource();
 			}
 
 			@Override

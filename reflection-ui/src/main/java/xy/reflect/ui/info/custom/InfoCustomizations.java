@@ -63,6 +63,7 @@ import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Listener;
@@ -1899,11 +1900,11 @@ public class InfoCustomizations implements Serializable {
 			this.newTypeFinder = newTypeFinder;
 		}
 
-		public ITypeInfo findNewType(ReflectionUI reflectionUI) {
+		public ITypeInfo findNewType(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier) {
 			if (newTypeFinder != null) {
-				return newTypeFinder.find(reflectionUI);
+				return newTypeFinder.find(reflectionUI, specificitiesIdentifier);
 			} else {
-				return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class));
+				return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, specificitiesIdentifier));
 			}
 		}
 
@@ -3531,7 +3532,7 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static interface ITypeInfoFinder {
-		ITypeInfo find(ReflectionUI reflectionUI);
+		ITypeInfo find(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier);
 
 		String getCriteria();
 	}
@@ -3559,14 +3560,14 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
-		public ITypeInfo find(ReflectionUI reflectionUI) {
+		public ITypeInfo find(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier) {
 			Class<?> javaType;
 			try {
 				javaType = ClassUtils.getCachedClassforName(className);
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType));
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType, null));
 		}
 
 		@Override
@@ -3624,7 +3625,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		@Override
-		public ITypeInfo find(ReflectionUI reflectionUI) {
+		public ITypeInfo find(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier) {
 			try {
 				Class<?> implementationClass = ClassUtils.getCachedClassforName(implementationClassName);
 				return (ITypeInfo) implementationClass.newInstance();

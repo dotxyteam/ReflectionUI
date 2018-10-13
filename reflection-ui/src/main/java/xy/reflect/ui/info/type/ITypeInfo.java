@@ -11,8 +11,11 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 public interface ITypeInfo extends IInfo {
+
+	ITypeInfoSource getSource();
 
 	boolean canPersist();
 

@@ -6,26 +6,28 @@ import java.util.Iterator;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
 public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 
-	protected Object object;
+	protected ReflectionUI reflectionUI;
 
+	protected Object object;
+	protected ITypeInfo objectType;
 	protected GenericEnumerationFactory enumFactory;
 	protected ITypeInfo enumType;
-	private ReflectionUI reflectionUI;
 
 	public ValueOptionsAsEnumerationFieldInfo(ReflectionUI reflectionUI, Object object, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.object = object;
+		this.objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		this.enumFactory = createEnumerationFactory();
-		this.enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource());
+		this.enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource(new SpecificitiesIdentifier(objectType.getName(), getName())));
 	}
 
 	protected GenericEnumerationFactory createEnumerationFactory() {
-		ITypeInfo ownerType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		String enumTypeName = "ValueOptions [ownerType=" + ownerType.getName() + ", field=" + base.getName() + "]";
+		String enumTypeName = "ValueOptions [ownerType=" + objectType.getName() + ", field=" + base.getName() + "]";
 		Iterable<Object> iterable = new Iterable<Object>() {
 			@Override
 			public Iterator<Object> iterator() {
@@ -35,7 +37,7 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 		};
 		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false);
 	}
-	
+
 	public static boolean hasValueOptions(Object object, IFieldInfo field) {
 		Object[] valueOptions;
 		try {

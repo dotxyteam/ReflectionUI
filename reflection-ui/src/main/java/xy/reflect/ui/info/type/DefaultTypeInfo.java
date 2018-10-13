@@ -27,6 +27,8 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -34,18 +36,23 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
-	protected Class<?> javaType;
+	protected JavaTypeInfoSource source;
 	protected ReflectionUI reflectionUI;
 	protected List<IFieldInfo> fields;
 	protected List<IMethodInfo> methods;
 	protected List<IMethodInfo> constructors;
 
-	public DefaultTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
-		if (javaType == null) {
+	public DefaultTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {
+		if (source == null) {
 			throw new ReflectionUIError();
 		}
 		this.reflectionUI = reflectionUI;
-		this.javaType = javaType;
+		this.source = source;
+	}
+
+	@Override
+	public ITypeInfoSource getSource() {
+		return source;
 	}
 
 	@Override
@@ -74,7 +81,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	public Class<?> getJavaType() {
-		return javaType;
+		return source.getJavaType();
 	}
 
 	@Override
@@ -109,23 +116,23 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public boolean isPrimitive() {
-		return javaType.isPrimitive();
+		return getJavaType().isPrimitive();
 	}
 
 	@Override
 	public boolean isImmutable() {
-		return ClassUtils.isKnownAsImmutableClass(javaType);
+		return ClassUtils.isKnownAsImmutableClass(getJavaType());
 	}
 
 	@Override
 	public boolean isConcrete() {
-		if ((!javaType.isPrimitive()) && Modifier.isAbstract(javaType.getModifiers())) {
+		if ((!getJavaType().isPrimitive()) && Modifier.isAbstract(getJavaType().getModifiers())) {
 			return false;
 		}
-		if (javaType.isInterface()) {
+		if (getJavaType().isInterface()) {
 			return false;
 		}
-		if (javaType == Object.class) {
+		if (getJavaType() == Object.class) {
 			return false;
 		}
 		return true;
@@ -140,17 +147,17 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		if (constructors == null) {
 			constructors = new ArrayList<IMethodInfo>();
-			if (ClassUtils.isPrimitiveClassOrWrapperOrString(javaType)) {
+			if (ClassUtils.isPrimitiveClassOrWrapperOrString(getJavaType())) {
 				constructors.add(new AbstractConstructorInfo() {
 
 					@Override
 					public Object invoke(Object parentObject, InvocationData invocationData) {
-						if (String.class.equals(javaType)) {
+						if (String.class.equals(getJavaType())) {
 							return "";
 						} else {
-							Class<?> primitiveType = javaType;
+							Class<?> primitiveType = getJavaType();
 							if (ClassUtils.isPrimitiveWrapperClass(primitiveType)) {
-								primitiveType = ClassUtils.wrapperToPrimitiveClass(javaType);
+								primitiveType = ClassUtils.wrapperToPrimitiveClass(getJavaType());
 							}
 							return ClassUtils.getDefaultPrimitiveValue(primitiveType);
 						}
@@ -158,7 +165,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 					@Override
 					public ITypeInfo getReturnValueType() {
-						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this));
+						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this, null));
 					}
 
 					@Override
@@ -167,7 +174,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 					}
 				});
 			} else {
-				for (Constructor<?> javaConstructor : javaType.getConstructors()) {
+				for (Constructor<?> javaConstructor : getJavaType().getConstructors()) {
 					if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
 						continue;
 					}
@@ -180,17 +187,17 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public String getName() {
-		return javaType.getName();
+		return getJavaType().getName();
 	}
 
 	@Override
 	public String getCaption() {
-		if (String.class.equals(javaType)) {
+		if (String.class.equals(getJavaType())) {
 			return "Text";
-		} else if (javaType.isPrimitive()) {
-			return ClassUtils.primitiveToWrapperClass(javaType).getSimpleName();
+		} else if (getJavaType().isPrimitive()) {
+			return ClassUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
 		} else {
-			return ReflectionUIUtils.identifierToCaption(javaType.getSimpleName());
+			return ReflectionUIUtils.identifierToCaption(getJavaType().getSimpleName());
 		}
 	}
 
@@ -198,17 +205,17 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IFieldInfo> getFields() {
 		if (fields == null) {
 			fields = new ArrayList<IFieldInfo>();
-			for (Field javaField : javaType.getFields()) {
+			for (Field javaField : getJavaType().getFields()) {
 				if (!PublicFieldInfo.isCompatibleWith(javaField)) {
 					continue;
 				}
-				fields.add(new PublicFieldInfo(reflectionUI, javaField, javaType));
+				fields.add(new PublicFieldInfo(reflectionUI, javaField, getJavaType()));
 			}
-			for (Method javaMethod : javaType.getMethods()) {
-				if (!GetterFieldInfo.isCompatibleWith(javaMethod, javaType)) {
+			for (Method javaMethod : getJavaType().getMethods()) {
+				if (!GetterFieldInfo.isCompatibleWith(javaMethod, getJavaType())) {
 					continue;
 				}
-				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, javaType);
+				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, getJavaType());
 				fields.add(getterFieldInfo);
 			}
 			ReflectionUIUtils.sortFields(fields);
@@ -220,8 +227,8 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IMethodInfo> getMethods() {
 		if (methods == null) {
 			methods = new ArrayList<IMethodInfo>();
-			for (Method javaMethod : javaType.getMethods()) {
-				if (!DefaultMethodInfo.isCompatibleWith(javaMethod, javaType)) {
+			for (Method javaMethod : getJavaType().getMethods()) {
+				if (!DefaultMethodInfo.isCompatibleWith(javaMethod, getJavaType())) {
 					continue;
 				}
 				methods.add(new DefaultMethodInfo(reflectionUI, javaMethod));
@@ -233,10 +240,10 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public boolean supportsInstance(Object object) {
-		if (javaType.isPrimitive()) {
-			return ClassUtils.primitiveToWrapperClass(javaType).isInstance(object);
+		if (getJavaType().isPrimitive()) {
+			return ClassUtils.primitiveToWrapperClass(getJavaType()).isInstance(object);
 		} else {
-			return javaType.isInstance(object);
+			return getJavaType().isInstance(object);
 		}
 	}
 
@@ -257,10 +264,10 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 			if (result == null) {
 				result = "";
 			}
-			result = result.replaceAll(
-					javaType.getName().replace(".", "\\.").replace("$", "\\$").replace("[", "\\[") + "@([0-9a-z]+)",
-					getCaption() + " [id=$1]");
-			result = result.replace(javaType.getName(), getCaption());
+			result = result
+					.replaceAll(getJavaType().getName().replace(".", "\\.").replace("$", "\\$").replace("[", "\\[")
+							+ "@([0-9a-z]+)", getCaption() + " [id=$1]");
+			result = result.replace(getJavaType().getName(), getCaption());
 			return result;
 		}
 	}
@@ -310,7 +317,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
 
@@ -323,17 +330,17 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultTypeInfo other = (DefaultTypeInfo) obj;
-		if (javaType == null) {
-			if (other.javaType != null)
+		if (source == null) {
+			if (other.source != null)
 				return false;
-		} else if (!javaType.equals(other.javaType))
+		} else if (!source.equals(other.source))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DefaultTypeInfo [javaType=" + javaType + "]";
+		return "DefaultTypeInfo [source=" + source + "]";
 	}
 
 }

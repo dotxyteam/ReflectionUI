@@ -18,20 +18,23 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected List<IFieldInfo> fields;
 	protected ReflectionUI reflectionUI;
+	protected ITypeInfo containingType;
 
-	public MultipleFieldsAsListFieldInfo(ReflectionUI reflectionUI, List<IFieldInfo> fields) {
+	public MultipleFieldsAsListFieldInfo(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		this.fields = fields;
+		this.containingType = containingType;
 	}
 
 	public String getItemTitle(IFieldInfo field) {
@@ -40,12 +43,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(new ValueListTypeInfo()));
-	}
-
-	@Override
-	public IInfoProxyFactory getTypeSpecificities() {
-		return null;
+		return reflectionUI.getTypeInfo(new ValueListTypeInfo().getSource());
 	}
 
 	@Override
@@ -267,9 +265,12 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	public class ValueListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ValueListTypeInfo() {
-			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, ArrayList.class,
+			super(MultipleFieldsAsListFieldInfo.this.reflectionUI,
+					new JavaTypeInfoSource(ArrayList.class,
+							new SpecificitiesIdentifier(containingType.getName(),
+									MultipleFieldsAsListFieldInfo.this.getName())),
 					MultipleFieldsAsListFieldInfo.this.reflectionUI
-							.getTypeInfo(new JavaTypeInfoSource(ValueListItem.class)));
+							.getTypeInfo(new JavaTypeInfoSource(ValueListItem.class, null)));
 		}
 
 		@Override
@@ -299,6 +300,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		public ValueListItemTypeInfo(IFieldInfo field) {
 			this.field = field;
+		}
+
+		@Override
+		public ITypeInfoSource getSource() {
+			return new PrecomputedTypeInfoSource(this, null);
 		}
 
 		@Override

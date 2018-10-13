@@ -477,7 +477,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 						@Override
 						public ITypeInfo getType() {
-							return swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(File.class));
+							return swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(File.class, null));
 						}
 
 						@Override

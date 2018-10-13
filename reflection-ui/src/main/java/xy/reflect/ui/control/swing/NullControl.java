@@ -19,6 +19,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
 
@@ -92,7 +93,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 
 					@Override
 					public ITypeInfo getType() {
-						return new DefaultTypeInfo(swingRenderer.getReflectionUI(), String.class);
+						return new DefaultTypeInfo(swingRenderer.getReflectionUI(), new JavaTypeInfoSource(String.class, null));
 					}
 
 				};

@@ -16,7 +16,6 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -69,11 +68,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		return false;
 	}
 
-	@Override
-	public IInfoProxyFactory getReturnValueTypeSpecificities() {
-		return null;
-	}
-
+	
 	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultMethodCaption(this);
@@ -86,7 +81,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		} else {
 			if (returnValueType == null) {
 				returnValueType = reflectionUI
-						.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod));
+						.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod, -1));
 			}
 			return returnValueType;
 		}

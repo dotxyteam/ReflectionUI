@@ -14,8 +14,9 @@ import xy.reflect.ui.info.method.InvocationData;
 
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
-	public ArrayTypeInfo(ReflectionUI reflectionUI, Class<?> javaType) {
-		super(reflectionUI, javaType, reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType.getComponentType())));
+	public ArrayTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {
+		super(reflectionUI, source,
+				reflectionUI.getTypeInfo(new JavaTypeInfoSource(source.getJavaType().getComponentType(), null)));
 	}
 
 	@Override
@@ -48,12 +49,12 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 			@Override
 			public ITypeInfo getReturnValueType() {
-				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this));
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this, null));
 			}
 
 			@Override
 			public Object invoke(Object parentObject, InvocationData invocationData) {
-				return Array.newInstance(javaType.getComponentType(), 0);
+				return Array.newInstance(getJavaType().getComponentType(), 0);
 			}
 
 			@Override
@@ -91,7 +92,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public Object fromArray(Object[] array) {
-		Object value = Array.newInstance(javaType.getComponentType(), array.length);
+		Object value = Array.newInstance(getJavaType().getComponentType(), array.length);
 		for (int i = 0; i < array.length; i++) {
 			Array.set(value, i, array[i]);
 		}
@@ -105,7 +106,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public String toString() {
-		return "ArrayTypeInfo [javaType=" + javaType + "]";
+		return "ArrayTypeInfo [source=" + source + "]";
 	}
 
 }

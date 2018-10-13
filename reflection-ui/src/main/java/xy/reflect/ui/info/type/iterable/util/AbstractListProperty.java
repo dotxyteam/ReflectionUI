@@ -1,14 +1,16 @@
 package xy.reflect.ui.info.type.iterable.util;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.type.iterable.IListProperty;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public abstract class AbstractListProperty extends AbstractInfo implements IFieldInfo {
+public abstract class AbstractListProperty extends AbstractInfo implements IListProperty {
 
 	public static final Object NO_OWNER = new Object() {
 
@@ -18,6 +20,11 @@ public abstract class AbstractListProperty extends AbstractInfo implements IFiel
 		}
 
 	};
+
+	@Override
+	public List<ItemPosition> getPostSelection() {
+		return null;
+	}
 
 	@Override
 	public boolean isHidden() {

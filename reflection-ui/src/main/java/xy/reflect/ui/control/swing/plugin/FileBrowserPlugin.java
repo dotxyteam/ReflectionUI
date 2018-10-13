@@ -28,6 +28,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -238,7 +239,8 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 						@Override
 						public ITypeInfo getType() {
-							return new DefaultTypeInfo(swingRenderer.getReflectionUI(), String.class);
+							return new DefaultTypeInfo(swingRenderer.getReflectionUI(),
+									new JavaTypeInfoSource(String.class, null));
 						}
 					};
 				}

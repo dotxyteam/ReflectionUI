@@ -11,7 +11,10 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.undo.IModification;
@@ -38,7 +41,7 @@ public abstract class AbstractEditorFormBuilder {
 
 	public abstract IModification createCommitModification(Object newObjectValue);
 
-	public abstract ITypeInfo getObjectDeclaredType();
+	public abstract ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource();
 
 	public abstract ValueReturnMode getObjectValueReturnMode();
 
@@ -99,8 +102,8 @@ public abstract class AbstractEditorFormBuilder {
 		return canCommit();
 	}
 
-	protected String getCustomEncapsulationFieldName() {
-		return null;
+	protected String getEncapsulationFieldName() {
+		return "";
 	}
 
 	public String getEncapsulationTypeName() {
@@ -123,12 +126,21 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		}
 		return "Encapsulation [" + contextDeclaraion + subContextDeclaraion + "encapsulatedObjectType="
-				+ getEncapsulationFieldType().getName() + "]";
+				+ getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource())
+						.getName()
+				+ "]";
 	}
 
 	public EncapsulatedObjectFactory getEncapsulation() {
+		ITypeInfo fieldType = getSwingRenderer().getReflectionUI()
+				.getTypeInfo(new TypeInfoSourceProxy(getEncapsulatedFieldNonSpecificTypeSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return new SpecificitiesIdentifier(getEncapsulationTypeName(), getEncapsulationFieldName());
+					}
+				});
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
-				getEncapsulationTypeName(), getEncapsulationFieldType()) {
+				getEncapsulationTypeName(), fieldType) {
 			@Override
 			protected Object[] getFieldValueOptions() {
 				return getEncapsulationFieldValueOptions();
@@ -142,12 +154,7 @@ public abstract class AbstractEditorFormBuilder {
 					!isEncapsulationTypeCustomizationAllowed());
 			result.setTypeSpecificProperties(typeSpecificProperties);
 		}
-		String customEncapsulationFieldName = getCustomEncapsulationFieldName();
-		{
-			if (customEncapsulationFieldName != null) {
-				result.setFieldName(customEncapsulationFieldName);
-			}
-		}
+		result.setFieldName(getEncapsulationFieldName());
 		result.setFieldCaption(getEncapsulatedFieldCaption());
 		result.setFieldGetOnly(isEncapsulationFieldGetOnly());
 		result.setFieldNullValueDistinct(isObjectNullValueDistinct());
@@ -194,21 +201,21 @@ public abstract class AbstractEditorFormBuilder {
 		return "";
 	}
 
-	public ITypeInfo getEncapsulationFieldType() {
-		ITypeInfo result = getObjectDeclaredType();
+	public ITypeInfoSource getEncapsulatedFieldNonSpecificTypeSource() {
+		ITypeInfoSource result = getObjectDeclaredNonSpecificTypeInfoSource();
 		if (result != null) {
 			return result;
 		}
 		ensureObjectValueIsInitialized();
 		if (initialObjectValue != null) {
-			return getSwingRenderer().getReflectionUI()
-					.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(initialObjectValue));
+			return getSwingRenderer().getReflectionUI().getTypeInfoSource(initialObjectValue);
 		}
-		return getSwingRenderer().getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class));
+		return new JavaTypeInfoSource(Object.class, null);
 	}
 
 	public String getEncapsulationTypeCaption() {
-		return getEncapsulationFieldType().getCaption();
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource())
+				.getCaption();
 	}
 
 	public boolean isObjectFormEmpty() {
@@ -324,8 +331,8 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		};
 		form.setModificationStack(new SlaveModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, 
-				childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
+				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTitleGetter,
+				masterModifStackGetter, exclusiveLinkWithParent));
 	}
 
 }

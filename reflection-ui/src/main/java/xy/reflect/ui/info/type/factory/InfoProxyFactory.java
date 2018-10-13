@@ -26,13 +26,14 @@ import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListAction;
+import xy.reflect.ui.info.type.iterable.IListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
-import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -249,10 +250,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return wrapFieldTypeInfo(field.getType());
 	}
 
-	protected IInfoProxyFactory getTypeSpecificities(IFieldInfo field, ITypeInfo containingType) {
-		return field.getTypeSpecificities();
-	}
-
 	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
 		return field.getValue(object);
 	}
@@ -368,10 +365,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return wrapMethodReturnValueTypeInfo(method.getReturnValueType());
 	}
 
-	protected IInfoProxyFactory getReturnValueTypeSpecificities(IMethodInfo method, ITypeInfo containingType) {
-		return method.getReturnValueTypeSpecificities();
-	}
-
 	protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo containingType) {
 		return method.isNullReturnValueDistinct();
 	}
@@ -424,13 +417,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.canReplaceContent();
 	}
 
-	protected List<AbstractListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection,
+	protected List<IListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection,
 			Object rootListValue) {
 		return type.getDynamicActions(selection, rootListValue);
 	}
 
-	protected List<AbstractListProperty> getDynamicProperties(IListTypeInfo type,
-			List<? extends ItemPosition> selection, Object rootListValue) {
+	protected List<IListProperty> getDynamicProperties(IListTypeInfo type, List<? extends ItemPosition> selection,
+			Object rootListValue) {
 		return type.getDynamicProperties(selection, rootListValue);
 	}
 
@@ -596,6 +589,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected Map<String, Object> getSpecificProperties(IApplicationInfo appInfo) {
 		return appInfo.getSpecificProperties();
+	}
+
+	protected ITypeInfoSource getSource(ITypeInfo type) {
+		return type.getSource();
 	}
 
 	protected ResourcePath getFormBackgroundImagePath(ITypeInfo type) {
@@ -896,6 +893,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base);
+		}
+
+		@Override
+		public ITypeInfoSource getSource() {
+			return InfoProxyFactory.this.getSource(base);
 		}
 
 		@Override
@@ -1219,20 +1221,19 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public List<AbstractListAction> getDynamicActions(List<? extends ItemPosition> selection,
-				Object rootListValue) {
+		public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue) {
 			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, selection, rootListValue);
 		}
 
 		@Override
-		public List<AbstractListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
-				Object rootListValue) {
+		public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue) {
 			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection, rootListValue);
 		}
 
 		@Override
 		public String toString() {
-			return "GeneratedListTypeInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
+			return "GeneratedListTypeInfoProxy [name=" + getName() + ", itemType=" + getItemType() + ", factory="
+					+ factory + ", base=" + base + "]";
 		}
 
 	}
@@ -1375,11 +1376,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public IInfoProxyFactory getTypeSpecificities() {
-			return InfoProxyFactory.this.getTypeSpecificities(base, containingType);
-		}
-
-		@Override
 		public InfoCategory getCategory() {
 			return InfoProxyFactory.this.getCategory(base, containingType);
 		}
@@ -1500,11 +1496,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ITypeInfo getReturnValueType() {
 			return InfoProxyFactory.this.getReturnValueType(base, containingType);
-		}
-
-		@Override
-		public IInfoProxyFactory getReturnValueTypeSpecificities() {
-			return InfoProxyFactory.this.getReturnValueTypeSpecificities(base, containingType);
 		}
 
 		@Override
