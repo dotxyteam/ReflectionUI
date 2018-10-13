@@ -24,6 +24,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
@@ -496,12 +497,30 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public class EncapsulatedFieldInfoProxy extends FieldInfoProxy {
 
+		protected ITypeInfo type;
+
 		public EncapsulatedFieldInfoProxy(IFieldInfo base) {
 			super(base);
 		}
 
 		public CapsuleFieldInfo getOuterType() {
 			return CapsuleFieldInfo.this;
+		}
+
+		@Override
+		public ITypeInfo getType() {
+			if (type == null) {
+				type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return new SpecificitiesIdentifier(CapsuleFieldInfo.this.getType().getName(),
+								EncapsulatedFieldInfoProxy.this.getName());
+					}
+
+				});
+			}
+			return type;
 		}
 
 		@Override
