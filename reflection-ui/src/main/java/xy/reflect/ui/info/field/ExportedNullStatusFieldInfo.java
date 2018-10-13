@@ -14,6 +14,7 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
 	public ExportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containingType) {
 		super(base);
@@ -66,8 +67,11 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
-				new SpecificitiesIdentifier(containingType.getName(), getName())));
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
+					new SpecificitiesIdentifier(containingType.getName(), getName())));
+		}
+		return type;
 	}
 
 	@Override

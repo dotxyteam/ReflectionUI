@@ -29,6 +29,7 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 	protected String fieldName;
 	protected MethodInvocationDataAsObjectFactory factory;
 	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
 	public AllMethodParametersAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, String fieldName,
 			ITypeInfo containingType) {
@@ -83,8 +84,11 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(
-				factory.getInstanceTypeInfoSource(new SpecificitiesIdentifier(containingType.getName(), fieldName)));
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(factory
+					.getInstanceTypeInfoSource(new SpecificitiesIdentifier(containingType.getName(), fieldName)));
+		}
+		return type;
 	}
 
 	@Override

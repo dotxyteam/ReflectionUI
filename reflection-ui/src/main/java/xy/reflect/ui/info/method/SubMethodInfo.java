@@ -21,12 +21,14 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
 	protected FututreActionBuilder undoJobBuilder;
-
-	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod) {
+	protected ITypeInfo containingType;
+	
+	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod, ITypeInfo containingType) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.theField = theField;
 		this.theSubMethod = theSubMethod;
+		this.containingType = containingType;
 	}
 
 	public SubMethodInfo(ITypeInfo type, String fieldName, String subMethodSignature) {

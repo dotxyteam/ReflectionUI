@@ -22,6 +22,7 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
 	protected static Map<Object, Map<IMethodInfo, Map<IParameterInfo, Object>>> valueByParameterByMethodByObject = new MapMaker()
 			.weakKeys().makeMap();
@@ -85,12 +86,15 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
-			@Override
-			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-				return new SpecificitiesIdentifier(containingType.getName(), getName());
-			}
-		});
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(containingType.getName(), getName());
+				}
+			});
+		}
+		return type;
 	}
 
 	@Override

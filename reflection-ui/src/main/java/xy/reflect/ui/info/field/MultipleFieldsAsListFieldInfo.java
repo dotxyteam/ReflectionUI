@@ -30,6 +30,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	protected List<IFieldInfo> fields;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
 	public MultipleFieldsAsListFieldInfo(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
@@ -43,7 +44,10 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new ValueListTypeInfo().getSource());
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new ValueListTypeInfo().getSource());
+		}
+		return type;
 	}
 
 	@Override

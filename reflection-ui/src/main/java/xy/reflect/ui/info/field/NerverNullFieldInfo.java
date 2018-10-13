@@ -9,6 +9,7 @@ public class NerverNullFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containgType;
+	protected ITypeInfo type;
 
 	protected static final Object NULL_REPLACEMENT = new Object() {
 		@Override
@@ -39,8 +40,11 @@ public class NerverNullFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(
-				new JavaTypeInfoSource(Object.class, new SpecificitiesIdentifier(containgType.getName(), getName())));
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
+					new SpecificitiesIdentifier(containgType.getName(), getName())));
+		}
+		return type;
 	}
 
 	@Override

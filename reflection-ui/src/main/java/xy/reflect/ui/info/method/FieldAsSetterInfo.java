@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
@@ -12,48 +13,66 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
+	protected ReflectionUI reflectionUI;
 	protected IFieldInfo field;
+	protected IParameterInfo parameter;
 
-	protected IParameterInfo parameter = new ParameterInfoProxy(IParameterInfo.NULL_PARAMETER_INFO) {
-		
-		@Override
-		public String getName() {
-			return field.getName();
-		}
-
-		@Override
-		public String getCaption() {
-			return field.getCaption();
-		}
-
-		@Override
-		public ITypeInfo getType() {
-			return field.getType();
-		}
-
-		@Override
-		public boolean isNullValueDistinct() {
-			return field.isNullValueDistinct();
-		}
-
-		@Override
-		public int getPosition() {
-			return 0;
-		}
-
-		@Override
-		public String toString() {
-			return "Parameter [of=" + FieldAsSetterInfo.this.toString() + "]";
-		}
-
-	};
-
-	public FieldAsSetterInfo(IFieldInfo field) {
+	public FieldAsSetterInfo(ReflectionUI reflectionUI, IFieldInfo field) {
+		this.reflectionUI = reflectionUI;
 		this.field = field;
+		this.parameter = createParameter();
+	}
+
+	protected IParameterInfo createParameter() {
+		return new ParameterInfoProxy(IParameterInfo.NULL_PARAMETER_INFO) {
+
+			ITypeInfo type;
+
+			@Override
+			public String getName() {
+				return field.getName();
+			}
+
+			@Override
+			public String getCaption() {
+				return field.getCaption();
+			}
+
+			@Override
+			public ITypeInfo getType() {
+				if (type == null) {
+					type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
+						@Override
+						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+							return null;
+						}
+					});
+				}
+				return type;
+			}
+
+			@Override
+			public boolean isNullValueDistinct() {
+				return field.isNullValueDistinct();
+			}
+
+			@Override
+			public int getPosition() {
+				return 0;
+			}
+
+			@Override
+			public String toString() {
+				return "Parameter [of=" + FieldAsSetterInfo.this.toString() + "]";
+			}
+
+		};
 	}
 
 	@Override

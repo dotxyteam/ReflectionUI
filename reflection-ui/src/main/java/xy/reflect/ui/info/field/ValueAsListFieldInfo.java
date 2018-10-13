@@ -17,6 +17,7 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	protected ReflectionUI reflectionUI;
 	protected IListTypeInfo listType;
 	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
 	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containingType) {
 		super(base);
@@ -54,8 +55,11 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(listType,
-				new SpecificitiesIdentifier(containingType.getName(), getName())));
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(listType,
+					new SpecificitiesIdentifier(containingType.getName(), getName())));
+		}
+		return type;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

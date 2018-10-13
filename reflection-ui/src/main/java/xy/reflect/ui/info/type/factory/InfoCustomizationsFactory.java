@@ -272,7 +272,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem(rootListValue);
 					if (item != null) {
-						ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IFieldInfo itemField : actualItemType.getFields()) {
 							if (itemField.getName().equals(shortcut.getFieldName())) {
 								AbstractListProperty property = new AbstractListProperty() {
@@ -310,7 +310,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									};
 									SubFieldInfo delegate = new SubFieldInfo(customizedUI, itemPositionAsField,
-											itemField);
+											itemField, actualItemType);
 
 									@Override
 									public Object getRootListValue() {
@@ -487,7 +487,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem(rootListValue);
 					if (item != null) {
-						ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
 							if (itemMethod.getSignature().equals(shortcut.getMethodSignature())) {
 								AbstractListAction action = new AbstractListAction() {
@@ -525,7 +525,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									};
 									SubMethodInfo delegate = new SubMethodInfo(customizedUI, itemPositionAsField,
-											itemMethod);
+											itemMethod, actualItemType);
 
 									@Override
 									public Object getRootListValue() {
@@ -2255,7 +2255,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isSetterGenerated()) {
-					newMethods.add(new FieldAsSetterInfo(field) {
+					newMethods.add(new FieldAsSetterInfo(customizedUI, field) {
 
 						@Override
 						public String getCaption() {
@@ -2280,6 +2280,9 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (fc.isDuplicateGenerated()) {
 					IFieldInfo duplicateField = new FieldInfoProxy(field) {
+
+						ITypeInfo type;
+
 						@Override
 						public String getName() {
 							return super.getName() + ".duplicate";
@@ -2297,12 +2300,15 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public ITypeInfo getType() {
-							return customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
-								@Override
-								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-									return new SpecificitiesIdentifier(containingType.getName(), getName());
-								}
-							});
+							if (type == null) {
+								type = customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+									@Override
+									public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+										return new SpecificitiesIdentifier(containingType.getName(), getName());
+									}
+								});
+							}
+							return type;
 						}
 					};
 					newFields.add(duplicateField);

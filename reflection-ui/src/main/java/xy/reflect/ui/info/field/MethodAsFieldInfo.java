@@ -20,6 +20,7 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
 	public MethodAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
@@ -70,12 +71,15 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(method.getReturnValueType().getSource()) {
-			@Override
-			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-				return new SpecificitiesIdentifier(containingType.getName(), getName());
-			}
-		});
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(method.getReturnValueType().getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(containingType.getName(), getName());
+				}
+			});
+		}
+		return type;
 	}
 
 	@Override

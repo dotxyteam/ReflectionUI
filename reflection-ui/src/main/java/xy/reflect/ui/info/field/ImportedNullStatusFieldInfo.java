@@ -16,6 +16,7 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo nullStatusField;
+	protected ITypeInfo type;
 
 	public ImportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, IFieldInfo nullStatusField) {
 		super(base);
@@ -83,7 +84,10 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		return setFakeValueContructor(super.getType());
+		if (type == null) {
+			type = setFakeValueContructor(super.getType());
+		}
+		return type;
 	}
 
 	protected ITypeInfo setFakeValueContructor(final ITypeInfo valueType) {

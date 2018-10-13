@@ -21,6 +21,9 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
+	
+	protected GetterFieldInfo keyField;
+	protected GetterFieldInfo valueField;
 
 	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, Class<?> keyJavaType, Class<?> valueJavaType) {
 		super(reflectionUI, new JavaTypeInfoSource(StandardMapEntry.class, null));
@@ -74,42 +77,62 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	@Override
 	public IFieldInfo getKeyField() {
-		try {
-			return new GetterFieldInfo(reflectionUI, StandardMapEntry.class.getMethod("getKey", new Class<?>[0]),
-					StandardMapEntry.class) {
-				@Override
-				public ITypeInfo getType() {
-					if (keyJavaType == null) {
-						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+		if (keyField == null) {
+			try {
+				keyField = new GetterFieldInfo(reflectionUI,
+						StandardMapEntry.class.getMethod("getKey", new Class<?>[0]), StandardMapEntry.class) {
+					ITypeInfo type;
+
+					@Override
+					public ITypeInfo getType() {
+						if (type == null) {
+							if (keyJavaType == null) {
+								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+							} else {
+								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(keyJavaType, null));
+							}
+						}
+						return type;
 					}
-					return reflectionUI.getTypeInfo(new JavaTypeInfoSource(keyJavaType, null));
-				}
-			};
-		} catch (SecurityException e) {
-			throw new ReflectionUIError(e);
-		} catch (NoSuchMethodException e) {
-			throw new ReflectionUIError(e);
+				};
+			} catch (SecurityException e) {
+				throw new ReflectionUIError(e);
+			} catch (NoSuchMethodException e) {
+				throw new ReflectionUIError(e);
+			}
 		}
+		return keyField;
 	}
 
 	@Override
 	public IFieldInfo getValueField() {
-		try {
-			return new GetterFieldInfo(reflectionUI, StandardMapEntry.class.getMethod("getValue", new Class<?>[0]),
-					StandardMapEntry.class) {
-				@Override
-				public ITypeInfo getType() {
-					if (valueJavaType == null) {
-						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+		if (valueField == null) {
+			try {
+				valueField = new GetterFieldInfo(reflectionUI,
+						StandardMapEntry.class.getMethod("getValue", new Class<?>[0]), StandardMapEntry.class) {
+
+					ITypeInfo type;
+
+					@Override
+					public ITypeInfo getType() {
+						if (type == null) {
+							if (keyJavaType == null) {
+								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+							} else {
+								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueJavaType, null));
+							}
+						}
+						return type;
 					}
-					return reflectionUI.getTypeInfo(new JavaTypeInfoSource(valueJavaType, null));
-				}
-			};
-		} catch (SecurityException e) {
-			throw new ReflectionUIError(e);
-		} catch (NoSuchMethodException e) {
-			throw new ReflectionUIError(e);
+
+				};
+			} catch (SecurityException e) {
+				throw new ReflectionUIError(e);
+			} catch (NoSuchMethodException e) {
+				throw new ReflectionUIError(e);
+			}
 		}
+		return valueField;
 	}
 
 	@Override

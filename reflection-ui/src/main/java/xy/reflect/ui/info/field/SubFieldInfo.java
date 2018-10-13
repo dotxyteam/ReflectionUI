@@ -8,6 +8,8 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -18,12 +20,16 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
 	protected FututreActionBuilder undoJobBuilder;
+	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
-	public SubFieldInfo(ReflectionUI reflectionUI, IFieldInfo theField, IFieldInfo theSubField) {
+	public SubFieldInfo(ReflectionUI reflectionUI, IFieldInfo theField, IFieldInfo theSubField,
+			ITypeInfo containingType) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.theField = theField;
 		this.theSubField = theSubField;
+		this.containingType = containingType;
 	}
 
 	public SubFieldInfo(ITypeInfo type, String fieldName, String subFieldName) {
@@ -55,7 +61,15 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return theSubField.getType();
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(theSubField.getType().getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(containingType.getName(), SubFieldInfo.this.getName());
+				}
+			});
+		}
+		return type;
 	}
 
 	@Override
