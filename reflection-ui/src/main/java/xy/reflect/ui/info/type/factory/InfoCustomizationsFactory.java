@@ -102,10 +102,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 		this.infoCustomizations = infoCustomizations;
 	}
 
-	public InfoCustomizationsFactory(CustomizedUI customizedUI) {
-		this(customizedUI, customizedUI.getInfoCustomizations());
-	}
-
 	public InfoCustomizations getInfoCustomizations() {
 		return infoCustomizations;
 	}

@@ -45,15 +45,21 @@ public class CustomizedUI extends ReflectionUI {
 		ITypeInfo result = super.getTypeInfo(typeSource);
 		result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 		result = getTypeInfoBeforeCustomizations(result);
-		result = new InfoCustomizationsFactory(this).wrapTypeInfo(result);
-		SpecificitiesIdentifier specificitiesIdentifier = typeSource.getSpecificitiesIdentifier();
+		result = new InfoCustomizationsFactory(this, infoCustomizations).wrapTypeInfo(result);
+		final SpecificitiesIdentifier specificitiesIdentifier = typeSource.getSpecificitiesIdentifier();
 		if (specificitiesIdentifier != null) {
 			TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
 					specificitiesIdentifier.getContainingTypeName());
 			FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
 					specificitiesIdentifier.getFieldName());
-			result = new InfoCustomizationsFactory(this, fieldCustomization.getSpecificTypeCustomizations())
-					.wrapTypeInfo(result);
+			result = new InfoCustomizationsFactory(this, fieldCustomization.getSpecificTypeCustomizations()) {
+
+				@Override
+				public String getIdentifier() {
+					return specificitiesIdentifier.toString();
+				}
+
+			}.wrapTypeInfo(result);
 		}
 		result = getTypeInfoAfterCustomizations(result);
 		return result;
@@ -64,7 +70,7 @@ public class CustomizedUI extends ReflectionUI {
 		IApplicationInfo result = super.getApplicationInfo();
 		result = getInfoCustomizationsSetupFactory().wrapApplicationInfo(result);
 		result = getApplicationInfoBeforeCustomizations(result);
-		result = new InfoCustomizationsFactory(this).wrapApplicationInfo(result);
+		result = new InfoCustomizationsFactory(this, infoCustomizations).wrapApplicationInfo(result);
 		result = getApplicationInfoAfterCustomizations(result);
 		return result;
 	}
