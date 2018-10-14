@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -37,7 +39,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
 	protected IFieldControlData data;
-	protected Component nullStatusControl;
+	protected JCheckBox nullStatusControl;
 	protected Component subControl;
 	protected IFieldControlInput input;
 	protected ITypeInfo subControlValueType;
@@ -54,23 +56,38 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected void initialize() {
 		setLayout(new BorderLayout());
 		nullStatusControl = createNullStatusControl();
-		add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 		refreshUI(true);
 	}
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		setNullStatusControlState(data.getValue() == null);
+		refreshNullStatusControl(refreshStructure);
 		refreshSubControl(refreshStructure);
-		((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(data.getCaption()));
-		if (data.getFormForegroundColor() != null) {
-			((TitledBorder) ((JComponent) subControl).getBorder())
-					.setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
-		}
-		if (refreshStructure) {
-			nullStatusControl.setEnabled(!data.isGetOnly());
+		if (!Arrays.asList(getComponents()).contains(subControl) || refreshStructure) {
+			removeAll();
+			if (isSubControlAlwaysDisplayed()) {
+				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
+				add(subControl, BorderLayout.CENTER);
+				nullStatusControl.setText("");
+				((JComponent) subControl).setBorder(
+						BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+				if (data.getFormForegroundColor() != null) {
+					((TitledBorder) ((JComponent) subControl).getBorder())
+							.setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+				}
+			} else {
+				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
+				add(subControl, BorderLayout.CENTER);
+				nullStatusControl.setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
+				((JComponent) subControl).setBorder(BorderFactory.createEtchedBorder());
+			}
+			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		return true;
+	}
+
+	protected boolean isSubControlAlwaysDisplayed() {
+		return false;
 	}
 
 	public Component getSubControl() {
@@ -105,6 +122,14 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		return SwingRendererUtils.requestAnyComponentFocus(subControl, swingRenderer);
 	}
 
+	protected void refreshNullStatusControl(boolean refreshStructure) {
+		setNullStatusControlState(data.getValue() == null);
+		if (refreshStructure) {
+			nullStatusControl.setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+			nullStatusControl.setEnabled(!data.isGetOnly());
+		}
+	}
+
 	public void refreshSubControl(boolean refreshStructure) {
 		Object value = data.getValue();
 		if (value == null) {
@@ -123,9 +148,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				}
 			}
 		}
-		if (subControl != null) {
-			remove(subControl);
-		}
 		if (value == null) {
 			subControlValueType = null;
 			subControl = createNullControl();
@@ -134,12 +156,14 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			subControl = createSubForm();
 		}
-		add(subControl, BorderLayout.CENTER);
-		SwingRendererUtils.handleComponentSizeChange(this);
+		if (subControl instanceof NullControl) {
+			subControl.setVisible(isSubControlAlwaysDisplayed());
+		}
 	}
 
-	protected Component createNullStatusControl() {
+	protected JCheckBox createNullStatusControl() {
 		JCheckBox result = new JCheckBox();
+		result.setOpaque(false);
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
