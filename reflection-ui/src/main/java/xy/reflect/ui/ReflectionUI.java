@@ -18,9 +18,6 @@ import xy.reflect.ui.util.SystemProperties;
 
 public class ReflectionUI {
 
-	protected Map<ITypeInfoSource, ITypeInfo> cache = CacheBuilder.newBuilder()
-			.maximumSize(SystemProperties.getStandardCacheSize()).<ITypeInfoSource, ITypeInfo>build().asMap();
-
 	protected static ReflectionUI defaultInstance;
 
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
@@ -55,10 +52,6 @@ public class ReflectionUI {
 
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
 		return typeInfoSource.getTypeInfo(this);
-	}
-
-	public Map<ITypeInfoSource, ITypeInfo> getCache() {
-		return cache;
 	}
 
 	public IApplicationInfo getApplicationInfo() {

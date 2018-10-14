@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
@@ -18,6 +19,7 @@ import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.classmate.members.ResolvedConstructor;
 import com.fasterxml.classmate.members.ResolvedField;
 import com.fasterxml.classmate.members.ResolvedMethod;
+import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -28,8 +30,12 @@ import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.SystemProperties;
 
 public class JavaTypeInfoSource implements ITypeInfoSource {
+
+	protected static final Map<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>> CACHES = new WeakHashMap<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>>();
+	protected static final Object CACHES_MUTEX = new Object();
 
 	protected Class<?> javaType;
 	protected Member declaringMember;
@@ -61,7 +67,8 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 
 	@Override
 	public ITypeInfo getTypeInfo(ReflectionUI reflectionUI) {
-		ITypeInfo result = reflectionUI.getCache().get(this);
+		Map<ITypeInfoSource, ITypeInfo> cache = getCache(reflectionUI);
+		ITypeInfo result = cache.get(this);
 		if (result == null) {
 			if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
 				Class<?> itemClass = guessGenericTypeParameters(Collection.class, 0);
@@ -92,10 +99,21 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 			} else {
 				result = new DefaultTypeInfo(reflectionUI, this);
 			}
-			reflectionUI.getCache().put(this, result);
+			cache.put(this, result);
 		}
 		return result;
+	}
 
+	protected Map<ITypeInfoSource, ITypeInfo> getCache(ReflectionUI reflectionUI) {
+		synchronized (CACHES_MUTEX) {
+			Map<ITypeInfoSource, ITypeInfo> cache = CACHES.get(reflectionUI);
+			if (cache == null) {
+				cache = CacheBuilder.newBuilder().maximumSize(SystemProperties.getStandardCacheSize())
+						.<ITypeInfoSource, ITypeInfo>build().asMap();
+				CACHES.put(reflectionUI, cache);
+			}
+			return cache;
+		}
 	}
 
 	@Override

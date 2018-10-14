@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.info.ColorSpecification;
@@ -36,6 +37,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.AllMethodParametersAsFieldInfo;
 import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
+import xy.reflect.ui.info.field.ExportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
@@ -43,7 +45,6 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.MethodAsFieldInfo;
 import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
-import xy.reflect.ui.info.field.ExportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
 import xy.reflect.ui.info.field.VirtualFieldInfo;
@@ -85,6 +86,7 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Filter;
+import xy.reflect.ui.util.IdentityEqualityWrapper;
 import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -93,6 +95,9 @@ import xy.reflect.ui.util.SwingCustomizerUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class InfoCustomizationsFactory extends InfoProxyFactory {
+
+	protected final Map<IdentityEqualityWrapper<ITypeInfo>, MembersCustomizationsFactory> membersCache = new WeakHashMap<IdentityEqualityWrapper<ITypeInfo>, MembersCustomizationsFactory>();
+	protected final Object membersCacheMutex = new Object();
 
 	protected CustomizedUI customizedUI;
 	protected InfoCustomizations infoCustomizations;
@@ -1172,7 +1177,19 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	protected MembersCustomizationsFactory getMembers(ITypeInfo type) {
-		return new MembersCustomizationsFactory(type);
+		synchronized (membersCacheMutex) {
+			/*
+			 * This optimization assumes that the ITypeInfo gets recreated each time its
+			 * customization is modified. Otherwise some new customizations (eg: newly
+			 * generated fields) will not be displayed.
+			 */
+			MembersCustomizationsFactory result = membersCache.get(new IdentityEqualityWrapper<ITypeInfo>(type));
+			if (result == null) {
+				result = new MembersCustomizationsFactory(type);
+				membersCache.put(new IdentityEqualityWrapper<ITypeInfo>(type), result);
+			}
+			return result;
+		}
 	}
 
 	protected class MembersCustomizationsFactory {
