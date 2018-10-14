@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IFieldControlData;
@@ -29,6 +30,8 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -63,12 +66,13 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 	}
 
 	@Override
-	public IFieldControlData filterDistinctNullValueControlData(IFieldControlData controlData) {
+	public IFieldControlData filterDistinctNullValueControlData(final Object renderer, IFieldControlData controlData) {
 		return new FieldControlDataProxy(controlData) {
 
 			@Override
 			public ITypeInfo getType() {
-				return new FileTypeInfoProxyFactory().wrapTypeInfo(super.getType());
+				return new FileTypeInfoProxyFactory(((SwingRenderer) renderer).getReflectionUI())
+						.wrapTypeInfo(super.getType());
 			}
 
 		};
@@ -76,11 +80,17 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 	protected static class FileTypeInfoProxyFactory extends InfoProxyFactory {
 
+		protected ReflectionUI reflectionUI;
+
+		public FileTypeInfoProxyFactory(ReflectionUI reflectionUI) {
+			this.reflectionUI = reflectionUI;
+		}
+
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 			if (FileConstructor.isCompatibleWith(type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-				result.add(new FileConstructor(type));
+				result.add(new FileConstructor(reflectionUI, type));
 				return result;
 			}
 			return super.getConstructors(type);
@@ -98,15 +108,26 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 	protected static class FileConstructor extends AbstractConstructorInfo {
 
-		private ITypeInfo type;
+		protected ReflectionUI reflectionUI;
+		protected ITypeInfo type;
+		protected ITypeInfo returnType;
 
-		public FileConstructor(ITypeInfo type) {
+		public FileConstructor(ReflectionUI reflectionUI, ITypeInfo type) {
+			this.reflectionUI = reflectionUI;
 			this.type = type;
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return type;
+			if (returnType == null) {
+				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return null;
+					}
+				});
+			}
+			return returnType;
 		}
 
 		@Override

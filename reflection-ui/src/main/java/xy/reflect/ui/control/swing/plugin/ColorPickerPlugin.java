@@ -12,6 +12,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -25,6 +26,8 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
 
@@ -53,12 +56,13 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 	}
 
 	@Override
-	public IFieldControlData filterDistinctNullValueControlData(IFieldControlData controlData) {
+	public IFieldControlData filterDistinctNullValueControlData(final Object renderer, IFieldControlData controlData) {
 		return new FieldControlDataProxy(controlData) {
 
 			@Override
 			public ITypeInfo getType() {
-				return new ColorTypeInfoProxyFactory().wrapTypeInfo(super.getType());
+				return new ColorTypeInfoProxyFactory(((SwingRenderer) renderer).getReflectionUI())
+						.wrapTypeInfo(super.getType());
 			}
 
 		};
@@ -66,11 +70,17 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 	protected static class ColorTypeInfoProxyFactory extends InfoProxyFactory {
 
+		protected ReflectionUI reflectionUI;
+
+		public ColorTypeInfoProxyFactory(ReflectionUI reflectionUI) {
+			this.reflectionUI = reflectionUI;
+		}
+
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 			if (ColorConstructor.isCompatibleWith(type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-				result.add(new ColorConstructor(type));
+				result.add(new ColorConstructor(reflectionUI, type));
 				return result;
 			}
 			return super.getConstructors(type);
@@ -88,15 +98,26 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 	protected static class ColorConstructor extends AbstractConstructorInfo {
 
-		private ITypeInfo type;
+		protected ReflectionUI reflectionUI;
+		protected ITypeInfo type;
+		protected ITypeInfo returnType;
 
-		public ColorConstructor(ITypeInfo type) {
+		public ColorConstructor(ReflectionUI reflectionUI, ITypeInfo type) {
+			this.reflectionUI = reflectionUI;
 			this.type = type;
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return type;
+			if (returnType == null) {
+				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return null;
+					}
+				});
+			}
+			return returnType;
 		}
 
 		@Override

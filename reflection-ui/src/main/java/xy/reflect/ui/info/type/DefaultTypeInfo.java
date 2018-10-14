@@ -150,6 +150,8 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 			if (ClassUtils.isPrimitiveClassOrWrapperOrString(getJavaType())) {
 				constructors.add(new AbstractConstructorInfo() {
 
+					ITypeInfo returnValueType;
+
 					@Override
 					public Object invoke(Object parentObject, InvocationData invocationData) {
 						if (String.class.equals(getJavaType())) {
@@ -165,7 +167,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 					@Override
 					public ITypeInfo getReturnValueType() {
-						return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this, null));
+						if (returnValueType == null) {
+							returnValueType = reflectionUI
+									.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this, null));
+						}
+						return returnValueType;
 					}
 
 					@Override

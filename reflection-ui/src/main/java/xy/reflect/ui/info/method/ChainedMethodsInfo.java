@@ -4,11 +4,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.IrreversibleModificationException;
 import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -16,17 +19,24 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ChainedMethodsInfo implements IMethodInfo {
 
+	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method1;
 	protected IMethodInfo method2;
 	protected FututreActionBuilder undoJobBuilder = new FututreActionBuilder();
+	protected ITypeInfo containingType;
+	private boolean returnValueVoid = false;
+	private ITypeInfo returnValueType;
 
-	public ChainedMethodsInfo(IMethodInfo method1, IMethodInfo method2) {
+	public ChainedMethodsInfo(ReflectionUI reflectionUI, IMethodInfo method1, IMethodInfo method2,
+			ITypeInfo containingType) {
+		this.reflectionUI = reflectionUI;
 		if (method2.getParameters().size() != 1) {
 			throw new ReflectionUIError("Failed to chain methods '" + method1.getSignature() + "' AND '"
 					+ method2.getSignature() + "': The 2nd method must have 1 and only 1 parameter");
 		}
 		this.method1 = method1;
 		this.method2 = method2;
+		this.containingType = containingType;
 	}
 
 	@Override
@@ -61,7 +71,22 @@ public class ChainedMethodsInfo implements IMethodInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		return method2.getReturnValueType();
+		if (returnValueVoid) {
+			return null;
+		}
+		if (returnValueType == null) {
+			if (method2.getReturnValueType() == null) {
+				returnValueVoid = true;
+			} else {
+				returnValueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(method2.getReturnValueType().getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return null;
+					}
+				});
+			}
+		}
+		return returnValueType;
 	}
 
 	@Override
@@ -136,7 +161,6 @@ public class ChainedMethodsInfo implements IMethodInfo {
 		return method1.getIconImagePath();
 	}
 
-	
 	@Override
 	public boolean isReturnValueDetached() {
 		return method1.isReturnValueDetached() || method2.isReturnValueDetached();

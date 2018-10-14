@@ -3567,7 +3567,7 @@ public class InfoCustomizations implements Serializable {
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType, null));
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType, specificitiesIdentifier));
 		}
 
 		@Override

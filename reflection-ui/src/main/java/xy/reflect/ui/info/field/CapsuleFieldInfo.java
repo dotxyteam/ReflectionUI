@@ -558,12 +558,36 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public class EncapsulatedMethodInfoProxy extends MethodInfoProxy {
 
+		protected boolean returnValueVoid = false;
+		protected ITypeInfo returnValueType;
+
 		public EncapsulatedMethodInfoProxy(IMethodInfo base) {
 			super(base);
 		}
 
 		public CapsuleFieldInfo getOuterType() {
 			return CapsuleFieldInfo.this;
+		}
+
+		@Override
+		public ITypeInfo getReturnValueType() {
+			if (returnValueVoid) {
+				return null;
+			}
+			if (returnValueType == null) {
+				if (super.getReturnValueType() == null) {
+					returnValueVoid = true;
+				} else {
+					returnValueType = reflectionUI
+							.getTypeInfo(new TypeInfoSourceProxy(super.getReturnValueType().getSource()) {
+								@Override
+								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+									return null;
+								}
+							});
+				}
+			}
+			return returnValueType;
 		}
 
 		@Override

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
@@ -11,14 +12,21 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 
+	protected ReflectionUI reflectionUI;
 	protected IFieldInfo field;
+	protected ITypeInfo containingType;
+	protected ITypeInfo returnValueType;
 
-	public FieldAsGetterInfo(IFieldInfo field) {
+	public FieldAsGetterInfo(ReflectionUI reflectionUI, IFieldInfo field, ITypeInfo containingType) {
+		this.reflectionUI = reflectionUI;
 		this.field = field;
+		this.containingType = containingType;
 	}
 
 	@Override
@@ -102,7 +110,16 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		return field.getType();
+		if (returnValueType == null) {
+			returnValueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return null;
+				}
+			});
+		}
+		return returnValueType;
+
 	}
 
 	@Override

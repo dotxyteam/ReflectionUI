@@ -532,6 +532,9 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 									SubMethodInfo delegate = new SubMethodInfo(customizedUI, itemPositionAsField,
 											itemMethod, actualItemType);
 
+									boolean returnValueVoid = false;
+									ITypeInfo returnValueType;
+
 									@Override
 									public Object getRootListValue() {
 										return rootListValue;
@@ -553,7 +556,23 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 									}
 
 									public ITypeInfo getReturnValueType() {
-										return delegate.getReturnValueType();
+										if (returnValueVoid) {
+											return null;
+										}
+										if (returnValueType == null) {
+											if (delegate.getReturnValueType() == null) {
+												returnValueVoid = true;
+											} else {
+												returnValueType = customizedUI.getTypeInfo(new TypeInfoSourceProxy(
+														delegate.getReturnValueType().getSource()) {
+													@Override
+													public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+														return null;
+													}
+												});
+											}
+										}
+										return returnValueType;
 									}
 
 									public Object invoke(Object object, InvocationData invocationData) {
@@ -2372,7 +2391,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isGetterGenerated()) {
-					newMethods.add(new FieldAsGetterInfo(field) {
+					newMethods.add(new FieldAsGetterInfo(customizedUI, field, containingType) {
 
 						@Override
 						public String getCaption() {

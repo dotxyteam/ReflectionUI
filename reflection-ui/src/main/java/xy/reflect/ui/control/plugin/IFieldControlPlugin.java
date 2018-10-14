@@ -19,5 +19,5 @@ public interface IFieldControlPlugin {
 
 	String getIdentifier();
 
-	IFieldControlData filterDistinctNullValueControlData(IFieldControlData controlData);
+	IFieldControlData filterDistinctNullValueControlData(Object renderer, IFieldControlData controlData);
 }

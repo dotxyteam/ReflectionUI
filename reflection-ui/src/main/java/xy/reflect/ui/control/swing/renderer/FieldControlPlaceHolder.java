@@ -506,7 +506,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 				return result;
 			} else {
-				controlData = currentPlugin.filterDistinctNullValueControlData(controlData);
+				controlData = currentPlugin.filterDistinctNullValueControlData(swingRenderer, controlData);
 			}
 		}
 

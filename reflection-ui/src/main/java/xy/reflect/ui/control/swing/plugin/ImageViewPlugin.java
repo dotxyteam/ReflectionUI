@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -47,6 +48,8 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -82,12 +85,12 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 	}
 
 	@Override
-	public IFieldControlData filterDistinctNullValueControlData(IFieldControlData controlData) {
+	public IFieldControlData filterDistinctNullValueControlData(final Object renderer, IFieldControlData controlData) {
 		return new FieldControlDataProxy(controlData) {
-
 			@Override
 			public ITypeInfo getType() {
-				return new ImageTypeInfoProxyFactory().wrapTypeInfo(super.getType());
+				return new ImageTypeInfoProxyFactory(((SwingRenderer) renderer).getReflectionUI())
+						.wrapTypeInfo(super.getType());
 			}
 
 		};
@@ -95,11 +98,17 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 	protected static class ImageTypeInfoProxyFactory extends InfoProxyFactory {
 
+		protected ReflectionUI reflectionUI;
+
+		public ImageTypeInfoProxyFactory(ReflectionUI reflectionUI) {
+			this.reflectionUI = reflectionUI;
+		}
+
 		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 			if (ImageConstructor.isCompatibleWith(type)) {
 				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-				result.add(new ImageConstructor(type));
+				result.add(new ImageConstructor(reflectionUI, type));
 				return result;
 			}
 			return super.getConstructors(type);
@@ -117,15 +126,26 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 	protected static class ImageConstructor extends AbstractConstructorInfo {
 
-		private ITypeInfo type;
+		protected ReflectionUI reflectionUI;
+		protected ITypeInfo type;
+		protected ITypeInfo returnType;
 
-		public ImageConstructor(ITypeInfo type) {
+		public ImageConstructor(ReflectionUI reflectionUI, ITypeInfo type) {
+			this.reflectionUI = reflectionUI;
 			this.type = type;
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return type;
+			if (returnType == null) {
+				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return null;
+					}
+				});
+			}
+			return returnType;
 		}
 
 		@Override
@@ -477,7 +497,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 						@Override
 						public ITypeInfo getType() {
-							return swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(File.class, null));
+							return swingRenderer.getReflectionUI()
+									.getTypeInfo(new JavaTypeInfoSource(File.class, null));
 						}
 
 						@Override

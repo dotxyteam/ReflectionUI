@@ -15,13 +15,15 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEntryTypeInfo {
 
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
-	
+
 	protected GetterFieldInfo keyField;
 	protected GetterFieldInfo valueField;
 
@@ -177,6 +179,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 								}
 							}
 
+							ITypeInfo type;
+
 							@Override
 							public String getName() {
 								return relatedField.getName();
@@ -189,7 +193,16 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 							@Override
 							public ITypeInfo getType() {
-								return relatedField.getType();
+								if (type == null) {
+									type = reflectionUI
+											.getTypeInfo(new TypeInfoSourceProxy(relatedField.getType().getSource()) {
+												@Override
+												public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+													return null;
+												}
+											});
+								}
+								return type;
 							}
 
 							@Override

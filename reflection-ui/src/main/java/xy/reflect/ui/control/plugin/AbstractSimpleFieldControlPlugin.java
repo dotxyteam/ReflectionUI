@@ -28,7 +28,7 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 	}
 
 	@Override
-	public IFieldControlData filterDistinctNullValueControlData(IFieldControlData controlData) {
+	public IFieldControlData filterDistinctNullValueControlData(Object renderer, IFieldControlData controlData) {
 		return controlData;
 	}
 

@@ -47,9 +47,14 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
 
+			ITypeInfo returnValueType;
+
 			@Override
 			public ITypeInfo getReturnValueType() {
-				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this, null));
+				if (returnValueType == null) {
+					returnValueType = reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this, null));
+				}
+				return returnValueType;
 			}
 
 			@Override

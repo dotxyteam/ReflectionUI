@@ -10,6 +10,8 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
@@ -90,8 +92,14 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		return type;
 	}
 
-	protected ITypeInfo setFakeValueContructor(final ITypeInfo valueType) {
-		return new InfoProxyFactory() {
+	protected ITypeInfo setFakeValueContructor(ITypeInfo valueType) {
+		valueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(valueType.getSource()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return null;
+			}
+		});
+		valueType = new InfoProxyFactory() {
 
 			@Override
 			protected boolean isConcrete(ITypeInfo type) {
@@ -125,6 +133,7 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 			}
 
 		}.wrapTypeInfo(valueType);
+		return valueType;
 	}
 
 	@Override

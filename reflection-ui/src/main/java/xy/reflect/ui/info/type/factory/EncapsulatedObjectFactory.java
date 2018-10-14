@@ -421,6 +421,9 @@ public class EncapsulatedObjectFactory {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo ctor : fieldType.getConstructors()) {
 				result.add(new MethodInfoProxy(ctor) {
+
+					ITypeInfo returnValueType;
+
 					@Override
 					public Object invoke(Object parentObject, InvocationData invocationData) {
 						return getInstance(Accessor.returning(super.invoke(parentObject, invocationData), true));
@@ -428,7 +431,10 @@ public class EncapsulatedObjectFactory {
 
 					@Override
 					public ITypeInfo getReturnValueType() {
-						return reflectionUI.getTypeInfo(TypeInfo.this.getSource());
+						if (returnValueType == null) {
+							returnValueType = reflectionUI.getTypeInfo(TypeInfo.this.getSource());
+						}
+						return returnValueType;
 					}
 				});
 			}

@@ -25,8 +25,9 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaMethod;
-	protected ITypeInfo returnValueType;
 	protected List<IParameterInfo> parameters;
+	protected ITypeInfo returnValueType;
+	protected boolean returnValueVoid = false;
 
 	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod) {
 		this.reflectionUI = reflectionUI;
@@ -68,7 +69,6 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		return false;
 	}
 
-	
 	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultMethodCaption(this);
@@ -76,15 +76,18 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		if (javaMethod.getReturnType() == void.class) {
+		if (returnValueVoid) {
 			return null;
-		} else {
-			if (returnValueType == null) {
+		}
+		if (returnValueType == null) {
+			if (javaMethod.getReturnType() == void.class) {
+				returnValueVoid = true;
+			} else {
 				returnValueType = reflectionUI
 						.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod, -1));
 			}
-			return returnValueType;
 		}
+		return returnValueType;
 	}
 
 	@Override

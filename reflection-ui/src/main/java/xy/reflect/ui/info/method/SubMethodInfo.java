@@ -11,6 +11,8 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -22,8 +24,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected IMethodInfo theSubMethod;
 	protected FututreActionBuilder undoJobBuilder;
 	protected ITypeInfo containingType;
-	
-	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod, ITypeInfo containingType) {
+	protected ITypeInfo returnValueType;
+	protected boolean returnValueVoid = false;
+
+	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod,
+			ITypeInfo containingType) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.theField = theField;
@@ -56,7 +61,23 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		return theSubMethod.getReturnValueType();
+		if (returnValueVoid) {
+			return null;
+		}
+		if (returnValueType == null) {
+			if (theSubMethod.getReturnValueType() == null) {
+				returnValueVoid = true;
+			} else {
+				returnValueType = reflectionUI
+						.getTypeInfo(new TypeInfoSourceProxy(theSubMethod.getReturnValueType().getSource()) {
+							@Override
+							public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+								return null;
+							}
+						});
+			}
+		}
+		return returnValueType;
 	}
 
 	@Override
