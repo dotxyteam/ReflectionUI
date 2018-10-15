@@ -450,7 +450,7 @@ public class SwingRendererUtils {
 			bounds.width += widthGrowth;
 			bounds.height += heightGrowth;
 		}
-		int minWidth = characterSize * 80;
+		int minWidth = characterSize * 50;
 		bounds.width = Math.max(bounds.width, minWidth);
 		bounds = maxBounds.intersection(bounds);
 		bounds.x = maxBounds.x + (maxBounds.width - bounds.width) / 2;

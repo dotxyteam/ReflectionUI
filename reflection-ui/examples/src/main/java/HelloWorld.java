@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 public class HelloWorld {
@@ -6,7 +9,10 @@ public class HelloWorld {
 		SwingRenderer.getDefault().openObjectFrame(new HelloWorld());
 	}
 
-	private String name = "<write your name>";
+	private String name = "world";
+	private Language language = Language.English;
+	private boolean upperCase = false;
+	private List<String> history = new ArrayList<String>();
 
 	public String getName() {
 		return name;
@@ -16,8 +22,51 @@ public class HelloWorld {
 		this.name = name;
 	}
 
+	public Language getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Language language) {
+		this.language = language;
+	}
+
+	public boolean isUpperCase() {
+		return upperCase;
+	}
+
+	public void setUpperCase(boolean upperCase) {
+		this.upperCase = upperCase;
+	}
+
+	public List<String> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<String> history) {
+		this.history = history;
+	}
+
 	public String sayHello() {
-		return "Hello " + name;
+		String result = "";
+		if (language == Language.English) {
+			result += "Hello";
+		} else if (language == Language.French) {
+			result += "Bonjour";
+		} else if (language == Language.Spanish) {
+			result += "Hola";
+		} else {
+			throw new AssertionError();
+		}
+		result += " " + name + "!";
+		if (upperCase) {
+			result = result.toUpperCase();
+		}
+		history.add(result);
+		return result;
+	}
+
+	public enum Language {
+		English, French, Spanish
 	}
 
 }

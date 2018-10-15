@@ -1,3 +1,4 @@
+- add a proxy factory to check type specifities identifiers
 - alternate (with checkbox above) nullable control plugin 
 or change the nullable control depending on sub control showsCaptions() 
 - StandardMapAsList: pass key and value types as typeInfos not java classes????

@@ -160,16 +160,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		String result = ReflectionUIUtils.getDefaultFieldCaption(this);
-		if (javaGetterMethod.getReturnType().equals(boolean.class)
-				|| javaGetterMethod.getReturnType().equals(Boolean.class)) {
-			if (javaGetterMethod.getName().matches("^is[A-Z].*")) {
-				result = "Is " + result;
-			} else if (javaGetterMethod.getName().matches("^has[A-Z].*")) {
-				result = "Has " + result;
-			}
-		}
-		return result;
+		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override
@@ -195,7 +186,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullValueDistinct() {
-		return !getType().isPrimitive();
+		return false;
 	}
 
 	@Override

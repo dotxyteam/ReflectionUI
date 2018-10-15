@@ -33,7 +33,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
+public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> columnFields;
 	protected ReflectionUI reflectionUI;
@@ -42,7 +42,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 	protected IListTypeInfo listType;
 	protected ITypeInfo rootItemType;
 
-	public CustomizedStructuralInfo(ReflectionUI reflectionUI, IListStructuralInfo base, IListTypeInfo listType,
+	public CustomizedListStructuralInfo(ReflectionUI reflectionUI, IListStructuralInfo base, IListTypeInfo listType,
 			ListCustomization listCustomization) {
 		super(base);
 		this.reflectionUI = reflectionUI;
@@ -289,7 +289,7 @@ public class CustomizedStructuralInfo extends ListStructuralInfoProxy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CustomizedStructuralInfo other = (CustomizedStructuralInfo) obj;
+		CustomizedListStructuralInfo other = (CustomizedListStructuralInfo) obj;
 		if (listCustomization == null) {
 			if (other.listCustomization != null)
 				return false;

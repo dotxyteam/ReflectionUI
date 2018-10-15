@@ -4,13 +4,9 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
-import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
@@ -85,26 +81,6 @@ public class CustomizedUI extends ReflectionUI {
 
 	public InfoProxyFactory getInfoCustomizationsSetupFactory() {
 		return new InfoProxyFactory() {
-
-			@Override
-			protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-				return false;
-			}
-
-			@Override
-			protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo containingType) {
-				return false;
-			}
-
-			@Override
-			protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo containingType) {
-				return false;
-			}
-
-			@Override
-			protected boolean isItemConstructorSelectable(IListTypeInfo type) {
-				return false;
-			}
 
 		};
 	}

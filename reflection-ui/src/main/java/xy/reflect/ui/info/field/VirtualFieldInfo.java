@@ -97,7 +97,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isNullValueDistinct() {
-		return !getType().isPrimitive();
+		return false;
 	}
 
 	@Override

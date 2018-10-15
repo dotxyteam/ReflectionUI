@@ -76,7 +76,7 @@ import xy.reflect.ui.info.type.iterable.IListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
-import xy.reflect.ui.info.type.iterable.structure.CustomizedStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
@@ -853,7 +853,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			final IListStructuralInfo base = super.getStructuralInfo(listType);
-			return new CustomizedStructuralInfo(customizedUI, base, listType, l);
+			return new CustomizedListStructuralInfo(customizedUI, base, listType, l);
 		}
 		return super.getStructuralInfo(listType);
 	}

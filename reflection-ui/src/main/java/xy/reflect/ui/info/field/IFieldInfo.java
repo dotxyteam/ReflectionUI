@@ -60,7 +60,7 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public boolean isNullValueDistinct() {
-			return true;
+			return false;
 		}
 
 		@Override

@@ -43,7 +43,7 @@ public interface IMethodInfo extends IInfo {
 
 		@Override
 		public boolean isNullReturnValueDistinct() {
-			return true;
+			return false;
 		}
 
 		@Override
