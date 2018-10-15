@@ -62,6 +62,7 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 
 public class SwingRenderer {
 
@@ -208,7 +209,8 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", null, t);
 	}
 
-	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type, final Object parentObject) {
+	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type,
+			final Object parentObject) {
 		try {
 			List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
 			{
@@ -423,7 +425,19 @@ public class SwingRenderer {
 		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
-		final JButton deatilsButton = new JButton(prepareStringToDisplay("Details"));
+		@SuppressWarnings("serial")
+		final JButton deatilsButton = new AbstractControlButton() {
+
+			@Override
+			public String retrieveCaption() {
+				return "Details";
+			}
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return SwingRenderer.this;
+			}
+		};
 		deatilsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

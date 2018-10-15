@@ -105,6 +105,7 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.AbstractLazyTreeNode;
 import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.ControlScrollPane;
@@ -316,7 +317,31 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected JButton createTool(final String text, final Icon icon, boolean alwawsShowIcon,
 			final boolean alwawsShowMenu, AbstractAction... actions) {
-		final JButton result = new JButton(text, icon);
+		final JButton result = new AbstractControlButton() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			protected boolean isApplicationStyleButtonSpecific() {
+				return false;
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return text;
+			}
+
+			@Override
+			public Icon retrieveIcon() {
+				return icon;
+			}
+
+		};
+
 		result.setFocusable(false);
 		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
 		for (final AbstractAction action : actions) {

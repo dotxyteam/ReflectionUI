@@ -37,7 +37,6 @@ public class ModificationStackControls {
 					updateState();
 				}
 			};
-
 			{
 				updateState();
 				modificationStack.addListener(listener);
@@ -48,8 +47,7 @@ public class ModificationStackControls {
 				return swingRenderer;
 			}
 
-			@Override
-			protected boolean isApplicationInfoStyleLoaded() {
+			protected boolean isApplicationStyleButtonSpecific() {
 				return false;
 			}
 

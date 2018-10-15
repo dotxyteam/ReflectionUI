@@ -39,15 +39,23 @@ public abstract class AbstractControlButton extends JButton {
 		return true;
 	}
 
+	protected boolean isApplicationStyleButtonSpecific() {
+		return true;
+	}
+
 	public Image retrieveBackgroundImage() {
 		if (!isApplicationInfoStyleLoaded()) {
 			return null;
 		}
-		if (applicationInfo.getButtonBackgroundImagePath() == null) {
-			return null;
+		if (isApplicationStyleButtonSpecific()) {
+			if (applicationInfo.getButtonBackgroundImagePath() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.loadImageThroughcache(applicationInfo.getButtonBackgroundImagePath(),
+						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+			}
 		} else {
-			return SwingRendererUtils.loadImageThroughcache(applicationInfo.getButtonBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+			return null;
 		}
 	}
 
@@ -55,10 +63,18 @@ public abstract class AbstractControlButton extends JButton {
 		if (!isApplicationInfoStyleLoaded()) {
 			return null;
 		}
-		if (applicationInfo.getButtonBackgroundColor() == null) {
-			return null;
+		if (isApplicationStyleButtonSpecific()) {
+			if (applicationInfo.getButtonBackgroundColor() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getColor(applicationInfo.getButtonBackgroundColor());
+			}
 		} else {
-			return SwingRendererUtils.getColor(applicationInfo.getButtonBackgroundColor());
+			if (applicationInfo.getMainBackgroundColor() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getColor(applicationInfo.getMainBackgroundColor());
+			}
 		}
 	}
 
@@ -66,10 +82,18 @@ public abstract class AbstractControlButton extends JButton {
 		if (!isApplicationInfoStyleLoaded()) {
 			return null;
 		}
-		if (applicationInfo.getButtonForegroundColor() == null) {
-			return null;
+		if (isApplicationStyleButtonSpecific()) {
+			if (applicationInfo.getButtonForegroundColor() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getColor(applicationInfo.getButtonForegroundColor());
+			}
 		} else {
-			return SwingRendererUtils.getColor(applicationInfo.getButtonForegroundColor());
+			if (applicationInfo.getMainForegroundColor() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getColor(applicationInfo.getMainForegroundColor());
+			}
 		}
 
 	}
@@ -109,6 +133,13 @@ public abstract class AbstractControlButton extends JButton {
 		}
 		if ((backgroundImage != null) || (backgroundColor != null)) {
 			setContentAreaFilled(false);
+		}
+		if (isApplicationInfoStyleLoaded()) {
+			if (!isApplicationStyleButtonSpecific()) {
+				if (applicationInfo.getMainBackgroundImagePath() != null) {
+					setContentAreaFilled(false);
+				}
+			}
 		}
 		if (backgroundImage != null) {
 			setBorderPainted(false);

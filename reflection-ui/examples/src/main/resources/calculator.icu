@@ -14,14 +14,14 @@
             <red>255</red>
         </buttonForegroundColor>
         <mainBackgroundColor>
-            <blue>242</blue>
-            <green>242</green>
-            <red>242</red>
+            <blue>60</blue>
+            <green>12</green>
+            <red>0</red>
         </mainBackgroundColor>
         <mainForegroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>0</red>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
         </mainForegroundColor>
         <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
         <titleBackgroundColor>

@@ -3,7 +3,35 @@
     <appplicationCustomization>
         <uniqueIdentifier>68c6f25e:16676f539bf:-2d6d</uniqueIdentifier>
         <specificProperties/>
-        <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+        <buttonBackgroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>255</red>
+        </buttonBackgroundColor>
+        <buttonForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
+        </buttonForegroundColor>
+        <mainBackgroundImagePath>
+            <specification>&lt;class-path-resource&gt; fileExplorer-background.png</specification>
+        </mainBackgroundImagePath>
+        <mainForegroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </mainForegroundColor>
+        <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
+        <titleBackgroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </titleBackgroundColor>
+        <titleForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
+        </titleForegroundColor>
     </appplicationCustomization>
     <listCustomizations>
         <uniqueIdentifier>6a4ad659:15bcfa68ac8:-243a</uniqueIdentifier>
@@ -3091,7 +3119,7 @@
 Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>true</ignoredReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean delete()</methodSignature>
             <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
@@ -3493,7 +3521,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <customMethodCaption>Move</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
-            <ignoredReturnValueForced>true</ignoredReturnValueForced>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>boolean renameTo(java.io.File)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f4b</uniqueIdentifier>
@@ -4502,6 +4530,11 @@ Do you really want to delete this resource ?  </confirmationMessage>
                 </typeCustomizations>
             </specificTypeCustomizations>
         </fieldsCustomizations>
+        <formWidth>
+            <uniqueIdentifier>34f996c3:16677bbff1d:-15de</uniqueIdentifier>
+            <unit>SCREEN_PERCENT</unit>
+            <value>60</value>
+        </formWidth>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>e998587:163bd0ac7fb:378</uniqueIdentifier>
@@ -10883,5 +10916,402 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=listFiles.result, containingType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-69897352:16677bd23a4:75a4</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-69897352:16677bd23a4:75a6</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>New Path</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>parameter1</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-69897352:16677bd23a4:75a8</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-69897352:16677bd23a4:75a7</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>-69897352:16677bd23a4:75a9</uniqueIdentifier>
+                    <specificProperties>
+                        <entry>
+                            <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">xy.reflect.ui.control.swing.plugin.FileBrowserPlugin</value>
+                        </entry>
+                    </specificProperties>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-69897352:16677bd23a4:75aa</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.io.File</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>-69897352:16677bd23a4:75a5</uniqueIdentifier>
+        </menuModel>
+        <typeName>MethodSetupObject [context=listDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-69897352:16677e7887d:-78fa</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customTypeCaption>Status</customTypeCaption>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-69897352:16677e7887d:-78f8</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-69897352:16677e7887d:-78f6</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-69897352:16677e7887d:-78f7</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-42a3</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=delete, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-429e</uniqueIdentifier>
+                        <customCaption>The operation failed!</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=false]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-429f</uniqueIdentifier>
+                        <customCaption>The operation succeded!</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=true]</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-78f3</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-69897352:16677e7887d:-78f2</uniqueIdentifier>
+                    </menuModel>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-78ef</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodSignature>boolean ()</methodSignature>
+                        <parametersFormDisplayed>false</parametersFormDisplayed>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <specificReturnValueTypeCustomizations>
+                            <appplicationCustomization>
+<uniqueIdentifier>-69897352:16677e7887d:-78ee</uniqueIdentifier>
+<specificProperties/>
+<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                            </appplicationCustomization>
+                        </specificReturnValueTypeCustomizations>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-42a5</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-69897352:16677e7887d:-42a4</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=delete, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <valueOptionsFieldName>options</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-69897352:16677e7887d:-4c47</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>options</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-69897352:16677e7887d:-4c45</uniqueIdentifier>
+                <data>rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAACc3IAEWphdmEubGFuZy5Cb29sZWFuzSBygNWc+u4CAAFaAAV2YWx1ZXhwAXNxAH4AAgB4</data>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-69897352:16677e7887d:-4c46</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <listCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-4c40</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-4c37</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-69897352:16677e7887d:-4c3f</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>java.lang.Object</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-4c42</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-69897352:16677e7887d:-4c41</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.util.List</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>-69897352:16677e7887d:-78f9</uniqueIdentifier>
+        </menuModel>
+        <typeName>Encapsulation [context=listDynamicAction [name=delete, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+        <virtualFieldDeclarations>
+            <uniqueIdentifier>-69897352:16677e7887d:-78a5</uniqueIdentifier>
+            <fieldName>options</fieldName>
+            <javaClassBasedTypeInfoFinder>
+                <uniqueIdentifier>-69897352:16677e7887d:-788c</uniqueIdentifier>
+                <className>java.util.List</className>
+            </javaClassBasedTypeInfoFinder>
+        </virtualFieldDeclarations>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-69897352:16677e7887d:-3249</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <customTypeCaption>Status</customTypeCaption>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-69897352:16677e7887d:-3247</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-69897352:16677e7887d:-3245</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-69897352:16677e7887d:-3246</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-1b50</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-1b4b</uniqueIdentifier>
+                        <customCaption>The operation failed!</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=false]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-1b4c</uniqueIdentifier>
+                        <customCaption>The operation succeded!</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=true]</itemName>
+                    </itemCustomizations>
+                </enumerationCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-3244</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-69897352:16677e7887d:-3243</uniqueIdentifier>
+                    </menuModel>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-3242</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodSignature>boolean ()</methodSignature>
+                        <parametersFormDisplayed>false</parametersFormDisplayed>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <specificReturnValueTypeCustomizations>
+                            <appplicationCustomization>
+<uniqueIdentifier>-69897352:16677e7887d:-3241</uniqueIdentifier>
+<specificProperties/>
+<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                            </appplicationCustomization>
+                        </specificReturnValueTypeCustomizations>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <typeName>boolean</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-1b52</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-69897352:16677e7887d:-1b51</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <valueOptionsFieldName>options</valueOptionsFieldName>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-69897352:16677e7887d:-2c5e</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>options</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-69897352:16677e7887d:-2c5c</uniqueIdentifier>
+                <data>rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAACdwQAAAACc3IAEWphdmEubGFuZy5Cb29sZWFuzSBygNWc+u4CAAFaAAV2YWx1ZXhwAXNxAH4AAgB4</data>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-69897352:16677e7887d:-2c5d</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <listCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-2c59</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>-69897352:16677e7887d:-2c57</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>-69897352:16677e7887d:-2c58</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>java.lang.Object</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.List</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-69897352:16677e7887d:-2c5b</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-69897352:16677e7887d:-2c5a</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.util.List</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>-69897352:16677e7887d:-3248</uniqueIdentifier>
+        </menuModel>
+        <typeName>Encapsulation [context=listDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+        <virtualFieldDeclarations>
+            <uniqueIdentifier>-69897352:16677e7887d:-78a5</uniqueIdentifier>
+            <fieldName>options</fieldName>
+            <javaClassBasedTypeInfoFinder>
+                <uniqueIdentifier>-69897352:16677e7887d:-788c</uniqueIdentifier>
+                <className>java.util.List</className>
+            </javaClassBasedTypeInfoFinder>
+        </virtualFieldDeclarations>
     </typeCustomizations>
 </infoCustomizations>

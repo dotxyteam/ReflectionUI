@@ -450,7 +450,7 @@ public class SwingRendererUtils {
 			bounds.width += widthGrowth;
 			bounds.height += heightGrowth;
 		}
-		int minWidth = characterSize * 50;
+		int minWidth = characterSize * 60;
 		bounds.width = Math.max(bounds.width, minWidth);
 		bounds = maxBounds.intersection(bounds);
 		bounds.x = maxBounds.x + (maxBounds.width - bounds.width) / 2;
@@ -998,8 +998,7 @@ public class SwingRendererUtils {
 				return swingRenderer;
 			}
 
-			@Override
-			protected boolean isApplicationInfoStyleLoaded() {
+			protected boolean isApplicationStyleButtonSpecific() {
 				return false;
 			}
 
@@ -1010,7 +1009,7 @@ public class SwingRendererUtils {
 
 			@Override
 			public String retrieveToolTipText() {
-				return swingRenderer.prepareStringToDisplay(onlineHelp);
+				return onlineHelp;
 			}
 
 			@Override
@@ -1019,7 +1018,6 @@ public class SwingRendererUtils {
 			}
 
 		};
-		result.setContentAreaFilled(false);
 		result.setFocusable(false);
 		result.addActionListener(new ActionListener() {
 			@Override

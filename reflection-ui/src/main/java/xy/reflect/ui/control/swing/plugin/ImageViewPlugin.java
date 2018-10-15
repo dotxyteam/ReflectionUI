@@ -53,6 +53,7 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.ControlScrollPane;
 import xy.reflect.ui.util.component.ImagePanel;
@@ -308,7 +309,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void configure(ImageView imageView, JPanel imagePanelContainer, final ImagePanel imagePanel) {
+		public void configure(final ImageView imageView, JPanel imagePanelContainer, final ImagePanel imagePanel) {
 			imagePanelContainer.setLayout(new BorderLayout());
 			imagePanel.setPreservingRatio(true);
 			JPanel zoomPanel = new ControlPanel();
@@ -323,7 +324,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				}
 				final float ZOOM_CHANGE_FACTOR = 1.3f;
 				zoomPanel.setLayout(new FlowLayout());
-				JButton smallerButton = new JButton("-");
+				JButton smallerButton = createZoomButton(imageView, "-");
 				{
 					zoomPanel.add(smallerButton);
 					smallerButton.addActionListener(new ActionListener() {
@@ -337,7 +338,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						}
 					});
 				}
-				JButton biggerButton = new JButton("+");
+				JButton biggerButton = createZoomButton(imageView, "+");
 				{
 					zoomPanel.add(biggerButton);
 					biggerButton.addActionListener(new ActionListener() {
@@ -363,6 +364,29 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				scrollPane.setPreferredSize(size);
 				scrollPane.setMinimumSize(size);
 			}
+		}
+
+		protected JButton createZoomButton(final ImageView imageView, final String caption) {
+			return new AbstractControlButton() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public SwingRenderer getSwingRenderer() {
+					return imageView.swingRenderer;
+				}
+
+				@Override
+				public String retrieveCaption() {
+					return caption;
+				}
+
+				@Override
+				protected boolean isApplicationStyleButtonSpecific() {
+					return false;
+				}
+
+			};
 		}
 
 		@Override
