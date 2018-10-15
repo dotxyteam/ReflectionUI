@@ -1,7 +1,5 @@
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -373,85 +371,6 @@ public class Tutorial {
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
 		swingRenderer.openObjectDialog(null, myObject, "Custom colors", null, false, true);
-	}
-
-	/*
-	 * Fields
-	 */
-
-	private String text = "a text";
-	private int number = 10;
-	private boolean checked = true;
-	private Date complexValue = new Date();
-	private double readOnly = Math.PI;
-	private Enumerated enumerated = Enumerated.ENUM_VALUE1;
-	private List<String> list = new ArrayList<String>(Arrays.asList("item1", "item2", "item3", "item4", "item5"));
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public int getNumber() {
-		return number;
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
-	public boolean isChecked() {
-		return checked;
-	}
-
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
-
-	public Date getComplexValue() {
-		return complexValue;
-	}
-
-	public void setComplexValue(Date complexValue) {
-		this.complexValue = complexValue;
-	}
-
-	public double getReadOnly() {
-		return readOnly;
-	}
-
-	public Enumerated getEnumerated() {
-		return enumerated;
-	}
-
-	public void setEnumerated(Enumerated enumerated) {
-		this.enumerated = enumerated;
-	}
-
-	public List<String> getList() {
-		return list;
-	}
-
-	public void setList(List<String> list) {
-		this.list = list;
-	}
-
-	/*
-	 * Example methods
-	 */
-
-	public String invokeMethod(int param1, int param2) {
-		return "return value";
-	}
-
-	/*
-	 * Example enumeration
-	 */
-	public enum Enumerated {
-		ENUM_VALUE1, ENUM_VALUE2, ENUM_VALUE3
 	}
 
 }

@@ -1,5 +1,6 @@
 package xy.reflect.ui;
 
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import com.google.common.cache.CacheBuilder;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.app.ApplicationInfoProxy;
 import xy.reflect.ui.info.app.DefaultApplicationInfo;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -14,6 +17,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 public class ReflectionUI {
@@ -28,7 +32,32 @@ public class ReflectionUI {
 
 	public static ReflectionUI getDefault() {
 		if (defaultInstance == null) {
-			defaultInstance = new ReflectionUI();
+			defaultInstance = new ReflectionUI() {
+
+				@Override
+				public IApplicationInfo getApplicationInfo() {
+					return new ApplicationInfoProxy(super.getApplicationInfo()) {
+
+						@Override
+						public boolean isSystemIntegrationCrossPlatform() {
+							return true;
+						}
+
+						@Override
+						public ColorSpecification getTitleBackgroundColor() {
+							return SwingRendererUtils
+									.getColorSpecification(Color.LIGHT_GRAY);
+						}
+
+						@Override
+						public ColorSpecification getTitleForegroundColor() {
+							return SwingRendererUtils.getColorSpecification(Color.DARK_GRAY);
+						}
+
+					};
+				}
+
+			};
 		}
 		return defaultInstance;
 	}
