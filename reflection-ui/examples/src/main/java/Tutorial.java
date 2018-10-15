@@ -17,7 +17,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
-public class Example {
+public class Tutorial {
 
 	public static void main(String[] args) {
 		/*
@@ -37,7 +37,7 @@ public class Example {
 		/*
 		 * Most basic use case: opening an object dialog
 		 */
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		SwingRenderer.getDefault().openObjectDialog(null, myObject);
 	}
 
@@ -45,7 +45,7 @@ public class Example {
 		/*
 		 * create JPanel-based form in order to include it in a GUI as a sub-component.
 		 */
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject), "As a form",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -55,7 +55,7 @@ public class Example {
 		 * If you want to take control of the object discovery and interpretation
 		 * process, then you must create custom ReflectionUI and SwingRenderer objects:
 		 */
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -83,7 +83,7 @@ public class Example {
 	}
 
 	private static void preventFromSettingNull() {
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -137,7 +137,7 @@ public class Example {
 	}
 
 	private static void hideSomeFieldsAndMethods() {
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -150,7 +150,7 @@ public class Example {
 
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {
-						if (type.getName().equals(Example.class.getName())) {
+						if (type.getName().equals(Tutorial.class.getName())) {
 							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 							while (result.size() > 1) {
 								result.remove(0);
@@ -163,7 +163,7 @@ public class Example {
 
 					@Override
 					protected List<IMethodInfo> getMethods(ITypeInfo type) {
-						if (type.getName().equals(Example.class.getName())) {
+						if (type.getName().equals(Tutorial.class.getName())) {
 							List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
 							while (result.size() > 1) {
 								result.remove(0);
@@ -183,7 +183,7 @@ public class Example {
 	}
 
 	private static void addVirtualFieldsAndMethods() {
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -197,7 +197,7 @@ public class Example {
 
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {
-						if (type.getName().equals(Example.class.getName())) {
+						if (type.getName().equals(Tutorial.class.getName())) {
 							final List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 							result.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
@@ -225,7 +225,7 @@ public class Example {
 
 					@Override
 					protected List<IMethodInfo> getMethods(ITypeInfo type) {
-						if (type.getName().equals(Example.class.getName())) {
+						if (type.getName().equals(Tutorial.class.getName())) {
 							List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
 							result.add(new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
 
@@ -260,7 +260,7 @@ public class Example {
 	}
 
 	private static void overrideToStringMethod() {
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -286,7 +286,7 @@ public class Example {
 	}
 
 	private static void customizeCopyCutPasteFeature() {
-		Object myObject = new Example();
+		Object myObject = new Tutorial();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
