@@ -5,8 +5,6 @@ import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -438,9 +436,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			}
 		}
 		if (controlData.isNullValueDistinct()) {
-			if (!Boolean.TRUE.equals(controlData.getSpecificProperties().get(NullableControl.FORBIDDEN_PROPERTY_KEY))) {
-				return new NullableControl(this.swingRenderer, this);
-			}
+			return new NullableControl(this.swingRenderer, this);
 		}
 		Object value = controlData.getValue();
 		controlData = new BufferedFieldControlData(controlData, value);
@@ -580,12 +576,11 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		@Override
 		public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
 			if (selectableConstructor) {
-				return swingRenderer.onTypeInstanciationRequest(FieldControlPlaceHolder.this, typeToInstanciate,
-						getObject());
+				return swingRenderer.onTypeInstanciationRequest(FieldControlPlaceHolder.this, typeToInstanciate, getObject());
 			} else {
 				return ReflectionUIUtils.createDefaultInstance(typeToInstanciate, getObject());
 			}
-
+		
 		}
 
 		@Override

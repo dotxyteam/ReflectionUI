@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -19,9 +18,11 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class Tutorial {
@@ -30,13 +31,13 @@ public class Tutorial {
 		/*
 		 * Each of the following methods demonstrates a feature of the library.
 		 */
+
 		openObjectDialog();
 		justCreateObjectForm();
-		controlReflectionInterpretation();
+		controlReflection();
 		allowToSetNull();
 		hideSomeFieldsAndMethods();
 		addVirtualFieldsAndMethods();
-		overrideToStringMethod();
 		customizeCopyCutPasteFeature();
 		customizeColors();
 	}
@@ -45,7 +46,7 @@ public class Tutorial {
 		/*
 		 * Most basic use case: opening an object dialog
 		 */
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		SwingRenderer.getDefault().openObjectDialog(null, myObject);
 	}
 
@@ -53,17 +54,17 @@ public class Tutorial {
 		/*
 		 * create JPanel-based form in order to include it in a GUI as a sub-component.
 		 */
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject), "As a form",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	private static void controlReflectionInterpretation() {
+	private static void controlReflection() {
 		/*
 		 * If you want to take control of the object discovery and interpretation
 		 * process, then you must create custom ReflectionUI and SwingRenderer objects:
 		 */
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -71,27 +72,50 @@ public class Tutorial {
 				return new InfoProxyFactory() {
 
 					/*
-					 * For instance you can uppercase all the field captions this way:
+					 * For instance you can all the displayed labels this way (many more options are
+					 * available. Explore the proxy factory class to find out):
 					 */
+
 					@Override
 					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
 						return super.getCaption(field, containingType).toUpperCase();
 					}
 
-					/*
-					 * Many more methods can be overriden. Explore the class to find out...
-					 */
+					@Override
+					protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+						return super.getCaption(param, method, containingType).toUpperCase();
+					}
+
+					@Override
+					protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
+						return super.getCaption(method, containingType).toUpperCase();
+					}
+
+					@Override
+					protected String getCaption(ITypeInfo type) {
+						return super.getCaption(type).toUpperCase();
+					}
+
+					@Override
+					protected String getCaption(IApplicationInfo appInfo) {
+						return super.getCaption(appInfo).toUpperCase();
+					}
+
+					@Override
+					protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+						return super.getCaption(info, parentEnumType).toUpperCase();
+					}
 
 				}.wrapTypeInfo(super.getTypeInfo(typeSource));
 			}
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Uppercase field captions", null, false, true);
+		swingRenderer.openObjectDialog(null, myObject, "Labels => uppercase", null, false, true);
 	}
 
 	private static void allowToSetNull() {
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -109,17 +133,29 @@ public class Tutorial {
 					@Override
 					protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method,
 							ITypeInfo containingType) {
-						return !param.getType().isPrimitive();
+						if (containingType.getName().equals(HelloWorld.class.getName())) {
+							return !param.getType().isPrimitive();
+						} else {
+							return super.isNullValueDistinct(param, method, containingType);
+						}
 					}
 
 					@Override
 					protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo containingType) {
-						return !field.getType().isPrimitive();
+						if (containingType.getName().equals(HelloWorld.class.getName())) {
+							return !field.getType().isPrimitive();
+						} else {
+							return super.isNullValueDistinct(field, containingType);
+						}
 					}
 
 					@Override
 					protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo containingType) {
-						return !method.getReturnValueType().isPrimitive();
+						if (containingType.getName().equals(HelloWorld.class.getName())) {
+							return !method.getReturnValueType().isPrimitive();
+						} else {
+							return super.isNullReturnValueDistinct(method, containingType);
+						}
 					}
 
 				}.wrapTypeInfo(super.getTypeInfo(typeSource));
@@ -131,7 +167,7 @@ public class Tutorial {
 	}
 
 	private static void hideSomeFieldsAndMethods() {
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -143,29 +179,22 @@ public class Tutorial {
 					 */
 
 					@Override
-					protected List<IFieldInfo> getFields(ITypeInfo type) {
-						if (type.getName().equals(Tutorial.class.getName())) {
-							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
-							while (result.size() > 1) {
-								result.remove(0);
-							}
-							return result;
+					protected boolean isHidden(IFieldInfo field, ITypeInfo containingType) {
+						if (field.getType() instanceof IListTypeInfo) {
+							return true;
 						} else {
-							return super.getFields(type);
+							return super.isHidden(field, containingType);
 						}
 					}
 
 					@Override
-					protected List<IMethodInfo> getMethods(ITypeInfo type) {
-						if (type.getName().equals(Tutorial.class.getName())) {
-							List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
-							while (result.size() > 1) {
-								result.remove(0);
-							}
-							return result;
-						} else {
-							return super.getMethods(type);
-						}
+					protected boolean isHidden(IMethodInfo method, ITypeInfo containingType) {
+						return super.isHidden(method, containingType);
+					}
+
+					@Override
+					protected boolean isHidden(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+						return super.isHidden(param, method, containingType);
 					}
 
 				}.wrapTypeInfo(super.getTypeInfo(typeSource));
@@ -173,11 +202,11 @@ public class Tutorial {
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Hidden members", null, false, true);
+		swingRenderer.openObjectDialog(null, myObject, "List fields => hidden", null, false, true);
 	}
 
 	private static void addVirtualFieldsAndMethods() {
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -191,7 +220,7 @@ public class Tutorial {
 
 					@Override
 					protected List<IFieldInfo> getFields(ITypeInfo type) {
-						if (type.getName().equals(Tutorial.class.getName())) {
+						if (type.getName().equals(HelloWorld.class.getName())) {
 							final List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(type));
 							result.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
@@ -219,22 +248,30 @@ public class Tutorial {
 
 					@Override
 					protected List<IMethodInfo> getMethods(ITypeInfo type) {
-						if (type.getName().equals(Tutorial.class.getName())) {
+						if (type.getName().equals(HelloWorld.class.getName())) {
 							List<IMethodInfo> result = new ArrayList<IMethodInfo>(super.getMethods(type));
 							result.add(new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
 
 								@Override
 								public String getName() {
-									return "invokeAdditionalMethod";
+									return "resetFields";
 								}
 
 								@Override
 								public String getCaption() {
-									return "(Virtual) Invoke Additional Method";
+									return "(Virtual) Reset Fields";
 								}
 
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
+									HelloWorld newObject = new HelloWorld();
+									for (IFieldInfo field : ReflectionUI.getDefault()
+											.getTypeInfo(new JavaTypeInfoSource(HelloWorld.class, null)).getFields()) {
+										if (field.isGetOnly()) {
+											continue;
+										}
+										field.setValue(object, field.getValue(newObject));
+									}
 									return null;
 								}
 
@@ -250,37 +287,12 @@ public class Tutorial {
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Added virtual members", null, false, true);
-	}
-
-	private static void overrideToStringMethod() {
-		Object myObject = new Tutorial();
-		ReflectionUI reflectionUI = new ReflectionUI() {
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyFactory() {
-
-					/*
-					 * If some of your classes "toString" methods (used by some field controls) are
-					 * not implemented as you want then:
-					 */
-
-					@Override
-					public String toString(ITypeInfo type, Object object) {
-						return "OVERRIDEN: " + super.toString(type, object);
-					}
-
-				}.wrapTypeInfo(super.getTypeInfo(typeSource));
-			}
-
-		};
-		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Overriden toString() methods", null, false, true);
+		swingRenderer.openObjectDialog(null, myObject, "Added virtual members (numberOfFields + resetFields())", null,
+				false, true);
 	}
 
 	private static void customizeCopyCutPasteFeature() {
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
@@ -310,46 +322,52 @@ public class Tutorial {
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Disabled copy/cut/paste in lists", null, false, true);
+		swingRenderer.openObjectDialog(null, myObject, "Copy/Cut/Paste from lists => disabled", null, false, true);
 	}
 
 	private static void customizeColors() {
-		Object myObject = new Tutorial();
+		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyFactory() {
+			public IApplicationInfo getApplicationInfo() {
+				return new ApplicationInfoProxy(super.getApplicationInfo()) {
+
 					@Override
-					protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
-						return SwingRendererUtils.getColorSpecification(Color.RED);
+					public boolean isSystemIntegrationCrossPlatform() {
+						return true;
 					}
 
 					@Override
-					protected ColorSpecification getTitleForegroundColor(IApplicationInfo appInfo) {
-						return SwingRendererUtils.getColorSpecification(Color.WHITE);
-					}
-
-					@Override
-					protected ColorSpecification getMainBackgroundColor(IApplicationInfo appInfo) {
+					public ColorSpecification getTitleBackgroundColor() {
 						return SwingRendererUtils.getColorSpecification(Color.RED.darker());
 					}
 
 					@Override
-					protected ColorSpecification getMainForegroundColor(IApplicationInfo appInfo) {
+					public ColorSpecification getTitleForegroundColor() {
 						return SwingRendererUtils.getColorSpecification(Color.WHITE);
 					}
 
 					@Override
-					protected ColorSpecification getButtonBackgroundColor(IApplicationInfo appInfo) {
-						return SwingRendererUtils.getColorSpecification(Color.LIGHT_GRAY);
+					public ColorSpecification getMainBackgroundColor() {
+						return SwingRendererUtils.getColorSpecification(Color.BLACK);
 					}
 
 					@Override
-					protected ColorSpecification getButtonForegroundColor(IApplicationInfo appInfo) {
+					public ColorSpecification getMainForegroundColor() {
+						return SwingRendererUtils.getColorSpecification(Color.WHITE);
+					}
+
+					@Override
+					public ColorSpecification getButtonBackgroundColor() {
+						return SwingRendererUtils.getColorSpecification(Color.CYAN);
+					}
+
+					@Override
+					public ColorSpecification getButtonForegroundColor() {
 						return SwingRendererUtils.getColorSpecification(Color.BLACK);
 					}
-				}.wrapTypeInfo(super.getTypeInfo(typeSource));
+				};
 			}
 
 		};

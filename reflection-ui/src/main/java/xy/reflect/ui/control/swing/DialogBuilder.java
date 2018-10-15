@@ -110,7 +110,7 @@ public class DialogBuilder {
 			}
 
 			@Override
-			protected boolean isApplicationInfoStyleLoaded() {
+			protected boolean isApplicationStyleButtonSpecific() {
 				return false;
 			}
 

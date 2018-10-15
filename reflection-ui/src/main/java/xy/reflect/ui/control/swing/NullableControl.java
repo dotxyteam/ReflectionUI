@@ -6,8 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -22,7 +20,6 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
-import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -38,8 +35,6 @@ import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
 
 public class NullableControl extends ControlPanel implements IAdvancedFieldControl {
-
-	public static final String FORBIDDEN_PROPERTY_KEY = NullableControl.class.getName() + ".forbidden";
 
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
@@ -235,11 +230,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			@Override
 			public boolean isObjectNullValueDistinct() {
 				return false;
-			}
-
-			@Override
-			protected Map<String, Object> getEncapsulationFieldSpecificProperties() {
-				return Collections.singletonMap(FORBIDDEN_PROPERTY_KEY, (Object)Boolean.TRUE);
 			}
 
 			@Override
