@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing.editor;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,6 +107,10 @@ public abstract class AbstractEditorFormBuilder {
 		return "";
 	}
 
+	protected Map<String, Object> getEncapsulationFieldSpecificProperties() {
+		return Collections.emptyMap();
+	}
+
 	public String getEncapsulationTypeName() {
 		String contextDeclaraion;
 		{
@@ -162,6 +167,7 @@ public abstract class AbstractEditorFormBuilder {
 		result.setFieldFormControlEmbedded(isObjectFormExpanded());
 		result.setFieldFormControlFilter(getObjectFormFilter());
 		result.setFieldFormControlMandatory(isObjectCustomControlForbidden());
+		result.setFieldSpecificProperties(getEncapsulationFieldSpecificProperties());
 		return result;
 	}
 

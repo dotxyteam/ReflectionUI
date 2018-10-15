@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -7,6 +8,10 @@ import javax.swing.JOptionPane;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.app.ApplicationInfoProxy;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -16,6 +21,8 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class Tutorial {
 
@@ -26,11 +33,12 @@ public class Tutorial {
 		openObjectDialog();
 		justCreateObjectForm();
 		controlReflectionInterpretation();
-		preventFromSettingNull();
+		allowToSetNull();
 		hideSomeFieldsAndMethods();
 		addVirtualFieldsAndMethods();
 		overrideToStringMethod();
 		customizeCopyCutPasteFeature();
+		customizeColors();
 	}
 
 	private static void openObjectDialog() {
@@ -82,7 +90,7 @@ public class Tutorial {
 		swingRenderer.openObjectDialog(null, myObject, "Uppercase field captions", null, false, true);
 	}
 
-	private static void preventFromSettingNull() {
+	private static void allowToSetNull() {
 		Object myObject = new Tutorial();
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
@@ -91,41 +99,27 @@ public class Tutorial {
 				return new InfoProxyFactory() {
 
 					/*
-					 * By default the generated UI will allow to set <null> on non-primitive values.
-					 * However usually the developers would not allow to set <null> from their UI in
-					 * spite of the fact that it is allowed by the language. The methods below allow
-					 * to selectively disable the nullable facet of any value displayed in the
-					 * generated UI.
+					 * By default, the generated user interface does not allow to assign <null>
+					 * values. Indeed, the developers do not generally allow the assignment of
+					 * <null> values from their graphical interface despite the fact that it is
+					 * authorized by the language. The following methods allow to selectively enable
+					 * or disable the nullable facet of any value displayed in the generated GUI.
 					 */
 
 					@Override
 					protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method,
 							ITypeInfo containingType) {
-						if (containingType.getName().equals("myClass") && method.getName().equals("myMethod")
-								&& param.getName().equals("myNullableField")) {
-							return true;
-						} else {
-							return false;
-						}
+						return !param.getType().isPrimitive();
 					}
 
 					@Override
 					protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo containingType) {
-						if (containingType.getName().equals("myClass") && field.getName().equals("myNullableField")) {
-							return true;
-						} else {
-							return false;
-						}
+						return !field.getType().isPrimitive();
 					}
 
 					@Override
 					protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo containingType) {
-						if (containingType.getName().equals("myClass")
-								&& method.getName().equals("myNullableReturnValueMethod")) {
-							return true;
-						} else {
-							return false;
-						}
+						return !method.getReturnValueType().isPrimitive();
 					}
 
 				}.wrapTypeInfo(super.getTypeInfo(typeSource));
@@ -133,7 +127,7 @@ public class Tutorial {
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Never null fields", null, false, true);
+		swingRenderer.openObjectDialog(null, myObject, "Non-primitive fields => nullable", null, false, true);
 	}
 
 	private static void hideSomeFieldsAndMethods() {
@@ -319,8 +313,52 @@ public class Tutorial {
 		swingRenderer.openObjectDialog(null, myObject, "Disabled copy/cut/paste in lists", null, false, true);
 	}
 
+	private static void customizeColors() {
+		Object myObject = new Tutorial();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+					@Override
+					protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
+						return SwingRendererUtils.getColorSpecification(Color.RED);
+					}
+
+					@Override
+					protected ColorSpecification getTitleForegroundColor(IApplicationInfo appInfo) {
+						return SwingRendererUtils.getColorSpecification(Color.WHITE);
+					}
+
+					@Override
+					protected ColorSpecification getMainBackgroundColor(IApplicationInfo appInfo) {
+						return SwingRendererUtils.getColorSpecification(Color.RED.darker());
+					}
+
+					@Override
+					protected ColorSpecification getMainForegroundColor(IApplicationInfo appInfo) {
+						return SwingRendererUtils.getColorSpecification(Color.WHITE);
+					}
+
+					@Override
+					protected ColorSpecification getButtonBackgroundColor(IApplicationInfo appInfo) {
+						return SwingRendererUtils.getColorSpecification(Color.LIGHT_GRAY);
+					}
+
+					@Override
+					protected ColorSpecification getButtonForegroundColor(IApplicationInfo appInfo) {
+						return SwingRendererUtils.getColorSpecification(Color.BLACK);
+					}
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "Custom colors", null, false, true);
+	}
+
 	/*
-	 * Example fields
+	 * Fields
 	 */
 
 	private String text = "a text";
