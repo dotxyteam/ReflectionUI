@@ -1259,10 +1259,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected Color getTreeTableComponentForeground() {
-		if (listData.getFormForegroundColor() == null) {
+		if (listData.getForegroundColor() == null) {
 			return null;
 		} else {
-			return SwingRendererUtils.getColor(listData.getFormForegroundColor());
+			return SwingRendererUtils.getColor(listData.getForegroundColor());
 		}
 	}
 
@@ -1303,9 +1303,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			treeTableComponentScrollPane.setBorder(
 					BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
-			if (listData.getFormForegroundColor() != null) {
+			if (listData.getForegroundColor() != null) {
 				((TitledBorder) treeTableComponentScrollPane.getBorder())
-						.setTitleColor(SwingRendererUtils.getColor(listData.getFormForegroundColor()));
+						.setTitleColor(SwingRendererUtils.getColor(listData.getForegroundColor()));
 			}
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}

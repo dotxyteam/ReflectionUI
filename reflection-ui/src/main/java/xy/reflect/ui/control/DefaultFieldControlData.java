@@ -102,7 +102,7 @@ public class DefaultFieldControlData implements IFieldControlData {
 	}
 
 	@Override
-	public ColorSpecification getFormForegroundColor() {
+	public ColorSpecification getForegroundColor() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormForegroundColor() != null) {

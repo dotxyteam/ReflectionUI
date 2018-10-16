@@ -318,9 +318,9 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						BorderLayout.NORTH);
 				zoomPanel.setBorder(BorderFactory.createTitledBorder(null,
 						imageView.swingRenderer.prepareStringToDisplay("Zoom"), TitledBorder.CENTER, TitledBorder.TOP));
-				if (imageView.data.getFormForegroundColor() != null) {
+				if (imageView.data.getForegroundColor() != null) {
 					((TitledBorder) zoomPanel.getBorder())
-							.setTitleColor(SwingRendererUtils.getColor(imageView.data.getFormForegroundColor()));
+							.setTitleColor(SwingRendererUtils.getColor(imageView.data.getForegroundColor()));
 				}
 				final float ZOOM_CHANGE_FACTOR = 1.3f;
 				zoomPanel.setLayout(new FlowLayout());
@@ -432,9 +432,9 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				if (data.getCaption().length() > 0) {
 					setBorder(
 							BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-					if (data.getFormForegroundColor() != null) {
+					if (data.getForegroundColor() != null) {
 						((TitledBorder) getBorder())
-								.setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+								.setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
 					}
 					if (!data.isGetOnly()) {
 						setBorder(BorderFactory.createCompoundBorder(getBorder(),

@@ -73,8 +73,8 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.getSpecificProperties();
 	}
 
-	public ColorSpecification getFormForegroundColor() {
-		return base.getFormForegroundColor();
+	public ColorSpecification getForegroundColor() {
+		return base.getForegroundColor();
 	}
 
 	@Override

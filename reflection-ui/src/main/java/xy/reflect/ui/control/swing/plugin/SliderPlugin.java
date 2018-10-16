@@ -106,7 +106,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 				setMinorTickSpacing(controlCustomization.minorTickSpacing);
 				setMajorTickSpacing(controlCustomization.majorTickSpacing);
 				setEnabled(!data.isGetOnly());
-				setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+				setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			Object value = data.getValue();

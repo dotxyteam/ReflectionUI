@@ -51,7 +51,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	public boolean refreshUI(boolean refreshStructure) {
 		if (refreshStructure) {
 			setText(swingRenderer.prepareStringToDisplay(data.getCaption()));
-			setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+			setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
 			setEnabled(!data.isGetOnly());
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}

@@ -106,8 +106,8 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				if (data.getCaption().length() > 0) {
 					setBorder(
 							BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-					if (data.getFormForegroundColor() != null) {
-						((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+					if (data.getForegroundColor() != null) {
+						((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
 					}
 				} else {
 					setBorder(null);
@@ -165,7 +165,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 			if (controlCustomization.buttonType == OptionButtonType.RADIO) {
 				result = new JRadioButton(swingRenderer.prepareStringToDisplay(itemInfo.getCaption()));
 				result.setOpaque(false);
-				result.setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+				result.setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
 			} else if (controlCustomization.buttonType == OptionButtonType.TOGGLE) {
 				result = new JToggleButton(swingRenderer.prepareStringToDisplay(itemInfo.getCaption()));
 				result.setIcon(SwingRendererUtils.getEnumerationItemIcon(swingRenderer, itemInfo));

@@ -71,9 +71,9 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				nullStatusControl.setText("");
 				((JComponent) subControl).setBorder(
 						BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-				if (data.getFormForegroundColor() != null) {
+				if (data.getForegroundColor() != null) {
 					((TitledBorder) ((JComponent) subControl).getBorder())
-							.setTitleColor(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+							.setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
 				}
 			} else {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
@@ -125,7 +125,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected void refreshNullStatusControl(boolean refreshStructure) {
 		setNullStatusControlState(data.getValue() == null);
 		if (refreshStructure) {
-			nullStatusControl.setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+			nullStatusControl.setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
 			nullStatusControl.setEnabled(!data.isGetOnly());
 		}
 	}

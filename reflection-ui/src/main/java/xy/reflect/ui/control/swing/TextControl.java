@@ -179,7 +179,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			if (data.isGetOnly()) {
 				textComponent.setEditable(false);
 				textComponent.setOpaque(false);
-				textComponent.setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+				textComponent.setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
 			} else {
 				textComponent.setEditable(true);
 				textComponent.setOpaque(true);

@@ -35,7 +35,7 @@ public interface IFieldControlData {
 
 	Map<String, Object> getSpecificProperties();
 
-	ColorSpecification getFormForegroundColor();
+	ColorSpecification getForegroundColor();
 
 	Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor);
 }

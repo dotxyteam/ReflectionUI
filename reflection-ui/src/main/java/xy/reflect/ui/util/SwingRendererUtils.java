@@ -705,7 +705,7 @@ public class SwingRendererUtils {
 					return new DefaultFieldControlData(swingRenderer.getReflectionUI(), null, field) {
 
 						@Override
-						public ColorSpecification getFormForegroundColor() {
+						public ColorSpecification getForegroundColor() {
 							return swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor();
 						}
 

@@ -1090,8 +1090,8 @@ public class Form extends ImagePanel {
 	public Component createSeparateFieldCaptionControl(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		IFieldControlData data = fieldControlPlaceHolder.getControlData();
 		JLabel result = new JLabel(swingRenderer.prepareStringToDisplay(data.getCaption() + ": "));
-		if (data.getFormForegroundColor() != null) {
-			result.setForeground(SwingRendererUtils.getColor(data.getFormForegroundColor()));
+		if (data.getForegroundColor() != null) {
+			result.setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
 		}
 		return result;
 	}
