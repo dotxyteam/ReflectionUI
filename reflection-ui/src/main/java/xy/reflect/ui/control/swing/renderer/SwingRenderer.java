@@ -695,11 +695,11 @@ public class SwingRenderer {
 		return new WindowManager(this, window);
 	}
 
-	public BufferedImage addBackgroundImageActivationEffect(Image backgroundImage) {
-		BufferedImage result = new BufferedImage(backgroundImage.getWidth(null), backgroundImage.getHeight(null),
+	public BufferedImage addImageActivationEffect(Image image) {
+		BufferedImage result = new BufferedImage(image.getWidth(null), image.getHeight(null),
 				BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = result.createGraphics();
-		g.drawImage(backgroundImage, 0, 0, null);
+		g.drawImage(image, 0, 0, null);
 		g.dispose();
 		float scalefactor = 0.5f;
 		float offset = 64f;
@@ -707,7 +707,7 @@ public class SwingRenderer {
 				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
 	}
 
-	public Color addBackgroundColorActivationEffect(Color color) {
+	public Color addColorActivationEffect(Color color) {
 		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
 		if (hsb[2] > 0.5f) {
 			hsb[2] -= 0.2f;

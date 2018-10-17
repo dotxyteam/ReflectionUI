@@ -486,13 +486,10 @@ public class Form extends ImagePanel {
 				}
 
 				@Override
-				protected Component wrapListControl(JList listControl) {
-					JScrollPane scrollPane = new ControlScrollPane(listControl);
-					scrollPane.setBorder(null);
-					JPanel listPanel = new ControlPanel();
-					listPanel.setLayout(new BorderLayout());
-					listPanel.add(scrollPane, BorderLayout.CENTER);
-					return listPanel;
+				protected Component wrapListControl(JList listControl, int placement) {
+					JScrollPane result = new ControlScrollPane(listControl);
+					result.setBorder(null);
+					return result;
 				}
 
 				@Override
@@ -531,7 +528,7 @@ public class Form extends ImagePanel {
 					if (backgroundColor != null) {
 						selectedCellRenderer.setOpaque(true);
 						selectedCellRenderer
-								.setBackground(swingRenderer.addBackgroundColorActivationEffect(backgroundColor));
+								.setBackground(swingRenderer.addColorActivationEffect(backgroundColor));
 						selectedCellRenderer.setBorder(null);
 					} else {
 						selectedCellRenderer.setOpaque(false);
@@ -887,7 +884,7 @@ public class Form extends ImagePanel {
 							getLayoutSpacing(), getLayoutSpacing());
 					menuBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 				} else {
-					menuBar.setBorder(BorderFactory.createRaisedBevelBorder());
+					menuBar.setBorder(new JMenuBar().getBorder());
 				}
 			}
 			{

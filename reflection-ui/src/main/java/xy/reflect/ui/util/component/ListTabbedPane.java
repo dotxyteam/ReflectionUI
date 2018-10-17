@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +42,7 @@ public class ListTabbedPane extends JPanel {
 		for (int i = 0; i < 10; i++) {
 			tabbedPane.addTab("tab" + i, new JTextArea("tab" + i + " OK"));
 		}
+		tabbedPane.setPreferredSize(new Dimension(800, 600));
 		JOptionPane.showMessageDialog(null, tabbedPane);
 
 	}
@@ -58,15 +63,6 @@ public class ListTabbedPane extends JPanel {
 
 	public ListTabbedPane(int placement) {
 		listControl = createListControl();
-		listControl.addListSelectionListener(new ListSelectionListener() {
-
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) {
-					return;
-				}
-				onSelectionChange();
-			}
-		});
 
 		currentComponentContainer = createCurrentComponentContainer();
 		currentComponentContainer.add(createNullTabComponent(), getCardName(null));
@@ -82,26 +78,135 @@ public class ListTabbedPane extends JPanel {
 
 		add(currentComponentContainer, BorderLayout.CENTER);
 
-		Component listFinalComponent = wrapListControl(listControl);
+		Component listFinalComponent = wrapListControl(listControl, placement);
 		if (placement == JTabbedPane.LEFT) {
 			add(listFinalComponent, BorderLayout.WEST);
-			listControl.setLayoutOrientation(JList.VERTICAL);
+			listControl.setLayoutOrientation(JList.VERTICAL_WRAP);
 			listControl.setVisibleRowCount(-1);
 		} else if (placement == JTabbedPane.TOP) {
 			add(listFinalComponent, BorderLayout.NORTH);
 			listControl.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 			listControl.setVisibleRowCount(1);
 		} else {
-			throw new IllegalArgumentException("Invalid placement. Expected: SwingConstants.LEFT, SwingConstants.TOP");
+			throw getInvalidpalcementError();
 		}
 	}
 
-	protected Component wrapListControl(JList listControl) {
-		JScrollPane listControlScrolledContainer = new JScrollPane(listControl);
-		JPanel listPanel = new JPanel();
-		listPanel.setLayout(new BorderLayout());
-		listPanel.add(listControlScrolledContainer, BorderLayout.CENTER);
-		return listPanel;
+	protected IllegalArgumentException getInvalidpalcementError() {
+		return new IllegalArgumentException("Invalid placement. Expected: JTabbedPane.LEFT or JTabbedPane.TOP");
+	}
+
+	protected JList createListControl() {
+		JList result = new JList() {
+			private static final long serialVersionUID = 1L;
+
+			private boolean isNotOnEmptySpaceAfterItems(MouseEvent e) {
+				int index = locationToIndex(e.getPoint());
+				return index > -1 && getCellBounds(index, index).contains(e.getPoint());
+			}
+
+			@Override
+			protected void processMouseEvent(MouseEvent e) {
+				if (isNotOnEmptySpaceAfterItems(e)) {
+					super.processMouseEvent(e);
+				}
+			}
+
+			@Override
+			protected void processMouseMotionEvent(MouseEvent e) {
+				if (isNotOnEmptySpaceAfterItems(e)) {
+					super.processMouseMotionEvent(e);
+				}
+			}
+		};
+		result.setBackground(new Color(UIManager.getColor("control").getRGB()));
+		result.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		result.setCellRenderer(new ListCellRenderer() {
+
+			JButton button = createNonSelectedTabHeaderCellRendererComponent();
+			JLabel label = createSelectedTabHeaderCellRendererComponent();
+
+			@Override
+			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+				String text = ListTabbedPane.this.getCardName(value);
+				Icon icon = ListTabbedPane.this.getIcon(value);
+				if (isSelected) {
+					label.setText(text);
+					label.setIcon(icon);
+					return label;
+				} else {
+					button.setText(text);
+					button.setIcon(icon);
+					return button;
+				}
+
+			}
+		});
+		result.addListSelectionListener(new ListSelectionListener() {
+
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting()) {
+					return;
+				}
+				onSelectionChange();
+			}
+		});
+		return result;
+	}
+
+	protected Component wrapListControl(JList listControl, int placement) {
+		return new JScrollPane(listControl);
+	}
+
+	protected Component preventItemSelectionWhenClickingEmptySpace(Component listComponent, int placement) {
+		JPanel panel = new JPanel(new GridBagLayout());
+		if (placement == JTabbedPane.LEFT) {
+			{
+				GridBagConstraints c = new GridBagConstraints();
+				c.gridy = 0;
+				c.weighty = 1.0;
+				c.fill = GridBagConstraints.VERTICAL;
+				c.anchor = GridBagConstraints.NORTH;
+				panel.add(listComponent, c);
+			}
+			{
+				GridBagConstraints c = new GridBagConstraints();
+				c.gridy = 1;
+				c.weighty = 1.0;
+				panel.add(new JTextArea("hello"), c);
+			}
+		} else if (placement == JTabbedPane.TOP) {
+			{
+				GridBagConstraints c = new GridBagConstraints();
+				c.gridx = 0;
+				c.weightx = 1.0;
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.anchor = GridBagConstraints.WEST;
+				panel.add(listComponent, c);
+			}
+			{
+				GridBagConstraints c = new GridBagConstraints();
+				c.gridx = 1;
+				c.weightx = 1.0;
+				panel.add(new JTextArea("hello"), c);
+			}
+		} else {
+			throw getInvalidpalcementError();
+		}
+		return panel;
+	}
+
+	protected JLabel createSelectedTabHeaderCellRendererComponent() {
+		JLabel result = new JLabel();
+		result.setHorizontalAlignment(SwingConstants.CENTER);
+		result.setOpaque(true);
+		result.setBorder(BorderFactory.createTitledBorder(""));
+		return result;
+	}
+
+	protected JButton createNonSelectedTabHeaderCellRendererComponent() {
+		return new JButton();
 	}
 
 	protected CardLayout createCardLayout() {
@@ -209,47 +314,6 @@ public class ListTabbedPane extends JPanel {
 
 	protected Icon getIcon(Object value) {
 		return null;
-	}
-
-	protected JList createListControl() {
-		JList result = new JList();
-		result.setBackground(new Color(UIManager.getColor("control").getRGB()));
-		result.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		result.setCellRenderer(new ListCellRenderer() {
-
-			JButton button = createNonSelectedTabHeaderCellRendererComponent();
-			JLabel label = createSelectedTabHeaderCellRendererComponent();
-
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-				String text = ListTabbedPane.this.getCardName(value);
-				Icon icon = ListTabbedPane.this.getIcon(value);
-				if (isSelected) {
-					label.setText(text);
-					label.setIcon(icon);
-					return label;
-				} else {
-					button.setText(text);
-					button.setIcon(icon);
-					return button;
-				}
-
-			}
-		});
-		return result;
-	}
-
-	protected JLabel createSelectedTabHeaderCellRendererComponent() {
-		JLabel result = new JLabel();
-		result.setHorizontalAlignment(SwingConstants.CENTER);
-		result.setOpaque(true);
-		result.setBorder(BorderFactory.createTitledBorder(""));
-		return result;
-	}
-
-	protected JButton createNonSelectedTabHeaderCellRendererComponent() {
-		return new JButton();
 	}
 
 	public void addTab(Object element, Component component) {

@@ -132,9 +132,9 @@ public abstract class AbstractControlButton extends JButton {
 		borderColor = retrieveBorderColor();
 		backgroundImage = retrieveBackgroundImage();
 		activatedBackgroundColor = (backgroundColor == null) ? null
-				: swingRenderer.addBackgroundColorActivationEffect(backgroundColor);
+				: swingRenderer.addColorActivationEffect(backgroundColor);
 		activatedBackgroundImage = (backgroundImage == null) ? null
-				: swingRenderer.addBackgroundImageActivationEffect(backgroundImage);
+				: swingRenderer.addImageActivationEffect(backgroundImage);
 		caption = retrieveCaption();
 		toolTipText = retrieveToolTipText();
 		icon = retrieveIcon();
