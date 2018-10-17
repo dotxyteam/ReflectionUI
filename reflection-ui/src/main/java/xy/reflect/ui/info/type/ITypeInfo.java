@@ -74,5 +74,15 @@ public interface ITypeInfo extends IInfo {
 	public enum MethodsLayout {
 		HORIZONTAL_FLOW, VERTICAL_FLOW
 	}
+	
+	public enum CategoriesStyle{
+		CLASSIC, MODERN;
+
+		public static CategoriesStyle getDefault() {
+			return MODERN;
+		}
+	}
+
+	CategoriesStyle getCategoriesStyle();
 
 }

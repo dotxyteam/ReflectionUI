@@ -284,7 +284,7 @@ public abstract class AbstractEditorFormBuilder {
 
 	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
 		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
-		editorForm.refreshForm(refreshStructure);
+		editorForm.refresh(refreshStructure);
 	}
 
 	protected boolean shouldAcceptNewObjectValue(Object value) {

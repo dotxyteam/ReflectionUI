@@ -115,7 +115,7 @@ public class MethodAction extends AbstractAction {
 			@Override
 			public List<Component> get() {
 				List<Component> toolbarControls = new ArrayList<Component>();
-				toolbarControls.addAll(methodForm.createFormToolbarControls());
+				toolbarControls.addAll(methodForm.createToolbarControls());
 				final JButton invokeButton = createTool(data.getCaption());
 				{
 					invokeButton.addActionListener(new ActionListener() {
@@ -163,8 +163,8 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			protected boolean isApplicationInfoStyleLoaded() {
-				return false;
+			protected boolean isApplicationStyleButtonSpecific() {
+				return true;
 			}
 
 			@Override

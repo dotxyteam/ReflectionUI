@@ -111,7 +111,7 @@ public class DialogBuilder {
 
 			@Override
 			protected boolean isApplicationStyleButtonSpecific() {
-				return false;
+				return true;
 			}
 
 			@Override

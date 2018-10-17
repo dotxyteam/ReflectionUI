@@ -357,6 +357,11 @@ public class Tutorial {
 					}
 
 					@Override
+					public ColorSpecification getMainBorderColor() {
+						return SwingRendererUtils.getColorSpecification(Color.GRAY);
+					}
+
+					@Override
 					public ColorSpecification getButtonBackgroundColor() {
 						return SwingRendererUtils.getColorSpecification(Color.CYAN);
 					}
@@ -365,6 +370,13 @@ public class Tutorial {
 					public ColorSpecification getButtonForegroundColor() {
 						return SwingRendererUtils.getColorSpecification(Color.BLACK);
 					}
+
+					@Override
+					public ColorSpecification getButtonBorderColor() {
+						return SwingRendererUtils.getColorSpecification(Color.RED);
+					}
+					
+					
 				};
 			}
 

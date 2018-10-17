@@ -10,21 +10,24 @@ public interface IApplicationInfo extends IInfo {
 
 	ColorSpecification getMainForegroundColor();
 
+	ColorSpecification getMainBorderColor();
+
 	ResourcePath getMainBackgroundImagePath();
 
 	ColorSpecification getButtonBackgroundColor();
 
 	ColorSpecification getButtonForegroundColor();
 
+	ColorSpecification getButtonBorderColor();
+
 	ColorSpecification getTitleBackgroundColor();
 
 	ColorSpecification getTitleForegroundColor();
 
 	ResourcePath getButtonBackgroundImagePath();
-	
+
 	ResourcePath getIconImagePath();
 
 	boolean isSystemIntegrationCrossPlatform();
-
 
 }

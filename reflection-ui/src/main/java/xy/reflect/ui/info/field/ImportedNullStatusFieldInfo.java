@@ -32,11 +32,6 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
-	public boolean isNullValueDistinct() {
-		return true;
-	}
-
-	@Override
 	public Object getValue(Object object) {
 		if (getNullStatus(object)) {
 			return super.getValue(object);

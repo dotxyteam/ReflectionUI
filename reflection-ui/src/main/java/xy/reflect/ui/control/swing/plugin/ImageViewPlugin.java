@@ -292,6 +292,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			imagePanel.setPreservingRatio(true);
 			JScrollPane scrollPane = new ControlScrollPane(
 					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
+			scrollPane.setBorder(null);
 			Dimension size = getSizeInPixels();
 			scrollPane.setPreferredSize(size);
 			scrollPane.setMinimumSize(size);
@@ -321,6 +322,10 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				if (imageView.data.getForegroundColor() != null) {
 					((TitledBorder) zoomPanel.getBorder())
 							.setTitleColor(SwingRendererUtils.getColor(imageView.data.getForegroundColor()));
+				}
+				if (imageView.data.getBorderColor() != null) {
+					((TitledBorder) zoomPanel.getBorder()).setBorder(BorderFactory
+							.createLineBorder(SwingRendererUtils.getColor(imageView.data.getBorderColor())));
 				}
 				final float ZOOM_CHANGE_FACTOR = 1.3f;
 				zoomPanel.setLayout(new FlowLayout());
@@ -358,6 +363,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
 			{
 				imagePanelContainer.add(scrollPane, BorderLayout.CENTER);
+				scrollPane.setBorder(null);
 				Dimension size = getSizeInPixels();
 				size.width += scrollPane.getHorizontalScrollBar().getPreferredSize().height;
 				size.height += scrollPane.getVerticalScrollBar().getPreferredSize().width;
@@ -383,7 +389,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 				@Override
 				protected boolean isApplicationStyleButtonSpecific() {
-					return false;
+					return true;
 				}
 
 			};
@@ -436,9 +442,13 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						((TitledBorder) getBorder())
 								.setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
 					}
+					if (data.getBorderColor() != null) {
+						((TitledBorder) getBorder()).setBorder(
+								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+					}
 					if (!data.isGetOnly()) {
 						setBorder(BorderFactory.createCompoundBorder(getBorder(),
-								BorderFactory.createRaisedBevelBorder()));
+								BorderFactory.createLoweredBevelBorder()));
 					}
 				} else {
 					setBorder(null);

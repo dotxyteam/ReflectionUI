@@ -5,7 +5,6 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -109,11 +108,12 @@ public class DefaultFieldControlData implements IFieldControlData {
 				return type.getFormForegroundColor();
 			}
 		}
-		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-		if (appInfo.getMainForegroundColor() != null) {
-			return appInfo.getMainForegroundColor();
-		}
-		return null;
+		return reflectionUI.getApplicationInfo().getMainForegroundColor();
+	}
+
+	@Override
+	public ColorSpecification getBorderColor() {
+		return reflectionUI.getApplicationInfo().getMainBorderColor();
 	}
 
 	@Override

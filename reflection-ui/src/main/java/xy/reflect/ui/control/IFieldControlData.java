@@ -37,5 +37,8 @@ public interface IFieldControlData {
 
 	ColorSpecification getForegroundColor();
 
+	ColorSpecification getBorderColor();
+
 	Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor);
+
 }

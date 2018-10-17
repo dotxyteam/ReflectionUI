@@ -18,7 +18,7 @@ public class MethodControlDataProxy implements IMethodControlData {
 		super();
 		this.base = base;
 	}
-	
+
 	public ResourcePath getBackgroundImagePath() {
 		return base.getBackgroundImagePath();
 	}
@@ -29,6 +29,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 
 	public ColorSpecification getForegroundColor() {
 		return base.getForegroundColor();
+	}
+
+	public ColorSpecification getBorderColor() {
+		return base.getBorderColor();
 	}
 
 	@Override

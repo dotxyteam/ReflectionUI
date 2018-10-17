@@ -22,6 +22,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.CategoriesStyle;
 import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
@@ -563,6 +564,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getMainForegroundColor();
 	}
 
+	protected ColorSpecification getMainBorderColor(IApplicationInfo appInfo) {
+		return appInfo.getMainBorderColor();
+	}
+
 	protected ResourcePath getMainBackgroundImagePath(IApplicationInfo appInfo) {
 		return appInfo.getMainBackgroundImagePath();
 	}
@@ -579,6 +584,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getButtonForegroundColor();
 	}
 
+	protected ColorSpecification getButtonBorderColor(IApplicationInfo appInfo) {
+		return appInfo.getButtonBorderColor();
+	}
+
 	protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
 		return appInfo.getTitleBackgroundColor();
 	}
@@ -593,6 +602,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected ITypeInfoSource getSource(ITypeInfo type) {
 		return type.getSource();
+	}
+
+	protected CategoriesStyle getCategoriesStyle(ITypeInfo type) {
+		return type.getCategoriesStyle();
 	}
 
 	protected ResourcePath getFormBackgroundImagePath(ITypeInfo type) {
@@ -764,6 +777,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public ColorSpecification getMainBorderColor() {
+			return InfoProxyFactory.this.getMainBorderColor(base);
+		}
+
+		@Override
 		public ResourcePath getMainBackgroundImagePath() {
 			return InfoProxyFactory.this.getMainBackgroundImagePath(base);
 		}
@@ -776,6 +794,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ColorSpecification getButtonForegroundColor() {
 			return InfoProxyFactory.this.getButtonForegroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getButtonBorderColor() {
+			return InfoProxyFactory.this.getButtonBorderColor(base);
 		}
 
 		@Override
@@ -898,6 +921,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ITypeInfoSource getSource() {
 			return InfoProxyFactory.this.getSource(base);
+		}
+
+		@Override
+		public CategoriesStyle getCategoriesStyle() {
+			return InfoProxyFactory.this.getCategoriesStyle(base);
 		}
 
 		@Override

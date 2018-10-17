@@ -2,6 +2,7 @@ package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.Dialog.ModalityType;
 import java.awt.Image;
 import java.awt.Window;
@@ -9,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -271,7 +274,7 @@ public class SwingRenderer {
 
 					@Override
 					public IMethodControlData getControlData() {
-						return new DefaultMethodControlData(parentObject, chosenConstructor);
+						return new DefaultMethodControlData(reflectionUI, parentObject, chosenConstructor);
 					}
 				});
 				ctorAction.setShouldDisplayReturnValueIfAny(false);
@@ -690,6 +693,29 @@ public class SwingRenderer {
 
 	public WindowManager createWindowManager(Window window) {
 		return new WindowManager(this, window);
+	}
+
+	public BufferedImage addBackgroundImageActivationEffect(Image backgroundImage) {
+		BufferedImage result = new BufferedImage(backgroundImage.getWidth(null), backgroundImage.getHeight(null),
+				BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = result.createGraphics();
+		g.drawImage(backgroundImage, 0, 0, null);
+		g.dispose();
+		float scalefactor = 0.5f;
+		float offset = 64f;
+		return new RescaleOp(new float[] { scalefactor, scalefactor, scalefactor, 1f },
+				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
+	}
+
+	public Color addBackgroundColorActivationEffect(Color color) {
+		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+		if (hsb[2] > 0.5f) {
+			hsb[2] -= 0.2f;
+		} else {
+			hsb[2] += 0.2f;
+		}
+		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+		return new Color(rgb);
 	}
 
 }

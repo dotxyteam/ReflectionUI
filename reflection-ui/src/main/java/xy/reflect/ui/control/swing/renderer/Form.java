@@ -21,10 +21,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
@@ -64,6 +67,7 @@ import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.ControlScrollPane;
 import xy.reflect.ui.util.component.ControlTabbedPane;
 import xy.reflect.ui.util.component.ImagePanel;
+import xy.reflect.ui.util.component.ListTabbedPane;
 
 public class Form extends ImagePanel {
 
@@ -125,7 +129,7 @@ public class Form extends ImagePanel {
 		menuBar = createMenuBar();
 		statusBar = createStatusBar();
 		setStatusBarErrorMessage(null);
-		fillForm();
+		fill();
 	}
 
 	public Object getObject() {
@@ -195,10 +199,6 @@ public class Form extends ImagePanel {
 
 	public Container getCategoriesControl() {
 		return categoriesControl;
-	}
-
-	public void setCategoriesControl(Container categoriesControl) {
-		this.categoriesControl = categoriesControl;
 	}
 
 	public boolean isBusyIndicationDisabled() {
@@ -320,7 +320,7 @@ public class Form extends ImagePanel {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					refreshForm(false);
+					refresh(false);
 				}
 			});
 		}
@@ -361,7 +361,7 @@ public class Form extends ImagePanel {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				refreshForm(false);
+				refresh(false);
 				for (Form otherForm : SwingRendererUtils.findObjectDisplayedForms(object, swingRenderer)) {
 					if (otherForm != Form.this) {
 						ModificationStack otherModifStack = otherForm.getModificationStack();
@@ -376,7 +376,7 @@ public class Form extends ImagePanel {
 		});
 	}
 
-	public void fillForm() {
+	public void fill() {
 		setLayout(new BorderLayout());
 
 		JPanel membersPanel = createMembersPanel();
@@ -386,7 +386,7 @@ public class Form extends ImagePanel {
 			methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
 		}
 
-		refreshForm(true);
+		refresh(true);
 	}
 
 	public JPanel createMembersPanel() {
@@ -416,8 +416,29 @@ public class Form extends ImagePanel {
 			layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
 		} else if (allCategories.size() > 0) {
 			membersPanel.setLayout(new BorderLayout());
-			categoriesControl = createFormCategoriesControl(allCategories, fieldControlPlaceHoldersByCategory,
-					methodControlPlaceHoldersByCategory);
+			categoriesControl = createCategoriesControl();
+			{
+				for (final InfoCategory category : allCategories) {
+					List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+							.get(category);
+					if (fieldControlPlaceHolders == null) {
+						fieldControlPlaceHolders = Collections.emptyList();
+					}
+					List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
+							.get(category);
+					if (methodControlPlaceHolders == null) {
+						methodControlPlaceHolders = Collections.emptyList();
+					}
+
+					JPanel tab = new ControlPanel();
+					setCategoryContent(category, tab);
+					tab.setLayout(new BorderLayout());
+
+					JPanel tabContent = new ControlPanel();
+					tab.add(tabContent, BorderLayout.NORTH);
+					layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+				}
+			}
 			membersPanel.add(categoriesControl, BorderLayout.CENTER);
 			Form form = SwingRendererUtils.findParentForm(categoriesControl, swingRenderer);
 			if (form == null) {
@@ -430,10 +451,6 @@ public class Form extends ImagePanel {
 		JLabel result = new JLabel();
 		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
-		Border outsideBorder = BorderFactory.createRaisedBevelBorder();
-		Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
-				getLayoutSpacing(), getLayoutSpacing());
-		result.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 		return result;
 	}
 
@@ -443,30 +460,178 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
-	public Container createFormCategoriesControl(SortedSet<InfoCategory> allCategories,
-			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
-			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
-		final JTabbedPane result = new ControlTabbedPane();
-		for (final InfoCategory category : allCategories) {
-			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
-			if (fieldControlPlaceHolders == null) {
-				fieldControlPlaceHolders = Collections.emptyList();
-			}
-			List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-					.get(category);
-			if (methodControlPlaceHolders == null) {
-				methodControlPlaceHolders = Collections.emptyList();
-			}
+	public boolean isCategoriesControlModern() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		return type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN;
+	}
 
-			JPanel tab = new ControlPanel();
-			result.addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
-			tab.setLayout(new BorderLayout());
+	public Container createCategoriesControl() {
+		if (isCategoriesControlModern()) {
+			return new ListTabbedPane(JTabbedPane.TOP) {
 
-			JPanel tabContent = new ControlPanel();
-			tab.add(tabContent, BorderLayout.NORTH);
-			layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+				private static final long serialVersionUID = 1L;
+				private JButton nonSelectedCellRenderer;
+				private JLabel selectedCellRenderer;
+
+				{
+					setOpaque(false);
+				}
+
+				@Override
+				protected JList createListControl() {
+					JList result = super.createListControl();
+					result.setOpaque(false);
+					return result;
+				}
+
+				@Override
+				protected Component wrapListControl(JList listControl) {
+					JScrollPane scrollPane = new ControlScrollPane(listControl);
+					scrollPane.setBorder(null);
+					JPanel listPanel = new ControlPanel();
+					listPanel.setLayout(new BorderLayout());
+					listPanel.add(scrollPane, BorderLayout.CENTER);
+					return listPanel;
+				}
+
+				@Override
+				protected JPanel createCurrentComponentContainer() {
+					JPanel result = super.createCurrentComponentContainer();
+					result.setOpaque(false);
+					return result;
+				}
+
+				@Override
+				protected JButton createNonSelectedTabHeaderCellRendererComponent() {
+					return nonSelectedCellRenderer = super.createNonSelectedTabHeaderCellRendererComponent();
+				}
+
+				@Override
+				protected JLabel createSelectedTabHeaderCellRendererComponent() {
+					return selectedCellRenderer = super.createSelectedTabHeaderCellRendererComponent();
+				}
+
+				protected void refreshNonSelectedCellRenderer() {
+					nonSelectedCellRenderer.setForeground(getControlsForegroundColor());
+					nonSelectedCellRenderer.setBorderPainted(false);
+					Color backgroundColor = getCellBackgroundColor();
+					if (backgroundColor != null) {
+						nonSelectedCellRenderer.setContentAreaFilled(true);
+						nonSelectedCellRenderer.setBackground(backgroundColor);
+					} else {
+						nonSelectedCellRenderer.setContentAreaFilled(false);
+						selectedCellRenderer.setBackground(null);
+					}
+				}
+
+				protected void refreshSelectedCellRenderer() {
+					selectedCellRenderer.setForeground(getControlsForegroundColor());
+					Color backgroundColor = getCellBackgroundColor();
+					if (backgroundColor != null) {
+						selectedCellRenderer.setOpaque(true);
+						selectedCellRenderer
+								.setBackground(swingRenderer.addBackgroundColorActivationEffect(backgroundColor));
+						selectedCellRenderer.setBorder(null);
+					} else {
+						selectedCellRenderer.setOpaque(false);
+						selectedCellRenderer.setBackground(null);
+						selectedCellRenderer.setBorder(BorderFactory.createLoweredBevelBorder());
+					}
+				}
+
+				protected Color getCellBackgroundColor() {
+					Color result = getControlsBackgroundColor();
+					if (result == null) {
+						if (swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor() != null) {
+							result = SwingRendererUtils.getColor(
+									swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor());
+						}
+					}
+					return result;
+				}
+
+				@Override
+				public void refresh() {
+					refreshSelectedCellRenderer();
+					refreshNonSelectedCellRenderer();
+					super.refresh();
+				}
+
+			};
+		} else {
+			return new ControlTabbedPane();
 		}
-		return result;
+	}
+
+	public void setCategoryContent(InfoCategory category, JPanel tab) {
+		if (isCategoriesControlModern()) {
+			((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()),
+					tab);
+		} else {
+			((JTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
+		}
+	}
+
+	public void refreshCategoriesControlStructure() {
+		if (categoriesControl != null) {
+			if (isCategoriesControlModern()) {
+				((ListTabbedPane) categoriesControl).refresh();
+			} else {
+				((JTabbedPane) categoriesControl).setForeground(getControlsForegroundColor());
+			}
+		}
+	}
+
+	public InfoCategory getDisplayedCategory() {
+		if (categoriesControl != null) {
+			int currentCategoryIndex;
+			if (isCategoriesControlModern()) {
+				currentCategoryIndex = ((ListTabbedPane) categoriesControl).getSelectedIndex();
+			} else {
+				currentCategoryIndex = ((JTabbedPane) categoriesControl).getSelectedIndex();
+			}
+			if (currentCategoryIndex != -1) {
+				String currentCategoryCaption;
+				if (isCategoriesControlModern()) {
+					currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
+				} else {
+					currentCategoryCaption = ((JTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
+				}
+				return new InfoCategory(currentCategoryCaption, currentCategoryIndex);
+			}
+		}
+		return null;
+	}
+
+	public void setDisplayedCategory(String categoryCaption, int categoryPosition) {
+		if (categoriesControl != null) {
+			for (int i = 0; i < ((ListTabbedPane) categoriesControl).getTabCount(); i++) {
+				String currentCategoryCaption;
+				if (isCategoriesControlModern()) {
+					currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(i);
+				} else {
+					currentCategoryCaption = ((JTabbedPane) categoriesControl).getTitleAt(i);
+				}
+				if (categoryCaption.equals(currentCategoryCaption)) {
+					if (categoryPosition != -1) {
+						if (categoryPosition != i) {
+							continue;
+						}
+					}
+					if (isCategoriesControlModern()) {
+						((ListTabbedPane) categoriesControl).setSelectedIndex(i);
+					} else {
+						((JTabbedPane) categoriesControl).setSelectedIndex(i);
+					}
+					return;
+				}
+			}
+		}
+	}
+
+	public void setDisplayedCategory(InfoCategory category) {
+		setDisplayedCategory(category.getCaption(), category.getPosition());
 	}
 
 	public SortedMap<InfoCategory, List<MethodControlPlaceHolder>> createMethodControlPlaceHoldersByCategory(
@@ -666,16 +831,16 @@ public class Form extends ImagePanel {
 		};
 	}
 
-	public void refreshForm(boolean refreshStructure) {
+	public void refresh(boolean refreshStructure) {
 		if (refreshStructure && refreshMemberControlLists()) {
-			InfoCategory displayedCategory = getDisplayedInfoCategory();
+			InfoCategory displayedCategory = getDisplayedCategory();
 			try {
 				removeAll();
 				layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
 				if (displayedCategory != null) {
-					setDisplayedInfoCategory(displayedCategory);
+					setDisplayedCategory(displayedCategory);
 				}
 			}
 		} else {
@@ -710,13 +875,32 @@ public class Form extends ImagePanel {
 			Color awtForegroundColor = getControlsForegroundColor();
 			Image awtImage = getControlsBackgroundImage();
 			setBackground(awtBackgroundColor);
-			if (categoriesControl != null) {
-				categoriesControl.setForeground(awtForegroundColor);
-			}
+			refreshCategoriesControlStructure();
 			setImage(awtImage);
 			setOpaque((awtBackgroundColor != null) && (awtImage == null));
-			menuBar.setForeground(awtForegroundColor);
-			statusBar.setForeground(awtForegroundColor);
+			Color borderColor = getControlsBorderColor();
+			{
+				menuBar.setForeground(awtForegroundColor);
+				if (borderColor != null) {
+					Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, borderColor);
+					Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
+							getLayoutSpacing(), getLayoutSpacing());
+					menuBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
+				} else {
+					menuBar.setBorder(BorderFactory.createRaisedBevelBorder());
+				}
+			}
+			{
+				statusBar.setForeground(awtForegroundColor);
+				if (borderColor != null) {
+					Border outsideBorder = BorderFactory.createLineBorder(borderColor);
+					Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
+							getLayoutSpacing(), getLayoutSpacing());
+					statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
+				} else {
+					statusBar.setBorder(BorderFactory.createRaisedBevelBorder());
+				}
+			}
 		}
 		for (IRefreshListener l : refreshListeners) {
 			l.onRefresh(refreshStructure);
@@ -745,6 +929,16 @@ public class Form extends ImagePanel {
 			return null;
 		} else {
 			return SwingRendererUtils.getColor(type.getFormBackgroundColor());
+		}
+	}
+
+	public Color getControlsBorderColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getMainBorderColor() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.getColor(appInfo.getMainBorderColor());
 		}
 	}
 
@@ -848,37 +1042,6 @@ public class Form extends ImagePanel {
 		}
 
 		return modificationsDetected;
-	}
-
-	public void setDisplayedInfoCategory(String categoryCaption, int categoryPosition) {
-		if (categoriesControl != null) {
-			for (int i = 0; i < ((JTabbedPane) categoriesControl).getTabCount(); i++) {
-				if (categoryCaption.equals(((JTabbedPane) categoriesControl).getTitleAt(i))) {
-					if (categoryPosition != -1) {
-						if (categoryPosition != i) {
-							continue;
-						}
-					}
-					((JTabbedPane) categoriesControl).setSelectedIndex(i);
-					return;
-				}
-			}
-		}
-	}
-
-	public void setDisplayedInfoCategory(InfoCategory category) {
-		setDisplayedInfoCategory(category.getCaption(), category.getPosition());
-	}
-
-	public InfoCategory getDisplayedInfoCategory() {
-		if (categoriesControl != null) {
-			int currentCategoryIndex = ((JTabbedPane) categoriesControl).getSelectedIndex();
-			if (currentCategoryIndex != -1) {
-				String currentCategoryCaption = ((JTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
-				return new InfoCategory(currentCategoryCaption, currentCategoryIndex);
-			}
-		}
-		return null;
 	}
 
 	public void finalizeFormUpdate() {
@@ -1104,7 +1267,7 @@ public class Form extends ImagePanel {
 		return SwingRendererUtils.getStandardCharacterWidth(this) * 1;
 	}
 
-	public List<Component> createFormToolbarControls() {
+	public List<Component> createToolbarControls() {
 		if (object == null) {
 			return null;
 		}

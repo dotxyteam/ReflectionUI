@@ -574,18 +574,18 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 
 		@Override
-		public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
-			if (selectableConstructor) {
-				return swingRenderer.onTypeInstanciationRequest(FieldControlPlaceHolder.this, typeToInstanciate, getObject());
-			} else {
-				return ReflectionUIUtils.createDefaultInstance(typeToInstanciate, getObject());
-			}
-		
+		public Object getObject() {
+			return form.getObject();
 		}
 
 		@Override
-		public Object getObject() {
-			return form.getObject();
+		public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
+			if (selectableConstructor) {
+				return swingRenderer.onTypeInstanciationRequest(FieldControlPlaceHolder.this, typeToInstanciate,
+						getObject());
+			} else {
+				return ReflectionUIUtils.createDefaultInstance(typeToInstanciate, getObject());
+			}
 		}
 
 		private FieldControlPlaceHolder getOuterType() {

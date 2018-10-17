@@ -78,7 +78,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 	protected List<Component> createAnyWindowToolbarControls() {
 		List<Component> result = new ArrayList<Component>();
-		List<Component> commonToolbarControls = createdEditorForm.createFormToolbarControls();
+		List<Component> commonToolbarControls = createdEditorForm.createToolbarControls();
 		if (commonToolbarControls != null) {
 			result.addAll(commonToolbarControls);
 		}

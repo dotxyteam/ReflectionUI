@@ -327,7 +327,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 			protected boolean isApplicationStyleButtonSpecific() {
-				return false;
+				return true;
 			}
 
 			@Override
@@ -1140,7 +1140,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if (detailsControl != null) {
-			detailsControl.refreshForm(refreshStructure);
+			detailsControl.refresh(refreshStructure);
 		} else {
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
@@ -1306,6 +1306,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (listData.getForegroundColor() != null) {
 				((TitledBorder) treeTableComponentScrollPane.getBorder())
 						.setTitleColor(SwingRendererUtils.getColor(listData.getForegroundColor()));
+			}
+			if (listData.getBorderColor() != null) {
+				((TitledBorder) treeTableComponentScrollPane.getBorder()).setBorder(
+						BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
 			}
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
@@ -2398,7 +2402,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public IMethodControlData getControlData() {
-					IMethodControlData data = new DefaultMethodControlData(rootListValue, dynamicAction);
+					IMethodControlData data = new DefaultMethodControlData(swingRenderer.getReflectionUI(),
+							rootListValue, dynamicAction);
 					data = new MethodControlDataProxy(data) {
 						@Override
 						public Object invoke(InvocationData invocationData) {

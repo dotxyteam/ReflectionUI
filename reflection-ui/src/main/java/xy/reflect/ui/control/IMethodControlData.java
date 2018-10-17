@@ -51,4 +51,6 @@ public interface IMethodControlData {
 	ColorSpecification getBackgroundColor();
 
 	ColorSpecification getForegroundColor();
+
+	ColorSpecification getBorderColor();
 }

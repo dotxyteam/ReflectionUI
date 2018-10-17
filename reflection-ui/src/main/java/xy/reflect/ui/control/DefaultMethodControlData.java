@@ -3,6 +3,7 @@ package xy.reflect.ui.control;
 import java.util.List;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -13,119 +14,134 @@ import xy.reflect.ui.info.type.ITypeInfo;
 
 public class DefaultMethodControlData implements IMethodControlData {
 
+	protected ReflectionUI reflectionUI;
 	protected Object object;
 	protected IMethodInfo method;
 
-	public DefaultMethodControlData(Object object, IMethodInfo method) {
+	public DefaultMethodControlData(ReflectionUI reflectionUI, Object object, IMethodInfo method) {
 		super();
+		this.reflectionUI = reflectionUI;
 		this.object = object;
 		this.method = method;
 	}
 
+	public Object getObject() {
+		return object;
+	}
+
+	public IMethodInfo getMethod() {
+		return method;
+	}
+
 	@Override
 	public ResourcePath getBackgroundImagePath() {
-		return null;
+		return reflectionUI.getApplicationInfo().getButtonBackgroundImagePath();
 	}
 
 	@Override
 	public ColorSpecification getBackgroundColor() {
-		return null;
+		return reflectionUI.getApplicationInfo().getButtonBackgroundColor();
 	}
 
 	@Override
 	public ColorSpecification getForegroundColor() {
-		return null;
+		return reflectionUI.getApplicationInfo().getButtonForegroundColor();
+	}
+
+	@Override
+	public ColorSpecification getBorderColor() {
+		return reflectionUI.getApplicationInfo().getButtonBorderColor();
 	}
 
 	@Override
 	public String getConfirmationMessage(InvocationData invocationData) {
-		return method.getConfirmationMessage(object, invocationData);
+		return getMethod().getConfirmationMessage(getObject(), invocationData);
 	}
 
 	@Override
 	public boolean isNullReturnValueDistinct() {
-		return method.isNullReturnValueDistinct();
+		return getMethod().isNullReturnValueDistinct();
 	}
 
 	@Override
 	public boolean isReturnValueDetached() {
-		return method.isReturnValueDetached();
+		return getMethod().isReturnValueDetached();
 	}
 
 	public boolean isReturnValueIgnored() {
-		return method.isReturnValueIgnored();
+		return getMethod().isReturnValueIgnored();
 	}
 
 	@Override
 	public String getCaption() {
-		return method.getCaption();
+		return getMethod().getCaption();
 	}
 
 	@Override
 	public String getOnlineHelp() {
-		return method.getOnlineHelp();
+		return getMethod().getOnlineHelp();
 	}
 
 	@Override
 	public Map<String, Object> getSpecificProperties() {
-		return method.getSpecificProperties();
+		return getMethod().getSpecificProperties();
 	}
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		return method.getReturnValueType();
+		return getMethod().getReturnValueType();
 	}
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		return method.getParameters();
+		return getMethod().getParameters();
 	}
 
 	@Override
 	public Object invoke(InvocationData invocationData) {
-		return method.invoke(object, invocationData);
+		return getMethod().invoke(getObject(), invocationData);
 	}
 
 	@Override
 	public boolean isReadOnly() {
-		return method.isReadOnly();
+		return getMethod().isReadOnly();
 	}
 
 	@Override
 	public String getNullReturnValueLabel() {
-		return method.getNullReturnValueLabel();
+		return getMethod().getNullReturnValueLabel();
 	}
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
-		return method.getNextInvocationUndoJob(object, invocationData);
+		return getMethod().getNextInvocationUndoJob(getObject(), invocationData);
 	}
 
 	@Override
 	public void validateParameters(InvocationData invocationData) throws Exception {
-		method.validateParameters(object, invocationData);
+		getMethod().validateParameters(getObject(), invocationData);
 	}
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return method.getValueReturnMode();
+		return getMethod().getValueReturnMode();
 	}
 
 	@Override
 	public String getMethodSignature() {
-		return method.getSignature();
+		return getMethod().getSignature();
 	}
 
 	public ResourcePath getIconImagePath() {
-		return method.getIconImagePath();
+		return getMethod().getIconImagePath();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((method == null) ? 0 : method.hashCode());
-		result = prime * result + ((object == null) ? 0 : object.hashCode());
+		result = prime * result + ((getMethod() == null) ? 0 : getMethod().hashCode());
+		result = prime * result + ((getObject() == null) ? 0 : getObject().hashCode());
 		return result;
 	}
 
@@ -138,22 +154,22 @@ public class DefaultMethodControlData implements IMethodControlData {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultMethodControlData other = (DefaultMethodControlData) obj;
-		if (method == null) {
-			if (other.method != null)
+		if (getMethod() == null) {
+			if (other.getMethod() != null)
 				return false;
-		} else if (!method.equals(other.method))
+		} else if (!getMethod().equals(other.getMethod()))
 			return false;
-		if (object == null) {
-			if (other.object != null)
+		if (getObject() == null) {
+			if (other.getObject() != null)
 				return false;
-		} else if (!object.equals(other.object))
+		} else if (!getObject().equals(other.getObject()))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DefaultMethodControlData [object=" + object + ", method=" + method + "]";
+		return "DefaultMethodControlData [object=" + getObject() + ", method=" + getMethod() + "]";
 	}
 
 }

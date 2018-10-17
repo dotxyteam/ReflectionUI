@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.menu;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.MethodAction;
@@ -12,9 +13,9 @@ public class MethodActionMenuItem extends AbstractActionMenuItem {
 
 	protected IMethodInfo method;
 
-	public MethodActionMenuItem(IMethodInfo method) {
-		super(ReflectionUIUtils.formatMethodControlCaption(new DefaultMethodControlData(new Object(), method)),
-				method.getIconImagePath());
+	public MethodActionMenuItem(ReflectionUI reflectionUI, IMethodInfo method) {
+		super(ReflectionUIUtils.formatMethodControlCaption(
+				new DefaultMethodControlData(reflectionUI, new Object(), method)), method.getIconImagePath());
 		this.method = method;
 	}
 

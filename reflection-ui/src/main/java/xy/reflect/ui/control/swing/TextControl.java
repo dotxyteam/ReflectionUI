@@ -6,12 +6,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.DefaultEditorKit;
@@ -35,6 +37,8 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	protected JTextArea textComponent;
 	protected JScrollPane scrollPane;
 	protected boolean listenerDisabled = false;
+
+	protected Border defaultTextComponentBorder;
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -184,6 +188,12 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				textComponent.setEditable(true);
 				textComponent.setOpaque(true);
 				textComponent.setForeground(null);
+			}
+			if (data.getBorderColor() != null) {
+				textComponent
+						.setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+			} else {
+				textComponent.setBorder(new JTextField().getBorder());
 			}
 		}
 		listenerDisabled = true;

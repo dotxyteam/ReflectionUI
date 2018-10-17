@@ -42,6 +42,10 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		if (data.getForegroundColor() != null) {
 			((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
 		}
+		if (data.getBorderColor() != null) {
+			((TitledBorder) getBorder())
+					.setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+		}
 		setupActivationAction();
 	}
 
@@ -93,7 +97,8 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 
 					@Override
 					public ITypeInfo getType() {
-						return new DefaultTypeInfo(swingRenderer.getReflectionUI(), new JavaTypeInfoSource(String.class, null));
+						return new DefaultTypeInfo(swingRenderer.getReflectionUI(),
+								new JavaTypeInfoSource(String.class, null));
 					}
 
 				};

@@ -175,6 +175,11 @@ public class MethodInvocationDataAsObjectFactory {
 		}
 
 		@Override
+		public CategoriesStyle getCategoriesStyle() {
+			return CategoriesStyle.getDefault();
+		}
+
+		@Override
 		public ResourcePath getFormBackgroundImagePath() {
 			return null;
 		}

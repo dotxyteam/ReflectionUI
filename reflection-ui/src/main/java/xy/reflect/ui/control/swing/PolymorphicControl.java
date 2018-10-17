@@ -65,8 +65,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 				if (data.getForegroundColor() != null) {
-					((TitledBorder) getBorder())
-							.setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
+					((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
+				}
+				if (data.getBorderColor() != null) {
+					((TitledBorder) getBorder()).setBorder(
+							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 				}
 			} else {
 				setBorder(null);

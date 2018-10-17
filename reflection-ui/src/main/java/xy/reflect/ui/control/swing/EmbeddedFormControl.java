@@ -118,8 +118,11 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 				if (data.getForegroundColor() != null) {
-					((TitledBorder) getBorder())
-							.setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
+					((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
+				}
+				if (data.getBorderColor() != null) {
+					((TitledBorder) getBorder()).setBorder(
+							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 				}
 			} else {
 				setBorder(null);
@@ -141,7 +144,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				throw new ReflectionUIError();
 			}
 			if (newSubFormObject == subFormObject) {
-				subForm.refreshForm(refreshStructure);
+				subForm.refresh(refreshStructure);
 			} else {
 				final ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
@@ -157,7 +160,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 						}
 					}, "Refreshing " + swingRenderer.getObjectTitle(newSubFormObject) + "...");
 					subFormObject = newSubFormObject;
-					subForm.refreshForm(refreshStructure);
+					subForm.refresh(refreshStructure);
 				} else {
 					return false;
 				}

@@ -48,7 +48,7 @@ public class ModificationStackControls {
 			}
 
 			protected boolean isApplicationStyleButtonSpecific() {
-				return false;
+				return true;
 			}
 
 			@Override

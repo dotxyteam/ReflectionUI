@@ -49,6 +49,11 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 	}
 
 	@Override
+	public ColorSpecification getMainBorderColor() {
+		return null;
+	}
+
+	@Override
 	public ResourcePath getMainBackgroundImagePath() {
 		return null;
 	}
@@ -60,6 +65,11 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 
 	@Override
 	public ColorSpecification getButtonForegroundColor() {
+		return null;
+	}
+
+	@Override
+	public ColorSpecification getButtonBorderColor() {
 		return null;
 	}
 

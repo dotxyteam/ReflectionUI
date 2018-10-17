@@ -2,13 +2,12 @@ package xy.reflect.ui.util.component;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.plaf.basic.BasicBorders;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -29,6 +28,7 @@ public abstract class AbstractControlButton extends JButton {
 	private Color backgroundColor;
 	private Color activatedBackgroundColor;
 	private Color foregroundColor;
+	private Color borderColor;
 	private Image backgroundImage;
 	private Image activatedBackgroundImage;
 	private String caption;
@@ -95,7 +95,25 @@ public abstract class AbstractControlButton extends JButton {
 				return SwingRendererUtils.getColor(applicationInfo.getMainForegroundColor());
 			}
 		}
+	}
 
+	public Color retrieveBorderColor() {
+		if (!isApplicationInfoStyleLoaded()) {
+			return null;
+		}
+		if (isApplicationStyleButtonSpecific()) {
+			if (applicationInfo.getButtonBorderColor() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getColor(applicationInfo.getButtonBorderColor());
+			}
+		} else {
+			if (applicationInfo.getMainForegroundColor() == null) {
+				return null;
+			} else {
+				return SwingRendererUtils.getColor(applicationInfo.getMainForegroundColor());
+			}
+		}
 	}
 
 	public String retrieveToolTipText() {
@@ -106,16 +124,17 @@ public abstract class AbstractControlButton extends JButton {
 		return null;
 	}
 
-	protected void initialize() {
+	public void refresh() {
 		swingRenderer = getSwingRenderer();
 		applicationInfo = swingRenderer.getReflectionUI().getApplicationInfo();
 		backgroundColor = retrieveBackgroundColor();
 		foregroundColor = retrieveForegroundColor();
+		borderColor = retrieveBorderColor();
 		backgroundImage = retrieveBackgroundImage();
 		activatedBackgroundColor = (backgroundColor == null) ? null
-				: addBackgroundColorActivationEffect(backgroundColor);
+				: swingRenderer.addBackgroundColorActivationEffect(backgroundColor);
 		activatedBackgroundImage = (backgroundImage == null) ? null
-				: addBackgroundImageActivationEffect(backgroundImage);
+				: swingRenderer.addBackgroundImageActivationEffect(backgroundImage);
 		caption = retrieveCaption();
 		toolTipText = retrieveToolTipText();
 		icon = retrieveIcon();
@@ -130,6 +149,10 @@ public abstract class AbstractControlButton extends JButton {
 		}
 		if (foregroundColor != null) {
 			setForeground(foregroundColor);
+		}
+		if (borderColor != null) {
+			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(borderColor),
+					new BasicBorders.MarginBorder()));
 		}
 		if ((backgroundImage != null) || (backgroundColor != null)) {
 			setContentAreaFilled(false);
@@ -149,7 +172,7 @@ public abstract class AbstractControlButton extends JButton {
 	@Override
 	public void addNotify() {
 		if (!initialized) {
-			initialize();
+			refresh();
 			initialized = true;
 		}
 		super.addNotify();
@@ -173,29 +196,6 @@ public abstract class AbstractControlButton extends JButton {
 			}
 		}
 		super.paintComponent(g);
-	}
-
-	protected BufferedImage addBackgroundImageActivationEffect(Image backgroundImage) {
-		BufferedImage result = new BufferedImage(backgroundImage.getWidth(null), backgroundImage.getHeight(null),
-				BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g = result.createGraphics();
-		g.drawImage(backgroundImage, 0, 0, null);
-		g.dispose();
-		float scalefactor = 0.5f;
-		float offset = 64f;
-		return new RescaleOp(new float[] { scalefactor, scalefactor, scalefactor, 1f },
-				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
-	}
-
-	protected Color addBackgroundColorActivationEffect(Color color) {
-		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-		if (hsb[2] > 0.5f) {
-			hsb[2] -= 0.2f;
-		} else {
-			hsb[2] += 0.2f;
-		}
-		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
-		return new Color(rgb);
 	}
 
 }

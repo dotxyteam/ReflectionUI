@@ -109,6 +109,10 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					if (data.getForegroundColor() != null) {
 						((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
 					}
+					if (data.getBorderColor() != null) {
+						((TitledBorder) getBorder()).setBorder(
+								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+					}
 				} else {
 					setBorder(null);
 				}

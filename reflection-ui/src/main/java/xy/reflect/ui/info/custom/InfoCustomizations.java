@@ -1160,9 +1160,11 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath mainBackgroundImagePath;
 		protected ColorSpecification mainForegroundColor;
 		protected ColorSpecification mainBackgroundColor;
+		protected ColorSpecification mainBorderColor;
 		protected ResourcePath buttonBackgroundImagePath;
 		protected ColorSpecification buttonForegroundColor;
 		protected ColorSpecification buttonBackgroundColor;
+		protected ColorSpecification buttonBorderColor;
 		protected ColorSpecification titleForegroundColor;
 		protected ColorSpecification titleBackgroundColor;
 		protected ResourcePath iconImagePath;
@@ -1236,6 +1238,14 @@ public class InfoCustomizations implements Serializable {
 			return buttonBackgroundImagePath;
 		}
 
+		public ColorSpecification getMainBorderColor() {
+			return mainBorderColor;
+		}
+
+		public void setMainBorderColor(ColorSpecification mainBorderColor) {
+			this.mainBorderColor = mainBorderColor;
+		}
+
 		public void setButtonBackgroundImagePath(ResourcePath buttonBackgroundImagePath) {
 			this.buttonBackgroundImagePath = buttonBackgroundImagePath;
 		}
@@ -1254,6 +1264,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setButtonBackgroundColor(ColorSpecification buttonBackgroundColor) {
 			this.buttonBackgroundColor = buttonBackgroundColor;
+		}
+
+		public ColorSpecification getButtonBorderColor() {
+			return buttonBorderColor;
+		}
+
+		public void setButtonBorderColor(ColorSpecification buttonBorderColor) {
+			this.buttonBorderColor = buttonBorderColor;
 		}
 
 		public ColorSpecification getTitleForegroundColor() {
@@ -1297,6 +1315,7 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath iconImagePath;
 		protected ITypeInfo.FieldsLayout fieldsLayout;
 		protected ITypeInfo.MethodsLayout methodsLayout;
+		protected ITypeInfo.CategoriesStyle categoriesStyle;
 		protected MenuModelCustomization menuModelCustomization = new MenuModelCustomization();
 		protected boolean anyDefaultObjectMemberIncluded = false;
 		protected List<VirtualFieldDeclaration> virtualFieldDeclarations = new ArrayList<VirtualFieldDeclaration>();
@@ -1311,6 +1330,14 @@ public class InfoCustomizations implements Serializable {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public ITypeInfo.CategoriesStyle getCategoriesStyle() {
+			return categoriesStyle;
+		}
+
+		public void setCategoriesStyle(ITypeInfo.CategoriesStyle categoriesStyle) {
+			this.categoriesStyle = categoriesStyle;
 		}
 
 		public ResourcePath getFormBackgroundImagePath() {

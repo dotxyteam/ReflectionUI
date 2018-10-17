@@ -65,6 +65,7 @@ import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.CategoriesStyle;
 import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
@@ -120,6 +121,17 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 		return super.getFieldsLayout(type);
+	}
+
+	@Override
+	protected CategoriesStyle getCategoriesStyle(ITypeInfo type) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			if (t.getCategoriesStyle() != null) {
+				return t.getCategoriesStyle();
+			}
+		}
+		return super.getCategoriesStyle(type);
 	}
 
 	@Override
@@ -1050,6 +1062,15 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected ColorSpecification getMainBorderColor(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getMainBorderColor() != null) {
+			return appCustomization.getMainBorderColor();
+		}
+		return super.getMainBorderColor(appInfo);
+	}
+
+	@Override
 	protected ResourcePath getMainBackgroundImagePath(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
 		if (appCustomization.getMainBackgroundImagePath() != null) {
@@ -1065,6 +1086,15 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			return appCustomization.getButtonBackgroundColor();
 		}
 		return super.getButtonBackgroundColor(appInfo);
+	}
+
+	@Override
+	protected ColorSpecification getButtonBorderColor(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getButtonBorderColor() != null) {
+			return appCustomization.getButtonBorderColor();
+		}
+		return super.getButtonBorderColor(appInfo);
 	}
 
 	@Override
@@ -1837,7 +1867,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					IMenuElementPosition menuItemContainerPosition = InfoCustomizations.getMenuElementPosition(
 							containingTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
 					if (menuItemContainerPosition != null) {
-						IMenuElement actionMenuItem = new MethodActionMenuItem(wrapMethodInfo(method, containingType));
+						IMenuElement actionMenuItem = new MethodActionMenuItem(customizedUI,
+								wrapMethodInfo(method, containingType));
 						menuModel.importContribution(menuItemContainerPosition, actionMenuItem);
 					}
 				}

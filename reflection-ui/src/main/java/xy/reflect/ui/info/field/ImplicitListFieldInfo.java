@@ -97,7 +97,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			}
 
 		}.wrapTypeInfo(itemType);
-		this.itemType = itemType;		
+		this.itemType = itemType;
 	}
 
 	protected IMethodInfo getCreateMethod() {
@@ -385,6 +385,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue) {
+		}
+
+		@Override
+		public CategoriesStyle getCategoriesStyle() {
+			return CategoriesStyle.getDefault();
 		}
 
 		@Override

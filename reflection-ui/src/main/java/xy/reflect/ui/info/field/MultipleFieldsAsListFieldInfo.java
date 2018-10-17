@@ -312,6 +312,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public CategoriesStyle getCategoriesStyle() {
+			return CategoriesStyle.getDefault();
+		}
+
+		@Override
 		public ResourcePath getFormBackgroundImagePath() {
 			return null;
 		}

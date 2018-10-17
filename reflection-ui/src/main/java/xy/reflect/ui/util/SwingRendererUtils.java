@@ -983,7 +983,7 @@ public class SwingRendererUtils {
 
 	public static void refreshAllDisplayedFormsAndMenus(SwingRenderer swingRenderer, boolean refreshStructure) {
 		for (Form form : excludeSubForms(swingRenderer.getAllDisplayedForms(), swingRenderer)) {
-			form.refreshForm(refreshStructure);
+			form.refresh(refreshStructure);
 			form.updateMenuBar();
 		}
 	}
@@ -999,7 +999,7 @@ public class SwingRendererUtils {
 			}
 
 			protected boolean isApplicationStyleButtonSpecific() {
-				return false;
+				return true;
 			}
 
 			@Override

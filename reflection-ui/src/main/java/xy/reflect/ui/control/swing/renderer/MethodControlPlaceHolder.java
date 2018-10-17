@@ -4,22 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 
+import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.MethodControl;
-import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.ResourcePath;
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -204,110 +200,15 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return "MethodControlPlaceHolder [method=" + method + ", form=" + form + "]";
 	}
 
-	protected class InitialMethodControlData implements IMethodControlData {
-		protected IMethodInfo finalMethod;
+	protected class InitialMethodControlData extends DefaultMethodControlData {
 
 		public InitialMethodControlData(IMethodInfo finalMethod) {
-			this.finalMethod = finalMethod;
+			super(swingRenderer.getReflectionUI(), form.getObject(), finalMethod);
 		}
 
 		@Override
-		public ResourcePath getBackgroundImagePath() {
-			return swingRenderer.getReflectionUI().getApplicationInfo().getButtonBackgroundImagePath();
-		}
-
-		@Override
-		public ColorSpecification getBackgroundColor() {
-			return swingRenderer.getReflectionUI().getApplicationInfo().getButtonBackgroundColor();
-		}
-
-		@Override
-		public ColorSpecification getForegroundColor() {
-			return swingRenderer.getReflectionUI().getApplicationInfo().getButtonForegroundColor();
-		}
-
-		@Override
-		public String getConfirmationMessage(InvocationData invocationData) {
-			return finalMethod.getConfirmationMessage(getObject(), invocationData);
-		}
-
-		@Override
-		public boolean isNullReturnValueDistinct() {
-			return finalMethod.isNullReturnValueDistinct();
-		}
-
-		@Override
-		public boolean isReturnValueDetached() {
-			return finalMethod.isReturnValueDetached();
-		}
-
-		public boolean isReturnValueIgnored() {
-			return finalMethod.isReturnValueIgnored();
-		}
-
-		@Override
-		public void validateParameters(InvocationData invocationData) throws Exception {
-			finalMethod.validateParameters(getObject(), invocationData);
-		}
-
-		@Override
-		public boolean isReadOnly() {
-			return finalMethod.isReadOnly();
-		}
-
-		@Override
-		public Object invoke(InvocationData invocationData) {
-			return finalMethod.invoke(getObject(), invocationData);
-		}
-
-		@Override
-		public ValueReturnMode getValueReturnMode() {
-			return finalMethod.getValueReturnMode();
-		}
-
-		@Override
-		public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
-			return finalMethod.getNextInvocationUndoJob(getObject(), invocationData);
-		}
-
-		@Override
-		public ITypeInfo getReturnValueType() {
-			return finalMethod.getReturnValueType();
-		}
-
-		@Override
-		public List<IParameterInfo> getParameters() {
-			return finalMethod.getParameters();
-		}
-
-		@Override
-		public String getNullReturnValueLabel() {
-			return finalMethod.getNullReturnValueLabel();
-		}
-
-		@Override
-		public String getOnlineHelp() {
-			return finalMethod.getOnlineHelp();
-		}
-
-		@Override
-		public Map<String, Object> getSpecificProperties() {
-			return finalMethod.getSpecificProperties();
-		}
-
-		@Override
-		public String getCaption() {
-			return finalMethod.getCaption();
-		}
-
-		@Override
-		public String getMethodSignature() {
-			return finalMethod.getSignature();
-		}
-
-		@Override
-		public ResourcePath getIconImagePath() {
-			return finalMethod.getIconImagePath();
+		public Object getObject() {
+			return form.getObject();
 		}
 
 		private Object getOuterType() {
@@ -319,7 +220,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((finalMethod == null) ? 0 : finalMethod.hashCode());
+			result = prime * result + super.hashCode();
 			return result;
 		}
 
@@ -334,17 +235,14 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			InitialMethodControlData other = (InitialMethodControlData) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
-			if (finalMethod == null) {
-				if (other.finalMethod != null)
-					return false;
-			} else if (!finalMethod.equals(other.finalMethod))
+			if (!super.equals(other))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "InitialControlData [of=" + MethodControlPlaceHolder.this + "]";
+			return "InitialControlData [of=" + MethodControlPlaceHolder.this + ", finalMethod=" + getMethod() + "]";
 		}
 
 	};

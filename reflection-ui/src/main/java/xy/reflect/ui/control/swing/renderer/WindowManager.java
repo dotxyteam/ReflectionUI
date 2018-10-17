@@ -19,7 +19,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-
 import org.jdesktop.swingx.StackLayout;
 
 import xy.reflect.ui.ReflectionUI;
@@ -149,7 +148,6 @@ public class WindowManager {
 
 	protected JPanel createToolBar() {
 		JPanel result = new ControlPanel();
-		result.setBorder(BorderFactory.createRaisedBevelBorder());
 		result.setLayout(new FlowLayout(FlowLayout.CENTER));
 		return result;
 	}
@@ -273,6 +271,14 @@ public class WindowManager {
 					.setBorder(BorderFactory.createLineBorder(getAlternativeDecorationsBorderColor(), 4));
 		}
 		updateToolBar();
+		if (toolBar != null) {
+			Color borderColor = getMainBorderColor();
+			if (borderColor != null) {
+				toolBar.setBorder(BorderFactory.createLineBorder(borderColor));
+			} else {
+				toolBar.setBorder(BorderFactory.createRaisedBevelBorder());
+			}
+		}
 		SwingRendererUtils.handleComponentSizeChange(window);
 	}
 
@@ -302,6 +308,16 @@ public class WindowManager {
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getMainForegroundColor() != null) {
 			return SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
+		} else {
+			return null;
+		}
+	}
+
+	protected Color getMainBorderColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getMainBorderColor() != null) {
+			return SwingRendererUtils.getColor(appInfo.getMainBorderColor());
 		} else {
 			return null;
 		}

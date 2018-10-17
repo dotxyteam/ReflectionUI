@@ -77,6 +77,10 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.getForegroundColor();
 	}
 
+	public ColorSpecification getBorderColor() {
+		return base.getBorderColor();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
