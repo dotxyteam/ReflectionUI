@@ -85,7 +85,7 @@ public class SystemProperties {
 		return System.getProperty(CREATE_INFO_CUSTOMIZATIONS_IF_NOT_FOUND, "true").equals("true");
 	}
 
-	public static Class<?> getAlternateCustomizedSwingRendererClass() {
+	public static Class<?> getAlternateDefaultCustomizedSwingRendererClass() {
 		String className = System.getProperty(ALTERNATE_DEFAULT_CUSTOMIZED_SWING_RENDERER_CLASS_NAME);
 		if (className == null) {
 			return null;

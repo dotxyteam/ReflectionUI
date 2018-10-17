@@ -35,6 +35,7 @@ import org.jdesktop.swingx.JXBusyLabel;
 
 import com.google.common.collect.MapMaker;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
@@ -45,6 +46,14 @@ import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
+import xy.reflect.ui.control.swing.plugin.CustomCheckBoxPlugin;
+import xy.reflect.ui.control.swing.plugin.DetailedListControlPlugin;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
+import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
+import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
+import xy.reflect.ui.control.swing.plugin.SliderPlugin;
+import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -74,6 +83,13 @@ public class SwingRenderer {
 
 	protected static SwingRenderer defaultInstance;
 
+	public static SwingRenderer getDefault() {
+		if (defaultInstance == null) {
+			defaultInstance = new SwingRenderer(CustomizedUI.getDefault());
+		}
+		return defaultInstance;
+	}
+
 	protected ReflectionUI reflectionUI;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
 	protected Map<AbstractActionMenuItem, Form> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
@@ -100,23 +116,6 @@ public class SwingRenderer {
 
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
-	}
-
-	@Override
-	public String toString() {
-		if (this == defaultInstance) {
-			return "SwingRenderer.DEFAULT";
-		} else {
-			return super.toString();
-		}
-	}
-
-	public static SwingRenderer getDefault() {
-		if (defaultInstance == null) {
-			defaultInstance = new SwingRenderer(ReflectionUI.getDefault());
-		}
-		return defaultInstance;
-
 	}
 
 	public ReflectionUI getReflectionUI() {
@@ -160,6 +159,14 @@ public class SwingRenderer {
 
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
+		result.add(new OptionButtonsPlugin());
+		result.add(new SliderPlugin());
+		result.add(new SpinnerPlugin());
+		result.add(new FileBrowserPlugin());
+		result.add(new ColorPickerPlugin());
+		result.add(new ImageViewPlugin());
+		result.add(new CustomCheckBoxPlugin());
+		result.add(new DetailedListControlPlugin());
 		return result;
 	}
 
@@ -716,6 +723,15 @@ public class SwingRenderer {
 		}
 		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 		return new Color(rgb);
+	}
+
+	@Override
+	public String toString() {
+		if (this == defaultInstance) {
+			return "SwingRenderer.DEFAULT";
+		} else {
+			return super.toString();
+		}
 	}
 
 }

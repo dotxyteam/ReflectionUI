@@ -1,14 +1,23 @@
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
 import xy.reflect.ui.info.app.IApplicationInfo;
+import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -16,11 +25,12 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.ITypeInfo.CategoriesStyle;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class Tutorial {
@@ -31,85 +41,33 @@ public class Tutorial {
 		 */
 
 		openObjectDialog();
-		justCreateObjectForm();
-		controlReflection();
+		createObjectForm();
 		allowToSetNull();
 		hideSomeFieldsAndMethods();
 		addVirtualFieldsAndMethods();
+		categorizeFieldsAndMethods();
 		customizeCopyCutPasteFeature();
 		customizeColors();
+		useInfoCustomizationsClass();
+		useXmlCustomizations();
+		openObjectFrame();
 	}
 
 	private static void openObjectDialog() {
 		/*
-		 * Most basic use case: opening an object dialog
+		 * Most basic use case: opening an object dialog:
 		 */
 		Object myObject = new HelloWorld();
 		SwingRenderer.getDefault().openObjectDialog(null, myObject);
 	}
 
-	private static void justCreateObjectForm() {
+	private static void createObjectForm() {
 		/*
 		 * create JPanel-based form in order to include it in a GUI as a sub-component.
 		 */
 		Object myObject = new HelloWorld();
 		JOptionPane.showMessageDialog(null, SwingRenderer.getDefault().createForm(myObject), "As a form",
 				JOptionPane.INFORMATION_MESSAGE);
-	}
-
-	private static void controlReflection() {
-		/*
-		 * If you want to take control of the object discovery and interpretation
-		 * process, then you must create custom ReflectionUI and SwingRenderer objects:
-		 */
-		Object myObject = new HelloWorld();
-		ReflectionUI reflectionUI = new ReflectionUI() {
-
-			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-				return new InfoProxyFactory() {
-
-					/*
-					 * For instance you can all the displayed labels this way (many more options are
-					 * available. Explore the proxy factory class to find out):
-					 */
-
-					@Override
-					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
-						return super.getCaption(field, containingType).toUpperCase();
-					}
-
-					@Override
-					protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-						return super.getCaption(param, method, containingType).toUpperCase();
-					}
-
-					@Override
-					protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
-						return super.getCaption(method, containingType).toUpperCase();
-					}
-
-					@Override
-					protected String getCaption(ITypeInfo type) {
-						return super.getCaption(type).toUpperCase();
-					}
-
-					@Override
-					protected String getCaption(IApplicationInfo appInfo) {
-						return super.getCaption(appInfo).toUpperCase();
-					}
-
-					@Override
-					protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
-						return super.getCaption(info, parentEnumType).toUpperCase();
-					}
-
-				}.wrapTypeInfo(super.getTypeInfo(typeSource));
-			}
-
-		};
-		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
-		swingRenderer.openObjectDialog(null, myObject, "Labels => uppercase", null, false, true);
 	}
 
 	private static void allowToSetNull() {
@@ -289,6 +247,52 @@ public class Tutorial {
 				false, true);
 	}
 
+	private static void categorizeFieldsAndMethods() {
+		Object myObject = new HelloWorld();
+		ReflectionUI reflectionUI = new ReflectionUI() {
+
+			@Override
+			public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+				return new InfoProxyFactory() {
+
+					/*
+					 * you have the ability to categorize the fields and methods of a class like
+					 * this:
+					 */
+
+					@Override
+					protected InfoCategory getCategory(IFieldInfo field, ITypeInfo containingType) {
+						if (containingType.getName().equals(HelloWorld.class.getName())) {
+							if (!field.getName().equals("name")) {
+								return new InfoCategory("Advanced", 1);
+							}
+						}
+						return super.getCategory(field, containingType);
+					}
+
+					@Override
+					protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
+						return super.getCategory(method, containingType);
+					}
+
+					/*
+					 * This method allows you to modify the display of categories (classic, modern,
+					 * ...):
+					 */
+					@Override
+					protected CategoriesStyle getCategoriesStyle(ITypeInfo type) {
+						// TODO Auto-generated method stub
+						return super.getCategoriesStyle(type);
+					}
+
+				}.wrapTypeInfo(super.getTypeInfo(typeSource));
+			}
+
+		};
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
+		swingRenderer.openObjectDialog(null, myObject, "'Advanced properties' category created", null, false, true);
+	}
+
 	private static void customizeCopyCutPasteFeature() {
 		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI() {
@@ -375,14 +379,97 @@ public class Tutorial {
 					public ColorSpecification getButtonBorderColor() {
 						return SwingRendererUtils.getColorSpecification(Color.RED);
 					}
-					
-					
+
 				};
 			}
 
 		};
 		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI);
 		swingRenderer.openObjectDialog(null, myObject, "Custom colors", null, false, true);
+	}
+
+	private static void useInfoCustomizationsClass() {
+		Object myObject = new HelloWorld();
+
+		/*
+		 * Create a CustomizedUI: This is a subclass of ReflectionUI allowing the use of
+		 * declarative customization of type informations.
+		 */
+		InfoCustomizations customizations = new InfoCustomizations();
+		CustomizedUI customizedUI = new CustomizedUI(customizations);
+
+		/*
+		 * Initilize the customization of the chosen type.
+		 */
+		TypeCustomization helloWorldTypeCustomization = InfoCustomizations.getTypeCustomization(customizations,
+				HelloWorld.class.getName(), true);
+
+		/*
+		 * Customize a field of this type.
+		 */
+		FieldCustomization nameFieldCustomization = InfoCustomizations
+				.getFieldCustomization(helloWorldTypeCustomization, "name", true);
+		nameFieldCustomization.setCustomFieldCaption(
+				"(Caption modified through " + InfoCustomizations.class.getSimpleName() + " class) Name");
+
+		/*
+		 * Open the customized UI.
+		 */
+		SwingRenderer swingRenderer = new SwingRenderer(customizedUI);
+		swingRenderer.openObjectDialog(null, myObject,
+				"'Name' field caption modified using " + InfoCustomizations.class.getSimpleName() + " class", null,
+				false, true);
+	}
+
+	private static void useXmlCustomizations() {
+		try {
+			/*
+			 * InfoCustomizations can be serialized/deserialized to XML.
+			 */
+			InfoCustomizations customizations = new InfoCustomizations();
+			CustomizedUI customizedUI = new CustomizedUI(customizations);
+
+			/*
+			 * Customize a field.
+			 */
+			TypeCustomization helloWorldTypeCustomization = InfoCustomizations.getTypeCustomization(customizations,
+					HelloWorld.class.getName(), true);
+			FieldCustomization nameFieldCustomization = InfoCustomizations
+					.getFieldCustomization(helloWorldTypeCustomization, "name", true);
+			nameFieldCustomization.setCustomFieldCaption(
+					"(Caption modified through " + InfoCustomizations.class.getSimpleName() + " class) Name");
+
+			/*
+			 * Saving customizations to an XML stream.
+			 */
+			ByteArrayOutputStream memoryOutput = new ByteArrayOutputStream();
+			customizations.saveToStream(memoryOutput, ReflectionUIUtils.getDebugLogListener(customizedUI));
+
+			/*
+			 * Loading customizations from an XML stream.
+			 */
+			ByteArrayInputStream memoryInput = new ByteArrayInputStream(memoryOutput.toByteArray());
+			customizations.loadFromStream(memoryInput, ReflectionUIUtils.getDebugLogListener(customizedUI));
+
+			/*
+			 * Displaying XML serialization text.
+			 */
+			String message = "<!-- Check the source code of " + FileExplorer.class.getName() + " and "
+					+ Calculator.class.getName() + " classes for more information -->";
+			message += "\n\n" + memoryOutput.toString();
+			CustomizedSwingRenderer.getDefault().openInformationDialog(null, message, "XML customizations example",
+					null);
+		} catch (IOException e) {
+			throw new AssertionError(e);
+		}
+	}
+
+	private static void openObjectFrame() {
+		/*
+		 * Opening an object frame:
+		 */
+		Object myObject = new HelloWorld();
+		SwingRenderer.getDefault().openObjectDialog(null, myObject);
 	}
 
 }
