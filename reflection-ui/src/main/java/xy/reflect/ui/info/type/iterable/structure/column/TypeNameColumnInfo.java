@@ -9,7 +9,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class TypeNameColumnInfo   extends AbstractInfo implements IColumnInfo {
+public class TypeNameColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	protected ReflectionUI reflectionUI;
 
@@ -19,13 +19,13 @@ public class TypeNameColumnInfo   extends AbstractInfo implements IColumnInfo {
 	}
 
 	@Override
-	public boolean hasCellValue(ItemPosition itemPosition, Object rootListValue) {
+	public boolean hasCellValue(ItemPosition itemPosition) {
 		return true;
 	}
 
 	@Override
-	public String getCellValue(ItemPosition itemPosition, Object rootListValue) {
-		Object item = itemPosition.getItem(rootListValue);
+	public String getCellValue(ItemPosition itemPosition) {
+		Object item = itemPosition.getItem();
 		if (item == null) {
 			return "";
 		}

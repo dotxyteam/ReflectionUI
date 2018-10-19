@@ -11,26 +11,23 @@ import xy.reflect.ui.util.Mapper;
 public class ListModificationFactory {
 
 	protected ItemPosition anyItemPosition;
-	protected Object rootListValue;
 	protected Mapper<Object, IModification> rootListValueCommitModificationAccessor;
 
-	public ListModificationFactory(ItemPosition anyListItemPosition, Object rootListValue,
+	public ListModificationFactory(ItemPosition anyListItemPosition,
 			Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
 		this.anyItemPosition = anyListItemPosition;
-		this.rootListValue = rootListValue;
 		this.rootListValueCommitModificationAccessor = rootListValueCommitModificationAccessor;
 	}
 
 	public IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue) {
-		return new ListModification(itemPosition, newListRawValue, rootListValue,
-				rootListValueCommitModificationAccessor);
+		return new ListModification(itemPosition, newListRawValue, rootListValueCommitModificationAccessor);
 	}
 
 	public boolean canAdd(int index) {
-		if ((index < 0) || (index > anyItemPosition.getContainingListSize(rootListValue))) {
+		if ((index < 0) || (index > anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return anyItemPosition.isContainingListEditable(rootListValue);
+		return anyItemPosition.isContainingListEditable();
 	}
 
 	public boolean canAddAll(int index, List<Object> items) {
@@ -49,33 +46,31 @@ public class ListModificationFactory {
 	}
 
 	public IModification add(int index, Object newItem) {
-		List<Object> tmpList = new ArrayList<Object>(
-				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.add(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
 		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canRemove(int index) {
-		if ((index < 0) || (index >= anyItemPosition.getContainingListSize(rootListValue))) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return anyItemPosition.isContainingListEditable(rootListValue);
+		return anyItemPosition.isContainingListEditable();
 	}
 
 	public IModification remove(int index) {
-		List<Object> tmpList = new ArrayList<Object>(
-				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.remove(index);
 		Object[] newListRawValue = tmpList.toArray();
 		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canSet(int index) {
-		if ((index < 0) || (index >= anyItemPosition.getContainingListSize(rootListValue))) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return anyItemPosition.isContainingListEditable(rootListValue);
+		return anyItemPosition.isContainingListEditable();
 	}
 
 	public boolean canSet(int index, Object item) {
@@ -92,34 +87,32 @@ public class ListModificationFactory {
 	}
 
 	public IModification set(int index, Object newItem) {
-		List<Object> tmpList = new ArrayList<Object>(
-				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.set(index, newItem);
 		Object[] newListRawValue = tmpList.toArray();
 		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canMove(int index, int offset) {
-		if ((index < 0) || (index >= anyItemPosition.getContainingListSize(rootListValue))) {
+		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
 		int index2 = index + offset;
-		if ((index2 < 0) || (index2 >= anyItemPosition.getContainingListSize(rootListValue))) {
+		if ((index2 < 0) || (index2 >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}
-		return anyItemPosition.isContainingListEditable(rootListValue);
+		return anyItemPosition.isContainingListEditable();
 	}
 
 	public IModification move(int index, int offset) {
-		List<Object> tmpList = new ArrayList<Object>(
-				Arrays.asList(anyItemPosition.retrieveContainingListRawValue(rootListValue)));
+		List<Object> tmpList = new ArrayList<Object>(Arrays.asList(anyItemPosition.retrieveContainingListRawValue()));
 		tmpList.add(index + offset, tmpList.remove(index));
 		Object[] newListRawValue = tmpList.toArray();
 		return createListModification(anyItemPosition, newListRawValue);
 	}
 
 	public boolean canClear() {
-		return anyItemPosition.isContainingListEditable(rootListValue);
+		return anyItemPosition.isContainingListEditable();
 	}
 
 	public IModification clear() {
@@ -130,14 +123,12 @@ public class ListModificationFactory {
 
 		protected ItemPosition itemPosition;
 		protected Object[] newListRawValue;
-		protected Object rootListValue;
 		protected Mapper<Object, IModification> rootListValueCommitModificationAccessor;
 
-		public ListModification(ItemPosition itemPosition, Object[] newListRawValue, Object rootListValue,
+		public ListModification(ItemPosition itemPosition, Object[] newListRawValue,
 				Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
 			this.itemPosition = itemPosition;
 			this.newListRawValue = newListRawValue;
-			this.rootListValue = rootListValue;
 			this.rootListValueCommitModificationAccessor = rootListValueCommitModificationAccessor;
 		}
 
@@ -148,14 +139,13 @@ public class ListModificationFactory {
 
 		@Override
 		public IModification applyAndGetOpposite() {
-			Object[] oldListRawValue = itemPosition.retrieveContainingListRawValue(rootListValue);
-			Object newRootListValue = itemPosition.updateContainingList(newListRawValue, rootListValue);
+			Object[] oldListRawValue = itemPosition.retrieveContainingListRawValue();
+			Object newRootListValue = itemPosition.updateContainingList(newListRawValue);
 			if (newRootListValue == null) {
-				newRootListValue = rootListValue;
+				newRootListValue = itemPosition.getFactory().getRootListValue();
 			}
 			rootListValueCommitModificationAccessor.get(newRootListValue).applyAndGetOpposite();
-			return new ListModification(itemPosition, oldListRawValue, newRootListValue,
-					rootListValueCommitModificationAccessor);
+			return new ListModification(itemPosition, oldListRawValue, rootListValueCommitModificationAccessor);
 		}
 
 		@Override

@@ -11,9 +11,9 @@ public interface IListStructuralInfo {
 
 	List<IColumnInfo> getColumns();
 
-	IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue);
+	IFieldInfo getItemSubListField(ItemPosition itemPosition);
 
-	IInfoFilter getItemInfoFilter(ItemPosition itemPosition, Object rootListValue);
+	IInfoFilter getItemInfoFilter(ItemPosition itemPosition);
 
 	int getLength();
 

@@ -12,15 +12,6 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 public abstract class AbstractListProperty extends AbstractInfo implements IListProperty {
 
-	public static final Object NO_OWNER = new Object() {
-
-		@Override
-		public String toString() {
-			return AbstractListProperty.class.getName() + ".NO_OWNER";
-		}
-
-	};
-
 	@Override
 	public List<ItemPosition> getPostSelection() {
 		return null;

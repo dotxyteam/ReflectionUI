@@ -61,6 +61,7 @@ import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import xy.reflect.ui.control.CustomContext;
+import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
@@ -89,7 +90,6 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
-import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.BufferedListModificationFactory;
@@ -122,7 +122,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected JXTreeTable treeTableComponent;
 	protected JScrollPane treeTableComponentScrollPane;
 	protected JPanel toolbar;
-	protected Object rootListValue;
 	protected ItemNode rootNode;
 	protected AbstractBufferedItemPositionFactory itemPositionFactory;
 	protected static List<Object> clipboard = new ArrayList<Object>();
@@ -131,6 +130,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected JPanel detailsArea;
 	protected Form detailsControl;
+	protected ItemUIBuilder detailsControlBuilder;
 	protected IListItemDetailsAccessMode detailsMode;
 	protected BufferedItemPosition detailsControlItemPosition;
 	protected Object detailsControlItem;
@@ -166,7 +166,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public Object getRootListValue() {
-		return rootListValue;
+		return itemPositionFactory.getRootListValue();
 	}
 
 	public String getRootListTitle() {
@@ -274,8 +274,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			toolbar.add(createTool(null, SwingRendererUtils.DOWN_ICON, true, false, moveDownAction));
 		}
 
-		List<IListProperty> dynamicProperties = getRootListType().getDynamicProperties(getSelection(), rootListValue);
-		List<IListAction> dynamicActions = getRootListType().getDynamicActions(getSelection(), rootListValue);
+		Mapper<ItemPosition, ListModificationFactory> modificationFactoryAccessor = new Mapper<ItemPosition, ListModificationFactory>() {
+			@Override
+			public ListModificationFactory get(ItemPosition itemPosition) {
+				return createListModificationFactory((BufferedItemPosition) itemPosition);
+			}
+		};
+		List<IListProperty> dynamicProperties = getRootListType().getDynamicProperties(getSelection(),
+				modificationFactoryAccessor);
+		List<IListAction> dynamicActions = getRootListType().getDynamicActions(getSelection(),
+				modificationFactoryAccessor);
 		if ((dynamicProperties.size() > 0) || (dynamicActions.size() > 0)) {
 			for (IListProperty listProperty : dynamicProperties) {
 				AbstractAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
@@ -478,7 +486,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void initializeTreeTableModelAndControl() {
-		rootListValue = listData.getValue();
 		itemPositionFactory = createItemPositionfactory();
 		rootNode = createRootNode();
 		treeTableComponent = new JXTreeTable() {
@@ -631,7 +638,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (itemPosition == null) {
 				value = "";
 			} else {
-				Object item = itemPosition.getItem(rootListValue);
+				Object item = itemPosition.getItem();
 				if (item instanceof SubListGroup) {
 					if (columnIndex == 0) {
 						value = item.toString();
@@ -646,8 +653,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						List<IColumnInfo> columns = tableInfo.getColumns();
 						if (columnIndex < columns.size()) {
 							IColumnInfo column = tableInfo.getColumns().get(columnIndex);
-							if (column.hasCellValue(itemPosition, rootListValue)) {
-								value = column.getCellValue(itemPosition, rootListValue);
+							if (column.hasCellValue(itemPosition)) {
+								value = column.getCellValue(itemPosition);
 							} else {
 								value = null;
 							}
@@ -665,7 +672,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected Image getCellIconImage(ItemNode node, int columnIndex) {
 		BufferedItemPosition itemPosition = (BufferedItemPosition) node.getUserObject();
 		if (columnIndex == 0) {
-			return swingRenderer.getObjectIconImage(itemPosition.getItem(rootListValue));
+			return swingRenderer.getObjectIconImage(itemPosition.getItem());
 		}
 		return null;
 	}
@@ -763,10 +770,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		result.add(SEPARATOR_ACTION);
 
-		for (IListProperty listProperty : getRootListType().getDynamicProperties(selection, rootListValue)) {
+		Mapper<ItemPosition, ListModificationFactory> modificationFactoryAccessor = new Mapper<ItemPosition, ListModificationFactory>() {
+			@Override
+			public ListModificationFactory get(ItemPosition itemPosition) {
+				return createListModificationFactory((BufferedItemPosition) itemPosition);
+			}
+		};
+		for (IListProperty listProperty : getRootListType().getDynamicProperties(selection,
+				modificationFactoryAccessor)) {
 			result.add(createDynamicPropertyHook(listProperty));
 		}
-		for (IListAction listAction : getRootListType().getDynamicActions(selection, rootListValue)) {
+		for (IListAction listAction : getRootListType().getDynamicActions(selection, modificationFactoryAccessor)) {
 			result.add(createDynamicActionHook(listAction));
 		}
 
@@ -802,7 +816,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected boolean canCopyAll(List<BufferedItemPosition> selection) {
 		boolean result = true;
 		for (BufferedItemPosition selectionItem : selection) {
-			if (!ReflectionUIUtils.canCopy(swingRenderer.getReflectionUI(), selectionItem.getItem(rootListValue))) {
+			if (!ReflectionUIUtils.canCopy(swingRenderer.getReflectionUI(), selectionItem.getItem())) {
 				result = false;
 				break;
 			}
@@ -843,7 +857,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 		};
-		return new BufferedListModificationFactory(anyListItemPosition, rootListValue, commitModifAccessor);
+		return new BufferedListModificationFactory(anyListItemPosition, commitModifAccessor);
 	}
 
 	protected boolean allSelectionItemsInSameList() {
@@ -906,7 +920,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public boolean visitItem(BufferedItemPosition itemPosition) {
-				if (itemPosition.getItem(rootListValue) == item) {
+				if (itemPosition.getItem() == item) {
 					result[0] = itemPosition;
 					return false;
 				}
@@ -973,7 +987,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (toUpdateItem.equals(removed) || toUpdateItem.getAncestors().contains(removed)) {
 				toUpdate.remove(i);
 				i--;
-			} else if (toUpdateItem.getPreviousSiblings(rootListValue).contains(removed)) {
+			} else if (toUpdateItem.getPreviousSiblings().contains(removed)) {
 				toUpdate.set(i, toUpdateItem.getSibling(toUpdateItem.getIndex() - 1));
 			}
 		}
@@ -1117,7 +1131,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}
 		try {
-			getRootListType().onSelection(newSelection, rootListValue);
+			getRootListType().onSelection(newSelection);
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 		}
@@ -1140,11 +1154,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if (detailsControl != null) {
-			detailsControl.refresh(refreshStructure);
+			detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
 		} else {
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
-			detailsControl = new ItemUIBuilder(detailsControlItemPosition).createForm(true, false);
+			detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
+			detailsControl = detailsControlBuilder.createForm(true, false);
 			Component statusBar = detailsControl.getStatusBar();
 			{
 				detailsArea.add(statusBar, BorderLayout.NORTH);
@@ -1205,19 +1220,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public Object[] getRootListRawValue() {
-		return itemPositionFactory.getRootItemPosition(-1).retrieveContainingListRawValue(rootListValue);
+		return itemPositionFactory.getRootItemPosition(-1).retrieveContainingListRawValue();
 	}
 
 	public int getRootListSize() {
-		return itemPositionFactory.getRootItemPosition(-1).getContainingListSize(rootListValue);
+		return itemPositionFactory.getRootItemPosition(-1).getContainingListSize();
 	}
 
 	public BufferedItemPosition getActiveListItemPosition() {
 		BufferedItemPosition result = getSingleSelection();
 		if (result == null) {
 			result = itemPositionFactory.getRootItemPosition(-1);
-			if (result.getContainingListSize(rootListValue) > 0) {
-				result = result.getSibling(result.getContainingListSize(rootListValue) - 1);
+			if (result.getContainingListSize() > 0) {
+				result = result.getSibling(result.getContainingListSize() - 1);
 			}
 		}
 		return result;
@@ -1232,7 +1247,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public void run() {
 				valuesByNode.clear();
-				rootListValue = listData.getValue();
 				itemPositionFactory = createItemPositionfactory();
 				rootNode = createRootNode();
 				treeTableComponent.setTreeTableModel(createTreeTableModel());
@@ -1366,40 +1380,39 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		for (int i = 0; i < wereSelectedPositions.size(); i++) {
 			try {
 				BufferedItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
-				wereSelected.add(wasSelectedPosition.getItem(rootListValue));
+				wereSelected.add(wasSelectedPosition.getItem());
 			} catch (Throwable t) {
 				wereSelected.add(null);
 			}
 		}
 
 		selectionListenersEnabled = false;
-
-		runnable.run();
-
-		setSelection(Collections.<BufferedItemPosition>emptyList());
-		int i = 0;
-		for (Iterator<BufferedItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
-			BufferedItemPosition wasSelectedPosition = it.next();
-			try {
-				if (!wasSelectedPosition.getContainingListType().isOrdered()) {
-					Object wasSelected = wereSelected.get(i);
-					int index = Arrays.asList(wasSelectedPosition.retrieveContainingListRawValue(rootListValue))
-							.indexOf(wasSelected);
-					wasSelectedPosition = wasSelectedPosition.getSibling(index);
-					wereSelectedPositions.set(i, wasSelectedPosition);
-				}
-			} catch (Throwable t) {
-				it.remove();
-			}
-			i++;
-		}
 		try {
-			setSelection(wereSelectedPositions);
-		} catch (Throwable ignore) {
+			runnable.run();
+			setSelection(Collections.<BufferedItemPosition>emptyList());
+			int i = 0;
+			for (Iterator<BufferedItemPosition> it = wereSelectedPositions.iterator(); it.hasNext();) {
+				BufferedItemPosition wasSelectedPosition = it.next();
+				try {
+					if (!wasSelectedPosition.getContainingListType().isOrdered()) {
+						Object wasSelected = wereSelected.get(i);
+						int index = Arrays.asList(wasSelectedPosition.retrieveContainingListRawValue())
+								.indexOf(wasSelected);
+						wasSelectedPosition = wasSelectedPosition.getSibling(index);
+						wereSelectedPositions.set(i, wasSelectedPosition);
+					}
+				} catch (Throwable t) {
+					it.remove();
+				}
+				i++;
+			}
+			try {
+				setSelection(wereSelectedPositions);
+			} catch (Throwable ignore) {
+			}
+		} finally {
+			selectionListenersEnabled = true;
 		}
-
-		selectionListenersEnabled = true;
-
 		fireSelectionEvent();
 	}
 
@@ -1423,14 +1436,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected List<AbstractLazyTreeNode> createChildrenNodes() {
 			List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();
 			if (currentItemPosition == null) {
-				for (int i = 0; i < itemPositionFactory.getRootItemPosition(-1)
-						.getContainingListSize(rootListValue); i++) {
+				for (int i = 0; i < itemPositionFactory.getRootItemPosition(-1).getContainingListSize(); i++) {
 					BufferedItemPosition rootItemPosition = itemPositionFactory.getRootItemPosition(i);
 					ItemNode node = new ItemNode(rootItemPosition);
 					result.add(node);
 				}
 			} else {
-				for (BufferedItemPosition childItemPosition : currentItemPosition.getSubItemPositions(rootListValue)) {
+				for (BufferedItemPosition childItemPosition : currentItemPosition.getSubItemPositions()) {
 					ItemNode node = new ItemNode(childItemPosition);
 					result.add(node);
 				}
@@ -1728,7 +1740,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (isObjectValueInitialized()) {
 				bufferedItemPosition.refreshBranch();
 			}
-			return bufferedItemPosition.getItem(rootListValue);
+			return bufferedItemPosition.getItem();
 		}
 
 		@Override
@@ -1748,7 +1760,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				protected IInfoFilter getDelegate() {
 					BufferedItemPosition dynamicItemPosition = bufferedItemPosition.getSibling(-1);
 					dynamicItemPosition.setFakeItem(getCurrentObjectValue());
-					return getStructuralInfo().getItemInfoFilter(dynamicItemPosition, rootListValue);
+					return getStructuralInfo().getItemInfoFilter(dynamicItemPosition);
 				}
 			};
 		}
@@ -1787,9 +1799,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			getModificationStack().apply(createListModificationFactory(newSubItemPosition)
 					.add(newSubItemPosition.getIndex(), newSubListItem));
 			if (!subListType.isOrdered()) {
-				newSubItemPosition = newSubItemPosition
-						.getSibling(Arrays.asList(newSubItemPosition.retrieveContainingListRawValue(rootListValue))
-								.indexOf(newSubListItem));
+				newSubItemPosition = newSubItemPosition.getSibling(
+						Arrays.asList(newSubItemPosition.retrieveContainingListRawValue()).indexOf(newSubListItem));
 			}
 			BufferedItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
 			toPostSelectHolder[0] = Collections.singletonList(toSelect);
@@ -1815,13 +1826,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			BufferedItemPosition result = null;
 			BufferedItemPosition singleSelection = getSingleSelection();
 			if (singleSelection != null) {
-				result = singleSelection.getSubItemPosition(-1, rootListValue);
+				result = singleSelection.getSubItemPosition(-1);
 			}
 			if (getSelection().size() == 0) {
 				result = itemPositionFactory.getRootItemPosition(-1);
 			}
 			if (result != null) {
-				result = result.getSibling(result.getContainingListSize(rootListValue));
+				result = result.getSibling(result.getContainingListSize());
 			}
 			return result;
 		}
@@ -1894,8 +1905,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			clipboard.clear();
 			List<BufferedItemPosition> selection = getSelection();
 			for (BufferedItemPosition itemPosition : selection) {
-				clipboard.add(
-						ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem(rootListValue)));
+				clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 			}
 			return false;
 		}
@@ -1935,8 +1945,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			Collections.reverse(selection);
 			List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
 			for (BufferedItemPosition itemPosition : selection) {
-				clipboard.add(0,
-						ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem(rootListValue)));
+				clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 			}
 			for (BufferedItemPosition itemPosition : selection) {
 				int index = itemPosition.getIndex();
@@ -2002,8 +2011,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					.apply(createListModificationFactory(newItemPosition).add(newItemPosition.getIndex(), newItem));
 			BufferedItemPosition toSelect = newItemPosition;
 			if (!listType.isOrdered()) {
-				int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue(rootListValue))
-						.indexOf(newItem);
+				int indexToSelect = Arrays.asList(newItemPosition.retrieveContainingListRawValue()).indexOf(newItem);
 				toSelect = newItemPosition.getSibling(indexToSelect);
 			}
 			toPostSelectHolder[0] = Collections.singletonList(toSelect);
@@ -2199,8 +2207,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (listType.isOrdered()) {
 					index = initialIndex + i;
 				} else {
-					index = Arrays.asList(newItemPosition.retrieveContainingListRawValue(rootListValue))
-							.indexOf(clipboardItem);
+					index = Arrays.asList(newItemPosition.retrieveContainingListRawValue()).indexOf(clipboardItem);
 				}
 				if (index != -1) {
 					toPostSelect.add(newItemPosition.getSibling(index));
@@ -2255,7 +2262,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			BufferedItemPosition subItemPosition = getNewItemPosition();
-			int newSubListItemIndex = subItemPosition.getContainingListSize(rootListValue);
+			int newSubListItemIndex = subItemPosition.getContainingListSize();
 			int newSubListItemInitialIndex = newSubListItemIndex;
 			subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
 			for (Object clipboardItem : clipboard) {
@@ -2272,8 +2279,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (subListType.isOrdered()) {
 					newSubListItemInitialIndex = newSubListItemInitialIndex + i;
 				} else {
-					newSubListItemInitialIndex = Arrays
-							.asList(subItemPosition.retrieveContainingListRawValue(rootListValue))
+					newSubListItemInitialIndex = Arrays.asList(subItemPosition.retrieveContainingListRawValue())
 							.indexOf(clipboardItem);
 				}
 				if (newSubListItemInitialIndex != -1) {
@@ -2290,7 +2296,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return itemPositionFactory.getRootItemPosition(0);
 			}
 			if (selection.size() == 1) {
-				return selection.get(0).getSubItemPosition(0, rootListValue);
+				return selection.get(0).getSubItemPosition(0);
 			}
 			return null;
 		}
@@ -2403,7 +2409,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public IMethodControlData getControlData() {
 					IMethodControlData data = new DefaultMethodControlData(swingRenderer.getReflectionUI(),
-							rootListValue, dynamicAction);
+							IListAction.NO_OWNER, dynamicAction);
 					data = new MethodControlDataProxy(data) {
 						@Override
 						public Object invoke(InvocationData invocationData) {
@@ -2424,13 +2430,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			action.execute(ListControl.this);
 			if (action.wasCancelled()) {
 				return false;
-			}
-			BufferedItemPosition anyRootItemPosition = getRootListItemPosition(-1);
-			if (anyRootItemPosition.isContainingListEditable(rootListValue)) {
-				Object[] newListRawValue = getRootListType().toArray(dynamicAction.getRootListValue());
-				ListModificationFactory listModificationfactory = createListModificationFactory(anyRootItemPosition);
-				getModificationStack()
-						.apply(listModificationfactory.createListModification(anyRootItemPosition, newListRawValue));
 			}
 			if (dynamicAction.getPostSelection() != null) {
 				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
@@ -2516,12 +2515,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public Object getInitialObjectValue() {
-					return dynamicProperty.getValue(AbstractListProperty.NO_OWNER);
+					return dynamicProperty.getValue(IListProperty.NO_OWNER);
 				}
 
 				@Override
 				protected Object[] getEncapsulationFieldValueOptions() {
-					return dynamicProperty.getValueOptions(AbstractListProperty.NO_OWNER);
+					return dynamicProperty.getValueOptions(IListProperty.NO_OWNER);
 				}
 
 				@Override
@@ -2543,15 +2542,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public boolean canCommit() {
 					BufferedItemPosition anyRootItemPosition = getRootListItemPosition(-1);
-					return anyRootItemPosition.isContainingListEditable(rootListValue);
+					return anyRootItemPosition.isContainingListEditable();
 				}
 
 				@Override
 				public IModification createCommitModification(Object newObjectValue) {
-					Object[] newListRawValue = getRootListType().toArray(dynamicProperty.getRootListValue());
-					BufferedItemPosition anyRootItemPosition = getRootListItemPosition(-1);
-					return createListModificationFactory(anyRootItemPosition)
-							.createListModification(anyRootItemPosition, newListRawValue);
+					return new ControlDataValueModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
+							IListProperty.NO_OWNER, dynamicProperty), newObjectValue);
 				}
 
 				@Override
@@ -2591,6 +2588,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {
+
+		@Override
+		public Object getRootListValue() {
+			return listData.getValue();
+		}
 
 		@Override
 		public IListTypeInfo getRootListType() {

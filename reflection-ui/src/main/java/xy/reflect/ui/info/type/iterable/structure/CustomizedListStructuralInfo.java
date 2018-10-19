@@ -81,18 +81,18 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	@Override
-	public IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue) {
+	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
 		if (listCustomization.getTreeStructureDiscoverySettings() == null) {
-			return super.getItemSubListField(itemPosition, rootListValue);
+			return super.getItemSubListField(itemPosition);
 		}
-		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition, rootListValue);
-		Object item = itemPosition.getItem(rootListValue);
+		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
+		Object item = itemPosition.getItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 		if (candidateFields.size() == 0) {
 			return null;
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
-			if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition, rootListValue)) {
+			if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition)) {
 				return getSubListsGroupingField(Collections.singletonList(candidateField), actualItemType);
 			} else {
 				return candidateField;
@@ -106,9 +106,9 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		return new SubListsGroupingField(reflectionUI, subListFields, actualItemType);
 	}
 
-	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition, Object rootListValue) {
+	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		Object item = itemPosition.getItem(rootListValue);
+		Object item = itemPosition.getItem();
 		if (item != null) {
 			ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 			if (actualItemType instanceof SubListGroupTypeInfo) {
@@ -163,8 +163,8 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	@Override
-	public IInfoFilter getItemInfoFilter(final ItemPosition itemPosition, final Object rootListValue) {
-		return new InfoFilterProxy(super.getItemInfoFilter(itemPosition, rootListValue)) {
+	public IInfoFilter getItemInfoFilter(final ItemPosition itemPosition) {
+		return new InfoFilterProxy(super.getItemInfoFilter(itemPosition)) {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
@@ -256,10 +256,9 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		return filteredResult;
 	}
 
-	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition,
-			Object rootListValue) {
+	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (itemPosition.getItem(rootListValue) instanceof MultipleFieldsAsListFieldInfo.ValueListItem) {
+		if (itemPosition.getItem() instanceof MultipleFieldsAsListFieldInfo.ValueListItem) {
 			return false;
 		}
 		if (itemType instanceof IMapEntryTypeInfo) {

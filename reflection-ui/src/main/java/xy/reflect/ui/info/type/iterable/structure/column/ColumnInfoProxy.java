@@ -17,12 +17,12 @@ public class ColumnInfoProxy extends AbstractInfoProxy implements IColumnInfo {
 		return base.getCaption();
 	}
 
-	public boolean hasCellValue(ItemPosition itemPosition, Object rootListValue) {
-		return base.hasCellValue(itemPosition, rootListValue);
+	public boolean hasCellValue(ItemPosition itemPosition) {
+		return base.hasCellValue(itemPosition);
 	}
 
-	public String getCellValue(ItemPosition itemPosition, Object rootListValue) {
-		return base.getCellValue(itemPosition, rootListValue);
+	public String getCellValue(ItemPosition itemPosition) {
+		return base.getCellValue(itemPosition);
 	}
 
 	public int getMinimalCharacterCount() {
@@ -40,8 +40,6 @@ public class ColumnInfoProxy extends AbstractInfoProxy implements IColumnInfo {
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
 	}
-
-
 
 	@Override
 	public int hashCode() {

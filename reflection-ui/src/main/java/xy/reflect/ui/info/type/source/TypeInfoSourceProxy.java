@@ -2,6 +2,7 @@ package xy.reflect.ui.info.type.source;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 
 public class TypeInfoSourceProxy implements ITypeInfoSource {
 
@@ -13,7 +14,19 @@ public class TypeInfoSourceProxy implements ITypeInfoSource {
 	}
 
 	public ITypeInfo getTypeInfo(ReflectionUI reflectionUI) {
-		return base.getTypeInfo(reflectionUI);
+		return new InfoProxyFactory() {
+
+			@Override
+			protected ITypeInfoSource getSource(ITypeInfo type) {
+				return TypeInfoSourceProxy.this;
+			}
+
+			@Override
+			public String getIdentifier() {
+				return TypeInfoSourceProxy.this.toString();
+			}
+
+		}.wrapTypeInfo(base.getTypeInfo(reflectionUI));
 	}
 
 	public SpecificitiesIdentifier getSpecificitiesIdentifier() {

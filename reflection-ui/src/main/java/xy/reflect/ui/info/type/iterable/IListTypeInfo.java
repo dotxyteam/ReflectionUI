@@ -7,6 +7,8 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.undo.ListModificationFactory;
+import xy.reflect.ui.util.Mapper;
 
 public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
@@ -33,9 +35,11 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	boolean canViewItemDetails();
 
-	List<IListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue);
+	List<IListAction> getDynamicActions(List<? extends ItemPosition> selection,
+			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
-	List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue);
+	List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
 	boolean isItemNullValueDistinct();
 
@@ -43,6 +47,6 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	boolean isItemConstructorSelectable();
 
-	void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue);
+	void onSelection(List<? extends ItemPosition> newSelection);
 
 }

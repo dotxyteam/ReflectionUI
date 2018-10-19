@@ -29,12 +29,12 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	}
 
 	@Override
-	public IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue) {
+	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
 		return null;
 	}
 
 	@Override
-	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition, Object rootListValue) {
+	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition) {
 		return IInfoFilter.DEFAULT;
 	}
 

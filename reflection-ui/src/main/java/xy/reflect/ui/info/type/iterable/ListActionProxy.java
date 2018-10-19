@@ -35,10 +35,6 @@ public class ListActionProxy implements IListAction {
 		return base.getSpecificProperties();
 	}
 
-	public Object getRootListValue() {
-		return base.getRootListValue();
-	}
-
 	public List<ItemPosition> getPostSelection() {
 		return base.getPostSelection();
 	}

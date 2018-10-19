@@ -23,12 +23,12 @@ public class ListStructuralInfoProxy implements IListStructuralInfo {
 		return base.getColumns();
 	}
 
-	public IFieldInfo getItemSubListField(ItemPosition itemPosition, Object rootListValue) {
-		return base.getItemSubListField(itemPosition, rootListValue);
+	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
+		return base.getItemSubListField(itemPosition);
 	}
 
-	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition, Object rootListValue) {
-		return base.getItemInfoFilter(itemPosition, rootListValue);
+	public IInfoFilter getItemInfoFilter(ItemPosition itemPosition) {
+		return base.getItemInfoFilter(itemPosition);
 	}
 
 	@Override

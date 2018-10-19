@@ -35,6 +35,8 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.undo.ListModificationFactory;
+import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
@@ -419,13 +421,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	protected List<IListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection,
-			Object rootListValue) {
-		return type.getDynamicActions(selection, rootListValue);
+			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
+		return type.getDynamicActions(selection, listModificationFactoryAccessor);
 	}
 
 	protected List<IListProperty> getDynamicProperties(IListTypeInfo type, List<? extends ItemPosition> selection,
-			Object rootListValue) {
-		return type.getDynamicProperties(selection, rootListValue);
+			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
+		return type.getDynamicProperties(selection, listModificationFactoryAccessor);
 	}
 
 	protected ITypeInfo getItemType(IListTypeInfo type) {
@@ -472,8 +474,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.toArray(listValue);
 	}
 
-	protected void onSelection(IListTypeInfo type, List<? extends ItemPosition> newSelection, Object rootListValue) {
-		type.onSelection(newSelection, rootListValue);
+	protected void onSelection(IListTypeInfo type, List<? extends ItemPosition> newSelection) {
+		type.onSelection(newSelection);
 	}
 
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
@@ -1169,8 +1171,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue) {
-			InfoProxyFactory.this.onSelection((IListTypeInfo) base, newSelection, rootListValue);
+		public void onSelection(List<? extends ItemPosition> newSelection) {
+			InfoProxyFactory.this.onSelection((IListTypeInfo) base, newSelection);
 		}
 
 		@Override
@@ -1249,13 +1251,17 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue) {
-			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, selection, rootListValue);
+		public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection,
+				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
+			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, selection,
+					listModificationFactoryAccessor);
 		}
 
 		@Override
-		public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue) {
-			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection, rootListValue);
+		public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
+			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection,
+					listModificationFactoryAccessor);
 		}
 
 		@Override

@@ -2,8 +2,6 @@ package xy.reflect.ui.info.menu.builtin.swing;
 
 import java.io.File;
 
-import javax.swing.JPanel;
-
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -45,7 +43,7 @@ public class SaveMenuItem extends AbstractSaveMenuItem {
 	@Override
 	public String getName(final Object form, final Object renderer) {
 		String result = super.getName(form, renderer);
-		File file = lastFileByForm.get((JPanel) form);
+		File file = lastFileByForm.get((Form) form);
 		if (file != null) {
 			result += " " + file.getPath();
 		}

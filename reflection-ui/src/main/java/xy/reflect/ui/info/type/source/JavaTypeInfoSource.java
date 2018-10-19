@@ -255,7 +255,8 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 
 	@Override
 	public String toString() {
-		return "JavaTypeInfoSource [javaType=" + javaType + "]";
+		return "JavaTypeInfoSource [javaType=" + javaType + ", specificitiesIdentifier=" + specificitiesIdentifier
+				+ "]";
 	}
 
 }

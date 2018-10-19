@@ -9,7 +9,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 public class PositionColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	@Override
-	public String getCellValue(ItemPosition itemPosition, Object rootListValue) {
+	public String getCellValue(ItemPosition itemPosition) {
 		if (itemPosition.isRoot()) {
 			return Integer.toString(itemPosition.getIndex() + 1);
 		} else {
@@ -18,7 +18,7 @@ public class PositionColumnInfo extends AbstractInfo implements IColumnInfo {
 	}
 
 	@Override
-	public boolean hasCellValue(ItemPosition itemPosition, Object rootListValue) {
+	public boolean hasCellValue(ItemPosition itemPosition) {
 		return itemPosition.isRoot();
 	}
 

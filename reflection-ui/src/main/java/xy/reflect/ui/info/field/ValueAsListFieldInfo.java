@@ -22,8 +22,8 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containingType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
-		this.listType = createListType();
 		this.containingType = containingType;
+		this.listType = createListType();
 	}
 
 	protected IListTypeInfo createListType() {

@@ -31,8 +31,8 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getIndex();
 	}
 
-	public Object getItem(Object rootListValue) {
-		return delegate.getItem(rootListValue);
+	public Object getItem() {
+		return delegate.getItem();
 	}
 
 	public String getContainingListTitle() {
@@ -55,12 +55,12 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getDepth();
 	}
 
-	public List<? extends ItemPosition> getPreviousSiblings(Object rootListValue) {
-		return delegate.getPreviousSiblings(rootListValue);
+	public List<? extends ItemPosition> getPreviousSiblings() {
+		return delegate.getPreviousSiblings();
 	}
 
-	public List<? extends ItemPosition> getFollowingSiblings(Object rootListValue) {
-		return delegate.getFollowingSiblings(rootListValue);
+	public List<? extends ItemPosition> getFollowingSiblings() {
+		return delegate.getFollowingSiblings();
 	}
 
 	public List<ItemPosition> getAncestors() {
@@ -75,8 +75,8 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getContainingListFieldIfNotRoot();
 	}
 
-	public int getContainingListSize(Object rootListValue) {
-		return delegate.getContainingListSize(rootListValue);
+	public int getContainingListSize() {
+		return delegate.getContainingListSize();
 	}
 
 	public ValueReturnMode geContainingListReturnMode() {
@@ -87,8 +87,8 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.isContainingListGetOnly();
 	}
 
-	public List<? extends ItemPosition> getSubItemPositions(Object rootListValue) {
-		return delegate.getSubItemPositions(rootListValue);
+	public List<? extends ItemPosition> getSubItemPositions() {
+		return delegate.getSubItemPositions();
 	}
 
 	public boolean isRoot() {
@@ -103,16 +103,16 @@ public class DelegatingItemPosition extends ItemPosition {
 		return delegate.getItemReturnMode();
 	}
 
-	public Object[] retrieveSubListRawValue(Object rootListValue) {
-		return delegate.retrieveSubListRawValue(rootListValue);
+	public Object[] retrieveSubListRawValue() {
+		return delegate.retrieveSubListRawValue();
 	}
 
-	public IFieldInfo getSubListField(Object rootListValue) {
-		return delegate.getSubListField(rootListValue);
+	public IFieldInfo getSubListField() {
+		return delegate.getSubListField();
 	}
 
-	public ItemPosition getSubItemPosition(int index, Object rootListValue) {
-		return delegate.getSubItemPosition(index, rootListValue);
+	public ItemPosition getSubItemPosition(int index) {
+		return delegate.getSubItemPosition(index);
 	}
 
 	public IListStructuralInfo getStructuralInfo() {

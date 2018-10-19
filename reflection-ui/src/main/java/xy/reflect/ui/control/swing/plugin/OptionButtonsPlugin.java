@@ -10,8 +10,8 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
 import javax.swing.JRadioButton;
-import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.IFieldControlData;
@@ -25,6 +25,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.WrapLayout;
 
@@ -107,7 +108,8 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					setBorder(
 							BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 					if (data.getForegroundColor() != null) {
-						((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
+						((TitledBorder) getBorder())
+								.setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
 					}
 					if (data.getBorderColor() != null) {
 						((TitledBorder) getBorder()).setBorder(
@@ -148,14 +150,15 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 			for (Enumeration<AbstractButton> radioButtonsEnum = buttonGroup.getElements(); radioButtonsEnum
 					.hasMoreElements();) {
 				AbstractButton button = radioButtonsEnum.nextElement();
-				if (ReflectionUIUtils.equalsOrBothNull(currentValue, possibleValues.get(i))) {
-					listenerDisabled = true;
-					try {
+				listenerDisabled = true;
+				try {
+					if (ReflectionUIUtils.equalsOrBothNull(currentValue, possibleValues.get(i))) {
 						button.setSelected(true);
-					} finally {
-						listenerDisabled = false;
+					}else {
+						button.setSelected(false);
 					}
-					break;
+				} finally {
+					listenerDisabled = false;
 				}
 				i++;
 			}
@@ -164,15 +167,38 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		protected AbstractButton createButton(final Object value) {
 			OptionButtonsConfiguration controlCustomization = (OptionButtonsConfiguration) loadControlCustomization(
 					input);
-			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
-			AbstractButton result;
+			final IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
+			final AbstractButton result;
 			if (controlCustomization.buttonType == OptionButtonType.RADIO) {
 				result = new JRadioButton(swingRenderer.prepareStringToDisplay(itemInfo.getCaption()));
 				result.setOpaque(false);
 				result.setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
 			} else if (controlCustomization.buttonType == OptionButtonType.TOGGLE) {
-				result = new JToggleButton(swingRenderer.prepareStringToDisplay(itemInfo.getCaption()));
-				result.setIcon(SwingRendererUtils.getEnumerationItemIcon(swingRenderer, itemInfo));
+				result = new AbstractControlButton() {
+
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public SwingRenderer getSwingRenderer() {
+						return OptionButtons.this.swingRenderer;
+					}
+
+					@Override
+					protected boolean isApplicationStyleButtonSpecific() {
+						return false;
+					}
+
+					@Override
+					public String retrieveCaption() {
+						return itemInfo.getCaption();
+					}
+
+					@Override
+					public Icon retrieveIcon() {
+						return SwingRendererUtils.getEnumerationItemIcon(swingRenderer, itemInfo);
+					}
+
+				};
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -182,6 +208,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					if (listenerDisabled) {
 						return;
 					}
+					result.setSelected(true);
 					data.setValue(value);
 				}
 			});

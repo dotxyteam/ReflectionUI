@@ -37,6 +37,8 @@ import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
@@ -444,7 +446,14 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			return new NullControl(swingRenderer, this);
 		}
 		ITypeInfo actualValueType = this.swingRenderer.reflectionUI
-				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(value));
+				.getTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
+					SpecificitiesIdentifier specificitiesIdentifier = controlData.getType().getSource()
+							.getSpecificitiesIdentifier();
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return specificitiesIdentifier;
+					}
+				});
 		if (!controlData.getType().getName().equals(actualValueType.getName())) {
 			final ITypeInfo finalActualValueType = actualValueType;
 			controlData = new FieldControlDataProxy(controlData) {

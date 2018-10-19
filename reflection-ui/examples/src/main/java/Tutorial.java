@@ -281,8 +281,7 @@ public class Tutorial {
 					 */
 					@Override
 					protected CategoriesStyle getCategoriesStyle(ITypeInfo type) {
-						// TODO Auto-generated method stub
-						return super.getCategoriesStyle(type);
+						return CategoriesStyle.MODERN;
 					}
 
 				}.wrapTypeInfo(super.getTypeInfo(typeSource));
@@ -454,8 +453,8 @@ public class Tutorial {
 			/*
 			 * Displaying XML serialization text.
 			 */
-			String message = "<!-- Check the source code of " + FileExplorer.class.getName() + " and "
-					+ Calculator.class.getName() + " classes for more information -->";
+			String message = "<!-- Check " + FileExplorer.class.getName() + ".java and "
+					+ Calculator.class.getName() + ".java examples for more information -->";
 			message += "\n\n" + memoryOutput.toString();
 			CustomizedSwingRenderer.getDefault().openInformationDialog(null, message, "XML customizations example",
 					null);

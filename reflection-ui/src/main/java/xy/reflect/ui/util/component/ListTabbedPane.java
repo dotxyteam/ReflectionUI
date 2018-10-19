@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -39,7 +40,7 @@ public class ListTabbedPane extends JPanel {
 
 	public static void main(String[] args) {
 		ListTabbedPane tabbedPane = new ListTabbedPane(JTabbedPane.TOP);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			tabbedPane.addTab("tab" + i, new JTextArea("tab" + i + " OK"));
 		}
 		tabbedPane.setPreferredSize(new Dimension(800, 600));
@@ -156,7 +157,40 @@ public class ListTabbedPane extends JPanel {
 	}
 
 	protected Component wrapListControl(JList listControl, int placement) {
-		return new JScrollPane(listControl);
+		return new JScrollPane(listControl) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result == null) {
+					return null;
+				}
+				result = preventScrollBarsFromHidingContent(result);
+				return result;
+			}
+
+			Dimension preventScrollBarsFromHidingContent(Dimension size) {
+				Dimension result = new Dimension(size);
+				JScrollBar hSBar = getHorizontalScrollBar();
+				{
+					if (hSBar != null) {
+						if (hSBar.isVisible()) {
+							result.height += hSBar.getHeight();
+						}
+					}
+				}
+				JScrollBar vSBar = getVerticalScrollBar();
+				{
+					if (vSBar != null) {
+						if (vSBar.isVisible()) {
+							result.width += vSBar.getWidth();
+						}
+					}
+				}
+				return result;
+			}
+		};
 	}
 
 	protected Component preventItemSelectionWhenClickingEmptySpace(Component listComponent, int placement) {

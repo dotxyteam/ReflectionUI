@@ -15,9 +15,9 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 	}
 
 	@Override
-	public Object[] retrieveRootListRawValue(Object rootListValue) {
+	public Object[] retrieveRootListRawValue() {
 		if (bufferedRootListRawValue == null) {
-			bufferedRootListRawValue = super.retrieveRootListRawValue(rootListValue);
+			bufferedRootListRawValue = super.retrieveRootListRawValue();
 		}
 		return bufferedRootListRawValue;
 	}

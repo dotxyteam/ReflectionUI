@@ -181,13 +181,13 @@ public abstract class AbstractControlButton extends JButton {
 	@Override
 	protected void paintComponent(Graphics g) {
 		if (backgroundImage != null) {
-			if (getModel().isArmed()) {
+			if (getModel().isArmed() || isSelected()) {
 				g.drawImage(activatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
 			} else {
 				g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
 			}
 		} else if (backgroundColor != null) {
-			if (getModel().isArmed()) {
+			if (getModel().isArmed() || isSelected()) {
 				g.setColor(activatedBackgroundColor);
 				g.fillRect(0, 0, getWidth(), getHeight());
 			} else if (getModel().isEnabled()) {

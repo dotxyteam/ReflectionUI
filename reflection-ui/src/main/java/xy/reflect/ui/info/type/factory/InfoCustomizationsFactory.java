@@ -84,7 +84,6 @@ import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.IdentityEqualityWrapper;
@@ -270,12 +269,13 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected List<IListProperty> getDynamicProperties(IListTypeInfo listType, List<? extends ItemPosition> selection,
-			final Object rootListValue) {
+			final Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			List<IListProperty> result = super.getDynamicProperties(listType, selection, rootListValue);
+			List<IListProperty> result = super.getDynamicProperties(listType, selection,
+					listModificationFactoryAccessor);
 			result = new ArrayList<IListProperty>(result);
 			for (final ListItemFieldShortcut shortcut : l.getAllowedItemFieldShortcuts()) {
 				final String fieldCaption;
@@ -287,7 +287,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 				boolean fieldFound = false;
 				if (selection.size() == 1) {
 					final ItemPosition itemPosition = selection.get(0);
-					final Object item = itemPosition.getItem(rootListValue);
+					final Object item = itemPosition.getItem();
 					if (item != null) {
 						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IFieldInfo itemField : actualItemType.getFields()) {
@@ -296,13 +296,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									IFieldInfo itemPositionAsField = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
-										ListModificationFactory listModificationUtil = new ListModificationFactory(
-												itemPosition, rootListValue, new Mapper<Object, IModification>() {
-													@Override
-													public IModification get(Object i) {
-														return IModification.NULL_MODIFICATION;
-													}
-												});
+										ListModificationFactory listModificationFactory = listModificationFactoryAccessor
+												.get(itemPosition);
 
 										@Override
 										public Object getValue(Object object) {
@@ -316,23 +311,18 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 										@Override
 										public void setValue(Object object, Object value) {
-											listModificationUtil.set(itemPosition.getIndex(), item)
+											listModificationFactory.set(itemPosition.getIndex(), item)
 													.applyAndGetOpposite();
 										}
 
 										@Override
 										public boolean isGetOnly() {
-											return !listModificationUtil.canSet(itemPosition.getIndex());
+											return !listModificationFactory.canSet(itemPosition.getIndex());
 										}
 
 									};
 									SubFieldInfo delegate = new SubFieldInfo(customizedUI, itemPositionAsField,
 											itemField, actualItemType);
-
-									@Override
-									public Object getRootListValue() {
-										return rootListValue;
-									}
 
 									@Override
 									public boolean isEnabled() {
@@ -421,11 +411,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					AbstractListProperty property = new AbstractListProperty() {
 
 						@Override
-						public Object getRootListValue() {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
 						public boolean isEnabled() {
 							return false;
 						}
@@ -477,17 +462,17 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 			return result;
 		}
-		return super.getDynamicProperties(listType, selection, rootListValue);
+		return super.getDynamicProperties(listType, selection, listModificationFactoryAccessor);
 	}
 
 	@Override
 	protected List<IListAction> getDynamicActions(IListTypeInfo listType, List<? extends ItemPosition> selection,
-			final Object rootListValue) {
+			final Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			List<IListAction> result = super.getDynamicActions(listType, selection, rootListValue);
+			List<IListAction> result = super.getDynamicActions(listType, selection, listModificationFactoryAccessor);
 			result = new ArrayList<IListAction>(result);
 
 			for (final ListItemMethodShortcut shortcut : l.getAllowedItemMethodShortcuts()) {
@@ -502,7 +487,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 				boolean methodFound = false;
 				if (selection.size() == 1) {
 					final ItemPosition itemPosition = selection.get(0);
-					final Object item = itemPosition.getItem(rootListValue);
+					final Object item = itemPosition.getItem();
 					if (item != null) {
 						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
@@ -511,13 +496,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									IFieldInfo itemPositionAsField = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
-										ListModificationFactory listModificationUtil = new ListModificationFactory(
-												itemPosition, rootListValue, new Mapper<Object, IModification>() {
-													@Override
-													public IModification get(Object i) {
-														return IModification.NULL_MODIFICATION;
-													}
-												});
+										ListModificationFactory listModificationFactory = listModificationFactoryAccessor
+												.get(itemPosition);
 
 										@Override
 										public Object getValue(Object object) {
@@ -531,13 +511,13 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 										@Override
 										public void setValue(Object object, Object value) {
-											listModificationUtil.set(itemPosition.getIndex(), item)
+											listModificationFactory.set(itemPosition.getIndex(), item)
 													.applyAndGetOpposite();
 										}
 
 										@Override
 										public boolean isGetOnly() {
-											return !listModificationUtil.canSet(itemPosition.getIndex());
+											return !listModificationFactory.canSet(itemPosition.getIndex());
 										}
 
 									};
@@ -546,11 +526,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									boolean returnValueVoid = false;
 									ITypeInfo returnValueType;
-
-									@Override
-									public Object getRootListValue() {
-										return rootListValue;
-									}
 
 									@Override
 									public String getName() {
@@ -665,11 +640,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					result.add(new AbstractListAction() {
 
 						@Override
-						public Object getRootListValue() {
-							throw new UnsupportedOperationException();
-						}
-
-						@Override
 						public boolean isNullReturnValueDistinct() {
 							return false;
 						}
@@ -704,7 +674,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 			return result;
 		}
-		return super.getDynamicActions(listType, selection, rootListValue);
+		return super.getDynamicActions(listType, selection, listModificationFactoryAccessor);
 	}
 
 	@Override

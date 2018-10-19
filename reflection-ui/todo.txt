@@ -1,3 +1,4 @@
+- undo/redo/etc menu tooltips absent
 - optimize data update delay: not needed systematically
 - improve delayed update process: extend the sleep duration on alreadly delaying schedule 
 - add a proxy factory to check type specifities identifiers

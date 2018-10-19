@@ -5,6 +5,8 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
 public abstract class AbstractItemPositionFactory {
 
+	public abstract Object getRootListValue();
+
 	public abstract IListTypeInfo getRootListType();
 
 	public abstract ValueReturnMode getRootListValueReturnMode();
@@ -26,7 +28,8 @@ public abstract class AbstractItemPositionFactory {
 		return new ItemPosition();
 	}
 
-	public Object[] retrieveRootListRawValue(Object rootListValue) {
+	public Object[] retrieveRootListRawValue() {
+		Object rootListValue = getRootListValue();
 		if (rootListValue == null) {
 			return new Object[0];
 		}

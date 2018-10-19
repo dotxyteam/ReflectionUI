@@ -21,10 +21,8 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class TestIterableTypeInfos  {
+public class TestIterableTypeInfos {
 
-	
-	
 	public abstract class AbstractItem {
 		public int abstractValue;
 		public int abstractValue2;
@@ -72,7 +70,7 @@ public class TestIterableTypeInfos  {
 		itemListTypeCustomization.setTreeStructureDiscoverySettings(treeSettings);
 		treeSettings.setHeterogeneousTree(false);
 
-		Object itemListValue = itemListInfo.getValue(this);
+		final Object itemListValue = itemListInfo.getValue(this);
 		Object[] itemLisRawValue = itemListTypeInfo.toArray(itemListValue);
 		Assert.assertArrayEquals(itemLisRawValue, itemList.toArray());
 		Assert.assertEquals(itemListTypeInfo.fromArray(itemLisRawValue), itemList);
@@ -80,6 +78,11 @@ public class TestIterableTypeInfos  {
 		IListStructuralInfo itemListStructuralInfo = itemListTypeInfo.getStructuralInfo();
 
 		ItemPosition firstItemPosition = new AbstractItemPositionFactory() {
+
+			@Override
+			public Object getRootListValue() {
+				return itemListValue;
+			}
 
 			@Override
 			public IListTypeInfo getRootListType() {
@@ -102,7 +105,7 @@ public class TestIterableTypeInfos  {
 			}
 		}.getRootItemPosition(0);
 		ITypeInfo firstItemType = customizedUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass(), null));
-		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition, itemListValue),
+		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),
 				firstItemType.getCaption());
 
 		IFieldInfo valueField = ReflectionUIUtils.findInfoByName(firstItemType.getFields(), "value");
@@ -112,14 +115,14 @@ public class TestIterableTypeInfos  {
 			}
 		}
 
-		IInfoFilter firstItemInfoSettings = itemListStructuralInfo.getItemInfoFilter(firstItemPosition, itemListValue);
+		IInfoFilter firstItemInfoSettings = itemListStructuralInfo.getItemInfoFilter(firstItemPosition);
 		Assert.assertTrue(!firstItemInfoSettings.excludeField(valueField));
 
 		IFieldInfo subItemsField = ReflectionUIUtils.findInfoByName(firstItemType.getFields(), "subItems");
-		IFieldInfo subListField = itemListStructuralInfo.getItemSubListField(firstItemPosition, itemListValue);
+		IFieldInfo subListField = itemListStructuralInfo.getItemSubListField(firstItemPosition);
 		Assert.assertTrue(subListField.getCaption().contains(subItemsField.getCaption()));
 
-		Object subListNameNodeList = subListField.getValue(firstItemPosition.getItem(itemListValue));
+		Object subListNameNodeList = subListField.getValue(firstItemPosition.getItem());
 		Object subListNameNode = ((IListTypeInfo) subListField.getType()).toArray(subListNameNodeList)[0];
 		ITypeInfo subListNameNodeType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(subListNameNode));
 		IFieldInfo actualSubListField = subListNameNodeType.getFields().get(0);

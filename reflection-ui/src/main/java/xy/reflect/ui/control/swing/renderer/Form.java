@@ -27,6 +27,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
@@ -487,7 +488,40 @@ public class Form extends ImagePanel {
 
 				@Override
 				protected Component wrapListControl(JList listControl, int placement) {
-					JScrollPane result = new ControlScrollPane(listControl);
+					JScrollPane result = new ControlScrollPane(listControl) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public Dimension getPreferredSize() {
+							Dimension result = super.getPreferredSize();
+							if (result == null) {
+								return null;
+							}
+							result = preventScrollBarsFromHidingContent(result);
+							return result;
+						}
+
+						Dimension preventScrollBarsFromHidingContent(Dimension size) {
+							Dimension result = new Dimension(size);
+							JScrollBar hSBar = getHorizontalScrollBar();
+							{
+								if (hSBar != null) {
+									if (hSBar.isVisible()) {
+										result.height += hSBar.getHeight();
+									}
+								}
+							}
+							JScrollBar vSBar = getVerticalScrollBar();
+							{
+								if (vSBar != null) {
+									if (vSBar.isVisible()) {
+										result.width += vSBar.getWidth();
+									}
+								}
+							}
+							return result;
+						}
+					};
 					result.setBorder(null);
 					return result;
 				}
@@ -527,8 +561,7 @@ public class Form extends ImagePanel {
 					Color backgroundColor = getCellBackgroundColor();
 					if (backgroundColor != null) {
 						selectedCellRenderer.setOpaque(true);
-						selectedCellRenderer
-								.setBackground(swingRenderer.addColorActivationEffect(backgroundColor));
+						selectedCellRenderer.setBackground(swingRenderer.addColorActivationEffect(backgroundColor));
 						selectedCellRenderer.setBorder(null);
 					} else {
 						selectedCellRenderer.setOpaque(false);
@@ -603,7 +636,13 @@ public class Form extends ImagePanel {
 
 	public void setDisplayedCategory(String categoryCaption, int categoryPosition) {
 		if (categoriesControl != null) {
-			for (int i = 0; i < ((ListTabbedPane) categoriesControl).getTabCount(); i++) {
+			int tabCount;
+			if (isCategoriesControlModern()) {
+				tabCount = ((ListTabbedPane) categoriesControl).getTabCount();
+			} else {
+				tabCount = ((JTabbedPane) categoriesControl).getTabCount();
+			}
+			for (int i = 0; i < tabCount; i++) {
 				String currentCategoryCaption;
 				if (isCategoriesControlModern()) {
 					currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(i);

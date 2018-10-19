@@ -35,6 +35,8 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.undo.ListModificationFactory;
+import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -384,7 +386,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public void onSelection(List<? extends ItemPosition> newSelection, Object rootListValue) {
+		public void onSelection(List<? extends ItemPosition> newSelection) {
 		}
 
 		@Override
@@ -593,12 +595,14 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection, Object rootListValue) {
+		public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection,
+				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 			return Collections.emptyList();
 		}
 
 		@Override
-		public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection, Object rootListValue) {
+		public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 			return Collections.emptyList();
 		}
 
