@@ -1531,6 +1531,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		protected TableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
 
+		public ItemTableCellRenderer() {
+		}
+
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
@@ -1551,6 +1554,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		protected TreeCellRenderer defaultRenderer = new DefaultTreeCellRenderer();
 		protected JLabel component = new JLabel();
+
+		public ItemTreeCellRenderer() {
+		}
 
 		@Override
 		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,

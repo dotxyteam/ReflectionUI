@@ -111,7 +111,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	public Object invoke(Object object, InvocationData invocationData) {
 		Object[] args = new Object[javaMethod.getParameterTypes().length];
 		for (IParameterInfo param : getParameters()) {
-			args[param.getPosition()] = invocationData.getParameterValue(param);
+			args[param.getPosition()] = invocationData.getParameterValue(param.getPosition());
 		}
 		try {
 			return javaMethod.invoke(object, args);

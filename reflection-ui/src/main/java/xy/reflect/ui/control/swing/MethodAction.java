@@ -97,7 +97,7 @@ public class MethodAction extends AbstractAction {
 		if (data.getParameters().size() > 0) {
 			openMethoExecutionSettingDialog(activatorComponent);
 		} else {
-			invoke(new InvocationData(), activatorComponent);
+			invoke(new InvocationData(data.getParameters()), activatorComponent);
 		}
 	}
 
@@ -107,7 +107,7 @@ public class MethodAction extends AbstractAction {
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
 			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getMethodSignature());
 		} else {
-			invocationData = new InvocationData();
+			invocationData = new InvocationData(data.getParameters());
 		}
 		final Form methodForm = swingRenderer.createForm(createParametersObject(invocationData));
 		Accessor<List<Component>> toolbarControlsAccessor = new Accessor<List<Component>>() {
@@ -359,7 +359,7 @@ public class MethodAction extends AbstractAction {
 		if (!data.isReturnValueDetached() || (returnValue == null)) {
 			editorBuilder.showDialog();
 		} else {
-			editorBuilder.showFrame();
+			editorBuilder.createAndShowFrame();
 		}
 	}
 

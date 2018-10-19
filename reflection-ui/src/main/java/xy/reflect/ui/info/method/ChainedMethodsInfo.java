@@ -100,7 +100,7 @@ public class ChainedMethodsInfo implements IMethodInfo {
 		Runnable method1UndoJob = method1.getNextInvocationUndoJob(object, invocationData);
 		Object result = method1.invoke(object, invocationData);
 
-		invocationData = new InvocationData(result);
+		invocationData = new InvocationData(method2, result);
 
 		Runnable method2UndoJob = method2.getNextInvocationUndoJob(object, invocationData);
 		result = method2.invoke(object, invocationData);

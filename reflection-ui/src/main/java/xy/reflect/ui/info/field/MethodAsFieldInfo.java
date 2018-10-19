@@ -84,7 +84,7 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		return method.invoke(object, new InvocationData());
+		return method.invoke(object, new InvocationData(method));
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-		return method.getNextInvocationUndoJob(object, new InvocationData());
+		return method.getNextInvocationUndoJob(object, new InvocationData(method));
 	}
 
 	@Override

@@ -1153,7 +1153,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 							throw new ReflectionUIError(
 									"Invalid validating method: Number of parameters > 0: " + method.getSignature());
 						}
-						method.invoke(object, new InvocationData());
+						method.invoke(object, new InvocationData(method));
 					}
 				}
 			}
@@ -1175,7 +1175,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 									"Cannot call method on object visibilty change: Number of parameters > 0: "
 											+ method.getSignature());
 						}
-						method.invoke(object, new InvocationData());
+						method.invoke(object, new InvocationData(method));
 						formUpdateNeeded = formUpdateNeeded || !method.isReadOnly();
 					}
 				}
@@ -1988,7 +1988,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
 									Object paramValue = methodParameterAsField.getValue(object);
-									invocationData.setParameterValue(param, paramValue);
+									invocationData.provideParameterValue(param.getPosition(), paramValue);
 									try {
 										super.validateParameters(object, invocationData);
 									} catch (Exception e) {
@@ -2376,7 +2376,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 								throw new ReflectionUIError("Field '" + f.getFieldName()
 										+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");
 							}
-							customMethod.invoke(object, new InvocationData(value));
+							customMethod.invoke(object, new InvocationData(customMethod, value));
 						}
 
 					};

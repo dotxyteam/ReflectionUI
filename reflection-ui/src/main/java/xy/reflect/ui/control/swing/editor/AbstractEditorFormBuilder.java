@@ -14,8 +14,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.undo.IModification;
@@ -138,12 +136,7 @@ public abstract class AbstractEditorFormBuilder {
 
 	public EncapsulatedObjectFactory getEncapsulation() {
 		ITypeInfo fieldType = getSwingRenderer().getReflectionUI()
-				.getTypeInfo(new TypeInfoSourceProxy(getEncapsulatedFieldNonSpecificTypeSource()) {
-					@Override
-					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-						return new SpecificitiesIdentifier(getEncapsulationTypeName(), getEncapsulationFieldName());
-					}
-				});
+				.getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource());
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getEncapsulationTypeName(), fieldType) {
 			@Override

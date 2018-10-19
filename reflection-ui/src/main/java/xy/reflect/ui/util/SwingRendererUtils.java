@@ -1081,4 +1081,17 @@ public class SwingRendererUtils {
 		return result;
 	}
 
+	public static BufferedImage iconToImage(Icon icon) {
+		int w = icon.getIconWidth();
+		int h = icon.getIconHeight();
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		GraphicsConfiguration gc = gd.getDefaultConfiguration();
+		BufferedImage image = gc.createCompatibleImage(w, h);
+		Graphics2D g = image.createGraphics();
+		icon.paintIcon(null, g, 0, 0);
+		g.dispose();
+		return image;
+	}
+
 }

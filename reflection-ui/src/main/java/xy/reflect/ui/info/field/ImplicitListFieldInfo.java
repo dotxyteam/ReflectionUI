@@ -82,7 +82,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 					@Override
 					public Object invoke(Object parentObject, InvocationData invocationData) {
-						Object result = getCreateMethod().invoke(parentObject, new InvocationData(parentObject));
+						Object result = getCreateMethod().invoke(parentObject, new InvocationData(getCreateMethod(), parentObject));
 						return result;
 					}
 
@@ -189,13 +189,13 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			if (size == 0) {
 				break;
 			}
-			getRemoveMethod().invoke(object, new InvocationData(0, 0));
+			getRemoveMethod().invoke(object, new InvocationData(getRemoveMethod(), 0, 0));
 		}
 		for (int i = 0; i < array.length; i++) {
 			Object item = array[i];
-			InvocationData invocationData = new InvocationData();
-			invocationData.setParameterValue(0, i);
-			invocationData.setParameterValue(1, item);
+			InvocationData invocationData = new InvocationData(getAddMethod());
+			invocationData.provideParameterValue(0, i);
+			invocationData.provideParameterValue(1, item);
 			getAddMethod().invoke(object, invocationData);
 		}
 	}
@@ -328,7 +328,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			List<Object> result = new ArrayList<Object>();
 			int size = (Integer) getSizeField().getValue(object);
 			for (int i = 0; i < size; i++) {
-				Object item = getGetMethod().invoke(object, new InvocationData(i));
+				Object item = getGetMethod().invoke(object, new InvocationData( getGetMethod(), i));
 				result.add(item);
 			}
 			return result.toArray();
@@ -621,7 +621,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 				@Override
 				public Object invoke(Object parentObject, InvocationData invocationData) {
-					Object result = getCreateMethod().invoke(parentObject, new InvocationData(parentObject));
+					Object result = getCreateMethod().invoke(parentObject, new InvocationData(getCreateMethod(), parentObject));
 					return result;
 				}
 

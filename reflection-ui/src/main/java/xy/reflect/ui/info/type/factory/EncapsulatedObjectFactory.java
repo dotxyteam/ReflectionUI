@@ -24,6 +24,8 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -585,6 +587,9 @@ public class EncapsulatedObjectFactory {
 	}
 
 	public class ValueFieldInfo extends AbstractInfo implements IFieldInfo {
+
+		protected ITypeInfo type;
+
 		@Override
 		public String getName() {
 			return fieldName;
@@ -661,7 +666,15 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public ITypeInfo getType() {
-			return fieldType;
+			if (type == null) {
+				type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(fieldType.getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return new SpecificitiesIdentifier(typeName, ValueFieldInfo.this.getName());
+					}
+				});
+			}
+			return type;
 		}
 
 		@Override

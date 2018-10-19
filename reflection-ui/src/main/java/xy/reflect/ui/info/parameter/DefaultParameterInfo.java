@@ -74,36 +74,6 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((javaParameter == null) ? 0 : javaParameter.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DefaultParameterInfo other = (DefaultParameterInfo) obj;
-		if (javaParameter == null) {
-			if (other.javaParameter != null)
-				return false;
-		} else if (!javaParameter.equals(other.javaParameter))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "DefaultParameterInfo [javaParameter=" + javaParameter + "]";
-	}
-
-	@Override
 	public boolean isNullValueDistinct() {
 		return false;
 	}
@@ -132,4 +102,33 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 		return Collections.emptyMap();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((javaParameter == null) ? 0 : javaParameter.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefaultParameterInfo other = (DefaultParameterInfo) obj;
+		if (javaParameter == null) {
+			if (other.javaParameter != null)
+				return false;
+		} else if (!javaParameter.equals(other.javaParameter))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "DefaultParameterInfo [javaParameter=" + javaParameter + "]";
+	}
 }

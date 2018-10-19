@@ -2,8 +2,8 @@ package xy.reflect.ui.info.method;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
@@ -11,55 +11,55 @@ public class InvocationData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
+	protected Map<Integer, Object> providedParameterValues = new HashMap<Integer, Object>();
+	protected List<IParameterInfo> parameters;
 
-	public InvocationData() {
-		this(new Object[0]);
-	}
-
-	public InvocationData(Object... parameterValues) {
+	public InvocationData(List<IParameterInfo> parameters, Object... parameterValues) {
+		this.parameters = parameters;
 		for (int i = 0; i < parameterValues.length; i++) {
-			valueByParameterPosition.put(i, parameterValues[i]);
+			providedParameterValues.put(i, parameterValues[i]);
 		}
 	}
 
-	public Map<Integer, Object> getInternalMap() {
-		return valueByParameterPosition;
+	public InvocationData(IMethodInfo method, Object... parameterValues) {
+		this(method.getParameters(), parameterValues);
 	}
 
-	public void setInternalMap(Map<Integer, Object> valueByParameterPosition) {
-		this.valueByParameterPosition = valueByParameterPosition;
+	public Map<Integer, Object> getProvidedParameterValues() {
+		return providedParameterValues;
 	}
 
-	public Object getParameterValue(IParameterInfo param) {
-		return getParameterValue(param.getPosition(), param.getDefaultValue());
+	public void setProvidedParameterValues(Map<Integer, Object> providedValues) {
+		this.providedParameterValues = providedValues;
 	}
 
-	public Object getParameterValue(int parameterPosition, Object defaultValue) {
-		if (valueByParameterPosition.containsKey(parameterPosition)) {
-			return valueByParameterPosition.get(parameterPosition);
+	public Object getParameterValue(int parameterPosition) {
+		if (providedParameterValues.containsKey(parameterPosition)) {
+			return providedParameterValues.get(parameterPosition);
 		} else {
-			return defaultValue;
+			return parameters.get(parameterPosition).getDefaultValue();
 		}
 	}
 
-	public void setParameterValue(IParameterInfo param, Object value) {
-		setParameterValue(param.getPosition(), value);
+	public void provideParameterValue(int parameterPosition, Object value) {
+		providedParameterValues.put(parameterPosition, value);
 	}
 
-	public void setParameterValue(int parameterPosition, Object value) {
-		valueByParameterPosition.put(parameterPosition, value);
-	}
-
-	public Set<Integer> getProvidedParameterValuePositions() {
-		return valueByParameterPosition.keySet();
+	public boolean areAllDefaultValuesProvided() {
+		for (IParameterInfo param : parameters) {
+			if (param.getDefaultValue() == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((valueByParameterPosition == null) ? 0 : valueByParameterPosition.hashCode());
+		result = prime * result + ((parameters == null) ? 0 : parameters.hashCode());
+		result = prime * result + ((providedParameterValues == null) ? 0 : providedParameterValues.hashCode());
 		return result;
 	}
 
@@ -72,17 +72,22 @@ public class InvocationData implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		InvocationData other = (InvocationData) obj;
-		if (valueByParameterPosition == null) {
-			if (other.valueByParameterPosition != null)
+		if (parameters == null) {
+			if (other.parameters != null)
 				return false;
-		} else if (!valueByParameterPosition.equals(other.valueByParameterPosition))
+		} else if (!parameters.equals(other.parameters))
+			return false;
+		if (providedParameterValues == null) {
+			if (other.providedParameterValues != null)
+				return false;
+		} else if (!providedParameterValues.equals(other.providedParameterValues))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return new HashMap<Integer, Object>(valueByParameterPosition).toString();
+		return new HashMap<Integer, Object>(providedParameterValues).toString();
 	}
 
 }

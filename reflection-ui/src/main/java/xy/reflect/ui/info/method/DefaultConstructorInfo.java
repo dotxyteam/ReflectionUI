@@ -79,7 +79,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	public Object invoke(Object parentObject, InvocationData invocationData) {
 		Object[] args = new Object[javaConstructor.getParameterTypes().length];
 		for (IParameterInfo param : getParameters()) {
-			args[param.getPosition()] = invocationData.getParameterValue(param);
+			args[param.getPosition()] = invocationData.getParameterValue(param.getPosition());
 		}
 		try {
 			return javaConstructor.newInstance(args);

@@ -165,7 +165,8 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		return getGetterMethodInfo().invoke(object, new InvocationData());
+		IMethodInfo getter =  getGetterMethodInfo();
+		return getter.invoke(object, new InvocationData(getter));
 	}
 
 	@Override
@@ -181,7 +182,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public void setValue(Object object, Object value) {
 		IMethodInfo setter = getSetterMethodInfo();
-		setter.invoke(object, new InvocationData(value));
+		setter.invoke(object, new InvocationData(setter, value));
 	}
 
 	@Override

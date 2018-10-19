@@ -371,13 +371,13 @@ public class MethodInvocationDataAsObjectFactory {
 		@Override
 		public void setValue(Object object, Object value) {
 			Instance instance = (Instance) object;
-			instance.invocationData.setParameterValue(param, value);
+			instance.invocationData.provideParameterValue(param.getPosition(), value);
 		}
 
 		@Override
 		public Object getValue(Object object) {
 			Instance instance = (Instance) object;
-			return instance.invocationData.getParameterValue(param);
+			return instance.invocationData.getParameterValue(param.getPosition());
 		}
 
 		private MethodInvocationDataAsObjectFactory getOuterType() {

@@ -146,7 +146,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		if (listCustomization.getTreeStructureDiscoverySettings().isHeterogeneousTree()) {
 			return true;
 		}
-		if (ReflectionUIUtils.equalsOrBothNull(rootItemType, type)) {
+		if (rootItemType.getName().equals(type.getName())) {
 			return true;
 		}
 		if (type instanceof IMapEntryTypeInfo) {

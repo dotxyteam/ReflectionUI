@@ -278,6 +278,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public ITypeInfoSource getSource() {
+			return new PrecomputedTypeInfoSource(this, null);
+		}
+
+		@Override
 		public boolean isInsertionAllowed() {
 			return false;
 		}

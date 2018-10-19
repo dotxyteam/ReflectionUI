@@ -460,7 +460,7 @@ public class SwingRenderer {
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(
-				SwingRendererUtils.getMessagePane(getErrorMessage(error), JOptionPane.ERROR_MESSAGE, this));
+				SwingRendererUtils.getMessagePane(getErrorMessage(error) + "\n", JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -493,7 +493,7 @@ public class SwingRenderer {
 			final Image iconImage, final boolean cancellable, boolean modal) {
 		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, object, title, iconImage,
 				cancellable);
-		showDialog(editorBuilder.createDialog(), modal);
+		showDialog(editorBuilder.createAndShowDialog(), modal);
 		return editorBuilder;
 	}
 

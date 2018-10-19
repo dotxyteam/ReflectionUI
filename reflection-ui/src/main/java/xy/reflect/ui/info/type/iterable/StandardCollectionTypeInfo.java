@@ -91,7 +91,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public Object fromArray(Object[] array) {
 		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterMethod(getConstructors());
-		Collection result = (Collection) constructor.invoke(null, new InvocationData());
+		Collection result = (Collection) constructor.invoke(null, new InvocationData(constructor));
 		replaceContent(result, array);
 		return result;
 	}

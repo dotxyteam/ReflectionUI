@@ -707,13 +707,17 @@ public class ReflectionUIUtils {
 				}
 			}
 
-			IMethodInfo constructor = getZeroParameterMethod(type.getConstructors());
-			if (constructor == null) {
-				throw new ReflectionUIError("Default constructor not found");
+			IMethodInfo zeroParamConstructor = getZeroParameterMethod(type.getConstructors());
+			if (zeroParamConstructor != null) {
+				return zeroParamConstructor.invoke(parentObject, new InvocationData(zeroParamConstructor));
 			}
-
-			return constructor.invoke(parentObject, new InvocationData());
-
+			for (IMethodInfo constructor : type.getConstructors()) {
+				InvocationData invocationData = new InvocationData(constructor.getParameters());
+				if (invocationData.areAllDefaultValuesProvided()) {
+					return constructor.invoke(parentObject, invocationData);
+				}
+			}
+			throw new ReflectionUIError("Default constructor not found");
 		} catch (Throwable t) {
 			throw new ReflectionUIError(
 					"Failed to create a default instance of type '" + type.getName() + "': " + t.toString(), t);

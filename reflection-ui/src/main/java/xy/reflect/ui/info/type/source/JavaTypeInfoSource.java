@@ -216,14 +216,17 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		return parameterClasses.get(genericParameterIndex);
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(genericTypeParameters);
-		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
 		result = prime * result + declaringInvokableParameterPosition;
 		result = prime * result + ((declaringMember == null) ? 0 : declaringMember.hashCode());
+		result = prime * result + Arrays.hashCode(genericTypeParameters);
+		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
+		result = prime * result + ((specificitiesIdentifier == null) ? 0 : specificitiesIdentifier.hashCode());
 		return result;
 	}
 
@@ -236,6 +239,13 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		if (getClass() != obj.getClass())
 			return false;
 		JavaTypeInfoSource other = (JavaTypeInfoSource) obj;
+		if (declaringInvokableParameterPosition != other.declaringInvokableParameterPosition)
+			return false;
+		if (declaringMember == null) {
+			if (other.declaringMember != null)
+				return false;
+		} else if (!declaringMember.equals(other.declaringMember))
+			return false;
 		if (!Arrays.equals(genericTypeParameters, other.genericTypeParameters))
 			return false;
 		if (javaType == null) {
@@ -243,12 +253,10 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 				return false;
 		} else if (!javaType.equals(other.javaType))
 			return false;
-		if (declaringInvokableParameterPosition != other.declaringInvokableParameterPosition)
-			return false;
-		if (declaringMember == null) {
-			if (other.declaringMember != null)
+		if (specificitiesIdentifier == null) {
+			if (other.specificitiesIdentifier != null)
 				return false;
-		} else if (!declaringMember.equals(other.declaringMember))
+		} else if (!specificitiesIdentifier.equals(other.specificitiesIdentifier))
 			return false;
 		return true;
 	}

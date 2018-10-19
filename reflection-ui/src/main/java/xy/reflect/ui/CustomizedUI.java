@@ -92,9 +92,9 @@ public class CustomizedUI extends ReflectionUI {
 				ITypeInfoSource source = result.getSource();
 				if (source.getSpecificitiesIdentifier() != null) {
 					throw new ReflectionUIError(
-							"Invalid parameter type info: specificities identifier of type info source not null, null value expected: parameter="
-									+ param.getName() + ", method=" + method.getName() + ", containingType="
-									+ containingType.getName() + ", typeInfoSource=" + source);
+							"Invalid parameter type info: specificities identifier of type info source not null, null value expected."
+									+ "\n" + "parameter=" + param.getName() + ", method=" + method.getName()
+									+ ", containingType=" + containingType.getName() + ", typeInfoSource=" + source);
 				}
 				return result;
 			}
@@ -105,8 +105,8 @@ public class CustomizedUI extends ReflectionUI {
 				ITypeInfoSource source = result.getSource();
 				if (source.getSpecificitiesIdentifier() == null) {
 					throw new ReflectionUIError(
-							"Invalid field type info: specificities identifier of type info source is null, non-null value expected: field="
-									+ field.getName() + ", containingType=" + containingType.getName()
+							"Invalid field type info: specificities identifier of type info source is null, non-null value expected."
+									+ "\n" + "field=" + field.getName() + ", containingType=" + containingType.getName()
 									+ ", typeInfoSource=" + source);
 				}
 				return result;
@@ -121,9 +121,9 @@ public class CustomizedUI extends ReflectionUI {
 				ITypeInfoSource source = result.getSource();
 				if (source.getSpecificitiesIdentifier() != null) {
 					throw new ReflectionUIError(
-							"Invalid method type info: specificities identifier of type info source is not null, null value expected: method="
-									+ method.getName() + ", containingType=" + containingType.getName()
-									+ ", typeInfoSource=" + source);
+							"Invalid method type info: specificities identifier of type info source is not null, null value expected."
+									+ "\n" + "method=" + method.getName() + ", containingType="
+									+ containingType.getName() + ", typeInfoSource=" + source);
 				}
 				return result;
 			}

@@ -100,7 +100,7 @@ public class AllMethodParametersAsFieldInfo extends AbstractInfo implements IFie
 		}
 		InvocationData invocationData = invocationDataByMethod.get(method);
 		if (invocationData == null) {
-			invocationData = new InvocationData();
+			invocationData = new InvocationData(method);
 			invocationDataByMethod.put(method, invocationData);
 		}
 		return factory.getInstance(object, invocationData);

@@ -142,7 +142,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
-		Object value = invocationData.getParameterValue(parameter);
+		Object value = invocationData.getParameterValue(parameter.getPosition());
 		field.setValue(object, value);
 		return null;
 	}
@@ -164,7 +164,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public Runnable getNextInvocationUndoJob(final Object object, InvocationData invocationData) {
-		Object value = invocationData.getParameterValue(parameter);
+		Object value = invocationData.getParameterValue(parameter.getPosition());
 		Runnable result = field.getNextUpdateCustomUndoJob(object, value);
 		if (result == null) {
 			final Object oldValue = field.getValue(object);

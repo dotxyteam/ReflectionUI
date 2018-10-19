@@ -107,7 +107,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return createdFrame;
 	}
 
-	public void showFrame() {
+	public void createAndShowFrame() {
 		getSwingRenderer().showFrame(createFrame());
 	}
 
@@ -115,7 +115,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return getSwingRenderer().getDialogBuilder(getOwnerComponent());
 	}
 
-	public JDialog createDialog() {
+	public JDialog createAndShowDialog() {
 		createdEditorForm = createForm(false, false);
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(createdEditorForm);
@@ -147,7 +147,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	}
 
 	public void showDialog() {
-		getSwingRenderer().showDialog(createDialog(), true);
+		getSwingRenderer().showDialog(createAndShowDialog(), true);
 		if (hasParentObject()) {
 			if (canPotentiallyModifyParentObject()) {
 				impactParent();
