@@ -53,7 +53,6 @@ public class BufferedItemPosition extends ItemPosition {
 			((BufferedItemPosition) parentItemPosition).refreshBranch();
 		}
 		bufferedSubListRawValue = null;
-		fakeItem = null;
 		bufferedSubListField = null;
 	}
 

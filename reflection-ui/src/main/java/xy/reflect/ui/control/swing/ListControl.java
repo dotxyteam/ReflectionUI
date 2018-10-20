@@ -79,8 +79,8 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.iterable.IListAction;
-import xy.reflect.ui.info.type.iterable.IListProperty;
+import xy.reflect.ui.info.type.iterable.IDynamicListAction;
+import xy.reflect.ui.info.type.iterable.IDynamicListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
@@ -280,17 +280,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return createListModificationFactory((BufferedItemPosition) itemPosition);
 			}
 		};
-		List<IListProperty> dynamicProperties = getRootListType().getDynamicProperties(getSelection(),
+		List<IDynamicListProperty> dynamicProperties = getRootListType().getDynamicProperties(getSelection(),
 				modificationFactoryAccessor);
-		List<IListAction> dynamicActions = getRootListType().getDynamicActions(getSelection(),
+		List<IDynamicListAction> dynamicActions = getRootListType().getDynamicActions(getSelection(),
 				modificationFactoryAccessor);
 		if ((dynamicProperties.size() > 0) || (dynamicActions.size() > 0)) {
-			for (IListProperty listProperty : dynamicProperties) {
+			for (IDynamicListProperty listProperty : dynamicProperties) {
 				AbstractAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
 				toolbar.add(createTool((String) dynamicPropertyHook.getValue(AbstractAction.NAME), null, true, false,
 						dynamicPropertyHook));
 			}
-			for (IListAction listAction : dynamicActions) {
+			for (IDynamicListAction listAction : dynamicActions) {
 				AbstractAction dynamicActionHook = createDynamicActionHook(listAction);
 				toolbar.add(createTool((String) dynamicActionHook.getValue(AbstractAction.NAME), null, true, false,
 						dynamicActionHook));
@@ -776,11 +776,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return createListModificationFactory((BufferedItemPosition) itemPosition);
 			}
 		};
-		for (IListProperty listProperty : getRootListType().getDynamicProperties(selection,
+		for (IDynamicListProperty listProperty : getRootListType().getDynamicProperties(selection,
 				modificationFactoryAccessor)) {
 			result.add(createDynamicPropertyHook(listProperty));
 		}
-		for (IListAction listAction : getRootListType().getDynamicActions(selection, modificationFactoryAccessor)) {
+		for (IDynamicListAction listAction : getRootListType().getDynamicActions(selection, modificationFactoryAccessor)) {
 			result.add(createDynamicActionHook(listAction));
 		}
 
@@ -1081,11 +1081,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return (IListTypeInfo) listData.getType();
 	}
 
-	protected AbstractAction createDynamicPropertyHook(final IListProperty dynamicProperty) {
+	protected AbstractAction createDynamicPropertyHook(final IDynamicListProperty dynamicProperty) {
 		return new DynamicPropertyHook(dynamicProperty);
 	}
 
-	protected AbstractAction createDynamicActionHook(final IListAction dynamicAction) {
+	protected AbstractAction createDynamicActionHook(final IDynamicListAction dynamicAction) {
 		return new DynamicActionHook(dynamicAction);
 	}
 
@@ -1743,9 +1743,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public Object getInitialObjectValue() {
-			if (isObjectValueInitialized()) {
-				bufferedItemPosition.refreshBranch();
-			}
+			bufferedItemPosition.refreshBranch();
 			return bufferedItemPosition.getItem();
 		}
 
@@ -2391,9 +2389,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class DynamicActionHook extends AbstractStandardListAction {
 		protected static final long serialVersionUID = 1L;
 
-		private IListAction dynamicAction;
+		private IDynamicListAction dynamicAction;
 
-		public DynamicActionHook(IListAction dynamicAction) {
+		public DynamicActionHook(IDynamicListAction dynamicAction) {
 			this.dynamicAction = dynamicAction;
 		}
 
@@ -2415,7 +2413,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public IMethodControlData getControlData() {
 					IMethodControlData data = new DefaultMethodControlData(swingRenderer.getReflectionUI(),
-							IListAction.NO_OWNER, dynamicAction);
+							IDynamicListAction.NO_OWNER, dynamicAction);
 					data = new MethodControlDataProxy(data) {
 						@Override
 						public Object invoke(InvocationData invocationData) {
@@ -2469,9 +2467,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class DynamicPropertyHook extends AbstractStandardListAction {
 		protected static final long serialVersionUID = 1L;
 
-		private IListProperty dynamicProperty;
+		private IDynamicListProperty dynamicProperty;
 
-		public DynamicPropertyHook(IListProperty dynamicProperty) {
+		public DynamicPropertyHook(IDynamicListProperty dynamicProperty) {
 			this.dynamicProperty = dynamicProperty;
 		}
 
@@ -2521,12 +2519,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public Object getInitialObjectValue() {
-					return dynamicProperty.getValue(IListProperty.NO_OWNER);
+					return dynamicProperty.getValue(IDynamicListProperty.NO_OWNER);
 				}
 
 				@Override
 				protected Object[] getEncapsulationFieldValueOptions() {
-					return dynamicProperty.getValueOptions(IListProperty.NO_OWNER);
+					return dynamicProperty.getValueOptions(IDynamicListProperty.NO_OWNER);
 				}
 
 				@Override
@@ -2554,7 +2552,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public IModification createCommitModification(Object newObjectValue) {
 					return new ControlDataValueModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
-							IListProperty.NO_OWNER, dynamicProperty), newObjectValue);
+							IDynamicListProperty.NO_OWNER, dynamicProperty), newObjectValue);
 				}
 
 				@Override

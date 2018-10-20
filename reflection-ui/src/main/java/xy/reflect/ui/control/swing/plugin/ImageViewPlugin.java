@@ -531,16 +531,18 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 						@Override
 						public ITypeInfo getType() {
-							return swingRenderer.getReflectionUI()
-									.getTypeInfo(new JavaTypeInfoSource(File.class, null));
-						}
+							return new InfoProxyFactory() {
 
-						@Override
-						public Map<String, Object> getSpecificProperties() {
-							Map<String, Object> result = super.getSpecificProperties();
-							result = new HashMap<String, Object>();
-							browserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
-							return result;
+								@Override
+								protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+									Map<String, Object> result = super.getSpecificProperties(type);
+									result = new HashMap<String, Object>();
+									browserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
+									return result;
+								}
+
+							}.wrapTypeInfo(swingRenderer.getReflectionUI()
+									.getTypeInfo(new JavaTypeInfoSource(File.class, null)));
 						}
 
 					};

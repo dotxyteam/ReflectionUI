@@ -7,10 +7,10 @@ import java.util.Map;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.type.iterable.IListProperty;
+import xy.reflect.ui.info.type.iterable.IDynamicListProperty;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public abstract class AbstractListProperty extends AbstractInfo implements IListProperty {
+public abstract class AbstractListProperty extends AbstractInfo implements IDynamicListProperty {
 
 	@Override
 	public List<ItemPosition> getPostSelection() {

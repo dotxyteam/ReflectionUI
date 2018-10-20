@@ -11,11 +11,11 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public class ListActionProxy implements IListAction {
+public class ListActionProxy implements IDynamicListAction {
 
-	protected IListAction base;
+	protected IDynamicListAction base;
 
-	public ListActionProxy(IListAction base) {
+	public ListActionProxy(IDynamicListAction base) {
 		this.base = base;
 	}
 

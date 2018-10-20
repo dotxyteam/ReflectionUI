@@ -20,6 +20,7 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -87,15 +88,18 @@ public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem
 
 					@Override
 					public ITypeInfo getType() {
-						return swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(File.class, null));
-					}
+						return new InfoProxyFactory() {
 
-					@Override
-					public Map<String, Object> getSpecificProperties() {
-						Map<String, Object> result = super.getSpecificProperties();
-						result = new HashMap<String, Object>(result);
-						browserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
-						return result;
+							@Override
+							protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+								Map<String, Object> result = super.getSpecificProperties(type);
+								result = new HashMap<String, Object>();
+								browserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
+								return result;
+							}
+
+						}.wrapTypeInfo(
+								swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(File.class, null)));
 					}
 
 				};

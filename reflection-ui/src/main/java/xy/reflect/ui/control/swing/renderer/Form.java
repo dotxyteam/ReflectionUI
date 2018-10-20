@@ -595,38 +595,51 @@ public class Form extends ImagePanel {
 	}
 
 	public void setCategoryContent(InfoCategory category, JPanel tab) {
-		if (isCategoriesControlModern()) {
+		if (categoriesControl instanceof ListTabbedPane) {
 			((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()),
 					tab);
-		} else {
+		} else if (categoriesControl instanceof JTabbedPane) {
 			((JTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
+		} else {
+			throw new ReflectionUIError();
 		}
 	}
 
-	public void refreshCategoriesControlStructure() {
+	public boolean refreshCategoriesControlStructure() {
 		if (categoriesControl != null) {
 			if (isCategoriesControlModern()) {
+				if (!(categoriesControl instanceof ListTabbedPane)) {
+					return false;
+				}
 				((ListTabbedPane) categoriesControl).refresh();
 			} else {
+				if (!(categoriesControl instanceof JTabbedPane)) {
+					return false;
+				}
 				((JTabbedPane) categoriesControl).setForeground(getControlsForegroundColor());
 			}
 		}
+		return true;
 	}
 
 	public InfoCategory getDisplayedCategory() {
 		if (categoriesControl != null) {
 			int currentCategoryIndex;
-			if (isCategoriesControlModern()) {
+			if (categoriesControl instanceof ListTabbedPane) {
 				currentCategoryIndex = ((ListTabbedPane) categoriesControl).getSelectedIndex();
-			} else {
+			} else if (categoriesControl instanceof JTabbedPane) {
 				currentCategoryIndex = ((JTabbedPane) categoriesControl).getSelectedIndex();
+			} else {
+				throw new ReflectionUIError();
 			}
 			if (currentCategoryIndex != -1) {
 				String currentCategoryCaption;
-				if (isCategoriesControlModern()) {
+				if (categoriesControl instanceof ListTabbedPane) {
 					currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
-				} else {
+				} else if (categoriesControl instanceof JTabbedPane) {
 					currentCategoryCaption = ((JTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
+				} else {
+					throw new ReflectionUIError();
 				}
 				return new InfoCategory(currentCategoryCaption, currentCategoryIndex);
 			}
@@ -637,17 +650,21 @@ public class Form extends ImagePanel {
 	public void setDisplayedCategory(String categoryCaption, int categoryPosition) {
 		if (categoriesControl != null) {
 			int tabCount;
-			if (isCategoriesControlModern()) {
+			if (categoriesControl instanceof ListTabbedPane) {
 				tabCount = ((ListTabbedPane) categoriesControl).getTabCount();
-			} else {
+			} else if (categoriesControl instanceof JTabbedPane) {
 				tabCount = ((JTabbedPane) categoriesControl).getTabCount();
+			} else {
+				throw new ReflectionUIError();
 			}
 			for (int i = 0; i < tabCount; i++) {
 				String currentCategoryCaption;
-				if (isCategoriesControlModern()) {
+				if (categoriesControl instanceof ListTabbedPane) {
 					currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(i);
-				} else {
+				} else if (categoriesControl instanceof JTabbedPane) {
 					currentCategoryCaption = ((JTabbedPane) categoriesControl).getTitleAt(i);
+				} else {
+					throw new ReflectionUIError();
 				}
 				if (categoryCaption.equals(currentCategoryCaption)) {
 					if (categoryPosition != -1) {
@@ -655,10 +672,12 @@ public class Form extends ImagePanel {
 							continue;
 						}
 					}
-					if (isCategoriesControlModern()) {
+					if (categoriesControl instanceof ListTabbedPane) {
 						((ListTabbedPane) categoriesControl).setSelectedIndex(i);
-					} else {
+					} else if (categoriesControl instanceof JTabbedPane) {
 						((JTabbedPane) categoriesControl).setSelectedIndex(i);
+					} else {
+						throw new ReflectionUIError();
 					}
 					return;
 				}
@@ -905,13 +924,18 @@ public class Form extends ImagePanel {
 		}
 		finalizeFormUpdate();
 		if (refreshStructure) {
+			if (!refreshCategoriesControlStructure()) {
+				fieldControlPlaceHoldersByCategory.clear();
+				methodControlPlaceHoldersByCategory.clear();
+				refresh(true);
+				return;
+			}
 			setPreservingRatio(true);
 			setFillingAreaWhenPreservingRatio(true);
 			Color awtBackgroundColor = getControlsBackgroundColor();
 			Color awtForegroundColor = getControlsForegroundColor();
 			Image awtImage = getControlsBackgroundImage();
 			setBackground(awtBackgroundColor);
-			refreshCategoriesControlStructure();
 			setImage(awtImage);
 			setOpaque((awtBackgroundColor != null) && (awtImage == null));
 			Color borderColor = getControlsBorderColor();

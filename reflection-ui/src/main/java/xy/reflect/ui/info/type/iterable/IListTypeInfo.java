@@ -35,10 +35,10 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	boolean canViewItemDetails();
 
-	List<IListAction> getDynamicActions(List<? extends ItemPosition> selection,
+	List<IDynamicListAction> getDynamicActions(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
-	List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+	List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
 	boolean isItemNullValueDistinct();

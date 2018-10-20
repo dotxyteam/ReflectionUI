@@ -72,8 +72,8 @@ import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory.Instance;
-import xy.reflect.ui.info.type.iterable.IListAction;
-import xy.reflect.ui.info.type.iterable.IListProperty;
+import xy.reflect.ui.info.type.iterable.IDynamicListAction;
+import xy.reflect.ui.info.type.iterable.IDynamicListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -268,15 +268,15 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected List<IListProperty> getDynamicProperties(IListTypeInfo listType, List<? extends ItemPosition> selection,
+	protected List<IDynamicListProperty> getDynamicProperties(IListTypeInfo listType, List<? extends ItemPosition> selection,
 			final Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			List<IListProperty> result = super.getDynamicProperties(listType, selection,
+			List<IDynamicListProperty> result = super.getDynamicProperties(listType, selection,
 					listModificationFactoryAccessor);
-			result = new ArrayList<IListProperty>(result);
+			result = new ArrayList<IDynamicListProperty>(result);
 			for (final ListItemFieldShortcut shortcut : l.getAllowedItemFieldShortcuts()) {
 				final String fieldCaption;
 				if (shortcut.getCustomFieldCaption() != null) {
@@ -466,14 +466,14 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected List<IListAction> getDynamicActions(IListTypeInfo listType, List<? extends ItemPosition> selection,
+	protected List<IDynamicListAction> getDynamicActions(IListTypeInfo listType, List<? extends ItemPosition> selection,
 			final Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			List<IListAction> result = super.getDynamicActions(listType, selection, listModificationFactoryAccessor);
-			result = new ArrayList<IListAction>(result);
+			List<IDynamicListAction> result = super.getDynamicActions(listType, selection, listModificationFactoryAccessor);
+			result = new ArrayList<IDynamicListAction>(result);
 
 			for (final ListItemMethodShortcut shortcut : l.getAllowedItemMethodShortcuts()) {
 				final String methodName = ReflectionUIUtils

@@ -9,11 +9,11 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public class ListPropertyProxy implements IListProperty {
+public class ListPropertyProxy implements IDynamicListProperty {
 
-	protected IListProperty base;
+	protected IDynamicListProperty base;
 
-	public ListPropertyProxy(IListProperty base) {
+	public ListPropertyProxy(IDynamicListProperty base) {
 		super();
 		this.base = base;
 	}

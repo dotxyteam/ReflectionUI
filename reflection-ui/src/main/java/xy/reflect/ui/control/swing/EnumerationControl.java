@@ -43,7 +43,6 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 		this.input = input;
 		this.data = input.getControlData();
 		this.enumType = (IEnumerationTypeInfo) data.getType();
-		this.possibleValues = collectPossibleValues();
 		initialize();
 	}
 

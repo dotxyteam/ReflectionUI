@@ -27,8 +27,8 @@ import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.iterable.IListAction;
-import xy.reflect.ui.info.type.iterable.IListProperty;
+import xy.reflect.ui.info.type.iterable.IDynamicListAction;
+import xy.reflect.ui.info.type.iterable.IDynamicListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -420,12 +420,12 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.canReplaceContent();
 	}
 
-	protected List<IListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection,
+	protected List<IDynamicListAction> getDynamicActions(IListTypeInfo type, List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return type.getDynamicActions(selection, listModificationFactoryAccessor);
 	}
 
-	protected List<IListProperty> getDynamicProperties(IListTypeInfo type, List<? extends ItemPosition> selection,
+	protected List<IDynamicListProperty> getDynamicProperties(IListTypeInfo type, List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return type.getDynamicProperties(selection, listModificationFactoryAccessor);
 	}
@@ -1251,14 +1251,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection,
+		public List<IDynamicListAction> getDynamicActions(List<? extends ItemPosition> selection,
 				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 			return InfoProxyFactory.this.getDynamicActions((IListTypeInfo) base, selection,
 					listModificationFactoryAccessor);
 		}
 
 		@Override
-		public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+		public List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 			return InfoProxyFactory.this.getDynamicProperties((IListTypeInfo) base, selection,
 					listModificationFactoryAccessor);

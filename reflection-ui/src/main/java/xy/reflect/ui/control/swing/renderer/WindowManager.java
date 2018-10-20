@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -73,52 +74,7 @@ public class WindowManager {
 		} else {
 			icon = SwingRendererUtils.getSmallIcon(new ImageIcon(iconImage));
 		}
-		return new AlternativeWindowDecorationsPanel(title, icon, window, windowContent) {
-
-			private static final long serialVersionUID = 1L;
-
-			{
-				getTitleLabel().setHorizontalAlignment(JLabel.LEFT);
-				Font font = getTitleLabel().getFont();
-				{
-					font = new Font(font.getName(), Font.BOLD, font.getSize());
-					getTitleLabel().setFont(font);
-				}
-			}
-
-			@Override
-			public Color getTitleBarColor() {
-				Color result = null;
-				if (result == null) {
-					result = getTitleBackgroundColor();
-				}
-				if (result == null) {
-					result = UIManager.getColor("Panel.background");
-				}
-				return result;
-			}
-
-			@Override
-			public Color getDecorationsForegroundColor() {
-				Color result = null;
-				if (result == null) {
-					result = getTitleForegroundColor();
-				}
-				if (result == null) {
-					result = getMainForegroundColor();
-				}
-				if (result == null) {
-					result = UIManager.getColor("Panel.foreground");
-				}
-				return result;
-			}
-
-			@Override
-			protected boolean isTitleBarPainted() {
-				return getTitleBackgroundColor() != null;
-			}
-
-		};
+		return new CustomWindowDecorationsPanel(title, icon, window, windowContent);
 	}
 
 	protected Color getAlternativeDecorationsBorderColor() {
@@ -358,6 +314,57 @@ public class WindowManager {
 	@Override
 	public String toString() {
 		return "WindowManager [window=" + window + "]";
+	}
+
+	protected class CustomWindowDecorationsPanel extends AlternativeWindowDecorationsPanel {
+
+		public CustomWindowDecorationsPanel(String windowTitle, Icon windowIcon, Window window,
+				Component windowContent) {
+			super(windowTitle, windowIcon, window, windowContent);
+		}
+
+		private static final long serialVersionUID = 1L;
+
+		{
+			getTitleLabel().setHorizontalAlignment(JLabel.LEFT);
+			Font font = getTitleLabel().getFont();
+			{
+				font = new Font(font.getName(), Font.BOLD, font.getSize());
+				getTitleLabel().setFont(font);
+			}
+		}
+
+		@Override
+		public Color getTitleBarColor() {
+			Color result = null;
+			if (result == null) {
+				result = getTitleBackgroundColor();
+			}
+			if (result == null) {
+				result = UIManager.getColor("Panel.background");
+			}
+			return result;
+		}
+
+		@Override
+		public Color getDecorationsForegroundColor() {
+			Color result = null;
+			if (result == null) {
+				result = getTitleForegroundColor();
+			}
+			if (result == null) {
+				result = getMainForegroundColor();
+			}
+			if (result == null) {
+				result = UIManager.getColor("Panel.foreground");
+			}
+			return result;
+		}
+
+		@Override
+		protected boolean isTitleBarPainted() {
+			return getTitleBackgroundColor() != null;
+		}
 	}
 
 }

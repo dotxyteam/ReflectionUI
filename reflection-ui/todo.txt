@@ -1,3 +1,7 @@
+- add to ITypeInfo:
+	- IFieldControlPlugin getControlPlugin();	
+	- Object getControlPluginConfiguration();
+- cannot specify null param default value
 - undo/redo/etc menu tooltips absent
 - optimize data update delay: not needed systematically
 - improve delayed update process: extend the sleep duration on alreadly delaying schedule 

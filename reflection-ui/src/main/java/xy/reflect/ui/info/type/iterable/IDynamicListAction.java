@@ -6,7 +6,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 
-public interface IListAction extends IMethodInfo {
+public interface IDynamicListAction extends IMethodInfo {
 
 	public static final Object NO_OWNER = new Object() {
 

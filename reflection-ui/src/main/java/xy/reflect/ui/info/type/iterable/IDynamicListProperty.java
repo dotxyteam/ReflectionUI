@@ -6,7 +6,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 
-public interface IListProperty extends IFieldInfo {
+public interface IDynamicListProperty extends IFieldInfo {
 
 	public static final Object NO_OWNER = new Object() {
 

@@ -148,13 +148,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public List<IListAction> getDynamicActions(List<? extends ItemPosition> selection,
+	public List<IDynamicListAction> getDynamicActions(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<IListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+	public List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return Collections.emptyList();
 	}
