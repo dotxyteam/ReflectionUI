@@ -201,7 +201,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 				Window w = SwingUtilities.getWindowAncestor(b);
 				Rectangle maximizedBounds = SwingRendererUtils
 						.getMaximumWindowBounds(SwingRendererUtils.getWindowCurrentGraphicsDevice(w));
-				if (w.getBounds().equals(maximizedBounds)) {
+				if (almostEquals(w.getBounds(), maximizedBounds, maximizedBounds.width / 30)) {
 					if (minimizedBounds == null) {
 						minimizedBounds = new Rectangle(maximizedBounds);
 						minimizedBounds.grow(-minimizedBounds.width / 6, -minimizedBounds.height / 6);
@@ -211,6 +211,22 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 					minimizedBounds = w.getBounds();
 					w.setBounds(maximizedBounds);
 				}
+			}
+
+			boolean almostEquals(Rectangle bounds1, Rectangle bounds2, int maxError) {
+				if (Math.abs(bounds1.x - bounds2.x) > maxError) {
+					return false;
+				}
+				if (Math.abs(bounds1.y - bounds2.y) > maxError) {
+					return false;
+				}
+				if (Math.abs((bounds1.x + bounds1.width) - (bounds2.x + bounds2.width)) > maxError) {
+					return false;
+				}
+				if (Math.abs((bounds1.y + bounds1.height) - (bounds2.y + bounds2.height)) > maxError) {
+					return false;
+				}
+				return true;
 			}
 		});
 		return button;
