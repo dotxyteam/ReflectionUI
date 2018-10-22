@@ -267,12 +267,15 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 	public static class ScalingSizeConstraint extends SizeConstraint {
 		private static final long serialVersionUID = 1L;
 
+		public boolean areaFilled = false;
+
 		@Override
 		public void configure(ImageView imageView, JPanel imagePanelContainer, ImagePanel imagePanel) {
 			Dimension size = getSizeInPixels();
 			imagePanel.setPreferredSize(size);
 			imagePanel.setMinimumSize(size);
 			imagePanel.setPreservingRatio(true);
+			imagePanel.setFillingAreaWhenPreservingRatio(areaFilled);
 			imagePanelContainer.setLayout(new BorderLayout());
 			imagePanelContainer.add(imagePanel, BorderLayout.CENTER);
 		}
@@ -290,6 +293,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		@Override
 		public void configure(ImageView imageView, JPanel imagePanelContainer, ImagePanel imagePanel) {
 			imagePanel.setPreservingRatio(true);
+			imagePanel.setFillingAreaWhenPreservingRatio(false);
 			JScrollPane scrollPane = new ControlScrollPane(
 					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
 			scrollPane.setBorder(null);
@@ -313,6 +317,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public void configure(final ImageView imageView, JPanel imagePanelContainer, final ImagePanel imagePanel) {
 			imagePanelContainer.setLayout(new BorderLayout());
 			imagePanel.setPreservingRatio(true);
+			imagePanel.setFillingAreaWhenPreservingRatio(false);
 			JPanel zoomPanel = new ControlPanel();
 			{
 				imagePanelContainer.add(SwingRendererUtils.flowInLayout(zoomPanel, GridBagConstraints.CENTER),
@@ -446,12 +451,12 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						((TitledBorder) getBorder()).setBorder(
 								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 					}
-					if (!data.isGetOnly()) {
-						setBorder(BorderFactory.createCompoundBorder(getBorder(),
-								BorderFactory.createLoweredBevelBorder()));
-					}
 				} else {
-					setBorder(null);
+					setBorder(BorderFactory.createEmptyBorder());
+				}
+				if (!data.isGetOnly()) {
+					setBorder(
+							BorderFactory.createCompoundBorder(getBorder(), BorderFactory.createLoweredBevelBorder()));
 				}
 				imagePanelContainer.removeAll();
 				imagePanel = null;

@@ -1,5 +1,6 @@
 package xy.reflect.ui.util.component;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;
 
@@ -19,7 +20,7 @@ public class ControlTabbedPane extends JTabbedPane {
 	public void setUI(TabbedPaneUI newUI) {
 		if (newUI instanceof javax.swing.plaf.basic.BasicTabbedPaneUI) {
 			newUI = new javax.swing.plaf.basic.BasicTabbedPaneUI() {
-				
+
 				protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
 					if (!isOpaque()) {
 						int width = tabPane.getWidth();
@@ -77,12 +78,43 @@ public class ControlTabbedPane extends JTabbedPane {
 						int h, boolean isSelected) {
 					if (isOpaque()) {
 						super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
-					}						
+					}
 				}
-				
+
+				@Override
+				protected void installDefaults() {
+					super.installDefaults();
+					if (!isOpaque()) {
+						lightHighlight = getLightHighlightColor();
+						shadow = getShadowColor();
+						darkShadow = getDarkShadowColor();
+					}
+				}
+
 			};
 		}
 		super.setUI(newUI);
+	}
+
+	protected Color getDarkShadowColor() {
+		if (getForeground() != null) {
+			return getForeground();
+		}
+		return UIManager.getColor("TabbedPane.darkShadow");
+	}
+
+	protected Color getShadowColor() {
+		if (getForeground() != null) {
+			return getForeground();
+		}
+		return UIManager.getColor("TabbedPane.shadow");
+	}
+
+	protected Color getLightHighlightColor() {
+		if (getForeground() != null) {
+			return getForeground();
+		}
+		return UIManager.getColor("TabbedPane.shadow");
 	}
 
 }

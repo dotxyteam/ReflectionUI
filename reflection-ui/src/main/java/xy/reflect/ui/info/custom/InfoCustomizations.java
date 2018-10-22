@@ -795,6 +795,15 @@ public class InfoCustomizations implements Serializable {
 			this.fieldTypeFinder = fieldTypeFinder;
 		}
 
+		public void validate() throws Exception {
+			if ((fieldName == null) || (fieldName.length() == 0)) {
+				throw new IllegalStateException("Field name not provided");
+			}
+			if (fieldTypeFinder == null) {
+				throw new IllegalStateException("Field type not provided");
+			}
+		}
+
 	}
 
 	public static interface IMenuElementCustomization {

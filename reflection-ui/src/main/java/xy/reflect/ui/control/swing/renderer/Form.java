@@ -238,6 +238,11 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
+	@Override
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
+	}
+
 	public void validateForm() throws Exception {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -617,6 +622,7 @@ public class Form extends ImagePanel {
 					return false;
 				}
 				((JTabbedPane) categoriesControl).setForeground(getControlsForegroundColor());
+				((JTabbedPane) categoriesControl).updateUI();
 			}
 		}
 		return true;
