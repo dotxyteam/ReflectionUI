@@ -595,7 +595,20 @@ public class Form extends ImagePanel {
 
 			};
 		} else {
-			return new ControlTabbedPane();
+			return new ControlTabbedPane() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				protected Color getTabBorderColor() {
+					Color result = getControlsBorderColor();
+					if (result != null) {
+						return result;
+					}
+					return super.getTabBorderColor();
+				}
+
+			};
 		}
 	}
 

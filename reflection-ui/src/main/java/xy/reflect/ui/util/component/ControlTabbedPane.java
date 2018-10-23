@@ -96,23 +96,27 @@ public class ControlTabbedPane extends JTabbedPane {
 		super.setUI(newUI);
 	}
 
+	protected Color getTabBorderColor() {
+		return null;
+	}
+
 	protected Color getDarkShadowColor() {
-		if (getForeground() != null) {
-			return getForeground();
+		if (getTabBorderColor() != null) {
+			return getTabBorderColor();
 		}
-		return UIManager.getColor("TabbedPane.darkShadow");
+		return UIManager.getColor("TabbedPane.shadow");
 	}
 
 	protected Color getShadowColor() {
-		if (getForeground() != null) {
-			return getForeground();
+		if (getTabBorderColor() != null) {
+			return getTabBorderColor();
 		}
 		return UIManager.getColor("TabbedPane.shadow");
 	}
 
 	protected Color getLightHighlightColor() {
-		if (getForeground() != null) {
-			return getForeground();
+		if (getTabBorderColor() != null) {
+			return getTabBorderColor();
 		}
 		return UIManager.getColor("TabbedPane.shadow");
 	}

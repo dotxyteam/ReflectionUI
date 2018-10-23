@@ -184,16 +184,17 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				textComponent.setEditable(false);
 				textComponent.setOpaque(false);
 				textComponent.setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
+				textComponent.setBorder(BorderFactory.createEmptyBorder());
 			} else {
 				textComponent.setEditable(true);
 				textComponent.setOpaque(true);
 				textComponent.setForeground(null);
-			}
-			if (data.getBorderColor() != null) {
-				textComponent
-						.setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-			} else {
-				textComponent.setBorder(new JTextField().getBorder());
+				if (data.getBorderColor() != null) {
+					textComponent.setBorder(
+							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+				} else {
+					textComponent.setBorder(new JTextField().getBorder());
+				}
 			}
 		}
 		listenerDisabled = true;
