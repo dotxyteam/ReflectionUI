@@ -91,7 +91,6 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingCustomizerUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class InfoCustomizationsFactory extends InfoProxyFactory {
@@ -1407,7 +1406,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 										encapsulatedMembers);
 							}
 							encapsulatedMembers.getFirst().add(field);
-							SwingCustomizerUtils.replaceItem(fields, field, new FieldHiddenAfterEncapsulation(field));
+							ReflectionUIUtils.replaceItem(fields, field, new FieldHiddenAfterEncapsulation(field));
 						}
 					}
 				}
@@ -1428,7 +1427,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 										encapsulatedMembers);
 							}
 							encapsulatedMembers.getSecond().add(method);
-							SwingCustomizerUtils.replaceItem(methods, method,
+							ReflectionUIUtils.replaceItem(methods, method,
 									new MethodHiddenAfterEncapsulation(method));
 						}
 					}

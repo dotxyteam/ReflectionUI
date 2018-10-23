@@ -30,6 +30,11 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+		return super.getNextInvocationUndoJob(object, this.invocationData);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
@@ -58,7 +63,5 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	public String toString() {
 		return "PresetInvocationDataMethod [base=" + base + ", invocationData=" + invocationData + "]";
 	}
-	
-	
 
 }

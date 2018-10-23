@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +12,22 @@ public class InvocationData implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected Map<Integer, Object> providedParameterValues = new HashMap<Integer, Object>();
-	protected List<IParameterInfo> parameters;
+	protected Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
+	protected Map<Integer, Object> defaultValueByParameterPosition = new HashMap<Integer, Object>();
 
 	public InvocationData(List<IParameterInfo> parameters, Object... parameterValues) {
-		this.parameters = parameters;
+		for (IParameterInfo param : parameters) {
+			defaultValueByParameterPosition.put(param.getPosition(), param.getDefaultValue());
+		}
 		for (int i = 0; i < parameterValues.length; i++) {
-			providedParameterValues.put(i, parameterValues[i]);
+			valueByParameterPosition.put(i, parameterValues[i]);
+		}
+	}
+
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+		if (defaultValueByParameterPosition == null) {
+			defaultValueByParameterPosition = new HashMap<Integer, Object>();
 		}
 	}
 
@@ -26,26 +36,26 @@ public class InvocationData implements Serializable {
 	}
 
 	public Map<Integer, Object> getProvidedParameterValues() {
-		return providedParameterValues;
+		return valueByParameterPosition;
 	}
 
 	public void setProvidedParameterValues(Map<Integer, Object> providedValues) {
-		this.providedParameterValues = providedValues;
+		this.valueByParameterPosition = providedValues;
 	}
 
 	public Object getParameterValue(int parameterPosition) {
-		if (providedParameterValues.containsKey(parameterPosition)) {
-			return providedParameterValues.get(parameterPosition);
+		if (valueByParameterPosition.containsKey(parameterPosition)) {
+			return valueByParameterPosition.get(parameterPosition);
 		} else {
-			return parameters.get(parameterPosition).getDefaultValue();
+			return defaultValueByParameterPosition.get(parameterPosition);
 		}
 	}
 
 	public void provideParameterValue(int parameterPosition, Object value) {
-		providedParameterValues.put(parameterPosition, value);
+		valueByParameterPosition.put(parameterPosition, value);
 	}
 
-	public boolean areAllDefaultValuesProvided() {
+	public boolean areAllDefaultValuesProvided(List<IParameterInfo> parameters) {
 		for (IParameterInfo param : parameters) {
 			if (param.getDefaultValue() == null) {
 				return false;
@@ -58,8 +68,9 @@ public class InvocationData implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((parameters == null) ? 0 : parameters.hashCode());
-		result = prime * result + ((providedParameterValues == null) ? 0 : providedParameterValues.hashCode());
+		result = prime * result
+				+ ((defaultValueByParameterPosition == null) ? 0 : defaultValueByParameterPosition.hashCode());
+		result = prime * result + ((valueByParameterPosition == null) ? 0 : valueByParameterPosition.hashCode());
 		return result;
 	}
 
@@ -72,22 +83,22 @@ public class InvocationData implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		InvocationData other = (InvocationData) obj;
-		if (parameters == null) {
-			if (other.parameters != null)
+		if (defaultValueByParameterPosition == null) {
+			if (other.defaultValueByParameterPosition != null)
 				return false;
-		} else if (!parameters.equals(other.parameters))
+		} else if (!defaultValueByParameterPosition.equals(other.defaultValueByParameterPosition))
 			return false;
-		if (providedParameterValues == null) {
-			if (other.providedParameterValues != null)
+		if (valueByParameterPosition == null) {
+			if (other.valueByParameterPosition != null)
 				return false;
-		} else if (!providedParameterValues.equals(other.providedParameterValues))
+		} else if (!valueByParameterPosition.equals(other.valueByParameterPosition))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return new HashMap<Integer, Object>(providedParameterValues).toString();
+		return new HashMap<Integer, Object>(valueByParameterPosition).toString();
 	}
 
 }

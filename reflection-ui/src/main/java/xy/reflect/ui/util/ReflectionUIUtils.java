@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,6 +43,9 @@ import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
+import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
+import xy.reflect.ui.control.plugin.IFieldControlPlugin;
+import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -712,8 +716,8 @@ public class ReflectionUIUtils {
 				return zeroParamConstructor.invoke(parentObject, new InvocationData(zeroParamConstructor));
 			}
 			for (IMethodInfo constructor : type.getConstructors()) {
-				InvocationData invocationData = new InvocationData(constructor.getParameters());
-				if (invocationData.areAllDefaultValuesProvided()) {
+				InvocationData invocationData = new InvocationData(constructor);
+				if (invocationData.areAllDefaultValuesProvided(constructor.getParameters())) {
 					return constructor.invoke(parentObject, invocationData);
 				}
 			}
@@ -1139,14 +1143,16 @@ public class ReflectionUIUtils {
 		if (data.getOnlineHelp() != null) {
 			return data.getOnlineHelp();
 		} else {
-			String toolTipText = formatMethodControlCaption(data);
 			if (data.getParameters().size() > 0) {
+				String toolTipText = formatMethodControlCaption(data);
 				if (toolTipText.length() > 0) {
 					toolTipText += "\n";
 				}
 				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(data.getParameters());
+				return toolTipText;
+			} else {
+				return null;
 			}
-			return toolTipText;
 		}
 	}
 
@@ -1171,5 +1177,31 @@ public class ReflectionUIUtils {
 
 	public static Runnable createDefaultUndoJob(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
 		return createDefaultUndoJob(new DefaultFieldControlData(reflectionUI, object, field));
+	}
+
+	public static <T> void replaceItem(List<T> list, T t1, T t2) {
+		int index = list.indexOf(t1);
+		list.set(index, t2);
+	}
+
+	public static String getUniqueID() {
+		return new UID().toString();
+	}
+
+	public static void setCurrentFieldControlPlugin(CustomizedSwingRenderer swingCustomizer,
+			Map<String, Object> specificProperties, IFieldControlPlugin plugin) {
+		String lastPluginId = (String) specificProperties.remove(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		if (lastPluginId != null) {
+			IFieldControlPlugin lastPlugin = SwingRendererUtils.findFieldControlPlugin(swingCustomizer, lastPluginId);
+			if (lastPlugin instanceof ICustomizableFieldControlPlugin) {
+				((ICustomizableFieldControlPlugin) lastPlugin).cleanUpCustomizations(specificProperties);
+			}
+		}
+		if (plugin != null) {
+			specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, plugin.getIdentifier());
+			if (plugin instanceof ICustomizableFieldControlPlugin) {
+				((ICustomizableFieldControlPlugin) plugin).setUpCustomizations(specificProperties);
+			}
+		}
 	}
 }

@@ -124,7 +124,7 @@ public abstract class AbstractControlButton extends JButton {
 		return null;
 	}
 
-	public void refresh() {
+	public void initializeStyle() {
 		swingRenderer = getSwingRenderer();
 		applicationInfo = swingRenderer.getReflectionUI().getApplicationInfo();
 		backgroundColor = retrieveBackgroundColor();
@@ -172,7 +172,7 @@ public abstract class AbstractControlButton extends JButton {
 	@Override
 	public void addNotify() {
 		if (!initialized) {
-			refresh();
+			initializeStyle();
 			initialized = true;
 		}
 		super.addNotify();
