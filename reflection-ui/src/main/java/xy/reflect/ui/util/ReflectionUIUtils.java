@@ -43,9 +43,6 @@ import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
-import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
-import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -717,7 +714,7 @@ public class ReflectionUIUtils {
 			}
 			for (IMethodInfo constructor : type.getConstructors()) {
 				InvocationData invocationData = new InvocationData(constructor);
-				if (invocationData.areAllDefaultValuesProvided(constructor.getParameters())) {
+				if (ReflectionUIUtils.areAllDefaultValuesProvided(constructor.getParameters())) {
 					return constructor.invoke(parentObject, invocationData);
 				}
 			}
@@ -1188,20 +1185,12 @@ public class ReflectionUIUtils {
 		return new UID().toString();
 	}
 
-	public static void setCurrentFieldControlPlugin(CustomizedSwingRenderer swingCustomizer,
-			Map<String, Object> specificProperties, IFieldControlPlugin plugin) {
-		String lastPluginId = (String) specificProperties.remove(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
-		if (lastPluginId != null) {
-			IFieldControlPlugin lastPlugin = SwingRendererUtils.findFieldControlPlugin(swingCustomizer, lastPluginId);
-			if (lastPlugin instanceof ICustomizableFieldControlPlugin) {
-				((ICustomizableFieldControlPlugin) lastPlugin).cleanUpCustomizations(specificProperties);
+	public static boolean areAllDefaultValuesProvided(List<IParameterInfo> parameters) {
+		for (IParameterInfo param : parameters) {
+			if (param.getDefaultValue() == null) {
+				return false;
 			}
 		}
-		if (plugin != null) {
-			specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, plugin.getIdentifier());
-			if (plugin instanceof ICustomizableFieldControlPlugin) {
-				((ICustomizableFieldControlPlugin) plugin).setUpCustomizations(specificProperties);
-			}
-		}
+		return true;
 	}
 }

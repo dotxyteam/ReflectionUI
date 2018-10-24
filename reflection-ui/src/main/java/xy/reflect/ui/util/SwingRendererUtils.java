@@ -63,6 +63,7 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.TextControl;
@@ -1036,29 +1037,6 @@ public class SwingRendererUtils {
 		return form.getModificationStack();
 	}
 
-	public static IFieldControlPlugin getCurrentFieldControlPlugin(SwingRenderer swingRenderer,
-			Map<String, Object> specificProperties, IFieldControlInput input) {
-		String chosenPluginId = (String) specificProperties.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
-		if (chosenPluginId != null) {
-			IFieldControlPlugin plugin = findFieldControlPlugin(swingRenderer, chosenPluginId);
-			if (plugin != null) {
-				if (plugin.handles(input)) {
-					return plugin;
-				}
-			}
-		}
-		return null;
-	}
-
-	public static IFieldControlPlugin findFieldControlPlugin(SwingRenderer swingRenderer, String pluginId) {
-		for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
-			if (plugin.getIdentifier().equals(pluginId)) {
-				return plugin;
-			}
-		}
-		return null;
-	}
-
 	public static Color getColor(ColorSpecification colorSpec) {
 		if (colorSpec == null) {
 			return null;
@@ -1092,6 +1070,46 @@ public class SwingRendererUtils {
 		icon.paintIcon(null, g, 0, 0);
 		g.dispose();
 		return image;
+	}
+
+	public static IFieldControlPlugin findFieldControlPlugin(SwingRenderer swingRenderer, String pluginId) {
+		for (IFieldControlPlugin plugin : swingRenderer.getFieldControlPlugins()) {
+			if (plugin.getIdentifier().equals(pluginId)) {
+				return plugin;
+			}
+		}
+		return null;
+	}
+
+	public static IFieldControlPlugin getCurrentFieldControlPlugin(SwingRenderer swingRenderer,
+			Map<String, Object> specificProperties, IFieldControlInput input) {
+		String chosenPluginId = (String) specificProperties.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		if (chosenPluginId != null) {
+			IFieldControlPlugin plugin = findFieldControlPlugin(swingRenderer, chosenPluginId);
+			if (plugin != null) {
+				if (plugin.handles(input)) {
+					return plugin;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static void setCurrentFieldControlPlugin(SwingRenderer swingRenderer, Map<String, Object> specificProperties,
+			IFieldControlPlugin plugin) {
+		String lastPluginId = (String) specificProperties.remove(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		if (lastPluginId != null) {
+			IFieldControlPlugin lastPlugin = findFieldControlPlugin(swingRenderer, lastPluginId);
+			if (lastPlugin instanceof ICustomizableFieldControlPlugin) {
+				((ICustomizableFieldControlPlugin) lastPlugin).cleanUpCustomizations(specificProperties);
+			}
+		}
+		if (plugin != null) {
+			specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, plugin.getIdentifier());
+			if (plugin instanceof ICustomizableFieldControlPlugin) {
+				((ICustomizableFieldControlPlugin) plugin).setUpCustomizations(specificProperties);
+			}
+		}
 	}
 
 }

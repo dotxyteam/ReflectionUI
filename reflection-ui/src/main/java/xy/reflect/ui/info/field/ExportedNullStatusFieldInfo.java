@@ -69,7 +69,7 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
-					new SpecificitiesIdentifier(containingType.getName(), getName())));
+					new SpecificitiesIdentifier(containingType.getName(), ExportedNullStatusFieldInfo.this.getName())));
 		}
 		return type;
 	}
@@ -112,6 +112,31 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ExportedNullStatusFieldInfo other = (ExportedNullStatusFieldInfo) obj;
+		if (containingType == null) {
+			if (other.containingType != null)
+				return false;
+		} else if (!containingType.equals(other.containingType))
+			return false;
+		return true;
 	}
 
 	@Override

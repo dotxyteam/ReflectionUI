@@ -486,7 +486,21 @@ public class SwingRenderer {
 	}
 
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
-		return openObjectDialog(activatorComponent, object, null, null, false, true);
+		return openObjectDialog(activatorComponent, object, null);
+	}
+
+	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title) {
+		return openObjectDialog(activatorComponent, object, title, null);
+	}
+
+	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
+			Image iconImage) {
+		return openObjectDialog(activatorComponent, object, title, iconImage, true);
+	}
+
+	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
+			Image iconImage, boolean cancellable) {
+		return openObjectDialog(activatorComponent, object, title, iconImage, cancellable, true);
 	}
 
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,

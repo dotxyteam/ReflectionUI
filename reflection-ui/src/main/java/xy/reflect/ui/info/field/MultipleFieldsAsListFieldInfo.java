@@ -269,17 +269,15 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	public class ValueListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ValueListTypeInfo() {
-			super(MultipleFieldsAsListFieldInfo.this.reflectionUI,
-					new JavaTypeInfoSource(ArrayList.class,
-							new SpecificitiesIdentifier(containingType.getName(),
-									MultipleFieldsAsListFieldInfo.this.getName())),
+			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, new JavaTypeInfoSource(ArrayList.class, null),
 					MultipleFieldsAsListFieldInfo.this.reflectionUI
 							.getTypeInfo(new JavaTypeInfoSource(ValueListItem.class, null)));
 		}
 
 		@Override
 		public ITypeInfoSource getSource() {
-			return new PrecomputedTypeInfoSource(this, null);
+			return new PrecomputedTypeInfoSource(this, new SpecificitiesIdentifier(containingType.getName(),
+					MultipleFieldsAsListFieldInfo.this.getName()));
 		}
 
 		@Override

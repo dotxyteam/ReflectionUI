@@ -2141,7 +2141,7 @@
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70a5</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>Las tModification Timestamp</customFieldCaption>
+            <customFieldCaption>Las tModification Time</customFieldCaption>
             <customSetterSignature>boolean setLastModified(long)</customSetterSignature>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -2174,7 +2174,37 @@
                     <typeName>long</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>-79a87d74:166a1f900f4:-25b8</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>-79a87d74:166a1f900f4:-25b7</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.util.Date</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
             </specificTypeCustomizations>
+            <typeConversion>
+                <uniqueIdentifier>-79a87d74:166a1f900f4:-26db</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>-55735402:15bef3a82f2:13ef</uniqueIdentifier>
+                    <conversionClassName>java.util.Date</conversionClassName>
+                    <conversionMethodSignature>java.util.Date (long)</conversionMethodSignature>
+                </conversionMethodFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>-55735402:15bef3a82f2:14b6</uniqueIdentifier>
+                    <conversionClassName>java.util.Date</conversionClassName>
+                    <conversionMethodSignature>long getTime()</conversionMethodSignature>
+                </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>-79a87d74:166a1f900f4:-264f</uniqueIdentifier>
+                    <className>java.util.Date</className>
+                </javaClassBasedTypeInfoFinder>
+                <nullValueConverted>false</nullValueConverted>
+            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f74</uniqueIdentifier>
@@ -2218,7 +2248,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f72</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>Directory</customFieldCaption>
+            <customFieldCaption>Directory Content</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
             <fieldName>listFiles.result</fieldName>
@@ -2722,6 +2752,24 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.lang.Object</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.ArrayList</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <listCustomizations>
+                    <uniqueIdentifier>5184ae94:166a1e223a4:-2fdf</uniqueIdentifier>
+                    <editOptions>
+                        <uniqueIdentifier>5184ae94:166a1e223a4:-2fde</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.ArrayList</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -4292,7 +4340,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-70d9</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>Directory</customFieldCaption>
+            <customFieldCaption>Directory Content</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
             <fieldName></fieldName>
@@ -4540,7 +4588,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>e998587:163bd0ac7fb:378</uniqueIdentifier>
         </menuModel>
         <typeName>Encapsulation [encapsulatedObjectType=[Ljava.io.File;]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
+        <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-2ba792b3:15bc5094452:-70d5</uniqueIdentifier>

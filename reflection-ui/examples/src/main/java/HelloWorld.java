@@ -1,9 +1,12 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
-public class HelloWorld {
+public class HelloWorld implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
 		SwingRenderer.getDefault().openObjectFrame(new HelloWorld());

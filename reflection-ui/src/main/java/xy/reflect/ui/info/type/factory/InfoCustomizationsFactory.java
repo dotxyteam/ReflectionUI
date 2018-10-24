@@ -267,7 +267,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected List<IDynamicListProperty> getDynamicProperties(IListTypeInfo listType, List<? extends ItemPosition> selection,
+	protected List<IDynamicListProperty> getDynamicProperties(IListTypeInfo listType,
+			List<? extends ItemPosition> selection,
 			final Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
@@ -471,7 +472,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			List<IDynamicListAction> result = super.getDynamicActions(listType, selection, listModificationFactoryAccessor);
+			List<IDynamicListAction> result = super.getDynamicActions(listType, selection,
+					listModificationFactoryAccessor);
 			result = new ArrayList<IDynamicListAction>(result);
 
 			for (final ListItemMethodShortcut shortcut : l.getAllowedItemMethodShortcuts()) {
@@ -1427,8 +1429,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 										encapsulatedMembers);
 							}
 							encapsulatedMembers.getSecond().add(method);
-							ReflectionUIUtils.replaceItem(methods, method,
-									new MethodHiddenAfterEncapsulation(method));
+							ReflectionUIUtils.replaceItem(methods, method, new MethodHiddenAfterEncapsulation(method));
 						}
 					}
 				}
@@ -2278,7 +2279,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 						throw new ReflectionUIError(
 								"Null status field not found: '" + f.getImportedNullStatusFieldName() + "'");
 					}
-					field = new ImportedNullStatusFieldInfo(customizedUI, field, nullStatusField);
+					field = new ImportedNullStatusFieldInfo(customizedUI, field, nullStatusField, containingType);
 				}
 				return field;
 			}

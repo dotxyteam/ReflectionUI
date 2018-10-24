@@ -18,12 +18,15 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo nullStatusField;
+	protected ITypeInfo containingType;
 	protected ITypeInfo type;
 
-	public ImportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, IFieldInfo nullStatusField) {
+	public ImportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, IFieldInfo nullStatusField,
+			ITypeInfo containingType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.nullStatusField = nullStatusField;
+		this.containingType = containingType;
 	}
 
 	@Override
@@ -87,59 +90,57 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = setFakeValueContructor(super.getType());
+			type = super.getType();
+			type = new InfoProxyFactory() {
+
+				@Override
+				protected boolean isConcrete(ITypeInfo type) {
+					return true;
+				}
+
+				@Override
+				protected List<IMethodInfo> getConstructors(final ITypeInfo type) {
+					return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+						@Override
+						public Object invoke(Object parentObject, InvocationData invocationData) {
+							return ImportedNullStatusFieldInfo.super.getValue(parentObject);
+						}
+
+						@Override
+						public ITypeInfo getReturnValueType() {
+							return type;
+						}
+
+						@Override
+						public List<IParameterInfo> getParameters() {
+							return Collections.emptyList();
+						}
+					});
+				}
+
+				@Override
+				public String toString() {
+					return "setFakeValueContructor [field=" + ImportedNullStatusFieldInfo.this + "]";
+				}
+
+			}.wrapTypeInfo(type);
+			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(containingType.getName(),
+							ImportedNullStatusFieldInfo.this.getName());
+				}
+			});
 		}
 		return type;
-	}
-
-	protected ITypeInfo setFakeValueContructor(ITypeInfo valueType) {
-		valueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(valueType.getSource()) {
-			@Override
-			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-				return null;
-			}
-		});
-		valueType = new InfoProxyFactory() {
-
-			@Override
-			protected boolean isConcrete(ITypeInfo type) {
-				return true;
-			}
-
-			@Override
-			protected List<IMethodInfo> getConstructors(final ITypeInfo type) {
-				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
-
-					@Override
-					public Object invoke(Object parentObject, InvocationData invocationData) {
-						return ImportedNullStatusFieldInfo.super.getValue(parentObject);
-					}
-
-					@Override
-					public ITypeInfo getReturnValueType() {
-						return type;
-					}
-
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
-				});
-			}
-
-			@Override
-			public String toString() {
-				return "setFakeValueContructor [field=" + ImportedNullStatusFieldInfo.this + "]";
-			}
-
-		}.wrapTypeInfo(valueType);
-		return valueType;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 		result = prime * result + ((nullStatusField == null) ? 0 : nullStatusField.hashCode());
 		return result;
 	}
@@ -153,6 +154,11 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		ImportedNullStatusFieldInfo other = (ImportedNullStatusFieldInfo) obj;
+		if (containingType == null) {
+			if (other.containingType != null)
+				return false;
+		} else if (!containingType.equals(other.containingType))
+			return false;
 		if (nullStatusField == null) {
 			if (other.nullStatusField != null)
 				return false;

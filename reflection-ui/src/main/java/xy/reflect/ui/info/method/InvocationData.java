@@ -55,15 +55,6 @@ public class InvocationData implements Serializable {
 		valueByParameterPosition.put(parameterPosition, value);
 	}
 
-	public boolean areAllDefaultValuesProvided(List<IParameterInfo> parameters) {
-		for (IParameterInfo param : parameters) {
-			if (param.getDefaultValue() == null) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
