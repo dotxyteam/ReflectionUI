@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import xy.reflect.ui.control.CustomContext;
@@ -18,18 +16,12 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.method.MethodInfoProxy;
-import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.component.AbstractControlButton;
 
@@ -97,7 +89,7 @@ public class MethodAction extends AbstractAction {
 		if (data.getParameters().size() > 0) {
 			openMethoExecutionSettingDialog(activatorComponent);
 		} else {
-			invoke(new InvocationData(data.getParameters()), activatorComponent);
+			invoke(data.createInvocationData(), activatorComponent);
 		}
 	}
 
@@ -107,9 +99,9 @@ public class MethodAction extends AbstractAction {
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
 			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getMethodSignature());
 		} else {
-			invocationData = new InvocationData(data.getParameters());
+			invocationData = data.createInvocationData();
 		}
-		final Form methodForm = swingRenderer.createForm(createParametersObject(invocationData));
+		final Form methodForm = swingRenderer.createForm(data.createParametersObject(invocationData, input.getContext().getIdentifier()));
 		Accessor<List<Component>> toolbarControlsAccessor = new Accessor<List<Component>>() {
 
 			@Override
@@ -204,80 +196,7 @@ public class MethodAction extends AbstractAction {
 		return shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 	}
 
-	protected Object createParametersObject(InvocationData invocationData) {
-		IMethodInfo controlDataAsMethod = new MethodInfoProxy(IMethodInfo.NULL_METHOD_INFO) {
-
-			@Override
-			public boolean isNullReturnValueDistinct() {
-				return data.isNullReturnValueDistinct();
-			}
-
-			@Override
-			public boolean isReturnValueDetached() {
-				return data.isReturnValueDetached();
-			}
-
-			@Override
-			public String getCaption() {
-				return data.getCaption();
-			}
-
-			@Override
-			public ITypeInfo getReturnValueType() {
-				return data.getReturnValueType();
-			}
-
-			@Override
-			public List<IParameterInfo> getParameters() {
-				return data.getParameters();
-			}
-
-			@Override
-			public Object invoke(Object object, InvocationData invocationData) {
-				throw new ReflectionUIError();
-			}
-
-			@Override
-			public String getNullReturnValueLabel() {
-				return data.getNullReturnValueLabel();
-			}
-
-			@Override
-			public boolean isReadOnly() {
-				return data.isReadOnly();
-			}
-
-			@Override
-			public ValueReturnMode getValueReturnMode() {
-				return data.getValueReturnMode();
-			}
-
-			@Override
-			public String getOnlineHelp() {
-				return data.getOnlineHelp();
-			}
-
-			@Override
-			public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
-				return data.getNextUpdateCustomUndoJob(invocationData);
-			}
-
-			@Override
-			public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-				data.validateParameters(invocationData);
-			}
-
-			@Override
-			public Map<String, Object> getSpecificProperties() {
-				return data.getSpecificProperties();
-			}
-
-		};
-		Object controlDataAsMethodOwner = data;
-		MethodInvocationDataAsObjectFactory factory = new MethodInvocationDataAsObjectFactory(
-				swingRenderer.getReflectionUI(), controlDataAsMethod, input.getContext().getIdentifier());
-		return factory.getInstance(controlDataAsMethodOwner, invocationData);
-	}
+	
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
 		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {

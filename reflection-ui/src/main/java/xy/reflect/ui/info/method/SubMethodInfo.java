@@ -1,5 +1,6 @@
 package xy.reflect.ui.info.method;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
@@ -90,7 +92,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 		return ReflectionUIUtils.composeMessage(theField.getCaption(), theSubMethod.getCaption());
 	}
 
-	protected Object getTheFieldValue(Object object) {
+	protected Object expectTheFieldValue(Object object) {
 		Object result = theField.getValue(object);
 		if (result == null) {
 			throw new ReflectionUIError("Sub-method error: Parent field value is missing");
@@ -100,26 +102,24 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		return theSubMethod.getConfirmationMessage(fieldValue, invocationData);
 	}
 
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		Object result = theSubMethod.invoke(fieldValue, invocationData);
 		if (isTheFieldUpdatePerformedAfterInvocation()) {
 			if (undoJobBuilder != null) {
-				Runnable theFieldUndoJob = theField.getNextUpdateCustomUndoJob(object, fieldValue);
-				if (theFieldUndoJob == null) {
-					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(reflectionUI, object, theField);
-				}
+				Runnable theFieldUndoJob = ReflectionUIUtils.getUndoJob(object, theField, fieldValue);
 				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
 			}
 			theField.setValue(object, fieldValue);
 		}
 		if (undoJobBuilder != null) {
 			undoJobBuilder.build();
+			undoJobBuilder = null;
 		}
 		return result;
 
@@ -127,7 +127,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public Runnable getNextInvocationUndoJob(Object object, final InvocationData invocationData) {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		final Runnable theSubMethodUndoJob = theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData);
 		if (theSubMethodUndoJob == null) {
 			undoJobBuilder = null;
@@ -195,12 +195,30 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		return theSubMethod.getParameters();
+		List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+		for (IParameterInfo param : theSubMethod.getParameters()) {
+			result.add(new ParameterInfoProxy(param) {
+
+				@Override
+				public Object getDefaultValue(Object object) {
+					Object fieldValue = expectTheFieldValue(object);
+					return super.getDefaultValue(fieldValue);
+				}
+
+				@Override
+				public Object[] getValueOptions(Object object) {
+					Object fieldValue = expectTheFieldValue(object);
+					return super.getValueOptions(fieldValue);
+				}
+				
+			});
+		}
+		return result;
 	}
 
 	@Override
 	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		theSubMethod.validateParameters(fieldValue, invocationData);
 	}
 

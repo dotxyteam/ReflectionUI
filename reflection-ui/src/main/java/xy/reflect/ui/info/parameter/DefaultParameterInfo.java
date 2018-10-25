@@ -79,12 +79,17 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	}
 
 	@Override
-	public Object getDefaultValue() {
+	public Object getDefaultValue(Object object) {
 		if (javaParameter.getType().isPrimitive()) {
 			return ClassUtils.getDefaultPrimitiveValue(javaParameter.getType());
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public Object[] getValueOptions(Object object) {
+		return null;
 	}
 
 	@Override

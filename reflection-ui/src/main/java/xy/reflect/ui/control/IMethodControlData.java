@@ -53,4 +53,8 @@ public interface IMethodControlData {
 	ColorSpecification getForegroundColor();
 
 	ColorSpecification getBorderColor();
+
+	InvocationData createInvocationData(Object... parameterValues);
+
+	Object createParametersObject(InvocationData invocationData, String contextId);
 }

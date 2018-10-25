@@ -15,9 +15,9 @@ public class InvocationData implements Serializable {
 	protected Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
 	protected Map<Integer, Object> defaultValueByParameterPosition = new HashMap<Integer, Object>();
 
-	public InvocationData(List<IParameterInfo> parameters, Object... parameterValues) {
+	public InvocationData(Object object, List<IParameterInfo> parameters, Object... parameterValues) {
 		for (IParameterInfo param : parameters) {
-			defaultValueByParameterPosition.put(param.getPosition(), param.getDefaultValue());
+			defaultValueByParameterPosition.put(param.getPosition(), param.getDefaultValue(object));
 		}
 		for (int i = 0; i < parameterValues.length; i++) {
 			valueByParameterPosition.put(i, parameterValues[i]);
@@ -31,8 +31,8 @@ public class InvocationData implements Serializable {
 		}
 	}
 
-	public InvocationData(IMethodInfo method, Object... parameterValues) {
-		this(method.getParameters(), parameterValues);
+	public InvocationData(Object object, IMethodInfo method, Object... parameterValues) {
+		this(object, method.getParameters(), parameterValues);
 	}
 
 	public Map<Integer, Object> getProvidedParameterValues() {
@@ -53,6 +53,10 @@ public class InvocationData implements Serializable {
 
 	public void provideParameterValue(int parameterPosition, Object value) {
 		valueByParameterPosition.put(parameterPosition, value);
+	}
+
+	public void withdrawParameterValue(int parameterPosition) {
+		valueByParameterPosition.remove(parameterPosition);
 	}
 
 	@Override

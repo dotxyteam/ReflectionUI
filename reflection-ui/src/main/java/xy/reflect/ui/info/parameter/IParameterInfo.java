@@ -57,7 +57,12 @@ public interface IParameterInfo extends IInfo {
 		}
 
 		@Override
-		public Object getDefaultValue() {
+		public Object getDefaultValue(Object object) {
+			return null;
+		}
+
+		@Override
+		public Object[] getValueOptions(Object object) {
 			return null;
 		}
 
@@ -71,10 +76,12 @@ public interface IParameterInfo extends IInfo {
 
 	boolean isNullValueDistinct();
 
-	Object getDefaultValue();
+	Object getDefaultValue(Object object);
 
 	int getPosition();
 
 	boolean isHidden();
+
+	Object[] getValueOptions(Object object);
 
 }

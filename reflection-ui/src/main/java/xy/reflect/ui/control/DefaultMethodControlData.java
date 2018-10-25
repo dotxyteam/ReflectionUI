@@ -11,6 +11,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InvocationDataObjectFactory;
 
 public class DefaultMethodControlData implements IMethodControlData {
 
@@ -31,6 +32,17 @@ public class DefaultMethodControlData implements IMethodControlData {
 
 	public IMethodInfo getMethod() {
 		return method;
+	}
+
+	@Override
+	public InvocationData createInvocationData(Object... parameterValues) {
+		return new InvocationData(getObject(), method, parameterValues);
+	}
+
+	@Override
+	public Object createParametersObject(InvocationData invocationData, String contextId) {
+		InvocationDataObjectFactory factory = new InvocationDataObjectFactory(reflectionUI, method, contextId);
+		return factory.getInstance(object, invocationData);
 	}
 
 	@Override

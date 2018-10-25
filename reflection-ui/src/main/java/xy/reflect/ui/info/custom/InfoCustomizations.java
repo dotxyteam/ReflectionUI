@@ -2231,7 +2231,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public boolean isNullStatusFieldExported() {
-			return nullStatusFieldExported = false;
+			return nullStatusFieldExported;
 		}
 
 		public void setNullStatusFieldExported(boolean nullStatusFieldExported) {
@@ -2416,7 +2416,7 @@ public class InfoCustomizations implements Serializable {
 		protected MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
 		protected boolean detachedReturnValueForced = false;
 		protected String encapsulationFieldName;
-		protected boolean parametersFormDisplayed = false;
+		protected List<String> parameterizedFieldNames = new ArrayList<String>();
 		protected ResourcePath iconImagePath;
 		protected IMenuItemContainerCustomization menuLocation;
 		protected boolean ignoredReturnValueForced = false;
@@ -2517,12 +2517,12 @@ public class InfoCustomizations implements Serializable {
 			this.returnValueFieldGenerated = returnValueFieldGenerated;
 		}
 
-		public boolean isParametersFormDisplayed() {
-			return parametersFormDisplayed;
+		public List<String> getParameterizedFieldNames() {
+			return parameterizedFieldNames;
 		}
 
-		public void setParametersFormDisplayed(boolean parametersFormDisplayed) {
-			this.parametersFormDisplayed = parametersFormDisplayed;
+		public void setParameterizedFieldNames(List<String> parameterizedFieldNames) {
+			this.parameterizedFieldNames = parameterizedFieldNames;
 		}
 
 		public boolean isDetachedReturnValueForced() {

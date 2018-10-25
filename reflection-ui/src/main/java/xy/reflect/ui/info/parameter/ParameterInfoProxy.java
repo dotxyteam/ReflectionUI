@@ -37,8 +37,12 @@ public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterI
 		return base.isNullValueDistinct();
 	}
 
-	public Object getDefaultValue() {
-		return base.getDefaultValue();
+	public Object getDefaultValue(Object object) {
+		return base.getDefaultValue(object);
+	}
+
+	public Object[] getValueOptions(Object object) {
+		return base.getValueOptions(object);
 	}
 
 	public int getPosition() {

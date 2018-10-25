@@ -13,7 +13,7 @@ import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
+import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -25,20 +25,20 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class MethodInvocationDataAsObjectFactory {
+public class InvocationDataObjectFactory {
 
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method;
 	protected String contextId;
 
-	public MethodInvocationDataAsObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
+	public InvocationDataObjectFactory(ReflectionUI reflectionUI, IMethodInfo method, String contextId) {
 		this.reflectionUI = reflectionUI;
 		this.method = method;
 		this.contextId = contextId;
 	}
 
 	public Instance getInstance(Object object, InvocationData invocationData) {
-		Instance result = new MethodInvocationDataAsObjectFactory.Instance(object, invocationData);
+		Instance result = new InvocationDataObjectFactory.Instance(object, invocationData);
 		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
 		return result;
 	}
@@ -86,7 +86,7 @@ public class MethodInvocationDataAsObjectFactory {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodInvocationDataAsObjectFactory other = (MethodInvocationDataAsObjectFactory) obj;
+		InvocationDataObjectFactory other = (InvocationDataObjectFactory) obj;
 		if (contextId == null) {
 			if (other.contextId != null)
 				return false;
@@ -122,8 +122,8 @@ public class MethodInvocationDataAsObjectFactory {
 			return invocationData;
 		}
 
-		private MethodInvocationDataAsObjectFactory getOuterType() {
-			return MethodInvocationDataAsObjectFactory.this;
+		private InvocationDataObjectFactory getOuterType() {
+			return InvocationDataObjectFactory.this;
 		}
 
 		@Override
@@ -351,8 +351,8 @@ public class MethodInvocationDataAsObjectFactory {
 			return true;
 		}
 
-		private MethodInvocationDataAsObjectFactory getOuterType() {
-			return MethodInvocationDataAsObjectFactory.this;
+		private InvocationDataObjectFactory getOuterType() {
+			return InvocationDataObjectFactory.this;
 		}
 
 		@Override
@@ -362,10 +362,10 @@ public class MethodInvocationDataAsObjectFactory {
 
 	}
 
-	public class FieldInfo extends MethodParameterAsFieldInfo {
+	public class FieldInfo extends ParameterAsFieldInfo {
 
 		public FieldInfo(ReflectionUI reflectionUI, IParameterInfo param, ITypeInfo containingType) {
-			super(reflectionUI, MethodInvocationDataAsObjectFactory.this.method, param, containingType);
+			super(reflectionUI, InvocationDataObjectFactory.this.method, param, containingType);
 		}
 
 		@Override
@@ -380,8 +380,14 @@ public class MethodInvocationDataAsObjectFactory {
 			return instance.invocationData.getParameterValue(param.getPosition());
 		}
 
-		private MethodInvocationDataAsObjectFactory getOuterType() {
-			return MethodInvocationDataAsObjectFactory.this;
+		@Override
+		public Object[] getValueOptions(Object object) {
+			Instance instance = (Instance) object;
+			return param.getValueOptions(instance.object);
+		}
+
+		private InvocationDataObjectFactory getOuterType() {
+			return InvocationDataObjectFactory.this;
 		}
 
 		@Override

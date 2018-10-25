@@ -22,7 +22,7 @@ public class ChainedMethodsInfo implements IMethodInfo {
 	protected ReflectionUI reflectionUI;
 	protected IMethodInfo method1;
 	protected IMethodInfo method2;
-	protected FututreActionBuilder undoJobBuilder = new FututreActionBuilder();
+	protected FututreActionBuilder undoJobBuilder;
 	protected ITypeInfo containingType;
 	private boolean returnValueVoid = false;
 	private ITypeInfo returnValueType;
@@ -78,12 +78,13 @@ public class ChainedMethodsInfo implements IMethodInfo {
 			if (method2.getReturnValueType() == null) {
 				returnValueVoid = true;
 			} else {
-				returnValueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(method2.getReturnValueType().getSource()) {
-					@Override
-					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-						return null;
-					}
-				});
+				returnValueType = reflectionUI
+						.getTypeInfo(new TypeInfoSourceProxy(method2.getReturnValueType().getSource()) {
+							@Override
+							public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+								return null;
+							}
+						});
 			}
 		}
 		return returnValueType;
@@ -100,20 +101,24 @@ public class ChainedMethodsInfo implements IMethodInfo {
 		Runnable method1UndoJob = method1.getNextInvocationUndoJob(object, invocationData);
 		Object result = method1.invoke(object, invocationData);
 
-		invocationData = new InvocationData(method2, result);
+		invocationData = new InvocationData(object, method2, result);
 
 		Runnable method2UndoJob = method2.getNextInvocationUndoJob(object, invocationData);
 		result = method2.invoke(object, invocationData);
 
-		undoJobBuilder.setOption("method1UndoJob", method1UndoJob);
-		undoJobBuilder.setOption("method2UndoJob", method2UndoJob);
-		undoJobBuilder.build();
+		if (undoJobBuilder != null) {
+			undoJobBuilder.setOption("method1UndoJob", method1UndoJob);
+			undoJobBuilder.setOption("method2UndoJob", method2UndoJob);
+			undoJobBuilder.build();
+			undoJobBuilder = null;
+		}
 
 		return result;
 	}
 
 	@Override
 	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+		undoJobBuilder = new FututreActionBuilder();
 		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {

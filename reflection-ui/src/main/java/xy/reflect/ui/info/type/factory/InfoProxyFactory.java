@@ -217,8 +217,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return getClass().getEnclosingMethod();
 	}
 
-	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return param.getDefaultValue();
+	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+			Object object) {
+		return param.getDefaultValue(object);
+	}
+
+	protected Object[] getValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+			Object object) {
+		return param.getValueOptions(object);
 	}
 
 	protected int getPosition(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
@@ -425,7 +431,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getDynamicActions(selection, listModificationFactoryAccessor);
 	}
 
-	protected List<IDynamicListProperty> getDynamicProperties(IListTypeInfo type, List<? extends ItemPosition> selection,
+	protected List<IDynamicListProperty> getDynamicProperties(IListTypeInfo type,
+			List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return type.getDynamicProperties(selection, listModificationFactoryAccessor);
 	}
@@ -1716,8 +1723,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public Object getDefaultValue() {
-			return InfoProxyFactory.this.getDefaultValue(base, method, containingType);
+		public Object getDefaultValue(Object object) {
+			return InfoProxyFactory.this.getDefaultValue(base, method, containingType, object);
+		}
+
+		@Override
+		public Object[] getValueOptions(Object object) {
+			return InfoProxyFactory.this.getValueOptions(base, method, containingType, object);
 		}
 
 		@Override

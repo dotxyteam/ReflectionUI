@@ -34,7 +34,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
-import xy.reflect.ui.info.field.AllMethodParametersAsFieldInfo;
 import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
 import xy.reflect.ui.info.field.ExportedNullStatusFieldInfo;
@@ -44,7 +43,7 @@ import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.MethodAsFieldInfo;
-import xy.reflect.ui.info.field.MethodParameterAsFieldInfo;
+import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
 import xy.reflect.ui.info.field.VirtualFieldInfo;
@@ -60,6 +59,7 @@ import xy.reflect.ui.info.method.HiddenMethodInfoProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.method.ParameterizedFieldsMethodInfo;
 import xy.reflect.ui.info.method.PresetInvocationDataMethodInfo;
 import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -71,7 +71,6 @@ import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.MethodInvocationDataAsObjectFactory.Instance;
 import xy.reflect.ui.info.type.iterable.IDynamicListAction;
 import xy.reflect.ui.info.type.iterable.IDynamicListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
@@ -1154,7 +1153,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 							throw new ReflectionUIError(
 									"Invalid validating method: Number of parameters > 0: " + method.getSignature());
 						}
-						method.invoke(object, new InvocationData(method));
+						method.invoke(object, new InvocationData(object, method));
 					}
 				}
 			}
@@ -1176,7 +1175,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 									"Cannot call method on object visibilty change: Number of parameters > 0: "
 											+ method.getSignature());
 						}
-						method.invoke(object, new InvocationData(method));
+						method.invoke(object, new InvocationData(object, method));
 						formUpdateNeeded = formUpdateNeeded || !method.isReadOnly();
 					}
 				}
@@ -1382,7 +1381,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
 			result.add(new MethodCommonOptionsTransformer());
 			result.add(new MethodParameterDefaultValueSettingTransformer());
-			result.add(new MethodParametersAsSubFormTransformer());
+			result.add(new ParameterizedFieldsMethodTransformer());
 			result.add(new MethodParameterAsFieldTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
 			result.add(new MethodPresetsGeneratingTransformer());
@@ -1898,47 +1897,22 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
-		protected class MethodParametersAsSubFormTransformer extends AbstractMethodTransformer {
+		protected class ParameterizedFieldsMethodTransformer extends AbstractMethodTransformer {
 
 			@Override
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
-				if (mc.isParametersFormDisplayed()) {
-					final AllMethodParametersAsFieldInfo methodParametersAsField = new AllMethodParametersAsFieldInfo(
-							customizedUI, method, method.getName() + ".parameters", containingType) {
-
-						@Override
-						public String getCaption() {
-							return ReflectionUIUtils.composeMessage(method.getCaption(), "Settings");
+				if (mc.getParameterizedFieldNames().size() > 0) {
+					List<IFieldInfo> parameterizedFields = new ArrayList<IFieldInfo>();
+					for (String fieldName : mc.getParameterizedFieldNames()) {
+						IFieldInfo field = ReflectionUIUtils.findInfoByName(outputFields, fieldName);
+						if (field == null) {
+							throw new ReflectionUIError("Parameterized field not found: '" + fieldName + "'");
 						}
-
-					};
-					newFields.add(methodParametersAsField);
-					method = new MethodInfoProxy(method) {
-
-						@Override
-						public List<IParameterInfo> getParameters() {
-							return Collections.emptyList();
-						}
-
-						@Override
-						public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-						}
-
-						@Override
-						public Object invoke(Object object, InvocationData invocationData) {
-							MethodInvocationDataAsObjectFactory.Instance instance = (Instance) methodParametersAsField
-									.getValue(object);
-							invocationData = instance.getInvocationData();
-							try {
-								super.validateParameters(object, invocationData);
-							} catch (Exception e) {
-								throw new ReflectionUIError(e);
-							}
-							return super.invoke(object, invocationData);
-						}
-
-					};
+						parameterizedFields.add(field);
+					}
+					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields,
+							containingType);
 				}
 				return method;
 			}
@@ -1955,7 +1929,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (pc != null) {
 						if (pc.isDisplayedAsField()) {
 							final IMethodInfo finalMethod = method;
-							final MethodParameterAsFieldInfo methodParameterAsField = new MethodParameterAsFieldInfo(
+							final ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(
 									customizedUI, method, param, containingType) {
 
 								@Override
@@ -1971,32 +1945,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 							};
 							newFields.add(methodParameterAsField);
-							method = new MethodInfoProxy(method) {
-
-								@Override
-								public List<IParameterInfo> getParameters() {
-									List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-									for (IParameterInfo param : super.getParameters()) {
-										if (pc.getParameterName().equals(param.getName())) {
-											continue;
-										}
-										result.add(param);
-									}
-									return result;
-								}
-
-								@Override
-								public Object invoke(Object object, InvocationData invocationData) {
-									Object paramValue = methodParameterAsField.getValue(object);
-									invocationData.provideParameterValue(param.getPosition(), paramValue);
-									try {
-										super.validateParameters(object, invocationData);
-									} catch (Exception e) {
-										throw new ReflectionUIError(e);
-									}
-									return super.invoke(object, invocationData);
-								}
-							};
+							method = methodParameterAsField.getReducedParameterListMethod();							
 						}
 					}
 				}
@@ -2025,7 +1974,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 											param = new ParameterInfoProxy(param) {
 
 												@Override
-												public Object getDefaultValue() {
+												public Object getDefaultValue(Object object) {
 													return defaultValue;
 												}
 
@@ -2376,7 +2325,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 								throw new ReflectionUIError("Field '" + f.getFieldName()
 										+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");
 							}
-							customMethod.invoke(object, new InvocationData(customMethod, value));
+							customMethod.invoke(object, new InvocationData(object, customMethod, value));
 						}
 
 					};

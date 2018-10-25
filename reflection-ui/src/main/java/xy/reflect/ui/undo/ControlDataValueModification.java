@@ -37,11 +37,7 @@ public class ControlDataValueModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
-		Runnable result = data.getNextUpdateCustomUndoJob(newValue);
-		if (result == null) {
-			result = ReflectionUIUtils.createDefaultUndoJob(data);
-		}
-		return result;
+		return ReflectionUIUtils.getUndoJob(data, newValue);
 	}
 
 	@Override

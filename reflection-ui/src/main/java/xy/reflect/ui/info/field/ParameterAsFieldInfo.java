@@ -1,7 +1,9 @@
 package xy.reflect.ui.info.field;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.MapMaker;
@@ -12,12 +14,15 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.ReflectionUIError;
 
-public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
+public class ParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected IParameterInfo param;
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
@@ -27,7 +32,7 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 	protected static Map<Object, Map<IMethodInfo, Map<IParameterInfo, Object>>> valueByParameterByMethodByObject = new MapMaker()
 			.weakKeys().makeMap();
 
-	public MethodParameterAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, IParameterInfo param,
+	public ParameterAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, IParameterInfo param,
 			ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		this.param = param;
@@ -54,7 +59,7 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 	public Object getValue(Object object) {
 		Map<IParameterInfo, Object> valueByParameter = getValueByParameter(object);
 		if (!valueByParameter.containsKey(param)) {
-			return param.getDefaultValue();
+			return param.getDefaultValue(object);
 		}
 		return valueByParameter.get(param);
 	}
@@ -81,7 +86,7 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		return null;
+		return param.getValueOptions(object);
 	}
 
 	@Override
@@ -167,6 +172,44 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 		return -1;
 	}
 
+	public IMethodInfo getReducedParameterListMethod() {
+		return new MethodInfoProxy(method) {
+
+			@Override
+			public List<IParameterInfo> getParameters() {
+				List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+				for (IParameterInfo param : super.getParameters()) {
+					if (ParameterAsFieldInfo.this.param.getName().equals(param.getName())) {
+						continue;
+					}
+					result.add(param);
+				}
+				return result;
+			}
+
+			@Override
+			public Object invoke(Object object, InvocationData invocationData) {
+				Object paramValue = ParameterAsFieldInfo.this.getValue(object);
+				invocationData.provideParameterValue(param.getPosition(), paramValue);
+				try {
+					super.validateParameters(object, invocationData);
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+				return super.invoke(object, invocationData);
+			}
+
+			@Override
+			public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+				Object paramValue = ParameterAsFieldInfo.this.getValue(object);
+				invocationData.provideParameterValue(param.getPosition(), paramValue);
+				return super.getNextInvocationUndoJob(object, invocationData);
+			}
+
+		};
+
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -184,7 +227,7 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodParameterAsFieldInfo other = (MethodParameterAsFieldInfo) obj;
+		ParameterAsFieldInfo other = (ParameterAsFieldInfo) obj;
 		if (method == null) {
 			if (other.method != null)
 				return false;
@@ -200,7 +243,7 @@ public class MethodParameterAsFieldInfo extends AbstractInfo implements IFieldIn
 
 	@Override
 	public String toString() {
-		return "MethodParameterAsField [method=" + method + ", param=" + param + "]";
+		return "ParameterAsField [method=" + method + ", param=" + param + "]";
 	}
 
 }

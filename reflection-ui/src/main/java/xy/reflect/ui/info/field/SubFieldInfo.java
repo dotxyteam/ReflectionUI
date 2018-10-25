@@ -84,38 +84,36 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		return theSubField.getValue(fieldValue);
 	}
 
 	@Override
 	public Object[] getValueOptions(Object object) {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		return theSubField.getValueOptions(fieldValue);
 	}
 
 	@Override
 	public void setValue(Object object, Object subFieldValue) {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		theSubField.setValue(fieldValue, subFieldValue);
 		if (isTheFieldUpdatePerformedAfterInvocation()) {
 			if (undoJobBuilder != null) {
-				Runnable theFieldUndoJob = theField.getNextUpdateCustomUndoJob(object, fieldValue);
-				if (theFieldUndoJob == null) {
-					theFieldUndoJob = ReflectionUIUtils.createDefaultUndoJob(reflectionUI, object, theField);
-				}
+				Runnable theFieldUndoJob = ReflectionUIUtils.getUndoJob(object, theField, fieldValue);
 				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
 			}
 			theField.setValue(object, fieldValue);
 		}
 		if (undoJobBuilder != null) {
 			undoJobBuilder.build();
+			undoJobBuilder = null;
 		}
 	}
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object subFieldValue) {
-		Object fieldValue = getTheFieldValue(object);
+		Object fieldValue = expectTheFieldValue(object);
 		final Runnable theSubFieldUndoJob = theSubField.getNextUpdateCustomUndoJob(fieldValue, subFieldValue);
 		if (theSubFieldUndoJob == null) {
 			undoJobBuilder = null;
@@ -151,7 +149,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 		return theSubField.isGetOnly();
 	}
 
-	protected Object getTheFieldValue(Object object) {
+	protected Object expectTheFieldValue(Object object) {
 		Object result = theField.getValue(object);
 		if (result == null) {
 			throw new ReflectionUIError("Sub-field error: Parent field value is missing");

@@ -39,7 +39,6 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
@@ -710,11 +709,11 @@ public class ReflectionUIUtils {
 
 			IMethodInfo zeroParamConstructor = getZeroParameterMethod(type.getConstructors());
 			if (zeroParamConstructor != null) {
-				return zeroParamConstructor.invoke(parentObject, new InvocationData(zeroParamConstructor));
+				return zeroParamConstructor.invoke(parentObject, new InvocationData(parentObject, zeroParamConstructor));
 			}
 			for (IMethodInfo constructor : type.getConstructors()) {
-				InvocationData invocationData = new InvocationData(constructor);
-				if (ReflectionUIUtils.areAllDefaultValuesProvided(constructor.getParameters())) {
+				InvocationData invocationData = new InvocationData(parentObject, constructor);
+				if (ReflectionUIUtils.areAllDefaultValuesProvided(parentObject, constructor.getParameters())) {
 					return constructor.invoke(parentObject, invocationData);
 				}
 			}
@@ -1162,6 +1161,22 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
+	public static Runnable getUndoJob(final IFieldControlData data, Object newValue) {
+		Runnable result = data.getNextUpdateCustomUndoJob(newValue);
+		if (result == null) {
+			result = createDefaultUndoJob(data);
+		}
+		return result;
+	}
+
+	public static Runnable getUndoJob(Object object, IFieldInfo field, Object newValue) {
+		Runnable result = field.getNextUpdateCustomUndoJob(object, newValue);
+		if (result == null) {
+			result = createDefaultUndoJob(object, field);
+		}
+		return result;
+	}
+
 	public static Runnable createDefaultUndoJob(final IFieldControlData data) {
 		final Object oldValue = data.getValue();
 		return new Runnable() {
@@ -1172,8 +1187,14 @@ public class ReflectionUIUtils {
 		};
 	}
 
-	public static Runnable createDefaultUndoJob(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
-		return createDefaultUndoJob(new DefaultFieldControlData(reflectionUI, object, field));
+	public static Runnable createDefaultUndoJob(final Object object, final IFieldInfo field) {
+		final Object oldValue = field.getValue(object);
+		return new Runnable() {
+			@Override
+			public void run() {
+				field.setValue(object, oldValue);
+			}
+		};
 	}
 
 	public static <T> void replaceItem(List<T> list, T t1, T t2) {
@@ -1185,9 +1206,9 @@ public class ReflectionUIUtils {
 		return new UID().toString();
 	}
 
-	public static boolean areAllDefaultValuesProvided(List<IParameterInfo> parameters) {
+	public static boolean areAllDefaultValuesProvided(Object object, List<IParameterInfo> parameters) {
 		for (IParameterInfo param : parameters) {
-			if (param.getDefaultValue() == null) {
+			if (param.getDefaultValue(object) == null) {
 				return false;
 			}
 		}
