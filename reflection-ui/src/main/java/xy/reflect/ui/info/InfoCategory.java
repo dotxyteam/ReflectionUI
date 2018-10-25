@@ -1,5 +1,11 @@
 package xy.reflect.ui.info;
 
+/**
+ * This class is used to categorize fields and methods of an abstract UI model.
+ * 
+ * @author olitank
+ *
+ */
 public class InfoCategory implements Comparable<InfoCategory> {
 
 	protected String caption;
@@ -49,8 +55,7 @@ public class InfoCategory implements Comparable<InfoCategory> {
 
 	@Override
 	public String toString() {
-		return InfoCategory.class.getSimpleName() + " n°" + (position + 1)
-				+ " - " + caption;
+		return InfoCategory.class.getSimpleName() + " n°" + (position + 1) + " - " + caption;
 	}
 
 }

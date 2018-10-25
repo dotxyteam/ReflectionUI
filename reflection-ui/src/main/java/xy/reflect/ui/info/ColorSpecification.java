@@ -2,6 +2,12 @@ package xy.reflect.ui.info;
 
 import java.io.Serializable;
 
+/**
+ * This is a renderer-independent color specification class.
+ * 
+ * @author olitank
+ *
+ */
 public class ColorSpecification implements Serializable {
 	private static final long serialVersionUID = 1L;
 

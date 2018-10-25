@@ -11,6 +11,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import xy.reflect.ui.util.FileUtils;
 
+/**
+ * This is a renderer-independent resource location class. It allows to specify
+ * how to access a resource from the heap, the class-path or the file system.
+ * 
+ * @author olitank
+ *
+ */
 public class ResourcePath implements Serializable {
 	private static final long serialVersionUID = 1L;
 
