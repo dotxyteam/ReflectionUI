@@ -1,4 +1,4 @@
-- test commit author 2
+- test commit author 3
 - add to ITypeInfo:
 	- IFieldControlPlugin getControlPlugin();	
 	- Object getControlPluginConfiguration();
