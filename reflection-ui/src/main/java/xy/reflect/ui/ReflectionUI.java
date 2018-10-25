@@ -20,16 +20,49 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
+/**
+ * This class reads and interprets the metadata (usually the class) of objects
+ * in order to propose an abstract UI model (ITypeInfo).
+ * 
+ * @author olitank
+ *
+ */
 public class ReflectionUI {
+
+	public static void main(String[] args) throws Exception {
+		Class<?> clazz = Object.class;
+		String usageText = "Expected arguments: [ <className> | --help ]"
+				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
+				+ "\n  => --help: Displays this help message" + "\n"
+				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
+		if (args.length == 0) {
+			clazz = Object.class;
+		} else if (args.length == 1) {
+			if (args[0].equals("--help")) {
+				System.out.println(usageText);
+				return;
+			} else {
+				clazz = Class.forName(args[0]);
+			}
+		} else {
+			throw new IllegalArgumentException(usageText);
+		}
+		Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
+				ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz, null)), null);
+		if (object == null) {
+			return;
+		}
+		SwingRenderer.getDefault().openObjectFrame(object);
+	}
 
 	protected static ReflectionUI defaultInstance;
 
 	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
 			.<Object, ITypeInfo>build().asMap();
 
-	public ReflectionUI() {
-	}
-
+	/**
+	 * @return the default instance of this class.
+	 */
 	public static ReflectionUI getDefault() {
 		if (defaultInstance == null) {
 			defaultInstance = new ReflectionUI() {
@@ -45,8 +78,7 @@ public class ReflectionUI {
 
 						@Override
 						public ColorSpecification getTitleBackgroundColor() {
-							return SwingRendererUtils
-									.getColorSpecification(Color.LIGHT_GRAY);
+							return SwingRendererUtils.getColorSpecification(Color.LIGHT_GRAY);
 						}
 
 						@Override
@@ -62,14 +94,34 @@ public class ReflectionUI {
 		return defaultInstance;
 	}
 
+	/**
+	 * Allows to associate an object with a predefined ITypeInfo instance.
+	 * 
+	 * @param object
+	 *            The object to associate.
+	 * @param type
+	 *            The ITypeInfo instance to associate with the object.
+	 */
 	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
 		precomputedTypeInfoByObject.put(object, type);
 	}
 
+	/**
+	 * Allows to break the association between an object and a predefined ITypeInfo
+	 * instance.
+	 * 
+	 * @param object
+	 *            The object that was associated.
+	 */
 	public void unregisterPrecomputedTypeInfoObject(Object object) {
 		precomputedTypeInfoByObject.remove(object);
 	}
 
+	/**
+	 * @param object
+	 *            Any object from which a UI needs to be created.
+	 * @return a metadata object from which an abstract UI model will be extracted.
+	 */
 	public ITypeInfoSource getTypeInfoSource(Object object) {
 		ITypeInfo precomputedType = precomputedTypeInfoByObject.get(object);
 		if (precomputedType != null) {
@@ -79,10 +131,19 @@ public class ReflectionUI {
 		}
 	}
 
+	/**
+	 * @param typeInfoSource
+	 *            The metadata object.
+	 * @return an abstract model describing the UI properties objects sharing the
+	 *         given metadata object.
+	 */
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
 		return typeInfoSource.getTypeInfo(this);
 	}
 
+	/**
+	 * @return the common UI properties descriptor.
+	 */
 	public IApplicationInfo getApplicationInfo() {
 		return new DefaultApplicationInfo();
 	}
@@ -109,32 +170,6 @@ public class ReflectionUI {
 
 	public void logError(Throwable t) {
 		logError(ReflectionUIUtils.getPrintedStackTrace(t));
-	}
-
-	public static void main(String[] args) throws Exception {
-		Class<?> clazz = Object.class;
-		String usageText = "Expected arguments: [ <className> | --help ]"
-				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
-				+ "\n  => --help: Displays this help message" + "\n"
-				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
-		if (args.length == 0) {
-			clazz = Object.class;
-		} else if (args.length == 1) {
-			if (args[0].equals("--help")) {
-				System.out.println(usageText);
-				return;
-			} else {
-				clazz = Class.forName(args[0]);
-			}
-		} else {
-			throw new IllegalArgumentException(usageText);
-		}
-		Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
-				ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz, null)), null);
-		if (object == null) {
-			return;
-		}
-		SwingRenderer.getDefault().openObjectFrame(object);
 	}
 
 	@Override
