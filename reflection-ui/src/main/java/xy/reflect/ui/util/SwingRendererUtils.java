@@ -523,7 +523,7 @@ public class SwingRendererUtils {
 
 	public static ResourcePath putImageInCache(Image image) {
 		String imagePathSpecification = ResourcePath
-				.formatMemoryObjectSpecification(image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
+				.specifyMemoryObjectSpecification(image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
 		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);
 		return new ResourcePath(imagePathSpecification);
 	}
@@ -541,7 +541,7 @@ public class SwingRendererUtils {
 				URL imageUrl;
 				if (imagePath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
 					String classPathResourceLocation = ResourcePath
-							.extractClassPathResourceValue(imagePath.getSpecification());
+							.extractClassPathResourceLocation(imagePath.getSpecification());
 					imageUrl = SwingRendererUtils.class.getClassLoader().getResource(classPathResourceLocation);
 					if (imageUrl == null) {
 						throw new ReflectionUIError(

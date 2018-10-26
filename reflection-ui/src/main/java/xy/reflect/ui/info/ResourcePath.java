@@ -15,6 +15,12 @@ import xy.reflect.ui.util.FileUtils;
  * This is a renderer-independent resource location class. It allows to specify
  * how to access a resource from the heap, the class-path or the file system.
  * 
+ * It will also detect alternative resource location strategies is some exist
+ * for the current resource.
+ * 
+ * Note that objects of this class are just resource location specifications.
+ * Engines must be created to provide the actual resource access routines.
+ * 
  * @author olitank
  *
  */
@@ -29,63 +35,134 @@ public class ResourcePath implements Serializable {
 	protected PathKind pathKind;
 	protected int chosenAlternativeIndex;
 
+	/**
+	 * Resource location strategy enumeration.
+	 * 
+	 * @author olitank
+	 *
+	 */
 	public enum PathKind {
 		CLASS_PATH_RESOURCE, ABSOLUTE_FILE, RELATIVE_FILE, MEMORY_OBJECT
 	}
 
+	/**
+	 * Constructs an empty resource path. {@link #setSpecification(String)} can then
+	 * be used to specify the resource location.
+	 */
 	public ResourcePath() {
 		this("");
 	}
 
+	/**
+	 * Constructs a class-path resource path.
+	 * 
+	 * @param classInResourcePackage
+	 *            A class in the same package of the resource.
+	 * @param resourceName
+	 *            The name of the resource.
+	 */
 	public ResourcePath(Class<?> classInResourcePackage, String resourceName) {
-		this(ResourcePath.formatClassPathResourceSpecification(
+		this(ResourcePath.specifyClassPathResourceSpecification(
 				classInResourcePackage.getPackage().getName().replace(".", "/") + "/" + resourceName));
 	}
 
+	/**
+	 * Constructs a resource path from a specification. Specifications can be
+	 * created using the static specify*Location(String) methods of this class.
+	 * 
+	 * @param specification
+	 */
 	public ResourcePath(String specification) {
 		setSpecification(specification);
 	}
 
-	public static String formatClassPathResourceSpecification(String value) {
-		return ResourcePath.CLASSPATH_RESOURCE_PREFIX + value;
+	/**
+	 * @param path
+	 *            A path that could be used as the argument of
+	 *            {@link Class#getResource(String)}
+	 * @return a class-path resource location specification string that can be
+	 *         passed to the {@link #setSpecification(String)} method.
+	 */
+	public static String specifyClassPathResourceSpecification(String path) {
+		return ResourcePath.CLASSPATH_RESOURCE_PREFIX + path;
 	}
 
-	public static String extractClassPathResourceValue(String specification) {
+	/**
+	 * @param path
+	 *            A arbitrary path that will uniquely identify a heap object.
+	 * @return a heap resource location specification string that can be passed to
+	 *         the {@link #setSpecification(String)} method.
+	 */
+	public static String specifyMemoryObjectSpecification(String path) {
+		return ResourcePath.MEMORY_OBJECT_PREFIX + path;
+	}
+
+	/**
+	 * @param specification
+	 *            The full resource location specification string.
+	 * @return the path that was passed to the
+	 *         {@link #specifyClassPathResourceSpecification(String)} method in
+	 *         order to create the given resource location specification.
+	 */
+	public static String extractClassPathResourceLocation(String specification) {
 		return specification.substring(ResourcePath.CLASSPATH_RESOURCE_PREFIX.length());
 	}
 
-	public static String formatMemoryObjectSpecification(String value) {
-		return ResourcePath.MEMORY_OBJECT_PREFIX + value;
-	}
-
-	public static String extractMemoryObjectValue(String specification) {
+	/**
+	 * @param specification
+	 *            The full resource location specification string.
+	 * @return the path that was passed to the
+	 *         {@link #specifyMemoryObjectSpecification(String)} method in order to
+	 *         create the given resource location specification.
+	 */
+	public static String extractMemoryObjectLocation(String specification) {
 		return specification.substring(ResourcePath.MEMORY_OBJECT_PREFIX.length());
 	}
 
+	/**
+	 * @return the raw path to resource. The format depends on the path kind.
+	 */
 	public String getPath() {
 		return path;
 	}
 
+	/**
+	 * This method differs from {@link #getDefaultSpecification()} by returning an
+	 * alternative specification if one was selected using the
+	 * {@link #setChosenAlternative(ResourcePath)} method.
+	 * 
+	 * @return the chosen or default full resource location specification string.
+	 */
 	public String getSpecification() {
 		return getChosen().getDefaultSpecification();
 	}
 
+	/**
+	 * @return the full resource location specification string provided through the
+	 *         {@link #setSpecification(String)} method.
+	 */
 	public String getDefaultSpecification() {
 		if (pathKind == PathKind.CLASS_PATH_RESOURCE) {
-			return ResourcePath.formatClassPathResourceSpecification(path);
+			return ResourcePath.specifyClassPathResourceSpecification(path);
 		} else if (pathKind == PathKind.MEMORY_OBJECT) {
-			return ResourcePath.formatMemoryObjectSpecification(path);
+			return ResourcePath.specifyMemoryObjectSpecification(path);
 		} else {
 			return path;
 		}
 	}
 
+	/**
+	 * Sets the full resource location specification string.
+	 * 
+	 * @param specification
+	 *            The full resource location specification string.
+	 */
 	public void setSpecification(String specification) {
 		if (specification.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
-			path = extractClassPathResourceValue(specification);
+			path = extractClassPathResourceLocation(specification);
 			pathKind = PathKind.CLASS_PATH_RESOURCE;
 		} else if (specification.startsWith(ResourcePath.MEMORY_OBJECT_PREFIX)) {
-			path = extractMemoryObjectValue(specification);
+			path = extractMemoryObjectLocation(specification);
 			pathKind = PathKind.MEMORY_OBJECT;
 		} else {
 			File file = new File(specification);
@@ -95,6 +172,31 @@ public class ResourcePath implements Serializable {
 		chosenAlternativeIndex = 0;
 	}
 
+	/**
+	 * @return the current resource location strategy.
+	 */
+	public PathKind getPathKind() {
+		ResourcePath chosen = getChosen();
+		return chosen.pathKind;
+	}
+
+	/**
+	 * Allows to specify the location of a file system resource.
+	 * 
+	 * @param file
+	 *            The file system resource path.
+	 */
+	public void setFile(File file) {
+		path = file.getPath();
+		pathKind = file.isAbsolute() ? PathKind.ABSOLUTE_FILE : PathKind.RELATIVE_FILE;
+		chosenAlternativeIndex = 0;
+	}
+
+	/**
+	 * @return the current or the chosen resource location alternative if one was
+	 *         selected using the {@link #setChosenAlternative(ResourcePath)}
+	 *         method.
+	 */
 	protected ResourcePath getChosen() {
 		if (chosenAlternativeIndex == SELF_ALTERNATIVE_INDEX) {
 			return this;
@@ -103,17 +205,11 @@ public class ResourcePath implements Serializable {
 		}
 	}
 
-	public PathKind getPathKind() {
-		ResourcePath chosen = getChosen();
-		return chosen.pathKind;
-	}
-
-	public void setFile(File file) {
-		path = file.getPath();
-		pathKind = file.isAbsolute() ? PathKind.ABSOLUTE_FILE : PathKind.RELATIVE_FILE;
-		chosenAlternativeIndex = 0;
-	}
-
+	/**
+	 * @return the the chosen resource location alternative if one was selected
+	 *         using the {@link #setChosenAlternative(ResourcePath)} method, or null
+	 *         if no choice was made.
+	 */
 	@XmlTransient
 	public ResourcePath getChosenAlternative() {
 		List<ResourcePath> options = getAlternativeOptions();
@@ -123,11 +219,22 @@ public class ResourcePath implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Allows to select a resource location alternative.
+	 * 
+	 * @param chosenAlternative
+	 *            An alternative resource location. Must be included in the list
+	 *            returned by the {@link #getAlternativeOptions()} method.
+	 */
 	public void setChosenAlternative(ResourcePath chosenAlternative) {
 		List<ResourcePath> options = getAlternativeOptions();
 		chosenAlternativeIndex = options.indexOf(chosenAlternative);
 	}
 
+	/**
+	 * @return the list of detected alternative resource locations, each one with a
+	 *         different strategy.
+	 */
 	public List<ResourcePath> getAlternativeOptions() {
 		List<ResourcePath> result = new ArrayList<ResourcePath>();
 		if ((pathKind == PathKind.ABSOLUTE_FILE) || (pathKind == PathKind.RELATIVE_FILE)) {
@@ -165,7 +272,7 @@ public class ResourcePath implements Serializable {
 			String candidateResourcePath = candidateResourceFile.getPath().replaceAll("\\\\", "/");
 			URL resourceURL = ResourcePath.class.getClassLoader().getResource(candidateResourcePath);
 			if (resourceURL != null) {
-				result.add(new ResourcePath(formatClassPathResourceSpecification(candidateResourcePath)));
+				result.add(new ResourcePath(specifyClassPathResourceSpecification(candidateResourcePath)));
 			}
 		}
 		return result;

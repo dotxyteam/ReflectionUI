@@ -5,7 +5,7 @@ import java.util.Collections;
 
 /**
  * This enumeration allows to specify what kind of relation exists between a
- * value returned by a field or a method and its source object.
+ * value returned by a class member (field or a method) and its source object.
  * 
  * @author olitank
  *
@@ -13,20 +13,21 @@ import java.util.Collections;
 public enum ValueReturnMode {
 
 	/**
-	 * The value is a reference to a value or a proxy of a value stored in the
+	 * Means that the value is a reference or a proxy of a value stored in the
 	 * source object. Thus altering the value will alter the source object.
 	 */
 	DIRECT_OR_PROXY,
 
 	/**
-	 * The value is not stored in the source object. It is either a copy or a
-	 * calcilation result. Thus altering the value will not alter the source object.
+	 * Means that the value is not stored in the source object. It is either a copy
+	 * or a calculation result. Thus altering the value will not alter the source
+	 * object.
 	 */
 	CALCULATED,
 
 	/**
-	 * The value could be stored in the source object or not. Thus altering the
-	 * could alter or not the source object.
+	 * Means that the value could be stored in the source object or not. Thus
+	 * altering the could alter or not the source object.
 	 */
 	INDETERMINATE;
 
