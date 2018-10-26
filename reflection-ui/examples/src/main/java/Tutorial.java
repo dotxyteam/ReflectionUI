@@ -32,7 +32,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.builtin.ExitMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.CloseWindowMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.OpenMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -52,7 +52,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 public class Tutorial {
 
 	public static void main(String[] args) {
-		
+
 		/*
 		 * Each of the following methods demonstrates a feature of the library.
 		 */
@@ -497,7 +497,7 @@ public class Tutorial {
 									}
 									MenuItemCategory lifeCycleCategory = new MenuItemCategory("Life Cycle");
 									{
-										ExitMenuItem exitMenuItem = new ExitMenuItem();
+										CloseWindowMenuItem exitMenuItem = new CloseWindowMenuItem();
 										{
 											exitMenuItem.setName("Quit");
 											lifeCycleCategory.addItem(exitMenuItem);

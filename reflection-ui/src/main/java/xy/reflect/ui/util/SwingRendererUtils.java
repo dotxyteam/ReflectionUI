@@ -63,9 +63,11 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -80,6 +82,8 @@ import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.Menu;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.menu.MethodActionMenuItem;
+import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -522,8 +526,8 @@ public class SwingRendererUtils {
 	}
 
 	public static ResourcePath putImageInCache(Image image) {
-		String imagePathSpecification = ResourcePath
-				.specifyMemoryObjectSpecification(image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
+		String imagePathSpecification = ResourcePath.specifyMemoryObjectSpecification(
+				image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
 		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);
 		return new ResourcePath(imagePathSpecification);
 	}
@@ -851,8 +855,10 @@ public class SwingRendererUtils {
 	}
 
 	public static JMenuItem createJMenuItem(AbstractMenuItem item, SwingRenderer swingRenderer) {
-		if (item instanceof AbstractActionMenuItem) {
-			return createJMenuActionItem((AbstractActionMenuItem) item, swingRenderer);
+		if (item instanceof AbstractBuiltInActionMenuItem) {
+			return createJMenuActionItem((AbstractBuiltInActionMenuItem) item, swingRenderer);
+		} else if (item instanceof MethodActionMenuItem) {
+			return createJMenuActionItem((MethodActionMenuItem) item, swingRenderer);
 		} else if (item instanceof Menu) {
 			return createJMenu((Menu) item, swingRenderer);
 		} else {
@@ -860,7 +866,45 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static JMenuItem createJMenuActionItem(final AbstractActionMenuItem actionMenuItem,
+	public static JMenuItem createJMenuActionItem(final MethodActionMenuItem actionMenuItem,
+			final SwingRenderer swingRenderer) {
+		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
+		JMenuItem result = new JMenuItem(new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					IMethodInfo method = actionMenuItem.getMethod();
+					IMethodControlInput input = form.createMethodControlPlaceHolder(method);
+					MethodAction methodAction = swingRenderer.createMethodAction(input);
+					methodAction.execute((Form) form);
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
+				}
+			}
+
+		});
+		try {
+			result.setText(actionMenuItem.getName());
+			ImageIcon icon = getMenuItemIcon(swingRenderer, actionMenuItem);
+			if (icon != null) {
+				icon = getSmallIcon(icon);
+			}
+			result.setIcon(icon);
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logError(t);
+			if (result.getText() == null) {
+				result.setText(t.toString());
+			} else {
+				result.setText(result.getText() + "(" + t.toString() + ")");
+			}
+			result.setEnabled(false);
+		}
+		return result;
+	}
+
+	public static JMenuItem createJMenuActionItem(final AbstractBuiltInActionMenuItem actionMenuItem,
 			final SwingRenderer swingRenderer) {
 		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
 		JMenuItem result = new JMenuItem(new AbstractAction() {
@@ -1083,7 +1127,7 @@ public class SwingRendererUtils {
 
 	public static IFieldControlPlugin getCurrentFieldControlPlugin(SwingRenderer swingRenderer,
 			Map<String, Object> specificProperties, IFieldControlInput input) {
-		String chosenPluginId = (String) specificProperties.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		String chosenPluginId = ReflectionUIUtils.getFieldControlPluginIdentifier(specificProperties);
 		if (chosenPluginId != null) {
 			IFieldControlPlugin plugin = findFieldControlPlugin(swingRenderer, chosenPluginId);
 			if (plugin != null) {
@@ -1097,17 +1141,20 @@ public class SwingRendererUtils {
 
 	public static void setCurrentFieldControlPlugin(SwingRenderer swingRenderer, Map<String, Object> specificProperties,
 			IFieldControlPlugin plugin) {
-		String lastPluginId = (String) specificProperties.remove(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		String lastPluginId = ReflectionUIUtils.getFieldControlPluginIdentifier(specificProperties);
+		ReflectionUIUtils.setFieldControlPluginIdentifier(specificProperties, null);
 		if (lastPluginId != null) {
 			IFieldControlPlugin lastPlugin = findFieldControlPlugin(swingRenderer, lastPluginId);
 			if (lastPlugin instanceof ICustomizableFieldControlPlugin) {
-				((ICustomizableFieldControlPlugin) lastPlugin).cleanUpCustomizations(specificProperties);
+				ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, lastPlugin.getIdentifier(),
+						null);
 			}
 		}
 		if (plugin != null) {
-			specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, plugin.getIdentifier());
+			ReflectionUIUtils.setFieldControlPluginIdentifier(specificProperties, plugin.getIdentifier());
 			if (plugin instanceof ICustomizableFieldControlPlugin) {
-				((ICustomizableFieldControlPlugin) plugin).setUpCustomizations(specificProperties);
+				ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, plugin.getIdentifier(),
+						((ICustomizableFieldControlPlugin) plugin).getDefaultControlCustomization());
 			}
 		}
 	}

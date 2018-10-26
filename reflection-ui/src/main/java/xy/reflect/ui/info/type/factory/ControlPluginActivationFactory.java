@@ -1,18 +1,18 @@
 package xy.reflect.ui.info.type.factory;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ControlPluginActivationFactory extends InfoProxyFactory {
 
 	protected String pluginId;
-	protected Object pluginConfiguration;
+	protected Serializable pluginConfiguration;
 
-	public ControlPluginActivationFactory(String pluginId, Object pluginConfiguration) {
+	public ControlPluginActivationFactory(String pluginId, Serializable pluginConfiguration) {
 		this.pluginId = pluginId;
 		this.pluginConfiguration = pluginConfiguration;
 	}
@@ -20,12 +20,8 @@ public class ControlPluginActivationFactory extends InfoProxyFactory {
 	@Override
 	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-		result.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, pluginId);
-		if (pluginConfiguration != null) {
-			result.put(pluginId, ReflectionUIUtils.serializeToHexaText(pluginConfiguration));
-		} else {
-			result.remove(pluginId);
-		}
+		ReflectionUIUtils.setFieldControlPluginIdentifier(result, pluginId);
+		ReflectionUIUtils.setFieldControlPluginConfiguration(result, pluginId, pluginConfiguration);
 		return result;
 	}
 

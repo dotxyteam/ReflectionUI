@@ -39,7 +39,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 	}
 
 	@Override
-	protected AbstractConfiguration getDefaultControlCustomization() {
+	public AbstractConfiguration getDefaultControlCustomization() {
 		return new SpinnerConfiguration();
 	}
 

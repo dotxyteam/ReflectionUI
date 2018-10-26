@@ -19,17 +19,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractSimpleCustomizableFieldControlPlugin extends AbstractSimpleFieldControlPlugin
 		implements ICustomizableFieldControlPlugin {
 
-	protected abstract AbstractConfiguration getDefaultControlCustomization();
-
-	@Override
-	public void setUpCustomizations(Map<String, Object> specificProperties) {
-		storeControlCustomization(getDefaultControlCustomization(), specificProperties);
-	}
-
-	@Override
-	public void cleanUpCustomizations(Map<String, Object> specificProperties) {
-		specificProperties.remove(getIdentifier());
-	}
+	public abstract AbstractConfiguration getDefaultControlCustomization();
 
 	@Override
 	public JMenuItem makeFieldCustomizerMenuItem(final JButton customizerButton,
@@ -43,7 +33,7 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 			public void actionPerformed(ActionEvent e) {
 				TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
 						fieldControlPlaceHolder.getControlData().getType().getName(), true);
-				Object controlConfiguration = null;
+				AbstractConfiguration controlConfiguration = null;
 				try {
 					controlConfiguration = getControlCustomization(typeCustomization);
 				} catch (Throwable t) {
@@ -60,8 +50,8 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 		});
 	}
 
-	public void storeControlCustomization(Object controlConfiguration, TypeCustomization typeCustomization,
-			ICustomizationTools customizationTools) {
+	public void storeControlCustomization(AbstractConfiguration controlConfiguration,
+			TypeCustomization typeCustomization, ICustomizationTools customizationTools) {
 		Map<String, Object> specificProperties = typeCustomization.getSpecificProperties();
 		specificProperties = new HashMap<String, Object>(specificProperties);
 		storeControlCustomization(controlConfiguration, specificProperties);
@@ -69,15 +59,13 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 	}
 
 	public AbstractConfiguration loadControlCustomization(Map<String, Object> specificProperties) {
-		String text = (String) specificProperties.get(getIdentifier());
-		if (text == null) {
-			return null;
-		}
-		return (AbstractConfiguration) ReflectionUIUtils.deserializeFromHexaText(text);
+		return (AbstractConfiguration) ReflectionUIUtils.getFieldControlPluginConfiguration(specificProperties,
+				getIdentifier());
 	}
 
-	public void storeControlCustomization(Object controlConfiguration, Map<String, Object> specificProperties) {
-		specificProperties.put(getIdentifier(), ReflectionUIUtils.serializeToHexaText(controlConfiguration));
+	public void storeControlCustomization(AbstractConfiguration controlConfiguration,
+			Map<String, Object> specificProperties) {
+		ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, getIdentifier(), controlConfiguration);
 	}
 
 	public AbstractConfiguration getControlCustomization(TypeCustomization typeCustomization) {

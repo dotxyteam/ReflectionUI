@@ -39,7 +39,7 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 	}
 
 	@Override
-	protected AbstractConfiguration getDefaultControlCustomization() {
+	public AbstractConfiguration getDefaultControlCustomization() {
 		return new CustomCheckBoxConfiguration();
 	}
 

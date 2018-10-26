@@ -1,3 +1,12 @@
+- menu model contains swing classes though it is not not good and not even needed.
+	. standard menus (undo, help, ...) can be created by generating related methods
+	from the ITypeInfo
+	. the action menu item will only need to expose its IMethodInfo so that the renderer
+	will be responsible of all presentation stuff
+	. file menus settings will just be file control settings 
+	. other menu items that act on the rendered stuff (windows, ...)  will then inherit
+	from a special super class that give them access to the the rendered stuff with the 
+	agreement of the renderer 
 - test commit author 3
 - add to ITypeInfo:
 	- IFieldControlPlugin getControlPlugin();	

@@ -3,6 +3,14 @@ package xy.reflect.ui.info.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a menu item category that is commonly displayed as a
+ * group of menu items separated from the other items by a kind of horizontal
+ * bar.
+ * 
+ * @author olitank
+ *
+ */
 public class MenuItemCategory extends AbstractMenuElement implements IMenuItemContainer {
 	protected String name = "";
 	protected List<AbstractMenuItem> items = new ArrayList<AbstractMenuItem>();

@@ -23,10 +23,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
@@ -46,7 +49,7 @@ import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
-import xy.reflect.ui.info.menu.builtin.ExitMenuItem;
+import xy.reflect.ui.info.menu.builtin.swing.CloseWindowMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.HelpMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.OpenMenuItem;
 import xy.reflect.ui.info.menu.builtin.swing.RedoMenuItem;
@@ -67,10 +70,17 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Listener;
-import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SystemProperties;
 
+/**
+ * This class specifies declarative customizations of abstract UI model
+ * elements.
+ * 
+ * @author olitank
+ *
+ */
 @XmlRootElement
 public class InfoCustomizations implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -203,8 +213,12 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public void saveToFile(File output, Listener<String> debugLogListener) throws IOException {
+		saveToFile(output, debugLogListener, null);
+	}
+
+	public void saveToFile(File output, Listener<String> debugLogListener, final String comment) throws IOException {
 		ByteArrayOutputStream memoryStream = new ByteArrayOutputStream();
-		saveToStream(memoryStream, debugLogListener);
+		saveToStream(memoryStream, debugLogListener, comment);
 		FileOutputStream stream = new FileOutputStream(output);
 		try {
 			stream.write(memoryStream.toByteArray());
@@ -216,8 +230,13 @@ public class InfoCustomizations implements Serializable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void saveToStream(OutputStream output, Listener<String> debugLogListener) throws IOException {
+		saveToStream(output, debugLogListener, null);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void saveToStream(OutputStream output, Listener<String> debugLogListener, final String comment)
+			throws IOException {
 		InfoCustomizations toSave = new InfoCustomizations();
 		toSave.appplicationCustomization = (ApplicationCustomization) ReflectionUIUtils
 				.copyThroughSerialization((Serializable) appplicationCustomization);
@@ -231,7 +250,17 @@ public class InfoCustomizations implements Serializable {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+			XMLStreamWriter jaxbXmlWriter = XMLOutputFactory.newFactory().createXMLStreamWriter(output);
+			jaxbXmlWriter.writeStartDocument();
+			if (comment != null) {
+				jaxbXmlWriter.writeCharacters("\n");
+				jaxbXmlWriter.writeComment(comment);
+			}
+			jaxbXmlWriter.close();
+
 			jaxbMarshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
 			jaxbMarshaller.marshal(toSave, output);
 		} catch (Exception e) {
 			throw new IOException(e);
@@ -902,7 +931,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public AbstractBuiltInActionMenuItem createMenuElement() {
-			ExitMenuItem result = new ExitMenuItem();
+			CloseWindowMenuItem result = new CloseWindowMenuItem();
 			result.setName(name);
 			result.setIconImagePath(iconImagePath);
 			return result;

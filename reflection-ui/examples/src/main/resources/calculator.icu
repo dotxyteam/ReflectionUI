@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" ?>
+<!--Generated with Custon UI (http://otksoftware.com/custom-ui)-->
 <infoCustomizations>
     <appplicationCustomization>
         <uniqueIdentifier>113a54e0:16655c46814:1f4b</uniqueIdentifier>
@@ -496,7 +497,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>reader</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -529,7 +529,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>str</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -551,7 +550,6 @@
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>javax.script.Bindings createBindings()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -584,7 +582,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -628,7 +625,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -672,7 +668,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>ctxt</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -716,7 +711,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -760,7 +754,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>ctxt</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -794,7 +787,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>true</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -827,7 +819,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -860,7 +851,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -893,7 +883,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>clazz</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -937,7 +926,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>clazz</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -981,7 +969,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>args</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1036,7 +1023,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>args</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1080,7 +1066,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1124,7 +1109,6 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1487,7 +1471,6 @@
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>javax.script.Bindings createBindings()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1542,7 +1525,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>args</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1586,7 +1568,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>args</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1619,7 +1600,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1663,7 +1643,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1696,7 +1675,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1729,7 +1707,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>reader</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1773,7 +1750,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1817,7 +1793,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>ctxt</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1850,7 +1825,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>clazz</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1894,7 +1868,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>clazz</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1938,7 +1911,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1960,7 +1932,6 @@
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.Object eval(java.lang.String)</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -1993,7 +1964,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>parameter1</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2026,7 +1996,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>str</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2070,7 +2039,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>parameter2</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2114,7 +2082,6 @@
                             <nullValueDistinctForced>false</nullValueDistinctForced>
                             <parameterName>ctxt</parameterName>
                         </parametersCustomizations>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2289,7 +2256,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation1()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2311,7 +2277,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation2()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2333,7 +2298,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation3()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2355,7 +2319,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation13()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2415,7 +2378,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation4()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2437,7 +2399,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation5()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2459,7 +2420,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation6()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2481,7 +2441,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation12()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2541,7 +2500,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation7()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2563,7 +2521,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation8()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2585,7 +2542,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation9()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2607,7 +2563,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation11()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2667,7 +2622,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation14()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2689,7 +2643,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation0()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2711,7 +2664,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation15()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2733,7 +2685,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
                         <methodSignature>java.lang.StringBuilder append.savedInvocation10()</methodSignature>
-                        <parametersFormDisplayed>false</parametersFormDisplayed>
                         <readOnlyForced>false</readOnlyForced>
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2838,7 +2789,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2871,7 +2821,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2904,7 +2853,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2937,7 +2885,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -2992,7 +2939,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3025,7 +2971,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3058,7 +3003,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3091,7 +3035,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3124,7 +3067,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3157,7 +3099,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3212,7 +3153,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3245,7 +3185,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3278,7 +3217,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3311,7 +3249,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3344,7 +3281,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3377,7 +3313,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3465,7 +3400,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation0()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3489,7 +3423,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation1()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3513,7 +3446,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation10()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3537,7 +3469,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation11()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3561,7 +3492,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation12()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3585,7 +3515,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation13()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3609,7 +3538,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation14()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3633,7 +3561,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row0</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation15()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3657,7 +3584,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation2()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3681,7 +3607,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row1</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation3()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3705,7 +3630,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation4()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3729,7 +3653,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation5()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3753,7 +3676,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row2</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation6()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3777,7 +3699,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation7()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3801,7 +3722,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation8()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3825,7 +3745,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <encapsulationFieldName>row3</encapsulationFieldName>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation9()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3858,7 +3777,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3880,7 +3798,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.util.stream.IntStream chars()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3902,7 +3819,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.util.stream.IntStream codePoints()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3946,7 +3862,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -3973,7 +3888,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder delete.savedInvocation0()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4006,7 +3920,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4039,7 +3952,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4061,7 +3973,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>int hashCode()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4105,7 +4016,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4138,7 +4048,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4182,7 +4091,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4248,7 +4156,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter4</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4292,7 +4199,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4336,7 +4242,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4380,7 +4285,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4424,7 +4328,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4468,7 +4371,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4534,7 +4436,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter4</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4578,7 +4479,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4622,7 +4522,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4666,7 +4565,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4710,7 +4608,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4754,7 +4651,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4787,7 +4683,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4809,7 +4704,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void notify()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4831,7 +4725,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void notifyAll()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4886,7 +4779,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter3</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4908,7 +4800,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder reverse()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4930,7 +4821,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>java.lang.String toString()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>true</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -4974,7 +4864,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5007,7 +4896,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5029,7 +4917,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void wait()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5064,7 +4951,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation0()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5087,7 +4973,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation1()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5110,7 +4995,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation2()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5133,7 +5017,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation3()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5156,7 +5039,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation13()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5191,7 +5073,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation3()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5214,7 +5095,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation4()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5237,7 +5117,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation5()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5260,7 +5139,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation6()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5283,7 +5161,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation12()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5318,7 +5195,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation6()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5341,7 +5217,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation7()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5364,7 +5239,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation9()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5387,7 +5261,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation8()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5410,7 +5283,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation11()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5448,7 +5320,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation0()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5471,7 +5342,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation14()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5494,7 +5364,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation10()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -5517,7 +5386,6 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>true</ignoredReturnValueForced>
             <methodSignature>java.lang.StringBuilder append.savedInvocation15()</methodSignature>
-            <parametersFormDisplayed>false</parametersFormDisplayed>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>

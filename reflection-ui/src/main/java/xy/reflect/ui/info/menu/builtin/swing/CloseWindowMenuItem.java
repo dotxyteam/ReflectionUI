@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.menu.builtin;
+package xy.reflect.ui.info.menu.builtin.swing;
 
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -7,10 +7,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 
-public class ExitMenuItem extends AbstractBuiltInActionMenuItem {
 
-	public ExitMenuItem() {
+public class CloseWindowMenuItem extends AbstractBuiltInActionMenuItem {
+
+	public CloseWindowMenuItem() {
 		name = "Exit";
 	}
 

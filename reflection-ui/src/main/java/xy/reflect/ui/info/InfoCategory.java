@@ -2,6 +2,7 @@ package xy.reflect.ui.info;
 
 /**
  * This class is used to categorize fields and methods of an abstract UI model.
+ * Note that a category is identified by both its name and position.
  * 
  * @author olitank
  *

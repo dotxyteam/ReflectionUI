@@ -59,7 +59,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 	}
 
 	@Override
-	protected AbstractConfiguration getDefaultControlCustomization() {
+	public AbstractConfiguration getDefaultControlCustomization() {
 		return new DetailedListConfiguration();
 	}
 

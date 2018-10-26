@@ -1,21 +1,23 @@
 package xy.reflect.ui.info.menu;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.DefaultMethodControlData;
-import xy.reflect.ui.control.IMethodControlInput;
-import xy.reflect.ui.control.swing.MethodAction;
-import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * This class represents a menu item that will be used to execute a given
+ * method.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodActionMenuItem extends AbstractActionMenuItem {
 
 	protected IMethodInfo method;
 
 	public MethodActionMenuItem(ReflectionUI reflectionUI, IMethodInfo method) {
-		super(ReflectionUIUtils.formatMethodControlCaption(
-				new DefaultMethodControlData(reflectionUI, new Object(), method)), method.getIconImagePath());
+		super(ReflectionUIUtils.formatMethodControlCaption(method.getCaption(), method.getParameters()),
+				method.getIconImagePath());
 		this.method = method;
 	}
 
@@ -25,25 +27,6 @@ public class MethodActionMenuItem extends AbstractActionMenuItem {
 
 	public void setMethod(IMethodInfo method) {
 		this.method = method;
-	}
-
-	@Override
-	public void execute(Object genericForm, Object renderer) {
-		SwingRenderer swingRenderer = (SwingRenderer) renderer;
-		Form form = (Form) genericForm;
-		IMethodControlInput input = form.createMethodControlPlaceHolder(method);
-		MethodAction methodAction = swingRenderer.createMethodAction(input);
-		methodAction.execute(form);
-	}
-
-	@Override
-	public boolean isEnabled(Object object, Object renderer) {
-		return true;
-	}
-
-	@Override
-	public String getName(Object form, Object renderer) {
-		return getName();
 	}
 
 	@Override

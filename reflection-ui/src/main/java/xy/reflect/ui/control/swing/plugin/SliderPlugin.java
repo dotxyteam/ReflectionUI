@@ -35,7 +35,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 	}
 
 	@Override
-	protected AbstractConfiguration getDefaultControlCustomization() {
+	public AbstractConfiguration getDefaultControlCustomization() {
 		return new SliderConfiguration();
 	}
 

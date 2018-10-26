@@ -71,7 +71,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 	}
 
 	@Override
-	protected AbstractConfiguration getDefaultControlCustomization() {
+	public AbstractConfiguration getDefaultControlCustomization() {
 		return new ImageViewConfiguration();
 	}
 

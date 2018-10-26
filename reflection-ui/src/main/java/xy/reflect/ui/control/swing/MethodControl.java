@@ -64,12 +64,13 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 
 	@Override
 	public String retrieveCaption() {
-		return ReflectionUIUtils.formatMethodControlCaption(data);
+		return ReflectionUIUtils.formatMethodControlCaption(data.getCaption(), data.getParameters());
 	}
 
 	@Override
 	public String retrieveToolTipText() {
-		return ReflectionUIUtils.formatMethodControlTooltipText(data);
+		return ReflectionUIUtils.formatMethodControlTooltipText(data.getCaption(), data.getOnlineHelp(),
+				data.getParameters());
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 	}
 
 	@Override
-	protected AbstractConfiguration getDefaultControlCustomization() {
+	public AbstractConfiguration getDefaultControlCustomization() {
 		return new OptionButtonsConfiguration();
 	}
 

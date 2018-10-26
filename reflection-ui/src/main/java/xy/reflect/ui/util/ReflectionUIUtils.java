@@ -42,6 +42,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
+import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -709,7 +710,8 @@ public class ReflectionUIUtils {
 
 			IMethodInfo zeroParamConstructor = getZeroParameterMethod(type.getConstructors());
 			if (zeroParamConstructor != null) {
-				return zeroParamConstructor.invoke(parentObject, new InvocationData(parentObject, zeroParamConstructor));
+				return zeroParamConstructor.invoke(parentObject,
+						new InvocationData(parentObject, zeroParamConstructor));
 			}
 			for (IMethodInfo constructor : type.getConstructors()) {
 				InvocationData invocationData = new InvocationData(parentObject, constructor);
@@ -1123,28 +1125,26 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	public static String formatMethodControlCaption(IMethodControlData data) {
-		String caption = data.getCaption();
-		{
-			if (caption.length() > 0) {
-				if (data.getParameters().size() > 0) {
-					caption += "...";
-				}
+	public static String formatMethodControlCaption(String methodCaption, List<IParameterInfo> methodParameters) {
+		if (methodCaption.length() > 0) {
+			if (methodParameters.size() > 0) {
+				methodCaption += "...";
 			}
 		}
-		return caption;
+		return methodCaption;
 	}
 
-	public static String formatMethodControlTooltipText(IMethodControlData data) {
-		if (data.getOnlineHelp() != null) {
-			return data.getOnlineHelp();
+	public static String formatMethodControlTooltipText(String methodCaption, String methodOnlineHelp,
+			List<IParameterInfo> methodParameters) {
+		if (methodOnlineHelp != null) {
+			return methodOnlineHelp;
 		} else {
-			if (data.getParameters().size() > 0) {
-				String toolTipText = formatMethodControlCaption(data);
+			if (methodParameters.size() > 0) {
+				String toolTipText = formatMethodControlCaption(methodCaption, methodParameters);
 				if (toolTipText.length() > 0) {
 					toolTipText += "\n";
 				}
-				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(data.getParameters());
+				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(methodParameters);
 				return toolTipText;
 			} else {
 				return null;
@@ -1213,5 +1213,31 @@ public class ReflectionUIUtils {
 			}
 		}
 		return true;
+	}
+
+	public static void setFieldControlPluginIdentifier(Map<String, Object> specificProperties, String identifier) {
+		specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, identifier);
+	}
+
+	public static String getFieldControlPluginIdentifier(Map<String, Object> specificProperties) {
+		return (String) specificProperties.get(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+	}
+
+	public static void setFieldControlPluginConfiguration(Map<String, Object> specificProperties, String identifier,
+			Serializable controlConfiguration) {
+		if (controlConfiguration == null) {
+			specificProperties.remove(identifier);
+		} else {
+			specificProperties.put(identifier, ReflectionUIUtils.serializeToHexaText(controlConfiguration));
+		}
+	}
+
+	public static Serializable getFieldControlPluginConfiguration(Map<String, Object> specificProperties,
+			String identifier) {
+		String text = (String) specificProperties.get(identifier);
+		if (text == null) {
+			return null;
+		}
+		return (Serializable) ReflectionUIUtils.deserializeFromHexaText(text);
 	}
 }

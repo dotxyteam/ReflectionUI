@@ -12,8 +12,17 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * This interface allows to specify UI-oriented method properties.
+ * 
+ * @author olitank
+ *
+ */
 public interface IMethodInfo extends IInfo {
 
+	/**
+	 * Dummy instance of this class made available for utilitarian purposes.
+	 */
 	public IMethodInfo NULL_METHOD_INFO = new IMethodInfo() {
 
 		@Override
@@ -121,36 +130,117 @@ public interface IMethodInfo extends IInfo {
 		}
 	};
 
+	/**
+	 * @return the signature of this method.
+	 */
 	String getSignature();
 
+	/**
+	 * @return UI-oriented return value type properties of the current method.
+	 */
 	ITypeInfo getReturnValueType();
 
+	/**
+	 * @return the parameters of this method.
+	 */
 	List<IParameterInfo> getParameters();
 
+	/**
+	 * 
+	 * @param object
+	 *            The object offering this method.
+	 * @param invocationData
+	 *            The parameter values of the method invocation.
+	 * @return the result of this method execution.
+	 */
 	Object invoke(Object object, InvocationData invocationData);
 
+	/**
+	 * @return true if and only if the execution of this method is not supposed to
+	 *         affect the object on which it is executed.
+	 */
 	boolean isReadOnly();
 
+	/**
+	 * @return a text that should be displayed by the method control to describe the
+	 *         null return value.
+	 */
 	String getNullReturnValueLabel();
 
+	/**
+	 * @return the category in which this method will be displayed.
+	 */
 	InfoCategory getCategory();
 
+	/**
+	 * @param object
+	 *            The object offering this method.
+	 * @param invocationData
+	 *            The parameter values of the method invocation.
+	 * @return a job that can revert the next invocation of this method, or null if
+	 *         the method execution cannot be reverted.
+	 */
 	Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData);
 
+	/**
+	 * Validates the values of the method parameters. An exception is thrown if the
+	 * parameter values are not valid.
+	 * 
+	 * @param object
+	 *            The object offering this method.
+	 * @param invocationData
+	 *            The parameter values of the method invocation.
+	 * @throws Exception
+	 *             If the parameter values are not valid.
+	 */
 	void validateParameters(Object object, InvocationData invocationData) throws Exception;
 
+	/**
+	 * @return the value return mode of this method. It may impact the behavior of
+	 *         this controls used to display the return value.
+	 */
 	ValueReturnMode getValueReturnMode();
 
+	/**
+	 * @return the location of an image resource displayed on the method control or
+	 *         null.
+	 */
 	ResourcePath getIconImagePath();
 
+	/**
+	 * @return true if and only if the return values of this method should be
+	 *         displayed in a non-blocking view, usually a stand-alone window.
+	 */
 	boolean isReturnValueDetached();
 
+	/**
+	 * @return true if and only if the control displaying the return value of this
+	 *         method must distinctly display the null value. This is usually needed
+	 *         if a null return value has a special meaning different from
+	 *         "empty/default value" for the developer.
+	 */
 	boolean isNullReturnValueDistinct();
 
+	/**
+	 * @return true if and only if this method return value should be ignored.
+	 */
 	boolean isReturnValueIgnored();
 
+	/**
+	 * @param object
+	 *            The object offering this method.
+	 * @param invocationData
+	 *            The parameter values of the method invocation.
+	 * @return a confirmation message to be displayed just before running this
+	 *         method invocation so that the user will be able to cancel the
+	 *         execution.
+	 */
 	String getConfirmationMessage(Object object, InvocationData invocationData);
 
+	/**
+	 * @return true if and only if this method control should be filtered out from
+	 *         the display.
+	 */
 	boolean isHidden();
 
 }

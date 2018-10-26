@@ -3,7 +3,7 @@ package xy.reflect.ui.info;
 import java.util.Map;
 
 /**
- * This is the base class for all the abstract UI model elements.
+ * This is the base interface for all the abstract UI model elements.
  * 
  * @author olitank
  *

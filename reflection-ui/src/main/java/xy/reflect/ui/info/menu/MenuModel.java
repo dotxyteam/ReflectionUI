@@ -7,12 +7,20 @@ import java.util.List;
 
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.Visitor;
 
+/**
+ * This class allows to specify menu elements that will be available in the
+ * generated UIs. Instances of this class support contributions so that multiple
+ * menu models can be merged into a more complex unified one.
+ * 
+ * @author olitank
+ *
+ */
 public class MenuModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	protected List<Menu> menus = new ArrayList<Menu>();
 
 	public List<Menu> getMenus() {
@@ -125,28 +133,10 @@ public class MenuModel implements Serializable {
 		for (IMenuElement containerChild : getChildren(container)) {
 			if (same(element, containerChild)) {
 				if (!(containerChild instanceof IMenuItemContainer)) {
-					final String errorMenuName = "Duplicate menu detected: " + element.getName() + " (id="
+					final String errorMenuName = "<MENU ERROR> Duplicate menu detected: " + element.getName() + " (id="
 							+ element.hashCode() + ")";
 					element = new AbstractActionMenuItem(errorMenuName, null) {
 
-						{
-							setIconImagePath(
-									SwingRendererUtils.putImageInCache(SwingRendererUtils.ERROR_ICON.getImage()));
-						}
-
-						@Override
-						public void execute(Object form, Object renderer) {
-						}
-
-						@Override
-						public boolean isEnabled(Object object, Object renderer) {
-							return true;
-						}
-
-						@Override
-						public String getName(Object form, Object renderer) {
-							return errorMenuName;
-						}
 					};
 					importContributionIn(element, container);
 					return;

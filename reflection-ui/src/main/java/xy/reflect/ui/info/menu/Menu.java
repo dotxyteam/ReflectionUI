@@ -3,7 +3,12 @@ package xy.reflect.ui.info.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This class represents a menu.
+ * 
+ * @author olitank
+ *
+ */
 public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 
 	public Menu(String name) {
