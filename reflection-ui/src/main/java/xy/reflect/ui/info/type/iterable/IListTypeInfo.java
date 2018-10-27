@@ -7,46 +7,154 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
+import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Mapper;
 
+/**
+ * This interface allows to specify UI-oriented properties of list types.
+ * 
+ * Generating UIs for lists is complex because there are multiple
+ * implementations (JDK implementations: arrays, collections) and not enough
+ * considered conventions. A list can then be ordered or not, unmodifiable or
+ * not, supporting null items or not, etc. This interface allows to describe the
+ * all sorts of list types so that an aware renderer will be able to display
+ * them all.
+ * 
+ * Structural preferences such as tabular or hierarchical facets of lists are
+ * also supported via the {@link IListStructuralInfo} interface.
+ * 
+ * @author olitank
+ *
+ */
 public interface IListTypeInfo extends ITypeInfo {
+
+	/**
+	 * @return the known type of items supported by this list type.
+	 */
 	ITypeInfo getItemType();
 
+	/**
+	 * @param listValue
+	 *            An instance of the current list type.
+	 * @return the list of items in the given list value packed in a generic array.
+	 */
 	Object[] toArray(Object listValue);
 
+	/**
+	 * @return true if and only if this list type instances can be packed in a
+	 *         generic array. Otherwise {@link #fromArray(Object[])} should not be
+	 *         called.
+	 */
 	boolean canInstanciateFromArray();
 
+	/**
+	 * @param array
+	 *            A generic array containing items supported by this list type.
+	 * @return a new instance of this list type containing the same items as the
+	 *         generic array passed as parameter.
+	 */
 	Object fromArray(Object[] array);
 
+	/**
+	 * @return true if and only if an instance of this list type can have its list
+	 *         of items replaced by calling
+	 *         {@link #replaceContent(Object, Object[])}.
+	 */
 	boolean canReplaceContent();
 
+	/**
+	 * Replaces the list of items of the given instance by the one contained in the
+	 * given generic array.
+	 * 
+	 * @param listValue
+	 *            An instance of the current list type.
+	 * @param array
+	 *            A generic array containing items supported by this list type.
+	 */
 	void replaceContent(Object listValue, Object[] array);
 
+	/**
+	 * @return tabular and hierarchical preferences of this list type.
+	 */
 	IListStructuralInfo getStructuralInfo();
 
+	/**
+	 * @return preferences about items display of this list type.
+	 */
 	IListItemDetailsAccessMode getDetailsAccessMode();
 
+	/**
+	 * @return whether the items in instances of this list type are ordered.
+	 */
 	boolean isOrdered();
 
+	/**
+	 * @return whether the item addition should be allowed on instances of this list
+	 *         type.
+	 */
 	boolean isInsertionAllowed();
 
+	/**
+	 * @return whether the item removal should be allowed on instances of this list
+	 *         type.
+	 */
 	boolean isRemovalAllowed();
 
+	/**
+	 * @return whether the item details display should be allowed on instances of
+	 *         this list type.
+	 */
 	boolean canViewItemDetails();
 
+	/**
+	 * @param selection
+	 *            A list item position descriptors.
+	 * @param listModificationFactoryAccessor
+	 *            An object that maps item positions to list modification factories.
+	 *            This object will usually be provided in real-time by the renderer.
+	 * @return actions that can be performed on a list instance according to a given
+	 *         selection of items.
+	 */
 	List<IDynamicListAction> getDynamicActions(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
+	/**
+	 * @param selection
+	 *            A list item position descriptors.
+	 * @param listModificationFactoryAccessor
+	 *            An object that maps item positions to list modification factories.
+	 *            This object will usually be provided in real-time by the renderer.
+	 * @return properties of a list instance that can be accessed according to a
+	 *         given selection of items.
+	 */
 	List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
+	/**
+	 * @return true if and only if instances of this list type supports null items.
+	 */
 	boolean isItemNullValueDistinct();
 
+	/**
+	 * @return the value return mode of this list type instances items. It may
+	 *         impact the behavior of this list control.
+	 */
 	ValueReturnMode getItemReturnMode();
 
+	/**
+	 * @return true if and only if the possibility to choose a constructor should be
+	 *         offered to the user when creating a list item.
+	 */
 	boolean isItemConstructorSelectable();
 
+	/**
+	 * Should be called by the renderer whenever the selection of items changes.
+	 * 
+	 * @param newSelection
+	 *            The new selection.
+	 */
 	void onSelection(List<? extends ItemPosition> newSelection);
 
 }

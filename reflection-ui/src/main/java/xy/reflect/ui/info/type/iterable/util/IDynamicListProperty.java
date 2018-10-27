@@ -1,11 +1,17 @@
-package xy.reflect.ui.info.type.iterable;
+package xy.reflect.ui.info.type.iterable.util;
 
 import java.util.List;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
-import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
 
+/**
+ * This class allows to describe a property of a list instance that can be
+ * accessed according to a given selection of items.
+ * 
+ * @author olitank
+ *
+ */
 public interface IDynamicListProperty extends IFieldInfo {
 
 	public static final Object NO_OWNER = new Object() {

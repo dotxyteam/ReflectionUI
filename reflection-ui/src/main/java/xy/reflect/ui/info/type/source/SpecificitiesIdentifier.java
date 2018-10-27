@@ -1,5 +1,13 @@
 package xy.reflect.ui.info.type.source;
 
+/**
+ * This class allows to include a context in abstract UI type informations so
+ * that appearance and behavior of the generated controls can be automatically
+ * adjusted in specific contexts (in addition to global adjustments).
+ * 
+ * @author olitank
+ *
+ */
 public class SpecificitiesIdentifier {
 
 	protected String containingTypeName;

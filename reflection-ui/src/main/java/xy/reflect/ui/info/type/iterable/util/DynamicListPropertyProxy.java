@@ -1,4 +1,4 @@
-package xy.reflect.ui.info.type.iterable;
+package xy.reflect.ui.info.type.iterable.util;
 
 import java.util.List;
 import java.util.Map;
@@ -9,11 +9,11 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public class ListPropertyProxy implements IDynamicListProperty {
+public class DynamicListPropertyProxy implements IDynamicListProperty {
 
 	protected IDynamicListProperty base;
 
-	public ListPropertyProxy(IDynamicListProperty base) {
+	public DynamicListPropertyProxy(IDynamicListProperty base) {
 		super();
 		this.base = base;
 	}
@@ -126,7 +126,7 @@ public class ListPropertyProxy implements IDynamicListProperty {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ListPropertyProxy other = (ListPropertyProxy) obj;
+		DynamicListPropertyProxy other = (DynamicListPropertyProxy) obj;
 		if (base == null) {
 			if (other.base != null)
 				return false;

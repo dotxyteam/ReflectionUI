@@ -27,19 +27,44 @@ import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.iterable.IDynamicListAction;
-import xy.reflect.ui.info.type.iterable.IDynamicListProperty;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
+import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
+/**
+ * This is default implementation of global abstract UI model transformers.
+ * 
+ * By default this class generates proxies that behave exactly like wrapped
+ * objects. in order to change the generated UI behavior, the appropriate
+ * methods of this class must be overriden.
+ * 
+ * By convention the overloading methods have the same name as the methods of
+ * the elements of the abstract UI model they affect. In addition, they have
+ * parameters that specify the invocation context.
+ * 
+ * Ex: Overriding {@link #getCaption(IFieldInfo, ITypeInfo)} allows to change
+ * the behavior of {@link IFieldInfo#getCaption()} according to the contextual
+ * containing {@link ITypeInfo}.
+ * 
+ * Note: To avoid accidentally wrapping the same object with the same proxy
+ * multiple times, a check is made by comparing the return values of
+ * {@link #getIdentifier ()} for the factories that generated each proxy. If a
+ * duplicate is found, an exception will be thrown. It may then be necessary to
+ * override {@link #getIdentifier ()} to distinguish between two presumed
+ * identical proxies.
+ * 
+ * @author olitank
+ *
+ */
 public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected static final String GENERATED_PROXY_FACTORY_LIST_KEY = InfoProxyFactory.class.getName()

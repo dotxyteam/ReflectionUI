@@ -184,7 +184,7 @@ public interface IMethodInfo extends IInfo {
 
 	/**
 	 * Validates the values of the method parameters. An exception is thrown if the
-	 * parameter values are not valid.
+	 * parameter values are not valid. Otherwise the values are considered as valid.
 	 * 
 	 * @param object
 	 *            The object offering this method.

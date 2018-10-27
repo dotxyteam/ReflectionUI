@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -47,9 +46,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -63,11 +60,9 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
-import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
-import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -77,17 +72,9 @@ import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.AbstractActionMenuItem;
-import xy.reflect.ui.info.menu.AbstractMenuItem;
-import xy.reflect.ui.info.menu.Menu;
-import xy.reflect.ui.info.menu.MenuItemCategory;
-import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.MethodActionMenuItem;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
@@ -573,45 +560,22 @@ public class SwingRendererUtils {
 		return result;
 	}
 
+	public static ImageIcon getIcon(Image iconImage) {
+		if (iconImage != null) {
+			return new ImageIcon(iconImage);
+		} else {
+			return null;
+		}
+	}
+
 	public static ImageIcon geObjectIcon(SwingRenderer swingRenderer, Object object) {
 		if (object == null) {
 			return null;
 		}
-		Image iconImage = swingRenderer.getObjectIconImage(object);
-		if (iconImage != null) {
-			return new ImageIcon(iconImage);
-		} else {
-			return null;
-		}
+		return getIcon(swingRenderer.getObjectIconImage(object));
 	}
 
-	public static ImageIcon getMethodIcon(SwingRenderer swingRenderer, IMethodControlData data) {
-		Image iconImage = swingRenderer.getMethodIconImage(data);
-		if (iconImage != null) {
-			return new ImageIcon(iconImage);
-		} else {
-			return null;
-		}
-	}
-
-	public static ImageIcon getEnumerationItemIcon(SwingRenderer swingRenderer, IEnumerationItemInfo itemInfo) {
-		Image iconImage = swingRenderer.getEnumerationItemIconImage(itemInfo);
-		if (iconImage != null) {
-			return new ImageIcon(iconImage);
-		} else {
-			return null;
-		}
-	}
-
-	public static ImageIcon getMenuItemIcon(SwingRenderer swingRenderer, AbstractActionMenuItem menuItem) {
-		Image iconImage = swingRenderer.getMenuIconImage(menuItem);
-		if (iconImage != null) {
-			return new ImageIcon(iconImage);
-		} else {
-			return null;
-		}
-	}
-
+	
 	public static List<Window> getFrontWindows() {
 		List<Window> result = new ArrayList<Window>();
 		for (Window window : Window.getWindows()) {
@@ -827,119 +791,6 @@ public class SwingRendererUtils {
 			}
 		}
 		return null;
-	}
-
-	public static void updateMenubar(JMenuBar menuBar, MenuModel menuModel, SwingRenderer swingRenderer) {
-		menuBar.removeAll();
-		for (Menu menu : menuModel.getMenus()) {
-			menuBar.add(createJMenu(menu, swingRenderer));
-		}
-		SwingRendererUtils.handleComponentSizeChange(menuBar);
-	}
-
-	public static JMenu createJMenu(Menu menu, SwingRenderer swingRenderer) {
-		JMenu result = new JMenu(menu.getName());
-		for (AbstractMenuItem item : menu.getItems()) {
-			result.add(createJMenuItem(item, swingRenderer));
-		}
-		for (int i = 0; i < menu.getItemCategories().size(); i++) {
-			if (i > 0) {
-				result.addSeparator();
-			}
-			MenuItemCategory category = menu.getItemCategories().get(i);
-			for (AbstractMenuItem item : category.getItems()) {
-				result.add(createJMenuItem(item, swingRenderer));
-			}
-		}
-		return result;
-	}
-
-	public static JMenuItem createJMenuItem(AbstractMenuItem item, SwingRenderer swingRenderer) {
-		if (item instanceof AbstractBuiltInActionMenuItem) {
-			return createJMenuActionItem((AbstractBuiltInActionMenuItem) item, swingRenderer);
-		} else if (item instanceof MethodActionMenuItem) {
-			return createJMenuActionItem((MethodActionMenuItem) item, swingRenderer);
-		} else if (item instanceof Menu) {
-			return createJMenu((Menu) item, swingRenderer);
-		} else {
-			throw new ReflectionUIError();
-		}
-	}
-
-	public static JMenuItem createJMenuActionItem(final MethodActionMenuItem actionMenuItem,
-			final SwingRenderer swingRenderer) {
-		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
-		JMenuItem result = new JMenuItem(new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					IMethodInfo method = actionMenuItem.getMethod();
-					IMethodControlInput input = form.createMethodControlPlaceHolder(method);
-					MethodAction methodAction = swingRenderer.createMethodAction(input);
-					methodAction.execute((Form) form);
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
-				}
-			}
-
-		});
-		try {
-			result.setText(actionMenuItem.getName());
-			ImageIcon icon = getMenuItemIcon(swingRenderer, actionMenuItem);
-			if (icon != null) {
-				icon = getSmallIcon(icon);
-			}
-			result.setIcon(icon);
-		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logError(t);
-			if (result.getText() == null) {
-				result.setText(t.toString());
-			} else {
-				result.setText(result.getText() + "(" + t.toString() + ")");
-			}
-			result.setEnabled(false);
-		}
-		return result;
-	}
-
-	public static JMenuItem createJMenuActionItem(final AbstractBuiltInActionMenuItem actionMenuItem,
-			final SwingRenderer swingRenderer) {
-		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
-		JMenuItem result = new JMenuItem(new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					actionMenuItem.execute(form, swingRenderer);
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
-				}
-			}
-
-		});
-		try {
-			result.setText(actionMenuItem.getName(form, swingRenderer));
-			if (!actionMenuItem.isEnabled(form, swingRenderer)) {
-				result.setEnabled(false);
-			}
-			ImageIcon icon = getMenuItemIcon(swingRenderer, actionMenuItem);
-			if (icon != null) {
-				icon = getSmallIcon(icon);
-			}
-			result.setIcon(icon);
-		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logError(t);
-			if (result.getText() == null) {
-				result.setText(t.toString());
-			} else {
-				result.setText(result.getText() + "(" + t.toString() + ")");
-			}
-			result.setEnabled(false);
-		}
-		return result;
 	}
 
 	public static void setMenuBar(Window window, JMenuBar menuBar) {

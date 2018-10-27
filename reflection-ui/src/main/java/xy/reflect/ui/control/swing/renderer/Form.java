@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,12 +21,15 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -40,7 +44,9 @@ import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.ModificationStackControls;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -49,8 +55,13 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.menu.AbstractActionMenuItem;
+import xy.reflect.ui.info.menu.AbstractMenuItem;
 import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.Menu;
+import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.menu.MethodActionMenuItem;
+import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
@@ -1135,7 +1146,11 @@ public class Form extends ImagePanel {
 	public void updateMenuBar() {
 		MenuModel menuModel = new MenuModel();
 		addMenuContribution(menuModel);
-		SwingRendererUtils.updateMenubar(menuBar, menuModel, swingRenderer);
+		menuBar.removeAll();
+		for (Menu menu : menuModel.getMenus()) {
+			menuBar.add(createMenu(menu));
+		}
+		SwingRendererUtils.handleComponentSizeChange(menuBar);
 		Color awtBackgroundColor = getControlsBackgroundColor();
 		Color awtForegroundColor = getControlsForegroundColor();
 		for (int i = 0; i < menuBar.getMenuCount(); i++) {
@@ -1170,6 +1185,109 @@ public class Form extends ImagePanel {
 				}
 			}
 		}
+	}
+
+	public JMenu createMenu(Menu menu) {
+		JMenu result = new JMenu(menu.getName());
+		for (AbstractMenuItem item : menu.getItems()) {
+			result.add(createMenuItem(item));
+		}
+		for (int i = 0; i < menu.getItemCategories().size(); i++) {
+			if (i > 0) {
+				result.addSeparator();
+			}
+			MenuItemCategory category = menu.getItemCategories().get(i);
+			for (AbstractMenuItem item : category.getItems()) {
+				result.add(createMenuItem(item));
+			}
+		}
+		return result;
+	}
+
+	public JMenuItem createMenuItem(AbstractMenuItem item) {
+		if (item instanceof AbstractBuiltInActionMenuItem) {
+			return createMenuActionItem((AbstractBuiltInActionMenuItem) item);
+		} else if (item instanceof MethodActionMenuItem) {
+			return createMenuActionItem((MethodActionMenuItem) item);
+		} else if (item instanceof Menu) {
+			return createMenu((Menu) item);
+		} else {
+			throw new ReflectionUIError("Unhandled menu item type: '" + item + "'");
+		}
+	}
+
+	public JMenuItem createMenuActionItem(final MethodActionMenuItem actionMenuItem) {
+		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
+		JMenuItem result = new JMenuItem(new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					IMethodInfo method = actionMenuItem.getMethod();
+					IMethodControlInput input = form.createMethodControlPlaceHolder(method);
+					MethodAction methodAction = swingRenderer.createMethodAction(input);
+					methodAction.execute((Form) form);
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
+				}
+			}
+
+		});
+		try {
+			result.setText(actionMenuItem.getName());
+			ImageIcon icon = swingRenderer.getMenuItemIcon(actionMenuItem);
+			if (icon != null) {
+				icon = SwingRendererUtils.getSmallIcon(icon);
+			}
+			result.setIcon(icon);
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logError(t);
+			if (result.getText() == null) {
+				result.setText(t.toString());
+			} else {
+				result.setText(result.getText() + "(" + t.toString() + ")");
+			}
+			result.setEnabled(false);
+		}
+		return result;
+	}
+
+	public JMenuItem createMenuActionItem(final AbstractBuiltInActionMenuItem actionMenuItem) {
+		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
+		JMenuItem result = new JMenuItem(new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					actionMenuItem.execute(form, swingRenderer);
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
+				}
+			}
+
+		});
+		try {
+			result.setText(actionMenuItem.getName(form, swingRenderer));
+			if (!actionMenuItem.isEnabled(form, swingRenderer)) {
+				result.setEnabled(false);
+			}
+			ImageIcon icon = swingRenderer.getMenuItemIcon(actionMenuItem);
+			if (icon != null) {
+				icon = SwingRendererUtils.getSmallIcon(icon);
+			}
+			result.setIcon(icon);
+		} catch (Throwable t) {
+			swingRenderer.getReflectionUI().logError(t);
+			if (result.getText() == null) {
+				result.setText(t.toString());
+			} else {
+				result.setText(result.getText() + "(" + t.toString() + ")");
+			}
+			result.setEnabled(false);
+		}
+		return result;
 	}
 
 	public boolean requestFormFocus() {

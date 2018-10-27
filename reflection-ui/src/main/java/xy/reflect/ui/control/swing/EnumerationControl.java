@@ -124,7 +124,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			if (itemInfo == null) {
 				return null;
 			} else {
-				return SwingRendererUtils.getEnumerationItemIcon(swingRenderer, itemInfo);
+				return swingRenderer.getEnumerationItemIcon(itemInfo);
 			}
 		}
 	}

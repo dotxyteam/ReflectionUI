@@ -11,6 +11,16 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * This class describe the spatial position of an item in a list/tree.
+ * 
+ * It actually gives access to the successive objects and fields that were used
+ * in order to get a specific item value. Calling {@link #getItem()} will then
+ * re-access these objects and fields and return an up-to-date item value.
+ * 
+ * @author olitank
+ *
+ */
 public class ItemPosition implements Cloneable {
 
 	protected AbstractItemPositionFactory factory;

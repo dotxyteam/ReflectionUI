@@ -7,6 +7,12 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
+/**
+ * Allows to describe tabular and hierarchical preferences of list types.
+ * 
+ * @author olitank
+ *
+ */
 public interface IListStructuralInfo {
 
 	List<IColumnInfo> getColumns();

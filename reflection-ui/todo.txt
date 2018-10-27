@@ -1,3 +1,6 @@
+- pass object as param to 
+	. ITypeInfo.getMenuModel()
+	. new MethodmenuItem()
 - menu model contains swing classes though it is not not good and not even needed.
 	. standard menus (undo, help, ...) can be created by generating related methods
 	from the ITypeInfo

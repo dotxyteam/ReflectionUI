@@ -154,7 +154,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				try {
 					if (ReflectionUIUtils.equalsOrBothNull(currentValue, possibleValues.get(i))) {
 						button.setSelected(true);
-					}else {
+					} else {
 						button.setSelected(false);
 					}
 				} finally {
@@ -195,7 +195,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 					@Override
 					public Icon retrieveIcon() {
-						return SwingRendererUtils.getEnumerationItemIcon(swingRenderer, itemInfo);
+						return swingRenderer.getEnumerationItemIcon(itemInfo);
 					}
 
 				};

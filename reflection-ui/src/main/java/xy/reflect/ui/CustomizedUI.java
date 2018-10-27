@@ -41,7 +41,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * Constructs an instance of this class that will use the given customizations.
 	 * 
 	 * @param infoCustomizations
-	 *            The abstract UI model customizations object.
+	 *            The abstract UI model customizations specification object.
 	 */
 	public CustomizedUI(InfoCustomizations infoCustomizations) {
 		super();
@@ -56,7 +56,7 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * @return abstract UI model customizations.
+	 * @return abstract UI model customizations specification.
 	 */
 	public InfoCustomizations getInfoCustomizations() {
 		return infoCustomizations;

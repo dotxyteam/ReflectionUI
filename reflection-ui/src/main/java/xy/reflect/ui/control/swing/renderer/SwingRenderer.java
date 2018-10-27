@@ -25,6 +25,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -76,6 +77,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractControlButton;
 
+/**
+ * This is the {@link ReflectionUI} renderer class for Swing-based UIs.
+ * 
+ * @author olitank
+ *
+ */
 public class SwingRenderer {
 
 	public static final String CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY = SwingRenderer.class.getName()
@@ -149,10 +156,22 @@ public class SwingRenderer {
 		return new MethodAction(this, input);
 	}
 
-	public Form createForm(Object object) {
+	/**
+	 * @param object
+	 *            Any object.
+	 * @return a form allowing to edit the given object.
+	 */
+	public final Form createForm(Object object) {
 		return createForm(object, IInfoFilter.DEFAULT);
 	}
 
+	/**
+	 * @param object
+	 *            Any object.
+	 * @param infoFilter
+	 *            An object allowing to filter out some fields and methods.
+	 * @return a form allowing to edit the given object.
+	 */
 	public Form createForm(final Object object, IInfoFilter infoFilter) {
 		return new Form(this, object, infoFilter);
 	}
@@ -190,28 +209,35 @@ public class SwingRenderer {
 		return null;
 	}
 
-	public Image getMethodIconImage(IMethodControlData data) {
+	public ImageIcon getObjectIcon(Object object) {
+		return SwingRendererUtils.getIcon(getObjectIconImage(object));
+	}
+
+	public ImageIcon getMethodIcon(IMethodControlData data) {
 		ResourcePath imagePath = data.getIconImagePath();
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughcache(imagePath,
+				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
-	public Image getEnumerationItemIconImage(IEnumerationItemInfo itemInfo) {
+	public ImageIcon getEnumerationItemIcon(IEnumerationItemInfo itemInfo) {
 		ResourcePath imagePath = itemInfo.getIconImagePath();
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughcache(imagePath,
+				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
-	public Image getMenuIconImage(AbstractActionMenuItem menuItem) {
+	public ImageIcon getMenuItemIcon(AbstractActionMenuItem menuItem) {
 		ResourcePath imagePath = menuItem.getIconImagePath();
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughcache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughcache(imagePath,
+				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
@@ -219,97 +245,107 @@ public class SwingRenderer {
 		openErrorDialog(activatorComponent, "An Error Occured", null, t);
 	}
 
+	/**
+	 * Allows to create an instance of the specified type. Dialogs may be displayed
+	 * to allow to select the constructor or provide parameter values. If sub-types
+	 * of the given type are know, then a type selection dialog will be displayed.
+	 * 
+	 * @param activatorComponent
+	 *            A component belonging to the parent window of the eventual dialogs
+	 *            or null.
+	 * @param type
+	 *            An abstract UI type information object.
+	 * @param parentObject
+	 *            The parent object of the new instance or null if none exists.
+	 * @return an object created using the given type information.
+	 */
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type,
 			final Object parentObject) {
 		try {
-			List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
-			{
-				for (IMethodInfo ctor : type.getConstructors()) {
-					if (ctor.isHidden()) {
-						continue;
-					}
-					constructors.add(ctor);
-				}
-			}
-			if (type.isConcrete() && (constructors.size() > 0)) {
-				final IMethodInfo chosenConstructor;
-				if (constructors.size() == 1) {
-					chosenConstructor = constructors.get(0);
+			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
+
+				final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
+
+				List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
+				if (polyTypes.size() == 1) {
+					return onTypeInstanciationRequest(activatorComponent, polyTypes.get(0), parentObject);
 				} else {
-					constructors = new ArrayList<IMethodInfo>(constructors);
-					Collections.sort(constructors, new Comparator<IMethodInfo>() {
-
-						@Override
-						public int compare(IMethodInfo o1, IMethodInfo o2) {
-							return new Integer(o1.getParameters().size())
-									.compareTo(new Integer(o2.getParameters().size()));
-						}
-					});
-
-					final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI,
-							constructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
-						protected String getItemCaption(Object choice) {
-							return ReflectionUIUtils.getContructorDescription((IMethodInfo) choice);
-						}
-					};
 					IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 							.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
-					Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose an option",
-							"Create " + type.getCaption());
+					Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type:",
+							"New '" + type.getCaption() + "'");
 					if (resultEnumItem == null) {
 						return null;
 					}
-					chosenConstructor = (IMethodInfo) enumFactory.unwrapInstance(resultEnumItem);
-					if (chosenConstructor == null) {
-						return null;
+					return onTypeInstanciationRequest(activatorComponent,
+							(ITypeInfo) enumFactory.unwrapInstance(resultEnumItem), parentObject);
+				}
+			} else {
+				List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
+				{
+					for (IMethodInfo ctor : type.getConstructors()) {
+						if (ctor.isHidden()) {
+							continue;
+						}
+						constructors.add(ctor);
 					}
 				}
-				final ITypeInfo finalType = type;
-				MethodAction ctorAction = createMethodAction(new IMethodControlInput() {
+				if (type.isConcrete() && (constructors.size() > 0)) {
+					final IMethodInfo chosenConstructor;
+					if (constructors.size() == 1) {
+						chosenConstructor = constructors.get(0);
+					} else {
+						constructors = new ArrayList<IMethodInfo>(constructors);
+						Collections.sort(constructors, new Comparator<IMethodInfo>() {
 
-					ModificationStack dummyModificationStack = new ModificationStack(null);
+							@Override
+							public int compare(IMethodInfo o1, IMethodInfo o2) {
+								return new Integer(o1.getParameters().size())
+										.compareTo(new Integer(o2.getParameters().size()));
+							}
+						});
 
-					@Override
-					public ModificationStack getModificationStack() {
-						return dummyModificationStack;
-					}
-
-					@Override
-					public IContext getContext() {
-						return new MethodContext(finalType, chosenConstructor);
-					}
-
-					@Override
-					public IMethodControlData getControlData() {
-						return new DefaultMethodControlData(reflectionUI, parentObject, chosenConstructor);
-					}
-				});
-				ctorAction.setShouldDisplayReturnValueIfAny(false);
-				ctorAction.execute(activatorComponent);
-				return ctorAction.getReturnValue();
-			} else {
-				if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
-
-					List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
-					if (polyTypes.size() == 1) {
-						return
-
-						onTypeInstanciationRequest(activatorComponent, polyTypes.get(0), parentObject);
-					} else
-
-					{
-						final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(
-								reflectionUI, type);
+						final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI,
+								constructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
+							protected String getItemCaption(Object choice) {
+								return ReflectionUIUtils.getContructorDescription((IMethodInfo) choice);
+							}
+						};
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 								.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
-								"Choose a type:", "New '" + type.getCaption() + "'");
+								"Choose an option", "Create " + type.getCaption());
 						if (resultEnumItem == null) {
 							return null;
 						}
-						return onTypeInstanciationRequest(activatorComponent,
-								(ITypeInfo) enumFactory.unwrapInstance(resultEnumItem), parentObject);
+						chosenConstructor = (IMethodInfo) enumFactory.unwrapInstance(resultEnumItem);
+						if (chosenConstructor == null) {
+							return null;
+						}
 					}
+					final ITypeInfo finalType = type;
+					MethodAction ctorAction = createMethodAction(new IMethodControlInput() {
+
+						ModificationStack dummyModificationStack = new ModificationStack(null);
+
+						@Override
+						public ModificationStack getModificationStack() {
+							return dummyModificationStack;
+						}
+
+						@Override
+						public IContext getContext() {
+							return new MethodContext(finalType, chosenConstructor);
+						}
+
+						@Override
+						public IMethodControlData getControlData() {
+							return new DefaultMethodControlData(reflectionUI, parentObject, chosenConstructor);
+						}
+					});
+					ctorAction.setShouldDisplayReturnValueIfAny(false);
+					ctorAction.execute(activatorComponent);
+					return ctorAction.getReturnValue();
 				} else {
 					String typeCaption = type.getCaption();
 					String msg;
@@ -460,13 +496,13 @@ public class SwingRenderer {
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(
-				SwingRendererUtils.getMessagePane(getErrorMessage(error) + "\n", JOptionPane.ERROR_MESSAGE, this));
+				SwingRendererUtils.getMessagePane(formatErrorMessage(error) + "\n", JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setToolbarComponentsAccessor(Accessor.returning(buttons));
 
 		showDialog(dialogBuilder.createDialog(), true);
 	}
 
-	public String getErrorMessage(Throwable error) {
+	public String formatErrorMessage(Throwable error) {
 		return ReflectionUIUtils.getPrettyErrorMessage(error);
 	}
 
@@ -485,24 +521,89 @@ public class SwingRenderer {
 		showDialog(dialogBuilder.createDialog(), true);
 	}
 
+	/**
+	 * Opens a dialog allowing to edit the given object.
+	 * 
+	 * @param activatorComponent
+	 *            A component belonging to the parent window of the dialog.
+	 * @param object
+	 *            Any object.
+	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
 		return openObjectDialog(activatorComponent, object, null);
 	}
 
+	/**
+	 * Opens a dialog allowing to edit the given object.
+	 * 
+	 * @param activatorComponent
+	 *            A component belonging to the parent window of the dialog.
+	 * @param object
+	 *            Any object.
+	 * @param title
+	 *            The title of the dialog or null to have the default title.
+	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title) {
 		return openObjectDialog(activatorComponent, object, title, null);
 	}
 
+	/**
+	 * Opens a dialog allowing to edit the given object.
+	 * 
+	 * @param activatorComponent
+	 *            A component belonging to the parent window of the dialog.
+	 * @param object
+	 *            Any object.
+	 * @param title
+	 *            The title of the dialog or null to have the default title.
+	 * @param iconImage
+	 *            The dialog icon image or null to have the default icon.
+	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			Image iconImage) {
 		return openObjectDialog(activatorComponent, object, title, iconImage, true);
 	}
 
+	/**
+	 * Opens a dialog allowing to edit the given object.
+	 * 
+	 * @param activatorComponent
+	 *            A component belonging to the parent window of the dialog.
+	 * @param object
+	 *            Any object.
+	 * @param title
+	 *            The title of the dialog or null to have the default title.
+	 * @param iconImage
+	 *            The dialog icon image or null to have the default icon.
+	 * @param cancellable
+	 *            Whether the object state changes can be cancelled or not.
+	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			Image iconImage, boolean cancellable) {
 		return openObjectDialog(activatorComponent, object, title, iconImage, cancellable, true);
 	}
 
+	/**
+	 * Opens a dialog allowing to edit the given object.
+	 * 
+	 * @param activatorComponent
+	 *            A component belonging to the parent window of the dialog.
+	 * @param object
+	 *            Any object.
+	 * @param title
+	 *            The title of the dialog or null to have the default title.
+	 * @param iconImage
+	 *            The dialog icon image or null to have the default icon.
+	 * @param cancellable
+	 *            Whether the object state changes can be cancelled or not.
+	 * @param modal
+	 *            Whether the dialog is modal or not.
+	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			final Image iconImage, final boolean cancellable, boolean modal) {
 		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, object, title, iconImage,
@@ -545,18 +646,34 @@ public class SwingRenderer {
 		};
 	}
 
+	/**
+	 * Opens a frame allowing to edit the given object.
+	 * 
+	 * @param object
+	 *            Any object.
+	 * @param title
+	 *            The title of the frame or null to have the default title.
+	 * @param iconImage
+	 *            The frame icon image or null to have the default icon.
+	 */
 	public void openObjectFrame(Object object, String title, Image iconImage) {
 		StandardEditorBuilder editorBuilder = getEditorBuilder(null, object, title, iconImage, false);
 		showFrame(editorBuilder.createFrame());
 
 	}
 
-	public void showFrame(JFrame frame) {
-		frame.setVisible(true);
-	}
-
+	/**
+	 * Opens a frame allowing to edit the given object.
+	 * 
+	 * @param object
+	 *            Any object.
+	 */
 	public void openObjectFrame(Object object) {
 		openObjectFrame(object, null, null);
+	}
+
+	public void showFrame(JFrame frame) {
+		frame.setVisible(true);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -702,10 +819,6 @@ public class SwingRenderer {
 			dialog.setVisible(true);
 		}
 
-	}
-
-	public Color getNullColor() {
-		return SwingRendererUtils.getNonEditableTextBackgroundColor();
 	}
 
 	public long getDataUpdateDelayMilliseconds() {

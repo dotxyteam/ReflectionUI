@@ -702,9 +702,11 @@ public class ReflectionUIUtils {
 							}
 						}
 					}
-					throw new ReflectionUIError("Cannot instanciate abstract or " + Object.class.getName() + " type");
+					throw new ReflectionUIError(
+							"Cannot instanciate abstract or " + Object.class.getSimpleName() + " type");
 				} else {
-					throw new ReflectionUIError("Cannot instanciate abstract or " + Object.class.getName() + " type");
+					throw new ReflectionUIError(
+							"Cannot instanciate abstract or " + Object.class.getSimpleName() + " type");
 				}
 			}
 

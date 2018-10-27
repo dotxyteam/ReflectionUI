@@ -113,7 +113,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 				result.setEditable(false);
 				((JComponent) result).setBorder(null);
 				if ("".equals(data.getValue())) {
-					result.setBackground(swingRenderer.getNullColor());
+					result.setBackground(SwingRendererUtils.getNonEditableTextBackgroundColor());
 				} else {
 					result.setBackground(SwingRendererUtils.getDisabledTextBackgroundColor());
 				}
