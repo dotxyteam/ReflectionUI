@@ -2458,12 +2458,21 @@ public class InfoCustomizations implements Serializable {
 		protected List<TextualStorage> serializedInvocationDatas = new ArrayList<TextualStorage>();
 		protected boolean duplicateGenerated = false;
 		protected String confirmationMessage;
+		protected String parametersValidationCustomCaption;
 
 		@Override
 		public boolean isInitial() {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
 			return isSimilar(this, defaultMethodCustomization);
+		}
+
+		public String getParametersValidationCustomCaption() {
+			return parametersValidationCustomCaption;
+		}
+
+		public void setParametersValidationCustomCaption(String parametersValidationCustomCaption) {
+			this.parametersValidationCustomCaption = parametersValidationCustomCaption;
 		}
 
 		public boolean isRunWhenObjectShown() {

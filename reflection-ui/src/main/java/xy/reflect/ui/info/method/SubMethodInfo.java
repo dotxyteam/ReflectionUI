@@ -92,6 +92,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 		return ReflectionUIUtils.composeMessage(theField.getCaption(), theSubMethod.getCaption());
 	}
 
+	@Override
+	public String getParametersValidationCustomCaption() {
+		return theSubMethod.getParametersValidationCustomCaption();
+	}
+
 	protected Object expectTheFieldValue(Object object) {
 		Object result = theField.getValue(object);
 		if (result == null) {
@@ -210,7 +215,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 					Object fieldValue = expectTheFieldValue(object);
 					return super.getValueOptions(fieldValue);
 				}
-				
+
 			});
 		}
 		return result;

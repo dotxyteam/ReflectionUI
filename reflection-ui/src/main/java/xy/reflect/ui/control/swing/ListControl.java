@@ -780,7 +780,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				modificationFactoryAccessor)) {
 			result.add(createDynamicPropertyHook(listProperty));
 		}
-		for (IDynamicListAction listAction : getRootListType().getDynamicActions(selection, modificationFactoryAccessor)) {
+		for (IDynamicListAction listAction : getRootListType().getDynamicActions(selection,
+				modificationFactoryAccessor)) {
 			result.add(createDynamicActionHook(listAction));
 		}
 
@@ -2594,7 +2595,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {
 
 		@Override
-		public Object getRootListValue() {
+		public Object getNonBufferedRootListValue() {
 			return listData.getValue();
 		}
 

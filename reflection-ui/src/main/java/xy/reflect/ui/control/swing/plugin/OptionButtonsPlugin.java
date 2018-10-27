@@ -10,10 +10,10 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultButtonModel;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
-
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
@@ -178,6 +178,19 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 					private static final long serialVersionUID = 1L;
 
+					{
+						setModel(new DefaultButtonModel() {
+
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public boolean isArmed() {
+								return super.isArmed() || isSelected();
+							}
+
+						});
+					}
+
 					@Override
 					public SwingRenderer getSwingRenderer() {
 						return OptionButtons.this.swingRenderer;
@@ -185,7 +198,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 					@Override
 					protected boolean isApplicationStyleButtonSpecific() {
-						return false;
+						return true;
 					}
 
 					@Override

@@ -27,6 +27,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.createParametersObject(invocationData, contextId);
 	}
 
+	public String getParametersValidationCustomCaption() {
+		return base.getParametersValidationCustomCaption();
+	}
+
 	public ResourcePath getBackgroundImagePath() {
 		return base.getBackgroundImagePath();
 	}

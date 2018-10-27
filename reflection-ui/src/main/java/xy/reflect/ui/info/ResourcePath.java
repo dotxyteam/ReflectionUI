@@ -1,6 +1,8 @@
 package xy.reflect.ui.info;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,6 +37,11 @@ public class ResourcePath implements Serializable {
 	protected PathKind pathKind;
 	protected int chosenAlternativeIndex;
 
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		in.defaultReadObject();
+		setSpecification(getSpecification());
+	}
+
 	/**
 	 * Resource location strategy enumeration.
 	 * 
@@ -46,8 +53,8 @@ public class ResourcePath implements Serializable {
 	}
 
 	/**
-	 * Constructs an empty resource path. {@link #setSpecification(String)} can then
-	 * be used to specify the resource location.
+	 * Constructs an empty resource path. {@link #setSpecification(String)} can
+	 * then be used to specify the resource location.
 	 */
 	public ResourcePath() {
 		this("");
@@ -90,8 +97,8 @@ public class ResourcePath implements Serializable {
 	/**
 	 * @param path
 	 *            A arbitrary path that will uniquely identify a heap object.
-	 * @return a heap resource location specification string that can be passed to
-	 *         the {@link #setSpecification(String)} method.
+	 * @return a heap resource location specification string that can be passed
+	 *         to the {@link #setSpecification(String)} method.
 	 */
 	public static String specifyMemoryObjectSpecification(String path) {
 		return ResourcePath.MEMORY_OBJECT_PREFIX + path;
@@ -112,8 +119,8 @@ public class ResourcePath implements Serializable {
 	 * @param specification
 	 *            The full resource location specification string.
 	 * @return the path that was passed to the
-	 *         {@link #specifyMemoryObjectSpecification(String)} method in order to
-	 *         create the given resource location specification.
+	 *         {@link #specifyMemoryObjectSpecification(String)} method in order
+	 *         to create the given resource location specification.
 	 */
 	public static String extractMemoryObjectLocation(String specification) {
 		return specification.substring(ResourcePath.MEMORY_OBJECT_PREFIX.length());
@@ -127,19 +134,20 @@ public class ResourcePath implements Serializable {
 	}
 
 	/**
-	 * This method differs from {@link #getDefaultSpecification()} by returning an
-	 * alternative specification if one was selected using the
+	 * This method differs from {@link #getDefaultSpecification()} by returning
+	 * an alternative specification if one was selected using the
 	 * {@link #setChosenAlternative(ResourcePath)} method.
 	 * 
-	 * @return the chosen or default full resource location specification string.
+	 * @return the chosen or default full resource location specification
+	 *         string.
 	 */
 	public String getSpecification() {
 		return getChosen().getDefaultSpecification();
 	}
 
 	/**
-	 * @return the full resource location specification string provided through the
-	 *         {@link #setSpecification(String)} method.
+	 * @return the full resource location specification string provided through
+	 *         the {@link #setSpecification(String)} method.
 	 */
 	public String getDefaultSpecification() {
 		if (pathKind == PathKind.CLASS_PATH_RESOURCE) {
@@ -193,9 +201,9 @@ public class ResourcePath implements Serializable {
 	}
 
 	/**
-	 * @return the current or the chosen resource location alternative if one was
-	 *         selected using the {@link #setChosenAlternative(ResourcePath)}
-	 *         method.
+	 * @return the current or the chosen resource location alternative if one
+	 *         was selected using the
+	 *         {@link #setChosenAlternative(ResourcePath)} method.
 	 */
 	protected ResourcePath getChosen() {
 		if (chosenAlternativeIndex == SELF_ALTERNATIVE_INDEX) {
@@ -207,8 +215,8 @@ public class ResourcePath implements Serializable {
 
 	/**
 	 * @return the the chosen resource location alternative if one was selected
-	 *         using the {@link #setChosenAlternative(ResourcePath)} method, or null
-	 *         if no choice was made.
+	 *         using the {@link #setChosenAlternative(ResourcePath)} method, or
+	 *         null if no choice was made.
 	 */
 	@XmlTransient
 	public ResourcePath getChosenAlternative() {
@@ -232,8 +240,8 @@ public class ResourcePath implements Serializable {
 	}
 
 	/**
-	 * @return the list of detected alternative resource locations, each one with a
-	 *         different strategy.
+	 * @return the list of detected alternative resource locations, each one
+	 *         with a different strategy.
 	 */
 	public List<ResourcePath> getAlternativeOptions() {
 		List<ResourcePath> result = new ArrayList<ResourcePath>();

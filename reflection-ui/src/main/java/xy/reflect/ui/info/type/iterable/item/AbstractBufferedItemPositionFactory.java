@@ -3,6 +3,9 @@ package xy.reflect.ui.info.type.iterable.item;
 public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPositionFactory {
 
 	protected Object[] bufferedRootListRawValue;
+	protected Object bufferedRootListValue;
+
+	public abstract Object getNonBufferedRootListValue();
 
 	@Override
 	public BufferedItemPosition getRootItemPosition(int index) {
@@ -15,6 +18,14 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 	}
 
 	@Override
+	public Object getRootListValue() {
+		if (bufferedRootListValue == null) {
+			bufferedRootListValue = getNonBufferedRootListValue();
+		}
+		return bufferedRootListValue;
+	}
+
+	@Override
 	public Object[] retrieveRootListRawValue() {
 		if (bufferedRootListRawValue == null) {
 			bufferedRootListRawValue = super.retrieveRootListRawValue();
@@ -23,6 +34,7 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 	}
 
 	public void refresh() {
+		bufferedRootListValue = null;
 		bufferedRootListRawValue = null;
 	}
 

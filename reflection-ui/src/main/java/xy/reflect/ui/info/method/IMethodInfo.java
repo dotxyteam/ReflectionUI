@@ -41,6 +41,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public String getParametersValidationCustomCaption() {
+			return null;
+		}
+
+		@Override
 		public String getConfirmationMessage(Object object, InvocationData invocationData) {
 			return null;
 		}
@@ -242,5 +247,11 @@ public interface IMethodInfo extends IInfo {
 	 *         the display.
 	 */
 	boolean isHidden();
+
+	/**
+	 * @return the text displayed on the validation control of the parameters
+	 *         settings dialog or null if the default text should be used.
+	 */
+	String getParametersValidationCustomCaption();
 
 }

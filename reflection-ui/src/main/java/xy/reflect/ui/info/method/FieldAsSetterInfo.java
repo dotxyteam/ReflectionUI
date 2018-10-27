@@ -81,6 +81,11 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getParametersValidationCustomCaption() {
+		return null;
+	}
+
+	@Override
 	public String getName() {
 		return field.getName() + ".set";
 	}

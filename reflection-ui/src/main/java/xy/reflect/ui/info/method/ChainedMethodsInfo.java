@@ -55,6 +55,11 @@ public class ChainedMethodsInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getParametersValidationCustomCaption() {
+		return method1.getParametersValidationCustomCaption();
+	}
+
+	@Override
 	public String getOnlineHelp() {
 		return null;
 	}

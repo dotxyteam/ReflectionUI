@@ -1,12 +1,15 @@
 package xy.reflect.ui.info.method;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public abstract class AbstractConstructorInfo extends AbstractInfo implements IMethodInfo {
@@ -40,6 +43,23 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
+	public ITypeInfo getReturnValueType() {
+		return null;
+	}
+
+	@Override
+	public List<IParameterInfo> getParameters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getParametersValidationCustomCaption() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public ResourcePath getIconImagePath() {
 		return null;
 	}
@@ -58,7 +78,6 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	public boolean isReturnValueIgnored() {
 		return false;
 	}
-
 
 	@Override
 	public boolean isReadOnly() {

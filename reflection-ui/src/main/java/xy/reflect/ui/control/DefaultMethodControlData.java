@@ -66,6 +66,11 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public String getParametersValidationCustomCaption() {
+		return getMethod().getParametersValidationCustomCaption();
+	}
+
+	@Override
 	public String getConfirmationMessage(InvocationData invocationData) {
 		return getMethod().getConfirmationMessage(getObject(), invocationData);
 	}

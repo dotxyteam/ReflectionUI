@@ -57,4 +57,6 @@ public interface IMethodControlData {
 	InvocationData createInvocationData(Object... parameterValues);
 
 	Object createParametersObject(InvocationData invocationData, String contextId);
+
+	String getParametersValidationCustomCaption();
 }

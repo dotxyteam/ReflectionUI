@@ -101,14 +101,19 @@ public class MethodAction extends AbstractAction {
 		} else {
 			invocationData = data.createInvocationData();
 		}
-		final Form methodForm = swingRenderer.createForm(data.createParametersObject(invocationData, input.getContext().getIdentifier()));
+		final Form methodForm = swingRenderer
+				.createForm(data.createParametersObject(invocationData, input.getContext().getIdentifier()));
 		Accessor<List<Component>> toolbarControlsAccessor = new Accessor<List<Component>>() {
 
 			@Override
 			public List<Component> get() {
 				List<Component> toolbarControls = new ArrayList<Component>();
 				toolbarControls.addAll(methodForm.createToolbarControls());
-				final JButton invokeButton = createTool(data.getCaption());
+				String invokeButtonText = data.getParametersValidationCustomCaption();
+				if (invokeButtonText == null) {
+					invokeButtonText = data.getCaption();
+				}
+				final JButton invokeButton = createTool(invokeButtonText);
 				{
 					invokeButton.addActionListener(new ActionListener() {
 						@Override
@@ -195,8 +200,6 @@ public class MethodAction extends AbstractAction {
 	protected boolean shouldDisplayReturnValue() {
 		return shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 	}
-
-	
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
 		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {

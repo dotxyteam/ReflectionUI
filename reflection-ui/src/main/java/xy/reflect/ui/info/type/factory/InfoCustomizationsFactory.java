@@ -1663,6 +1663,14 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
+					public String getParametersValidationCustomCaption() {
+						if (mc.getParametersValidationCustomCaption() != null) {
+							return mc.getParametersValidationCustomCaption();
+						}
+						return super.getParametersValidationCustomCaption();
+					}
+
+					@Override
 					public boolean isReturnValueIgnored() {
 						if (mc.isIgnoredReturnValueForced()) {
 							return true;
@@ -1929,8 +1937,8 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (pc != null) {
 						if (pc.isDisplayedAsField()) {
 							final IMethodInfo finalMethod = method;
-							final ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(
-									customizedUI, method, param, containingType) {
+							final ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(customizedUI,
+									method, param, containingType) {
 
 								@Override
 								public String getName() {
@@ -1945,7 +1953,7 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 
 							};
 							newFields.add(methodParameterAsField);
-							method = methodParameterAsField.getReducedParameterListMethod();							
+							method = methodParameterAsField.getReducedParameterListMethod();
 						}
 					}
 				}

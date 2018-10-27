@@ -415,6 +415,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return method.getCaption();
 	}
 
+	protected String getParametersValidationCustomCaption(IMethodInfo method, ITypeInfo containingType) {
+		return method.getParametersValidationCustomCaption();
+	}
+
 	protected String getName(IMethodInfo method, ITypeInfo containingType) {
 		return method.getName();
 	}
@@ -1557,6 +1561,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getCaption() {
 			return InfoProxyFactory.this.getCaption(base, containingType);
+		}
+
+		@Override
+		public String getParametersValidationCustomCaption() {
+			return InfoProxyFactory.this.getParametersValidationCustomCaption(base, containingType);
 		}
 
 		@Override
