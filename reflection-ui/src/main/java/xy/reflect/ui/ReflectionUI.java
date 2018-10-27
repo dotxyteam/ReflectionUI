@@ -133,9 +133,9 @@ public class ReflectionUI {
 
 	/**
 	 * @param typeInfoSource
-	 *            The metadata object.
-	 * @return an abstract model describing the UI properties objects sharing the
-	 *         given metadata object.
+	 *            The data object needed to generate the UI-oriented type
+	 *            information.
+	 * @return an object encapsulating UI-oriented type information.
 	 */
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
 		return typeInfoSource.getTypeInfo(this);

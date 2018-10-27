@@ -1,5 +1,6 @@
 package xy.reflect.ui;
 
+import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
@@ -11,8 +12,10 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.SystemProperties;
 
 /**
  * This is a subclass of ReflectionUI supporting declarative customizations of
@@ -23,12 +26,39 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class CustomizedUI extends ReflectionUI {
 
+	public static void main(String[] args) throws Exception {
+		Class<?> clazz = Object.class;
+		String usageText = "Expected arguments: [ <className> | --help ]"
+				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
+				+ "\n  => --help: Displays this help message" + "\n"
+				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
+		if (args.length == 0) {
+			clazz = Object.class;
+		} else if (args.length == 1) {
+			if (args[0].equals("--help")) {
+				System.out.println(usageText);
+				return;
+			} else {
+				clazz = Class.forName(args[0]);
+			}
+		} else {
+			throw new IllegalArgumentException(usageText);
+		}
+		Object object = CustomizedSwingRenderer.getDefault().onTypeInstanciationRequest(null,
+				CustomizedUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz, null)), null);
+		if (object == null) {
+			return;
+		}
+		CustomizedSwingRenderer.getDefault().openObjectFrame(object);
+	}
+
 	protected static CustomizedUI defaultInstance;
 
 	protected InfoCustomizations infoCustomizations;
 
 	/**
-	 * @return the default instance of this class.
+	 * @return the default instance of this class. This instance is constructed with
+	 *         the {@link InfoCustomizations#getDefault()} return value.
 	 */
 	public static CustomizedUI getDefault() {
 		if (defaultInstance == null) {

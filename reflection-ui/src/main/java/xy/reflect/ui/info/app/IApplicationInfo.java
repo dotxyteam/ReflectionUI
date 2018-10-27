@@ -61,15 +61,15 @@ public interface IApplicationInfo extends IInfo {
 	boolean isSystemIntegrationCrossPlatform();
 
 	/**
-	 * @return the custom background color of the title bar of generated windows or
-	 *         null. Note that it is taken into account only if
+	 * @return the custom title bar background color of generated windows or null.
+	 *         Note that it is taken into account only if
 	 *         {@link #isSystemIntegrationCrossPlatform()} returns true.
 	 */
 	ColorSpecification getTitleBackgroundColor();
 
 	/**
-	 * @return the custom text color of the title bar of generated windows or null.
-	 *         Note that it is taken into account only if
+	 * @return the custom title bar text color of generated windows or null. Note
+	 *         that it is taken into account only if
 	 *         {@link #isSystemIntegrationCrossPlatform()} returns true.
 	 */
 	ColorSpecification getTitleForegroundColor();

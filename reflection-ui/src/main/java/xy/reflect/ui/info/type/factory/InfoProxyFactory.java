@@ -43,17 +43,17 @@ import xy.reflect.ui.info.method.InvocationData;
 /**
  * This is default implementation of global abstract UI model transformers.
  * 
- * By default this class generates proxies that behave exactly like wrapped
- * objects. in order to change the generated UI behavior, the appropriate
+ * By default this class generates proxies that behave exactly like the wrapped
+ * objects. In order to change the generated UI behavior, the appropriate
  * methods of this class must be overriden.
  * 
- * By convention the overloading methods have the same name as the methods of
- * the elements of the abstract UI model they affect. In addition, they have
- * parameters that specify the invocation context.
+ * By convention these methods have the same name as the methods of the elements
+ * of the abstract UI model they affect. In addition, they have parameters that
+ * specify the invocation context.
  * 
  * Ex: Overriding {@link #getCaption(IFieldInfo, ITypeInfo)} allows to change
- * the behavior of {@link IFieldInfo#getCaption()} according to the contextual
- * containing {@link ITypeInfo}.
+ * the behavior of {@link IFieldInfo#getCaption()} according to the parent
+ * {@link ITypeInfo} instance.
  * 
  * Note: To avoid accidentally wrapping the same object with the same proxy
  * multiple times, a check is made by comparing the return values of

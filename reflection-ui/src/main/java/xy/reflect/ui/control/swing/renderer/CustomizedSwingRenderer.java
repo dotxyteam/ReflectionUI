@@ -5,10 +5,20 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * A sub-class of {@link SwingRenderer} supporting customizations by default.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomizedSwingRenderer extends SwingRenderer {
 
 	protected static CustomizedSwingRenderer defaultInstance;
 
+	/**
+	 * @return the default instance of this class. This instance is constructed with
+	 *         the {@link CustomizedUI#getDefault()} return value.
+	 */
 	public static CustomizedSwingRenderer getDefault() {
 		if (defaultInstance == null) {
 			Class<?> customClass = SystemProperties.getAlternateDefaultCustomizedSwingRendererClass();
@@ -30,6 +40,10 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 		super(customizedUI);
 	}
 
+	public CustomizedSwingRenderer() {
+		this(CustomizedUI.getDefault());
+	}
+
 	public CustomizedUI getCustomizedUI() {
 		return (CustomizedUI) getReflectionUI();
 	}
@@ -37,6 +51,5 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 	public InfoCustomizations getInfoCustomizations() {
 		return getCustomizedUI().getInfoCustomizations();
 	}
-
 
 }

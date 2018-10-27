@@ -5,7 +5,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * This interface is the bridge between object and abstract UI models. An
+ * This interface is the bridge between objects and abstract UI models. An
  * implementation of this interface must be created in order to plug
  * {@link ReflectionUI} to a new meta-data model (ex: a databse) and then
  * completely change the introspection mechanics.

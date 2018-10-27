@@ -75,7 +75,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 /**
- * This class specifies declarative customizations of abstract UI model
+ * This class allows to specify declarative customizations of abstract UI model
  * elements.
  * 
  * @author olitank
@@ -106,6 +106,12 @@ public class InfoCustomizations implements Serializable {
 		}
 	}
 
+	/**
+	 * @return the default instance of this class. Note that it may try to load the
+	 *         default customization file according these system properties:
+	 *         {@link SystemProperties#DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE} and
+	 *         {@link SystemProperties#DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH}
+	 */
 	public static InfoCustomizations getDefault() {
 		if (defaultInstance == null) {
 			defaultInstance = new InfoCustomizations();

@@ -14,8 +14,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 /**
- * This interface allows to specify UI-oriented attributes of a category of
- * object. Object of this type are abstraction of GUI forms.
+ * This interface allows to specify UI-oriented attributes of objects typically
+ * inferred from classes. It is a kind of abstraction of GUI forms.
  * 
  * @author olitank
  *

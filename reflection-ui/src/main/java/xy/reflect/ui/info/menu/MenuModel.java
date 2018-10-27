@@ -12,7 +12,7 @@ import xy.reflect.ui.util.Visitor;
 /**
  * This class allows to specify menu elements that will be available in the
  * generated UIs. Instances of this class support contributions so that multiple
- * menu models can be merged into a more complex unified one.
+ * menu models can be merged into a more complex one.
  * 
  * @author olitank
  *

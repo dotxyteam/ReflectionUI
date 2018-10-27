@@ -160,12 +160,12 @@ public interface IFieldInfo extends IInfo {
 	Object[] getValueOptions(Object object);
 
 	/**
-	 * Updates the given field value to the given object.
+	 * Updates the current field of the given object with the given value.
 	 * 
 	 * @param object
 	 *            The object hosting the field value.
 	 * @param value
-	 *            The new field field value.
+	 *            The new field value.
 	 */
 	void setValue(Object object, Object value);
 
@@ -173,7 +173,7 @@ public interface IFieldInfo extends IInfo {
 	 * @param object
 	 *            The object hosting the field value.
 	 * @param newValue
-	 *            The new field field value.
+	 *            The new field value.
 	 * @return a job that can revert the next field value update, or null if the
 	 *         update cannot be reverted.
 	 */

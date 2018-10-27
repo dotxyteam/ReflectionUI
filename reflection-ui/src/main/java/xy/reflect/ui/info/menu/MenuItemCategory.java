@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a menu item category that is commonly displayed as a
- * group of menu items separated from the other items by a kind of horizontal
- * bar.
+ * This class represents a menu item category. It is commonly displayed as a
+ * group of menu items separated from the others by a horizontal bar.
  * 
  * @author olitank
  *
