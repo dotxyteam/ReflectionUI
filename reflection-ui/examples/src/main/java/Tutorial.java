@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,9 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin.OptionButtonsConfiguration;
@@ -79,7 +83,7 @@ public class Tutorial {
 		 * Most basic use case: opening an object dialog:
 		 */
 		Object myObject = new HelloWorld();
-		SwingRenderer.getDefault().openObjectDialog(null, myObject);
+		SwingRenderer.getDefault().openObjectDialog(null, myObject, myObject + " Dialog");
 	}
 
 	private static void createObjectForm() {
@@ -536,15 +540,27 @@ public class Tutorial {
 					 * In order to create a custom field control:
 					 */
 					@Override
-					public FieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
+					public FieldControlPlaceHolder createFieldControlPlaceHolder(final IFieldInfo field) {
 						return new FieldControlPlaceHolder(this.swingRenderer, this, field) {
 
 							private static final long serialVersionUID = 1L;
 
 							@Override
 							public Component createFieldControl() {
-								// Create your custom crontrol here
-								return super.createFieldControl();
+								if (field.getName().equals("upperCase")) {
+									final IFieldControlData data = getControlData();
+									final JToggleButton result = new JToggleButton(data.getCaption());
+									result.setSelected((Boolean) data.getValue());
+									result.addActionListener(new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											data.setValue(result.isSelected());
+										}
+									});
+									return result;
+								} else {
+									return super.createFieldControl();
+								}
 							}
 
 						};
@@ -561,7 +577,7 @@ public class Tutorial {
 
 							@Override
 							public Component createMethodControl() {
-								// Create your custom crontrol here
+								// Create your custom method control here
 								return super.createMethodControl();
 							}
 
@@ -572,7 +588,7 @@ public class Tutorial {
 			}
 
 		};
-		swingRenderer.openObjectDialog(null, myObject, "With Custom Controls");
+		swingRenderer.openObjectDialog(null, myObject, "'Upper Case' field control => toggle button");
 	}
 
 	private static void useFieldControlPlugins() {
@@ -711,7 +727,7 @@ public class Tutorial {
 		 * Opening an object frame:
 		 */
 		Object myObject = new HelloWorld();
-		SwingRenderer.getDefault().openObjectDialog(null, myObject);
+		SwingRenderer.getDefault().openObjectDialog(null, myObject, myObject + " Frame");
 	}
 
 }
