@@ -4,13 +4,13 @@ import java.util.List;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
-public class HelloWorld implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class HelloWorld implements Serializable {
 
 	public static void main(String[] args) {
 		SwingRenderer.getDefault().openObjectFrame(new HelloWorld());
 	}
+
+	private static final long serialVersionUID = 1L;
 
 	private String name = "world";
 	private Language language = Language.English;

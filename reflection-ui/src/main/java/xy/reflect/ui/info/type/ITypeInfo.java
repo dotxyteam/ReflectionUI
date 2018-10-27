@@ -49,8 +49,8 @@ public interface ITypeInfo extends IInfo {
 	 * 
 	 * @param object
 	 *            An object of the current type.
-	 * @param out
-	 *            The output stream.
+	 * @param in
+	 *            The input stream.
 	 */
 	void load(Object object, InputStream in);
 

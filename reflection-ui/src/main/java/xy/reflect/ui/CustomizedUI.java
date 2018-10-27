@@ -57,8 +57,8 @@ public class CustomizedUI extends ReflectionUI {
 	protected InfoCustomizations infoCustomizations;
 
 	/**
-	 * @return the default instance of this class. This instance is constructed with
-	 *         the {@link InfoCustomizations#getDefault()} return value.
+	 * @return the default instance of this class. This instance is constructed
+	 *         with the {@link InfoCustomizations#getDefault()} return value.
 	 */
 	public static CustomizedUI getDefault() {
 		if (defaultInstance == null) {
@@ -68,7 +68,8 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * Constructs an instance of this class that will use the given customizations.
+	 * Constructs an instance of this class that will use the given
+	 * customizations.
 	 * 
 	 * @param infoCustomizations
 	 *            The abstract UI model customizations specification object.
@@ -128,32 +129,9 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * This method allows to alter the given IApplicationInfo object after applying
-	 * the declarative customizations.
-	 * 
-	 * @param appInfo
-	 *            The common UI properties model.
-	 * @return a potentially proxied version of the input IApplicationInfo.
-	 */
-	protected IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
-		return appInfo;
-	}
-
-	/**
-	 * This method allows to alter the given IApplicationInfo object before applying
-	 * the declarative customizations.
-	 * 
-	 * @param appInfo
-	 *            The common UI properties model.
-	 * @return a potentially proxied version of the input IApplicationInfo.
-	 */
-	protected IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
-		return appInfo;
-	}
-
-	/**
 	 * @return the UI model proxy factory that will be used to prepare every UI
-	 *         model for customizations. This factory will be used before calling
+	 *         model for customizations. This factory will be used before
+	 *         calling
 	 *         {@link #getApplicationInfoBeforeCustomizations(IApplicationInfo)}.
 	 */
 	public InfoProxyFactory getInfoCustomizationsSetupFactory() {
@@ -205,27 +183,51 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * This method allows to alter the given ITypeInfo object after applying the
-	 * declarative customizations.
+	 * This method allows to alter the given {@link ITypeInfo} object after
+	 * applying the declarative customizations.
 	 * 
-	 * @param appInfo
-	 *            The abstract UI model.
-	 * @return a potentially proxied version of the input IApplicationInfo.
+	 * @param type
+	 *            The UI-oriented type information.
+	 * @return a potentially proxied version of the input argument.
 	 */
 	protected ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
 		return type;
 	}
 
 	/**
-	 * This method allows to alter the given ITypeInfo object before applying the
-	 * declarative customizations.
+	 * This method allows to alter the given {@link ITypeInfo} object before
+	 * applying the declarative customizations.
 	 * 
 	 * @param type
-	 *            The abstract UI model.
-	 * @return a potentially proxied version of the input IApplicationInfo.
+	 *            The UI-oriented type information.
+	 * @return a potentially proxied version of the input argument.
 	 */
 	protected ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
 		return type;
+	}
+
+	/**
+	 * This method allows to alter the given {@link IApplicationInfo} object
+	 * after applying the declarative customizations.
+	 * 
+	 * @param appInfo
+	 *            The UI-oriented application information.
+	 * @return a potentially proxied version of the input argument.
+	 */
+	protected IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
+		return appInfo;
+	}
+
+	/**
+	 * This method allows to alter the given {@link IApplicationInfo} object
+	 * before applying the declarative customizations.
+	 * 
+	 * @param appInfo
+	 *            The UI-oriented application information.
+	 * @return a potentially proxied version of the input argument.
+	 */
+	protected IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
+		return appInfo;
 	}
 
 	@Override
