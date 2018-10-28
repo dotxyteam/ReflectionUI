@@ -53,14 +53,16 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+/**
+ * ReflectionUI library demonstration: Each of the following methods
+ * demonstrates a feature of the library.
+ * 
+ * @author olitank
+ *
+ */
 public class Tutorial {
 
 	public static void main(String[] args) {
-
-		/*
-		 * Each of the following methods demonstrates a feature of the library.
-		 */
-
 		openObjectDialog();
 		createObjectForm();
 		changeFieldsAndMethodOrder();

@@ -4,6 +4,12 @@ import java.util.List;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
+/**
+ * Example showing a basic usage of the ReflectionUI library.
+ * 
+ * @author olitank
+ *
+ */
 public class HelloWorld implements Serializable {
 
 	public static void main(String[] args) {
