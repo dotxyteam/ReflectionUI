@@ -54,6 +54,7 @@ import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
 import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
+import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -195,6 +196,7 @@ public class SwingRenderer {
 		result.add(new ImageViewPlugin());
 		result.add(new CustomCheckBoxPlugin());
 		result.add(new DetailedListControlPlugin());
+		result.add(new StyledTextPlugin());
 		return result;
 	}
 

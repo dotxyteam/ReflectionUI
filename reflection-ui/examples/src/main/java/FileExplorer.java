@@ -6,8 +6,8 @@ import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * File explorer GUI generated using only the {@link java.io.File} features and
- * the XML declarative customizations.
+ * File explorer GUI generated using only the {@link java.io.File} class
+ * features and the XML declarative customizations.
  * 
  * @author olitank
  *

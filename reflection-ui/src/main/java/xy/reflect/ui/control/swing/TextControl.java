@@ -17,6 +17,7 @@ import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.JTextComponent;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -34,7 +35,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	protected IFieldControlInput input;
 	protected IFieldControlData data;
 
-	protected JTextArea textComponent;
+	protected JTextComponent textComponent;
 	protected JScrollPane scrollPane;
 	protected boolean listenerDisabled = false;
 
@@ -49,12 +50,64 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 		textComponent = createTextComponent();
 		{
+			setupTextComponentEvents();
 			scrollPane = createScrollPane();
 			updateScrollPolicy();
 			scrollPane.setViewportView(textComponent);
 			add(scrollPane, BorderLayout.CENTER);
 		}
 		refreshUI(true);
+	}
+
+	protected void setupTextComponentEvents() {
+		textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
+			@Override
+			public void undoableEditHappened(UndoableEditEvent e) {
+				TextControl.this.textComponentEditHappened();
+			}
+		});
+		textComponent.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				maybeShowPopup(e);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				maybeShowPopup(e);
+			}
+
+			private void maybeShowPopup(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					JPopupMenu popup = new JPopupMenu();
+					popup.add(new JMenuItem(new DefaultEditorKit.CopyAction() {
+						private static final long serialVersionUID = 1L;
+
+						{
+							putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Copy"));
+						}
+					}));
+					if (textComponent.isEditable()) {
+						popup.add(new JMenuItem(new DefaultEditorKit.CutAction() {
+							private static final long serialVersionUID = 1L;
+
+							{
+								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Cut"));
+							}
+						}));
+						popup.add(new JMenuItem(new DefaultEditorKit.PasteAction() {
+							private static final long serialVersionUID = 1L;
+
+							{
+								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Paste"));
+							}
+						}));
+					}
+					popup.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
+
 	}
 
 	@Override
@@ -103,8 +156,8 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected JTextArea createTextComponent() {
-		final JTextArea result = new JTextArea() {
+	protected JTextComponent createTextComponent() {
+		return new JTextArea() {
 
 			private static final long serialVersionUID = 1L;
 
@@ -127,55 +180,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 		};
-		result.getDocument().addUndoableEditListener(new UndoableEditListener() {
-			@Override
-			public void undoableEditHappened(UndoableEditEvent e) {
-				TextControl.this.textComponentEditHappened();
-			}
-		});
-		result.setBorder(new JTextField().getBorder());
-		result.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				maybeShowPopup(e);
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				maybeShowPopup(e);
-			}
-
-			private void maybeShowPopup(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					JPopupMenu popup = new JPopupMenu();
-					popup.add(new JMenuItem(new DefaultEditorKit.CopyAction() {
-						private static final long serialVersionUID = 1L;
-
-						{
-							putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Copy"));
-						}
-					}));
-					if (result.isEditable()) {
-						popup.add(new JMenuItem(new DefaultEditorKit.CutAction() {
-							private static final long serialVersionUID = 1L;
-
-							{
-								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Cut"));
-							}
-						}));
-						popup.add(new JMenuItem(new DefaultEditorKit.PasteAction() {
-							private static final long serialVersionUID = 1L;
-
-							{
-								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Paste"));
-							}
-						}));
-					}
-					popup.show(e.getComponent(), e.getX(), e.getY());
-				}
-			}
-		});
-		return result;
 	}
 
 	protected void updateTextComponent(boolean refreshStructure) {
@@ -206,8 +210,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 				int lastCaretPosition = textComponent.getCaretPosition();
 				textComponent.setText(newText);
-				textComponent
-						.setCaretPosition(Math.min(lastCaretPosition, ((JTextArea) textComponent).getText().length()));
+				textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
 				displayError(null);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
