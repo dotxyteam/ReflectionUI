@@ -478,9 +478,10 @@ public class Tutorial {
 								{
 									/*
 									 * Some standards menu items are provided by the framework (open file, save
-									 * file, quit, undo, redo, ...). They use the related features defined in the
-									 * I*Info meta objects. The menu item categories allow to distinctly separate
-									 * groups of menu items.
+									 * file, quit, undo, redo, ...). Browse the package
+									 * "xy.reflect.ui.info.menu.builtin.swing" for more information. They use the
+									 * related features defined in the I*Info meta objects. The menu item categories
+									 * allow to distinctly separate groups of menu items.
 									 * 
 									 */
 									MenuItemCategory persistenceCategory = new MenuItemCategory("Persistence");
@@ -527,79 +528,14 @@ public class Tutorial {
 		swingRenderer.openObjectDialog(null, myObject, "With File Menu");
 	}
 
-	private static void createCustomControls() {
-		Object myObject = new HelloWorld();
-		ReflectionUI reflectionUI = new ReflectionUI();
-		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI) {
-
-			@Override
-			public Form createForm(Object object, IInfoFilter infoFilter) {
-				return new Form(this, object, infoFilter) {
-
-					private static final long serialVersionUID = 1L;
-
-					/*
-					 * In order to create a custom field control:
-					 */
-					@Override
-					public FieldControlPlaceHolder createFieldControlPlaceHolder(final IFieldInfo field) {
-						return new FieldControlPlaceHolder(this.swingRenderer, this, field) {
-
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public Component createFieldControl() {
-								if (field.getName().equals("upperCase")) {
-									final IFieldControlData data = getControlData();
-									final JToggleButton result = new JToggleButton(data.getCaption());
-									result.setSelected((Boolean) data.getValue());
-									result.addActionListener(new ActionListener() {
-										@Override
-										public void actionPerformed(ActionEvent e) {
-											data.setValue(result.isSelected());
-										}
-									});
-									return result;
-								} else {
-									return super.createFieldControl();
-								}
-							}
-
-						};
-					}
-
-					/*
-					 * In order to create a custom method control:
-					 */
-					@Override
-					public MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
-						return new MethodControlPlaceHolder(this.swingRenderer, this, method) {
-
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public Component createMethodControl() {
-								// Create your custom method control here
-								return super.createMethodControl();
-							}
-
-						};
-					}
-
-				};
-			}
-
-		};
-		swingRenderer.openObjectDialog(null, myObject, "'Upper Case' field control => toggle button");
-	}
-
 	private static void useFieldControlPlugins() {
 		Object myObject = new HelloWorld();
 
 		/*
 		 * Control plugins make it easy to customize the generated UIs by providing
 		 * easy-to-use alternative controls. Each plugin potentially offers
-		 * configuration options.
+		 * configuration options. Some built-in plugins are available. Browse the
+		 * package "xy.reflect.ui.control.swing.plugin" for more information.
 		 */
 		final OptionButtonsPlugin radioButtonsPlugin = new OptionButtonsPlugin();
 		final OptionButtonsConfiguration radioButtonsConfiguration = new OptionButtonsConfiguration();
@@ -679,6 +615,72 @@ public class Tutorial {
 		SwingRenderer swingRenderer = new SwingRenderer(customizedUI);
 		swingRenderer.openObjectDialog(null, myObject,
 				"'Name' field caption modified using " + InfoCustomizations.class.getSimpleName() + " class");
+	}
+
+	private static void createCustomControls() {
+		Object myObject = new HelloWorld();
+		ReflectionUI reflectionUI = new ReflectionUI();
+		SwingRenderer swingRenderer = new SwingRenderer(reflectionUI) {
+
+			@Override
+			public Form createForm(Object object, IInfoFilter infoFilter) {
+				return new Form(this, object, infoFilter) {
+
+					private static final long serialVersionUID = 1L;
+
+					/*
+					 * In order to create a custom field control:
+					 */
+					@Override
+					public FieldControlPlaceHolder createFieldControlPlaceHolder(final IFieldInfo field) {
+						return new FieldControlPlaceHolder(this.swingRenderer, this, field) {
+
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public Component createFieldControl() {
+								if (field.getName().equals("upperCase")) {
+									final IFieldControlData data = getControlData();
+									final JToggleButton result = new JToggleButton(data.getCaption());
+									result.setSelected((Boolean) data.getValue());
+									result.addActionListener(new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											data.setValue(result.isSelected());
+										}
+									});
+									return result;
+								} else {
+									return super.createFieldControl();
+								}
+							}
+
+						};
+					}
+
+					/*
+					 * In order to create a custom method control:
+					 */
+					@Override
+					public MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
+						return new MethodControlPlaceHolder(this.swingRenderer, this, method) {
+
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public Component createMethodControl() {
+								// Create your custom method control here
+								return super.createMethodControl();
+							}
+
+						};
+					}
+
+				};
+			}
+
+		};
+		swingRenderer.openObjectDialog(null, myObject, "'Upper Case' field control => toggle button");
 	}
 
 	private static void useXmlCustomizations() {
