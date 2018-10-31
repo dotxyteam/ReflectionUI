@@ -75,6 +75,7 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.component.AbstractControlButton;
 
 /**
@@ -95,7 +96,16 @@ public class SwingRenderer {
 	 */
 	public static SwingRenderer getDefault() {
 		if (defaultInstance == null) {
-			defaultInstance = new SwingRenderer(ReflectionUI.getDefault());
+			Class<?> customClass = SystemProperties.getAlternateDefaultSwingRendererClass();
+			if (customClass != null) {
+				try {
+					defaultInstance = (SwingRenderer) customClass.getMethod("getDefault").invoke(null);
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+			} else {
+				defaultInstance = new SwingRenderer(ReflectionUI.getDefault());
+			}
 		}
 		return defaultInstance;
 	}

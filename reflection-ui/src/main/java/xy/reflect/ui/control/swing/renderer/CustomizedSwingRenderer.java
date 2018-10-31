@@ -24,8 +24,7 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 			Class<?> customClass = SystemProperties.getAlternateDefaultCustomizedSwingRendererClass();
 			if (customClass != null) {
 				try {
-					defaultInstance = (CustomizedSwingRenderer) customClass.getConstructor(CustomizedUI.class)
-							.newInstance(CustomizedUI.getDefault());
+					defaultInstance = (CustomizedSwingRenderer) customClass.getMethod("getDefault").invoke(null);
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
