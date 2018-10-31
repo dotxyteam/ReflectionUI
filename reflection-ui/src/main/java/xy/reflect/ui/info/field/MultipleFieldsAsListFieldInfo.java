@@ -23,6 +23,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFieldInfo {
@@ -510,6 +511,18 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		public ValueListItemDetailsFieldInfo(IFieldInfo field) {
 			super(field);
+		}
+
+		@Override
+		public ITypeInfo getType() {
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(
+							new ValueListItemTypeInfo(ValueListItemDetailsFieldInfo.this.base).getName(),
+							ValueListItemDetailsFieldInfo.this.getName());
+				}
+			});
 		}
 
 		@Override
