@@ -12,6 +12,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -87,7 +88,8 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField, -1));
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField, -1,
+					new SpecificitiesIdentifier(containingJavaClass.getName(), javaField.getName())));
 		}
 		return type;
 	}

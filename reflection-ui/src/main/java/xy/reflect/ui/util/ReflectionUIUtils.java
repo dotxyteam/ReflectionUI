@@ -695,19 +695,18 @@ public class ReflectionUIUtils {
 			if (!type.isConcrete()) {
 				if (subTypeInstanceAllowed) {
 					if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
-						for (ITypeInfo subType : type.getPolymorphicInstanceSubTypes()) {
+						List<ITypeInfo> subTypes = type.getPolymorphicInstanceSubTypes();
+						for (ITypeInfo subType : subTypes) {
 							try {
 								return createDefaultInstance(subType, parentObject, true);
 							} catch (Throwable ignore) {
 							}
 						}
 					}
-					throw new ReflectionUIError(
-							"Cannot instanciate abstract or " + Object.class.getSimpleName() + " type");
-				} else {
-					throw new ReflectionUIError(
-							"Cannot instanciate abstract or " + Object.class.getSimpleName() + " type");
 				}
+				throw new ReflectionUIError(
+						"Cannot instanciate abstract (or " + Object.class.getSimpleName() + ") type");
+
 			}
 
 			IMethodInfo zeroParamConstructor = getZeroParameterMethod(type.getConstructors());

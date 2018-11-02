@@ -57,8 +57,8 @@ public class CustomizedUI extends ReflectionUI {
 	protected InfoCustomizations infoCustomizations;
 
 	/**
-	 * @return the default instance of this class. This instance is constructed
-	 *         with the {@link InfoCustomizations#getDefault()} return value.
+	 * @return the default instance of this class. This instance is constructed with
+	 *         the {@link InfoCustomizations#getDefault()} return value.
 	 */
 	public static CustomizedUI getDefault() {
 		if (defaultInstance == null) {
@@ -68,8 +68,7 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * Constructs an instance of this class that will use the given
-	 * customizations.
+	 * Constructs an instance of this class that will use the given customizations.
 	 * 
 	 * @param infoCustomizations
 	 *            The abstract UI model customizations specification object.
@@ -130,8 +129,7 @@ public class CustomizedUI extends ReflectionUI {
 
 	/**
 	 * @return the UI model proxy factory that will be used to prepare every UI
-	 *         model for customizations. This factory will be used before
-	 *         calling
+	 *         model for customizations. This factory will be used before calling
 	 *         {@link #getApplicationInfoBeforeCustomizations(IApplicationInfo)}.
 	 */
 	public InfoProxyFactory getInfoCustomizationsSetupFactory() {
@@ -183,8 +181,8 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * This method allows to alter the given {@link ITypeInfo} object after
-	 * applying the declarative customizations.
+	 * This method allows to alter the given {@link ITypeInfo} object after applying
+	 * the declarative customizations.
 	 * 
 	 * @param type
 	 *            The UI-oriented type information.
@@ -207,8 +205,8 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * This method allows to alter the given {@link IApplicationInfo} object
-	 * after applying the declarative customizations.
+	 * This method allows to alter the given {@link IApplicationInfo} object after
+	 * applying the declarative customizations.
 	 * 
 	 * @param appInfo
 	 *            The UI-oriented application information.
@@ -219,8 +217,8 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * This method allows to alter the given {@link IApplicationInfo} object
-	 * before applying the declarative customizations.
+	 * This method allows to alter the given {@link IApplicationInfo} object before
+	 * applying the declarative customizations.
 	 * 
 	 * @param appInfo
 	 *            The UI-oriented application information.

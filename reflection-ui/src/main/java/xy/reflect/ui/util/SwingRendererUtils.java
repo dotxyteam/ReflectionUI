@@ -760,9 +760,6 @@ public class SwingRendererUtils {
 		}
 		SwingRendererUtils.setMultilineToolTipText(tooltipComponent, newTooltipText);
 		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, tooltipComponent.getToolTipText())) {
-			if (newTooltipText != null) {
-				SwingRendererUtils.showTooltipNow(tooltipComponent);
-			}
 			SwingRendererUtils.handleComponentSizeChange(borderComponent);
 		}
 	}

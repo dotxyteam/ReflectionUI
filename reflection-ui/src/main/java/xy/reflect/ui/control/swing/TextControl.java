@@ -143,17 +143,22 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (isMultiline()) {
-					result.height += getHorizontalScrollBar().getPreferredSize().height;
-				}
-				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
-				int maxPreferredHeight = SwingRendererUtils.getScreenSize(this).height / 3;
-				result.width = characterSize * 20;
-				result.height = Math.min(result.height, maxPreferredHeight);
-				return result;
+				return getScrollPaneSize(this, super.getPreferredSize());
 			}
 		};
+	}
+
+	protected Dimension getScrollPaneSize(JScrollPane scrollPane, Dimension defaultSize) {
+		Dimension result = defaultSize;
+		if (isMultiline()) {
+			result.height += scrollPane.getHorizontalScrollBar().getPreferredSize().height;
+		}
+		int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
+		int maxPreferredHeight = SwingRendererUtils.getScreenSize(this).height / 3;
+		result.width = characterSize * 20;
+		result.height = Math.min(result.height, maxPreferredHeight);
+		return result;
+
 	}
 
 	protected JTextComponent createTextComponent() {
@@ -210,13 +215,17 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 				int lastCaretPosition = textComponent.getCaretPosition();
 				textComponent.setText(newText);
-				textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
+				setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
 				displayError(null);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 		} finally {
 			listenerDisabled = false;
 		}
+	}
+
+	protected void setCurrentTextEditPosition(int position) {
+		textComponent.setCaretPosition(position);
 	}
 
 	protected void textComponentEditHappened() {
@@ -259,7 +268,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean requestCustomFocus() {
-		textComponent.setCaretPosition(textComponent.getText().length());
+		setCurrentTextEditPosition(textComponent.getText().length());
 		if (SwingRendererUtils.requestAnyComponentFocus(textComponent, swingRenderer)) {
 			return true;
 		}

@@ -118,11 +118,11 @@ public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem
 		if (file == null) {
 			return;
 		}
-		lastFileByForm.put((Form) form, file);
 		try {
 			persist((SwingRenderer) renderer, (Form) form, file);
 			ModificationStack modifStack = ((Form) form).getModificationStack();
 			lastPersistedVersionByForm.put((Form) form, modifStack.getStateVersion());
+			lastFileByForm.put((Form) form, file);
 		} catch (Throwable t) {
 			lastPersistedVersionByForm.put((Form) form, -1l);
 			throw new ReflectionUIError(t);

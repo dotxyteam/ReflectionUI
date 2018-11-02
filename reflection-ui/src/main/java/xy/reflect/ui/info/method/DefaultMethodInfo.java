@@ -90,7 +90,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 				returnValueVoid = true;
 			} else {
 				returnValueType = reflectionUI
-						.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod, -1));
+						.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod, -1, null));
 			}
 		}
 		return returnValueType;

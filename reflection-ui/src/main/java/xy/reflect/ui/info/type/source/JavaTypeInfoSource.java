@@ -55,14 +55,12 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		this.specificitiesIdentifier = specificitiesIdentifier;
 	}
 
-	public JavaTypeInfoSource(Class<?> javaType, Member declaringMember, int declaringInvokableParameterPosition) {
+	public JavaTypeInfoSource(Class<?> javaType, Member declaringMember, int declaringInvokableParameterPosition,
+			SpecificitiesIdentifier specificitiesIdentifier) {
 		this.javaType = javaType;
 		this.declaringMember = declaringMember;
-		if (declaringMember instanceof Field) {
-			Field field = (Field) declaringMember;
-			specificitiesIdentifier = new SpecificitiesIdentifier(field.getDeclaringClass().getName(), field.getName());
-		}
 		this.declaringInvokableParameterPosition = declaringInvokableParameterPosition;
+		this.specificitiesIdentifier = specificitiesIdentifier;
 	}
 
 	@Override
@@ -215,8 +213,6 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		}
 		return parameterClasses.get(genericParameterIndex);
 	}
-
-	
 
 	@Override
 	public int hashCode() {

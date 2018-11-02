@@ -150,7 +150,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 					.getTypeInfo(new TypeInfoSourceProxy(getGetterMethodInfo().getReturnValueType().getSource()) {
 						@Override
 						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-							return new SpecificitiesIdentifier(javaGetterMethod.getDeclaringClass().getName(),
+							return new SpecificitiesIdentifier(containingJavaClass.getName(),
 									GetterFieldInfo.this.getName());
 						}
 					});
@@ -165,7 +165,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		IMethodInfo getter =  getGetterMethodInfo();
+		IMethodInfo getter = getGetterMethodInfo();
 		return getter.invoke(object, new InvocationData(object, getter));
 	}
 

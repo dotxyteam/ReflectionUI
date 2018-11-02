@@ -1,11 +1,14 @@
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
@@ -17,6 +20,7 @@ import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
@@ -48,10 +52,6 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 	public static class StyledTextConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
-		public enum HorizontalAlignment {
-			LEFT, CENTER, RIGHT
-		};
-
 		public String fontName = Font.SERIF;
 		public boolean fontBold = true;
 		public boolean fontItalic = true;
@@ -59,6 +59,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		public HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
 		public boolean underlined = false;
 		public boolean struckThrough = false;
+		public ControlDimensionSpecification length;
 
 		public String[] getFontNames() {
 			List<String> result = new ArrayList<String>();
@@ -76,6 +77,37 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 				result |= Font.ITALIC;
 			}
 			return result;
+		}
+
+		public int getLenghthInPixels() {
+			if (length == null) {
+				return -1;
+			}
+			if (length.unit == ControlSizeUnit.PIXELS) {
+				return length.value;
+			} else if (length.unit == ControlSizeUnit.SCREEN_PERCENT) {
+				Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+				return Math.round((length.value / 100f) * screenSize.height);
+			} else {
+				throw new ReflectionUIError();
+			}
+		}
+
+		public enum HorizontalAlignment {
+			LEFT, CENTER, RIGHT
+		};
+
+		public enum ControlSizeUnit {
+			PIXELS, SCREEN_PERCENT
+		}
+
+		public static class ControlDimensionSpecification implements Serializable {
+
+			private static final long serialVersionUID = 1L;
+
+			public int value = 40;
+			public ControlSizeUnit unit = ControlSizeUnit.SCREEN_PERCENT;
+
 		}
 	}
 
@@ -117,8 +149,12 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		@Override
 		protected void updateTextComponent(boolean refreshStructure) {
 			super.updateTextComponent(refreshStructure);
-			StyledTextConfiguration controlCustomization = (StyledTextConfiguration) loadControlCustomization(input);
+			updateTextComponentStyle(refreshStructure);
 
+		}
+
+		protected void updateTextComponentStyle(boolean refreshStructure) {
+			StyledTextConfiguration controlCustomization = (StyledTextConfiguration) loadControlCustomization(input);
 			StyledDocument document = (StyledDocument) textComponent.getDocument();
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setBold(attributes, controlCustomization.fontBold);
@@ -136,13 +172,28 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			} else {
 				throw new ReflectionUIError();
 			}
-
 			listenerDisabled = true;
 			try {
 				document.setParagraphAttributes(0, document.getLength(), attributes, false);
 			} finally {
 				listenerDisabled = false;
 			}
+		}
+
+		@Override
+		protected Dimension getScrollPaneSize(JScrollPane scrollPane, Dimension defaultSize) {
+			int configuredHeight = getConfiguredScrollPaneHeight();
+			if (configuredHeight == -1) {
+				return super.getScrollPaneSize(scrollPane, defaultSize);
+			}
+			Dimension result = super.getScrollPaneSize(scrollPane, defaultSize);
+			result.height = configuredHeight;
+			return result;
+		}
+
+		protected int getConfiguredScrollPaneHeight() {
+			StyledTextConfiguration controlCustomization = (StyledTextConfiguration) loadControlCustomization(input);
+			return controlCustomization.getLenghthInPixels();
 		}
 
 		@Override

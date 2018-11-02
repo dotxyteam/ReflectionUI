@@ -9,8 +9,8 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo {
@@ -52,7 +52,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
-					javaParameter.getDeclaringInvokable(), javaParameter.getPosition()));
+					javaParameter.getDeclaringInvokable(), javaParameter.getPosition(), null));
 		}
 		return type;
 	}
