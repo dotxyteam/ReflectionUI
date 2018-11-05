@@ -36,6 +36,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
+import xy.reflect.ui.info.field.DelegatingFieldInfo;
 import xy.reflect.ui.info.field.ExportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
@@ -1912,11 +1913,18 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (mc.getParameterizedFieldNames().size() > 0) {
 					List<IFieldInfo> parameterizedFields = new ArrayList<IFieldInfo>();
-					for (String fieldName : mc.getParameterizedFieldNames()) {
-						IFieldInfo field = ReflectionUIUtils.findInfoByName(outputFields, fieldName);
-						if (field == null) {
-							throw new ReflectionUIError("Parameterized field not found: '" + fieldName + "'");
-						}
+					for (final String fieldName : mc.getParameterizedFieldNames()) {
+						IFieldInfo field = new DelegatingFieldInfo() {
+
+							@Override
+							protected IFieldInfo getDelegate() {
+								IFieldInfo result = ReflectionUIUtils.findInfoByName(outputFields, fieldName);
+								if (result == null) {
+									throw new ReflectionUIError("Parameterized field not found: '" + fieldName + "'");
+								}
+								return result;
+							}
+						};
 						parameterizedFields.add(field);
 					}
 					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields,
@@ -2227,15 +2235,21 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected class FieldNullStatusImportTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+			public IFieldInfo process(IFieldInfo field, final FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.getImportedNullStatusFieldName() != null) {
-					IFieldInfo nullStatusField = ReflectionUIUtils.findInfoByName(outputFields,
-							f.getImportedNullStatusFieldName());
-					if (nullStatusField == null) {
-						throw new ReflectionUIError(
-								"Null status field not found: '" + f.getImportedNullStatusFieldName() + "'");
-					}
+					IFieldInfo nullStatusField = new DelegatingFieldInfo() {
+						@Override
+						protected IFieldInfo getDelegate() {
+							IFieldInfo result = ReflectionUIUtils.findInfoByName(outputFields,
+									f.getImportedNullStatusFieldName());
+							if (result == null) {
+								throw new ReflectionUIError(
+										"Null status field not found: '" + f.getImportedNullStatusFieldName() + "'");
+							}
+							return result;
+						}
+					};
 					field = new ImportedNullStatusFieldInfo(customizedUI, field, nullStatusField, containingType);
 				}
 				return field;

@@ -96,12 +96,14 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public void save(Object object, OutputStream out) {
-		ReflectionUIUtils.saveXML(object, out);
+		throw new ReflectionUIError(
+				"Method not implemented for '" + getName() + "': " + ITypeInfo.class.getName() + "#save(...)");
 	}
 
 	@Override
 	public void load(Object object, InputStream in) {
-		ReflectionUIUtils.loadXML(object, in);
+		throw new ReflectionUIError(
+				"Method not implemented for '" + getName() + "': " + ITypeInfo.class.getName() + "#load(...)");
 	}
 
 	@Override

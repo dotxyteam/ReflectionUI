@@ -1,3 +1,4 @@
+- remove as much dependencies as possible
 - pass object as param to 
 	. ITypeInfo.getMenuModel()
 	. new MethodmenuItem()

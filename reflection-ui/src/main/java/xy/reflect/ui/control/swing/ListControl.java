@@ -198,31 +198,33 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected void layoutControls() {
 		setLayout(new BorderLayout());
 		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
-			JPanel listPanel = new ControlPanel();
-			listPanel.setLayout(new BorderLayout());
-			listPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
-			listPanel.add(toolbar, BorderLayout.EAST);
+			JPanel listAndToolbarPanel = new ControlPanel();
+			listAndToolbarPanel.setLayout(new BorderLayout());
+			listAndToolbarPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
+			listAndToolbarPanel.add(toolbar, BorderLayout.EAST);
+			ControlScrollPane listAndToolbarScrollPane = new ControlScrollPane(listAndToolbarPanel);
+			SwingRendererUtils.removeScrollPaneBorder(listAndToolbarScrollPane);
 			final JSplitPane splitPane = new ControlSplitPane();
 			add(splitPane, BorderLayout.CENTER);
 			final double dividerLocation;
 			if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-				splitPane.setLeftComponent(new ControlScrollPane(listPanel));
+				splitPane.setLeftComponent(listAndToolbarScrollPane);
 				splitPane.setRightComponent(detailsArea);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-				splitPane.setRightComponent(new ControlScrollPane(listPanel));
+				splitPane.setRightComponent(listAndToolbarScrollPane);
 				splitPane.setLeftComponent(detailsArea);
 				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				splitPane.setTopComponent(new ControlScrollPane(listPanel));
+				splitPane.setTopComponent(listAndToolbarScrollPane);
 				splitPane.setBottomComponent(detailsArea);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				splitPane.setBottomComponent(new ControlScrollPane(listPanel));
+				splitPane.setBottomComponent(listAndToolbarScrollPane);
 				splitPane.setTopComponent(detailsArea);
 				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
 			} else {
@@ -1180,7 +1182,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected Component createDetailsAreaScrollPane(Form detailsControl) {
-		return new ControlScrollPane(new ScrollPaneOptions(detailsControl, true, false));
+		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(detailsControl, true, false));
+		SwingRendererUtils.removeScrollPaneBorder(result);
+		return result;
 	}
 
 	public void scrollUntilVisible(BufferedItemPosition itemPosition) {
@@ -1567,6 +1571,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			component.setForeground(defaultComponent.getForeground());
 			component.setBackground(defaultComponent.getBackground());
 			customizeCellRendererComponent(component, (ItemNode) value, row, 0, selected, focused);
+			component.setOpaque(false);
 			return component;
 		}
 

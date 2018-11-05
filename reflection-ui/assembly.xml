@@ -14,15 +14,6 @@
 			</excludes>
 		</fileSet>
 		<fileSet>
-			<directory>${project.basedir}/website</directory>
-			<excludes>
-				<exclude>.*</exclude>
-				<exclude>.xy/</exclude>
-				<exclude>reflectionui.website.xymodel</exclude>
-				<exclude>website.generator.xymodel</exclude>
-			</excludes>
-		</fileSet>
-		<fileSet>
 			<directory>${project.build.directory}</directory>
 			<includes>
 				<include>*.jar</include>

@@ -35,8 +35,6 @@ import com.thoughtworks.paranamer.AdaptiveParanamer;
 import com.thoughtworks.paranamer.BytecodeReadingParanamer;
 import com.thoughtworks.paranamer.DefaultParanamer;
 import com.thoughtworks.paranamer.Paranamer;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
@@ -1053,22 +1051,6 @@ public class ReflectionUIUtils {
 		} catch (Throwable t) {
 			throw new ReflectionUIError("Failed to deserialize object: " + t.toString());
 		}
-	}
-
-	protected static XStream getXStream() {
-		XStream result = new XStream();
-		result.registerConverter(new JavaBeanConverter(result.getMapper()), -20);
-		return result;
-	}
-
-	public static void saveXML(Object object, OutputStream out) {
-		XStream xstream = getXStream();
-		xstream.toXML(object, out);
-	}
-
-	public static void loadXML(Object object, InputStream in) {
-		XStream xstream = getXStream();
-		xstream.fromXML(in, object);
 	}
 
 	public static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI,

@@ -1,12 +1,17 @@
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
 
 import javax.swing.JEditorPane;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.html.HTMLDocument;
 
 import xy.reflect.ui.control.IFieldControlInput;
@@ -91,7 +96,14 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 			@Override
 			public URL getURL() throws Exception {
-				return Class.forName(sourceClassName).getResource(".");
+				Class<?> theClass = Class.forName(sourceClassName);
+				String path = "/";
+				Package thePackage = theClass.getPackage();
+				if (thePackage != null) {
+					path += thePackage.getName().replace(".", "/") + "/";
+				}
+				URL result = theClass.getResource(path);
+				return result;
 			}
 
 			public void validate() throws Exception {
@@ -111,6 +123,27 @@ public class HtmlPlugin extends StyledTextPlugin {
 		}
 
 		@Override
+		protected JTextComponent createTextComponent() {
+			JTextComponent result = super.createTextComponent();
+			((JTextPane) result).addHyperlinkListener(new HyperlinkListener() {
+				public void hyperlinkUpdate(HyperlinkEvent e) {
+					if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+						openWebPage(e.getURL());
+					}
+				}
+			});
+			return result;
+		}
+
+		protected void openWebPage(URL url) {
+			try {
+				Desktop.getDesktop().browse(url.toURI());
+			} catch (Exception e) {
+				throw new ReflectionUIError("Failed to display the web page '" + url + "': " + e, e);
+			}
+		}
+
+		@Override
 		protected void updateTextComponent(boolean refreshStructure) {
 			if (refreshStructure) {
 				updateTextComponentEditorKit(refreshStructure);
@@ -126,12 +159,15 @@ public class HtmlPlugin extends StyledTextPlugin {
 					textComponent.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, false);
 					textComponent.setOpaque(true);
 					textComponent.setBackground(new JTextPane().getBackground());
-					textComponent.updateUI();
 				} else {
 					textComponent.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-					textComponent.updateUI();
 				}
-
+				if (data.isGetOnly()) {
+					textComponent.setBorder(new JTextPane().getBorder());
+				} else {
+					textComponent.setBorder(new JTextField().getBorder());
+				}
+				textComponent.updateUI();
 			}
 
 		}
