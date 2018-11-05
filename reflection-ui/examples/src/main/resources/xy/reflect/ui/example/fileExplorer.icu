@@ -15,7 +15,7 @@
             <red>255</red>
         </buttonForegroundColor>
         <mainBackgroundImagePath>
-            <specification>&lt;class-path-resource&gt; fileExplorer-background.png</specification>
+            <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/fileExplorer-background.png</specification>
         </mainBackgroundImagePath>
         <mainForegroundColor>
             <blue>0</blue>

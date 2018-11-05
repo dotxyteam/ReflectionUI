@@ -1,3 +1,4 @@
+package xy.reflect.ui.example;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;

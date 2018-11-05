@@ -112,6 +112,9 @@
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
+						<configuration>
+							<includeScope>runtime</includeScope>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -188,6 +191,14 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<mainClass>xy.reflect.ui.control.swing.renderer.SwingRenderer</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

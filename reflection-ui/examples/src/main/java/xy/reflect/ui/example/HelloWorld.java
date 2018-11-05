@@ -1,3 +1,4 @@
+package xy.reflect.ui.example;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

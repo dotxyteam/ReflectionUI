@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.google.common.cache.CacheBuilder;
 
-import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
 import xy.reflect.ui.info.app.DefaultApplicationInfo;
@@ -28,32 +27,6 @@ import xy.reflect.ui.util.SystemProperties;
  *
  */
 public class ReflectionUI {
-
-	public static void main(String[] args) throws Exception {
-		Class<?> clazz = Object.class;
-		String usageText = "Expected arguments: [ <className> | --help ]"
-				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
-				+ "\n  => --help: Displays this help message" + "\n"
-				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
-		if (args.length == 0) {
-			clazz = Object.class;
-		} else if (args.length == 1) {
-			if (args[0].equals("--help")) {
-				System.out.println(usageText);
-				return;
-			} else {
-				clazz = Class.forName(args[0]);
-			}
-		} else {
-			throw new IllegalArgumentException(usageText);
-		}
-		Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
-				ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(clazz, null)), null);
-		if (object == null) {
-			return;
-		}
-		SwingRenderer.getDefault().openObjectFrame(object);
-	}
 
 	protected static ReflectionUI defaultInstance;
 
