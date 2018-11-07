@@ -53,6 +53,7 @@ import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
+import xy.reflect.ui.control.swing.plugin.PasswordFieldPlugin;
 import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
@@ -234,6 +235,7 @@ public class SwingRenderer {
 		result.add(new CustomCheckBoxPlugin());
 		result.add(new DetailedListControlPlugin());
 		result.add(new StyledTextPlugin());
+		result.add(new PasswordFieldPlugin());
 		result.add(new HtmlPlugin());
 		return result;
 	}
