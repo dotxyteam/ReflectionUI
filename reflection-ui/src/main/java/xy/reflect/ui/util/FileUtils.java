@@ -155,7 +155,7 @@ public class FileUtils {
 		try {
 			if (src.isDirectory()) {
 				try {
-					mkDir(dst);
+					createDirectory(dst);
 				} catch (Exception e) {
 					if (errorHandler != null) {
 						errorHandler.handle(new Pair<File, Exception>(src, e));
@@ -187,7 +187,7 @@ public class FileUtils {
 		}
 	}
 
-	public static void mkDir(File dir) throws Exception {
+	public static void createDirectory(File dir) throws Exception {
 		if (dir.isDirectory()) {
 			return;
 		}

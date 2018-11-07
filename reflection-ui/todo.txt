@@ -52,8 +52,6 @@ memory stream.
 the name of the member involved in the modification.
 It should be "fieldCaption" & "methodCaption" only 
 - null control can disappear when form layout is horizontal
-- advertise:
-	. on RCP forums ???
 - add website checks
 - in this context of chained transformations values origin should be traceable
 in case of inconsistency???
