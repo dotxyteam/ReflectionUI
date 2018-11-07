@@ -25,7 +25,7 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 	@Override
 	public String getControlTitle() {
-		return "HTML";
+		return "HTML Control";
 	}
 
 	@Override

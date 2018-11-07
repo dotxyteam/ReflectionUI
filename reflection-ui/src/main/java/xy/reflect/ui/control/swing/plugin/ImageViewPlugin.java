@@ -217,6 +217,14 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public int canvasWidth = 100;
 		public int canvasHeight = 100;
 		public ImageSizeUnit unit = ImageSizeUnit.PIXELS;
+		public boolean scalingQualitHigh = false;;
+
+		private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+			in.defaultReadObject();
+			if (unit == null) {
+				unit = ImageSizeUnit.PIXELS;
+			}
+		}
 
 		public abstract void configure(ImageView imageView, JPanel imagePanelContainer, ImagePanel imagePanel);
 
@@ -235,13 +243,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 		}
 
-		private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-			in.defaultReadObject();
-			if (unit == null) {
-				unit = ImageSizeUnit.PIXELS;
-			}
-		}
-
 	}
 
 	public static class StretchingSizeConstraint extends SizeConstraint {
@@ -253,6 +254,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			imagePanel.setPreferredSize(size);
 			imagePanel.setMinimumSize(size);
 			imagePanel.setPreservingRatio(false);
+			imagePanel.setScalingQualitHigh(scalingQualitHigh);
 			imagePanelContainer.setLayout(new BorderLayout());
 			imagePanelContainer.add(imagePanel, BorderLayout.CENTER);
 		}
@@ -276,6 +278,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			imagePanel.setMinimumSize(size);
 			imagePanel.setPreservingRatio(true);
 			imagePanel.setFillingAreaWhenPreservingRatio(areaFilled);
+			imagePanel.setScalingQualitHigh(scalingQualitHigh);
 			imagePanelContainer.setLayout(new BorderLayout());
 			imagePanelContainer.add(imagePanel, BorderLayout.CENTER);
 		}
@@ -294,6 +297,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public void configure(ImageView imageView, JPanel imagePanelContainer, ImagePanel imagePanel) {
 			imagePanel.setPreservingRatio(true);
 			imagePanel.setFillingAreaWhenPreservingRatio(false);
+			imagePanel.setScalingQualitHigh(scalingQualitHigh);
 			JScrollPane scrollPane = new ControlScrollPane(
 					SwingRendererUtils.flowInLayout(imagePanel, GridBagConstraints.CENTER));
 			scrollPane.setBorder(null);
@@ -318,6 +322,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			imagePanelContainer.setLayout(new BorderLayout());
 			imagePanel.setPreservingRatio(true);
 			imagePanel.setFillingAreaWhenPreservingRatio(false);
+			imagePanel.setScalingQualitHigh(scalingQualitHigh);
 			JPanel zoomPanel = new ControlPanel();
 			{
 				imagePanelContainer.add(SwingRendererUtils.flowInLayout(zoomPanel, GridBagConstraints.CENTER),
@@ -596,6 +601,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		protected void configureWithoutSizeConstraint(ImageView imageView, JPanel imagePanelContainer2,
 				ImagePanel imagePanel2) {
 			imagePanel.setPreservingRatio(true);
+			imagePanel.setScalingQualitHigh(false);
 			imagePanelContainer.setLayout(new BorderLayout());
 			imagePanelContainer.add(imagePanel, BorderLayout.CENTER);
 		}

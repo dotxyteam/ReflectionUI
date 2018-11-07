@@ -26,7 +26,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 	@Override
 	public String getControlTitle() {
-		return "StyledText";
+		return "Styled Text";
 	}
 
 	@Override
