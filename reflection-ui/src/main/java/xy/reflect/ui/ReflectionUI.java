@@ -108,7 +108,9 @@ public class ReflectionUI {
 	 * @param typeInfoSource
 	 *            The data object needed to generate the UI-oriented type
 	 *            information.
-	 * @return an object encapsulating UI-oriented type information.
+	 * @return an object encapsulating UI-oriented type information. Note that the
+	 *         calling {@link ITypeInfo#getSource()} on the result should return an
+	 *         object equals to the given parameter value.
 	 */
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
 		return typeInfoSource.getTypeInfo(this);

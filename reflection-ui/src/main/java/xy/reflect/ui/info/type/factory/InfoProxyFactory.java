@@ -638,7 +638,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getSpecificProperties();
 	}
 
-	protected ITypeInfoSource getSource(ITypeInfo type) {
+	protected ITypeInfoSource getSource(final ITypeInfo type) {
 		return type.getSource();
 	}
 

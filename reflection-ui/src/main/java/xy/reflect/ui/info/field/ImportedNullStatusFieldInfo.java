@@ -10,6 +10,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -120,18 +121,22 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 				}
 
 				@Override
+				protected ITypeInfoSource getSource(ITypeInfo type) {
+					return new TypeInfoSourceProxy(super.getSource(type)) {
+						@Override
+						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+							return new SpecificitiesIdentifier(containingType.getName(),
+									ImportedNullStatusFieldInfo.this.getName());
+						}
+					};
+				}
+
+				@Override
 				public String toString() {
 					return "setFakeValueContructor [field=" + ImportedNullStatusFieldInfo.this + "]";
 				}
 
 			}.wrapTypeInfo(type);
-			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
-				@Override
-				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return new SpecificitiesIdentifier(containingType.getName(),
-							ImportedNullStatusFieldInfo.this.getName());
-				}
-			});
 		}
 		return type;
 	}

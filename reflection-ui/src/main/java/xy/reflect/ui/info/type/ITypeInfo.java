@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
@@ -23,7 +24,10 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 public interface ITypeInfo extends IInfo {
 
 	/**
-	 * @return the source object from which this type was created.
+	 * @return the source object from which this type was created. Note that the
+	 *         calling
+	 *         {@link ReflectionUI#getTypeInfo(ITypeInfoSource)} on
+	 *         the result should return an object equals to the current one.
 	 */
 	ITypeInfoSource getSource();
 

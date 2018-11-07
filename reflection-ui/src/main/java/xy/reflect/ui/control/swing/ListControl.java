@@ -1837,9 +1837,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			BufferedItemPosition singleSelection = getSingleSelection();
 			if (singleSelection != null) {
 				result = singleSelection.getSubItemPosition(-1);
-			}
-			if (getSelection().size() == 0) {
-				result = itemPositionFactory.getRootItemPosition(-1);
+			} else {
+				if (getSelection().size() == 0) {
+					result = itemPositionFactory.getRootItemPosition(-1);
+				}
 			}
 			if (result != null) {
 				result = result.getSibling(result.getContainingListSize());
