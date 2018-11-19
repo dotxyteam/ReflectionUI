@@ -13,6 +13,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.FieldContext;

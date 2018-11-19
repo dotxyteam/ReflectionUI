@@ -1,11 +1,8 @@
-package xy.reflect.ui.control.swing.renderer;
+package xy.reflect.ui.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import xy.reflect.ui.control.FieldControlDataProxy;
-import xy.reflect.ui.control.IFieldControlData;
 
 public class BufferedFieldControlData extends FieldControlDataProxy {
 
