@@ -51,7 +51,6 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
 				result = SwingRendererUtils.handleErrors(swingRenderer, result, DialogAccessControl.this);
-				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
 				return result;
 			}
 		};

@@ -408,7 +408,7 @@ public class SwingRenderer {
 						}
 					});
 					ctorAction.setShouldDisplayReturnValueIfAny(false);
-					ctorAction.execute(activatorComponent);
+					ctorAction.onInvocationRequest(activatorComponent);
 					return ctorAction.getReturnValue();
 				} else {
 					String typeCaption = type.getCaption();

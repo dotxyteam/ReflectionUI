@@ -56,7 +56,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
 				result = SwingRendererUtils.handleErrors(swingRenderer, result, PolymorphicControl.this);
-				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
 				return result;
 			}
 		};

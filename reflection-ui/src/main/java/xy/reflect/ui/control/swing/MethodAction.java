@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.AbstractAction;
 
 import xy.reflect.ui.control.CustomContext;
@@ -34,7 +33,7 @@ public class MethodAction extends AbstractAction {
 	protected ModificationStack modificationStack;
 
 	protected Object returnValue;
-	protected boolean exceptionThrown = false;
+	protected boolean returnValueSet = false;
 	protected boolean cancelled = false;
 
 	public MethodAction(SwingRenderer swingRenderer, IMethodControlInput input) {
@@ -53,8 +52,8 @@ public class MethodAction extends AbstractAction {
 		return returnValue;
 	}
 
-	public boolean wasExceptionThrown() {
-		return exceptionThrown;
+	public boolean isReturnValueSet() {
+		return returnValueSet;
 	}
 
 	public boolean wasCancelled() {
@@ -73,26 +72,30 @@ public class MethodAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		Component activatorComponent = (Component) e.getSource();
 		try {
-			execute(activatorComponent);
+			onInvocationRequest(activatorComponent);
 		} catch (Throwable t) {
 			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
 		}
 
 	}
 
-	public void execute(Component activatorComponent) {
-		onMethodInvocationRequest(activatorComponent);
-	}
-
-	protected void onMethodInvocationRequest(Component activatorComponent) {
-		if (data.getParameters().size() > 0) {
-			openMethoExecutionSettingDialog(activatorComponent);
-		} else {
-			invoke(data.createInvocationData(), activatorComponent);
+	public void onInvocationRequest(Component activatorComponent) {
+		InvocationData invocationData = prepare(activatorComponent);
+		if (invocationData == null) {
+			cancelled = true;
+			return;
 		}
+		orchestrateInvocation(invocationData, activatorComponent);
 	}
 
-	protected void openMethoExecutionSettingDialog(final Component activatorComponent) {
+	public InvocationData prepare(Component activatorComponent) {
+		if (data.getParameters().size() == 0) {
+			return data.createInvocationData();
+		}
+		return openMethoExecutionSettingDialog(activatorComponent);
+	}
+
+	public InvocationData openMethoExecutionSettingDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(activatorComponent);
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
@@ -112,22 +115,7 @@ public class MethodAction extends AbstractAction {
 				if (invokeButtonText == null) {
 					invokeButtonText = data.getCaption();
 				}
-				toolbarControls.add(dialogBuilder.createDialogClosingButton(invokeButtonText, new Runnable() {
-
-					@Override
-					public void run() {
-						swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(),
-								invocationData);
-						invoke(invocationData, dialogBuilder.getCreatedDialog());
-					}
-				}));
-				toolbarControls.add(dialogBuilder.createDialogClosingButton("Cancel", new Runnable() {
-
-					@Override
-					public void run() {
-						cancelled = true;
-					}
-				}));
+				toolbarControls.addAll(dialogBuilder.createStandardOKCancelDialogButtons(invokeButtonText, null));
 				return toolbarControls;
 			}
 		};
@@ -137,35 +125,53 @@ public class MethodAction extends AbstractAction {
 		dialogBuilder.setToolbarComponentsAccessor(toolbarControlsAccessor);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
+		if (dialogBuilder.wasOkPressed()) {
+			return invocationData;
+		} else {
+			return null;
+		}
 	}
 
 	public String getTitle() {
 		return ReflectionUIUtils.composeMessage(data.getCaption(), "Execution");
 	}
 
-	protected void invoke(InvocationData invocationData, Component activatorComponent) {
-		String confirmationMessage = data.getConfirmationMessage(invocationData);
-		if (confirmationMessage != null) {
-			if (!swingRenderer.openQuestionDialog(activatorComponent, confirmationMessage, getTitle(), "OK",
-					"Cancel")) {
-				cancelled = true;
-				return;
-			}
+	public void orchestrateInvocation(final InvocationData invocationData, Component activatorComponent) {
+		swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
+		if (!askConfirmation(invocationData, activatorComponent)) {
+			cancelled = true;
+			return;
 		}
 		try {
-			returnValue = data.invoke(invocationData);
-			exceptionThrown = false;
+			invokeAndUpdateReturnValue(invocationData);
 		} catch (Throwable t) {
 			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
-			exceptionThrown = true;
 		}
-		if (shouldDisplayReturnValue() && !exceptionThrown) {
+		if (shouldDisplayReturnValue()) {
 			openMethodReturnValueWindow(activatorComponent);
 		}
 	}
 
+	public void invokeAndUpdateReturnValue(InvocationData invocationData) {
+		returnValueSet = false;
+		returnValue = data.invoke(invocationData);
+		returnValueSet = true;
+
+	}
+
+	public boolean askConfirmation(InvocationData invocationData, Component activatorComponent) {
+		String confirmationMessage = data.getConfirmationMessage(invocationData);
+		if (confirmationMessage != null) {
+			if (!swingRenderer.openQuestionDialog(activatorComponent, confirmationMessage, getTitle(), "OK",
+					"Cancel")) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	protected boolean shouldDisplayReturnValue() {
-		return shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
+		return returnValueSet && shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {

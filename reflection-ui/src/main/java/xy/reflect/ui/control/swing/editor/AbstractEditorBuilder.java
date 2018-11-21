@@ -173,7 +173,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return createdEditorForm;
 	}
 
-	protected void impactParent() {
+	public void impactParent() {
 		ModificationStack parentObjectModifStack = getParentObjectModificationStack();
 		if (parentObjectModifStack == null) {
 			return;

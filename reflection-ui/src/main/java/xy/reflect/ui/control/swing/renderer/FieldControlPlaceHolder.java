@@ -229,7 +229,16 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 								}
 							}
 							synchronized (delayedUpdateMutex) {
-								updateJob.run();
+								try {
+									SwingUtilities.invokeAndWait(new Runnable() {
+										@Override
+										public void run() {
+											updateJob.run();
+										}
+									});
+								} catch (Exception e) {
+									throw new ReflectionUIError(e);
+								}
 							}
 						}
 
@@ -341,17 +350,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					super.setValue(newValue);
 					return;
 				}
-				try {
-					SwingUtilities.invokeAndWait(new Runnable() {
-						@Override
-						public void run() {
-							SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this,
-									swingRenderer, data, newValue);
-						}
-					});
-				} catch (Exception e) {
-					throw new ReflectionUIError(e);
-				}
+				SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this, swingRenderer,
+						data, newValue);
 			}
 
 			@Override
@@ -366,21 +366,12 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				return new Runnable() {
 					@Override
 					public void run() {
-						try {
-							SwingUtilities.invokeAndWait(new Runnable() {
-								@Override
-								public void run() {
-									FieldControlPlaceHolder.this.swingRenderer
-											.showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
-												public void run() {
-													result.run();
-												}
-											}, AbstractModification.getUndoTitle("Setting " + data.getCaption()));
-								}
-							});
-						} catch (Exception e) {
-							throw new ReflectionUIError(e);
-						}
+						FieldControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(FieldControlPlaceHolder.this,
+								new Runnable() {
+									public void run() {
+										result.run();
+									}
+								}, AbstractModification.getUndoTitle("Setting " + data.getCaption()));
 					}
 				};
 			}

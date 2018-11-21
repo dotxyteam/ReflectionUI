@@ -45,7 +45,6 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
 				result = SwingRendererUtils.handleErrors(swingRenderer, result, EmbeddedFormControl.this);
-				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
 				return result;
 			}
 		};

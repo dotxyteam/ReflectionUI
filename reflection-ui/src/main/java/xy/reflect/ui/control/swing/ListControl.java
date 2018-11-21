@@ -155,7 +155,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
 				result = SwingRendererUtils.handleErrors(swingRenderer, result, ListControl.this);
-				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
 				return result;
 			}
 		};
@@ -1481,17 +1480,22 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public IModification applyAndGetOpposite() {
 			List<BufferedItemPosition> oldSelection = getSelection();
-			if (newSelection == null) {
-				restoringSelectionAsMuchAsPossible(new Runnable() {
-					@Override
-					public void run() {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					if (newSelection == null) {
+						restoringSelectionAsMuchAsPossible(new Runnable() {
+							@Override
+							public void run() {
+								refreshTreeTableModelAndControl(false);
+							}
+						});
+					} else {
 						refreshTreeTableModelAndControl(false);
+						setSelection(newSelection);
 					}
-				});
-			} else {
-				refreshTreeTableModelAndControl(false);
-				setSelection(newSelection);
-			}
+				}
+			});
 			return new RefreshStructureModification(oldSelection);
 		}
 
@@ -1618,7 +1622,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		protected static final long serialVersionUID = 1L;
 
-		protected abstract boolean perform(List<BufferedItemPosition>[] toPostSelectHolder);
+		protected abstract boolean prepare();
+
+		protected abstract void perform(List<BufferedItemPosition>[] toPostSelectHolder);
 
 		protected abstract String getActionTitle();
 
@@ -1652,47 +1658,57 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		final public void actionPerformed(ActionEvent e) {
-			swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
+			if (!prepare()) {
+				return;
+			}
+			swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
+				@Override
 				public void run() {
-					final String modifTitle = getCompositeModificationTitle();
-					@SuppressWarnings("unchecked")
-					final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
-					if (modifTitle == null) {
-						List<BufferedItemPosition> initialSelection = getSelection();
-						if (perform(toPostSelectHolder)) {
-							refreshTreeTableModelAndControl(false);
-							if (toPostSelectHolder[0] != null) {
-								setSelection(toPostSelectHolder[0]);
+					swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
+						public void run() {
+							final String modifTitle = getCompositeModificationTitle();
+							@SuppressWarnings("unchecked")
+							final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
+							if (modifTitle == null) {
+								List<BufferedItemPosition> initialSelection = getSelection();
+								perform(toPostSelectHolder);
+								refreshTreeTableModelAndControl(false);
+								if (toPostSelectHolder[0] != null) {
+									setSelection(toPostSelectHolder[0]);
+								} else {
+									setSelection(initialSelection);
+								}
 							} else {
-								setSelection(initialSelection);
+								final ModificationStack modifStack = getModificationStack();
+								try {
+									modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
+										@Override
+										public Boolean get() {
+											if (modifStack.insideComposite(
+													modifTitle + " (without list control update)",
+													UndoOrder.getNormal(), new Accessor<Boolean>() {
+														@Override
+														public Boolean get() {
+															perform(toPostSelectHolder);
+															return true;
+														}
+													})) {
+												modifStack
+														.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+												return true;
+											} else {
+												return false;
+											}
+										}
+									});
+								} catch (Throwable t) {
+									swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
+								}
 							}
 						}
-					} else {
-						final ModificationStack modifStack = getModificationStack();
-						try {
-							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
-								@Override
-								public Boolean get() {
-									if (modifStack.insideComposite(modifTitle + " (without list control update)",
-											UndoOrder.getNormal(), new Accessor<Boolean>() {
-												@Override
-												public Boolean get() {
-													return perform(toPostSelectHolder);
-												}
-											})) {
-										modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
-										return true;
-									} else {
-										return false;
-									}
-								}
-							});
-						} catch (Throwable t) {
-							swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
-						}
-					}
+					}, getCompositeModificationTitle());
 				}
-			}, getCompositeModificationTitle());
+			});
 		}
 
 	};
@@ -1809,11 +1825,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		private static final long serialVersionUID = 1L;
 
+		protected BufferedItemPosition newSubItemPosition;
+		protected IListTypeInfo subListType;
+		protected Object newSubListItem;
+
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
-			IListTypeInfo subListType = newSubItemPosition.getContainingListType();
-			Object newSubListItem = createItem(getNewSubItemPosition());
+		protected boolean prepare() {
+			newSubItemPosition = getNewSubItemPosition();
+			subListType = newSubItemPosition.getContainingListType();
+			newSubListItem = createItem(getNewSubItemPosition());
 			if (newSubListItem == null) {
 				return false;
 			}
@@ -1824,15 +1844,20 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				newSubListItem = dialogBuilder.getCurrentObjectValue();
 			}
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			getModificationStack().apply(createListModificationFactory(newSubItemPosition)
 					.add(newSubItemPosition.getIndex(), newSubListItem));
+
 			if (!subListType.isOrdered()) {
 				newSubItemPosition = newSubItemPosition.getSibling(
 						Arrays.asList(newSubItemPosition.retrieveContainingListRawValue()).indexOf(newSubListItem));
 			}
 			BufferedItemPosition toSelect = newSubItemPosition.getSibling(newSubItemPosition.getIndex());
 			toPostSelectHolder[0] = Collections.singletonList(toSelect);
-			return true;
 		}
 
 		@Override
@@ -1893,14 +1918,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected static final long serialVersionUID = 1L;
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+		protected boolean prepare() {
 			if (!userConfirms("Remove all the items?")) {
 				return false;
 			}
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			getModificationStack()
 					.apply(createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).clear());
 			toPostSelectHolder[0] = Collections.emptyList();
-			return true;
 		}
 
 		@Override
@@ -1930,13 +1959,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected static final long serialVersionUID = 1L;
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+		protected boolean prepare() {
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			clipboard.clear();
 			List<BufferedItemPosition> selection = getSelection();
 			for (BufferedItemPosition itemPosition : selection) {
 				clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 			}
-			return false;
 		}
 
 		@Override
@@ -1967,7 +2000,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected static final long serialVersionUID = 1L;
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+		protected boolean prepare() {
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			clipboard.clear();
 			List<BufferedItemPosition> selection = getSelection();
 			selection = new ArrayList<BufferedItemPosition>(selection);
@@ -1986,7 +2024,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 			toPostSelectHolder[0] = toPostSelect;
-			return true;
 		}
 
 		@Override
@@ -2017,15 +2054,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		protected InsertPosition insertPosition;
 
+		protected BufferedItemPosition newItemPosition;
+		protected IListTypeInfo listType;
+		protected Object newItem;
+
 		public InsertAction(InsertPosition insertPosition) {
 			this.insertPosition = insertPosition;
 		}
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			BufferedItemPosition newItemPosition = getNewItemPosition();
-			IListTypeInfo listType = newItemPosition.getContainingListType();
-			Object newItem = createItem(newItemPosition);
+		protected boolean prepare() {
+			newItemPosition = getNewItemPosition();
+			listType = newItemPosition.getContainingListType();
+			newItem = createItem(newItemPosition);
 			if (newItem == null) {
 				return false;
 			}
@@ -2036,6 +2077,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				newItem = dialogBuilder.getCurrentObjectValue();
 			}
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			getModificationStack()
 					.apply(createListModificationFactory(newItemPosition).add(newItemPosition.getIndex(), newItem));
 			BufferedItemPosition toSelect = newItemPosition;
@@ -2044,7 +2090,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				toSelect = newItemPosition.getSibling(indexToSelect);
 			}
 			toPostSelectHolder[0] = Collections.singletonList(toSelect);
-			return true;
 		}
 
 		@Override
@@ -2129,7 +2174,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+		protected boolean prepare() {
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			List<BufferedItemPosition> selection = getSelection();
 			if (offset > 0) {
 				selection = new ArrayList<BufferedItemPosition>(selection);
@@ -2142,7 +2192,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				newSelection.add(itemPosition.getSibling(index + offset));
 			}
 			toPostSelectHolder[0] = newSelection;
-			return true;
 		}
 
 		@Override
@@ -2175,12 +2224,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class OpenItemAction extends AbstractStandardListAction {
 		protected static final long serialVersionUID = 1L;
 
+		protected ItemUIBuilder dialogBuilder;
+
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+		protected boolean prepare() {
 			BufferedItemPosition itemPosition = getSingleSelection();
-			ItemUIBuilder dialogBuilder = new ItemUIBuilder(itemPosition);
-			dialogBuilder.createAndShowDialog();
-			return dialogBuilder.isParentModificationStackImpacted();
+			dialogBuilder = new ItemUIBuilder(itemPosition);
+			swingRenderer.showDialog(dialogBuilder.createDialog(), true);
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			if (dialogBuilder.canPotentiallyModifyParentObject()) {
+				dialogBuilder.impactParent();
+			}
 		}
 
 		@Override
@@ -2219,7 +2277,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+		protected boolean prepare() {
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			BufferedItemPosition newItemPosition = getNewItemPosition();
 			int index = newItemPosition.getIndex();
 			int initialIndex = index;
@@ -2243,7 +2306,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 			toPostSelectHolder[0] = toPostSelect;
-			return true;
 		}
 
 		@Override
@@ -2289,7 +2351,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected static final long serialVersionUID = 1L;
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+		protected boolean prepare() {
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			BufferedItemPosition subItemPosition = getNewItemPosition();
 			int newSubListItemIndex = subItemPosition.getContainingListSize();
 			int newSubListItemInitialIndex = newSubListItemIndex;
@@ -2316,7 +2383,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 			toPostSelectHolder[0] = toPostSelect;
-			return true;
 		}
 
 		protected BufferedItemPosition getNewItemPosition() {
@@ -2359,26 +2425,26 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected static final long serialVersionUID = 1L;
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			if (userConfirms("Remove the element(s)?")) {
-				List<BufferedItemPosition> selection = getSelection();
-				selection = new ArrayList<BufferedItemPosition>(selection);
-				Collections.reverse(selection);
-				List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
-				for (BufferedItemPosition itemPosition : selection) {
-					int index = itemPosition.getIndex();
-					getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
-					updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
-					BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
-					if (affectedPosition != null) {
-						toPostSelect.add(affectedPosition);
-					}
+		protected boolean prepare() {
+			return userConfirms("Remove the element(s)?");
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			List<BufferedItemPosition> selection = getSelection();
+			selection = new ArrayList<BufferedItemPosition>(selection);
+			Collections.reverse(selection);
+			List<BufferedItemPosition> toPostSelect = new ArrayList<BufferedItemPosition>();
+			for (BufferedItemPosition itemPosition : selection) {
+				int index = itemPosition.getIndex();
+				getModificationStack().apply(createListModificationFactory(itemPosition).remove(index));
+				updatePositionsAfterItemRemoval(toPostSelect, itemPosition);
+				BufferedItemPosition affectedPosition = getPositionsAffectedByItemRemoval(itemPosition);
+				if (affectedPosition != null) {
+					toPostSelect.add(affectedPosition);
 				}
-				toPostSelectHolder[0] = toPostSelect;
-				return true;
-			} else {
-				return false;
 			}
+			toPostSelectHolder[0] = toPostSelect;
 		}
 
 		@Override
@@ -2414,15 +2480,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class DynamicActionHook extends AbstractStandardListAction {
 		protected static final long serialVersionUID = 1L;
 
-		private IDynamicListAction dynamicAction;
+		protected IDynamicListAction dynamicAction;
+		protected MethodAction action;
+		protected InvocationData invocationData;
 
 		public DynamicActionHook(IDynamicListAction dynamicAction) {
 			this.dynamicAction = dynamicAction;
 		}
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			MethodAction action = swingRenderer.createMethodAction(new IMethodControlInput() {
+		protected boolean prepare() {
+			action = swingRenderer.createMethodAction(new IMethodControlInput() {
 
 				@Override
 				public ModificationStack getModificationStack() {
@@ -2456,15 +2524,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return data;
 				}
 			});
-			action.execute(ListControl.this);
-			if (action.wasCancelled()) {
-				return false;
-			}
+			invocationData = action.prepare(ListControl.this);
+			return invocationData != null;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			action.orchestrateInvocation(invocationData, ListControl.this);
 			if (dynamicAction.getPostSelection() != null) {
 				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicAction.getPostSelection());
 			}
-			return true;
 		}
 
 		@Override
@@ -2492,15 +2562,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class DynamicPropertyHook extends AbstractStandardListAction {
 		protected static final long serialVersionUID = 1L;
 
-		private IDynamicListProperty dynamicProperty;
+		protected IDynamicListProperty dynamicProperty;
+		protected AbstractEditorBuilder subDialogBuilder;
 
 		public DynamicPropertyHook(IDynamicListProperty dynamicProperty) {
 			this.dynamicProperty = dynamicProperty;
 		}
 
 		@Override
-		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			AbstractEditorBuilder subDialogBuilder = new AbstractEditorBuilder() {
+		protected boolean prepare() {
+			subDialogBuilder = new AbstractEditorBuilder() {
 
 				@Override
 				public String getEncapsulationTypeCaption() {
@@ -2585,12 +2656,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return dynamicProperty.getFormControlFilter();
 				}
 			};
-			subDialogBuilder.createAndShowDialog();
+			swingRenderer.showDialog(subDialogBuilder.createDialog(), true);
+			return true;
+		}
+
+		@Override
+		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
+			if (subDialogBuilder.canPotentiallyModifyParentObject()) {
+				subDialogBuilder.impactParent();
+			}
 			if (dynamicProperty.getPostSelection() != null) {
 				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicProperty.getPostSelection());
 			}
-			return subDialogBuilder.isParentModificationStackImpacted();
 		}
 
 		@Override

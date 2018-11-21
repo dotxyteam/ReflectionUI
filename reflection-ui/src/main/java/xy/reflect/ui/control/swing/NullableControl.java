@@ -53,7 +53,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
 				result = SwingRendererUtils.handleErrors(swingRenderer, result, NullableControl.this);
-				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
 				return result;
 			}
 		};

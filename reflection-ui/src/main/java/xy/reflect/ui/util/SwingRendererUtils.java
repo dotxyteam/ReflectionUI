@@ -36,8 +36,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -62,7 +60,6 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
-import xy.reflect.ui.control.ScheduledUpdateFieldControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
@@ -1026,16 +1023,6 @@ public class SwingRendererUtils {
 				} else {
 					currentlyDisplayedErrorId = null;
 				}
-			}
-		};
-	}
-
-	public static IFieldControlData synchronizeUpdates(final SwingRenderer swingRenderer,
-			final IFieldControlData data) {
-		return new ScheduledUpdateFieldControlData(data) {
-			@Override
-			protected Future<?> scheduleUpdate(Runnable updateJob) {
-				return swingRenderer.getDataUpdateJobExecutor().submit(updateJob);
 			}
 		};
 	}

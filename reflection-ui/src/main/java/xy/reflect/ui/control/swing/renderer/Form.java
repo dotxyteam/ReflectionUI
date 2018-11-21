@@ -1227,7 +1227,7 @@ public class Form extends ImagePanel {
 					IMethodInfo method = actionMenuItem.getMethod();
 					IMethodControlInput input = form.createMethodControlPlaceHolder(method);
 					MethodAction methodAction = swingRenderer.createMethodAction(input);
-					methodAction.execute((Form) form);
+					methodAction.onInvocationRequest((Form) form);
 				} catch (Throwable t) {
 					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
 				}

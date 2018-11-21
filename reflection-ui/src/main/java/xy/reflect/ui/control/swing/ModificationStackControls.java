@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
@@ -34,7 +35,12 @@ public class ModificationStackControls {
 			IModificationListener listener = new AbstractSimpleModificationListener() {
 				@Override
 				protected void handleAnyEvent(IModification modification) {
-					updateState();
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							updateState();
+						}
+					});
 				}
 			};
 			{
@@ -77,11 +83,21 @@ public class ModificationStackControls {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					action.run();
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
-				}
+				swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							action.run();
+						} catch (final Throwable t) {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+								}
+							});
+						}
+					}
+				});
 			}
 		});
 		result.setEnabled(enabled.get());

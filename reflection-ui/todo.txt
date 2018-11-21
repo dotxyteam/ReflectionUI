@@ -1,5 +1,3 @@
-- synchronization of custom actions after dialog closing 
-- check undo jobs synchronization + invokeAndWait compatibility
 - synchronization must not be called after undo management otherwise
 the form refreshing may be executed before the field value update
 - add buffer when creating FieldControlDataModifications for
