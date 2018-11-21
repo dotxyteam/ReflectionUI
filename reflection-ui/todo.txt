@@ -1,5 +1,4 @@
-- synchronization must not be called after undo management otherwise
-the form refreshing may be executed before the field value update
+
 - add buffer when creating FieldControlDataModifications for
 	. embedded field control
 	. polymorphic control

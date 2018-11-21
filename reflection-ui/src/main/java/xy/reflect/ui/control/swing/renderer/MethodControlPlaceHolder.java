@@ -3,10 +3,9 @@ package xy.reflect.ui.control.swing.renderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.concurrent.Callable;
-
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.DefaultMethodControlData;
@@ -91,24 +90,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
 	}
 
-	protected IMethodControlData synchronizeInvocationsWithOtherUpddates(final IMethodControlData data) {
-		return new MethodControlDataProxy(data) {
-			@Override
-			public Object invoke(final InvocationData invocationData) {
-				try {
-					return swingRenderer.getDataUpdateJobExecutor().submit(new Callable<Object>() {
-						@Override
-						public Object call() throws Exception {
-							return data.invoke(invocationData);
-						}
-					});
-				} catch (Exception e) {
-					throw new ReflectionUIError(e);
-				}
-			}
-		};
-	}
-
 	protected IMethodControlData makeMethodModificationsUndoable(final IMethodControlData data) {
 		return new MethodControlDataProxy(data) {
 
@@ -145,8 +126,10 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 									MethodControlPlaceHolder.this, swingRenderer, data, invocationData);
 						}
 					});
-				} catch (Exception e) {
+				} catch (InterruptedException e) {
 					throw new ReflectionUIError(e);
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
 				}
 				return result[0];
 			}
@@ -243,7 +226,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 		result = makeMethodModificationsUndoable(result);
 		result = indicateWhenBusy(result);
-		result = synchronizeInvocationsWithOtherUpddates(result);
 
 		return result;
 	}

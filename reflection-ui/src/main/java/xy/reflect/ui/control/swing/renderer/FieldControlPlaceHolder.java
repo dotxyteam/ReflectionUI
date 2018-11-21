@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.Future;
 
 import javax.swing.JPanel;
@@ -218,6 +219,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					if (delayedUpdateTask != null) {
 						delayedUpdateTask.cancel(true);
 					}
+					final boolean wasInUIThread = SwingUtilities.isEventDispatchThread();
 					return delayedUpdateTask = swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
 						@Override
 						public void run() {
@@ -229,15 +231,21 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 								}
 							}
 							synchronized (delayedUpdateMutex) {
-								try {
-									SwingUtilities.invokeAndWait(new Runnable() {
-										@Override
-										public void run() {
-											updateJob.run();
-										}
-									});
-								} catch (Exception e) {
-									throw new ReflectionUIError(e);
+								if (wasInUIThread) {
+									try {
+										SwingUtilities.invokeAndWait(new Runnable() {
+											@Override
+											public void run() {
+												updateJob.run();
+											}
+										});
+									} catch (InterruptedException e) {
+										throw new ReflectionUIError(e);
+									} catch (InvocationTargetException e) {
+										throw new ReflectionUIError(e.getTargetException());
+									}
+								} else {
+									updateJob.run();
 								}
 							}
 						}

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.IContext;
@@ -136,20 +137,34 @@ public class MethodAction extends AbstractAction {
 		return ReflectionUIUtils.composeMessage(data.getCaption(), "Execution");
 	}
 
-	public void orchestrateInvocation(final InvocationData invocationData, Component activatorComponent) {
+	public void orchestrateInvocation(final InvocationData invocationData, final Component activatorComponent) {
 		swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
 		if (!askConfirmation(invocationData, activatorComponent)) {
 			cancelled = true;
 			return;
 		}
-		try {
-			invokeAndUpdateReturnValue(invocationData);
-		} catch (Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
-		}
-		if (shouldDisplayReturnValue()) {
-			openMethodReturnValueWindow(activatorComponent);
-		}
+		swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
+			@Override
+			public void run() {
+				final Throwable[] error = new Throwable[1];
+				try {
+					invokeAndUpdateReturnValue(invocationData);
+				} catch (final Throwable t) {
+					error[0] = t;
+				}
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						if (error[0] != null) {
+							swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, error[0]);
+						}
+						if (shouldDisplayReturnValue()) {
+							openMethodReturnValueWindow(activatorComponent);
+						}
+					}
+				});
+			}
+		});
 	}
 
 	public void invokeAndUpdateReturnValue(InvocationData invocationData) {

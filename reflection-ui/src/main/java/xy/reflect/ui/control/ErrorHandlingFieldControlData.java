@@ -1,5 +1,7 @@
 package xy.reflect.ui.control;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.util.ReflectionUIError;
 
 public abstract class ErrorHandlingFieldControlData extends FieldControlDataProxy {
@@ -22,12 +24,22 @@ public abstract class ErrorHandlingFieldControlData extends FieldControlDataProx
 			}
 			lastFieldValue = super.getValue();
 			lastFieldValueInitialized = true;
-			displayError(null);
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					displayError(null);
+				}
+			});
 		} catch (final Throwable t) {
 			if (!lastFieldValueInitialized) {
 				throw new ReflectionUIError(t);
 			} else {
-				displayError(t);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						displayError(t);
+					}
+				});
 			}
 		}
 		return lastFieldValue;

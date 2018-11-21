@@ -79,13 +79,9 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		MethodAction action = swingRenderer.createMethodAction(input);
-		try {
-			action.actionPerformed(e);
-		} catch (Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(MethodControl.this, t);
-		}
+		action.actionPerformed(e);
 	}
 
 	@Override
