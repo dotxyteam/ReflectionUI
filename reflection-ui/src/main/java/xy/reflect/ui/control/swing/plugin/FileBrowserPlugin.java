@@ -369,7 +369,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		public boolean handlesModificationStackAndStress() {
+		public boolean isAutoManaged() {
 			return false;
 		}
 

@@ -46,10 +46,18 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	public DialogAccessControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = input;
+		this.input = new FieldControlInputProxy(input) {
+			@Override
+			public IFieldControlData getControlData() {
+				IFieldControlData result = super.getControlData();
+				result = SwingRendererUtils.handleErrors(swingRenderer, result, DialogAccessControl.this);
+				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
+				return result;
+			}
+		};
 		this.data = input.getControlData();
-		setLayout(new GridBagLayout());
 
+		setLayout(new GridBagLayout());
 		statusControl = createStatusControl(input);
 		actionControl = createChangeControl();
 		iconControl = createIconControl();
@@ -153,7 +161,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	protected void openDialog(Component owner) {
 		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder(owner);
-		subDialogBuilder.showDialog();
+		subDialogBuilder.createAndShowDialog();
 		if (subDialogBuilder.isParentModificationStackImpacted()) {
 			refreshUI(false);
 		}
@@ -258,7 +266,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return true;
 	}
 
@@ -273,6 +281,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	@Override

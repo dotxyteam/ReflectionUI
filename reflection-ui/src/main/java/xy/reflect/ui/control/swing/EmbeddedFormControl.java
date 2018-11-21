@@ -5,6 +5,7 @@ import java.awt.Component;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 
+import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -39,8 +40,17 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = input;
+		this.input = new FieldControlInputProxy(input) {
+			@Override
+			public IFieldControlData getControlData() {
+				IFieldControlData result = super.getControlData();
+				result = SwingRendererUtils.handleErrors(swingRenderer, result, EmbeddedFormControl.this);
+				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
+				return result;
+			}
+		};
 		this.data = retrieveData();
+
 		setLayout(new BorderLayout());
 		refreshUI(true);
 	}
@@ -170,7 +180,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return true;
 	}
 
@@ -182,6 +192,11 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
 		subForm.addMenuContribution(menuModel);
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	@Override

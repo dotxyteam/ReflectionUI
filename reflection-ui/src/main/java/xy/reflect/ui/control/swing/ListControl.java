@@ -63,6 +63,7 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -149,7 +150,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = input;
+		this.input = new FieldControlInputProxy(input) {
+			@Override
+			public IFieldControlData getControlData() {
+				IFieldControlData result = super.getControlData();
+				result = SwingRendererUtils.handleErrors(swingRenderer, result, ListControl.this);
+				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
+				return result;
+			}
+		};
 		this.listData = input.getControlData();
 
 		initializeTreeTableModelAndControl();
@@ -459,8 +468,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return true;
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	public IListStructuralInfo getStructuralInfo() {
@@ -1027,7 +1041,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return true;
 			}
 		};
-		dialogBuilder.showDialog();
+		dialogBuilder.createAndShowDialog();
 		return dialogBuilder;
 	}
 
@@ -1638,43 +1652,47 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		final public void actionPerformed(ActionEvent e) {
-			final String modifTitle = getCompositeModificationTitle();
-			@SuppressWarnings("unchecked")
-			final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
-			if (modifTitle == null) {
-				List<BufferedItemPosition> initialSelection = getSelection();
-				if (perform(toPostSelectHolder)) {
-					refreshTreeTableModelAndControl(false);
-					if (toPostSelectHolder[0] != null) {
-						setSelection(toPostSelectHolder[0]);
-					} else {
-						setSelection(initialSelection);
-					}
-				}
-			} else {
-				final ModificationStack modifStack = getModificationStack();
-				try {
-					modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
-						@Override
-						public Boolean get() {
-							if (modifStack.insideComposite(modifTitle + " (without list control update)",
-									UndoOrder.getNormal(), new Accessor<Boolean>() {
-										@Override
-										public Boolean get() {
-											return perform(toPostSelectHolder);
-										}
-									})) {
-								modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
-								return true;
+			swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
+				public void run() {
+					final String modifTitle = getCompositeModificationTitle();
+					@SuppressWarnings("unchecked")
+					final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
+					if (modifTitle == null) {
+						List<BufferedItemPosition> initialSelection = getSelection();
+						if (perform(toPostSelectHolder)) {
+							refreshTreeTableModelAndControl(false);
+							if (toPostSelectHolder[0] != null) {
+								setSelection(toPostSelectHolder[0]);
 							} else {
-								return false;
+								setSelection(initialSelection);
 							}
 						}
-					});
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
+					} else {
+						final ModificationStack modifStack = getModificationStack();
+						try {
+							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
+								@Override
+								public Boolean get() {
+									if (modifStack.insideComposite(modifTitle + " (without list control update)",
+											UndoOrder.getNormal(), new Accessor<Boolean>() {
+												@Override
+												public Boolean get() {
+													return perform(toPostSelectHolder);
+												}
+											})) {
+										modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+										return true;
+									} else {
+										return false;
+									}
+								}
+							});
+						} catch (Throwable t) {
+							swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
+						}
+					}
 				}
-			}
+			}, getCompositeModificationTitle());
 		}
 
 	};
@@ -2161,7 +2179,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected boolean perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			BufferedItemPosition itemPosition = getSingleSelection();
 			ItemUIBuilder dialogBuilder = new ItemUIBuilder(itemPosition);
-			dialogBuilder.showDialog();
+			dialogBuilder.createAndShowDialog();
 			return dialogBuilder.isParentModificationStackImpacted();
 		}
 
@@ -2423,7 +2441,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							IDynamicListAction.NO_OWNER, dynamicAction);
 					data = new MethodControlDataProxy(data) {
 						@Override
-						public Object invoke(InvocationData invocationData) {
+						public Object invoke(final InvocationData invocationData) {
 							return SwingRendererUtils.showBusyDialogWhileInvokingMethod(ListControl.this, swingRenderer,
 									base, invocationData);
 						}
@@ -2567,7 +2585,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return dynamicProperty.getFormControlFilter();
 				}
 			};
-			subDialogBuilder.showDialog();
+			subDialogBuilder.createAndShowDialog();
 			if (dynamicProperty.getPostSelection() != null) {
 				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicProperty.getPostSelection());

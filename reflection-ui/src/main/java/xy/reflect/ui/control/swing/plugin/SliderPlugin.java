@@ -149,7 +149,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		@Override
-		public boolean handlesModificationStackAndStress() {
+		public boolean isAutoManaged() {
 			return false;
 		}
 
@@ -164,6 +164,11 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 		@Override
 		public void addMenuContribution(MenuModel menuModel) {
+		}
+
+		@Override
+		public long getDataUpdateDelayMilliseconds() {
+			return 500;
 		}
 
 		@Override

@@ -171,7 +171,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return false;
 	}
 
@@ -186,6 +186,11 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	@Override

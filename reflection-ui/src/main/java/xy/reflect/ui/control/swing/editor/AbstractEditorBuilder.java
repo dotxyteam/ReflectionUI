@@ -115,7 +115,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return getSwingRenderer().getDialogBuilder(getOwnerComponent());
 	}
 
-	public JDialog createAndShowDialog() {
+	public JDialog createDialog() {
 		createdEditorForm = createForm(false, false);
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(createdEditorForm);
@@ -146,22 +146,27 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return dialogBuilder.getCreatedDialog();
 	}
 
-	public void showDialog() {
-		getSwingRenderer().showDialog(createAndShowDialog(), true);
-		if (hasParentObject()) {
-			if (canPotentiallyModifyParentObject()) {
-				impactParent();
-			}
-		} else {
-			if (isCancelled()) {
-				ModificationStack modifStack = getObjectModificationStack();
-				modifStack.undoAll();
-				if (modifStack.wasInvalidated()) {
-					getSwingRenderer().getReflectionUI()
-							.logDebug("WARNING: Cannot undo completely invalidated modification stack: " + modifStack);
+	public void createAndShowDialog() {
+		getSwingRenderer().showDialog(createDialog(), true);
+		getSwingRenderer().showBusyDialogWhile(getOwnerComponent(), new Runnable() {
+			@Override
+			public void run() {
+				if (hasParentObject()) {
+					if (canPotentiallyModifyParentObject()) {
+						impactParent();
+					}
+				} else {
+					if (isCancelled()) {
+						ModificationStack modifStack = getObjectModificationStack();
+						modifStack.undoAll();
+						if (modifStack.wasInvalidated()) {
+							getSwingRenderer().getReflectionUI().logDebug(
+									"WARNING: Cannot undo completely invalidated modification stack: " + modifStack);
+						}
+					}
 				}
 			}
-		}
+		}, getCumulatedModificationsTitle());
 	}
 
 	public Form getCreatedEditorForm() {

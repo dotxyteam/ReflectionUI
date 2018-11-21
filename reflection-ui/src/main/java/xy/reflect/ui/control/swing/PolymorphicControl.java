@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -50,7 +51,15 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = input;
+		this.input = new FieldControlInputProxy(input) {
+			@Override
+			public IFieldControlData getControlData() {
+				IFieldControlData result = super.getControlData();
+				result = SwingRendererUtils.handleErrors(swingRenderer, result, PolymorphicControl.this);
+				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
+				return result;
+			}
+		};
 		this.data = input.getControlData();
 		this.polymorphicType = input.getControlData().getType();
 		this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(), polymorphicType);
@@ -355,7 +364,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return true;
 	}
 
@@ -376,6 +385,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		if (dynamicControl != null) {
 			dynamicControl.addMenuContribution(menuModel);
 		}
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	@Override

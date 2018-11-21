@@ -5,6 +5,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.concurrent.Callable;
+
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
@@ -24,6 +27,22 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
 
+/**
+ * Instances of this class are method control containers.
+ * 
+ * They provide common method control features as undo management, busy
+ * indication, etc.
+ * 
+ * They generate the control input data that will be used by the
+ * {@link #createMethodControl()} method. It will be passed to the control
+ * constructor directly or with some control-specific proxy layers. Note that
+ * the proxy layers respect the MVC call hierarchy: UI-specific layers will be
+ * on top, followed by modification/synchronization/etc layers, followed by raw
+ * data layers.
+ * 
+ * @author nikolat
+ *
+ */
 public class MethodControlPlaceHolder extends ControlPanel implements IMethodControlInput {
 
 	protected static final long serialVersionUID = 1L;
@@ -72,24 +91,25 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
 	}
 
-	public IMethodControlData delayInvocations(final IMethodControlData data) {
+	protected IMethodControlData synchronizeInvocationsWithOtherUpddates(final IMethodControlData data) {
 		return new MethodControlDataProxy(data) {
-
 			@Override
-			public Object invoke(InvocationData invocationData) {
-				if (swingRenderer.getDataUpdateDelayMilliseconds() > 0) {
-					try {
-						Thread.sleep(swingRenderer.getDataUpdateDelayMilliseconds());
-					} catch (InterruptedException e) {
-						throw new ReflectionUIError(e);
-					}
+			public Object invoke(final InvocationData invocationData) {
+				try {
+					return swingRenderer.getDataUpdateJobExecutor().submit(new Callable<Object>() {
+						@Override
+						public Object call() throws Exception {
+							return data.invoke(invocationData);
+						}
+					});
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
 				}
-				return data.invoke(invocationData);
 			}
 		};
 	}
 
-	public IMethodControlData makeMethodModificationsUndoable(final IMethodControlData data) {
+	protected IMethodControlData makeMethodModificationsUndoable(final IMethodControlData data) {
 		return new MethodControlDataProxy(data) {
 
 			@Override
@@ -101,17 +121,41 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		};
 	}
 
-	public IMethodControlData indicateWhenBusy(final IMethodControlData data) {
+	protected IMethodControlData indicateWhenBusy(final IMethodControlData data) {
 		return new MethodControlDataProxy(data) {
+
+			private boolean isBusyIndicationDisabled() {
+				if (form.isBusyIndicationDisabled()) {
+					return true;
+				}
+				return false;
+			}
 
 			@Override
 			public Object invoke(final InvocationData invocationData) {
-				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(MethodControlPlaceHolder.this,
-						swingRenderer, data, invocationData);
+				if (isBusyIndicationDisabled()) {
+					return super.invoke(invocationData);
+				}
+				final Object[] result = new Object[1];
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
+							result[0] = SwingRendererUtils.showBusyDialogWhileInvokingMethod(
+									MethodControlPlaceHolder.this, swingRenderer, data, invocationData);
+						}
+					});
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+				return result[0];
 			}
 
 			@Override
 			public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
+				if (isBusyIndicationDisabled()) {
+					return super.getNextUpdateCustomUndoJob(invocationData);
+				}
 				final Runnable result = data.getNextUpdateCustomUndoJob(invocationData);
 				if (result == null) {
 					return null;
@@ -119,13 +163,22 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 				return new Runnable() {
 					@Override
 					public void run() {
-						MethodControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(MethodControlPlaceHolder.this,
-								new Runnable() {
-									public void run() {
-										result.run();
-									}
-								}, AbstractModification.getUndoTitle(
-										ReflectionUIUtils.composeMessage(data.getCaption(), "Executing...")));
+						try {
+							SwingUtilities.invokeAndWait(new Runnable() {
+								@Override
+								public void run() {
+									MethodControlPlaceHolder.this.swingRenderer
+											.showBusyDialogWhile(MethodControlPlaceHolder.this, new Runnable() {
+												public void run() {
+													result.run();
+												}
+											}, AbstractModification.getUndoTitle(ReflectionUIUtils
+													.composeMessage(data.getCaption(), "Executing...")));
+								}
+							});
+						} catch (Exception e) {
+							throw new ReflectionUIError(e);
+						}
 					}
 				};
 			}
@@ -188,9 +241,9 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	public IMethodControlData getInitialControlData() {
 		IMethodControlData result = new InitialMethodControlData(method);
 
-		result = indicateWhenBusy(result);
 		result = makeMethodModificationsUndoable(result);
-		result = delayInvocations(result);
+		result = indicateWhenBusy(result);
+		result = synchronizeInvocationsWithOtherUpddates(result);
 
 		return result;
 	}

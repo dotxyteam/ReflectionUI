@@ -188,7 +188,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		public boolean handlesModificationStackAndStress() {
+		public boolean isAutoManaged() {
 			return false;
 		}
 

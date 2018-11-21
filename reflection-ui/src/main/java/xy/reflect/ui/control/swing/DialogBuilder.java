@@ -16,7 +16,6 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.renderer.WindowManager;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractControlButton;
@@ -123,15 +122,20 @@ public class DialogBuilder {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					if (beforeClosingAction != null) {
-						beforeClosingAction.run();
+				swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							if (beforeClosingAction != null) {
+								beforeClosingAction.run();
+							}
+						} catch (Throwable t) {
+							swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+						} finally {
+							dialog.dispose();
+						}
 					}
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
-				} finally {
-					dialog.dispose();
-				}
+				});
 			}
 		});
 		return result;
@@ -166,14 +170,12 @@ public class DialogBuilder {
 				if (disposed) {
 					return;
 				}
-				if (swingRenderer.getDataUpdateDelayMilliseconds() > 0) {
-					try {
-						Thread.sleep(swingRenderer.getDataUpdateDelayMilliseconds());
-					} catch (InterruptedException e) {
-						throw new ReflectionUIError(e);
-					}
-				}
+				disposed = true;
 				super.dispose();
+				executeClosingTask();
+			}
+
+			private void executeClosingTask() {
 				if (whenClosing != null) {
 					try {
 						whenClosing.run();
@@ -181,8 +183,8 @@ public class DialogBuilder {
 						swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 					}
 				}
-				disposed = true;
 			}
+
 		};
 		WindowManager windowManager = swingRenderer.createWindowManager(dialog);
 		windowManager.set(contentComponent, toolbarComponentsAccessor, title, iconImage);

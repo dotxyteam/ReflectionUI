@@ -169,7 +169,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return false;
 	}
 
@@ -184,6 +184,11 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 	@Override
 	public boolean requestCustomFocus() {
 		return false;
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	@Override

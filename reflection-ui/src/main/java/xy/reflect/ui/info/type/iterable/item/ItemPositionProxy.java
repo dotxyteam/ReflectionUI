@@ -7,127 +7,127 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 
-public class DelegatingItemPosition extends ItemPosition {
+public class ItemPositionProxy extends ItemPosition {
 
-	protected ItemPosition delegate;
+	protected ItemPosition base;
 
-	public DelegatingItemPosition(ItemPosition delegate) {
-		this.delegate = delegate;
+	public ItemPositionProxy(ItemPosition base) {
+		this.base = base;
 	}
 
-	public ItemPosition getDelegate() {
-		return delegate;
+	public ItemPosition getBase() {
+		return base;
 	}
 
-	public void setDelegate(ItemPosition delegate) {
-		this.delegate = delegate;
+	public void setBase(ItemPosition base) {
+		this.base = base;
 	}
 
 	public boolean supportsItem(Object object) {
-		return delegate.supportsItem(object);
+		return base.supportsItem(object);
 	}
 
 	public int getIndex() {
-		return delegate.getIndex();
+		return base.getIndex();
 	}
 
 	public Object getItem() {
-		return delegate.getItem();
+		return base.getItem();
 	}
 
 	public String getContainingListTitle() {
-		return delegate.getContainingListTitle();
+		return base.getContainingListTitle();
 	}
 
 	public IListTypeInfo getContainingListType() {
-		return delegate.getContainingListType();
+		return base.getContainingListType();
 	}
 
 	public ItemPosition getParentItemPosition() {
-		return delegate.getParentItemPosition();
+		return base.getParentItemPosition();
 	}
 
 	public String getPath() {
-		return delegate.getPath();
+		return base.getPath();
 	}
 
 	public int getDepth() {
-		return delegate.getDepth();
+		return base.getDepth();
 	}
 
 	public List<? extends ItemPosition> getPreviousSiblings() {
-		return delegate.getPreviousSiblings();
+		return base.getPreviousSiblings();
 	}
 
 	public List<? extends ItemPosition> getFollowingSiblings() {
-		return delegate.getFollowingSiblings();
+		return base.getFollowingSiblings();
 	}
 
 	public List<ItemPosition> getAncestors() {
-		return delegate.getAncestors();
+		return base.getAncestors();
 	}
 
 	public ItemPosition getSibling(int index2) {
-		return delegate.getSibling(index2);
+		return base.getSibling(index2);
 	}
 
 	public IFieldInfo getContainingListFieldIfNotRoot() {
-		return delegate.getContainingListFieldIfNotRoot();
+		return base.getContainingListFieldIfNotRoot();
 	}
 
 	public int getContainingListSize() {
-		return delegate.getContainingListSize();
+		return base.getContainingListSize();
 	}
 
 	public ValueReturnMode geContainingListReturnMode() {
-		return delegate.geContainingListReturnMode();
+		return base.geContainingListReturnMode();
 	}
 
 	public boolean isContainingListGetOnly() {
-		return delegate.isContainingListGetOnly();
+		return base.isContainingListGetOnly();
 	}
 
 	public List<? extends ItemPosition> getSubItemPositions() {
-		return delegate.getSubItemPositions();
+		return base.getSubItemPositions();
 	}
 
 	public boolean isRoot() {
-		return delegate.isRoot();
+		return base.isRoot();
 	}
 
 	public ItemPosition getRoot() {
-		return delegate.getRoot();
+		return base.getRoot();
 	}
 
 	public ValueReturnMode getItemReturnMode() {
-		return delegate.getItemReturnMode();
+		return base.getItemReturnMode();
 	}
 
 	public Object[] retrieveSubListRawValue() {
-		return delegate.retrieveSubListRawValue();
+		return base.retrieveSubListRawValue();
 	}
 
 	public IFieldInfo getSubListField() {
-		return delegate.getSubListField();
+		return base.getSubListField();
 	}
 
 	public ItemPosition getSubItemPosition(int index) {
-		return delegate.getSubItemPosition(index);
+		return base.getSubItemPosition(index);
 	}
 
 	public IListStructuralInfo getStructuralInfo() {
-		return delegate.getStructuralInfo();
+		return base.getStructuralInfo();
 	}
 
 	public ItemPosition clone() {
-		return delegate.clone();
+		return base.clone();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((delegate == null) ? 0 : delegate.hashCode());
+		result = prime * result + ((base == null) ? 0 : base.hashCode());
 		return result;
 	}
 
@@ -139,18 +139,18 @@ public class DelegatingItemPosition extends ItemPosition {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DelegatingItemPosition other = (DelegatingItemPosition) obj;
-		if (delegate == null) {
-			if (other.delegate != null)
+		ItemPositionProxy other = (ItemPositionProxy) obj;
+		if (base == null) {
+			if (other.base != null)
 				return false;
-		} else if (!delegate.equals(other.delegate))
+		} else if (!base.equals(other.base))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DelegatingItemPosition [delegate=" + delegate + "]";
+		return "ItemPositionProxy [delegate=" + base + "]";
 	}
 
 }

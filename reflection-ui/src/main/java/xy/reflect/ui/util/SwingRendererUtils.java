@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -56,10 +57,12 @@ import javax.swing.UIManager;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
+import xy.reflect.ui.control.ScheduledUpdateFieldControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
@@ -575,7 +578,6 @@ public class SwingRendererUtils {
 		return getIcon(swingRenderer.getObjectIconImage(object));
 	}
 
-	
 	public static List<Window> getFrontWindows() {
 		List<Window> result = new ArrayList<Window>();
 		for (Window window : Window.getWindows()) {
@@ -1005,6 +1007,37 @@ public class SwingRendererUtils {
 						((ICustomizableFieldControlPlugin) plugin).getDefaultControlCustomization());
 			}
 		}
+	}
+
+	public static IFieldControlData handleErrors(final SwingRenderer swingRenderer, IFieldControlData data,
+			final Component errorDialogOwner) {
+		return new ErrorHandlingFieldControlData(data) {
+
+			String currentlyDisplayedErrorId;
+
+			@Override
+			protected void displayError(Throwable t) {
+				if (t != null) {
+					String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
+					if (!newErrorId.equals(currentlyDisplayedErrorId)) {
+						currentlyDisplayedErrorId = newErrorId;
+						swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
+					}
+				} else {
+					currentlyDisplayedErrorId = null;
+				}
+			}
+		};
+	}
+
+	public static IFieldControlData synchronizeUpdates(final SwingRenderer swingRenderer,
+			final IFieldControlData data) {
+		return new ScheduledUpdateFieldControlData(data) {
+			@Override
+			protected Future<?> scheduleUpdate(Runnable updateJob) {
+				return swingRenderer.getDataUpdateJobExecutor().submit(updateJob);
+			}
+		};
 	}
 
 }

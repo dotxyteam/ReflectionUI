@@ -60,7 +60,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return false;
 	}
 
@@ -71,6 +71,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 
 	@Override
 	public void validateSubForm() throws Exception {
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	@Override

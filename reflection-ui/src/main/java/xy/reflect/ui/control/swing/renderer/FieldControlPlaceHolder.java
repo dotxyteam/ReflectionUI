@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Future;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -16,6 +17,8 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
+import xy.reflect.ui.control.ScheduledUpdateFieldControlData;
+import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IContext;
@@ -43,12 +46,28 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
 
+/**
+ * Instances of this class are field control containers.
+ * 
+ * They provide common field control features as error display, undo management,
+ * busy indication, etc. These features can be controlled by making the control
+ * override the @ {@link IAdvancedFieldControl} interface.
+ * 
+ * They generate the control input data that will be used by the
+ * {@link #createFieldControl()} method. It will be passed to the control
+ * constructor directly or with some control-specific proxy layers. Note that
+ * the proxy layers respect the MVC call hierarchy: UI-specific layers will be
+ * on top, followed by modification/synchronization/etc layers, followed by raw
+ * data layers.
+ * 
+ * @author nikolat
+ *
+ */
 public class FieldControlPlaceHolder extends ControlPanel implements IFieldControlInput {
 
 	protected static final long serialVersionUID = 1L;
@@ -57,7 +76,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected Component fieldControl;
 	protected Form form;
 	protected IFieldInfo field;
-	protected String errorMessageDisplayedOnPlaceHolder;
 	protected IFieldControlData controlData;
 	protected IFieldControlData lastInitialControlData;
 	protected boolean layoutInContainerUpdateNeeded = true;
@@ -110,7 +128,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return new AutoUpdater();
 	}
 
-	public void startAutoRefresh() {
+	protected void startAutoRefresh() {
 		if (isAutoRefreshActive()) {
 			return;
 		}
@@ -118,7 +136,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		autoUpdateThread.start();
 	}
 
-	public void stopAutoRefresh() {
+	protected void stopAutoRefresh() {
 		if (!isAutoRefreshActive()) {
 			return;
 		}
@@ -141,10 +159,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	@Override
 	public IFieldControlData getControlData() {
 		return controlData;
-	}
-
-	public void setControlData(IFieldControlData controlData) {
-		this.controlData = controlData;
 	}
 
 	public boolean isLayoutInContainerUpdateNeeded() {
@@ -175,132 +189,124 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return form.getModificationStack();
 	}
 
-	public IFieldControlData handleStressfulUpdates(final IFieldControlData data) {
-		return new FieldControlDataProxy(data) {
+	protected IFieldControlData synchronizeAndDelayUpdates(final IFieldControlData data) {
+		return new ScheduledUpdateFieldControlData(data) {
 
-			Object delayedFieldValue;
-			boolean delaying = false;
-			DelayedUpdateProcess delayedUpdateProcess = new DelayedUpdateProcess() {
-				{
-					setDelayMilliseconds(swingRenderer.getDataUpdateDelayMilliseconds());
-				}
-
-				@Override
-				public void run() {
-					try {
-						data.setValue(delayedFieldValue);
-					} finally {
-						delaying = false;
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								refreshUI(false);
-							}
-						});
-					}
-				}
-			};
-
-			boolean isDelayedUpdateDisabled() {
-				if (!(swingRenderer.getDataUpdateDelayMilliseconds() > 0)) {
-					return true;
-				}
-				Component c = fieldControl;
-				if ((c instanceof IAdvancedFieldControl)) {
-					IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
-					if (fieldControl.handlesModificationStackAndStress()) {
-						return true;
-					}
-				}
-				return false;
-			}
+			Future<?> delayedUpdateTask;
+			Object delayedUpdateMutex = new Object();
 
 			@Override
 			public Object getValue() {
-				if (isDelayedUpdateDisabled()) {
+				if (isFieldControlAutoManaged()) {
 					return data.getValue();
 				}
-				if (delaying) {
-					return delayedFieldValue;
-				} else {
-					return data.getValue();
-				}
+				return super.getValue();
 			}
 
 			@Override
 			public void setValue(Object newValue) {
-				if (isDelayedUpdateDisabled()) {
+				if (isFieldControlAutoManaged()) {
 					data.setValue(newValue);
 					return;
 				}
-				delayedFieldValue = newValue;
-				delaying = true;
-				delayedUpdateProcess.schedule();
+				super.setValue(newValue);
+			}
+
+			@Override
+			protected Future<?> scheduleUpdate(final Runnable updateJob) {
+				synchronized (delayedUpdateMutex) {
+					if (delayedUpdateTask != null) {
+						delayedUpdateTask.cancel(true);
+					}
+					return delayedUpdateTask = swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
+						@Override
+						public void run() {
+							if (getDataUpdateDelayMilliseconds() > 0) {
+								try {
+									Thread.sleep(getDataUpdateDelayMilliseconds());
+								} catch (InterruptedException e) {
+									return;
+								}
+							}
+							synchronized (delayedUpdateMutex) {
+								updateJob.run();
+							}
+						}
+
+					});
+				}
 			}
 		};
 	}
 
-	public IFieldControlData makeFieldModificationsUndoable(final IFieldControlData data) {
+	protected IFieldControlData makeFieldModificationsUndoable(final IFieldControlData data) {
 		return new FieldControlDataProxy(data) {
 
 			@Override
 			public void setValue(Object newValue) {
-				Component c = fieldControl;
-				if ((c instanceof IAdvancedFieldControl)) {
-					IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
-					if (fieldControl.handlesModificationStackAndStress()) {
-						data.setValue(newValue);
-						return;
-					}
+				if (isFieldControlAutoManaged()) {
+					super.setValue(newValue);
+					return;
 				}
 				ReflectionUIUtils.setValueThroughModificationStack(data, newValue, getModificationStack());
 			}
 		};
 	}
 
-	public IFieldControlData handleValueAccessIssues(final IFieldControlData data) {
-		return new FieldControlDataProxy(data) {
+	protected boolean isFieldControlAutoManaged() {
+		Component c = fieldControl;
+		if ((c instanceof IAdvancedFieldControl)) {
+			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
+			if (fieldControl.isAutoManaged()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-			Object lastFieldValue;
-			boolean lastFieldValueInitialized = false;
-			Throwable lastValueUpdateError;
+	protected IFieldControlData handleValueAccessIssues(final IFieldControlData data) {
+		return new ErrorHandlingFieldControlData(data) {
+
+			String currentlyDisplayedErrorId;
+
+			@Override
+			protected void displayError(Throwable t) {
+				boolean done = (fieldControl instanceof IAdvancedFieldControl) && ((IAdvancedFieldControl) fieldControl)
+						.displayError((t == null) ? null : ReflectionUIUtils.getPrettyErrorMessage(t));
+				if (!done && (t != null)) {
+					String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
+					if (!newErrorId.equals(currentlyDisplayedErrorId)) {
+						currentlyDisplayedErrorId = newErrorId;
+						SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
+						swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, t);
+					}
+				} else {
+					currentlyDisplayedErrorId = null;
+					setBorder(null);
+				}
+			}
 
 			@Override
 			public Object getValue() {
-				try {
-					if (lastValueUpdateError != null) {
-						throw lastValueUpdateError;
-					}
-					lastFieldValue = data.getValue();
-					lastFieldValueInitialized = true;
-					displayError(null);
-				} catch (final Throwable t) {
-					if (!lastFieldValueInitialized) {
-						throw new ReflectionUIError(t);
-					} else {
-						swingRenderer.getReflectionUI().logError(t);
-						displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
-					}
+				if (isFieldControlAutoManaged()) {
+					return data.getValue();
 				}
-				return lastFieldValue;
-
+				return super.getValue();
 			}
 
 			@Override
 			public void setValue(Object newValue) {
-				try {
-					lastFieldValue = newValue;
+				if (isFieldControlAutoManaged()) {
 					data.setValue(newValue);
-					lastValueUpdateError = null;
-				} catch (Throwable t) {
-					lastValueUpdateError = t;
+					return;
 				}
+				super.setValue(newValue);
 			}
 
 		};
 	}
 
-	public IFieldControlData indicateWhenBusy(final IFieldControlData data) {
+	protected IFieldControlData indicateWhenBusy(final IFieldControlData data) {
 		return new FieldControlDataProxy(data) {
 
 			private boolean isBusyIndicationDisabled() {
@@ -315,6 +321,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 			@Override
 			public Object getValue() {
+				if (isFieldControlAutoManaged()) {
+					return super.getValue();
+				}
 				if (isBusyIndicationDisabled()) {
 					return super.getValue();
 				}
@@ -323,13 +332,26 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			}
 
 			@Override
-			public void setValue(final Object value) {
-				if (isBusyIndicationDisabled()) {
-					super.setValue(value);
+			public void setValue(final Object newValue) {
+				if (isFieldControlAutoManaged()) {
+					super.setValue(newValue);
 					return;
 				}
-				SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this, swingRenderer,
-						data, value);
+				if (isBusyIndicationDisabled()) {
+					super.setValue(newValue);
+					return;
+				}
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
+							SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this,
+									swingRenderer, data, newValue);
+						}
+					});
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
 			}
 
 			@Override
@@ -344,17 +366,34 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				return new Runnable() {
 					@Override
 					public void run() {
-						FieldControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(FieldControlPlaceHolder.this,
-								new Runnable() {
-									public void run() {
-										result.run();
-									}
-								}, AbstractModification.getUndoTitle("Setting " + data.getCaption()));
+						try {
+							SwingUtilities.invokeAndWait(new Runnable() {
+								@Override
+								public void run() {
+									FieldControlPlaceHolder.this.swingRenderer
+											.showBusyDialogWhile(FieldControlPlaceHolder.this, new Runnable() {
+												public void run() {
+													result.run();
+												}
+											}, AbstractModification.getUndoTitle("Setting " + data.getCaption()));
+								}
+							});
+						} catch (Exception e) {
+							throw new ReflectionUIError(e);
+						}
 					}
 				};
 			}
 
 		};
+	}
+
+	protected long getDataUpdateDelayMilliseconds() {
+		if (fieldControl instanceof IAdvancedFieldControl) {
+			return ((IAdvancedFieldControl) fieldControl).getDataUpdateDelayMilliseconds();
+		} else {
+			return 0;
+		}
 	}
 
 	public Component getFieldControl() {
@@ -424,10 +463,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		final IFieldInfo finalField = field;
 		IFieldControlData result = new InitialFieldControlData(finalField);
-		result = indicateWhenBusy(result);
 		result = handleValueAccessIssues(result);
 		result = makeFieldModificationsUndoable(result);
-		result = handleStressfulUpdates(result);
+		result = indicateWhenBusy(result);
+		result = synchronizeAndDelayUpdates(result);
 		return result;
 	}
 
@@ -450,6 +489,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				.getTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
 					SpecificitiesIdentifier specificitiesIdentifier = controlData.getType().getSource()
 							.getSpecificitiesIdentifier();
+
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return specificitiesIdentifier;
@@ -546,21 +586,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	public IFieldControlPlugin getCurrentPlugin() {
 		return SwingRendererUtils.getCurrentFieldControlPlugin(swingRenderer,
 				controlData.getType().getSpecificProperties(), this);
-	}
-
-	public void displayError(String msg) {
-		boolean done = (fieldControl instanceof IAdvancedFieldControl)
-				&& ((IAdvancedFieldControl) fieldControl).displayError(msg);
-		if (!done && (msg != null)) {
-			if (errorMessageDisplayedOnPlaceHolder == null) {
-				errorMessageDisplayedOnPlaceHolder = msg;
-				SwingRendererUtils.setErrorBorder(this);
-				this.swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, new ReflectionUIError(msg));
-			}
-		} else {
-			errorMessageDisplayedOnPlaceHolder = null;
-			setBorder(null);
-		}
 	}
 
 	public boolean showsCaption() {

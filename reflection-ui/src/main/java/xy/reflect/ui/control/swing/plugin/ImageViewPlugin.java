@@ -607,7 +607,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public boolean handlesModificationStackAndStress() {
+		public boolean isAutoManaged() {
 			return false;
 		}
 
@@ -622,6 +622,11 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public void addMenuContribution(MenuModel menuModel) {
+		}
+
+		@Override
+		public long getDataUpdateDelayMilliseconds() {
+			return 0;
 		}
 
 		@Override

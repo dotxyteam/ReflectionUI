@@ -240,7 +240,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		@Override
-		public boolean handlesModificationStackAndStress() {
+		public boolean isAutoManaged() {
 			return false;
 		}
 
@@ -255,6 +255,11 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 		@Override
 		public void addMenuContribution(MenuModel menuModel) {
+		}
+
+		@Override
+		public long getDataUpdateDelayMilliseconds() {
+			return 0;
 		}
 
 		@Override

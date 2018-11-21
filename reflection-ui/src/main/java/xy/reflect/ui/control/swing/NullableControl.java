@@ -46,10 +46,19 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected AbstractEditorFormBuilder subFormBuilder;
 	protected Runnable nullControlActivationAction;
 
-	public NullableControl(SwingRenderer swingRenderer, IFieldControlInput input) {
+	public NullableControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = input;
+		this.input = new FieldControlInputProxy(input) {
+			@Override
+			public IFieldControlData getControlData() {
+				IFieldControlData result = super.getControlData();
+				result = SwingRendererUtils.handleErrors(swingRenderer, result, NullableControl.this);
+				result = SwingRendererUtils.synchronizeUpdates(swingRenderer, result);
+				return result;
+			}
+		};
 		this.data = input.getControlData();
+
 		initialize();
 	}
 
@@ -304,7 +313,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	@Override
-	public boolean handlesModificationStackAndStress() {
+	public boolean isAutoManaged() {
 		return true;
 	}
 
@@ -320,6 +329,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
 			((Form) subControl).addMenuContribution(menuModel);
 		}
+	}
+
+	@Override
+	public long getDataUpdateDelayMilliseconds() {
+		return 0;
 	}
 
 	public ITypeInfo getSubControlValueType() {

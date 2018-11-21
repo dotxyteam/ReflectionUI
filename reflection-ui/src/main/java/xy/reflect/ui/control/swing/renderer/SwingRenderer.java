@@ -143,11 +143,11 @@ public class SwingRenderer {
 	protected Map<AbstractActionMenuItem, Form> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
-	protected ExecutorService busyDialogRunner = Executors.newSingleThreadExecutor(new ThreadFactory() {
+	protected ExecutorService busyDialogJobExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);
-			result.setName("busyDialogRunner");
+			result.setName("busyDialogJobExecutor");
 			result.setDaemon(true);
 			return result;
 		}
@@ -157,6 +157,15 @@ public class SwingRenderer {
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);
 			result.setName("busyDialogCloser");
+			result.setDaemon(true);
+			return result;
+		}
+	});
+	protected ExecutorService dataUpdateJobExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread result = new Thread(r);
+			result.setName("dataUpdateJobExecutor");
 			result.setDaemon(true);
 			return result;
 		}
@@ -175,6 +184,10 @@ public class SwingRenderer {
 
 	public ReflectionUI getReflectionUI() {
 		return reflectionUI;
+	}
+
+	public ExecutorService getDataUpdateJobExecutor() {
+		return dataUpdateJobExecutor;
 	}
 
 	public List<Form> getAllDisplayedForms() {
@@ -659,7 +672,7 @@ public class SwingRenderer {
 			final Image iconImage, final boolean cancellable, boolean modal) {
 		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, object, title, iconImage,
 				cancellable);
-		showDialog(editorBuilder.createAndShowDialog(), modal);
+		showDialog(editorBuilder.createDialog(), modal);
 		return editorBuilder;
 	}
 
@@ -781,7 +794,7 @@ public class SwingRenderer {
 
 	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {
 		final Throwable[] exceptionThrown = new Throwable[1];
-		final Future<?> busyDialogRunnerJob = busyDialogRunner.submit(new Runnable() {
+		final Future<?> busyDialogJob = busyDialogJobExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -792,18 +805,18 @@ public class SwingRenderer {
 			}
 		});
 		try {
-			busyDialogRunnerJob.get(1000, TimeUnit.MILLISECONDS);
+			busyDialogJob.get(1000, TimeUnit.MILLISECONDS);
 		} catch (TimeoutException e1) {
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}
-		if (!busyDialogRunnerJob.isDone()) {
+		if (!busyDialogJob.isDone()) {
 			final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 			busyDialogCloser.submit(new Runnable() {
 				@Override
 				public void run() {
 					while ((dialogBuilder.getCreatedDialog() == null) || (!dialogBuilder.getCreatedDialog().isVisible())
-							|| (!busyDialogRunnerJob.isDone())) {
+							|| (!busyDialogJob.isDone())) {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -836,7 +849,7 @@ public class SwingRenderer {
 			dialog.addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowClosing(WindowEvent e) {
-					busyDialogRunnerJob.cancel(true);
+					busyDialogJob.cancel(true);
 				}
 			});
 			showDialog(dialog, true, false);
@@ -870,10 +883,6 @@ public class SwingRenderer {
 			dialog.setVisible(true);
 		}
 
-	}
-
-	public long getDataUpdateDelayMilliseconds() {
-		return 500;
 	}
 
 	public WindowManager createWindowManager(Window window) {

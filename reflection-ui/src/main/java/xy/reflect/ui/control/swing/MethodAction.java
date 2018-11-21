@@ -2,11 +2,11 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.AbstractAction;
-import javax.swing.JButton;
+
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
@@ -23,7 +23,6 @@ import xy.reflect.ui.undo.InvokeMethodModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.component.AbstractControlButton;
 
 public class MethodAction extends AbstractAction {
 
@@ -113,32 +112,22 @@ public class MethodAction extends AbstractAction {
 				if (invokeButtonText == null) {
 					invokeButtonText = data.getCaption();
 				}
-				final JButton invokeButton = createTool(invokeButtonText);
-				{
-					invokeButton.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(),
-									invocationData);
-							invoke(invocationData, invokeButton);
-							dialogBuilder.getCreatedDialog().dispose();
-						}
-					});
-					toolbarControls.add(invokeButton);
-				}
-				JButton cancelButton = createTool("Cancel");
-				{
-					cancelButton.addActionListener(new ActionListener() {
+				toolbarControls.add(dialogBuilder.createDialogClosingButton(invokeButtonText, new Runnable() {
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							cancelled = true;
-							dialogBuilder.getCreatedDialog().dispose();
-						}
+					@Override
+					public void run() {
+						swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(),
+								invocationData);
+						invoke(invocationData, dialogBuilder.getCreatedDialog());
+					}
+				}));
+				toolbarControls.add(dialogBuilder.createDialogClosingButton("Cancel", new Runnable() {
 
-					});
-					toolbarControls.add(cancelButton);
-				}
+					@Override
+					public void run() {
+						cancelled = true;
+					}
+				}));
 				return toolbarControls;
 			}
 		};
@@ -148,28 +137,6 @@ public class MethodAction extends AbstractAction {
 		dialogBuilder.setToolbarComponentsAccessor(toolbarControlsAccessor);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
-	}
-
-	protected JButton createTool(final String caption) {
-		return new AbstractControlButton() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
-			protected boolean isApplicationStyleButtonSpecific() {
-				return true;
-			}
-
-			@Override
-			public String retrieveCaption() {
-				return caption;
-			}
-
-		};
 	}
 
 	public String getTitle() {
@@ -279,7 +246,7 @@ public class MethodAction extends AbstractAction {
 
 		};
 		if (!data.isReturnValueDetached() || (returnValue == null)) {
-			editorBuilder.showDialog();
+			editorBuilder.createAndShowDialog();
 		} else {
 			editorBuilder.createAndShowFrame();
 		}

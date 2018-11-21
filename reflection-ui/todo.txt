@@ -1,3 +1,14 @@
+- synchronization of custom actions after dialog closing 
+- check undo jobs synchronization + invokeAndWait compatibility
+- synchronization must not be called after undo management otherwise
+the form refreshing may be executed before the field value update
+- add buffer when creating FieldControlDataModifications for
+	. embedded field control
+	. polymorphic control
+	. ...
+- FieldControlPlaceHolder.handleValueAccessIssues(): 
+	it must not use the UI thread directly because it is
+	called by non-UI data layers
 - remove as much dependencies as possible
 - pass object as param to 
 	. ITypeInfo.getMenuModel()

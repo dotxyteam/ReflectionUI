@@ -172,7 +172,7 @@ public class ItemPosition implements Cloneable {
 			return null;
 		}
 		final Object item = getItem();
-		return treeInfo.getItemSubListField(new DelegatingItemPosition(this) {
+		return treeInfo.getItemSubListField(new ItemPositionProxy(this) {
 			@Override
 			public Object getItem() {
 				return item;
