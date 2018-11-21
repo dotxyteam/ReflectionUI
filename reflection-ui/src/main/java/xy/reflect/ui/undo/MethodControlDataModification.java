@@ -4,12 +4,12 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class InvokeMethodModification extends AbstractModification {
+public class MethodControlDataModification extends AbstractModification {
 
 	protected IMethodControlData data;
 	protected InvocationData invocationData;
 
-	public InvokeMethodModification(IMethodControlData data, InvocationData invocationData) {
+	public MethodControlDataModification(IMethodControlData data, InvocationData invocationData) {
 		this.data = data;
 		this.invocationData = invocationData;
 	}
@@ -59,7 +59,7 @@ public class InvokeMethodModification extends AbstractModification {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InvokeMethodModification other = (InvokeMethodModification) obj;
+		MethodControlDataModification other = (MethodControlDataModification) obj;
 		if (data == null) {
 			if (other.data != null)
 				return false;

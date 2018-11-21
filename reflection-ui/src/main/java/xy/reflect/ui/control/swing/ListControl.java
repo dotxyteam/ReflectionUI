@@ -94,9 +94,9 @@ import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.BufferedListModificationFactory;
-import xy.reflect.ui.undo.ControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.InvokeMethodModification;
+import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
@@ -869,7 +869,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (listData.isGetOnly()) {
 					return IModification.NULL_MODIFICATION;
 				} else {
-					return new ControlDataValueModification(listData, rootListValue);
+					return new FieldControlDataValueModification(listData, rootListValue);
 				}
 			}
 		};
@@ -2544,7 +2544,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
-			return InvokeMethodModification
+			return MethodControlDataModification
 					.getTitle(ReflectionUIUtils.composeMessage(getRootListTitle(), dynamicAction.getCaption()));
 		}
 
@@ -2647,7 +2647,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public IModification createCommitModification(Object newObjectValue) {
-					return new ControlDataValueModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
+					return new FieldControlDataValueModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
 							IDynamicListProperty.NO_OWNER, dynamicProperty), newObjectValue);
 				}
 
@@ -2678,7 +2678,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
-			return ControlDataValueModification
+			return FieldControlDataValueModification
 					.getTitle(ReflectionUIUtils.composeMessage(getRootListTitle(), dynamicProperty.getCaption()));
 		}
 

@@ -25,7 +25,7 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.undo.ControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -211,7 +211,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return ControlDataValueModification.getTitle(data.getCaption());
+				return FieldControlDataValueModification.getTitle(data.getCaption());
 			}
 
 			@Override
@@ -231,7 +231,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 			@Override
 			public IModification createCommitModification(Object newObjectValue) {
-				return new ControlDataValueModification(data, newObjectValue);
+				return new FieldControlDataValueModification(data, newObjectValue);
 			}
 
 			@Override

@@ -59,9 +59,9 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.undo.ControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.InvokeMethodModification;
+import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
@@ -893,7 +893,7 @@ public class ReflectionUIUtils {
 
 	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
 			ModificationStack modifStack) {
-		ControlDataValueModification modif = new ControlDataValueModification(data, newValue);
+		FieldControlDataValueModification modif = new FieldControlDataValueModification(data, newValue);
 		try {
 			modifStack.apply(modif);
 		} catch (Throwable t) {
@@ -916,7 +916,7 @@ public class ReflectionUIUtils {
 						return resultHolder[0] = super.invoke(invocationData);
 					}
 				};
-				InvokeMethodModification modif = new InvokeMethodModification(data, invocationData);
+				MethodControlDataModification modif = new MethodControlDataModification(data, invocationData);
 				try {
 					modifStack.apply(modif);
 				} catch (Throwable t) {

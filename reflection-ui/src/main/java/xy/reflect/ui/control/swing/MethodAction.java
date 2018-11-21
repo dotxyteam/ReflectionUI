@@ -19,7 +19,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.InvokeMethodModification;
+import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -243,7 +243,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return InvokeMethodModification.getTitle(data.getCaption());
+				return MethodControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override

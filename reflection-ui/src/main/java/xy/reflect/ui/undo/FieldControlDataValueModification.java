@@ -3,12 +3,12 @@ package xy.reflect.ui.undo;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class ControlDataValueModification extends AbstractModification {
+public class FieldControlDataValueModification extends AbstractModification {
 
 	protected IFieldControlData data;
 	protected Object newValue;
 
-	public ControlDataValueModification(final IFieldControlData data, final Object newValue) {
+	public FieldControlDataValueModification(final IFieldControlData data, final Object newValue) {
 		this.data = data;
 		this.newValue = newValue;
 	}
@@ -57,7 +57,7 @@ public class ControlDataValueModification extends AbstractModification {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ControlDataValueModification other = (ControlDataValueModification) obj;
+		FieldControlDataValueModification other = (FieldControlDataValueModification) obj;
 		if (newValue == null) {
 			if (other.newValue != null)
 				return false;
@@ -73,7 +73,7 @@ public class ControlDataValueModification extends AbstractModification {
 
 	@Override
 	public String toString() {
-		return "ControlDataValueModification [data=" + data + ", newValue=" + newValue + "]";
+		return "FieldControlDataValueModification [data=" + data + ", newValue=" + newValue + "]";
 	}
 
 }
