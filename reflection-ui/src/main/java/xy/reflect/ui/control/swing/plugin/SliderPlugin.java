@@ -1,6 +1,10 @@
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -11,6 +15,7 @@ import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -63,6 +68,22 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
+		protected DelayedUpdateProcess dataUpdateProcess = new DelayedUpdateProcess() {
+			@Override
+			protected void commit() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						Slider.this.commitChanges();
+					}
+				});
+			}
+
+			@Override
+			protected long getCommitDelayMilliseconds() {
+				return Slider.this.getCommitDelayMilliseconds();
+			}
+		};
 
 		public Slider(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -84,6 +105,17 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 						return;
 					}
 					onSlide();
+				}
+			});
+			addFocusListener(new FocusListener() {
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					onFocusLoss();
+				}
+
+				@Override
+				public void focusGained(FocusEvent e) {
 				}
 			});
 			refreshUI(true);
@@ -143,9 +175,23 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			return false;
 		}
 
-		protected void onSlide() {
+		protected long getCommitDelayMilliseconds() {
+			return 1000;
+		}
+
+		protected void commitChanges() {
 			Object value = NumberUtils.convertNumberToTargetClass(Slider.this.getValue(), numberClass);
 			data.setValue(value);
+		}
+
+		protected void onSlide() {
+			dataUpdateProcess.cancelCommitSchedule();
+			dataUpdateProcess.scheduleCommit();
+		}
+
+		protected void onFocusLoss() {
+			dataUpdateProcess.cancelCommitSchedule();
+			commitChanges();
 		}
 
 		@Override
@@ -164,11 +210,6 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 		@Override
 		public void addMenuContribution(MenuModel menuModel) {
-		}
-
-		@Override
-		public long getDataUpdateDelayMilliseconds() {
-			return 500;
 		}
 
 		@Override

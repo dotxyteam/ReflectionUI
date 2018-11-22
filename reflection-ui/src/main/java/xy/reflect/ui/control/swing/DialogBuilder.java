@@ -122,20 +122,15 @@ public class DialogBuilder {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							if (beforeClosingAction != null) {
-								beforeClosingAction.run();
-							}
-						} catch (Throwable t) {
-							swingRenderer.handleExceptionsFromDisplayedUI(result, t);
-						} finally {
-							dialog.dispose();
-						}
+				try {
+					if (beforeClosingAction != null) {
+						beforeClosingAction.run();
 					}
-				});
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+				} finally {
+					dialog.dispose();
+				}
 			}
 		});
 		return result;

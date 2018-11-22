@@ -387,11 +387,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 0;
-	}
-
-	@Override
 	public String toString() {
 		return "PolymorphicControl [data=" + data + "]";
 	}

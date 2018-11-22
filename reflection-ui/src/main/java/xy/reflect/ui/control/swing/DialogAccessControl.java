@@ -283,11 +283,6 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 0;
-	}
-
-	@Override
 	public String toString() {
 		return "DialogAccessControl [data=" + data + "]";
 	}

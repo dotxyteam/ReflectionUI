@@ -5,9 +5,6 @@ import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.Future;
-
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -18,7 +15,6 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
-import xy.reflect.ui.control.ScheduledUpdateFieldControlData;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -47,7 +43,6 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
@@ -188,72 +183,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return form.getModificationStack();
 	}
 
-	protected IFieldControlData synchronizeAndDelayUpdates(final IFieldControlData data) {
-		return new ScheduledUpdateFieldControlData(data) {
-
-			Future<?> delayedUpdateTask;
-			Object delayedUpdateMutex = new Object();
-
-			@Override
-			public Object getValue() {
-				if (isFieldControlAutoManaged()) {
-					return data.getValue();
-				}
-				return super.getValue();
-			}
-
-			@Override
-			public void setValue(Object newValue) {
-				if (isFieldControlAutoManaged()) {
-					data.setValue(newValue);
-					return;
-				}
-				super.setValue(newValue);
-			}
-
-			@Override
-			protected Future<?> scheduleUpdate(final Runnable updateJob) {
-				synchronized (delayedUpdateMutex) {
-					if (delayedUpdateTask != null) {
-						delayedUpdateTask.cancel(true);
-					}
-					final boolean wasInUIThread = SwingUtilities.isEventDispatchThread();
-					return delayedUpdateTask = swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
-						@Override
-						public void run() {
-							if (getDataUpdateDelayMilliseconds() > 0) {
-								try {
-									Thread.sleep(getDataUpdateDelayMilliseconds());
-								} catch (InterruptedException e) {
-									return;
-								}
-							}
-							synchronized (delayedUpdateMutex) {
-								if (wasInUIThread) {
-									try {
-										SwingUtilities.invokeAndWait(new Runnable() {
-											@Override
-											public void run() {
-												updateJob.run();
-											}
-										});
-									} catch (InterruptedException e) {
-										throw new ReflectionUIError(e);
-									} catch (InvocationTargetException e) {
-										throw new ReflectionUIError(e.getTargetException());
-									}
-								} else {
-									updateJob.run();
-								}
-							}
-						}
-
-					});
-				}
-			}
-		};
-	}
-
 	protected IFieldControlData makeFieldModificationsUndoable(final IFieldControlData data) {
 		return new FieldControlDataProxy(data) {
 
@@ -385,14 +314,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		};
 	}
 
-	protected long getDataUpdateDelayMilliseconds() {
-		if (fieldControl instanceof IAdvancedFieldControl) {
-			return ((IAdvancedFieldControl) fieldControl).getDataUpdateDelayMilliseconds();
-		} else {
-			return 0;
-		}
-	}
-
 	public Component getFieldControl() {
 		return fieldControl;
 	}
@@ -463,7 +384,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		result = handleValueAccessIssues(result);
 		result = makeFieldModificationsUndoable(result);
 		result = indicateWhenBusy(result);
-		result = synchronizeAndDelayUpdates(result);
 		return result;
 	}
 

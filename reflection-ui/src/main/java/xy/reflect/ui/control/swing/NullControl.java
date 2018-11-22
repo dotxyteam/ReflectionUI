@@ -187,11 +187,6 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 0;
-	}
-
-	@Override
 	public String toString() {
 		return "NullControl [data=" + data + "]";
 	}

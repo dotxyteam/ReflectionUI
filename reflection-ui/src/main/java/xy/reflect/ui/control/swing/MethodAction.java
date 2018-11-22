@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
-import javax.swing.SwingUtilities;
-
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
@@ -143,28 +141,14 @@ public class MethodAction extends AbstractAction {
 			cancelled = true;
 			return;
 		}
-		swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
-			@Override
-			public void run() {
-				final Throwable[] error = new Throwable[1];
-				try {
-					invokeAndUpdateReturnValue(invocationData);
-				} catch (final Throwable t) {
-					error[0] = t;
-				}
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						if (error[0] != null) {
-							swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, error[0]);
-						}
-						if (shouldDisplayReturnValue()) {
-							openMethodReturnValueWindow(activatorComponent);
-						}
-					}
-				});
+		try {
+			invokeAndUpdateReturnValue(invocationData);
+			if (shouldDisplayReturnValue()) {
+				openMethodReturnValueWindow(activatorComponent);
 			}
-		});
+		} catch (final Throwable t) {
+			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
+		}
 	}
 
 	public void invokeAndUpdateReturnValue(InvocationData invocationData) {

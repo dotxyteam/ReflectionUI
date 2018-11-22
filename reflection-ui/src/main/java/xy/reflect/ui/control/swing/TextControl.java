@@ -2,6 +2,8 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -13,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
@@ -23,6 +26,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
@@ -40,6 +44,22 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	protected boolean listenerDisabled = false;
 
 	protected Border defaultTextComponentBorder;
+	protected DelayedUpdateProcess dataUpdateProcess = new DelayedUpdateProcess() {
+		@Override
+		protected void commit() {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					TextControl.this.commitChanges();
+				}
+			});
+		}
+
+		@Override
+		protected long getCommitDelayMilliseconds() {
+			return TextControl.this.getCommitDelayMilliseconds();
+		}
+	};
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -64,6 +84,17 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public void undoableEditHappened(UndoableEditEvent e) {
 				TextControl.this.textComponentEditHappened();
+			}
+		});
+		textComponent.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				TextControl.this.textComponentFocustLost();
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
 			}
 		});
 		textComponent.addMouseListener(new MouseAdapter() {
@@ -233,16 +264,26 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		if (listenerDisabled) {
 			return;
 		}
+		dataUpdateProcess.cancelCommitSchedule();
+		dataUpdateProcess.scheduleCommit();
+	}
+
+	protected long getCommitDelayMilliseconds() {
+		return 1000;
+	}
+
+	protected void commitChanges() {
 		try {
-			onTextChange(textComponent.getText());
+			data.setValue(textComponent.getText());
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 		}
 	}
 
-	protected void onTextChange(String newStringValue) {
-		data.setValue(newStringValue);
+	protected void textComponentFocustLost() {
+		dataUpdateProcess.cancelCommitSchedule();
+		commitChanges();
 	}
 
 	@Override
@@ -281,11 +322,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
-	}
-
-	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 500;
 	}
 
 	@Override

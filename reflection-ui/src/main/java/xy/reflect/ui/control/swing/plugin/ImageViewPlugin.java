@@ -625,11 +625,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public long getDataUpdateDelayMilliseconds() {
-			return 0;
-		}
-
-		@Override
 		public String toString() {
 			return "ImageView [data=" + data + "]";
 		}

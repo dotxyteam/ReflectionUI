@@ -3,7 +3,6 @@ package xy.reflect.ui.control.swing.renderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.SortedMap;
 import javax.swing.SwingUtilities;
@@ -114,21 +113,8 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 				if (isBusyIndicationDisabled()) {
 					return super.invoke(invocationData);
 				}
-				final Object[] result = new Object[1];
-				try {
-					SwingUtilities.invokeAndWait(new Runnable() {
-						@Override
-						public void run() {
-							result[0] = SwingRendererUtils.showBusyDialogWhileInvokingMethod(
-									MethodControlPlaceHolder.this, swingRenderer, data, invocationData);
-						}
-					});
-				} catch (InterruptedException e) {
-					throw new ReflectionUIError(e);
-				} catch (InvocationTargetException e) {
-					throw new ReflectionUIError(e.getTargetException());
-				}
-				return result[0];
+				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(MethodControlPlaceHolder.this,
+						swingRenderer, data, invocationData);
 			}
 
 			@Override

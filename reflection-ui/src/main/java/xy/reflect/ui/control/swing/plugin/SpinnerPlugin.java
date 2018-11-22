@@ -1,12 +1,22 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.ComponentOrientation;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.DefaultFormatter;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -15,6 +25,7 @@ import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -79,6 +90,22 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
+		protected DelayedUpdateProcess dataUpdateProcess = new DelayedUpdateProcess() {
+			@Override
+			protected void commit() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						Spinner.this.commitChanges();
+					}
+				});
+			}
+
+			@Override
+			protected long getCommitDelayMilliseconds() {
+				return Spinner.this.getCommitDelayMilliseconds();
+			}
+		};
 
 		public Spinner(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -93,7 +120,11 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				throw new ReflectionUIError(e1);
 			}
 			setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-			((DefaultEditor) getEditor()).getTextField().setHorizontalAlignment(JTextField.LEFT);
+			setupEvents();
+			refreshUI(true);
+		}
+
+		protected void setupEvents() {
 			addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
@@ -103,7 +134,67 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					onSpin();
 				}
 			});
-			refreshUI(true);
+			addPropertyChangeListener(new PropertyChangeListener() {
+
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					if ("editor".equals(evt.getPropertyName())) {
+						JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) Spinner.this.getEditor();
+						final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
+						textField.setHorizontalAlignment(JTextField.LEFT);
+						textField.getDocument().addDocumentListener(new DocumentListener() {
+
+							private void anyUpdate() {
+								SwingUtilities.invokeLater(new Runnable() {
+									@Override
+									public void run() {
+										String string = textField.getText();
+										Object value;
+										DefaultFormatter formatter = ((DefaultFormatter) textField.getFormatter());
+										try {
+											value = formatter.stringToValue(string);
+										} catch (ParseException e) {
+											return;
+										}
+										int caretPosition = textField.getCaretPosition();
+										Spinner.this.setValue(value);
+										textField.setCaretPosition(
+												Math.min(caretPosition, textField.getText().length()));
+									}
+								});
+
+							}
+
+							@Override
+							public void removeUpdate(DocumentEvent e) {
+								anyUpdate();
+							}
+
+							@Override
+							public void insertUpdate(DocumentEvent e) {
+								anyUpdate();
+							}
+
+							@Override
+							public void changedUpdate(DocumentEvent e) {
+								anyUpdate();
+							}
+						});
+						textField.addFocusListener(new FocusListener() {
+
+							@Override
+							public void focusLost(FocusEvent e) {
+								onFocusLoss();
+							}
+
+							@Override
+							public void focusGained(FocusEvent e) {
+							}
+						});
+
+					}
+				}
+			});
 		}
 
 		@Override
@@ -147,6 +238,20 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected void onSpin() {
+			dataUpdateProcess.cancelCommitSchedule();
+			dataUpdateProcess.scheduleCommit();
+		}
+
+		protected void onFocusLoss() {
+			dataUpdateProcess.cancelCommitSchedule();
+			commitChanges();
+		}
+
+		protected long getCommitDelayMilliseconds() {
+			return 500;
+		}
+
+		protected void commitChanges() {
 			Object value = NumberUtils.convertNumberToTargetClass((Number) Spinner.this.getValue(), numberClass);
 			data.setValue(value);
 		}
@@ -167,11 +272,6 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 
 		@Override
 		public void addMenuContribution(MenuModel menuModel) {
-		}
-
-		@Override
-		public long getDataUpdateDelayMilliseconds() {
-			return 500;
 		}
 
 		@Override

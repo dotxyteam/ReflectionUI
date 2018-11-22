@@ -1,56 +1,50 @@
 package xy.reflect.ui.util;
 
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public abstract class DelayedUpdateProcess {
 
-	private long delayMilliseconds = 500;
-	private boolean dirty = false;
-	private ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 1, 1L, TimeUnit.MILLISECONDS,
-			new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {				
+	protected abstract void commit();
+
+	protected abstract long getCommitDelayMilliseconds();
+
+	protected Object commitMutex = new Object();
+	protected Future<?> dataUpdateTask;
+	protected ExecutorService dataUpdateJobExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread result = new Thread(r);
+			result.setName("DataUpdateJobExecutor [of=" + DelayedUpdateProcess.this + "]");
+			result.setDaemon(true);
+			return result;
+		}
+	});
+
+	public void scheduleCommit() {
+		synchronized (commitMutex) {
+			dataUpdateTask = dataUpdateJobExecutor.submit(new Runnable() {
 				@Override
-				public Thread newThread(Runnable r) {
-					return createThread(r);
+				public void run() {
+					try {
+						Thread.sleep(getCommitDelayMilliseconds());
+					} catch (InterruptedException e) {
+						return;
+					}
+					commit();
 				}
 			});
-
-	protected abstract void run();
-
-	protected Thread createThread(Runnable r) {
-		return new Thread(r, DelayedUpdateProcess.class.getSimpleName() + " Executor");
-	}
-
-	public long getDelayMilliseconds() {
-		return delayMilliseconds;
-	}
-
-	public void setDelayMilliseconds(long delayMilliseconds) {
-		this.delayMilliseconds = delayMilliseconds;
-	}
-
-	public void schedule() {
-		dirty = true;
-		if (executor.getQueue().size() > 0) {
-			return;
 		}
-		executor.submit(new Runnable() {
-			@Override
-			public void run() {
-				if (!dirty) {
-					return;
-				}
-				try {
-					Thread.sleep(delayMilliseconds);
-				} catch (InterruptedException e) {
-					throw new AssertionError(e);
-				}
-				dirty = false;
-				DelayedUpdateProcess.this.run();
+	}
+
+	public void cancelCommitSchedule() {
+		synchronized (commitMutex) {
+			if (dataUpdateTask != null) {
+				dataUpdateTask.cancel(true);
 			}
-		});
+		}
 	}
 
 }

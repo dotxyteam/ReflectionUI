@@ -471,11 +471,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return true;
 	}
 
-	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 0;
-	}
-
 	public IListStructuralInfo getStructuralInfo() {
 		if (structuralInfo == null) {
 			IListTypeInfo listType = getRootListType();
@@ -1661,56 +1656,48 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (!prepare()) {
 				return;
 			}
-			swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
-				@Override
+			swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
 				public void run() {
-					swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
-						public void run() {
-							final String modifTitle = getCompositeModificationTitle();
-							@SuppressWarnings("unchecked")
-							final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
-							if (modifTitle == null) {
-								List<BufferedItemPosition> initialSelection = getSelection();
-								perform(toPostSelectHolder);
-								refreshTreeTableModelAndControl(false);
-								if (toPostSelectHolder[0] != null) {
-									setSelection(toPostSelectHolder[0]);
-								} else {
-									setSelection(initialSelection);
-								}
-							} else {
-								final ModificationStack modifStack = getModificationStack();
-								try {
-									modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
-										@Override
-										public Boolean get() {
-											if (modifStack.insideComposite(
-													modifTitle + " (without list control update)",
-													UndoOrder.getNormal(), new Accessor<Boolean>() {
-														@Override
-														public Boolean get() {
-															perform(toPostSelectHolder);
-															return true;
-														}
-													})) {
-												modifStack
-														.apply(new RefreshStructureModification(toPostSelectHolder[0]));
-												return true;
-											} else {
-												modifStack
-														.apply(new RefreshStructureModification(toPostSelectHolder[0]));
-												return false;
-											}
-										}
-									});
-								} catch (Throwable t) {
-									swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
-								}
-							}
+					final String modifTitle = getCompositeModificationTitle();
+					@SuppressWarnings("unchecked")
+					final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
+					if (modifTitle == null) {
+						List<BufferedItemPosition> initialSelection = getSelection();
+						perform(toPostSelectHolder);
+						refreshTreeTableModelAndControl(false);
+						if (toPostSelectHolder[0] != null) {
+							setSelection(toPostSelectHolder[0]);
+						} else {
+							setSelection(initialSelection);
 						}
-					}, getCompositeModificationTitle());
+					} else {
+						final ModificationStack modifStack = getModificationStack();
+						try {
+							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
+								@Override
+								public Boolean get() {
+									if (modifStack.insideComposite(modifTitle + " (without list control update)",
+											UndoOrder.getNormal(), new Accessor<Boolean>() {
+												@Override
+												public Boolean get() {
+													perform(toPostSelectHolder);
+													return true;
+												}
+											})) {
+										modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+										return true;
+									} else {
+										modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+										return false;
+									}
+								}
+							});
+						} catch (Throwable t) {
+							swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
+						}
+					}
 				}
-			});
+			}, getCompositeModificationTitle());
 		}
 
 	};
@@ -2509,13 +2496,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				public IMethodControlData getControlData() {
 					IMethodControlData data = new DefaultMethodControlData(swingRenderer.getReflectionUI(),
 							IDynamicListAction.NO_OWNER, dynamicAction);
-					data = new MethodControlDataProxy(data) {
-						@Override
-						public Object invoke(final InvocationData invocationData) {
-							return SwingRendererUtils.showBusyDialogWhileInvokingMethod(ListControl.this, swingRenderer,
-									base, invocationData);
-						}
-					};
 					data = new MethodControlDataProxy(data) {
 						@Override
 						public Object invoke(InvocationData invocationData) {

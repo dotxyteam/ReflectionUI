@@ -258,11 +258,6 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		@Override
-		public long getDataUpdateDelayMilliseconds() {
-			return 0;
-		}
-
-		@Override
 		public String toString() {
 			return "OptionButtons [data=" + data + "]";
 		}

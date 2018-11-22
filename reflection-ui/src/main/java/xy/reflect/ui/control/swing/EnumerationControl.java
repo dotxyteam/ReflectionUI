@@ -189,11 +189,6 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 0;
-	}
-
-	@Override
 	public String toString() {
 		return "EnumerationControl [data=" + data + "]";
 	}

@@ -74,11 +74,6 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 0;
-	}
-
-	@Override
 	public void addMenuContribution(MenuModel menuModel) {
 	}
 

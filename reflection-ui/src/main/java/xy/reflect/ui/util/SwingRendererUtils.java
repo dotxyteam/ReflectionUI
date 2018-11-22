@@ -26,11 +26,14 @@ import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,15 +46,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.DefaultFormatter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
@@ -1025,6 +1033,57 @@ public class SwingRendererUtils {
 				}
 			}
 		};
+	}
+
+	public static void generateChangeEventsDuringTextFieldEditing(final JSpinner spinner) {
+		spinner.addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if ("editor".equals(evt.getPropertyName())) {
+					JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
+					final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
+					textField.getDocument().addDocumentListener(new DocumentListener() {
+
+						private void anyUpdate() {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									String string = textField.getText();
+									Object value;
+									DefaultFormatter formatter = ((DefaultFormatter) textField.getFormatter());
+									try {
+										value = formatter.stringToValue(string);
+									} catch (ParseException e) {
+										return;
+									}
+									int caretPosition = textField.getCaretPosition();
+									spinner.setValue(value);
+									textField.setCaretPosition(Math.min(caretPosition, textField.getText().length()));
+								}
+							});
+
+						}
+
+						@Override
+						public void removeUpdate(DocumentEvent e) {
+							anyUpdate();
+						}
+
+						@Override
+						public void insertUpdate(DocumentEvent e) {
+							anyUpdate();
+						}
+
+						@Override
+						public void changedUpdate(DocumentEvent e) {
+							anyUpdate();
+						}
+					});
+				}
+			}
+		});
+
 	}
 
 }

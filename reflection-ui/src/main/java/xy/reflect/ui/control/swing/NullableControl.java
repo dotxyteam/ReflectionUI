@@ -330,11 +330,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 	}
 
-	@Override
-	public long getDataUpdateDelayMilliseconds() {
-		return 0;
-	}
-
 	public ITypeInfo getSubControlValueType() {
 		return subControlValueType;
 	}

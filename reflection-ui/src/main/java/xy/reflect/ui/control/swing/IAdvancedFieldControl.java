@@ -56,18 +56,9 @@ public interface IAdvancedFieldControl {
 	 * 
 	 *         - undo management
 	 * 
-	 *         - data update synchronization and delay
-	 * 
 	 *         - error display
 	 */
 	boolean isAutoManaged();
-
-	/**
-	 * @return the delay before each data update gets actually committed on the raw
-	 *         data. Note that the framework will take this into account if and only
-	 *         if {@link #isAutoManaged()} returns false.
-	 */
-	long getDataUpdateDelayMilliseconds();
 
 	/**
 	 * @param msg

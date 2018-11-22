@@ -203,6 +203,16 @@ public class ModificationStack {
 		return redoStack.toArray(new IModification[redoStack.size()]);
 	}
 
+	/**
+	 * Begins the creation of a composite modification. Following this method call,
+	 * all the modifications that will be added to this stack will be packed into a
+	 * unique modification until the call of
+	 * {@link #endComposite(String, UndoOrder)} to finalize the composite
+	 * modification creation or {@link #abortComposite()} to cancel it. Note that
+	 * calling this method multiple times before making the related calls to
+	 * {@link #endComposite(String, UndoOrder)} or {@link #abortComposite()} will
+	 * result in the creation of inner composite modifications.
+	 */
 	public void beginComposite() {
 		if (!isInComposite()) {
 			validate();
@@ -210,6 +220,11 @@ public class ModificationStack {
 		compositeStack.push(new ModificationStack("(composite level " + compositeStack.size() + ") " + name));
 	}
 
+	/**
+	 * @return true if a call to {@link #beginComposite()} have been performed but
+	 *         the call to the related {@link #endComposite(String, UndoOrder)} or
+	 *         {@link #abortComposite()} has not been performed yet.
+	 */
 	public boolean isInComposite() {
 		return compositeStack.size() > 0;
 	}
@@ -219,9 +234,10 @@ public class ModificationStack {
 	 *            The composite modification title.
 	 * @param order
 	 *            The composite modification undo order.
-	 * @return whether the composite modification was successfully created. Note
-	 *         that if {@link #isInvalidated()} returns true then the composite will
-	 *         systematically aborted and this method will return true.
+	 * @return true if a potential modification was detected since the call of
+	 *         {@link #beginComposite()}. Note that true will also be returned if
+	 *         the composite modification creation have been aborted because of an
+	 *         invalidation.
 	 */
 	public boolean endComposite(String title, UndoOrder order) {
 		if (invalidated) {
@@ -246,34 +262,41 @@ public class ModificationStack {
 		return compositeParent.pushUndo(compositeUndoModif);
 	}
 
+	/**
+	 * Cancels a composite modification creation initiated by a preceding call to
+	 * {@link #beginComposite()}.
+	 */
 	public void abortComposite() {
 		compositeStack.pop();
 	}
 
 	/**
+	 * Convenient composite modification creation method to that calls
+	 * {@link #beginComposite()}, performs the specified action and call
+	 * {@link #endComposite(String, UndoOrder)} or {@link #abortComposite()}.
+	 * 
 	 * @param title
 	 *            The composite modification title.
 	 * @param order
 	 *            The composite modification undo order.
-	 * @param compositeValidated
+	 * @param action
 	 *            The method {@link Accessor#get()} will be called from this object
-	 *            before the current method returns. This should push the children
+	 *            before the current method returns. It should push the children
 	 *            undo modifications in the current modification stack and return
-	 *            true (or false if the new composite modification creation should
-	 *            be aborted).
-	 * @return whether the composite modification was successfully created.
+	 *            true if a potential modification is detected.
+	 * @return whether a potential modification was detected.
 	 */
-	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
+	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action) {
 		beginComposite();
-		boolean ok;
+		boolean modificationDetected;
 		try {
-			ok = compositeValidated.get();
+			modificationDetected = action.get();
 		} catch (Throwable t) {
 			invalidate();
 			abortComposite();
 			throw new ReflectionUIError(t);
 		}
-		if (ok) {
+		if (modificationDetected) {
 			return endComposite(title, order);
 		} else {
 			abortComposite();
