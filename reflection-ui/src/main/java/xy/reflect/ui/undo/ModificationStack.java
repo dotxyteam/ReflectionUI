@@ -9,6 +9,18 @@ import java.util.Stack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * This is an undo management class. it allows to undo/redo actions performed
+ * using instances of {@link IModification}.
+ * 
+ * Objects should be exclusively modified through the same modification stack.
+ * If a modification occurs but cannot be logged in the modification stack for
+ * any reason, then {@link #invalidate()} should be called to inform the
+ * modification stack.
+ * 
+ * @author nikolat
+ *
+ */
 public class ModificationStack {
 
 	protected Stack<IModification> undoStack = new Stack<IModification>();
@@ -96,65 +108,117 @@ public class ModificationStack {
 
 	};
 
+	/**
+	 * Constructs a modification stack haing the specified name.
+	 * 
+	 * @param name
+	 */
 	public ModificationStack(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * @return the name of this modification stack.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @return whether this modification stack is currently invalidated.
+	 */
 	public boolean isInvalidated() {
 		return invalidated;
 	}
 
+	/**
+	 * @return whether this modification stack has been at least once invalidated.
+	 */
 	public boolean wasInvalidated() {
 		return wasInvalidated;
 	}
 
+	/**
+	 * Adds the specified modification stack listener.
+	 * 
+	 * @param listener
+	 */
 	public void addListener(IModificationListener listener) {
 		listeners.add(listener);
 	}
 
+	/**
+	 * Removes the specified modification stack listener.
+	 * 
+	 * @param listener
+	 */
 	public void removeListener(IModificationListener listener) {
 		listeners.remove(listener);
 	}
 
+	/**
+	 * @return modification stack listeners.
+	 */
 	public IModificationListener[] getListeners() {
 		return listeners.toArray(new IModificationListener[listeners.size()]);
 	}
 
-	public void apply(IModification modif) {
+	/**
+	 * Executes the specified modification and stores its opposite modification in
+	 * the undo stack.
+	 * 
+	 * @param modification
+	 */
+	public void apply(IModification modification) {
 		try {
-			pushUndo(modif.applyAndGetOpposite());
+			pushUndo(modification.applyAndGetOpposite());
 		} catch (IrreversibleModificationException e) {
 			invalidate();
 		}
 	}
 
-	public boolean pushUndo(IModification undoModif) {
-		if (undoModif.isNull()) {
+	/**
+	 * Stores the specified modification undo modification in the undo stack.
+	 * 
+	 * @param undoModification
+	 * @return
+	 */
+	public boolean pushUndo(IModification undoModification) {
+		if (undoModification.isNull()) {
 			return false;
 		}
 		if (compositeStack.size() > 0) {
-			compositeStack.peek().pushUndo(undoModif);
+			compositeStack.peek().pushUndo(undoModification);
 			return true;
 		}
 		validate();
-		undoStack.push(undoModif);
+		undoStack.push(undoModification);
 		redoStack.clear();
-		allListenersProxy.handlePush(undoModif);
+		allListenersProxy.handlePush(undoModification);
 		return true;
 	}
 
+	/**
+	 * @return the number of remaining undo modifications.
+	 */
 	public int getUndoSize() {
 		return undoStack.size();
 	}
 
+	/**
+	 * @return the number of remaining redo modifications.
+	 */
 	public int getRedoSize() {
 		return redoStack.size();
 	}
 
+	/**
+	 * Execute the next undo modification.
+	 * 
+	 * @throws ReflectionUIError
+	 *             If there is no remaining undo modification or if a composite
+	 *             modification is being created.
+	 */
 	public void undo() {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
@@ -172,6 +236,13 @@ public class ModificationStack {
 		allListenersProxy.handleUdno(undoModif);
 	}
 
+	/**
+	 * Execute the next redo modification.
+	 * 
+	 * @throws ReflectionUIError
+	 *             If there is no remaining redo modification or if a composite
+	 *             modification is being created.
+	 */
 	public void redo() {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
@@ -189,16 +260,25 @@ public class ModificationStack {
 		allListenersProxy.handleRedo(modif);
 	}
 
+	/**
+	 * Execute all the undo modifications.
+	 */
 	public void undoAll() {
 		while (undoStack.size() > 0) {
 			undo();
 		}
 	}
 
+	/**
+	 * @return the stack of undo modifications.
+	 */
 	public IModification[] getUndoModifications() {
 		return undoStack.toArray(new IModification[undoStack.size()]);
 	}
 
+	/**
+	 * @return the stack of redo modifications.
+	 */
 	public IModification[] getRedoModifications() {
 		return redoStack.toArray(new IModification[redoStack.size()]);
 	}
@@ -305,6 +385,13 @@ public class ModificationStack {
 
 	}
 
+	/**
+	 * Informs the modification stack of the current undo management inconsistency.
+	 * Subsequently {@link #isInvalidated()} will return true and the undo and redo
+	 * stacks will be emptied to ensure that the undo management remains consistent.
+	 * This invalidation state will be cleared if an undo modification gets added
+	 * afterwards.
+	 */
 	public void invalidate() {
 		wasInvalidated = invalidated = true;
 		allListenersProxy.handleInvalidate();
@@ -320,6 +407,11 @@ public class ModificationStack {
 		}
 	}
 
+	/**
+	 * Resets the modification stack. Unlike the method {@link #invalidate()}
+	 * calling {@link #isInvalidated()} and {@link #wasInvalidated()} will be set to
+	 * return false.
+	 */
 	public void forget() {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot forget while composite modification creation is ongoing");
@@ -330,18 +422,34 @@ public class ModificationStack {
 		allListenersProxy.handleInvalidate();
 	}
 
+	/**
+	 * @return whether there are remaining undo modifications.
+	 */
 	public Boolean canUndo() {
 		return (undoStack.size() > 0) && !isInvalidated();
 	}
 
+	/**
+	 * @return whether there are remaining redo modifications.
+	 */
 	public Boolean canRedo() {
 		return (redoStack.size() > 0) && !isInvalidated();
 	}
 
+	/**
+	 * @return whether the objects managed by this modification stack can be
+	 *         reverted to their initial state (in other terms, there are remaining
+	 *         undo modifications and the modification stack was never invalidated).
+	 */
 	public Boolean canReset() {
 		return canUndo() && !wasInvalidated();
 	}
 
+	/**
+	 * @return whether objects managed by this modification stack are in their
+	 *         initial state (in other terms, there are no remaining undo
+	 *         modifications and the modification stack was never invalidated).
+	 */
 	public boolean isNull() {
 		if (undoStack.size() > 0) {
 			return false;
@@ -352,10 +460,22 @@ public class ModificationStack {
 		return true;
 	}
 
+	/**
+	 * @param title
+	 *            The title of the new composite modification.
+	 * @return a composite modification containing the current undo modification
+	 *         stack.
+	 */
 	public IModification toCompositeUndoModification(String title) {
 		return new CompositeModification(title, UndoOrder.getNormal(), getUndoModifications());
 	}
 
+	/**
+	 * @return a number identifying the current state of all the objects managed by
+	 *         this modification stack. If this value does not change between 2
+	 *         calls then the managed objects have not changed or their changes have
+	 *         successfully been reverted.
+	 */
 	public long getStateVersion() {
 		return stateVersion;
 	}
