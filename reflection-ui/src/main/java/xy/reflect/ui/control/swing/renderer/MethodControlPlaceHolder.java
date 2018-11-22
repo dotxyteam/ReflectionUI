@@ -32,12 +32,9 @@ import xy.reflect.ui.util.component.ControlPanel;
  * They provide common method control features as undo management, busy
  * indication, etc.
  * 
- * They generate the control input data that will be used by the
- * {@link #createMethodControl()} method. It will be passed to the control
- * constructor directly or with some control-specific proxy layers. Note that
- * the proxy layers respect the MVC call hierarchy: UI-specific layers will be
- * on top, followed by modification/synchronization/etc layers, followed by raw
- * data layers.
+ * They also generate the input data that will be used by the
+ * {@link #createMethodControl()} method and passed to the control constructor
+ * directly or with some control-specific proxy layers.
  * 
  * @author nikolat
  *

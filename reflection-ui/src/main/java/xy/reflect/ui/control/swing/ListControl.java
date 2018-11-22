@@ -1697,6 +1697,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 														.apply(new RefreshStructureModification(toPostSelectHolder[0]));
 												return true;
 											} else {
+												modifStack
+														.apply(new RefreshStructureModification(toPostSelectHolder[0]));
 												return false;
 											}
 										}
@@ -2647,8 +2649,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public IModification createCommitModification(Object newObjectValue) {
-					return new FieldControlDataValueModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
-							IDynamicListProperty.NO_OWNER, dynamicProperty), newObjectValue);
+					return new FieldControlDataValueModification(
+							new DefaultFieldControlData(swingRenderer.getReflectionUI(), IDynamicListProperty.NO_OWNER,
+									dynamicProperty),
+							newObjectValue);
 				}
 
 				@Override

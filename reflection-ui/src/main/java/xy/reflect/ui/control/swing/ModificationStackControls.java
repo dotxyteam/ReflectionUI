@@ -86,16 +86,23 @@ public class ModificationStackControls {
 				swingRenderer.getDataUpdateJobExecutor().submit(new Runnable() {
 					@Override
 					public void run() {
-						try {
-							action.run();
-						} catch (final Throwable t) {
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+						swingRenderer.showBusyDialogWhile(result, new Runnable() {
+
+							@Override
+							public void run() {
+								try {
+									action.run();
+								} catch (final Throwable t) {
+									SwingUtilities.invokeLater(new Runnable() {
+										@Override
+										public void run() {
+											swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+										}
+									});
 								}
-							});
-						}
+							}
+						}, tooltipText.get());
+
 					}
 				});
 			}

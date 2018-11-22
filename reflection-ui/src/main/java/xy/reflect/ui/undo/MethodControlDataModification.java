@@ -75,7 +75,7 @@ public class MethodControlDataModification extends AbstractModification {
 
 	@Override
 	public String toString() {
-		return "InvokeMethodModification [data=" + data + ", invocationData=" + invocationData + "]";
+		return "MethodControlDataModification [data=" + data + ", invocationData=" + invocationData + "]";
 	}
 
 }

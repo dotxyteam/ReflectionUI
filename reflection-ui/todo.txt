@@ -1,10 +1,7 @@
-- add buffer when creating FieldControlDataModifications for
-	. embedded field control
-	. polymorphic control
-	. ...
-- FieldControlPlaceHolder.handleValueAccessIssues(): 
-	it must not use the UI thread directly because it is
-	called by non-UI data layers
+- globally managed update delays + synchronization => too complicated
+	the need for synchronization comes mainly from update delays.
+	These delays should be managed locally by each controls. 
+	Maybe the focus loss events can serve as a delay interruption signal.  
 - remove as much dependencies as possible
 - pass object as param to 
 	. ITypeInfo.getMenuModel()

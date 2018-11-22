@@ -56,15 +56,13 @@ import xy.reflect.ui.util.component.ControlPanel;
  * Instances of this class are field control containers.
  * 
  * They provide common field control features as error display, undo management,
- * busy indication, etc. These features can be controlled by making the control
- * override the @ {@link IAdvancedFieldControl} interface.
+ * busy indication, updates synchronization, etc. These features can be
+ * customized/disabled by making the control override the @
+ * {@link IAdvancedFieldControl} interface.
  * 
- * They generate the control input data that will be used by the
- * {@link #createFieldControl()} method. It will be passed to the control
- * constructor directly or with some control-specific proxy layers. Note that
- * the proxy layers respect the MVC call hierarchy: UI-specific layers will be
- * on top, followed by modification/synchronization/etc layers, followed by raw
- * data layers.
+ * They also generate the input data that will be used by the
+ * {@link #createFieldControl()} method and passed to the control constructor
+ * directly or with some control-specific proxy layers.
  * 
  * @author nikolat
  *

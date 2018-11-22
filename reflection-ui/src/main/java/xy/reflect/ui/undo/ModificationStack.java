@@ -214,6 +214,15 @@ public class ModificationStack {
 		return compositeStack.size() > 0;
 	}
 
+	/**
+	 * @param title
+	 *            The composite modification title.
+	 * @param order
+	 *            The composite modification undo order.
+	 * @return whether the composite modification was successfully created. Note
+	 *         that if {@link #isInvalidated()} returns true then the composite will
+	 *         systematically aborted and this method will return true.
+	 */
 	public boolean endComposite(String title, UndoOrder order) {
 		if (invalidated) {
 			abortComposite();
@@ -241,6 +250,19 @@ public class ModificationStack {
 		compositeStack.pop();
 	}
 
+	/**
+	 * @param title
+	 *            The composite modification title.
+	 * @param order
+	 *            The composite modification undo order.
+	 * @param compositeValidated
+	 *            The method {@link Accessor#get()} will be called from this object
+	 *            before the current method returns. This should push the children
+	 *            undo modifications in the current modification stack and return
+	 *            true (or false if the new composite modification creation should
+	 *            be aborted).
+	 * @return whether the composite modification was successfully created.
+	 */
 	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> compositeValidated) {
 		beginComposite();
 		boolean ok;
