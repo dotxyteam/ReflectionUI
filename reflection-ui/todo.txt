@@ -1,3 +1,7 @@
+- the controls should not rely on the place holder or the form 
+to trigger refresh. Also the form should not trigger uselessly 
+the refresh on the field control that triggered the update that 
+triggered the form refresh. 
 - globally managed update delays + synchronization => too complicated
 	the need for synchronization comes mainly from update delays.
 	These delays should be managed locally by each controls. 

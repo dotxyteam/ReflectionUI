@@ -190,8 +190,10 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		protected void onFocusLoss() {
-			dataUpdateProcess.cancelCommitSchedule();
-			commitChanges();
+			if (dataUpdateProcess.isCommitScheduled()) {
+				dataUpdateProcess.cancelCommitSchedule();
+				commitChanges();
+			}
 		}
 
 		@Override

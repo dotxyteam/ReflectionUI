@@ -240,6 +240,11 @@ public abstract class AbstractEditorFormBuilder {
 	public Form createForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
 		Object encapsulated = getEncapsulatedObject();
 		Form result = getSwingRenderer().createForm(encapsulated);
+		setupFormLinkWithparent(result, realTimeLinkWithParent, exclusiveLinkWithParent);
+		return result;
+	}
+
+	protected void setupFormLinkWithparent(Form result, boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
 		if (realTimeLinkWithParent) {
 			if (canPotentiallyModifyParentObject()) {
 				forwardEditorFormModificationsToParentObject(result, exclusiveLinkWithParent);
@@ -248,7 +253,6 @@ public abstract class AbstractEditorFormBuilder {
 				refreshEditorFormOnModification(result);
 			}
 		}
-		return result;
 	}
 
 	protected boolean hasParentObject() {

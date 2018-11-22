@@ -22,18 +22,24 @@ public abstract class DelayedUpdateProcess {
 			return result;
 		}
 	});
+	protected boolean commitScheduled = false;
 
 	public void scheduleCommit() {
 		synchronized (commitMutex) {
 			dataUpdateTask = dataUpdateJobExecutor.submit(new Runnable() {
 				@Override
 				public void run() {
+					commitScheduled = true;
 					try {
-						Thread.sleep(getCommitDelayMilliseconds());
-					} catch (InterruptedException e) {
-						return;
+						try {
+							Thread.sleep(getCommitDelayMilliseconds());
+						} catch (InterruptedException e) {
+							return;
+						}
+						commit();
+					} finally {
+						commitScheduled = false;
 					}
-					commit();
 				}
 			});
 		}
@@ -45,6 +51,10 @@ public abstract class DelayedUpdateProcess {
 				dataUpdateTask.cancel(true);
 			}
 		}
+	}
+
+	public boolean isCommitScheduled() {
+		return commitScheduled;
 	}
 
 }

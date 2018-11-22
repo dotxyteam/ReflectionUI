@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
-import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
@@ -27,7 +26,6 @@ import xy.reflect.ui.undo.FieldControlDataValueModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
@@ -48,6 +46,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 	protected ITypeInfo lastInstanceType;
 	protected IFieldControlInput input;
+	protected Map<ITypeInfo, Object> subTypeInstanceCache = new HashMap<ITypeInfo, Object>();
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -88,10 +87,31 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		return true;
 	}
 
+	protected void onSubTypeSelection(ITypeInfo selectedSubType) {
+		try {
+			Object instance;
+			if (selectedSubType == null) {
+				instance = null;
+				subTypeInstanceCache.clear();
+			} else {
+				instance = subTypeInstanceCache.get(selectedSubType);
+				if (instance == null) {
+					instance = data.createValue(selectedSubType, true);
+					if (instance == null) {
+						return;
+					}
+					subTypeInstanceCache.put(selectedSubType, instance);
+				}
+			}
+			ReflectionUIUtils.setValueThroughModificationStack(data, instance, input.getModificationStack());
+		} catch (Throwable t) {
+			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
+		}
+		refreshUI(false);
+	}
+
 	protected Form createTypeEnumerationControl() {
 		typeEnumerationControlBuilder = new AbstractEditorFormBuilder() {
-
-			Map<ITypeInfo, Object> instanceByEnumerationValueCache = new HashMap<ITypeInfo, Object>();
 
 			@Override
 			public IContext getContext() {
@@ -119,11 +139,10 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				if (instance == null) {
 					return null;
 				}
-				ITypeInfo selectedType = ReflectionUIUtils.getFirstKeyFromValue(instanceByEnumerationValueCache,
-						instance);
+				ITypeInfo selectedType = ReflectionUIUtils.getFirstKeyFromValue(subTypeInstanceCache, instance);
 				if (selectedType == null) {
 					selectedType = typeOptionsFactory.guessSubType(instance);
-					instanceByEnumerationValueCache.put(selectedType, instance);
+					subTypeInstanceCache.put(selectedType, instance);
 				}
 				return typeOptionsFactory.getInstance(selectedType);
 			}
@@ -145,34 +164,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			protected boolean shouldAcceptNewObjectValue(Object value) {
-				Object instance;
-				if (value != null) {
-					ITypeInfo selectedSubType = (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
-					instance = instanceByEnumerationValueCache.get(selectedSubType);
-					if (instance == null) {
-						try {
-							instance = data.createValue(selectedSubType, true);
-						} catch (Throwable t) {
-							instance = null;
-						}
-						if (instance == null) {
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									refreshTypeEnumerationControl(false);
-								}
-							});
-							return false;
-						}
-						instanceByEnumerationValueCache.put(selectedSubType, instance);
-					}
-				}
 				return true;
 			}
 
 			@Override
 			public IModification createCommitModification(final Object value) {
-
 				return new ModificationProxy(IModification.NULL_MODIFICATION) {
 
 					@Override
@@ -182,32 +178,15 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 					@Override
 					public IModification applyAndGetOpposite() {
-						Object instance;
-						if (value == null) {
-							instance = null;
-							instanceByEnumerationValueCache.clear();
-						} else {
-							ITypeInfo selectedSubType = (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
-							instance = instanceByEnumerationValueCache.get(selectedSubType);
-							if (instance == null) {
-								throw new ReflectionUIError();
-							}
-						}
-						return new FieldControlDataValueModification(new FieldControlDataProxy(data) {
+						SwingUtilities.invokeLater(new Runnable() {
 							@Override
-							public void setValue(Object value) {
-								try {
-									super.setValue(value);
-								} finally {
-									SwingUtilities.invokeLater(new Runnable() {
-										@Override
-										public void run() {
-											refreshDynamicControl(false);
-										}
-									});
-								}
+							public void run() {
+								ITypeInfo selectedSubType = (value == null) ? null
+										: (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
+								onSubTypeSelection(selectedSubType);
 							}
-						}, instance).applyAndGetOpposite();
+						});
+						return IModification.NULL_MODIFICATION;
 					}
 				};
 			}

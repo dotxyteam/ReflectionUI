@@ -243,8 +243,10 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected void onFocusLoss() {
-			dataUpdateProcess.cancelCommitSchedule();
-			commitChanges();
+			if (dataUpdateProcess.isCommitScheduled()) {
+				dataUpdateProcess.cancelCommitSchedule();
+				commitChanges();
+			}
 		}
 
 		protected long getCommitDelayMilliseconds() {

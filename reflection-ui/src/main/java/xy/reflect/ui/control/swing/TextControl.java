@@ -268,6 +268,13 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		dataUpdateProcess.scheduleCommit();
 	}
 
+	protected void textComponentFocustLost() {
+		if (dataUpdateProcess.isCommitScheduled()) {
+			dataUpdateProcess.cancelCommitSchedule();
+			commitChanges();
+		}
+	}
+
 	protected long getCommitDelayMilliseconds() {
 		return 1000;
 	}
@@ -279,11 +286,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			swingRenderer.getReflectionUI().logError(t);
 			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
 		}
-	}
-
-	protected void textComponentFocustLost() {
-		dataUpdateProcess.cancelCommitSchedule();
-		commitChanges();
 	}
 
 	@Override

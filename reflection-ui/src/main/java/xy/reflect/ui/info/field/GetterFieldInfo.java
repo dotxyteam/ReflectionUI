@@ -16,6 +16,7 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -150,7 +151,8 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 					.getTypeInfo(new TypeInfoSourceProxy(getGetterMethodInfo().getReturnValueType().getSource()) {
 						@Override
 						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-							return new SpecificitiesIdentifier(containingJavaClass.getName(),
+							return new SpecificitiesIdentifier(reflectionUI
+									.getTypeInfo(new JavaTypeInfoSource(containingJavaClass, null)).getName(),
 									GetterFieldInfo.this.getName());
 						}
 					});
