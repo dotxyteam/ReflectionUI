@@ -13,6 +13,8 @@ public interface IModificationListener {
 	 * {@link ModificationStack#pushUndo(IModification)}.
 	 * 
 	 * @param undoModification
+	 *            The parameter passed to
+	 *            {@link ModificationStack#pushUndo(IModification)}.
 	 */
 	void handlePush(IModification undoModification);
 
@@ -20,6 +22,7 @@ public interface IModificationListener {
 	 * Called after the execution of {@link ModificationStack#undo()}.
 	 * 
 	 * @param undoModification
+	 *            The undo modification that was executed.
 	 */
 	void handleUdno(IModification undoModification);
 
@@ -27,6 +30,7 @@ public interface IModificationListener {
 	 * Called after the execution of {@link ModificationStack#redo()}.
 	 * 
 	 * @param modification
+	 *            The modification that was executed.
 	 */
 	void handleRedo(IModification modification);
 

@@ -27,7 +27,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.undo.FieldControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -255,7 +255,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 			@Override
 			public IModification createCommitModification(Object newObjectValue) {
-				return new FieldControlDataValueModification(data, newObjectValue);
+				return new FieldControlDataModification(data, newObjectValue);
 			}
 
 			@Override
@@ -270,7 +270,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return FieldControlDataValueModification.getTitle(data.getCaption());
+				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override

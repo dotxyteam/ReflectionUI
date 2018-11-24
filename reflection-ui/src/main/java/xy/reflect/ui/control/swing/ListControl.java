@@ -94,7 +94,7 @@ import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.BufferedListModificationFactory;
-import xy.reflect.ui.undo.FieldControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ListModificationFactory;
@@ -864,7 +864,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (listData.isGetOnly()) {
 					return IModification.NULL_MODIFICATION;
 				} else {
-					return new FieldControlDataValueModification(listData, rootListValue);
+					return new FieldControlDataModification(listData, rootListValue);
 				}
 			}
 		};
@@ -2629,7 +2629,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public IModification createCommitModification(Object newObjectValue) {
-					return new FieldControlDataValueModification(
+					return new FieldControlDataModification(
 							new DefaultFieldControlData(swingRenderer.getReflectionUI(), IDynamicListProperty.NO_OWNER,
 									dynamicProperty),
 							newObjectValue);
@@ -2662,7 +2662,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
-			return FieldControlDataValueModification
+			return FieldControlDataModification
 					.getTitle(ReflectionUIUtils.composeMessage(getRootListTitle(), dynamicProperty.getCaption()));
 		}
 

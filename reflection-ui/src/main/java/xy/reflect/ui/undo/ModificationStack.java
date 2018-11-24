@@ -109,9 +109,10 @@ public class ModificationStack {
 	};
 
 	/**
-	 * Constructs a modification stack haing the specified name.
+	 * Constructs a modification stack having the specified name.
 	 * 
 	 * @param name
+	 *            The name.
 	 */
 	public ModificationStack(String name) {
 		this.name = name;
@@ -139,25 +140,27 @@ public class ModificationStack {
 	}
 
 	/**
-	 * Adds the specified modification stack listener.
+	 * Adds the specified listener to the modification stack.
 	 * 
 	 * @param listener
+	 *            The listener.
 	 */
 	public void addListener(IModificationListener listener) {
 		listeners.add(listener);
 	}
 
 	/**
-	 * Removes the specified modification stack listener.
+	 * Removes the specified listener from the modification stack.
 	 * 
 	 * @param listener
+	 *            The listener.
 	 */
 	public void removeListener(IModificationListener listener) {
 		listeners.remove(listener);
 	}
 
 	/**
-	 * @return modification stack listeners.
+	 * @return all the modification stack listeners.
 	 */
 	public IModificationListener[] getListeners() {
 		return listeners.toArray(new IModificationListener[listeners.size()]);
@@ -168,6 +171,7 @@ public class ModificationStack {
 	 * the undo stack.
 	 * 
 	 * @param modification
+	 *            The modification.
 	 */
 	public void apply(IModification modification) {
 		try {
@@ -181,7 +185,8 @@ public class ModificationStack {
 	 * Stores the specified modification undo modification in the undo stack.
 	 * 
 	 * @param undoModification
-	 * @return
+	 *            The undo modification.
+	 * @return true only and only if the specified undo modification is not null.
 	 */
 	public boolean pushUndo(IModification undoModification) {
 		if (undoModification.isNull()) {

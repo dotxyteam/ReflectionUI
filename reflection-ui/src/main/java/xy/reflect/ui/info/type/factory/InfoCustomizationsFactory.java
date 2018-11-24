@@ -93,13 +93,15 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public class InfoCustomizationsFactory extends InfoProxyFactory {
+public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	protected final Map<IdentityEqualityWrapper<ITypeInfo>, MembersCustomizationsFactory> membersCache = new WeakHashMap<IdentityEqualityWrapper<ITypeInfo>, MembersCustomizationsFactory>();
 	protected final Object membersCacheMutex = new Object();
 
 	protected CustomizedUI customizedUI;
 	protected InfoCustomizations infoCustomizations;
+
+	public abstract String getIdentifier();
 
 	public InfoCustomizationsFactory(CustomizedUI customizedUI, InfoCustomizations infoCustomizations) {
 		this.customizedUI = customizedUI;
@@ -141,11 +143,6 @@ public class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 		return super.getMethodsLayout(type);
-	}
-
-	@Override
-	public String getIdentifier() {
-		return this.getInfoCustomizations().toString();
 	}
 
 	@Override

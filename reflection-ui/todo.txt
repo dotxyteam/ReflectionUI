@@ -1,3 +1,4 @@
+- add a checker to verify that a busy indication layer is not added in a modfication 
 - the controls should not rely on the place holder or the form 
 to trigger refresh. Also the form should not trigger uselessly 
 the refresh on the field control that triggered the update that 

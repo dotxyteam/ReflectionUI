@@ -68,21 +68,10 @@ public class CustomizedUI extends ReflectionUI {
 		ITypeInfo result = super.getTypeInfo(typeSource);
 		result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 		result = getTypeInfoBeforeCustomizations(result);
-		result = new InfoCustomizationsFactory(this, infoCustomizations).wrapTypeInfo(result);
-		final SpecificitiesIdentifier specificitiesIdentifier = typeSource.getSpecificitiesIdentifier();
+		result = getInfoCustomizationsFactory().wrapTypeInfo(result);
+		SpecificitiesIdentifier specificitiesIdentifier = typeSource.getSpecificitiesIdentifier();
 		if (specificitiesIdentifier != null) {
-			TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
-					specificitiesIdentifier.getContainingTypeName());
-			FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
-					specificitiesIdentifier.getFieldName());
-			result = new InfoCustomizationsFactory(this, fieldCustomization.getSpecificTypeCustomizations()) {
-
-				@Override
-				public String getIdentifier() {
-					return specificitiesIdentifier.toString();
-				}
-
-			}.wrapTypeInfo(result);
+			result = getSpecificitiesFactory(specificitiesIdentifier).wrapTypeInfo(result);
 		}
 		result = getTypeInfoAfterCustomizations(result);
 		return result;
@@ -93,9 +82,48 @@ public class CustomizedUI extends ReflectionUI {
 		IApplicationInfo result = super.getApplicationInfo();
 		result = getInfoCustomizationsSetupFactory().wrapApplicationInfo(result);
 		result = getApplicationInfoBeforeCustomizations(result);
-		result = new InfoCustomizationsFactory(this, infoCustomizations).wrapApplicationInfo(result);
+		result = getInfoCustomizationsFactory().wrapApplicationInfo(result);
 		result = getApplicationInfoAfterCustomizations(result);
 		return result;
+	}
+
+	/**
+	 * @return the UI model proxy factory that will be used to provide specific
+	 *         customizations (e.g.: specific to a field) for {@link ITypeInfo}
+	 *         instances. This factory would be used after the one returned by
+	 *         {@link #getInfoCustomizationsFactory()}.
+	 */
+	public InfoProxyFactory getSpecificitiesFactory(final SpecificitiesIdentifier specificitiesIdentifier) {
+		TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
+				specificitiesIdentifier.getContainingTypeName());
+		FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
+				specificitiesIdentifier.getFieldName());
+		return new InfoCustomizationsFactory(this, fieldCustomization.getSpecificTypeCustomizations()) {
+			@Override
+			public String getIdentifier() {
+				return "SpecificitiesFactory [of=" + CustomizedUI.this.toString() + ", specificitiesIdentifier="
+						+ specificitiesIdentifier.toString() + "]";
+			}
+
+		};
+	}
+
+	/**
+	 * @return the UI model proxy factory that will be used to customize every UI
+	 *         model. This factory will be used after calling
+	 *         {@link #getTypeInfoBeforeCustomizations(ITypeInfo)} |
+	 *         {@link #getApplicationInfoBeforeCustomizations(IApplicationInfo)} and
+	 *         before calling {@link #getTypeInfoAfterCustomizations(ITypeInfo)} |
+	 *         {@link #getApplicationInfoAfterCustomizations(IApplicationInfo)}.
+	 */
+	public InfoProxyFactory getInfoCustomizationsFactory() {
+		return new InfoCustomizationsFactory(this, infoCustomizations) {
+
+			@Override
+			public String getIdentifier() {
+				return "CustomizationsFactory [of=" + CustomizedUI.this.toString() + "]";
+			}
+		};
 	}
 
 	/**
@@ -105,6 +133,11 @@ public class CustomizedUI extends ReflectionUI {
 	 */
 	public InfoProxyFactory getInfoCustomizationsSetupFactory() {
 		return new InfoProxyFactory() {
+
+			@Override
+			public String getIdentifier() {
+				return "CustomizationsSetupFactory [of=" + CustomizedUI.this.toString() + "]";
+			}
 
 			@Override
 			protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {

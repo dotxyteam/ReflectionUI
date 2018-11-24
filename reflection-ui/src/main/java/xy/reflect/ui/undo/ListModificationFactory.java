@@ -134,7 +134,7 @@ public class ListModificationFactory {
 
 		@Override
 		public String getTitle() {
-			return FieldControlDataValueModification.getTitle(itemPosition.getContainingListTitle());
+			return FieldControlDataModification.getTitle(itemPosition.getContainingListTitle());
 		}
 
 		@Override

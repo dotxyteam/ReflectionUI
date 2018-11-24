@@ -1,16 +1,27 @@
 package xy.reflect.ui.undo;
 
 import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class FieldControlDataValueModification extends AbstractModification {
+public class FieldControlDataModification extends AbstractModification {
 
 	protected IFieldControlData data;
 	protected Object newValue;
 
-	public FieldControlDataValueModification(final IFieldControlData data, final Object newValue) {
+	public FieldControlDataModification(final IFieldControlData data, final Object newValue) {
+		check(data);
 		this.data = data;
 		this.newValue = newValue;
+	}
+
+	protected void check(IFieldControlData data) {
+		if (Boolean.TRUE.equals(data.getSpecificProperties()
+				.get(FieldControlPlaceHolder.COMMON_CONTROL_MANAGEMENT_ENABLED_PROPERTY_KEY))) {
+			throw new ReflectionUIError("A " + FieldControlDataModification.class.getSimpleName()
+					+ " must not be constructed with a data that has the common control management enabled");
+		}
 	}
 
 	public static String getTitle(String targetCaption) {
@@ -57,7 +68,7 @@ public class FieldControlDataValueModification extends AbstractModification {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FieldControlDataValueModification other = (FieldControlDataValueModification) obj;
+		FieldControlDataModification other = (FieldControlDataModification) obj;
 		if (newValue == null) {
 			if (other.newValue != null)
 				return false;
@@ -73,7 +84,7 @@ public class FieldControlDataValueModification extends AbstractModification {
 
 	@Override
 	public String toString() {
-		return "FieldControlDataValueModification [data=" + data + ", newValue=" + newValue + "]";
+		return "FieldControlDataModification [data=" + data + ", newValue=" + newValue + "]";
 	}
 
 }

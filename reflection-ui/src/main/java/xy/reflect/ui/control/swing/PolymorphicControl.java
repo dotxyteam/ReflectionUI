@@ -22,7 +22,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.undo.FieldControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
@@ -44,9 +44,10 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected Form dynamicControl;
 	protected Form typeEnumerationControl;
 
-	protected ITypeInfo lastInstanceType;
+	protected ITypeInfo dynamicControlInstanceType;
 	protected IFieldControlInput input;
 	protected Map<ITypeInfo, Object> subTypeInstanceCache = new HashMap<ITypeInfo, Object>();
+	protected Object currentInstance;
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -82,6 +83,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				setBorder(null);
 			}
 		}
+		currentInstance = data.getValue();
 		refreshTypeEnumerationControl(refreshStructure);
 		refreshDynamicControl(refreshStructure);
 		return true;
@@ -92,7 +94,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			Object instance;
 			if (selectedSubType == null) {
 				instance = null;
-				subTypeInstanceCache.clear();
 			} else {
 				instance = subTypeInstanceCache.get(selectedSubType);
 				if (instance == null) {
@@ -100,14 +101,18 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					if (instance == null) {
 						return;
 					}
-					subTypeInstanceCache.put(selectedSubType, instance);
 				}
 			}
 			ReflectionUIUtils.setValueThroughModificationStack(data, instance, input.getModificationStack());
 		} catch (Throwable t) {
 			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 		}
-		refreshUI(false);
+		try {
+			refreshDynamicControl(false);
+			refreshTypeEnumerationControl(false);
+		} catch (Throwable t) {
+			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
+		}
 	}
 
 	protected Form createTypeEnumerationControl() {
@@ -135,16 +140,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public Object getInitialObjectValue() {
-				Object instance = data.getValue();
-				if (instance == null) {
-					return null;
-				}
-				ITypeInfo selectedType = ReflectionUIUtils.getFirstKeyFromValue(subTypeInstanceCache, instance);
-				if (selectedType == null) {
-					selectedType = typeOptionsFactory.guessSubType(instance);
-					subTypeInstanceCache.put(selectedType, instance);
-				}
-				return typeOptionsFactory.getInstance(selectedType);
+				return typeOptionsFactory.getInstance(getCurrentSubType());
 			}
 
 			@Override
@@ -198,7 +194,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return FieldControlDataValueModification.getTitle(data.getCaption());
+				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
@@ -213,6 +209,19 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 		};
 		return typeEnumerationControlBuilder.createForm(true, false);
+	}
+
+	protected ITypeInfo getCurrentSubType() {
+		Object instance = currentInstance;
+		if (instance == null) {
+			return null;
+		}
+		ITypeInfo result = ReflectionUIUtils.getFirstKeyFromValue(subTypeInstanceCache, instance);
+		if (result == null) {
+			result = typeOptionsFactory.guessSubType(instance);
+			subTypeInstanceCache.put(result, instance);
+		}
+		return result;
 	}
 
 	protected void refreshTypeEnumerationControl(boolean refreshStructure) {
@@ -258,7 +267,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public IModification createCommitModification(Object newObjectValue) {
-				return new FieldControlDataValueModification(data, newObjectValue);
+				return new FieldControlDataModification(data, newObjectValue);
 			}
 
 			@Override
@@ -273,7 +282,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public String getCumulatedModificationsTitle() {
-				return FieldControlDataValueModification.getTitle(data.getCaption());
+				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
@@ -297,7 +306,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 			@Override
 			public Object getInitialObjectValue() {
-				return data.getValue();
+				return currentInstance;
 			}
 
 		};
@@ -305,30 +314,30 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	protected void refreshDynamicControl(boolean refreshStructure) {
-		ITypeInfo instanceType = (ITypeInfo) typeOptionsFactory
-				.unwrapInstance(typeEnumerationControlBuilder.getCurrentObjectValue());
-		if ((lastInstanceType == null) && (instanceType == null)) {
+		ITypeInfo instanceType = getCurrentSubType();
+		if ((dynamicControlInstanceType == null) && (instanceType == null)) {
 			return;
-		} else if ((lastInstanceType != null) && (instanceType == null)) {
+		} else if ((dynamicControlInstanceType != null) && (instanceType == null)) {
 			remove(dynamicControl);
 			dynamicControl = null;
+			dynamicControlInstanceType = null;
 			SwingRendererUtils.handleComponentSizeChange(this);
-		} else if ((lastInstanceType == null) && (instanceType != null)) {
+		} else if ((dynamicControlInstanceType == null) && (instanceType != null)) {
 			dynamicControl = createDynamicControl(instanceType);
+			dynamicControlInstanceType = instanceType;
 			add(dynamicControl, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
-			if (lastInstanceType.equals(instanceType)) {
+			if (dynamicControlInstanceType.equals(instanceType)) {
 				dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
 			} else {
 				remove(dynamicControl);
-				dynamicControl = null;
 				dynamicControl = createDynamicControl(instanceType);
+				dynamicControlInstanceType = instanceType;
 				add(dynamicControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 		}
-		lastInstanceType = instanceType;
 	}
 
 	@Override

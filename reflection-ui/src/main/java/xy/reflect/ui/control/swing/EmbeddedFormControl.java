@@ -18,7 +18,7 @@ import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.FieldControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -88,13 +88,13 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					if (data.isGetOnly()) {
 						return null;
 					}
-					return new FieldControlDataValueModification(data, subFormObject);
+					return new FieldControlDataModification(data, subFormObject);
 				}
 			};
 			Accessor<String> childModifTitleGetter = new Accessor<String>() {
 				@Override
 				public String get() {
-					return FieldControlDataValueModification.getTitle(data.getCaption());
+					return FieldControlDataModification.getTitle(data.getCaption());
 				}
 			};
 			Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {

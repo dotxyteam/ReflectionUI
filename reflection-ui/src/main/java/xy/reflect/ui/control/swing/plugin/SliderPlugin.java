@@ -176,7 +176,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		protected long getCommitDelayMilliseconds() {
-			return 1000;
+			return 750;
 		}
 
 		protected void commitChanges() {

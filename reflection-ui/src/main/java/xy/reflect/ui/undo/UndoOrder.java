@@ -9,12 +9,12 @@ package xy.reflect.ui.undo;
  */
 public enum UndoOrder {
 	/**
-	 * @see #getNormal().
+	 * See {@link #getNormal()}.
 	 */
 	FIFO,
 
 	/**
-	 * @see #getInverse().
+	 * See {@link #getInverse()}.
 	 */
 	LIFO;
 

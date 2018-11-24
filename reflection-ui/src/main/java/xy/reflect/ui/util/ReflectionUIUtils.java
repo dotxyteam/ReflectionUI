@@ -59,7 +59,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.undo.FieldControlDataValueModification;
+import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -792,6 +792,28 @@ public class ReflectionUIUtils {
 		return type.copy(object);
 	}
 
+	public static void copyFieldValues(ReflectionUI reflectionUI, Object src, Object dst, boolean deep) {
+		ITypeInfo srcType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(src));
+		ITypeInfo dstType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(dst));
+		for (IFieldInfo dstField : dstType.getFields()) {
+			if (dstField.isGetOnly()) {
+				continue;
+			}
+			IFieldInfo srcField = ReflectionUIUtils.findInfoByName(srcType.getFields(), dstField.getName());
+			if (srcField == null) {
+				continue;
+			}
+			Object srcFieldValue = srcField.getValue(src);
+			ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
+			if (deep && !fieldValueType.isImmutable()) {
+				Object dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, dst, false);
+				copyFieldValues(reflectionUI, srcFieldValue, dstFieldValue, true);
+			} else {
+				dstField.setValue(dst, srcFieldValue);
+			}
+		}
+	}
+
 	public static void checkInstance(ITypeInfo type, Object object) {
 		if (object == null) {
 			return;
@@ -893,7 +915,7 @@ public class ReflectionUIUtils {
 
 	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
 			ModificationStack modifStack) {
-		FieldControlDataValueModification modif = new FieldControlDataValueModification(data, newValue);
+		FieldControlDataModification modif = new FieldControlDataModification(data, newValue);
 		try {
 			modifStack.apply(modif);
 		} catch (Throwable t) {
@@ -1223,4 +1245,5 @@ public class ReflectionUIUtils {
 		}
 		return (Serializable) ReflectionUIUtils.deserializeFromHexaText(text);
 	}
+
 }

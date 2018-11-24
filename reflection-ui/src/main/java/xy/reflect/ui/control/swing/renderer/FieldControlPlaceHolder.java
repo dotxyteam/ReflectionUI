@@ -5,6 +5,9 @@ import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -65,6 +68,9 @@ import xy.reflect.ui.util.component.ControlPanel;
 public class FieldControlPlaceHolder extends ControlPanel implements IFieldControlInput {
 
 	protected static final long serialVersionUID = 1L;
+
+	public static final String COMMON_CONTROL_MANAGEMENT_ENABLED_PROPERTY_KEY = FieldControlPlaceHolder.class.getName()
+			+ ".COMMON_CONTROL_MANAGEMENT_ENABLED";
 
 	protected final SwingRenderer swingRenderer;
 	protected Component fieldControl;
@@ -327,22 +333,25 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				swingRenderer.getReflectionUI().logError(t);
 				fieldControl = createFieldErrorControl(t);
 			}
-			add(fieldControl, BorderLayout.CENTER);
-			layoutInContainerUpdateNeeded = true;
-			SwingRendererUtils.handleComponentSizeChange(this);
+			layoutFieldControl();
 		} else {
 			if (isFieldControlObsolete()) {
 				destroyFieldControl();
 				refreshUI(refreshStructure);
 			} else {
-				boolean refreshed = false;
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
-						refreshed = ((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure);
-					} catch (Throwable ignore) {
+						if (!((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure)) {
+							destroyFieldControl();
+							refreshUI(refreshStructure);
+						}
+					} catch (Throwable t) {
+						destroyFieldControl();
+						swingRenderer.getReflectionUI().logError(t);
+						fieldControl = createFieldErrorControl(t);
+						layoutFieldControl();
 					}
-				}
-				if (!refreshed) {
+				} else {
 					destroyFieldControl();
 					refreshUI(refreshStructure);
 				}
@@ -353,7 +362,13 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 	}
 
-	public void destroyFieldControl() {
+	protected void layoutFieldControl() {
+		add(fieldControl, BorderLayout.CENTER);
+		layoutInContainerUpdateNeeded = true;
+		SwingRendererUtils.handleComponentSizeChange(this);
+	}
+
+	protected void destroyFieldControl() {
 		if (fieldControl != null) {
 			remove(fieldControl);
 			fieldControl = null;
@@ -384,7 +399,20 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		result = handleValueAccessIssues(result);
 		result = makeFieldModificationsUndoable(result);
 		result = indicateWhenBusy(result);
+		result = addControlManagementStatusProperty(result);
 		return result;
+	}
+
+	protected IFieldControlData addControlManagementStatusProperty(IFieldControlData result) {
+		return new FieldControlDataProxy(result) {
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+				result.put(COMMON_CONTROL_MANAGEMENT_ENABLED_PROPERTY_KEY, !isFieldControlAutoManaged());
+				return result;
+			}
+		};
 	}
 
 	public Component createFieldControl() {

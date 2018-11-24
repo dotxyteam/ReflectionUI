@@ -95,15 +95,18 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
-	public void save(Object object, OutputStream out) {
-		throw new ReflectionUIError(
-				"Method not implemented for '" + getName() + "': " + ITypeInfo.class.getName() + "#save(...)");
+	public void save(Object object, OutputStream output) {
+		ReflectionUIUtils.serialize(object, output);
 	}
 
 	@Override
-	public void load(Object object, InputStream in) {
-		throw new ReflectionUIError(
-				"Method not implemented for '" + getName() + "': " + ITypeInfo.class.getName() + "#load(...)");
+	public void load(Object object, InputStream input) {
+		Object loaded = ReflectionUIUtils.deserialize(input);
+		try {
+			ReflectionUIUtils.copyFieldValues(reflectionUI, loaded, object, true);
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Deserialized object: Deep copy failure: " + t.toString(), t);
+		}
 	}
 
 	@Override

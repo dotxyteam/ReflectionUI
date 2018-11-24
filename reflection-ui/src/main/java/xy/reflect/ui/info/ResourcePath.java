@@ -84,6 +84,7 @@ public class ResourcePath implements Serializable {
 	 * created using the static specify*Location(String) methods of this class.
 	 * 
 	 * @param specification
+	 *            The specification.
 	 */
 	public ResourcePath(String specification) {
 		setSpecification(specification);
