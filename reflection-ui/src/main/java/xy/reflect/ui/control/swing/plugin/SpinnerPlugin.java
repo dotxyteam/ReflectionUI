@@ -128,9 +128,6 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					if (listenerDisabled) {
-						return;
-					}
 					onSpin();
 				}
 			});
@@ -145,6 +142,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						textField.getDocument().addDocumentListener(new DocumentListener() {
 
 							private void anyUpdate() {
+								if (listenerDisabled) {
+									return;
+								}
 								SwingUtilities.invokeLater(new Runnable() {
 									@Override
 									public void run() {
@@ -199,26 +199,26 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			if (refreshStructure) {
-				SpinnerConfiguration controlCustomization = (SpinnerConfiguration) loadControlCustomization(input);
-				Number minimum = getConvertedNumber(controlCustomization.minimum);
-				Number maximum = getConvertedNumber(controlCustomization.maximum);
-				Number stepSize = getConvertedNumber(controlCustomization.stepSize);
-				Number value = minimum;
-				setModel(new SpinnerNumberModel(value, (Comparable<?>) minimum, (Comparable<?>) maximum, stepSize));
-				setEnabled(!data.isGetOnly());
-			}
-			Number value = (Number) data.getValue();
-			if (value == null) {
-				value = (Number) ((SpinnerNumberModel) getModel()).getMinimum();
-			}
 			listenerDisabled = true;
 			try {
+				if (refreshStructure) {
+					SpinnerConfiguration controlCustomization = (SpinnerConfiguration) loadControlCustomization(input);
+					Number minimum = getConvertedNumber(controlCustomization.minimum);
+					Number maximum = getConvertedNumber(controlCustomization.maximum);
+					Number stepSize = getConvertedNumber(controlCustomization.stepSize);
+					Number value = minimum;
+					setModel(new SpinnerNumberModel(value, (Comparable<?>) minimum, (Comparable<?>) maximum, stepSize));
+					setEnabled(!data.isGetOnly());
+				}
+				Number value = (Number) data.getValue();
+				if (value == null) {
+					value = (Number) ((SpinnerNumberModel) getModel()).getMinimum();
+				}
 				setValue(value);
+				return true;
 			} finally {
 				listenerDisabled = false;
 			}
-			return true;
 		}
 
 		protected Number getConvertedNumber(String s) {
@@ -238,6 +238,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected void onSpin() {
+			if (listenerDisabled) {
+				return;
+			}
 			dataUpdateProcess.cancelCommitSchedule();
 			dataUpdateProcess.scheduleCommit();
 		}

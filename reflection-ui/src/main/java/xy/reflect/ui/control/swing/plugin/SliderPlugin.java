@@ -101,9 +101,6 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					if (listenerDisabled) {
-						return;
-					}
 					onSlide();
 				}
 			});
@@ -123,46 +120,41 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			if (refreshStructure) {
-				SliderConfiguration controlCustomization = (SliderConfiguration) loadControlCustomization(input);
-				listenerDisabled = true;
-				try {
-					setMaximum(controlCustomization.maximum);
-					setMinimum(controlCustomization.minimum);
-				} finally {
-					listenerDisabled = false;
-				}
-				setPaintTicks(controlCustomization.paintTicks);
-				setPaintLabels(controlCustomization.paintLabels);
-				setLabelTable(null);
-				setMinorTickSpacing(controlCustomization.minorTickSpacing);
-				setMajorTickSpacing(controlCustomization.majorTickSpacing);
-				setEnabled(!data.isGetOnly());
-				setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
-				SwingRendererUtils.handleComponentSizeChange(this);
-			}
-			Object value = data.getValue();
-			final int intValue;
-			if (value == null) {
-				intValue = getMinimum();
-			} else {
-				intValue = (Integer) NumberUtils.convertNumberToTargetClass((Number) value, Integer.class);
-			}
-			if (intValue > getMaximum()) {
-				throw new ReflectionUIError(
-						"The value is greater than the maximum value: " + intValue + " > " + getMaximum());
-			}
-			if (intValue < getMinimum()) {
-				throw new ReflectionUIError(
-						"The value is less than the minimum value: " + intValue + " < " + getMinimum());
-			}
 			listenerDisabled = true;
 			try {
+				if (refreshStructure) {
+					SliderConfiguration controlCustomization = (SliderConfiguration) loadControlCustomization(input);
+					setMaximum(controlCustomization.maximum);
+					setMinimum(controlCustomization.minimum);
+					setPaintTicks(controlCustomization.paintTicks);
+					setPaintLabels(controlCustomization.paintLabels);
+					setLabelTable(null);
+					setMinorTickSpacing(controlCustomization.minorTickSpacing);
+					setMajorTickSpacing(controlCustomization.majorTickSpacing);
+					setEnabled(!data.isGetOnly());
+					setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
+					SwingRendererUtils.handleComponentSizeChange(this);
+				}
+				Object value = data.getValue();
+				final int intValue;
+				if (value == null) {
+					intValue = getMinimum();
+				} else {
+					intValue = (Integer) NumberUtils.convertNumberToTargetClass((Number) value, Integer.class);
+				}
+				if (intValue > getMaximum()) {
+					throw new ReflectionUIError(
+							"The value is greater than the maximum value: " + intValue + " > " + getMaximum());
+				}
+				if (intValue < getMinimum()) {
+					throw new ReflectionUIError(
+							"The value is less than the minimum value: " + intValue + " < " + getMinimum());
+				}
 				setValue(intValue);
+				return true;
 			} finally {
 				listenerDisabled = false;
 			}
-			return true;
 		}
 
 		@Override
@@ -185,6 +177,9 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		protected void onSlide() {
+			if (listenerDisabled) {
+				return;
+			}
 			dataUpdateProcess.cancelCommitSchedule();
 			dataUpdateProcess.scheduleCommit();
 		}
