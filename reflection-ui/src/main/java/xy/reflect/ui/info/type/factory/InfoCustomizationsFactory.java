@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +22,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.FieldTypeSpecificities;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
@@ -33,7 +31,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
-import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.CapsuleFieldInfo;
@@ -1444,7 +1441,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
 				CapsuleFieldInfo capsuleField = new CapsuleFieldInfo(customizedUI, capsuleFieldName, encapsulatedFields,
 						encapsulatedMethods, containingType);
-				initializeEncapsulatedMemberCustomizations(capsuleField, containingType);
 				result.add(capsuleField);
 			}
 			return result;
@@ -1468,61 +1464,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 			}
 			return notMerged;
-		}
-
-		@SuppressWarnings("unchecked")
-		protected void initializeEncapsulatedMemberCustomizations(CapsuleFieldInfo capsuleField,
-				ITypeInfo containingType) {
-			ITypeInfo capsuleFieldType = capsuleField.getType();
-			TypeCustomization capsuleTc = InfoCustomizations.getTypeCustomization(getInfoCustomizations(),
-					capsuleFieldType.getName(), true);
-			for (IFieldInfo field : capsuleFieldType.getFields()) {
-				FieldCustomization fc = InfoCustomizations.getFieldCustomization(capsuleTc, field.getName(), true);
-				if (fc.isInitial()) {
-					FieldCustomization baseFc = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
-							field.getName(), true);
-					if (!baseFc.isInitial()) {
-						fc.setCustomFieldCaption(baseFc.getCustomFieldCaption());
-						fc.setCustomValueReturnMode(baseFc.getCustomValueReturnMode());
-						fc.setDisplayedAsSingletonList(baseFc.isDisplayedAsSingletonList());
-						fc.setFormControlCreationForced(baseFc.isFormControlCreationForced());
-						fc.setFormControlEmbeddingForced(baseFc.isFormControlEmbeddingForced());
-						fc.setAutoUpdatePeriodMilliseconds(baseFc.getAutoUpdatePeriodMilliseconds());
-						fc.setGetOnlyForced(baseFc.isGetOnlyForced());
-						fc.setNullValueDistinctForced(baseFc.isNullValueDistinctForced());
-						fc.setNullValueLabel(baseFc.getNullValueLabel());
-						fc.setOnlineHelp(baseFc.getOnlineHelp());
-						fc.setTypeConversion((TypeConversion) ReflectionUIUtils
-								.copyThroughSerialization(baseFc.getTypeConversion()));
-						fc.setNullReplacement((baseFc.getNullReplacement() == null) ? null
-								: (TextualStorage) ReflectionUIUtils
-										.copyThroughSerialization(baseFc.getNullReplacement()));
-						fc.setSpecificProperties((Map<String, Object>) ReflectionUIUtils
-								.copyThroughSerialization((Serializable) baseFc.getSpecificProperties()));
-						fc.setSpecificTypeCustomizations((FieldTypeSpecificities) ReflectionUIUtils
-								.copyThroughSerialization(baseFc.getSpecificTypeCustomizations()));
-
-					}
-				}
-			}
-			for (IMethodInfo method : capsuleFieldType.getMethods()) {
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(capsuleTc, method.getSignature(),
-						true);
-				if (mc.isInitial()) {
-					MethodCustomization baseMc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
-							method.getSignature(), true);
-					if (!baseMc.isInitial()) {
-						mc.setCustomMethodCaption(baseMc.getCustomMethodCaption());
-						mc.setCustomValueReturnMode(baseMc.getCustomValueReturnMode());
-						mc.setDetachedReturnValueForced(baseMc.isDetachedReturnValueForced());
-						mc.setIconImagePath(baseMc.getIconImagePath());
-						mc.setNullReturnValueLabel(baseMc.getNullReturnValueLabel());
-						mc.setOnlineHelp(baseMc.getOnlineHelp());
-						mc.setReadOnlyForced(baseMc.isReadOnlyForced());
-						mc.setIgnoredReturnValueForced(baseMc.isIgnoredReturnValueForced());
-					}
-				}
-			}
 		}
 
 		protected void checkDuplicates(List<IFieldInfo> outputFields, List<IMethodInfo> outputMethods,

@@ -3,11 +3,14 @@ package xy.reflect.ui.info.field;
 import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
@@ -46,6 +49,32 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		this.containingType = containingType;
 	}
 
+	public static String formatTypeName(String fieldName, String containingTypeName) {
+		return MessageFormat.format(
+				"CapsuleFieldType [context=EncapsulationContext [containingType={0}], fieldName={1}]",
+				containingTypeName, fieldName);
+	}
+
+	public static String extractContainingTypeName(String typeName) {
+		Pattern p = Pattern.compile(
+				"CapsuleFieldType \\[context=EncapsulationContext \\[containingType=(.+)\\], fieldName=(.+)\\]");
+		Matcher m = p.matcher(typeName);
+		if (!m.matches()) {
+			return null;
+		}
+		return m.group(1);
+	}
+
+	public static String extractFieldName(String typeName) {
+		Pattern p = Pattern.compile(
+				"CapsuleFieldType \\[context=EncapsulationContext \\[containingType=(.+)\\], fieldName=(.+)\\]");
+		Matcher m = p.matcher(typeName);
+		if (!m.matches()) {
+			return null;
+		}
+		return m.group(2);
+	}
+
 	public IFieldInfo createEncapsulatedFieldInfoProxy(IFieldInfo field) {
 		return new EncapsulatedFieldInfoProxy(field);
 	}
@@ -64,10 +93,6 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public List<IMethodInfo> getEncapsulatedMethods() {
 		return encapsulatedMethods;
-	}
-
-	public String getContextId() {
-		return "EncapsulationContext [containingType=" + containingType.getName() + "]";
 	}
 
 	@Override
@@ -222,7 +247,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return "CapsuleField [fieldName=" + fieldName + ", contextId=" + getContextId() + ", fields="
+		return "CapsuleField [fieldName=" + fieldName + ", containingType=" + containingType + ", fields="
 				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
@@ -331,7 +356,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return "CapsuleFieldType [context=" + getContextId() + ", fieldName=" + fieldName + "]";
+			return formatTypeName(fieldName, containingType.getName());
 		}
 
 		@Override

@@ -1,3 +1,4 @@
 4.5.2
+- automatic cleaning of customizations after encapsulation/decapsulation
 - implemented default save/load using serialization
 - dependencies removed: apache.commons.*, paranamer
