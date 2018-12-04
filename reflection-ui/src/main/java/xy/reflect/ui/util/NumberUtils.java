@@ -26,8 +26,8 @@ public abstract class NumberUtils {
 	 *            the target class to convert to
 	 * @return the converted number
 	 * @throws IllegalArgumentException
-	 *             if the target class is not supported (i.e. not a standard
-	 *             Number subclass as included in the JDK)
+	 *             if the target class is not supported (i.e. not a standard Number
+	 *             subclass as included in the JDK)
 	 * @see java.lang.Byte
 	 * @see java.lang.Short
 	 * @see java.lang.Integer
@@ -38,7 +38,6 @@ public abstract class NumberUtils {
 	 * @see java.math.BigDecimal
 	 */
 	public static Number convertNumberToTargetClass(Number number, Class targetClass) throws IllegalArgumentException {
-
 		if (targetClass.isInstance(number)) {
 			return number;
 		} else if (targetClass.equals(Byte.class)) {
@@ -92,11 +91,10 @@ public abstract class NumberUtils {
 	}
 
 	/**
-	 * Parse the given text into a number instance of the given target class,
-	 * using the corresponding default <code>decode</code> methods. Trims the
-	 * input <code>String</code> before attempting to parse the number. Supports
-	 * numbers in hex format (with leading 0x) and in octal format (with leading
-	 * 0).
+	 * Parse the given text into a number instance of the given target class, using
+	 * the corresponding default <code>decode</code> methods. Trims the input
+	 * <code>String</code> before attempting to parse the number. Supports numbers
+	 * in hex format (with leading 0x) and in octal format (with leading 0).
 	 *
 	 * @param text
 	 *            the text to convert
@@ -104,8 +102,8 @@ public abstract class NumberUtils {
 	 *            the target class to parse into
 	 * @return the parsed number
 	 * @throws IllegalArgumentException
-	 *             if the target class is not supported (i.e. not a standard
-	 *             Number subclass as included in the JDK)
+	 *             if the target class is not supported (i.e. not a standard Number
+	 *             subclass as included in the JDK)
 	 * @see java.lang.Byte#decode
 	 * @see java.lang.Short#decode
 	 * @see java.lang.Integer#decode
@@ -141,22 +139,21 @@ public abstract class NumberUtils {
 	}
 
 	/**
-	 * Parse the given text into a number instance of the given target class,
-	 * using the given NumberFormat. Trims the input <code>String</code> before
-	 * attempting to parse the number.
+	 * Parse the given text into a number instance of the given target class, using
+	 * the given NumberFormat. Trims the input <code>String</code> before attempting
+	 * to parse the number.
 	 *
 	 * @param text
 	 *            the text to convert
 	 * @param targetClass
 	 *            the target class to parse into
 	 * @param numberFormat
-	 *            the NumberFormat to use for parsing (if <code>null</code>,
-	 *            this method falls back to
-	 *            <code>parseNumber(String, Class)</code>)
+	 *            the NumberFormat to use for parsing (if <code>null</code>, this
+	 *            method falls back to <code>parseNumber(String, Class)</code>)
 	 * @return the parsed number
 	 * @throws IllegalArgumentException
-	 *             if the target class is not supported (i.e. not a standard
-	 *             Number subclass as included in the JDK)
+	 *             if the target class is not supported (i.e. not a standard Number
+	 *             subclass as included in the JDK)
 	 * @see java.text.NumberFormat#parse
 	 * @see #convertNumberToTargetClass
 	 * @see #parseNumber(String,Class)
@@ -175,8 +172,8 @@ public abstract class NumberUtils {
 	}
 
 	/**
-	 * Decode a {@link java.math.BigInteger} from a {@link String} value.
-	 * Supports decimal, hex and octal notation.
+	 * Decode a {@link java.math.BigInteger} from a {@link String} value. Supports
+	 * decimal, hex and octal notation.
 	 *
 	 * @see BigInteger#BigInteger(String,int)
 	 */

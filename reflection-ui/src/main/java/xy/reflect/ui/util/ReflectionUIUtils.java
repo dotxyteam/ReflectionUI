@@ -10,7 +10,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
-import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -29,12 +28,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.binary.Base64;
-
-import com.thoughtworks.paranamer.AdaptiveParanamer;
-import com.thoughtworks.paranamer.BytecodeReadingParanamer;
-import com.thoughtworks.paranamer.DefaultParanamer;
-import com.thoughtworks.paranamer.Paranamer;
+import javax.xml.bind.DatatypeConverter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
@@ -372,33 +366,6 @@ public class ReflectionUIUtils {
 			}
 		}
 		return result.toString();
-	}
-
-	public static String[] getJavaParameterNames(Member owner) {
-		Paranamer paranamer = new AdaptiveParanamer(new DefaultParanamer(), new BytecodeReadingParanamer());
-		String[] parameterNames;
-		try {
-			parameterNames = paranamer.lookupParameterNames((AccessibleObject) owner, false);
-		} catch (Throwable t) {
-			return null;
-		}
-		if ((parameterNames == null) || (parameterNames.length == 0)) {
-			return null;
-		}
-		if (owner instanceof Constructor) {
-			Constructor<?> ctor = (Constructor<?>) owner;
-			Class<?> ctorClass = ctor.getDeclaringClass();
-			if (ctorClass.isMemberClass()) {
-				if (!Modifier.isStatic(ctorClass.getModifiers())) {
-					if (parameterNames.length == (ctor.getParameterTypes().length - 1)) {
-						List<String> tmpList = new ArrayList<String>(Arrays.asList(parameterNames));
-						tmpList.add(0, "parent");
-						parameterNames = tmpList.toArray(new String[tmpList.size()]);
-					}
-				}
-			}
-		}
-		return parameterNames;
 	}
 
 	public static void transferStream(InputStream inputStream, OutputStream outputStream) throws IOException {
@@ -970,6 +937,11 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
+	public static String getDefaultParameterCaption(IParameterInfo param) {
+		String result = ReflectionUIUtils.identifierToCaption(param.getName());
+		return result;
+	}
+
 	public static String getDefaultListTypeCaption(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		if (itemType == null) {
@@ -1016,7 +988,7 @@ public class ReflectionUIUtils {
 			oos.writeObject(object);
 			oos.flush();
 			byte[] binary = baos.toByteArray();
-			return Base64.encodeBase64String(binary);
+			return DatatypeConverter.printBase64Binary(binary);
 		} catch (Throwable e) {
 			throw new ReflectionUIError(e);
 		}
@@ -1024,7 +996,7 @@ public class ReflectionUIUtils {
 
 	public static Object deserializeFromHexaText(String text) {
 		try {
-			byte[] binary = Base64.decodeBase64(text);
+			byte[] binary = DatatypeConverter.parseBase64Binary(text);
 			ByteArrayInputStream bais = new ByteArrayInputStream(binary);
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			return ois.readObject();

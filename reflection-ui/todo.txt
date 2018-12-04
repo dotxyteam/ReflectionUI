@@ -1,3 +1,11 @@
+- allow to clean type customizations (remove renamed/removed field/method customizations).
+It would be a temporary solution since it should be done automatically.
+- copying these attributes on encapsulation is very memory consuming:
+	. NullReplacement
+	. SpecificProperties
+	. SpecificTypeCustomizations 
+	Maybe can maintain a id-value map of all textualStorages 
+	or clean hidden field on move into/out
 - add a checker to verify that a busy indication layer is not added in a modfication 
 - the controls should not rely on the place holder or the form 
 to trigger refresh. Also the form should not trigger uselessly 

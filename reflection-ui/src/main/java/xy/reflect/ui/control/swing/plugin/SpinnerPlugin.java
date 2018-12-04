@@ -61,11 +61,14 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 
 	protected static Number parseNumber(String s) {
 		try {
-			Number result = org.apache.commons.lang3.math.NumberUtils.createNumber(s);
-			return result;
-		} catch (NumberFormatException e) {
-			throw new ReflectionUIError(e);
+			return Long.valueOf(s);
+		} catch (NumberFormatException ignore) {
 		}
+		try {
+			return Double.valueOf(s);
+		} catch (NumberFormatException ignore) {
+		}
+		throw new ReflectionUIError("Cannot convert string to number (long or double): '" + s + "'");
 	}
 
 	public static class SpinnerConfiguration extends AbstractConfiguration {

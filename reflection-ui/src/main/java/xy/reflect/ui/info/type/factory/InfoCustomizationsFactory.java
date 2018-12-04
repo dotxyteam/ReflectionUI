@@ -1,6 +1,7 @@
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +23,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldTypeSpecificities;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
@@ -1468,6 +1470,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			return notMerged;
 		}
 
+		@SuppressWarnings("unchecked")
 		protected void initializeEncapsulatedMemberCustomizations(CapsuleFieldInfo capsuleField,
 				ITypeInfo containingType) {
 			ITypeInfo capsuleFieldType = capsuleField.getType();
@@ -1491,6 +1494,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						fc.setOnlineHelp(baseFc.getOnlineHelp());
 						fc.setTypeConversion((TypeConversion) ReflectionUIUtils
 								.copyThroughSerialization(baseFc.getTypeConversion()));
+						fc.setNullReplacement((baseFc.getNullReplacement() == null) ? null
+								: (TextualStorage) ReflectionUIUtils
+										.copyThroughSerialization(baseFc.getNullReplacement()));
+						fc.setSpecificProperties((Map<String, Object>) ReflectionUIUtils
+								.copyThroughSerialization((Serializable) baseFc.getSpecificProperties()));
+						fc.setSpecificTypeCustomizations((FieldTypeSpecificities) ReflectionUIUtils
+								.copyThroughSerialization(baseFc.getSpecificTypeCustomizations()));
 
 					}
 				}

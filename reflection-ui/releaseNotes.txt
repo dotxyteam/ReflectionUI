@@ -1,2 +1,3 @@
 4.5.2
 - implemented default save/load using serialization
+- dependencies removed: apache.commons.*, paranamer

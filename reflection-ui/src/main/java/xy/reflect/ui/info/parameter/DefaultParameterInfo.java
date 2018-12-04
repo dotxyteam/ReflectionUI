@@ -5,8 +5,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
-import xy.reflect.ui.info.field.FieldInfoProxy;
-import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
@@ -31,21 +30,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	@Override
 	public String getCaption() {
-		String result = ReflectionUIUtils.getDefaultFieldCaption(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
-			@Override
-			public ITypeInfo getType() {
-				return DefaultParameterInfo.this.getType();
-			}
-
-			@Override
-			public String getName() {
-				return DefaultParameterInfo.this.getName();
-			}
-		});
-		if (javaParameter.getName() == Parameter.NO_NAME) {
-			result += " (" + getType().getCaption() + ")";
-		}
-		return result;
+		return ReflectionUIUtils.getDefaultParameterCaption(this);
 	}
 
 	@Override
@@ -62,7 +47,25 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 		if (name == null) {
 			name = javaParameter.getName();
 			if (name == Parameter.NO_NAME) {
-				name = "parameter" + (javaParameter.getPosition() + 1);
+				name = new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(javaParameter.getType(), null))
+						.getCaption();
+				int sameNameCount = 0;
+				int sameNamePosition = 0;
+				int parameterposition = 0;
+				for (Class<?> c : javaParameter.getDeclaringInvokableParameterTypes()) {
+					if (name.equals(new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(c, null)).getCaption())) {
+						sameNameCount++;
+						if (parameterposition < javaParameter.getPosition()) {
+							sameNamePosition++;
+						}
+					}
+					parameterposition++;
+				}
+				if (sameNameCount > 1) {
+					name += (sameNamePosition + 1);
+				}
+				name = name.replace(" ", "");
+				name = name.substring(0, 1).toLowerCase() + name.substring(1);
 			}
 		}
 		return name;

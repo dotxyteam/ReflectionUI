@@ -365,10 +365,10 @@ public class ModificationStack {
 	 * @param order
 	 *            The composite modification undo order.
 	 * @param action
-	 *            The method {@link Accessor#get()} will be called from this object
-	 *            before the current method returns. It should push the children
-	 *            undo modifications in the current modification stack and return
-	 *            true if a potential modification is detected.
+	 *            The method {@link Accessor#get()} will be called from this
+	 *            parameter object before the current method returns. It should push
+	 *            the children undo modifications in the current modification stack
+	 *            and return true if a potential modification is detected.
 	 * @return whether a potential modification was detected.
 	 */
 	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action) {

@@ -14,8 +14,7 @@ public class Parameter extends AccessibleObject {
 	private final int position;
 	private Class<?>[] invokableParameterTypes;
 	private Annotation[][] invokableParameterAnnotations;
-	private String name;
-
+	
 	public Parameter(Member invokable, int position) {
 		this.invokable = invokable;
 		this.position = position;
@@ -53,15 +52,7 @@ public class Parameter extends AccessibleObject {
 	}
 
 	public String getName() {
-		if (name == null) {
-			String[] parameterNames = ReflectionUIUtils.getJavaParameterNames(invokable);
-			if (parameterNames == null) {
-				name = NO_NAME;
-			} else {
-				name = parameterNames[position];
-			}
-		}
-		return name;
+		return NO_NAME;
 	}
 
 	@Override

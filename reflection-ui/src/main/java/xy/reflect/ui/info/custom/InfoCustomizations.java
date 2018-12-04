@@ -89,7 +89,7 @@ public class InfoCustomizations implements Serializable {
 	public static final String UID_FIELD_NAME = "uniqueIdentifier";
 	public static final Object INITIAL_STATE_FIELD_NAME = "initial";
 
-	protected static final ReflectionUI INTROSPECTOR = new ReflectionUI();
+	public static final ReflectionUI INTROSPECTOR = new ReflectionUI();
 
 	public static InfoCustomizations defaultInstance;
 	protected ApplicationCustomization appplicationCustomization = new ApplicationCustomization();
