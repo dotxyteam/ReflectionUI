@@ -72,7 +72,7 @@ public class ListTabbedPane extends JPanel {
 	private static final String NULL_CARD_NAME = ListTabbedPane.class.getName() + ".nullCard";
 
 	private JList listControl;
-	private int lastListSelection = -1;
+	private int lastListSelectionIndex = -1;
 	private boolean listSelectionHandlingEnabled = true;
 	private JPanel currentComponentContainer;
 	private CardLayout cardLayout;
@@ -322,38 +322,28 @@ public class ListTabbedPane extends JPanel {
 		if (!listSelectionHandlingEnabled) {
 			return;
 		}
-		if (listControl.getSelectedIndex() == lastListSelection) {
+		if (listControl.getSelectedIndex() == lastListSelectionIndex) {
 			return;
 		}
 		final int currentIndex = listControl.getSelectedIndex();
-		lastListSelection = currentIndex;
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						if (currentIndex == -1) {
-							cardLayout.show(currentComponentContainer, getCardName(null));
-						} else {
-							cardLayout.show(currentComponentContainer,
-									getCardName(listControl.getModel().getElementAt(currentIndex)));
-						}
-						notifyChangeListeners();
-					}
-				});
+				if (currentIndex == -1) {
+					cardLayout.show(currentComponentContainer, getCardName(null));
+				} else {
+					cardLayout.show(currentComponentContainer,
+							getCardName(listControl.getModel().getElementAt(currentIndex)));
+				}
+				notifyChangeListeners();
 			}
 		});
+		lastListSelectionIndex = currentIndex;
 	}
 
 	protected void notifyChangeListeners() {
-		for (final ChangeListener l : changeListeners) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					l.stateChanged(new ChangeEvent(ListTabbedPane.this));
-				}
-			});
+		for (ChangeListener l : changeListeners) {
+			l.stateChanged(new ChangeEvent(ListTabbedPane.this));
 		}
 	}
 
