@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=maven
+
+get-orig-source:
+	uscan --download-current-version --force-download --no-symlink

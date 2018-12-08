@@ -1,0 +1,17 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ClassMate
+Source: http://github.com/FasterXML/java-classmate
+
+Files: *
+Copyright: 2018, fasterxml.com
+License: Apache-2.0
+
+Files: debian/*
+Copyright: 2018, OTK Software <contact@otksoftware.com>
+License: Apache-2.0
+
+License: Apache-2.0
+ On Debian systems, the full text of the Apache-2.0 license
+ can be found in the file '/usr/share/common-licenses/Apache-2.0'
+
+

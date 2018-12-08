@@ -1,0 +1,9 @@
+#List of dependencies for libclassmate-java, generated for use by debian/control
+maven:CompileDepends=libmaven-compiler-plugin-java
+maven:Depends=
+maven:OptionalDepends=
+maven:TestDepends=
+maven:DocDepends=
+maven:DocOptionalDepends=
+misc:Depends=
+misc:Pre-Depends=

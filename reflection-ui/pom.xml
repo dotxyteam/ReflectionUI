@@ -98,36 +98,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>xy.reflect.ui.ReflectionUI</mainClass>
-									<addClasspath>true</addClasspath>
-									<classpathPrefix>dependency/</classpathPrefix>
-								</manifest>
-							</archive>
-						</configuration>
-					</plugin>
-					<plugin>
-						<artifactId>maven-assembly-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>assembly</id>
-								<phase>package</phase>
-								<goals>
-									<goal>attached</goal>
-								</goals>
-								<configuration>
-									<descriptors>
-										<descriptor>assembly.xml</descriptor>
-									</descriptors>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>

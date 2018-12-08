@@ -1,0 +1,5 @@
+export DEBFULLNAME="OTK Software"
+export DEBEMAIL="contact@otksoftware.com"
+mh_make
+ls -a | xargs tar cvfz ../classmate_1.4.0.orig.tar.gz
+debuild
