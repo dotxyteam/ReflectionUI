@@ -1,11 +1,15 @@
 package xy.reflect.ui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
@@ -14,11 +18,29 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MinimalTest {
 
+	private List<String> errors = new ArrayList<String>();
+	private CustomizedUI customizedUI = new CustomizedUI() {
+		@Override
+		public void logError(String msg) {
+			errors.add(msg);
+		}
+	};
+	private CustomizedSwingRenderer renderer = new CustomizedSwingRenderer(customizedUI);
+
+	@Before
+	public void resetLoggedErrors() {
+		errors.clear();
+	}
+
+	@After
+	public void checkLoggedErrors() {
+		if (errors.size() > 0) {
+			throw new AssertionError(errors.toString());
+		}
+	}
+
 	@Test
 	public void testFileExplorer() throws Exception {
-		CustomizedUI customizedUI = CustomizedSwingRenderer.getDefault().getCustomizedUI();
-		CustomizedSwingRenderer renderer = CustomizedSwingRenderer.getDefault();
-
 		customizedUI.getInfoCustomizations().loadFromFile(new File("fileExplorer.icu"),
 				ReflectionUIUtils.getDebugLogListener(customizedUI));
 		Object object = new File[] { new File(System.getProperty("java.io.tmpdir")) };
@@ -31,9 +53,6 @@ public class MinimalTest {
 
 	@Test
 	public void testCalculator() throws Exception {
-		CustomizedUI customizedUI = CustomizedSwingRenderer.getDefault().getCustomizedUI();
-		CustomizedSwingRenderer renderer = CustomizedSwingRenderer.getDefault();
-
 		customizedUI.getInfoCustomizations().loadFromFile(new File("calculator.icu"),
 				ReflectionUIUtils.getDebugLogListener(customizedUI));
 		ScriptEngineManager factory = new ScriptEngineManager();

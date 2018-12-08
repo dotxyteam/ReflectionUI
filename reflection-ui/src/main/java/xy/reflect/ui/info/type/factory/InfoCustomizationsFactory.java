@@ -1312,9 +1312,33 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			newCapsuleFields = mergeOrAddCapsuleFields(capsuleFields, newCapsuleFields);
 			newFields.addAll(newCapsuleFields);
 
-			transformFields(inputFields, outputFields, newFields, newMethods);
-			transformMethods(inputMethods, outputMethods, newFields, newMethods);
-			transformMethods(inputConstructors, outputConstructors, newFields, newConstructors);
+			try {
+				transformFields(inputFields, outputFields, newFields, newMethods);
+				transformMethods(inputMethods, outputMethods, newFields, newMethods);
+				transformMethods(inputConstructors, outputConstructors, newFields, newConstructors);
+			} catch (final Throwable t) {
+				outputFields.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+
+					@Override
+					public Object getValue(Object object) {
+						throw new ReflectionUIError(t);
+
+					}
+
+					@Override
+					public String getName() {
+						return "customizationError";
+					}
+
+					@Override
+					public ITypeInfo getType() {
+						return customizedUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
+								new SpecificitiesIdentifier(containingType.getName(), "customizationError")));
+					}
+
+				});
+				return;
+			}
 
 			checkDuplicates(outputFields, outputMethods, outputConstructors);
 

@@ -817,6 +817,7 @@ public class Form extends ImagePanel {
 					methods = super.getMethods(rawType);
 					menuModel = super.getMenuModel(rawType);
 				} catch (final Throwable t) {
+					swingRenderer.getReflectionUI().logError(t);
 					fields = Collections.<IFieldInfo>singletonList(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 						@Override
 						public Object getValue(Object object) {
