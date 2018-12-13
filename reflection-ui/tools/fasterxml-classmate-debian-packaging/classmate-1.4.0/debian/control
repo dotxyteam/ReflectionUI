@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 9), default-jdk, maven-debian-helper (>= 1.5)
 Standards-Version: 3.9.7
 Vcs-Git: https://anonscm.debian.org/git/pkg-java/classmate.git
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-java/classmate.git
-Homepage: http://github.com/FasterXML/java-classmate
+Homepage: https://github.com/dotxyteam/ReflectionUI/reflection-ui/tools/fasterxml-classmate-debian-packaging/classmate-1.4.0
 
 Package: libclassmate-java
 Architecture: all

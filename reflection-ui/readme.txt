@@ -140,10 +140,16 @@ To achieve this goal, 2 main layers have been created:
 
 DEBIAN INTEGRATION
 ------------------
-Commands used:
+Build commands:
 	export DEBFULLNAME="OTK Software"
 	export DEBEMAIL="contact@otksoftware.com"
 	mh_make
-	uscan --download-current-version --overwrite-download --rename --repack --compression xz 
-	debuild
+	echo 'tar cvfz ../reflection-ui_4.5.2.orig.tar.gz src *.xml *.txt' > debian/orig-tar.sh; chmod +x debian/orig-tar.sh; debian/orig-tar.sh
+	echo 'extend-diff-ignore = "(debian|tmp|tools|\.classpath|\.settings|\.project)"' > debian/source/options 
+	debuild; cp pom.beforeDebianBuild.xml pom.xml
+Cleaning command:
+	rm ../*.deb ../*.build ../*.changes ../*.tar.* ../*.dsc
+	debuild clean
+	cp pom.beforeDebianBuild.xml pom.xml
+	
 

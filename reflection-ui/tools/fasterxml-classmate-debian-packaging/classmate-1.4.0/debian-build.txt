@@ -1,5 +1,11 @@
-export DEBFULLNAME="OTK Software"
-export DEBEMAIL="contact@otksoftware.com"
-mh_make
-ls -a | xargs tar cvfz ../classmate_1.4.0.orig.tar.gz
-debuild
+Build commands:
+	export DEBFULLNAME="OTK Software"
+	export DEBEMAIL="contact@otksoftware.com"
+	mh_make
+	echo 'tar cvfz ../classmate_1.4.0.orig.tar.gz src *.xml *.txt' > debian/orig-tar.sh; chmod +x debian/orig-tar.sh; debian/orig-tar.sh
+	echo 'extend-diff-ignore = "(debian|tmp|\.classpath|\.settings|\.project)"' > debian/source/options 
+	debuild
+Cleaning command:
+	rm ../*.deb ../*.build ../*.changes ../*.tar.* ../*.dsc
+	debuild clean
+	cp pom.beforeDebianBuild.xml pom.xml

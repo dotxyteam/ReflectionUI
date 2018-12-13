@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.otk</groupId>
+	<groupId>com.fasterxml</groupId>
 	<artifactId>classmate</artifactId>
 	<version>1.4.0</version>
 	<packaging>jar</packaging>
 	<name>ClassMate</name>
 	<description>Library for introspecting types with full generic information
         including resolving of field and method types.</description>
-	<url>http://github.com/FasterXML/java-classmate</url>
+	<url>https://github.com/dotxyteam/ReflectionUI/reflection-ui/tools/fasterxml-classmate-debian-packaging/classmate-1.4.0</url>
 	<scm>
 		<connection>scm:git:git@github.com:dotxyteam/ReflectionUI.git</connection>
 		<developerConnection>scm:git:git@github.com:dotxyteam/ReflectionUI.git</developerConnection>
-		<url>https://github.com/dotxyteam/ReflectionUI/reflection-ui/tools/fasterxml-classmate-debian-packaging/java-classmate-classmate-1.4.0</url>
+		<url>https://github.com/dotxyteam/ReflectionUI/reflection-ui/tools/fasterxml-classmate-debian-packaging/classmate-1.4.0</url>
 	</scm>
 	<developers>
 		<developer>
@@ -25,6 +25,13 @@
 			<name>Brian Langel</name>
 			<email>blangel@ocheyedan.net</email>
 		</developer>
+		<developer>
+			<organization>OTK Software</organization>
+			<email>contact@otksoftware.com</email>
+			<roles>
+				<role>debian packaging</role>
+			</roles>
+		</developer>
 	</developers>
 	<prerequisites>
 		<maven>2.2.1</maven>
@@ -33,14 +40,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.jdk>1.6</version.jdk>
 		<osgi.export>com.fasterxml.classmate;version=${project.version},
-com.fasterxml.classmate.*;version=${project.version}</osgi.export>
+			com.fasterxml.classmate.*;version=${project.version}</osgi.export>
 		<osgi.private>com.fasterxml.classmate.util.*</osgi.private>
 		<jdk.module.name>com.fasterxml.classmate</jdk.module.name>
-		<debian.hasPackageVersion>
-		</debian.hasPackageVersion>
-		<debian.mavenRules>com.fasterxml classmate s/jar/bundle/ s/.*/debian/ * *</debian.mavenRules>
-		<debian.originalVersion>1.4.0</debian.originalVersion>
-		<debian.package>libjava-classmate-classmate-java</debian.package>
+		
+			<debian.hasPackageVersion/>
+		
+			<debian.originalVersion>1.4.0</debian.originalVersion>
+		
+			<debian.package>libclassmate-java</debian.package>
 	</properties>
 	<!-- Licensing -->
 	<licenses>
@@ -60,6 +68,10 @@ com.fasterxml.classmate.*;version=${project.version}</osgi.export>
 	<build>
 		<plugins>
 			<!-- As per [#38] add `Automatic-Module-Name` -->
+			<!-- removed for debian build <plugin> <groupId>org.apache.felix</groupId> 
+				<artifactId>maven-bundle-plugin</artifactId> <configuration> <instructions 
+				combine.children="merge"> <Automatic-Module-Name>${jdk.module.name}</Automatic-Module-Name> 
+				</instructions> </configuration> </plugin> -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
@@ -68,6 +80,18 @@ com.fasterxml.classmate.*;version=${project.version}</osgi.export>
 					<target>${version.jdk}</target>
 				</configuration>
 			</plugin>
+			<!-- plug-in to attach source bundle in repo -->
+			<!-- removed for debian build <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-source-plugin</artifactId> <version>2.1.2</version> <executions> 
+				<execution> <id>attach-sources</id> <goals> <goal>jar</goal> </goals> </execution> 
+				</executions> </plugin> -->
+			<!-- removed for debian build <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-javadoc-plugin</artifactId> <version>${version.plugin.javadoc}</version> 
+				<configuration> <source>${version.jdk}</source> <target>${version.jdk}</target> 
+				<encoding>UTF-8</encoding> <maxmemory>512m</maxmemory> <links> <link>http://docs.oracle.com/javase/8/docs/api/</link> 
+				</links> </configuration> <executions> <execution> <id>attach-javadocs</id> 
+				<phase>verify</phase> <goals> <goal>jar</goal> </goals> </execution> </executions> 
+				</plugin> -->
 		</plugins>
 	</build>
 	<profiles>

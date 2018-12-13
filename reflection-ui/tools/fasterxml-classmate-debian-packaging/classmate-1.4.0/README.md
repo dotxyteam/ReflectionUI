@@ -1,3 +1,5 @@
+IMPORTANT: This is a debian packaging fork of [this library](https://github.com/FasterXML/java-classmate).
+
 ## Overview
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.fasterxml/classmate/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.fasterxml/classmate/)

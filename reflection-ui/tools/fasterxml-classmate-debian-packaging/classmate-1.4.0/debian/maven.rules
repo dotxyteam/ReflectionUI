@@ -1,2 +1,2 @@
 
-com.otk classmate jar s/.*/debian/ * *
+com.fasterxml classmate jar s/.*/debian/ * *
