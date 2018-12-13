@@ -4,7 +4,7 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 	</properties>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.otk</groupId>
+	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>custom-ui</artifactId>
 	<version>4.5.2</version>
 	<name>Custom UI</name>
