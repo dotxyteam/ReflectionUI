@@ -232,7 +232,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			Color initialColor = statusControl.getBackground();
 			JColorChooser colorChooser = new JColorChooser(initialColor != null ? initialColor : Color.white);
 			dialogBuilder.setContentComponent(colorChooser);
-			dialogBuilder.setToolbarComponentsAccessor(new Accessor<List<Component>>() {
+			dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
 				@Override
 				public List<Component> get() {
 					return new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(null, null));

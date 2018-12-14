@@ -328,7 +328,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				this.itemPosition = itemPosition;
 				setLayout(new GridBagLayout());
 				formBuilder = new ItemUIBuilder(itemPosition);
-				form = formBuilder.createForm(true, false);
+				form = formBuilder.createEditorForm(true, false);
 				{
 					GridBagConstraints formConstraints = new GridBagConstraints();
 					formConstraints.fill = GridBagConstraints.BOTH;

@@ -28,7 +28,7 @@ import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
-import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.editor.AbstractEditorWindowBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -103,14 +103,30 @@ public class MethodAction extends AbstractAction {
 			cancelled = true;
 			return;
 		}
-		orchestrateInvocation(invocationData, activatorComponent);
+		try {
+			invokeAndUpdateReturnValue(invocationData);
+			if (shouldDisplayReturnValue()) {
+				openMethodReturnValueWindow(activatorComponent);
+			}
+		} catch (final Throwable t) {
+			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
+		}
 	}
 
 	public InvocationData prepare(Component activatorComponent) {
+		InvocationData result = null;
 		if (data.getParameters().size() == 0) {
-			return data.createInvocationData();
+			result = data.createInvocationData();
+		} else {
+			result = openMethoExecutionSettingDialog(activatorComponent);
 		}
-		return openMethoExecutionSettingDialog(activatorComponent);
+		if (result == null) {
+			return null;
+		}
+		if (!askConfirmation(result, activatorComponent)) {
+			return null;
+		}
+		return result;
 	}
 
 	public InvocationData openMethoExecutionSettingDialog(final Component activatorComponent) {
@@ -123,24 +139,24 @@ public class MethodAction extends AbstractAction {
 		}
 		final Form methodForm = swingRenderer
 				.createForm(data.createParametersObject(invocationData, input.getContext().getIdentifier()));
-		Accessor<List<Component>> toolbarControlsAccessor = new Accessor<List<Component>>() {
+		Accessor<List<Component>> buttonBarControlsAccessor = new Accessor<List<Component>>() {
 
 			@Override
 			public List<Component> get() {
-				List<Component> toolbarControls = new ArrayList<Component>();
-				toolbarControls.addAll(methodForm.createToolbarControls());
+				List<Component> buttonBarControls = new ArrayList<Component>();
+				buttonBarControls.addAll(methodForm.createButtonBarControls());
 				String invokeButtonText = data.getParametersValidationCustomCaption();
 				if (invokeButtonText == null) {
 					invokeButtonText = data.getCaption();
 				}
-				toolbarControls.addAll(dialogBuilder.createStandardOKCancelDialogButtons(invokeButtonText, null));
-				return toolbarControls;
+				buttonBarControls.addAll(dialogBuilder.createStandardOKCancelDialogButtons(invokeButtonText, null));
+				return buttonBarControls;
 			}
 		};
 
 		dialogBuilder.setContentComponent(methodForm);
 		dialogBuilder.setTitle(getTitle());
-		dialogBuilder.setToolbarComponentsAccessor(toolbarControlsAccessor);
+		dialogBuilder.setButtonBarControlsAccessor(buttonBarControlsAccessor);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
 		if (dialogBuilder.wasOkPressed()) {
@@ -154,23 +170,8 @@ public class MethodAction extends AbstractAction {
 		return ReflectionUIUtils.composeMessage(data.getCaption(), "Execution");
 	}
 
-	public void orchestrateInvocation(final InvocationData invocationData, final Component activatorComponent) {
-		swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
-		if (!askConfirmation(invocationData, activatorComponent)) {
-			cancelled = true;
-			return;
-		}
-		try {
-			invokeAndUpdateReturnValue(invocationData);
-			if (shouldDisplayReturnValue()) {
-				openMethodReturnValueWindow(activatorComponent);
-			}
-		} catch (final Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
-		}
-	}
-
 	public void invokeAndUpdateReturnValue(InvocationData invocationData) {
+		swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
 		returnValueSet = false;
 		returnValue = data.invoke(invocationData);
 		returnValueSet = true;
@@ -193,7 +194,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
-		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {
+		AbstractEditorWindowBuilder editorBuilder = new AbstractEditorWindowBuilder() {
 
 			@Override
 			public IContext getContext() {
@@ -206,26 +207,26 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public Object getInitialObjectValue() {
+			public Object getInitialValue() {
 				return returnValue;
 			}
 
 			@Override
-			public boolean isObjectNullValueDistinct() {
+			public boolean isNullValueDistinct() {
 				return data.isNullReturnValueDistinct();
 			}
 
 			@Override
-			public boolean isObjectFormExpanded() {
+			public boolean isEncapsulatedFormExpanded() {
 				return true;
 			}
 
-			public boolean canCommit() {
+			public boolean canCommitToParent() {
 				return false;
 			}
 
 			@Override
-			public IModification createCommitModification(Object newObjectValue) {
+			public IModification createParentCommitModification(Object newObjectValue) {
 				return null;
 			}
 
@@ -235,7 +236,7 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public ValueReturnMode getObjectValueReturnMode() {
+			public ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
@@ -245,22 +246,22 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public String getCumulatedModificationsTitle() {
+			public String getParentModificationTitle() {
 				return MethodControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getObjectFormFilter() {
+			public IInfoFilter getEncapsulatedFormFilter() {
 				return IInfoFilter.DEFAULT;
 			}
 
 			@Override
-			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 				return data.getReturnValueType().getSource();
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				if (data.isReturnValueDetached()) {
 					return null;
 				} else {

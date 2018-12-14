@@ -42,6 +42,34 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+/**
+ * This is a base class for form-based editor control factories.
+ * 
+ * Each instance of this class handles a target value/object according to the
+ * specifications provided through the implementation of the various class
+ * methods.
+ * 
+ * Note that the target value/object is encapsulated in a virtual parent object
+ * for practical reasons. The editor control is thus a form representing this
+ * capsule.
+ * 
+ * This class also handles the complex relationship that may exists between the
+ * target value/object and a potential parent object. The parent object form
+ * will typically embed (real-time link) or maintain a detached parent-child
+ * relationship (e.g.: child dialog) with the target value/object form.
+ * 
+ * A real-time link to the parent object can be exclusive or not, meaning that
+ * the target value/object is the only child of its parent object. This
+ * information is used when forwarding target value/object modifications to the
+ * parent modification stack. Typically, calling
+ * {@link ModificationStack#forget()} on the target value/object modification
+ * stack will trigger the same call on the parent modification stack only and
+ * only if only the link is exclusive. Otherwise
+ * {@link ModificationStack#invalidate()} will be called instead.
+ * 
+ * @author nikolat
+ *
+ */
 public abstract class AbstractEditorFormBuilder {
 
 	protected Object initialObjectValue;
@@ -49,39 +77,89 @@ public abstract class AbstractEditorFormBuilder {
 	protected boolean objectValueReplaced = false;
 	protected Accessor<Object> encapsulatedObjectValueAccessor;
 
+	/**
+	 * @return the renderer used to create the target value/object form(s).
+	 */
 	public abstract SwingRenderer getSwingRenderer();
 
-	public abstract ModificationStack getParentObjectModificationStack();
+	/**
+	 * @return the parent object modification stack or null (if there is no parent
+	 *         object).
+	 */
+	public abstract ModificationStack getParentModificationStack();
 
-	public abstract String getCumulatedModificationsTitle();
+	/**
+	 * @return the title or the title prefix (in case of multiple modifications) of
+	 *         the modification(s) that will be communicated to the parent object
+	 *         modification stack or null (if there is no parent object).
+	 */
+	public abstract String getParentModificationTitle();
 
-	public abstract boolean canCommit();
+	/**
+	 * @return whether modifications of the target value/object can be committed
+	 *         (using the result of {@link #createParentCommitModification(Object)})
+	 *         to make them real for the parent object.
+	 */
+	public abstract boolean canCommitToParent();
 
-	public abstract IModification createCommitModification(Object newObjectValue);
+	/**
+	 * @param newObjectValue
+	 * @return a modification that will be applied in order to make any target
+	 *         value/object modification real for the parent object. Typically
+	 *         primitive field values would need to be committed (set back) to their
+	 *         parent object after modification.
+	 */
+	public abstract IModification createParentCommitModification(Object newObjectValue);
 
-	public abstract ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource();
+	/**
+	 * @return source of the declared type information that will be used to handle
+	 *         the target value/object. If null is returned then this type
+	 *         information source will be dynamically inferred from the target
+	 *         value/object. Note that calling
+	 *         {@link ITypeInfoSource#getSpecificitiesIdentifier()} on the result
+	 *         should return null.
+	 */
+	public abstract ITypeInfoSource getDeclaredNonSpecificTypeInfoSource();
 
-	public abstract ValueReturnMode getObjectValueReturnMode();
+	/**
+	 * @return the return mode (from the parent object) of the target value/object
+	 *         (null can be returned if there is no parent object).
+	 */
+	public abstract ValueReturnMode getReturnModeFromParent();
 
-	public abstract boolean isObjectNullValueDistinct();
+	/**
+	 * @return true if and only if the null value can be set and then must be
+	 *         distinctly displayed.
+	 */
+	public abstract boolean isNullValueDistinct();
 
-	public abstract Object getInitialObjectValue();
+	/**
+	 * @return the initial target object/value.
+	 */
+	public abstract Object getInitialValue();
 
-	public abstract IInfoFilter getObjectFormFilter();
-
-	public abstract boolean isObjectFormExpanded();
-
+	/**
+	 * @return an object that will be used to uniquely name the capsule type (or
+	 *         null).
+	 */
 	public abstract IContext getContext();
 
+	/**
+	 * @return an secondary object that will be used to uniquely name the capsule
+	 *         type (or null).
+	 */
 	public abstract IContext getSubContext();
 
-	protected void ensureObjectValueIsInitialized() {
+	/**
+	 * Ensures that the initial target value/object has been acquired.
+	 */
+	protected void ensureIsInitialized() {
 		if (objectValueInitialized) {
 			return;
 		}
 		encapsulatedObjectValueAccessor = new Accessor<Object>() {
 
-			Object object = initialObjectValue = getInitialObjectValue();
+			Object object = initialObjectValue = getInitialValue();
 
 			@Override
 			public Object get() {
@@ -98,37 +176,50 @@ public abstract class AbstractEditorFormBuilder {
 		objectValueInitialized = true;
 	}
 
-	public boolean isObjectValueInitialized() {
+	/**
+	 * @return whether the initial target value/object has been acquired.
+	 */
+	public boolean isInitialized() {
 		return objectValueInitialized;
 	}
 
-	public boolean isObjectValueReplaced() {
+	/**
+	 * @return whether the target object/value has been replaced during the lifetime
+	 *         of the editor control. Typically immutable objects like primitive
+	 *         wrappers would be replaced on every modification.
+	 */
+	public boolean isValueReplaced() {
 		return objectValueReplaced;
 	}
 
-	public Object getCurrentObjectValue() {
-		ensureObjectValueIsInitialized();
+	/**
+	 * @return whether the target object/value can be replaced during the lifetime
+	 *         of the editor control.
+	 */
+	public boolean canReplaceValue() {
+		return canCommitToParent();
+	}
+
+	/**
+	 * @return the current target object/value.
+	 */
+	public Object getCurrentValue() {
+		ensureIsInitialized();
 		return encapsulatedObjectValueAccessor.get();
 	}
 
-	public Object getEncapsulatedObject() {
-		ensureObjectValueIsInitialized();
+	/**
+	 * @return the capsule holding the target value/object.
+	 */
+	public Object getCapsule() {
+		ensureIsInitialized();
 		return getEncapsulation().getInstance(encapsulatedObjectValueAccessor);
 	}
 
-	public boolean canReplaceObjectValue() {
-		return canCommit();
-	}
-
-	protected String getEncapsulationFieldName() {
-		return "";
-	}
-
-	protected Map<String, Object> getEncapsulationFieldSpecificProperties() {
-		return Collections.emptyMap();
-	}
-
-	public String getEncapsulationTypeName() {
+	/**
+	 * @return the name of the capsule type.
+	 */
+	public String getCapsuleTypeName() {
 		String contextDeclaraion;
 		{
 			IContext context = getContext();
@@ -153,66 +244,102 @@ public abstract class AbstractEditorFormBuilder {
 				+ "]";
 	}
 
+	/**
+	 * @return the target value/object capsule factory.
+	 */
 	public EncapsulatedObjectFactory getEncapsulation() {
 		ITypeInfo fieldType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource());
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
-				getEncapsulationTypeName(), fieldType) {
+				getCapsuleTypeName(), fieldType) {
 			@Override
 			protected Object[] getFieldValueOptions() {
-				return getEncapsulationFieldValueOptions();
+				return getEncapsulatedFieldValueOptions();
 			}
 		};
-		result.setTypeModificationStackAccessible(isEncapsulationTypeModificationStackAccessible());
-		result.setTypeCaption(getEncapsulationTypeCaption());
+		result.setTypeModificationStackAccessible(isCapsuleTypeModificationStackAccessible());
+		result.setTypeCaption(getCapsuleTypeCaption());
 		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 		{
-			typeSpecificProperties.put(SwingRenderer.CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY,
-					!isEncapsulationTypeCustomizationAllowed());
 			result.setTypeSpecificProperties(typeSpecificProperties);
 		}
-		result.setFieldName(getEncapsulationFieldName());
+		result.setFieldName(getEncapsulatedFieldName());
 		result.setFieldCaption(getEncapsulatedFieldCaption());
-		result.setFieldGetOnly(isEncapsulationFieldGetOnly());
-		result.setFieldNullValueDistinct(isObjectNullValueDistinct());
-		result.setFieldValueReturnMode(getEncapsulationFieldValueReturnMode());
-		result.setFieldFormControlEmbedded(isObjectFormExpanded());
-		result.setFieldFormControlFilter(getObjectFormFilter());
-		result.setFieldFormControlMandatory(isObjectCustomControlForbidden());
-		result.setFieldSpecificProperties(getEncapsulationFieldSpecificProperties());
+		result.setFieldGetOnly(isEncapsulatedFieldGetOnly());
+		result.setFieldNullValueDistinct(isNullValueDistinct());
+		result.setFieldValueReturnMode(getEncapsulatedFieldValueReturnMode());
+		result.setFieldFormControlEmbedded(isEncapsulatedFormExpanded());
+		result.setFieldFormControlFilter(getEncapsulatedFormFilter());
+		result.setFieldFormControlMandatory(isCustomEncapsulatedControlForbidden());
+		result.setFieldSpecificProperties(getEncapsulatedFieldSpecificProperties());
 		return result;
 	}
 
-	public boolean isObjectCustomControlForbidden() {
+	/**
+	 * @return a form filter that will used (in case the target value/object is
+	 *         represented by a generic form control).
+	 */
+	public abstract IInfoFilter getEncapsulatedFormFilter();
+
+	/**
+	 * @return whether the target object/value form is embedded in the editor
+	 *         control or displayed in a child dialog. Note that this method has no
+	 *         impact in case the target value/object is not represented by a
+	 *         generic form control.
+	 */
+	public abstract boolean isEncapsulatedFormExpanded();
+
+	/**
+	 * @return true if the target value/object is forcibly displayed as a generic
+	 *         form (not a custom control).
+	 */
+	public boolean isCustomEncapsulatedControlForbidden() {
 		return false;
 	}
 
-	protected ValueReturnMode getEncapsulationFieldValueReturnMode() {
-		return hasParentObject() ? getObjectValueReturnMode() : ValueReturnMode.DIRECT_OR_PROXY;
+	/**
+	 * @return the name of the encapsulated field that will return target
+	 *         value/object.
+	 */
+	protected String getEncapsulatedFieldName() {
+		return "";
 	}
 
-	protected Object[] getEncapsulationFieldValueOptions() {
+	/**
+	 * @return the specific properties of the encapsulated field information.
+	 */
+	protected Map<String, Object> getEncapsulatedFieldSpecificProperties() {
+		return Collections.emptyMap();
+	}
+
+	/**
+	 * @return the encapsulated field value return mode (equals to
+	 *         {@link #getReturnModeFromParent()} is there is a parent object).
+	 */
+	protected ValueReturnMode getEncapsulatedFieldValueReturnMode() {
+		return hasParentObject() ? getReturnModeFromParent() : ValueReturnMode.DIRECT_OR_PROXY;
+	}
+
+	/**
+	 * @return the encapsulated field value options or null.
+	 */
+	protected Object[] getEncapsulatedFieldValueOptions() {
 		return null;
 	}
 
-	protected boolean isEncapsulationFieldGetOnly() {
-		return isInReadOnlyMode() || !canReplaceObjectValue();
+	/**
+	 * @return whether the encapsulated field is get-only.
+	 */
+	protected boolean isEncapsulatedFieldGetOnly() {
+		return isInReadOnlyMode() || !canReplaceValue();
 	}
 
-	protected boolean isEncapsulationTypeModificationStackAccessible() {
+	/**
+	 * @return true if and only if the undo/redo/etc features should be made
+	 *         available typically when the capsule is the root of a window.
+	 */
+	protected boolean isCapsuleTypeModificationStackAccessible() {
 		return !isInReadOnlyMode();
-	}
-
-	protected boolean refreshesEditorFormOnModification() {
-		return isInReadOnlyMode();
-	}
-
-	protected boolean isInReadOnlyMode() {
-		return hasParentObject() ? !canPotentiallyModifyParentObject() : false;
-	}
-
-	protected boolean isEncapsulationTypeCustomizationAllowed() {
-		return true;
 	}
 
 	public String getEncapsulatedFieldCaption() {
@@ -220,141 +347,228 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	public ITypeInfoSource getEncapsulatedFieldNonSpecificTypeSource() {
-		ITypeInfoSource result = getObjectDeclaredNonSpecificTypeInfoSource();
+		ITypeInfoSource result = getDeclaredNonSpecificTypeInfoSource();
 		if (result != null) {
 			return result;
 		}
-		ensureObjectValueIsInitialized();
+		ensureIsInitialized();
 		if (initialObjectValue != null) {
 			return getSwingRenderer().getReflectionUI().getTypeInfoSource(initialObjectValue);
 		}
 		return new JavaTypeInfoSource(Object.class, null);
 	}
 
-	public String getEncapsulationTypeCaption() {
+	public String getCapsuleTypeCaption() {
 		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource())
 				.getCaption();
 	}
 
-	public boolean isObjectFormEmpty() {
-		Object encapsulatedObject = getEncapsulatedObject();
-		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
-				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedObject));
-		IFieldInfo encapsulatedObjectField = encapsulatedObjectType.getFields().get(0);
-		if (encapsulatedObjectField.isNullValueDistinct()) {
+	/**
+	 * @return whether the editor control is refreshed every time a modification of
+	 *         the target value/object is detected. It typically allows to keep a
+	 *         calculated read-only target value/object coherent by resetting it to
+	 *         its initial state whenever its temporary value is modified.
+	 */
+	protected boolean isEditorFormRefreshedOnModification() {
+		return isInReadOnlyMode();
+	}
+
+	/**
+	 * @return whether the target value/object modifications have no impact on the
+	 *         parent object. If there is no parent object then false should be
+	 *         returned.
+	 */
+	protected boolean isInReadOnlyMode() {
+		return hasParentObject() ? !canPotentiallyModifyParentObject() : false;
+	}
+
+	/**
+	 * @return whether the editor control is expected to be empty or not.
+	 */
+	public boolean isFormEmpty() {
+		Object capsule = getCapsule();
+		ITypeInfo capsuleType = getSwingRenderer().getReflectionUI()
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
+		IFieldInfo encapsulatedField = capsuleType.getFields().get(0);
+		if (encapsulatedField.isNullValueDistinct()) {
 			return false;
 		}
-		Object object = getCurrentObjectValue();
+		Object object = getCurrentValue();
 		if (object == null) {
 			return false;
 		}
 		ITypeInfo actualObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(object));
-		if (!SwingRendererUtils.isFormEmpty(actualObjectType, getObjectFormFilter(), getSwingRenderer())) {
+		if (!SwingRendererUtils.isFormEmpty(actualObjectType, getEncapsulatedFormFilter(), getSwingRenderer())) {
 			return false;
 		}
 		return true;
 	}
 
-	public Form createForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
-		Object encapsulated = getEncapsulatedObject();
+	/**
+	 * Creates and return the editor control.
+	 * 
+	 * @param realTimeLinkWithParent
+	 *            Whether a real-time link should be maintained with the parent
+	 *            object.
+	 * @param exclusiveLinkWithParent
+	 *            Whether the real-time link with the parent object (if existing) is
+	 *            exclusive or not.
+	 * @return the created editor control.
+	 */
+	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
+		Object encapsulated = getCapsule();
 		Form result = getSwingRenderer().createForm(encapsulated);
-		setupFormLinkWithparent(result, realTimeLinkWithParent, exclusiveLinkWithParent);
+		setupLinkWithParent(result, realTimeLinkWithParent, exclusiveLinkWithParent);
 		return result;
 	}
 
-	protected void setupFormLinkWithparent(Form result, boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
+	/**
+	 * Installs the link between the target value/object editor control and its
+	 * parent object form.
+	 * 
+	 * @param editorForm
+	 *            The created target value/object editor control.
+	 * @param realTimeLinkWithParent
+	 *            Whether a real-time link should be maintained with the parent
+	 *            object.
+	 * @param exclusiveLinkWithParent
+	 *            Whether the real-time link with the parent object (if existing) is
+	 *            exclusive or not.
+	 */
+	protected void setupLinkWithParent(Form editorForm, boolean realTimeLinkWithParent,
+			boolean exclusiveLinkWithParent) {
 		if (realTimeLinkWithParent) {
 			if (canPotentiallyModifyParentObject()) {
-				forwardEditorFormModificationsToParentObject(result, exclusiveLinkWithParent);
+				forwardEditorFormModificationsToParentObject(editorForm, exclusiveLinkWithParent);
 			}
-			if (refreshesEditorFormOnModification()) {
-				refreshEditorFormOnModification(result);
+			if (isEditorFormRefreshedOnModification()) {
+				refreshEditorFormOnModification(editorForm);
 			}
 		}
 	}
 
+	/**
+	 * @return whether the target value/object has a parent object or not.
+	 */
 	protected boolean hasParentObject() {
-		return getParentObjectModificationStack() != null;
+		return getParentModificationStack() != null;
 	}
 
+	/**
+	 * @return whether modifications of the target value/object can impact the
+	 *         parent object.
+	 */
 	public boolean canPotentiallyModifyParentObject() {
 		if (!hasParentObject()) {
 			return false;
 		}
-		ensureObjectValueIsInitialized();
+		ensureIsInitialized();
 		return ReflectionUIUtils.canEditSeparateObjectValue(
 				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
-				getObjectValueReturnMode(), canCommit());
+				getReturnModeFromParent(), canCommitToParent());
 	}
 
-	protected void refreshEditorFormOnModification(final Form form) {
-		ModificationStack childModificationStack = form.getModificationStack();
+	/**
+	 * Installs a listener that will trigger the editor control refreshing whenever
+	 * a modification of the target value/object is detected.
+	 * 
+	 * @param editorForm
+	 *            The created editor control.
+	 */
+	protected void refreshEditorFormOnModification(final Form editorForm) {
+		ModificationStack childModificationStack = editorForm.getModificationStack();
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				refreshEditorForm(form, false);
+				refreshEditorForm(editorForm, false);
 			}
 		});
 	}
 
+	/**
+	 * Refreshes the editor control.
+	 * 
+	 * @param editorForm
+	 *            The created editor control.
+	 * @param refreshStructure
+	 *            Whether the editor control should update its structure to reflect
+	 *            the recent meta-data change. Mainly used in design mode.
+	 */
 	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
-		encapsulatedObjectValueAccessor.set(getInitialObjectValue());
+		encapsulatedObjectValueAccessor.set(getInitialValue());
 		editorForm.refresh(refreshStructure);
 	}
 
+	/**
+	 * @param value
+	 *            The new target value.
+	 * @return whether the new target value passed as argument was accepted or
+	 *         rejected, typically by a user.
+	 */
 	protected boolean shouldAcceptNewObjectValue(Object value) {
 		return true;
 	}
 
-	protected void forwardEditorFormModificationsToParentObject(final Form form, boolean exclusiveLinkWithParent) {
+	/**
+	 * Installs on the editor control a listener that will forward the target
+	 * value/object modifications to the parent object modification stack.
+	 * 
+	 * @param editorForm
+	 *            The created editor control.
+	 * @param exclusiveLinkWithParent
+	 *            Whether the real-time link with the parent object (if existing) is
+	 *            exclusive or not.
+	 */
+	protected void forwardEditorFormModificationsToParentObject(final Form editorForm,
+			boolean exclusiveLinkWithParent) {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return shouldAcceptNewObjectValue(getCurrentObjectValue());
+				return shouldAcceptNewObjectValue(getCurrentValue());
 			}
 		};
 		Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
 			@Override
 			public ValueReturnMode get() {
-				return getObjectValueReturnMode();
+				return getReturnModeFromParent();
 			}
 		};
 		Accessor<Boolean> childValueReplacedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return (isObjectValueReplaced());
+				return (isValueReplaced());
 			}
 		};
 		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
-				if (!canCommit()) {
+				if (!canCommitToParent()) {
 					return null;
 				}
-				return createCommitModification(getCurrentObjectValue());
+				return createParentCommitModification(getCurrentValue());
 			}
 		};
 		Accessor<String> childModifTitleGetter = new Accessor<String>() {
 			@Override
 			public String get() {
-				return getCumulatedModificationsTitle();
+				return getParentModificationTitle();
 			}
 		};
 		Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {
 
 			@Override
 			public ModificationStack get() {
-				ModificationStack result = getParentObjectModificationStack();
+				ModificationStack result = getParentModificationStack();
 				if (result == null) {
 					throw new ReflectionUIError();
 				}
 				return result;
 			}
 		};
-		form.setModificationStack(new SlaveModificationStack(getSwingRenderer(), form, childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTitleGetter,
-				masterModifStackGetter, exclusiveLinkWithParent));
+		editorForm.setModificationStack(new SlaveModificationStack(getSwingRenderer(), editorForm,
+				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter,
+				childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
 	}
 
 }

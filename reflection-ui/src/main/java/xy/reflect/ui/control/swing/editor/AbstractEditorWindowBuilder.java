@@ -42,31 +42,51 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
+/**
+ * This is a base class for editor window factories.
+ * 
+ * @author nikolat
+ *
+ */
+public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuilder {
 
 	protected DialogBuilder dialogBuilder;
 	protected Form createdEditorForm;
 	protected JFrame createdFrame;
 	protected boolean parentModificationStackImpacted = false;
 
+	/**
+	 * @return the owner component of the editor dialog or null.
+	 */
 	public abstract Component getOwnerComponent();
 
+	/**
+	 * @return whether the editing session should be cancellable (a cancel button
+	 *         will be displayed) or not. Note that it only makes sense if a editor
+	 *         dialog (not a frame) is created.
+	 */
 	public boolean isCancellable() {
-		Object encapsualted = getEncapsulatedObject();
+		Object encapsualted = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsualted));
 		return encapsulatedObjectType.isModificationStackAccessible();
 	}
 
+	/**
+	 * @return the title of the editor window.
+	 */
 	public String getEditorWindowTitle() {
-		Object encapsulatedObject = getEncapsulatedObject();
+		Object encapsulatedObject = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedObject));
 		return encapsulatedObjectType.getCaption();
 	}
 
+	/**
+	 * @return the icon image of the editor window.
+	 */
 	public Image getEditorWindowIconImage() {
-		ensureObjectValueIsInitialized();
+		ensureIsInitialized();
 		Image result = getSwingRenderer().getObjectIconImage(initialObjectValue);
 		if (result == null) {
 			ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
@@ -79,85 +99,122 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return result;
 	}
 
+	/**
+	 * @return the text of the 'Cancel' button.
+	 */
 	public String getCancelCaption() {
 		return "Cancel";
 	}
 
+	/**
+	 * @return the text of the 'OK' button.
+	 */
 	public String getOKCaption() {
 		return "OK";
 	}
 
+	/**
+	 * @return the text of the 'Close' button.
+	 */
 	public String getCloseCaption() {
 		return "Close";
 	}
 
-	public List<Component> getAdditionalToolbarComponents() {
+	/**
+	 * @return additional controls that will be laid on the button bar.
+	 */
+	public List<Component> getAdditionalButtonBarControls() {
 		return Collections.emptyList();
 	}
 
-	protected List<Component> createAnyWindowToolbarControls() {
+	/**
+	 * @return common controls that will be laid on the button bar.
+	 */
+	protected List<Component> createCommonButtonBarControls() {
 		List<Component> result = new ArrayList<Component>();
-		List<Component> commonToolbarControls = createdEditorForm.createToolbarControls();
-		if (commonToolbarControls != null) {
-			result.addAll(commonToolbarControls);
+		List<Component> commonButtonBarControls = createdEditorForm.createButtonBarControls();
+		if (commonButtonBarControls != null) {
+			result.addAll(commonButtonBarControls);
 		}
-		List<Component> additionalToolbarComponents = getAdditionalToolbarComponents();
-		if (additionalToolbarComponents != null) {
-			result.addAll(additionalToolbarComponents);
+		List<Component> additionalButtonBarComponents = getAdditionalButtonBarControls();
+		if (additionalButtonBarComponents != null) {
+			result.addAll(additionalButtonBarComponents);
 		}
 		return result;
 	}
 
+	/**
+	 * Creates and returns the editor frame.
+	 * 
+	 * @return the created editor frame.
+	 */
 	public JFrame createFrame() {
-		createdEditorForm = createForm(false, false);
+		createdEditorForm = createEditorForm(false, false);
 		createdFrame = new JFrame();
 		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
 		windowManager.set(createdEditorForm, new Accessor<List<Component>>() {
 			@Override
 			public List<Component> get() {
-				return new ArrayList<Component>(createAnyWindowToolbarControls());
+				return new ArrayList<Component>(createCommonButtonBarControls());
 			}
 		}, getEditorWindowTitle(), getEditorWindowIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}
 
+	/**
+	 * @return the created editor frame.
+	 */
 	public JFrame getCreatedFrame() {
 		return createdFrame;
 	}
 
+	/**
+	 * Creates and shows the editor frame.
+	 */
 	public void createAndShowFrame() {
 		getSwingRenderer().showFrame(createFrame());
 	}
 
+	/**
+	 * @return the dialog builder used to build the editor dialog.
+	 */
 	protected DialogBuilder createDelegateDialogBuilder() {
 		return getSwingRenderer().getDialogBuilder(getOwnerComponent());
 	}
 
+	/**
+	 * Creates and returns the editor dialog.
+	 * 
+	 * @return the created editor dialog.
+	 */
 	public JDialog createDialog() {
-		createdEditorForm = createForm(false, false);
+		createdEditorForm = createEditorForm(false, false);
 		dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(createdEditorForm);
 		dialogBuilder.setTitle(getEditorWindowTitle());
 		dialogBuilder.setIconImage(getEditorWindowIconImage());
 
-		dialogBuilder.setToolbarComponentsAccessor(new Accessor<List<Component>>() {
+		dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
 			@Override
 			public List<Component> get() {
-				List<Component> toolbarControls = new ArrayList<Component>(createAnyWindowToolbarControls());
+				List<Component> buttonBarControls = new ArrayList<Component>(createCommonButtonBarControls());
 				if (isCancellable()) {
 					List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
 							getCancelCaption());
-					toolbarControls.addAll(okCancelButtons);
+					buttonBarControls.addAll(okCancelButtons);
 				} else {
-					toolbarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
+					buttonBarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
 				}
-				return toolbarControls;
+				return buttonBarControls;
 			}
 		});
 		return dialogBuilder.createDialog();
 	}
 
+	/**
+	 * @return the created editor dialog.
+	 */
 	public JDialog getCreatedDialog() {
 		if (dialogBuilder == null) {
 			return null;
@@ -165,6 +222,9 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return dialogBuilder.getCreatedDialog();
 	}
 
+	/**
+	 * Creates and shows the editor dialog.
+	 */
 	public void createAndShowDialog() {
 		getSwingRenderer().showDialog(createDialog(), true);
 		getSwingRenderer().showBusyDialogWhile(getOwnerComponent(), new Runnable() {
@@ -176,7 +236,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 					}
 				} else {
 					if (isCancelled()) {
-						ModificationStack modifStack = getObjectModificationStack();
+						ModificationStack modifStack = getModificationStack();
 						modifStack.undoAll();
 						if (modifStack.wasInvalidated()) {
 							getSwingRenderer().getReflectionUI().logDebug(
@@ -185,36 +245,46 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 					}
 				}
 			}
-		}, getCumulatedModificationsTitle());
+		}, getParentModificationTitle());
 	}
 
+	/**
+	 * @return the created editor form.
+	 */
 	public Form getCreatedEditorForm() {
 		return createdEditorForm;
 	}
 
+	/**
+	 * Update the parent object and its modification stack according to the target
+	 * value/object modifications and the current editor builder specifications.
+	 */
 	public void impactParent() {
-		ModificationStack parentObjectModifStack = getParentObjectModificationStack();
+		ModificationStack parentObjectModifStack = getParentModificationStack();
 		if (parentObjectModifStack == null) {
 			return;
 		}
-		ModificationStack valueModifStack = getObjectModificationStack();
-		ValueReturnMode valueReturnMode = getObjectValueReturnMode();
-		Object currentValue = getCurrentObjectValue();
-		boolean valueReplaced = isObjectValueReplaced();
+		ModificationStack valueModifStack = getModificationStack();
+		ValueReturnMode valueReturnMode = getReturnModeFromParent();
+		Object currentValue = getCurrentValue();
+		boolean valueReplaced = isValueReplaced();
 		IModification commitModif;
-		if (!canCommit()) {
+		if (!canCommitToParent()) {
 			commitModif = null;
 		} else {
-			commitModif = createCommitModification(currentValue);
+			commitModif = createParentCommitModification(currentValue);
 		}
 		boolean valueModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
-		String editSessionTitle = getCumulatedModificationsTitle();
+		String editSessionTitle = getParentModificationTitle();
 		parentModificationStackImpacted = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
 				parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced,
 				commitModif, editSessionTitle,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}
 
+	/**
+	 * @return whether the user cancelled the editor dialog.
+	 */
 	public boolean isCancelled() {
 		if (dialogBuilder == null) {
 			return false;
@@ -222,13 +292,19 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		return !dialogBuilder.wasOkPressed();
 	}
 
-	public ModificationStack getObjectModificationStack() {
+	/**
+	 * @return the modification stack of the target value/object.
+	 */
+	public ModificationStack getModificationStack() {
 		if (createdEditorForm == null) {
 			return null;
 		}
 		return createdEditorForm.getModificationStack();
 	}
 
+	/**
+	 * @return whether a potential modification of the parent object is detected.
+	 */
 	public boolean isParentModificationStackImpacted() {
 		return parentModificationStackImpacted;
 	}

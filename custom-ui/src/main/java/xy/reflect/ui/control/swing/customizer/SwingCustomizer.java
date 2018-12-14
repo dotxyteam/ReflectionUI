@@ -81,6 +81,9 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		SwingCustomizer.getDefault().openObjectFrame(object);
 	}
 
+	public static final String CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY = SwingRenderer.class.getName()
+			+ ".CUSTOMIZATIONS_FORBIDDEN";
+
 	protected static SwingCustomizer defaultInstance;
 
 	protected CustomizationTools customizationTools;

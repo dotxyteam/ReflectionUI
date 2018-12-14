@@ -35,7 +35,7 @@ import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.editor.AbstractEditorWindowBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -178,15 +178,15 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void openDialog(Component owner) {
-		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder(owner);
+		AbstractEditorWindowBuilder subDialogBuilder = getSubDialogBuilder(owner);
 		subDialogBuilder.createAndShowDialog();
 		if (subDialogBuilder.isParentModificationStackImpacted()) {
 			refreshUI(false);
 		}
 	}
 
-	protected AbstractEditorBuilder getSubDialogBuilder(final Component owner) {
-		return new AbstractEditorBuilder() {
+	protected AbstractEditorWindowBuilder getSubDialogBuilder(final Component owner) {
+		return new AbstractEditorWindowBuilder() {
 
 			@Override
 			public IContext getContext() {
@@ -199,12 +199,12 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public boolean isObjectFormExpanded() {
+			public boolean isEncapsulatedFormExpanded() {
 				return true;
 			}
 
 			@Override
-			public boolean isObjectNullValueDistinct() {
+			public boolean isNullValueDistinct() {
 				return false;
 			}
 
@@ -214,27 +214,27 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public ValueReturnMode getObjectValueReturnMode() {
+			public ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 				return data.getType().getSource();
 			}
 
 			@Override
-			public Object getInitialObjectValue() {
+			public Object getInitialValue() {
 				return data.getValue();
 			}
 
 			@Override
-			public String getCumulatedModificationsTitle() {
+			public String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
@@ -244,17 +244,17 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public boolean canCommit() {
+			public boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createCommitModification(Object newObjectValue) {
+			public IModification createParentCommitModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 
 			@Override
-			public IInfoFilter getObjectFormFilter() {
+			public IInfoFilter getEncapsulatedFormFilter() {
 				return data.getFormControlFilter();
 			}
 		};

@@ -22,11 +22,11 @@ package xy.reflect.ui.info.parameter;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * This interface allows to specify UI-oriented parameter properties.
@@ -41,8 +41,8 @@ public interface IParameterInfo extends IInfo {
 	 */
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
-		ReflectionUI reflectionUI = new ReflectionUI();
-		ITypeInfo type = new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(Object.class, null));
+		ITypeInfo type = new DefaultTypeInfo(ReflectionUIUtils.STANDARD_REFLECTION,
+				new JavaTypeInfoSource(Object.class, null));
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {

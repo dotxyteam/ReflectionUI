@@ -301,7 +301,11 @@ class CustomizationToolsUI extends CustomizedUI {
 				} else if (object instanceof CustomizationCategory) {
 					return ((CustomizationCategory) object).getCaption();
 				} else if (object instanceof ResourcePath) {
-					return ((ResourcePath) object).getSpecification();
+					String result = ((ResourcePath) object).getSpecification();
+					if (result.length() == 0) {
+						result = "<Path not specified>";
+					}
+					return result;
 				} else if (object instanceof IMenuElementCustomization) {
 					return ((IMenuElementCustomization) object).getName();
 				} else if (object instanceof TypeConversion) {
@@ -354,7 +358,8 @@ class CustomizationToolsUI extends CustomizedUI {
 			@Override
 			protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
-					return getTypeInfo(new JavaTypeInfoSource(Color.class, new SpecificitiesIdentifier(containingType.getName(), field.getName())));
+					return getTypeInfo(new JavaTypeInfoSource(Color.class,
+							new SpecificitiesIdentifier(containingType.getName(), field.getName())));
 				}
 				return super.getType(field, containingType);
 			}

@@ -89,7 +89,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodControlDataProxy;
-import xy.reflect.ui.control.swing.editor.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.editor.AbstractEditorWindowBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -1035,17 +1035,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			ModificationStack dummyModificationStack = new ModificationStack(null);
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				return dummyModificationStack;
 			}
 
 			@Override
-			public boolean canCommit() {
+			public boolean canCommitToParent() {
 				return true;
 			}
 
 			@Override
-			public IModification createCommitModification(Object newObjectValue) {
+			public IModification createParentCommitModification(Object newObjectValue) {
 				return IModification.NULL_MODIFICATION;
 			}
 
@@ -1063,7 +1063,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	};
 
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
-		Object encapsulatedObject = new ItemUIBuilder(itemPosition).getEncapsulatedObject();
+		Object encapsulatedObject = new ItemUIBuilder(itemPosition).getCapsule();
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedObject));
 		return encapsulatedObjectType.getCaption();
@@ -1189,7 +1189,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			detailsArea.removeAll();
 			detailsArea.setLayout(new BorderLayout());
 			detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
-			detailsControl = detailsControlBuilder.createForm(true, false);
+			detailsControl = detailsControlBuilder.createEditorForm(true, false);
 			Component statusBar = detailsControl.getStatusBar();
 			{
 				detailsArea.add(statusBar, BorderLayout.NORTH);
@@ -1675,23 +1675,23 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (!prepare()) {
 				return;
 			}
-			swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
-				public void run() {
-					final String modifTitle = getCompositeModificationTitle();
-					@SuppressWarnings("unchecked")
-					final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
-					if (modifTitle == null) {
-						List<BufferedItemPosition> initialSelection = getSelection();
-						perform(toPostSelectHolder);
-						refreshTreeTableModelAndControl(false);
-						if (toPostSelectHolder[0] != null) {
-							setSelection(toPostSelectHolder[0]);
+			try {
+				swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
+					public void run() {
+						final String modifTitle = getCompositeModificationTitle();
+						@SuppressWarnings("unchecked")
+						final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
+						if (modifTitle == null) {
+							List<BufferedItemPosition> initialSelection = getSelection();
+							perform(toPostSelectHolder);
+							refreshTreeTableModelAndControl(false);
+							if (toPostSelectHolder[0] != null) {
+								setSelection(toPostSelectHolder[0]);
+							} else {
+								setSelection(initialSelection);
+							}
 						} else {
-							setSelection(initialSelection);
-						}
-					} else {
-						final ModificationStack modifStack = getModificationStack();
-						try {
+							final ModificationStack modifStack = getModificationStack();
 							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
 								@Override
 								public Boolean get() {
@@ -1711,17 +1711,22 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 									}
 								}
 							});
-						} catch (Throwable t) {
-							swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
+
 						}
 					}
-				}
-			}, getCompositeModificationTitle());
+				}, getCompositeModificationTitle());
+			} catch (Throwable t) {
+				swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
+			}
+			displayResult();
+		}
+
+		protected void displayResult() {
 		}
 
 	};
 
-	protected class ItemUIBuilder extends AbstractEditorBuilder {
+	protected class ItemUIBuilder extends AbstractEditorWindowBuilder {
 		protected BufferedItemPosition bufferedItemPosition;
 		protected ListModificationFactory modificationFactory;
 		protected boolean canCommit;
@@ -1746,22 +1751,22 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isObjectFormExpanded() {
+		public boolean isEncapsulatedFormExpanded() {
 			return true;
 		}
 
 		@Override
-		public boolean isObjectNullValueDistinct() {
+		public boolean isNullValueDistinct() {
 			return bufferedItemPosition.getContainingListType().isItemNullValueDistinct();
 		}
 
 		@Override
-		public boolean canCommit() {
+		public boolean canCommitToParent() {
 			return canCommit;
 		}
 
 		@Override
-		public IModification createCommitModification(Object newObjectValue) {
+		public IModification createParentCommitModification(Object newObjectValue) {
 			return modificationFactory.set(bufferedItemPosition.getIndex(), newObjectValue);
 		}
 
@@ -1771,12 +1776,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public String getCumulatedModificationsTitle() {
+		public String getParentModificationTitle() {
 			return getItemModificationTitle();
 		}
 
 		@Override
-		public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+		public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 			ITypeInfo itemType = bufferedItemPosition.getContainingListType().getItemType();
 			if (itemType != null) {
 				return itemType.getSource();
@@ -1785,18 +1790,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public ValueReturnMode getObjectValueReturnMode() {
+		public ValueReturnMode getReturnModeFromParent() {
 			return objectValueReturnMode;
 		}
 
 		@Override
-		public Object getInitialObjectValue() {
+		public Object getInitialValue() {
 			bufferedItemPosition.refreshBranch();
 			return bufferedItemPosition.getItem();
 		}
 
 		@Override
-		public ModificationStack getParentObjectModificationStack() {
+		public ModificationStack getParentModificationStack() {
 			return ListControl.this.getModificationStack();
 		}
 
@@ -1806,12 +1811,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public IInfoFilter getObjectFormFilter() {
+		public IInfoFilter getEncapsulatedFormFilter() {
 			return new AbstractDelegatingInfoFilter() {
 				@Override
 				protected IInfoFilter getDelegate() {
 					BufferedItemPosition dynamicItemPosition = bufferedItemPosition.getSibling(-1);
-					dynamicItemPosition.setFakeItem(getCurrentObjectValue());
+					dynamicItemPosition.setFakeItem(getCurrentValue());
 					return getStructuralInfo().getItemInfoFilter(dynamicItemPosition);
 				}
 			};
@@ -1850,7 +1855,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (dialogBuilder.isCancelled()) {
 					return false;
 				}
-				newSubListItem = dialogBuilder.getCurrentObjectValue();
+				newSubListItem = dialogBuilder.getCurrentValue();
 			}
 			return true;
 		}
@@ -2083,7 +2088,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (dialogBuilder.isCancelled()) {
 					return false;
 				}
-				newItem = dialogBuilder.getCurrentObjectValue();
+				newItem = dialogBuilder.getCurrentValue();
 			}
 			return true;
 		}
@@ -2266,7 +2271,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			BufferedItemPosition singleSelectedPosition = getSingleSelection();
 			if (singleSelectedPosition != null) {
-				if (!new ItemUIBuilder(singleSelectedPosition).isObjectFormEmpty()) {
+				if (!new ItemUIBuilder(singleSelectedPosition).isFormEmpty()) {
 					if (singleSelectedPosition.getContainingListType().canViewItemDetails()) {
 						return true;
 					}
@@ -2508,7 +2513,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public IContext getContext() {
 					return new CustomContext("listDynamicAction [name=" + dynamicAction.getName() + ", listContext="
-							+ input.getContext() + "]");
+							+ input.getContext().getIdentifier() + "]");
 				}
 
 				@Override
@@ -2531,10 +2536,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			action.orchestrateInvocation(invocationData, ListControl.this);
+			action.invokeAndUpdateReturnValue(invocationData);
 			if (dynamicAction.getPostSelection() != null) {
 				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicAction.getPostSelection());
+			}
+		}
+
+		@Override
+		protected void displayResult() {
+			if (action.shouldDisplayReturnValue()) {
+				action.openMethodReturnValueWindow(ListControl.this);
 			}
 		}
 
@@ -2564,7 +2576,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected static final long serialVersionUID = 1L;
 
 		protected IDynamicListProperty dynamicProperty;
-		protected AbstractEditorBuilder subDialogBuilder;
+		protected AbstractEditorWindowBuilder subDialogBuilder;
 
 		public DynamicPropertyHook(IDynamicListProperty dynamicProperty) {
 			this.dynamicProperty = dynamicProperty;
@@ -2572,10 +2584,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected boolean prepare() {
-			subDialogBuilder = new AbstractEditorBuilder() {
+			subDialogBuilder = new AbstractEditorWindowBuilder() {
 
 				@Override
-				public String getEncapsulationTypeCaption() {
+				public String getCapsuleTypeCaption() {
 					return ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
 				}
 
@@ -2590,12 +2602,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				public boolean isObjectFormExpanded() {
+				public boolean isEncapsulatedFormExpanded() {
 					return dynamicProperty.isFormControlEmbedded();
 				}
 
 				@Override
-				public boolean isObjectNullValueDistinct() {
+				public boolean isNullValueDistinct() {
 					return dynamicProperty.isNullValueDistinct();
 				}
 
@@ -2605,33 +2617,33 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				public ValueReturnMode getObjectValueReturnMode() {
+				public ValueReturnMode getReturnModeFromParent() {
 					return ValueReturnMode.combine(listData.getValueReturnMode(), dynamicProperty.getValueReturnMode());
 				}
 
 				@Override
-				public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+				public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 					return dynamicProperty.getType().getSource();
 				}
 
 				@Override
-				public Object getInitialObjectValue() {
+				public Object getInitialValue() {
 					return dynamicProperty.getValue(IDynamicListProperty.NO_OWNER);
 				}
 
 				@Override
-				protected Object[] getEncapsulationFieldValueOptions() {
+				protected Object[] getEncapsulatedFieldValueOptions() {
 					return dynamicProperty.getValueOptions(IDynamicListProperty.NO_OWNER);
 				}
 
 				@Override
-				public String getCumulatedModificationsTitle() {
+				public String getParentModificationTitle() {
 					return "Edit "
 							+ ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
 				}
 
 				@Override
-				public ModificationStack getParentObjectModificationStack() {
+				public ModificationStack getParentModificationStack() {
 					return ListControl.this.getModificationStack();
 				}
 
@@ -2641,21 +2653,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				public boolean canCommit() {
+				public boolean canCommitToParent() {
 					BufferedItemPosition anyRootItemPosition = getRootListItemPosition(-1);
 					return anyRootItemPosition.isContainingListEditable();
 				}
 
 				@Override
-				public IModification createCommitModification(Object newObjectValue) {
-					return new FieldControlDataModification(
-							new DefaultFieldControlData(swingRenderer.getReflectionUI(), IDynamicListProperty.NO_OWNER,
-									dynamicProperty),
-							newObjectValue);
+				public IModification createParentCommitModification(Object newObjectValue) {
+					return new FieldControlDataModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
+							IDynamicListProperty.NO_OWNER, dynamicProperty), newObjectValue);
 				}
 
 				@Override
-				public IInfoFilter getObjectFormFilter() {
+				public IInfoFilter getEncapsulatedFormFilter() {
 					return dynamicProperty.getFormControlFilter();
 				}
 			};

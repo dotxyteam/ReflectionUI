@@ -1411,7 +1411,8 @@ public class Form extends ImagePanel {
 			}
 		}
 
-		if ((field.getOnlineHelp() != null) && (field.getOnlineHelp().length() > 0)) {
+		Component onlineHelpControl = createFieldOnlineHelpControl(field);
+		if (onlineHelpControl != null) {
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
@@ -1425,7 +1426,7 @@ public class Form extends ImagePanel {
 			} else {
 				throw new ReflectionUIError();
 			}
-			fieldsPanel.add(createFieldOnlineHelpControl(field.getOnlineHelp()), layoutConstraints);
+			fieldsPanel.add(onlineHelpControl, layoutConstraints);
 		}
 
 		SwingRendererUtils.handleComponentSizeChange(fieldsPanel);
@@ -1459,12 +1460,26 @@ public class Form extends ImagePanel {
 		SwingRendererUtils.handleComponentSizeChange(methodsPanel);
 	}
 
-	public Component createFieldOnlineHelpControl(String onlineHelp) {
-		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, swingRenderer);
+	public Component createFieldOnlineHelpControl(IFieldInfo field) {
+		String onlineHelp = field.getOnlineHelp();
+		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
+			return null;
+		}
+		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
+		Image iconImage = swingRenderer.getObjectIconImage(title);
+		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, title, iconImage, swingRenderer);
 	}
 
-	public Component createToolBarOnlineHelpControl(String onlineHelp) {
-		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, swingRenderer);
+	public Component createButtonBarOnlineHelpControl() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		String onlineHelp = type.getOnlineHelp();
+		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
+			return null;
+		}
+		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
+		Image iconImage = swingRenderer.getObjectIconImage(title);
+		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, title, iconImage, swingRenderer);
 	}
 
 	public Component createSeparateFieldCaptionControl(FieldControlPlaceHolder fieldControlPlaceHolder) {
@@ -1484,16 +1499,17 @@ public class Form extends ImagePanel {
 		return SwingRendererUtils.getStandardCharacterWidth(this) * 1;
 	}
 
-	public List<Component> createToolbarControls() {
+	public List<Component> createButtonBarControls() {
 		if (object == null) {
 			return null;
 		}
 		List<Component> result = new ArrayList<Component>();
+		Component onlineHelpControl = createButtonBarOnlineHelpControl();
+		if (onlineHelpControl != null) {
+			result.add(onlineHelpControl);
+		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if ((type.getOnlineHelp() != null) && (type.getOnlineHelp().length() > 0)) {
-			result.add(createToolBarOnlineHelpControl(type.getOnlineHelp()));
-		}
 		if (type.isModificationStackAccessible()) {
 			if (modificationStack != null) {
 				result.addAll(new ModificationStackControls(modificationStack).create(swingRenderer));

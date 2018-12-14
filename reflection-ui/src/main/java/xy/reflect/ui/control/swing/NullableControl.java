@@ -258,22 +258,22 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public boolean isObjectFormExpanded() {
+			public boolean isEncapsulatedFormExpanded() {
 				return false;
 			}
 
 			@Override
-			public boolean isObjectNullValueDistinct() {
+			public boolean isNullValueDistinct() {
 				return false;
 			}
 
 			@Override
-			public boolean canCommit() {
+			public boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createCommitModification(Object newObjectValue) {
+			public IModification createParentCommitModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 
@@ -283,17 +283,17 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public ValueReturnMode getObjectValueReturnMode() {
+			public ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public String getCumulatedModificationsTitle() {
+			public String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getObjectFormFilter() {
+			public IInfoFilter getEncapsulatedFormFilter() {
 				IInfoFilter result = data.getFormControlFilter();
 				if (result == null) {
 					result = IInfoFilter.DEFAULT;
@@ -302,21 +302,21 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 				return data.getType().getSource();
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			public Object getInitialObjectValue() {
+			public Object getInitialValue() {
 				return data.getValue();
 			}
 		};
-		Form result = subFormBuilder.createForm(true, false);
+		Form result = subFormBuilder.createEditorForm(true, false);
 		return result;
 	}
 

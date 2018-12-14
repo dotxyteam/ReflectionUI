@@ -907,7 +907,8 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static Component createOnlineHelpControl(final String onlineHelp, final SwingRenderer swingRenderer) {
+	public static Component createOnlineHelpControl(final String onlineHelp, final String title, final Image iconImage,
+			final SwingRenderer swingRenderer) {
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
@@ -941,7 +942,7 @@ public class SwingRendererUtils {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				showTooltipNow(result);
+				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
 			}
 		});
 		return result;

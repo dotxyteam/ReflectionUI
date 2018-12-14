@@ -1,22 +1,10 @@
+- allow to specify field target for method modification (will allow to undo method modifications)  
 - allow to clean type customizations (remove renamed/removed field/method customizations).
 It would be a temporary solution since it should be done automatically.
-- copying these attributes on encapsulation is very memory consuming:
-	. NullReplacement
-	. SpecificProperties
-	. SpecificTypeCustomizations 
-	Solution:
-	. transfer (copy and delete) settings from src to dst member customization
-	. if moving out then delete the whole src customization
-- add a checker to verify that a busy indication layer is not added in a modfication 
 - the controls should not rely on the place holder or the form 
 to trigger refresh. Also the form should not trigger uselessly 
 the refresh on the field control that triggered the update that 
 triggered the form refresh. 
-- globally managed update delays + synchronization => too complicated
-	the need for synchronization comes mainly from update delays.
-	These delays should be managed locally by each controls. 
-	Maybe the focus loss events can serve as a delay interruption signal.  
-- remove as much dependencies as possible
 - pass object as param to 
 	. ITypeInfo.getMenuModel()
 	. new MethodmenuItem()

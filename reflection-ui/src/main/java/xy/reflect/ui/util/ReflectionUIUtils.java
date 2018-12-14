@@ -80,6 +80,7 @@ import xy.reflect.ui.undo.UndoOrder;
 
 public class ReflectionUIUtils {
 
+	public static final ReflectionUI STANDARD_REFLECTION = new ReflectionUI();
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
 	public static final String METHOD_SIGNATURE_REGEX = "(\\s*[^ ]+\\s*)(\\s+[^ ]+\\s*)?\\(([^\\)]*)\\)\\s*";
 

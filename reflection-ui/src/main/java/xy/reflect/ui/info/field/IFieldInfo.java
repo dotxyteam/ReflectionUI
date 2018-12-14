@@ -22,7 +22,6 @@ package xy.reflect.ui.info.field;
 import java.util.Collections;
 import java.util.Map;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -30,6 +29,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * This interface allows to specify UI-oriented field properties.
@@ -44,8 +44,7 @@ public interface IFieldInfo extends IInfo {
 	 */
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
-		ReflectionUI reflectionUI = new ReflectionUI();
-		ITypeInfo type = new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(Object.class, null));
+		ITypeInfo type = new DefaultTypeInfo(ReflectionUIUtils.STANDARD_REFLECTION, new JavaTypeInfoSource(Object.class, null));
 
 		@Override
 		public String getName() {

@@ -53,6 +53,12 @@ public class ReflectionUI {
 			.<Object, ITypeInfo>build().asMap();
 
 	/**
+	 * Constructs an instance of this class.
+	 */
+	public ReflectionUI() {
+	}
+
+	/**
 	 * @return the default instance of this class.
 	 */
 	public static ReflectionUI getDefault() {

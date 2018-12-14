@@ -148,32 +148,32 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public boolean isObjectFormExpanded() {
+			public boolean isEncapsulatedFormExpanded() {
 				return false;
 			}
 
 			@Override
-			public boolean isObjectNullValueDistinct() {
+			public boolean isNullValueDistinct() {
 				return data.isNullValueDistinct();
 			}
 
 			@Override
-			public Object getInitialObjectValue() {
+			public Object getInitialValue() {
 				return typeOptionsFactory.getInstance(getCurrentSubType());
 			}
 
 			@Override
-			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 				return typeOptionsFactory.getInstanceTypeInfoSource(null);
 			}
 
 			@Override
-			public ValueReturnMode getObjectValueReturnMode() {
+			public ValueReturnMode getReturnModeFromParent() {
 				return ValueReturnMode.CALCULATED;
 			}
 
 			@Override
-			public boolean canCommit() {
+			public boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
@@ -183,7 +183,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public IModification createCommitModification(final Object value) {
+			public IModification createParentCommitModification(final Object value) {
 				return new ModificationProxy(IModification.NULL_MODIFICATION) {
 
 					@Override
@@ -212,22 +212,22 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public String getCumulatedModificationsTitle() {
+			public String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getObjectFormFilter() {
+			public IInfoFilter getEncapsulatedFormFilter() {
 				return IInfoFilter.DEFAULT;
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 		};
-		return typeEnumerationControlBuilder.createForm(true, false);
+		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
 
 	protected ITypeInfo getCurrentSubType() {
@@ -270,22 +270,22 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public boolean isObjectFormExpanded() {
+			public boolean isEncapsulatedFormExpanded() {
 				return false;
 			}
 
 			@Override
-			public boolean isObjectNullValueDistinct() {
+			public boolean isNullValueDistinct() {
 				return false;
 			}
 
 			@Override
-			public boolean canCommit() {
+			public boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createCommitModification(Object newObjectValue) {
+			public IModification createParentCommitModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 
@@ -295,17 +295,17 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ValueReturnMode getObjectValueReturnMode() {
+			public ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public String getCumulatedModificationsTitle() {
+			public String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getObjectFormFilter() {
+			public IInfoFilter getEncapsulatedFormFilter() {
 				IInfoFilter result = data.getFormControlFilter();
 				if (result == null) {
 					result = IInfoFilter.DEFAULT;
@@ -314,22 +314,22 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 				return instanceType.getSource();
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			public Object getInitialObjectValue() {
+			public Object getInitialValue() {
 				return currentInstance;
 			}
 
 		};
-		return dynamicControlBuilder.createForm(true, false);
+		return dynamicControlBuilder.createEditorForm(true, false);
 	}
 
 	protected void refreshDynamicControl(boolean refreshStructure) {

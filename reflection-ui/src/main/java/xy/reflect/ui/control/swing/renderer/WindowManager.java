@@ -62,8 +62,8 @@ public class WindowManager {
 	protected ControlPanel contentPane;
 	protected ControlPanel topBarsContainer;
 	protected JScrollPane scrollPane;
-	protected JPanel toolBar;
-	protected Accessor<List<Component>> toolBarControlsAccessor;
+	protected JPanel buttonBar;
+	protected Accessor<List<Component>> buttonBarControlsAccessor;
 
 	public WindowManager(SwingRenderer swingRenderer, Window window) {
 		this.swingRenderer = swingRenderer;
@@ -121,30 +121,30 @@ public class WindowManager {
 		return result;
 	}
 
-	protected JPanel createToolBar() {
+	protected JPanel createButtonBar() {
 		JPanel result = new ControlPanel();
 		result.setLayout(new FlowLayout(FlowLayout.CENTER));
 		return result;
 	}
 
-	protected void updateToolBar() {
-		if (toolBar == null) {
+	protected void updateButtonBar() {
+		if (buttonBar == null) {
 			return;
 		}
-		List<? extends Component> toolBarControls;
-		if (toolBarControlsAccessor == null) {
-			toolBarControls = null;
+		List<? extends Component> buttonBarControls;
+		if (buttonBarControlsAccessor == null) {
+			buttonBarControls = null;
 		} else {
-			toolBarControls = toolBarControlsAccessor.get();
+			buttonBarControls = buttonBarControlsAccessor.get();
 		}
-		toolBar.removeAll();
-		if ((toolBarControls != null) && (toolBarControls.size() > 0)) {
-			toolBar.setVisible(true);
-			for (Component tool : toolBarControls) {
-				toolBar.add(tool);
+		buttonBar.removeAll();
+		if ((buttonBarControls != null) && (buttonBarControls.size() > 0)) {
+			buttonBar.setVisible(true);
+			for (Component tool : buttonBarControls) {
+				buttonBar.add(tool);
 			}
 		} else {
-			toolBar.setVisible(false);
+			buttonBar.setVisible(false);
 		}
 	}
 
@@ -181,23 +181,23 @@ public class WindowManager {
 		contentPane.add(content, BorderLayout.CENTER);
 	}
 
-	protected void layoutToolBar(JPanel toolbar) {
-		contentPane.add(toolbar, BorderLayout.SOUTH);
+	protected void layoutButtonBar(JPanel buttonBar) {
+		contentPane.add(buttonBar, BorderLayout.SOUTH);
 	}
 
-	public void set(final Component content, Accessor<List<Component>> toolbarControlsAccessor, String title,
+	public void set(final Component content, Accessor<List<Component>> buttonBarControlsAccessor, String title,
 			Image iconImage) {
 		setTitle(title);
 		setIconImage(iconImage);
-		set(content, toolbarControlsAccessor);
+		set(content, buttonBarControlsAccessor);
 	}
 
 	public void adjustBounds() {
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
-	public void set(Component content, Accessor<List<Component>> toolbarControlsAccessor) {
-		this.toolBarControlsAccessor = toolbarControlsAccessor;
+	public void set(Component content, Accessor<List<Component>> buttonBarControlsAccessor) {
+		this.buttonBarControlsAccessor = buttonBarControlsAccessor;
 		rootPane = createRootPane();
 		layoutRootPane(rootPane);
 		backgroundPane = createBackgroundPane();
@@ -229,8 +229,8 @@ public class WindowManager {
 			scrollPane = createScrollPane(content);
 			layoutContent(scrollPane);
 		}
-		toolBar = createToolBar();
-		layoutToolBar(toolBar);
+		buttonBar = createButtonBar();
+		layoutButtonBar(buttonBar);
 		refreshWindowStructure();
 		adjustBounds();
 	}
@@ -245,13 +245,13 @@ public class WindowManager {
 			alternativeDecorationsPanel
 					.setBorder(BorderFactory.createLineBorder(getAlternativeDecorationsBorderColor(), 4));
 		}
-		updateToolBar();
-		if (toolBar != null) {
+		updateButtonBar();
+		if (buttonBar != null) {
 			Color borderColor = getMainBorderColor();
 			if (borderColor != null) {
-				toolBar.setBorder(BorderFactory.createLineBorder(borderColor));
+				buttonBar.setBorder(BorderFactory.createLineBorder(borderColor));
 			} else {
-				toolBar.setBorder(BorderFactory.createRaisedBevelBorder());
+				buttonBar.setBorder(BorderFactory.createRaisedBevelBorder());
 			}
 		}
 		SwingRendererUtils.handleComponentSizeChange(window);

@@ -31,13 +31,30 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class StandardEditorBuilder extends AbstractEditorBuilder {
+/**
+ * This is a standard editor window factory class.
+ * 
+ * @author nikolat
+ *
+ */
+public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 
 	protected SwingRenderer swingRenderer;
 	protected Component ownerComponent;
 	protected Object rootObject;
 	protected ITypeInfo rootObjectType;
 
+	/**
+	 * Constructs a standard editor window builder.
+	 * 
+	 * @param swingRenderer
+	 *            The renderer object used to generate the controls.
+	 * @param ownerComponent
+	 *            the component that will own the editor dialog.
+	 * @param rootObject
+	 *            The target object that will be viewed/modified by the editor
+	 *            window.
+	 */
 	public StandardEditorBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object rootObject) {
 		this.swingRenderer = swingRenderer;
 		this.ownerComponent = ownerComponent;
@@ -75,52 +92,52 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	public ModificationStack getParentObjectModificationStack() {
+	public ModificationStack getParentModificationStack() {
 		return null;
 	}
 
 	@Override
-	public String getCumulatedModificationsTitle() {
+	public String getParentModificationTitle() {
 		return null;
 	}
 
 	@Override
-	public boolean canCommit() {
+	public boolean canCommitToParent() {
 		return false;
 	}
 
 	@Override
-	public IModification createCommitModification(Object newObjectValue) {
+	public IModification createParentCommitModification(Object newObjectValue) {
 		return null;
 	}
 
 	@Override
-	public ITypeInfoSource getObjectDeclaredNonSpecificTypeInfoSource() {
+	public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
 		return null;
 	}
 
 	@Override
-	public ValueReturnMode getObjectValueReturnMode() {
+	public ValueReturnMode getReturnModeFromParent() {
 		return ValueReturnMode.DIRECT_OR_PROXY;
 	}
 
 	@Override
-	public boolean isObjectNullValueDistinct() {
+	public boolean isNullValueDistinct() {
 		return false;
 	}
 
 	@Override
-	public Object getInitialObjectValue() {
+	public Object getInitialValue() {
 		return rootObject;
 	}
 
 	@Override
-	public IInfoFilter getObjectFormFilter() {
+	public IInfoFilter getEncapsulatedFormFilter() {
 		return IInfoFilter.DEFAULT;
 	}
 
 	@Override
-	public boolean isObjectFormExpanded() {
+	public boolean isEncapsulatedFormExpanded() {
 		return true;
 	}
 

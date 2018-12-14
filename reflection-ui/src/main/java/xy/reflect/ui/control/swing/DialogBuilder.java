@@ -47,7 +47,7 @@ public class DialogBuilder {
 	protected Image iconImage;
 	protected Component ownerComponent;
 	protected Component contentComponent;
-	protected Accessor<List<Component>> toolbarComponentsAccessor;
+	protected Accessor<List<Component>> buttonBarControlsAccessor;
 	protected Runnable whenClosing;
 	protected boolean okPressed = false;
 
@@ -101,12 +101,12 @@ public class DialogBuilder {
 		this.iconImage = iconImage;
 	}
 
-	public Accessor<List<Component>> getToolbarComponentsAccessor() {
-		return toolbarComponentsAccessor;
+	public Accessor<List<Component>> getButtonBarControlsAccessor() {
+		return buttonBarControlsAccessor;
 	}
 
-	public void setToolbarComponentsAccessor(Accessor<List<Component>> toolbarComponentsAccessor) {
-		this.toolbarComponentsAccessor = toolbarComponentsAccessor;
+	public void setButtonBarControlsAccessor(Accessor<List<Component>> buttonBarControlsAccessor) {
+		this.buttonBarControlsAccessor = buttonBarControlsAccessor;
 	}
 
 	public Runnable getWhenClosing() {
@@ -201,7 +201,7 @@ public class DialogBuilder {
 
 		};
 		WindowManager windowManager = swingRenderer.createWindowManager(dialog);
-		windowManager.set(contentComponent, toolbarComponentsAccessor, title, iconImage);
+		windowManager.set(contentComponent, buttonBarControlsAccessor, title, iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}

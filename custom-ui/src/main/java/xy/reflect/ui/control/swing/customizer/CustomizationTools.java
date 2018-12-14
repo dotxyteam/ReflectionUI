@@ -279,7 +279,7 @@ public class CustomizationTools implements ICustomizationTools {
 									conversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
 									conversionMethodFinder
 											.setConversionMethodSignature(ReflectionUIUtils.buildMethodSignature(
-													new DefaultConstructorInfo(InfoCustomizations.INTROSPECTOR,
+													new DefaultConstructorInfo(ReflectionUIUtils.STANDARD_REFLECTION,
 															ImageIcon.class.getConstructor(Image.class))));
 									storageMapping.setConversionMethodFinder(conversionMethodFinder);
 								}
@@ -287,7 +287,7 @@ public class CustomizationTools implements ICustomizationTools {
 								{
 									reverseConversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
 									reverseConversionMethodFinder.setConversionMethodSignature(ReflectionUIUtils
-											.buildMethodSignature(new DefaultMethodInfo(InfoCustomizations.INTROSPECTOR,
+											.buildMethodSignature(new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION,
 													ImageIcon.class.getMethod("getImage"))));
 									storageMapping.setReverseConversionMethodFinder(reverseConversionMethodFinder);
 								}
@@ -383,7 +383,7 @@ public class CustomizationTools implements ICustomizationTools {
 			}
 
 			@Override
-			public ModificationStack getParentObjectModificationStack() {
+			public ModificationStack getParentModificationStack() {
 				return swingCustomizer.getCustomizationController().getModificationStack();
 			}
 
@@ -1182,7 +1182,7 @@ public class CustomizationTools implements ICustomizationTools {
 		StandardEditorBuilder dialogStatus = toolsRenderer.openObjectDialog(customizerButton, columnOrder,
 				"Columns Order", this.swingCustomizer.getCustomizationsIcon().getImage(), true, true);
 		if (!dialogStatus.isCancelled()) {
-			columnOrder = (List<ColumnOrderItem>) dialogStatus.getCurrentObjectValue();
+			columnOrder = (List<ColumnOrderItem>) dialogStatus.getCurrentValue();
 			List<String> newOrder = new ArrayList<String>();
 			for (ColumnOrderItem item : columnOrder) {
 				newOrder.add(item.getColumnInfo().getName());

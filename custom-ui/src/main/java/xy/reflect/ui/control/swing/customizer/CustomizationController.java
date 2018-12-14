@@ -117,7 +117,7 @@ public class CustomizationController {
 		if (windowBuilder == null) {
 			return null;
 		}
-		return windowBuilder.getObjectModificationStack();
+		return windowBuilder.getModificationStack();
 	}
 
 	public String getInfoCustomizationsOutputFilePath() {
