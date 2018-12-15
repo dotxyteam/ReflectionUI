@@ -22,7 +22,7 @@ package xy.reflect.ui.undo;
 /**
  * {@link ModificationStack} listener interface.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public interface IModificationListener {

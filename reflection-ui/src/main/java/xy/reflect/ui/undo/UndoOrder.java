@@ -23,7 +23,7 @@ package xy.reflect.ui.undo;
  * Specifies how to order the execution of undo modifications according to the
  * source do/redo modifications order.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public enum UndoOrder {

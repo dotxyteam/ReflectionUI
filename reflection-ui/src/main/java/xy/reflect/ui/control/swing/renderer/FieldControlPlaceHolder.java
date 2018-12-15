@@ -81,7 +81,7 @@ import xy.reflect.ui.util.component.ControlPanel;
  * {@link #createFieldControl()} method and passed to the control constructor
  * directly or with some control-specific proxy layers.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public class FieldControlPlaceHolder extends ControlPanel implements IFieldControlInput {

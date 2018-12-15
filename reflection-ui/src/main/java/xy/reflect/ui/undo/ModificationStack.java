@@ -37,7 +37,7 @@ import xy.reflect.ui.util.ReflectionUIError;
  * any reason, then {@link #invalidate()} should be called to inform the
  * modification stack.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public class ModificationStack {

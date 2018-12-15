@@ -54,7 +54,7 @@ import xy.reflect.ui.util.component.ControlPanel;
  * {@link #createMethodControl()} method and passed to the control constructor
  * directly or with some control-specific proxy layers.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public class MethodControlPlaceHolder extends ControlPanel implements IMethodControlInput {

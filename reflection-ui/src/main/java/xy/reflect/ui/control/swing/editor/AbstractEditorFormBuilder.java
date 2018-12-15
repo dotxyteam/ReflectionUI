@@ -67,7 +67,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
  * only if only the link is exclusive. Otherwise
  * {@link ModificationStack#invalidate()} will be called instead.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public abstract class AbstractEditorFormBuilder {

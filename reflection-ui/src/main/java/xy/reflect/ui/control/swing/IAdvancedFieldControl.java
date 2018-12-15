@@ -25,7 +25,7 @@ import xy.reflect.ui.info.menu.MenuModel;
  * Field control implementing this interface will gain more control on their
  * integration in the generated forms.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public interface IAdvancedFieldControl {

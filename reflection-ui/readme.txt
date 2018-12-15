@@ -144,9 +144,21 @@ Build commands:
 	export DEBFULLNAME="OTK Software"
 	export DEBEMAIL="contact@otksoftware.com"
 	mh_make
-	echo 'tar cvfz ../reflection-ui_4.5.2.orig.tar.gz src *.xml *.txt' > debian/orig-tar.sh; chmod +x debian/orig-tar.sh; debian/orig-tar.sh
+	echo 'tar cfz ../reflection-ui_4.5.2.orig.tar.gz src *.xml *.txt' > debian/orig-tar.sh; chmod +x debian/orig-tar.sh; debian/orig-tar.sh
 	echo 'extend-diff-ignore = "(debian|tmp|tools|\.classpath|\.settings|\.project)"' > debian/source/options 
-	debuild; cp pom.beforeDebianBuild.xml pom.xml
+	
+	BUILD_DIR="$HOME/tmp/reflection-ui";\
+	rm -rf "$BUILD_DIR";\
+	mkdir "$BUILD_DIR";\
+	mv ../reflection-ui_4.5.2.orig.tar.gz "$BUILD_DIR/..";\
+	cp -r debian "$BUILD_DIR";\
+	chmod -x "$BUILD_DIR/debian/install";\
+	cd "$BUILD_DIR";\
+	tar xfz ../reflection-ui_4.5.2.orig.tar.gz;\
+	debuild;\
+	cd -;\
+	cp pom.beforeDebianBuild.xml pom.xml
+	
 Cleaning command:
 	rm ../*.deb ../*.build ../*.changes ../*.tar.* ../*.dsc
 	debuild clean

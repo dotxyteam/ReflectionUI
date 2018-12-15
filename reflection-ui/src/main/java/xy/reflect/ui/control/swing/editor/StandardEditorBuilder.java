@@ -34,7 +34,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 /**
  * This is a standard editor window factory class.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public class StandardEditorBuilder extends AbstractEditorWindowBuilder {

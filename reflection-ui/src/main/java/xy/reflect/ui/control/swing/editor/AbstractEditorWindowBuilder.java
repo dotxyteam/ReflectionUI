@@ -45,7 +45,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 /**
  * This is a base class for editor window factories.
  * 
- * @author nikolat
+ * @author olitank
  *
  */
 public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuilder {
