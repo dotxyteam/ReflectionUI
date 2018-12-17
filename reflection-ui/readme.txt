@@ -160,7 +160,7 @@ Build commands:
 	cp pom.beforeDebianBuild.xml pom.xml
 	
 Cleaning command:
-	rm ../*.deb ../*.build ../*.changes ../*.tar.* ../*.dsc
+	cd $HOME/tmp/reflection-ui; rm ../reflection-ui*.*; cd -
 	debuild clean
 	cp pom.beforeDebianBuild.xml pom.xml
 	
