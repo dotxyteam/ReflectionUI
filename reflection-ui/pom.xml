@@ -16,10 +16,12 @@
 			<url>https://www.gnu.org/licenses/gpl-3.0.html</url>
 		</license>
 	</licenses>
-	<organization>
-		<name>OTK Software</name>
-		<url>http://otksoftware.com</url>
-	</organization>
+	<developers>
+		<developer>
+			<organization>OTK Software</organization>
+			<organizationUrl>http://otksoftware.com</organizationUrl>
+		</developer>
+	</developers>
 	<scm>
 		<connection>scm:git:git@github.com:dotxyteam/ReflectionUI.git</connection>
 		<developerConnection>scm:git:git@github.com:dotxyteam/ReflectionUI.git</developerConnection>

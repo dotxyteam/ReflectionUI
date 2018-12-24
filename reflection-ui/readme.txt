@@ -147,6 +147,7 @@ Build commands:
 	echo 'tar cfz ../reflection-ui_4.5.2.orig.tar.gz src *.xml *.txt' > debian/orig-tar.sh; chmod +x debian/orig-tar.sh; debian/orig-tar.sh
 	echo 'extend-diff-ignore = "(debian|tmp|tools|\.classpath|\.settings|\.project)"' > debian/source/options 
 	
+	cp pom.xml pom.beforeDebianBuild.xml;\
 	BUILD_DIR="$HOME/tmp/reflection-ui";\
 	rm -rf "$BUILD_DIR";\
 	mkdir "$BUILD_DIR";\
