@@ -1,4 +1,7 @@
 4.5.2
+- field control auto-update will now invalidate the current modification stack. 
+
+4.5.2
 - field control update delay management moved from control data (globally managed)
 to controls (locally managed)
 - automatic cleaning of customizations after encapsulation/decapsulation

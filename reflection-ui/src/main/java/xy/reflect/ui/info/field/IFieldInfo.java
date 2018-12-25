@@ -44,7 +44,8 @@ public interface IFieldInfo extends IInfo {
 	 */
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
-		ITypeInfo type = new DefaultTypeInfo(ReflectionUIUtils.STANDARD_REFLECTION, new JavaTypeInfoSource(Object.class, null));
+		ITypeInfo type = new DefaultTypeInfo(ReflectionUIUtils.STANDARD_REFLECTION,
+				new JavaTypeInfoSource(Object.class, null));
 
 		@Override
 		public String getName() {
@@ -253,8 +254,9 @@ public interface IFieldInfo extends IInfo {
 
 	/**
 	 * @return the automatic update period (in milliseconds) that this field control
-	 *         will try to respect. Note that -1 means that there is no automatic
-	 *         update and 0 means that the update occurs as fast as possible.
+	 *         will try to respect.-1 means that there is no automatic update and 0
+	 *         means that the update occurs as fast as possible. Note that each
+	 *         automatic update should invalidate the current modification stack.
 	 */
 	long getAutoUpdatePeriodMilliseconds();
 

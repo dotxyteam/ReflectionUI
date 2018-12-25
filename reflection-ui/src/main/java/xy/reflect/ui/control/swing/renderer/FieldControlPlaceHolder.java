@@ -666,8 +666,19 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 		protected void update() {
 			refreshUI(false);
+			impactModifications();
 			if (isLayoutInContainerUpdateNeeded()) {
 				form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
+			}
+		}
+
+		protected void impactModifications() {
+			boolean wasEventFiringEnabled = getModificationStack().isEventFiringEnabled();
+			getModificationStack().setEventFiringEnabled(false);
+			try {
+				getModificationStack().invalidate();
+			} finally {
+				getModificationStack().setEventFiringEnabled(wasEventFiringEnabled);
 			}
 		}
 

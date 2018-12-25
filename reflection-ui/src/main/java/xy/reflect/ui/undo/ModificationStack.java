@@ -50,6 +50,7 @@ public class ModificationStack {
 	protected boolean invalidated = false;
 	protected boolean wasInvalidated = false;
 	protected long stateVersion = 0;
+	protected boolean eventFiringEnabled = true;
 
 	protected IModificationListener internalListener = new IModificationListener() {
 
@@ -83,6 +84,9 @@ public class ModificationStack {
 		@Override
 		public void handlePush(IModification undoModification) {
 			internalListener.handlePush(undoModification);
+			if (!eventFiringEnabled) {
+				return;
+			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handlePush(undoModification);
@@ -92,6 +96,9 @@ public class ModificationStack {
 		@Override
 		public void handleUdno(IModification undoModification) {
 			internalListener.handleUdno(undoModification);
+			if (!eventFiringEnabled) {
+				return;
+			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleUdno(undoModification);
@@ -101,6 +108,9 @@ public class ModificationStack {
 		@Override
 		public void handleRedo(IModification modification) {
 			internalListener.handleRedo(modification);
+			if (!eventFiringEnabled) {
+				return;
+			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleRedo(modification);
@@ -110,6 +120,9 @@ public class ModificationStack {
 		@Override
 		public void handleInvalidate() {
 			internalListener.handleInvalidate();
+			if (!eventFiringEnabled) {
+				return;
+			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleInvalidate();
@@ -119,6 +132,9 @@ public class ModificationStack {
 		@Override
 		public void handleInvalidationCleared() {
 			internalListener.handleInvalidationCleared();
+			if (!eventFiringEnabled) {
+				return;
+			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
 				listener.handleInvalidationCleared();
@@ -183,6 +199,23 @@ public class ModificationStack {
 	 */
 	public IModificationListener[] getListeners() {
 		return listeners.toArray(new IModificationListener[listeners.size()]);
+	}
+
+	/**
+	 * @return whether listeners are enabled or not.
+	 */
+	public boolean isEventFiringEnabled() {
+		return eventFiringEnabled;
+	}
+
+	/**
+	 * Enables/disables listeners.
+	 * 
+	 * @param eventFiringEnabled
+	 *            Is true to enable listeners, false to disable listeners.
+	 */
+	public void setEventFiringEnabled(boolean eventFiringEnabled) {
+		this.eventFiringEnabled = eventFiringEnabled;
 	}
 
 	/**

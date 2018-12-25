@@ -146,6 +146,18 @@ public class SlaveModificationStack extends ModificationStack {
 	}
 
 	@Override
+	public boolean isEventFiringEnabled() {
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
+		return parentObjectModifStack.isEventFiringEnabled();
+	}
+
+	@Override
+	public void setEventFiringEnabled(boolean eventFiringEnabled) {
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
+		parentObjectModifStack.setEventFiringEnabled(eventFiringEnabled);
+	}
+
+	@Override
 	public String toString() {
 		return SlaveModificationStack.class.getSimpleName() + "[of " + form.toString() + ", to "
 				+ masterModificationStackGetter.get() + "]";
