@@ -1745,22 +1745,23 @@ public class InfoCustomizations implements Serializable {
 			List<String> result = new ArrayList<String>();
 			for (Constructor<?> ctor : conversionClass.getConstructors()) {
 				if (ctor.getParameterTypes().length == 1) {
-					result.add(ReflectionUIUtils.buildMethodSignature(new DefaultConstructorInfo(ReflectionUIUtils.STANDARD_REFLECTION, ctor)));
+					result.add(ReflectionUIUtils.buildMethodSignature(
+							new DefaultConstructorInfo(ReflectionUIUtils.STANDARD_REFLECTION, ctor)));
 				}
 			}
 			for (Method method : conversionClass.getMethods()) {
 				if (Modifier.isStatic(method.getModifiers())) {
 					if (method.getParameterTypes().length == 1) {
 						if (!method.getReturnType().equals(void.class)) {
-							result.add(ReflectionUIUtils
-									.buildMethodSignature(new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION, method)));
+							result.add(ReflectionUIUtils.buildMethodSignature(
+									new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION, method)));
 						}
 					}
 				} else {
 					if (method.getParameterTypes().length == 0) {
 						if (!method.getReturnType().equals(void.class)) {
-							result.add(ReflectionUIUtils
-									.buildMethodSignature(new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION, method)));
+							result.add(ReflectionUIUtils.buildMethodSignature(
+									new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION, method)));
 						}
 					}
 				}
@@ -1969,6 +1970,15 @@ public class InfoCustomizations implements Serializable {
 
 		protected ITypeInfoFinder newTypeFinder;
 		protected boolean nullValueConverted = false;
+		protected Long reverseSynchronizationPeriodMilliseconds;
+
+		public Long getReverseSynchronizationPeriodMilliseconds() {
+			return reverseSynchronizationPeriodMilliseconds;
+		}
+
+		public void setReverseSynchronizationPeriodMilliseconds(Long reverseSynchronizationPeriodMilliseconds) {
+			this.reverseSynchronizationPeriodMilliseconds = reverseSynchronizationPeriodMilliseconds;
+		}
 
 		public boolean isNullValueConverted() {
 			return nullValueConverted;
@@ -2001,6 +2011,9 @@ public class InfoCustomizations implements Serializable {
 			final int prime = 31;
 			int result = super.hashCode();
 			result = prime * result + ((newTypeFinder == null) ? 0 : newTypeFinder.hashCode());
+			result = prime * result + (nullValueConverted ? 1231 : 1237);
+			result = prime * result + ((reverseSynchronizationPeriodMilliseconds == null) ? 0
+					: reverseSynchronizationPeriodMilliseconds.hashCode());
 			return result;
 		}
 
@@ -2018,14 +2031,20 @@ public class InfoCustomizations implements Serializable {
 					return false;
 			} else if (!newTypeFinder.equals(other.newTypeFinder))
 				return false;
+			if (nullValueConverted != other.nullValueConverted)
+				return false;
+			if (reverseSynchronizationPeriodMilliseconds == null) {
+				if (other.reverseSynchronizationPeriodMilliseconds != null)
+					return false;
+			} else if (!reverseSynchronizationPeriodMilliseconds.equals(other.reverseSynchronizationPeriodMilliseconds))
+				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "TypeConversion [newTypeFinder=" + newTypeFinder + ", preMapping=" + preMapping
-					+ ", conversionMethodFinder=" + conversionMethodFinder + ", reverseConversionMethodFinder="
-					+ reverseConversionMethodFinder + "]";
+			return "TypeConversion [newTypeFinder=" + newTypeFinder + ", nullValueConverted=" + nullValueConverted
+					+ ", reverseSynchronizationPeriodMilliseconds=" + reverseSynchronizationPeriodMilliseconds + "]";
 		}
 
 	}
@@ -2116,7 +2135,7 @@ public class InfoCustomizations implements Serializable {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			TypeConversion other = (TypeConversion) obj;
+			Mapping other = (Mapping) obj;
 			if (conversionMethodFinder == null) {
 				if (other.conversionMethodFinder != null)
 					return false;

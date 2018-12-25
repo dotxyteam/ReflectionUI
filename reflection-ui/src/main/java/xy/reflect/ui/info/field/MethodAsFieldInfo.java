@@ -74,6 +74,10 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.composeMessage(method.getCaption(), " Result");
 	}

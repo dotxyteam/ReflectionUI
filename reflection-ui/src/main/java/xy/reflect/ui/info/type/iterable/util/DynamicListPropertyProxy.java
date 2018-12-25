@@ -49,6 +49,10 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.getOnlineHelp();
 	}
 
+	public void onControlVisibilityChange(Object object, boolean visible) {
+		base.onControlVisibilityChange(object, visible);
+	}
+
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
 	}

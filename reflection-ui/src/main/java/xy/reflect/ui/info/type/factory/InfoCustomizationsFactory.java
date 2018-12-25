@@ -2383,8 +2383,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					Filter<Object> conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
 					Filter<Object> reverseConversionMethod = f.getTypeConversion()
 							.buildOverallReverseConversionMethod();
+					boolean nullValueConverted = f.getTypeConversion().isNullValueConverted();
+					long reverseSynchronizationPeriodMilliseconds = (f.getTypeConversion()
+							.getReverseSynchronizationPeriodMilliseconds() == null) ? -1
+									: f.getTypeConversion().getReverseSynchronizationPeriodMilliseconds();
 					field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod,
-							f.getTypeConversion().isNullValueConverted());
+							nullValueConverted, reverseSynchronizationPeriodMilliseconds);
 				}
 				return field;
 			}

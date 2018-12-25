@@ -100,7 +100,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected boolean layoutInContainerUpdateNeeded = true;
 	protected int positionInContainer = -1;
 	protected boolean ancestorVisible = false;
-	protected AutoUpdater autoUpdateThread;
+	protected AutoUpdater autoRefreshThread;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, Form form, IFieldInfo field) {
 		super();
@@ -112,12 +112,28 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
+				FieldControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(FieldControlPlaceHolder.this,
+						new Runnable() {
+							@Override
+							public void run() {
+								FieldControlPlaceHolder.this.field.onControlVisibilityChange(getObject(), true);
+							}
+						}, FieldControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
+								+ FieldControlPlaceHolder.this.field.getCaption() + " - Setting up...");
 				ancestorVisible = true;
 				updateAutoRefeshState();
 			}
 
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
+				FieldControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(FieldControlPlaceHolder.this,
+						new Runnable() {
+							@Override
+							public void run() {
+								FieldControlPlaceHolder.this.field.onControlVisibilityChange(getObject(), false);
+							}
+						}, FieldControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
+								+ FieldControlPlaceHolder.this.field.getCaption() + " - Cleaning up...");
 				ancestorVisible = false;
 				updateAutoRefeshState();
 			}
@@ -140,10 +156,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public boolean isAutoRefreshActive() {
-		return (autoUpdateThread != null) && (autoUpdateThread.isRunning());
+		return (autoRefreshThread != null) && (autoRefreshThread.isRunning());
 	}
 
-	public AutoUpdater createAutoUpdateThread() {
+	public AutoUpdater createAutoRefreshThread() {
 		return new AutoUpdater();
 	}
 
@@ -151,16 +167,16 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		if (isAutoRefreshActive()) {
 			return;
 		}
-		autoUpdateThread = createAutoUpdateThread();
-		autoUpdateThread.start();
+		autoRefreshThread = createAutoRefreshThread();
+		autoRefreshThread.start();
 	}
 
 	protected void stopAutoRefresh() {
 		if (!isAutoRefreshActive()) {
 			return;
 		}
-		autoUpdateThread.stop();
-		autoUpdateThread = null;
+		autoRefreshThread.stop();
+		autoRefreshThread = null;
 	}
 
 	public IFieldInfo getField() {
@@ -666,19 +682,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 		protected void update() {
 			refreshUI(false);
-			impactModifications();
 			if (isLayoutInContainerUpdateNeeded()) {
 				form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
-			}
-		}
-
-		protected void impactModifications() {
-			boolean wasEventFiringEnabled = getModificationStack().isEventFiringEnabled();
-			getModificationStack().setEventFiringEnabled(false);
-			try {
-				getModificationStack().invalidate();
-			} finally {
-				getModificationStack().setEventFiringEnabled(wasEventFiringEnabled);
 			}
 		}
 

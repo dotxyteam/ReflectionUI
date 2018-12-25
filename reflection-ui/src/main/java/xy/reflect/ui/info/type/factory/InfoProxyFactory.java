@@ -384,6 +384,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return field.getDisplayAreaVerticalWeight();
 	}
 
+	protected void getDisplayAreaVerticalWeight(IFieldInfo field, Object object, boolean visible) {
+		field.onControlVisibilityChange(object, visible);
+	}
+
 	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
 		return method.getCategory();
 	}
@@ -1411,6 +1415,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public double getDisplayAreaVerticalWeight() {
 			return InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, containingType);
+		}
+
+		@Override
+		public void onControlVisibilityChange(Object object, boolean visible) {
+			InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, object, visible);
 		}
 
 		@Override

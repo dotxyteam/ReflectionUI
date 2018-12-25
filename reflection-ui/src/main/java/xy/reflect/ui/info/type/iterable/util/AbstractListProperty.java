@@ -50,6 +50,10 @@ public abstract class AbstractListProperty extends AbstractInfo implements IDyna
 		return 1.0;
 	}
 
+	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
 	public boolean isEnabled() {
 		return true;
 	}

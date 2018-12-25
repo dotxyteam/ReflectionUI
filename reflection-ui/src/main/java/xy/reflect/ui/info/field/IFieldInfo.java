@@ -53,6 +53,10 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public void onControlVisibilityChange(Object object, boolean visible) {
+		}
+
+		@Override
 		public double getDisplayAreaHorizontalWeight() {
 			return 1.0;
 		}
@@ -255,8 +259,7 @@ public interface IFieldInfo extends IInfo {
 	/**
 	 * @return the automatic update period (in milliseconds) that this field control
 	 *         will try to respect.-1 means that there is no automatic update and 0
-	 *         means that the update occurs as fast as possible. Note that each
-	 *         automatic update should invalidate the current modification stack.
+	 *         means that the update occurs as fast as possible.
 	 */
 	long getAutoUpdatePeriodMilliseconds();
 
@@ -290,5 +293,17 @@ public interface IFieldInfo extends IInfo {
 	 * 
 	 */
 	double getDisplayAreaVerticalWeight();
+
+	/**
+	 * This method should be called by the renderer when the visibility of this
+	 * field changes for the given object in the generated UI.
+	 * 
+	 * @param object
+	 *            The object hosting the field value.
+	 * @param visible
+	 *            true when the field becomes visible, false when it becomes
+	 *            invisible.
+	 */
+	void onControlVisibilityChange(Object object, boolean visible);
 
 }

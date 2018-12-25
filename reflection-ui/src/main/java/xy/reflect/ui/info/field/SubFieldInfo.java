@@ -79,6 +79,10 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(theSubField.getType().getSource()) {

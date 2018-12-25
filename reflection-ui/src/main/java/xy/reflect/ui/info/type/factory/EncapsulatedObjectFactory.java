@@ -625,6 +625,10 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public void onControlVisibilityChange(Object object, boolean visible) {
+		}
+
+		@Override
 		public boolean isHidden() {
 			return false;
 		}

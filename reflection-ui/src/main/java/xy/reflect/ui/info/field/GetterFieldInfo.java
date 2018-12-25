@@ -262,6 +262,10 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
+	@Override
 	public int hashCode() {
 		return javaGetterMethod.hashCode();
 	}

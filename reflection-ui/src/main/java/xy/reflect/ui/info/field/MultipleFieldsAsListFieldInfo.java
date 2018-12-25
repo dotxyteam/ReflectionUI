@@ -177,6 +177,10 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
+	@Override
 	public String getOnlineHelp() {
 		return null;
 	}

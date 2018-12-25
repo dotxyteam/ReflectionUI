@@ -68,6 +68,10 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		this.containingType = containingType;
 	}
 
+	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
 	public static String formatTypeName(String fieldName, String containingTypeName) {
 		return MessageFormat.format(
 				"CapsuleFieldType [context=EncapsulationContext [containingType={0}], fieldName={1}]",

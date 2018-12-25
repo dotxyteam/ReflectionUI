@@ -73,6 +73,10 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
+	@Override
 	public void setValue(Object object, Object value) {
 		try {
 			javaField.set(object, value);

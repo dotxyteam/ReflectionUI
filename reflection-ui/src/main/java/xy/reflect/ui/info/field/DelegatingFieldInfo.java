@@ -115,6 +115,11 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+		getDelegate().onControlVisibilityChange(object, visible);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

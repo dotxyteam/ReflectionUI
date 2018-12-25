@@ -39,6 +39,10 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base;
 	}
 
+	public void onControlVisibilityChange(Object object, boolean visible) {
+		base.onControlVisibilityChange(object, visible);
+	}
+
 	public double getDisplayAreaHorizontalWeight() {
 		return base.getDisplayAreaHorizontalWeight();
 	}

@@ -1,5 +1,5 @@
 4.5.2
-- field control auto-update will now invalidate the current modification stack. 
+- allow to specify real-time synchronization of converted field value to its source
 
 4.5.2
 - field control update delay management moved from control data (globally managed)

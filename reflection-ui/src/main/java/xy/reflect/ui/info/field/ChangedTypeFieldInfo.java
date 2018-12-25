@@ -19,8 +19,14 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.cache.CacheBuilder;
+
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.AbstractPollingService;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -30,14 +36,20 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	protected Filter<Object> conversionMethod;
 	protected Filter<Object> reverseConversionMethod;
 	protected boolean nullValueConverted;
+	protected long reverseSynchronizationPeriodMilliseconds;
+
+	protected static Map<Object, Map<ChangedTypeFieldInfo, ReverseSynchronizer>> reverseSynchronizers = CacheBuilder
+			.newBuilder().weakKeys().<Object, Map<ChangedTypeFieldInfo, ReverseSynchronizer>>build().asMap();
 
 	public ChangedTypeFieldInfo(IFieldInfo base, ITypeInfo newType, Filter<Object> conversionMethod,
-			Filter<Object> reverseConversionMethod, boolean nullValueConverted) {
+			Filter<Object> reverseConversionMethod, boolean nullValueConverted,
+			long reverseSynchronizationPeriodMilliseconds) {
 		super(base);
 		this.newType = newType;
 		this.conversionMethod = conversionMethod;
 		this.reverseConversionMethod = reverseConversionMethod;
 		this.nullValueConverted = nullValueConverted;
+		this.reverseSynchronizationPeriodMilliseconds = reverseSynchronizationPeriodMilliseconds;
 	}
 
 	protected Object convert(Object value) {
@@ -45,7 +57,7 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 			return value;
 		}
 		if (value == null) {
-			if (!nullValueConverted ) {
+			if (!nullValueConverted) {
 				return null;
 			}
 		}
@@ -72,12 +84,43 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public Object getValue(Object object) {
-		return convert(super.getValue(object));
+		Object result = convert(super.getValue(object));
+		ReverseSynchronizer reverseSynchronizer = getReverseSynchronizer(object, this);
+		reverseSynchronizer.setLastValue(result);
+		reverseSynchronizer.setReverseSynchronizationPeriodMilliseconds(reverseSynchronizationPeriodMilliseconds);
+		return result;
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
 		super.setValue(object, revertConversion(value));
+		ReverseSynchronizer reverseSynchronizer = getReverseSynchronizer(object, this);
+		reverseSynchronizer.setLastValue(value);
+	}
+
+	public void super_setValue(Object object, Object value) {
+		super.setValue(object, revertConversion(value));
+	}
+
+	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+		ReverseSynchronizer reverseSynchronizer = getReverseSynchronizer(object, this);
+		reverseSynchronizer.setControlVisible(visible);
+	}
+
+	protected static synchronized ReverseSynchronizer getReverseSynchronizer(Object object,
+			ChangedTypeFieldInfo field) {
+		Map<ChangedTypeFieldInfo, ReverseSynchronizer> byField = reverseSynchronizers.get(object);
+		if (byField == null) {
+			byField = new HashMap<ChangedTypeFieldInfo, ChangedTypeFieldInfo.ReverseSynchronizer>();
+			reverseSynchronizers.put(object, byField);
+		}
+		ReverseSynchronizer result = byField.get(field);
+		if (result == null) {
+			result = new ReverseSynchronizer(object, field);
+			byField.put(field, result);
+		}
+		return result;
 	}
 
 	@Override
@@ -151,4 +194,73 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 				+ ", reverseConversionMethod=" + reverseConversionMethod + "]";
 	}
 
+	protected static class ReverseSynchronizer extends AbstractPollingService {
+
+		protected Object object;
+		protected ChangedTypeFieldInfo field;
+		protected Object lastValue;
+		protected boolean controlVisible = false;
+		protected long reverseSynchronizationPeriodMilliseconds = -1;
+
+		public ReverseSynchronizer(Object object, ChangedTypeFieldInfo field) {
+			super();
+			this.object = object;
+			this.field = field;
+		}
+
+		@Override
+		protected String getServiceName() {
+			return field.getName() + " Reverse Synchronizer";
+		}
+
+		protected void updateState() {
+			if ((reverseSynchronizationPeriodMilliseconds >= 0) && controlVisible) {
+				start();
+			} else {
+				stop();
+			}
+		}
+
+		public Object getObject() {
+			return object;
+		}
+
+		public long getReverseSynchronizationPeriodMilliseconds() {
+			return reverseSynchronizationPeriodMilliseconds;
+		}
+
+		public void setReverseSynchronizationPeriodMilliseconds(long reverseSynchronizationPeriodMilliseconds) {
+			this.reverseSynchronizationPeriodMilliseconds = reverseSynchronizationPeriodMilliseconds;
+			updateState();
+		}
+
+		public Object getLastValue() {
+			return lastValue;
+		}
+
+		public void setLastValue(Object lastValue) {
+			this.lastValue = lastValue;
+			updateState();
+		}
+
+		public boolean isControlVisible() {
+			return controlVisible;
+		}
+
+		public void setControlVisible(boolean controlVisible) {
+			this.controlVisible = controlVisible;
+			updateState();
+		}
+
+		@Override
+		protected boolean doPollingAction() {
+			field.super_setValue(object, lastValue);
+			return true;
+		}
+
+		@Override
+		protected long getPeriodicSleepDurationMilliseconds() {
+			return field.reverseSynchronizationPeriodMilliseconds;
+		}
+	}
 }
