@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>reflection-ui</artifactId>
-	<version>4.5.2</version>
+	<version>4.5.3</version>
 	<name>Reflection UI</name>
 	<description>Java reflection-based GUI generator</description>
 	<url>http://javacollection.net/reflectionui/</url>
@@ -16,10 +16,12 @@
 			<url>https://www.gnu.org/licenses/gpl-3.0.html</url>
 		</license>
 	</licenses>
-	<organization>
-		<name>OTK Software</name>
-		<url>http://otksoftware.com</url>
-	</organization>
+	<developers>
+		<developer>
+			<organization>OTK Software</organization>
+			<organizationUrl>http://otksoftware.com</organizationUrl>
+		</developer>
+	</developers>
 	<scm>
 		<connection>scm:git:git@github.com:dotxyteam/ReflectionUI.git</connection>
 		<developerConnection>scm:git:git@github.com:dotxyteam/ReflectionUI.git</developerConnection>

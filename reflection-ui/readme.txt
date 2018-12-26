@@ -163,6 +163,5 @@ Build commands:
 Cleaning command:
 	cd $HOME/tmp/reflection-ui; rm ../reflection-ui*.*; cd -
 	debuild clean
-	cp pom.beforeDebianBuild.xml pom.xml
 	
 

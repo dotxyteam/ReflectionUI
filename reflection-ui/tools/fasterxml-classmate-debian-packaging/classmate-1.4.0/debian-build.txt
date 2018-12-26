@@ -5,6 +5,7 @@ Build commands:
 	echo 'tar cfz ../classmate_1.4.0.orig.tar.gz src *.xml *.txt' > debian/orig-tar.sh; chmod +x debian/orig-tar.sh; debian/orig-tar.sh
 	echo 'extend-diff-ignore = "(debian|tmp|\.classpath|\.settings|\.project)"' > debian/source/options 
 	
+	cp pom.xml pom.beforeDebianBuild.xml;\
 	BUILD_DIR="$HOME/tmp/classmate";\
 	rm -rf "$BUILD_DIR";\
 	mkdir "$BUILD_DIR";\
@@ -21,4 +22,3 @@ Build commands:
 Cleaning command:
 	rm ../*.deb ../*.build ../*.changes ../*.tar.* ../*.dsc
 	debuild clean
-	cp pom.beforeDebianBuild.xml pom.xml
