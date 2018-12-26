@@ -52,6 +52,10 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean b) {
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}

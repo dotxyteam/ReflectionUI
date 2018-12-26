@@ -69,6 +69,12 @@ public class ChainedMethodsInfo implements IMethodInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean b) {
+		method1.onControlVisibilityChange(object, b);
+		method2.onControlVisibilityChange(object, b);
+	}
+
+	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.composeMessage(method1.getCaption(), method2.getCaption());
 	}

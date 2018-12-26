@@ -108,6 +108,11 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		this.form = form;
 		this.field = field;
 		setLayout(new BorderLayout());
+		manageVisibiltyChanges();
+		refreshUI(false);
+	}
+
+	protected void manageVisibiltyChanges() {
 		addAncestorListener(new AncestorListener() {
 
 			@Override
@@ -143,7 +148,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			}
 
 		});
-		refreshUI(false);
 	}
 
 	public void updateAutoRefeshState() {

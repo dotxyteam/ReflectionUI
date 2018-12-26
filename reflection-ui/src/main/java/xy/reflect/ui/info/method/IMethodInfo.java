@@ -55,6 +55,10 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public void onControlVisibilityChange(Object object, boolean b) {
+		}
+
+		@Override
 		public String getSignature() {
 			return ReflectionUIUtils.buildMethodSignature(this);
 		}
@@ -272,5 +276,17 @@ public interface IMethodInfo extends IInfo {
 	 *         settings dialog or null if the default text should be used.
 	 */
 	String getParametersValidationCustomCaption();
+
+	/**
+	 * This method should be called by the renderer when the visibility of this
+	 * method changes for the given object in the generated UI.
+	 * 
+	 * @param object
+	 *            The object offering this method.
+	 * @param visible
+	 *            true when the method becomes visible, false when it becomes
+	 *            invisible.
+	 */
+	void onControlVisibilityChange(Object object, boolean visible);
 
 }

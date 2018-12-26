@@ -25,6 +25,8 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.SortedMap;
 import javax.swing.SwingUtilities;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
@@ -73,7 +75,42 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		this.form = form;
 		this.method = method;
 		setLayout(new BorderLayout());
+		manageVisibiltyChanges();
 		refreshUI();
+	}
+
+	protected void manageVisibiltyChanges() {
+		addAncestorListener(new AncestorListener() {
+
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+				MethodControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(MethodControlPlaceHolder.this,
+						new Runnable() {
+							@Override
+							public void run() {
+								MethodControlPlaceHolder.this.method.onControlVisibilityChange(getObject(), true);
+							}
+						}, MethodControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
+								+ MethodControlPlaceHolder.this.method.getCaption() + " - Setting up...");
+			}
+
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				MethodControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(MethodControlPlaceHolder.this,
+						new Runnable() {
+							@Override
+							public void run() {
+								MethodControlPlaceHolder.this.method.onControlVisibilityChange(getObject(), false);
+							}
+						}, MethodControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
+								+ MethodControlPlaceHolder.this.method.getCaption() + " - Cleaning up...");
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+			}
+
+		});
 	}
 
 	public Form getForm() {

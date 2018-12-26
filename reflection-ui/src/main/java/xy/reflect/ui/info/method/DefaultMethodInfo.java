@@ -177,6 +177,10 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean b) {
+	}
+
+	@Override
 	public boolean isReadOnly() {
 		return Modifier.isStatic(javaMethod.getModifiers());
 	}

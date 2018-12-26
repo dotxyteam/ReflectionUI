@@ -131,6 +131,10 @@ public class DynamicListActionProxy implements IDynamicListAction {
 		return base.isHidden();
 	}
 
+	public void onControlVisibilityChange(Object object, boolean b) {
+		base.onControlVisibilityChange(object, b);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

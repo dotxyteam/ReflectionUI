@@ -450,6 +450,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return method.isHidden();
 	}
 
+	protected void onControlVisibilityChange(IMethodInfo method, Object object, boolean visible) {
+		method.onControlVisibilityChange(object, visible);
+	}
+
 	protected String getSignature(IMethodInfo method, ITypeInfo containingType) {
 		return method.getSignature();
 	}
@@ -1579,6 +1583,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isHidden() {
 			return InfoProxyFactory.this.isHidden(base, containingType);
+		}
+
+		@Override
+		public void onControlVisibilityChange(Object object, boolean visible) {
+			InfoProxyFactory.this.onControlVisibilityChange(base, object, visible);
 		}
 
 		@Override

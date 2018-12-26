@@ -46,6 +46,10 @@ public abstract class AbstractListAction extends AbstractInfo implements IDynami
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
+	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {
 		return null;
 	}

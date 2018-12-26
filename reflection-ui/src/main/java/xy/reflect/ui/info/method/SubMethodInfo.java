@@ -74,6 +74,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	public boolean isHidden() {
 		return false;
 	}
+	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+		theField.onControlVisibilityChange(object, visible);
+		theSubMethod.onControlVisibilityChange(object, visible);
+	}
 
 	@Override
 	public String getSignature() {

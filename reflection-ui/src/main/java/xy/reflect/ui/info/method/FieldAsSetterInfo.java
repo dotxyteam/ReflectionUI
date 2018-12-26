@@ -115,6 +115,10 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public void onControlVisibilityChange(Object object, boolean visible) {
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}
