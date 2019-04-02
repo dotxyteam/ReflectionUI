@@ -124,8 +124,8 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	/**
-	 * @return the default instance of this class. Note that it may try to load the
-	 *         default customization file according these system properties:
+	 * @return the default instance of this class. Note that it may try to load
+	 *         the default customization file according these system properties:
 	 *         {@link SystemProperties#DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE} and
 	 *         {@link SystemProperties#DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH}
 	 */
@@ -2912,6 +2912,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setCustomMethodCaption(String customMethodCaption) {
 			this.customMethodCaption = customMethodCaption;
+		}
+
+		public void validate() {
+			if (methodSignature != null) {
+				if (ReflectionUIUtils.extractMethodNameFromSignature(methodSignature) == null) {
+					throw new ReflectionUIError("Malformed method signature: '" + methodSignature + "'");
+				}
+			}
 		}
 
 		@Override

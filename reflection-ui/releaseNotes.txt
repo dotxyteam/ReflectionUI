@@ -1,4 +1,4 @@
-4.5.2
+4.5.3
 - abstract method added for member (field/method) visibility change
 - allow to specify real-time synchronization of converted field value to its source
 

@@ -84,8 +84,12 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public Object getValue(Object object) {
-		Object result = convert(super.getValue(object));
 		ReverseSynchronizer reverseSynchronizer = getReverseSynchronizer(object, this);
+		Object value;
+		synchronized (reverseSynchronizer.getSynchronizationMutex()) {
+			value = super.getValue(object);
+		}
+		Object result = convert(value);
 		reverseSynchronizer.setLastValue(result);
 		reverseSynchronizer.setReverseSynchronizationPeriodMilliseconds(reverseSynchronizationPeriodMilliseconds);
 		return result;
@@ -93,12 +97,14 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		super.setValue(object, revertConversion(value));
 		ReverseSynchronizer reverseSynchronizer = getReverseSynchronizer(object, this);
+		synchronized (reverseSynchronizer.getSynchronizationMutex()) {
+			super_setValue(object, revertConversion(value));
+		}
 		reverseSynchronizer.setLastValue(value);
 	}
 
-	public void super_setValue(Object object, Object value) {
+	protected void super_setValue(Object object, Object value) {
 		super.setValue(object, revertConversion(value));
 	}
 
@@ -201,11 +207,16 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 		protected Object lastValue;
 		protected boolean controlVisible = false;
 		protected long reverseSynchronizationPeriodMilliseconds = -1;
+		protected Object synchronizationMutex = new Object();
 
 		public ReverseSynchronizer(Object object, ChangedTypeFieldInfo field) {
 			super();
 			this.object = object;
 			this.field = field;
+		}
+
+		public Object getSynchronizationMutex() {
+			return synchronizationMutex;
 		}
 
 		@Override
@@ -253,14 +264,17 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 		}
 
 		@Override
-		protected boolean doPollingAction() {
-			field.super_setValue(object, lastValue);
-			return true;
-		}
-
-		@Override
 		protected long getPeriodicSleepDurationMilliseconds() {
 			return field.reverseSynchronizationPeriodMilliseconds;
 		}
+
+		@Override
+		protected boolean doPollingAction() {
+			synchronized (synchronizationMutex) {
+				field.super_setValue(object, lastValue);
+			}
+			return true;
+		}
+
 	}
 }
