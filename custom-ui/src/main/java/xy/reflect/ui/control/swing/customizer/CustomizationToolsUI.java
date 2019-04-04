@@ -65,7 +65,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-class CustomizationToolsUI extends CustomizedUI {
+public class CustomizationToolsUI extends CustomizedUI {
 
 	protected final SwingCustomizer swingCustomizer;
 
