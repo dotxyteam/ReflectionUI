@@ -113,6 +113,8 @@ public class Form extends ImagePanel {
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory;
 	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
 			.weakKeys().makeMap();
+	protected Map<FieldControlPlaceHolder, Component> onlineHelpControlByFieldControlPlaceHolder = new MapMaker()
+			.weakKeys().makeMap();
 	protected Container categoriesControl;
 	protected boolean busyIndicationDisabled;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
@@ -223,9 +225,9 @@ public class Form extends ImagePanel {
 		return captionControlByFieldControlPlaceHolder;
 	}
 
-	public void setCaptionControlByFieldControlPlaceHolder(
-			Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder) {
-		this.captionControlByFieldControlPlaceHolder = captionControlByFieldControlPlaceHolder;
+	
+	public Map<FieldControlPlaceHolder, Component> getOnlineHelpControlByFieldControlPlaceHolder() {
+		return onlineHelpControlByFieldControlPlaceHolder;
 	}
 
 	public Container getCategoriesControl() {
@@ -1411,8 +1413,14 @@ public class Form extends ImagePanel {
 			}
 		}
 
-		Component onlineHelpControl = createFieldOnlineHelpControl(field);
+		Component onlineHelpControl = getOnlineHelpControlByFieldControlPlaceHolder().get(fieldControlPlaceHolder);
 		if (onlineHelpControl != null) {
+			fieldsPanel.remove(onlineHelpControl);
+			getOnlineHelpControlByFieldControlPlaceHolder().remove(onlineHelpControl);
+		}
+		onlineHelpControl = createFieldOnlineHelpControl(field);
+		if (onlineHelpControl != null) {
+			getOnlineHelpControlByFieldControlPlaceHolder().put(fieldControlPlaceHolder, onlineHelpControl);
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
@@ -1427,6 +1435,8 @@ public class Form extends ImagePanel {
 				throw new ReflectionUIError();
 			}
 			fieldsPanel.add(onlineHelpControl, layoutConstraints);
+		}else{
+			
 		}
 
 		SwingRendererUtils.handleComponentSizeChange(fieldsPanel);
