@@ -1,5 +1,4 @@
 - OOM when saving customizations multiple times???
-- Online help tooltip never refreshed
 - hidden modification stacks should not store any modification
 - allow to specify field target for method modification (will allow to undo method modifications)  
 - allow to clean type customizations (remove renamed/removed field/method customizations).
