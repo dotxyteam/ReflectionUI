@@ -111,10 +111,6 @@ public class Form extends ImagePanel {
 	protected IInfoFilter infoFilter;
 	protected SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory;
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory;
-	protected Map<FieldControlPlaceHolder, Component> captionControlByFieldControlPlaceHolder = new MapMaker()
-			.weakKeys().makeMap();
-	protected Map<FieldControlPlaceHolder, Component> onlineHelpControlByFieldControlPlaceHolder = new MapMaker()
-			.weakKeys().makeMap();
 	protected Container categoriesControl;
 	protected boolean busyIndicationDisabled;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
@@ -219,15 +215,6 @@ public class Form extends ImagePanel {
 
 	public SortedMap<InfoCategory, List<MethodControlPlaceHolder>> getMethodControlPlaceHoldersByCategory() {
 		return methodControlPlaceHoldersByCategory;
-	}
-
-	public Map<FieldControlPlaceHolder, Component> getCaptionControlByFieldControlPlaceHolder() {
-		return captionControlByFieldControlPlaceHolder;
-	}
-
-	
-	public Map<FieldControlPlaceHolder, Component> getOnlineHelpControlByFieldControlPlaceHolder() {
-		return onlineHelpControlByFieldControlPlaceHolder;
 	}
 
 	public Container getCategoriesControl() {
@@ -1349,10 +1336,10 @@ public class Form extends ImagePanel {
 		JPanel fieldsPanel = (JPanel) fieldControlPlaceHolder.getParent();
 		int spacing = getLayoutSpacing();
 
-		Component captionControl = getCaptionControlByFieldControlPlaceHolder().get(fieldControlPlaceHolder);
+		Component captionControl = fieldControlPlaceHolder.getSiblingCaptionControl();
 		if (captionControl != null) {
 			fieldsPanel.remove(captionControl);
-			getCaptionControlByFieldControlPlaceHolder().remove(fieldControlPlaceHolder);
+			fieldControlPlaceHolder.setSiblingCaptionControl(null);
 		}
 		boolean shouldHaveSeparateCaptionControl = !fieldControlPlaceHolder.showsCaption()
 				&& (fieldControlPlaceHolder.getField().getCaption().length() > 0);
@@ -1373,7 +1360,7 @@ public class Form extends ImagePanel {
 			captionControlLayoutConstraints.weighty = 1.0;
 			captionControlLayoutConstraints.anchor = GridBagConstraints.WEST;
 			fieldsPanel.add(captionControl, captionControlLayoutConstraints);
-			getCaptionControlByFieldControlPlaceHolder().put(fieldControlPlaceHolder, captionControl);
+			fieldControlPlaceHolder.setSiblingCaptionControl(captionControl);
 		}
 
 		GridBagConstraints fieldControlPlaceHolderLayoutConstraints = new GridBagConstraints();
@@ -1413,14 +1400,14 @@ public class Form extends ImagePanel {
 			}
 		}
 
-		Component onlineHelpControl = getOnlineHelpControlByFieldControlPlaceHolder().get(fieldControlPlaceHolder);
+		Component onlineHelpControl = fieldControlPlaceHolder.getSiblingOnlineHelpControl();
 		if (onlineHelpControl != null) {
 			fieldsPanel.remove(onlineHelpControl);
-			getOnlineHelpControlByFieldControlPlaceHolder().remove(onlineHelpControl);
+			fieldControlPlaceHolder.setSiblingOnlineHelpControl(null);
 		}
 		onlineHelpControl = createFieldOnlineHelpControl(field);
 		if (onlineHelpControl != null) {
-			getOnlineHelpControlByFieldControlPlaceHolder().put(fieldControlPlaceHolder, onlineHelpControl);
+			fieldControlPlaceHolder.setSiblingOnlineHelpControl(onlineHelpControl);
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
@@ -1435,8 +1422,6 @@ public class Form extends ImagePanel {
 				throw new ReflectionUIError();
 			}
 			fieldsPanel.add(onlineHelpControl, layoutConstraints);
-		}else{
-			
 		}
 
 		SwingRendererUtils.handleComponentSizeChange(fieldsPanel);

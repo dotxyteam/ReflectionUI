@@ -101,6 +101,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected int positionInContainer = -1;
 	protected boolean ancestorVisible = false;
 	protected AutoUpdater autoRefreshThread;
+	protected Component siblingCaptionControl;
+	protected Component siblingOnlineHelpControl;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, Form form, IFieldInfo field) {
 		super();
@@ -110,6 +112,22 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		setLayout(new BorderLayout());
 		manageVisibiltyChanges();
 		refreshUI(false);
+	}
+
+	public Component getSiblingCaptionControl() {
+		return siblingCaptionControl;
+	}
+
+	public void setSiblingCaptionControl(Component siblingCaptionControl) {
+		this.siblingCaptionControl = siblingCaptionControl;
+	}
+
+	public Component getSiblingOnlineHelpControl() {
+		return siblingOnlineHelpControl;
+	}
+
+	public void setSiblingOnlineHelpControl(Component siblingOnlineHelpControl) {
+		this.siblingOnlineHelpControl = siblingOnlineHelpControl;
 	}
 
 	protected void manageVisibiltyChanges() {
