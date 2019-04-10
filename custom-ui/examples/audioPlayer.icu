@@ -66,11 +66,6 @@
                         <alwaysShown>true</alwaysShown>
                         <methodSignature>void play()</methodSignature>
                     </allowedItemMethodShortcuts>
-                    <allowedItemMethodShortcuts>
-                        <uniqueIdentifier>-52c8ce15:169dab3ac42:1e90</uniqueIdentifier>
-                        <alwaysShown>true</alwaysShown>
-                        <methodSignature>void stop()</methodSignature>
-                    </allowedItemMethodShortcuts>
                     <columnCustomizations>
                         <uniqueIdentifier>1f03d249:169da720222:1dd5</uniqueIdentifier>
                         <columnName>directoryName</columnName>
