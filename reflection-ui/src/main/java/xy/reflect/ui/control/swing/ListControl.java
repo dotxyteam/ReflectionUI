@@ -979,11 +979,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			treePaths.add(new TreePath(itemNode.getPath()));
 		}
 		treeTableComponent.getTreeSelectionModel().setSelectionPaths(treePaths.toArray(new TreePath[treePaths.size()]));
-		if (treePaths.size() > 0) {
-			try {
-				treeTableComponent.scrollRowToVisible(treeTableComponent.getRowForPath(treePaths.get(0)));
-			} catch (Throwable ignore) {
-			}
+	}
+
+	public void scrollTo(BufferedItemPosition itemPosition) {
+		ItemNode itemNode = findNode(itemPosition);
+		if (itemNode == null) {
+			return;
+		}
+		TreePath treePath = new TreePath(itemNode.getPath());
+		try {
+			treeTableComponent.scrollRowToVisible(treeTableComponent.getRowForPath(treePath));
+		} catch (Throwable ignore) {
 		}
 	}
 
@@ -1507,6 +1513,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					} else {
 						refreshTreeTableModelAndControl(false);
 						setSelection(newSelection);
+						if (newSelection.size() > 0) {
+							scrollTo(newSelection.get(0));
+						}
 					}
 				}
 			});
@@ -1687,6 +1696,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							refreshTreeTableModelAndControl(false);
 							if (toPostSelectHolder[0] != null) {
 								setSelection(toPostSelectHolder[0]);
+								if (toPostSelectHolder[0].size() > 0) {
+									scrollTo(toPostSelectHolder[0].get(0));
+								}
 							} else {
 								setSelection(initialSelection);
 							}
