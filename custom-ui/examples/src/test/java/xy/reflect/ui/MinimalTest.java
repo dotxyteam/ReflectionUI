@@ -14,6 +14,8 @@ import org.junit.Test;
 
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
+import xy.reflect.ui.example.AudioPlayer;
+import xy.reflect.ui.example.LoginScreen;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MinimalTest {
@@ -58,6 +60,32 @@ public class MinimalTest {
 		ScriptEngineManager factory = new ScriptEngineManager();
 		ScriptEngine engine = factory.getEngineByName("JavaScript");
 		Object object = engine;
+		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
+				renderer.getObjectIconImage(object), true, false);
+		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
+		dialogBuilder.getCreatedDialog().dispose();
+		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+	}
+	
+	
+	@Test
+	public void testLoginScreen() throws Exception {
+		customizedUI.getInfoCustomizations().loadFromFile(new File("loginScreen.icu"),
+				ReflectionUIUtils.getDebugLogListener(customizedUI));
+		Object object = new LoginScreen();
+		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
+				renderer.getObjectIconImage(object), true, false);
+		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
+		dialogBuilder.getCreatedDialog().dispose();
+		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+	}
+	
+	
+	@Test
+	public void testAudioPlayer() throws Exception {
+		customizedUI.getInfoCustomizations().loadFromFile(new File("audioPlayer.icu"),
+				ReflectionUIUtils.getDebugLogListener(customizedUI));
+		Object object = new AudioPlayer();
 		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
 				renderer.getObjectIconImage(object), true, false);
 		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());

@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -41,7 +42,7 @@ public class AudioPlayer {
 
 	private List<Track> playList = new ArrayList<Track>();
 	private Clip clip;
-	private ExecutorService playAllExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
+	private ExecutorService playExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);
@@ -49,8 +50,8 @@ public class AudioPlayer {
 			return result;
 		}
 	});
-	private Future<?> playAllTask;
-	private String currently;
+	private Future<?> playTask;
+	private int currentTrackIndex = 0;
 
 	public AudioPlayer() {
 		try {
@@ -68,8 +69,24 @@ public class AudioPlayer {
 		this.playList = playList;
 	}
 
-	public String getCurrently() {
-		return currently;
+	public Track getCurrentTrack() {
+		if (currentTrackIndex == -1) {
+			return null;
+		}
+		if (currentTrackIndex >= playList.size()) {
+			return null;
+		}
+		return playList.get(currentTrackIndex);
+
+	}
+
+	public String getCurrentTrackDescription() {
+		Track currentTrack = getCurrentTrack();
+		if (currentTrack == null) {
+			return "";
+		}
+		return (currentTrackIndex + 1) + " - " + currentTrack.getFileName() + " (" + currentTrack.getFormattedDuration()
+				+ ")";
 	}
 
 	public void importDirectory(File directory) {
@@ -94,21 +111,29 @@ public class AudioPlayer {
 		}
 	}
 
-	public void playAll() throws Exception {
+	public void play() throws Exception {
 		stop();
-		playAllTask = playAllExecutor.submit(new Runnable() {
+		playTask = playExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
-				int currentTrackIndex = 0;
 				while (true) {
 					try {
-						if (currentTrackIndex >= playList.size()) {
+						if (playList.size() == 0) {
 							return;
 						}
-						clip.stop();
-						clip.close();
+						if (currentTrackIndex == -1) {
+							currentTrackIndex = playList.size() - 1;
+						}
+						if (currentTrackIndex >= playList.size()) {
+							currentTrackIndex = 0;
+						}
+						if (clip.isRunning()) {
+							clip.stop();
+						}
+						if (clip.isOpen()) {
+							clip.close();
+						}
 						Track currentTrack = playList.get(currentTrackIndex);
-						currently = (currentTrackIndex + 1) + " - " + currentTrack.getFileName();
 						AudioInputStream audioIn = AudioSystem.getAudioInputStream(currentTrack.file);
 						clip.open(audioIn);
 						clip.start();
@@ -128,12 +153,26 @@ public class AudioPlayer {
 		});
 	}
 
+	public void next() throws Exception {
+		currentTrackIndex++;
+		play();
+	}
+
+	public void previous() throws Exception {
+		currentTrackIndex--;
+		play();
+	}
+
 	public void stop() throws Exception {
-		if (playAllTask != null) {
-			playAllTask.cancel(true);
+		if (playTask != null) {
+			playTask.cancel(true);
 		}
-		clip.stop();
-		clip.close();
+		if (clip.isRunning()) {
+			clip.stop();
+		}
+		if (clip.isOpen()) {
+			clip.close();
+		}
 	}
 
 	public class Track {
@@ -144,14 +183,6 @@ public class AudioPlayer {
 			this.file = file;
 		}
 
-		public void play() throws Exception {
-			currently = getFileName();
-			stop();
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
-			clip.open(audioIn);
-			clip.start();
-		}
-
 		public String getFileName() {
 			return file.getName();
 		}
@@ -159,6 +190,40 @@ public class AudioPlayer {
 		public String getDirectoryPath() {
 			return file.getAbsoluteFile().getParent();
 		}
+
+		public int getDurationSeconds() {
+			try {
+				AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+				AudioFormat format = audioStream.getFormat();
+				if (!AudioFormat.Encoding.PCM_SIGNED.equals(format.getEncoding())) {
+					format = new AudioFormat(format.getSampleRate(), format.getSampleSizeInBits(), format.getChannels(),
+							true, format.isBigEndian());
+					audioStream = AudioSystem.getAudioInputStream(format, audioStream);
+				}
+				return Math.round(file.length() / (format.getFrameSize() * format.getFrameRate()));
+			} catch (Exception e) {
+				return -1;
+			}
+		}
+
+		public String getFormattedDuration() {
+			int durationSeconds = getDurationSeconds();
+			if (durationSeconds == -1) {
+				return "";
+			}
+			int minutes = durationSeconds / 60;
+			int remainingSeconds = durationSeconds % 60;
+			return minutes + ":" + remainingSeconds;
+		}
+
+		public String getStatusIndicator() {
+			if (getCurrentTrack() == this) {
+				return ">";
+			} else {
+				return "";
+			}
+		}
+
 	}
 
 }
