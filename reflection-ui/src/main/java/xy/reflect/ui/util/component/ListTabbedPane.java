@@ -58,11 +58,27 @@ import javax.swing.event.ListSelectionListener;
 public class ListTabbedPane extends JPanel {
 
 	public static void main(String[] args) {
-		ListTabbedPane tabbedPane = new ListTabbedPane(JTabbedPane.TOP);
+		final ListTabbedPane tabbedPane = new ListTabbedPane(JTabbedPane.TOP);
 		for (int i = 0; i < 20; i++) {
 			tabbedPane.addTab("tab" + i, new JTextArea("tab" + i + " OK"));
 		}
 		tabbedPane.setPreferredSize(new Dimension(800, 600));
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					sleep(5000);
+				} catch (InterruptedException e) {
+					throw new AssertionError(e);
+				}
+				SwingUtilities.invokeLater(new  Runnable() {					
+					@Override
+					public void run() {
+						tabbedPane.setPlacement(JTabbedPane.LEFT);
+					}
+				});
+			}			
+		}.start();
 		JOptionPane.showMessageDialog(null, tabbedPane);
 
 	}
@@ -72,6 +88,7 @@ public class ListTabbedPane extends JPanel {
 	private static final String NULL_CARD_NAME = ListTabbedPane.class.getName() + ".nullCard";
 
 	private JList listControl;
+	private Component listControlWrapper;
 	private int lastListSelectionIndex = -1;
 	private boolean listSelectionHandlingEnabled = true;
 	private JPanel currentComponentContainer;
@@ -80,39 +97,54 @@ public class ListTabbedPane extends JPanel {
 	private List<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
 	private List<Object> disabledListElements = new ArrayList<Object>();
 	private Map<String, Component> componentByCardName = new HashMap<String, Component>();
+	private int placement;
 
 	public ListTabbedPane(int placement) {
+		this.placement = placement;
 		listControl = createListControl();
 
 		currentComponentContainer = createCurrentComponentContainer();
 		currentComponentContainer.add(createNullTabComponent(), getCardName(null));
 
-		layoutComponents(listControl, currentComponentContainer, placement);
+		layoutComponents(currentComponentContainer);
 
 		listModel = new DefaultListModel();
 		refresh();
 	}
 
-	protected void layoutComponents(JList listControl, JPanel currentComponentContainer, int placement) {
+	public int getPlacement() {
+		return placement;
+	}
+
+	public void setPlacement(int placement) {
+		this.placement = placement;
+		remove(listControlWrapper);
+		layoutListControl();
+		validate();
+	}
+
+	protected void layoutComponents(JPanel currentComponentContainer) {
 		setLayout(new BorderLayout());
-
 		add(currentComponentContainer, BorderLayout.CENTER);
+		listControlWrapper = wrapListControl(listControl);
+		layoutListControl();
+	}
 
-		Component listFinalComponent = wrapListControl(listControl, placement);
+	protected void layoutListControl() {
 		if (placement == JTabbedPane.LEFT) {
-			add(listFinalComponent, BorderLayout.WEST);
+			add(listControlWrapper, BorderLayout.WEST);
 			listControl.setLayoutOrientation(JList.VERTICAL_WRAP);
 			listControl.setVisibleRowCount(-1);
 		} else if (placement == JTabbedPane.TOP) {
-			add(listFinalComponent, BorderLayout.NORTH);
+			add(listControlWrapper, BorderLayout.NORTH);
 			listControl.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 			listControl.setVisibleRowCount(1);
 		} else {
-			throw getInvalidpalcementError();
+			throw getInvalidPlacementError();
 		}
 	}
 
-	protected IllegalArgumentException getInvalidpalcementError() {
+	protected IllegalArgumentException getInvalidPlacementError() {
 		return new IllegalArgumentException("Invalid placement. Expected: JTabbedPane.LEFT or JTabbedPane.TOP");
 	}
 
@@ -175,7 +207,7 @@ public class ListTabbedPane extends JPanel {
 		return result;
 	}
 
-	protected Component wrapListControl(JList listControl, int placement) {
+	protected Component wrapListControl(JList listControl) {
 		return new JScrollPane(listControl) {
 			private static final long serialVersionUID = 1L;
 
@@ -245,7 +277,7 @@ public class ListTabbedPane extends JPanel {
 				panel.add(new JTextArea("hello"), c);
 			}
 		} else {
-			throw getInvalidpalcementError();
+			throw getInvalidPlacementError();
 		}
 		return panel;
 	}

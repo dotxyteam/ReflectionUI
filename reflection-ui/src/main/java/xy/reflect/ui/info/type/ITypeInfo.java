@@ -260,7 +260,7 @@ public interface ITypeInfo extends IInfo {
 	 *
 	 */
 	public enum CategoriesStyle {
-		CLASSIC, MODERN;
+		CLASSIC, MODERN, MODERN_VERTICAL;
 
 		public static CategoriesStyle getDefault() {
 			return MODERN;

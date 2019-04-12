@@ -59,8 +59,6 @@ import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import com.google.common.collect.MapMaker;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlInput;
@@ -488,7 +486,20 @@ public class Form extends ImagePanel {
 	public boolean isCategoriesControlModern() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		return type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN;
+		return (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN)
+				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL);
+	}
+
+	public int getModernCategoriesControlPlacement() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN) {
+			return JTabbedPane.TOP;
+		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL) {
+			return JTabbedPane.LEFT;
+		} else {
+			throw new ReflectionUIError();
+		}
 	}
 
 	public Container createCategoriesControl() {
@@ -511,7 +522,7 @@ public class Form extends ImagePanel {
 				}
 
 				@Override
-				protected Component wrapListControl(JList listControl, int placement) {
+				protected Component wrapListControl(JList listControl) {
 					JScrollPane result = new ControlScrollPane(listControl) {
 						private static final long serialVersionUID = 1L;
 
@@ -649,6 +660,7 @@ public class Form extends ImagePanel {
 					return false;
 				}
 				((ListTabbedPane) categoriesControl).refresh();
+				((ListTabbedPane) categoriesControl).setPlacement(getModernCategoriesControlPlacement());
 			} else {
 				if (!(categoriesControl instanceof JTabbedPane)) {
 					return false;
