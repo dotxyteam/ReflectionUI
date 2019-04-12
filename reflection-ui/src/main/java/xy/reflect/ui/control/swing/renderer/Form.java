@@ -483,6 +483,13 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
+	public boolean isCategoriesControlClassic() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		return (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC)
+				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC_VERTICAL);
+	}
+
 	public boolean isCategoriesControlModern() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -490,11 +497,15 @@ public class Form extends ImagePanel {
 				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL);
 	}
 
-	public int getModernCategoriesControlPlacement() {
+	public int getCategoriesControlPlacement() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN) {
+		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC) {
 			return JTabbedPane.TOP;
+		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN) {
+			return JTabbedPane.TOP;
+		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC_VERTICAL) {
+			return JTabbedPane.LEFT;
 		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL) {
 			return JTabbedPane.LEFT;
 		} else {
@@ -660,13 +671,14 @@ public class Form extends ImagePanel {
 					return false;
 				}
 				((ListTabbedPane) categoriesControl).refresh();
-				((ListTabbedPane) categoriesControl).setPlacement(getModernCategoriesControlPlacement());
+				((ListTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
 			} else {
 				if (!(categoriesControl instanceof JTabbedPane)) {
 					return false;
 				}
 				((JTabbedPane) categoriesControl).setForeground(getControlsForegroundColor());
 				((JTabbedPane) categoriesControl).updateUI();
+				((JTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
 			}
 		}
 		return true;
@@ -938,7 +950,7 @@ public class Form extends ImagePanel {
 	}
 
 	public void refresh(boolean refreshStructure) {
-		if (refreshStructure && refreshMemberControlLists()) {
+		if (refreshStructure && refreshMemberControlListsAndDetectModification()) {
 			InfoCategory displayedCategory = getDisplayedCategory();
 			try {
 				removeAll();
@@ -1064,7 +1076,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	public boolean refreshMemberControlLists() {
+	public boolean refreshMemberControlListsAndDetectModification() {
 
 		boolean modificationsDetected = false;
 

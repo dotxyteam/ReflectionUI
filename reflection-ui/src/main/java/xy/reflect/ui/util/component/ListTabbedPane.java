@@ -74,7 +74,7 @@ public class ListTabbedPane extends JPanel {
 				SwingUtilities.invokeLater(new  Runnable() {					
 					@Override
 					public void run() {
-						tabbedPane.setPlacement(JTabbedPane.LEFT);
+						tabbedPane.setTabPlacement(JTabbedPane.LEFT);
 					}
 				});
 			}			
@@ -116,7 +116,7 @@ public class ListTabbedPane extends JPanel {
 		return placement;
 	}
 
-	public void setPlacement(int placement) {
+	public void setTabPlacement(int placement) {
 		this.placement = placement;
 		remove(listControlWrapper);
 		layoutListControl();
