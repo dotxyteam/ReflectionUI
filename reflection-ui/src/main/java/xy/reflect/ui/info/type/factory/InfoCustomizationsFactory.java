@@ -77,9 +77,11 @@ import xy.reflect.ui.info.method.FieldAsSetterInfo;
 import xy.reflect.ui.info.method.HiddenMethodInfoProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.LoadFromFileMethod;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.method.ParameterizedFieldsMethodInfo;
 import xy.reflect.ui.info.method.PresetInvocationDataMethodInfo;
+import xy.reflect.ui.info.method.SaveToFileMethod;
 import xy.reflect.ui.info.method.SubMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
@@ -1258,6 +1260,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (containingTypeCustomization.isAnyDefaultObjectMemberIncluded()) {
 				addDefaultObjectMembers(inputFields, inputMethods, inputConstructors);
 			}
+			if (containingTypeCustomization.isAnyPersistenceMemberIncluded()) {
+				addPersistenceMembers(inputFields, inputMethods, inputConstructors);
+			}
 			for (VirtualFieldDeclaration virtualFieldDeclaration : containingTypeCustomization
 					.getVirtualFieldDeclarations()) {
 				IFieldInfo newField = createVirtualField(virtualFieldDeclaration);
@@ -1300,6 +1305,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					methods.add(newMethod);
 				}
 			}
+		}
+		
+		protected void addPersistenceMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
+				List<IMethodInfo> constructors) {
+			methods.add(new SaveToFileMethod(customizedUI, containingType));
+			methods.add(new LoadFromFileMethod(customizedUI, containingType));
 		}
 
 		protected void evolveMembers() {
