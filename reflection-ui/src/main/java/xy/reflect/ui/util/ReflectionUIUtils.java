@@ -794,6 +794,7 @@ public class ReflectionUIUtils {
 			ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
 			if (deep && !fieldValueType.isImmutable()) {
 				Object dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, dst, false);
+				dstField.setValue(dst, srcFieldValue);
 				copyFieldValues(reflectionUI, srcFieldValue, dstFieldValue, true);
 			} else {
 				dstField.setValue(dst, srcFieldValue);

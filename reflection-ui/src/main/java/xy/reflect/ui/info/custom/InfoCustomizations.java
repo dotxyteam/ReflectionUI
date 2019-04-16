@@ -124,8 +124,8 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	/**
-	 * @return the default instance of this class. Note that it may try to load
-	 *         the default customization file according these system properties:
+	 * @return the default instance of this class. Note that it may try to load the
+	 *         default customization file according these system properties:
 	 *         {@link SystemProperties#DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE} and
 	 *         {@link SystemProperties#DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH}
 	 */
@@ -1379,6 +1379,7 @@ public class InfoCustomizations implements Serializable {
 		protected ITypeInfo.CategoriesStyle categoriesStyle;
 		protected MenuModelCustomization menuModelCustomization = new MenuModelCustomization();
 		protected boolean anyDefaultObjectMemberIncluded = false;
+		protected boolean anyPersistenceMemberIncluded = false;
 		protected List<VirtualFieldDeclaration> virtualFieldDeclarations = new ArrayList<VirtualFieldDeclaration>();
 		protected FormSizeCustomization formWidth;
 		protected FormSizeCustomization formHeight;
@@ -1391,6 +1392,14 @@ public class InfoCustomizations implements Serializable {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public boolean isAnyPersistenceMemberIncluded() {
+			return anyPersistenceMemberIncluded;
+		}
+
+		public void setAnyPersistenceMemberIncluded(boolean anyPersistenceMemberIncluded) {
+			this.anyPersistenceMemberIncluded = anyPersistenceMemberIncluded;
 		}
 
 		public ITypeInfo.CategoriesStyle getCategoriesStyle() {
