@@ -1681,10 +1681,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		final public void actionPerformed(ActionEvent e) {
-			if (!prepare()) {
-				return;
-			}
 			try {
+				if (!prepare()) {
+					return;
+				}
 				swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
 					public void run() {
 						final String modifTitle = getCompositeModificationTitle();

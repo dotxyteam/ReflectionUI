@@ -72,13 +72,11 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
 	public String getParametersValidationCustomCaption() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

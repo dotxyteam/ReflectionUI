@@ -1328,6 +1328,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				transformMethods(inputMethods, outputMethods, newFields, newMethods);
 				transformMethods(inputConstructors, outputConstructors, newFields, newConstructors);
 			} catch (final Throwable t) {
+				customizedUI.logError(ReflectionUIUtils.getPrintedStackTrace(t));
 				outputFields.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 					@Override
