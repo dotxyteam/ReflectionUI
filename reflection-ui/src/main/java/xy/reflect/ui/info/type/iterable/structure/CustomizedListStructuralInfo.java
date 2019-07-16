@@ -286,8 +286,10 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		if (itemType instanceof IMapEntryTypeInfo) {
 			return false;
 		}
-
 		if (itemType instanceof SubListGroupTypeInfo) {
+			return false;
+		}
+		if (listCustomization.getTreeStructureDiscoverySettings().isSingleSubListFieldNameNeverDisplayedAsTreeNode()) {
 			return false;
 		}
 		return !subListField.getCaption().equals(itemPosition.getContainingListTitle());

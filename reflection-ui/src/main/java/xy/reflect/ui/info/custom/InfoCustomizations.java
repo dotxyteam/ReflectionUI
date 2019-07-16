@@ -3334,7 +3334,7 @@ public class InfoCustomizations implements Serializable {
 		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
 		protected boolean itemContructorSelectableforced = false;
 		protected ListLenghtCustomization length = null;
-
+		
 		@Override
 		public boolean isInitial() {
 			ListCustomization defaultListCustomization = new ListCustomization();
@@ -3551,6 +3551,16 @@ public class InfoCustomizations implements Serializable {
 		protected boolean heterogeneousTree;
 		protected ITypeInfoFinder customBaseNodeTypeFinder;
 		protected List<InfoFilter> excludedSubListFields = new ArrayList<InfoFilter>();
+		protected boolean singleSubListFieldNameNeverDisplayedAsTreeNode = false;
+
+		public boolean isSingleSubListFieldNameNeverDisplayedAsTreeNode() {
+			return singleSubListFieldNameNeverDisplayedAsTreeNode;
+		}
+
+		public void setSingleSubListFieldNameNeverDisplayedAsTreeNode(
+				boolean singleSubListFieldNameNeverDisplayedAsTreeNode) {
+			this.singleSubListFieldNameNeverDisplayedAsTreeNode = singleSubListFieldNameNeverDisplayedAsTreeNode;
+		}
 
 		public boolean isHeterogeneousTree() {
 			return heterogeneousTree;
