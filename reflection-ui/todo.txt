@@ -1,3 +1,4 @@
+- scrollbar not showing when list control contains 1 long column
 - allow to set a category icon
 - hidden modification stacks should not store any modification
 - allow to specify field target for method modification (will allow to undo method modifications)  

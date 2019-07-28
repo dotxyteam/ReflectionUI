@@ -268,7 +268,7 @@ public abstract class AbstractEditorFormBuilder {
 		result.setFieldGetOnly(isEncapsulatedFieldGetOnly());
 		result.setFieldNullValueDistinct(isNullValueDistinct());
 		result.setFieldValueReturnMode(getEncapsulatedFieldValueReturnMode());
-		result.setFieldFormControlEmbedded(isEncapsulatedFormExpanded());
+		result.setFieldFormControlEmbedded(isEncapsulatedFormEmbedded());
 		result.setFieldFormControlFilter(getEncapsulatedFormFilter());
 		result.setFieldFormControlMandatory(isCustomEncapsulatedControlForbidden());
 		result.setFieldSpecificProperties(getEncapsulatedFieldSpecificProperties());
@@ -287,7 +287,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         impact in case the target value/object is not represented by a
 	 *         generic form control.
 	 */
-	public abstract boolean isEncapsulatedFormExpanded();
+	public abstract boolean isEncapsulatedFormEmbedded();
 
 	/**
 	 * @return true if the target value/object is forcibly displayed as a generic

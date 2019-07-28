@@ -137,7 +137,7 @@ public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 	}
 
 	@Override
-	public boolean isEncapsulatedFormExpanded() {
+	public boolean isEncapsulatedFormEmbedded() {
 		return true;
 	}
 

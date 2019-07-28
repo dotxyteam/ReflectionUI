@@ -258,8 +258,8 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public boolean isEncapsulatedFormExpanded() {
-				return false;
+			public boolean isEncapsulatedFormEmbedded() {
+				return data.isFormControlEmbedded();
 			}
 
 			@Override

@@ -199,7 +199,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public boolean isEncapsulatedFormExpanded() {
+			public boolean isEncapsulatedFormEmbedded() {
 				return true;
 			}
 

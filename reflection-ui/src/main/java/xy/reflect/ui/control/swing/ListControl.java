@@ -1763,7 +1763,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isEncapsulatedFormExpanded() {
+		public boolean isEncapsulatedFormEmbedded() {
 			return true;
 		}
 
@@ -2614,7 +2614,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				public boolean isEncapsulatedFormExpanded() {
+				public boolean isEncapsulatedFormEmbedded() {
 					return dynamicProperty.isFormControlEmbedded();
 				}
 

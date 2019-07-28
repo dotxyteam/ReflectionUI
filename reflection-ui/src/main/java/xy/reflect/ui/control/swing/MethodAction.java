@@ -217,7 +217,7 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public boolean isEncapsulatedFormExpanded() {
+			public boolean isEncapsulatedFormEmbedded() {
 				return true;
 			}
 

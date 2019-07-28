@@ -148,7 +148,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public boolean isEncapsulatedFormExpanded() {
+			public boolean isEncapsulatedFormEmbedded() {
 				return false;
 			}
 
@@ -270,8 +270,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public boolean isEncapsulatedFormExpanded() {
-				return false;
+			public boolean isEncapsulatedFormEmbedded() {
+				return data.isFormControlEmbedded();
 			}
 
 			@Override
