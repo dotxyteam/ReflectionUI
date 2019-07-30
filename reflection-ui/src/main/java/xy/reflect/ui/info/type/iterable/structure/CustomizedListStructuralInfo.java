@@ -135,9 +135,6 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			} else {
 				List<IFieldInfo> itemFields = actualItemType.getFields();
 				for (IFieldInfo field : itemFields) {
-					if (field.isHidden()) {
-						continue;
-					}
 					boolean excluded = false;
 					for (InfoFilter excludedField : listCustomization.getTreeStructureDiscoverySettings()
 							.getExcludedSubListFields()) {
