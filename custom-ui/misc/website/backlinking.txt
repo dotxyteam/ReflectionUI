@@ -1,0 +1,1 @@
+TO FOLLOW: https://stackoverflow.com/questions/25875928/java-gui-based-on-fields-in-class/57314681#57314681
