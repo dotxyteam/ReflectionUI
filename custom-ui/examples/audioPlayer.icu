@@ -41,6 +41,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <customFieldsOrder>currently</customFieldsOrder>
         <customFieldsOrder>trackControl</customFieldsOrder>
         <customFieldsOrder>headerImage</customFieldsOrder>
@@ -73,6 +74,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6e10</uniqueIdentifier>
@@ -180,6 +182,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6e12</uniqueIdentifier>
@@ -241,6 +244,7 @@
                     </specificProperties>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7152</uniqueIdentifier>
@@ -304,6 +308,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>3cab9ab8:16a094657d9:717f</uniqueIdentifier>
@@ -343,6 +348,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>3cab9ab8:16a094657d9:717d</uniqueIdentifier>
@@ -395,7 +401,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <iconImagePath>
-                <specification>/media/olitank/data/prog/git/Test/src/main/resources/xy/reflect/ui/example/audioPlayer-import.png</specification>
+                <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/audioPlayer-import.png</specification>
             </iconImagePath>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void importDirectory(java.io.File)</methodSignature>
@@ -527,6 +533,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6e08</uniqueIdentifier>
             <specificProperties/>
@@ -555,6 +562,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6e0e</uniqueIdentifier>
@@ -576,6 +584,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6e1e</uniqueIdentifier>
             <specificProperties/>
@@ -604,6 +613,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fd5</uniqueIdentifier>
@@ -641,6 +651,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fd3</uniqueIdentifier>
@@ -678,6 +689,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fd7</uniqueIdentifier>
@@ -716,6 +728,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fd9</uniqueIdentifier>
@@ -753,6 +766,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-458fdb5:16a0b95f443:75fc</uniqueIdentifier>
@@ -774,6 +788,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fcd</uniqueIdentifier>
             <specificProperties/>
@@ -802,6 +817,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fd1</uniqueIdentifier>
@@ -823,6 +839,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6e31</uniqueIdentifier>
             <specificProperties/>
@@ -860,6 +877,7 @@
                     </specificProperties>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <fieldsCustomizations>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6ef1</uniqueIdentifier>
                         <specificProperties/>
@@ -2390,6 +2408,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>4888e4ba:16a091b915c:7086</uniqueIdentifier>
             <specificProperties/>
@@ -2418,6 +2437,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7640</uniqueIdentifier>
@@ -2455,6 +2475,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7630</uniqueIdentifier>
@@ -2492,6 +2513,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:762e</uniqueIdentifier>
@@ -2529,6 +2551,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:763e</uniqueIdentifier>
@@ -2566,6 +2589,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7638</uniqueIdentifier>
@@ -2603,6 +2627,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:763a</uniqueIdentifier>
@@ -2640,6 +2665,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7626</uniqueIdentifier>
@@ -2677,6 +2703,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7634</uniqueIdentifier>
@@ -2714,6 +2741,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:763c</uniqueIdentifier>
@@ -2751,6 +2779,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7636</uniqueIdentifier>
@@ -2788,6 +2817,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7632</uniqueIdentifier>
@@ -2825,6 +2855,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7628</uniqueIdentifier>
@@ -2862,6 +2893,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:762a</uniqueIdentifier>
@@ -2899,6 +2931,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:762c</uniqueIdentifier>
@@ -2936,6 +2969,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7644</uniqueIdentifier>
@@ -2973,6 +3007,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7642</uniqueIdentifier>
@@ -3010,6 +3045,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7646</uniqueIdentifier>
@@ -3695,6 +3731,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fb1</uniqueIdentifier>
             <specificProperties/>
@@ -3748,6 +3785,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fbe</uniqueIdentifier>
@@ -3769,6 +3807,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fb6</uniqueIdentifier>
             <specificProperties/>
@@ -3797,6 +3836,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fbc</uniqueIdentifier>
@@ -3818,6 +3858,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fc8</uniqueIdentifier>
             <specificProperties/>
@@ -3846,6 +3887,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-3f8f7ba6:16a0914f8a7:6fcc</uniqueIdentifier>
@@ -3867,6 +3909,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <customMethodsOrder>previous</customMethodsOrder>
         <customMethodsOrder>play</customMethodsOrder>
         <customMethodsOrder>next</customMethodsOrder>
@@ -3908,7 +3951,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <iconImagePath>
-                <specification>/media/olitank/data/prog/git/Test/src/main/resources/xy/reflect/ui/example/audioPlayer-forward.png</specification>
+                <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/audioPlayer-forward.png</specification>
             </iconImagePath>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodSignature>void next()</methodSignature>
@@ -3983,6 +4026,7 @@
         <specificProperties/>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <fieldsCustomizations>
             <uniqueIdentifier>4888e4ba:16a091b915c:760c</uniqueIdentifier>
             <specificProperties/>
@@ -4011,6 +4055,7 @@
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7624</uniqueIdentifier>
