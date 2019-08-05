@@ -7,7 +7,7 @@ import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
- * Login screen GUI generated with the XML declarative customizations.
+ * Control screen GUI generated with the XML declarative customizations.
  * 
  * @author olitank
  *
