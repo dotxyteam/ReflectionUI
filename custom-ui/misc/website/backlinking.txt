@@ -1,1 +1,8 @@
 TO FOLLOW: https://stackoverflow.com/questions/25875928/java-gui-based-on-fields-in-class/57314681#57314681
+WAITING: https://github.com/akullpp/awesome-java
+TO FOLLOW: https://codecondo.com/10-useful-third-party-java-libraries/?unapproved=495429&moderation-hash=2ef0928b76cd2e470a19d6c7d3096225#comment-495429
+WAITING: https://javarevisited.blogspot.com/2018/01/top-20-libraries-and-apis-for-java-programmers.html
+WAITING: https://www.youtube.com/watch?v=INwUkoT2esk
+WAITING: https://www.youtube.com/watch?v=AFV4JJtJwxE
+WAITING: https://www.youtube.com/watch?v=ieVrk9RnHaI
+WAITING: https://www.youtube.com/watch?v=7BVAPmswu1o
