@@ -260,6 +260,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>true</anyPersistenceMemberIncluded>
+        <categoriesStyle>MODERN_VERTICAL</categoriesStyle>
         <customFieldsOrder>theEnum</customFieldsOrder>
         <customFieldsOrder>thecolor.nullStatus</customFieldsOrder>
         <customFieldsOrder>theByte</customFieldsOrder>
@@ -364,9 +365,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d26</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -406,9 +408,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d25</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <customFieldCaption>Test 2 (with null status imported from The Boolean Primitive)</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
@@ -488,9 +491,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d24</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -540,6 +544,7 @@
                     <treeStructureDiscoverySettings>
                         <uniqueIdentifier>-86a97c2:16634b4fad3:3efb</uniqueIdentifier>
                         <heterogeneousTree>true</heterogeneousTree>
+                        <singleSubListFieldNameNeverDisplayedAsTreeNode>false</singleSubListFieldNameNeverDisplayedAsTreeNode>
                     </treeStructureDiscoverySettings>
                 </listCustomizations>
                 <typeCustomizations>
@@ -561,9 +566,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d23</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -626,9 +632,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d22</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -668,9 +675,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d21</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -719,9 +727,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d20</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -766,9 +775,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d1f</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -1061,9 +1071,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d1e</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -2943,9 +2954,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d1d</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -3008,9 +3020,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d1c</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -4625,9 +4638,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d1b</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -4690,9 +4704,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d1a</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -4732,9 +4747,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d19</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -4797,9 +4813,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d18</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -4942,9 +4959,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d17</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -4993,9 +5011,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d16</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -5035,9 +5054,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d15</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -5100,9 +5120,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d14</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -5165,9 +5186,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d13</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -5207,9 +5229,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d12</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -5310,9 +5333,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d11</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -5389,9 +5413,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d10</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
@@ -7823,10 +7848,16 @@
         <memberCategories>
             <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
             <caption>Primitives</caption>
+            <iconImagePath>
+                <specification>tmp/icons/migrate48sel.gif</specification>
+            </iconImagePath>
         </memberCategories>
         <memberCategories>
             <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
             <caption>Lists</caption>
+            <iconImagePath>
+                <specification>tmp/icons/webrsrc48sel.gif</specification>
+            </iconImagePath>
         </memberCategories>
         <menuModel>
             <uniqueIdentifier>1f78d90f:165043762d2:-1b</uniqueIdentifier>
@@ -8058,9 +8089,10 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d0f</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
@@ -8087,9 +8119,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d0e</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
@@ -8138,9 +8171,10 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:7b19</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d0d</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
+            <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
@@ -8189,9 +8223,10 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-55d0412e:16520501dc8:29fb</uniqueIdentifier>
+                <uniqueIdentifier>34babef1:16c7b725b60:-7d0c</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
+            <categoryCaption>Lists</categoryCaption>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
