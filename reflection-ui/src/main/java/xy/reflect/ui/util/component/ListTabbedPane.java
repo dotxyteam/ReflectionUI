@@ -36,6 +36,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -71,13 +72,13 @@ public class ListTabbedPane extends JPanel {
 				} catch (InterruptedException e) {
 					throw new AssertionError(e);
 				}
-				SwingUtilities.invokeLater(new  Runnable() {					
+				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 						tabbedPane.setTabPlacement(JTabbedPane.LEFT);
 					}
 				});
-			}			
+			}
 		}.start();
 		JOptionPane.showMessageDialog(null, tabbedPane);
 
@@ -97,6 +98,7 @@ public class ListTabbedPane extends JPanel {
 	private List<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
 	private List<Object> disabledListElements = new ArrayList<Object>();
 	private Map<String, Component> componentByCardName = new HashMap<String, Component>();
+	private Map<Object, ImageIcon> iconImageByElement = new HashMap<Object, ImageIcon>();
 	private int placement;
 
 	public ListTabbedPane(int placement) {
@@ -176,7 +178,15 @@ public class ListTabbedPane extends JPanel {
 		result.setCellRenderer(new ListCellRenderer() {
 
 			JButton button = createNonSelectedTabHeaderCellRendererComponent();
+			{
+				button.setHorizontalTextPosition(SwingConstants.CENTER);
+				button.setVerticalTextPosition(SwingConstants.BOTTOM);
+			}
 			JLabel label = createSelectedTabHeaderCellRendererComponent();
+			{
+				label.setHorizontalTextPosition(SwingConstants.CENTER);
+				label.setVerticalTextPosition(SwingConstants.BOTTOM);
+			}
 
 			@Override
 			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
@@ -387,8 +397,8 @@ public class ListTabbedPane extends JPanel {
 		}
 	}
 
-	protected Icon getIcon(Object value) {
-		return null;
+	protected Icon getIcon(Object listElement) {
+		return iconImageByElement.get(listElement);
 	}
 
 	public void addTab(Object element, Component component) {
@@ -455,6 +465,11 @@ public class ListTabbedPane extends JPanel {
 
 	public boolean isEnabledAt(int tabIndex) {
 		return !disabledListElements.contains(listModel.getElementAt(tabIndex));
+	}
+
+	public void setIconAt(int tabIndex, ImageIcon imageIcon) {
+		Object element = listModel.getElementAt(tabIndex);
+		iconImageByElement.put(element, imageIcon);
 	}
 
 }

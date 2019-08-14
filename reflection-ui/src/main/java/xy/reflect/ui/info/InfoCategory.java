@@ -30,10 +30,13 @@ public class InfoCategory implements Comparable<InfoCategory> {
 
 	protected String caption;
 	protected int position;
+	protected ResourcePath iconImagePath;
 
-	public InfoCategory(String caption, int position) {
+	public InfoCategory(String caption, int position, ResourcePath iconImagePath) {
+		super();
 		this.caption = caption;
 		this.position = position;
+		this.iconImagePath = iconImagePath;
 	}
 
 	public String getCaption() {
@@ -42,6 +45,10 @@ public class InfoCategory implements Comparable<InfoCategory> {
 
 	public int getPosition() {
 		return position;
+	}
+
+	public ResourcePath getIconImagePath() {
+		return iconImagePath;
 	}
 
 	@Override
@@ -53,23 +60,39 @@ public class InfoCategory implements Comparable<InfoCategory> {
 		return result;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
-		return position + caption.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((caption == null) ? 0 : caption.hashCode());
+		result = prime * result + ((iconImagePath == null) ? 0 : iconImagePath.hashCode());
+		result = prime * result + position;
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof InfoCategory)) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		InfoCategory other = (InfoCategory) obj;
-		if (position != other.position) {
+		if (caption == null) {
+			if (other.caption != null)
+				return false;
+		} else if (!caption.equals(other.caption))
 			return false;
-		}
-		if (!caption.equals(other.caption)) {
+		if (iconImagePath == null) {
+			if (other.iconImagePath != null)
+				return false;
+		} else if (!iconImagePath.equals(other.iconImagePath))
 			return false;
-		}
+		if (position != other.position)
+			return false;
 		return true;
 	}
 

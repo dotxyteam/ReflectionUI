@@ -257,7 +257,7 @@ public class SwingRenderer {
 	}
 
 	public InfoCategory getNullInfoCategory() {
-		return new InfoCategory("General", -1);
+		return new InfoCategory("General", -1, null);
 	}
 
 	public Image getObjectIconImage(Object object) {

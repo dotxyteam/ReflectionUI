@@ -1306,7 +1306,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 			}
 		}
-		
+
 		protected void addPersistenceMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
 				List<IMethodInfo> constructors) {
 			methods.add(new SaveToFileMethod(customizedUI, containingType));
@@ -1815,12 +1815,23 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						return super.getCaption();
 					}
 
+					@Override
 					public InfoCategory getCategory() {
-						CustomizationCategory category = mc.getCategory();
+						String categoryName = mc.getCategoryCaption();
 						List<CustomizationCategory> categories = containingTypeCustomization.getMemberCategories();
-						int categoryPosition = categories.indexOf(category);
+						int categoryPosition = -1;
+						int i = 0;
+						for (CustomizationCategory c : categories) {
+							if (c.getCaption().equals(categoryName)) {
+								categoryPosition = i;
+								break;
+							}
+							i++;
+						}
 						if (categoryPosition != -1) {
-							return new InfoCategory(category.getCaption(), categoryPosition);
+							CustomizationCategory category = categories.get(categoryPosition);
+							return new InfoCategory(category.getCaption(), categoryPosition,
+									category.getIconImagePath());
 						}
 						return super.getCategory();
 					}
@@ -2170,11 +2181,21 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 					@Override
 					public InfoCategory getCategory() {
-						CustomizationCategory category = fc.getCategory();
+						String categoryName = fc.getCategoryCaption();
 						List<CustomizationCategory> categories = containingTypeCustomization.getMemberCategories();
-						int categoryPosition = categories.indexOf(category);
+						int categoryPosition = -1;
+						int i = 0;
+						for (CustomizationCategory c : categories) {
+							if (c.getCaption().equals(categoryName)) {
+								categoryPosition = i;
+								break;
+							}
+							i++;
+						}
 						if (categoryPosition != -1) {
-							return new InfoCategory(category.getCaption(), categoryPosition);
+							CustomizationCategory category = categories.get(categoryPosition);
+							return new InfoCategory(category.getCaption(), categoryPosition,
+									category.getIconImagePath());
 						}
 						return super.getCategory();
 					}

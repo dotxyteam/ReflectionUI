@@ -210,18 +210,6 @@ public class InfoCustomizations implements Serializable {
 
 	protected void fillXMLSerializationGap() {
 		for (TypeCustomization t : typeCustomizations) {
-			List<AbstractMemberCustomization> allMembers = new ArrayList<AbstractMemberCustomization>();
-			allMembers.addAll(t.fieldsCustomizations);
-			allMembers.addAll(t.methodsCustomizations);
-			for (AbstractMemberCustomization mc : allMembers) {
-				if (mc.category != null) {
-					for (CustomizationCategory c : t.memberCategories) {
-						if (mc.uniqueIdentifier.equals(c.uniqueIdentifier)) {
-							mc.category = c;
-						}
-					}
-				}
-			}
 			for (MethodCustomization mc : t.methodsCustomizations) {
 				if (mc.menuLocation != null) {
 					for (IMenuItemContainerCustomization container : getAllMenuItemContainerCustomizations(t)) {
@@ -1637,7 +1625,9 @@ public class InfoCustomizations implements Serializable {
 	public static class CustomizationCategory extends AbstractCustomization implements Serializable {
 
 		private static final long serialVersionUID = 1L;
+
 		protected String caption;
+		protected ResourcePath iconImagePath;
 
 		public String getCaption() {
 			return caption;
@@ -1645,6 +1635,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setCaption(String caption) {
 			this.caption = caption;
+		}
+
+		public ResourcePath getIconImagePath() {
+			return iconImagePath;
+		}
+
+		public void setIconImagePath(ResourcePath iconImagePath) {
+			this.iconImagePath = iconImagePath;
 		}
 
 		@Override
@@ -1683,7 +1681,7 @@ public class InfoCustomizations implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		protected boolean hidden = false;
-		protected CustomizationCategory category;
+		protected String categoryCaption;
 		protected String onlineHelp;
 
 		public boolean isHidden() {
@@ -1694,13 +1692,32 @@ public class InfoCustomizations implements Serializable {
 			this.hidden = hidden;
 		}
 
-		// @XmlIDREF
-		public CustomizationCategory getCategory() {
-			return category;
+		public String getCategoryCaption() {
+			return categoryCaption;
 		}
 
+		public void setCategoryCaption(String categoryCaption) {
+			this.categoryCaption = categoryCaption;
+		}
+
+		// for backward compatibility
+		public CustomizationCategory getCategory() {
+			if (categoryCaption == null) {
+				return null;
+			} else {
+				CustomizationCategory result = new CustomizationCategory();
+				result.setCaption(categoryCaption);
+				return result;
+			}
+		}
+
+		// for backward compatibility
 		public void setCategory(CustomizationCategory category) {
-			this.category = category;
+			if (category == null) {
+				this.categoryCaption = null;
+			} else {
+				this.categoryCaption = category.getCaption();
+			}
 		}
 
 		public String getOnlineHelp() {
@@ -3334,7 +3351,7 @@ public class InfoCustomizations implements Serializable {
 		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
 		protected boolean itemContructorSelectableforced = false;
 		protected ListLenghtCustomization length = null;
-		
+
 		@Override
 		public boolean isInitial() {
 			ListCustomization defaultListCustomization = new ListCustomization();

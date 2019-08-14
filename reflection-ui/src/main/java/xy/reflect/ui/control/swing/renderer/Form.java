@@ -454,12 +454,13 @@ public class Form extends ImagePanel {
 					}
 
 					JPanel tab = new ControlPanel();
-					setCategoryContent(category, tab);
+					addCategoryTab(category, tab);
 					tab.setLayout(new BorderLayout());
 
 					JPanel tabContent = new ControlPanel();
 					tab.add(tabContent, BorderLayout.NORTH);
 					layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+
 				}
 			}
 			membersPanel.add(categoriesControl, BorderLayout.CENTER);
@@ -635,7 +636,7 @@ public class Form extends ImagePanel {
 				}
 
 			};
-		} else {
+		} else if (isCategoriesControlClassic()) {
 			return new ControlTabbedPane() {
 
 				private static final long serialVersionUID = 1L;
@@ -650,15 +651,24 @@ public class Form extends ImagePanel {
 				}
 
 			};
+		} else {
+			throw new ReflectionUIError();
 		}
 	}
 
-	public void setCategoryContent(InfoCategory category, JPanel tab) {
+	public void addCategoryTab(InfoCategory category, JPanel tab) {
+		Image iconImage = SwingRendererUtils.loadImageThroughcache(category.getIconImagePath(),
+				ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+		ImageIcon icon = (iconImage != null) ? new ImageIcon(iconImage) : null;
 		if (categoriesControl instanceof ListTabbedPane) {
+			int tabIndex = ((ListTabbedPane) categoriesControl).getTabCount();
 			((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()),
 					tab);
+			((ListTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
 		} else if (categoriesControl instanceof JTabbedPane) {
+			int tabIndex = ((JTabbedPane) categoriesControl).getTabCount();
 			((JTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
+			((JTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
 		} else {
 			throw new ReflectionUIError();
 		}
@@ -703,13 +713,15 @@ public class Form extends ImagePanel {
 				} else {
 					throw new ReflectionUIError();
 				}
-				return new InfoCategory(currentCategoryCaption, currentCategoryIndex);
+				return new InfoCategory(currentCategoryCaption, currentCategoryIndex, null);
 			}
 		}
 		return null;
 	}
 
-	public void setDisplayedCategory(String categoryCaption, int categoryPosition) {
+	public void setDisplayedCategory(InfoCategory category) {
+		String categoryCaption = category.getCaption();
+		int categoryPosition = category.getPosition();
 		if (categoriesControl != null) {
 			int tabCount;
 			if (categoriesControl instanceof ListTabbedPane) {
@@ -745,10 +757,6 @@ public class Form extends ImagePanel {
 				}
 			}
 		}
-	}
-
-	public void setDisplayedCategory(InfoCategory category) {
-		setDisplayedCategory(category.getCaption(), category.getPosition());
 	}
 
 	public SortedMap<InfoCategory, List<MethodControlPlaceHolder>> createMethodControlPlaceHoldersByCategory(
@@ -1156,6 +1164,20 @@ public class Form extends ImagePanel {
 				if (modificationsDetected) {
 					break;
 				}
+			}
+		}
+
+		if (!modificationsDetected) {
+			if (!new ArrayList<InfoCategory>(newFieldControlPlaceHoldersByCategory.keySet())
+					.equals(new ArrayList<InfoCategory>(displayedFieldControlPlaceHoldersByCategory.keySet()))) {
+				modificationsDetected = true;
+			}
+		}
+
+		if (!modificationsDetected) {
+			if (!new ArrayList<InfoCategory>(newMethodControlPlaceHoldersByCategory.keySet())
+					.equals(new ArrayList<InfoCategory>(displayedMethodControlPlaceHoldersByCategory.keySet()))) {
+				modificationsDetected = true;
 			}
 		}
 

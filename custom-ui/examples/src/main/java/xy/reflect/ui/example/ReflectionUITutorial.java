@@ -1,4 +1,5 @@
 package xy.reflect.ui.example;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -333,7 +334,7 @@ public class ReflectionUITutorial {
 					protected InfoCategory getCategory(IFieldInfo field, ITypeInfo containingType) {
 						if (containingType.getName().equals(HelloWorld.class.getName())) {
 							if (!field.getName().equals("name")) {
-								return new InfoCategory("Advanced", 1);
+								return new InfoCategory("Advanced", 1, null);
 							}
 						}
 						return super.getCategory(field, containingType);
