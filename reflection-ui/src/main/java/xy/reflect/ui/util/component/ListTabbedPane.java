@@ -179,13 +179,15 @@ public class ListTabbedPane extends JPanel {
 
 			JButton button = createNonSelectedTabHeaderCellRendererComponent();
 			{
-				button.setHorizontalTextPosition(SwingConstants.CENTER);
-				button.setVerticalTextPosition(SwingConstants.BOTTOM);
+				button.setHorizontalAlignment(SwingConstants.LEFT);
+				button.setHorizontalTextPosition(SwingConstants.RIGHT);
+				button.setVerticalTextPosition(SwingConstants.CENTER);
 			}
 			JLabel label = createSelectedTabHeaderCellRendererComponent();
 			{
-				label.setHorizontalTextPosition(SwingConstants.CENTER);
-				label.setVerticalTextPosition(SwingConstants.BOTTOM);
+				label.setHorizontalAlignment(SwingConstants.LEFT);
+				label.setHorizontalTextPosition(SwingConstants.RIGHT);
+				label.setVerticalTextPosition(SwingConstants.CENTER);
 			}
 
 			@Override

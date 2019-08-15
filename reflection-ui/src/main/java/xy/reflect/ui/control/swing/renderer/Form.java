@@ -416,7 +416,7 @@ public class Form extends ImagePanel {
 		return new ControlPanel();
 	}
 
-	public void layoutMemberControls(
+	public void layoutMembersControls(
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
@@ -436,7 +436,7 @@ public class Form extends ImagePanel {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
 			categoriesControl = null;
-			layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
+			layoutMembersControls(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
 		} else if (allCategories.size() > 0) {
 			membersPanel.setLayout(new BorderLayout());
 			categoriesControl = createCategoriesControl();
@@ -459,7 +459,7 @@ public class Form extends ImagePanel {
 
 					JPanel tabContent = new ControlPanel();
 					tab.add(tabContent, BorderLayout.NORTH);
-					layoutCategoryControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+					layoutMembersControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
 
 				}
 			}
@@ -597,9 +597,12 @@ public class Form extends ImagePanel {
 					if (backgroundColor != null) {
 						nonSelectedCellRenderer.setContentAreaFilled(true);
 						nonSelectedCellRenderer.setBackground(backgroundColor);
+						nonSelectedCellRenderer.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(),
+								getLayoutSpacing(), getLayoutSpacing(), getLayoutSpacing()));
 					} else {
 						nonSelectedCellRenderer.setContentAreaFilled(false);
-						selectedCellRenderer.setBackground(null);
+						nonSelectedCellRenderer.setBackground(null);
+						nonSelectedCellRenderer.setBorder(BorderFactory.createLoweredBevelBorder());
 					}
 				}
 
@@ -609,7 +612,8 @@ public class Form extends ImagePanel {
 					if (backgroundColor != null) {
 						selectedCellRenderer.setOpaque(true);
 						selectedCellRenderer.setBackground(swingRenderer.addColorActivationEffect(backgroundColor));
-						selectedCellRenderer.setBorder(null);
+						selectedCellRenderer.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(),
+								getLayoutSpacing(), getLayoutSpacing(), getLayoutSpacing()));
 					} else {
 						selectedCellRenderer.setOpaque(false);
 						selectedCellRenderer.setBackground(null);
@@ -901,7 +905,7 @@ public class Form extends ImagePanel {
 		return null;
 	}
 
-	public void layoutFormCategoryPanels(Container container, Container fieldsPanel, Container methodsPanel) {
+	public void layoutMembersPanels(Container container, Container fieldsPanel, Container methodsPanel) {
 		container.setLayout(new BorderLayout());
 		if (fieldsPanel != null) {
 			container.add(fieldsPanel, BorderLayout.CENTER);
@@ -911,13 +915,13 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	public void layoutCategoryControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
+	public void layoutMembersControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<MethodControlPlaceHolder> methodControlPlaceHolders, JPanel membersPanel) {
 		Container fieldsPanel = (fielControlPlaceHolders.size() == 0) ? null
 				: createFieldsPanel(fielControlPlaceHolders);
 		Container methodsPanel = (methodControlPlaceHolders.size() == 0) ? null
 				: createMethodsPanel(methodControlPlaceHolders);
-		layoutFormCategoryPanels(membersPanel, fieldsPanel, methodsPanel);
+		layoutMembersPanels(membersPanel, fieldsPanel, methodsPanel);
 	}
 
 	public Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
@@ -962,7 +966,7 @@ public class Form extends ImagePanel {
 			InfoCategory displayedCategory = getDisplayedCategory();
 			try {
 				removeAll();
-				layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
+				layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
 				if (displayedCategory != null) {

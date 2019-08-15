@@ -218,7 +218,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		}
 
 		@Override
-		public void layoutMemberControls(
+		public void layoutMembersControls(
 				Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 				Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 				JPanel membersPanel) {
@@ -242,7 +242,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 										borderThickness));
 						newMembersPanel.setBorder(newMembersPanelBorder);
 					}
-					super.layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
+					super.layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
 							newMembersPanel);
 				}
 				JPanel typeCustomizationsControl = new ControlPanel();
@@ -256,7 +256,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 				}
 				toolsAdded = true;
 			} else {
-				super.layoutMemberControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
+				super.layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
 						membersPanel);
 				toolsAdded = false;
 			}
