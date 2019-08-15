@@ -2,9 +2,9 @@ TO FOLLOW: https://stackoverflow.com/questions/25875928/java-gui-based-on-fields
 WAITING: https://github.com/akullpp/awesome-java
 TO FOLLOW: https://codecondo.com/10-useful-third-party-java-libraries/?unapproved=495429&moderation-hash=2ef0928b76cd2e470a19d6c7d3096225#comment-495429
 WAITING: https://javarevisited.blogspot.com/2018/01/top-20-libraries-and-apis-for-java-programmers.html
-WAITING: https://www.youtube.com/watch?v=INwUkoT2esk
-WAITING: https://www.youtube.com/watch?v=AFV4JJtJwxE
-WAITING: https://www.youtube.com/watch?v=ieVrk9RnHaI
+PUBLISHED: https://www.youtube.com/watch?v=INwUkoT2esk
+PUBLISHED: https://www.youtube.com/watch?v=AFV4JJtJwxE
+PUBLISHED: https://www.youtube.com/watch?v=ieVrk9RnHaI
 WAITING: https://www.youtube.com/watch?v=7BVAPmswu1o
 WAITING: https://java-source.net/contact
 TODO: https://dzone.com/articles/how-to-submit-a-post-to-dzone
@@ -14,8 +14,8 @@ REJECTED: https://coderanch.com/t/518546/java/Real-Usage-java-Reflection#3342939
 REJECTED: https://coderanch.com/t/679242/java/Developing-Java-Desktop-Application#3342989
 REJECTED: https://rterp.wordpress.com/2016/02/16/javafx-vs-swing-vs-html5-my-interview-with-alexander-casall/#comment-4633
 TO FOLLOW: https://www.developpez.net/forums/d196159-2/java/interfaces-graphiques-java/awt-swing/comparatif-swing-eclipse-rcp-faire-client-lourd/#post11078979
-TO FOLLOW: https://forums.anandtech.com/threads/good-java-gui-builder.1126678/
-TO FOLLOW: https://forums.anandtech.com/threads/can-anybody-recommend-gui-builder-for-java.1756090/
+REJECTED: https://forums.anandtech.com/threads/good-java-gui-builder.1126678/
+REJECTED: https://forums.anandtech.com/threads/can-anybody-recommend-gui-builder-for-java.1756090/
 TO FOLLOW: https://coderanch.com/t/644028/java/GUI-Builder#3343447
-TO FOLLOW: https://coderanch.com/t/626587/java/WYSIWYG-GUI-Tools#3343450
+REJECTED: https://coderanch.com/t/626587/java/WYSIWYG-GUI-Tools#3343450
 TO FOLLOW: https://www.developpez.net/forums/d1228795-3/java/interfaces-graphiques-java/outils-constructions-d-interfaces-graphiques-gui-builder-preferez/#post11083806
