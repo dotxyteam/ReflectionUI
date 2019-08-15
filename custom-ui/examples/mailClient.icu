@@ -57,7 +57,7 @@
             <uniqueIdentifier>-458d14aa:16aba73d317:6df7</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>67645426:16c8d2291dc:7728</uniqueIdentifier>
+                <uniqueIdentifier>-50593d1:16c96a1674d:7b86</uniqueIdentifier>
                 <caption>Sent</caption>
             </category>
             <categoryCaption>Sent</categoryCaption>
@@ -147,7 +147,7 @@
             <uniqueIdentifier>-458d14aa:16aba73d317:6dfc</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>67645426:16c8d2291dc:7729</uniqueIdentifier>
+                <uniqueIdentifier>-50593d1:16c96a1674d:7b87</uniqueIdentifier>
                 <caption>Inbox</caption>
             </category>
             <categoryCaption>Inbox</categoryCaption>
@@ -271,7 +271,7 @@
             <uniqueIdentifier>-458d14aa:16aba73d317:6dff</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>67645426:16c8d2291dc:772a</uniqueIdentifier>
+                <uniqueIdentifier>-50593d1:16c96a1674d:7b88</uniqueIdentifier>
                 <caption>Draft</caption>
             </category>
             <categoryCaption>Draft</categoryCaption>
@@ -361,7 +361,7 @@
             <uniqueIdentifier>-458d14aa:16aba73d317:6e02</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>67645426:16c8d2291dc:772b</uniqueIdentifier>
+                <uniqueIdentifier>-50593d1:16c96a1674d:7b89</uniqueIdentifier>
                 <caption>Trash</caption>
             </category>
             <categoryCaption>Trash</categoryCaption>
