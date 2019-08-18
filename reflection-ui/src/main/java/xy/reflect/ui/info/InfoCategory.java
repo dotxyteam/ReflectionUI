@@ -60,8 +60,6 @@ public class InfoCategory implements Comparable<InfoCategory> {
 		return result;
 	}
 
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -98,7 +96,7 @@ public class InfoCategory implements Comparable<InfoCategory> {
 
 	@Override
 	public String toString() {
-		return InfoCategory.class.getSimpleName() + " n°" + (position + 1) + " - " + caption;
+		return "InfoCategory [caption=" + caption + ", position=" + position + ", iconImagePath=" + iconImagePath + "]";
 	}
 
 }

@@ -261,7 +261,7 @@ public class WindowManager {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getMainBackgroundImagePath() != null) {
-			return SwingRendererUtils.loadImageThroughcache(appInfo.getMainBackgroundImagePath(),
+			return SwingRendererUtils.loadImageThroughCache(appInfo.getMainBackgroundImagePath(),
 					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 		} else {
 			return null;

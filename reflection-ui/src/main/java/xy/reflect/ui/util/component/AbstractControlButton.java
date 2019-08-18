@@ -70,7 +70,7 @@ public abstract class AbstractControlButton extends JButton {
 			if (applicationInfo.getButtonBackgroundImagePath() == null) {
 				return null;
 			} else {
-				return SwingRendererUtils.loadImageThroughcache(applicationInfo.getButtonBackgroundImagePath(),
+				return SwingRendererUtils.loadImageThroughCache(applicationInfo.getButtonBackgroundImagePath(),
 						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 			}
 		} else {

@@ -19,9 +19,13 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +83,29 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		public boolean underlined = false;
 		public boolean struckThrough = false;
 		public ControlDimensionSpecification length;
+
+		public BufferedImage getSampleTextImage() {
+			String text = fontName;
+			int style = getFontStyle();
+			Font font = new Font(fontName, style, fontSize);
+			Graphics2D g2d = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).createGraphics();
+			g2d.setFont(font);
+			FontMetrics fontMetrics = g2d.getFontMetrics();
+			int spacing = fontMetrics.stringWidth(" ");
+			int spacingAboveLine = spacing;
+			int spacingUnderLine = spacing;
+			int width = fontMetrics.stringWidth(text) + (spacing * 2);
+			int height = fontMetrics.getHeight() + spacingAboveLine + spacingUnderLine;
+			g2d.dispose();
+			BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+			g2d = result.createGraphics();
+			g2d.setFont(font);
+			fontMetrics = g2d.getFontMetrics();
+			g2d.setColor(Color.BLACK);
+			g2d.drawString(text, spacing, spacingAboveLine + fontMetrics.getAscent());
+			g2d.dispose();
+			return result;
+		}
 
 		public String[] getFontNames() {
 			List<String> result = new ArrayList<String>();

@@ -183,7 +183,7 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 		protected Icon getFirstNonNullImageIcon(Icon defaultIcon, ResourcePath... iconPaths) {
 			for (ResourcePath iconPath : iconPaths) {
 				if (iconPath != null) {
-					Image iconImage = SwingRendererUtils.loadImageThroughcache(iconPath,
+					Image iconImage = SwingRendererUtils.loadImageThroughCache(iconPath,
 							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 					if (iconImage != null) {
 						return new ImageIcon(iconImage);

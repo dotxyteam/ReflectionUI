@@ -44,9 +44,8 @@ public interface ITypeInfo extends IInfo {
 
 	/**
 	 * @return the source object from which this type was created. Note that the
-	 *         calling
-	 *         {@link ReflectionUI#getTypeInfo(ITypeInfoSource)} on
-	 *         the result should return an object equals to the current one.
+	 *         calling {@link ReflectionUI#getTypeInfo(ITypeInfoSource)} on the
+	 *         result should return an object equals to the current one.
 	 */
 	ITypeInfoSource getSource();
 
@@ -233,6 +232,19 @@ public interface ITypeInfo extends IInfo {
 	CategoriesStyle getCategoriesStyle();
 
 	/**
+	 * @return background color of the categories control generated from this type or null
+	 *         if the default background color should be used.
+	 */
+	ColorSpecification getCategoriesBackgroundColor();
+
+	/**
+	 * @return text color of the categories control generated from this type or null
+	 *         if the default text color should be used.
+	 */
+	ColorSpecification getCategoriesForegroundColor();
+
+	
+	/**
 	 * Fields layout strategy class.
 	 * 
 	 * @author olitank
@@ -260,7 +272,7 @@ public interface ITypeInfo extends IInfo {
 	 *
 	 */
 	public enum CategoriesStyle {
-		CLASSIC, CLASSIC_VERTICAL, MODERN, MODERN_VERTICAL;
+		MODERN, MODERN_VERTICAL;
 
 		public static CategoriesStyle getDefault() {
 			return MODERN;

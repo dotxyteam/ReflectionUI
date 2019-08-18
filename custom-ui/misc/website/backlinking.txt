@@ -8,14 +8,14 @@ PUBLISHED: https://www.youtube.com/watch?v=ieVrk9RnHaI
 WAITING: https://www.youtube.com/watch?v=7BVAPmswu1o
 WAITING: https://java-source.net/contact
 TODO: https://dzone.com/articles/how-to-submit-a-post-to-dzone
-TO FOLLOW: https://www.developpez.net/forums/d734288/java/interfaces-graphiques-java/awt-swing/definir-nouveau-look-and-feel/#post11077783
-TO FOLLOW: https://openclassrooms.com/forum/sujet/java-changez-l-apparence-des-applications-swing-60957#message-93347997
+PUBLISHED: https://www.developpez.net/forums/d734288/java/interfaces-graphiques-java/awt-swing/definir-nouveau-look-and-feel/#post11077783
+PUBLISHED: https://openclassrooms.com/forum/sujet/java-changez-l-apparence-des-applications-swing-60957#message-93347997
 REJECTED: https://coderanch.com/t/518546/java/Real-Usage-java-Reflection#3342939
 REJECTED: https://coderanch.com/t/679242/java/Developing-Java-Desktop-Application#3342989
 REJECTED: https://rterp.wordpress.com/2016/02/16/javafx-vs-swing-vs-html5-my-interview-with-alexander-casall/#comment-4633
-TO FOLLOW: https://www.developpez.net/forums/d196159-2/java/interfaces-graphiques-java/awt-swing/comparatif-swing-eclipse-rcp-faire-client-lourd/#post11078979
+PUBLISHED: https://www.developpez.net/forums/d196159-2/java/interfaces-graphiques-java/awt-swing/comparatif-swing-eclipse-rcp-faire-client-lourd/#post11078979
 REJECTED: https://forums.anandtech.com/threads/good-java-gui-builder.1126678/
 REJECTED: https://forums.anandtech.com/threads/can-anybody-recommend-gui-builder-for-java.1756090/
-TO FOLLOW: https://coderanch.com/t/644028/java/GUI-Builder#3343447
+PUBLISHED: https://coderanch.com/t/644028/java/GUI-Builder#3343447
 REJECTED: https://coderanch.com/t/626587/java/WYSIWYG-GUI-Tools#3343450
-TO FOLLOW: https://www.developpez.net/forums/d1228795-3/java/interfaces-graphiques-java/outils-constructions-d-interfaces-graphiques-gui-builder-preferez/#post11083806
+PUBLISHED: https://www.developpez.net/forums/d1228795-3/java/interfaces-graphiques-java/outils-constructions-d-interfaces-graphiques-gui-builder-preferez/#post11083806

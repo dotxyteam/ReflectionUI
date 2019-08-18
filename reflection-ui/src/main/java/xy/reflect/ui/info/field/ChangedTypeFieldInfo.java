@@ -105,7 +105,7 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	}
 
 	protected void super_setValue(Object object, Object value) {
-		super.setValue(object, revertConversion(value));
+		super.setValue(object, value);
 	}
 
 	@Override
@@ -271,7 +271,7 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 		@Override
 		protected boolean doPollingAction() {
 			synchronized (synchronizationMutex) {
-				field.super_setValue(object, lastValue);
+				field.super_setValue(object, field.revertConversion(lastValue));
 			}
 			return true;
 		}

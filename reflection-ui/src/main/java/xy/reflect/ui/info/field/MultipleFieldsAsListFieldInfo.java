@@ -359,6 +359,16 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public ColorSpecification getCategoriesBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getCategoriesForegroundColor() {
+			return null;
+		}
+
+		@Override
 		public Dimension getFormPreferredSize() {
 			return null;
 		}

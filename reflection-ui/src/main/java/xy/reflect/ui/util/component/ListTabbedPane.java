@@ -86,20 +86,20 @@ public class ListTabbedPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String NULL_CARD_NAME = ListTabbedPane.class.getName() + ".nullCard";
+	protected static final String NULL_CARD_NAME = ListTabbedPane.class.getName() + ".nullCard";
 
-	private JList listControl;
-	private Component listControlWrapper;
-	private int lastListSelectionIndex = -1;
-	private boolean listSelectionHandlingEnabled = true;
-	private JPanel currentComponentContainer;
-	private CardLayout cardLayout;
-	private DefaultListModel listModel;
-	private List<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
-	private List<Object> disabledListElements = new ArrayList<Object>();
-	private Map<String, Component> componentByCardName = new HashMap<String, Component>();
-	private Map<Object, ImageIcon> iconImageByElement = new HashMap<Object, ImageIcon>();
-	private int placement;
+	protected JList listControl;
+	protected JScrollPane listControlWrapper;
+	protected int lastListSelectionIndex = -1;
+	protected boolean listSelectionHandlingEnabled = true;
+	protected JPanel currentComponentContainer;
+	protected CardLayout cardLayout;
+	protected DefaultListModel listModel;
+	protected List<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
+	protected List<Object> disabledListElements = new ArrayList<Object>();
+	protected Map<String, Component> componentByCardName = new HashMap<String, Component>();
+	protected Map<Object, ImageIcon> iconImageByElement = new HashMap<Object, ImageIcon>();
+	protected int placement;
 
 	public ListTabbedPane(int placement) {
 		this.placement = placement;
@@ -135,7 +135,7 @@ public class ListTabbedPane extends JPanel {
 	protected void layoutListControl() {
 		if (placement == JTabbedPane.LEFT) {
 			add(listControlWrapper, BorderLayout.WEST);
-			listControl.setLayoutOrientation(JList.VERTICAL_WRAP);
+			listControl.setLayoutOrientation(JList.VERTICAL);
 			listControl.setVisibleRowCount(-1);
 		} else if (placement == JTabbedPane.TOP) {
 			add(listControlWrapper, BorderLayout.NORTH);
@@ -219,7 +219,7 @@ public class ListTabbedPane extends JPanel {
 		return result;
 	}
 
-	protected Component wrapListControl(JList listControl) {
+	protected JScrollPane wrapListControl(JList listControl) {
 		return new JScrollPane(listControl) {
 			private static final long serialVersionUID = 1L;
 

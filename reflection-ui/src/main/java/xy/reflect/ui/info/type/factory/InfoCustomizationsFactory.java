@@ -987,6 +987,28 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected ColorSpecification getCategoriesBackgroundColor(ITypeInfo type) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			if (t.getCategoriesBackgroundColor() != null) {
+				return t.getCategoriesBackgroundColor();
+			}
+		}
+		return super.getCategoriesBackgroundColor(type);
+	}
+
+	@Override
+	protected ColorSpecification getCategoriesForegroundColor(ITypeInfo type) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			if (t.getCategoriesForegroundColor() != null) {
+				return t.getCategoriesForegroundColor();
+			}
+		}
+		return super.getCategoriesForegroundColor(type);
+	}
+
+	@Override
 	protected String getName(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
 		if (appCustomization.getApplicationName() != null) {
@@ -1831,7 +1853,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						if (categoryPosition != -1) {
 							CustomizationCategory category = categories.get(categoryPosition);
 							return new InfoCategory(category.getCaption(), categoryPosition,
-									category.getIconImagePath());
+									(category.getIconImagePath() == null) ? null
+											: new ResourcePath(category.getIconImagePath().getSpecification()));
 						}
 						return super.getCategory();
 					}
@@ -2195,7 +2218,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						if (categoryPosition != -1) {
 							CustomizationCategory category = categories.get(categoryPosition);
 							return new InfoCategory(category.getCaption(), categoryPosition,
-									category.getIconImagePath());
+									(category.getIconImagePath() == null) ? null
+											: new ResourcePath(category.getIconImagePath().getSpecification()));
 						}
 						return super.getCategory();
 					}

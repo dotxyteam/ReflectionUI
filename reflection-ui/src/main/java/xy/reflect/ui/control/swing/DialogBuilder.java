@@ -60,7 +60,7 @@ public class DialogBuilder {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getIconImagePath() != null) {
-			this.iconImage = SwingRendererUtils.loadImageThroughcache(appInfo.getIconImagePath(),
+			this.iconImage = SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
 					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 		}
 	}

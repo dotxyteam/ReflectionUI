@@ -76,7 +76,7 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 		if (data.getBackgroundImagePath() == null) {
 			return null;
 		} else {
-			return SwingRendererUtils.loadImageThroughcache(data.getBackgroundImagePath(),
+			return SwingRendererUtils.loadImageThroughCache(data.getBackgroundImagePath(),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 		}
 	}

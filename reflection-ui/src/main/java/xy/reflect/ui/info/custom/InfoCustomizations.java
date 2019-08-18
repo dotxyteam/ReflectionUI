@@ -1374,6 +1374,8 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath formBackgroundImagePath;
 		protected ColorSpecification formForegroundColor;
 		protected ColorSpecification formBackgroundColor;
+		protected ColorSpecification categoriesForegroundColor;
+		protected ColorSpecification categoriesBackgroundColor;
 
 		@Override
 		public boolean isInitial() {
@@ -1420,6 +1422,22 @@ public class InfoCustomizations implements Serializable {
 
 		public void setFormForegroundColor(ColorSpecification formForegroundColor) {
 			this.formForegroundColor = formForegroundColor;
+		}
+
+		public ColorSpecification getCategoriesForegroundColor() {
+			return categoriesForegroundColor;
+		}
+
+		public void setCategoriesForegroundColor(ColorSpecification categoriesForegroundColor) {
+			this.categoriesForegroundColor = categoriesForegroundColor;
+		}
+
+		public ColorSpecification getCategoriesBackgroundColor() {
+			return categoriesBackgroundColor;
+		}
+
+		public void setCategoriesBackgroundColor(ColorSpecification categoriesBackgroundColor) {
+			this.categoriesBackgroundColor = categoriesBackgroundColor;
 		}
 
 		public FormSizeCustomization getFormWidth() {
@@ -1650,6 +1668,7 @@ public class InfoCustomizations implements Serializable {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((caption == null) ? 0 : caption.hashCode());
+			result = prime * result + ((iconImagePath == null) ? 0 : iconImagePath.hashCode());
 			return result;
 		}
 
@@ -1667,13 +1686,21 @@ public class InfoCustomizations implements Serializable {
 					return false;
 			} else if (!caption.equals(other.caption))
 				return false;
+			if (iconImagePath == null) {
+				if (other.iconImagePath != null)
+					return false;
+			} else if (!iconImagePath.equals(other.iconImagePath))
+				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "CustomizationCategory [caption=" + caption + "]";
+			return "CustomizationCategory [caption=" + caption + ", iconImagePath=" + iconImagePath + "]";
 		}
+
+		
+
 
 	}
 

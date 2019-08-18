@@ -92,7 +92,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 			ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 			if (appInfo.getIconImagePath() != null) {
-				result = SwingRendererUtils.loadImageThroughcache(appInfo.getIconImagePath(),
+				result = SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
 						ReflectionUIUtils.getErrorLogListener(reflectionUI));
 			}
 		}

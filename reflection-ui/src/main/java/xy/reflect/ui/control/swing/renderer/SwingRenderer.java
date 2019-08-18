@@ -267,7 +267,7 @@ public class SwingRenderer {
 			if (imagePath == null) {
 				return null;
 			}
-			Image result = SwingRendererUtils.loadImageThroughcache(imagePath,
+			Image result = SwingRendererUtils.loadImageThroughCache(imagePath,
 					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 			if (result != null) {
 				return result;
@@ -285,7 +285,7 @@ public class SwingRenderer {
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughcache(imagePath,
+		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughCache(imagePath,
 				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
@@ -294,7 +294,7 @@ public class SwingRenderer {
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughcache(imagePath,
+		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughCache(imagePath,
 				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
@@ -303,7 +303,7 @@ public class SwingRenderer {
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughcache(imagePath,
+		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughCache(imagePath,
 				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 

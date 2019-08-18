@@ -360,6 +360,16 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public ColorSpecification getCategoriesBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getCategoriesForegroundColor() {
+			return null;
+		}
+
+		@Override
 		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return false;
 		}

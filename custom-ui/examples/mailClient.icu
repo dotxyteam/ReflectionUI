@@ -52,12 +52,17 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <categoriesBackgroundColor>
+            <blue>59</blue>
+            <green>47</green>
+            <red>43</red>
+        </categoriesBackgroundColor>
         <categoriesStyle>MODERN_VERTICAL</categoriesStyle>
         <fieldsCustomizations>
             <uniqueIdentifier>-458d14aa:16aba73d317:6df7</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-50593d1:16c96a1674d:7b86</uniqueIdentifier>
+                <uniqueIdentifier>-26181750:16c9b933638:7f57</uniqueIdentifier>
                 <caption>Sent</caption>
             </category>
             <categoryCaption>Sent</categoryCaption>
@@ -147,7 +152,7 @@
             <uniqueIdentifier>-458d14aa:16aba73d317:6dfc</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-50593d1:16c96a1674d:7b87</uniqueIdentifier>
+                <uniqueIdentifier>-26181750:16c9b933638:7f58</uniqueIdentifier>
                 <caption>Inbox</caption>
             </category>
             <categoryCaption>Inbox</categoryCaption>
@@ -271,7 +276,7 @@
             <uniqueIdentifier>-458d14aa:16aba73d317:6dff</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-50593d1:16c96a1674d:7b88</uniqueIdentifier>
+                <uniqueIdentifier>-26181750:16c9b933638:7f59</uniqueIdentifier>
                 <caption>Draft</caption>
             </category>
             <categoryCaption>Draft</categoryCaption>
@@ -361,7 +366,7 @@
             <uniqueIdentifier>-458d14aa:16aba73d317:6e02</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-50593d1:16c96a1674d:7b89</uniqueIdentifier>
+                <uniqueIdentifier>-26181750:16c9b933638:7f5a</uniqueIdentifier>
                 <caption>Trash</caption>
             </category>
             <categoryCaption>Trash</categoryCaption>

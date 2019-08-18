@@ -66,7 +66,6 @@ import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.ModificationStackControls;
 import xy.reflect.ui.info.InfoCategory;
-import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -94,7 +93,6 @@ import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.Visitor;
 import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.ControlScrollPane;
-import xy.reflect.ui.util.component.ControlTabbedPane;
 import xy.reflect.ui.util.component.ImagePanel;
 import xy.reflect.ui.util.component.ListTabbedPane;
 
@@ -455,6 +453,12 @@ public class Form extends ImagePanel {
 
 					JPanel tab = new ControlPanel();
 					addCategoryTab(category, tab);
+					Color tabBorderColor = getMainBorderColor();
+					if (tabBorderColor != null) {
+						tab.setBorder(BorderFactory.createLineBorder(tabBorderColor));
+					} else {
+						tab.setBorder(BorderFactory.createTitledBorder(""));
+					}
 					tab.setLayout(new BorderLayout());
 
 					JPanel tabContent = new ControlPanel();
@@ -484,29 +488,11 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
-	public boolean isCategoriesControlClassic() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		return (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC)
-				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC_VERTICAL);
-	}
-
-	public boolean isCategoriesControlModern() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		return (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN)
-				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL);
-	}
-
 	public int getCategoriesControlPlacement() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC) {
+		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN) {
 			return JTabbedPane.TOP;
-		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN) {
-			return JTabbedPane.TOP;
-		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC_VERTICAL) {
-			return JTabbedPane.LEFT;
 		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL) {
 			return JTabbedPane.LEFT;
 		} else {
@@ -515,208 +501,246 @@ public class Form extends ImagePanel {
 	}
 
 	public Container createCategoriesControl() {
-		if (isCategoriesControlModern()) {
-			return new ListTabbedPane(JTabbedPane.TOP) {
+		return new ListTabbedPane(JTabbedPane.TOP) {
 
-				private static final long serialVersionUID = 1L;
-				private JButton nonSelectedCellRenderer;
-				private JLabel selectedCellRenderer;
+			private static final long serialVersionUID = 1L;
+			private JButton nonSelectedCellRenderer;
+			private JLabel selectedCellRenderer;
 
-				{
-					setOpaque(false);
-				}
+			{
+				setOpaque(false);
+			}
 
-				@Override
-				protected JList createListControl() {
-					JList result = super.createListControl();
-					result.setOpaque(false);
-					return result;
-				}
+			@Override
+			protected JScrollPane wrapListControl(JList listControl) {
+				JScrollPane result = new ControlScrollPane(listControl) {
+					private static final long serialVersionUID = 1L;
 
-				@Override
-				protected Component wrapListControl(JList listControl) {
-					JScrollPane result = new ControlScrollPane(listControl) {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public Dimension getPreferredSize() {
-							Dimension result = super.getPreferredSize();
-							if (result == null) {
-								return null;
-							}
-							result = preventScrollBarsFromHidingContent(result);
-							return result;
+					@Override
+					public Dimension getPreferredSize() {
+						Dimension result = super.getPreferredSize();
+						if (result == null) {
+							return null;
 						}
-
-						Dimension preventScrollBarsFromHidingContent(Dimension size) {
-							Dimension result = new Dimension(size);
-							JScrollBar hSBar = getHorizontalScrollBar();
-							{
-								if (hSBar != null) {
-									if (hSBar.isVisible()) {
-										result.height += hSBar.getHeight();
-									}
-								}
-							}
-							JScrollBar vSBar = getVerticalScrollBar();
-							{
-								if (vSBar != null) {
-									if (vSBar.isVisible()) {
-										result.width += vSBar.getWidth();
-									}
-								}
-							}
-							return result;
-						}
-					};
-					result.setBorder(null);
-					return result;
-				}
-
-				@Override
-				protected JPanel createCurrentComponentContainer() {
-					JPanel result = super.createCurrentComponentContainer();
-					result.setOpaque(false);
-					return result;
-				}
-
-				@Override
-				protected JButton createNonSelectedTabHeaderCellRendererComponent() {
-					return nonSelectedCellRenderer = super.createNonSelectedTabHeaderCellRendererComponent();
-				}
-
-				@Override
-				protected JLabel createSelectedTabHeaderCellRendererComponent() {
-					return selectedCellRenderer = super.createSelectedTabHeaderCellRendererComponent();
-				}
-
-				protected void refreshNonSelectedCellRenderer() {
-					nonSelectedCellRenderer.setForeground(getControlsForegroundColor());
-					nonSelectedCellRenderer.setBorderPainted(false);
-					Color backgroundColor = getCellBackgroundColor();
-					if (backgroundColor != null) {
-						nonSelectedCellRenderer.setContentAreaFilled(true);
-						nonSelectedCellRenderer.setBackground(backgroundColor);
-						nonSelectedCellRenderer.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(),
-								getLayoutSpacing(), getLayoutSpacing(), getLayoutSpacing()));
-					} else {
-						nonSelectedCellRenderer.setContentAreaFilled(false);
-						nonSelectedCellRenderer.setBackground(null);
-						nonSelectedCellRenderer.setBorder(BorderFactory.createLoweredBevelBorder());
-					}
-				}
-
-				protected void refreshSelectedCellRenderer() {
-					selectedCellRenderer.setForeground(getControlsForegroundColor());
-					Color backgroundColor = getCellBackgroundColor();
-					if (backgroundColor != null) {
-						selectedCellRenderer.setOpaque(true);
-						selectedCellRenderer.setBackground(swingRenderer.addColorActivationEffect(backgroundColor));
-						selectedCellRenderer.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(),
-								getLayoutSpacing(), getLayoutSpacing(), getLayoutSpacing()));
-					} else {
-						selectedCellRenderer.setOpaque(false);
-						selectedCellRenderer.setBackground(null);
-						selectedCellRenderer.setBorder(BorderFactory.createLoweredBevelBorder());
-					}
-				}
-
-				protected Color getCellBackgroundColor() {
-					Color result = getControlsBackgroundColor();
-					if (result == null) {
-						if (swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor() != null) {
-							result = SwingRendererUtils.getColor(
-									swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor());
-						}
-					}
-					return result;
-				}
-
-				@Override
-				public void refresh() {
-					refreshSelectedCellRenderer();
-					refreshNonSelectedCellRenderer();
-					super.refresh();
-				}
-
-			};
-		} else if (isCategoriesControlClassic()) {
-			return new ControlTabbedPane() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				protected Color getTabBorderColor() {
-					Color result = getControlsBorderColor();
-					if (result != null) {
+						result = preventScrollBarsFromHidingContent(result);
 						return result;
 					}
-					return super.getTabBorderColor();
-				}
 
-			};
-		} else {
-			throw new ReflectionUIError();
-		}
+					Dimension preventScrollBarsFromHidingContent(Dimension size) {
+						Dimension result = new Dimension(size);
+						JScrollBar hSBar = getHorizontalScrollBar();
+						{
+							if (hSBar != null) {
+								if (hSBar.isVisible()) {
+									result.height += hSBar.getHeight();
+								}
+							}
+						}
+						JScrollBar vSBar = getVerticalScrollBar();
+						{
+							if (vSBar != null) {
+								if (vSBar.isVisible()) {
+									result.width += vSBar.getWidth();
+								}
+							}
+						}
+						return result;
+					}
+				};
+				result.setBorder(null);
+				return result;
+			}
+
+			@Override
+			protected JPanel createCurrentComponentContainer() {
+				JPanel result = super.createCurrentComponentContainer();
+				result.setOpaque(false);
+				return result;
+			}
+
+			@Override
+			protected JButton createNonSelectedTabHeaderCellRendererComponent() {
+				return nonSelectedCellRenderer = super.createNonSelectedTabHeaderCellRendererComponent();
+			}
+
+			@Override
+			protected JLabel createSelectedTabHeaderCellRendererComponent() {
+				return selectedCellRenderer = super.createSelectedTabHeaderCellRendererComponent();
+			}
+
+			protected void refreshNonSelectedCellRenderer() {
+				nonSelectedCellRenderer.setForeground(getCategoriesCellForegroundColor());
+				nonSelectedCellRenderer.setBorderPainted(false);
+				nonSelectedCellRenderer.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(),
+						getLayoutSpacing(), getLayoutSpacing(), getLayoutSpacing()));
+				Color backgroundColor = getCategoriesCellBackgroundColor();
+				if (backgroundColor != null) {
+					nonSelectedCellRenderer.setContentAreaFilled(true);
+					nonSelectedCellRenderer.setBackground(backgroundColor);
+				} else {
+					nonSelectedCellRenderer.setContentAreaFilled(false);
+					nonSelectedCellRenderer.setBackground(null);
+				}
+			}
+
+			protected void refreshSelectedCellRenderer() {
+				selectedCellRenderer.setForeground(getCategoriesCellForegroundColor());
+				Color backgroundColor = getCategoriesCellBackgroundColor();
+				selectedCellRenderer.setBorder(BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
+						getLayoutSpacing(), getLayoutSpacing()));
+				if (backgroundColor != null) {
+					selectedCellRenderer.setOpaque(true);
+					selectedCellRenderer.setBackground(swingRenderer.addColorActivationEffect(backgroundColor));
+				} else {
+					selectedCellRenderer.setOpaque(false);
+					selectedCellRenderer.setBackground(null);
+					selectedCellRenderer
+							.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
+									BorderFactory.createEmptyBorder(getLayoutSpacing() - 2, getLayoutSpacing() - 2,
+											getLayoutSpacing() - 2, getLayoutSpacing() - 2)));
+				}
+			}
+
+			protected void refreshNonSelectableArea() {
+				Color backgroundColor = getCategoriesCellBackgroundColor();
+				if (backgroundColor != null) {
+					listControl.setOpaque(true);
+					listControl.setBackground(backgroundColor);
+					listControlWrapper.setOpaque(true);
+					listControlWrapper.setBackground(backgroundColor);
+				} else {
+					listControl.setOpaque(false);
+					listControlWrapper.setOpaque(false);
+				}
+			}
+
+			@Override
+			public void refresh() {
+				refreshSelectedCellRenderer();
+				refreshNonSelectedCellRenderer();
+				refreshNonSelectableArea();
+				super.refresh();
+			}
+
+		};
 	}
 
 	public void addCategoryTab(InfoCategory category, JPanel tab) {
-		Image iconImage = SwingRendererUtils.loadImageThroughcache(category.getIconImagePath(),
+		Image iconImage = SwingRendererUtils.loadImageThroughCache(category.getIconImagePath(),
 				ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 		ImageIcon icon = (iconImage != null) ? new ImageIcon(iconImage) : null;
-		if (categoriesControl instanceof ListTabbedPane) {
-			int tabIndex = ((ListTabbedPane) categoriesControl).getTabCount();
-			((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()),
-					tab);
-			((ListTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
-		} else if (categoriesControl instanceof JTabbedPane) {
-			int tabIndex = ((JTabbedPane) categoriesControl).getTabCount();
-			((JTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
-			((JTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
-		} else {
-			throw new ReflectionUIError();
-		}
+		int tabIndex = ((ListTabbedPane) categoriesControl).getTabCount();
+		((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
+		((ListTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
 	}
 
 	public boolean refreshCategoriesControlStructure() {
 		if (categoriesControl != null) {
-			if (isCategoriesControlModern()) {
-				if (!(categoriesControl instanceof ListTabbedPane)) {
-					return false;
-				}
-				((ListTabbedPane) categoriesControl).refresh();
-				((ListTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
-			} else {
-				if (!(categoriesControl instanceof JTabbedPane)) {
-					return false;
-				}
-				((JTabbedPane) categoriesControl).setForeground(getControlsForegroundColor());
-				((JTabbedPane) categoriesControl).updateUI();
-				((JTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
+			if (!(categoriesControl instanceof ListTabbedPane)) {
+				return false;
 			}
+			((ListTabbedPane) categoriesControl).refresh();
+			((ListTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
 		}
 		return true;
+	}
+
+	public Color getMainBackgroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		if (reflectionUI.getApplicationInfo().getMainBackgroundColor() != null) {
+			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainBackgroundColor());
+		} else {
+			return null;
+		}
+	}
+
+	public Color getMainForeroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		if (reflectionUI.getApplicationInfo().getMainForegroundColor() != null) {
+			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainForegroundColor());
+		} else {
+			return null;
+		}
+	}
+
+	public Color getMainBorderColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		if (reflectionUI.getApplicationInfo().getMainBorderColor() != null) {
+			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainBorderColor());
+		} else {
+			return null;
+		}
+	}
+
+	public Image getMainBackgroundImage() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		if (reflectionUI.getApplicationInfo().getMainBackgroundImagePath() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.loadImageThroughCache(
+					reflectionUI.getApplicationInfo().getMainBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		}
+	}
+
+	public Color getControlsForegroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormForegroundColor() == null) {
+			return getMainForeroundColor();
+		} else {
+			return SwingRendererUtils.getColor(type.getFormForegroundColor());
+		}
+	}
+
+	public Color getControlsBackgroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormBackgroundColor() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.getColor(type.getFormBackgroundColor());
+		}
+	}
+
+	public Image getControlsBackgroundImage() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormBackgroundImagePath() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.loadImageThroughCache(type.getFormBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		}
+	}
+
+	public Color getCategoriesCellBackgroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getCategoriesBackgroundColor() != null) {
+			return SwingRendererUtils.getColor(type.getCategoriesBackgroundColor());
+		} else {
+			return null;
+		}
+	}
+
+	public Color getCategoriesCellForegroundColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getCategoriesForegroundColor() != null) {
+			return SwingRendererUtils.getColor(type.getCategoriesForegroundColor());
+		} else {
+			return getControlsForegroundColor();
+		}
 	}
 
 	public InfoCategory getDisplayedCategory() {
 		if (categoriesControl != null) {
 			int currentCategoryIndex;
-			if (categoriesControl instanceof ListTabbedPane) {
-				currentCategoryIndex = ((ListTabbedPane) categoriesControl).getSelectedIndex();
-			} else if (categoriesControl instanceof JTabbedPane) {
-				currentCategoryIndex = ((JTabbedPane) categoriesControl).getSelectedIndex();
-			} else {
-				throw new ReflectionUIError();
-			}
+			currentCategoryIndex = ((ListTabbedPane) categoriesControl).getSelectedIndex();
 			if (currentCategoryIndex != -1) {
 				String currentCategoryCaption;
-				if (categoriesControl instanceof ListTabbedPane) {
-					currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
-				} else if (categoriesControl instanceof JTabbedPane) {
-					currentCategoryCaption = ((JTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
-				} else {
-					throw new ReflectionUIError();
-				}
+				currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
 				return new InfoCategory(currentCategoryCaption, currentCategoryIndex, null);
 			}
 		}
@@ -728,35 +752,17 @@ public class Form extends ImagePanel {
 		int categoryPosition = category.getPosition();
 		if (categoriesControl != null) {
 			int tabCount;
-			if (categoriesControl instanceof ListTabbedPane) {
-				tabCount = ((ListTabbedPane) categoriesControl).getTabCount();
-			} else if (categoriesControl instanceof JTabbedPane) {
-				tabCount = ((JTabbedPane) categoriesControl).getTabCount();
-			} else {
-				throw new ReflectionUIError();
-			}
+			tabCount = ((ListTabbedPane) categoriesControl).getTabCount();
 			for (int i = 0; i < tabCount; i++) {
 				String currentCategoryCaption;
-				if (categoriesControl instanceof ListTabbedPane) {
-					currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(i);
-				} else if (categoriesControl instanceof JTabbedPane) {
-					currentCategoryCaption = ((JTabbedPane) categoriesControl).getTitleAt(i);
-				} else {
-					throw new ReflectionUIError();
-				}
+				currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(i);
 				if (categoryCaption.equals(currentCategoryCaption)) {
 					if (categoryPosition != -1) {
 						if (categoryPosition != i) {
 							continue;
 						}
 					}
-					if (categoriesControl instanceof ListTabbedPane) {
-						((ListTabbedPane) categoriesControl).setSelectedIndex(i);
-					} else if (categoriesControl instanceof JTabbedPane) {
-						((JTabbedPane) categoriesControl).setSelectedIndex(i);
-					} else {
-						throw new ReflectionUIError();
-					}
+					((ListTabbedPane) categoriesControl).setSelectedIndex(i);
 					return;
 				}
 			}
@@ -962,7 +968,7 @@ public class Form extends ImagePanel {
 	}
 
 	public void refresh(boolean refreshStructure) {
-		if (refreshStructure && refreshMemberControlListsAndDetectModification()) {
+		if (refreshStructure && refreshControlValuesAndDetectModification()) {
 			InfoCategory displayedCategory = getDisplayedCategory();
 			try {
 				removeAll();
@@ -1013,7 +1019,7 @@ public class Form extends ImagePanel {
 			setBackground(awtBackgroundColor);
 			setImage(awtImage);
 			setOpaque((awtBackgroundColor != null) && (awtImage == null));
-			Color borderColor = getControlsBorderColor();
+			Color borderColor = getMainBorderColor();
 			{
 				menuBar.setForeground(awtForegroundColor);
 				if (borderColor != null) {
@@ -1042,53 +1048,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	public Color getControlsForegroundColor() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getFormForegroundColor() == null) {
-			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-			if (appInfo.getMainForegroundColor() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.getColor(appInfo.getMainForegroundColor());
-			}
-		} else {
-			return SwingRendererUtils.getColor(type.getFormForegroundColor());
-		}
-	}
-
-	public Color getControlsBackgroundColor() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getFormBackgroundColor() == null) {
-			return null;
-		} else {
-			return SwingRendererUtils.getColor(type.getFormBackgroundColor());
-		}
-	}
-
-	public Color getControlsBorderColor() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-		if (appInfo.getMainBorderColor() == null) {
-			return null;
-		} else {
-			return SwingRendererUtils.getColor(appInfo.getMainBorderColor());
-		}
-	}
-
-	public Image getControlsBackgroundImage() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getFormBackgroundImagePath() == null) {
-			return null;
-		} else {
-			return SwingRendererUtils.loadImageThroughcache(type.getFormBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
-		}
-	}
-
-	public boolean refreshMemberControlListsAndDetectModification() {
+	public boolean refreshControlValuesAndDetectModification() {
 
 		boolean modificationsDetected = false;
 
@@ -1102,14 +1062,18 @@ public class Form extends ImagePanel {
 		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> newMethodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
 				type.getMethods());
 
-		if (!newFieldControlPlaceHoldersByCategory.keySet()
-				.equals(displayedFieldControlPlaceHoldersByCategory.keySet())) {
-			modificationsDetected = true;
+		if (!modificationsDetected) {
+			if (!new ArrayList<InfoCategory>(newFieldControlPlaceHoldersByCategory.keySet())
+					.equals(new ArrayList<InfoCategory>(displayedFieldControlPlaceHoldersByCategory.keySet()))) {
+				modificationsDetected = true;
+			}
 		}
 
-		if (!newMethodControlPlaceHoldersByCategory.keySet()
-				.equals(displayedMethodControlPlaceHoldersByCategory.keySet())) {
-			modificationsDetected = true;
+		if (!modificationsDetected) {
+			if (!new ArrayList<InfoCategory>(newMethodControlPlaceHoldersByCategory.keySet())
+					.equals(new ArrayList<InfoCategory>(displayedMethodControlPlaceHoldersByCategory.keySet()))) {
+				modificationsDetected = true;
+			}
 		}
 
 		if (!modificationsDetected) {
@@ -1168,20 +1132,6 @@ public class Form extends ImagePanel {
 				if (modificationsDetected) {
 					break;
 				}
-			}
-		}
-
-		if (!modificationsDetected) {
-			if (!new ArrayList<InfoCategory>(newFieldControlPlaceHoldersByCategory.keySet())
-					.equals(new ArrayList<InfoCategory>(displayedFieldControlPlaceHoldersByCategory.keySet()))) {
-				modificationsDetected = true;
-			}
-		}
-
-		if (!modificationsDetected) {
-			if (!new ArrayList<InfoCategory>(newMethodControlPlaceHoldersByCategory.keySet())
-					.equals(new ArrayList<InfoCategory>(displayedMethodControlPlaceHoldersByCategory.keySet()))) {
-				modificationsDetected = true;
 			}
 		}
 

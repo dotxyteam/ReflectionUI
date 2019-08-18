@@ -685,6 +685,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getFormForegroundColor();
 	}
 
+	protected ColorSpecification getCategoriesForegroundColor(ITypeInfo type) {
+		return type.getCategoriesForegroundColor();
+	}
+
+	protected ColorSpecification getCategoriesBackgroundColor(ITypeInfo type) {
+		return type.getCategoriesBackgroundColor();
+	}
+
 	protected Dimension getFormPreferredSize(ITypeInfo type) {
 		return type.getFormPreferredSize();
 	}
@@ -1006,6 +1014,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return InfoProxyFactory.this.getFormForegroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getCategoriesBackgroundColor() {
+			return InfoProxyFactory.this.getCategoriesBackgroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getCategoriesForegroundColor() {
+			return InfoProxyFactory.this.getCategoriesForegroundColor(base);
 		}
 
 		@Override

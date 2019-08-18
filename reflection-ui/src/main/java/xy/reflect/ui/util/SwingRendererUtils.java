@@ -546,7 +546,7 @@ public class SwingRendererUtils {
 		return new ResourcePath(imagePathSpecification);
 	}
 
-	public static Image loadImageThroughcache(ResourcePath imagePath, Listener<String> errorMessageListener) {
+	public static Image loadImageThroughCache(ResourcePath imagePath, Listener<String> errorMessageListener) {
 		if (imagePath == null) {
 			return null;
 		}
