@@ -907,9 +907,9 @@ public class SwingRenderer {
 	public Color addColorActivationEffect(Color color) {
 		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
 		if (hsb[2] > 0.5f) {
-			hsb[2] -= 0.2f;
+			hsb[2] -= 0.25f;
 		} else {
-			hsb[2] += 0.2f;
+			hsb[2] += 0.25f;
 		}
 		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 		return new Color(rgb);
