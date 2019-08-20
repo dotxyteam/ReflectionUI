@@ -128,8 +128,8 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
-				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("category")) {
-					List<CustomizationCategory> result = InfoCustomizations.getMemberCategoryOptions(
+				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
+					List<String> result = InfoCustomizations.getMemberCategoryCaptionOptions(
 							swingCustomizer.getInfoCustomizations(), (AbstractMemberCustomization) object);
 					return result.toArray();
 				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {

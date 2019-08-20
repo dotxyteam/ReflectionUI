@@ -450,10 +450,14 @@ public class InfoCustomizations implements Serializable {
 		return result;
 	}
 
-	public static List<CustomizationCategory> getMemberCategoryOptions(InfoCustomizations infoCustomizations,
+	public static List<String> getMemberCategoryCaptionOptions(InfoCustomizations infoCustomizations,
 			AbstractMemberCustomization m) {
 		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
-		return tc.getMemberCategories();
+		List<String> result = new ArrayList<String>();
+		for (CustomizationCategory c : tc.getMemberCategories()) {
+			result.add(c.getCaption());
+		}
+		return result;
 	}
 
 	public static TypeCustomization findParentTypeCustomization(InfoCustomizations infoCustomizations,
@@ -1698,9 +1702,6 @@ public class InfoCustomizations implements Serializable {
 		public String toString() {
 			return "CustomizationCategory [caption=" + caption + ", iconImagePath=" + iconImagePath + "]";
 		}
-
-		
-
 
 	}
 
