@@ -76,12 +76,6 @@ public class DefaultMethodControlData implements IMethodControlData {
 
 	@Override
 	public ColorSpecification getForegroundColor() {
-		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
-			if (type.getFormForegroundColor() != null) {
-				return type.getFormForegroundColor();
-			}
-		}
 		return reflectionUI.getApplicationInfo().getButtonForegroundColor();
 	}
 
@@ -170,7 +164,7 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public String getMethodSignature() {
+	public String getInvocationIdentifier() {
 		return getMethod().getSignature();
 	}
 

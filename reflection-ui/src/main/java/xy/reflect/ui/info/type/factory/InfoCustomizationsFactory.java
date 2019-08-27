@@ -987,6 +987,28 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected ColorSpecification getFormEditorsForegroundColor(ITypeInfo type) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			if (t.getFormEditorsForegroundColor() != null) {
+				return t.getFormEditorsForegroundColor();
+			}
+		}
+		return super.getFormEditorsForegroundColor(type);
+	}
+
+	@Override
+	protected ColorSpecification getFormEditorsBackgroundColor(ITypeInfo type) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			if (t.getFormEditorsBackgroundColor() != null) {
+				return t.getFormEditorsBackgroundColor();
+			}
+		}
+		return super.getFormEditorsBackgroundColor(type);
+	}
+
+	@Override
 	protected ColorSpecification getCategoriesBackgroundColor(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
@@ -1078,6 +1100,24 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			return appCustomization.getMainBorderColor();
 		}
 		return super.getMainBorderColor(appInfo);
+	}
+
+	@Override
+	protected ColorSpecification getMainEditorBackgroundColor(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getMainEditorBackgroundColor() != null) {
+			return appCustomization.getMainEditorBackgroundColor();
+		}
+		return super.getMainEditorBackgroundColor(appInfo);
+	}
+
+	@Override
+	protected ColorSpecification getMainEditorForegroundColor(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getMainEditorForegroundColor() != null) {
+			return appCustomization.getMainEditorForegroundColor();
+		}
+		return super.getMainEditorForegroundColor(appInfo);
 	}
 
 	@Override

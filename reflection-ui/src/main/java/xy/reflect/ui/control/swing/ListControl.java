@@ -20,7 +20,6 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -47,7 +46,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -72,10 +70,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 
-import org.jdesktop.swingx.JXTree;
 import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.HighlighterFactory.UIColorHighlighter;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
@@ -537,7 +532,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.setShowsRootHandles(true);
 		treeTableComponent.setDefaultRenderer(Object.class, new ItemTableCellRenderer());
 		treeTableComponent.setTreeCellRenderer(new ItemTreeCellRenderer());
-		treeTableComponent.addHighlighter(new ItemHighlighter());
 		treeTableComponent.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		treeTableComponent.setHorizontalScrollEnabled(true);
 		treeTableComponent.setColumnMargin(5);
@@ -1299,23 +1293,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 									* SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
 						}
 					}
-					treeTableComponent.setOpaque(isTreeTableComponentOpaque());
 				}
 			}
 		});
 
-	}
-
-	protected boolean isTreeTableComponentOpaque() {
-		return getTreeTableComponentForeground() == null;
-	}
-
-	protected Color getTreeTableComponentForeground() {
-		if (listData.getForegroundColor() == null) {
-			return null;
-		} else {
-			return SwingRendererUtils.getColor(listData.getForegroundColor());
-		}
 	}
 
 	public void visitItems(IItemsVisitor iItemsVisitor) {
@@ -1353,19 +1334,50 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (getDetailsAccessMode().hasDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
-			treeTableComponentScrollPane.setBorder(
-					BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
-			if (listData.getForegroundColor() != null) {
+			refreshTreeTableScrollPaneBorder();
+			refreshTreeTableComponentBackground();
+			refreshTreeTableComponentHeader();
+			SwingRendererUtils.handleComponentSizeChange(this);
+		}
+		return true;
+	}
+
+	protected void refreshTreeTableScrollPaneBorder() {
+		treeTableComponentScrollPane.setBorder(
+				BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+		{
+			if (listData.getLabelForegroundColor() != null) {
 				((TitledBorder) treeTableComponentScrollPane.getBorder())
-						.setTitleColor(SwingRendererUtils.getColor(listData.getForegroundColor()));
+						.setTitleColor(SwingRendererUtils.getColor(listData.getLabelForegroundColor()));
 			}
 			if (listData.getBorderColor() != null) {
 				((TitledBorder) treeTableComponentScrollPane.getBorder()).setBorder(
 						BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
 			}
-			SwingRendererUtils.handleComponentSizeChange(this);
 		}
-		return true;
+	}
+
+	protected void refreshTreeTableComponentBackground() {
+		if (listData.getEditorBackgroundColor() != null) {
+			treeTableComponent.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
+		} else {
+			treeTableComponent.setBackground(new JXTreeTable().getBackground());
+		}
+	}
+
+	protected void refreshTreeTableComponentHeader() {
+		if (listData.getEditorBackgroundColor() != null) {
+			treeTableComponent.getTableHeader()
+					.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
+		} else {
+			treeTableComponent.getTableHeader().setBackground(new JXTreeTable().getTableHeader().getBackground());
+		}
+		if (listData.getEditorForegroundColor() != null) {
+			treeTableComponent.getTableHeader()
+					.setForeground(SwingRendererUtils.getColor(listData.getEditorForegroundColor()));
+		} else {
+			treeTableComponent.getTableHeader().setForeground(new JXTreeTable().getTableHeader().getForeground());
+		}
 	}
 
 	@Override
@@ -1561,12 +1573,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				label.setIcon(new ImageIcon(iconImage));
 			}
 
-			if (isSelected) {
-				label.setOpaque(true);
-			} else {
-				label.setOpaque(isTreeTableComponentOpaque());
-				if (getTreeTableComponentForeground() != null) {
-					label.setForeground(getTreeTableComponentForeground());
+			if (!isSelected) {
+				if (listData.getEditorForegroundColor() != null) {
+					label.setForeground(SwingRendererUtils.getColor(listData.getEditorForegroundColor()));
+				}
+				if (listData.getEditorBackgroundColor() != null) {
+					label.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
 				}
 			}
 
@@ -1614,29 +1626,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			customizeCellRendererComponent(component, (ItemNode) value, row, 0, selected, focused);
 			component.setOpaque(false);
 			return component;
-		}
-
-	}
-
-	protected class ItemHighlighter extends UIColorHighlighter {
-
-		protected TableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
-
-		public ItemHighlighter() {
-			super((HighlightPredicate.ODD));
-		}
-
-		@Override
-		public Component highlight(Component component, org.jdesktop.swingx.decorator.ComponentAdapter adapter) {
-			Component result = super.highlight(component, adapter);
-			if (result instanceof JXTree) {
-				if (adapter.isSelected()) {
-					((JComponent) result).setOpaque(true);
-				} else {
-					((JComponent) result).setOpaque(isTreeTableComponentOpaque());
-				}
-			}
-			return result;
 		}
 
 	}

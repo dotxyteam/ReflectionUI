@@ -1,0 +1,14 @@
+4.5.3
+- abstract method added for member (field/method) visibility change
+- allow to specify real-time synchronization of converted field value to its source
+
+4.5.2
+- field control update delay management moved from control data (globally managed)
+to controls (locally managed)
+- automatic cleaning of customizations after encapsulation/decapsulation
+- implemented default save/load using serialization
+- dependencies removed: apache.commons.*, paranamer
+- list item action: conflict between busy indicator and
+	. confirmation dialog 
+	. return value dialog
+	=> resolved

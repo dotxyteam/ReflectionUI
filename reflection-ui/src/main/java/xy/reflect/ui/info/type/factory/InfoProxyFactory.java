@@ -633,6 +633,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getMainBorderColor();
 	}
 
+	protected ColorSpecification getMainEditorBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainEditorBackgroundColor();
+	}
+
+	protected ColorSpecification getMainEditorForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainEditorForegroundColor();
+	}
+
 	protected ResourcePath getMainBackgroundImagePath(IApplicationInfo appInfo) {
 		return appInfo.getMainBackgroundImagePath();
 	}
@@ -691,6 +699,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected ColorSpecification getCategoriesBackgroundColor(ITypeInfo type) {
 		return type.getCategoriesBackgroundColor();
+	}
+
+	protected ColorSpecification getFormEditorsBackgroundColor(ITypeInfo type) {
+		return type.getFormEditorsBackgroundColor();
+	}
+
+	protected ColorSpecification getFormEditorsForegroundColor(ITypeInfo type) {
+		return type.getFormEditorsForegroundColor();
 	}
 
 	protected Dimension getFormPreferredSize(ITypeInfo type) {
@@ -860,6 +876,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public ColorSpecification getMainEditorForegroundColor() {
+			return InfoProxyFactory.this.getMainEditorForegroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getMainEditorBackgroundColor() {
+			return InfoProxyFactory.this.getMainEditorBackgroundColor(base);
+		}
+
+		@Override
 		public ColorSpecification getButtonBackgroundColor() {
 			return InfoProxyFactory.this.getButtonBackgroundColor(base);
 		}
@@ -1024,6 +1050,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ColorSpecification getCategoriesForegroundColor() {
 			return InfoProxyFactory.this.getCategoriesForegroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getFormEditorsForegroundColor() {
+			return InfoProxyFactory.this.getFormEditorsForegroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getFormEditorsBackgroundColor() {
+			return InfoProxyFactory.this.getFormEditorsBackgroundColor(base);
 		}
 
 		@Override

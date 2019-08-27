@@ -67,12 +67,15 @@ import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
 import xy.reflect.ui.control.swing.plugin.CustomCheckBoxPlugin;
+import xy.reflect.ui.control.swing.plugin.DatePickerPlugin;
+import xy.reflect.ui.control.swing.plugin.DateTimePickerPlugin;
 import xy.reflect.ui.control.swing.plugin.DetailedListControlPlugin;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
 import xy.reflect.ui.control.swing.plugin.PasswordFieldPlugin;
+import xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin;
 import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
@@ -201,7 +204,7 @@ public class SwingRenderer {
 		return formByMethodActionMenuItem;
 	}
 
-	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
+	public Map<String, InvocationData> getLastInvocationDataByIdentifier() {
 		return lastInvocationDataByMethodSignature;
 	}
 
@@ -253,6 +256,9 @@ public class SwingRenderer {
 		result.add(new StyledTextPlugin());
 		result.add(new PasswordFieldPlugin());
 		result.add(new HtmlPlugin());
+		result.add(new DatePickerPlugin());
+		result.add(new DateTimePickerPlugin());
+		result.add(new SingleLineTextPlugin());
 		return result;
 	}
 

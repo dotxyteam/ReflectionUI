@@ -98,13 +98,15 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				nullStatusControl.setText("");
 				((JComponent) subControl).setBorder(
 						BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-				if (data.getForegroundColor() != null) {
-					((TitledBorder) ((JComponent) subControl).getBorder())
-							.setTitleColor(SwingRendererUtils.getColor(data.getForegroundColor()));
-				}
-				if (data.getBorderColor() != null) {
-					((TitledBorder) ((JComponent) subControl).getBorder()).setBorder(
-							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+				{
+					if (data.getLabelForegroundColor() != null) {
+						((TitledBorder) ((JComponent) subControl).getBorder())
+								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+					}
+					if (data.getBorderColor() != null) {
+						((TitledBorder) ((JComponent) subControl).getBorder()).setBorder(
+								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+					}
 				}
 			} else {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
@@ -122,7 +124,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	protected boolean isSubControlAlwaysDisplayed() {
-		return false;
+		return data.getNullValueLabel() != null;
 	}
 
 	public Component getSubControl() {
@@ -160,20 +162,14 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected void refreshNullStatusControl(boolean refreshStructure) {
 		setNullStatusControlState(data.getValue() == null);
 		if (refreshStructure) {
-			nullStatusControl.setForeground(SwingRendererUtils.getColor(data.getForegroundColor()));
+			nullStatusControl.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 			nullStatusControl.setEnabled(!data.isGetOnly());
 		}
 	}
 
 	public void refreshSubControl(boolean refreshStructure) {
 		Object value = data.getValue();
-		if (value == null) {
-			if (subControl != null) {
-				if (subControlValueType == null) {
-					return;
-				}
-			}
-		} else {
+		if (value != null) {
 			ITypeInfo newValueType = swingRenderer.getReflectionUI()
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			if (newValueType.equals(subControlValueType)) {

@@ -1,0 +1,285 @@
+/*******************************************************************************
+ * Copyright (C) 2018 OTK Software
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * The GNU General Public License allows you also to freely redistribute 
+ * the libraries under the same license, if you provide the terms of the 
+ * GNU General Public License with them and add the following 
+ * copyright notice at the appropriate place (with a link to 
+ * http://javacollection.net/reflectionui/ web site when possible).
+ ******************************************************************************/
+package xy.reflect.ui.info.type.source;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import com.fasterxml.classmate.MemberResolver;
+import com.fasterxml.classmate.ResolvedType;
+import com.fasterxml.classmate.ResolvedTypeWithMembers;
+import com.fasterxml.classmate.TypeResolver;
+import com.fasterxml.classmate.members.ResolvedConstructor;
+import com.fasterxml.classmate.members.ResolvedField;
+import com.fasterxml.classmate.members.ResolvedMethod;
+import com.google.common.cache.CacheBuilder;
+
+import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.StandardEnumerationTypeInfo;
+import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
+import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
+import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.SystemProperties;
+
+public class JavaTypeInfoSource implements ITypeInfoSource {
+
+	protected static final Map<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>> CACHES = new WeakHashMap<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>>();
+	protected static final Object CACHES_MUTEX = new Object();
+
+	protected Class<?> javaType;
+	protected Member declaringMember;
+	protected int declaringInvokableParameterPosition;
+	protected Class<?>[] genericTypeParameters;
+	protected SpecificitiesIdentifier specificitiesIdentifier;
+
+	public JavaTypeInfoSource(Class<?> javaType, SpecificitiesIdentifier specificitiesIdentifier) {
+		this.javaType = javaType;
+		this.specificitiesIdentifier = specificitiesIdentifier;
+	}
+
+	public JavaTypeInfoSource(Class<?> javaType, Class<?>[] genericTypeParameters,
+			SpecificitiesIdentifier specificitiesIdentifier) {
+		this.javaType = javaType;
+		this.genericTypeParameters = genericTypeParameters;
+		this.specificitiesIdentifier = specificitiesIdentifier;
+	}
+
+	public JavaTypeInfoSource(Class<?> javaType, Member declaringMember, int declaringInvokableParameterPosition,
+			SpecificitiesIdentifier specificitiesIdentifier) {
+		this.javaType = javaType;
+		this.declaringMember = declaringMember;
+		this.declaringInvokableParameterPosition = declaringInvokableParameterPosition;
+		this.specificitiesIdentifier = specificitiesIdentifier;
+	}
+
+	@Override
+	public ITypeInfo getTypeInfo(ReflectionUI reflectionUI) {
+		Map<ITypeInfoSource, ITypeInfo> cache = getCache(reflectionUI);
+		ITypeInfo result = cache.get(this);
+		if (result == null) {
+			if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
+				Class<?> itemClass = guessGenericTypeParameters(Collection.class, 0);
+				ITypeInfo itemType;
+				if (itemClass == null) {
+					itemType = null;
+				} else {
+					itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemClass, null));
+				}
+				result = new StandardCollectionTypeInfo(reflectionUI, this, itemType);
+			} else if (StandardMapAsListTypeInfo.isCompatibleWith(getJavaType())) {
+				Class<?> keyClass = guessGenericTypeParameters(Map.class, 0);
+				Class<?> valueClass = guessGenericTypeParameters(Map.class, 1);
+				result = new StandardMapAsListTypeInfo(reflectionUI, this, keyClass, valueClass);
+			} else if (StandardMapEntryTypeInfo.isCompatibleWith(getJavaType())) {
+				Class<?> keyClass = null;
+				Class<?> valueClass = null;
+				Class<?>[] genericParams = getGenericTypeParameters();
+				if (genericParams != null) {
+					keyClass = genericParams[0];
+					valueClass = genericParams[1];
+				}
+				result = new StandardMapEntryTypeInfo(reflectionUI, keyClass, valueClass);
+			} else if (getJavaType().isArray()) {
+				result = new ArrayTypeInfo(reflectionUI, this);
+			} else if (getJavaType().isEnum()) {
+				result = new StandardEnumerationTypeInfo(reflectionUI, this);
+			} else {
+				result = new DefaultTypeInfo(reflectionUI, this);
+			}
+			cache.put(this, result);
+		}
+		return result;
+	}
+
+	protected Map<ITypeInfoSource, ITypeInfo> getCache(ReflectionUI reflectionUI) {
+		synchronized (CACHES_MUTEX) {
+			Map<ITypeInfoSource, ITypeInfo> cache = CACHES.get(reflectionUI);
+			if (cache == null) {
+				cache = CacheBuilder.newBuilder().maximumSize(SystemProperties.getStandardCacheSize())
+						.<ITypeInfoSource, ITypeInfo>build().asMap();
+				CACHES.put(reflectionUI, cache);
+			}
+			return cache;
+		}
+	}
+
+	@Override
+	public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+		return specificitiesIdentifier;
+	}
+
+	public Class<?> getJavaType() {
+		return javaType;
+	}
+
+	public Member getDeclaringMember() {
+		return declaringMember;
+	}
+
+	public int getDeclaringInvokableParameterPosition() {
+		return declaringInvokableParameterPosition;
+	}
+
+	public Class<?>[] getGenericTypeParameters() {
+		return genericTypeParameters;
+	}
+
+	public List<Class<?>> guessGenericTypeParameters(Class<?> parameterizedBaseClass) {
+		TypeResolver typeResolver = new TypeResolver();
+		ResolvedType resolvedType = null;
+		if (declaringMember == null) {
+			resolvedType = typeResolver.resolve(javaType);
+		} else {
+			MemberResolver memberResolver = new MemberResolver(typeResolver);
+			ResolvedType declaringResolvedType = typeResolver.resolve(declaringMember.getDeclaringClass());
+			ResolvedTypeWithMembers resolvedTypeWithMembers = memberResolver.resolve(declaringResolvedType, null, null);
+			if (declaringMember instanceof Field) {
+				ResolvedField[] resolvedFields;
+				if (Modifier.isStatic(declaringMember.getModifiers())) {
+					resolvedFields = resolvedTypeWithMembers.getStaticFields();
+				} else {
+					resolvedFields = resolvedTypeWithMembers.getMemberFields();
+				}
+				for (ResolvedField resolvedField : resolvedFields) {
+					if (resolvedField.getRawMember().equals(declaringMember)) {
+						resolvedType = resolvedField.getType();
+						break;
+					}
+				}
+			} else if (declaringMember instanceof Method) {
+				ResolvedMethod[] resolvedMethods;
+				if (Modifier.isStatic(declaringMember.getModifiers())) {
+					resolvedMethods = resolvedTypeWithMembers.getStaticMethods();
+				} else {
+					resolvedMethods = resolvedTypeWithMembers.getMemberMethods();
+				}
+				for (ResolvedMethod resolvedMethod : resolvedMethods) {
+					if (resolvedMethod.getRawMember().equals(declaringMember)) {
+						if (declaringInvokableParameterPosition == -1) {
+							resolvedType = resolvedMethod.getType();
+						} else {
+							resolvedType = resolvedMethod.getArgumentType(declaringInvokableParameterPosition);
+						}
+						break;
+					}
+				}
+			} else if (declaringMember instanceof Constructor) {
+				for (ResolvedConstructor resolvedConstructor : resolvedTypeWithMembers.getConstructors()) {
+					if (resolvedConstructor.getRawMember().equals(declaringMember)) {
+						if (declaringInvokableParameterPosition == -1) {
+							resolvedType = resolvedConstructor.getType();
+						} else {
+							resolvedType = resolvedConstructor.getArgumentType(declaringInvokableParameterPosition);
+						}
+						break;
+					}
+				}
+			} else {
+				throw new ReflectionUIError();
+			}
+			if (resolvedType == null) {
+				throw new ReflectionUIError();
+			}
+		}
+		List<Class<?>> result = new ArrayList<Class<?>>();
+		List<ResolvedType> resolvedTypeParameters = resolvedType.typeParametersFor(parameterizedBaseClass);
+		if (resolvedTypeParameters == null) {
+			return null;
+		}
+		for (ResolvedType classParameter : resolvedTypeParameters) {
+			result.add(classParameter.getErasedType());
+		}
+		return result;
+	}
+
+	public Class<?> guessGenericTypeParameters(Class<?> parameterizedBaseClass, int genericParameterIndex) {
+		List<Class<?>> parameterClasses = guessGenericTypeParameters(parameterizedBaseClass);
+		if (parameterClasses == null) {
+			return null;
+		}
+		if (parameterClasses.size() <= genericParameterIndex) {
+			return null;
+		}
+		return parameterClasses.get(genericParameterIndex);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + declaringInvokableParameterPosition;
+		result = prime * result + ((declaringMember == null) ? 0 : declaringMember.hashCode());
+		result = prime * result + Arrays.hashCode(genericTypeParameters);
+		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
+		result = prime * result + ((specificitiesIdentifier == null) ? 0 : specificitiesIdentifier.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JavaTypeInfoSource other = (JavaTypeInfoSource) obj;
+		if (declaringInvokableParameterPosition != other.declaringInvokableParameterPosition)
+			return false;
+		if (declaringMember == null) {
+			if (other.declaringMember != null)
+				return false;
+		} else if (!declaringMember.equals(other.declaringMember))
+			return false;
+		if (!Arrays.equals(genericTypeParameters, other.genericTypeParameters))
+			return false;
+		if (javaType == null) {
+			if (other.javaType != null)
+				return false;
+		} else if (!javaType.equals(other.javaType))
+			return false;
+		if (specificitiesIdentifier == null) {
+			if (other.specificitiesIdentifier != null)
+				return false;
+		} else if (!specificitiesIdentifier.equals(other.specificitiesIdentifier))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "JavaTypeInfoSource [javaType=" + javaType + ", specificitiesIdentifier=" + specificitiesIdentifier
+				+ "]";
+	}
+
+}

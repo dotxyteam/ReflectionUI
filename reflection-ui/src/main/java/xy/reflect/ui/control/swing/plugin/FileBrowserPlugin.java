@@ -289,8 +289,8 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		protected Component createChangeControl() {
-			Component result = super.createChangeControl();
+		protected Component createActionControl() {
+			Component result = super.createActionControl();
 			if (data.isGetOnly()) {
 				result.setEnabled(false);
 			}

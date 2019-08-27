@@ -77,7 +77,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 		setLayout(new GridBagLayout());
 		statusControl = createStatusControl(input);
-		actionControl = createChangeControl();
+		actionControl = createActionControl();
 		iconControl = createIconControl();
 
 		if (actionControl != null) {
@@ -106,6 +106,9 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		if (iconControl != null) {
 			updateIconControl(refreshStructure);
 		}
+		if (actionControl != null) {
+			updateActionControl();
+		}
 		return true;
 	}
 
@@ -113,7 +116,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		return new JLabel();
 	}
 
-	protected Component createChangeControl() {
+	protected Component createActionControl() {
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
@@ -258,6 +261,10 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 				return data.getFormControlFilter();
 			}
 		};
+	}
+
+	protected void updateActionControl() {
+		((AbstractControlButton) actionControl).updateStyle();
 	}
 
 	protected void updateIconControl(boolean refreshStructure) {

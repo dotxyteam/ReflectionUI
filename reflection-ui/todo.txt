@@ -1,3 +1,9 @@
+- missing:
+	. form border color
+	. form button colors
+	. form editor colors
+- list header color never changes
+- radio button icons
 - scrollbar not showing when list control contains 1 long column
 - allow to set a category icon
 - hidden modification stacks should not store any modification

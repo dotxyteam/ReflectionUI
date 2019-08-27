@@ -26,25 +26,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JColorChooser;
-import javax.swing.JLabel;
-import javax.swing.border.EtchedBorder;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.DialogBuilder;
+import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.Accessor;
@@ -199,37 +200,66 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		public boolean refreshUI(boolean refreshStructure) {
-			if (refreshStructure) {
-				actionControl.setEnabled(!data.isGetOnly());
-			}
-			return super.refreshUI(refreshStructure);
-		}
-
-		@Override
 		public boolean isAutoManaged() {
 			return false;
 		}
 
 		@Override
-		protected JLabel createStatusControl(IFieldControlInput input) {
-			JLabel result = new JLabel(" ");
-			result.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-			return result;
+		protected Component createStatusControl(IFieldControlInput input) {
+			return new TextControl(swingRenderer, new FieldControlInputProxy(input) {
+
+				@Override
+				public IFieldControlData getControlData() {
+					return new FieldControlDataProxy(super.getControlData()) {
+
+						@Override
+						public Object getValue() {
+							return "";
+						}
+
+						@Override
+						public boolean isGetOnly() {
+							return false;
+						}
+
+						@Override
+						public ITypeInfo getType() {
+							return new DefaultTypeInfo(swingRenderer.getReflectionUI(),
+									new JavaTypeInfoSource(String.class, null));
+						}
+
+					};
+				}
+			}) {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean refreshUI(boolean refreshStructure) {
+					super.refreshUI(refreshStructure);
+					Color color = (Color) ColorControl.this.data.getValue();
+					textComponent.setBackground(color);
+					textComponent.setEditable(false);
+					setForeground(color);
+					return true;
+				}
+			};
 		}
 
 		@Override
-		protected void updateStatusControl(boolean refreshStructure) {
-			Color newColor = (Color) data.getValue();
-			((JLabel) statusControl).setOpaque(true);
-			((JLabel) statusControl).setBackground(newColor);
+		protected Component createActionControl() {
+			Component result = super.createActionControl();
+			if (data.isGetOnly()) {
+				result.setEnabled(false);
+			}
+			return result;
 		}
 
 		@Override
 		protected void openDialog(Component owner) {
 			final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(owner);
 			dialogBuilder.setTitle("Choose a color");
-			Color initialColor = statusControl.getBackground();
+			Color initialColor = statusControl.getForeground();
 			JColorChooser colorChooser = new JColorChooser(initialColor != null ? initialColor : Color.white);
 			dialogBuilder.setContentComponent(colorChooser);
 			dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
@@ -244,7 +274,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			}
 			Color newColor = colorChooser.getColor();
 			data.setValue(newColor);
-			refreshUI(false);
+			((TextControl) statusControl).refreshUI(false);
 		}
 
 		@Override

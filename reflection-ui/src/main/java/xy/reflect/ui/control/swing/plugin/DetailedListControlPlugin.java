@@ -255,6 +255,14 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
+		protected void refreshTreeTableComponentBackground() {
+		}
+
+		@Override
+		protected void refreshTreeTableComponentHeader() {
+		}
+
+		@Override
 		public boolean requestCustomFocus() {
 			if (getRootListSize() > 0) {
 				setSingleSelection(getRootListItemPosition(0));

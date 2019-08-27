@@ -42,6 +42,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -83,6 +84,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		public boolean underlined = false;
 		public boolean struckThrough = false;
 		public ControlDimensionSpecification length;
+		public ColorSpecification color;
 
 		public BufferedImage getSampleTextImage() {
 			String text = fontName;
@@ -100,8 +102,12 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			g2d = result.createGraphics();
 			g2d.setFont(font);
+			if (color != null) {
+				g2d.setColor(SwingRendererUtils.getColor(color));
+			} else {
+				g2d.setColor(Color.BLACK);
+			}
 			fontMetrics = g2d.getFontMetrics();
-			g2d.setColor(Color.BLACK);
 			g2d.drawString(text, spacing, spacingAboveLine + fontMetrics.getAscent());
 			g2d.dispose();
 			return result;
@@ -218,6 +224,9 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			} else {
 				throw new ReflectionUIError();
 			}
+			if (controlCustomization.color != null) {
+				textComponent.setForeground(SwingRendererUtils.getColor(controlCustomization.color));
+			}
 			listenerDisabled = true;
 			try {
 				document.setParagraphAttributes(0, document.getLength(), attributes, false);
@@ -228,12 +237,11 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 		@Override
 		protected Dimension getScrollPaneSize(JScrollPane scrollPane, Dimension defaultSize) {
-			int configuredHeight = getConfiguredScrollPaneHeight();
-			if (configuredHeight == -1) {
-				return super.getScrollPaneSize(scrollPane, defaultSize);
-			}
 			Dimension result = super.getScrollPaneSize(scrollPane, defaultSize);
-			result.height = configuredHeight;
+			int configuredHeight = getConfiguredScrollPaneHeight();
+			if (configuredHeight != -1) {
+				result.height = configuredHeight;
+			}
 			return result;
 		}
 

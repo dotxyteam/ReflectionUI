@@ -225,7 +225,7 @@ public interface IMethodInfo extends IInfo {
 
 	/**
 	 * @return the value return mode of this method. It may impact the behavior of
-	 *         this controls used to display the return value.
+	 *         the controls used to display the return value.
 	 */
 	ValueReturnMode getValueReturnMode();
 

@@ -5,10 +5,10 @@
         <uniqueIdentifier>-19ea1d76:16ca9ca3daa:-8000</uniqueIdentifier>
         <specificProperties/>
         <buttonBackgroundImagePath>
-            <specification>/media/olitank/data/prog/git/ReflectionUI/custom-ui/examples/tmp/backgrounds/buttons/1.png</specification>
+            <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen3-buttonBackground.png</specification>
         </buttonBackgroundImagePath>
         <mainBackgroundImagePath>
-            <specification>/media/olitank/data/prog/git/ReflectionUI/custom-ui/examples/tmp/backgrounds/collage/3058395554bf38f.jpg</specification>
+            <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen3-background.jpg</specification>
         </mainBackgroundImagePath>
         <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
         <titleBackgroundColor>

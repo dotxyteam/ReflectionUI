@@ -1,0 +1,19 @@
+Source: classmate
+Section: java
+Priority: optional
+Maintainer: Debian Java Maintainers <pkg-java-maintainers@lists.alioth.debian.org>
+Uploaders: OTK Software <contact@otksoftware.com>
+Build-Depends: debhelper (>= 9), default-jdk, maven-debian-helper (>= 1.5)
+Standards-Version: 3.9.7
+Vcs-Git: https://anonscm.debian.org/git/pkg-java/classmate.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-java/classmate.git
+Homepage: https://github.com/dotxyteam/ReflectionUI/reflection-ui/tools/fasterxml-classmate-debian-packaging/classmate-1.4.0
+
+Package: libclassmate-java
+Architecture: all
+Depends: ${misc:Depends}, ${maven:Depends}
+Suggests: ${maven:OptionalDepends}
+Description: ClassMate
+ Library for introspecting types with full generic information including
+ resolving of field and method types.
+

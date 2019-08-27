@@ -700,7 +700,7 @@ public class SwingRendererUtils {
 					return new DefaultFieldControlData(swingRenderer.getReflectionUI(), null, field) {
 
 						@Override
-						public ColorSpecification getForegroundColor() {
+						public ColorSpecification getLabelForegroundColor() {
 							return swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor();
 						}
 
@@ -876,27 +876,11 @@ public class SwingRendererUtils {
 		return new Color(color.getRGB());
 	}
 
-	public static Color getDisabledTextBackgroundColor() {
-		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
-	}
-
-	public static Color getEditableTextBackgroundColor() {
-		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.background"));
-	}
-
-	public static Color getNonEditableTextForegroundColor() {
-		return fixSeveralColorRenderingIssues(UIManager.getColor("TextArea.disabledText"));
-	}
-
-	public static Color getNonEditableTextBackgroundColor() {
-		return fixSeveralColorRenderingIssues(UIManager.getColor("Panel.background"));
-	}
-
 	public static Color getListSelectionBackgroundColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Tree.selectionBackground"));
 	}
 
-	public static Color getListSelectionForegroundColor() {
+	public static Color getListSelectionTextColor() {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Tree.selectionForeground"));
 	}
 
@@ -1105,5 +1089,6 @@ public class SwingRendererUtils {
 		});
 
 	}
+
 
 }

@@ -1214,6 +1214,8 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification mainForegroundColor;
 		protected ColorSpecification mainBackgroundColor;
 		protected ColorSpecification mainBorderColor;
+		protected ColorSpecification mainEditorBackgroundColor;
+		protected ColorSpecification mainEditorForegroundColor;
 		protected ResourcePath buttonBackgroundImagePath;
 		protected ColorSpecification buttonForegroundColor;
 		protected ColorSpecification buttonBackgroundColor;
@@ -1285,6 +1287,22 @@ public class InfoCustomizations implements Serializable {
 
 		public void setMainBackgroundColor(ColorSpecification mainBackgroundColor) {
 			this.mainBackgroundColor = mainBackgroundColor;
+		}
+
+		public ColorSpecification getMainEditorBackgroundColor() {
+			return mainEditorBackgroundColor;
+		}
+
+		public void setMainEditorBackgroundColor(ColorSpecification mainEditorBackgroundColor) {
+			this.mainEditorBackgroundColor = mainEditorBackgroundColor;
+		}
+
+		public ColorSpecification getMainEditorForegroundColor() {
+			return mainEditorForegroundColor;
+		}
+
+		public void setMainEditorForegroundColor(ColorSpecification mainEditorForegroundColor) {
+			this.mainEditorForegroundColor = mainEditorForegroundColor;
 		}
 
 		public ResourcePath getButtonBackgroundImagePath() {
@@ -1378,6 +1396,8 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath formBackgroundImagePath;
 		protected ColorSpecification formForegroundColor;
 		protected ColorSpecification formBackgroundColor;
+		protected ColorSpecification formEditorsForegroundColor;
+		protected ColorSpecification formEditorsBackgroundColor;
 		protected ColorSpecification categoriesForegroundColor;
 		protected ColorSpecification categoriesBackgroundColor;
 
@@ -1426,6 +1446,22 @@ public class InfoCustomizations implements Serializable {
 
 		public void setFormForegroundColor(ColorSpecification formForegroundColor) {
 			this.formForegroundColor = formForegroundColor;
+		}
+
+		public ColorSpecification getFormEditorsForegroundColor() {
+			return formEditorsForegroundColor;
+		}
+
+		public void setFormEditorsForegroundColor(ColorSpecification formEditorsForegroundColor) {
+			this.formEditorsForegroundColor = formEditorsForegroundColor;
+		}
+
+		public ColorSpecification getFormEditorsBackgroundColor() {
+			return formEditorsBackgroundColor;
+		}
+
+		public void setFormEditorsBackgroundColor(ColorSpecification formEditorsBackgroundColor) {
+			this.formEditorsBackgroundColor = formEditorsBackgroundColor;
 		}
 
 		public ColorSpecification getCategoriesForegroundColor() {

@@ -370,6 +370,16 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public ColorSpecification getFormEditorsForegroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormEditorsBackgroundColor() {
+			return null;
+		}
+
+		@Override
 		public Dimension getFormPreferredSize() {
 			return null;
 		}

@@ -26,6 +26,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -47,6 +48,7 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
@@ -146,6 +148,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			refreshUI(true);
 		}
 
+		
 		protected void setupEvents() {
 			addChangeListener(new ChangeListener() {
 				@Override
@@ -231,6 +234,30 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					Number value = minimum;
 					setModel(new SpinnerNumberModel(value, (Comparable<?>) minimum, (Comparable<?>) maximum, stepSize));
 					setEnabled(!data.isGetOnly());
+					if (data.getBorderColor() != null) {
+						setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+					} else {
+						setBorder(new JSpinner().getBorder());
+					}
+					if (data.isGetOnly()) {
+						getEditor().getComponent(0).setBackground(null);
+						getEditor().getComponent(0).setForeground(null);
+					} else {
+						if (data.getEditorBackgroundColor() != null) {
+							getEditor().getComponent(0)
+									.setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
+						} else {
+							getEditor().getComponent(0)
+									.setBackground(new JSpinner().getEditor().getComponent(0).getBackground());
+						}
+						if (data.getEditorForegroundColor() != null) {
+							getEditor().getComponent(0)
+									.setForeground(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
+						} else {
+							getEditor().getComponent(0)
+									.setForeground(new JSpinner().getEditor().getComponent(0).getForeground());
+						}
+					}
 				}
 				Number value = (Number) data.getValue();
 				if (value == null) {

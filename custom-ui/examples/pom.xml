@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>custom-reflection-ui-examples</artifactId>
-	<version>4.6.4</version>
+	<version>4.7.0</version>
 	<name>CustomUI (ReflectionUI) Examples</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>custom-ui</artifactId>
-			<version>4.6.4</version>
+			<version>4.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

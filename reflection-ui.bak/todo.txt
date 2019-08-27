@@ -1,0 +1,134 @@
+- control colors:
+	- there are 4 colors that controls must take into account:
+		. label foreground (note that every transparent part is considered as a label)
+		. editor (editable) background
+		. editor (editable) foreground
+		. border
+	- note that the controls have 2 states that must be distinctly displayed
+	while respecting the above colors:
+		. editable
+		. not editable
+	- normally when 1 of these colors is not specified, the control must get its 
+	natural color ???
+	- It means there are 2 possible color combinations:
+		. label foreground on transparent (not editable)
+		. editor foreground on editor background (editable)
+	- In case the control cannot conform to the "not editable"
+	color combination, it is tolerated that it gets its natural
+	colors 
+- scrollbar not showing when list control contains 1 long column
+- allow to set a category icon
+- hidden modification stacks should not store any modification
+- allow to specify field target for method modification (will allow to undo method modifications)  
+- allow to clean type customizations (remove renamed/removed field/method customizations).
+It would be a temporary solution since it should be done automatically.
+- the controls should not rely on the place holder or the form 
+to trigger refresh. Also the form should not trigger uselessly 
+the refresh on the field control that triggered the update that 
+triggered the form refresh. 
+- pass object as param to 
+	. ITypeInfo.getMenuModel()
+	. new MethodmenuItem()
+- menu model contains swing classes though it is not not good and not even needed.
+	. standard menus (undo, help, ...) can be created by generating related methods
+	from the ITypeInfo
+	. the action menu item will only need to expose its IMethodInfo so that the renderer
+	will be responsible of all presentation stuff
+	. file menus settings will just be file control settings 
+	. other menu items that act on the rendered stuff (windows, ...)  will then inherit
+	from a special super class that give them access to the the rendered stuff with the 
+	agreement of the renderer 
+- test commit author 3
+- add to ITypeInfo:
+	- IFieldControlPlugin getControlPlugin();	
+	- Object getControlPluginConfiguration();
+- cannot specify null param default value
+- undo/redo/etc menu tooltips absent
+- optimize data update delay: not needed systematically
+- improve delayed update process: extend the sleep duration on alreadly delaying schedule 
+- add a proxy factory to check type specifities identifiers
+- alternate (with checkbox above) nullable control plugin 
+or change the nullable control depending on sub control showsCaptions() 
+- StandardMapAsList: pass key and value types as typeInfos not java classes????
+- IModification.getTarget() is useless. It was only for getting modification
+title. I think it was created for list dynamic actions. It seems obsolete now.
+May need to remove.
+- list control does not handle null values. then it does not allow
+to edit sub lists when they are null => NORMAL. But it is difficult
+as a developer to understand that the sub list is sometimes editable
+sometimes not. Find a solution. 
+- allow to specify global gui infos (Ex: reflectionUI.getGlobalInfo
+	. defaults (background/foreground color, ...)
+	. buttons background image/color and foreground color
+	. windows background (color and/or image)
+	. window decorations (system, custom, ...)
+	. ...
+- allow to specify form background color
+- allow to disable the window scroll pane ??? 
+- geometric attributes are merged with behavioral attributes 
+- refresh recreates many many controls for uselessly: fix it ???
+ may not be serious since it happens only when refreshStructure=true
+- SlaveModifStack.exclusiveLinkWithParent: there must be a better way to design it 
+- ModifStack.forget() should not forward an invalidation. It is not a reflection of
+the object state. It is a choice made by the user that does not delete but hides   
+all the memories about what happened to the object. Also note that loading an object
+state from a file can be easily reverted by saving the object state before in a 
+memory stream. 
+- IControl*Input should be merged with I*ControlData
+- modificationsTarget must be are just used to get
+the name of the member involved in the modification.
+It should be "fieldCaption" & "methodCaption" only 
+- null control can disappear when form layout is horizontal
+- add website checks
+- in this context of chained transformations values origin should be traceable
+in case of inconsistency???
+- ListControl issue: can make tree table control larger but not smaller
+to its original length
+- allow to export/import to/from clipboard
+- allow menu shortcuts/accelerators
+- update website:
+	* screenshots
+	* examples 
+	* ...
+	* update github sites
+- new controls:
+	. dateChooser
+- display null equivalence greyed ???
+- remove method return value specificities ???
+- parameters should get their customizations from
+	parameterAsField customizations ???
+- listControl: allow to edit multiple items at the same time
+- allow to disable copy/cut/paste on lists
+- add ITypeInfo.equals() ???
+	=> not urgent at first sight
+- what was decided about valiation of controls with no caption ???
+- indent toString()s ???
+- reflectionUI is often excluded from hashCode() and equals()
+	=> justified ?
+- dialog/panel creation is sometimes slow but no busy dialog shown
+	<= multiple small showBusyDialogWHile() calls are done
+	=> find a way to show the busy dialog anyway
+. allow to execute dynamic actions or change dynamic properties on 
+multiple nodes
+- write hashCode() & equals() of some inner classes where the IDE
+could not generate them
+- Type params must be get from the IField/MethodInfo, not ITypeInfo
+just like in the Java spec.
+	. add IFieldInfo.getTypeParameters()
+	https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/reflect/TypeUtils.html
+	. maybe take a shortcut and implement it in a next future version
+- ReflectionUI parameter is often useless. Check
+- polymorphiControl:
+	. what if there is only 1 subtype. use polymorphic control anyway?
+- cleaning for end-developer:
+	. add ReflectionUIError explicit messages
+- remove IListTypeInfo.getObjectSpecificItemConstructors???
+- allow to sort list view
+- update ScreenShots
+- update Example
+- Fix all the tests
+- MultipleFieldAsList with only 1 item???
+- add class MetodSignature???
+- update translatable strings
+
+
