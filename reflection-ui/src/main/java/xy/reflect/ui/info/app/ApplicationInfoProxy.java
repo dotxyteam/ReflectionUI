@@ -72,16 +72,16 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getMainBackgroundImagePath();
 	}
 
-	public ColorSpecification getButtonBackgroundColor() {
-		return base.getButtonBackgroundColor();
+	public ColorSpecification getMainButtonBackgroundColor() {
+		return base.getMainButtonBackgroundColor();
 	}
 
-	public ColorSpecification getButtonForegroundColor() {
-		return base.getButtonForegroundColor();
+	public ColorSpecification getMainButtonForegroundColor() {
+		return base.getMainButtonForegroundColor();
 	}
 
-	public ColorSpecification getButtonBorderColor() {
-		return base.getButtonBorderColor();
+	public ColorSpecification getMainButtonBorderColor() {
+		return base.getMainButtonBorderColor();
 	}
 
 	public ColorSpecification getTitleBackgroundColor() {
@@ -92,8 +92,8 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getTitleForegroundColor();
 	}
 
-	public ResourcePath getButtonBackgroundImagePath() {
-		return base.getButtonBackgroundImagePath();
+	public ResourcePath getMainButtonBackgroundImagePath() {
+		return base.getMainButtonBackgroundImagePath();
 	}
 
 	public ResourcePath getIconImagePath() {

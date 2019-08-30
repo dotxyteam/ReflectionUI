@@ -1216,10 +1216,10 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification mainBorderColor;
 		protected ColorSpecification mainEditorBackgroundColor;
 		protected ColorSpecification mainEditorForegroundColor;
-		protected ResourcePath buttonBackgroundImagePath;
-		protected ColorSpecification buttonForegroundColor;
-		protected ColorSpecification buttonBackgroundColor;
-		protected ColorSpecification buttonBorderColor;
+		protected ResourcePath mainButtonBackgroundImagePath;
+		protected ColorSpecification mainButtonForegroundColor;
+		protected ColorSpecification mainButtonBackgroundColor;
+		protected ColorSpecification mainButtonBorderColor;
 		protected ColorSpecification titleForegroundColor;
 		protected ColorSpecification titleBackgroundColor;
 		protected ResourcePath iconImagePath;
@@ -1305,10 +1305,6 @@ public class InfoCustomizations implements Serializable {
 			this.mainEditorForegroundColor = mainEditorForegroundColor;
 		}
 
-		public ResourcePath getButtonBackgroundImagePath() {
-			return buttonBackgroundImagePath;
-		}
-
 		public ColorSpecification getMainBorderColor() {
 			return mainBorderColor;
 		}
@@ -1317,32 +1313,84 @@ public class InfoCustomizations implements Serializable {
 			this.mainBorderColor = mainBorderColor;
 		}
 
-		public void setButtonBackgroundImagePath(ResourcePath buttonBackgroundImagePath) {
-			this.buttonBackgroundImagePath = buttonBackgroundImagePath;
+		// for backward compatibility
+		@Deprecated
+		public ResourcePath getButtonBackgroundImagePath() {
+			return mainButtonBackgroundImagePath;
 		}
 
+		// for backward compatibility
+		@Deprecated
+		public void setButtonBackgroundImagePath(ResourcePath mainButtonBackgroundImagePath) {
+			this.mainButtonBackgroundImagePath = mainButtonBackgroundImagePath;
+		}
+
+		public ResourcePath getMainButtonBackgroundImagePath() {
+			return mainButtonBackgroundImagePath;
+		}
+
+		public void setMainButtonBackgroundImagePath(ResourcePath mainButtonBackgroundImagePath) {
+			this.mainButtonBackgroundImagePath = mainButtonBackgroundImagePath;
+		}
+
+		// for backward compatibility
+		@Deprecated
 		public ColorSpecification getButtonForegroundColor() {
-			return buttonForegroundColor;
+			return mainButtonForegroundColor;
 		}
 
-		public void setButtonForegroundColor(ColorSpecification buttonForegroundColor) {
-			this.buttonForegroundColor = buttonForegroundColor;
+		// for backward compatibility
+		@Deprecated
+		public void setButtonForegroundColor(ColorSpecification mainButtonForegroundColor) {
+			this.mainButtonForegroundColor = mainButtonForegroundColor;
 		}
 
+		public ColorSpecification getMainButtonForegroundColor() {
+			return mainButtonForegroundColor;
+		}
+
+		public void setMainButtonForegroundColor(ColorSpecification mainButtonForegroundColor) {
+			this.mainButtonForegroundColor = mainButtonForegroundColor;
+		}
+
+		// for backward compatibility
+		@Deprecated
 		public ColorSpecification getButtonBackgroundColor() {
-			return buttonBackgroundColor;
+			return mainButtonBackgroundColor;
 		}
 
-		public void setButtonBackgroundColor(ColorSpecification buttonBackgroundColor) {
-			this.buttonBackgroundColor = buttonBackgroundColor;
+		// for backward compatibility
+		@Deprecated
+		public void setButtonBackgroundColor(ColorSpecification mainButtonBackgroundColor) {
+			this.mainButtonBackgroundColor = mainButtonBackgroundColor;
 		}
 
+		public ColorSpecification getMainButtonBackgroundColor() {
+			return mainButtonBackgroundColor;
+		}
+
+		public void setMainButtonBackgroundColor(ColorSpecification mainButtonBackgroundColor) {
+			this.mainButtonBackgroundColor = mainButtonBackgroundColor;
+		}
+
+		// for backward compatibility
+		@Deprecated
 		public ColorSpecification getButtonBorderColor() {
-			return buttonBorderColor;
+			return mainButtonBorderColor;
 		}
 
-		public void setButtonBorderColor(ColorSpecification buttonBorderColor) {
-			this.buttonBorderColor = buttonBorderColor;
+		// for backward compatibility
+		@Deprecated
+		public void setButtonBorderColor(ColorSpecification mainButtonBorderColor) {
+			this.mainButtonBorderColor = mainButtonBorderColor;
+		}
+
+		public ColorSpecification getMainButtonBorderColor() {
+			return mainButtonBorderColor;
+		}
+
+		public void setMainButtonBorderColor(ColorSpecification mainButtonBorderColor) {
+			this.mainButtonBorderColor = mainButtonBorderColor;
 		}
 
 		public ColorSpecification getTitleForegroundColor() {
@@ -1396,10 +1444,15 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath formBackgroundImagePath;
 		protected ColorSpecification formForegroundColor;
 		protected ColorSpecification formBackgroundColor;
+		protected ColorSpecification formBorderColor;
 		protected ColorSpecification formEditorsForegroundColor;
 		protected ColorSpecification formEditorsBackgroundColor;
 		protected ColorSpecification categoriesForegroundColor;
 		protected ColorSpecification categoriesBackgroundColor;
+		protected ColorSpecification formButtonBackgroundColor;
+		protected ColorSpecification formButtonForegroundColor;
+		protected ColorSpecification formButtonBorderColor;
+		protected ResourcePath formButtonBackgroundImagePath;
 
 		@Override
 		public boolean isInitial() {
@@ -1448,6 +1501,14 @@ public class InfoCustomizations implements Serializable {
 			this.formForegroundColor = formForegroundColor;
 		}
 
+		public ColorSpecification getFormBorderColor() {
+			return formBorderColor;
+		}
+
+		public void setFormBorderColor(ColorSpecification formBorderColor) {
+			this.formBorderColor = formBorderColor;
+		}
+
 		public ColorSpecification getFormEditorsForegroundColor() {
 			return formEditorsForegroundColor;
 		}
@@ -1462,6 +1523,38 @@ public class InfoCustomizations implements Serializable {
 
 		public void setFormEditorsBackgroundColor(ColorSpecification formEditorsBackgroundColor) {
 			this.formEditorsBackgroundColor = formEditorsBackgroundColor;
+		}
+
+		public ColorSpecification getFormButtonBackgroundColor() {
+			return formButtonBackgroundColor;
+		}
+
+		public void setFormButtonBackgroundColor(ColorSpecification formButtonBackgroundColor) {
+			this.formButtonBackgroundColor = formButtonBackgroundColor;
+		}
+
+		public ColorSpecification getFormButtonForegroundColor() {
+			return formButtonForegroundColor;
+		}
+
+		public void setFormButtonForegroundColor(ColorSpecification formButtonForegroundColor) {
+			this.formButtonForegroundColor = formButtonForegroundColor;
+		}
+
+		public ColorSpecification getFormButtonBorderColor() {
+			return formButtonBorderColor;
+		}
+
+		public void setFormButtonBorderColor(ColorSpecification formButtonBorderColor) {
+			this.formButtonBorderColor = formButtonBorderColor;
+		}
+
+		public ResourcePath getFormButtonBackgroundImagePath() {
+			return formButtonBackgroundImagePath;
+		}
+
+		public void setFormButtonBackgroundImagePath(ResourcePath formButtonBackgroundImagePath) {
+			this.formButtonBackgroundImagePath = formButtonBackgroundImagePath;
 		}
 
 		public ColorSpecification getCategoriesForegroundColor() {
@@ -1765,6 +1858,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		// for backward compatibility
+		@Deprecated
 		public CustomizationCategory getCategory() {
 			if (categoryCaption == null) {
 				return null;
@@ -1776,6 +1870,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		// for backward compatibility
+		@Deprecated
 		public void setCategory(CustomizationCategory category) {
 			if (category == null) {
 				this.categoryCaption = null;

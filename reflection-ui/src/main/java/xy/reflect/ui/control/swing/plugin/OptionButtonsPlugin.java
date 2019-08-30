@@ -19,6 +19,8 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -216,8 +218,40 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					}
 
 					@Override
-					protected boolean isApplicationStyleButtonSpecific() {
-						return true;
+					public Image retrieveBackgroundImage() {
+						if (data.getButtonBackgroundImagePath() == null) {
+							return null;
+						} else {
+							return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
+									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+						}
+					}
+
+					@Override
+					public Color retrieveBackgroundColor() {
+						if (data.getButtonBackgroundColor() == null) {
+							return null;
+						} else {
+							return SwingRendererUtils.getColor(data.getButtonBackgroundColor());
+						}
+					}
+
+					@Override
+					public Color retrieveForegroundColor() {
+						if (data.getButtonForegroundColor() == null) {
+							return null;
+						} else {
+							return SwingRendererUtils.getColor(data.getButtonForegroundColor());
+						}
+					}
+
+					@Override
+					public Color retrieveBorderColor() {
+						if (data.getButtonBorderColor() == null) {
+							return null;
+						} else {
+							return SwingRendererUtils.getColor(data.getButtonBorderColor());
+						}
 					}
 
 					@Override

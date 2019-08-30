@@ -65,23 +65,23 @@ public interface IApplicationInfo extends IInfo {
 	/**
 	 * @return the custom background color of generated buttons or null.
 	 */
-	ColorSpecification getButtonBackgroundColor();
+	ColorSpecification getMainButtonBackgroundColor();
 
 	/**
 	 * @return the custom text color of generated buttons or null.
 	 */
-	ColorSpecification getButtonForegroundColor();
+	ColorSpecification getMainButtonForegroundColor();
 
 	/**
 	 * @return the custom border color of generated buttons or null.
 	 */
-	ColorSpecification getButtonBorderColor();
+	ColorSpecification getMainButtonBorderColor();
 
 	/**
 	 * @return the resource location of a background image displayed on generated
 	 *         buttons or null.
 	 */
-	ResourcePath getButtonBackgroundImagePath();
+	ResourcePath getMainButtonBackgroundImagePath();
 
 	/**
 	 * @return whether the generated windows use the cross-platform system

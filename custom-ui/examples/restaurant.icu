@@ -5,24 +5,29 @@
         <uniqueIdentifier>-5f52366b:16cd295a9b2:-8000</uniqueIdentifier>
         <specificProperties/>
         <mainBackgroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>0</red>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
         </mainBackgroundColor>
+        <mainBorderColor>
+            <blue>213</blue>
+            <green>180</green>
+            <red>129</red>
+        </mainBorderColor>
         <mainEditorBackgroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>0</red>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
         </mainEditorBackgroundColor>
         <mainEditorForegroundColor>
-            <blue>255</blue>
-            <green>255</green>
-            <red>255</red>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
         </mainEditorForegroundColor>
         <mainForegroundColor>
-            <blue>255</blue>
-            <green>255</green>
-            <red>255</red>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
         </mainForegroundColor>
         <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
     </appplicationCustomization>
@@ -33,9 +38,9 @@
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <categoriesBackgroundColor>
-            <blue>30</blue>
-            <green>19</green>
-            <red>21</red>
+            <blue>113</blue>
+            <green>82</green>
+            <red>62</red>
         </categoriesBackgroundColor>
         <categoriesForegroundColor>
             <blue>255</blue>
@@ -61,7 +66,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e65</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7321</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6525</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -92,7 +97,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e60</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7320</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6524</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -184,7 +189,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e5b</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-731f</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6523</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -215,7 +220,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e58</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-731e</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6522</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -246,7 +251,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e55</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-731d</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6521</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -277,7 +282,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e52</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-731c</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6520</uniqueIdentifier>
                 <caption>Customers</caption>
             </category>
             <categoryCaption>Customers</categoryCaption>
@@ -343,7 +348,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4f</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-731b</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-651f</uniqueIdentifier>
                 <caption>Menus</caption>
             </category>
             <categoryCaption>Menus</categoryCaption>
@@ -409,7 +414,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e4c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-731a</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-651e</uniqueIdentifier>
                 <caption>Settings</caption>
             </category>
             <categoryCaption>Settings</categoryCaption>
@@ -475,7 +480,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e49</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7319</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-651d</uniqueIdentifier>
                 <caption>Packages</caption>
             </category>
             <categoryCaption>Packages</categoryCaption>
@@ -541,7 +546,7 @@
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79bf</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7318</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-651c</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -572,7 +577,7 @@
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-748f</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7317</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-651b</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -666,6 +671,11 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.example.Restaurant$Order</itemTypeName>
+                    <length>
+                        <uniqueIdentifier>-1a85b7d5:16cd9b99915:-676f</uniqueIdentifier>
+                        <unit>SCREEN_PERCENT</unit>
+                        <value>60</value>
+                    </length>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -690,7 +700,7 @@
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-7469</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7316</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-651a</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -721,7 +731,7 @@
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-7463</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7315</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6519</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -798,7 +808,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e46</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7314</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6518</uniqueIdentifier>
                 <caption>Sign Out</caption>
             </category>
             <categoryCaption>Sign Out</categoryCaption>
@@ -856,7 +866,7 @@
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e42</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>6b008ba6:16cd4744396:-7313</uniqueIdentifier>
+                <uniqueIdentifier>-1a85b7d5:16cd9b99915:-6517</uniqueIdentifier>
                 <caption>Orders</caption>
             </category>
             <categoryCaption>Orders</categoryCaption>
@@ -906,6 +916,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <customTypeCaption>It’s Way Better Than Fast Food. </customTypeCaption>
         <fieldsCustomizations>
             <uniqueIdentifier>-5f52366b:16cd295bb0a:-7e3a</uniqueIdentifier>
             <specificProperties/>
@@ -3635,6 +3646,10 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <customFieldsOrder>totalOrder</customFieldsOrder>
+        <customFieldsOrder>totalDelivered</customFieldsOrder>
+        <customFieldsOrder>totalOnHold</customFieldsOrder>
+        <customFieldsOrder>totalPending</customFieldsOrder>
         <fieldsCustomizations>
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79ae</uniqueIdentifier>
             <specificProperties/>

@@ -38,7 +38,6 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class MethodAction extends AbstractAction {
@@ -139,24 +138,20 @@ public class MethodAction extends AbstractAction {
 		}
 		final Form methodForm = swingRenderer
 				.createForm(data.createParametersObject(invocationData, input.getContext().getIdentifier()));
-		Accessor<List<Component>> buttonBarControlsAccessor = new Accessor<List<Component>>() {
 
-			@Override
-			public List<Component> get() {
-				List<Component> buttonBarControls = new ArrayList<Component>();
-				buttonBarControls.addAll(methodForm.createButtonBarControls());
-				String invokeButtonText = data.getParametersValidationCustomCaption();
-				if (invokeButtonText == null) {
-					invokeButtonText = data.getCaption();
-				}
-				buttonBarControls.addAll(dialogBuilder.createStandardOKCancelDialogButtons(invokeButtonText, null));
-				return buttonBarControls;
+		List<Component> buttonBarControls = new ArrayList<Component>();
+		{
+			buttonBarControls.addAll(methodForm.createButtonBarControls());
+			String invokeButtonText = data.getParametersValidationCustomCaption();
+			if (invokeButtonText == null) {
+				invokeButtonText = data.getCaption();
 			}
-		};
+			buttonBarControls.addAll(dialogBuilder.createStandardOKCancelDialogButtons(invokeButtonText, null));
+			dialogBuilder.setButtonBarControls(buttonBarControls);
+		}
 
 		dialogBuilder.setContentComponent(methodForm);
 		dialogBuilder.setTitle(getTitle());
-		dialogBuilder.setButtonBarControlsAccessor(buttonBarControlsAccessor);
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
 		if (dialogBuilder.wasOkPressed()) {

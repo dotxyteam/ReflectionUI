@@ -38,7 +38,6 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
@@ -152,12 +151,8 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		createdEditorForm = createEditorForm(false, false);
 		createdFrame = new JFrame();
 		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
-		windowManager.set(createdEditorForm, new Accessor<List<Component>>() {
-			@Override
-			public List<Component> get() {
-				return new ArrayList<Component>(createCommonButtonBarControls());
-			}
-		}, getEditorWindowTitle(), getEditorWindowIconImage());
+		windowManager.set(createdEditorForm, new ArrayList<Component>(createCommonButtonBarControls()),
+				getEditorWindowTitle(), getEditorWindowIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}
@@ -180,7 +175,28 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 * @return the dialog builder used to build the editor dialog.
 	 */
 	protected DialogBuilder createDelegateDialogBuilder() {
-		return getSwingRenderer().getDialogBuilder(getOwnerComponent());
+		DialogBuilder dialogBuilder = getSwingRenderer().getDialogBuilder(getOwnerComponent());
+		ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
+		Object object = getCapsule();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+
+		if (type.getFormButtonBackgroundColor() != null) {
+			dialogBuilder.setButtonBackgroundColor(SwingRendererUtils.getColor(type.getFormButtonBackgroundColor()));
+		}
+
+		if (type.getFormButtonForegroundColor() != null) {
+			dialogBuilder.setButtonForegroundColor(SwingRendererUtils.getColor(type.getFormButtonForegroundColor()));
+		}
+
+		if (type.getFormButtonBorderColor() != null) {
+			dialogBuilder.setButtonBorderColor(SwingRendererUtils.getColor(type.getFormButtonBorderColor()));
+		}
+
+		if (type.getFormButtonBackgroundImagePath() != null) {
+			dialogBuilder.setButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
+					type.getFormButtonBackgroundImagePath(), ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		}
+		return dialogBuilder;
 	}
 
 	/**
@@ -195,20 +211,17 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		dialogBuilder.setTitle(getEditorWindowTitle());
 		dialogBuilder.setIconImage(getEditorWindowIconImage());
 
-		dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
-			@Override
-			public List<Component> get() {
-				List<Component> buttonBarControls = new ArrayList<Component>(createCommonButtonBarControls());
-				if (isCancellable()) {
-					List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
-							getCancelCaption());
-					buttonBarControls.addAll(okCancelButtons);
-				} else {
-					buttonBarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
-				}
-				return buttonBarControls;
+		List<Component> buttonBarControls = new ArrayList<Component>(createCommonButtonBarControls());
+		{
+			if (isCancellable()) {
+				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
+						getCancelCaption());
+				buttonBarControls.addAll(okCancelButtons);
+			} else {
+				buttonBarControls.add(dialogBuilder.createDialogClosingButton(getCloseCaption(), null));
 			}
-		});
+			dialogBuilder.setButtonBarControls(buttonBarControls);
+		}
 		return dialogBuilder.createDialog();
 	}
 

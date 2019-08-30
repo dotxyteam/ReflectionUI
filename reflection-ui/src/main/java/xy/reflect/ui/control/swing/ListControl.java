@@ -20,6 +20,7 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -358,8 +359,41 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return swingRenderer;
 			}
 
-			protected boolean isApplicationStyleButtonSpecific() {
-				return true;
+			@Override
+			public Image retrieveBackgroundImage() {
+				if (listData.getButtonBackgroundImagePath() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.loadImageThroughCache(listData.getButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+
+			@Override
+			public Color retrieveBackgroundColor() {
+				if (listData.getButtonBackgroundColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(listData.getButtonBackgroundColor());
+				}
+			}
+
+			@Override
+			public Color retrieveForegroundColor() {
+				if (listData.getButtonForegroundColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(listData.getButtonForegroundColor());
+				}
+			}
+
+			@Override
+			public Color retrieveBorderColor() {
+				if (listData.getButtonBorderColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(listData.getButtonBorderColor());
+				}
 			}
 
 			@Override
@@ -1363,6 +1397,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} else {
 			treeTableComponent.setBackground(new JXTreeTable().getBackground());
 		}
+		treeTableComponent.setDefaultRenderer(Object.class, new ItemTableCellRenderer());
 	}
 
 	protected void refreshTreeTableComponentHeader() {

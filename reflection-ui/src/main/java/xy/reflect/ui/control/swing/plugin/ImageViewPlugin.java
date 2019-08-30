@@ -20,6 +20,7 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -72,6 +73,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
@@ -417,10 +419,44 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					return caption;
 				}
 
+
 				@Override
-				protected boolean isApplicationStyleButtonSpecific() {
-					return true;
+				public Image retrieveBackgroundImage() {
+					if (imageView.data.getButtonBackgroundImagePath() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.loadImageThroughCache(imageView.data.getButtonBackgroundImagePath(),
+								ReflectionUIUtils.getErrorLogListener(imageView.swingRenderer.getReflectionUI()));
+					}
 				}
+
+				@Override
+				public Color retrieveBackgroundColor() {
+					if (imageView.data.getButtonBackgroundColor() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.getColor(imageView.data.getButtonBackgroundColor());
+					}
+				}
+
+				@Override
+				public Color retrieveForegroundColor() {
+					if (imageView.data.getButtonForegroundColor() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.getColor(imageView.data.getButtonForegroundColor());
+					}
+				}
+
+				@Override
+				public Color retrieveBorderColor() {
+					if (imageView.data.getButtonBorderColor() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.getColor(imageView.data.getButtonBorderColor());
+					}
+				}
+				
 
 			};
 		}

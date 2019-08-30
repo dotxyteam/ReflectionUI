@@ -23,6 +23,7 @@ import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -136,6 +137,17 @@ public class DefaultFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public ColorSpecification getBorderColor() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormBorderColor() != null) {
+				return type.getFormBorderColor();
+			}
+		}
+		return reflectionUI.getApplicationInfo().getMainBorderColor();
+	}
+
+	@Override
 	public ColorSpecification getEditorForegroundColor() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
@@ -158,8 +170,47 @@ public class DefaultFieldControlData implements IFieldControlData {
 	}
 
 	@Override
-	public ColorSpecification getBorderColor() {
-		return reflectionUI.getApplicationInfo().getMainBorderColor();
+	public ResourcePath getButtonBackgroundImagePath() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormButtonBackgroundImagePath() != null) {
+				return type.getFormButtonBackgroundImagePath();
+			}
+		}
+		return reflectionUI.getApplicationInfo().getMainBackgroundImagePath();
+	}
+
+	@Override
+	public ColorSpecification getButtonBackgroundColor() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormButtonBackgroundColor() != null) {
+				return type.getFormButtonBackgroundColor();
+			}
+		}
+		return reflectionUI.getApplicationInfo().getMainButtonBackgroundColor();
+	}
+
+	@Override
+	public ColorSpecification getButtonForegroundColor() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormButtonForegroundColor() != null) {
+				return type.getFormButtonForegroundColor();
+			}
+		}
+		return reflectionUI.getApplicationInfo().getMainButtonForegroundColor();
+	}
+
+	@Override
+	public ColorSpecification getButtonBorderColor() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormButtonBorderColor() != null) {
+				return type.getFormButtonBorderColor();
+			}
+		}
+		return reflectionUI.getApplicationInfo().getMainButtonBorderColor();
 	}
 
 	@Override

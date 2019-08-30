@@ -131,7 +131,6 @@ public class ReflectionUITest2 {
 		return "";
 	};
 
-	
 	public Image imageViewTest = null;
 
 	public Image getImageViewGetOnlyTest() {
@@ -167,9 +166,18 @@ public class ReflectionUITest2 {
 	public String getStyledTextGetOnlyTest() {
 		return "azerty";
 	};
-	
-	
+
+	public Date dialogAccessControlTest = new Date();
+
+	public Date getDialogAccessControlGetOnlyTest() {
+		return new Date();
+	};
+
 	public void buttonTest() {
-		
+
+	}
+	
+	public void exceptionTest() {
+		throw new RuntimeException();
 	}
 }

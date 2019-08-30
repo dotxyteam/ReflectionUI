@@ -19,6 +19,7 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Window;
@@ -34,7 +35,6 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.renderer.WindowManager;
 import xy.reflect.ui.info.app.IApplicationInfo;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractControlButton;
@@ -47,11 +47,14 @@ public class DialogBuilder {
 	protected Image iconImage;
 	protected Component ownerComponent;
 	protected Component contentComponent;
-	protected Accessor<List<Component>> buttonBarControlsAccessor;
+	protected List<Component> buttonBarControls;
 	protected Runnable whenClosing;
 	protected boolean okPressed = false;
-
 	protected JDialog dialog;
+	protected Image buttonBackgroundImage;
+	protected Color buttonBackgroundColor;
+	protected Color buttonForegroundColor;
+	protected Color buttonBorderColor;
 
 	public DialogBuilder(SwingRenderer swingRenderer, Component ownerComponent) {
 		super();
@@ -63,6 +66,38 @@ public class DialogBuilder {
 			this.iconImage = SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
 					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 		}
+	}
+
+	public Image getButtonBackgroundImage() {
+		return buttonBackgroundImage;
+	}
+
+	public void setButtonBackgroundImage(Image buttonBackgroundImage) {
+		this.buttonBackgroundImage = buttonBackgroundImage;
+	}
+
+	public Color getButtonBackgroundColor() {
+		return buttonBackgroundColor;
+	}
+
+	public void setButtonBackgroundColor(Color buttonBackgroundColor) {
+		this.buttonBackgroundColor = buttonBackgroundColor;
+	}
+
+	public Color getButtonForegroundColor() {
+		return buttonForegroundColor;
+	}
+
+	public void setButtonForegroundColor(Color buttonForegroundColor) {
+		this.buttonForegroundColor = buttonForegroundColor;
+	}
+
+	public Color getButtonBorderColor() {
+		return buttonBorderColor;
+	}
+
+	public void setButtonBorderColor(Color buttonBorderColor) {
+		this.buttonBorderColor = buttonBorderColor;
 	}
 
 	public boolean wasOkPressed() {
@@ -101,12 +136,12 @@ public class DialogBuilder {
 		this.iconImage = iconImage;
 	}
 
-	public Accessor<List<Component>> getButtonBarControlsAccessor() {
-		return buttonBarControlsAccessor;
+	public List<Component> getButtonBarControls() {
+		return buttonBarControls;
 	}
 
-	public void setButtonBarControlsAccessor(Accessor<List<Component>> buttonBarControlsAccessor) {
-		this.buttonBarControlsAccessor = buttonBarControlsAccessor;
+	public void setButtonBarControls(List<Component> buttonBarControls) {
+		this.buttonBarControls = buttonBarControls;
 	}
 
 	public Runnable getWhenClosing() {
@@ -128,8 +163,23 @@ public class DialogBuilder {
 			}
 
 			@Override
-			protected boolean isApplicationStyleButtonSpecific() {
-				return true;
+			public Image retrieveBackgroundImage() {
+				return buttonBackgroundImage;
+			}
+
+			@Override
+			public Color retrieveBackgroundColor() {
+				return buttonBackgroundColor;
+			}
+
+			@Override
+			public Color retrieveForegroundColor() {
+				return buttonForegroundColor;
+			}
+
+			@Override
+			public Color retrieveBorderColor() {
+				return buttonBorderColor;
 			}
 
 			@Override
@@ -201,7 +251,7 @@ public class DialogBuilder {
 
 		};
 		WindowManager windowManager = swingRenderer.createWindowManager(dialog);
-		windowManager.set(contentComponent, buttonBarControlsAccessor, title, iconImage);
+		windowManager.set(contentComponent, buttonBarControls, title, iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}

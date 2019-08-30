@@ -82,6 +82,15 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 	}
 
 	@Override
+	public Color retrieveBorderColor() {
+		if (data.getBorderColor() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.getColor(data.getBorderColor());
+		}
+	}
+
+	@Override
 	public String retrieveCaption() {
 		return ReflectionUIUtils.formatMethodControlCaption(data.getCaption(), data.getParameters());
 	}

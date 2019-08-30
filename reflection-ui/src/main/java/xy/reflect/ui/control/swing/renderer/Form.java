@@ -31,6 +31,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +43,7 @@ import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -91,6 +93,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.Visitor;
+import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
 import xy.reflect.ui.util.component.ControlScrollPane;
 import xy.reflect.ui.util.component.ImagePanel;
@@ -1405,7 +1408,7 @@ public class Form extends ImagePanel {
 			fieldsPanel.remove(onlineHelpControl);
 			fieldControlPlaceHolder.setSiblingOnlineHelpControl(null);
 		}
-		onlineHelpControl = createFieldOnlineHelpControl(field);
+		onlineHelpControl = createFieldOnlineHelpControl(fieldControlPlaceHolder.getControlData());
 		if (onlineHelpControl != null) {
 			fieldControlPlaceHolder.setSiblingOnlineHelpControl(onlineHelpControl);
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
@@ -1455,26 +1458,174 @@ public class Form extends ImagePanel {
 		SwingRendererUtils.handleComponentSizeChange(methodsPanel);
 	}
 
-	public Component createFieldOnlineHelpControl(IFieldInfo field) {
-		String onlineHelp = field.getOnlineHelp();
+	public Component createFieldOnlineHelpControl(final IFieldControlData data) {
+		final String onlineHelp = data.getOnlineHelp();
 		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
 			return null;
 		}
-		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
-		Image iconImage = swingRenderer.getObjectIconImage(title);
-		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, title, iconImage, swingRenderer);
+		final String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
+		final Image iconImage = swingRenderer.getObjectIconImage(object);
+		final JButton result = new AbstractControlButton() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public Image retrieveBackgroundImage() {
+				if (data.getButtonBackgroundImagePath() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+
+			@Override
+			public Color retrieveBackgroundColor() {
+				if (data.getButtonBackgroundColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(data.getButtonBackgroundColor());
+				}
+			}
+
+			@Override
+			public Color retrieveForegroundColor() {
+				if (data.getButtonForegroundColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(data.getButtonForegroundColor());
+				}
+			}
+
+			@Override
+			public Color retrieveBorderColor() {
+				if (data.getButtonBorderColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(data.getButtonBorderColor());
+				}
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return "";
+			}
+
+			@Override
+			public String retrieveToolTipText() {
+				return onlineHelp;
+			}
+
+			@Override
+			public Icon retrieveIcon() {
+				return SwingRendererUtils.HELP_ICON;
+			}
+
+		};
+		result.setFocusable(false);
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
+			}
+		});
+		return result;
 	}
 
 	public Component createButtonBarOnlineHelpControl() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		String onlineHelp = type.getOnlineHelp();
+		final ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final String onlineHelp = type.getOnlineHelp();
 		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
 			return null;
 		}
-		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
-		Image iconImage = swingRenderer.getObjectIconImage(title);
-		return SwingRendererUtils.createOnlineHelpControl(onlineHelp, title, iconImage, swingRenderer);
+		final String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
+		final Image iconImage = swingRenderer.getObjectIconImage(object);
+		final JButton result = new AbstractControlButton() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public SwingRenderer getSwingRenderer() {
+				return swingRenderer;
+			}
+
+			@Override
+			public Image retrieveBackgroundImage() {
+				if (type.getFormButtonBackgroundImagePath() != null) {
+					return SwingRendererUtils.loadImageThroughCache(type.getFormButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+					return SwingRendererUtils.loadImageThroughCache(
+							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveBackgroundColor() {
+				if (type.getFormButtonBackgroundColor() != null) {
+					return SwingRendererUtils.getColor(type.getFormButtonBackgroundColor());
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveForegroundColor() {
+				if (type.getFormButtonForegroundColor() != null) {
+					return SwingRendererUtils.getColor(type.getFormButtonForegroundColor());
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveBorderColor() {
+				if (type.getFormButtonBorderColor() != null) {
+					return SwingRendererUtils.getColor(type.getFormButtonBorderColor());
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor());
+				}
+				return null;
+			}
+
+			@Override
+			public String retrieveCaption() {
+				return "";
+			}
+
+			@Override
+			public String retrieveToolTipText() {
+				return onlineHelp;
+			}
+
+			@Override
+			public Icon retrieveIcon() {
+				return SwingRendererUtils.HELP_ICON;
+			}
+
+		};
+		result.setFocusable(false);
+		result.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
+			}
+		});
+		return result;
 	}
 
 	public Component createSeparateFieldCaptionControl(FieldControlPlaceHolder fieldControlPlaceHolder) {
@@ -1507,7 +1658,7 @@ public class Form extends ImagePanel {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.isModificationStackAccessible()) {
 			if (modificationStack != null) {
-				result.addAll(new ModificationStackControls(modificationStack).create(swingRenderer));
+				result.addAll(new ModificationStackControls(this).create(swingRenderer));
 			}
 		}
 		return result;

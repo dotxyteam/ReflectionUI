@@ -435,17 +435,17 @@ public class ReflectionUITutorial {
 					}
 
 					@Override
-					public ColorSpecification getButtonBackgroundColor() {
+					public ColorSpecification getMainButtonBackgroundColor() {
 						return SwingRendererUtils.getColorSpecification(Color.CYAN);
 					}
 
 					@Override
-					public ColorSpecification getButtonForegroundColor() {
+					public ColorSpecification getMainButtonForegroundColor() {
 						return SwingRendererUtils.getColorSpecification(Color.BLACK);
 					}
 
 					@Override
-					public ColorSpecification getButtonBorderColor() {
+					public ColorSpecification getMainButtonBorderColor() {
 						return SwingRendererUtils.getColorSpecification(Color.RED);
 					}
 

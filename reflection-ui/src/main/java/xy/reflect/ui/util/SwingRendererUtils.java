@@ -38,8 +38,6 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.AWTEventListenerProxy;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.InputEvent;
@@ -62,7 +60,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
@@ -102,8 +99,8 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.component.AbstractControlButton;
 import xy.reflect.ui.util.component.ControlPanel;
 
 public class SwingRendererUtils {
@@ -735,6 +732,82 @@ public class SwingRendererUtils {
 		return result;
 	}
 
+	public static Component getInputPane(final String[] inputValue, final String caption, final SwingRenderer swingRenderer) {
+		JPanel result = new ControlPanel();
+		result.setLayout(new BorderLayout());
+		{
+			JLabel captionControl = new JLabel(caption);
+			if (swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor() != null) {
+				captionControl.setForeground(SwingRendererUtils
+						.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor()));
+			}
+			result.add(captionControl, BorderLayout.WEST);
+		}
+		{
+			TextControl textControl = new TextControl(swingRenderer, new IFieldControlInput() {
+
+				IFieldInfo field = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+					@Override
+					public Object getValue(Object object) {
+						return inputValue[0];
+					}
+
+					@Override
+					public void setValue(Object object, Object value) {
+						inputValue[0] = (String) value;
+					}
+
+					@Override
+					public ITypeInfo getType() {
+						return swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(String.class, null));
+					}
+
+					@Override
+					public boolean isGetOnly() {
+						return false;
+					}
+				};
+
+				@Override
+				public ModificationStack getModificationStack() {
+					return new ModificationStack(null);
+				}
+
+				@Override
+				public IFieldControlData getControlData() {
+					return new DefaultFieldControlData(swingRenderer.getReflectionUI(), null, field) {
+
+						@Override
+						public ColorSpecification getBorderColor() {
+							return swingRenderer.getReflectionUI().getApplicationInfo().getMainBorderColor();
+
+						}
+
+						@Override
+						public ColorSpecification getEditorForegroundColor() {
+							return swingRenderer.getReflectionUI().getApplicationInfo().getMainEditorForegroundColor();
+
+						}
+
+						@Override
+						public ColorSpecification getEditorBackgroundColor() {
+							return swingRenderer.getReflectionUI().getApplicationInfo().getMainEditorBackgroundColor();
+
+						}
+
+					};
+				}
+
+				@Override
+				public IContext getContext() {
+					return IContext.NULL_CONTEXT;
+				}
+			});
+			result.add(textControl, BorderLayout.CENTER);
+		}
+		return result;
+	}
+
 	public static void removeScrollPaneBorder(JScrollPane scrollPane) {
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setViewportBorder(BorderFactory.createEmptyBorder());
@@ -889,47 +962,6 @@ public class SwingRendererUtils {
 			form.refresh(refreshStructure);
 			form.updateMenuBar();
 		}
-	}
-
-	public static Component createOnlineHelpControl(final String onlineHelp, final String title, final Image iconImage,
-			final SwingRenderer swingRenderer) {
-		final JButton result = new AbstractControlButton() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			protected boolean isApplicationStyleButtonSpecific() {
-				return true;
-			}
-
-			@Override
-			public String retrieveCaption() {
-				return "";
-			}
-
-			@Override
-			public String retrieveToolTipText() {
-				return onlineHelp;
-			}
-
-			@Override
-			public Icon retrieveIcon() {
-				return HELP_ICON;
-			}
-
-		};
-		result.setFocusable(false);
-		result.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
-			}
-		});
-		return result;
 	}
 
 	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {
@@ -1089,6 +1121,5 @@ public class SwingRendererUtils {
 		});
 
 	}
-
 
 }

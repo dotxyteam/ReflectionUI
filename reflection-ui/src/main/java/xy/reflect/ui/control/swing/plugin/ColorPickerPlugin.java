@@ -48,7 +48,6 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
 
 public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
@@ -262,12 +261,8 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			Color initialColor = statusControl.getForeground();
 			JColorChooser colorChooser = new JColorChooser(initialColor != null ? initialColor : Color.white);
 			dialogBuilder.setContentComponent(colorChooser);
-			dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
-				@Override
-				public List<Component> get() {
-					return new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(null, null));
-				}
-			});
+			dialogBuilder.setButtonBarControls(
+					new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(null, null)));
 			swingRenderer.showDialog(dialogBuilder.createDialog(), true);
 			if (!dialogBuilder.wasOkPressed()) {
 				return;

@@ -221,6 +221,12 @@ public interface ITypeInfo extends IInfo {
 	ColorSpecification getFormForegroundColor();
 
 	/**
+	 * @return border color used by forms generated from this type or null if the default
+	 *         borders should be used.
+	 */
+	ColorSpecification getFormBorderColor();
+
+	/**
 	 * @return the resource location of a background image displayed on forms
 	 *         generated from this type.
 	 */
@@ -232,28 +238,53 @@ public interface ITypeInfo extends IInfo {
 	CategoriesStyle getCategoriesStyle();
 
 	/**
-	 * @return the background color of the categories control generated from this type
-	 *         or null if the default background color should be used.
+	 * @return the background color of the categories control generated from this
+	 *         type or null if the default background color should be used.
 	 */
 	ColorSpecification getCategoriesBackgroundColor();
 
 	/**
-	 * @return the text color of the categories control generated from this type or null
-	 *         if the default text color should be used.
+	 * @return the text color of the categories control generated from this type or
+	 *         null if the default text color should be used.
 	 */
 	ColorSpecification getCategoriesForegroundColor();
 
 	/**
-	 * @return the text color of the editor component of control generated from this
-	 *         type or null if the default text color should be used.
+	 * @return the text color of the editor component of controls generated from
+	 *         this type or null if the default text color should be used.
 	 */
 	ColorSpecification getFormEditorsForegroundColor();
 
 	/**
-	 * @return the background color of the editor component of control generated from this
-	 *         type or null if the default text color should be used.
+	 * @return the background color of the editor component of controls generated
+	 *         from this type or null if the default background color should be
+	 *         used.
 	 */
 	ColorSpecification getFormEditorsBackgroundColor();
+
+	/**
+	 * @return the background color of the buttons generated from this type or null
+	 *         if the default background color should be used.
+	 */
+	ColorSpecification getFormButtonBackgroundColor();
+
+	/**
+	 * @return the text color of the buttons generated from this type or null if the
+	 *         default text color should be used.
+	 */
+	ColorSpecification getFormButtonForegroundColor();
+
+	/**
+	 * @return the background image of the buttons generated from this type or null
+	 *         if the default background should be used.
+	 */
+	ResourcePath getFormButtonBackgroundImagePath();
+
+	/**
+	 * @return the border color of the buttons generated from this type or null if
+	 *         the default border should be used.
+	 */
+	ColorSpecification getFormButtonBorderColor();
 
 	/**
 	 * Fields layout strategy class.
@@ -289,4 +320,5 @@ public interface ITypeInfo extends IInfo {
 			return MODERN;
 		}
 	}
+
 }

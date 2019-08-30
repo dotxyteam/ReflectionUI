@@ -94,7 +94,6 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -487,17 +486,8 @@ public class SwingRenderer {
 
 		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, encapsulatedValue, title,
 				getObjectIconImage(encapsulatedValue), true);
-		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
-		dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
-			@Override
-			public List<Component> get() {
-				return new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(null, null));
-			}
-		});
-		dialogBuilder.setContentComponent(editorBuilder.createEditorForm(false, false));
-		dialogBuilder.setTitle(title);
-		showDialog(dialogBuilder.createDialog(), true);
-		if (dialogBuilder.wasOkPressed()) {
+		editorBuilder.createAndShowDialog();
+		if (!editorBuilder.isCancelled()) {
 			return (T) valueHolder[0];
 		} else {
 			return null;
@@ -511,13 +501,8 @@ public class SwingRenderer {
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title,
 			final String yesCaption, final String noCaption) {
 		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
-		dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
-			@Override
-			public List<Component> get() {
-				return new ArrayList<Component>(
-						dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption));
-			}
-		});
+		dialogBuilder.setButtonBarControls(
+				new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption)));
 		dialogBuilder
 				.setContentComponent(SwingRendererUtils.getMessagePane(question, JOptionPane.QUESTION_MESSAGE, this));
 		dialogBuilder.setTitle(title);
@@ -535,7 +520,7 @@ public class SwingRenderer {
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder
 				.setContentComponent(SwingRendererUtils.getMessagePane(msg, JOptionPane.INFORMATION_MESSAGE, this));
-		dialogBuilder.setButtonBarControlsAccessor(Accessor.returning(buttons));
+		dialogBuilder.setButtonBarControls(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);
 	}
@@ -544,8 +529,9 @@ public class SwingRenderer {
 		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
-		@SuppressWarnings("serial")
 		final JButton deatilsButton = new AbstractControlButton() {
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public String retrieveCaption() {
@@ -555,6 +541,42 @@ public class SwingRenderer {
 			@Override
 			public SwingRenderer getSwingRenderer() {
 				return SwingRenderer.this;
+			}
+
+			@Override
+			public Image retrieveBackgroundImage() {
+				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+					return SwingRendererUtils.loadImageThroughCache(
+							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveBackgroundColor() {
+				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+					return SwingRendererUtils
+							.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveForegroundColor() {
+				if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+					return SwingRendererUtils
+							.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveBorderColor() {
+				if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor());
+				}
+				return null;
 			}
 		};
 		deatilsButton.addActionListener(new ActionListener() {
@@ -570,7 +592,7 @@ public class SwingRenderer {
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(
 				SwingRendererUtils.getMessagePane(formatErrorMessage(error) + "\n", JOptionPane.ERROR_MESSAGE, this));
-		dialogBuilder.setButtonBarControlsAccessor(Accessor.returning(buttons));
+		dialogBuilder.setButtonBarControls(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);
 	}
@@ -582,12 +604,8 @@ public class SwingRenderer {
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
 		String statckTraceString = ReflectionUIUtils.getPrintedStackTrace(error);
 		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
-		dialogBuilder.setButtonBarControlsAccessor(new Accessor<List<Component>>() {
-			@Override
-			public List<Component> get() {
-				return Collections.<Component>singletonList(dialogBuilder.createDialogClosingButton("Close", null));
-			}
-		});
+		dialogBuilder.setButtonBarControls(
+				Collections.<Component>singletonList(dialogBuilder.createDialogClosingButton("Close", null)));
 		dialogBuilder.setContentComponent(
 				SwingRendererUtils.getMessagePane(statckTraceString, JOptionPane.INFORMATION_MESSAGE, this));
 		dialogBuilder.setTitle("Error Details");
@@ -688,11 +706,6 @@ public class SwingRenderer {
 	public StandardEditorBuilder getEditorBuilder(Component activatorComponent, final Object object, final String title,
 			final Image iconImage, final boolean cancellable) {
 		return new StandardEditorBuilder(this, activatorComponent, object) {
-
-			@Override
-			protected DialogBuilder createDelegateDialogBuilder() {
-				return getDialogBuilder(ownerComponent);
-			}
 
 			@Override
 			public boolean isCancellable() {
@@ -798,7 +811,28 @@ public class SwingRenderer {
 	}
 
 	public DialogBuilder getDialogBuilder(Component activatorComponent) {
-		return new DialogBuilder(this, activatorComponent);
+		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
+		if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+			dialogBuilder.setButtonBackgroundColor(
+					SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor()));
+		}
+
+		if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+			dialogBuilder.setButtonForegroundColor(
+					SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor()));
+		}
+
+		if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
+			dialogBuilder.setButtonBorderColor(
+					SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor()));
+		}
+
+		if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+			dialogBuilder.setButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
+					reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		}
+		return dialogBuilder;
 	}
 
 	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {

@@ -19,7 +19,9 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,26 +30,35 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AbstractControlButton;
 
 public class ModificationStackControls {
 
 	protected ModificationStack modificationStack;
+	protected Form form;
 
-	public ModificationStackControls(ModificationStack modificationStack) {
+	public ModificationStackControls(Form form) {
 		super();
-		this.modificationStack = modificationStack;
+		this.form = form;
+		this.modificationStack = form.getModificationStack();
 	}
 
 	protected JButton createButton(final SwingRenderer swingRenderer, final String label, final Runnable action,
 			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
+		final ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		final Object object = form.getObject();
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final JButton result = new AbstractControlButton() {
 
 			protected static final long serialVersionUID = 1L;
@@ -72,8 +83,51 @@ public class ModificationStackControls {
 				return swingRenderer;
 			}
 
-			protected boolean isApplicationStyleButtonSpecific() {
-				return true;
+			@Override
+			public Image retrieveBackgroundImage() {
+				if (type.getFormButtonBackgroundImagePath() != null) {
+					return SwingRendererUtils.loadImageThroughCache(type.getFormButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+					return SwingRendererUtils.loadImageThroughCache(
+							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveBackgroundColor() {
+				if (type.getFormButtonBackgroundColor() != null) {
+					return SwingRendererUtils.getColor(type.getFormButtonBackgroundColor());
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveForegroundColor() {
+				if (type.getFormButtonForegroundColor() != null) {
+					return SwingRendererUtils.getColor(type.getFormButtonForegroundColor());
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
+				}
+				return null;
+			}
+
+			@Override
+			public Color retrieveBorderColor() {
+				if (type.getFormButtonBorderColor() != null) {
+					return SwingRendererUtils.getColor(type.getFormButtonBorderColor());
+				}
+				if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor());
+				}
+				return null;
 			}
 
 			@Override

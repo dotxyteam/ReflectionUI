@@ -226,6 +226,31 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
+		public ColorSpecification getFormBorderColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonForegroundColor() {
+			return null;
+		}
+
+		@Override
+		public ResourcePath getFormButtonBackgroundImagePath() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBorderColor() {
+			return null;
+		}
+
+		@Override
 		public ColorSpecification getCategoriesBackgroundColor() {
 			return null;
 		}

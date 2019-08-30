@@ -22,6 +22,7 @@ package xy.reflect.ui.control;
 import java.util.Map;
 
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -114,6 +115,22 @@ public class FieldControlDataProxy implements IFieldControlData {
 
 	public ColorSpecification getEditorForegroundColor() {
 		return base.getEditorForegroundColor();
+	}
+
+	public ResourcePath getButtonBackgroundImagePath() {
+		return base.getButtonBackgroundImagePath();
+	}
+
+	public ColorSpecification getButtonBackgroundColor() {
+		return base.getButtonBackgroundColor();
+	}
+
+	public ColorSpecification getButtonForegroundColor() {
+		return base.getButtonForegroundColor();
+	}
+
+	public ColorSpecification getButtonBorderColor() {
+		return base.getButtonBorderColor();
 	}
 
 	@Override

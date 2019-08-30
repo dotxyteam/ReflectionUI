@@ -645,20 +645,20 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getMainBackgroundImagePath();
 	}
 
-	protected ColorSpecification getButtonBackgroundColor(IApplicationInfo appInfo) {
-		return appInfo.getButtonBackgroundColor();
+	protected ColorSpecification getMainButtonBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonBackgroundColor();
 	}
 
-	protected ResourcePath getButtonBackgroundImagePath(IApplicationInfo appInfo) {
-		return appInfo.getButtonBackgroundImagePath();
+	protected ResourcePath getMainButtonBackgroundImagePath(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonBackgroundImagePath();
 	}
 
-	protected ColorSpecification getButtonForegroundColor(IApplicationInfo appInfo) {
-		return appInfo.getButtonForegroundColor();
+	protected ColorSpecification getMainButtonForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonForegroundColor();
 	}
 
-	protected ColorSpecification getButtonBorderColor(IApplicationInfo appInfo) {
-		return appInfo.getButtonBorderColor();
+	protected ColorSpecification getMainButtonBorderColor(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonBorderColor();
 	}
 
 	protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
@@ -691,6 +691,26 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected ColorSpecification getFormForegroundColor(ITypeInfo type) {
 		return type.getFormForegroundColor();
+	}
+
+	protected ColorSpecification getFormBorderColor(ITypeInfo type) {
+		return type.getFormBorderColor();
+	}
+
+	protected ColorSpecification getFormButtonForegroundColor(ITypeInfo type) {
+		return type.getFormButtonForegroundColor();
+	}
+
+	protected ColorSpecification getFormButtonBorderColor(ITypeInfo type) {
+		return type.getFormButtonBorderColor();
+	}
+
+	protected ResourcePath getFormButtonBackgroundImagePath(ITypeInfo type) {
+		return type.getFormButtonBackgroundImagePath();
+	}
+
+	protected ColorSpecification getFormButtonBackgroundColor(ITypeInfo type) {
+		return type.getFormButtonBackgroundColor();
 	}
 
 	protected ColorSpecification getCategoriesForegroundColor(ITypeInfo type) {
@@ -886,18 +906,18 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ColorSpecification getButtonBackgroundColor() {
-			return InfoProxyFactory.this.getButtonBackgroundColor(base);
+		public ColorSpecification getMainButtonBackgroundColor() {
+			return InfoProxyFactory.this.getMainButtonBackgroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getButtonForegroundColor() {
-			return InfoProxyFactory.this.getButtonForegroundColor(base);
+		public ColorSpecification getMainButtonForegroundColor() {
+			return InfoProxyFactory.this.getMainButtonForegroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getButtonBorderColor() {
-			return InfoProxyFactory.this.getButtonBorderColor(base);
+		public ColorSpecification getMainButtonBorderColor() {
+			return InfoProxyFactory.this.getMainButtonBorderColor(base);
 		}
 
 		@Override
@@ -911,8 +931,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ResourcePath getButtonBackgroundImagePath() {
-			return InfoProxyFactory.this.getButtonBackgroundImagePath(base);
+		public ResourcePath getMainButtonBackgroundImagePath() {
+			return InfoProxyFactory.this.getMainButtonBackgroundImagePath(base);
 		}
 
 		@Override
@@ -1040,6 +1060,31 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return InfoProxyFactory.this.getFormForegroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getFormBorderColor() {
+			return InfoProxyFactory.this.getFormBorderColor(base);
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBackgroundColor() {
+			return InfoProxyFactory.this.getFormButtonBackgroundColor(base);
+		}
+
+		@Override
+		public ColorSpecification getFormButtonForegroundColor() {
+			return InfoProxyFactory.this.getFormButtonForegroundColor(base);
+		}
+
+		@Override
+		public ResourcePath getFormButtonBackgroundImagePath() {
+			return InfoProxyFactory.this.getFormButtonBackgroundImagePath(base);
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBorderColor() {
+			return InfoProxyFactory.this.getFormButtonBorderColor(base);
 		}
 
 		@Override

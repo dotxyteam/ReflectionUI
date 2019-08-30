@@ -22,6 +22,7 @@ package xy.reflect.ui.control;
 import java.util.Map;
 
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -88,6 +89,22 @@ public abstract class DelegatingFieldControlData implements IFieldControlData {
 
 	public ColorSpecification getBorderColor() {
 		return getDelegate().getBorderColor();
+	}
+
+	public ResourcePath getButtonBackgroundImagePath() {
+		return getDelegate().getButtonBackgroundImagePath();
+	}
+
+	public ColorSpecification getButtonBackgroundColor() {
+		return getDelegate().getButtonBackgroundColor();
+	}
+
+	public ColorSpecification getButtonForegroundColor() {
+		return getDelegate().getButtonForegroundColor();
+	}
+
+	public ColorSpecification getButtonBorderColor() {
+		return getDelegate().getButtonBorderColor();
 	}
 
 	public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {

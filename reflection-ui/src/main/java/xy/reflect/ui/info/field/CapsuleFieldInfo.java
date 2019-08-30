@@ -355,12 +355,37 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public ColorSpecification getFormBorderColor() {
+			return null;
+		}
+
+		@Override
 		public ColorSpecification getFormEditorsForegroundColor() {
 			return null;
 		}
 
 		@Override
 		public ColorSpecification getFormEditorsBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonForegroundColor() {
+			return null;
+		}
+
+		@Override
+		public ResourcePath getFormButtonBackgroundImagePath() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBorderColor() {
 			return null;
 		}
 

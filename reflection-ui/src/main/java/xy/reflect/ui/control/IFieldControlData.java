@@ -22,6 +22,7 @@ package xy.reflect.ui.control;
 import java.util.Map;
 
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -176,6 +177,33 @@ public interface IFieldControlData {
 	 *         returned by {@link #getEditorBackgroundColor()}.
 	 */
 	ColorSpecification getEditorForegroundColor();
+
+	/**
+	 * @return the path to an image that buttons of the control must use as their
+	 *         background image or null if the control buttons must have the default
+	 *         background.
+	 */
+	ResourcePath getButtonBackgroundImagePath();
+
+	/**
+	 * @return the background color that buttons of the control must use as their
+	 *         background color or null if the control buttons must have the default
+	 *         background color.
+	 */
+	ColorSpecification getButtonBackgroundColor();
+
+	/**
+	 * @return the text color that buttons of the control must use as their text
+	 *         color or null if the control buttons must have the default text
+	 *         color.
+	 */
+	ColorSpecification getButtonForegroundColor();
+
+	/**
+	 * @return the border color that buttons of the control must use as their border
+	 *         color or null if the control buttons must have the default border.
+	 */
+	ColorSpecification getButtonBorderColor();
 
 	/**
 	 * Allows the control to constructs a new instance of the edited control value.

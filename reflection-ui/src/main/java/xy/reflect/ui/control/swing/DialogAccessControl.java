@@ -19,10 +19,12 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -120,6 +122,43 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Image retrieveBackgroundImage() {
+				if (data.getButtonBackgroundImagePath() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+
+			@Override
+			public Color retrieveBackgroundColor() {
+				if (data.getButtonBackgroundColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(data.getButtonBackgroundColor());
+				}
+			}
+
+			@Override
+			public Color retrieveForegroundColor() {
+				if (data.getButtonForegroundColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(data.getButtonForegroundColor());
+				}
+			}
+
+			@Override
+			public Color retrieveBorderColor() {
+				if (data.getButtonBorderColor() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.getColor(data.getButtonBorderColor());
+				}
+			}
 
 			@Override
 			public String retrieveCaption() {

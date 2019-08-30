@@ -29,8 +29,6 @@ import javax.swing.JButton;
 import javax.swing.plaf.basic.BasicBorders;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.app.IApplicationInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractControlButton extends JButton {
@@ -41,9 +39,16 @@ public abstract class AbstractControlButton extends JButton {
 
 	public abstract String retrieveCaption();
 
+	public abstract Image retrieveBackgroundImage();
+
+	public abstract Color retrieveBackgroundColor();
+
+	public abstract Color retrieveForegroundColor();
+
+	public abstract Color retrieveBorderColor();
+
 	private boolean initialized = false;
 	private SwingRenderer swingRenderer;
-	private IApplicationInfo applicationInfo;
 	private Color backgroundColor;
 	private Color activatedBackgroundColor;
 	private Color foregroundColor;
@@ -53,87 +58,6 @@ public abstract class AbstractControlButton extends JButton {
 	private String caption;
 	private String toolTipText;
 	private Icon icon;
-
-	protected boolean isApplicationInfoStyleLoaded() {
-		return true;
-	}
-
-	protected boolean isApplicationStyleButtonSpecific() {
-		return true;
-	}
-
-	public Image retrieveBackgroundImage() {
-		if (!isApplicationInfoStyleLoaded()) {
-			return null;
-		}
-		if (isApplicationStyleButtonSpecific()) {
-			if (applicationInfo.getButtonBackgroundImagePath() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.loadImageThroughCache(applicationInfo.getButtonBackgroundImagePath(),
-						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
-			}
-		} else {
-			return null;
-		}
-	}
-
-	public Color retrieveBackgroundColor() {
-		if (!isApplicationInfoStyleLoaded()) {
-			return null;
-		}
-		if (isApplicationStyleButtonSpecific()) {
-			if (applicationInfo.getButtonBackgroundColor() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.getColor(applicationInfo.getButtonBackgroundColor());
-			}
-		} else {
-			if (applicationInfo.getMainBackgroundColor() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.getColor(applicationInfo.getMainBackgroundColor());
-			}
-		}
-	}
-
-	public Color retrieveForegroundColor() {
-		if (!isApplicationInfoStyleLoaded()) {
-			return null;
-		}
-		if (isApplicationStyleButtonSpecific()) {
-			if (applicationInfo.getButtonForegroundColor() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.getColor(applicationInfo.getButtonForegroundColor());
-			}
-		} else {
-			if (applicationInfo.getMainForegroundColor() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.getColor(applicationInfo.getMainForegroundColor());
-			}
-		}
-	}
-
-	public Color retrieveBorderColor() {
-		if (!isApplicationInfoStyleLoaded()) {
-			return null;
-		}
-		if (isApplicationStyleButtonSpecific()) {
-			if (applicationInfo.getButtonBorderColor() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.getColor(applicationInfo.getButtonBorderColor());
-			}
-		} else {
-			if (applicationInfo.getMainForegroundColor() == null) {
-				return null;
-			} else {
-				return SwingRendererUtils.getColor(applicationInfo.getMainForegroundColor());
-			}
-		}
-	}
 
 	public String retrieveToolTipText() {
 		return null;
@@ -145,7 +69,6 @@ public abstract class AbstractControlButton extends JButton {
 
 	public void updateStyle() {
 		swingRenderer = getSwingRenderer();
-		applicationInfo = swingRenderer.getReflectionUI().getApplicationInfo();
 		backgroundColor = retrieveBackgroundColor();
 		foregroundColor = retrieveForegroundColor();
 		borderColor = retrieveBorderColor();
@@ -161,30 +84,35 @@ public abstract class AbstractControlButton extends JButton {
 		setText(getSwingRenderer().prepareStringToDisplay(caption));
 		if ((toolTipText != null) && (toolTipText.length() > 0)) {
 			SwingRendererUtils.setMultilineToolTipText(this, getSwingRenderer().prepareStringToDisplay(toolTipText));
+		} else {
+			setToolTipText(null);
 		}
 		setIcon(icon);
 		if (backgroundColor != null) {
 			setBackground(backgroundColor);
+		} else {
+			setBackground(new JButton().getBackground());
 		}
 		if (foregroundColor != null) {
 			setForeground(foregroundColor);
+		} else {
+			setForeground(new JButton().getForeground());
 		}
 		if (borderColor != null) {
 			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(borderColor),
 					new BasicBorders.MarginBorder()));
+		} else {
+			setBorder(new JButton().getBorder());
 		}
 		if ((backgroundImage != null) || (backgroundColor != null)) {
 			setContentAreaFilled(false);
-		}
-		if (isApplicationInfoStyleLoaded()) {
-			if (!isApplicationStyleButtonSpecific()) {
-				if (applicationInfo.getMainBackgroundImagePath() != null) {
-					setContentAreaFilled(false);
-				}
-			}
+		} else {
+			setContentAreaFilled(true);
 		}
 		if (backgroundImage != null) {
 			setBorderPainted(false);
+		} else {
+			setBorderPainted(true);
 		}
 	}
 

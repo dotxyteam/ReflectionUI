@@ -43,7 +43,6 @@ import org.jdesktop.swingx.StackLayout;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.app.IApplicationInfo;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
@@ -63,7 +62,7 @@ public class WindowManager {
 	protected ControlPanel topBarsContainer;
 	protected JScrollPane scrollPane;
 	protected JPanel buttonBar;
-	protected Accessor<List<Component>> buttonBarControlsAccessor;
+	protected List<Component> buttonBarControls;
 
 	public WindowManager(SwingRenderer swingRenderer, Window window) {
 		this.swingRenderer = swingRenderer;
@@ -124,28 +123,15 @@ public class WindowManager {
 	protected JPanel createButtonBar() {
 		JPanel result = new ControlPanel();
 		result.setLayout(new FlowLayout(FlowLayout.CENTER));
-		return result;
-	}
-
-	protected void updateButtonBar() {
-		if (buttonBar == null) {
-			return;
-		}
-		List<? extends Component> buttonBarControls;
-		if (buttonBarControlsAccessor == null) {
-			buttonBarControls = null;
-		} else {
-			buttonBarControls = buttonBarControlsAccessor.get();
-		}
-		buttonBar.removeAll();
 		if ((buttonBarControls != null) && (buttonBarControls.size() > 0)) {
-			buttonBar.setVisible(true);
+			result.setVisible(true);
 			for (Component tool : buttonBarControls) {
-				buttonBar.add(tool);
+				result.add(tool);
 			}
 		} else {
-			buttonBar.setVisible(false);
+			result.setVisible(false);
 		}
+		return result;
 	}
 
 	protected void layoutRootPane(ControlPanel rootPane) {
@@ -185,19 +171,18 @@ public class WindowManager {
 		contentPane.add(buttonBar, BorderLayout.SOUTH);
 	}
 
-	public void set(final Component content, Accessor<List<Component>> buttonBarControlsAccessor, String title,
-			Image iconImage) {
+	public void set(final Component content, List<Component> buttonBarControls, String title, Image iconImage) {
 		setTitle(title);
 		setIconImage(iconImage);
-		set(content, buttonBarControlsAccessor);
+		set(content, buttonBarControls);
 	}
 
 	public void adjustBounds() {
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
-	public void set(Component content, Accessor<List<Component>> buttonBarControlsAccessor) {
-		this.buttonBarControlsAccessor = buttonBarControlsAccessor;
+	public void set(Component content, List<Component> buttonBarControls) {
+		this.buttonBarControls = buttonBarControls;
 		rootPane = createRootPane();
 		layoutRootPane(rootPane);
 		backgroundPane = createBackgroundPane();
@@ -221,7 +206,7 @@ public class WindowManager {
 					@Override
 					public void onRefresh(boolean refreshStructure) {
 						if (refreshStructure) {
-							WindowManager.this.refreshWindowStructure();
+							WindowManager.this.refreshWindowStructureAsMuchAsPossible();
 						}
 					}
 				});
@@ -231,11 +216,11 @@ public class WindowManager {
 		}
 		buttonBar = createButtonBar();
 		layoutButtonBar(buttonBar);
-		refreshWindowStructure();
+		refreshWindowStructureAsMuchAsPossible();
 		adjustBounds();
 	}
 
-	public void refreshWindowStructure() {
+	public void refreshWindowStructureAsMuchAsPossible() {
 		Color backgroundColor = getMainBackgroundColor();
 		Image backgroundImage = getMainBackgroundImage();
 		backgroundPane.setBackground(backgroundColor);
@@ -245,14 +230,11 @@ public class WindowManager {
 			alternativeDecorationsPanel
 					.setBorder(BorderFactory.createLineBorder(getAlternativeDecorationsBorderColor(), 4));
 		}
-		updateButtonBar();
-		if (buttonBar != null) {
-			Color borderColor = getMainBorderColor();
-			if (borderColor != null) {
-				buttonBar.setBorder(BorderFactory.createLineBorder(borderColor));
-			} else {
-				buttonBar.setBorder(BorderFactory.createRaisedBevelBorder());
-			}
+		Color borderColor = getMainBorderColor();
+		if (borderColor != null) {
+			buttonBar.setBorder(BorderFactory.createLineBorder(borderColor));
+		} else {
+			buttonBar.setBorder(BorderFactory.createRaisedBevelBorder());
 		}
 		SwingRendererUtils.handleComponentSizeChange(window);
 	}
