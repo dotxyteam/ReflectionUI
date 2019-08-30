@@ -350,6 +350,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected JButton createTool(final String text, final Icon icon, boolean alwawsShowIcon,
 			final boolean alwawsShowMenu, AbstractAction... actions) {
+		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
+		for (final AbstractAction action : actions) {
+			if (action == null) {
+				continue;
+			}
+			if (action.isEnabled()) {
+				actionsToPresent.add(action);
+			}
+		}
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
@@ -406,41 +415,42 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return icon;
 			}
 
+			@Override
+			public String retrieveToolTipText() {
+				if (actionsToPresent.size() > 0) {
+					if (actionsToPresent.size() == 1) {
+						String tooltipText = (String) actionsToPresent.get(0).getValue(Action.SHORT_DESCRIPTION);
+						if (tooltipText == null) {
+							tooltipText = (String) actionsToPresent.get(0).getValue(Action.NAME);
+						}
+						return tooltipText;
+					} else if (actionsToPresent.size() > 1) {
+						StringBuilder tooltipTextBuilder = new StringBuilder();
+						boolean firstAction = true;
+						for (AbstractAction action : actionsToPresent) {
+							if (!firstAction) {
+								tooltipTextBuilder.append("\nor\n");
+							}
+							String itemTooltipText = (String) action.getValue(Action.SHORT_DESCRIPTION);
+							if (itemTooltipText == null) {
+								itemTooltipText = (String) action.getValue(Action.NAME);
+							}
+							tooltipTextBuilder.append(itemTooltipText);
+							firstAction = false;
+						}
+						return tooltipTextBuilder.toString();
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+
 		};
 
 		result.setFocusable(false);
-		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
-		for (final AbstractAction action : actions) {
-			if (action == null) {
-				continue;
-			}
-			if (action.isEnabled()) {
-				actionsToPresent.add(action);
-			}
-		}
 		if (actionsToPresent.size() > 0) {
-			if (actionsToPresent.size() == 1) {
-				String tooltipText = (String) actionsToPresent.get(0).getValue(Action.SHORT_DESCRIPTION);
-				if (tooltipText == null) {
-					tooltipText = (String) actionsToPresent.get(0).getValue(Action.NAME);
-				}
-				SwingRendererUtils.setMultilineToolTipText(result, tooltipText);
-			} else if (actionsToPresent.size() > 1) {
-				StringBuilder tooltipTextBuilder = new StringBuilder();
-				boolean firstAction = true;
-				for (AbstractAction action : actionsToPresent) {
-					if (!firstAction) {
-						tooltipTextBuilder.append("\nor\n");
-					}
-					String itemTooltipText = (String) action.getValue(Action.SHORT_DESCRIPTION);
-					if (itemTooltipText == null) {
-						itemTooltipText = (String) action.getValue(Action.NAME);
-					}
-					tooltipTextBuilder.append(itemTooltipText);
-					firstAction = false;
-				}
-				SwingRendererUtils.setMultilineToolTipText(result, tooltipTextBuilder.toString());
-			}
 			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

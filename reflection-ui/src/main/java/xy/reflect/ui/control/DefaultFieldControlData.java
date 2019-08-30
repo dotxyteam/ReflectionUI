@@ -177,7 +177,7 @@ public class DefaultFieldControlData implements IFieldControlData {
 				return type.getFormButtonBackgroundImagePath();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getMainBackgroundImagePath();
+		return reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath();
 	}
 
 	@Override
