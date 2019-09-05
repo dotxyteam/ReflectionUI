@@ -187,7 +187,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return field.getCategory();
+		return null;
 	}
 
 	@Override

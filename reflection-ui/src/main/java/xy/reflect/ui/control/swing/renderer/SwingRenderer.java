@@ -73,6 +73,7 @@ import xy.reflect.ui.control.swing.plugin.DetailedListControlPlugin;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
+import xy.reflect.ui.control.swing.plugin.MultipleLinesTextPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
 import xy.reflect.ui.control.swing.plugin.PasswordFieldPlugin;
 import xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin;
@@ -258,6 +259,7 @@ public class SwingRenderer {
 		result.add(new DatePickerPlugin());
 		result.add(new DateTimePickerPlugin());
 		result.add(new SingleLineTextPlugin());
+		result.add(new MultipleLinesTextPlugin());
 		return result;
 	}
 

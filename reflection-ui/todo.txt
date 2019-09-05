@@ -1,18 +1,8 @@
-- dialog button bar buttons do not refresh colors unless dialog reopened
-	. the editor uses the dialog builder to specify the button bar
-	. the dialog builder uses the window manager to fill the dialog
-	. the button bar is updated by the window manager
-	. the button colors are stored in the dialog builder
-	. what I want: the button colors should be automatically updated when 
-	refreshing the root form. They are not refreshed because the colors
-	stored in dialog builder remain the same in spite of the refreshing.
-	They remain the same during the lifetime of the dialog.
-	. Is it normal to store the button colors in the dialog builder ?
-	Yes, because the button colors are just construction settings of
-	the resulting dialog.
-	. Then what is the problem: once the dialog is built, its structure 
-	cannot be rebuilt, ex: the dialog title cannot be changed and it is
-	normal. The user should just be notified of that.
+- allow to use modif stack actions as methods:
+	. the problem is that the customizations modifies the
+	iinfos that have access to the user objects only. The
+	modif stack is at another level, it have access to the 
+	iinfos and the gui controls have access to it. 
 - foreground =) text ???
 - radio button icons
 - scrollbar not showing when list control contains 1 long column

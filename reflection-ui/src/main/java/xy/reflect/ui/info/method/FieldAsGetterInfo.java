@@ -163,7 +163,7 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return field.getCategory();
+		return null;
 	}
 
 	@Override

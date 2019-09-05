@@ -146,7 +146,7 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public InfoCategory getCategory() {
-		return method.getCategory();
+		return null;
 	}
 
 	@Override

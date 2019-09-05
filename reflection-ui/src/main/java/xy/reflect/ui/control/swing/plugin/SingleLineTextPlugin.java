@@ -69,14 +69,27 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		protected JTextComponent createTextComponent() {
-			return new JTextField();
+			return new JTextField() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void replaceSelection(String content) {
+					boolean listenerWasDisabled = listenerDisabled;
+					listenerDisabled = true;
+					try {
+						super.replaceSelection(content);
+					} finally {
+						listenerDisabled = listenerWasDisabled;
+					}
+					textComponentEditHappened();
+				}
+			};
 		}
 
 		@Override
 		protected boolean isMultiline() {
 			return false;
 		}
-
 
 		@Override
 		public String toString() {

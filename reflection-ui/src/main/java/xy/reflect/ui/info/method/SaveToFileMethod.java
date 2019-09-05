@@ -10,7 +10,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class SaveToFileMethod extends AbstractPersistenceMethod implements IMethodInfo {
+public class SaveToFileMethod extends AbstractPersistenceMethod {
 
 	public SaveToFileMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;

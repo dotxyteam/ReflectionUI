@@ -27,14 +27,18 @@ import javax.swing.BorderFactory;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
+import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin.ColorTypeInfoProxyFactory;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 
+@SuppressWarnings("unused")
 public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override
@@ -55,6 +59,21 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 	@Override
 	public AbstractConfiguration getDefaultControlCustomization() {
 		return new DatePickerConfiguration();
+	}
+
+	@Override
+	public IFieldControlData filterDistinctNullValueControlData(final Object renderer, IFieldControlData controlData) {
+		return new FieldControlDataProxy(controlData) {
+
+			@Override
+			public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
+				if (typeToInstanciate.getName().equals(Date.class.getName())) {
+					return new Date();
+				}
+				return super.createValue(typeToInstanciate, selectableConstructor);
+			}
+
+		};
 	}
 
 	@Override

@@ -150,13 +150,13 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		public static boolean isCompatibleWith(ITypeInfo type) {
-			Class<?> fileClass;
+			Class<?> colorClass;
 			try {
-				fileClass = ClassUtils.getCachedClassforName(type.getName());
+				colorClass = ClassUtils.getCachedClassforName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
-			return Color.class.isAssignableFrom(fileClass);
+			return Color.class.isAssignableFrom(colorClass);
 		}
 
 		@Override

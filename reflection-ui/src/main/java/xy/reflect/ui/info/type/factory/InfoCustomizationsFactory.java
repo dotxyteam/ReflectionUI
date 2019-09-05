@@ -1424,6 +1424,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 
+		
+
 		protected void addPersistenceMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
 				List<IMethodInfo> constructors) {
 			methods.add(new SaveToFileMethod(customizedUI, containingType));

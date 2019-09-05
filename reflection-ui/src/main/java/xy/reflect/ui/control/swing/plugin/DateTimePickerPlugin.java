@@ -28,12 +28,14 @@ import javax.swing.BorderFactory;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.JXDateTimePicker;
 
@@ -57,6 +59,21 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 	@Override
 	public AbstractConfiguration getDefaultControlCustomization() {
 		return new DateTimePickerConfiguration();
+	}
+
+	@Override
+	public IFieldControlData filterDistinctNullValueControlData(final Object renderer, IFieldControlData controlData) {
+		return new FieldControlDataProxy(controlData) {
+
+			@Override
+			public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
+				if (typeToInstanciate.getName().equals(Date.class.getName())) {
+					return new Date();
+				}
+				return super.createValue(typeToInstanciate, selectableConstructor);
+			}
+
+		};
 	}
 
 	@Override

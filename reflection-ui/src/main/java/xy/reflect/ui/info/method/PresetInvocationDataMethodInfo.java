@@ -21,6 +21,8 @@ package xy.reflect.ui.info.method;
 
 import java.util.Collections;
 import java.util.List;
+
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -51,6 +53,11 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	@Override
 	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 		return super.getNextInvocationUndoJob(object, this.invocationData);
+	}
+
+	@Override
+	public InfoCategory getCategory() {
+		return null;
 	}
 
 	@Override
