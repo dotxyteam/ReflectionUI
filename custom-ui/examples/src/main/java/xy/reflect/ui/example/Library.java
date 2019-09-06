@@ -16,25 +16,25 @@ import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 
 public class Library implements Serializable {
-	
+
 	public static void main(String[] args) {
 		final Library library = new Library();
 
-		final File databaseFile = new File("library.db");
-		if (databaseFile.exists()) {
-			library.load(databaseFile);
+		final File libraryFile = new File("library.db");
+		if (libraryFile.exists()) {
+			library.load(libraryFile);
 		}
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				library.save(databaseFile);
+				library.save(libraryFile);
 			}
 
 		});
 
-		CustomizedUI ui = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(ui, "library.icu");
-		renderer.openObjectFrame(library);
+		CustomizedUI reflectionUI = new CustomizedUI();
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "library.icu");
+		renderer.openObjectFrame(new Login(library));
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +42,15 @@ public class Library implements Serializable {
 	private List<Book> books = new ArrayList<Book>();
 	private List<Student> students = new ArrayList<Student>();
 	private List<Issue> issues = new ArrayList<Issue>();
+	private Configuration configuration = new Configuration();
+
+	public Configuration getConfiguration() {
+		return configuration;
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
 
 	public List<Book> getBooks() {
 		return books;
@@ -154,7 +163,7 @@ public class Library implements Serializable {
 		}
 	}
 
-	public static class Book implements Serializable, Comparable<Book>{
+	public static class Book implements Serializable, Comparable<Book> {
 
 		private static final long serialVersionUID = 1L;
 
@@ -362,6 +371,68 @@ public class Library implements Serializable {
 
 			return 0;
 		}
+	}
+
+	public static class Configuration implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		private String userName = "";
+		private String password = "";
+
+		public String getUserName() {
+			return userName;
+		}
+
+		public void setUserName(String userName) {
+			this.userName = userName;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+	}
+
+	public static class Login {
+
+		private Library library;
+		private String userName = "";
+		private String password = "";
+
+		public Login(Library library) {
+			this.library = library;
+		}
+
+		public String getUserName() {
+			return userName;
+		}
+
+		public void setUserName(String userName) {
+			this.userName = userName;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public Library signIn() throws Exception {
+			if (userName.equals(library.getConfiguration().getUserName())) {
+				if (password.equals(library.getConfiguration().getPassword())) {
+					return library;
+				}
+			}
+			throw new Exception("Invalid user name or password!");
+		}
+
 	}
 
 }
