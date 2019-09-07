@@ -320,6 +320,47 @@ public class SwingRenderer {
 	}
 
 	/**
+	 * Allows to execute the given method and return the result or null if the
+	 * return type is "void".
+	 * 
+	 * @param activatorComponent
+	 *            A component belonging to the parent window of the eventual dialogs
+	 *            or null.
+	 * @param objectType
+	 *            The method owner type.
+	 * @param object
+	 *            The method owner or null for static methods.
+	 * @param method
+	 *            The method to be executed.
+	 * @return the return value of the method execution.
+	 */
+	public Object onMethodInvocationRequest(final Component activatorComponent, final ITypeInfo objectType,
+			final Object object, final IMethodInfo method) {
+		MethodAction ctorAction = createMethodAction(new IMethodControlInput() {
+
+			ModificationStack dummyModificationStack = new ModificationStack(null);
+
+			@Override
+			public ModificationStack getModificationStack() {
+				return dummyModificationStack;
+			}
+
+			@Override
+			public IContext getContext() {
+				return new MethodContext(objectType, method);
+			}
+
+			@Override
+			public IMethodControlData getControlData() {
+				return new DefaultMethodControlData(reflectionUI, object, method);
+			}
+		});
+		ctorAction.setShouldDisplayReturnValueIfAny(false);
+		ctorAction.onInvocationRequest(activatorComponent);
+		return ctorAction.getReturnValue();
+	}
+
+	/**
 	 * Allows to create an instance of the specified type. Dialogs may be displayed
 	 * to allow to select the constructor or provide parameter values. If sub-types
 	 * of the given type are know, then a type selection dialog will be displayed.
@@ -397,29 +438,7 @@ public class SwingRenderer {
 							return null;
 						}
 					}
-					final ITypeInfo finalType = type;
-					MethodAction ctorAction = createMethodAction(new IMethodControlInput() {
-
-						ModificationStack dummyModificationStack = new ModificationStack(null);
-
-						@Override
-						public ModificationStack getModificationStack() {
-							return dummyModificationStack;
-						}
-
-						@Override
-						public IContext getContext() {
-							return new MethodContext(finalType, chosenConstructor);
-						}
-
-						@Override
-						public IMethodControlData getControlData() {
-							return new DefaultMethodControlData(reflectionUI, parentObject, chosenConstructor);
-						}
-					});
-					ctorAction.setShouldDisplayReturnValueIfAny(false);
-					ctorAction.onInvocationRequest(activatorComponent);
-					return ctorAction.getReturnValue();
+					return onMethodInvocationRequest(activatorComponent, type, parentObject, chosenConstructor);
 				} else {
 					String typeCaption = type.getCaption();
 					String msg;

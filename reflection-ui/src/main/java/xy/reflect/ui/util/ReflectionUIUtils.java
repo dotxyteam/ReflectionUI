@@ -166,21 +166,33 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static String buildMethodSignature(IMethodInfo method) {
+	public static String buildMethodSignature(String returnTypeName, String methodName,
+			List<String> parameterTypeNames) {
 		StringBuilder result = new StringBuilder();
-		ITypeInfo returnType = method.getReturnValueType();
-		result.append(((returnType == null) ? "void" : returnType.getName()));
-		result.append(" " + method.getName() + "(");
-		List<IParameterInfo> params = method.getParameters();
-		for (int i = 0; i < params.size(); i++) {
-			IParameterInfo param = params.get(i);
+		result.append(returnTypeName);
+		result.append(" " + methodName + "(");
+		for (int i = 0; i < parameterTypeNames.size(); i++) {
+			String paramTypeName = parameterTypeNames.get(i);
 			if (i > 0) {
 				result.append(", ");
 			}
-			result.append(param.getType().getName());
+			result.append(paramTypeName);
 		}
 		result.append(")");
 		return result.toString();
+	}
+
+	public static String buildMethodSignature(IMethodInfo method) {
+		ITypeInfo returnType = method.getReturnValueType();
+		String returnTypeName = (returnType == null) ? "void" : returnType.getName();
+		String methodName = method.getName();
+		List<String> parameterTypeNames = new ArrayList<String>();
+		List<IParameterInfo> params = method.getParameters();
+		for (int i = 0; i < params.size(); i++) {
+			IParameterInfo param = params.get(i);
+			parameterTypeNames.add(param.getType().getName());
+		}
+		return buildMethodSignature(returnTypeName, methodName, parameterTypeNames);
 	}
 
 	public static String extractMethodReturnTypeNameFromSignature(String methodSignature) {
@@ -817,7 +829,7 @@ public class ReflectionUIUtils {
 						} else if (((IListTypeInfo) fieldValueType).canReplaceContent()) {
 							dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, dst, false);
 							((IListTypeInfo) fieldValueType).replaceContent(dstFieldValue, srcArray);
-						}else {
+						} else {
 							throw new ReflectionUIError("Cannot copy list value: '" + srcFieldValue + "'");
 						}
 					} else {
