@@ -17,7 +17,6 @@ import xy.reflect.ui.util.MoreSystemProperties;
  */
 public class ATMSimulator {
 
-	private static final long MONEY_AMOUNT1 = 10;
 	private static final long MONEY_AMOUNT2 = 20;
 	private static final long MONEY_AMOUNT3 = 50;
 	private static final long MONEY_AMOUNT4 = 100;
@@ -41,6 +40,8 @@ public class ATMSimulator {
 	private State state = State.IDLE;
 	private String cardCode = "";
 	private String otherMoneyAmountString = "";
+	private boolean willPrintReceipt;
+	private long chosenMoneyAmount;
 
 	private void pushNumericPadButton(int n) {
 		if (state == State.AUTHENTICATING) {
@@ -101,10 +102,8 @@ public class ATMSimulator {
 			cardCode = "";
 			state = State.AUTHENTICATING;
 		} else if (state == State.OTHER_TRANSACTION_AMOUNT_CHOSEN) {
-			moneyAmount = Long.valueOf(otherMoneyAmountString);
-			receiptPrinted = true;
-			otherMoneyAmountString = "";
-			state = State.TRANSACTION_AMOUNT_CHOSEN;
+			long otherMoneyAmount = Long.valueOf(otherMoneyAmountString);
+			moneyAmontChosen(otherMoneyAmount);
 		}
 	}
 
@@ -114,7 +113,7 @@ public class ATMSimulator {
 
 	public void pushButtonCancel() {
 		if (state != State.IDLE) {
-			state = State.TRANSACTION_FINISHED;
+			state = State.IDLE;
 		}
 	}
 
@@ -128,41 +127,58 @@ public class ATMSimulator {
 
 	public String getScreenLine1() {
 		if (state == State.IDLE) {
-			return "Insert your card!";
+			if (cardInserted) {
+				return "Remove your card!";
+			} else {
+				return "Insert your card!";
+			}
+
 		} else if (state == State.AUTHENTICATING) {
 			return "Enter your card code:";
 		} else if (state == State.AUTHENTICATION_FAILED) {
-			return "Invalid code! Press 'Enter' to retry!";
+			return "Invalid code!";
 		} else if (state == State.AUTHENTICATED) {
-			return Objects.toString(MONEY_AMOUNT1);
+			return "Choose the amount:";
+		} else if (state == State.OTHER_TRANSACTION_AMOUNT_CHOSEN) {
+			return "Type the amount";
 		} else if (state == State.TRANSACTION_AMOUNT_CHOSEN) {
 			return "Retrieve your money!";
-		} else if (state == State.OTHER_TRANSACTION_AMOUNT_CHOSEN) {
-			return "Type the amount and press 'Enter':";
-		} else if (state == State.TRANSACTION_FINISHED) {
+		} else if (state == State.RECEIPT) {
+			return "Print a receipt?";
+		} else if (state == State.TRANSACTION_READY) {
 			return "Retrieve your card!";
+		} else if (state == State.TRANSACTION_FINISHED) {
+			return "Retrieve your money!";
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
 	public String getScreenLine2() {
 		if (state == State.AUTHENTICATING) {
-			return cardCode.replaceAll(".", "*");
+			return "(the code is " + CARD_CODE + ")";
+		} else if (state == State.AUTHENTICATION_FAILED) {
+			return "Press 'Enter' to retry!";
 		} else if (state == State.AUTHENTICATED) {
 			return Objects.toString(MONEY_AMOUNT2);
 		} else if (state == State.OTHER_TRANSACTION_AMOUNT_CHOSEN) {
-			return otherMoneyAmountString;
+			return "and press 'Enter':";
+		} else if (state == State.RECEIPT) {
+			return "YES";
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
 	public String getScreenLine3() {
-		if (state == State.AUTHENTICATED) {
+		if (state == State.AUTHENTICATING) {
+			return cardCode.replaceAll(".", "*");
+		} else if (state == State.AUTHENTICATED) {
 			return Objects.toString(MONEY_AMOUNT3);
+		} else if (state == State.OTHER_TRANSACTION_AMOUNT_CHOSEN) {
+			return otherMoneyAmountString;
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
@@ -170,25 +186,25 @@ public class ATMSimulator {
 		if (state == State.AUTHENTICATED) {
 			return Objects.toString(MONEY_AMOUNT4);
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
 	public String getScreenLine5() {
-		if (state == State.AUTHENTICATING) {
-			return "(the code is " + CARD_CODE + ")";
-		} else if (state == State.AUTHENTICATED) {
+		if (state == State.AUTHENTICATED) {
 			return Objects.toString(MONEY_AMOUNT5);
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
 	public String getScreenLine6() {
 		if (state == State.AUTHENTICATED) {
 			return Objects.toString(MONEY_AMOUNT6);
+		} else if (state == State.RECEIPT) {
+			return "NO";
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
@@ -196,7 +212,7 @@ public class ATMSimulator {
 		if (state == State.AUTHENTICATED) {
 			return Objects.toString(MONEY_AMOUNT7);
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
@@ -204,25 +220,24 @@ public class ATMSimulator {
 		if (state == State.AUTHENTICATED) {
 			return "Other";
 		} else {
-			return "";
+			return " ";
 		}
 	}
 
 	private void moneyAmontChosen(long moneyAmount) {
-		this.moneyAmount = moneyAmount;
-		receiptPrinted = true;
-		state = State.TRANSACTION_AMOUNT_CHOSEN;
+		chosenMoneyAmount = moneyAmount;
+		state = State.RECEIPT;
 	}
 
 	public void pushButtonScreenLeftSide1() {
-		if (state == State.AUTHENTICATED) {
-			moneyAmontChosen(MONEY_AMOUNT1);
-		}
 	}
 
 	public void pushButtonScreenLeftSide2() {
 		if (state == State.AUTHENTICATED) {
 			moneyAmontChosen(MONEY_AMOUNT2);
+		} else if (state == State.RECEIPT) {
+			willPrintReceipt = true;
+			state = State.TRANSACTION_READY;
 		}
 	}
 
@@ -247,6 +262,9 @@ public class ATMSimulator {
 	public void pushButtonScreenRightSide2() {
 		if (state == State.AUTHENTICATED) {
 			moneyAmontChosen(MONEY_AMOUNT6);
+		} else if (state == State.RECEIPT) {
+			willPrintReceipt = false;
+			state = State.TRANSACTION_READY;
 		}
 	}
 
@@ -284,14 +302,23 @@ public class ATMSimulator {
 	}
 
 	public void removeCard() {
-		cardInserted = false;
-		state = State.IDLE;
+		if (state == State.TRANSACTION_READY) {
+			this.moneyAmount = chosenMoneyAmount;
+			this.receiptPrinted = willPrintReceipt;
+			cardInserted = false;
+			state = State.TRANSACTION_FINISHED;
+		} else {
+			if (cardInserted) {
+				cardInserted = false;
+				state = State.IDLE;
+			}
+		}
 	}
 
 	public void takeMoney() {
 		moneyAmount = 0;
-		if (state == State.TRANSACTION_AMOUNT_CHOSEN) {
-			state = State.TRANSACTION_FINISHED;
+		if (state == State.TRANSACTION_FINISHED) {
+			state = State.IDLE;
 		}
 	}
 
@@ -300,7 +327,7 @@ public class ATMSimulator {
 	}
 
 	private static enum State {
-		IDLE, AUTHENTICATING, AUTHENTICATED, AUTHENTICATION_FAILED, TRANSACTION_AMOUNT_CHOSEN, OTHER_TRANSACTION_AMOUNT_CHOSEN, TRANSACTION_FINISHED
+		IDLE, AUTHENTICATING, AUTHENTICATED, AUTHENTICATION_FAILED, TRANSACTION_AMOUNT_CHOSEN, OTHER_TRANSACTION_AMOUNT_CHOSEN, RECEIPT, TRANSACTION_READY, TRANSACTION_FINISHED
 	}
 
 }
