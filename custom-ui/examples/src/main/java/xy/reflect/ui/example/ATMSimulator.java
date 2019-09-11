@@ -8,9 +8,8 @@ import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
- * ATM simulator GUI generated using only the javax.sound.* API and the XML
- * declarative customizations. Inspired by:
- * https://www.youtube.com/watch?v=NAO2aTSz3mQ
+ * ATM simulator GUI generated using the declarative customizations. Inspired
+ * by: https://www.youtube.com/watch?v=NAO2aTSz3mQ
  * 
  * @author olitank
  *
