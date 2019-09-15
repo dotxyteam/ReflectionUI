@@ -3724,10 +3724,10 @@ public class InfoCustomizations implements Serializable {
 	public static class TreeStructureDiscoverySettings extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected boolean heterogeneousTree;
+		protected boolean heterogeneousTree = true;
 		protected ITypeInfoFinder customBaseNodeTypeFinder;
 		protected List<InfoFilter> excludedSubListFields = new ArrayList<InfoFilter>();
-		protected boolean singleSubListFieldNameNeverDisplayedAsTreeNode = false;
+		protected boolean singleSubListFieldNameNeverDisplayedAsTreeNode = true;
 
 		public boolean isSingleSubListFieldNameNeverDisplayedAsTreeNode() {
 			return singleSubListFieldNameNeverDisplayedAsTreeNode;

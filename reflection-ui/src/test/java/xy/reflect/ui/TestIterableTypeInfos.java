@@ -58,8 +58,8 @@ public class TestIterableTypeInfos {
 		CustomizedUI customizedUI = new CustomizedUI();
 		ITypeInfo typeInfo = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(this));
 
-		final IFieldInfo itemListInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
-		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListInfo.getType();
+		final IFieldInfo itemListFieldInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
+		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListFieldInfo.getType();
 
 		ListCustomization itemListTypeCustomization = InfoCustomizations.getListCustomization(
 				customizedUI.getInfoCustomizations(), itemListTypeInfo.getName(),
@@ -69,8 +69,9 @@ public class TestIterableTypeInfos {
 		TreeStructureDiscoverySettings treeSettings = new TreeStructureDiscoverySettings();
 		itemListTypeCustomization.setTreeStructureDiscoverySettings(treeSettings);
 		treeSettings.setHeterogeneousTree(false);
-
-		final Object itemListValue = itemListInfo.getValue(this);
+		treeSettings.setSingleSubListFieldNameNeverDisplayedAsTreeNode(false);
+		
+		final Object itemListValue = itemListFieldInfo.getValue(this);
 		Object[] itemLisRawValue = itemListTypeInfo.toArray(itemListValue);
 		Assert.assertArrayEquals(itemLisRawValue, itemList.toArray());
 		Assert.assertEquals(itemListTypeInfo.fromArray(itemLisRawValue), itemList);
@@ -86,22 +87,22 @@ public class TestIterableTypeInfos {
 
 			@Override
 			public IListTypeInfo getRootListType() {
-				return (IListTypeInfo) itemListInfo.getType();
+				return (IListTypeInfo) itemListFieldInfo.getType();
 			}
 
 			@Override
 			public ValueReturnMode getRootListValueReturnMode() {
-				return itemListInfo.getValueReturnMode();
+				return itemListFieldInfo.getValueReturnMode();
 			}
 
 			@Override
 			public boolean isRootListGetOnly() {
-				return itemListInfo.isGetOnly();
+				return itemListFieldInfo.isGetOnly();
 			}
 
 			@Override
 			public String getRootListTitle() {
-				return itemListInfo.getCaption();
+				return itemListFieldInfo.getCaption();
 			}
 		}.getRootItemPosition(0);
 		ITypeInfo firstItemType = customizedUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass(), null));

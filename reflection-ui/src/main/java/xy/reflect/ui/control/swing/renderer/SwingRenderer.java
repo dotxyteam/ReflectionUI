@@ -387,7 +387,7 @@ public class SwingRenderer {
 				} else {
 					IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 							.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
-					Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type:",
+					Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type",
 							"New '" + type.getCaption() + "'");
 					if (resultEnumItem == null) {
 						return null;
