@@ -1,3 +1,8 @@
+4.7.0
+- for text control: the caret must have the foreground color
+- limit modification stack size
+- allow to set a category icon
+
 4.5.3
 - abstract method added for member (field/method) visibility change
 - allow to specify real-time synchronization of converted field value to its source

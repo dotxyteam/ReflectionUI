@@ -251,8 +251,10 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 					textComponent.setOpaque(true);
 					if (data.getEditorForegroundColor() != null) {
 						textComponent.setForeground(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
+						textComponent.setCaretColor(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
 					} else {
 						textComponent.setForeground(new JTextField().getForeground());
+						textComponent.setCaretColor(new JTextField().getForeground());
 					}
 					if (data.getEditorBackgroundColor() != null) {
 						textComponent.setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));

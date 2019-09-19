@@ -1,3 +1,6 @@
+- what are the effects of limiting modification stack size???
+  . Some dialog cancel buttons will not work well
+- allow to disable method parameters memory
 - allow to use modif stack actions as methods:
 	. the problem is that the customizations modifies the
 	iinfos that have access to the user objects only. The
@@ -6,7 +9,6 @@
 - foreground =) text ???
 - radio button icons
 - scrollbar not showing when list control contains 1 long column
-- allow to set a category icon
 - hidden modification stacks should not store any modification
 - allow to specify field target for method modification (will allow to undo method modifications)  
 - allow to clean type customizations (remove renamed/removed field/method customizations).

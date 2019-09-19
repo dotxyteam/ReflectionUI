@@ -45,6 +45,7 @@ public class ModificationStack {
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
+	private int maximumSize = 10;
 	protected Stack<ModificationStack> compositeStack = new Stack<ModificationStack>();
 	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 	protected boolean invalidated = false;
@@ -161,6 +162,28 @@ public class ModificationStack {
 	}
 
 	/**
+	 * @return the maximum size of the stack. Note that once this size is exceeded,
+	 *         {@link #wasInvalidated()} will return true.
+	 */
+	public int getMaximumSize() {
+		return maximumSize;
+	}
+
+	/**
+	 * Updates the maximum size of the stack. Note that once this size is exceeded,
+	 * {@link #wasInvalidated()} will return true.
+	 * 
+	 * @param maximumSize
+	 *            The new maximum size value.
+	 */
+	public void setMaximumSize(int maximumSize) {
+		if (maximumSize <= 0) {
+			throw new ReflectionUIError();
+		}
+		this.maximumSize = maximumSize;
+	}
+
+	/**
 	 * @return whether this modification stack is currently invalidated.
 	 */
 	public boolean isInvalidated() {
@@ -250,6 +273,10 @@ public class ModificationStack {
 		}
 		validate();
 		undoStack.push(undoModification);
+		if (undoStack.size() > maximumSize) {
+			undoStack.remove(undoStack.size() - 1);
+			wasInvalidated = true;
+		}
 		redoStack.clear();
 		allListenersProxy.handlePush(undoModification);
 		return true;
