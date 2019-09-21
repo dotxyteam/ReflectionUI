@@ -1361,7 +1361,7 @@ public class Form extends ImagePanel {
 			}
 			captionControlLayoutConstraints.weightx = 0.0;
 			captionControlLayoutConstraints.weighty = 1.0;
-			captionControlLayoutConstraints.anchor = GridBagConstraints.WEST;
+			captionControlLayoutConstraints.anchor = GridBagConstraints.NORTHWEST;
 			fieldsPanel.add(captionControl, captionControlLayoutConstraints);
 			fieldControlPlaceHolder.setSiblingCaptionControl(captionControl);
 		}

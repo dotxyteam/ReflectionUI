@@ -96,6 +96,10 @@ public class CustomizationToolsUI extends CustomizedUI {
 				return false;
 			}
 
+			
+			
+			
+			
 			@Override
 			protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 				Object item = info.getItem();

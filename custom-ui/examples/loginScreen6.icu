@@ -358,6 +358,11 @@
             </specificTypeCustomizations>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
+        <formWidth>
+            <uniqueIdentifier>-e590457:16d551c92d8:-664e</uniqueIdentifier>
+            <unit>SCREEN_PERCENT</unit>
+            <value>60</value>
+        </formWidth>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-6924</uniqueIdentifier>

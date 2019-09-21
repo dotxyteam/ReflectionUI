@@ -286,9 +286,10 @@ public class CustomizationTools implements ICustomizationTools {
 								ConversionMethodFinder reverseConversionMethodFinder = new ConversionMethodFinder();
 								{
 									reverseConversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
-									reverseConversionMethodFinder.setConversionMethodSignature(ReflectionUIUtils
-											.buildMethodSignature(new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION,
-													ImageIcon.class.getMethod("getImage"))));
+									reverseConversionMethodFinder
+											.setConversionMethodSignature(ReflectionUIUtils.buildMethodSignature(
+													new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION,
+															ImageIcon.class.getMethod("getImage"))));
 									storageMapping.setReverseConversionMethodFinder(reverseConversionMethodFinder);
 								}
 								nullReplacement.setPreConversion(storageMapping);
@@ -797,6 +798,7 @@ public class CustomizationTools implements ICustomizationTools {
 								checkNewFieldNameAvailability(newFieldName, containingCustomizedType);
 							} catch (IllegalArgumentException e) {
 								toolsRenderer.handleExceptionsFromDisplayedUI(customizerButton, e);
+								return;
 							}
 							final TypeCustomization typeCustomization = getTypeCustomization(
 									containingCustomizedType.getName(), swingCustomizer.getInfoCustomizations());

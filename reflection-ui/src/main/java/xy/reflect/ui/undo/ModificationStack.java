@@ -274,7 +274,7 @@ public class ModificationStack {
 		validate();
 		undoStack.push(undoModification);
 		if (undoStack.size() > maximumSize) {
-			undoStack.remove(undoStack.size() - 1);
+			undoStack.remove(0);
 			wasInvalidated = true;
 		}
 		redoStack.clear();
