@@ -4,9 +4,29 @@
     <appplicationCustomization>
         <uniqueIdentifier>359dbbf4:16d53bdebb8:-8000</uniqueIdentifier>
         <specificProperties/>
+        <buttonBackgroundColor>
+            <blue>153</blue>
+            <green>51</green>
+            <red>0</red>
+        </buttonBackgroundColor>
+        <buttonForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
+        </buttonForegroundColor>
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/meteo-background.jpg</specification>
         </mainBackgroundImagePath>
+        <mainButtonBackgroundColor>
+            <blue>153</blue>
+            <green>51</green>
+            <red>0</red>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>
@@ -557,6 +577,28 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>2f2b5413:16d55a76560:-669a</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>top</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>void refresh()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>2f2b5413:16d55a76560:-6699</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>xy.reflect.ui.example.Meteo</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -870,6 +912,30 @@
         <menuModel>
             <uniqueIdentifier>-5950f14b:16d53bee1ba:-647e</uniqueIdentifier>
         </menuModel>
+        <methodsCustomizations>
+            <uniqueIdentifier>42347a20:16d55b4378a:-6692</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <iconImagePath>
+                <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/meteo-refresh.png</specification>
+            </iconImagePath>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>void refresh()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>42347a20:16d55b4378a:-6691</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>

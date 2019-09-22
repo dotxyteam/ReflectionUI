@@ -79,6 +79,10 @@ public class Meteo {
 		return WeatherSummary.RAINY;
 	}
 
+	public void refresh() {
+
+	}
+
 	public enum WeatherSummary {
 		SUNNY, CLOUDY, RAINY
 	}

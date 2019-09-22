@@ -1,5 +1,6 @@
 - Can not disconnect a field from the modification stack, 
 there is probably the same issue with methods, check
+check also IModif.NULL_MODIF
 - what are the effects of limiting modification stack size???
   . Some dialog cancel buttons will not work well
 - allow to disable method parameters memory
