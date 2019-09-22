@@ -1,3 +1,6 @@
+- There is a problem with dialogs cancel button that reverts
+everything since now modification stack size is limited.
+Think about it. Infinite stack may be necessary
 - Can not disconnect a field from the modification stack, 
 there is probably the same issue with methods, check
 check also IModif.NULL_MODIF
