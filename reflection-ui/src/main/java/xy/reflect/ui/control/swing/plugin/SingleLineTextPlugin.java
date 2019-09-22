@@ -28,6 +28,9 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Dimension;
+
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
@@ -35,6 +38,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
@@ -66,6 +70,8 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 	public static class SingleLineTextConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
+		public Integer preferredCharacterCount;
+
 	}
 
 	public class SingleLineTextControl extends TextControl {
@@ -92,7 +98,21 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 					}
 					textComponentEditHappened();
 				}
+
 			};
+		}
+
+		@Override
+		protected Dimension getDynamicPreferredSize(JScrollPane scrollPane, Dimension defaultSize) {
+			Dimension result = super.getDynamicPreferredSize(scrollPane, defaultSize);
+			SingleLineTextConfiguration controlCustomization = (SingleLineTextConfiguration) loadControlCustomization(
+					input);
+			if (controlCustomization.preferredCharacterCount != null) {
+				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
+				result.width = characterSize * controlCustomization.preferredCharacterCount;
+			}
+			return result;
+
 		}
 
 		@Override

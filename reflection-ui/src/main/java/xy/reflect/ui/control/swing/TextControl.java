@@ -202,13 +202,13 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			public Dimension getPreferredSize() {
-				return getScrollPaneSize(this, super.getPreferredSize());
+				return getDynamicPreferredSize(this, super.getPreferredSize());
 			}
 		};
 	}
 
-	protected Dimension getScrollPaneSize(JScrollPane scrollPane, Dimension defaultSize) {
-		Dimension result = defaultSize;
+	protected Dimension getDynamicPreferredSize(JScrollPane scrollPane, Dimension defaultPreferredSize) {
+		Dimension result = defaultPreferredSize;
 		if (isMultiline()) {
 			result.height += scrollPane.getHorizontalScrollBar().getPreferredSize().height;
 		}

@@ -245,8 +245,8 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		@Override
-		protected Dimension getScrollPaneSize(JScrollPane scrollPane, Dimension defaultSize) {
-			Dimension result = super.getScrollPaneSize(scrollPane, defaultSize);
+		protected Dimension getDynamicPreferredSize(JScrollPane scrollPane, Dimension defaultSize) {
+			Dimension result = super.getDynamicPreferredSize(scrollPane, defaultSize);
 			int configuredHeight = getConfiguredScrollPaneHeight();
 			if (configuredHeight != -1) {
 				result.height = configuredHeight;

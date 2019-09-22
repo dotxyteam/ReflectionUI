@@ -110,8 +110,8 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 		}
 
 		@Override
-		protected Dimension getScrollPaneSize(JScrollPane scrollPane, Dimension defaultSize) {
-			Dimension result = super.getScrollPaneSize(scrollPane, defaultSize);
+		protected Dimension getDynamicPreferredSize(JScrollPane scrollPane, Dimension defaultSize) {
+			Dimension result = super.getDynamicPreferredSize(scrollPane, defaultSize);
 			MultipleLinesTextConfiguration controlCustomization = (MultipleLinesTextConfiguration) loadControlCustomization(
 					input);
 			int configuredHeight = controlCustomization.getLenghthInPixels();
