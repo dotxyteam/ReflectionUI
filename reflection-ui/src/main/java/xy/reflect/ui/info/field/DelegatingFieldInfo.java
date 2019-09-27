@@ -83,6 +83,11 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		return getDelegate().isGetOnly();
 	}
 
+	@Override
+	public boolean isTransient() {
+		return getDelegate().isTransient();
+	}
+
 	public String getNullValueLabel() {
 		return getDelegate().getNullValueLabel();
 	}

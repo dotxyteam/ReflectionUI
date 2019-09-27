@@ -102,6 +102,10 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.isGetOnly();
 	}
 
+	public boolean isTransient() {
+		return base.isTransient();
+	}
+
 	public String getNullValueLabel() {
 		return base.getNullValueLabel();
 	}

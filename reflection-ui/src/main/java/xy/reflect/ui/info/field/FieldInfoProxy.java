@@ -103,6 +103,10 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base.isGetOnly();
 	}
 
+	public boolean isTransient() {
+		return base.isTransient();
+	}
+
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return base.getValueReturnMode();

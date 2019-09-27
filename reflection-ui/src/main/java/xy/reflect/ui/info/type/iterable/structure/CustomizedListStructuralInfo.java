@@ -41,7 +41,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListLengthUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo.ValueListItem;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
@@ -286,7 +285,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (itemPosition.getItem() instanceof MultipleFieldsAsListFieldInfo.ValueListItem) {
+		if (itemPosition.getItem() instanceof SubListsGroupingField.ValueListItem) {
 			return false;
 		}
 		if (itemType instanceof IMapEntryTypeInfo) {

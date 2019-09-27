@@ -76,6 +76,7 @@ public class EncapsulatedObjectFactory {
 	protected ITypeInfo fieldType;
 	protected String fieldCaption = "";
 	protected boolean fieldGetOnly = false;
+	protected boolean fieldTransient = false;
 	protected boolean fieldNullValueDistinct = false;
 	protected ValueReturnMode fieldValueReturnMode = ValueReturnMode.INDETERMINATE;
 	protected Map<String, Object> fieldSpecificProperties = new HashMap<String, Object>();
@@ -299,10 +300,28 @@ public class EncapsulatedObjectFactory {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((typeCaption == null) ? 0 : typeCaption.hashCode());
+		result = prime * result
+				+ (int) (fieldAutoUpdatePeriodMilliseconds ^ (fieldAutoUpdatePeriodMilliseconds >>> 32));
 		result = prime * result + ((fieldCaption == null) ? 0 : fieldCaption.hashCode());
+		result = prime * result + ((fieldCategory == null) ? 0 : fieldCategory.hashCode());
+		result = prime * result + (fieldFormControlEmbedded ? 1231 : 1237);
+		result = prime * result + ((fieldFormControlFilter == null) ? 0 : fieldFormControlFilter.hashCode());
+		result = prime * result + (fieldFormControlMandatory ? 1231 : 1237);
 		result = prime * result + (fieldGetOnly ? 1231 : 1237);
+		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
+		result = prime * result + (fieldNullValueDistinct ? 1231 : 1237);
+		result = prime * result + ((fieldNullValueLabel == null) ? 0 : fieldNullValueLabel.hashCode());
+		result = prime * result + ((fieldOnlineHelp == null) ? 0 : fieldOnlineHelp.hashCode());
+		result = prime * result + ((fieldSpecificProperties == null) ? 0 : fieldSpecificProperties.hashCode());
+		result = prime * result + (fieldTransient ? 1231 : 1237);
 		result = prime * result + ((fieldType == null) ? 0 : fieldType.hashCode());
+		result = prime * result + ((fieldTypeSpecificities == null) ? 0 : fieldTypeSpecificities.hashCode());
+		result = prime * result + ((fieldValueReturnMode == null) ? 0 : fieldValueReturnMode.hashCode());
+		result = prime * result + ((typeCaption == null) ? 0 : typeCaption.hashCode());
+		result = prime * result + (typeModificationStackAccessible ? 1231 : 1237);
+		result = prime * result + ((typeName == null) ? 0 : typeName.hashCode());
+		result = prime * result + ((typeOnlineHelp == null) ? 0 : typeOnlineHelp.hashCode());
+		result = prime * result + ((typeSpecificProperties == null) ? 0 : typeSpecificProperties.hashCode());
 		return result;
 	}
 
@@ -315,22 +334,86 @@ public class EncapsulatedObjectFactory {
 		if (getClass() != obj.getClass())
 			return false;
 		EncapsulatedObjectFactory other = (EncapsulatedObjectFactory) obj;
-		if (typeCaption == null) {
-			if (other.typeCaption != null)
-				return false;
-		} else if (!typeCaption.equals(other.typeCaption))
+		if (fieldAutoUpdatePeriodMilliseconds != other.fieldAutoUpdatePeriodMilliseconds)
 			return false;
 		if (fieldCaption == null) {
 			if (other.fieldCaption != null)
 				return false;
 		} else if (!fieldCaption.equals(other.fieldCaption))
 			return false;
+		if (fieldCategory == null) {
+			if (other.fieldCategory != null)
+				return false;
+		} else if (!fieldCategory.equals(other.fieldCategory))
+			return false;
+		if (fieldFormControlEmbedded != other.fieldFormControlEmbedded)
+			return false;
+		if (fieldFormControlFilter == null) {
+			if (other.fieldFormControlFilter != null)
+				return false;
+		} else if (!fieldFormControlFilter.equals(other.fieldFormControlFilter))
+			return false;
+		if (fieldFormControlMandatory != other.fieldFormControlMandatory)
+			return false;
 		if (fieldGetOnly != other.fieldGetOnly)
+			return false;
+		if (fieldName == null) {
+			if (other.fieldName != null)
+				return false;
+		} else if (!fieldName.equals(other.fieldName))
+			return false;
+		if (fieldNullValueDistinct != other.fieldNullValueDistinct)
+			return false;
+		if (fieldNullValueLabel == null) {
+			if (other.fieldNullValueLabel != null)
+				return false;
+		} else if (!fieldNullValueLabel.equals(other.fieldNullValueLabel))
+			return false;
+		if (fieldOnlineHelp == null) {
+			if (other.fieldOnlineHelp != null)
+				return false;
+		} else if (!fieldOnlineHelp.equals(other.fieldOnlineHelp))
+			return false;
+		if (fieldSpecificProperties == null) {
+			if (other.fieldSpecificProperties != null)
+				return false;
+		} else if (!fieldSpecificProperties.equals(other.fieldSpecificProperties))
+			return false;
+		if (fieldTransient != other.fieldTransient)
 			return false;
 		if (fieldType == null) {
 			if (other.fieldType != null)
 				return false;
 		} else if (!fieldType.equals(other.fieldType))
+			return false;
+		if (fieldTypeSpecificities == null) {
+			if (other.fieldTypeSpecificities != null)
+				return false;
+		} else if (!fieldTypeSpecificities.equals(other.fieldTypeSpecificities))
+			return false;
+		if (fieldValueReturnMode != other.fieldValueReturnMode)
+			return false;
+		if (typeCaption == null) {
+			if (other.typeCaption != null)
+				return false;
+		} else if (!typeCaption.equals(other.typeCaption))
+			return false;
+		if (typeModificationStackAccessible != other.typeModificationStackAccessible)
+			return false;
+		if (typeName == null) {
+			if (other.typeName != null)
+				return false;
+		} else if (!typeName.equals(other.typeName))
+			return false;
+		if (typeOnlineHelp == null) {
+			if (other.typeOnlineHelp != null)
+				return false;
+		} else if (!typeOnlineHelp.equals(other.typeOnlineHelp))
+			return false;
+		if (typeSpecificProperties == null) {
+			if (other.typeSpecificProperties != null)
+				return false;
+		} else if (!typeSpecificProperties.equals(other.typeSpecificProperties))
 			return false;
 		return true;
 	}
@@ -701,6 +784,11 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public boolean isGetOnly() {
 			return fieldGetOnly;
+		}
+
+		@Override
+		public boolean isTransient() {
+			return fieldTransient;
 		}
 
 		@Override

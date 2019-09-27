@@ -181,6 +181,11 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 		return theSubField.isGetOnly();
 	}
 
+	@Override
+	public boolean isTransient() {
+		return theSubField.isTransient();
+	}
+
 	protected Object expectTheFieldValue(Object object) {
 		Object result = theField.getValue(object);
 		if (result == null) {

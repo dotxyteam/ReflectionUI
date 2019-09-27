@@ -42,6 +42,15 @@ public class SubListsGroupingField extends MultipleFieldsAsListFieldInfo {
 	}
 	
 	@Override
+	public boolean isGetOnly() {
+		return false;
+	}
+
+	@Override
+	public void setValue(Object object, Object value) {
+	}
+
+	@Override
 	protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
 		return new SubListGroup(object, listFieldInfo);
 	}

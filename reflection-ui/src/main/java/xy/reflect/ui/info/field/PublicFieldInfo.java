@@ -149,6 +149,11 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isTransient() {
+		return false;
+	}
+
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.DIRECT_OR_PROXY;
 	}

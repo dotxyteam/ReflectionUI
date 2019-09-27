@@ -381,6 +381,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										return delegate.isGetOnly();
 									}
 
+									public boolean isTransient() {
+										return delegate.isTransient();
+									}
+
 									public void setValue(Object object, Object subFieldValue) {
 										delegate.setValue(object, subFieldValue);
 									}
@@ -463,6 +467,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public boolean isGetOnly() {
+							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public boolean isTransient() {
 							throw new UnsupportedOperationException();
 						}
 
@@ -2229,6 +2238,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							return true;
 						}
 						return super.isGetOnly();
+					}
+
+					@Override
+					public boolean isTransient() {
+						if (fc.isTransientForced()) {
+							return true;
+						}
+						return super.isTransient();
 					}
 
 					@Override

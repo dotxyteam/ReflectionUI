@@ -141,6 +141,11 @@ public class ParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isTransient() {
+		return false;
+	}
+
+	@Override
 	public double getDisplayAreaHorizontalWeight() {
 		return 1.0;
 	}

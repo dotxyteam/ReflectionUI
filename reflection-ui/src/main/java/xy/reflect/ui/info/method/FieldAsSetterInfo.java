@@ -186,7 +186,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isReadOnly() {
-		return false;
+		return field.isTransient();
 	}
 
 	@Override

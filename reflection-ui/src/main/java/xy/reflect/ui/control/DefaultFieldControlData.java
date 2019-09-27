@@ -103,6 +103,11 @@ public class DefaultFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public boolean isTransient() {
+		return getField().isTransient();
+	}
+
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return getField().getValueReturnMode();
 	}

@@ -144,6 +144,11 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isTransient() {
+		return method.isReadOnly();
+	}
+
+	@Override
 	public String getNullValueLabel() {
 		return method.getNullReturnValueLabel();
 	}

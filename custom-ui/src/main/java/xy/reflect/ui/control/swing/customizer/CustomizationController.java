@@ -138,7 +138,7 @@ public class CustomizationController {
 		try {
 			swingCustomizer.getInfoCustomizations().saveToFile(file,
 					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()),
-					"Generated with Custom UI (http://otksoftware.com/custom-ui)");
+					"Generated with Custom UI (http://javacollection.net/reflectionui/)");
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
 		}
@@ -150,6 +150,12 @@ public class CustomizationController {
 
 	public void setInEditMode(boolean inEditMode) {
 		swingCustomizer.getCustomizationOptions().setInEditMode(inEditMode);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				SwingRendererUtils.refreshAllDisplayedFormsAndMenus(swingCustomizer, true);
+			}
+		});
 	}
 
 	public InfoCustomizations getAllCustomizations() {

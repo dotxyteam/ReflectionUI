@@ -254,6 +254,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isTransient() {
+		return false;
+	}
+
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.combine(ValueReturnMode.DIRECT_OR_PROXY, getGetMethod().getValueReturnMode());
 	}

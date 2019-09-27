@@ -124,17 +124,23 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
+	public void setValue(Object object, Object value) {
+		throw new ReflectionUIError();
+	}
+
+	@Override
 	public boolean isGetOnly() {
-		return false;
+		return true;
+	}
+
+	@Override
+	public boolean isTransient() {
+		return true;
 	}
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.INDETERMINATE;
-	}
-
-	@Override
-	public void setValue(Object object, Object value) {
 	}
 
 	@Override

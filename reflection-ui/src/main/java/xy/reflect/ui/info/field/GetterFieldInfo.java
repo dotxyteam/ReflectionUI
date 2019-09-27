@@ -228,6 +228,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isTransient() {
+		return (getSetterMethodInfo() != null) && (getSetterMethodInfo().isReadOnly());
+	}
+
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.INDETERMINATE;
 	}

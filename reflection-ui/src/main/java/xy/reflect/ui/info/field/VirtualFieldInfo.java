@@ -138,6 +138,11 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isTransient() {
+		return false;
+	}
+
+	@Override
 	public String getNullValueLabel() {
 		return null;
 	}

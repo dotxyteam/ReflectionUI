@@ -77,6 +77,10 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.isGetOnly();
 	}
 
+	public boolean isTransient() {
+		return base.isTransient();
+	}
+
 	public boolean isNullValueDistinct() {
 		return base.isNullValueDistinct();
 	}

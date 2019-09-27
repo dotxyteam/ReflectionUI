@@ -1,3 +1,10 @@
+/**
+ * ReflectionUI library demonstration: Each of the following methods
+ * demonstrates a feature of the library.
+ * 
+ * @author olitank
+ *
+ */
 package xy.reflect.ui.example;
 
 import java.awt.Color;
@@ -55,13 +62,6 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-/**
- * ReflectionUI library demonstration: Each of the following methods
- * demonstrates a feature of the library.
- * 
- * @author olitank
- *
- */
 public class ReflectionUITutorial {
 
 	public static void main(String[] args) {

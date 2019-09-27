@@ -328,6 +328,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return field.getNullValueLabel();
 	}
 
+	protected boolean isTransient(IFieldInfo field, ITypeInfo containingType) {
+		return field.isTransient();
+	}
+
 	protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
 		return field.isGetOnly();
 	}
@@ -1552,6 +1556,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isGetOnly() {
 			return InfoProxyFactory.this.isGetOnly(base, containingType);
+		}
+
+		@Override
+		public boolean isTransient() {
+			return InfoProxyFactory.this.isTransient(base, containingType);
 		}
 
 		@Override

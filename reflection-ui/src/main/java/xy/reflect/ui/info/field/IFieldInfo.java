@@ -100,6 +100,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isTransient() {
+			return false;
+		}
+
+		@Override
 		public boolean isNullValueDistinct() {
 			return false;
 		}
@@ -224,6 +229,12 @@ public interface IFieldInfo extends IInfo {
 	 *         {@link #setValue(Object, Object)} should not be called.
 	 */
 	boolean isGetOnly();
+
+	/**
+	 * @return true if and only if this field value update should not be stored in a
+	 *         modification stack.
+	 */
+	boolean isTransient();
 
 	/**
 	 * @return a text that should be displayed by the field control to describe the

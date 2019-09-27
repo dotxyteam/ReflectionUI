@@ -1,3 +1,10 @@
+/**
+ * CustomUI library demonstration: Each of the following methods demonstrates a
+ * feature of the library.
+ * 
+ * @author olitank
+ *
+ */
 package xy.reflect.ui.example;
 
 import java.io.File;
@@ -11,13 +18,6 @@ import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.SystemProperties;
 
-/**
- * CustomUI library demonstration: Each of the following methods demonstrates a
- * feature of the library.
- * 
- * @author olitank
- *
- */
 public class CustomUITutorial {
 
 	public static void main(String[] args) {

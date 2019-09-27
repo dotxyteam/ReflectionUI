@@ -2364,6 +2364,7 @@ public class InfoCustomizations implements Serializable {
 		protected String customFieldCaption;
 		protected boolean nullValueDistinctForced = false;
 		protected boolean getOnlyForced = false;
+		protected boolean transientForced = false;
 		protected String customSetterSignature;
 		protected String valueOptionsFieldName;
 		protected ValueReturnMode customValueReturnMode;
@@ -2557,6 +2558,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setGetOnlyForced(boolean getOnlyForced) {
 			this.getOnlyForced = getOnlyForced;
+		}
+
+		public boolean isTransientForced() {
+			return transientForced;
+		}
+
+		public void setTransientForced(boolean transientForced) {
+			this.transientForced = transientForced;
 		}
 
 		public String getCustomFieldCaption() {

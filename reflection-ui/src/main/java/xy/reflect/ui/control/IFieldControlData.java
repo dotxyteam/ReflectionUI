@@ -93,8 +93,8 @@ public interface IFieldControlData {
 	/**
 	 * @param newValue
 	 *            The new value.
-	 * @return a job that can revert the next value update or null if the
-	 *         default undo job should be used.
+	 * @return a job that can revert the next value update or null if the default
+	 *         undo job should be used.
 	 */
 	Runnable getNextUpdateCustomUndoJob(Object newValue);
 
@@ -113,6 +113,12 @@ public interface IFieldControlData {
 	 *         {@link #setValue(Object)} should not be called.
 	 */
 	boolean isGetOnly();
+
+	/**
+	 * @return true if and only if this field value update should not be stored in a
+	 *         modification stack.
+	 */
+	boolean isTransient();
 
 	/**
 	 * @return the value return mode of this control data. It may impact the
