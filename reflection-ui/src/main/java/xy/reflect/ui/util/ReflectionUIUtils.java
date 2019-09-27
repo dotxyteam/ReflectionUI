@@ -92,7 +92,7 @@ public class ReflectionUIUtils {
 	public static final ReflectionUI STANDARD_REFLECTION = new ReflectionUI();
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
 	public static final String METHOD_SIGNATURE_REGEX = "(\\s*[^ ]+\\s*)(\\s+[^ ]+\\s*)?\\(([^\\)]*)\\)\\s*";
-
+	
 	public static <BASE, C extends BASE> List<BASE> convertCollection(Collection<C> ts) {
 		List<BASE> result = new ArrayList<BASE>();
 		for (C t : ts) {

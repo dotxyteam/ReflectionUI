@@ -206,8 +206,8 @@ public interface IFieldInfo extends IInfo {
 	 *            The object hosting the field value.
 	 * @param newValue
 	 *            The new field value.
-	 * @return a job that can revert the next field value update, or null if the
-	 *         update cannot be reverted.
+	 * @return a job that can revert the next field value update or null if the
+	 *         default undo job should be used.
 	 */
 	Runnable getNextUpdateCustomUndoJob(Object object, Object newValue);
 

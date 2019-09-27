@@ -93,8 +93,8 @@ public interface IFieldControlData {
 	/**
 	 * @param newValue
 	 *            The new value.
-	 * @return a job that can revert the next value update, or null if the update
-	 *         cannot be reverted.
+	 * @return a job that can revert the next value update or null if the
+	 *         default undo job should be used.
 	 */
 	Runnable getNextUpdateCustomUndoJob(Object newValue);
 

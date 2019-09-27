@@ -12,15 +12,15 @@ import xy.reflect.ui.util.MoreSystemProperties;
  * @author olitank
  *
  */
-public class SaySomething {
+public class SaySomething2 {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Set the following system property to disable the design mode:\n-D"
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "saySomething.icu");
-		renderer.openObjectFrame(new SaySomething());
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "saySomething2.icu");
+		renderer.openObjectFrame(new SaySomething2());
 	}
 
 	private String title;

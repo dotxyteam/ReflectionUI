@@ -77,8 +77,8 @@ public interface IMethodControlData {
 	/**
 	 * @param invocationData
 	 *            The parameter values of the method invocation.
-	 * @return a job that can revert the next invocation of the underlying method,
-	 *         or null if the method execution cannot be reverted.
+	 * @return a job that can revert the next invocation of the underlying method or
+	 *         null if the method execution cannot be reverted.
 	 */
 	Runnable getNextUpdateCustomUndoJob(InvocationData invocationData);
 

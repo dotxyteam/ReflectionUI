@@ -214,7 +214,7 @@ public interface IMethodInfo extends IInfo {
 	 *            The object offering this method.
 	 * @param invocationData
 	 *            The parameter values of the method invocation.
-	 * @return a job that can revert the next invocation of this method, or null if
+	 * @return a job that can revert the next invocation of this method or null if
 	 *         the method execution cannot be reverted.
 	 */
 	Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData);

@@ -178,7 +178,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 		} else {
 			final Object newSubFormObject = data.getValue();
 			if (newSubFormObject == null) {
-				throw new ReflectionUIError();
+				return false;
 			}
 			if (newSubFormObject == subFormObject) {
 				subForm.refresh(refreshStructure);

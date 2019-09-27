@@ -42,6 +42,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
@@ -97,20 +98,24 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		if (newValue == null) {
 			return nullStatusField.getNextUpdateCustomUndoJob(object, Boolean.FALSE);
 		} else {
-			final Runnable job1 = nullStatusField.getNextUpdateCustomUndoJob(object, Boolean.TRUE);
-			final Runnable job2 = super.getNextUpdateCustomUndoJob(object, newValue);
-			if ((job1 == null) && (job2 == null)) {
-				return null;
+			Runnable job1 = nullStatusField.getNextUpdateCustomUndoJob(object, Boolean.TRUE);
+			Runnable job2 = super.getNextUpdateCustomUndoJob(object, newValue);
+			
+			if(job1 == null) {
+				job1 = ReflectionUIUtils.createDefaultUndoJob(object, nullStatusField);
 			}
+			if(job2 == null) {
+				job2 = ReflectionUIUtils.createDefaultUndoJob(object, this);
+			}			
+			
+			final Runnable finalJob1 = job1;
+			final Runnable finalJob2 = job2;
+			
 			return new Runnable() {
 				@Override
 				public void run() {
-					if (job1 != null) {
-						job1.run();
-					}
-					if (job2 != null) {
-						job2.run();
-					}
+					finalJob1.run();
+					finalJob2.run();
 				}
 			};
 		}

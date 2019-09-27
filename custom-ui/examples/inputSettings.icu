@@ -54,7 +54,7 @@
             <uniqueIdentifier>-342571:16d5a37ef09:-68e2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>ce6d4a4:16d5aad8a16:-6699</uniqueIdentifier>
+                <uniqueIdentifier>-2ea0804c:16d5f542ef7:-630e</uniqueIdentifier>
                 <caption>Touchpad</caption>
             </category>
             <categoryCaption>Touchpad</categoryCaption>
@@ -97,7 +97,7 @@
             <uniqueIdentifier>-342571:16d5a37ef09:-68dd</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>ce6d4a4:16d5aad8a16:-6698</uniqueIdentifier>
+                <uniqueIdentifier>-2ea0804c:16d5f542ef7:-630d</uniqueIdentifier>
                 <caption>Mouse</caption>
             </category>
             <categoryCaption>Mouse</categoryCaption>
@@ -141,7 +141,7 @@
             <uniqueIdentifier>-342571:16d5a37ef09:-68d8</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>ce6d4a4:16d5aad8a16:-6697</uniqueIdentifier>
+                <uniqueIdentifier>-2ea0804c:16d5f542ef7:-630c</uniqueIdentifier>
                 <caption>Keyboard</caption>
             </category>
             <categoryCaption>Keyboard</categoryCaption>
@@ -185,7 +185,7 @@
             <uniqueIdentifier>24eea45a:16d5a3b4d86:-67cf</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>ce6d4a4:16d5aad8a16:-6696</uniqueIdentifier>
+                <uniqueIdentifier>-2ea0804c:16d5f542ef7:-630b</uniqueIdentifier>
                 <caption>Touchpad</caption>
             </category>
             <categoryCaption>Touchpad</categoryCaption>
@@ -325,7 +325,7 @@
             <uniqueIdentifier>-342571:16d5a37ef09:-68e3</uniqueIdentifier>
         </menuModel>
         <typeName>Encapsulation [encapsulatedObjectType=xy.reflect.ui.example.InputSettings]</typeName>
-        <undoManagementHidden>true</undoManagementHidden>
+        <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-342571:16d5a37ef09:-68df</uniqueIdentifier>

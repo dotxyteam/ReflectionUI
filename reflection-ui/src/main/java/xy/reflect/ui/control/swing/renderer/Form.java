@@ -465,12 +465,6 @@ public class Form extends ImagePanel {
 
 					JPanel tab = new ControlPanel();
 					addCategoryTab(category, tab);
-					Color tabBorderColor = getMainBorderColor();
-					if (tabBorderColor != null) {
-						tab.setBorder(BorderFactory.createLineBorder(tabBorderColor));
-					} else {
-						tab.setBorder(BorderFactory.createTitledBorder(""));
-					}
 					tab.setLayout(new BorderLayout());
 
 					JPanel tabContent = new ControlPanel();
@@ -580,6 +574,20 @@ public class Form extends ImagePanel {
 				return selectedCellRenderer = super.createSelectedTabHeaderCellRendererComponent();
 			}
 
+			protected void refreshCurrentComponentContainerBorder() {
+				Color tabBorderColor = getControlsBorderColor();
+				if (tabBorderColor != null) {
+					currentComponentContainer.setBorder(BorderFactory.createLineBorder(tabBorderColor));
+				} else {
+					tabBorderColor = getMainBorderColor();
+					if (tabBorderColor != null) {
+						currentComponentContainer.setBorder(BorderFactory.createLineBorder(tabBorderColor));
+					} else {
+						currentComponentContainer.setBorder(BorderFactory.createTitledBorder(""));
+					}
+				}	
+			}
+
 			protected void refreshNonSelectedCellRenderer() {
 				nonSelectedCellRenderer.setForeground(getCategoriesCellForegroundColor());
 				nonSelectedCellRenderer.setBorderPainted(false);
@@ -631,6 +639,7 @@ public class Form extends ImagePanel {
 				refreshSelectedCellRenderer();
 				refreshNonSelectedCellRenderer();
 				refreshNonSelectableArea();
+				refreshCurrentComponentContainerBorder();
 				super.refresh();
 			}
 
@@ -648,9 +657,6 @@ public class Form extends ImagePanel {
 
 	public boolean refreshCategoriesControlStructure() {
 		if (categoriesControl != null) {
-			if (!(categoriesControl instanceof ListTabbedPane)) {
-				return false;
-			}
 			((ListTabbedPane) categoriesControl).refresh();
 			((ListTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
 		}
@@ -712,6 +718,16 @@ public class Form extends ImagePanel {
 			return null;
 		} else {
 			return SwingRendererUtils.getColor(type.getFormBackgroundColor());
+		}
+	}
+
+	public Color getControlsBorderColor() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		if (type.getFormBorderColor() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.getColor(type.getFormBorderColor());
 		}
 	}
 
@@ -1584,7 +1600,8 @@ public class Form extends ImagePanel {
 					return SwingRendererUtils.getColor(type.getFormButtonBackgroundColor());
 				}
 				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
-					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
+					return SwingRendererUtils
+							.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
 				}
 				return null;
 			}
@@ -1595,7 +1612,8 @@ public class Form extends ImagePanel {
 					return SwingRendererUtils.getColor(type.getFormButtonForegroundColor());
 				}
 				if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
-					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
+					return SwingRendererUtils
+							.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
 				}
 				return null;
 			}

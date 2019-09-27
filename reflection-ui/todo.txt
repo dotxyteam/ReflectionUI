@@ -1,3 +1,5 @@
+- should RUIUtils.NULL_JOB be used to disconnect a field from the modif stack???
+- SliderPlugin: the value is formatted. OK or not???
 - There is a problem with dialogs cancel button that reverts
 everything since now modification stack size is limited.
 Think about it. Infinite stack may be necessary

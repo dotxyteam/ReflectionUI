@@ -322,6 +322,7 @@ public class ListTabbedPane extends JPanel {
 	protected JPanel createCurrentComponentContainer() {
 		JPanel result = new JPanel();
 		result.setLayout(cardLayout = createCardLayout());
+		result.setBorder(BorderFactory.createTitledBorder(""));
 		return result;
 	}
 

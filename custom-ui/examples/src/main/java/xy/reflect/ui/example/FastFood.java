@@ -362,23 +362,23 @@ public class FastFood implements Serializable {
 		}
 
 		public void validate() throws Exception {
-			if (ownerName == null) {
+			if (type == null) {
+				throw new Exception("Card type name not specified!");
+			}
+			if ((ownerName == null) || (ownerName.length() == 0)) {
 				throw new Exception("Owner name not specified!");
 			}
-			if (type == null) {
-				throw new Exception("Type name not specified!");
+			if ((number == null) || (number.length() == 0)) {
+				throw new Exception("Card number not specified!");
 			}
-			if (number == null) {
-				throw new Exception("Number name not specified!");
-			}
-			if (code == null) {
+			if ((code == null) || (code.length() == 0)) {
 				throw new Exception("Code name not specified!");
 			}
 			if (expirationMonth == 0) {
-				throw new Exception("Expiration month name not specified!");
+				throw new Exception("Expiration month not specified!");
 			}
 			if (expirationYear == 0) {
-				throw new Exception("Expiration year name not specified!");
+				throw new Exception("Expiration year not specified!");
 			}
 		}
 
