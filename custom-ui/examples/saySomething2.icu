@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!--Generated with Custom UI (http://otksoftware.com/custom-ui)-->
+<!--Generated with Custom UI (http://javacollection.net/reflectionui/)-->
 <infoCustomizations>
     <appplicationCustomization>
         <uniqueIdentifier>1f4860a5:16d6d69f79a:-8000</uniqueIdentifier>
@@ -77,6 +77,9 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <customFieldsOrder>logo</customFieldsOrder>
+        <customFieldsOrder>amilAddressBox</customFieldsOrder>
+        <customFieldsOrder>subjectBox</customFieldsOrder>
         <customFieldsOrder>headerText</customFieldsOrder>
         <customFieldsOrder>topBox</customFieldsOrder>
         <customFieldsOrder>emailAddress</customFieldsOrder>
@@ -89,46 +92,26 @@
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>amilAddressBox</encapsulationFieldName>
             <fieldName>emailAddress</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
-                <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65fc</uniqueIdentifier>
+                <uniqueIdentifier>3edee6c4:16d75061223:-653b</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldExported>false</nullStatusFieldExported>
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
                 <appplicationCustomization>
-                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65fd</uniqueIdentifier>
+                    <uniqueIdentifier>3edee6c4:16d75061223:-653a</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65e4</uniqueIdentifier>
-                    <specificProperties>
-                        <entry>
-                            <key>xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</key>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFN4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLlNpbmdsZUxpbmVUZXh0UGx1Z2luJFNpbmdsZUxpbmVUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgABTAAXcHJlZmVycmVkQ2hhcmFjdGVyQ291bnR0ABNMamF2YS9sYW5nL0ludGVnZXI7eHIAX3h5LnJlZmxlY3QudWkuY29udHJvbC5wbHVnaW4uQWJzdHJhY3RTaW1wbGVDdXN0b21pemFibGVGaWVsZENvbnRyb2xQbHVnaW4kQWJzdHJhY3RDb25maWd1cmF0aW9uAAAAAAAAAAECAAB4cHA=</value>
-                        </entry>
-                        <entry>
-                            <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</value>
-                        </entry>
-                    </specificProperties>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65e3</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-36b36743:16d6d6d2e99:-628b</uniqueIdentifier>
@@ -155,6 +138,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65f6</uniqueIdentifier>
@@ -181,6 +165,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>4f5e9623:16d6db0c967:-6586</uniqueIdentifier>
@@ -207,54 +192,34 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65f9</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>Subject</customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>subjectBox</encapsulationFieldName>
             <fieldName>title</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
-                <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65f7</uniqueIdentifier>
+                <uniqueIdentifier>3edee6c4:16d75061223:-6418</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldExported>false</nullStatusFieldExported>
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
                 <appplicationCustomization>
-                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65f8</uniqueIdentifier>
+                    <uniqueIdentifier>3edee6c4:16d75061223:-6417</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65e0</uniqueIdentifier>
-                    <specificProperties>
-                        <entry>
-                            <key>xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</key>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFN4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLlNpbmdsZUxpbmVUZXh0UGx1Z2luJFNpbmdsZUxpbmVUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgABTAAXcHJlZmVycmVkQ2hhcmFjdGVyQ291bnR0ABNMamF2YS9sYW5nL0ludGVnZXI7eHIAX3h5LnJlZmxlY3QudWkuY29udHJvbC5wbHVnaW4uQWJzdHJhY3RTaW1wbGVDdXN0b21pemFibGVGaWVsZENvbnRyb2xQbHVnaW4kQWJzdHJhY3RDb25maWd1cmF0aW9uAAAAAAAAAAECAAB4cHA=</value>
-                        </entry>
-                        <entry>
-                            <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
-                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</value>
-                        </entry>
-                    </specificProperties>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65df</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-36b36743:16d6d6d2e99:-6108</uniqueIdentifier>
@@ -281,6 +246,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>c98956a:16d6f221ed5:-6486</uniqueIdentifier>
@@ -343,6 +309,61 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>3edee6c4:16d75061223:-6552</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>amilAddressBox</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>3edee6c4:16d75061223:-6550</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>3edee6c4:16d75061223:-6551</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>3edee6c4:16d75061223:-6423</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>subjectBox</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>3edee6c4:16d75061223:-6421</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>3edee6c4:16d75061223:-6422</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -442,6 +463,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -504,6 +526,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <formBackgroundColor>
             <blue>255</blue>
@@ -542,7 +565,7 @@
             <uniqueIdentifier>4f5e9623:16d6db0c967:-6575</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>c98956a:16d6f221ed5:-5df5</uniqueIdentifier>
+                <uniqueIdentifier>3edee6c4:16d75061223:-6348</uniqueIdentifier>
                 <caption>Message</caption>
             </category>
             <categoryCaption>Message</categoryCaption>
@@ -590,6 +613,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <formBackgroundColor>
             <blue>51</blue>
@@ -605,6 +629,151 @@
             <uniqueIdentifier>4f5e9623:16d6db0c967:-6576</uniqueIdentifier>
         </menuModel>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.SaySomething2], fieldName=messageBox]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>3edee6c4:16d75061223:-6543</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>true</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>3edee6c4:16d75061223:-6541</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>emailAddress</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65fc</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65fd</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65e4</uniqueIdentifier>
+                    <specificProperties>
+                        <entry>
+                            <key>xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</key>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFN4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLlNpbmdsZUxpbmVUZXh0UGx1Z2luJFNpbmdsZUxpbmVUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgABTAAXcHJlZmVycmVkQ2hhcmFjdGVyQ291bnR0ABNMamF2YS9sYW5nL0ludGVnZXI7eHIAX3h5LnJlZmxlY3QudWkuY29udHJvbC5wbHVnaW4uQWJzdHJhY3RTaW1wbGVDdXN0b21pemFibGVGaWVsZENvbnRyb2xQbHVnaW4kQWJzdHJhY3RDb25maWd1cmF0aW9uAAAAAAAAAAECAAB4cHA=</value>
+                        </entry>
+                        <entry>
+                            <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</value>
+                        </entry>
+                    </specificProperties>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65e3</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
+        <formBackgroundColor>
+            <blue>204</blue>
+            <green>204</green>
+            <red>0</red>
+        </formBackgroundColor>
+        <formForegroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </formForegroundColor>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>3edee6c4:16d75061223:-6542</uniqueIdentifier>
+        </menuModel>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.SaySomething2], fieldName=amilAddressBox]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>3edee6c4:16d75061223:-6420</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <fieldsCustomizations>
+            <uniqueIdentifier>3edee6c4:16d75061223:-641e</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Subject</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>title</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65f7</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65f8</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65e0</uniqueIdentifier>
+                    <specificProperties>
+                        <entry>
+                            <key>xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</key>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">rO0ABXNyAFN4eS5yZWZsZWN0LnVpLmNvbnRyb2wuc3dpbmcucGx1Z2luLlNpbmdsZUxpbmVUZXh0UGx1Z2luJFNpbmdsZUxpbmVUZXh0Q29uZmlndXJhdGlvbgAAAAAAAAABAgABTAAXcHJlZmVycmVkQ2hhcmFjdGVyQ291bnR0ABNMamF2YS9sYW5nL0ludGVnZXI7eHIAX3h5LnJlZmxlY3QudWkuY29udHJvbC5wbHVnaW4uQWJzdHJhY3RTaW1wbGVDdXN0b21pemFibGVGaWVsZENvbnRyb2xQbHVnaW4kQWJzdHJhY3RDb25maWd1cmF0aW9uAAAAAAAAAAECAAB4cHA=</value>
+                        </entry>
+                        <entry>
+                            <key>xy.reflect.ui.control.plugin.IFieldControlPlugin.CHOSEN</key>
+                            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin</value>
+                        </entry>
+                    </specificProperties>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>1f4860a5:16d6d6a0b86:-65df</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
+        <formBackgroundColor>
+            <blue>204</blue>
+            <green>204</green>
+            <red>0</red>
+        </formBackgroundColor>
+        <formForegroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </formForegroundColor>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>3edee6c4:16d75061223:-641f</uniqueIdentifier>
+        </menuModel>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.SaySomething2], fieldName=subjectBox]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>
