@@ -1554,10 +1554,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected List<AbstractFieldTransformer> getFieldTransformers() {
 			List<AbstractFieldTransformer> result = new ArrayList<AbstractFieldTransformer>();
 			result.add(new FieldNullReplacementTransformer());
+			result.add(new FieldCustomSetterTransformer());
 			result.add(new FieldTypeConversionTransformer());
 			result.add(new FieldCommonOptionsTransformer());
 			result.add(new FieldValueAsListTransformer());
-			result.add(new FieldCustomSetterTransformer());
 			result.add(new FieldNullStatusImportTransformer());
 			result.add(new FieldNullStatusExportTransformer());
 			result.add(new FieldGetterGeneratingTransformer());

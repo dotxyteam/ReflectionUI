@@ -565,7 +565,7 @@
             <uniqueIdentifier>4f5e9623:16d6db0c967:-6575</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>3edee6c4:16d75061223:-6348</uniqueIdentifier>
+                <uniqueIdentifier>-2b467b4d:16d8d63256c:-6485</uniqueIdentifier>
                 <caption>Message</caption>
             </category>
             <categoryCaption>Message</categoryCaption>
@@ -686,16 +686,6 @@
             <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
-        <formBackgroundColor>
-            <blue>204</blue>
-            <green>204</green>
-            <red>0</red>
-        </formBackgroundColor>
-        <formForegroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>0</red>
-        </formForegroundColor>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>3edee6c4:16d75061223:-6542</uniqueIdentifier>
@@ -759,16 +749,6 @@
             <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
-        <formBackgroundColor>
-            <blue>204</blue>
-            <green>204</green>
-            <red>0</red>
-        </formBackgroundColor>
-        <formForegroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>0</red>
-        </formForegroundColor>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>3edee6c4:16d75061223:-641f</uniqueIdentifier>
