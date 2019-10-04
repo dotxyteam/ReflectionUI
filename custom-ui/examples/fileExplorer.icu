@@ -28,14 +28,14 @@
             <red>255</red>
         </mainButtonForegroundColor>
         <mainEditorBackgroundColor>
-            <blue>97</blue>
-            <green>71</green>
-            <red>59</red>
-        </mainEditorBackgroundColor>
-        <mainEditorForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
+        </mainEditorBackgroundColor>
+        <mainEditorForegroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
         </mainEditorForegroundColor>
         <mainForegroundColor>
             <blue>0</blue>
@@ -1766,7 +1766,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e0f</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb7</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1812,7 +1812,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e0e</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb6</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1858,7 +1858,7 @@
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e0d</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb5</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1935,7 +1935,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e0c</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb4</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2007,7 +2007,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e0b</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb3</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2039,7 +2039,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e0a</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb2</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -3240,7 +3240,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e09</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb1</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -3442,7 +3442,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f69</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e08</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eb0</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3474,7 +3474,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f67</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e07</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eaf</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3610,7 +3610,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f61</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e06</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4eae</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -4308,7 +4308,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-24b6f6d5:16d8d7a6038:-4e05</uniqueIdentifier>
+                <uniqueIdentifier>6100eaf9:16d918e5131:-4ead</uniqueIdentifier>
                 <caption>Actions</caption>
             </category>
             <categoryCaption>Actions</categoryCaption>
