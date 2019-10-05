@@ -1,3 +1,5 @@
+- list control actions validity should depend on the root list or can change
+according to the list?
 - should RUIUtils.NULL_JOB be used to disconnect a field from the modif stack???
 - SliderPlugin: the value is formatted. OK or not???
 - There is a problem with dialogs cancel button that reverts

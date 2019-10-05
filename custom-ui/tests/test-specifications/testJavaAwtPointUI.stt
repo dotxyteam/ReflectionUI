@@ -1,6 +1,12 @@
 <xy.ui.testing.Tester>
-  <maximumSecondsToWaitBetwneenActions>15</maximumSecondsToWaitBetwneenActions>
-  <minimumSecondsToWaitBetwneenActions>1</minimumSecondsToWaitBetwneenActions>
+  <editingOptions>
+    <analyticsEnabled>true</analyticsEnabled>
+    <controlsTheme>classic</controlsTheme>
+    <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
+    <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
+  </editingOptions>
+  <maximumSecondsToWaitBetwneenActions>15.0</maximumSecondsToWaitBetwneenActions>
+  <minimumSecondsToWaitBetwneenActions>0.1</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
       <arguments/>
