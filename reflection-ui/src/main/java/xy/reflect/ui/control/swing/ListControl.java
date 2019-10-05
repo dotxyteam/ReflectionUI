@@ -289,7 +289,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		toolbar.setLayout(layout);
 
 		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
-			if (getActiveListItemPosition().getContainingListType().canViewItemDetails()) {
+			if (getRootListType().canViewItemDetails()) {
 				toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
 			}
 		}
@@ -2327,7 +2327,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			BufferedItemPosition singleSelectedPosition = getSingleSelection();
 			if (singleSelectedPosition != null) {
 				if (!new ItemUIBuilder(singleSelectedPosition).isFormEmpty()) {
-					if (singleSelectedPosition.getContainingListType().canViewItemDetails()) {
+					if (getRootListType().canViewItemDetails()) {
 						return true;
 					}
 				}
