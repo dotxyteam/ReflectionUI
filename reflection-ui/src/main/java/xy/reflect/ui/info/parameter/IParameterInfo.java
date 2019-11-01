@@ -99,6 +99,11 @@ public interface IParameterInfo extends IInfo {
 		}
 
 		@Override
+		public boolean hasValueOptions(Object object) {
+			return false;
+		}
+
+		@Override
 		public Object[] getValueOptions(Object object) {
 			return null;
 		}
@@ -143,8 +148,14 @@ public interface IParameterInfo extends IInfo {
 	/**
 	 * @param object
 	 *            The object offering the method hosting this parameter.
-	 * @return options for value of this parameter or null if there is not any know
-	 *         option.
+	 * @return whether this parameter value has options.
+	 */
+	boolean hasValueOptions(Object object);
+
+	/**
+	 * @param object
+	 *            The object offering the method hosting this parameter.
+	 * @return options for the value of this parameter.
 	 */
 	Object[] getValueOptions(Object object);
 

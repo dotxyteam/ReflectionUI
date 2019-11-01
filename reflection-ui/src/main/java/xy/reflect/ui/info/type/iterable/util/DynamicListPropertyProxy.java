@@ -82,6 +82,11 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.getValue(object);
 	}
 
+	@Override
+	public boolean hasValueOptions(Object object) {
+		return base.hasValueOptions(object);
+	}
+
 	public Object[] getValueOptions(Object object) {
 		return base.getValueOptions(object);
 	}

@@ -105,10 +105,6 @@ public class CustomizationToolsUI extends CustomizedUI {
 				return false;
 			}
 
-			
-			
-			
-			
 			@Override
 			protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 				Object item = info.getItem();
@@ -137,6 +133,17 @@ public class CustomizationToolsUI extends CustomizedUI {
 					return resourcePath.getDefaultSpecification();
 				}
 				return super.getCaption(info, parentEnumType);
+			}
+
+			@Override
+			protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
+					return true;
+				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
+					return true;
+				} else {
+					return super.hasValueOptions(object, field, containingType);
+				}
 			}
 
 			@Override

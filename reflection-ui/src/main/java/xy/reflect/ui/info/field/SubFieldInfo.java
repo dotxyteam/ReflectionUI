@@ -121,6 +121,12 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean hasValueOptions(Object object) {
+		Object fieldValue = expectTheFieldValue(object);
+		return theSubField.hasValueOptions(fieldValue);
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		Object fieldValue = expectTheFieldValue(object);
 		return theSubField.getValueOptions(fieldValue);

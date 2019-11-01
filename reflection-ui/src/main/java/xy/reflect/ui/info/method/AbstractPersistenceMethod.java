@@ -42,7 +42,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public abstract class AbstractPersistenceMethod implements IMethodInfo{
+public abstract class AbstractPersistenceMethod implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
@@ -178,6 +178,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo{
 
 		@Override
 		public boolean isHidden() {
+			return false;
+		}
+
+		@Override
+		public boolean hasValueOptions(Object object) {
 			return false;
 		}
 

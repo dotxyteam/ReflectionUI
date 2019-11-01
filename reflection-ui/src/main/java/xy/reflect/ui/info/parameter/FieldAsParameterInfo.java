@@ -107,6 +107,11 @@ public class FieldAsParameterInfo implements IParameterInfo {
 	}
 
 	@Override
+	public boolean hasValueOptions(Object object) {
+		return field.hasValueOptions(object);
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		return field.getValueOptions(object);
 	}

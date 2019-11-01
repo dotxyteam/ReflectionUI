@@ -234,6 +234,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean hasValueOptions(Object object) {
+		return false;
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;
 	}

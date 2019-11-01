@@ -130,6 +130,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public boolean hasValueOptions(Object object) {
+			return false;
+		}
+
+		@Override
 		public Object[] getValueOptions(Object object) {
 			return null;
 		}
@@ -191,8 +196,14 @@ public interface IFieldInfo extends IInfo {
 	/**
 	 * @param object
 	 *            The object hosting the field value.
-	 * @return options for value of this field or null if there is not any know
-	 *         option.
+	 * @return whether this field value has options.
+	 */
+	boolean hasValueOptions(Object object);
+
+	/**
+	 * @param object
+	 *            The object hosting the field value.
+	 * @return options for value of this field.
 	 */
 	Object[] getValueOptions(Object object);
 

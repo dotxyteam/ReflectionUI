@@ -63,6 +63,11 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		return getDelegate().getValue(object);
 	}
 
+	@Override
+	public boolean hasValueOptions(Object object) {
+		return getDelegate().hasValueOptions(object);
+	}
+
 	public Object[] getValueOptions(Object object) {
 		return getDelegate().getValueOptions(object);
 	}

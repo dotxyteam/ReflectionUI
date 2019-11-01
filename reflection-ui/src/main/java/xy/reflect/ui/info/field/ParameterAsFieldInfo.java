@@ -113,6 +113,11 @@ public class ParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean hasValueOptions(Object object) {
+		return param.hasValueOptions(object);
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		return param.getValueOptions(object);
 	}

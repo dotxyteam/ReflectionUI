@@ -261,10 +261,17 @@ public abstract class AbstractEditorFormBuilder {
 				.getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource());
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getCapsuleTypeName(), fieldType) {
+
+			@Override
+			protected boolean hasFieldValueOptions() {
+				return hasEncapsulatedFieldValueOptions();
+			}
+
 			@Override
 			protected Object[] getFieldValueOptions() {
 				return getEncapsulatedFieldValueOptions();
 			}
+
 		};
 		result.setTypeModificationStackAccessible(isCapsuleTypeModificationStackAccessible());
 		result.setTypeCaption(getCapsuleTypeCaption());
@@ -330,7 +337,14 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the encapsulated field value options or null.
+	 * @return whether the encapsulated field value options.
+	 */
+	protected boolean hasEncapsulatedFieldValueOptions() {
+		return false;
+	}
+
+	/**
+	 * @return the encapsulated field value options.
 	 */
 	protected Object[] getEncapsulatedFieldValueOptions() {
 		return null;

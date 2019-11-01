@@ -275,6 +275,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return param.getDefaultValue(object);
 	}
 
+	protected boolean hasValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+			Object object) {
+		return param.hasValueOptions(object);
+	}
+
 	protected Object[] getValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
 			Object object) {
 		return param.getValueOptions(object);
@@ -314,6 +319,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
 		return field.getValue(object);
+	}
+
+	protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+		return field.hasValueOptions(object);
 	}
 
 	protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
@@ -1585,6 +1594,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public boolean hasValueOptions(Object object) {
+			return InfoProxyFactory.this.hasValueOptions(object, base, containingType);
+		}
+
+		@Override
 		public Object[] getValueOptions(Object object) {
 			return InfoProxyFactory.this.getValueOptions(object, base, containingType);
 		}
@@ -1913,6 +1927,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public Object getDefaultValue(Object object) {
 			return InfoProxyFactory.this.getDefaultValue(base, method, containingType, object);
+		}
+
+		@Override
+		public boolean hasValueOptions(Object object) {
+			return InfoProxyFactory.this.hasValueOptions(base, method, containingType, object);
 		}
 
 		@Override

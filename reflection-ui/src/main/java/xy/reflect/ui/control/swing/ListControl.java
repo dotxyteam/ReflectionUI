@@ -2687,6 +2687,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
+				protected boolean hasEncapsulatedFieldValueOptions() {
+					return dynamicProperty.hasValueOptions(IDynamicListProperty.NO_OWNER);
+				}
+
+				@Override
 				protected Object[] getEncapsulatedFieldValueOptions() {
 					return dynamicProperty.getValueOptions(IDynamicListProperty.NO_OWNER);
 				}

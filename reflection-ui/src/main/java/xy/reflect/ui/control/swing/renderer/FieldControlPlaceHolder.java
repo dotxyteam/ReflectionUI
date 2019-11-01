@@ -457,7 +457,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	public IFieldControlData getInitialControlData() {
 		Object object = getObject();
 		IFieldInfo field = FieldControlPlaceHolder.this.field;
-		if (ValueOptionsAsEnumerationFieldInfo.hasValueOptions(object, field)) {
+		if (field.hasValueOptions(object)) {
 			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, object, field);
 		}
 		final IFieldInfo finalField = field;

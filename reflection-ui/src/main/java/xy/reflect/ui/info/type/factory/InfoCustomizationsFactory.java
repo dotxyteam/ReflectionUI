@@ -373,6 +373,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										return delegate.getValue(object);
 									}
 
+									@Override
+									public boolean hasValueOptions(Object object) {
+										return delegate.hasValueOptions(object);
+									}
+
 									public Object[] getValueOptions(Object object) {
 										return delegate.getValueOptions(object);
 									}
@@ -1442,8 +1447,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 
-		
-
 		protected void addPersistenceMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
 				List<IMethodInfo> constructors) {
 			methods.add(new SaveToFileMethod(customizedUI, containingType));
@@ -2265,6 +2268,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
+					public boolean hasValueOptions(Object object) {
+						if (fc.getValueOptionsFieldName() != null) {
+							return true;
+						}
+						return super.hasValueOptions(object);
+					}
+
+					@Override
 					public Object[] getValueOptions(Object object) {
 						if (fc.getValueOptionsFieldName() != null) {
 							IFieldInfo valueOptionsfield = ReflectionUIUtils.findInfoByName(outputFields,
@@ -2276,7 +2287,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
 							Object options = valueOptionsfield.getValue(object);
 							if (options == null) {
-								return null;
+								throw new ReflectionUIError("Value options field '" + fc.getValueOptionsFieldName()
+										+ "': returned <null>!");
 							}
 							return valueOptionsfieldType.toArray(options);
 						}

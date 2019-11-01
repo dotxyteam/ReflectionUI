@@ -119,6 +119,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
+	public boolean hasValueOptions(Object object) {
+		return false;
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;
 	}

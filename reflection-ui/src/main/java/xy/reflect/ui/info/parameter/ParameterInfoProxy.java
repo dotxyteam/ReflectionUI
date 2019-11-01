@@ -69,6 +69,10 @@ public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterI
 		return base.getDefaultValue(object);
 	}
 
+	public boolean hasValueOptions(Object object) {
+		return base.hasValueOptions(object);
+	}
+
 	public Object[] getValueOptions(Object object) {
 		return base.getValueOptions(object);
 	}

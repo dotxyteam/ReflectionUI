@@ -70,6 +70,11 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 	}
 
 	@Override
+	public boolean hasValueOptions(Object object) {
+		return base.hasValueOptions(object);
+	}
+
+	@Override
 	public Object[] getValueOptions(Object object) {
 		return base.getValueOptions(object);
 	}

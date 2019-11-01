@@ -273,6 +273,10 @@ public class EncapsulatedObjectFactory {
 		return fieldType;
 	}
 
+	protected boolean hasFieldValueOptions() {
+		return false;
+	}
+
 	protected Object[] getFieldValueOptions() {
 		return null;
 	}
@@ -845,6 +849,11 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public String getOnlineHelp() {
 			return fieldOnlineHelp;
+		}
+
+		@Override
+		public boolean hasValueOptions(Object object) {
+			return hasFieldValueOptions();
 		}
 
 		@Override
