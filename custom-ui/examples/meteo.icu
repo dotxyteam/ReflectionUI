@@ -1733,12 +1733,12 @@
                     <uniqueIdentifier>-11f70302:16d543347e9:-5a2e</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>-11f70302:16d543347e9:-5a2d</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
-                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-11f70302:16d543347e9:-5a2c</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
                     </reverseConversionMethodFinder>
                 </preConversion>
@@ -1939,12 +1939,12 @@
                     <uniqueIdentifier>-11f70302:16d543347e9:-3fea</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>-11f70302:16d543347e9:-3fe9</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
-                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-11f70302:16d543347e9:-3fe8</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
                     </reverseConversionMethodFinder>
                 </preConversion>
@@ -2477,12 +2477,12 @@
                     <uniqueIdentifier>-59799252:16d54bf0411:-66a3</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>-59799252:16d54bf0411:-66a2</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
-                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-59799252:16d54bf0411:-66a1</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
                     </reverseConversionMethodFinder>
                 </preConversion>
@@ -2539,12 +2539,12 @@
                     <uniqueIdentifier>-59799252:16d54bf0411:-667a</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>-59799252:16d54bf0411:-6679</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
-                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-59799252:16d54bf0411:-6678</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
                     </reverseConversionMethodFinder>
                 </preConversion>
@@ -2601,12 +2601,12 @@
                     <uniqueIdentifier>-59799252:16d54bf0411:-666f</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>-59799252:16d54bf0411:-666e</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
-                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-59799252:16d54bf0411:-666d</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
                     </reverseConversionMethodFinder>
                 </preConversion>

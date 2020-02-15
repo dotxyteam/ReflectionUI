@@ -221,12 +221,12 @@
                     <uniqueIdentifier>4888e4ba:16a091b915c:714e</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>4888e4ba:16a091b915c:714f</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
-                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>4888e4ba:16a091b915c:7150</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
                     </reverseConversionMethodFinder>
                 </preConversion>

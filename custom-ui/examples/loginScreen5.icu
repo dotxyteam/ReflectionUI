@@ -205,12 +205,12 @@
                     <uniqueIdentifier>-75fe4b45:16ce715b804:-6764</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>-75fe4b45:16ce715b804:-6763</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
-                        <conversionMethodSignature>javax.swing.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
+                        <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-75fe4b45:16ce715b804:-6762</uniqueIdentifier>
-                        <conversionClassName>javax.swing.ImageIcon</conversionClassName>
+                        <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
                     </reverseConversionMethodFinder>
                 </preConversion>
