@@ -316,7 +316,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void updateIconControl(boolean refreshStructure) {
-		ImageIcon icon = SwingRendererUtils.geObjectIcon(swingRenderer, data.getValue());
+		ImageIcon icon = SwingRendererUtils.getObjectIcon(swingRenderer, data.getValue());
 		if (icon != null) {
 			icon = SwingRendererUtils.getSmallIcon(icon);
 		}

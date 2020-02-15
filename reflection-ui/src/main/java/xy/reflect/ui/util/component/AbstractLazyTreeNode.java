@@ -83,7 +83,7 @@ public abstract class AbstractLazyTreeNode extends DefaultMutableTreeNode {
 	}
 
 	@Override
-	public Enumeration<?> children() {
+	public Enumeration<TreeNode> children() {
 		ensureChildrenAreLoaded();
 		return super.children();
 	}
@@ -131,25 +131,25 @@ public abstract class AbstractLazyTreeNode extends DefaultMutableTreeNode {
 	}
 
 	@Override
-	public Enumeration<?> preorderEnumeration() {
+	public Enumeration<TreeNode> preorderEnumeration() {
 		ensureChildrenAreLoaded();
 		return super.preorderEnumeration();
 	}
 
 	@Override
-	public Enumeration<?> postorderEnumeration() {
+	public Enumeration<TreeNode> postorderEnumeration() {
 		ensureChildrenAreLoaded();
 		return super.postorderEnumeration();
 	}
 
 	@Override
-	public Enumeration<?> breadthFirstEnumeration() {
+	public Enumeration<TreeNode> breadthFirstEnumeration() {
 		ensureChildrenAreLoaded();
 		return super.breadthFirstEnumeration();
 	}
 
 	@Override
-	public Enumeration<?> depthFirstEnumeration() {
+	public Enumeration<TreeNode> depthFirstEnumeration() {
 		ensureChildrenAreLoaded();
 		return super.depthFirstEnumeration();
 	}

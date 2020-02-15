@@ -77,7 +77,6 @@
         <string>File Name</string>
         <string>Method Name</string>
         <string>Check Access</string>
-        <string>Destroy</string>
         <string>Dump Stack</string>
         <string>Interrupt</string>
         <string>Join</string>
@@ -95,7 +94,6 @@
         <string>Join...</string>
         <string>Sleep...</string>
         <string>Holds Lock...</string>
-        <string>Stop...</string>
         <string>Join...</string>
         <string>Sleep...</string>
         <string>Undo</string>

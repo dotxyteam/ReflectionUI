@@ -17,7 +17,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 
 public class ExtractCustomizationsHelp {
 
-	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		CustomizationTools tools = SwingCustomizer.getDefault().getCustomizationTools();
 		CustomizationToolsUI toolsUI = tools.getToolsUI();

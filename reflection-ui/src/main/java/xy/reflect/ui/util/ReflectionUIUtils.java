@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -1074,11 +1075,38 @@ public class ReflectionUIUtils {
 		try {
 			byte[] binary = DatatypeConverter.parseBase64Binary(text);
 			ByteArrayInputStream bais = new ByteArrayInputStream(binary);
-			ObjectInputStream ois = new ObjectInputStream(bais);
+			ObjectInputStream ois = fixImageIconSerializationChange(bais);
 			return ois.readObject();
 		} catch (Throwable e) {
 			throw new ReflectionUIError(e);
 		}
+	}
+
+	public static ObjectInputStream fixImageIconSerializationChange(InputStream in) throws ClassNotFoundException, IOException {
+		return getClassSwappingObjectInputStream(in, javax.swing.ImageIcon.class.getName(),
+				xy.reflect.ui.util.ImageIcon.class.getName());
+	}
+
+	public static ObjectInputStream getClassSwappingObjectInputStream(InputStream in, String fromClass, final String toClass)
+			throws IOException, ClassNotFoundException {
+		final String from = "^" + fromClass, fromArray = "^\\[L" + fromClass, toArray = "[L" + toClass;
+		return new ObjectInputStream(in) {
+			protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+				String name = desc.getName().replaceFirst(from, toClass);
+				name = name.replaceFirst(fromArray, toArray);
+				return Class.forName(name);
+			}
+
+			protected ObjectStreamClass readClassDescriptor() throws IOException, ClassNotFoundException {
+				ObjectStreamClass cd = super.readClassDescriptor();
+				String name = cd.getName().replaceFirst(from, toClass);
+				name = name.replaceFirst(fromArray, toArray);
+				if (!name.equals(cd.getName())) {
+					cd = ObjectStreamClass.lookup(Class.forName(name));
+				}
+				return cd;
+			}
+		};
 	}
 
 	public static MenuElementKind getMenuElementKind(IMenuElement element) {

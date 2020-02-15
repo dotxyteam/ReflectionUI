@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>custom-reflection-ui-examples</artifactId>
-	<version>4.9.0</version>
+	<version>4.9.3</version>
 	<name>CustomUI (ReflectionUI) Examples</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>custom-ui</artifactId>
-			<version>4.9.0</version>
+			<version>4.9.3</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -26,8 +26,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>

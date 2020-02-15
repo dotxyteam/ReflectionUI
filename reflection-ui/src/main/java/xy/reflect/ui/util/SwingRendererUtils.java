@@ -601,7 +601,7 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static ImageIcon geObjectIcon(SwingRenderer swingRenderer, Object object) {
+	public static ImageIcon getObjectIcon(SwingRenderer swingRenderer, Object object) {
 		if (object == null) {
 			return null;
 		}
