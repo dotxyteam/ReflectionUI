@@ -69,6 +69,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.Analytics;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -399,6 +400,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+				Analytics.DEFAULT.track("Setting(" +  object + " - " + field.getName() + ")", String.valueOf(value));
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
 					Color color = (Color) value;
 					ColorSpecification colorSpec = null;
@@ -410,9 +412,22 @@ public class CustomizationToolsUI extends CustomizedUI {
 					super.setValue(object, value, field, containingType);
 				}
 			}
+			
+			@Override
+			protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
+					ITypeInfo containingType) {
+				Analytics.DEFAULT.track("Invoking " + method.getName() + "(", invocationData.toString() + ") on " + object);
+				return super.invoke(object, invocationData, method, containingType);
+			}
 
 		}.wrapTypeInfo(type);
 		return type;
+	}
+
+	@Override
+	public void logError(String msg) {
+		Analytics.DEFAULT.track("Error", msg);
+		super.logError(msg);
 	}
 
 }
