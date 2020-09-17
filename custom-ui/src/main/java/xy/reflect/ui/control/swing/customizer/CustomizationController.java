@@ -44,7 +44,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Analytics;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -87,10 +86,6 @@ public class CustomizationController {
 	}
 
 	protected void openWindow() {
-		Analytics.DEFAULT.initialize();
-		Analytics.DEFAULT.track("ControllerStart",
-				"os.name=" + System.getProperty("os.name") + ", os.arch=" + System.getProperty("os.arch") + ", java.home="
-						+ System.getProperty("java.home"));
 		windowBuilder = createWindowBuilder();
 		window = windowBuilder.createFrame();
 		refreshCustomizedControlsOnModification();
@@ -105,8 +100,6 @@ public class CustomizationController {
 		window.dispose();
 		window = null;
 		windowBuilder = null;
-		Analytics.DEFAULT.track("ConntrollerStop");
-		Analytics.DEFAULT.shutdown();
 	}
 
 	protected StandardEditorBuilder createWindowBuilder() {
