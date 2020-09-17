@@ -100,6 +100,7 @@ public class Library implements Serializable {
 	public List<Book> getNMostPopularBooks(int n) {
 		List<Book> result = new ArrayList<Book>(books);
 		Collections.sort(result, new Comparator<Book>() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public int compare(Book b1, Book b2) {
 				return new Integer(getIssueCount(b1)).compareTo(getIssueCount(b2));
