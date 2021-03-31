@@ -1,4 +1,19 @@
-- list control actions validity should depend on the root list or can change
+- allow to add the virtual field that returns the "Object [id = x]" value.
+- Type Customization Dialog: 
+	. "Customize Fields Display" list: 	column "Transient" must berenamed and moved.
+	. "Customize Fields Display" list: 	column "Read-Only..." must be renamed.
+- field specific type customizations are not accessible via the 
+"Show All Customizations" command.
+- maybe allow to execution a method upon list item selection. 
+The method would take an item as parameter.
+- DetailedListControl: allow to acces the contextual menu (to copy, ...)
+- DetailedListControl: make the selection borders thicker
+- ImageView: allow to associate mouse events to methods having pixel location parameters 
+(int x, int y, ...). Additionnal parameters could be asked before performing the action.
+Mutiple methods associated with the same event would trigger a contextual menu
+allowing to choose between them. 
+- list control actions validity should depend on the root list or can ch
+ange
 according to the list?
 - should RUIUtils.NULL_JOB be used to disconnect a field from the modif stack???
 - SliderPlugin: the value is formatted. OK or not???
@@ -6,8 +21,8 @@ according to the list?
 everything since now modification stack size is limited.
 Think about it. Infinite stack may be necessary
 - Can not disconnect a field from the modification stack, 
-there is probably the same issue with methods, check
-check also IModif.NULL_MODIF
+there is probably the same issue with methods, check.
+Check also IModif.NULL_MODIF.
 - what are the effects of limiting modification stack size???
   . Some dialog cancel buttons will not work well
 - allow to disable method parameters memory
