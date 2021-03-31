@@ -83,6 +83,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	public boolean isHidden() {
 		return false;
 	}
+
 	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
 		theField.onControlVisibilityChange(object, visible);
@@ -241,6 +242,12 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 				public Object getDefaultValue(Object object) {
 					Object fieldValue = expectTheFieldValue(object);
 					return super.getDefaultValue(fieldValue);
+				}
+
+				@Override
+				public boolean hasValueOptions(Object object) {
+					Object fieldValue = expectTheFieldValue(object);
+					return super.hasValueOptions(fieldValue);
 				}
 
 				@Override

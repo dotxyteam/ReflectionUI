@@ -42,6 +42,7 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.CapsuleFieldInfo.Value;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -634,6 +635,12 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
 			object = ((ValueListItem) object).getObject();
 			return super.getNextUpdateCustomUndoJob(object, value);
+		}
+
+		@Override
+		public boolean hasValueOptions(Object object) {
+			object = ((ValueListItem) object).getObject();
+			return super.hasValueOptions(object);
 		}
 
 		@Override

@@ -454,6 +454,12 @@ public class InvocationDataObjectFactory {
 		}
 
 		@Override
+		public boolean hasValueOptions(Object object) {
+			Instance instance = (Instance) object;
+			return param.hasValueOptions(instance.object);
+		}
+
+		@Override
 		public Object[] getValueOptions(Object object) {
 			Instance instance = (Instance) object;
 			return param.getValueOptions(instance.object);

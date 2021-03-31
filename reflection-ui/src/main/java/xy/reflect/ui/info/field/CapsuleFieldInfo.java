@@ -653,6 +653,12 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public boolean hasValueOptions(Object object) {
+			object = ((Value) object).getObject();
+			return super.hasValueOptions(object);
+		}
+
+		@Override
 		public Object[] getValueOptions(Object object) {
 			object = ((Value) object).getObject();
 			return super.getValueOptions(object);

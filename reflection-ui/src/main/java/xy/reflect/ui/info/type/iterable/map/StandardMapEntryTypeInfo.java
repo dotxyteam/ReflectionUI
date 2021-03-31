@@ -83,7 +83,6 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		if (!super.supportsInstance(object)) {
 			return false;
 		}
-		@SuppressWarnings("rawtypes")
 		StandardMapEntry entry = (StandardMapEntry) object;
 		if (entry != null) {
 			Object key = entry.getKey();
@@ -104,6 +103,19 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public boolean canCopy(Object object) {
+		return getKeyField().getType().canCopy(getKeyField().getValue(object))
+				&& getValueField().getType().canCopy(getValueField().getValue(object));
+	}
+
+	@Override
+	public Object copy(Object object) {
+		Object keyCopy = getKeyField().getType().copy(getKeyField().getValue(object));
+		Object valueCopy = getValueField().getType().copy(getValueField().getValue(object));
+		return new StandardMapEntry(keyCopy, valueCopy);
 	}
 
 	@Override
@@ -198,7 +210,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		return result;
 	}
 
-	protected Constructor<?> getStandardMapEntryjavaConstructor() {
+	protected Constructor<?> getStandardMapEntryJavaConstructor() {
 		try {
 			return StandardMapEntry.class.getConstructor(Object.class, Object.class);
 		} catch (Exception e) {
@@ -245,7 +257,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected class StandardMapEntryConstructorInfo extends DefaultConstructorInfo {
 
 		public StandardMapEntryConstructorInfo() {
-			super(StandardMapEntryTypeInfo.this.reflectionUI, getStandardMapEntryjavaConstructor());
+			super(StandardMapEntryTypeInfo.this.reflectionUI, getStandardMapEntryJavaConstructor());
 		}
 
 		@Override

@@ -1934,7 +1934,7 @@ public class InfoCustomizations implements Serializable {
 			try {
 				conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
 			} catch (Exception e) {
-				return null;
+				return Collections.emptyList();
 			}
 			List<String> result = new ArrayList<String>();
 			for (Constructor<?> ctor : conversionClass.getConstructors()) {

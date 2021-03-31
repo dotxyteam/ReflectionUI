@@ -28,11 +28,11 @@
  ******************************************************************************/
 package xy.reflect.ui.info.type.iterable.map;
 
-public class StandardMapEntry<K, V> {
-	protected K key;
-	protected V value;
+public class StandardMapEntry {
+	protected Object key;
+	protected Object value;
 
-	public StandardMapEntry(K key, V value) {
+	public StandardMapEntry(Object key, Object value) {
 		this.key = key;
 		this.value = value;
 	}
@@ -42,20 +42,20 @@ public class StandardMapEntry<K, V> {
 		return key + ": " + value;
 	}
 
-	public K getKey() {
+	public Object getKey() {
 		return key;
 	}
 
-	public void setKey(K key) {
+	public void setKey(Object key) {
 		this.key = key;
 	}
 
-	public V getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public V setValue(V value) {
-		V oldValue = this.value;
+	public Object setValue(Object value) {
+		Object oldValue = this.value;
 		this.value = value;
 		return oldValue;
 	}
@@ -77,7 +77,6 @@ public class StandardMapEntry<K, V> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		@SuppressWarnings("rawtypes")
 		StandardMapEntry other = (StandardMapEntry) obj;
 		if (key == null) {
 			if (other.key != null)

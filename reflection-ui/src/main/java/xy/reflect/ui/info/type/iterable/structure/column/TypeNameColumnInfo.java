@@ -58,7 +58,7 @@ public class TypeNameColumnInfo extends AbstractInfo implements IColumnInfo {
 			return "";
 		}
 		if (item instanceof StandardMapEntry) {
-			return ReflectionUIUtils.toString(reflectionUI, ((StandardMapEntry<?, ?>) item).getKey());
+			return ReflectionUIUtils.toString(reflectionUI, ((StandardMapEntry) item).getKey());
 		} else {
 			return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item)).getCaption();
 		}

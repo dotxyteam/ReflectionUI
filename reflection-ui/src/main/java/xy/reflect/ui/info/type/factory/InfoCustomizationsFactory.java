@@ -1440,6 +1440,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					fields.add(newField);
 				} else {
 					IMethodInfo newMethod = new DefaultMethodInfo(customizedUI, objectMethod);
+					if(newMethod.getName().equals("toString")) {
+						newMethod = new MethodInfoProxy(newMethod) {
+							@Override
+							public Object invoke(Object object, InvocationData invocationData) {
+								return containingType.toString(object);
+							}					
+						};
+					}
 					newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod,
 							containingType);
 					methods.add(newMethod);

@@ -415,7 +415,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			}
 
 			protected void updateSelectionState() {
-				int borderThickness = 1;
+				int borderThickness = 5;
 				if (selected) {
 					setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getListSelectionBackgroundColor(),
 							borderThickness));

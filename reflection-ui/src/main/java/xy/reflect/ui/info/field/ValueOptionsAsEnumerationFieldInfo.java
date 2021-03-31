@@ -51,7 +51,8 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 		this.object = object;
 		this.objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		this.enumFactory = createEnumerationFactory();
-		this.enumType = reflectionUI.getTypeInfo(enumFactory.getInstanceTypeInfoSource(new SpecificitiesIdentifier(objectType.getName(), getName())));
+		this.enumType = reflectionUI.getTypeInfo(
+				enumFactory.getInstanceTypeInfoSource(new SpecificitiesIdentifier(objectType.getName(), getName())));
 	}
 
 	protected GenericEnumerationFactory createEnumerationFactory() {
@@ -66,7 +67,11 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false);
 	}
 
-	
+	@Override
+	public boolean hasValueOptions(Object object) {
+		return false;
+	}
+
 	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;

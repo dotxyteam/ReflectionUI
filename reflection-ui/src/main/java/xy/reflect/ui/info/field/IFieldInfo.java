@@ -187,41 +187,38 @@ public interface IFieldInfo extends IInfo {
 	ITypeInfo getType();
 
 	/**
-	 * @param object
-	 *            The object hosting the field value.
+	 * @param object The object hosting the field value.
 	 * @return the value of this field extracted from the given object.
 	 */
 	Object getValue(Object object);
 
 	/**
-	 * @param object
-	 *            The object hosting the field value.
-	 * @return whether this field value has options.
+	 * @param object The object hosting the field value.
+	 * @return whether this field value has options. If the return value is 'true'
+	 *         then the {@link #getValueOptions(Object)} method must not return
+	 *         null.
 	 */
 	boolean hasValueOptions(Object object);
 
 	/**
-	 * @param object
-	 *            The object hosting the field value.
-	 * @return options for value of this field.
+	 * @param object The object hosting the field value.
+	 * @return options for the value of this field. If the
+	 *         {@link #hasValueOptions(Object)} method return value is 'true' then
+	 *         this method must not return null.
 	 */
 	Object[] getValueOptions(Object object);
 
 	/**
 	 * Updates the current field of the given object with the given value.
 	 * 
-	 * @param object
-	 *            The object hosting the field value.
-	 * @param value
-	 *            The new field value.
+	 * @param object The object hosting the field value.
+	 * @param value  The new field value.
 	 */
 	void setValue(Object object, Object value);
 
 	/**
-	 * @param object
-	 *            The object hosting the field value.
-	 * @param newValue
-	 *            The new field value.
+	 * @param object   The object hosting the field value.
+	 * @param newValue The new field value.
 	 * @return a job that can revert the next field value update or null if the
 	 *         default undo job should be used.
 	 */
@@ -329,11 +326,9 @@ public interface IFieldInfo extends IInfo {
 	 * This method should be called by the renderer when the visibility of this
 	 * field changes for the given object in the generated UI.
 	 * 
-	 * @param object
-	 *            The object hosting the field value.
-	 * @param visible
-	 *            true when the field becomes visible, false when it becomes
-	 *            invisible.
+	 * @param object  The object hosting the field value.
+	 * @param visible true when the field becomes visible, false when it becomes
+	 *                invisible.
 	 */
 	void onControlVisibilityChange(Object object, boolean visible);
 

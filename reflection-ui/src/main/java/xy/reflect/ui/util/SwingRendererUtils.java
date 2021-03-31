@@ -451,7 +451,10 @@ public class SwingRendererUtils {
 	}
 
 	public static Dimension getDefaultScreenSize() {
-		return Toolkit.getDefaultToolkit().getScreenSize();
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		return new Dimension(width, height);
 	}
 
 	public static void adjustWindowInitialBounds(Window window) {
@@ -741,7 +744,8 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Component getInputPane(final String[] inputValue, final String caption, final SwingRenderer swingRenderer) {
+	public static Component getInputPane(final String[] inputValue, final String caption,
+			final SwingRenderer swingRenderer) {
 		JPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
 		{

@@ -99,7 +99,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		return result;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public Object[] toArray(Object listValue) {
 		List<StandardMapEntry> result = new ArrayList<StandardMapEntry>();

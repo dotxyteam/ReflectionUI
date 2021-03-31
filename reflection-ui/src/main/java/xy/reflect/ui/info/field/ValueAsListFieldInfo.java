@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo.ValueListItem;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -92,6 +93,11 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	public void setValue(Object object, Object value) {
 		value = ((List<?>) value).get(0);
 		super.setValue(object, value);
+	}
+
+	@Override
+	public boolean hasValueOptions(Object object) {
+		return false;
 	}
 
 	@Override
