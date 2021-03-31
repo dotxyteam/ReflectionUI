@@ -1736,15 +1736,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						if (modifTitle == null) {
 							List<BufferedItemPosition> initialSelection = getSelection();
 							perform(toPostSelectHolder);
-							refreshTreeTableModelAndControl(false);
-							if (toPostSelectHolder[0] != null) {
-								setSelection(toPostSelectHolder[0]);
-								if (toPostSelectHolder[0].size() > 0) {
-									scrollTo(toPostSelectHolder[0].get(0));
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									refreshTreeTableModelAndControl(false);
+									if (toPostSelectHolder[0] != null) {
+										setSelection(toPostSelectHolder[0]);
+										if (toPostSelectHolder[0].size() > 0) {
+											scrollTo(toPostSelectHolder[0].get(0));
+										}
+									} else {
+										setSelection(initialSelection);
+									}
 								}
-							} else {
-								setSelection(initialSelection);
-							}
+							});
+
 						} else {
 							final ModificationStack modifStack = getModificationStack();
 							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
