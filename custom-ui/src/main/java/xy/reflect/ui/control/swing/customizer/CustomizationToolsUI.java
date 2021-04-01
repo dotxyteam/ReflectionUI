@@ -30,13 +30,18 @@ package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
@@ -46,6 +51,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ConversionMethodFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldTypeSpecificities;
 import xy.reflect.ui.info.custom.InfoCustomizations.IMenuElementCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.IMenuItemContainerCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
@@ -64,6 +70,7 @@ import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
@@ -75,6 +82,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class CustomizationToolsUI extends CustomizedUI {
+
+	protected static final String IS_FIELD_TYPE_SPECIFICITIES_TYPE = CustomizationToolsUI.class.getName() + ".is"
+			+ FieldTypeSpecificities.class.getSimpleName();
 
 	protected final SwingCustomizer swingCustomizer;
 
@@ -89,7 +99,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			public String toString() {
-				return CustomizationTools.class.getName() + InfoProxyFactory.class.getSimpleName();
+				return "Before" + CustomizationTools.class.getName() + InfoProxyFactory.class.getSimpleName();
 			}
 
 			protected boolean isDerivedTypeInfo(ITypeInfo type, Class<?> baseClass) {
@@ -161,6 +171,32 @@ public class CustomizationToolsUI extends CustomizedUI {
 				} else {
 					return super.getValueOptions(object, field, containingType);
 				}
+			}
+
+			@Override
+			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+				if (type.getName().equals(FieldTypeSpecificities.class.getName())) {
+					Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
+					result.put(IS_FIELD_TYPE_SPECIFICITIES_TYPE, Boolean.TRUE);
+					return result;
+				}
+				return super.getSpecificProperties(type);
+			}
+
+			@Override
+			protected String getName(ITypeInfo type) {
+				if (type.getName().equals(FieldTypeSpecificities.class.getName())) {
+					return InfoCustomizations.class.getName();
+				}
+				return super.getName(type);
+			}
+
+			@Override
+			protected String getCaption(ITypeInfo type) {
+				if (type.getName().equals(FieldTypeSpecificities.class.getName())) {
+					return "";
+				}
+				return super.getCaption(type);
 			}
 
 			@Override
@@ -370,6 +406,8 @@ public class CustomizationToolsUI extends CustomizedUI {
 						result = "(" + storedType.getCaption() + ") " + result;
 					}
 					return result;
+				} else if (object instanceof FieldTypeSpecificities) {
+					return "";
 				} else {
 					return super.toString(type, object);
 				}
@@ -410,11 +448,42 @@ public class CustomizationToolsUI extends CustomizedUI {
 					super.setValue(object, value, field, containingType);
 				}
 			}
-			
+
 			@Override
 			protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
 					ITypeInfo containingType) {
 				return super.invoke(object, invocationData, method, containingType);
+			}
+
+		}.wrapTypeInfo(type);
+		return type;
+	}
+
+	@Override
+	protected ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
+		type = new InfoProxyFactory() {
+
+			@Override
+			public String toString() {
+				return "After" + CustomizationTools.class.getName() + InfoProxyFactory.class.getSimpleName();
+			}
+
+			@Override
+			protected List<IFieldInfo> getFields(ITypeInfo type) {
+				if (Boolean.TRUE.equals(type.getSpecificProperties().get(IS_FIELD_TYPE_SPECIFICITIES_TYPE))) {
+					List<IFieldInfo> result = new ArrayList<>(super.getFields(type));
+					for (Iterator<IFieldInfo> it = result.iterator(); it.hasNext();) {
+						IFieldInfo field = it.next();
+						InfoCategory category = field.getCategory();
+						if (category != null) {
+							if (!Arrays.asList("Types", "Lists", "Enumerations").contains(category.getCaption())) {
+								it.remove();
+							}
+						}
+					}
+					return result;
+				}
+				return super.getFields(type);
 			}
 
 		}.wrapTypeInfo(type);
