@@ -1,11 +1,8 @@
 - xy.reflect.ui.info.field.ChangedTypeFieldInfo.ReverseSynchronizer: is it
 really useful ? In which cases ? May need to remove this option.
-- field specific type customizations are not accessible via the 
-"Show All Customizations" command.
 - maybe allow to execution a method upon list item selection. 
 The method would take an item as parameter.
 - DetailedListControl: allow to acces the contextual menu (to copy, ...)
-- DetailedListControl: make the selection borders thicker
 - ImageView: allow to associate mouse events to methods having pixel location parameters 
 (int x, int y, ...). Additionnal parameters could be asked before performing the action.
 Mutiple methods associated with the same event would trigger a contextual menu
