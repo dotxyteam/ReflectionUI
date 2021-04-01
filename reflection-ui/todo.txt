@@ -1,7 +1,5 @@
-- allow to add the virtual field that returns the "Object [id = x]" value.
-- Type Customization Dialog: 
-	. "Customize Fields Display" list: 	column "Transient" must berenamed and moved.
-	. "Customize Fields Display" list: 	column "Read-Only..." must be renamed.
+- xy.reflect.ui.info.field.ChangedTypeFieldInfo.ReverseSynchronizer: is it
+really useful ? In which cases ? May need to remove this option.
 - field specific type customizations are not accessible via the 
 "Show All Customizations" command.
 - maybe allow to execution a method upon list item selection. 
