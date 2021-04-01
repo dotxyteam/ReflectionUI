@@ -44,6 +44,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -326,6 +327,26 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
+		protected AbstractStandardListAction createInsertAction(InsertPosition insertPosition) {
+			return new InsertAction(insertPosition) {
+
+				private static final long serialVersionUID = 1L;
+				
+				@Override
+				protected boolean prepare() {
+					newItemPosition = getNewItemPosition();
+					listType = newItemPosition.getContainingListType();
+					newItem = createItem(newItemPosition);
+					if (newItem == null) {
+						return false;
+					}
+					return true;
+				}
+
+			};
+		}
+
+		@Override
 		public String toString() {
 			return "DetailedListControl [data=" + listData + "]";
 		}
@@ -357,6 +378,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 					add(form, formConstraints);
 				}
 				enableSelection();
+				setupContexteMenu();
 			}
 
 			protected void enableSelection() {
@@ -440,6 +462,23 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 			public void refreshUI(boolean refreshStructure) {
 				formBuilder.refreshEditorForm(form, refreshStructure);
+			}
+
+			protected void setupContexteMenu() {
+				addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						if (e.getButton() != MouseEvent.BUTTON3) {
+							return;
+						}
+						if (e.getComponent() == DetailedCellControl.this) {
+							JPopupMenu popup = createPopupMenu();
+							popup.show(e.getComponent(), e.getX(), e.getY());
+						}
+					}
+
+				});
 			}
 
 			@Override

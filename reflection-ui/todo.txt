@@ -2,7 +2,6 @@
 really useful ? In which cases ? May need to remove this option.
 - maybe allow to execution a method upon list item selection. 
 The method would take an item as parameter.
-- DetailedListControl: allow to acces the contextual menu (to copy, ...)
 - ImageView: allow to associate mouse events to methods having pixel location parameters 
 (int x, int y, ...). Additionnal parameters could be asked before performing the action.
 Mutiple methods associated with the same event would trigger a contextual menu

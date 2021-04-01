@@ -139,13 +139,15 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			private void maybeShowPopup(MouseEvent e) {
 				if (e.isPopupTrigger()) {
 					JPopupMenu popup = new JPopupMenu();
-					popup.add(new JMenuItem(new DefaultEditorKit.CopyAction() {
-						private static final long serialVersionUID = 1L;
+					if (textComponent.getSelectedText() != null) {
+						popup.add(new JMenuItem(new DefaultEditorKit.CopyAction() {
+							private static final long serialVersionUID = 1L;
 
-						{
-							putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Copy"));
-						}
-					}));
+							{
+								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Copy"));
+							}
+						}));
+					}
 					if (textComponent.isEditable()) {
 						popup.add(new JMenuItem(new DefaultEditorKit.CutAction() {
 							private static final long serialVersionUID = 1L;

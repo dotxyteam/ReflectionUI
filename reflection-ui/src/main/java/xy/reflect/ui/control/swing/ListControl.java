@@ -2327,7 +2327,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public boolean isValid() {
-			if (getDetailsAccessMode().hasDetailsDisplayArea()) {
+			if (!getDetailsAccessMode().hasDetailsDisplayOption()) {
 				return false;
 			}
 			BufferedItemPosition singleSelectedPosition = getSingleSelection();
