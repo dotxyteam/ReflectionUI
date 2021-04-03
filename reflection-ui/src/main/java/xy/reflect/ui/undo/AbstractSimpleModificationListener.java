@@ -53,7 +53,7 @@ public abstract class AbstractSimpleModificationListener implements IModificatio
 	}
 
 	@Override
-	public void handleInvalidationCleared() {
+	public void handleClearInvalidation() {
 		handleAnyEvent(null);
 	}
 
