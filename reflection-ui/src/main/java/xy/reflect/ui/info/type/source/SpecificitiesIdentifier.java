@@ -29,8 +29,9 @@
 package xy.reflect.ui.info.type.source;
 
 /**
- * This class allows to include a context in abstract UI type informations so
- * that appearance and behavior of the generated controls can be automatically
+ * This class allows to include a context (typically the references of the field
+ * that owns the type) in the abstract UI type informations so that the
+ * appearance and the behavior of the generated controls can be automatically
  * adjusted in specific contexts (in addition to global adjustments).
  * 
  * @author olitank

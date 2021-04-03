@@ -33,7 +33,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo.ValueListItem;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;

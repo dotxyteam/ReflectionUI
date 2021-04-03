@@ -65,6 +65,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ListTabbedPane extends JPanel {
 
 	public static void main(String[] args) {

@@ -34,6 +34,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+@SuppressWarnings("unchecked")
 public abstract class AbstractLazyTreeNode extends DefaultMutableTreeNode {
 
 	protected static final long serialVersionUID = 1L;

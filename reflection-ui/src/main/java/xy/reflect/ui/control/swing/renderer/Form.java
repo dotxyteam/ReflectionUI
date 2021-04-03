@@ -518,7 +518,7 @@ public class Form extends ImagePanel {
 			}
 
 			@Override
-			protected JScrollPane wrapListControl(JList listControl) {
+			protected JScrollPane wrapListControl(@SuppressWarnings("rawtypes") JList listControl) {
 				JScrollPane result = new ControlScrollPane(listControl) {
 					private static final long serialVersionUID = 1L;
 

@@ -42,7 +42,6 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.CapsuleFieldInfo.Value;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
