@@ -619,7 +619,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
-				if (result == null) {
+				if(result == null) {
 					return null;
 				}
 				IListStructuralInfo structure = getStructuralInfo();
@@ -1911,7 +1911,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (newSubListItem == null) {
 				return false;
 			}
-			if (!subListType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
+			if (!subListType.isItemConstructorSelectable() && getDetailsAccessMode().hasDetailsDisplayOption()) {
 				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
@@ -2144,7 +2144,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (newItem == null) {
 				return false;
 			}
-			if (!listType.isItemConstructorSelectable() && !getDetailsAccessMode().hasDetailsDisplayArea()) {
+			if (!listType.isItemConstructorSelectable() && getDetailsAccessMode().hasDetailsDisplayOption()) {
 				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;

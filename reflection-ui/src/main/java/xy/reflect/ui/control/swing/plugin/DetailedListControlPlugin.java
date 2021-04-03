@@ -40,6 +40,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -54,10 +55,15 @@ import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
+import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.ControlPanel;
@@ -327,20 +333,33 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		protected AbstractStandardListAction createInsertAction(InsertPosition insertPosition) {
-			return new InsertAction(insertPosition) {
+		public void scrollTo(BufferedItemPosition itemPosition) {
+			DetailedCellControl targetDetailedCellControl = null;
+			for (Component c : detailedCellsContainer.getComponents()) {
+				DetailedCellControl detailedCellControl = (DetailedCellControl) c;
+				if (itemPosition.equals(detailedCellControl.getItemPosition())) {
+					targetDetailedCellControl = detailedCellControl;
+					break;
+				}
+			}
+			if (targetDetailedCellControl == null) {
+				return;
+			}
+			detailedCellsContainer.scrollRectToVisible(targetDetailedCellControl.getBounds());
+		}
 
-				private static final long serialVersionUID = 1L;
-				
+		@Override
+		public IListStructuralInfo getStructuralInfo() {
+			return new ListStructuralInfoProxy(super.getStructuralInfo()) {
+
 				@Override
-				protected boolean prepare() {
-					newItemPosition = getNewItemPosition();
-					listType = newItemPosition.getContainingListType();
-					newItem = createItem(newItemPosition);
-					if (newItem == null) {
-						return false;
-					}
-					return true;
+				public List<IColumnInfo> getColumns() {
+					return Collections.emptyList();
+				}
+
+				@Override
+				public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
+					return null;
 				}
 
 			};
