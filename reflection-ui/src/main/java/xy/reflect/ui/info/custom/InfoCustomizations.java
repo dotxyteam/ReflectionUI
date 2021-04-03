@@ -913,6 +913,12 @@ public class InfoCustomizations implements Serializable {
 			this.itemCustomizations = itemCustomizations;
 		}
 
+		public void validate() {
+			if ((name == null) || (name.trim().length() == 0)) {
+				throw new ReflectionUIError("Name not provided");
+			}
+		}
+
 	}
 
 	public static abstract class AbstractMenuItemCustomization extends AbstractCustomization
@@ -939,6 +945,12 @@ public class InfoCustomizations implements Serializable {
 
 		public void setIconImagePath(ResourcePath iconImagePath) {
 			this.iconImagePath = iconImagePath;
+		}
+
+		public void validate() {
+			if ((name == null) || (name.trim().length() == 0)) {
+				throw new ReflectionUIError("Name not provided");
+			}
 		}
 
 	}
@@ -1128,6 +1140,12 @@ public class InfoCustomizations implements Serializable {
 
 		public void setItemCategoryCustomizations(List<MenuItemCategoryCustomization> itemCategoryCustomizations) {
 			this.itemCategoryCustomizations = itemCategoryCustomizations;
+		}
+
+		public void validate() {
+			if ((name == null) || (name.trim().length() == 0)) {
+				throw new ReflectionUIError("Name not provided");
+			}
 		}
 
 	}

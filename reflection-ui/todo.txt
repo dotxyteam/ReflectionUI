@@ -1,3 +1,7 @@
+- save/load/undo/... menu items should not be implemented in the abstract ui model.
+They should just be specified in there so that the renderer would implement them.
+An enumeration in AbstractBuiltInActionMenuItem should be enough to tell which
+menu item to create.
 - add an option to allow a method to reset the modification stack (forget()).
 Useful for methods like "loadFile()", "newProject()", etc.
 This option would be handled here: ReflectionUIUtils.invokeMethodThroughModificationStack()

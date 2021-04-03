@@ -901,6 +901,7 @@ public class CustomizationTools implements ICustomizationTools {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void transferMethodCustomizationSettings(TypeCustomization srcTc, TypeCustomization dstTc,
 			String methodSignature) {
 		MethodCustomization srcMc = InfoCustomizations.getMethodCustomization(srcTc, methodSignature, true);
@@ -931,6 +932,10 @@ public class CustomizationTools implements ICustomizationTools {
 
 			changeCustomizationFieldValue(dstMc, "ignoredReturnValueForced", srcMc.isIgnoredReturnValueForced());
 			changeCustomizationFieldValue(srcMc, "ignoredReturnValueForced", false);
+
+			changeCustomizationFieldValue(dstMc, "specificProperties", (Map<String, Object>) ReflectionUIUtils
+					.copyThroughSerialization((Serializable) dstMc.getSpecificProperties()));
+			changeCustomizationFieldValue(srcMc, "specificProperties", new HashMap<String, Object>());
 		}
 	}
 

@@ -47,13 +47,13 @@ public class SaveMenuItem extends AbstractSaveMenuItem {
 
 	@Override
 	public boolean isEnabled(Object form, Object renderer) {
-		if (isFileSynchronized((Form) form, (SwingRenderer) renderer)) {
+		if (isFileSynchronized((Form) form)) {
 			return false;
 		}
 		return super.isEnabled(form, renderer);
 	}
 
-	public boolean isFileSynchronized(Form form, SwingRenderer swingRenderer) {
+	public boolean isFileSynchronized(Form form) {
 		ModificationStack modifStack = form.getModificationStack();
 		Long lastSavedVersion = lastPersistedVersionByForm.get(form);
 		if (lastSavedVersion == null) {
