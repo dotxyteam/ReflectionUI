@@ -29,6 +29,8 @@
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,6 +116,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.IdentityEqualityWrapper;
 import xy.reflect.ui.util.Mapper;
@@ -208,6 +211,46 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 		return super.isImmutable(type);
+	}
+
+	@Override
+	protected void save(ITypeInfo type, Object object, OutputStream out) {
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+				type.getName());
+		if (t != null) {
+			if (t.getSavingMethodName() != null) {
+				Class<?> javaType;
+				try {
+					javaType = ClassUtils.getCachedClassforName(type.getName());
+					Method method = javaType.getMethod(t.getSavingMethodName(), OutputStream.class);
+					method.invoke(object, out);
+					return;
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+			}
+		}
+		super.save(type, object, out);
+	}
+
+	@Override
+	protected void load(ITypeInfo type, Object object, InputStream in) {
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+				type.getName());
+		if (t != null) {
+			if (t.getLoadingMethodName() != null) {
+				Class<?> javaType;
+				try {
+					javaType = ClassUtils.getCachedClassforName(type.getName());
+					Method method = javaType.getMethod(t.getLoadingMethodName(), InputStream.class);
+					method.invoke(object, in);
+					return;
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+			}
+		}
+		super.load(type, object, in);
 	}
 
 	@Override
@@ -1440,12 +1483,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					fields.add(newField);
 				} else {
 					IMethodInfo newMethod = new DefaultMethodInfo(customizedUI, objectMethod);
-					if(newMethod.getName().equals("toString")) {
+					if (newMethod.getName().equals("toString")) {
 						newMethod = new MethodInfoProxy(newMethod) {
 							@Override
 							public Object invoke(Object object, InvocationData invocationData) {
 								return containingType.toString(object);
-							}					
+							}
 						};
 					}
 					newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod,

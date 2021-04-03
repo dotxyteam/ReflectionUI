@@ -98,6 +98,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -1462,12 +1463,88 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification formButtonForegroundColor;
 		protected ColorSpecification formButtonBorderColor;
 		protected ResourcePath formButtonBackgroundImagePath;
+		protected String savingMethodName;
+		protected String loadingMethodName;
 
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public String getSavingMethodName() {
+			return savingMethodName;
+		}
+
+		public void setSavingMethodName(String savingMethodName) {
+			this.savingMethodName = savingMethodName;
+		}
+
+		public List<String> getSavingMethodNameOptions() {
+			Class<?> javaType;
+			try {
+				javaType = ClassUtils.getCachedClassforName(typeName);
+			} catch (ClassNotFoundException e) {
+				return Collections.emptyList();
+			}
+			List<String> result = new ArrayList<String>();
+			for (Method method : javaType.getMethods()) {
+				if (Modifier.isStatic(method.getModifiers())) {
+					continue;
+				}
+				if (!method.getReturnType().equals(void.class)) {
+					continue;
+				}
+				List<Parameter> parameters = ReflectionUIUtils.getJavaParameters(method);
+				if (parameters.size() != 1) {
+					continue;
+				}
+				Parameter outputStreamParameter = parameters.get(0);
+				if (!outputStreamParameter.getType().equals(OutputStream.class)) {
+					continue;
+				}
+				result.add(method.getName());
+			}
+			Collections.sort(result);
+			return result;
+		}
+
+		public String getLoadingMethodName() {
+			return loadingMethodName;
+		}
+
+		public void setLoadingMethodName(String loadingMethodName) {
+			this.loadingMethodName = loadingMethodName;
+		}
+
+		public List<String> getLoadingMethodNameOptions() {
+			Class<?> javaType;
+			try {
+				javaType = ClassUtils.getCachedClassforName(typeName);
+			} catch (ClassNotFoundException e) {
+				return Collections.emptyList();
+			}
+			List<String> result = new ArrayList<String>();
+			for (Method method : javaType.getMethods()) {
+				if (Modifier.isStatic(method.getModifiers())) {
+					continue;
+				}
+				if (!method.getReturnType().equals(void.class)) {
+					continue;
+				}
+				List<Parameter> parameters = ReflectionUIUtils.getJavaParameters(method);
+				if (parameters.size() != 1) {
+					continue;
+				}
+				Parameter inputStreamParameter = parameters.get(0);
+				if (!inputStreamParameter.getType().equals(InputStream.class)) {
+					continue;
+				}
+				result.add(method.getName());
+			}
+			Collections.sort(result);
+			return result;
 		}
 
 		public boolean isAnyPersistenceMemberIncluded() {
