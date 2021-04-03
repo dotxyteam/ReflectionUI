@@ -218,7 +218,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
-		subForm.addMenuContribution(menuModel);
+		subForm.addMenuContributionTo(menuModel);
 	}
 
 	@Override

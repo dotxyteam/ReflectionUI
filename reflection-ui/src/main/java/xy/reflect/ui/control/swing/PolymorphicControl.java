@@ -398,7 +398,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
 		if (dynamicControl != null) {
-			dynamicControl.addMenuContribution(menuModel);
+			dynamicControl.addMenuContributionTo(menuModel);
 		}
 	}
 

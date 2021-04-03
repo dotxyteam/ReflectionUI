@@ -585,7 +585,7 @@ public class Form extends ImagePanel {
 					} else {
 						currentComponentContainer.setBorder(BorderFactory.createTitledBorder(""));
 					}
-				}	
+				}
 			}
 
 			protected void refreshNonSelectedCellRenderer() {
@@ -1182,7 +1182,7 @@ public class Form extends ImagePanel {
 
 	public void updateMenuBar() {
 		MenuModel menuModel = new MenuModel();
-		addMenuContribution(menuModel);
+		addMenuContributionTo(menuModel);
 		menuBar.removeAll();
 		for (Menu menu : menuModel.getMenus()) {
 			menuBar.add(createMenu(menu));
@@ -1199,7 +1199,7 @@ public class Form extends ImagePanel {
 		menuBar.setVisible(menuBar.getComponentCount() > 0);
 	}
 
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributionTo(MenuModel menuModel) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		MenuModel formMenuModel = type.getMenuModel();
@@ -1226,15 +1226,20 @@ public class Form extends ImagePanel {
 
 	public JMenu createMenu(Menu menu) {
 		JMenu result = new JMenu(menu.getName());
-		for (AbstractMenuItem item : menu.getItems()) {
-			result.add(createMenuItem(item));
-		}
 		for (int i = 0; i < menu.getItemCategories().size(); i++) {
 			if (i > 0) {
 				result.addSeparator();
 			}
 			MenuItemCategory category = menu.getItemCategories().get(i);
 			for (AbstractMenuItem item : category.getItems()) {
+				result.add(createMenuItem(item));
+			}
+		}
+		if (menu.getItems().size() > 0) {
+			if (result.getSubElements().length > 0) {
+				result.addSeparator();
+			}
+			for (AbstractMenuItem item : menu.getItems()) {
 				result.add(createMenuItem(item));
 			}
 		}

@@ -350,7 +350,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	@Override
 	public void addMenuContribution(MenuModel menuModel) {
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			((Form) subControl).addMenuContribution(menuModel);
+			((Form) subControl).addMenuContributionTo(menuModel);
 		}
 	}
 

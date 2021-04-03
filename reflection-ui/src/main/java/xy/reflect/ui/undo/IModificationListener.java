@@ -70,7 +70,7 @@ public interface IModificationListener {
 
 	/**
 	 * Called after {@link ModificationStack#isInvalidated()} return value changes
-	 * from true to false. {@link ModificationStack#forget()}.
+	 * from true to false.
 	 */
-	void handleInvalidationCleared();
+	void handleClearInvalidation();
 }

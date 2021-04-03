@@ -80,7 +80,7 @@ public class ModificationStack {
 		}
 
 		@Override
-		public void handleInvalidationCleared() {
+		public void handleClearInvalidation() {
 		}
 
 		@Override
@@ -140,14 +140,14 @@ public class ModificationStack {
 		}
 
 		@Override
-		public void handleInvalidationCleared() {
-			internalListener.handleInvalidationCleared();
+		public void handleClearInvalidation() {
+			internalListener.handleClearInvalidation();
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.handleInvalidationCleared();
+				listener.handleClearInvalidation();
 			}
 		}
 
@@ -496,7 +496,7 @@ public class ModificationStack {
 			undoStack.clear();
 			compositeStack.clear();
 			invalidated = false;
-			allListenersProxy.handleInvalidationCleared();
+			allListenersProxy.handleClearInvalidation();
 		}
 	}
 
@@ -509,10 +509,9 @@ public class ModificationStack {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot forget while composite modification creation is ongoing");
 		}
-		undoStack.clear();
-		redoStack.clear();
-		invalidated = wasInvalidated = false;
-		allListenersProxy.handleInvalidate();
+		invalidate();
+		validate();
+		wasInvalidated = false;
 	}
 
 	/**
