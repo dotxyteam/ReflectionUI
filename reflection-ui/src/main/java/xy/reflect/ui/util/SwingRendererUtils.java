@@ -124,7 +124,10 @@ public class SwingRendererUtils {
 	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
+
 	public static Map<String, Image> IMAGE_CACHE = new HashMap<String, Image>();
+
+	private static final Map<GraphicsDevice, Rectangle> MAXIMUM_BOUNDS_BY_GRAPHIC_DEVICE_CACHE = new HashMap<GraphicsDevice, Rectangle>();
 
 	public static boolean isNullImage(Image image) {
 		return (image.getWidth(null) * image.getHeight(null) == 1);
@@ -487,14 +490,18 @@ public class SwingRendererUtils {
 	}
 
 	public static Rectangle getMaximumWindowBounds(GraphicsDevice gd) {
-		GraphicsConfiguration gc = gd.getDefaultConfiguration();
-		Rectangle screenBounds = gc.getBounds();
-		Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-		Rectangle result = new Rectangle();
-		result.x = screenBounds.x + screenInsets.left;
-		result.y = screenBounds.y + screenInsets.top;
-		result.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
-		result.width = screenBounds.width - screenInsets.left - screenInsets.right;
+		Rectangle result = MAXIMUM_BOUNDS_BY_GRAPHIC_DEVICE_CACHE.get(gd);
+		if (result == null) {
+			result = new Rectangle();
+			GraphicsConfiguration gc = gd.getDefaultConfiguration();
+			Rectangle screenBounds = gc.getBounds();
+			Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+			result.x = screenBounds.x + screenInsets.left;
+			result.y = screenBounds.y + screenInsets.top;
+			result.height = screenBounds.height - screenInsets.top - screenInsets.bottom;
+			result.width = screenBounds.width - screenInsets.left - screenInsets.right;
+			MAXIMUM_BOUNDS_BY_GRAPHIC_DEVICE_CACHE.put(gd, result);
+		}
 		return result;
 	}
 
