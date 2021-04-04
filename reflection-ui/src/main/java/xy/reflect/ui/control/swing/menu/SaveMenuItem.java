@@ -26,38 +26,63 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.control.swing.menu;
 
-import java.awt.Image;
-
-import javax.swing.JPanel;
+import java.io.File;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.undo.ModificationStack;
 
-public class HelpMenuItem extends AbstractBuiltInActionMenuItem {
+public class SaveMenuItem extends AbstractSaveMenuItem {
 
-	public HelpMenuItem() {
-		name = "Help";
+	protected static final long serialVersionUID = 1L;
+
+	public SaveMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
 	@Override
-	public void execute(Object form, Object renderer) {
-		SwingRenderer swingRenderer = (SwingRenderer) renderer;
-		Object object = ((Form) form).getObject();
-		ITypeInfo type = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-		String onlineHelp = type.getOnlineHelp();
-		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
-			throw new ReflectionUIError("Online help not provided for the type '" + type.getName() + "'");
+	protected boolean isActive() {
+		if (isFileSynchronized()) {
+			return false;
 		}
-		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), name);
-		Image iconImage = swingRenderer.getObjectIconImage(object);
-		swingRenderer.openInformationDialog((JPanel) form, onlineHelp, title, iconImage);
+		return super.isActive();
+	}
+
+	protected boolean isFileSynchronized() {
+		ModificationStack modifStack = form.getModificationStack();
+		Long lastSavedVersion = lastPersistedVersionByForm.get(form);
+		if (lastSavedVersion == null) {
+			if (modifStack.getStateVersion() == 0) {
+				return true;
+			}
+		} else {
+			if (lastSavedVersion.equals(modifStack.getStateVersion())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	protected File retrieveFile() {
+		File file = lastFileByForm.get(form);
+		if (file != null) {
+			return file;
+		}
+		return super.retrieveFile();
+	}
+
+	@Override
+	public String getText() {
+		String result = super.getText();
+		File file = lastFileByForm.get((Form) form);
+		if (file != null) {
+			result += " " + file.getPath();
+		}
+		return result;
 	}
 
 }

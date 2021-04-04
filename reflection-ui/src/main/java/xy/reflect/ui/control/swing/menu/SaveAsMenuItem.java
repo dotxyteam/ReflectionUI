@@ -26,29 +26,18 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu;
+package xy.reflect.ui.control.swing.menu;
 
-import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 
-public abstract class AbstractActionMenuItem extends AbstractMenuItem {
+public class SaveAsMenuItem extends AbstractSaveMenuItem {
 
-	protected ResourcePath iconImagePath;
+	protected static final long serialVersionUID = 1L;
 
-	public AbstractActionMenuItem(String name, ResourcePath iconImagePath) {
-		super(name);
-		this.iconImagePath = iconImagePath;
-	}
-
-	public AbstractActionMenuItem() {
-		super();
-	}
-
-	public ResourcePath getIconImagePath() {
-		return iconImagePath;
-	}
-
-	public void setIconImagePath(ResourcePath iconImagePath) {
-		this.iconImagePath = iconImagePath;
+	public SaveAsMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
 }

@@ -26,26 +26,45 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.control.swing.menu;
+
+import java.awt.Image;
+
+import javax.swing.JPanel;
 
 import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class UndoMenuItem extends AbstractBuiltInActionMenuItem {
+public class HelpMenuItem extends AbstractStandardActionMenuItem {
 
-	public UndoMenuItem() {
-		name = "Undo";
+	private static final long serialVersionUID = 1L;
+
+	public HelpMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
 	@Override
-	public boolean isEnabled(Object form, Object renderer) {
-		return ((Form) form).getModificationStack().canUndo();
+	protected void execute() {
+		Object object = form.getObject();
+		ITypeInfo type = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		String onlineHelp = type.getOnlineHelp();
+		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
+			throw new ReflectionUIError("Online help not provided for the type '" + type.getName() + "'");
+		}
+		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object),
+				menuItemInfo.getCaption());
+		Image iconImage = swingRenderer.getObjectIconImage(object);
+		swingRenderer.openInformationDialog((JPanel) form, onlineHelp, title, iconImage);
 	}
 
 	@Override
-	public void execute(Object form, Object renderer) {
-		((Form) form).getModificationStack().undo();
-
+	protected boolean isActive() {
+		return true;
 	}
 
 }

@@ -26,55 +26,65 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.info.menu;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
-import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
+/**
+ * This class represents a menu item that will be used to execute a given
+ * method.
+ * 
+ * @author olitank
+ *
+ */
+public class MethodActionMenuItemInfo extends AbstractActionMenuItemInfo {
 
-public abstract class  AbstractSaveMenuItem extends AbstractFileMenuItem {
+	protected IMethodInfo method;
 
-	protected static final long serialVersionUID = 1L;
+	public MethodActionMenuItemInfo(ReflectionUI reflectionUI, IMethodInfo method) {
+		super(ReflectionUIUtils.formatMethodControlCaption(method.getCaption(), method.getParameters()),
+				method.getIconImagePath());
+		this.method = method;
+	}
 
-	@Override
-	protected void persist(final SwingRenderer swingRenderer, final Form form, File file) {
-		Object object = form.getObject();
-		ITypeInfo type = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-		OutputStream out = null;
-		try {
-			out = new FileOutputStream(file);
-			type.save(object, out);
-		} catch (Throwable t) {
-			throw new ReflectionUIError(t);
-		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (Throwable ignore) {
-				}
-			}
-		}
+	public IMethodInfo getMethod() {
+		return method;
+	}
+
+	public void setMethod(IMethodInfo method) {
+		this.method = method;
 	}
 
 	@Override
-	protected File retrieveFile(SwingRenderer swingRenderer, Form form) {
-		File result = super.retrieveFile(swingRenderer, form);
-		if (result != null) {
-			if (result.exists()) {
-				if (!swingRenderer.openQuestionDialog(form,
-						"The file '" + result.getPath() + "' already exists.\nDo you want to replace it?",
-						fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
-					result = null;
-				}
-			}
-		}
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((method == null) ? 0 : method.hashCode());
 		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MethodActionMenuItemInfo other = (MethodActionMenuItemInfo) obj;
+		if (method == null) {
+			if (other.method != null)
+				return false;
+		} else if (!method.equals(other.method))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ActionMenuItem [name=" + caption + ", action=" + method + "]";
 	}
 
 }

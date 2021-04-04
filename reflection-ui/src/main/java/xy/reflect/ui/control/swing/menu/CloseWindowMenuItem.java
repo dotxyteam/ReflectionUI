@@ -26,65 +26,36 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu;
+package xy.reflect.ui.control.swing.menu;
 
-import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.WindowEvent;
 
-/**
- * This class represents a menu item that will be used to execute a given
- * method.
- * 
- * @author olitank
- *
- */
-public class MethodActionMenuItem extends AbstractActionMenuItem {
+import javax.swing.SwingUtilities;
 
-	protected IMethodInfo method;
+import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 
-	public MethodActionMenuItem(ReflectionUI reflectionUI, IMethodInfo method) {
-		super(ReflectionUIUtils.formatMethodControlCaption(method.getCaption(), method.getParameters()),
-				method.getIconImagePath());
-		this.method = method;
-	}
+public class CloseWindowMenuItem extends AbstractStandardActionMenuItem {
 
-	public IMethodInfo getMethod() {
-		return method;
-	}
+	private static final long serialVersionUID = 1L;
 
-	public void setMethod(IMethodInfo method) {
-		this.method = method;
+	public CloseWindowMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((method == null) ? 0 : method.hashCode());
-		return result;
+	protected void execute() {
+		Window window = SwingUtilities.getWindowAncestor(form);
+		WindowEvent closeEvent = new WindowEvent(window, WindowEvent.WINDOW_CLOSING);
+		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeEvent);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MethodActionMenuItem other = (MethodActionMenuItem) obj;
-		if (method == null) {
-			if (other.method != null)
-				return false;
-		} else if (!method.equals(other.method))
-			return false;
+	protected boolean isActive() {
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "ActionMenuItem [name=" + name + ", action=" + method + "]";
 	}
 
 }

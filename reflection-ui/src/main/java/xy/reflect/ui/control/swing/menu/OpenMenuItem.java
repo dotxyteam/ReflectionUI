@@ -26,25 +26,48 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.control.swing.menu;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ReflectionUIError;
 
-public class ResetMenuItem extends AbstractBuiltInActionMenuItem {
+public class OpenMenuItem extends AbstractFileMenuItem {
 
-	public ResetMenuItem() {
-		name = "Reset";
+	protected static final long serialVersionUID = 1L;
+
+	public OpenMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
 	@Override
-	public boolean isEnabled(Object form, Object renderer) {
-		return((Form) form).getModificationStack().canReset();
-	}
-
-	@Override
-	public void execute(Object form, Object renderer) {
-		((Form) form).getModificationStack().undoAll();
+	protected void persist(final SwingRenderer swingRenderer, final Form form, File file) {
+		Object object = form.getObject();
+		ITypeInfo type = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+			type.load(object, in);
+		} catch (Throwable t) {
+			throw new ReflectionUIError(t);
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (Throwable ignore) {
+				}
+			}
+			ModificationStack modifStack = form.getModificationStack();
+			modifStack.forget();
+		}
 	}
 
 }

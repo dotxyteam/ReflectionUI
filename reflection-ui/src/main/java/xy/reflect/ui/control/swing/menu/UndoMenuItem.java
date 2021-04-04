@@ -26,8 +26,39 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu;
+package xy.reflect.ui.control.swing.menu;
 
-public abstract class AbstractMenuElement implements IMenuElement {
+import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+
+public class UndoMenuItem extends AbstractStandardActionMenuItem {
+
+	private static final long serialVersionUID = 1L;
+
+	public UndoMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
+	}
+
+	@Override
+	protected void initialize() {
+		super.initialize();
+		if (form.getModificationStack().getUndoSize() > 0) {
+			setToolTipText(form.getModificationStack()
+					.getUndoModifications()[form.getModificationStack().getUndoModifications().length - 1].getTitle());
+		} else {
+			setToolTipText(null);
+		}
+	}
+
+	@Override
+	protected boolean isActive() {
+		return form.getModificationStack().canUndo();
+	}
+
+	@Override
+	protected void execute() {
+		form.getModificationStack().undo();
+	}
 
 }

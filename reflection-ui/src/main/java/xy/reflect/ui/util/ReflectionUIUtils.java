@@ -69,10 +69,10 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.AbstractMenuItem;
-import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
+import xy.reflect.ui.info.menu.IMenuElementInfo;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
-import xy.reflect.ui.info.menu.Menu;
+import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -1109,12 +1109,12 @@ public class ReflectionUIUtils {
 		};
 	}
 
-	public static MenuElementKind getMenuElementKind(IMenuElement element) {
-		if (element instanceof Menu) {
+	public static MenuElementKind getMenuElementKind(IMenuElementInfo element) {
+		if (element instanceof MenuInfo) {
 			return MenuElementKind.MENU;
 		} else if (element instanceof MenuItemCategory) {
 			return MenuElementKind.ITEM_CATEGORY;
-		} else if (element instanceof AbstractMenuItem) {
+		} else if (element instanceof AbstractMenuItemInfo) {
 			return MenuElementKind.ITEM;
 		} else {
 			throw new ReflectionUIError();

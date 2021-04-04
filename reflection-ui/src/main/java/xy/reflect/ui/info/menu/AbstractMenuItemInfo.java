@@ -28,23 +28,23 @@
  ******************************************************************************/
 package xy.reflect.ui.info.menu;
 
-public abstract class AbstractMenuItem extends AbstractMenuElement {
-	protected String name = "";
+public abstract class AbstractMenuItemInfo implements IMenuElementInfo {
+	protected String caption = "";
 	
-	public AbstractMenuItem(String name) {
+	public AbstractMenuItemInfo(String caption) {
 		super();
-		this.name = name;
+		this.caption = caption;
 	}
 
-	public AbstractMenuItem() {
+	public AbstractMenuItemInfo() {
 	}
 
-	public String getName() {
-		return name;
+	public String getCaption() {
+		return caption;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCaption(String caption) {
+		this.caption = caption;
 	}
 
 	
@@ -52,7 +52,7 @@ public abstract class AbstractMenuItem extends AbstractMenuElement {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((caption == null) ? 0 : caption.hashCode());
 		return result;
 	}
 
@@ -64,11 +64,11 @@ public abstract class AbstractMenuItem extends AbstractMenuElement {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractMenuItem other = (AbstractMenuItem) obj;
-		if (name == null) {
-			if (other.name != null)
+		AbstractMenuItemInfo other = (AbstractMenuItemInfo) obj;
+		if (caption == null) {
+			if (other.caption != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!caption.equals(other.caption))
 			return false;
 		return true;
 	}

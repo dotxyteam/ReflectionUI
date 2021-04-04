@@ -26,15 +26,18 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.info.menu;
 
-public class SaveAsMenuItem extends AbstractSaveMenuItem {
+import java.util.List;
 
-	protected static final long serialVersionUID = 1L;
+/**
+ * This interface is the base of every menu model element that has children.
+ * 
+ * @author olitank
+ *
+ */
+public interface IMenuItemContainerInfo extends IMenuElementInfo {
 
-	public SaveAsMenuItem() {
-		name = "Save As...";
-		fileBrowserConfiguration.actionTitle = "Save";
-	}
+	List<AbstractMenuItemInfo> getItems();
 
 }

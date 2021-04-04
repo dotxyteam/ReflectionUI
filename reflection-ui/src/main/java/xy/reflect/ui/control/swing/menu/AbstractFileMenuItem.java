@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.control.swing.menu;
 
 import java.io.File;
 import java.util.HashMap;
@@ -43,10 +43,9 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowser;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.SelectionModeConfiguration;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -54,17 +53,20 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
 
-public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem {
+public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuItem {
+
+	private static final long serialVersionUID = 1L;
 
 	protected static Map<Form, File> lastFileByForm = new MapMaker().weakKeys().makeMap();
 	protected static Map<Form, Long> lastPersistedVersionByForm = new MapMaker().weakKeys().makeMap();
 
-	protected FileBrowserConfiguration fileBrowserConfiguration = new FileBrowserConfiguration();
+	protected FileBrowserConfiguration fileBrowserConfiguration;
 
 	protected abstract void persist(SwingRenderer swingRenderer, Form form, File file);
 
-	public AbstractFileMenuItem() {
-		fileBrowserConfiguration.selectionMode = SelectionModeConfiguration.FILES_ONLY;
+	public AbstractFileMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
+		fileBrowserConfiguration = menuItemInfo.getFileBrowserConfiguration();
 	}
 
 	public static Map<Form, File> getLastFileByForm() {
@@ -84,9 +86,8 @@ public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem
 	}
 
 	@Override
-	public boolean isEnabled(Object form, Object renderer) {
-		SwingRenderer swingRenderer = (SwingRenderer) renderer;
-		Object object = ((Form) form).getObject();
+	protected boolean isActive() {
+		Object object = form.getObject();
 		ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 		if (!type.canPersist()) {
@@ -95,9 +96,9 @@ public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem
 		return true;
 	}
 
-	protected File retrieveFile(final SwingRenderer swingRenderer, Form form) {
+	protected File retrieveFile() {
 		final File[] fileHolder = new File[1];
-		final FileBrowserPlugin browserPlugin = new FileBrowserPlugin();
+		final FileBrowserPlugin fileBrowserPlugin = new FileBrowserPlugin();
 		IFieldControlInput fileBrowserInput = new DefaultFieldControlInput(swingRenderer.getReflectionUI()) {
 
 			@Override
@@ -122,7 +123,7 @@ public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem
 							protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 								Map<String, Object> result = super.getSpecificProperties(type);
 								result = new HashMap<String, Object>();
-								browserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
+								fileBrowserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
 								return result;
 							}
 
@@ -134,20 +135,20 @@ public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem
 			}
 
 		};
-		FileBrowser browser = browserPlugin.createControl(swingRenderer, fileBrowserInput);
-		browser.openDialog(form);
+		FileBrowser fileBrowser = fileBrowserPlugin.createControl(swingRenderer, fileBrowserInput);
+		fileBrowser.openDialog(form);
 		File result = fileHolder[0];
 		return result;
 	}
 
 	@Override
-	public void execute(final Object form, final Object renderer) {
-		File file = retrieveFile((SwingRenderer) renderer, (Form) form);
+	protected void execute() {
+		File file = retrieveFile();
 		if (file == null) {
 			return;
 		}
 		try {
-			persist((SwingRenderer) renderer, (Form) form, file);
+			persist(swingRenderer, (Form) form, file);
 			ModificationStack modifStack = ((Form) form).getModificationStack();
 			lastPersistedVersionByForm.put((Form) form, modifStack.getStateVersion());
 			lastFileByForm.put((Form) form, file);
@@ -158,7 +159,7 @@ public abstract class AbstractFileMenuItem extends AbstractBuiltInActionMenuItem
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					SwingRendererUtils.updateWindowMenu((Form) form, (SwingRenderer) renderer);
+					SwingRendererUtils.updateWindowMenu(form, swingRenderer);
 				}
 			});
 		}

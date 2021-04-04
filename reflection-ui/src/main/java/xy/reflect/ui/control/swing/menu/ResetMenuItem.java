@@ -26,20 +26,28 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin;
+package xy.reflect.ui.control.swing.menu;
 
-import xy.reflect.ui.info.menu.AbstractActionMenuItem;
+import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 
-public abstract class AbstractBuiltInActionMenuItem extends AbstractActionMenuItem {
+public class ResetMenuItem extends AbstractStandardActionMenuItem {
 
-	public abstract void execute(Object form, Object renderer);
+	private static final long serialVersionUID = 1L;
 
-	public boolean isEnabled(Object object, Object renderer) {
-		return true;
+	public ResetMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
-	public String getName(final Object form, final Object renderer) {
-		return getName();
+	@Override
+	protected boolean isActive() {
+		return form.getModificationStack().canReset();
+	}
+
+	@Override
+	protected void execute() {
+		form.getModificationStack().undoAll();
 	}
 
 }

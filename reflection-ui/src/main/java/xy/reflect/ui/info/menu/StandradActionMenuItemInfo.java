@@ -28,16 +28,43 @@
  ******************************************************************************/
 package xy.reflect.ui.info.menu;
 
-import java.util.List;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
+import xy.reflect.ui.info.ResourcePath;
 
-/**
- * This interface is the base of every menu model element that has children.
- * 
- * @author olitank
- *
- */
-public interface IMenuItemContainer extends IMenuElement {
+public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 
-	List<AbstractMenuItem> getItems();
+	private Type type;
+	private FileBrowserConfiguration fileBrowserConfiguration;
+
+	public StandradActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
+			FileBrowserConfiguration fileBrowserConfiguration) {
+		super(name, iconImagePath);
+		this.type = type;
+		this.fileBrowserConfiguration = fileBrowserConfiguration;
+	}
+
+	public StandradActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type) {
+		this(name, iconImagePath, type, null);
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
+
+	public FileBrowserConfiguration getFileBrowserConfiguration() {
+		return fileBrowserConfiguration;
+	}
+
+	public void setFileBrowserConfiguration(FileBrowserConfiguration fileBrowserConfiguration) {
+		this.fileBrowserConfiguration = fileBrowserConfiguration;
+	}
+
+	public enum Type {
+		OPEN, SAVE, SAVE_AS, UNDO, REDO, RESET, HELP, EXIT
+	}
 
 }

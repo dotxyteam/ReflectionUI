@@ -37,28 +37,28 @@ import java.util.List;
  * @author olitank
  *
  */
-public class Menu extends AbstractMenuItem implements IMenuItemContainer {
+public class MenuInfo extends AbstractMenuItemInfo implements IMenuItemContainerInfo {
 
-	public Menu(String name) {
+	public MenuInfo(String name) {
 		super(name);
 	}
 
-	public Menu() {
+	public MenuInfo() {
 	}
 
-	protected List<AbstractMenuItem> items = new ArrayList<AbstractMenuItem>();
+	protected List<AbstractMenuItemInfo> items = new ArrayList<AbstractMenuItemInfo>();
 	protected List<MenuItemCategory> itemCategories = new ArrayList<MenuItemCategory>();
 
 	@Override
-	public List<AbstractMenuItem> getItems() {
+	public List<AbstractMenuItemInfo> getItems() {
 		return items;
 	}
 
-	public void setItems(List<AbstractMenuItem> items) {
+	public void setItems(List<AbstractMenuItemInfo> items) {
 		this.items = items;
 	}
 
-	public void addItem(AbstractMenuItem item) {
+	public void addItem(AbstractMenuItemInfo item) {
 		this.items.add(item);
 	}
 
@@ -91,7 +91,7 @@ public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Menu other = (Menu) obj;
+		MenuInfo other = (MenuInfo) obj;
 		if (itemCategories == null) {
 			if (other.itemCategories != null)
 				return false;
@@ -107,7 +107,7 @@ public class Menu extends AbstractMenuItem implements IMenuItemContainer {
 
 	@Override
 	public String toString() {
-		return "Menu [name=" + name + "]";
+		return "Menu [name=" + caption + "]";
 	}
 
 }

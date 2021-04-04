@@ -26,25 +26,18 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.info.menu;
 
-import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
+/**
+ * This interface is the base of every menu model element.
+ * 
+ * @author olitank
+ *
+ */
+public interface IMenuElementInfo {
 
-public class RedoMenuItem extends AbstractBuiltInActionMenuItem {
-
-	public RedoMenuItem() {
-		name = "Redo";
-	}
-
-	@Override
-	public boolean isEnabled(Object form, Object renderer) {
-		return ((Form) form).getModificationStack().canRedo();
-	}
-
-	@Override
-	public void execute(Object form, Object renderer) {
-		((Form) form).getModificationStack().redo();
-	}
-
+	/**
+	 * @return the name of the current menu model element.
+	 */
+	String getCaption();
 }

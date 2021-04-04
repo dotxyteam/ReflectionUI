@@ -26,29 +26,39 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.control.swing.menu;
 
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.WindowEvent;
+import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+public class RedoMenuItem extends AbstractStandardActionMenuItem {
 
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
+	private static final long serialVersionUID = 1L;
 
-
-public class CloseWindowMenuItem extends AbstractBuiltInActionMenuItem {
-
-	public CloseWindowMenuItem() {
-		name = "Exit";
+	public RedoMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
 	@Override
-	public void execute(Object form, Object renderer) {
-		Window window = SwingUtilities.getWindowAncestor((JPanel)form);
-		WindowEvent closeEvent = new WindowEvent(window, WindowEvent.WINDOW_CLOSING);
-		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeEvent);
+	protected void initialize() {
+		super.initialize();
+		if (form.getModificationStack().getRedoSize() > 0) {
+			setToolTipText(form.getModificationStack()
+					.getRedoModifications()[form.getModificationStack().getRedoModifications().length - 1].getTitle());
+		} else {
+			setToolTipText(null);
+		}
+	}
+
+	@Override
+	protected boolean isActive() {
+		return form.getModificationStack().canRedo();
+	}
+
+	@Override
+	protected void execute() {
+		form.getModificationStack().redo();
 	}
 
 }

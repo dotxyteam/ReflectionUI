@@ -64,7 +64,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.menu.AbstractMenuElement;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -200,8 +199,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			protected List<IFieldInfo> getFields(ITypeInfo type) {
-				if (isDerivedTypeInfo(type, AbstractCustomization.class)
-						|| isDerivedTypeInfo(type, AbstractMenuElement.class)) {
+				if (isDerivedTypeInfo(type, AbstractCustomization.class)) {
 					List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 					for (IFieldInfo field : super.getFields(type)) {
 						if (field.getName().equals(InfoCustomizations.UID_FIELD_NAME)) {

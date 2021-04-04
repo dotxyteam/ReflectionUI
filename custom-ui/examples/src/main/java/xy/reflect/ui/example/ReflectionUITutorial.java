@@ -42,12 +42,10 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.Menu;
+import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.builtin.swing.CloseWindowMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.OpenMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -476,7 +474,7 @@ public class ReflectionUITutorial {
 						if (type.getName().equals(HelloWorld.class.getName())) {
 							MenuModel menuModel = new MenuModel();
 							{
-								Menu fileMenu = new Menu("File");
+								MenuInfo fileMenu = new MenuInfo("File");
 								{
 									/*
 									 * Some standards menu items are provided by the framework (open file, save
@@ -492,25 +490,17 @@ public class ReflectionUITutorial {
 										 * In our case we only need the displayed object to implement the Serializable
 										 * interface for the following file menu items to works.
 										 */
-										OpenMenuItem openFileMenuItem = new OpenMenuItem();
-										{
-											openFileMenuItem.setName("Open Hello World File");
-											persistenceCategory.addItem(openFileMenuItem);
-										}
-										SaveAsMenuItem saveAsFileMenuItem = new SaveAsMenuItem();
-										{
-											saveAsFileMenuItem.setName("Save Hello World File As...");
-											persistenceCategory.addItem(saveAsFileMenuItem);
-										}
+										persistenceCategory.addItem(new StandradActionMenuItemInfo(
+												"Open Hello World File", null, StandradActionMenuItemInfo.Type.OPEN));
+										persistenceCategory
+												.addItem(new StandradActionMenuItemInfo("Save Hello World File As...",
+														null, StandradActionMenuItemInfo.Type.SAVE_AS));
 										fileMenu.addItemCategory(persistenceCategory);
 									}
 									MenuItemCategory lifeCycleCategory = new MenuItemCategory("Life Cycle");
 									{
-										CloseWindowMenuItem exitMenuItem = new CloseWindowMenuItem();
-										{
-											exitMenuItem.setName("Quit");
-											lifeCycleCategory.addItem(exitMenuItem);
-										}
+										lifeCycleCategory.addItem(new StandradActionMenuItemInfo("Quit", null,
+												StandradActionMenuItemInfo.Type.EXIT));
 										fileMenu.addItemCategory(lifeCycleCategory);
 									}
 								}

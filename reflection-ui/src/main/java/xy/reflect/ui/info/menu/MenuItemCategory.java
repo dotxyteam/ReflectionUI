@@ -38,9 +38,9 @@ import java.util.List;
  * @author olitank
  *
  */
-public class MenuItemCategory extends AbstractMenuElement implements IMenuItemContainer {
+public class MenuItemCategory implements IMenuItemContainerInfo {
 	protected String name = "";
-	protected List<AbstractMenuItem> items = new ArrayList<AbstractMenuItem>();
+	protected List<AbstractMenuItemInfo> items = new ArrayList<AbstractMenuItemInfo>();
 
 	public MenuItemCategory(String name) {
 		this.name = name;
@@ -50,7 +50,7 @@ public class MenuItemCategory extends AbstractMenuElement implements IMenuItemCo
 	}
 
 	@Override
-	public String getName() {
+	public String getCaption() {
 		return name;
 	}
 
@@ -59,15 +59,15 @@ public class MenuItemCategory extends AbstractMenuElement implements IMenuItemCo
 	}
 
 	@Override
-	public List<AbstractMenuItem> getItems() {
+	public List<AbstractMenuItemInfo> getItems() {
 		return items;
 	}
 
-	public void setItems(List<AbstractMenuItem> items) {
+	public void setItems(List<AbstractMenuItemInfo> items) {
 		this.items = items;
 	}
 
-	public void addItem(AbstractMenuItem item) {
+	public void addItem(AbstractMenuItemInfo item) {
 		this.items.add(item);
 	}
 

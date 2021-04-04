@@ -26,25 +26,24 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.control.swing.menu;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public class OpenMenuItem extends AbstractFileMenuItem {
+public abstract class  AbstractSaveMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public OpenMenuItem() {
-		name = "Open...";
-		fileBrowserConfiguration.actionTitle = "Open";
+	public AbstractSaveMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, form, menuItemInfo);
 	}
 
 	@Override
@@ -52,22 +51,35 @@ public class OpenMenuItem extends AbstractFileMenuItem {
 		Object object = form.getObject();
 		ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-		InputStream in = null;
+		OutputStream out = null;
 		try {
-			in = new FileInputStream(file);
-			type.load(object, in);
+			out = new FileOutputStream(file);
+			type.save(object, out);
 		} catch (Throwable t) {
 			throw new ReflectionUIError(t);
 		} finally {
-			if (in != null) {
+			if (out != null) {
 				try {
-					in.close();
+					out.close();
 				} catch (Throwable ignore) {
 				}
 			}
-			ModificationStack modifStack = form.getModificationStack();
-			modifStack.forget();
 		}
+	}
+
+	@Override
+	protected File retrieveFile() {
+		File result = super.retrieveFile();
+		if (result != null) {
+			if (result.exists()) {
+				if (!swingRenderer.openQuestionDialog(form,
+						"The file '" + result.getPath() + "' already exists.\nDo you want to replace it?",
+						fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
+					result = null;
+				}
+			}
+		}
+		return result;
 	}
 
 }

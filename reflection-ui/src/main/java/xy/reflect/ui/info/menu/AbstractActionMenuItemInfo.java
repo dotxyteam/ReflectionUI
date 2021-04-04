@@ -26,64 +26,29 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.info.menu.builtin.swing;
+package xy.reflect.ui.info.menu;
 
-import java.io.File;
+import xy.reflect.ui.info.ResourcePath;
 
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
-import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.undo.ModificationStack;
+public abstract class AbstractActionMenuItemInfo extends AbstractMenuItemInfo {
 
-public class SaveMenuItem extends AbstractSaveMenuItem {
+	protected ResourcePath iconImagePath;
 
-	protected static final long serialVersionUID = 1L;
-
-	protected FileBrowserConfiguration fileBrowserConfiguration = new FileBrowserConfiguration();
-
-	public SaveMenuItem() {
-		name = "Save";
+	public AbstractActionMenuItemInfo(String name, ResourcePath iconImagePath) {
+		super(name);
+		this.iconImagePath = iconImagePath;
 	}
 
-	@Override
-	public boolean isEnabled(Object form, Object renderer) {
-		if (isFileSynchronized((Form) form)) {
-			return false;
-		}
-		return super.isEnabled(form, renderer);
+	public AbstractActionMenuItemInfo() {
+		super();
 	}
 
-	public boolean isFileSynchronized(Form form) {
-		ModificationStack modifStack = form.getModificationStack();
-		Long lastSavedVersion = lastPersistedVersionByForm.get(form);
-		if (lastSavedVersion == null) {
-			if (modifStack.getStateVersion() == 0) {
-				return true;
-			}
-		} else {
-			if (lastSavedVersion.equals(modifStack.getStateVersion())) {
-				return true;
-			}
-		}
-		return false;
+	public ResourcePath getIconImagePath() {
+		return iconImagePath;
 	}
 
-	@Override
-	public String getName(final Object form, final Object renderer) {
-		String result = super.getName(form, renderer);
-		File file = lastFileByForm.get((Form) form);
-		if (file != null) {
-			result += " " + file.getPath();
-		}
-		return result;
+	public void setIconImagePath(ResourcePath iconImagePath) {
+		this.iconImagePath = iconImagePath;
 	}
 
-	@Override
-	protected File retrieveFile(final SwingRenderer swingRenderer, Form form) {
-		File file = lastFileByForm.get(form);
-		if (file != null) {
-			return file;
-		}
-		return super.retrieveFile(swingRenderer, form);
-	}
 }

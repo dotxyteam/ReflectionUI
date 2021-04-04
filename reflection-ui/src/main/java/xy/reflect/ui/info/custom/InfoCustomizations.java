@@ -68,23 +68,15 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.AbstractMenuItem;
+import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
-import xy.reflect.ui.info.menu.IMenuElement;
-import xy.reflect.ui.info.menu.IMenuItemContainer;
-import xy.reflect.ui.info.menu.Menu;
+import xy.reflect.ui.info.menu.IMenuElementInfo;
+import xy.reflect.ui.info.menu.IMenuItemContainerInfo;
 import xy.reflect.ui.info.menu.MenuElementKind;
+import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.CloseWindowMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.HelpMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.OpenMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.RedoMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.ResetMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.SaveAsMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.SaveMenuItem;
-import xy.reflect.ui.info.menu.builtin.swing.UndoMenuItem;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -372,7 +364,7 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public static MenuElementKind getMenuElementKind(IMenuElementCustomization elementCustomization) {
-		return ReflectionUIUtils.getMenuElementKind(elementCustomization.createMenuElement());
+		return ReflectionUIUtils.getMenuElementKind(elementCustomization.createMenuElementInfo());
 	}
 
 	public static DefaultMenuElementPosition getMenuElementPosition(InfoCustomizations infoCustomizations,
@@ -448,7 +440,7 @@ public class InfoCustomizations implements Serializable {
 		List<IMenuItemContainerCustomization> result = new ArrayList<IMenuItemContainerCustomization>();
 		result.add(from);
 		for (AbstractMenuItemCustomization item : from.getItemCustomizations()) {
-			if (item instanceof IMenuItemContainer) {
+			if (item instanceof IMenuItemContainerInfo) {
 				result.addAll(getAllMenuItemContainerCustomizations((IMenuItemContainerCustomization) item));
 			}
 		}
@@ -864,7 +856,7 @@ public class InfoCustomizations implements Serializable {
 
 		public String getName();
 
-		public IMenuElement createMenuElement();
+		public IMenuElementInfo createMenuElementInfo();
 	}
 
 	public static interface IMenuItemContainerCustomization extends IMenuElementCustomization {
@@ -879,11 +871,11 @@ public class InfoCustomizations implements Serializable {
 		protected List<AbstractMenuItemCustomization> itemCustomizations = new ArrayList<AbstractMenuItemCustomization>();
 
 		@Override
-		public MenuItemCategory createMenuElement() {
+		public MenuItemCategory createMenuElementInfo() {
 			MenuItemCategory result = new MenuItemCategory();
 			result.setName(name);
 			for (AbstractMenuItemCustomization menuItemCustomization : itemCustomizations) {
-				result.getItems().add(menuItemCustomization.createMenuElement());
+				result.getItems().add(menuItemCustomization.createMenuElementInfo());
 			}
 			return result;
 		}
@@ -896,7 +888,7 @@ public class InfoCustomizations implements Serializable {
 			this.name = name;
 		}
 
-		@XmlElements({ @XmlElement(name = "menu", type = Menu.class),
+		@XmlElements({ @XmlElement(name = "menu", type = MenuInfo.class),
 				@XmlElement(name = "exitMenuItem", type = ExitMenuItemCustomization.class),
 				@XmlElement(name = "helpMenuItem", type = HelpMenuItemCustomization.class),
 				@XmlElement(name = "undoMenuItem", type = UndoMenuItemCustomization.class),
@@ -929,7 +921,7 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath iconImagePath;
 
 		@Override
-		public abstract AbstractMenuItem createMenuElement();
+		public abstract AbstractMenuItemInfo createMenuElementInfo();
 
 		public String getName() {
 			return name;
@@ -955,28 +947,30 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static abstract class AbstractBuiltInActionMenuItemCustomization extends AbstractMenuItemCustomization {
+	public static abstract class AbstractStandardActionMenuItemCustomization extends AbstractMenuItemCustomization {
 
-		private static final long serialVersionUID = 1L;
-
-		public abstract AbstractBuiltInActionMenuItem createMenuElement();
-
-	}
-
-	public static class ExitMenuItemCustomization extends AbstractBuiltInActionMenuItemCustomization {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			CloseWindowMenuItem result = new CloseWindowMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			return result;
+		public abstract StandradActionMenuItemInfo createMenuElementInfo();
+
+	}
+
+	public static class ExitMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
+		private static final long serialVersionUID = 1L;
+
+		public ExitMenuItemCustomization() {
+			name = "Exit";
+		}
+
+		@Override
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.EXIT);
 		}
 
 	}
 
-	public static abstract class AbstractFileMenuItemCustomization extends AbstractBuiltInActionMenuItemCustomization {
+	public static abstract class AbstractFileMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
 
 		private static final long serialVersionUID = 1L;
 
@@ -998,16 +992,17 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class HelpMenuItemCustomization extends AbstractBuiltInActionMenuItemCustomization {
+	public static class HelpMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
 
 		private static final long serialVersionUID = 1L;
 
+		public HelpMenuItemCustomization() {
+			name = "Help";
+		}
+
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			HelpMenuItem result = new HelpMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			return result;
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.HELP);
 		}
 
 	}
@@ -1016,39 +1011,43 @@ public class InfoCustomizations implements Serializable {
 
 		protected static final long serialVersionUID = 1L;
 
+		public OpenMenuItemCustomization() {
+			name = "Open...";
+			fileBrowserConfiguration.actionTitle = "Open";
+		}
+
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			OpenMenuItem result = new OpenMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			result.setFileBrowserConfiguration(fileBrowserConfiguration);
-			return result;
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.OPEN,
+					fileBrowserConfiguration);
 		}
 	}
 
-	public static class RedoMenuItemCustomization extends AbstractBuiltInActionMenuItemCustomization {
+	public static class RedoMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
 
 		private static final long serialVersionUID = 1L;
 
+		public RedoMenuItemCustomization() {
+			name = "Redo";
+		}
+
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			RedoMenuItem result = new RedoMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			return result;
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.REDO);
 		}
 	}
 
-	public static class ResetMenuItemCustomization extends AbstractBuiltInActionMenuItemCustomization {
+	public static class ResetMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
 
 		private static final long serialVersionUID = 1L;
 
+		public ResetMenuItemCustomization() {
+			name = "Reset";
+		}
+
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			ResetMenuItem result = new ResetMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			return result;
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.RESET);
 		}
 
 	}
@@ -1057,13 +1056,15 @@ public class InfoCustomizations implements Serializable {
 
 		protected static final long serialVersionUID = 1L;
 
+		public SaveAsMenuItemCustomization() {
+			name = "Save As...";
+			fileBrowserConfiguration.actionTitle = "Save";
+		}
+
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			SaveAsMenuItem result = new SaveAsMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			result.setFileBrowserConfiguration(fileBrowserConfiguration);
-			return result;
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.SAVE_AS,
+					fileBrowserConfiguration);
 		}
 
 	}
@@ -1072,26 +1073,29 @@ public class InfoCustomizations implements Serializable {
 
 		protected static final long serialVersionUID = 1L;
 
+		public SaveMenuItemCustomization() {
+			name = "Save";
+			fileBrowserConfiguration.actionTitle = "Save";
+		}
+
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			SaveMenuItem result = new SaveMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			result.setFileBrowserConfiguration(fileBrowserConfiguration);
-			return result;
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.SAVE,
+					fileBrowserConfiguration);
 		}
 	}
 
-	public static class UndoMenuItemCustomization extends AbstractBuiltInActionMenuItemCustomization {
+	public static class UndoMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
 
 		private static final long serialVersionUID = 1L;
 
+		public UndoMenuItemCustomization() {
+			name = "Undo";
+		}
+
 		@Override
-		public AbstractBuiltInActionMenuItem createMenuElement() {
-			UndoMenuItem result = new UndoMenuItem();
-			result.setName(name);
-			result.setIconImagePath(iconImagePath);
-			return result;
+		public StandradActionMenuItemInfo createMenuElementInfo() {
+			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.UNDO);
 		}
 
 	}
@@ -1104,19 +1108,19 @@ public class InfoCustomizations implements Serializable {
 		protected List<MenuItemCategoryCustomization> itemCategoryCustomizations = new ArrayList<MenuItemCategoryCustomization>();
 
 		@Override
-		public Menu createMenuElement() {
-			Menu result = new Menu();
-			result.setName(name);
+		public MenuInfo createMenuElementInfo() {
+			MenuInfo result = new MenuInfo();
+			result.setCaption(name);
 			for (MenuItemCategoryCustomization menuItemCategoryCustomization : itemCategoryCustomizations) {
-				result.getItemCategories().add(menuItemCategoryCustomization.createMenuElement());
+				result.getItemCategories().add(menuItemCategoryCustomization.createMenuElementInfo());
 			}
 			for (AbstractMenuItemCustomization menuItemCustomization : itemCustomizations) {
-				result.getItems().add(menuItemCustomization.createMenuElement());
+				result.getItems().add(menuItemCustomization.createMenuElementInfo());
 			}
 			return result;
 		}
 
-		@XmlElements({ @XmlElement(name = "menu", type = Menu.class),
+		@XmlElements({ @XmlElement(name = "menu", type = MenuInfo.class),
 				@XmlElement(name = "exitMenuItem", type = ExitMenuItemCustomization.class),
 				@XmlElement(name = "helpMenuItem", type = HelpMenuItemCustomization.class),
 				@XmlElement(name = "undoMenuItem", type = UndoMenuItemCustomization.class),
@@ -1158,7 +1162,7 @@ public class InfoCustomizations implements Serializable {
 		public MenuModel createMenuModel() {
 			MenuModel result = new MenuModel();
 			for (MenuCustomization menuCustomization : menuCustomizations) {
-				result.getMenus().add(menuCustomization.createMenuElement());
+				result.getMenus().add(menuCustomization.createMenuElementInfo());
 			}
 			return result;
 		}
