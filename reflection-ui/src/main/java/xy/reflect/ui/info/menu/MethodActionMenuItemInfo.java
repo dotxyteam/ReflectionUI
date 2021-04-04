@@ -84,7 +84,7 @@ public class MethodActionMenuItemInfo extends AbstractActionMenuItemInfo {
 
 	@Override
 	public String toString() {
-		return "ActionMenuItem [name=" + caption + ", action=" + method + "]";
+		return "MethodActionMenuItem [name=" + caption + ", action=" + method + "]";
 	}
 
 }

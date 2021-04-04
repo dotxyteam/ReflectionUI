@@ -873,7 +873,7 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		public MenuItemCategory createMenuElementInfo() {
 			MenuItemCategory result = new MenuItemCategory();
-			result.setName(name);
+			result.setCaption(name);
 			for (AbstractMenuItemCustomization menuItemCustomization : itemCustomizations) {
 				result.getItems().add(menuItemCustomization.createMenuElementInfo());
 			}

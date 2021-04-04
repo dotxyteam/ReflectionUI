@@ -39,11 +39,11 @@ import java.util.List;
  *
  */
 public class MenuItemCategory implements IMenuItemContainerInfo {
-	protected String name = "";
+	protected String caption = "";
 	protected List<AbstractMenuItemInfo> items = new ArrayList<AbstractMenuItemInfo>();
 
-	public MenuItemCategory(String name) {
-		this.name = name;
+	public MenuItemCategory(String caption) {
+		this.caption = caption;
 	}
 
 	public MenuItemCategory() {
@@ -51,11 +51,11 @@ public class MenuItemCategory implements IMenuItemContainerInfo {
 
 	@Override
 	public String getCaption() {
-		return name;
+		return caption;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCaption(String caption) {
+		this.caption = caption;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class MenuItemCategory implements IMenuItemContainerInfo {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((items == null) ? 0 : items.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((caption == null) ? 0 : caption.hashCode());
 		return result;
 	}
 
@@ -94,17 +94,17 @@ public class MenuItemCategory implements IMenuItemContainerInfo {
 				return false;
 		} else if (!items.equals(other.items))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (caption == null) {
+			if (other.caption != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!caption.equals(other.caption))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "MenuItemCategory [name=" + name + "]";
+		return "MenuItemCategory [name=" + caption + "]";
 	}
 
 }
