@@ -78,10 +78,10 @@ import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
 import xy.reflect.ui.info.field.VirtualFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.IMenuElement;
+import xy.reflect.ui.info.menu.IMenuElementInfo;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.MethodActionMenuItem;
+import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.FieldAsGetterInfo;
 import xy.reflect.ui.info.method.FieldAsSetterInfo;
@@ -2051,7 +2051,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					IMenuElementPosition menuItemContainerPosition = InfoCustomizations.getMenuElementPosition(
 							containingTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
 					if (menuItemContainerPosition != null) {
-						IMenuElement actionMenuItem = new MethodActionMenuItem(customizedUI,
+						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(customizedUI,
 								wrapMethodInfo(method, containingType));
 						menuModel.importContribution(menuItemContainerPosition, actionMenuItem);
 					}

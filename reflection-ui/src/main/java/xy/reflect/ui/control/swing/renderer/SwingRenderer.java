@@ -93,7 +93,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.AbstractActionMenuItem;
+import xy.reflect.ui.info.menu.AbstractActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -168,7 +168,7 @@ public class SwingRenderer {
 
 	protected ReflectionUI reflectionUI;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
-	protected Map<AbstractActionMenuItem, Form> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
+	protected Map<AbstractActionMenuItemInfo, Form> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
 	protected ExecutorService busyDialogJobExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -209,7 +209,7 @@ public class SwingRenderer {
 		return allDisplayedForms;
 	}
 
-	public Map<AbstractActionMenuItem, Form> getFormByActionMenuItem() {
+	public Map<AbstractActionMenuItemInfo, Form> getFormByActionMenuItem() {
 		return formByMethodActionMenuItem;
 	}
 
@@ -314,7 +314,7 @@ public class SwingRenderer {
 				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
-	public ImageIcon getMenuItemIcon(AbstractActionMenuItem menuItem) {
+	public ImageIcon getMenuItemIcon(AbstractActionMenuItemInfo menuItem) {
 		ResourcePath imagePath = menuItem.getIconImagePath();
 		if (imagePath == null) {
 			return null;

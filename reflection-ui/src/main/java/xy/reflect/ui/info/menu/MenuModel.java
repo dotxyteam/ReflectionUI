@@ -49,17 +49,17 @@ public class MenuModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected List<Menu> menus = new ArrayList<Menu>();
+	protected List<MenuInfo> menus = new ArrayList<MenuInfo>();
 
-	public List<Menu> getMenus() {
+	public List<MenuInfo> getMenus() {
 		return menus;
 	}
 
-	public void setMenus(List<Menu> menus) {
+	public void setMenus(List<MenuInfo> menus) {
 		this.menus = menus;
 	}
 
-	public void importContribution(IMenuElementPosition containerPosition, IMenuElement element) {
+	public void importContribution(IMenuElementPosition containerPosition, IMenuElementInfo element) {
 		if (containerPosition == null) {
 			importContributionIn(element, null);
 		} else {
@@ -68,7 +68,7 @@ public class MenuModel implements Serializable {
 				throw new ReflectionUIError("Failed to add menu contribution '" + element + "' in '" + containerPosition
 						+ "': Invalid container");
 			}
-			IMenuItemContainer container = (IMenuItemContainer) findElement(containerPosition);
+			IMenuItemContainerInfo container = (IMenuItemContainerInfo) findElement(containerPosition);
 			if (container == null) {
 				throw new ReflectionUIError("Failed to add menu contribution '" + element + "' in '" + containerPosition
 						+ "': Container not found: '" + containerPosition + "'");
@@ -78,17 +78,17 @@ public class MenuModel implements Serializable {
 	}
 
 	public void importContributions(MenuModel model) {
-		for (Menu menu : model.getMenus()) {
+		for (MenuInfo menu : model.getMenus()) {
 			importContributionIn(menu, null);
 		}
 	}
 
-	public void visit(Visitor<IMenuElement> visitor) {
+	public void visit(Visitor<IMenuElementInfo> visitor) {
 		visitChildren(visitor, null);
 	}
 
-	protected boolean visitChildren(Visitor<IMenuElement> visitor, IMenuElement element) {
-		for (IMenuElement child : getChildren(element)) {
+	protected boolean visitChildren(Visitor<IMenuElementInfo> visitor, IMenuElementInfo element) {
+		for (IMenuElementInfo child : getChildren(element)) {
 			if (!visitor.visit(child)) {
 				return false;
 			}
@@ -99,16 +99,16 @@ public class MenuModel implements Serializable {
 		return true;
 	}
 
-	protected void importChildrenContributions(IMenuItemContainer sourceContainer, IMenuItemContainer targetContainer) {
+	protected void importChildrenContributions(IMenuItemContainerInfo sourceContainer, IMenuItemContainerInfo targetContainer) {
 		if (!same(sourceContainer, targetContainer)) {
 			throw new ReflectionUIError();
 		}
-		for (IMenuElement sourceElementChild : getChildren(sourceContainer)) {
-			importContributionIn(sourceElementChild, (IMenuItemContainer) targetContainer);
+		for (IMenuElementInfo sourceElementChild : getChildren(sourceContainer)) {
+			importContributionIn(sourceElementChild, (IMenuItemContainerInfo) targetContainer);
 		}
 	}
 
-	protected IMenuElement findElement(IMenuElementPosition elementPosition) {
+	protected IMenuElementInfo findElement(IMenuElementPosition elementPosition) {
 		if (elementPosition.getParent() == null) {
 			if (elementPosition.getElementKind() != MenuElementKind.MENU) {
 				throw new ReflectionUIError("Illegal root elemnt '" + elementPosition + "'. Root element kind must be '"
@@ -118,24 +118,24 @@ public class MenuModel implements Serializable {
 		List<IMenuElementPosition> ancestorPositions = ReflectionUIUtils.getAncestors(elementPosition);
 		ancestorPositions = new ArrayList<IMenuElementPosition>(ancestorPositions);
 		Collections.reverse(ancestorPositions);
-		IMenuItemContainer container = null;
+		IMenuItemContainerInfo container = null;
 		for (IMenuElementPosition ancestorPosition : ancestorPositions) {
-			container = (IMenuItemContainer) findChildElement(container, ancestorPosition.getElementKind(),
+			container = (IMenuItemContainerInfo) findChildElement(container, ancestorPosition.getElementKind(),
 					ancestorPosition.getElementName());
 			if (container == null) {
 				return null;
 			}
 		}
-		IMenuElement result = findChildElement(container, elementPosition.getElementKind(),
+		IMenuElementInfo result = findChildElement(container, elementPosition.getElementKind(),
 				elementPosition.getElementName());
 		return result;
 	}
 
-	protected IMenuElement findChildElement(IMenuItemContainer container, MenuElementKind childElementKind,
+	protected IMenuElementInfo findChildElement(IMenuItemContainerInfo container, MenuElementKind childElementKind,
 			String childElementName) {
-		for (IMenuElement childElement : getChildren(container)) {
+		for (IMenuElementInfo childElement : getChildren(container)) {
 			if (ReflectionUIUtils.getMenuElementKind(childElement) == childElementKind) {
-				if (childElement.getName().equals(childElementName)) {
+				if (childElement.getCaption().equals(childElementName)) {
 					return childElement;
 				}
 			}
@@ -143,58 +143,58 @@ public class MenuModel implements Serializable {
 		return null;
 	}
 
-	protected List<IMenuElement> getChildren(IMenuElement element) {
-		List<IMenuElement> result = new ArrayList<IMenuElement>();
+	protected List<IMenuElementInfo> getChildren(IMenuElementInfo element) {
+		List<IMenuElementInfo> result = new ArrayList<IMenuElementInfo>();
 		if (element == null) {
 			result.addAll(menus);
 		}
-		if (element instanceof IMenuItemContainer) {
-			result.addAll(((IMenuItemContainer) element).getItems());
+		if (element instanceof IMenuItemContainerInfo) {
+			result.addAll(((IMenuItemContainerInfo) element).getItems());
 		}
-		if (element instanceof Menu) {
-			result.addAll(((Menu) element).getItemCategories());
+		if (element instanceof MenuInfo) {
+			result.addAll(((MenuInfo) element).getItemCategories());
 		}
 		return result;
 	}
 
-	protected void importContributionIn(IMenuElement element, IMenuItemContainer container) {
-		for (IMenuElement containerChild : getChildren(container)) {
+	protected void importContributionIn(IMenuElementInfo element, IMenuItemContainerInfo container) {
+		for (IMenuElementInfo containerChild : getChildren(container)) {
 			if (same(element, containerChild)) {
-				if (!(containerChild instanceof IMenuItemContainer)) {
-					final String errorMenuName = "<MENU ERROR> Duplicate menu detected: " + element.getName() + " (id="
+				if (!(containerChild instanceof IMenuItemContainerInfo)) {
+					final String errorMenuName = "<MENU ERROR> Duplicate menu detected: " + element.getCaption() + " (id="
 							+ element.hashCode() + ")";
-					element = new AbstractActionMenuItem(errorMenuName, null) {
+					element = new AbstractActionMenuItemInfo(errorMenuName, null) {
 
 					};
 					importContributionIn(element, container);
 					return;
 				}
-				importChildrenContributions((IMenuItemContainer) element, (IMenuItemContainer) containerChild);
+				importChildrenContributions((IMenuItemContainerInfo) element, (IMenuItemContainerInfo) containerChild);
 				return;
 			}
 		}
-		if (element instanceof IMenuItemContainer) {
-			IMenuItemContainer sameElement = createSameContainer((IMenuItemContainer) element);
-			importChildrenContributions((IMenuItemContainer) element, sameElement);
+		if (element instanceof IMenuItemContainerInfo) {
+			IMenuItemContainerInfo sameElement = createSameContainer((IMenuItemContainerInfo) element);
+			importChildrenContributions((IMenuItemContainerInfo) element, sameElement);
 			element = sameElement;
 		}
 		if (container == null) {
-			if (!(element instanceof Menu)) {
+			if (!(element instanceof MenuInfo)) {
 				throw new ReflectionUIError("Unexpected element at root position: " + element + ". Only "
-						+ Menu.class.getSimpleName() + "s are expected at this position");
+						+ MenuInfo.class.getSimpleName() + "s are expected at this position");
 			}
-			menus.add((Menu) element);
-		} else if (container instanceof Menu) {
-			if (element instanceof AbstractMenuItem) {
-				((Menu) container).addItem((AbstractMenuItem) element);
+			menus.add((MenuInfo) element);
+		} else if (container instanceof MenuInfo) {
+			if (element instanceof AbstractMenuItemInfo) {
+				((MenuInfo) container).addItem((AbstractMenuItemInfo) element);
 			} else if (element instanceof MenuItemCategory) {
-				((Menu) container).addItemCategory((MenuItemCategory) element);
+				((MenuInfo) container).addItemCategory((MenuItemCategory) element);
 			} else {
 				throw new ReflectionUIError();
 			}
 		} else if (container instanceof MenuItemCategory) {
-			if (element instanceof AbstractMenuItem) {
-				((MenuItemCategory) container).addItem((AbstractMenuItem) element);
+			if (element instanceof AbstractMenuItemInfo) {
+				((MenuItemCategory) container).addItem((AbstractMenuItemInfo) element);
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -203,28 +203,28 @@ public class MenuModel implements Serializable {
 		}
 	}
 
-	protected IMenuItemContainer createSameContainer(IMenuItemContainer element) {
-		if (element instanceof Menu) {
-			return new Menu(((Menu) element).getName());
+	protected IMenuItemContainerInfo createSameContainer(IMenuItemContainerInfo element) {
+		if (element instanceof MenuInfo) {
+			return new MenuInfo(((MenuInfo) element).getCaption());
 		} else if (element instanceof MenuItemCategory) {
-			return new MenuItemCategory(((MenuItemCategory) element).getName());
+			return new MenuItemCategory(((MenuItemCategory) element).getCaption());
 		} else {
 			throw new ReflectionUIError();
 		}
 	}
 
-	protected boolean same(IMenuElement menuElement1, IMenuElement menuElement2) {
+	protected boolean same(IMenuElementInfo menuElement1, IMenuElementInfo menuElement2) {
 		if (ReflectionUIUtils.getMenuElementKind(menuElement1) == ReflectionUIUtils.getMenuElementKind(menuElement2)) {
-			if (menuElement1.getName().equals(menuElement2.getName())) {
+			if (menuElement1.getCaption().equals(menuElement2.getCaption())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	protected IMenuItemContainer createContainer(IMenuElementPosition containerPosition) {
+	protected IMenuItemContainerInfo createContainer(IMenuElementPosition containerPosition) {
 		if (containerPosition.getElementKind() == MenuElementKind.MENU) {
-			return new Menu(containerPosition.getElementName());
+			return new MenuInfo(containerPosition.getElementName());
 		} else if (containerPosition.getElementKind() == MenuElementKind.ITEM_CATEGORY) {
 			return new MenuItemCategory(containerPosition.getElementName());
 		} else {

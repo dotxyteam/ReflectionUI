@@ -76,19 +76,28 @@ import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.ModificationStackControls;
+import xy.reflect.ui.control.swing.menu.CloseWindowMenuItem;
+import xy.reflect.ui.control.swing.menu.HelpMenuItem;
+import xy.reflect.ui.control.swing.menu.OpenMenuItem;
+import xy.reflect.ui.control.swing.menu.RedoMenuItem;
+import xy.reflect.ui.control.swing.menu.ResetMenuItem;
+import xy.reflect.ui.control.swing.menu.SaveAsMenuItem;
+import xy.reflect.ui.control.swing.menu.SaveMenuItem;
+import xy.reflect.ui.control.swing.menu.UndoMenuItem;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
-import xy.reflect.ui.info.menu.AbstractActionMenuItem;
-import xy.reflect.ui.info.menu.AbstractMenuItem;
-import xy.reflect.ui.info.menu.IMenuElement;
-import xy.reflect.ui.info.menu.Menu;
+import xy.reflect.ui.info.menu.AbstractActionMenuItemInfo;
+import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type;
+import xy.reflect.ui.info.menu.IMenuElementInfo;
+import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.MethodActionMenuItem;
-import xy.reflect.ui.info.menu.builtin.AbstractBuiltInActionMenuItem;
+import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
@@ -1184,7 +1193,7 @@ public class Form extends ImagePanel {
 		MenuModel menuModel = new MenuModel();
 		addMenuContributionTo(menuModel);
 		menuBar.removeAll();
-		for (Menu menu : menuModel.getMenus()) {
+		for (MenuInfo menu : menuModel.getMenus()) {
 			menuBar.add(createMenu(menu));
 		}
 		SwingRendererUtils.handleComponentSizeChange(menuBar);
@@ -1203,11 +1212,11 @@ public class Form extends ImagePanel {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		MenuModel formMenuModel = type.getMenuModel();
-		formMenuModel.visit(new Visitor<IMenuElement>() {
+		formMenuModel.visit(new Visitor<IMenuElementInfo>() {
 			@Override
-			public boolean visit(IMenuElement e) {
-				if (e instanceof AbstractActionMenuItem) {
-					AbstractActionMenuItem action = (AbstractActionMenuItem) e;
+			public boolean visit(IMenuElementInfo e) {
+				if (e instanceof AbstractActionMenuItemInfo) {
+					AbstractActionMenuItemInfo action = (AbstractActionMenuItemInfo) e;
 					swingRenderer.getFormByActionMenuItem().put(action, Form.this);
 				}
 				return true;
@@ -1224,14 +1233,14 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	public JMenu createMenu(Menu menu) {
-		JMenu result = new JMenu(menu.getName());
+	public JMenu createMenu(MenuInfo menu) {
+		JMenu result = new JMenu(menu.getCaption());
 		for (int i = 0; i < menu.getItemCategories().size(); i++) {
 			if (i > 0) {
 				result.addSeparator();
 			}
 			MenuItemCategory category = menu.getItemCategories().get(i);
-			for (AbstractMenuItem item : category.getItems()) {
+			for (AbstractMenuItemInfo item : category.getItems()) {
 				result.add(createMenuItem(item));
 			}
 		}
@@ -1239,26 +1248,26 @@ public class Form extends ImagePanel {
 			if (result.getSubElements().length > 0) {
 				result.addSeparator();
 			}
-			for (AbstractMenuItem item : menu.getItems()) {
+			for (AbstractMenuItemInfo item : menu.getItems()) {
 				result.add(createMenuItem(item));
 			}
 		}
 		return result;
 	}
 
-	public JMenuItem createMenuItem(AbstractMenuItem item) {
-		if (item instanceof AbstractBuiltInActionMenuItem) {
-			return createMenuActionItem((AbstractBuiltInActionMenuItem) item);
-		} else if (item instanceof MethodActionMenuItem) {
-			return createMenuActionItem((MethodActionMenuItem) item);
-		} else if (item instanceof Menu) {
-			return createMenu((Menu) item);
+	public JMenuItem createMenuItem(AbstractMenuItemInfo item) {
+		if (item instanceof StandradActionMenuItemInfo) {
+			return createActionMenuItem((StandradActionMenuItemInfo) item);
+		} else if (item instanceof MethodActionMenuItemInfo) {
+			return createActionMenuItem((MethodActionMenuItemInfo) item);
+		} else if (item instanceof MenuInfo) {
+			return createMenu((MenuInfo) item);
 		} else {
 			throw new ReflectionUIError("Unhandled menu item type: '" + item + "'");
 		}
 	}
 
-	public JMenuItem createMenuActionItem(final MethodActionMenuItem actionMenuItem) {
+	public JMenuItem createActionMenuItem(final MethodActionMenuItemInfo actionMenuItem) {
 		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
 		JMenuItem result = new JMenuItem(new AbstractAction() {
 			private static final long serialVersionUID = 1L;
@@ -1277,7 +1286,7 @@ public class Form extends ImagePanel {
 
 		});
 		try {
-			result.setText(actionMenuItem.getName());
+			result.setText(actionMenuItem.getCaption());
 			ImageIcon icon = swingRenderer.getMenuItemIcon(actionMenuItem);
 			if (icon != null) {
 				icon = SwingRendererUtils.getSmallIcon(icon);
@@ -1295,41 +1304,29 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
-	public JMenuItem createMenuActionItem(final AbstractBuiltInActionMenuItem actionMenuItem) {
+	public JMenuItem createActionMenuItem(final StandradActionMenuItemInfo actionMenuItem) {
 		final Form form = swingRenderer.getFormByActionMenuItem().get(actionMenuItem);
-		JMenuItem result = new JMenuItem(new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					actionMenuItem.execute(form, swingRenderer);
-				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
-				}
-			}
-
-		});
-		try {
-			result.setText(actionMenuItem.getName(form, swingRenderer));
-			if (!actionMenuItem.isEnabled(form, swingRenderer)) {
-				result.setEnabled(false);
-			}
-			ImageIcon icon = swingRenderer.getMenuItemIcon(actionMenuItem);
-			if (icon != null) {
-				icon = SwingRendererUtils.getSmallIcon(icon);
-			}
-			result.setIcon(icon);
-		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logError(t);
-			if (result.getText() == null) {
-				result.setText(t.toString());
-			} else {
-				result.setText(result.getText() + "(" + t.toString() + ")");
-			}
-			result.setEnabled(false);
+		if (actionMenuItem.getType() == Type.OPEN) {
+			return new OpenMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.OPEN) {
+			return new OpenMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.SAVE) {
+			return new SaveMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.SAVE_AS) {
+			return new SaveAsMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.UNDO) {
+			return new UndoMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.REDO) {
+			return new RedoMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.RESET) {
+			return new ResetMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.HELP) {
+			return new HelpMenuItem(swingRenderer, form, actionMenuItem);
+		} else if (actionMenuItem.getType() == Type.EXIT) {
+			return new CloseWindowMenuItem(swingRenderer, form, actionMenuItem);
+		} else {
+			throw new ReflectionUIError();
 		}
-		return result;
 	}
 
 	public boolean requestFormFocus() {
