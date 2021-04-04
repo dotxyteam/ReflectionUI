@@ -67,4 +67,37 @@ public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 		OPEN, SAVE, SAVE_AS, UNDO, REDO, RESET, HELP, EXIT
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((fileBrowserConfiguration == null) ? 0 : fileBrowserConfiguration.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandradActionMenuItemInfo other = (StandradActionMenuItemInfo) obj;
+		if (fileBrowserConfiguration == null) {
+			if (other.fileBrowserConfiguration != null)
+				return false;
+		} else if (!fileBrowserConfiguration.equals(other.fileBrowserConfiguration))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "StandradActionMenuItem [type=" + type + ", name=" + caption + "]";
+	}
+
 }

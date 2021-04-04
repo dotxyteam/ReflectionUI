@@ -30,6 +30,7 @@ package xy.reflect.ui.control.plugin;
 
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,6 +117,24 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 	public static abstract class AbstractConfiguration implements Serializable {
 
 		private static final long serialVersionUID = 1L;
+
+		@Override
+		public int hashCode() {
+			return Arrays.hashCode(ReflectionUIUtils.serializeToBinary(this));
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			if (!Arrays.equals(ReflectionUIUtils.serializeToBinary(obj), ReflectionUIUtils.serializeToBinary(this)))
+				return false;
+			return true;
+		}
 
 	}
 
