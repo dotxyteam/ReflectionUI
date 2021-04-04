@@ -41,10 +41,24 @@ import java.util.Map;
 import javax.accessibility.*;
 import javax.swing.Icon;
 
+import xy.reflect.ui.info.custom.InfoCustomizations;
+
 import java.lang.reflect.Field;
 import java.security.*;
 
 /**
+ * <strong>Important:</strong>
+ * This class is a copy of the {@link javax.swing.ImageIcon} class 
+ * only used to stabilize the serialization of image icons which 
+ * unfortunately changes from one version of Java to another.
+ * {@link javax.swing.ImageIcon} was used in the {@link InfoCustomizations}
+ * files to make the {@link BufferedImage} objects serializable.
+ * It caused compatibility issues when upgrading the Java runtime.
+ * The references to {@link javax.swing.ImageIcon} were then replaced
+ * by the current class in those files to allow to load successfully
+ * their images whatever Java version is used.  
+ * 
+ * <p>
  * An implementation of the Icon interface that paints Icons
  * from Images. Images that are created from a URL, filename or byte array
  * are preloaded using MediaTracker to monitor the loaded state
@@ -64,13 +78,13 @@ import java.security.*;
  * of all JavaBeans&trade;
  * has been added to the <code>java.beans</code> package.
  * Please see {@link java.beans.XMLEncoder}.
- *
- * @author Jeff Dinkins
- * @author Lynn Monsanto
  */
 @SuppressWarnings("all")
 public class ImageIcon implements Icon, Serializable, Accessible {
-    /* Keep references to the filename and location so that
+    
+	private static final long serialVersionUID = -6641606116167121396L;
+	
+	/* Keep references to the filename and location so that
      * alternate persistence schemes have the option to archive
      * images symbolically rather than including the image data
      * in the archive.

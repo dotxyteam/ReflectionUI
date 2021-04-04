@@ -126,7 +126,7 @@ public class FastFood implements Serializable {
 	public void load(File file) {
 		ObjectInputStream ois = null;
 		try {
-			ois = ReflectionUIUtils.fixImageIconSerializationChange(new FileInputStream(file));
+			ois = ReflectionUIUtils.alterImageIconDeserialization(new FileInputStream(file));
 			FastFood loaded = (FastFood) ois.readObject();
 			sales = loaded.sales;
 			currency = loaded.currency;

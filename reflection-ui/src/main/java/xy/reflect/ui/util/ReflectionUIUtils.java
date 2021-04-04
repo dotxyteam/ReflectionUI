@@ -1057,38 +1057,8 @@ public class ReflectionUIUtils {
 		return result.toString();
 	}
 
-	public static String serializeToHexaText(Object object) {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos;
-			oos = new ObjectOutputStream(baos);
-			oos.writeObject(object);
-			oos.flush();
-			byte[] binary = baos.toByteArray();
-			return DatatypeConverter.printBase64Binary(binary);
-		} catch (Throwable e) {
-			throw new ReflectionUIError(e);
-		}
-	}
-
-	public static Object deserializeFromHexaText(String text) {
-		try {
-			byte[] binary = DatatypeConverter.parseBase64Binary(text);
-			ByteArrayInputStream bais = new ByteArrayInputStream(binary);
-			ObjectInputStream ois = fixImageIconSerializationChange(bais);
-			return ois.readObject();
-		} catch (Throwable e) {
-			throw new ReflectionUIError(e);
-		}
-	}
-
-	public static ObjectInputStream fixImageIconSerializationChange(InputStream in) throws ClassNotFoundException, IOException {
-		return getClassSwappingObjectInputStream(in, javax.swing.ImageIcon.class.getName(),
-				xy.reflect.ui.util.ImageIcon.class.getName());
-	}
-
-	public static ObjectInputStream getClassSwappingObjectInputStream(InputStream in, String fromClass, final String toClass)
-			throws IOException, ClassNotFoundException {
+	public static ObjectInputStream getClassSwappingObjectInputStream(InputStream in, String fromClass,
+			final String toClass) throws IOException, ClassNotFoundException {
 		final String from = "^" + fromClass, fromArray = "^\\[L" + fromClass, toArray = "[L" + toClass;
 		return new ObjectInputStream(in) {
 			protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
@@ -1133,10 +1103,17 @@ public class ReflectionUIUtils {
 		}
 	}
 
+	public static ObjectInputStream alterImageIconDeserialization(InputStream in)
+			throws ClassNotFoundException, IOException {
+		return getClassSwappingObjectInputStream(in, javax.swing.ImageIcon.class.getName(),
+				xy.reflect.ui.util.ImageIcon.class.getName());
+	}
+
 	public static void serialize(Object object, OutputStream out) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(out);
 			oos.writeObject(object);
+			oos.flush();
 		} catch (Throwable t) {
 			throw new ReflectionUIError("Failed to serialize object: " + t.toString());
 		}
@@ -1144,11 +1121,30 @@ public class ReflectionUIUtils {
 
 	public static Object deserialize(InputStream in) {
 		try {
-			ObjectInputStream ois = new ObjectInputStream(in);
+			ObjectInputStream ois = alterImageIconDeserialization(in);
 			return ois.readObject();
 		} catch (Throwable t) {
 			throw new ReflectionUIError("Failed to deserialize object: " + t.toString());
 		}
+	}
+
+	public static byte[] serializeToBinary(Object object) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		serialize(object, baos);
+		return baos.toByteArray();
+	}
+
+	public static Object deserializeFromBinary(byte[] binary) {
+		ByteArrayInputStream bais = new ByteArrayInputStream(binary);
+		return deserialize(bais);
+	}
+
+	public static String serializeToHexaText(Object object) {
+		return DatatypeConverter.printBase64Binary(serializeToBinary(object));
+	}
+
+	public static Object deserializeFromHexaText(String text) {
+		return deserializeFromBinary(DatatypeConverter.parseBase64Binary(text));
 	}
 
 	public static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI,
