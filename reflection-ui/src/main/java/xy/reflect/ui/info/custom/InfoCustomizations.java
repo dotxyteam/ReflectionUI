@@ -2263,15 +2263,6 @@ public class InfoCustomizations implements Serializable {
 
 		protected ITypeInfoFinder newTypeFinder;
 		protected boolean nullValueConverted = false;
-		protected Long reverseSynchronizationPeriodMilliseconds;
-
-		public Long getReverseSynchronizationPeriodMilliseconds() {
-			return reverseSynchronizationPeriodMilliseconds;
-		}
-
-		public void setReverseSynchronizationPeriodMilliseconds(Long reverseSynchronizationPeriodMilliseconds) {
-			this.reverseSynchronizationPeriodMilliseconds = reverseSynchronizationPeriodMilliseconds;
-		}
 
 		public boolean isNullValueConverted() {
 			return nullValueConverted;
@@ -2305,8 +2296,6 @@ public class InfoCustomizations implements Serializable {
 			int result = super.hashCode();
 			result = prime * result + ((newTypeFinder == null) ? 0 : newTypeFinder.hashCode());
 			result = prime * result + (nullValueConverted ? 1231 : 1237);
-			result = prime * result + ((reverseSynchronizationPeriodMilliseconds == null) ? 0
-					: reverseSynchronizationPeriodMilliseconds.hashCode());
 			return result;
 		}
 
@@ -2326,18 +2315,13 @@ public class InfoCustomizations implements Serializable {
 				return false;
 			if (nullValueConverted != other.nullValueConverted)
 				return false;
-			if (reverseSynchronizationPeriodMilliseconds == null) {
-				if (other.reverseSynchronizationPeriodMilliseconds != null)
-					return false;
-			} else if (!reverseSynchronizationPeriodMilliseconds.equals(other.reverseSynchronizationPeriodMilliseconds))
-				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
 			return "TypeConversion [newTypeFinder=" + newTypeFinder + ", nullValueConverted=" + nullValueConverted
-					+ ", reverseSynchronizationPeriodMilliseconds=" + reverseSynchronizationPeriodMilliseconds + "]";
+					+ "]";
 		}
 
 	}
