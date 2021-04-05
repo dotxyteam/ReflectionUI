@@ -1,11 +1,11 @@
+- bug: SwingRenderer.getFormByActionMenuItem() is not consistent because
+it uses a key that implements equals. It is a conception issue. Resolve.
 - add an option to allow a method to reset the modification stack (forget()).
 Useful for methods like "loadFile()", "newProject()", etc.
 This option would be handled here: ReflectionUIUtils.invokeMethodThroughModificationStack()
 - there is a space before ListControl items because of setShowsRootHandles(true).
 But setting false prevents from expanding a node to see its children.
 Need to find another solution.
-- xy.reflect.ui.info.field.ChangedTypeFieldInfo.ReverseSynchronizer: is it
-really useful ? In which cases ? May need to remove this option.
 - maybe allow to execution a method upon list item selection. 
 The method would take an item as parameter.
 - ImageView: allow to associate mouse events to methods having pixel location parameters 

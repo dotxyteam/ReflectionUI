@@ -101,6 +101,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.AbstractDelegatingInfoFilter;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -219,7 +220,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		selectionListeners.add(new Listener<List<BufferedItemPosition>>() {
 			@Override
 			public void handle(List<BufferedItemPosition> event) {
-				if (!getDetailsAccessMode().hasDetailsDisplayArea()) {
+				if (!getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 					return;
 				}
 				updateDetailsArea(false);
@@ -229,7 +230,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void layoutControls() {
 		setLayout(new BorderLayout());
-		if (getDetailsAccessMode().hasDetailsDisplayArea()) {
+		if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 			JPanel listAndToolbarPanel = new ControlPanel();
 			listAndToolbarPanel.setLayout(new BorderLayout());
 			listAndToolbarPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
@@ -239,26 +240,26 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			final JSplitPane splitPane = new ControlSplitPane();
 			add(splitPane, BorderLayout.CENTER);
 			final double dividerLocation;
-			if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
+			if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 				splitPane.setLeftComponent(listAndToolbarScrollPane);
 				splitPane.setRightComponent(detailsArea);
-				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
-			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
+				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
+			} else if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 				splitPane.setRightComponent(listAndToolbarScrollPane);
 				splitPane.setLeftComponent(detailsArea);
-				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
-			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
+				dividerLocation = getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
+			} else if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				splitPane.setTopComponent(listAndToolbarScrollPane);
 				splitPane.setBottomComponent(detailsArea);
-				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
-			} else if (getDetailsAccessMode().getDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
+				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
+			} else if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				splitPane.setBottomComponent(listAndToolbarScrollPane);
 				splitPane.setTopComponent(detailsArea);
-				dividerLocation = getDetailsAccessMode().getDefaultDetailsAreaOccupationRatio();
+				dividerLocation = getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -288,7 +289,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		GridBagLayout layout = new GridBagLayout();
 		toolbar.setLayout(layout);
 
-		if (getDetailsAccessMode().hasDetailsDisplayOption()) {
+		if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 			if (getRootListType().canViewItemDetails()) {
 				toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
 			}
@@ -619,7 +620,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension result = super.getPreferredSize();
-				if(result == null) {
+				if (result == null) {
 					return null;
 				}
 				IListStructuralInfo structure = getStructuralInfo();
@@ -1111,6 +1112,30 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return dialogBuilder;
 	}
 
+	protected boolean isDialogDisplayedOnItemCreation(BufferedItemPosition newItemPosition) {
+		IListTypeInfo listType = newItemPosition.getContainingListType();
+		ITypeInfo typeToInstanciate = listType.getItemType();
+		if (listType.isItemConstructorSelectable()) {
+			if (typeToInstanciate != null) {
+				if (typeToInstanciate.getConstructors().size() > 1) {
+					return true;
+				}
+				if (typeToInstanciate.getConstructors().size() == 1) {
+					IMethodInfo ctor = typeToInstanciate.getConstructors().get(0);
+					if (ctor.getParameters().size() > 0) {
+						return true;
+					}
+				}
+			}
+
+		} else {
+			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+				return true;
+			}
+		}
+		return false;
+	};
+
 	protected AbstractStandardListAction createAddChildAction() {
 		return new AddChildAction();
 	};
@@ -1123,13 +1148,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected Object createItem(BufferedItemPosition itemPosition) {
-		IListTypeInfo subListType = itemPosition.getContainingListType();
-		ITypeInfo typeToInstanciate = subListType.getItemType();
+		IListTypeInfo listType = itemPosition.getContainingListType();
+		ITypeInfo typeToInstanciate = listType.getItemType();
 		if (typeToInstanciate == null) {
 			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(),
 					new JavaTypeInfoSource(Object.class, null));
 		}
-		return listData.createValue(typeToInstanciate, subListType.isItemConstructorSelectable());
+		return listData.createValue(typeToInstanciate, listType.isItemConstructorSelectable());
 	}
 
 	protected AbstractStandardListAction createCopyAction() {
@@ -1281,7 +1306,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if (!getDetailsAccessMode().hasDetailsDisplayOption()) {
+				if (!getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 					return;
 				}
 				try {
@@ -1384,7 +1409,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			removeAll();
 			detailsMode = null;
 			layoutControls();
-			if (getDetailsAccessMode().hasDetailsDisplayArea()) {
+			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
 			refreshTreeTableScrollPaneBorder();
@@ -1911,7 +1936,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (newSubListItem == null) {
 				return false;
 			}
-			if (!subListType.isItemConstructorSelectable() && getDetailsAccessMode().hasDetailsDisplayOption()) {
+			if (!subListType.isItemConstructorSelectable()
+					&& getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
@@ -1977,7 +2003,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (subListItemType != null) {
 				title += " " + getItemTitle(subItemPosition);
 			}
-			title += "...";
+			if (isDialogDisplayedOnItemCreation(subItemPosition)) {
+				title += "...";
+			}
 			return title;
 		}
 
@@ -2137,24 +2165,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected boolean prepare() {
-			newItemPosition = getNewItemPosition();
-			listType = newItemPosition.getContainingListType();
-			newItem = createItem(newItemPosition);
-			if (newItem == null) {
-				return false;
-			}
-			if (!listType.isItemConstructorSelectable() && getDetailsAccessMode().hasDetailsDisplayOption()) {
-				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
-				if (dialogBuilder.isCancelled()) {
-					return false;
-				}
-				newItem = dialogBuilder.getCurrentValue();
-			}
-			return true;
-		}
-
-		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			getModificationStack()
 					.apply(createListModificationFactory(newItemPosition).add(newItemPosition.getIndex(), newItem));
@@ -2164,6 +2174,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				toSelect = newItemPosition.getSibling(indexToSelect);
 			}
 			toPostSelectHolder[0] = Collections.singletonList(toSelect);
+		}
+
+		@Override
+		protected boolean prepare() {
+			newItemPosition = getNewItemPosition();
+			listType = newItemPosition.getContainingListType();
+			newItem = createItem(newItemPosition);
+			if (newItem == null) {
+				return false;
+			}
+			if (!listType.isItemConstructorSelectable() && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
+				if (dialogBuilder.isCancelled()) {
+					return false;
+				}
+				newItem = dialogBuilder.getCurrentValue();
+			}
+			return true;
 		}
 
 		@Override
@@ -2185,7 +2213,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				} else if (insertPosition == InsertPosition.BEFORE) {
 					buttonText += " Before";
 				}
-				buttonText += " ...";
+				if (isDialogDisplayedOnItemCreation(newItemPosition)) {
+					buttonText += " ...";
+				}
 			}
 			return buttonText;
 		}
@@ -2327,7 +2357,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public boolean isValid() {
-			if (!getDetailsAccessMode().hasDetailsDisplayOption()) {
+			if (!getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				return false;
 			}
 			BufferedItemPosition singleSelectedPosition = getSingleSelection();
@@ -2826,6 +2856,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return true;
 		}
 
-	};
+	}
 
 }
