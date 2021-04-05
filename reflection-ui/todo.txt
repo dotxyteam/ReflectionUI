@@ -1,19 +1,16 @@
-- bug: SwingRenderer.getFormByActionMenuItem() is not consistent because
-it uses a key that implements equals. It is a conception issue. Resolve.
 - add an option to allow a method to reset the modification stack (forget()).
 Useful for methods like "loadFile()", "newProject()", etc.
 This option would be handled here: ReflectionUIUtils.invokeMethodThroughModificationStack()
 - there is a space before ListControl items because of setShowsRootHandles(true).
 But setting false prevents from expanding a node to see its children.
 Need to find another solution.
-- maybe allow to execution a method upon list item selection. 
+- maybe allow to execute a method upon list item selection. 
 The method would take an item as parameter.
 - ImageView: allow to associate mouse events to methods having pixel location parameters 
 (int x, int y, ...). Additionnal parameters could be asked before performing the action.
 Mutiple methods associated with the same event would trigger a contextual menu
 allowing to choose between them. 
-- list control actions validity should depend on the root list or can ch
-ange
+- list control actions validity should depend on the root list or can change
 according to the list?
 - should RUIUtils.NULL_JOB be used to disconnect a field from the modif stack???
 - SliderPlugin: the value is formatted. OK or not???
