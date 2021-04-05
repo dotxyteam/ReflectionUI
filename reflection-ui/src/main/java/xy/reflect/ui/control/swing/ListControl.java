@@ -584,8 +584,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		treeTableComponent.setRootVisible(false);
 		treeTableComponent.setShowsRootHandles(true);
-		treeTableComponent.setDefaultRenderer(Object.class, new ItemTableCellRenderer());
-		treeTableComponent.setTreeCellRenderer(new ItemTreeCellRenderer());
+		treeTableComponent.setDefaultRenderer(Object.class, createTableCellRenderer());
+		treeTableComponent.setTreeCellRenderer(createTreeCellRenderer());
 		treeTableComponent.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		treeTableComponent.setHorizontalScrollEnabled(true);
 		treeTableComponent.setColumnMargin(5);
@@ -611,6 +611,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				});
 			}
 		});
+	}
+
+	protected TableCellRenderer createTableCellRenderer() {
+		return new ItemTableCellRenderer();
+	}
+
+	protected TreeCellRenderer createTreeCellRenderer() {
+		return new ItemTreeCellRenderer();
 	}
 
 	protected JScrollPane createScrollPane() {
@@ -1441,7 +1449,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} else {
 			treeTableComponent.setBackground(new JXTreeTable().getBackground());
 		}
-		treeTableComponent.setDefaultRenderer(Object.class, new ItemTableCellRenderer());
+		treeTableComponent.setDefaultRenderer(Object.class, createTableCellRenderer());
 	}
 
 	protected void refreshTreeTableComponentHeader() {
