@@ -30,8 +30,8 @@ package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics2D;
 import java.awt.Dialog.ModalityType;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -60,9 +60,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import org.jdesktop.swingx.JXBusyLabel;
 
-import com.google.common.collect.MapMaker;
+import org.jdesktop.swingx.JXBusyLabel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultMethodControlData;
@@ -168,7 +167,6 @@ public class SwingRenderer {
 
 	protected ReflectionUI reflectionUI;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
-	protected Map<AbstractActionMenuItemInfo, Form> formByMethodActionMenuItem = new MapMaker().weakKeys().makeMap();
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
 	protected ExecutorService busyDialogJobExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
@@ -207,10 +205,6 @@ public class SwingRenderer {
 
 	public List<Form> getAllDisplayedForms() {
 		return allDisplayedForms;
-	}
-
-	public Map<AbstractActionMenuItemInfo, Form> getFormByActionMenuItem() {
-		return formByMethodActionMenuItem;
 	}
 
 	public Map<String, InvocationData> getLastInvocationDataByIdentifier() {

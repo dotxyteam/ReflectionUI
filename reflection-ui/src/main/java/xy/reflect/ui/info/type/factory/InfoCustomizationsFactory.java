@@ -38,7 +38,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
+
+import com.google.common.collect.MapMaker;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.info.ColorSpecification;
@@ -118,7 +119,6 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
-import xy.reflect.ui.util.IdentityEqualityWrapper;
 import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -127,7 +127,7 @@ import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
-	protected final Map<IdentityEqualityWrapper<ITypeInfo>, MembersCustomizationsFactory> membersCache = new WeakHashMap<IdentityEqualityWrapper<ITypeInfo>, MembersCustomizationsFactory>();
+	protected final Map<ITypeInfo, MembersCustomizationsFactory> membersCache = new MapMaker().weakKeys().makeMap();
 	protected final Object membersCacheMutex = new Object();
 
 	protected CustomizedUI customizedUI;
@@ -1403,10 +1403,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			 * customization is modified. Otherwise some new customizations (eg: newly
 			 * generated fields) will not be displayed.
 			 */
-			MembersCustomizationsFactory result = membersCache.get(new IdentityEqualityWrapper<ITypeInfo>(type));
+			MembersCustomizationsFactory result = membersCache.get(type);
 			if (result == null) {
 				result = new MembersCustomizationsFactory(type);
-				membersCache.put(new IdentityEqualityWrapper<ITypeInfo>(type), result);
+				membersCache.put(type, result);
 			}
 			return result;
 		}
@@ -2627,11 +2627,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					Filter<Object> reverseConversionMethod = f.getTypeConversion()
 							.buildOverallReverseConversionMethod();
 					boolean nullValueConverted = f.getTypeConversion().isNullValueConverted();
-					long reverseSynchronizationPeriodMilliseconds = (f.getTypeConversion()
-							.getReverseSynchronizationPeriodMilliseconds() == null) ? -1
-									: f.getTypeConversion().getReverseSynchronizationPeriodMilliseconds();
 					field = new ChangedTypeFieldInfo(field, newType, conversionMethod, reverseConversionMethod,
-							nullValueConverted, reverseSynchronizationPeriodMilliseconds);
+							nullValueConverted);
 				}
 				return field;
 			}

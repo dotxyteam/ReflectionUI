@@ -311,22 +311,22 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public boolean hasDetailsDisplayOption() {
+				public boolean hasDetachedDetailsDisplayOption() {
 					return false;
 				}
 
 				@Override
-				public boolean hasDetailsDisplayArea() {
+				public boolean hasEmbeddedDetailsDisplayArea() {
 					return false;
 				}
 
 				@Override
-				public ItemDetailsAreaPosition getDetailsAreaPosition() {
+				public ItemDetailsAreaPosition getEmbeddedDetailsAreaPosition() {
 					throw new ReflectionUIError();
 				}
 
 				@Override
-				public double getDefaultDetailsAreaOccupationRatio() {
+				public double getDefaultEmbeddedDetailsAreaOccupationRatio() {
 					throw new ReflectionUIError();
 				}
 			};

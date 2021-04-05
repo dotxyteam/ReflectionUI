@@ -38,12 +38,12 @@ import java.io.Serializable;
  */
 public interface IListItemDetailsAccessMode extends Serializable {
 
-	boolean hasDetailsDisplayOption();
+	boolean hasDetachedDetailsDisplayOption();
 
-	boolean hasDetailsDisplayArea();
+	boolean hasEmbeddedDetailsDisplayArea();
 
-	ItemDetailsAreaPosition getDetailsAreaPosition();
+	ItemDetailsAreaPosition getEmbeddedDetailsAreaPosition();
 
-	double getDefaultDetailsAreaOccupationRatio();
+	double getDefaultEmbeddedDetailsAreaOccupationRatio();
 
 }

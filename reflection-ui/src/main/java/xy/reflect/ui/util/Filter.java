@@ -30,6 +30,15 @@ package xy.reflect.ui.util;
 
 public interface Filter<T> {
 
+	public static <T> Filter<T> nullFilter() {
+		return new Filter<T>() {
+			@Override
+			public T get(T t) {
+				return t;
+			}
+		};
+	}
+
 	T get(T t);
 
 	public static class Chain<T> implements Filter<T> {

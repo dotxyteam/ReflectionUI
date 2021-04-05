@@ -33,14 +33,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.Visitor;
 
 /**
  * This class allows to specify menu elements that will be available in the
- * generated UIs. Instances of this class support contributions so that multiple
- * menu models can be merged into a more complex one.
+ * generated UIs. It also allows to process these elements (merge multiple
+ * instances, ...) in order to provide to the UI renderer a structure that is
+ * ready for display.
  * 
  * @author olitank
  *
@@ -59,9 +61,10 @@ public class MenuModel implements Serializable {
 		this.menus = menus;
 	}
 
-	public void importContribution(IMenuElementPosition containerPosition, IMenuElementInfo element) {
+	public void importContribution(IMenuElementPosition containerPosition, IMenuElementInfo element,
+			Filter<IMenuElementInfo> addedElementFilter) {
 		if (containerPosition == null) {
-			importContributionIn(element, null);
+			importContributionIn(element, null, addedElementFilter);
 		} else {
 			if ((containerPosition.getElementKind() != MenuElementKind.ITEM_CATEGORY)
 					&& (containerPosition.getElementKind() != MenuElementKind.MENU)) {
@@ -73,14 +76,22 @@ public class MenuModel implements Serializable {
 				throw new ReflectionUIError("Failed to add menu contribution '" + element + "' in '" + containerPosition
 						+ "': Container not found: '" + containerPosition + "'");
 			}
-			importContributionIn(element, container);
+			importContributionIn(element, container, addedElementFilter);
+		}
+	}
+
+	public void importContribution(IMenuElementPosition containerPosition, IMenuElementInfo element) {
+		importContribution(containerPosition, element, Filter.nullFilter());
+	}
+
+	public void importContributions(MenuModel model, Filter<IMenuElementInfo> addedElementFilter) {
+		for (MenuInfo menu : model.getMenus()) {
+			importContributionIn(menu, null, addedElementFilter);
 		}
 	}
 
 	public void importContributions(MenuModel model) {
-		for (MenuInfo menu : model.getMenus()) {
-			importContributionIn(menu, null);
-		}
+		importContributions(model, Filter.nullFilter());
 	}
 
 	public void visit(Visitor<IMenuElementInfo> visitor) {
@@ -99,12 +110,13 @@ public class MenuModel implements Serializable {
 		return true;
 	}
 
-	protected void importChildrenContributions(IMenuItemContainerInfo sourceContainer, IMenuItemContainerInfo targetContainer) {
+	protected void importChildrenContributions(IMenuItemContainerInfo sourceContainer,
+			IMenuItemContainerInfo targetContainer, Filter<IMenuElementInfo> addedElementFilter) {
 		if (!same(sourceContainer, targetContainer)) {
 			throw new ReflectionUIError();
 		}
 		for (IMenuElementInfo sourceElementChild : getChildren(sourceContainer)) {
-			importContributionIn(sourceElementChild, (IMenuItemContainerInfo) targetContainer);
+			importContributionIn(sourceElementChild, (IMenuItemContainerInfo) targetContainer, addedElementFilter);
 		}
 	}
 
@@ -157,25 +169,27 @@ public class MenuModel implements Serializable {
 		return result;
 	}
 
-	protected void importContributionIn(IMenuElementInfo element, IMenuItemContainerInfo container) {
+	protected void importContributionIn(IMenuElementInfo element, IMenuItemContainerInfo container,
+			Filter<IMenuElementInfo> addedElementFilter) {
 		for (IMenuElementInfo containerChild : getChildren(container)) {
 			if (same(element, containerChild)) {
 				if (!(containerChild instanceof IMenuItemContainerInfo)) {
-					final String errorMenuName = "<MENU ERROR> Duplicate menu detected: " + element.getCaption() + " (id="
-							+ element.hashCode() + ")";
+					final String errorMenuName = "<MENU ERROR> Duplicate menu detected: " + element.getCaption()
+							+ " (id=" + element.hashCode() + ")";
 					element = new AbstractActionMenuItemInfo(errorMenuName, null) {
 
 					};
-					importContributionIn(element, container);
+					importContributionIn(element, container, addedElementFilter);
 					return;
 				}
-				importChildrenContributions((IMenuItemContainerInfo) element, (IMenuItemContainerInfo) containerChild);
+				importChildrenContributions((IMenuItemContainerInfo) element, (IMenuItemContainerInfo) containerChild,
+						addedElementFilter);
 				return;
 			}
 		}
 		if (element instanceof IMenuItemContainerInfo) {
 			IMenuItemContainerInfo sameElement = createSameContainer((IMenuItemContainerInfo) element);
-			importChildrenContributions((IMenuItemContainerInfo) element, sameElement);
+			importChildrenContributions((IMenuItemContainerInfo) element, sameElement, addedElementFilter);
 			element = sameElement;
 		}
 		if (container == null) {
@@ -183,18 +197,18 @@ public class MenuModel implements Serializable {
 				throw new ReflectionUIError("Unexpected element at root position: " + element + ". Only "
 						+ MenuInfo.class.getSimpleName() + "s are expected at this position");
 			}
-			menus.add((MenuInfo) element);
+			menus.add((MenuInfo) addedElementFilter.get(element));
 		} else if (container instanceof MenuInfo) {
 			if (element instanceof AbstractMenuItemInfo) {
-				((MenuInfo) container).addItem((AbstractMenuItemInfo) element);
+				((MenuInfo) container).addItem((AbstractMenuItemInfo) addedElementFilter.get(element));
 			} else if (element instanceof MenuItemCategory) {
-				((MenuInfo) container).addItemCategory((MenuItemCategory) element);
+				((MenuInfo) container).addItemCategory((MenuItemCategory) addedElementFilter.get(element));
 			} else {
 				throw new ReflectionUIError();
 			}
 		} else if (container instanceof MenuItemCategory) {
 			if (element instanceof AbstractMenuItemInfo) {
-				((MenuItemCategory) container).addItem((AbstractMenuItemInfo) element);
+				((MenuItemCategory) container).addItem((AbstractMenuItemInfo) addedElementFilter.get(element));
 			} else {
 				throw new ReflectionUIError();
 			}

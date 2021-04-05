@@ -38,7 +38,8 @@ import java.util.List;
  * @author olitank
  *
  */
-public class MenuItemCategory implements IMenuItemContainerInfo {
+public class MenuItemCategory extends AbstractMenuElementInfo implements IMenuItemContainerInfo {
+
 	protected String caption = "";
 	protected List<AbstractMenuItemInfo> items = new ArrayList<AbstractMenuItemInfo>();
 
