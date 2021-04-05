@@ -31,6 +31,7 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -103,7 +104,12 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
 				protected void handleAnyEvent(IModification modification) {
-					refreshUI(false);
+					SwingUtilities.invokeLater(new Runnable() {						
+						@Override
+						public void run() {
+							refreshUI(false);
+						}
+					});
 				}
 			});
 		} else {
