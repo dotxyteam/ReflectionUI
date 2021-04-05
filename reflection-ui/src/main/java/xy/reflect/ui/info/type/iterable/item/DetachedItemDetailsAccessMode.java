@@ -28,26 +28,30 @@
  ******************************************************************************/
 package xy.reflect.ui.info.type.iterable.item;
 
+import javax.xml.bind.annotation.XmlElement;
+
 public class DetachedItemDetailsAccessMode implements IListItemDetailsAccessMode {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public boolean hasDetailsDisplayOption() {
+	public boolean hasDetachedDetailsDisplayOption() {
 		return true;
 	}
 
 	@Override
-	public boolean hasDetailsDisplayArea() {
+	public boolean hasEmbeddedDetailsDisplayArea() {
 		return false;
 	}
-
+	
 	@Override
-	public ItemDetailsAreaPosition getDetailsAreaPosition() {
+	@XmlElement(name="detailsAreaPosition")
+	public ItemDetailsAreaPosition getEmbeddedDetailsAreaPosition() {
 		return null;
 	}
 
 	@Override
-	public double getDefaultDetailsAreaOccupationRatio() {
+	@XmlElement(name="defaultDetailsAreaOccupationRatio")
+	public double getDefaultEmbeddedDetailsAreaOccupationRatio() {
 		return 0;
 	}
 

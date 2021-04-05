@@ -28,36 +28,42 @@
  ******************************************************************************/
 package xy.reflect.ui.info.type.iterable.item;
 
+import javax.xml.bind.annotation.XmlElement;
+
 public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode {
 	private static final long serialVersionUID = 1L;
 
-	protected ItemDetailsAreaPosition detailsAreaPosition = ItemDetailsAreaPosition.RIGHT;
-	protected double defaultDetailsAreaOccupationRatio = 0.66;
+	protected ItemDetailsAreaPosition embeddedDetailsAreaPosition = ItemDetailsAreaPosition.RIGHT;
+	protected double defaultEmbeddedDetailsAreaOccupationRatio = 0.66;
 
 	@Override
-	public boolean hasDetailsDisplayOption() {
+	public boolean hasDetachedDetailsDisplayOption() {
 		return false;
 	}
 
 	@Override
-	public boolean hasDetailsDisplayArea() {
+	public boolean hasEmbeddedDetailsDisplayArea() {
 		return true;
 	}
 
-	public ItemDetailsAreaPosition getDetailsAreaPosition() {
-		return detailsAreaPosition;
+	@Override
+	@XmlElement(name="detailsAreaPosition")
+	public ItemDetailsAreaPosition getEmbeddedDetailsAreaPosition() {
+		return embeddedDetailsAreaPosition;
 	}
 
-	public void setDetailsAreaPosition(ItemDetailsAreaPosition detailsAreaPosition) {
-		this.detailsAreaPosition = detailsAreaPosition;
+	public void setEmbeddedDetailsAreaPosition(ItemDetailsAreaPosition embeddedDetailsAreaPosition) {
+		this.embeddedDetailsAreaPosition = embeddedDetailsAreaPosition;
 	}
 
-	public double getDefaultDetailsAreaOccupationRatio() {
-		return defaultDetailsAreaOccupationRatio;
+	@Override
+	@XmlElement(name="defaultDetailsAreaOccupationRatio")
+	public double getDefaultEmbeddedDetailsAreaOccupationRatio() {
+		return defaultEmbeddedDetailsAreaOccupationRatio;
 	}
 
-	public void setDefaultDetailsAreaOccupationRatio(double defaultDetailsAreaOccupationRatio) {
-		this.defaultDetailsAreaOccupationRatio = defaultDetailsAreaOccupationRatio;
+	public void setDefaultEmbeddedDetailsAreaOccupationRatio(double defaultEmbeddedDetailsAreaOccupationRatio) {
+		this.defaultEmbeddedDetailsAreaOccupationRatio = defaultEmbeddedDetailsAreaOccupationRatio;
 	}
 
 	
