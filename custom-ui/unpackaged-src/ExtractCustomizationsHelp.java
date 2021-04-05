@@ -14,6 +14,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ExtractCustomizationsHelp {
 
@@ -39,8 +40,8 @@ public class ExtractCustomizationsHelp {
 	private static void printFieldHelp(IFieldInfo field) {
 		if (field.getOnlineHelp() != null) {
 			if (field.getCaption().trim().length() > 0) {
-				System.out
-						.println("<LI>" + "<B>" + field.getCaption() + ": " + "</B>" + field.getOnlineHelp() + "</LI>");
+				System.out.println("<LI>" + "<B>" + field.getCaption() + ": " + "</B>" + ReflectionUIUtils
+						.escapeHTML(field.getOnlineHelp().replace("\n", " ").replace("  ", " "), true) + "</LI>");
 			}
 		} else {
 			CapsuleFieldInfo capsuleField = getCapsuleField(field);
