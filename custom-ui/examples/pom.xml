@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>custom-reflection-ui-examples</artifactId>
-	<version>4.9.7</version>
+	<version>4.9.8</version>
 	<name>CustomUI (ReflectionUI) Examples</name>
 	<dependencies>
 		<dependency>
