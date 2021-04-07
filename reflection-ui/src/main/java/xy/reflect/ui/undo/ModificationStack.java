@@ -29,7 +29,6 @@
 package xy.reflect.ui.undo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -44,7 +43,7 @@ import xy.reflect.ui.util.ReflectionUIError;
  * Objects should be exclusively modified through the same modification stack.
  * If a modification occurs but cannot be logged in the modification stack for
  * any reason, then {@link #invalidate()} should be called to inform the
- * modification stack.
+ * modification stack and its clients.
  * 
  * @author olitank
  *
@@ -54,7 +53,7 @@ public class ModificationStack {
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
-	private int maximumSize = 10;
+	protected int maximumSize = 100;
 	protected Stack<ModificationStack> compositeStack = new Stack<ModificationStack>();
 	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 	protected boolean invalidated = false;
@@ -65,26 +64,26 @@ public class ModificationStack {
 	protected IModificationListener internalListener = new IModificationListener() {
 
 		@Override
-		public void handleUdno(IModification undoModification) {
+		public void afterUdno(IModification undoModification) {
 			stateVersion--;
 		}
 
 		@Override
-		public void handleRedo(IModification modification) {
+		public void afterRedo(IModification modification) {
 			stateVersion++;
 		}
 
 		@Override
-		public void handlePush(IModification undoModification) {
+		public void afterPushUndo(IModification undoModification) {
 			stateVersion++;
 		}
 
 		@Override
-		public void handleClearInvalidation() {
+		public void afterClearInvalidation() {
 		}
 
 		@Override
-		public void handleInvalidate() {
+		public void afterInvalidate() {
 			stateVersion++;
 		}
 
@@ -92,62 +91,62 @@ public class ModificationStack {
 	protected IModificationListener allListenersProxy = new IModificationListener() {
 
 		@Override
-		public void handlePush(IModification undoModification) {
-			internalListener.handlePush(undoModification);
+		public void afterPushUndo(IModification undoModification) {
+			internalListener.afterPushUndo(undoModification);
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.handlePush(undoModification);
+				listener.afterPushUndo(undoModification);
 			}
 		}
 
 		@Override
-		public void handleUdno(IModification undoModification) {
-			internalListener.handleUdno(undoModification);
+		public void afterUdno(IModification undoModification) {
+			internalListener.afterUdno(undoModification);
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.handleUdno(undoModification);
+				listener.afterUdno(undoModification);
 			}
 		}
 
 		@Override
-		public void handleRedo(IModification modification) {
-			internalListener.handleRedo(modification);
+		public void afterRedo(IModification modification) {
+			internalListener.afterRedo(modification);
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.handleRedo(modification);
+				listener.afterRedo(modification);
 			}
 		}
 
 		@Override
-		public void handleInvalidate() {
-			internalListener.handleInvalidate();
+		public void afterInvalidate() {
+			internalListener.afterInvalidate();
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.handleInvalidate();
+				listener.afterInvalidate();
 			}
 		}
 
 		@Override
-		public void handleClearInvalidation() {
-			internalListener.handleClearInvalidation();
+		public void afterClearInvalidation() {
+			internalListener.afterClearInvalidation();
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.handleClearInvalidation();
+				listener.afterClearInvalidation();
 			}
 		}
 
@@ -261,7 +260,7 @@ public class ModificationStack {
 	}
 
 	/**
-	 * Stores the specified modification undo modification in the undo stack.
+	 * Stores the specified undo modification in the undo stack.
 	 * 
 	 * @param undoModification The undo modification.
 	 * @return true only and only if the specified undo modification is not null.
@@ -275,34 +274,52 @@ public class ModificationStack {
 			return true;
 		}
 		validate();
-		if (!undoModification.isFake()) {
-			undoStack.push(undoModification);
-		}
+		undoStack.push(undoModification);
 		if (undoStack.size() > maximumSize) {
 			undoStack.remove(0);
 			wasInvalidated = true;
 		}
-		redoStack.clear();
-		allListenersProxy.handlePush(undoModification);
+		if (!undoModification.isFake()) {
+			redoStack.clear();
+		}
+		allListenersProxy.afterPushUndo(undoModification);
 		return true;
 	}
 
 	/**
-	 * @return the number of remaining undo modifications.
+	 * @return the next non-fake modification ({@link IModification#isFake()} ==
+	 *         false) that will be executed when calling
+	 *         {@link ModificationStack#undo()}.
 	 */
-	public int getUndoSize() {
-		return undoStack.size();
+	public IModification getNextUndoModification() {
+		for (int i = undoStack.size() - 1; i >= 0; i--) {
+			IModification modification = undoStack.get(i);
+			if (!modification.isFake()) {
+				return modification;
+			}
+		}
+		return null;
 	}
 
 	/**
-	 * @return the number of remaining redo modifications.
+	 * @return the next non-fake modification ({@link IModification#isFake()} ==
+	 *         false) that will be executed when calling
+	 *         {@link ModificationStack#redo()}.
 	 */
-	public int getRedoSize() {
-		return redoStack.size();
+	public IModification getNextRedoModification() {
+		for (int i = redoStack.size() - 1; i >= 0; i--) {
+			IModification modification = redoStack.get(i);
+			if (!modification.isFake()) {
+				return modification;
+			}
+		}
+		return null;
 	}
 
 	/**
-	 * Execute the next undo modification.
+	 * Executes the next undo modification. Note that the modifications on the top
+	 * of the undo stack will be executed until {@link IModification#isFake()}
+	 * returns false for the last executed modification.
 	 * 
 	 * @throws ReflectionUIError If there is no remaining undo modification or if a
 	 *                           composite modification is being created.
@@ -311,21 +328,30 @@ public class ModificationStack {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
 		}
-		if (undoStack.size() == 0) {
+		if (getNextUndoModification() == null) {
 			return;
 		}
 		IModification undoModif = undoStack.pop();
+		while (undoModif.isFake()) {
+			if (undoStack.size() == 0) {
+				return;
+			}
+			undoModif = undoStack.pop();
+			redoStack.push(undoModif.applyAndGetOpposite());
+		}
 		try {
 			redoStack.push(undoModif.applyAndGetOpposite());
 		} catch (IrreversibleModificationException e) {
 			invalidate();
 			return;
 		}
-		allListenersProxy.handleUdno(undoModif);
+		allListenersProxy.afterUdno(undoModif);
 	}
 
 	/**
-	 * Execute the next redo modification.
+	 * Executes the next redo modification. Note that the modifications on the top
+	 * of the redo stack will be executed until {@link IModification#isFake()}
+	 * returns false for the last executed modification.
 	 * 
 	 * @throws ReflectionUIError If there is no remaining redo modification or if a
 	 *                           composite modification is being created.
@@ -334,40 +360,34 @@ public class ModificationStack {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
 		}
-		if (redoStack.size() == 0) {
+		if (getNextRedoModification() == null) {
 			return;
 		}
-		IModification modif = redoStack.pop();
+		IModification redoModif = redoStack.pop();
+		while (redoModif.isFake()) {
+			if (redoStack.size() == 0) {
+				return;
+			}
+			redoModif = redoStack.pop();
+			undoStack.push(redoModif.applyAndGetOpposite());
+		}
 		try {
-			undoStack.push(modif.applyAndGetOpposite());
+			undoStack.push(redoModif.applyAndGetOpposite());
 		} catch (IrreversibleModificationException e) {
 			invalidate();
 			return;
 		}
-		allListenersProxy.handleRedo(modif);
+		allListenersProxy.afterRedo(redoModif);
 	}
 
 	/**
-	 * Execute all the undo modifications.
+	 * Executes all the undo modifications (calls {@link #undo()} until
+	 * {@link #getNextUndoModification()} returns null).
 	 */
 	public void undoAll() {
-		while (undoStack.size() > 0) {
+		while (getNextUndoModification() != null) {
 			undo();
 		}
-	}
-
-	/**
-	 * @return the stack of undo modifications.
-	 */
-	public IModification[] getUndoModifications() {
-		return undoStack.toArray(new IModification[undoStack.size()]);
-	}
-
-	/**
-	 * @return the stack of redo modifications.
-	 */
-	public IModification[] getRedoModifications() {
-		return redoStack.toArray(new IModification[redoStack.size()]);
 	}
 
 	/**
@@ -416,15 +436,16 @@ public class ModificationStack {
 		} else {
 			compositeParent = this;
 		}
-		IModification[] undoModifs = topComposite.getUndoModifications();
-		if (order == UndoOrder.getInverse()) {
-			List<IModification> list = new ArrayList<IModification>(Arrays.asList(undoModifs));
-			Collections.reverse(list);
-			list.toArray(undoModifs);
+		CompositeModification topCompositeUndoModif;
+		{
+			List<IModification> list = new ArrayList<IModification>(topComposite.undoStack);
+			if (order == UndoOrder.getInverse()) {
+				Collections.reverse(list);
+			}
+			topCompositeUndoModif = new CompositeModification(AbstractModification.getUndoTitle(title), order,
+					list.toArray(new IModification[list.size()]));
 		}
-		CompositeModification compositeUndoModif = new CompositeModification(AbstractModification.getUndoTitle(title),
-				order, undoModifs);
-		return compositeParent.pushUndo(compositeUndoModif);
+		return compositeParent.pushUndo(topCompositeUndoModif);
 	}
 
 	/**
@@ -477,7 +498,7 @@ public class ModificationStack {
 	 */
 	public void invalidate() {
 		wasInvalidated = invalidated = true;
-		allListenersProxy.handleInvalidate();
+		allListenersProxy.afterInvalidate();
 	}
 
 	protected void validate() {
@@ -486,7 +507,7 @@ public class ModificationStack {
 			undoStack.clear();
 			compositeStack.clear();
 			invalidated = false;
-			allListenersProxy.handleClearInvalidation();
+			allListenersProxy.afterClearInvalidation();
 		}
 	}
 
@@ -508,14 +529,14 @@ public class ModificationStack {
 	 * @return whether there are remaining undo modifications.
 	 */
 	public Boolean canUndo() {
-		return (undoStack.size() > 0) && !isInvalidated();
+		return !isInvalidated() && (getNextUndoModification() != null);
 	}
 
 	/**
 	 * @return whether there are remaining redo modifications.
 	 */
 	public Boolean canRedo() {
-		return (redoStack.size() > 0) && !isInvalidated();
+		return !isInvalidated() && (getNextRedoModification() != null);
 	}
 
 	/**
@@ -524,7 +545,7 @@ public class ModificationStack {
 	 *         undo modifications and the modification stack was never invalidated).
 	 */
 	public Boolean canReset() {
-		return canUndo() && !wasInvalidated();
+		return !wasInvalidated() && canUndo();
 	}
 
 	/**
@@ -532,8 +553,8 @@ public class ModificationStack {
 	 *         initial state (in other terms, there are no remaining undo
 	 *         modifications and the modification stack was never invalidated).
 	 */
-	public boolean isNull() {
-		if (undoStack.size() > 0) {
+	public boolean isInitial() {
+		if (getNextUndoModification() != null) {
 			return false;
 		}
 		if (wasInvalidated()) {
@@ -545,10 +566,11 @@ public class ModificationStack {
 	/**
 	 * @param title The title of the new composite modification.
 	 * @return a composite modification containing the current undo modification
-	 *         stack.
+	 *         stack elements.
 	 */
 	public IModification toCompositeUndoModification(String title) {
-		return new CompositeModification(title, UndoOrder.getNormal(), getUndoModifications());
+		return new CompositeModification(title, UndoOrder.getNormal(),
+				undoStack.toArray(new IModification[undoStack.size()]));
 	}
 
 	/**

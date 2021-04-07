@@ -33,27 +33,27 @@ public abstract class AbstractSimpleModificationListener implements IModificatio
 	protected abstract void handleAnyEvent(IModification modification);
 
 	@Override
-	public void handlePush(IModification modification) {
+	public void afterPushUndo(IModification modification) {
 		handleAnyEvent(modification);
 	}
 
 	@Override
-	public void handleUdno(IModification undoModification) {
+	public void afterUdno(IModification undoModification) {
 		handleAnyEvent(undoModification);
 	}
 
 	@Override
-	public void handleRedo(IModification modification) {
+	public void afterRedo(IModification modification) {
 		handleAnyEvent(modification);
 	}
 
 	@Override
-	public void handleInvalidate() {
+	public void afterInvalidate() {
 		handleAnyEvent(null);
 	}
 
 	@Override
-	public void handleClearInvalidation() {
+	public void afterClearInvalidation() {
 		handleAnyEvent(null);
 	}
 

@@ -69,49 +69,25 @@ public class SlaveModificationStack extends ModificationStack {
 		if (isInComposite()) {
 			return result;
 		}
-		ModificationStack valueModifStack;
-		if (undoModif.isFake()) {
-			valueModifStack = new ModificationStack(null) {
+		ModificationStack valueModifStack = new ModificationStack(null);
+		valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle()) {
 
-				@Override
-				public boolean isNull() {
-					return false;
-				}
+			@Override
+			protected void shiftBackward() {
+				SlaveModificationStack.this.super_undo();
+			}
 
-				@Override
-				public IModification toCompositeUndoModification(String title) {
-					return new AbstractModificationProxy(undoModif) {
+			@Override
+			protected void shiftForeward() {
+				SlaveModificationStack.this.super_redo();
+			}
 
-						@Override
-						public String getTitle() {
-							return title;
-						}
+			@Override
+			public boolean isFake() {
+				return undoModif.isFake();
+			}
 
-						@Override
-						public IModification applyAndGetOpposite() {
-							return this;
-						}
-
-					};
-				}
-
-			};
-		} else {
-			valueModifStack = new ModificationStack(null);
-			valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle()) {
-
-				@Override
-				protected void shiftBackward() {
-					SlaveModificationStack.this.super_undo();
-				}
-
-				@Override
-				protected void shiftForeward() {
-					SlaveModificationStack.this.super_redo();
-				}
-
-			});
-		}
+		});
 		Boolean valueModifAccepted = valueModifAcceptedGetter.get();
 		ValueReturnMode valueReturnMode = valueReturnModeGetter.get();
 		boolean valueReplaced = valueReplacedGetter.get();

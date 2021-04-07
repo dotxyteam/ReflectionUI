@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>reflection-ui</artifactId>
-	<version>4.9.8</version>
+	<version>4.9.9</version>
 	<name>Reflection UI</name>
 	<description>Java reflection-based GUI generator</description>
 	<url>http://javacollection.net/reflectionui/</url>
@@ -126,6 +126,15 @@
 
 
 	<profiles>
+		<profile>
+			<id>disable-java8-doclint</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<properties>
+				<additionalparam>-Xdoclint:none</additionalparam>
+			</properties>
+		</profile>
 		<profile>
 			<id>dist</id>
 			<build>

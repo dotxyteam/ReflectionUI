@@ -31,6 +31,7 @@ package xy.reflect.ui.control.swing.menu;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.undo.IModification;
 
 public class UndoMenuItem extends AbstractStandardActionMenuItem {
 
@@ -43,9 +44,9 @@ public class UndoMenuItem extends AbstractStandardActionMenuItem {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		if (form.getModificationStack().getUndoSize() > 0) {
-			setToolTipText(form.getModificationStack()
-					.getUndoModifications()[form.getModificationStack().getUndoModifications().length - 1].getTitle());
+		IModification nextUndoModification = form.getModificationStack().getNextUndoModification();
+		if (nextUndoModification != null) {
+			setToolTipText(nextUndoModification.getTitle());
 		} else {
 			setToolTipText(null);
 		}

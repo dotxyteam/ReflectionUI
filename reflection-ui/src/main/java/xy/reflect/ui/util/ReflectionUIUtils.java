@@ -876,9 +876,20 @@ public class ReflectionUIUtils {
 			throw new ReflectionUIError();
 		}
 
+		final IModification subCompositeUndoModif = subModificationsStack.toCompositeUndoModification(null);
+
+		if (subCompositeUndoModif.isFake()) {
+			if (!subCompositeUndoModif.isNull()) {
+				if (!subModificationsStack.wasInvalidated()) {
+					parentModificationStack.pushUndo(IModification.FAKE_MODIFICATION);
+					return true;
+				}
+			}
+		}
+
 		boolean parentObjectImpacted = false;
-		if (subModificationsAccepted) {
-			if (!subModificationsStack.isNull()) {
+		if (!subModificationsStack.isInitial()) {
+			if (subModificationsAccepted) {
 				parentObjectImpacted = parentModificationStack.insideComposite(parentModificationTitle, UndoOrder.FIFO,
 						new Accessor<Boolean>() {
 							@Override
@@ -887,8 +898,7 @@ public class ReflectionUIUtils {
 									if (subModificationsStack.wasInvalidated()) {
 										parentModificationStack.invalidate();
 									} else {
-										parentModificationStack
-												.pushUndo(subModificationsStack.toCompositeUndoModification(null));
+										parentModificationStack.pushUndo(subCompositeUndoModif);
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
@@ -902,9 +912,7 @@ public class ReflectionUIUtils {
 								return true;
 							}
 						});
-			}
-		} else {
-			if (!subModificationsStack.isNull()) {
+			} else {
 				if (valueReturnMode != ValueReturnMode.CALCULATED) {
 					if (!subModificationsStack.wasInvalidated()) {
 						if (debugLogListener != null) {

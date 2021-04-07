@@ -112,7 +112,8 @@ public class ModificationStackControls {
 					return SwingRendererUtils.getColor(type.getFormButtonBackgroundColor());
 				}
 				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
-					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
+					return SwingRendererUtils
+							.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
 				}
 				return null;
 			}
@@ -123,7 +124,8 @@ public class ModificationStackControls {
 					return SwingRendererUtils.getColor(type.getFormButtonForegroundColor());
 				}
 				if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
-					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
+					return SwingRendererUtils
+							.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
 				}
 				return null;
 			}
@@ -211,9 +213,9 @@ public class ModificationStackControls {
 		Accessor<String> tooltipText = new Accessor<String>() {
 			@Override
 			public String get() {
-				if (modificationStack.getUndoSize() > 0) {
-					return modificationStack.getUndoModifications()[modificationStack.getUndoModifications().length - 1]
-							.getTitle();
+				IModification nextUndoModif = modificationStack.getNextUndoModification();
+				if (nextUndoModif != null) {
+					return nextUndoModif.getTitle();
 				} else {
 					return null;
 				}
@@ -239,9 +241,9 @@ public class ModificationStackControls {
 		Accessor<String> tooltipText = new Accessor<String>() {
 			@Override
 			public String get() {
-				if (modificationStack.getRedoSize() > 0) {
-					return modificationStack.getRedoModifications()[modificationStack.getRedoModifications().length - 1]
-							.getTitle();
+				IModification nextRedoModif = modificationStack.getNextRedoModification();
+				if (nextRedoModif != null) {
+					return nextRedoModif.getTitle();
 				} else {
 					return null;
 				}

@@ -1,3 +1,5 @@
+- add customization option for list method shortcut icon
+or reuse the icon specified for the related method and eventually allow to override it
 - add an option to allow a method to reset the modification stack (forget()).
 Useful for methods like "loadFile()", "newProject()", etc.
 This option would be handled here: ReflectionUIUtils.invokeMethodThroughModificationStack()
