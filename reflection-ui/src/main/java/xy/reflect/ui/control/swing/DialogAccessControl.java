@@ -300,7 +300,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public IModification createParentCommitModification(Object newObjectValue) {
+			public IModification createCommittingModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 

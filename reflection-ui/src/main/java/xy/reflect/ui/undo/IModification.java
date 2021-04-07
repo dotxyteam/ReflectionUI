@@ -39,7 +39,9 @@ public interface IModification {
 
 	/**
 	 * Dummy instance of this class made available for utilitarian purposes.
-	 * Represents a null (no impact on the object state) modification.
+	 * Represents a null (no impact on the object state) modification. It does not
+	 * trigger notification firing and is not added to the
+	 * {@link ModificationStack}.
 	 */
 	IModification NULL_MODIFICATION = new IModification() {
 		@Override
@@ -50,6 +52,11 @@ public interface IModification {
 		@Override
 		public boolean isNull() {
 			return true;
+		}
+
+		@Override
+		public boolean isFake() {
+			return false;
 		}
 
 		@Override
@@ -66,7 +73,9 @@ public interface IModification {
 
 	/**
 	 * Dummy instance of this class made available for utilitarian purposes.
-	 * Represents a fake (simulated impact on the object state) modification.
+	 * Represents a fake (simulated impact on the object state) modification. It
+	 * triggers notification firing but is not added to the
+	 * {@link ModificationStack}.
 	 */
 	IModification FAKE_MODIFICATION = new IModification() {
 		@Override
@@ -77,6 +86,11 @@ public interface IModification {
 		@Override
 		public boolean isNull() {
 			return false;
+		}
+
+		@Override
+		public boolean isFake() {
+			return true;
 		}
 
 		@Override
@@ -100,9 +114,18 @@ public interface IModification {
 
 	/**
 	 * @return true if and only if this modification should be considered as empty,
-	 *         with no impact on the target object state.
+	 *         with no impact on the target object state or its associated
+	 *         {@link ModificationStack}.
 	 */
 	boolean isNull();
+
+	/**
+	 * @return true if and only if this modification should be considered as fake,
+	 *         with no impact on the target object state. Such a modification is not
+	 *         added on the {@link ModificationStack} (cannot be undone) but the
+	 *         {@link ModificationStack} listeners receive notifications.
+	 */
+	boolean isFake();
 
 	/**
 	 * @return the title of this modification.

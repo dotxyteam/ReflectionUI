@@ -45,6 +45,11 @@ public abstract class AbstractModification implements IModification {
 	}
 
 	@Override
+	public boolean isFake() {
+		return false;
+	}
+
+	@Override
 	public IModification applyAndGetOpposite() {
 		if (doJob == null) {
 			doJob = createDoJob();
@@ -79,6 +84,11 @@ public abstract class AbstractModification implements IModification {
 
 		@Override
 		public boolean isNull() {
+			return false;
+		}
+
+		@Override
+		public boolean isFake() {
 			return false;
 		}
 

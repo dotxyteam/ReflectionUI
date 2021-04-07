@@ -28,12 +28,15 @@
  ******************************************************************************/
 package xy.reflect.ui.info.custom;
 
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -50,6 +53,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -2745,6 +2749,11 @@ public class InfoCustomizations implements Serializable {
 			if (data == null) {
 				return null;
 			} else {
+				Object fixedResult;
+				if ((fixedResult = fixTemporarilyHistoricalImageIconClassSwappingIssue()) != null) {
+					return fixedResult;
+				}
+
 				Object result = ReflectionUIUtils.deserializeFromHexaText(data);
 				if (preConversion != null) {
 					Filter<Object> reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
@@ -2752,6 +2761,43 @@ public class InfoCustomizations implements Serializable {
 				}
 				return result;
 			}
+		}
+
+		private Object fixTemporarilyHistoricalImageIconClassSwappingIssue() {
+			if (preConversion != null) {
+				ConversionMethodFinder reverseConversionMethodFinder = preConversion.getReverseConversionMethodFinder();
+				if (reverseConversionMethodFinder != null) {
+					if (xy.reflect.ui.util.ImageIcon.class.getName()
+							.equals(reverseConversionMethodFinder.getConversionClassName())) {
+						String reverseConversionMethodSignature = reverseConversionMethodFinder
+								.getConversionMethodSignature();
+						if (reverseConversionMethodSignature != null) {
+							if (ReflectionUIUtils
+									.buildMethodSignature(Image.class.getName(), "getImage", Collections.emptyList())
+									.equals(reverseConversionMethodSignature)) {
+								try {
+									byte[] binary = DatatypeConverter.parseBase64Binary(data);
+									ByteArrayInputStream bais = new ByteArrayInputStream(binary);
+									ObjectInputStream ois = ReflectionUIUtils.getClassSwappingObjectInputStream(bais,
+											javax.swing.ImageIcon.class.getName(),
+											xy.reflect.ui.util.ImageIcon.class.getName());
+									Object result = ois.readObject();
+									if (preConversion != null) {
+										Filter<Object> reverseConversionMethod = preConversion
+												.buildOverallReverseConversionMethod();
+										result = reverseConversionMethod.get(result);
+									}
+									save(result);
+									return result;
+								} catch (Exception e) {
+									throw new ReflectionUIError(e);
+								}
+							}
+						}
+					}
+				}
+			}
+			return null;
 		}
 
 	}

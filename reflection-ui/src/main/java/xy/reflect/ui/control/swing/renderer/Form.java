@@ -992,7 +992,7 @@ public class Form extends ImagePanel {
 	}
 
 	public void refresh(boolean refreshStructure) {
-		if (refreshStructure && refreshControlValuesAndDetectModification()) {
+		if (refreshStructure && recreateControlPlaceHoldersIfNeeded()) {
 			InfoCategory displayedCategory = getDisplayedCategory();
 			try {
 				removeAll();
@@ -1072,7 +1072,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	public boolean refreshControlValuesAndDetectModification() {
+	public boolean recreateControlPlaceHoldersIfNeeded() {
 
 		boolean modificationsDetected = false;
 

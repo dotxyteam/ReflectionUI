@@ -278,7 +278,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public IModification createParentCommitModification(Object newObjectValue) {
+			public IModification createCommittingModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 

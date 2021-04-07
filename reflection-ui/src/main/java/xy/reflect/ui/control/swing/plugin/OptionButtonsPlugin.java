@@ -184,12 +184,11 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					AbstractButton button = radioButtonsEnum.nextElement();
 					listenerDisabled = true;
 					try {
-						if (ReflectionUIUtils.equalsOrBothNull(currentValue, possibleValues.get(i))) {
-							button.setSelected(true);
-						}
+						button.setSelected(ReflectionUIUtils.equalsOrBothNull(currentValue, possibleValues.get(i)));
 					} finally {
 						listenerDisabled = false;
 					}
+					button.repaint();
 					i++;
 				}
 			}

@@ -14,42 +14,42 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class ModificationsTest {
 
-	private boolean canModify(String fieldName) {
+	private boolean mayModify(String fieldName) {
 		ReflectionUI reflectionUI = new ReflectionUI();
 		ITypeInfo thisType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(this));
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(thisType.getFields(), fieldName);
 		boolean canCommit = !field.isGetOnly();
 		ValueReturnMode childValueReturnMode = field.getValueReturnMode();
-		return ReflectionUIUtils.canEditSeparateObjectValue(
+		return ReflectionUIUtils.mayModifyValue(
 				ReflectionUIUtils.isValueImmutable(reflectionUI, field.getValue(this)), childValueReturnMode,
 				canCommit);
 	}
 
 	@Test
 	public void test() {
-		Assert.assertTrue(canModify("theNull"));
-		Assert.assertTrue(canModify("theInt"));
-		Assert.assertTrue(canModify("theInteger"));
-		Assert.assertTrue(canModify("theString"));
-		Assert.assertTrue(canModify("theFile"));
-		Assert.assertTrue(canModify("theColor"));
-		Assert.assertTrue(canModify("theDate"));
+		Assert.assertTrue(mayModify("theNull"));
+		Assert.assertTrue(mayModify("theInt"));
+		Assert.assertTrue(mayModify("theInteger"));
+		Assert.assertTrue(mayModify("theString"));
+		Assert.assertTrue(mayModify("theFile"));
+		Assert.assertTrue(mayModify("theColor"));
+		Assert.assertTrue(mayModify("theDate"));
 
-		Assert.assertTrue(!canModify("theGetOnlyNull"));
-		Assert.assertTrue(!canModify("theGetOnlyInt"));
-		Assert.assertTrue(!canModify("theGetOnlyInteger"));
-		Assert.assertTrue(!canModify("theGetOnlyString"));
-		Assert.assertTrue(canModify("theGetOnlyFile"));
-		Assert.assertTrue(canModify("theGetOnlyColor"));
-		Assert.assertTrue(canModify("theGetOnlyDate"));
+		Assert.assertTrue(!mayModify("theGetOnlyNull"));
+		Assert.assertTrue(!mayModify("theGetOnlyInt"));
+		Assert.assertTrue(!mayModify("theGetOnlyInteger"));
+		Assert.assertTrue(!mayModify("theGetOnlyString"));
+		Assert.assertTrue(mayModify("theGetOnlyFile"));
+		Assert.assertTrue(mayModify("theGetOnlyColor"));
+		Assert.assertTrue(mayModify("theGetOnlyDate"));
 
-		Assert.assertTrue(!canModify("thePublicFinalNull"));
-		Assert.assertTrue(!canModify("thePublicFinalInt"));
-		Assert.assertTrue(!canModify("thePublicFinalInteger"));
-		Assert.assertTrue(!canModify("thePublicFinalString"));
-		Assert.assertTrue(canModify("thePublicFinalFile"));
-		Assert.assertTrue(canModify("thePublicFinalColor"));
-		Assert.assertTrue(canModify("thePublicFinalDate"));
+		Assert.assertTrue(!mayModify("thePublicFinalNull"));
+		Assert.assertTrue(!mayModify("thePublicFinalInt"));
+		Assert.assertTrue(!mayModify("thePublicFinalInteger"));
+		Assert.assertTrue(!mayModify("thePublicFinalString"));
+		Assert.assertTrue(mayModify("thePublicFinalFile"));
+		Assert.assertTrue(mayModify("thePublicFinalColor"));
+		Assert.assertTrue(mayModify("thePublicFinalDate"));
 
 	}
 

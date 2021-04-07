@@ -52,7 +52,7 @@ import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.ModificationProxy;
+import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
@@ -192,8 +192,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public IModification createParentCommitModification(final Object value) {
-				return new ModificationProxy(IModification.NULL_MODIFICATION) {
+			public IModification createCommittingModification(final Object value) {
+				return new AbstractModificationProxy(IModification.NULL_MODIFICATION) {
 
 					@Override
 					public String toString() {
@@ -294,7 +294,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public IModification createParentCommitModification(Object newObjectValue) {
+			public IModification createCommittingModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 

@@ -28,20 +28,20 @@
  ******************************************************************************/
 package xy.reflect.ui.undo;
 
-public class ModificationProxy implements IModification {
+public abstract class AbstractModificationProxy implements IModification {
 	protected IModification delegate;
 
-	public ModificationProxy(IModification delegate) {
+	public AbstractModificationProxy(IModification delegate) {
 		super();
 		this.delegate = delegate;
 	}
 
-	public IModification applyAndGetOpposite() {
-		return delegate.applyAndGetOpposite();
-	}
-
 	public boolean isNull() {
 		return delegate.isNull();
+	}
+
+	public boolean isFake() {
+		return delegate.isFake();
 	}
 
 	public String getTitle() {
@@ -64,7 +64,7 @@ public class ModificationProxy implements IModification {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ModificationProxy other = (ModificationProxy) obj;
+		AbstractModificationProxy other = (AbstractModificationProxy) obj;
 		if (delegate == null) {
 			if (other.delegate != null)
 				return false;

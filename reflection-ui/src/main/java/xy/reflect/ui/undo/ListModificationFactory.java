@@ -181,6 +181,11 @@ public class ListModificationFactory {
 			return false;
 		}
 
+		@Override
+		public boolean isFake() {
+			return false;
+		}
+
 	}
 
 }

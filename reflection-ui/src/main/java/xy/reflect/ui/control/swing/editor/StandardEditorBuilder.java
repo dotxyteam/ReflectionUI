@@ -116,7 +116,7 @@ public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 	}
 
 	@Override
-	public IModification createParentCommitModification(Object newObjectValue) {
+	public IModification createCommittingModification(Object newObjectValue) {
 		return null;
 	}
 

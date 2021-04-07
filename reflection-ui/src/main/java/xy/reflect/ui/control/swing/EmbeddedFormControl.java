@@ -97,14 +97,14 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void forwardSubFormModifications() {
-		if (!ReflectionUIUtils.canEditSeparateObjectValue(
+		if (!ReflectionUIUtils.mayModifyValue(
 				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subFormObject),
 				data.getValueReturnMode(), !data.isGetOnly())) {
 			ModificationStack childModifStack = subForm.getModificationStack();
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
 				protected void handleAnyEvent(IModification modification) {
-					SwingUtilities.invokeLater(new Runnable() {						
+					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
 							refreshUI(false);
@@ -116,7 +116,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
 			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(data.getValueReturnMode());
 			Accessor<Boolean> childValueReplacedGetter = Accessor.returning(Boolean.FALSE);
-			Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
+			Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
 					if (data.isGetOnly()) {
@@ -139,9 +139,10 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			};
 			boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
-			subForm.setModificationStack(new SlaveModificationStack(swingRenderer, subForm, childModifAcceptedGetter,
-					childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter, childModifTitleGetter,
-					masterModifStackGetter, exclusiveLinkWithParent));
+			subForm.setModificationStack(new SlaveModificationStack(subForm.toString(), childModifAcceptedGetter,
+					childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, childModifTitleGetter,
+					masterModifStackGetter, exclusiveLinkWithParent,
+					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI())));
 		}
 	}
 
@@ -161,7 +162,8 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 				if (data.getLabelForegroundColor() != null) {
-					((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+					((TitledBorder) getBorder())
+							.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 				}
 				if (data.getBorderColor() != null) {
 					((TitledBorder) getBorder()).setBorder(

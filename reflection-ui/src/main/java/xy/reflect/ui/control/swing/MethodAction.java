@@ -230,7 +230,7 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public IModification createParentCommitModification(Object newObjectValue) {
+			public IModification createCommittingModification(Object newObjectValue) {
 				return null;
 			}
 

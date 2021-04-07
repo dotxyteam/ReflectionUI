@@ -253,7 +253,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 			@Override
 			public void run() {
 				if (hasParentObject()) {
-					if (canPotentiallyModifyParentObject()) {
+					if (mayModifyParentObject()) {
 						impactParent();
 					}
 				} else {
@@ -290,18 +290,17 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		ValueReturnMode valueReturnMode = getReturnModeFromParent();
 		Object currentValue = getCurrentValue();
 		boolean valueReplaced = isValueReplaced();
-		IModification commitModif;
+		IModification committingModif;
 		if (!canCommitToParent()) {
-			commitModif = null;
+			committingModif = null;
 		} else {
-			commitModif = createParentCommitModification(currentValue);
+			committingModif = createCommittingModification(currentValue);
 		}
 		boolean valueModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
-		String editSessionTitle = getParentModificationTitle();
-		parentModificationStackImpacted = ReflectionUIUtils.finalizeSeparateObjectValueEditSession(
-				parentObjectModifStack, valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced,
-				commitModif, editSessionTitle,
-				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
+		String parentObjectModifTitle = getParentModificationTitle();
+		parentModificationStackImpacted = ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack,
+				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, committingModif,
+				parentObjectModifTitle, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}
 
 	/**

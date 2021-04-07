@@ -1107,7 +1107,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public IModification createParentCommitModification(Object newObjectValue) {
+			public IModification createCommittingModification(Object newObjectValue) {
 				return IModification.NULL_MODIFICATION;
 			}
 
@@ -1636,6 +1636,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return false;
 		}
 
+		@Override
+		public boolean isFake() {
+			return false;
+		}
+
 	}
 
 	protected abstract class AbstractItemCellRenderer {
@@ -1860,7 +1865,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public IModification createParentCommitModification(Object newObjectValue) {
+		public IModification createCommittingModification(Object newObjectValue) {
 			return modificationFactory.set(bufferedItemPosition.getIndex(), newObjectValue);
 		}
 
@@ -2348,7 +2353,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			if (dialogBuilder.canPotentiallyModifyParentObject()) {
+			if (dialogBuilder.mayModifyParentObject()) {
 				dialogBuilder.impactParent();
 			}
 		}
@@ -2763,7 +2768,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				public IModification createParentCommitModification(Object newObjectValue) {
+				public IModification createCommittingModification(Object newObjectValue) {
 					return new FieldControlDataModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
 							IDynamicListProperty.NO_OWNER, dynamicProperty), newObjectValue);
 				}
@@ -2779,7 +2784,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			if (subDialogBuilder.canPotentiallyModifyParentObject()) {
+			if (subDialogBuilder.mayModifyParentObject()) {
 				subDialogBuilder.impactParent();
 			}
 			if (dynamicProperty.getPostSelection() != null) {

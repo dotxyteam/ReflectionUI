@@ -156,8 +156,7 @@ public class ModificationStack {
 	/**
 	 * Constructs a modification stack having the specified name.
 	 * 
-	 * @param name
-	 *            The name.
+	 * @param name The name.
 	 */
 	public ModificationStack(String name) {
 		this.name = name;
@@ -182,8 +181,7 @@ public class ModificationStack {
 	 * Updates the maximum size of the stack. Note that once this size is exceeded,
 	 * {@link #wasInvalidated()} will return true.
 	 * 
-	 * @param maximumSize
-	 *            The new maximum size value.
+	 * @param maximumSize The new maximum size value.
 	 */
 	public void setMaximumSize(int maximumSize) {
 		if (maximumSize <= 0) {
@@ -209,8 +207,7 @@ public class ModificationStack {
 	/**
 	 * Adds the specified listener to the modification stack.
 	 * 
-	 * @param listener
-	 *            The listener.
+	 * @param listener The listener.
 	 */
 	public void addListener(IModificationListener listener) {
 		listeners.add(listener);
@@ -219,8 +216,7 @@ public class ModificationStack {
 	/**
 	 * Removes the specified listener from the modification stack.
 	 * 
-	 * @param listener
-	 *            The listener.
+	 * @param listener The listener.
 	 */
 	public void removeListener(IModificationListener listener) {
 		listeners.remove(listener);
@@ -243,8 +239,8 @@ public class ModificationStack {
 	/**
 	 * Enables/disables listeners.
 	 * 
-	 * @param eventFiringEnabled
-	 *            Is true to enable listeners, false to disable listeners.
+	 * @param eventFiringEnabled Is true to enable listeners, false to disable
+	 *                           listeners.
 	 */
 	public void setEventFiringEnabled(boolean eventFiringEnabled) {
 		this.eventFiringEnabled = eventFiringEnabled;
@@ -254,8 +250,7 @@ public class ModificationStack {
 	 * Executes the specified modification and stores its opposite modification in
 	 * the undo stack.
 	 * 
-	 * @param modification
-	 *            The modification.
+	 * @param modification The modification.
 	 */
 	public void apply(IModification modification) {
 		try {
@@ -268,8 +263,7 @@ public class ModificationStack {
 	/**
 	 * Stores the specified modification undo modification in the undo stack.
 	 * 
-	 * @param undoModification
-	 *            The undo modification.
+	 * @param undoModification The undo modification.
 	 * @return true only and only if the specified undo modification is not null.
 	 */
 	public boolean pushUndo(IModification undoModification) {
@@ -281,7 +275,9 @@ public class ModificationStack {
 			return true;
 		}
 		validate();
-		undoStack.push(undoModification);
+		if (!undoModification.isFake()) {
+			undoStack.push(undoModification);
+		}
 		if (undoStack.size() > maximumSize) {
 			undoStack.remove(0);
 			wasInvalidated = true;
@@ -308,9 +304,8 @@ public class ModificationStack {
 	/**
 	 * Execute the next undo modification.
 	 * 
-	 * @throws ReflectionUIError
-	 *             If there is no remaining undo modification or if a composite
-	 *             modification is being created.
+	 * @throws ReflectionUIError If there is no remaining undo modification or if a
+	 *                           composite modification is being created.
 	 */
 	public void undo() {
 		if (compositeStack.size() > 0) {
@@ -332,9 +327,8 @@ public class ModificationStack {
 	/**
 	 * Execute the next redo modification.
 	 * 
-	 * @throws ReflectionUIError
-	 *             If there is no remaining redo modification or if a composite
-	 *             modification is being created.
+	 * @throws ReflectionUIError If there is no remaining redo modification or if a
+	 *                           composite modification is being created.
 	 */
 	public void redo() {
 		if (compositeStack.size() > 0) {
@@ -403,10 +397,8 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @param title
-	 *            The composite modification title.
-	 * @param order
-	 *            The composite modification undo order.
+	 * @param title The composite modification title.
+	 * @param order The composite modification undo order.
 	 * @return true if a potential modification was detected since the call of
 	 *         {@link #beginComposite()}. Note that true will also be returned if
 	 *         the composite modification creation have been aborted because of an
@@ -448,15 +440,13 @@ public class ModificationStack {
 	 * {@link #beginComposite()}, performs the specified action and call
 	 * {@link #endComposite(String, UndoOrder)} or {@link #abortComposite()}.
 	 * 
-	 * @param title
-	 *            The composite modification title.
-	 * @param order
-	 *            The composite modification undo order.
-	 * @param action
-	 *            The method {@link Accessor#get()} will be called from this
-	 *            parameter object before the current method returns. It should push
-	 *            the children undo modifications in the current modification stack
-	 *            and return true if a potential modification is detected.
+	 * @param title  The composite modification title.
+	 * @param order  The composite modification undo order.
+	 * @param action The method {@link Accessor#get()} will be called from this
+	 *               parameter object before the current method returns. It should
+	 *               push the children undo modifications in the current
+	 *               modification stack and return true if a potential modification
+	 *               is detected.
 	 * @return whether a potential modification was detected.
 	 */
 	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action) {
@@ -553,8 +543,7 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @param title
-	 *            The title of the new composite modification.
+	 * @param title The title of the new composite modification.
 	 * @return a composite modification containing the current undo modification
 	 *         stack.
 	 */

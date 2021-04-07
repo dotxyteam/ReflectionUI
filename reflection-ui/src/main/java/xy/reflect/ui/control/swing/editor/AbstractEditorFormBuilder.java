@@ -106,7 +106,7 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return whether modifications of the target value/object can be committed
-	 *         (using the result of {@link #createParentCommitModification(Object)})
+	 *         (using the result of {@link #createCommittingModification(Object)})
 	 *         to make them real for the parent object.
 	 */
 	public abstract boolean canCommitToParent();
@@ -118,7 +118,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         primitive field values would need to be committed (set back) to their
 	 *         parent object after modification.
 	 */
-	public abstract IModification createParentCommitModification(Object newObjectValue);
+	public abstract IModification createCommittingModification(Object newObjectValue);
 
 	/**
 	 * @return source of the declared type information that will be used to handle
@@ -402,7 +402,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         returned.
 	 */
 	protected boolean isInReadOnlyMode() {
-		return hasParentObject() ? !canPotentiallyModifyParentObject() : false;
+		return hasParentObject() ? !mayModifyParentObject() : false;
 	}
 
 	/**
@@ -431,12 +431,10 @@ public abstract class AbstractEditorFormBuilder {
 	/**
 	 * Creates and return the editor control.
 	 * 
-	 * @param realTimeLinkWithParent
-	 *            Whether a real-time link should be maintained with the parent
-	 *            object.
-	 * @param exclusiveLinkWithParent
-	 *            Whether the real-time link with the parent object (if existing) is
-	 *            exclusive or not.
+	 * @param realTimeLinkWithParent  Whether a real-time link should be maintained
+	 *                                with the parent object.
+	 * @param exclusiveLinkWithParent Whether the real-time link with the parent
+	 *                                object (if existing) is exclusive or not.
 	 * @return the created editor control.
 	 */
 	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
@@ -450,19 +448,17 @@ public abstract class AbstractEditorFormBuilder {
 	 * Installs the link between the target value/object editor control and its
 	 * parent object form.
 	 * 
-	 * @param editorForm
-	 *            The created target value/object editor control.
-	 * @param realTimeLinkWithParent
-	 *            Whether a real-time link should be maintained with the parent
-	 *            object.
-	 * @param exclusiveLinkWithParent
-	 *            Whether the real-time link with the parent object (if existing) is
-	 *            exclusive or not.
+	 * @param editorForm              The created target value/object editor
+	 *                                control.
+	 * @param realTimeLinkWithParent  Whether a real-time link should be maintained
+	 *                                with the parent object.
+	 * @param exclusiveLinkWithParent Whether the real-time link with the parent
+	 *                                object (if existing) is exclusive or not.
 	 */
 	protected void setupLinkWithParent(Form editorForm, boolean realTimeLinkWithParent,
 			boolean exclusiveLinkWithParent) {
 		if (realTimeLinkWithParent) {
-			if (canPotentiallyModifyParentObject()) {
+			if (mayModifyParentObject()) {
 				forwardEditorFormModificationsToParentObject(editorForm, exclusiveLinkWithParent);
 			}
 			if (isEditorFormRefreshedOnModification()) {
@@ -482,12 +478,12 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return whether modifications of the target value/object can impact the
 	 *         parent object.
 	 */
-	public boolean canPotentiallyModifyParentObject() {
+	public boolean mayModifyParentObject() {
 		if (!hasParentObject()) {
 			return false;
 		}
 		ensureIsInitialized();
-		return ReflectionUIUtils.canEditSeparateObjectValue(
+		return ReflectionUIUtils.mayModifyValue(
 				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
 				getReturnModeFromParent(), canCommitToParent());
 	}
@@ -496,8 +492,7 @@ public abstract class AbstractEditorFormBuilder {
 	 * Installs a listener that will trigger the editor control refreshing whenever
 	 * a modification of the target value/object is detected.
 	 * 
-	 * @param editorForm
-	 *            The created editor control.
+	 * @param editorForm The created editor control.
 	 */
 	protected void refreshEditorFormOnModification(final Form editorForm) {
 		ModificationStack childModificationStack = editorForm.getModificationStack();
@@ -512,11 +507,10 @@ public abstract class AbstractEditorFormBuilder {
 	/**
 	 * Refreshes the editor control.
 	 * 
-	 * @param editorForm
-	 *            The created editor control.
-	 * @param refreshStructure
-	 *            Whether the editor control should update its structure to reflect
-	 *            the recent meta-data change. Mainly used in design mode.
+	 * @param editorForm       The created editor control.
+	 * @param refreshStructure Whether the editor control should update its
+	 *                         structure to reflect the recent meta-data change.
+	 *                         Mainly used in design mode.
 	 */
 	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
 		encapsulatedObjectValueAccessor.set(getInitialValue());
@@ -524,8 +518,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @param value
-	 *            The new target value.
+	 * @param value The new target value.
 	 * @return whether the new target value passed as argument was accepted or
 	 *         rejected, typically by a user.
 	 */
@@ -537,11 +530,9 @@ public abstract class AbstractEditorFormBuilder {
 	 * Installs on the editor control a listener that will forward the target
 	 * value/object modifications to the parent object modification stack.
 	 * 
-	 * @param editorForm
-	 *            The created editor control.
-	 * @param exclusiveLinkWithParent
-	 *            Whether the real-time link with the parent object (if existing) is
-	 *            exclusive or not.
+	 * @param editorForm              The created editor control.
+	 * @param exclusiveLinkWithParent Whether the real-time link with the parent
+	 *                                object (if existing) is exclusive or not.
 	 */
 	protected void forwardEditorFormModificationsToParentObject(final Form editorForm,
 			boolean exclusiveLinkWithParent) {
@@ -560,16 +551,16 @@ public abstract class AbstractEditorFormBuilder {
 		Accessor<Boolean> childValueReplacedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return (isValueReplaced());
+				return isValueReplaced();
 			}
 		};
-		Accessor<IModification> commitModifGetter = new Accessor<IModification>() {
+		Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
 				if (!canCommitToParent()) {
 					return null;
 				}
-				return createParentCommitModification(getCurrentValue());
+				return createCommittingModification(getCurrentValue());
 			}
 		};
 		Accessor<String> childModifTitleGetter = new Accessor<String>() {
@@ -589,9 +580,10 @@ public abstract class AbstractEditorFormBuilder {
 				return result;
 			}
 		};
-		editorForm.setModificationStack(new SlaveModificationStack(getSwingRenderer(), editorForm,
-				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter, commitModifGetter,
-				childModifTitleGetter, masterModifStackGetter, exclusiveLinkWithParent));
+		editorForm.setModificationStack(new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
+				childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, childModifTitleGetter,
+				masterModifStackGetter, exclusiveLinkWithParent,
+				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI())));
 	}
 
 }

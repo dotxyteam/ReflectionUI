@@ -40,7 +40,7 @@ public class CompositeModification implements IModification {
 	protected IModification[] modifications;
 	protected String title;
 	protected UndoOrder undoOrder;
-	
+
 	public CompositeModification(String title, UndoOrder undoOrder, IModification... modifications) {
 		this.title = title;
 		this.undoOrder = undoOrder;
@@ -55,6 +55,16 @@ public class CompositeModification implements IModification {
 	public boolean isNull() {
 		for (IModification modif : modifications) {
 			if (!modif.isNull()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isFake() {
+		for (IModification modif : modifications) {
+			if (!modif.isFake()) {
 				return false;
 			}
 		}

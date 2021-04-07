@@ -28,43 +28,40 @@
  ******************************************************************************/
 package xy.reflect.ui.undo;
 
-import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class SlaveModificationStack extends ModificationStack {
 
-	protected SwingRenderer swingRenderer;
-	protected Form form;
 	protected Accessor<Boolean> valueModifAcceptedGetter;
 	protected Accessor<ValueReturnMode> valueReturnModeGetter;
 	protected Accessor<Boolean> valueReplacedGetter;
-	protected Accessor<String> editSessionTitleGetter;
+	protected Accessor<String> masterModificationTitleGetter;
 	protected Accessor<ModificationStack> masterModificationStackGetter;
-	protected Accessor<IModification> commitModifGetter;
+	protected Accessor<IModification> committingModificationGetter;
 	protected boolean exclusiveLinkWithParent;
+	protected Listener<String> debugLogListener;
 
-	public SlaveModificationStack(SwingRenderer swingRenderer, Form form, Accessor<Boolean> valueModifAcceptedGetter,
+	public SlaveModificationStack(String name, Accessor<Boolean> valueModifAcceptedGetter,
 			Accessor<ValueReturnMode> valueReturnModeGetter, Accessor<Boolean> valueReplacedGetter,
-			Accessor<IModification> commitModifGetter, Accessor<String> editSessionTitleGetter,
-			Accessor<ModificationStack> masterModificationStackGetter, boolean exclusiveLinkWithParent) {
-		super(null);
-		this.swingRenderer = swingRenderer;
-		this.form = form;
+			Accessor<IModification> committingModificationGetter, Accessor<String> masterModificationTitleGetter,
+			Accessor<ModificationStack> masterModificationStackGetter, boolean exclusiveLinkWithParent,
+			Listener<String> debugLogListener) {
+		super(name);
 		this.valueModifAcceptedGetter = valueModifAcceptedGetter;
 		this.valueReturnModeGetter = valueReturnModeGetter;
 		this.valueReplacedGetter = valueReplacedGetter;
-		this.commitModifGetter = commitModifGetter;
-		this.editSessionTitleGetter = editSessionTitleGetter;
+		this.committingModificationGetter = committingModificationGetter;
+		this.masterModificationTitleGetter = masterModificationTitleGetter;
 		this.masterModificationStackGetter = masterModificationStackGetter;
 		this.exclusiveLinkWithParent = exclusiveLinkWithParent;
-
+		this.debugLogListener = debugLogListener;
 	}
 
 	@Override
-	public boolean pushUndo(IModification undoModif) {
+	public boolean pushUndo(final IModification undoModif) {
 		if (undoModif.isNull()) {
 			return false;
 		}
@@ -72,33 +69,61 @@ public class SlaveModificationStack extends ModificationStack {
 		if (isInComposite()) {
 			return result;
 		}
-		ModificationStack valueModifStack = new ModificationStack(null);
-		valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle()) {
+		ModificationStack valueModifStack;
+		if (undoModif.isFake()) {
+			valueModifStack = new ModificationStack(null) {
 
-			@Override
-			protected void shiftBackward() {
-				SlaveModificationStack.this.super_undo();
-			}
+				@Override
+				public boolean isNull() {
+					return false;
+				}
 
-			@Override
-			protected void shiftForeward() {
-				SlaveModificationStack.this.super_redo();
-			}
+				@Override
+				public IModification toCompositeUndoModification(String title) {
+					return new AbstractModificationProxy(undoModif) {
 
-		});
+						@Override
+						public String getTitle() {
+							return title;
+						}
+
+						@Override
+						public IModification applyAndGetOpposite() {
+							return this;
+						}
+
+					};
+				}
+
+			};
+		} else {
+			valueModifStack = new ModificationStack(null);
+			valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle()) {
+
+				@Override
+				protected void shiftBackward() {
+					SlaveModificationStack.this.super_undo();
+				}
+
+				@Override
+				protected void shiftForeward() {
+					SlaveModificationStack.this.super_redo();
+				}
+
+			});
+		}
 		Boolean valueModifAccepted = valueModifAcceptedGetter.get();
 		ValueReturnMode valueReturnMode = valueReturnModeGetter.get();
 		boolean valueReplaced = valueReplacedGetter.get();
-		IModification commitModif = commitModifGetter.get();
-		String editSessionTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
-		String editSessionTitlePrefix = editSessionTitleGetter.get();
-		if (editSessionTitlePrefix != null) {
-			editSessionTitle = ReflectionUIUtils.composeMessage(editSessionTitlePrefix, editSessionTitle);
+		IModification committingModif = committingModificationGetter.get();
+		String modifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
+		String modifTitlePrefix = masterModificationTitleGetter.get();
+		if (modifTitlePrefix != null) {
+			modifTitle = ReflectionUIUtils.composeMessage(modifTitlePrefix, modifTitle);
 		}
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
-		return ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
-				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTitle,
-				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+		return ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+				valueReturnMode, valueReplaced, committingModif, modifTitle, debugLogListener);
 	}
 
 	@Override
@@ -113,12 +138,11 @@ public class SlaveModificationStack extends ModificationStack {
 		Boolean valueModifAccepted = valueModifAcceptedGetter.get();
 		ValueReturnMode valueReturnMode = valueReturnModeGetter.get();
 		boolean valueReplaced = valueReplacedGetter.get();
-		IModification commitModif = commitModifGetter.get();
-		String editSessionTitle = null;
+		IModification committingModif = committingModificationGetter.get();
+		String parentObjectModifTitle = null;
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
-		ReflectionUIUtils.finalizeSeparateObjectValueEditSession(parentObjectModifStack, valueModifStack,
-				valueModifAccepted, valueReturnMode, valueReplaced, commitModif, editSessionTitle,
-				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+		ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+				valueReturnMode, valueReplaced, committingModif, parentObjectModifTitle, debugLogListener);
 	}
 
 	@Override
@@ -168,8 +192,7 @@ public class SlaveModificationStack extends ModificationStack {
 
 	@Override
 	public String toString() {
-		return SlaveModificationStack.class.getSimpleName() + "[of " + form.toString() + ", to "
-				+ masterModificationStackGetter.get() + "]";
+		return "Slave" + super.toString();
 	}
 
 }

@@ -863,49 +863,40 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static IModification finalizeSeparateObjectValueEditSession(IModification valueUndoModification,
-			boolean valueModifAccepted, ValueReturnMode valueReturnMode, boolean valueReplaced,
-			IModification commitModif, String editSessionTitle) {
-		ModificationStack objectModifStack = new ModificationStack(null);
-		ModificationStack valueModifStack = new ModificationStack(null);
-		valueModifStack.pushUndo(valueUndoModification);
-		finalizeSeparateObjectValueEditSession(objectModifStack, valueModifStack, valueModifAccepted, valueReturnMode,
-				valueReplaced, commitModif, editSessionTitle, null);
-		return objectModifStack.toCompositeUndoModification(editSessionTitle);
-	}
-
-	public static boolean finalizeSeparateObjectValueEditSession(final ModificationStack objectModifStack,
-			final ModificationStack valueModifStack, boolean valueModifAccepted, final ValueReturnMode valueReturnMode,
-			final boolean valueReplaced, final IModification commitModif, String editSessionTitle,
+	public static boolean finalizeSubModifications(final ModificationStack parentModificationStack,
+			final ModificationStack subModificationsStack, boolean subModificationsAccepted,
+			final ValueReturnMode valueReturnMode, final boolean valueReplaced,
+			final IModification committingModification, String parentModificationTitle,
 			final Listener<String> debugLogListener) {
 
-		if (objectModifStack == null) {
+		if (parentModificationStack == null) {
 			throw new ReflectionUIError();
 		}
-		if (valueModifStack == null) {
+		if (subModificationsStack == null) {
 			throw new ReflectionUIError();
 		}
 
 		boolean parentObjectImpacted = false;
-		if (valueModifAccepted) {
-			if (!valueModifStack.isNull()) {
-				parentObjectImpacted = objectModifStack.insideComposite(editSessionTitle, UndoOrder.FIFO,
+		if (subModificationsAccepted) {
+			if (!subModificationsStack.isNull()) {
+				parentObjectImpacted = parentModificationStack.insideComposite(parentModificationTitle, UndoOrder.FIFO,
 						new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
 								if (valueReturnMode != ValueReturnMode.CALCULATED) {
-									if (valueModifStack.wasInvalidated()) {
-										objectModifStack.invalidate();
+									if (subModificationsStack.wasInvalidated()) {
+										parentModificationStack.invalidate();
 									} else {
-										objectModifStack.pushUndo(valueModifStack.toCompositeUndoModification(null));
+										parentModificationStack
+												.pushUndo(subModificationsStack.toCompositeUndoModification(null));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
-									if (commitModif != null) {
+									if (committingModification != null) {
 										if (debugLogListener != null) {
-											debugLogListener.handle("Executing " + commitModif);
+											debugLogListener.handle("Executing " + committingModification);
 										}
-										objectModifStack.apply(commitModif);
+										parentModificationStack.apply(committingModification);
 									}
 								}
 								return true;
@@ -913,19 +904,19 @@ public class ReflectionUIUtils {
 						});
 			}
 		} else {
-			if (!valueModifStack.isNull()) {
+			if (!subModificationsStack.isNull()) {
 				if (valueReturnMode != ValueReturnMode.CALCULATED) {
-					if (!valueModifStack.wasInvalidated()) {
+					if (!subModificationsStack.wasInvalidated()) {
 						if (debugLogListener != null) {
-							debugLogListener.handle("Undoing " + valueModifStack);
+							debugLogListener.handle("Undoing " + subModificationsStack);
 						}
-						valueModifStack.undoAll();
+						subModificationsStack.undoAll();
 					} else {
 						if (debugLogListener != null) {
 							debugLogListener.handle("WARNING: Cannot undo invalidated sub-modification stack: "
-									+ valueModifStack + "\n=> Invalidating parent modification stack");
+									+ subModificationsStack + "\n=> Invalidating parent modification stack");
 						}
-						objectModifStack.invalidate();
+						parentModificationStack.invalidate();
 						parentObjectImpacted = true;
 					}
 				}
@@ -934,7 +925,7 @@ public class ReflectionUIUtils {
 		return parentObjectImpacted;
 	}
 
-	public static boolean canEditSeparateObjectValue(boolean valueKnownAsImmutable, ValueReturnMode valueReturnMode,
+	public static boolean mayModifyValue(boolean valueKnownAsImmutable, ValueReturnMode valueReturnMode,
 			boolean canCommit) {
 		if ((valueReturnMode != ValueReturnMode.CALCULATED) && !valueKnownAsImmutable) {
 			return true;
@@ -956,7 +947,11 @@ public class ReflectionUIUtils {
 	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
 			ModificationStack modifStack) {
 		if (data.isTransient()) {
-			data.setValue(newValue);
+			try {
+				data.setValue(newValue);
+			} finally {
+				modifStack.apply(IModification.FAKE_MODIFICATION);
+			}
 		} else {
 			FieldControlDataModification modif = new FieldControlDataModification(data, newValue);
 			try {
@@ -1103,12 +1098,6 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static ObjectInputStream alterImageIconDeserialization(InputStream in)
-			throws ClassNotFoundException, IOException {
-		return getClassSwappingObjectInputStream(in, javax.swing.ImageIcon.class.getName(),
-				xy.reflect.ui.util.ImageIcon.class.getName());
-	}
-
 	public static void serialize(Object object, OutputStream out) {
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(out);
@@ -1121,7 +1110,7 @@ public class ReflectionUIUtils {
 
 	public static Object deserialize(InputStream in) {
 		try {
-			ObjectInputStream ois = alterImageIconDeserialization(in);
+			ObjectInputStream ois = new ObjectInputStream(in);
 			return ois.readObject();
 		} catch (Throwable t) {
 			throw new ReflectionUIError("Failed to deserialize object: " + t.toString());
