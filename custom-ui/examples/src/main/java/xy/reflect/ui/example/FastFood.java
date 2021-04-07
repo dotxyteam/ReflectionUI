@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import xy.reflect.ui.util.ImageIcon;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.util.ImageIcon;
 import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
@@ -126,7 +125,7 @@ public class FastFood implements Serializable {
 	public void load(File file) {
 		ObjectInputStream ois = null;
 		try {
-			ois = ReflectionUIUtils.alterImageIconDeserialization(new FileInputStream(file));
+			ois = new ObjectInputStream(new FileInputStream(file));
 			FastFood loaded = (FastFood) ois.readObject();
 			sales = loaded.sales;
 			currency = loaded.currency;

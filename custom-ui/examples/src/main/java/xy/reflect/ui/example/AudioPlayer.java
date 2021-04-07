@@ -99,7 +99,9 @@ public class AudioPlayer {
 				importDirectory(file);
 			} else {
 				try {
-					if (AudioSystem.getAudioInputStream(file) != null) {
+					AudioInputStream input = AudioSystem.getAudioInputStream(file);
+					if (input != null) {
+						input.close();
 						playList.add(new Track(file));
 					}
 				} catch (UnsupportedAudioFileException e) {
@@ -134,12 +136,21 @@ public class AudioPlayer {
 							clip.close();
 						}
 						Track currentTrack = playList.get(currentTrackIndex);
-						AudioInputStream audioIn = AudioSystem.getAudioInputStream(currentTrack.file);
-						clip.open(audioIn);
+						AudioInputStream rawInput = AudioSystem.getAudioInputStream(currentTrack.file);
+						AudioFormat baseFormat = rawInput.getFormat();
+						AudioFormat decodedFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
+								baseFormat.getSampleRate(), 16, baseFormat.getChannels(), baseFormat.getChannels() * 2,
+								baseFormat.getSampleRate(), false);
+						AudioInputStream decodedInput = AudioSystem.getAudioInputStream(decodedFormat, rawInput);
+						clip.open(decodedInput);
 						clip.start();
-						Thread.sleep(1000);
-						while (clip.isRunning()) {
+						try {
 							Thread.sleep(1000);
+							while (clip.isRunning()) {
+								Thread.sleep(1000);
+							}
+						} catch (InterruptedException e) {
+							break;
 						}
 						if (Thread.currentThread().isInterrupted()) {
 							break;
@@ -222,6 +233,11 @@ public class AudioPlayer {
 			} else {
 				return "";
 			}
+		}
+		
+		public void play() throws Exception {
+			currentTrackIndex = playList.indexOf(this);
+			AudioPlayer.this.play();
 		}
 
 	}
