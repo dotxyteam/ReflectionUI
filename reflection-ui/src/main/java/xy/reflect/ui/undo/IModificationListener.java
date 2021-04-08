@@ -52,7 +52,7 @@ public interface IModificationListener {
 	 * @param undoModification
 	 *            The undo modification that was executed.
 	 */
-	void afterUdno(IModification undoModification);
+	void afterUndo(IModification undoModification);
 
 	/**
 	 * Called after the execution of {@link ModificationStack#redo()}.

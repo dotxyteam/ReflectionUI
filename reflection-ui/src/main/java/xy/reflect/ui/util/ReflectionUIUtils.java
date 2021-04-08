@@ -876,14 +876,10 @@ public class ReflectionUIUtils {
 			throw new ReflectionUIError();
 		}
 
-		final IModification subCompositeUndoModif = subModificationsStack.toCompositeUndoModification(null);
-
-		if (subCompositeUndoModif.isFake()) {
-			if (!subCompositeUndoModif.isNull()) {
-				if (!subModificationsStack.wasInvalidated()) {
-					parentModificationStack.pushUndo(IModification.FAKE_MODIFICATION);
-					return true;
-				}
+		if (subModificationsStack.isInitial()) {
+			if (!subModificationsStack.isExhaustive()) {
+				parentModificationStack.pushUndo(IModification.FAKE_MODIFICATION);
+				return true;
 			}
 		}
 
@@ -898,7 +894,8 @@ public class ReflectionUIUtils {
 									if (subModificationsStack.wasInvalidated()) {
 										parentModificationStack.invalidate();
 									} else {
-										parentModificationStack.pushUndo(subCompositeUndoModif);
+										parentModificationStack
+												.pushUndo(subModificationsStack.toCompositeUndoModification(null));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {

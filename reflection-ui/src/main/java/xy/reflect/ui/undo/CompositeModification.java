@@ -63,6 +63,9 @@ public class CompositeModification implements IModification {
 
 	@Override
 	public boolean isFake() {
+		if(modifications.length == 0) {
+			return false;
+		}
 		for (IModification modif : modifications) {
 			if (!modif.isFake()) {
 				return false;

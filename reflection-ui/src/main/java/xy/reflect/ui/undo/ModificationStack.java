@@ -53,18 +53,19 @@ public class ModificationStack {
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
-	protected int maximumSize = 100;
+	protected int maximumSize = 10;
 	protected Stack<ModificationStack> compositeStack = new Stack<ModificationStack>();
 	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 	protected boolean invalidated = false;
 	protected boolean wasInvalidated = false;
+	protected boolean exhaustive = true;
 	protected long stateVersion = 0;
 	protected boolean eventFiringEnabled = true;
 
 	protected IModificationListener internalListener = new IModificationListener() {
 
 		@Override
-		public void afterUdno(IModification undoModification) {
+		public void afterUndo(IModification undoModification) {
 			stateVersion--;
 		}
 
@@ -103,14 +104,14 @@ public class ModificationStack {
 		}
 
 		@Override
-		public void afterUdno(IModification undoModification) {
-			internalListener.afterUdno(undoModification);
+		public void afterUndo(IModification undoModification) {
+			internalListener.afterUndo(undoModification);
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.afterUdno(undoModification);
+				listener.afterUndo(undoModification);
 			}
 		}
 
@@ -204,6 +205,16 @@ public class ModificationStack {
 	}
 
 	/**
+	 * @return false if a fake modification ({@link IModification#isFake()} == true)
+	 *         has been submitted at least once to this modification stack (means
+	 *         that some listeners may need to be informed of the occurrence of
+	 *         non-memorized events about object state change), true otherwise.
+	 */
+	public boolean isExhaustive() {
+		return exhaustive;
+	}
+
+	/**
 	 * Adds the specified listener to the modification stack.
 	 * 
 	 * @param listener The listener.
@@ -260,7 +271,10 @@ public class ModificationStack {
 	}
 
 	/**
-	 * Stores the specified undo modification in the undo stack.
+	 * If the specified undo modification is not fake
+	 * ({@link IModification#isFake()} == false), stores it on the undo stack.
+	 * Otherwise marks this modification stack as non-exhaustive
+	 * ({@link #isExhaustive()} will return false).
 	 * 
 	 * @param undoModification The undo modification.
 	 * @return true only and only if the specified undo modification is not null.
@@ -274,7 +288,11 @@ public class ModificationStack {
 			return true;
 		}
 		validate();
-		undoStack.push(undoModification);
+		if (undoModification.isFake()) {
+			exhaustive = false;
+		} else {
+			undoStack.push(undoModification);
+		}
 		if (undoStack.size() > maximumSize) {
 			undoStack.remove(0);
 			wasInvalidated = true;
@@ -287,90 +305,64 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @return the next non-fake modification ({@link IModification#isFake()} ==
-	 *         false) that will be executed when calling
+	 * @return the next modification that will be executed when calling
 	 *         {@link ModificationStack#undo()}.
 	 */
 	public IModification getNextUndoModification() {
-		for (int i = undoStack.size() - 1; i >= 0; i--) {
-			IModification modification = undoStack.get(i);
-			if (!modification.isFake()) {
-				return modification;
-			}
+		if (undoStack.size() == 0) {
+			return null;
 		}
-		return null;
+		return undoStack.peek();
 	}
 
 	/**
-	 * @return the next non-fake modification ({@link IModification#isFake()} ==
-	 *         false) that will be executed when calling
+	 * @return the next modification that will be executed when calling
 	 *         {@link ModificationStack#redo()}.
 	 */
 	public IModification getNextRedoModification() {
-		for (int i = redoStack.size() - 1; i >= 0; i--) {
-			IModification modification = redoStack.get(i);
-			if (!modification.isFake()) {
-				return modification;
-			}
+		if (redoStack.size() == 0) {
+			return null;
 		}
-		return null;
+		return redoStack.peek();
 	}
 
 	/**
-	 * Executes the next undo modification. Note that the modifications on the top
-	 * of the undo stack will be executed until {@link IModification#isFake()}
-	 * returns false for the last executed modification.
+	 * Executes the next undo modification (modification on the top of the undo
+	 * stack) if found.
 	 * 
-	 * @throws ReflectionUIError If there is no remaining undo modification or if a
-	 *                           composite modification is being created.
+	 * @throws ReflectionUIError If a composite modification is being created.
 	 */
 	public void undo() {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
 		}
-		if (getNextUndoModification() == null) {
+		if (undoStack.size() == 0) {
 			return;
 		}
 		IModification undoModif = undoStack.pop();
-		while (undoModif.isFake()) {
-			if (undoStack.size() == 0) {
-				return;
-			}
-			undoModif = undoStack.pop();
-			redoStack.push(undoModif.applyAndGetOpposite());
-		}
 		try {
 			redoStack.push(undoModif.applyAndGetOpposite());
 		} catch (IrreversibleModificationException e) {
 			invalidate();
 			return;
 		}
-		allListenersProxy.afterUdno(undoModif);
+		allListenersProxy.afterUndo(undoModif);
 	}
 
 	/**
-	 * Executes the next redo modification. Note that the modifications on the top
-	 * of the redo stack will be executed until {@link IModification#isFake()}
-	 * returns false for the last executed modification.
+	 * Executes the next redo modification (modification on the top of the redo
+	 * stack) if found.
 	 * 
-	 * @throws ReflectionUIError If there is no remaining redo modification or if a
-	 *                           composite modification is being created.
+	 * @throws ReflectionUIError If a composite modification is being created.
 	 */
 	public void redo() {
 		if (compositeStack.size() > 0) {
 			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
 		}
-		if (getNextRedoModification() == null) {
+		if (redoStack.size() == 0) {
 			return;
 		}
 		IModification redoModif = redoStack.pop();
-		while (redoModif.isFake()) {
-			if (redoStack.size() == 0) {
-				return;
-			}
-			redoModif = redoStack.pop();
-			undoStack.push(redoModif.applyAndGetOpposite());
-		}
 		try {
 			undoStack.push(redoModif.applyAndGetOpposite());
 		} catch (IrreversibleModificationException e) {
@@ -444,6 +436,9 @@ public class ModificationStack {
 			}
 			topCompositeUndoModif = new CompositeModification(AbstractModification.getUndoTitle(title), order,
 					list.toArray(new IModification[list.size()]));
+		}
+		if (!topComposite.isExhaustive()) {
+			compositeParent.exhaustive = false;
 		}
 		return compositeParent.pushUndo(topCompositeUndoModif);
 	}
@@ -523,6 +518,7 @@ public class ModificationStack {
 		invalidate();
 		validate();
 		wasInvalidated = false;
+		exhaustive = true;
 	}
 
 	/**
@@ -568,7 +564,7 @@ public class ModificationStack {
 	 * @return a composite modification containing the current undo modification
 	 *         stack elements.
 	 */
-	public IModification toCompositeUndoModification(String title) {
+	public CompositeModification toCompositeUndoModification(String title) {
 		return new CompositeModification(title, UndoOrder.getNormal(),
 				undoStack.toArray(new IModification[undoStack.size()]));
 	}

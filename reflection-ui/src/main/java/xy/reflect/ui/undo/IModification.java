@@ -113,14 +113,15 @@ public interface IModification {
 	/**
 	 * @return true if and only if this modification should be considered as empty,
 	 *         with no impact on the target object state or its associated
-	 *         {@link ModificationStack}.
+	 *         {@link ModificationStack} and listeners.
 	 */
 	boolean isNull();
 
 	/**
 	 * @return true if and only if this modification should be considered as fake,
-	 *         with no impact on the target object state but with impact on the
-	 *         {@link ModificationStack} listeners that will receive notifications.
+	 *         with no impact on the target object state but with impact on its
+	 *         associated {@link ModificationStack} listeners that should receive
+	 *         notifications.
 	 */
 	boolean isFake();
 

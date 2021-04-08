@@ -38,7 +38,7 @@ public abstract class AbstractSimpleModificationListener implements IModificatio
 	}
 
 	@Override
-	public void afterUdno(IModification undoModification) {
+	public void afterUndo(IModification undoModification) {
 		handleAnyEvent(undoModification);
 	}
 
