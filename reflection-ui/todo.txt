@@ -1,3 +1,13 @@
+- Fake modifications tend to fill uselessly the modification stack thus
+invalidating it. Find a solution.
+- DialogAccessControl.openDialog(Component) calls refreshUI(). Is this really needed
+since when an impact is detected the whole dialog gets refreshed ?
+- Form.recreateControlPlaceHoldersIfNeeded() should not create controls (only place holders)
+since they may be dismissed.
+- Check that OptionButtons selection is cleared when a null value is set
+- ReflectionUIUtils.setValueThroughModificationStack() and SwingRendererUtils.handleErrors()
+are directly called by controls though they should only be called by FieldControlPlaceHolders. 
+Check...
 - add customization option for list method shortcut icon
 or reuse the icon specified for the related method and eventually allow to override it
 - add an option to allow a method to reset the modification stack (forget()).
