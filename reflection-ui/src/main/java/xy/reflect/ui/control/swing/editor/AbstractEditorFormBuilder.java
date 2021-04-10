@@ -375,7 +375,9 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return the source of the type information that is used to qualify the
-	 *         encapsulated field that returns the target value/object.
+	 *         encapsulated field that returns the target value/object. Note that
+	 *         calling {@link ITypeInfoSource#getSpecificitiesIdentifier()} on the
+	 *         result should return null.
 	 */
 	public ITypeInfoSource getEncapsulatedFieldNonSpecificTypeSource() {
 		ITypeInfoSource result = getDeclaredNonSpecificTypeInfoSource();
