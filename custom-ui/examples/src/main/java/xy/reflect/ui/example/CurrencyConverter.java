@@ -167,11 +167,16 @@ public class CurrencyConverter {
 	}
 
 	private static double getFactorFromUSD(String currencyName) throws MalformedURLException, Exception {
-		String json = sendHttpGetRequest(
-				new URL("https://api.exchangeratesapi.io/latest?base=USD&symbols=" + currencyName));
+		String json = sendHttpGetRequest(new URL(
+				"http://api.exchangeratesapi.io/latest?&access_key=0ae324f9a47ecfc4c1f527595e6738d0&base=USD&symbols="
+						+ currencyName));
+		if (!json.contains("\"success\":true")) {
+			throw new RuntimeException(json);
+		}
 		String beforeRateString = "\"" + currencyName + "\":";
 		String afterRateString = "},\"base\":\"USD\"";
-		String rateString = json.substring(json.indexOf(beforeRateString) + beforeRateString.length(), json.indexOf(afterRateString));
+		String rateString = json.substring(json.indexOf(beforeRateString) + beforeRateString.length(),
+				json.indexOf(afterRateString));
 		return Double.valueOf(rateString);
 	}
 
@@ -189,6 +194,7 @@ public class CurrencyConverter {
 	}
 
 	public enum Currency {
-		AUD, BGN, BRL, CAD, CHF, CNY, CZK, DKK, EUR, GBP, HKD, HRK, HUF, IDR, ILS, INR, ISK, JPY, KRW, MXN, MYR, NOK, NZD, PHP, PLN, RON, RUB, SEK, SGD, THB, TRY, USD, ZAR
+		AUD, BGN, BRL, CAD, CHF, CNY, CZK, DKK, EUR, GBP, HKD, HRK, HUF, IDR, ILS, INR, ISK, JPY, KRW, MXN, MYR, NOK,
+		NZD, PHP, PLN, RON, RUB, SEK, SGD, THB, TRY, USD, ZAR
 	}
 }
