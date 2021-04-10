@@ -1,23 +1,10 @@
 - BufferedItemPosition.getSubItemPosition(int) is required to clear its
 result buffer because the clone() method copies it. Maybe it would be better
 to have a custom clone() method (not the built-in one).
-- BufferedItemPosition.refreshBranch() does not refresh its sub-sub-trees.
-It does not refresh a branch actually. It refreshes ancestor lists.
-Then I am not sure that it will not cause issues under specific circumstances.
-The only thing that is sure with this method is that it refreshes the current item.
 - ListControl.getItemTitle(BufferedItemPosition): for each call it creates an 
 ItemUIBuilber that clears the buffer of the ItemPosition. May cause
 several issues among performance issues.
 - remove "debug" code
-- ReflectionUITest: items cannot be moved in the generic vector
-- ReflectionUITest: the int cannot be edited
-- ReflectionUITest: when the choice is made and undone, the option button 
-does not get deselected
-- ReflectionUITest: The date control text box is editable and the edition 
-can be aberrant.
-- ReflectionUITest: spinners control text box are editable and the edition 
-can be aberrant.
-- ListControl for maps: undo is like do() and redo() like undo() 
 - StandardMapAsListTypeInfo.isOrdered(): may need to always return true and
 be able to adjust from the customizations since everything is possible.
 Maybe the return value can be set for standard implementations by 
