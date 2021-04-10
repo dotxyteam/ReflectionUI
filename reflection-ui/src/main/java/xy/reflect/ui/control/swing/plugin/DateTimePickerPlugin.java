@@ -28,14 +28,18 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
-
-import org.jdesktop.swingx.JXDatePicker;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
@@ -45,6 +49,8 @@ import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.DelayedUpdateProcess;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.JXDateTimePicker;
 
@@ -103,64 +109,164 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		protected SwingRenderer swingRenderer;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
+		protected boolean listenerDisabled = false;
+		protected DelayedUpdateProcess textEditorChangesCommittingProcess = new DelayedUpdateProcess() {
+			@Override
+			protected void commit() {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						DateTimePicker.this.commitTextEditorChanges();
+					}
+				});
+			}
+
+			@Override
+			protected long getCommitDelayMilliseconds() {
+				return DateTimePicker.this.getCommitDelayMilliseconds();
+			}
+		};
 
 		public DateTimePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
-			getEditor().setEditable(false);
 			setupEvents();
 			refreshUI(true);
 		}
 
 		protected void setupEvents() {
-			addActionListener(new ActionListener() {
+			final JFormattedTextField editor = DateTimePicker.this.getEditor();
+			editor.getDocument().addDocumentListener(new DocumentListener() {
+
+				private void anyUpdate() {
+					if (listenerDisabled) {
+						return;
+					}
+					if (getDateFromTextEditor() == null) {
+						return;
+					}
+					textEditorChangesCommittingProcess.cancelCommitSchedule();
+					textEditorChangesCommittingProcess.scheduleCommit();
+				}
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
-					onNewDate();
+				public void removeUpdate(DocumentEvent e) {
+					anyUpdate();
+				}
+
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					anyUpdate();
+				}
+
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					anyUpdate();
+				}
+			});
+			editor.setFocusLostBehavior(JFormattedTextField.PERSIST);
+			editor.addFocusListener(new FocusListener() {
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					onFocusLoss();
+				}
+
+				@Override
+				public void focusGained(FocusEvent e) {
+					restoreCaretPosition();
+				}
+
+				private void restoreCaretPosition() {
+					int caretPosition = editor.getCaretPosition();
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							editor.setCaretPosition(caretPosition);
+						}
+					});
 				}
 			});
 		}
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			if (refreshStructure) {
-				DateTimePickerConfiguration controlCustomization = (DateTimePickerConfiguration) loadControlCustomization(
-						input);
-				setFormats(controlCustomization.dateFormat + " " + controlCustomization.timeFormat);
-				setTimeFormat(new SimpleDateFormat(controlCustomization.timeFormat));
-				setEnabled(!data.isGetOnly());
-				if (data.getBorderColor() != null) {
-					setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-				} else {
-					setBorder(new JXDatePicker().getBorder());
-				}
-				if (data.isGetOnly()) {
-					getEditor().setBackground(null);
-					getEditor().setForeground(null);
-				} else {
-					if (data.getEditorBackgroundColor() != null) {
-						getEditor().setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
+			listenerDisabled = true;
+			try {
+				if (refreshStructure) {
+					DateTimePickerConfiguration controlCustomization = (DateTimePickerConfiguration) loadControlCustomization(
+							input);
+					setFormats(controlCustomization.dateFormat + " " + controlCustomization.timeFormat);
+					setTimeFormat(new SimpleDateFormat(controlCustomization.timeFormat));
+					setEnabled(!data.isGetOnly());
+					if (data.getBorderColor() != null) {
+						setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 					} else {
-						getEditor().setBackground(new JXDateTimePicker().getBackground());
+						setBorder(new JXDateTimePicker().getBorder());
 					}
-					if (data.getEditorForegroundColor() != null) {
-						getEditor().setForeground(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
+					if (data.isGetOnly()) {
+						getEditor().setBackground(null);
+						getEditor().setForeground(null);
 					} else {
-						getEditor().setForeground(new JXDateTimePicker().getForeground());
+						if (data.getEditorBackgroundColor() != null) {
+							getEditor().setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
+						} else {
+							getEditor().setBackground(new JXDateTimePicker().getBackground());
+						}
+						if (data.getEditorForegroundColor() != null) {
+							getEditor().setForeground(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
+						} else {
+							getEditor().setForeground(new JXDateTimePicker().getForeground());
+						}
 					}
 				}
+				Date date = (Date) data.getValue();
+				setDate(date);
+				return true;
+			} finally {
+				listenerDisabled = false;
 			}
-			Date date = (Date) data.getValue();
-			setDate(date);
-			return true;
+		}
 
+		protected long getCommitDelayMilliseconds() {
+			return 3000;
+		}
+
+		protected void commitTextEditorChanges() {
+			Date value = getDateFromTextEditor();
+			if (value == null) {
+				return;
+			}
+			if (ReflectionUIUtils.equalsOrBothNull(value, data.getValue())) {
+				return;
+			}
+			JFormattedTextField editor = DateTimePicker.this.getEditor();
+			int caretPosition = editor.getCaretPosition();
+			DateTimePicker.this.setDate((Date) value);
+			data.setValue(getDate());
+			editor.setCaretPosition(Math.min(caretPosition, editor.getText().length()));
+		}
+
+		protected Date getDateFromTextEditor() {
+			JFormattedTextField editor = DateTimePicker.this.getEditor();
+			String string = editor.getText();
+			AbstractFormatter formatter = editor.getFormatter();
+			try {
+				Date result = (Date) formatter.stringToValue(string);
+				displayError(null);
+				return result;
+			} catch (ParseException e) {
+				swingRenderer.getReflectionUI().logError(e);
+				displayError(ReflectionUIUtils.getPrettyErrorMessage(e));
+				return null;
+			}
 		}
 
 		@Override
 		public boolean displayError(String msg) {
-			return false;
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, msg, swingRenderer);
+			return true;
 		}
 
 		@Override
@@ -168,8 +274,11 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			return false;
 		}
 
-		protected void onNewDate() {
-			data.setValue(getDate());
+		protected void onFocusLoss() {
+			if (textEditorChangesCommittingProcess.isCommitScheduled()) {
+				textEditorChangesCommittingProcess.cancelCommitSchedule();
+				commitTextEditorChanges();
+			}
 		}
 
 		@Override
