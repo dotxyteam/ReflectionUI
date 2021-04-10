@@ -57,6 +57,7 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
@@ -188,10 +189,13 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 										try {
 											value = formatter.stringToValue(string);
 										} catch (ParseException e) {
+											swingRenderer.getReflectionUI().logError(e);
+											displayError(ReflectionUIUtils.getPrettyErrorMessage(e));
 											return;
 										}
 										int caretPosition = textField.getCaretPosition();
 										Spinner.this.setValue(value);
+										displayError(null);
 										textField.setCaretPosition(
 												Math.min(caretPosition, textField.getText().length()));
 									}
@@ -273,6 +277,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					value = (Number) ((SpinnerNumberModel) getModel()).getMinimum();
 				}
 				setValue(value);
+				displayError(null);
 				return true;
 			} finally {
 				listenerDisabled = false;
@@ -287,7 +292,8 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 
 		@Override
 		public boolean displayError(String msg) {
-			return false;
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, msg, swingRenderer);
+			return true;
 		}
 
 		@Override
