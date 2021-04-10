@@ -33,9 +33,6 @@ public class StandardMapEntry {
 	protected Object value;
 
 	public StandardMapEntry(Object key, Object value) {
-		if(key.toString().equals("RIGHT_HIP")) {
-			System.out.println("debug");
-		}
 		this.key = key;
 		this.value = value;
 	}
@@ -50,9 +47,6 @@ public class StandardMapEntry {
 	}
 
 	public void setKey(Object key) {
-		if(key.toString().equals("RIGHT_HIP")) {
-			System.out.println("debug");
-		}
 		this.key = key;
 	}
 
