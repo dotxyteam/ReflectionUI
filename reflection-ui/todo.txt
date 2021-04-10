@@ -1,3 +1,4 @@
+- date picker is difficult to use: cannot choose year
 - BufferedItemPosition.getSubItemPosition(int) is required to clear its
 result buffer because the clone() method copies it. Maybe it would be better
 to have a custom clone() method (not the built-in one).
