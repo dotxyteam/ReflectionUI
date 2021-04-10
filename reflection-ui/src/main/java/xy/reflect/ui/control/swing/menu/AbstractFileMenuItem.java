@@ -67,6 +67,9 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	public AbstractFileMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, form, menuItemInfo);
 		fileBrowserConfiguration = menuItemInfo.getFileBrowserConfiguration();
+		if (fileBrowserConfiguration == null) {
+			throw new ReflectionUIError();
+		}
 	}
 
 	public static Map<Form, File> getLastFileByForm() {
