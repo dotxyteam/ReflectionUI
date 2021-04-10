@@ -264,7 +264,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					super.setValue(newValue);
 					return;
 				}
-				ReflectionUIUtils.setValueThroughModificationStack(data, newValue, getModificationStack());
+				ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, getModificationStack());
 			}
 		};
 	}

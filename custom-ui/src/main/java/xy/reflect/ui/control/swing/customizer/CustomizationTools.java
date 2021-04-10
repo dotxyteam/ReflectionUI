@@ -1145,7 +1145,7 @@ public class CustomizationTools implements ICustomizationTools {
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(customizationType.getFields(), fieldName);
 		DefaultFieldControlData controlData = new DefaultFieldControlData(toolsUI, customization, field);
 		ModificationStack modificationStack = swingCustomizer.getCustomizationController().getModificationStack();
-		ReflectionUIUtils.setValueThroughModificationStack(controlData, fieldValue, modificationStack);
+		ReflectionUIUtils.setFieldValueThroughModificationStack(controlData, fieldValue, modificationStack);
 	}
 
 	protected void removeCustomizationItem(AbstractCustomization container, String listFieldName,
