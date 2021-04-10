@@ -53,8 +53,8 @@ public class BufferedListModificationFactory extends ListModificationFactory {
 
 		@Override
 		public IModification applyAndGetOpposite() {
+			((BufferedItemPosition) itemPosition).refreshContainingList();
 			ListModification opposite = (ListModification) super.applyAndGetOpposite();
-			((BufferedItemPosition) itemPosition).refreshBranch();
 			return new BufferedListModification(opposite.itemPosition, opposite.newListRawValue,
 					opposite.rootListValueCommitModificationAccessor);
 		}

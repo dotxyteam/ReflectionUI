@@ -40,11 +40,15 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
- * This class describe the spatial position of an item in a list/tree.
+ * This class describes the spatial position of an item in a list/tree.
  * 
  * It actually gives access to the successive objects and fields that were used
  * in order to get a specific item value. Calling {@link #getItem()} will then
  * re-access these objects and fields and return an up-to-date item value.
+ * 
+ * Every item position is then bound to a containing list that would hold its
+ * item. But it may not reference an actual item if its index (specifying its
+ * location in the containing list) is out of bounds.
  * 
  * @author olitank
  *
@@ -56,35 +60,63 @@ public class ItemPosition implements Cloneable {
 	protected int index;
 	protected IFieldInfo containingListFieldIfNotRoot;
 
+	/**
+	 * Default constructor. It does not properly initialize the fields. Should be
+	 * called only by this class, subclasses and factories.
+	 */
 	protected ItemPosition() {
-		super();
 	}
 
+	/**
+	 * @return the factory that created directly or indirectly this object. The
+	 *         factory typically creates root item positions that may create sibling
+	 *         or children item positions.
+	 */
 	public AbstractItemPositionFactory getFactory() {
 		return factory;
 	}
 
+	/**
+	 * @return the field that is used to get the containing list from the parent
+	 *         item or null if the item position is at the root.
+	 */
 	public IFieldInfo getContainingListFieldIfNotRoot() {
 		return containingListFieldIfNotRoot;
 	}
 
+	/**
+	 * @return the size of the containing list.
+	 */
 	public int getContainingListSize() {
 		return retrieveContainingListRawValue().length;
 	}
 
+	/**
+	 * @return the parent of this item position or null (for a root item position).
+	 */
 	public ItemPosition getParentItemPosition() {
 		return parentItemPosition;
 	}
 
+	/**
+	 * @return the current index in the containing list.
+	 */
 	public int getIndex() {
 		return index;
 	}
 
+	/**
+	 * @param object The object that must be checked.
+	 * @return whether this given object could be an item at this position or not.
+	 */
 	public boolean supportsItem(Object object) {
 		ITypeInfo itemType = getContainingListType().getItemType();
 		return (itemType == null) || (itemType.supportsInstance(object));
 	}
 
+	/**
+	 * @return the type of the containing list.
+	 */
 	public IListTypeInfo getContainingListType() {
 		if (isRoot()) {
 			return factory.getRootListType();
@@ -93,6 +125,9 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return the title to be given to the containing list.
+	 */
 	public String getContainingListTitle() {
 		if (isRoot()) {
 			return factory.getRootListTitle();
@@ -101,6 +136,9 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return the item at this position.
+	 */
 	public Object getItem() {
 		Object[] containingListRawValue;
 		if (isRoot()) {
@@ -115,6 +153,10 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return the number of ancestors of this item position (0 for a root item
+	 *         position).
+	 */
 	public int getDepth() {
 		int result = 0;
 		ItemPosition current = this;
@@ -125,6 +167,10 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
+	/**
+	 * @return all the previous item positions (their {@link #getIndex()} would
+	 *         return a value from 0 to the current {@link #getIndex()} - 1.
+	 */
 	public List<? extends ItemPosition> getPreviousSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		for (int i = 0; i < getIndex(); i++) {
@@ -134,6 +180,11 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
+	/**
+	 * @return all the following item positions (their {@link #getIndex()} would
+	 *         return a value from {@link #getIndex()} + 1 to
+	 *         {@link #getContainingListSize()} - 1.
+	 */
 	public List<? extends ItemPosition> getFollowingSiblings() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		int containingListSize = getContainingListSize();
@@ -143,6 +194,10 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
+	/**
+	 * @return the list of ancestors of this item position (empty list for a root
+	 *         item position).
+	 */
 	public List<ItemPosition> getAncestors() {
 		List<ItemPosition> result = new ArrayList<ItemPosition>();
 		ItemPosition ancestor = getParentItemPosition();
@@ -153,12 +208,19 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public ItemPosition getSibling(int index2) {
+	/**
+	 * @return a clone of this item positions with {@link #getIndex()} returning the
+	 *         given index.
+	 */
+	public ItemPosition getSibling(int index) {
 		ItemPosition result = (ItemPosition) clone();
-		result.index = index2;
+		result.index = index;
 		return result;
 	}
 
+	/**
+	 * @return the containing list.
+	 */
 	public Object retrieveContainingListValue() {
 		if (isRoot()) {
 			return factory.getRootListValue();
@@ -167,6 +229,9 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return all the containing list items packed in an array.
+	 */
 	public Object[] retrieveContainingListRawValue() {
 		if (isRoot()) {
 			return factory.retrieveRootListRawValue();
@@ -175,6 +240,10 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return the sub-list items packed in an array (may be null if there is no
+	 *         sub-list or if the sub-list value is null).
+	 */
 	public Object[] retrieveSubListRawValue() {
 		Object subListValue = retrieveSubListValue();
 		if (subListValue == null) {
@@ -185,6 +254,10 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return the sub-list (may be null if there is no sub-list or if the sub-list
+	 *         value is null).
+	 */
 	public Object retrieveSubListValue() {
 		IFieldInfo subListField = getSubListField();
 		if (subListField == null) {
@@ -194,8 +267,12 @@ public class ItemPosition implements Cloneable {
 		return subListField.getValue(item);
 	}
 
+	/**
+	 * @return the field that gets the sub-list from the current item or null if
+	 *         there is no sub-list.
+	 */
 	public IFieldInfo getSubListField() {
-		IListStructuralInfo treeInfo = getStructuralInfo();
+		IListStructuralInfo treeInfo = getContainingListStructuralInfo();
 		if (treeInfo == null) {
 			return null;
 		}
@@ -208,6 +285,12 @@ public class ItemPosition implements Cloneable {
 		});
 	}
 
+	/**
+	 * @param index The value that the resulting sub-item position
+	 *              {@link #getIndex()} method would return.
+	 * @return a position referencing an item in the sub-list (may be null if there
+	 *         is no sub-list or if the sub-list value is null).
+	 */
 	public ItemPosition getSubItemPosition(int index) {
 		Object[] subListRawValue = retrieveSubListRawValue();
 		if (subListRawValue == null) {
@@ -220,10 +303,16 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
-	public IListStructuralInfo getStructuralInfo() {
+	/**
+	 * @return the containing list structural information.
+	 */
+	public IListStructuralInfo getContainingListStructuralInfo() {
 		return getRoot().getContainingListType().getStructuralInfo();
 	}
 
+	/**
+	 * @return positions of items in the sub-list.
+	 */
 	public List<? extends ItemPosition> getSubItemPositions() {
 		Object[] subListRawValue = retrieveSubListRawValue();
 		if (subListRawValue == null) {
@@ -237,10 +326,16 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
+	/**
+	 * @return whether the current item position is located at the root or not.
+	 */
 	public boolean isRoot() {
 		return parentItemPosition == null;
 	}
 
+	/**
+	 * @return the root item position that is an ancestor of this item position.
+	 */
 	public ItemPosition getRoot() {
 		ItemPosition current = this;
 		while (!current.isRoot()) {
@@ -249,6 +344,9 @@ public class ItemPosition implements Cloneable {
 		return current;
 	}
 
+	/**
+	 * @return return the value return mode of the item at this position.
+	 */
 	public ValueReturnMode getItemReturnMode() {
 		ValueReturnMode result = ValueReturnMode.combine(geContainingListReturnMode(),
 				getContainingListType().getItemReturnMode());
@@ -258,6 +356,9 @@ public class ItemPosition implements Cloneable {
 		return result;
 	}
 
+	/**
+	 * @return return the value return mode of the containing list.
+	 */
 	public ValueReturnMode geContainingListReturnMode() {
 		if (isRoot()) {
 			return factory.getRootListValueReturnMode();
@@ -266,6 +367,9 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return whether the containing list can be set or not.
+	 */
 	public boolean isContainingListGetOnly() {
 		if (isRoot()) {
 			return factory.isRootListGetOnly();
@@ -274,6 +378,11 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return whether the containing list content can be durably changed or not
+	 *         (would imply that eventual changes made to the item at this position
+	 *         would be lost).
+	 */
 	public boolean isContainingListEditable() {
 		if (!isRoot()) {
 			ItemPosition parentItemPosition = getParentItemPosition();
@@ -301,6 +410,17 @@ public class ItemPosition implements Cloneable {
 		return false;
 	}
 
+	/**
+	 * Updates the containing list so that it will only contain the given items.
+	 * Note that the containing list reference may be altered by this operation.
+	 * 
+	 * @param newContainingListRawValue The array that contains the items that
+	 *                                  should replace all the containing list
+	 *                                  items.
+	 * @return the new root list object if one was created for the purpose of this
+	 *         update. Note that this value is volatile and would need to be
+	 *         committed somehow to make the update durable.
+	 */
 	public Object updateContainingList(Object[] newContainingListRawValue) {
 		Object newRootListValue = null;
 		boolean done = false;
@@ -358,6 +478,13 @@ public class ItemPosition implements Cloneable {
 		return newRootListValue;
 	}
 
+	/**
+	 * Validates that all the given items are supported by the containing list.
+	 * 
+	 * @param listRawValue An array containing the items to be checked.
+	 * @throws ReflectionUIError if at least one of the given items is not supported
+	 *                           by the containing list.
+	 */
 	public void checkContainingListRawValue(Object[] listRawValue) {
 		IListTypeInfo listType = getContainingListType();
 		ITypeInfo itemType = listType.getItemType();
@@ -374,6 +501,10 @@ public class ItemPosition implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return a string describing the hierarchical location of the current item
+	 *         position.
+	 */
 	public String getPath() {
 		StringBuilder result = new StringBuilder();
 		ItemPosition current = this;

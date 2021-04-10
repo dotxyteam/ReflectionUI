@@ -143,8 +143,8 @@ public class ItemPositionProxy extends ItemPosition {
 		return base.getSubItemPosition(index);
 	}
 
-	public IListStructuralInfo getStructuralInfo() {
-		return base.getStructuralInfo();
+	public IListStructuralInfo getContainingListStructuralInfo() {
+		return base.getContainingListStructuralInfo();
 	}
 
 	public ItemPosition clone() {

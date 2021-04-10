@@ -131,7 +131,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					}
 				}
 			}
-			ReflectionUIUtils.setValueThroughModificationStack(data, instance, input.getModificationStack());
+			ReflectionUIUtils.setFieldValueThroughModificationStack(data, instance, input.getModificationStack());
 		} catch (Throwable t) {
 			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
 		}

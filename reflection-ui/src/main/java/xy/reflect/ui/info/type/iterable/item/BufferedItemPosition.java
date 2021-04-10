@@ -74,14 +74,13 @@ public class BufferedItemPosition extends ItemPosition {
 		fakeItem = null;
 	}
 
-	public void refreshBranch() {
+	public void refreshContainingList() {
 		if (isRoot()) {
 			((AbstractBufferedItemPositionFactory) factory).refresh();
 		} else {
-			((BufferedItemPosition) parentItemPosition).refreshBranch();
+			((BufferedItemPosition) parentItemPosition).bufferedSubListRawValue = null;
+			((BufferedItemPosition) parentItemPosition).bufferedSubListField = null;
 		}
-		bufferedSubListRawValue = null;
-		bufferedSubListField = null;
 	}
 
 	@Override
@@ -133,6 +132,13 @@ public class BufferedItemPosition extends ItemPosition {
 			bufferedSubListRawValue = super.retrieveSubListRawValue();
 		}
 		return bufferedSubListRawValue;
+	}
+
+	@Override
+	public Object updateContainingList(Object[] newContainingListRawValue) {
+		Object result = super.updateContainingList(newContainingListRawValue);
+		refreshContainingList();
+		return result;
 	}
 
 	@Override

@@ -80,7 +80,7 @@ public class CompositeModification implements IModification {
 		for (IModification modif : modifications) {
 			if (undoOrder == UndoOrder.getNormal()) {
 				oppositeModifications.add(0, modif.applyAndGetOpposite());
-			} else if (undoOrder == UndoOrder.getInverse()) {
+			} else if (undoOrder == UndoOrder.getAbnormal()) {
 				oppositeModifications.add(modif.applyAndGetOpposite());
 			} else {
 				throw new ReflectionUIError();

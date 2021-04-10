@@ -365,10 +365,18 @@ public abstract class AbstractEditorFormBuilder {
 		return !isInReadOnlyMode();
 	}
 
+	/**
+	 * @return the caption of the encapsulated field that will return target
+	 *         value/object.
+	 */
 	public String getEncapsulatedFieldCaption() {
 		return "";
 	}
 
+	/**
+	 * @return the source of the type information that is used to qualify the
+	 *         encapsulated field that returns the target value/object.
+	 */
 	public ITypeInfoSource getEncapsulatedFieldNonSpecificTypeSource() {
 		ITypeInfoSource result = getDeclaredNonSpecificTypeInfoSource();
 		if (result != null) {
@@ -381,6 +389,9 @@ public abstract class AbstractEditorFormBuilder {
 		return new JavaTypeInfoSource(Object.class, null);
 	}
 
+	/**
+	 * @return the caption of the capsule type.
+	 */
 	public String getCapsuleTypeCaption() {
 		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource())
 				.getCaption();
