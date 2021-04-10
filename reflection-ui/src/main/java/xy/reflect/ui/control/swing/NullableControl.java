@@ -150,7 +150,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 	protected void onNullingControlStateChange() {
 		if (getNullStatusControlState()) {
-			ReflectionUIUtils.setValueThroughModificationStack(data, null, input.getModificationStack());
+			ReflectionUIUtils.setFieldValueThroughModificationStack(data, null, input.getModificationStack());
 		} else {
 			nullControlActivationAction.run();
 		}
@@ -230,7 +230,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 					@Override
 					public void setValue(Object value) {
-						ReflectionUIUtils.setValueThroughModificationStack(base, value, input.getModificationStack());
+						ReflectionUIUtils.setFieldValueThroughModificationStack(base, value, input.getModificationStack());
 					}
 
 				};

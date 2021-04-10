@@ -949,7 +949,7 @@ public class ReflectionUIUtils {
 		return valueType.isImmutable();
 	}
 
-	public static void setValueThroughModificationStack(IFieldControlData data, Object newValue,
+	public static void setFieldValueThroughModificationStack(IFieldControlData data, Object newValue,
 			ModificationStack modifStack) {
 		if (data.isTransient()) {
 			try {
