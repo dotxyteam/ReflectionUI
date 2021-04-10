@@ -39,16 +39,16 @@ public enum UndoOrder {
 	/**
 	 * See {@link #getNormal()}.
 	 */
-	FIFO,
+	LIFO,
 
 	/**
 	 * See {@link #getInverse()}.
 	 */
-	LIFO;
+	FIFO;
 
 	/**
 	 * @return the {@link #LIFO} enum constant specifying that undo modifications
-	 *         order should be the same as the source do/redo modifications order.
+	 *         order should be the opposite of the do/redo modifications order.
 	 */
 	public static UndoOrder getNormal() {
 		return LIFO;
@@ -56,10 +56,9 @@ public enum UndoOrder {
 
 	/**
 	 * @return the {@link #FIFO} enum constant specifying that undo modifications
-	 *         order should be reverted according to the source do/redo
-	 *         modifications order.
+	 *         order should be the same as the do/redo modifications order.
 	 */
-	public static UndoOrder getInverse() {
+	public static UndoOrder getAbnormal() {
 		return FIFO;
 	}
 };
