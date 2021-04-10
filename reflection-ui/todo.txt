@@ -1,3 +1,6 @@
+- AbstractEditorFormBuilder.getEncapsulatedFieldNonSpecificTypeSource():
+the type source should non-specific but it often is.
+Check if it is really necessary that it be non-specific and adjust.
 - date picker is difficult to use: cannot choose year
 - BufferedItemPosition.getSubItemPosition(int) is required to clear its
 result buffer because the clone() method copies it. Maybe it would be better
