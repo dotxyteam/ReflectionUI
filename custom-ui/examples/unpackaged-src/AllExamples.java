@@ -1,6 +1,8 @@
 import java.util.Arrays;
 import java.util.List;
 
+import xy.reflect.ui.util.MoreSystemProperties;
+
 public class AllExamples {
 
 	public static final List<Class<?>> CLASSES = Arrays.asList(xy.reflect.ui.example.ATMSimulator.class,
@@ -19,6 +21,7 @@ public class AllExamples {
 			xy.reflect.ui.example.ServiceAccountCreation.class, xy.reflect.ui.example.TextEditor.class);
 
 	public static void main(String[] args) throws Exception {
+		System.setProperty(MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
 		for (Class<?> c : CLASSES) {
 			c.getMethod("main", String[].class).invoke(null, (Object) new String[0]);
 		}
