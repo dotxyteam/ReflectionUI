@@ -25,6 +25,9 @@ import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileNameFilterConfiguration;
+import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.SelectionModeConfiguration;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin.OptionButtonsConfiguration;
 import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
@@ -490,11 +493,22 @@ public class ReflectionUITutorial {
 										 * In our case we only need the displayed object to implement the Serializable
 										 * interface for the following file menu items to works.
 										 */
+										FileBrowserConfiguration fileBrowserConfiguration = new FileBrowserConfiguration();
+										{
+											fileBrowserConfiguration.selectionMode = SelectionModeConfiguration.FILES_ONLY;
+											FileNameFilterConfiguration fileNameFilterConfiguration = new FileNameFilterConfiguration();
+											{
+												fileNameFilterConfiguration.description = "Hello World Files";
+												fileNameFilterConfiguration.extensions.add("hello");
+											}
+											fileBrowserConfiguration.fileNameFilters.add(fileNameFilterConfiguration);
+										}
 										persistenceCategory.addItem(new StandradActionMenuItemInfo(
-												"Open Hello World File", null, StandradActionMenuItemInfo.Type.OPEN));
-										persistenceCategory
-												.addItem(new StandradActionMenuItemInfo("Save Hello World File As...",
-														null, StandradActionMenuItemInfo.Type.SAVE_AS));
+												"Open Hello World File...", null, StandradActionMenuItemInfo.Type.OPEN,
+												fileBrowserConfiguration));
+										persistenceCategory.addItem(new StandradActionMenuItemInfo(
+												"Save Hello World File As...", null,
+												StandradActionMenuItemInfo.Type.SAVE_AS, fileBrowserConfiguration));
 										fileMenu.addItemCategory(persistenceCategory);
 									}
 									MenuItemCategory lifeCycleCategory = new MenuItemCategory("Life Cycle");
