@@ -64,8 +64,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	ITypeInfo getItemType();
 
 	/**
-	 * @param listValue
-	 *            An instance of the current list type.
+	 * @param listValue An instance of the current list type.
 	 * @return the list of items in the given list value packed in a generic array.
 	 */
 	Object[] toArray(Object listValue);
@@ -78,8 +77,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	boolean canInstanciateFromArray();
 
 	/**
-	 * @param array
-	 *            A generic array containing items supported by this list type.
+	 * @param array A generic array containing items supported by this list type.
 	 * @return a new instance of this list type containing the same items as the
 	 *         generic array passed as parameter.
 	 */
@@ -96,10 +94,9 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * Replaces the list of items of the given instance by the one contained in the
 	 * given generic array.
 	 * 
-	 * @param listValue
-	 *            An instance of the current list type.
-	 * @param array
-	 *            A generic array containing items supported by this list type.
+	 * @param listValue An instance of the current list type.
+	 * @param array     A generic array containing items supported by this list
+	 *                  type.
 	 */
 	void replaceContent(Object listValue, Object[] array);
 
@@ -137,11 +134,11 @@ public interface IListTypeInfo extends ITypeInfo {
 	boolean canViewItemDetails();
 
 	/**
-	 * @param selection
-	 *            A list item position descriptors.
-	 * @param listModificationFactoryAccessor
-	 *            An object that maps item positions to list modification factories.
-	 *            This object will usually be provided in real-time by the renderer.
+	 * @param selection                       A list item position descriptors.
+	 * @param listModificationFactoryAccessor An object that maps item positions to
+	 *                                        list modification factories. This
+	 *                                        object will usually be provided in
+	 *                                        real-time by the renderer.
 	 * @return actions that can be performed on a list instance according to a given
 	 *         selection of items.
 	 */
@@ -149,11 +146,11 @@ public interface IListTypeInfo extends ITypeInfo {
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
 	/**
-	 * @param selection
-	 *            A list item position descriptors.
-	 * @param listModificationFactoryAccessor
-	 *            An object that maps item positions to list modification factories.
-	 *            This object will usually be provided in real-time by the renderer.
+	 * @param selection                       A list item position descriptors.
+	 * @param listModificationFactoryAccessor An object that maps item positions to
+	 *                                        list modification factories. This
+	 *                                        object will usually be provided in
+	 *                                        real-time by the renderer.
 	 * @return properties of a list instance that can be accessed according to a
 	 *         given selection of items.
 	 */
@@ -166,8 +163,8 @@ public interface IListTypeInfo extends ITypeInfo {
 	boolean isItemNullValueDistinct();
 
 	/**
-	 * @return the value return mode of this list type instances items. It may
-	 *         impact the behavior of this list control.
+	 * @return the value return mode of the items of an instance of this list type.
+	 *         It may impact the behavior of the list control.
 	 */
 	ValueReturnMode getItemReturnMode();
 
@@ -180,8 +177,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	/**
 	 * Should be called by the renderer whenever the selection of items changes.
 	 * 
-	 * @param newSelection
-	 *            The new selection.
+	 * @param newSelection The new selection.
 	 */
 	void onSelection(List<? extends ItemPosition> newSelection);
 
