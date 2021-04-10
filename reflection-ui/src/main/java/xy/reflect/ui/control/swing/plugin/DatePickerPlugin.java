@@ -107,6 +107,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
+			getEditor().setEditable(false);
 			setupEvents();
 			refreshUI(true);
 		}
