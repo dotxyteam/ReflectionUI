@@ -431,7 +431,7 @@ public class ModificationStack {
 		CompositeModification topCompositeUndoModif;
 		{
 			List<IModification> list = new ArrayList<IModification>(topComposite.undoStack);
-			if (order == UndoOrder.getInverse()) {
+			if (order == UndoOrder.getNormal()) {
 				Collections.reverse(list);
 			}
 			topCompositeUndoModif = new CompositeModification(AbstractModification.getUndoTitle(title), order,
@@ -471,7 +471,10 @@ public class ModificationStack {
 		try {
 			modificationDetected = action.get();
 		} catch (Throwable t) {
-			invalidate();
+			try {
+				invalidate();
+			} catch (Throwable ignore) {
+			}
 			abortComposite();
 			throw new ReflectionUIError(t);
 		}
