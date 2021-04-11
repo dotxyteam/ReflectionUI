@@ -290,6 +290,11 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
+		protected void restoringExpandedPathsAsMuchAsPossible(Runnable runnable) {
+			runnable.run();
+		}
+
+		@Override
 		protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {
 			throw new ReflectionUIError();
 		}
