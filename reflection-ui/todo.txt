@@ -1,3 +1,6 @@
+- DefaultParameterInfo.getDefaultValue(Object) return a value for primitive
+types. Not sure it is a good idea to provide a default value without the
+user acceptance.
 - AbstractEditorFormBuilder.getEncapsulatedFieldNonSpecificTypeSource():
 the type source should non-specific but it often is.
 Check if it is really necessary that it be non-specific and adjust.
