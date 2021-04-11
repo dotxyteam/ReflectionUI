@@ -1567,28 +1567,28 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void restoringExpandedPathsAsMuchAsPossible(Runnable runnable) {
-		Enumeration<?> expandedPaths = treeTableComponent.getExpandedDescendants(new TreePath(rootNode));
 		List<BufferedItemPosition> wereExpanded = new ArrayList<BufferedItemPosition>();
-		if (expandedPaths != null) {
-			while (expandedPaths.hasMoreElements()) {
-				TreePath treePath = (TreePath) expandedPaths.nextElement();
-				ItemNode node = (ItemNode) treePath.getLastPathComponent();
-				if (node == rootNode) {
-					continue;
+		{
+			Enumeration<?> expandedPaths = treeTableComponent.getExpandedDescendants(new TreePath(rootNode));
+			if (expandedPaths != null) {
+				while (expandedPaths.hasMoreElements()) {
+					TreePath treePath = (TreePath) expandedPaths.nextElement();
+					ItemNode node = (ItemNode) treePath.getLastPathComponent();
+					if (node == rootNode) {
+						continue;
+					}
+					BufferedItemPosition itemPosition = findItemPositionByNode(node);
+					wereExpanded.add(itemPosition);
 				}
-				BufferedItemPosition itemPosition = findItemPositionByNode(node);
-				wereExpanded.add(itemPosition);
 			}
 		}
 
 		runnable.run();
 
 		treeTableComponent.collapseAll();
-		System.out.println("collapseAll");
 		for (BufferedItemPosition wasExpanded : wereExpanded) {
 			ItemNode node = findNode(wasExpanded);
 			TreePath treePath = new TreePath(node.getPath());
-			System.out.println("expanding " + treePath);
 			treeTableComponent.expandPath(treePath);
 		}
 	}
