@@ -28,18 +28,26 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import org.jdesktop.swingx.JXDatePicker;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
@@ -50,6 +58,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.DelayedUpdateProcess;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.component.JXDateTimePicker;
@@ -135,7 +144,87 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			refreshUI(true);
 		}
 
+		@Override
+		public void setDate(Date date) {
+			super.setDate(date);
+			fixTimeSpinnersNotUpdatingIssue(date);
+		}
+
+		protected void fixTimeSpinnersNotUpdatingIssue(Date date) {
+			JSpinner timeSpinner;
+			try {
+				Field timeSpinnerField = JXDateTimePicker.class.getDeclaredField("timeSpinner");
+				timeSpinnerField.setAccessible(true);
+				timeSpinner = (JSpinner) timeSpinnerField.get(this);
+			} catch (Exception e) {
+				throw new ReflectionUIError(e);
+			}
+			try {
+				timeSpinner.setValue(date);
+			} catch (Exception ignore) {
+			}
+		}
+
+		@Override
+		public void commitEdit() throws ParseException {
+			fixSecondsAndMillisecondsNotSettableIssue();
+		}
+
+		protected void fixSecondsAndMillisecondsNotSettableIssue() throws ParseException {
+			Date date = getDate();
+			if (date != null) {
+				JSpinner timeSpinner;
+				try {
+					Field timeSpinnerField = JXDateTimePicker.class.getDeclaredField("timeSpinner");
+					timeSpinnerField.setAccessible(true);
+					timeSpinner = (JSpinner) timeSpinnerField.get(this);
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+				Date time = (Date) timeSpinner.getValue();
+				GregorianCalendar timeCalendar = new GregorianCalendar();
+				timeCalendar.setTime(time);
+
+				GregorianCalendar calendar = new GregorianCalendar();
+				calendar.setTime(date);
+				calendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
+				calendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE));
+				calendar.set(Calendar.SECOND, timeCalendar.get(Calendar.SECOND));
+				calendar.set(Calendar.MILLISECOND, timeCalendar.get(Calendar.MILLISECOND));
+
+				Date newDate = calendar.getTime();
+				setDate(newDate);
+			}
+			JFormattedTextField _dateField;
+			try {
+				Field _dateFieldField = JXDatePicker.class.getDeclaredField("_dateField");
+				_dateFieldField.setAccessible(true);
+				_dateField = (JFormattedTextField) _dateFieldField.get(this);
+			} catch (Exception e) {
+				throw new ReflectionUIError(e);
+			}
+			try {
+				_dateField.commitEdit();
+				fireActionPerformed(COMMIT_KEY);
+			} catch (ParseException e) {
+				throw e;
+			}
+		}
+
 		protected void setupEvents() {
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (listenerDisabled) {
+						return;
+					}
+					Date value = getDate();
+					if (value.equals(data.getValue())) {
+						return;
+					}
+					data.setValue(getDate());
+				}
+			});
 			final JFormattedTextField editor = DateTimePicker.this.getEditor();
 			editor.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -143,10 +232,14 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					if (listenerDisabled) {
 						return;
 					}
-					if (getDateFromTextEditor() == null) {
+					textEditorChangesCommittingProcess.cancelCommitSchedule();
+					Date value = getDateFromTextEditor();
+					if (value == null) {
 						return;
 					}
-					textEditorChangesCommittingProcess.cancelCommitSchedule();
+					if (value.equals(data.getValue())) {
+						return;
+					}
 					textEditorChangesCommittingProcess.scheduleCommit();
 				}
 
@@ -238,18 +331,23 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			if (value == null) {
 				return;
 			}
-			if (ReflectionUIUtils.equalsOrBothNull(value, data.getValue())) {
+			if (value.equals(data.getValue())) {
 				return;
 			}
-			JFormattedTextField editor = DateTimePicker.this.getEditor();
+			JFormattedTextField editor = getEditor();
 			int caretPosition = editor.getCaretPosition();
-			DateTimePicker.this.setDate((Date) value);
+			listenerDisabled = true;
+			try {
+				setDate((Date) value);
+			} finally {
+				listenerDisabled = false;
+			}
 			data.setValue(getDate());
 			editor.setCaretPosition(Math.min(caretPosition, editor.getText().length()));
 		}
 
 		protected Date getDateFromTextEditor() {
-			JFormattedTextField editor = DateTimePicker.this.getEditor();
+			JFormattedTextField editor = getEditor();
 			String string = editor.getText();
 			AbstractFormatter formatter = editor.getFormatter();
 			try {
@@ -263,6 +361,13 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			}
 		}
 
+		protected void onFocusLoss() {
+			if (textEditorChangesCommittingProcess.isCommitScheduled()) {
+				textEditorChangesCommittingProcess.cancelCommitSchedule();
+				commitTextEditorChanges();
+			}
+		}
+
 		@Override
 		public boolean displayError(String msg) {
 			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, msg, swingRenderer);
@@ -272,13 +377,6 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		@Override
 		public boolean showsCaption() {
 			return false;
-		}
-
-		protected void onFocusLoss() {
-			if (textEditorChangesCommittingProcess.isCommitScheduled()) {
-				textEditorChangesCommittingProcess.cancelCommitSchedule();
-				commitTextEditorChanges();
-			}
 		}
 
 		@Override

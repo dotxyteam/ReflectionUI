@@ -28,6 +28,8 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.ParseException;
@@ -135,6 +137,19 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected void setupEvents() {
+			addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (listenerDisabled) {
+						return;
+					}
+					Date value = getDate();
+					if (value.equals(data.getValue())) {
+						return;
+					}
+					data.setValue(getDate());
+				}
+			});
 			final JFormattedTextField editor = DatePicker.this.getEditor();
 			editor.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -142,10 +157,14 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					if (listenerDisabled) {
 						return;
 					}
-					if (getDateFromTextEditor() == null) {
+					textEditorChangesCommittingProcess.cancelCommitSchedule();
+					Date value = getDateFromTextEditor();
+					if (value == null) {
 						return;
 					}
-					textEditorChangesCommittingProcess.cancelCommitSchedule();
+					if (value.equals(data.getValue())) {
+						return;
+					}
 					textEditorChangesCommittingProcess.scheduleCommit();
 				}
 
@@ -236,18 +255,23 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			if (value == null) {
 				return;
 			}
-			if (ReflectionUIUtils.equalsOrBothNull(value, data.getValue())) {
+			if (value.equals(data.getValue())) {
 				return;
 			}
-			JFormattedTextField editor = DatePicker.this.getEditor();
+			JFormattedTextField editor = getEditor();
 			int caretPosition = editor.getCaretPosition();
-			DatePicker.this.setDate((Date) value);
+			listenerDisabled = true;
+			try {
+				setDate((Date) value);
+			} finally {
+				listenerDisabled = false;
+			}
 			data.setValue(getDate());
 			editor.setCaretPosition(Math.min(caretPosition, editor.getText().length()));
 		}
 
 		protected Date getDateFromTextEditor() {
-			JFormattedTextField editor = DatePicker.this.getEditor();
+			JFormattedTextField editor = this.getEditor();
 			String string = editor.getText();
 			AbstractFormatter formatter = editor.getFormatter();
 			try {
@@ -261,6 +285,13 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			}
 		}
 
+		protected void onFocusLoss() {
+			if (textEditorChangesCommittingProcess.isCommitScheduled()) {
+				textEditorChangesCommittingProcess.cancelCommitSchedule();
+				commitTextEditorChanges();
+			}
+		}
+
 		@Override
 		public boolean displayError(String msg) {
 			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, msg, swingRenderer);
@@ -270,13 +301,6 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		@Override
 		public boolean showsCaption() {
 			return false;
-		}
-
-		protected void onFocusLoss() {
-			if (textEditorChangesCommittingProcess.isCommitScheduled()) {
-				textEditorChangesCommittingProcess.cancelCommitSchedule();
-				commitTextEditorChanges();
-			}
 		}
 
 		@Override
