@@ -106,8 +106,10 @@ public class ReflectionUITest {
 		public boolean theBooleanPrimitive;
 		public Boolean theBooleanObject;
 		public File theFile = new File("tmp");
-		private Date theDate = new Date();
-		public Date theModifiableDate = new Date();
+		@SuppressWarnings("deprecation")
+		private Date theDate = new Date(2000-1900, 01, 01);
+		@SuppressWarnings("deprecation")
+		public Date theModifiableDate = new Date(2000-1900, 01, 01);
 		char c = 'a';
 		public List<Exception> theExceptionList = new ArrayList<Exception>();
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
