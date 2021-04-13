@@ -39,8 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.MapMaker;
-
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
@@ -126,9 +124,6 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
-
-	protected final Map<ITypeInfo, MembersCustomizationsFactory> membersCache = new MapMaker().weakKeys().makeMap();
-	protected final Object membersCacheMutex = new Object();
 
 	protected CustomizedUI customizedUI;
 	protected InfoCustomizations infoCustomizations;
@@ -1397,19 +1392,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	protected MembersCustomizationsFactory getMembers(ITypeInfo type) {
-		synchronized (membersCacheMutex) {
-			/*
-			 * This optimization assumes that the ITypeInfo gets recreated each time its
-			 * customization is modified. Otherwise some new customizations (eg: newly
-			 * generated fields) will not be displayed.
-			 */
-			MembersCustomizationsFactory result = membersCache.get(type);
-			if (result == null) {
-				result = new MembersCustomizationsFactory(type);
-				membersCache.put(type, result);
-			}
-			return result;
-		}
+		return new MembersCustomizationsFactory(type);
 	}
 
 	protected class MembersCustomizationsFactory {
