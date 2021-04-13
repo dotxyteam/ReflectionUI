@@ -113,10 +113,6 @@ public class EncapsulatedObjectFactory {
 		return result;
 	}
 
-	public IFieldInfo getValueField() {
-		return new ValueFieldInfo();
-	}
-
 	public String getTypeName() {
 		return typeName;
 	}
@@ -271,6 +267,10 @@ public class EncapsulatedObjectFactory {
 
 	public ITypeInfo getFieldType() {
 		return fieldType;
+	}
+
+	protected IFieldInfo createValueField() {
+		return new ValueFieldInfo();
 	}
 
 	protected boolean hasFieldValueOptions() {
@@ -430,6 +430,9 @@ public class EncapsulatedObjectFactory {
 
 	public class TypeInfo extends AbstractInfo implements ITypeInfo {
 
+		protected IFieldInfo valueField;
+		protected List<IMethodInfo> constructors;
+
 		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(TypeInfo.this, null);
@@ -585,32 +588,37 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo ctor : fieldType.getConstructors()) {
-				result.add(new MethodInfoProxy(ctor) {
+			if (constructors == null) {
+				constructors = new ArrayList<IMethodInfo>();
+				for (IMethodInfo ctor : fieldType.getConstructors()) {
+					constructors.add(new MethodInfoProxy(ctor) {
 
-					ITypeInfo returnValueType;
+						ITypeInfo returnValueType;
 
-					@Override
-					public Object invoke(Object parentObject, InvocationData invocationData) {
-						return getInstance(Accessor.returning(super.invoke(parentObject, invocationData), true));
-					}
-
-					@Override
-					public ITypeInfo getReturnValueType() {
-						if (returnValueType == null) {
-							returnValueType = reflectionUI.getTypeInfo(TypeInfo.this.getSource());
+						@Override
+						public Object invoke(Object parentObject, InvocationData invocationData) {
+							return getInstance(Accessor.returning(super.invoke(parentObject, invocationData), true));
 						}
-						return returnValueType;
-					}
-				});
+
+						@Override
+						public ITypeInfo getReturnValueType() {
+							if (returnValueType == null) {
+								returnValueType = reflectionUI.getTypeInfo(TypeInfo.this.getSource());
+							}
+							return returnValueType;
+						}
+					});
+				}
 			}
-			return result;
+			return constructors;
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			return Collections.<IFieldInfo>singletonList(getValueField());
+			if (valueField == null) {
+				valueField = createValueField();
+			}
+			return Collections.<IFieldInfo>singletonList(valueField);
 		}
 
 		@Override
