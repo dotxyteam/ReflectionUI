@@ -270,7 +270,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return data.getType().getSource();
 			}
 
