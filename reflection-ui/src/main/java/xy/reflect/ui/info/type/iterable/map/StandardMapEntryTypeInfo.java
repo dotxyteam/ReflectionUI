@@ -38,6 +38,7 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -47,6 +48,7 @@ import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEntryTypeInfo {
 
@@ -313,8 +315,23 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						return relatedField.isNullValueDistinct();
 					}
 
+					@Override
+					public Object getDefaultValue(Object object) {
+						if (ReflectionUIUtils.canCreateDefaultInstance(getType(), object, true)) {
+							return ReflectionUIUtils.createDefaultInstance(getType(), object, true);
+						}
+						return super.getDefaultValue(object);
+					}
+
 				});
 			}
+			return result;
+		}
+
+		@Override
+		public Object invoke(Object parentObject, InvocationData invocationData) {
+			StandardMapEntry result = (StandardMapEntry) super.invoke(parentObject, invocationData);
+			reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
 			return result;
 		}
 
