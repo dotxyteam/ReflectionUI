@@ -159,7 +159,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 						ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
 						if (item instanceof ValueListItem) {
 							result.add(field);
-						} else if (isValidSubListNodeItemType(subListItemType)) {
+						} else if ((subListItemType != null) && isValidSubListNodeItemType(subListItemType)) {
 							result.add(field);
 						}
 					}
@@ -181,7 +181,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			ITypeInfo entryValueType = entryType.getValueField().getType();
 			if (entryValueType instanceof IListTypeInfo) {
 				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType).getItemType();
-				if (isValidSubListNodeItemType(entryValuListItemType)) {
+				if ((entryValuListItemType != null) && isValidSubListNodeItemType(entryValuListItemType)) {
 					return true;
 				}
 			}
