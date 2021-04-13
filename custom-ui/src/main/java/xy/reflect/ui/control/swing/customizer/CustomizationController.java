@@ -150,12 +150,6 @@ public class CustomizationController {
 
 	public void setInEditMode(boolean inEditMode) {
 		swingCustomizer.getCustomizationOptions().setInEditMode(inEditMode);
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				SwingRendererUtils.refreshAllDisplayedFormsAndMenus(swingCustomizer, true);
-			}
-		});
 	}
 
 	public InfoCustomizations getAllCustomizations() {
