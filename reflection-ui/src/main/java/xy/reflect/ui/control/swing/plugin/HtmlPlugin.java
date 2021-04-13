@@ -197,16 +197,12 @@ public class HtmlPlugin extends StyledTextPlugin {
 			listenerDisabled = true;
 			try {
 				HtmlConfiguration controlCustomization = (HtmlConfiguration) loadControlCustomization(input);
-				if (data.isGetOnly()) {
-					((JTextPane) textComponent).setContentType("text/html");
-					HTMLDocument doc = (HTMLDocument) textComponent.getDocument();
-					try {
-						doc.setBase(controlCustomization.getBaseURL());
-					} catch (Exception e) {
-						throw new ReflectionUIError(e);
-					}
-				} else {
-					((JTextPane) textComponent).setContentType("text/plain");
+				((JTextPane) textComponent).setContentType("text/html");
+				HTMLDocument doc = (HTMLDocument) textComponent.getDocument();
+				try {
+					doc.setBase(controlCustomization.getBaseURL());
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
 				}
 			} finally {
 				listenerDisabled = false;
@@ -215,10 +211,7 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 		@Override
 		protected void setCurrentTextEditPosition(int position) {
-			if (data.isGetOnly()) {
-				return;
-			}
-			super.setCurrentTextEditPosition(position);
+			return;
 		}
 
 		@Override
