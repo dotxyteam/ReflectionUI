@@ -28,10 +28,14 @@
  ******************************************************************************/
 package xy.reflect.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldTypeSpecificities;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -40,6 +44,7 @@ import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -69,8 +74,8 @@ public class CustomizedUI extends ReflectionUI {
 	/**
 	 * Constructs an instance of this class that will use the given customizations.
 	 * 
-	 * @param infoCustomizations
-	 *            The abstract UI model customizations specification object.
+	 * @param infoCustomizations The abstract UI model customizations specification
+	 *                           object.
 	 */
 	public CustomizedUI(InfoCustomizations infoCustomizations) {
 		super();
@@ -122,11 +127,79 @@ public class CustomizedUI extends ReflectionUI {
 	 *         {@link #getInfoCustomizationsFactory()}.
 	 */
 	public InfoProxyFactory getSpecificitiesFactory(final SpecificitiesIdentifier specificitiesIdentifier) {
-		TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
-				specificitiesIdentifier.getContainingTypeName());
-		FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
-				specificitiesIdentifier.getFieldName());
-		return new InfoCustomizationsFactory(this, fieldCustomization.getSpecificTypeCustomizations()) {
+		/*
+		 * Use a delegator because the
+		 * fieldCustomization.getSpecificTypeCustomizations() object may be dynamically
+		 * changed thus causing the resulting factory to reference a garbage
+		 * FieldTypeSpecificities object.
+		 */
+		FieldTypeSpecificities specificTypeCustomizationsDelegator = new FieldTypeSpecificities() {
+
+			private static final long serialVersionUID = 1L;
+
+			private FieldTypeSpecificities getSpecificTypeCustomizations() {
+				TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
+						specificitiesIdentifier.getContainingTypeName());
+				FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
+						specificitiesIdentifier.getFieldName());
+				FieldTypeSpecificities result = fieldCustomization.getSpecificTypeCustomizations();
+				return result;
+			}
+
+			@Override
+			public ApplicationCustomization getAppplicationCustomization() {
+				return getSpecificTypeCustomizations().getAppplicationCustomization();
+			}
+
+			@Override
+			public List<TypeCustomization> getTypeCustomizations() {
+				return getSpecificTypeCustomizations().getTypeCustomizations();
+			}
+
+			@Override
+			public List<ListCustomization> getListCustomizations() {
+				return getSpecificTypeCustomizations().getListCustomizations();
+			}
+
+			@Override
+			public List<EnumerationCustomization> getEnumerationCustomizations() {
+				return getSpecificTypeCustomizations().getEnumerationCustomizations();
+			}
+
+			@Override
+			public void setAppplicationCustomization(ApplicationCustomization appplicationCustomization) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void setTypeCustomizations(List<TypeCustomization> typeCustomizations) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void setListCustomizations(List<ListCustomization> listCustomizations) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void setEnumerationCustomizations(List<EnumerationCustomization> enumerationCustomizations) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void loadFromStream(InputStream input, Listener<String> debugLogListener) throws IOException {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void saveToStream(OutputStream output, Listener<String> debugLogListener, String comment)
+					throws IOException {
+				throw new UnsupportedOperationException();
+			}
+
+		};
+
+		return new InfoCustomizationsFactory(this, specificTypeCustomizationsDelegator) {
 			@Override
 			public String getIdentifier() {
 				return "SpecificitiesFactory [of=" + CustomizedUI.this.toString() + ", specificitiesIdentifier="
@@ -216,8 +289,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * This method allows to alter the given {@link ITypeInfo} object after applying
 	 * the declarative customizations.
 	 * 
-	 * @param type
-	 *            The UI-oriented type information.
+	 * @param type The UI-oriented type information.
 	 * @return a potentially proxied version of the input argument.
 	 */
 	protected ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
@@ -230,8 +302,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * generated by the customizations can also be customized and thus altered by
 	 * this method.
 	 * 
-	 * @param type
-	 *            The UI-oriented type information.
+	 * @param type The UI-oriented type information.
 	 * @return a potentially proxied version of the input argument.
 	 */
 	protected ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
@@ -242,8 +313,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * This method allows to alter the given {@link IApplicationInfo} object after
 	 * applying the declarative customizations.
 	 * 
-	 * @param appInfo
-	 *            The UI-oriented application information.
+	 * @param appInfo The UI-oriented application information.
 	 * @return a potentially proxied version of the input argument.
 	 */
 	protected IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
@@ -254,8 +324,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * This method allows to alter the given {@link IApplicationInfo} object before
 	 * applying the declarative customizations.
 	 * 
-	 * @param appInfo
-	 *            The UI-oriented application information.
+	 * @param appInfo The UI-oriented application information.
 	 * @return a potentially proxied version of the input argument.
 	 */
 	protected IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
