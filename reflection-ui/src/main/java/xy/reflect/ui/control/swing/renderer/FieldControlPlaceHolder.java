@@ -431,7 +431,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected void layoutFieldControl() {
 		add(fieldControl, BorderLayout.CENTER);
 		layoutInContainerUpdateNeeded = true;
-		SwingRendererUtils.handleComponentSizeChange(this);
+		if (getParent() != null) {
+			form.updateFieldControlLayoutInContainer(FieldControlPlaceHolder.this);
+			SwingRendererUtils.handleComponentSizeChange(this);
+		}
 	}
 
 	protected void destroyFieldControl() {
