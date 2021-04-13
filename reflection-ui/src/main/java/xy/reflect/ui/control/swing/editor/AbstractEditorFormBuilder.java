@@ -124,11 +124,9 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return source of the declared type information that will be used to handle
 	 *         the target value/object. If null is returned then this type
 	 *         information source will be dynamically inferred from the target
-	 *         value/object. Note that calling
-	 *         {@link ITypeInfoSource#getSpecificitiesIdentifier()} on the result
-	 *         should return null.
+	 *         value/object.
 	 */
-	public abstract ITypeInfoSource getDeclaredNonSpecificTypeInfoSource();
+	public abstract ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource();
 
 	/**
 	 * @return the return mode (from the parent object) of the target value/object
@@ -248,17 +246,14 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		}
 		return "Encapsulation [" + contextDeclaraion + subContextDeclaraion + "encapsulatedObjectType="
-				+ getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource())
-						.getName()
-				+ "]";
+				+ getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getName() + "]";
 	}
 
 	/**
 	 * @return the target value/object capsule factory.
 	 */
 	public EncapsulatedObjectFactory getEncapsulation() {
-		ITypeInfo fieldType = getSwingRenderer().getReflectionUI()
-				.getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource());
+		ITypeInfo fieldType = getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource());
 		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
 				getCapsuleTypeName(), fieldType) {
 
@@ -375,12 +370,10 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return the source of the type information that is used to qualify the
-	 *         encapsulated field that returns the target value/object. Note that
-	 *         calling {@link ITypeInfoSource#getSpecificitiesIdentifier()} on the
-	 *         result should return null.
+	 *         encapsulated field that returns the target value/object.
 	 */
-	public ITypeInfoSource getEncapsulatedFieldNonSpecificTypeSource() {
-		ITypeInfoSource result = getDeclaredNonSpecificTypeInfoSource();
+	public ITypeInfoSource getEncapsulatedFieldTypeSource() {
+		ITypeInfoSource result = getEncapsulatedFieldDeclaredTypeSource();
 		if (result != null) {
 			return result;
 		}
@@ -395,8 +388,7 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return the caption of the capsule type.
 	 */
 	public String getCapsuleTypeCaption() {
-		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldNonSpecificTypeSource())
-				.getCaption();
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getCaption();
 	}
 
 	/**
