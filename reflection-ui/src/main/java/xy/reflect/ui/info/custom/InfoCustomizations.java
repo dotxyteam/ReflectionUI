@@ -218,7 +218,7 @@ public class InfoCustomizations implements Serializable {
 		for (TypeCustomization t : typeCustomizations) {
 			for (MethodCustomization mc : t.methodsCustomizations) {
 				if (mc.menuLocation != null) {
-					for (IMenuItemContainerCustomization container : getAllMenuItemContainerCustomizations(t)) {
+					for (IMenuItemContainerCustomization container : InfoCustomizations.getAllMenuItemContainerCustomizations(t)) {
 						if (((AbstractCustomization) mc.menuLocation).getUniqueIdentifier()
 								.equals(((AbstractCustomization) container).getUniqueIdentifier())) {
 							mc.menuLocation = container;
@@ -263,7 +263,7 @@ public class InfoCustomizations implements Serializable {
 				.copyThroughSerialization((Serializable) listCustomizations);
 		toSave.enumerationCustomizations = (List<EnumerationCustomization>) ReflectionUIUtils
 				.copyThroughSerialization((Serializable) enumerationCustomizations);
-		clean(toSave, debugLogListener);
+		InfoCustomizations.clean(toSave, debugLogListener);
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -283,472 +283,6 @@ public class InfoCustomizations implements Serializable {
 			throw new IOException(e);
 		}
 
-	}
-
-	public static void clean(InfoCustomizations infoCustomizations, Listener<String> debugLogListener) {
-		for (TypeCustomization tc : new ArrayList<TypeCustomization>(infoCustomizations.typeCustomizations)) {
-			for (FieldCustomization fc : new ArrayList<FieldCustomization>(tc.fieldsCustomizations)) {
-				if (fc.isInitial()) {
-					tc.fieldsCustomizations.remove(fc);
-					continue;
-				}
-			}
-			for (MethodCustomization mc : new ArrayList<MethodCustomization>(tc.methodsCustomizations)) {
-				if (mc.isInitial()) {
-					tc.methodsCustomizations.remove(mc);
-					continue;
-				}
-			}
-			if (tc.isInitial()) {
-				if (debugLogListener != null) {
-					debugLogListener.handle("Serialization cleanup: Excluding " + tc);
-				}
-				infoCustomizations.typeCustomizations.remove(tc);
-				continue;
-			}
-
-		}
-		for (ListCustomization lc : new ArrayList<ListCustomization>(infoCustomizations.listCustomizations)) {
-			for (ColumnCustomization cc : new ArrayList<ColumnCustomization>(lc.columnCustomizations)) {
-				if (cc.isInitial()) {
-					lc.columnCustomizations.remove(cc);
-					continue;
-				}
-			}
-			if (lc.isInitial()) {
-				if (debugLogListener != null) {
-					debugLogListener.handle("Serialization cleanup: Excluding " + lc);
-				}
-				infoCustomizations.listCustomizations.remove(lc);
-				continue;
-			}
-
-		}
-		for (EnumerationCustomization ec : new ArrayList<EnumerationCustomization>(
-				infoCustomizations.enumerationCustomizations)) {
-			for (EnumerationItemCustomization ic : new ArrayList<EnumerationItemCustomization>(ec.itemCustomizations)) {
-				if (ic.isInitial()) {
-					ec.itemCustomizations.remove(ic);
-					continue;
-				}
-			}
-			if (ec.isInitial()) {
-				if (debugLogListener != null) {
-					debugLogListener.handle("Serialization cleanup: Excluding " + ec);
-				}
-				infoCustomizations.enumerationCustomizations.remove(ec);
-				continue;
-			}
-		}
-	}
-
-	public static boolean isSimilar(final AbstractCustomization c1, final AbstractCustomization c2,
-			final String... excludedFieldNames) {
-		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, ReflectionUIUtils.STANDARD_REFLECTION, new IInfoFilter() {
-
-			@Override
-			public boolean excludeMethod(IMethodInfo method) {
-				return false;
-			}
-
-			@Override
-			public boolean excludeField(IFieldInfo field) {
-				if (field.getName().equals(InfoCustomizations.UID_FIELD_NAME)) {
-					return true;
-				}
-				if (field.getName().equals(InfoCustomizations.INITIAL_STATE_FIELD_NAME)) {
-					return true;
-				}
-				if (Arrays.asList(excludedFieldNames).contains(field.getName())) {
-					return true;
-				}
-				return false;
-			}
-		});
-	}
-
-	public static MenuElementKind getMenuElementKind(IMenuElementCustomization elementCustomization) {
-		return ReflectionUIUtils.getMenuElementKind(elementCustomization.createMenuElementInfo());
-	}
-
-	public static DefaultMenuElementPosition getMenuElementPosition(InfoCustomizations infoCustomizations,
-			IMenuItemContainerCustomization menuItemContainerCustomization) {
-		for (TypeCustomization tc : infoCustomizations.typeCustomizations) {
-			DefaultMenuElementPosition result = getMenuElementPosition(tc.menuModelCustomization,
-					menuItemContainerCustomization);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	public static DefaultMenuElementPosition getMenuElementPosition(MenuModelCustomization menuModelCustomization,
-			IMenuItemContainerCustomization menuItemContainerCustomization) {
-		for (MenuCustomization menuCustomization : menuModelCustomization.menuCustomizations) {
-			DefaultMenuElementPosition result = getMenuElementPosition(menuCustomization,
-					menuItemContainerCustomization);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	public static DefaultMenuElementPosition getMenuElementPosition(IMenuItemContainerCustomization fromContainer,
-			IMenuItemContainerCustomization elementContainer) {
-		String elementName = fromContainer.getName();
-		MenuElementKind elementKind = getMenuElementKind(fromContainer);
-		DefaultMenuElementPosition rootPosition = new DefaultMenuElementPosition(elementName, elementKind, null);
-		if (fromContainer == elementContainer) {
-			return rootPosition;
-		}
-		for (AbstractMenuItemCustomization menuItemCustomization : fromContainer.getItemCustomizations()) {
-			if (menuItemCustomization instanceof IMenuItemContainerCustomization) {
-				DefaultMenuElementPosition result = getMenuElementPosition(
-						(IMenuItemContainerCustomization) menuItemCustomization, elementContainer);
-				if (result != null) {
-					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
-					return result;
-				}
-			}
-		}
-		if (fromContainer instanceof MenuCustomization) {
-			for (MenuItemCategoryCustomization menuItemCategoryCustomization : ((MenuCustomization) fromContainer)
-					.getItemCategoryCustomizations()) {
-				DefaultMenuElementPosition result = getMenuElementPosition(menuItemCategoryCustomization,
-						elementContainer);
-				if (result != null) {
-					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
-					return result;
-				}
-			}
-		}
-		return null;
-	}
-
-	public static List<IMenuItemContainerCustomization> getAllMenuItemContainerCustomizations(TypeCustomization tc) {
-		List<IMenuItemContainerCustomization> result = new ArrayList<IMenuItemContainerCustomization>();
-		for (IMenuElementCustomization rootMenuElementCustomization : tc.getMenuModelCustomization()
-				.getMenuCustomizations()) {
-			if (rootMenuElementCustomization instanceof IMenuItemContainerCustomization) {
-				result.addAll(getAllMenuItemContainerCustomizations(
-						(IMenuItemContainerCustomization) rootMenuElementCustomization));
-			}
-		}
-		return result;
-	}
-
-	public static List<IMenuItemContainerCustomization> getAllMenuItemContainerCustomizations(
-			IMenuItemContainerCustomization from) {
-		List<IMenuItemContainerCustomization> result = new ArrayList<IMenuItemContainerCustomization>();
-		result.add(from);
-		for (AbstractMenuItemCustomization item : from.getItemCustomizations()) {
-			if (item instanceof IMenuItemContainerInfo) {
-				result.addAll(getAllMenuItemContainerCustomizations((IMenuItemContainerCustomization) item));
-			}
-		}
-		if (from instanceof MenuCustomization) {
-			for (MenuItemCategoryCustomization item : ((MenuCustomization) from).getItemCategoryCustomizations()) {
-				result.addAll(getAllMenuItemContainerCustomizations(item));
-			}
-		}
-		return result;
-	}
-
-	public static List<String> getMemberCategoryCaptionOptions(InfoCustomizations infoCustomizations,
-			AbstractMemberCustomization m) {
-		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
-		List<String> result = new ArrayList<String>();
-		for (CustomizationCategory c : tc.getMemberCategories()) {
-			result.add(c.getCaption());
-		}
-		return result;
-	}
-
-	public static TypeCustomization findParentTypeCustomization(InfoCustomizations infoCustomizations,
-			AbstractMemberCustomization memberCustumization) {
-		for (TypeCustomization tc : getTypeCustomizationsPlusMemberSpecificities(infoCustomizations)) {
-			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
-				if (fc == memberCustumization) {
-					return tc;
-				}
-			}
-			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
-				if (mc == memberCustumization) {
-					return tc;
-				}
-			}
-		}
-		return null;
-	}
-
-	public static List<TypeCustomization> getTypeCustomizationsPlusMemberSpecificities(
-			InfoCustomizations infoCustomizations) {
-		List<TypeCustomization> result = new ArrayList<InfoCustomizations.TypeCustomization>();
-		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
-			result.add(tc);
-			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
-				result.addAll(getTypeCustomizationsPlusMemberSpecificities(fc.getSpecificTypeCustomizations()));
-			}
-			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
-				result.addAll(
-						getTypeCustomizationsPlusMemberSpecificities(mc.getSpecificReturnValueTypeCustomizations()));
-			}
-		}
-		return result;
-	}
-
-	public static boolean areInfoCustomizationsCreatedIfNotFound() {
-		return SystemProperties.areInfoCustomizationsCreatedIfNotFound();
-	}
-
-	public static ParameterCustomization getParameterCustomization(MethodCustomization m, String paramName) {
-		return getParameterCustomization(m, paramName, areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static ParameterCustomization getParameterCustomization(MethodCustomization m, String paramName,
-			boolean createIfNotFound) {
-		if (m != null) {
-			for (ParameterCustomization p : m.parametersCustomizations) {
-				if (paramName.equals(p.parameterName)) {
-					return p;
-				}
-			}
-			if (createIfNotFound) {
-				ParameterCustomization p = new ParameterCustomization();
-				p.setParameterName(paramName);
-				m.parametersCustomizations.add(p);
-				return p;
-			}
-		}
-		return null;
-	}
-
-	public static FieldCustomization getFieldCustomization(TypeCustomization t, String fieldName) {
-		return getFieldCustomization(t, fieldName, areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static FieldCustomization getFieldCustomization(TypeCustomization t, String fieldName,
-			boolean createIfNotFound) {
-		if (t != null) {
-			for (FieldCustomization f : t.fieldsCustomizations) {
-				if (fieldName.equals(f.fieldName)) {
-					return f;
-				}
-			}
-			if (createIfNotFound) {
-				FieldCustomization f = new FieldCustomization();
-				f.setFieldName(fieldName);
-				t.fieldsCustomizations.add(f);
-				return f;
-			}
-		}
-		return null;
-	}
-
-	public static MethodCustomization getMethodCustomization(TypeCustomization t, String methodSignature) {
-		return getMethodCustomization(t, methodSignature, areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static MethodCustomization getMethodCustomization(TypeCustomization t, String methodSignature,
-			boolean createIfNotFound) {
-		if (t != null) {
-			for (MethodCustomization m : t.methodsCustomizations) {
-				if (methodSignature.equals(m.methodSignature)) {
-					return m;
-				}
-			}
-			if (createIfNotFound) {
-				MethodCustomization m = new MethodCustomization();
-				m.setMethodSignature(methodSignature);
-				t.methodsCustomizations.add(m);
-				return m;
-			}
-		}
-		return null;
-	}
-
-	public static TypeCustomization getTypeCustomization(InfoCustomizations infoCustomizations, String typeName) {
-		return getTypeCustomization(infoCustomizations, typeName, areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static TypeCustomization getTypeCustomization(InfoCustomizations infoCustomizations, String typeName,
-			boolean createIfNotFound) {
-		for (TypeCustomization t : infoCustomizations.typeCustomizations) {
-			if (typeName.equals(t.typeName)) {
-				return t;
-			}
-		}
-		if (createIfNotFound) {
-			TypeCustomization t = new TypeCustomization();
-			t.setTypeName(typeName);
-			infoCustomizations.typeCustomizations.add(t);
-			return t;
-		}
-		return null;
-	}
-
-	public static ListCustomization getListCustomization(InfoCustomizations infoCustomizations, String listTypeName,
-			String itemTypeName) {
-		return getListCustomization(infoCustomizations, listTypeName, itemTypeName,
-				areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static ListCustomization getListCustomization(InfoCustomizations infoCustomizations, String listTypeName,
-			String itemTypeName, boolean createIfNotFound) {
-		for (ListCustomization l : infoCustomizations.listCustomizations) {
-			if (listTypeName.equals(l.listTypeName)) {
-				if (ReflectionUIUtils.equalsOrBothNull(l.itemTypeName, itemTypeName)) {
-					return l;
-				}
-			}
-		}
-		if (createIfNotFound) {
-			ListCustomization l = new ListCustomization();
-			l.setListTypeName(listTypeName);
-			l.setItemTypeName(itemTypeName);
-			infoCustomizations.listCustomizations.add(l);
-			return l;
-		}
-		return null;
-	}
-
-	public static ColumnCustomization getColumnCustomization(ListCustomization l, String columnName) {
-		return getColumnCustomization(l, columnName, areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static ColumnCustomization getColumnCustomization(ListCustomization l, String columnName,
-			boolean createIfNotFound) {
-		for (ColumnCustomization c : l.columnCustomizations) {
-			if (columnName.equals(c.columnName)) {
-				return c;
-			}
-		}
-		if (createIfNotFound) {
-			ColumnCustomization c = new ColumnCustomization();
-			c.setColumnName(columnName);
-			l.columnCustomizations.add(c);
-			return c;
-		}
-		return null;
-	}
-
-	public static EnumerationItemCustomization getEnumerationItemCustomization(EnumerationCustomization e,
-			String enumItemName) {
-		return getEnumerationItemCustomization(e, enumItemName, areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static EnumerationItemCustomization getEnumerationItemCustomization(EnumerationCustomization e,
-			String enumItemName, boolean createIfNotFound) {
-		for (EnumerationItemCustomization i : e.itemCustomizations) {
-			if (enumItemName.equals(i.itemName)) {
-				return i;
-			}
-		}
-		if (createIfNotFound) {
-			EnumerationItemCustomization i = new EnumerationItemCustomization();
-			i.setItemName(enumItemName);
-			e.itemCustomizations.add(i);
-			return i;
-		}
-		return null;
-	}
-
-	public static EnumerationCustomization getEnumerationCustomization(InfoCustomizations infoCustomizations,
-			String enumTypeName) {
-		return getEnumerationCustomization(infoCustomizations, enumTypeName, areInfoCustomizationsCreatedIfNotFound());
-	}
-
-	public static EnumerationCustomization getEnumerationCustomization(InfoCustomizations infoCustomizations,
-			String enumTypeName, boolean createIfNotFound) {
-		for (EnumerationCustomization e : infoCustomizations.enumerationCustomizations) {
-			if (enumTypeName.equals(e.enumerationTypeName)) {
-				return e;
-			}
-		}
-		if (createIfNotFound) {
-			EnumerationCustomization e = new EnumerationCustomization();
-			e.setEnumerationTypeName(enumTypeName);
-			infoCustomizations.enumerationCustomizations.add(e);
-			return e;
-		}
-		return null;
-	}
-
-	public static <I extends IInfo> List<String> getInfosOrderAfterMove(List<I> list, I info, int offset) {
-		int infoIndex = list.indexOf(info);
-		int newInfoIndex = -1;
-		int offsetSign = ((offset > 0) ? 1 : -1);
-		InfoCategory infoCategory = getCategory(info);
-		int currentInfoIndex = infoIndex;
-		for (int iOffset = 0; iOffset != offset; iOffset = iOffset + offsetSign) {
-			int nextSameCategoryInfoIndex = -1;
-			while (true) {
-				currentInfoIndex += offsetSign;
-				if ((offsetSign == -1) && (currentInfoIndex == -1)) {
-					break;
-				}
-				if ((offsetSign == 1) && (currentInfoIndex == list.size())) {
-					break;
-				}
-				I otherInfo = list.get(currentInfoIndex);
-				if ((otherInfo instanceof IFieldInfo)) {
-					if (((IFieldInfo) otherInfo).isHidden()) {
-						continue;
-					}
-				}
-				if ((otherInfo instanceof IMethodInfo)) {
-					if (((IMethodInfo) otherInfo).isHidden()) {
-						continue;
-					}
-				}
-				if ((otherInfo instanceof IParameterInfo)) {
-					if (((IParameterInfo) otherInfo).isHidden()) {
-						continue;
-					}
-				}
-				InfoCategory otherInfoCategory = getCategory(otherInfo);
-				if (ReflectionUIUtils.equalsOrBothNull(infoCategory, otherInfoCategory)) {
-					nextSameCategoryInfoIndex = currentInfoIndex;
-					break;
-				}
-			}
-			if (nextSameCategoryInfoIndex == -1) {
-				break;
-			} else {
-				newInfoIndex = nextSameCategoryInfoIndex;
-			}
-		}
-
-		if (newInfoIndex == -1) {
-			throw new ReflectionUIError("Cannot move item: Limit reached");
-		}
-
-		List<I> resultList = new ArrayList<I>(list);
-		resultList.remove(info);
-		resultList.add(newInfoIndex, info);
-
-		ArrayList<String> newOrder = new ArrayList<String>();
-		for (I info2 : resultList) {
-			String name = info2.getName();
-			if (name == null) {
-				throw new ReflectionUIError("Cannot move item: 'getName()' method returned <null> for item n°"
-						+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
-			}
-			newOrder.add(name);
-		}
-		return newOrder;
-	}
-
-	protected static InfoCategory getCategory(IInfo info) {
-		if (info instanceof IFieldInfo) {
-			return ((IFieldInfo) info).getCategory();
-		} else if (info instanceof IMethodInfo) {
-			return ((IMethodInfo) info).getCategory();
-		} else {
-			return null;
-		}
 	}
 
 	@Override
@@ -782,12 +316,487 @@ public class InfoCustomizations implements Serializable {
 		return true;
 	}
 
+	public static void clean(InfoCustomizations infoCustomizations, Listener<String> debugLogListener) {
+		for (TypeCustomization tc : new ArrayList<TypeCustomization>(
+				infoCustomizations.getTypeCustomizations())) {
+			for (FieldCustomization fc : new ArrayList<FieldCustomization>(
+					tc.getFieldsCustomizations())) {
+				if (fc.isInitial()) {
+					tc.getFieldsCustomizations().remove(fc);
+					continue;
+				}
+			}
+			for (MethodCustomization mc : new ArrayList<MethodCustomization>(
+					tc.getMethodsCustomizations())) {
+				if (mc.isInitial()) {
+					tc.getMethodsCustomizations().remove(mc);
+					continue;
+				}
+			}
+			if (tc.isInitial()) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Serialization cleanup: Excluding " + tc);
+				}
+				infoCustomizations.getTypeCustomizations().remove(tc);
+				continue;
+			}
+	
+		}
+		for (ListCustomization lc : new ArrayList<ListCustomization>(
+				infoCustomizations.getListCustomizations())) {
+			for (ColumnCustomization cc : new ArrayList<ColumnCustomization>(
+					lc.getColumnCustomizations())) {
+				if (cc.isInitial()) {
+					lc.getColumnCustomizations().remove(cc);
+					continue;
+				}
+			}
+			if (lc.isInitial()) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Serialization cleanup: Excluding " + lc);
+				}
+				infoCustomizations.getListCustomizations().remove(lc);
+				continue;
+			}
+	
+		}
+		for (EnumerationCustomization ec : new ArrayList<EnumerationCustomization>(
+				infoCustomizations.getEnumerationCustomizations())) {
+			for (EnumerationItemCustomization ic : new ArrayList<EnumerationItemCustomization>(
+					ec.getItemCustomizations())) {
+				if (ic.isInitial()) {
+					ec.getItemCustomizations().remove(ic);
+					continue;
+				}
+			}
+			if (ec.isInitial()) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Serialization cleanup: Excluding " + ec);
+				}
+				infoCustomizations.getEnumerationCustomizations().remove(ec);
+				continue;
+			}
+		}
+	}
+
+	public static boolean isSimilar(final AbstractCustomization c1,
+			final AbstractCustomization c2, final String... excludedFieldNames) {
+		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, ReflectionUIUtils.STANDARD_REFLECTION, new IInfoFilter() {
+	
+			@Override
+			public boolean excludeMethod(IMethodInfo method) {
+				return false;
+			}
+	
+			@Override
+			public boolean excludeField(IFieldInfo field) {
+				if (field.getName().equals(UID_FIELD_NAME)) {
+					return true;
+				}
+				if (field.getName().equals(INITIAL_STATE_FIELD_NAME)) {
+					return true;
+				}
+				if (Arrays.asList(excludedFieldNames).contains(field.getName())) {
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	public static MenuElementKind getMenuElementKind(
+			IMenuElementCustomization elementCustomization) {
+		return ReflectionUIUtils.getMenuElementKind(elementCustomization.createMenuElementInfo());
+	}
+
+	public static DefaultMenuElementPosition getMenuElementPosition(InfoCustomizations infoCustomizations,
+			IMenuItemContainerCustomization menuItemContainerCustomization) {
+		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
+			DefaultMenuElementPosition result = getMenuElementPosition(tc.getMenuModelCustomization(),
+					menuItemContainerCustomization);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static DefaultMenuElementPosition getMenuElementPosition(
+			MenuModelCustomization menuModelCustomization,
+			IMenuItemContainerCustomization menuItemContainerCustomization) {
+		for (MenuCustomization menuCustomization : menuModelCustomization.getMenuCustomizations()) {
+			DefaultMenuElementPosition result = getMenuElementPosition(menuCustomization,
+					menuItemContainerCustomization);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static DefaultMenuElementPosition getMenuElementPosition(
+			IMenuItemContainerCustomization fromContainer,
+			IMenuItemContainerCustomization elementContainer) {
+		String elementName = fromContainer.getName();
+		MenuElementKind elementKind = getMenuElementKind(fromContainer);
+		DefaultMenuElementPosition rootPosition = new DefaultMenuElementPosition(elementName, elementKind, null);
+		if (fromContainer == elementContainer) {
+			return rootPosition;
+		}
+		for (AbstractMenuItemCustomization menuItemCustomization : fromContainer
+				.getItemCustomizations()) {
+			if (menuItemCustomization instanceof IMenuItemContainerCustomization) {
+				DefaultMenuElementPosition result = getMenuElementPosition(
+						(IMenuItemContainerCustomization) menuItemCustomization, elementContainer);
+				if (result != null) {
+					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
+					return result;
+				}
+			}
+		}
+		if (fromContainer instanceof MenuCustomization) {
+			for (MenuItemCategoryCustomization menuItemCategoryCustomization : ((MenuCustomization) fromContainer)
+					.getItemCategoryCustomizations()) {
+				DefaultMenuElementPosition result = getMenuElementPosition(menuItemCategoryCustomization,
+						elementContainer);
+				if (result != null) {
+					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static List<IMenuItemContainerCustomization> getAllMenuItemContainerCustomizations(
+			TypeCustomization tc) {
+		List<IMenuItemContainerCustomization> result = new ArrayList<IMenuItemContainerCustomization>();
+		for (IMenuElementCustomization rootMenuElementCustomization : tc.getMenuModelCustomization()
+				.getMenuCustomizations()) {
+			if (rootMenuElementCustomization instanceof IMenuItemContainerCustomization) {
+				result.addAll(getAllMenuItemContainerCustomizations(
+						(IMenuItemContainerCustomization) rootMenuElementCustomization));
+			}
+		}
+		return result;
+	}
+
+	public static List<IMenuItemContainerCustomization> getAllMenuItemContainerCustomizations(
+			IMenuItemContainerCustomization from) {
+		List<IMenuItemContainerCustomization> result = new ArrayList<IMenuItemContainerCustomization>();
+		result.add(from);
+		for (AbstractMenuItemCustomization item : from.getItemCustomizations()) {
+			if (item instanceof IMenuItemContainerInfo) {
+				result.addAll(getAllMenuItemContainerCustomizations(
+						(IMenuItemContainerCustomization) item));
+			}
+		}
+		if (from instanceof MenuCustomization) {
+			for (MenuItemCategoryCustomization item : ((MenuCustomization) from)
+					.getItemCategoryCustomizations()) {
+				result.addAll(getAllMenuItemContainerCustomizations(item));
+			}
+		}
+		return result;
+	}
+
+	public static List<String> getMemberCategoryCaptionOptions(InfoCustomizations infoCustomizations,
+			AbstractMemberCustomization m) {
+		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
+		List<String> result = new ArrayList<String>();
+		for (CustomizationCategory c : tc.getMemberCategories()) {
+			result.add(c.getCaption());
+		}
+		return result;
+	}
+
+	public static TypeCustomization findParentTypeCustomization(
+			InfoCustomizations infoCustomizations, AbstractMemberCustomization memberCustumization) {
+		for (TypeCustomization tc : getTypeCustomizationsPlusMemberSpecificities(
+				infoCustomizations)) {
+			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
+				if (fc == memberCustumization) {
+					return tc;
+				}
+			}
+			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
+				if (mc == memberCustumization) {
+					return tc;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static List<TypeCustomization> getTypeCustomizationsPlusMemberSpecificities(
+			InfoCustomizations infoCustomizations) {
+		List<TypeCustomization> result = new ArrayList<TypeCustomization>();
+		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
+			result.add(tc);
+			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
+				result.addAll(getTypeCustomizationsPlusMemberSpecificities(fc.getSpecificTypeCustomizations()));
+			}
+			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
+				result.addAll(
+						getTypeCustomizationsPlusMemberSpecificities(mc.getSpecificReturnValueTypeCustomizations()));
+			}
+		}
+		return result;
+	}
+
+	public static boolean areInfoCustomizationsCreatedIfNotFound() {
+		return SystemProperties.areInfoCustomizationsCreatedIfNotFound();
+	}
+
+	public static ParameterCustomization getParameterCustomization(
+			MethodCustomization m, String paramName) {
+		return getParameterCustomization(m, paramName, areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static ParameterCustomization getParameterCustomization(
+			MethodCustomization m, String paramName, boolean createIfNotFound) {
+		if (m != null) {
+			for (ParameterCustomization p : m.getParametersCustomizations()) {
+				if (paramName.equals(p.getParameterName())) {
+					return p;
+				}
+			}
+			if (createIfNotFound) {
+				ParameterCustomization p = new ParameterCustomization();
+				p.setParameterName(paramName);
+				m.getParametersCustomizations().add(p);
+				return p;
+			}
+		}
+		return null;
+	}
+
+	public static FieldCustomization getFieldCustomization(TypeCustomization t,
+			String fieldName) {
+		return getFieldCustomization(t, fieldName, areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static FieldCustomization getFieldCustomization(TypeCustomization t,
+			String fieldName, boolean createIfNotFound) {
+		if (t != null) {
+			for (FieldCustomization f : t.getFieldsCustomizations()) {
+				if (fieldName.equals(f.getFieldName())) {
+					return f;
+				}
+			}
+			if (createIfNotFound) {
+				FieldCustomization f = new FieldCustomization();
+				f.setFieldName(fieldName);
+				t.getFieldsCustomizations().add(f);
+				return f;
+			}
+		}
+		return null;
+	}
+
+	public static MethodCustomization getMethodCustomization(TypeCustomization t,
+			String methodSignature) {
+		return getMethodCustomization(t, methodSignature, areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static MethodCustomization getMethodCustomization(TypeCustomization t,
+			String methodSignature, boolean createIfNotFound) {
+		if (t != null) {
+			for (MethodCustomization m : t.getMethodsCustomizations()) {
+				if (methodSignature.equals(m.getMethodSignature())) {
+					return m;
+				}
+			}
+			if (createIfNotFound) {
+				MethodCustomization m = new MethodCustomization();
+				m.setMethodSignature(methodSignature);
+				t.getMethodsCustomizations().add(m);
+				return m;
+			}
+		}
+		return null;
+	}
+
+	public static TypeCustomization getTypeCustomization(InfoCustomizations infoCustomizations,
+			String typeName) {
+		return getTypeCustomization(infoCustomizations, typeName, areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static TypeCustomization getTypeCustomization(InfoCustomizations infoCustomizations,
+			String typeName, boolean createIfNotFound) {
+		for (TypeCustomization t : infoCustomizations.getTypeCustomizations()) {
+			if (typeName.equals(t.getTypeName())) {
+				return t;
+			}
+		}
+		if (createIfNotFound) {
+			TypeCustomization t = new TypeCustomization();
+			t.setTypeName(typeName);
+			infoCustomizations.getTypeCustomizations().add(t);
+			return t;
+		}
+		return null;
+	}
+
+	public static ListCustomization getListCustomization(InfoCustomizations infoCustomizations,
+			String listTypeName, String itemTypeName) {
+		return getListCustomization(infoCustomizations, listTypeName, itemTypeName,
+				areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static ListCustomization getListCustomization(InfoCustomizations infoCustomizations,
+			String listTypeName, String itemTypeName, boolean createIfNotFound) {
+		for (ListCustomization l : infoCustomizations.getListCustomizations()) {
+			if (listTypeName.equals(l.getListTypeName())) {
+				if (ReflectionUIUtils.equalsOrBothNull(l.getItemTypeName(), itemTypeName)) {
+					return l;
+				}
+			}
+		}
+		if (createIfNotFound) {
+			ListCustomization l = new ListCustomization();
+			l.setListTypeName(listTypeName);
+			l.setItemTypeName(itemTypeName);
+			infoCustomizations.getListCustomizations().add(l);
+			return l;
+		}
+		return null;
+	}
+
+	public static ColumnCustomization getColumnCustomization(ListCustomization l,
+			String columnName) {
+		return getColumnCustomization(l, columnName, areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static ColumnCustomization getColumnCustomization(ListCustomization l,
+			String columnName, boolean createIfNotFound) {
+		for (ColumnCustomization c : l.getColumnCustomizations()) {
+			if (columnName.equals(c.getColumnName())) {
+				return c;
+			}
+		}
+		if (createIfNotFound) {
+			ColumnCustomization c = new ColumnCustomization();
+			c.setColumnName(columnName);
+			l.getColumnCustomizations().add(c);
+			return c;
+		}
+		return null;
+	}
+
+	public static EnumerationItemCustomization getEnumerationItemCustomization(
+			EnumerationCustomization e, String enumItemName) {
+		return getEnumerationItemCustomization(e, enumItemName, areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static EnumerationItemCustomization getEnumerationItemCustomization(
+			EnumerationCustomization e, String enumItemName, boolean createIfNotFound) {
+		for (EnumerationItemCustomization i : e.getItemCustomizations()) {
+			if (enumItemName.equals(i.getItemName())) {
+				return i;
+			}
+		}
+		if (createIfNotFound) {
+			EnumerationItemCustomization i = new EnumerationItemCustomization();
+			i.setItemName(enumItemName);
+			e.getItemCustomizations().add(i);
+			return i;
+		}
+		return null;
+	}
+
+	public static EnumerationCustomization getEnumerationCustomization(
+			InfoCustomizations infoCustomizations, String enumTypeName) {
+		return getEnumerationCustomization(infoCustomizations, enumTypeName, areInfoCustomizationsCreatedIfNotFound());
+	}
+
+	public static EnumerationCustomization getEnumerationCustomization(
+			InfoCustomizations infoCustomizations, String enumTypeName, boolean createIfNotFound) {
+		for (EnumerationCustomization e : infoCustomizations.getEnumerationCustomizations()) {
+			if (enumTypeName.equals(e.getEnumerationTypeName())) {
+				return e;
+			}
+		}
+		if (createIfNotFound) {
+			EnumerationCustomization e = new EnumerationCustomization();
+			e.setEnumerationTypeName(enumTypeName);
+			infoCustomizations.getEnumerationCustomizations().add(e);
+			return e;
+		}
+		return null;
+	}
+
+	public static <I extends IInfo> List<String> getInfosOrderAfterMove(List<I> list, I info, int offset) {
+		int infoIndex = list.indexOf(info);
+		int newInfoIndex = -1;
+		int offsetSign = ((offset > 0) ? 1 : -1);
+		InfoCategory infoCategory = ReflectionUIUtils.getCategory(info);
+		int currentInfoIndex = infoIndex;
+		for (int iOffset = 0; iOffset != offset; iOffset = iOffset + offsetSign) {
+			int nextSameCategoryInfoIndex = -1;
+			while (true) {
+				currentInfoIndex += offsetSign;
+				if ((offsetSign == -1) && (currentInfoIndex == -1)) {
+					break;
+				}
+				if ((offsetSign == 1) && (currentInfoIndex == list.size())) {
+					break;
+				}
+				I otherInfo = list.get(currentInfoIndex);
+				if ((otherInfo instanceof IFieldInfo)) {
+					if (((IFieldInfo) otherInfo).isHidden()) {
+						continue;
+					}
+				}
+				if ((otherInfo instanceof IMethodInfo)) {
+					if (((IMethodInfo) otherInfo).isHidden()) {
+						continue;
+					}
+				}
+				if ((otherInfo instanceof IParameterInfo)) {
+					if (((IParameterInfo) otherInfo).isHidden()) {
+						continue;
+					}
+				}
+				InfoCategory otherInfoCategory = ReflectionUIUtils.getCategory(otherInfo);
+				if (ReflectionUIUtils.equalsOrBothNull(infoCategory, otherInfoCategory)) {
+					nextSameCategoryInfoIndex = currentInfoIndex;
+					break;
+				}
+			}
+			if (nextSameCategoryInfoIndex == -1) {
+				break;
+			} else {
+				newInfoIndex = nextSameCategoryInfoIndex;
+			}
+		}
+	
+		if (newInfoIndex == -1) {
+			throw new ReflectionUIError("Cannot move item: Limit reached");
+		}
+	
+		List<I> resultList = new ArrayList<I>(list);
+		resultList.remove(info);
+		resultList.add(newInfoIndex, info);
+	
+		ArrayList<String> newOrder = new ArrayList<String>();
+		for (I info2 : resultList) {
+			String name = info2.getName();
+			if (name == null) {
+				throw new ReflectionUIError("Cannot move item: 'getName()' method returned <null> for item n°"
+						+ (list.indexOf(info2) + 1) + " (caption='" + info2.getCaption() + "')");
+			}
+			newOrder.add(name);
+		}
+		return newOrder;
+	}
+
 	public static abstract class AbstractCustomization implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		public boolean isInitial() {
 			try {
-				return isSimilar(this, getClass().newInstance());
+				return InfoCustomizations.isSimilar(this, getClass().newInstance());
 			} catch (Exception e) {
 				throw new ReflectionUIError(e);
 			}
@@ -1496,7 +1505,7 @@ public class InfoCustomizations implements Serializable {
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
-			return isSimilar(this, defaultTypeCustomization, "typeName");
+			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
 		}
 
 		public String getSavingMethodName() {
@@ -2476,7 +2485,7 @@ public class InfoCustomizations implements Serializable {
 		public boolean isInitial() {
 			FieldCustomization defaultFieldCustomization = new FieldCustomization();
 			defaultFieldCustomization.fieldName = fieldName;
-			return isSimilar(this, defaultFieldCustomization);
+			return InfoCustomizations.isSimilar(this, defaultFieldCustomization);
 		}
 
 		public Double getDisplayAreaHorizontalWeight() {
@@ -2832,7 +2841,7 @@ public class InfoCustomizations implements Serializable {
 		public boolean isInitial() {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
-			return isSimilar(this, defaultMethodCustomization);
+			return InfoCustomizations.isSimilar(this, defaultMethodCustomization);
 		}
 
 		public String getParametersValidationCustomCaption() {
@@ -3426,7 +3435,7 @@ public class InfoCustomizations implements Serializable {
 		public boolean isInitial() {
 			EnumerationItemCustomization defaultEnumerationItemCustomization = new EnumerationItemCustomization();
 			defaultEnumerationItemCustomization.itemName = itemName;
-			return isSimilar(this, defaultEnumerationItemCustomization);
+			return InfoCustomizations.isSimilar(this, defaultEnumerationItemCustomization);
 
 		}
 
@@ -3512,7 +3521,7 @@ public class InfoCustomizations implements Serializable {
 		public boolean isInitial() {
 			EnumerationCustomization defaultEnumerationCustomization = new EnumerationCustomization();
 			defaultEnumerationCustomization.enumerationTypeName = enumerationTypeName;
-			return isSimilar(this, defaultEnumerationCustomization);
+			return InfoCustomizations.isSimilar(this, defaultEnumerationCustomization);
 		}
 
 		public String getEnumerationTypeName() {
@@ -3663,7 +3672,7 @@ public class InfoCustomizations implements Serializable {
 			ListCustomization defaultListCustomization = new ListCustomization();
 			defaultListCustomization.listTypeName = listTypeName;
 			defaultListCustomization.itemTypeName = itemTypeName;
-			return isSimilar(this, defaultListCustomization);
+			return InfoCustomizations.isSimilar(this, defaultListCustomization);
 		}
 
 		public ListLenghtCustomization getLength() {
@@ -3925,7 +3934,7 @@ public class InfoCustomizations implements Serializable {
 		public boolean isInitial() {
 			ColumnCustomization defaultColumnCustomization = new ColumnCustomization();
 			defaultColumnCustomization.columnName = columnName;
-			return isSimilar(this, defaultColumnCustomization);
+			return InfoCustomizations.isSimilar(this, defaultColumnCustomization);
 		}
 
 		public String getColumnName() {
