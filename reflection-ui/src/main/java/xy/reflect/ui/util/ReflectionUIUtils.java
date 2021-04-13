@@ -65,6 +65,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -733,7 +734,32 @@ public class ReflectionUIUtils {
 					"Failed to create a default instance of type '" + type.getName() + "': " + t.toString(), t);
 
 		}
+	}
 
+	public static boolean canCreateDefaultInstance(ITypeInfo type, Object parentObject,
+			boolean subTypeInstanceAllowed) {
+		if (!type.isConcrete()) {
+			if (subTypeInstanceAllowed) {
+				if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
+					List<ITypeInfo> subTypes = type.getPolymorphicInstanceSubTypes();
+					for (ITypeInfo subType : subTypes) {
+						return canCreateDefaultInstance(subType, parentObject, true);
+					}
+				}
+			}
+			return false;
+		}
+
+		IMethodInfo zeroParamConstructor = getZeroParameterMethod(type.getConstructors());
+		if (zeroParamConstructor != null) {
+			return true;
+		}
+		for (IMethodInfo constructor : type.getConstructors()) {
+			if (ReflectionUIUtils.areAllDefaultValuesProvided(parentObject, constructor.getParameters())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static <T extends IInfo> Comparator<T> getInfosComparator(final List<String> expectedOrderSpecification,
@@ -1310,6 +1336,16 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		return (Serializable) ReflectionUIUtils.deserializeFromHexaText(text);
+	}
+
+	public static InfoCategory getCategory(IInfo info) {
+		if (info instanceof IFieldInfo) {
+			return ((IFieldInfo) info).getCategory();
+		} else if (info instanceof IMethodInfo) {
+			return ((IMethodInfo) info).getCategory();
+		} else {
+			return null;
+		}
 	}
 
 }
