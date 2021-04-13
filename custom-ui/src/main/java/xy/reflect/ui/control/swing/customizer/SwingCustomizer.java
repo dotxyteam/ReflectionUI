@@ -62,6 +62,14 @@ import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.component.ControlPanel;
 
+/**
+ * This class is a sub-class of {@link SwingRenderer} allowing to visually edit
+ * {@link InfoCustomizations} (save, load, undo, redo, ...) and instantly
+ * preview the result.
+ * 
+ * @author olitank
+ *
+ */
 public class SwingCustomizer extends CustomizedSwingRenderer {
 
 	public static void main(String[] args) throws Exception {
@@ -90,6 +98,10 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		SwingCustomizer.getDefault().openObjectFrame(object);
 	}
 
+	/**
+	 * An {@link ITypeInfo} specific property key used to disable customization
+	 * tools on forms associated to this {@link ITypeInfo} instances.
+	 */
 	public static final String CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY = SwingRenderer.class.getName()
 			+ ".CUSTOMIZATIONS_FORBIDDEN";
 
@@ -100,6 +112,9 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	protected CustomizationController customizationController;
 	protected String infoCustomizationsOutputFilePath;
 
+	/**
+	 * @return the default instance connected to {@link CustomizedUI#getDefault()}.
+	 */
 	public static SwingCustomizer getDefault() {
 		if (defaultInstance == null) {
 			defaultInstance = new SwingCustomizer(CustomizedUI.getDefault());
@@ -107,6 +122,15 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		return defaultInstance;
 	}
 
+	/**
+	 * A constructor allowing to specify the {@link CustomizedUI} instance and the
+	 * path of the customizations file.
+	 * 
+	 * @param customizedUI                     The {@link CustomizedUI} instance to
+	 *                                         use.
+	 * @param infoCustomizationsOutputFilePath The path of the customizations file
+	 *                                         to use.
+	 */
 	public SwingCustomizer(CustomizedUI customizedUI, String infoCustomizationsOutputFilePath) {
 		super(customizedUI);
 		if (infoCustomizationsOutputFilePath != null) {
@@ -132,51 +156,66 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		this.customizationController = createCustomizationController();
 	}
 
+	/**
+	 * A constructor allowing to specify the {@link CustomizedUI} instance. The path
+	 * of the customizations file will be
+	 * {@link SystemProperties#getDefaultInfoCustomizationsFilePath()}.
+	 * 
+	 * @param customizedUI The {@link CustomizedUI} instance to use.
+	 */
 	public SwingCustomizer(CustomizedUI customizedUI) {
 		this(customizedUI, SystemProperties.getDefaultInfoCustomizationsFilePath());
 	}
 
+	/**
+	 * @return the path of the customizations file.
+	 */
 	public String getInfoCustomizationsOutputFilePath() {
 		return infoCustomizationsOutputFilePath;
 	}
 
-	public CustomizationController createCustomizationController() {
-		return new CustomizationController(this);
-	}
-
-	public CustomizationOptions createCustomizationOptions() {
-		return new CustomizationOptions(this);
-	}
-
-	public CustomizationTools createCustomizationTools() {
-		return new CustomizationTools(this);
-	}
-
+	/**
+	 * @return the {@link CustomizationTools} instance that is used.
+	 */
 	public CustomizationTools getCustomizationTools() {
 		return customizationTools;
 	}
 
+	/**
+	 * @return the {@link CustomizationOptions} instance that is used.
+	 */
 	public CustomizationOptions getCustomizationOptions() {
 		return customizationOptions;
 	}
 
+	/**
+	 * @return the {@link CustomizationController} instance that is used.
+	 */
 	public CustomizationController getCustomizationController() {
 		return customizationController;
 	}
 
-	@Override
-	public CustomizingForm createForm(Object object, IInfoFilter infoFilter) {
-		return new CustomizingForm(this, object, infoFilter);
-	}
-
+	/**
+	 * @return whether customizations are enabled or not. Customizations are
+	 *         disabled if the customizations file path is not defined (null) or if
+	 *         the {@link MoreSystemProperties#HIDE_INFO_CUSTOMIZATIONS_TOOLS}
+	 *         property is set to "true".
+	 */
 	public boolean isCustomizationsEditorEnabled() {
 		return (infoCustomizationsOutputFilePath != null) && !MoreSystemProperties.areCustomizationToolsDisabled();
 	}
 
+	/**
+	 * @return the main customization tools icon.
+	 */
 	public ImageIcon getCustomizationsIcon() {
 		return SwingCustomizerUtils.CUSTOMIZATION_ICON;
 	}
 
+	/**
+	 * @param object
+	 * @return whether customizations are enabled for the specified object or not.
+	 */
 	public boolean areCustomizationsEditable(Object object) {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (!isCustomizationsEditorEnabled()) {
@@ -193,6 +232,23 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			return false;
 		}
 		return true;
+	}
+
+	protected CustomizationController createCustomizationController() {
+		return new CustomizationController(this);
+	}
+
+	protected CustomizationOptions createCustomizationOptions() {
+		return new CustomizationOptions(this);
+	}
+
+	protected CustomizationTools createCustomizationTools() {
+		return new CustomizationTools(this);
+	}
+
+	@Override
+	public CustomizingForm createForm(Object object, IInfoFilter infoFilter) {
+		return new CustomizingForm(this, object, infoFilter);
 	}
 
 	public class CustomizingForm extends Form {
@@ -222,6 +278,9 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			}
 		}
 
+		/**
+		 * @return whether customization tools are installed on the form or not.
+		 */
 		public boolean isToolsAdded() {
 			return toolsAdded;
 		}
@@ -294,6 +353,5 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		}
 
 	}
-
 
 }
