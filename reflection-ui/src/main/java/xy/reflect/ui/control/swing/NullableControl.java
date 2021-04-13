@@ -307,7 +307,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return data.getType().getSource();
 			}
 

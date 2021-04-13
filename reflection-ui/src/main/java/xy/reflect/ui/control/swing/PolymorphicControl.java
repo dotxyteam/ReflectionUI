@@ -172,7 +172,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return typeOptionsFactory.getInstanceTypeInfoSource(null);
 			}
 
@@ -323,7 +323,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return instanceType.getSource();
 			}
 
