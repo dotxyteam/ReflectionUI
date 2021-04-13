@@ -260,7 +260,7 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return data.getReturnValueType().getSource();
 			}
 
