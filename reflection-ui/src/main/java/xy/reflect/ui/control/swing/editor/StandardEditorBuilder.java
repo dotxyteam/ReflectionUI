@@ -121,7 +121,7 @@ public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 	}
 
 	@Override
-	public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+	public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 		return null;
 	}
 
