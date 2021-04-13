@@ -51,7 +51,7 @@ public interface IAdvancedFieldControl {
 	 *            Whether the current control should update its structure to reflect
 	 *            the recent meta-data change. Mainly used in design mode.
 	 * @return whether the current control successfully updated its state. If false
-	 *         is returned then the framework recreate the control.
+	 *         is returned then the framework should recreate the control.
 	 */
 	boolean refreshUI(boolean refreshStructure);
 
