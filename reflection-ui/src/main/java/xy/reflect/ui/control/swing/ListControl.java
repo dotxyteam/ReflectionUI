@@ -102,9 +102,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.AbstractDelegatingInfoFilter;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
@@ -1052,6 +1050,46 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	public void expandItemPosition(BufferedItemPosition itemPosition) {
+		ItemNode node = findNode(itemPosition);
+		if(node == null) {
+			return;
+		}
+		TreePath treePath = new TreePath(node.getPath());
+		treeTableComponent.expandPath(treePath);
+	}
+
+	public void collapseItemPosition(BufferedItemPosition itemPosition) {
+		ItemNode node = findNode(itemPosition);
+		if(node == null) {
+			return;
+		}
+		TreePath treePath = new TreePath(node.getPath());
+		treeTableComponent.collapsePath(treePath);
+	}
+
+	public void collapseAllItemPositions() {
+		treeTableComponent.collapseAll();
+	}
+
+	public List<BufferedItemPosition> getExpandedItemPositions(BufferedItemPosition parentItemPosition) {
+		List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
+		ItemNode parentNode = (parentItemPosition != null) ? findNode(parentItemPosition) : rootNode;
+		Enumeration<?> expandedPaths = treeTableComponent.getExpandedDescendants(new TreePath(parentNode));
+		if (expandedPaths != null) {
+			while (expandedPaths.hasMoreElements()) {
+				TreePath treePath = (TreePath) expandedPaths.nextElement();
+				ItemNode node = (ItemNode) treePath.getLastPathComponent();
+				if (node == rootNode) {
+					continue;
+				}
+				BufferedItemPosition itemPosition = findItemPositionByNode(node);
+				result.add(itemPosition);
+			}
+		}
+		return result;
+	}
+
 	protected ItemNode findNode(BufferedItemPosition itemPosition) {
 		ItemNode parentNode;
 		if (itemPosition.isRoot()) {
@@ -1126,19 +1164,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected boolean isDialogDisplayedOnItemCreation(BufferedItemPosition newItemPosition) {
 		IListTypeInfo listType = newItemPosition.getContainingListType();
 		ITypeInfo typeToInstanciate = listType.getItemType();
+		if (typeToInstanciate == null) {
+			typeToInstanciate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+		}
 		if (listType.isItemConstructorSelectable()) {
-			if (typeToInstanciate != null) {
-				if (typeToInstanciate.getConstructors().size() > 1) {
-					return true;
-				}
-				if (typeToInstanciate.getConstructors().size() == 1) {
-					IMethodInfo ctor = typeToInstanciate.getConstructors().get(0);
-					if (ctor.getParameters().size() > 0) {
-						return true;
-					}
-				}
-			}
-
+			return ReflectionUIUtils.canCreateDefaultInstance(typeToInstanciate, null, true);
 		} else {
 			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				return true;
@@ -1167,8 +1197,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		ITypeInfo typeToInstanciate = listType.getItemType();
 		if (typeToInstanciate == null) {
-			typeToInstanciate = new DefaultTypeInfo(swingRenderer.getReflectionUI(),
-					new JavaTypeInfoSource(Object.class, null));
+			typeToInstanciate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 		}
 		return listData.createValue(typeToInstanciate, listType.isItemConstructorSelectable());
 	}
@@ -1292,11 +1321,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 			SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
-			scrollUntilVisible(detailsControlItemPosition);
+			scrollTo(detailsControlItemPosition);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					scrollUntilVisible(detailsControlItemPosition);
+					scrollTo(detailsControlItemPosition);
 				}
 			});
 		}
@@ -1306,16 +1335,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(detailsControl, true, false));
 		SwingRendererUtils.removeScrollPaneBorder(result);
 		return result;
-	}
-
-	public void scrollUntilVisible(BufferedItemPosition itemPosition) {
-		ItemNode node = findNode(itemPosition);
-		if (node == null) {
-			return;
-		}
-		TreePath treePath = new TreePath(node.getPath());
-		int row = treeTableComponent.getRowForPath(treePath);
-		treeTableComponent.scrollRowToVisible(row);
 	}
 
 	protected void openDetailsDialogOnItemDoubleClick() {
@@ -1567,29 +1586,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void restoringExpandedPathsAsMuchAsPossible(Runnable runnable) {
-		List<BufferedItemPosition> wereExpanded = new ArrayList<BufferedItemPosition>();
-		{
-			Enumeration<?> expandedPaths = treeTableComponent.getExpandedDescendants(new TreePath(rootNode));
-			if (expandedPaths != null) {
-				while (expandedPaths.hasMoreElements()) {
-					TreePath treePath = (TreePath) expandedPaths.nextElement();
-					ItemNode node = (ItemNode) treePath.getLastPathComponent();
-					if (node == rootNode) {
-						continue;
-					}
-					BufferedItemPosition itemPosition = findItemPositionByNode(node);
-					wereExpanded.add(itemPosition);
-				}
-			}
-		}
+		List<BufferedItemPosition> wereExpanded = getExpandedItemPositions(null);
 
 		runnable.run();
 
-		treeTableComponent.collapseAll();
+		collapseAllItemPositions();
 		for (BufferedItemPosition wasExpanded : wereExpanded) {
-			ItemNode node = findNode(wasExpanded);
-			TreePath treePath = new TreePath(node.getPath());
-			treeTableComponent.expandPath(treePath);
+			expandItemPosition(wasExpanded);
 		}
 	}
 
@@ -2034,7 +2037,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+		public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 			ITypeInfo itemType = bufferedItemPosition.getContainingListType().getItemType();
 			if (itemType != null) {
 				return itemType.getSource();
@@ -2099,7 +2102,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected boolean prepare() {
 			newSubItemPosition = getNewSubItemPosition();
 			subListType = newSubItemPosition.getContainingListType();
-			newSubListItem = createItem(getNewSubItemPosition());
+			newSubListItem = createItem(newSubItemPosition);
 			if (newSubListItem == null) {
 				return false;
 			}
@@ -2459,7 +2462,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			List<BufferedItemPosition> newSelection = new ArrayList<BufferedItemPosition>();
 			for (BufferedItemPosition itemPosition : selection) {
-				treeTableComponent.collapsePath(new TreePath(findNode(itemPosition).getPath()));
 				int index = itemPosition.getIndex();
 				getModificationStack().apply(createListModificationFactory(itemPosition).move(index, offset));
 				newSelection.add(itemPosition.getSibling(index + offset));
@@ -2472,9 +2474,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			BufferedItemPosition first = selection.get(0);
 			for (int i = 0; i < first.getContainingListSize(); i++) {
 				BufferedItemPosition itemPosition = first.getSibling(i);
-				ItemNode node = findNode(itemPosition);
-				TreePath treePath = new TreePath(node.getPath());
-				treeTableComponent.collapsePath(treePath);
+				collapseItemPosition(itemPosition);
 			}
 		}
 
@@ -2894,7 +2894,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				public ITypeInfoSource getDeclaredNonSpecificTypeInfoSource() {
+				public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 					return dynamicProperty.getType().getSource();
 				}
 
