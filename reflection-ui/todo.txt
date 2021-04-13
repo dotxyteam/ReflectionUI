@@ -12,37 +12,15 @@ Eg: fields always gets refreshed on any update whether they are calculated
 or not. Think about it. 
 - factories get constantly recreated uselessly from CustomizedUI.
 There's then a room for optimization.
-- ListControl.isDialogDisplayedOnItemCreation(BufferedItemPosition) does not take
-sub-types into account. Maybe a part of it should be coded next to 
-SwingRenderer.onTypeInstanciationRequest(Component, ITypeInfo, Object)
-- StandardMapEntry(string, int) default constructor not found. Not normal
-since default values for these parameters are available by default.
-- list item constructor parameter default value customization not taken into account until
-restart.
-form.refresh() calls reflectionUI.getTypeInfo() that ensures that the
-customizations layer gets refreshed for the form members. But for the
-lists or enumerations, etc which are not forms reflectionUI.getTypeInfo()
-is not called. But most of the time it is not needed since lists or enums
-do not have members. The problem is that there are some types like list item
-types that do not get their customizations layer refreshed since
-reflectionUI.getTypeInfo() is re-called for them. The solution is either to
-disable the members customizations cache or to refresh it on each customization
-so that members that do not benefit from a reflectionUI.getTypeInfo() get
-refreshed too. 
 - DefaultParameterInfo.getDefaultValue(Object) return a value for primitive
 types. Not sure it is a good idea to provide a default value without the
 user acceptance.
 - AbstractEditorFormBuilder.getEncapsulatedFieldNonSpecificTypeSource():
-the type source should non-specific but it often is.
+the type source should be non-specific but it often is.
 Check if it is really necessary that it be non-specific and adjust.
-- date picker is difficult to use: cannot choose year
 - BufferedItemPosition.getSubItemPosition(int) is required to clear its
 result buffer because the clone() method copies it. Maybe it would be better
 to have a custom clone() method (not the built-in one).
-- ListControl.getItemTitle(BufferedItemPosition): for each call it creates an 
-ItemUIBuilber that clears the buffer of the ItemPosition. May cause
-several issues among performance issues.
-- remove "debug" code
 - StandardMapAsListTypeInfo.isOrdered(): may need to always return true and
 be able to adjust from the customizations since everything is possible.
 Maybe the return value can be set for standard implementations by 
@@ -52,10 +30,9 @@ do whatever it wants.
 but the selection is not updated 
 - ReflectionUIUtils.(setFieldValue|invokeMethod)ThroughModificationStack():
 when the ModificationStack.apply() fails then the error is caught and
-ModificationStack.invalidate() is called and fails too often because
-of the same commitModification issue. Find a solution to not cause the same error twice.
-- Fake modifications tend to fill uselessly the modification stack thus
-invalidating it. Find a solution.
+ModificationStack.invalidate() is called and fails too (often) because
+of the same commitModification issue. Find a solution to not cause the 
+same error twice.
 - DialogAccessControl.openDialog(Component) calls refreshUI(). Is this really needed
 since when an impact is detected the whole dialog gets refreshed ?
 - Form.recreateControlPlaceHoldersIfNeeded() should not create controls (only place holders)
