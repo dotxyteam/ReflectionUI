@@ -47,6 +47,7 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import xy.reflect.ui.util.ImageIcon;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
