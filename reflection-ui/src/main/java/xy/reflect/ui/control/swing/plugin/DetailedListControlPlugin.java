@@ -255,6 +255,23 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
+		public void expandItemPosition(BufferedItemPosition itemPosition) {
+		}
+
+		@Override
+		public void collapseItemPosition(BufferedItemPosition itemPosition) {
+		}
+
+		@Override
+		public void collapseAllItemPositions() {
+		}
+
+		@Override
+		public List<BufferedItemPosition> getExpandedItemPositions(BufferedItemPosition parentItemPosition) {
+			return Collections.emptyList();
+		}
+
+		@Override
 		protected void setupContexteMenu() {
 		}
 
@@ -296,11 +313,6 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {
-			throw new ReflectionUIError();
-		}
-
-		@Override
-		public void scrollUntilVisible(BufferedItemPosition itemPosition) {
 			throw new ReflectionUIError();
 		}
 
