@@ -1,3 +1,8 @@
+- method action encapsulates the return value even when it is detached.
+It makes loose global customization done on the returned object type (online help, ...).
+Fix.
+- Use html control to display online help.
+- Dialog icons seem to not show. Investigate.
 - date(-time) picer controls remove selection on delayed commit.
 - list customization (more options/item/open item shared type) does not allow
 to view item type "Object". One may want to add sub-types to the Object type.
