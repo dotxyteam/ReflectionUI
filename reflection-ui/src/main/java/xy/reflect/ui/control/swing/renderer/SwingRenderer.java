@@ -70,9 +70,10 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.swing.DialogBuilder;
 import xy.reflect.ui.control.swing.MethodAction;
+import xy.reflect.ui.control.swing.editor.DialogBuilder;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.control.swing.editor.WindowManager;
 import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
 import xy.reflect.ui.control.swing.plugin.CustomCheckBoxPlugin;
 import xy.reflect.ui.control.swing.plugin.DatePickerPlugin;
@@ -817,28 +818,7 @@ public class SwingRenderer {
 	}
 
 	public DialogBuilder getDialogBuilder(Component activatorComponent) {
-		DialogBuilder dialogBuilder = new DialogBuilder(this, activatorComponent);
-		if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
-			dialogBuilder.setButtonBackgroundColor(
-					SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor()));
-		}
-
-		if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
-			dialogBuilder.setButtonForegroundColor(
-					SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor()));
-		}
-
-		if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
-			dialogBuilder.setButtonBorderColor(
-					SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor()));
-		}
-
-		if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
-			dialogBuilder.setButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
-					reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI)));
-		}
-		return dialogBuilder;
+		return new ApplicationDialogBuilder(activatorComponent);
 	}
 
 	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {
@@ -972,6 +952,34 @@ public class SwingRenderer {
 		} else {
 			return super.toString();
 		}
+	}
+
+	protected class ApplicationDialogBuilder extends DialogBuilder {
+
+		public ApplicationDialogBuilder(Component ownerComponent) {
+			super(SwingRenderer.this, ownerComponent);
+			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+				setButtonBackgroundColor(
+						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor()));
+			}
+
+			if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+				setButtonForegroundColor(
+						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor()));
+			}
+
+			if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
+				setButtonBorderColor(
+						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor()));
+			}
+
+			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+				setButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
+						reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+						ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+			}
+		}
+
 	}
 
 }

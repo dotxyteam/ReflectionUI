@@ -1,3 +1,4 @@
+- allow to select value options field.
 - dialog ok/cancel/close buttons are not styled when all other buttons are.
 - method action encapsulates the return value even when it is detached.
 It makes loose global customization done on the returned object type (online help, ...).

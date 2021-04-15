@@ -39,7 +39,7 @@ import javax.swing.JFrame;
 
 import org.jdesktop.swingx.StackLayout;
 
-import xy.reflect.ui.control.swing.renderer.WindowManager;
+import xy.reflect.ui.control.swing.editor.WindowManager;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.SwingRendererUtils;
