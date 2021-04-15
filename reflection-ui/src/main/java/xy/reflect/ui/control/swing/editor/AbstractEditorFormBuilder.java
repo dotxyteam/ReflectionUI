@@ -95,21 +95,21 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return the parent object modification stack or null (if there is no parent
 	 *         object).
 	 */
-	public abstract ModificationStack getParentModificationStack();
+	protected abstract ModificationStack getParentModificationStack();
 
 	/**
 	 * @return the title or the title prefix (in case of multiple modifications) of
 	 *         the modification(s) that will be communicated to the parent object
 	 *         modification stack or null (if there is no parent object).
 	 */
-	public abstract String getParentModificationTitle();
+	protected abstract String getParentModificationTitle();
 
 	/**
 	 * @return whether modifications of the target value/object can be committed
 	 *         (using the result of {@link #createCommittingModification(Object)})
 	 *         to make them real for the parent object.
 	 */
-	public abstract boolean canCommitToParent();
+	protected abstract boolean canCommitToParent();
 
 	/**
 	 * @param newObjectValue
@@ -118,7 +118,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         primitive field values would need to be committed (set back) to their
 	 *         parent object after modification.
 	 */
-	public abstract IModification createCommittingModification(Object newObjectValue);
+	protected abstract IModification createCommittingModification(Object newObjectValue);
 
 	/**
 	 * @return source of the declared type information that will be used to handle
@@ -126,36 +126,36 @@ public abstract class AbstractEditorFormBuilder {
 	 *         information source will be dynamically inferred from the target
 	 *         value/object.
 	 */
-	public abstract ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource();
+	protected abstract ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource();
 
 	/**
 	 * @return the return mode (from the parent object) of the target value/object
 	 *         (null can be returned if there is no parent object).
 	 */
-	public abstract ValueReturnMode getReturnModeFromParent();
+	protected abstract ValueReturnMode getReturnModeFromParent();
 
 	/**
 	 * @return true if and only if the null value can be set and then must be
 	 *         distinctly displayed.
 	 */
-	public abstract boolean isNullValueDistinct();
+	protected abstract boolean isNullValueDistinct();
 
 	/**
 	 * @return the initial target object/value.
 	 */
-	public abstract Object getInitialValue();
+	protected abstract Object getInitialValue();
 
 	/**
 	 * @return an object that will be used to uniquely name the capsule type (or
 	 *         null).
 	 */
-	public abstract IContext getContext();
+	protected abstract IContext getContext();
 
 	/**
 	 * @return an secondary object that will be used to uniquely name the capsule
 	 *         type (or null).
 	 */
-	public abstract IContext getSubContext();
+	protected abstract IContext getSubContext();
 
 	/**
 	 * Ensures that the initial target value/object has been acquired.
@@ -226,7 +226,7 @@ public abstract class AbstractEditorFormBuilder {
 	/**
 	 * @return the name of the capsule type.
 	 */
-	public String getCapsuleTypeName() {
+	protected String getCapsuleTypeName() {
 		String contextDeclaraion;
 		{
 			IContext context = getContext();
@@ -268,8 +268,6 @@ public abstract class AbstractEditorFormBuilder {
 			}
 
 		};
-		result.setTypeModificationStackAccessible(isCapsuleTypeModificationStackAccessible());
-		result.setTypeCaption(getCapsuleTypeCaption());
 		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 		{
 			result.setTypeSpecificProperties(typeSpecificProperties);
@@ -290,7 +288,7 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return a form filter that will used (in case the target value/object is
 	 *         represented by a generic form control).
 	 */
-	public abstract IInfoFilter getEncapsulatedFormFilter();
+	protected abstract IInfoFilter getEncapsulatedFormFilter();
 
 	/**
 	 * @return whether the target object/value form is embedded in the editor
@@ -298,13 +296,13 @@ public abstract class AbstractEditorFormBuilder {
 	 *         impact in case the target value/object is not represented by a
 	 *         generic form control.
 	 */
-	public abstract boolean isEncapsulatedFormEmbedded();
+	protected abstract boolean isEncapsulatedFormEmbedded();
 
 	/**
 	 * @return true if the target value/object is forcibly displayed as a generic
 	 *         form (not a custom control).
 	 */
-	public boolean isCustomEncapsulatedControlForbidden() {
+	protected boolean isCustomEncapsulatedControlForbidden() {
 		return false;
 	}
 
@@ -353,18 +351,10 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return true if and only if the undo/redo/etc features should be made
-	 *         available typically when the capsule is the root of a window.
-	 */
-	protected boolean isCapsuleTypeModificationStackAccessible() {
-		return !isInReadOnlyMode();
-	}
-
-	/**
 	 * @return the caption of the encapsulated field that will return target
 	 *         value/object.
 	 */
-	public String getEncapsulatedFieldCaption() {
+	protected String getEncapsulatedFieldCaption() {
 		return "";
 	}
 
@@ -372,7 +362,7 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return the source of the type information that is used to qualify the
 	 *         encapsulated field that returns the target value/object.
 	 */
-	public ITypeInfoSource getEncapsulatedFieldTypeSource() {
+	protected ITypeInfoSource getEncapsulatedFieldTypeSource() {
 		ITypeInfoSource result = getEncapsulatedFieldDeclaredTypeSource();
 		if (result != null) {
 			return result;
@@ -382,13 +372,6 @@ public abstract class AbstractEditorFormBuilder {
 			return getSwingRenderer().getReflectionUI().getTypeInfoSource(initialObjectValue);
 		}
 		return new JavaTypeInfoSource(Object.class, null);
-	}
-
-	/**
-	 * @return the caption of the capsule type.
-	 */
-	public String getCapsuleTypeCaption() {
-		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getCaption();
 	}
 
 	/**

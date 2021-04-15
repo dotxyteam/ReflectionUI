@@ -101,7 +101,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			if (data.getCaption().length() > 0) {
 				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
 				if (data.getLabelForegroundColor() != null) {
-					((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+					((TitledBorder) getBorder())
+							.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 				}
 				if (data.getBorderColor() != null) {
 					((TitledBorder) getBorder()).setBorder(
@@ -147,42 +148,42 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		typeEnumerationControlBuilder = new AbstractEditorFormBuilder() {
 
 			@Override
-			public IContext getContext() {
+			protected IContext getContext() {
 				return input.getContext();
 			}
 
 			@Override
-			public IContext getSubContext() {
+			protected IContext getSubContext() {
 				return null;
 			}
 
 			@Override
-			public boolean isEncapsulatedFormEmbedded() {
+			protected boolean isEncapsulatedFormEmbedded() {
 				return false;
 			}
 
 			@Override
-			public boolean isNullValueDistinct() {
+			protected boolean isNullValueDistinct() {
 				return data.isNullValueDistinct();
 			}
 
 			@Override
-			public Object getInitialValue() {
+			protected Object getInitialValue() {
 				return typeOptionsFactory.getInstance(getCurrentSubType());
 			}
 
 			@Override
-			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return typeOptionsFactory.getInstanceTypeInfoSource(null);
 			}
 
 			@Override
-			public ValueReturnMode getReturnModeFromParent() {
+			protected ValueReturnMode getReturnModeFromParent() {
 				return ValueReturnMode.CALCULATED;
 			}
 
 			@Override
-			public boolean canCommitToParent() {
+			protected boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
@@ -192,7 +193,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public IModification createCommittingModification(final Object value) {
+			protected IModification createCommittingModification(final Object value) {
 				return new AbstractModificationProxy(IModification.NULL_MODIFICATION) {
 
 					@Override
@@ -221,17 +222,17 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public String getParentModificationTitle() {
+			protected String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getEncapsulatedFormFilter() {
+			protected IInfoFilter getEncapsulatedFormFilter() {
 				return IInfoFilter.DEFAULT;
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			protected ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
@@ -269,32 +270,32 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		dynamicControlBuilder = new AbstractEditorFormBuilder() {
 
 			@Override
-			public IContext getContext() {
+			protected IContext getContext() {
 				return input.getContext();
 			}
 
 			@Override
-			public IContext getSubContext() {
+			protected IContext getSubContext() {
 				return new CustomContext("PolymorphicInstance");
 			}
 
 			@Override
-			public boolean isEncapsulatedFormEmbedded() {
+			protected boolean isEncapsulatedFormEmbedded() {
 				return data.isFormControlEmbedded();
 			}
 
 			@Override
-			public boolean isNullValueDistinct() {
+			protected boolean isNullValueDistinct() {
 				return false;
 			}
 
 			@Override
-			public boolean canCommitToParent() {
+			protected boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createCommittingModification(Object newObjectValue) {
+			protected IModification createCommittingModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 
@@ -304,17 +305,17 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ValueReturnMode getReturnModeFromParent() {
+			protected ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public String getParentModificationTitle() {
+			protected String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getEncapsulatedFormFilter() {
+			protected IInfoFilter getEncapsulatedFormFilter() {
 				IInfoFilter result = data.getFormControlFilter();
 				if (result == null) {
 					result = IInfoFilter.DEFAULT;
@@ -323,17 +324,17 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return instanceType.getSource();
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			protected ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			public Object getInitialValue() {
+			protected Object getInitialValue() {
 				return currentInstance;
 			}
 

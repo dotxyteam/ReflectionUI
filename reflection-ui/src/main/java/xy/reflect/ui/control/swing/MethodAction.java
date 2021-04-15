@@ -204,36 +204,36 @@ public class MethodAction extends AbstractAction {
 		AbstractEditorWindowBuilder editorBuilder = new AbstractEditorWindowBuilder() {
 
 			@Override
-			public IContext getContext() {
+			protected IContext getContext() {
 				return input.getContext();
 			}
 
 			@Override
-			public IContext getSubContext() {
+			protected IContext getSubContext() {
 				return new CustomContext("MethodResult");
 			}
 
 			@Override
-			public Object getInitialValue() {
+			protected Object getInitialValue() {
 				return returnValue;
 			}
 
 			@Override
-			public boolean isNullValueDistinct() {
+			protected boolean isNullValueDistinct() {
 				return data.isNullReturnValueDistinct();
 			}
 
 			@Override
-			public boolean isEncapsulatedFormEmbedded() {
+			protected boolean isEncapsulatedFormEmbedded() {
 				return true;
 			}
 
-			public boolean canCommitToParent() {
+			protected boolean canCommitToParent() {
 				return false;
 			}
 
 			@Override
-			public IModification createCommittingModification(Object newObjectValue) {
+			protected IModification createCommittingModification(Object newObjectValue) {
 				return null;
 			}
 
@@ -243,32 +243,32 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			public ValueReturnMode getReturnModeFromParent() {
+			protected ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public Component getOwnerComponent() {
+			protected Component getOwnerComponent() {
 				return activatorComponent;
 			}
 
 			@Override
-			public String getParentModificationTitle() {
+			protected String getParentModificationTitle() {
 				return MethodControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getEncapsulatedFormFilter() {
+			protected IInfoFilter getEncapsulatedFormFilter() {
 				return IInfoFilter.DEFAULT;
 			}
 
 			@Override
-			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return data.getReturnValueType().getSource();
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			protected ModificationStack getParentModificationStack() {
 				if (data.isReturnValueDetached()) {
 					return null;
 				} else {

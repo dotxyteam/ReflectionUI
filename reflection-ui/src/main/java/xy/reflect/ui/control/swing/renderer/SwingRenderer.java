@@ -719,12 +719,12 @@ public class SwingRenderer {
 		return new StandardEditorBuilder(this, activatorComponent, object) {
 
 			@Override
-			public boolean isCancellable() {
+			protected boolean isCancellable() {
 				return cancellable;
 			}
 
 			@Override
-			public String getEditorWindowTitle() {
+			protected String getEditorWindowTitle() {
 				if (title == null) {
 					return super.getEditorWindowTitle();
 				}
@@ -732,7 +732,7 @@ public class SwingRenderer {
 			}
 
 			@Override
-			public Image getEditorWindowIconImage() {
+			protected Image getEditorWindowIconImage() {
 				if (iconImage != null) {
 					return iconImage;
 				} else {

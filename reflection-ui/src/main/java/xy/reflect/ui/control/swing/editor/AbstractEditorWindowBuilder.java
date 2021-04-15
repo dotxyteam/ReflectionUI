@@ -40,9 +40,11 @@ import javax.swing.JFrame;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -64,14 +66,54 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	/**
 	 * @return the owner component of the editor dialog or null.
 	 */
-	public abstract Component getOwnerComponent();
+	protected abstract Component getOwnerComponent();
+
+	@Override
+	public EncapsulatedObjectFactory getEncapsulation() {
+		EncapsulatedObjectFactory result = super.getEncapsulation();
+		result.setTypeCaption(getCapsuleTypeCaption());
+		result.setTypeIconImagePath(getCapsuleTypeIconImagePath());
+		result.setTypeOnlineHelp(getCapsuleTypeOnlineHelp());
+		result.setTypeModificationStackAccessible(isCapsuleTypeModificationStackAccessible());
+		return result;
+	}
+
+	/**
+	 * @return the icon image path of the capsule type.
+	 */
+	protected ResourcePath getCapsuleTypeIconImagePath() {
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getIconImagePath();
+	}
+
+	/**
+	 * @return the online help of the capsule type.
+	 */
+	protected String getCapsuleTypeOnlineHelp() {
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getOnlineHelp();
+	}
+
+	/**
+	 * @return true if and only if the undo/redo/etc features should be made
+	 *         available typically when the capsule is the root of a window.
+	 */
+	protected boolean isCapsuleTypeModificationStackAccessible() {
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource())
+				.isModificationStackAccessible();
+	}
+
+	/**
+	 * @return the caption of the capsule type.
+	 */
+	protected String getCapsuleTypeCaption() {
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getCaption();
+	}
 
 	/**
 	 * @return whether the editing session should be cancellable (a cancel button
 	 *         will be displayed) or not. Note that it only makes sense if a editor
 	 *         dialog (not a frame) is created.
 	 */
-	public boolean isCancellable() {
+	protected boolean isCancellable() {
 		Object encapsualted = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsualted));
@@ -81,7 +123,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	/**
 	 * @return the title of the editor window.
 	 */
-	public String getEditorWindowTitle() {
+	protected String getEditorWindowTitle() {
 		Object encapsulatedObject = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedObject));
@@ -91,7 +133,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	/**
 	 * @return the icon image of the editor window.
 	 */
-	public Image getEditorWindowIconImage() {
+	protected Image getEditorWindowIconImage() {
 		ensureIsInitialized();
 		Image result = getSwingRenderer().getObjectIconImage(initialObjectValue);
 		if (result == null) {
@@ -108,28 +150,28 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	/**
 	 * @return the text of the 'Cancel' button.
 	 */
-	public String getCancelCaption() {
+	protected String getCancelCaption() {
 		return "Cancel";
 	}
 
 	/**
 	 * @return the text of the 'OK' button.
 	 */
-	public String getOKCaption() {
+	protected String getOKCaption() {
 		return "OK";
 	}
 
 	/**
 	 * @return the text of the 'Close' button.
 	 */
-	public String getCloseCaption() {
+	protected String getCloseCaption() {
 		return "Close";
 	}
 
 	/**
 	 * @return additional controls that will be laid on the button bar.
 	 */
-	public List<Component> getAdditionalButtonBarControls() {
+	protected List<Component> getAdditionalButtonBarControls() {
 		return Collections.emptyList();
 	}
 

@@ -230,7 +230,8 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 					@Override
 					public void setValue(Object value) {
-						ReflectionUIUtils.setFieldValueThroughModificationStack(base, value, input.getModificationStack());
+						ReflectionUIUtils.setFieldValueThroughModificationStack(base, value,
+								input.getModificationStack());
 					}
 
 				};
@@ -253,32 +254,32 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		subFormBuilder = new AbstractEditorFormBuilder() {
 
 			@Override
-			public IContext getContext() {
+			protected IContext getContext() {
 				return input.getContext();
 			}
 
 			@Override
-			public IContext getSubContext() {
+			protected IContext getSubContext() {
 				return new CustomContext("NullableInstance");
 			}
 
 			@Override
-			public boolean isEncapsulatedFormEmbedded() {
+			protected boolean isEncapsulatedFormEmbedded() {
 				return data.isFormControlEmbedded();
 			}
 
 			@Override
-			public boolean isNullValueDistinct() {
+			protected boolean isNullValueDistinct() {
 				return false;
 			}
 
 			@Override
-			public boolean canCommitToParent() {
+			protected boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createCommittingModification(Object newObjectValue) {
+			protected IModification createCommittingModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 
@@ -288,17 +289,17 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public ValueReturnMode getReturnModeFromParent() {
+			protected ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public String getParentModificationTitle() {
+			protected String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public IInfoFilter getEncapsulatedFormFilter() {
+			protected IInfoFilter getEncapsulatedFormFilter() {
 				IInfoFilter result = data.getFormControlFilter();
 				if (result == null) {
 					result = IInfoFilter.DEFAULT;
@@ -307,17 +308,17 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 
 			@Override
-			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return data.getType().getSource();
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			protected ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			public Object getInitialValue() {
+			protected Object getInitialValue() {
 				return data.getValue();
 			}
 		};

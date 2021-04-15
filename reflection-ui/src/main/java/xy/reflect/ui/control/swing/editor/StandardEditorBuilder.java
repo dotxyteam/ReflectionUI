@@ -76,17 +76,17 @@ public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 	}
 
 	@Override
-	public IContext getContext() {
+	protected IContext getContext() {
 		return null;
 	}
 
 	@Override
-	public IContext getSubContext() {
+	protected IContext getSubContext() {
 		return null;
 	}
 
 	@Override
-	public boolean isCancellable() {
+	protected boolean isCancellable() {
 		return false;
 	}
 
@@ -96,57 +96,57 @@ public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 	}
 
 	@Override
-	public Component getOwnerComponent() {
+	protected Component getOwnerComponent() {
 		return ownerComponent;
 	}
 
 	@Override
-	public ModificationStack getParentModificationStack() {
+	protected ModificationStack getParentModificationStack() {
 		return null;
 	}
 
 	@Override
-	public String getParentModificationTitle() {
+	protected String getParentModificationTitle() {
 		return null;
 	}
 
 	@Override
-	public boolean canCommitToParent() {
+	protected boolean canCommitToParent() {
 		return false;
 	}
 
 	@Override
-	public IModification createCommittingModification(Object newObjectValue) {
+	protected IModification createCommittingModification(Object newObjectValue) {
 		return null;
 	}
 
 	@Override
-	public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+	protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 		return null;
 	}
 
 	@Override
-	public ValueReturnMode getReturnModeFromParent() {
+	protected ValueReturnMode getReturnModeFromParent() {
 		return ValueReturnMode.DIRECT_OR_PROXY;
 	}
 
 	@Override
-	public boolean isNullValueDistinct() {
+	protected boolean isNullValueDistinct() {
 		return false;
 	}
 
 	@Override
-	public Object getInitialValue() {
+	protected Object getInitialValue() {
 		return rootObject;
 	}
 
 	@Override
-	public IInfoFilter getEncapsulatedFormFilter() {
+	protected IInfoFilter getEncapsulatedFormFilter() {
 		return IInfoFilter.DEFAULT;
 	}
 
 	@Override
-	public boolean isEncapsulatedFormEmbedded() {
+	protected boolean isEncapsulatedFormEmbedded() {
 		return true;
 	}
 

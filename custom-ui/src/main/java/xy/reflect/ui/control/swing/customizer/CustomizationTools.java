@@ -389,12 +389,12 @@ public class CustomizationTools implements ICustomizationTools {
 				customization) {
 
 			@Override
-			public boolean isCancellable() {
+			protected boolean isCancellable() {
 				return true;
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			protected ModificationStack getParentModificationStack() {
 				return swingCustomizer.getCustomizationController().getModificationStack();
 			}
 

@@ -240,22 +240,22 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		return new AbstractEditorWindowBuilder() {
 
 			@Override
-			public IContext getContext() {
+			protected IContext getContext() {
 				return input.getContext();
 			}
 
 			@Override
-			public IContext getSubContext() {
+			protected IContext getSubContext() {
 				return null;
 			}
 
 			@Override
-			public boolean isEncapsulatedFormEmbedded() {
+			protected boolean isEncapsulatedFormEmbedded() {
 				return true;
 			}
 
 			@Override
-			public boolean isNullValueDistinct() {
+			protected boolean isNullValueDistinct() {
 				return false;
 			}
 
@@ -265,47 +265,47 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public ValueReturnMode getReturnModeFromParent() {
+			protected ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}
 
 			@Override
-			public ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
 				return data.getType().getSource();
 			}
 
 			@Override
-			public Object getInitialValue() {
+			protected Object getInitialValue() {
 				return data.getValue();
 			}
 
 			@Override
-			public String getParentModificationTitle() {
+			protected String getParentModificationTitle() {
 				return FieldControlDataModification.getTitle(data.getCaption());
 			}
 
 			@Override
-			public ModificationStack getParentModificationStack() {
+			protected ModificationStack getParentModificationStack() {
 				return input.getModificationStack();
 			}
 
 			@Override
-			public Component getOwnerComponent() {
+			protected Component getOwnerComponent() {
 				return owner;
 			}
 
 			@Override
-			public boolean canCommitToParent() {
+			protected boolean canCommitToParent() {
 				return !data.isGetOnly();
 			}
 
 			@Override
-			public IModification createCommittingModification(Object newObjectValue) {
+			protected IModification createCommittingModification(Object newObjectValue) {
 				return new FieldControlDataModification(data, newObjectValue);
 			}
 
 			@Override
-			public IInfoFilter getEncapsulatedFormFilter() {
+			protected IInfoFilter getEncapsulatedFormFilter() {
 				return data.getFormControlFilter();
 			}
 		};
