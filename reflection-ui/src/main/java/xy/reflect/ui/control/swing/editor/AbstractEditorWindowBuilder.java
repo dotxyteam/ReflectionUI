@@ -135,7 +135,8 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 */
 	protected Image getEditorWindowIconImage() {
 		ensureIsInitialized();
-		Image result = getSwingRenderer().getObjectIconImage(initialObjectValue);
+		Object encapsulatedObject = getCapsule();
+		Image result = getSwingRenderer().getObjectIconImage(encapsulatedObject);
 		if (result == null) {
 			ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
