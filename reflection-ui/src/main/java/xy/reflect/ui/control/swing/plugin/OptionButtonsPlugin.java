@@ -55,9 +55,9 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.AbstractControlButton;
-import xy.reflect.ui.util.component.ControlPanel;
-import xy.reflect.ui.util.component.WrapLayout;
+import xy.reflect.ui.util.swing.AbstractControlButton;
+import xy.reflect.ui.util.swing.ControlPanel;
+import xy.reflect.ui.util.swing.WrapLayout;
 
 public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 

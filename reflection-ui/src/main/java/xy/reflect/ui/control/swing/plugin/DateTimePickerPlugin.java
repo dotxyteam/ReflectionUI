@@ -61,7 +61,7 @@ import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.JXDateTimePicker;
+import xy.reflect.ui.util.swing.JXDateTimePicker;
 
 public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 

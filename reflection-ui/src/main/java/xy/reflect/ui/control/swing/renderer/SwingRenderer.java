@@ -109,7 +109,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
-import xy.reflect.ui.util.component.AbstractControlButton;
+import xy.reflect.ui.util.swing.AbstractControlButton;
 
 /**
  * This is the {@link ReflectionUI} renderer class for Swing-based UIs.

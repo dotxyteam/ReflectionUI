@@ -57,11 +57,11 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
-import xy.reflect.ui.util.component.ControlPanel;
-import xy.reflect.ui.util.component.ControlScrollPane;
-import xy.reflect.ui.util.component.ImagePanel;
-import xy.reflect.ui.util.component.ScrollPaneOptions;
+import xy.reflect.ui.util.swing.AlternativeWindowDecorationsPanel;
+import xy.reflect.ui.util.swing.ControlPanel;
+import xy.reflect.ui.util.swing.ControlScrollPane;
+import xy.reflect.ui.util.swing.ImagePanel;
+import xy.reflect.ui.util.swing.ScrollPaneOptions;
 
 public class WindowManager {
 

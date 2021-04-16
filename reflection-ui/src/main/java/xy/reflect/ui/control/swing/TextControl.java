@@ -57,8 +57,8 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.ControlPanel;
-import xy.reflect.ui.util.component.ControlScrollPane;
+import xy.reflect.ui.util.swing.ControlPanel;
+import xy.reflect.ui.util.swing.ControlScrollPane;
 
 public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 

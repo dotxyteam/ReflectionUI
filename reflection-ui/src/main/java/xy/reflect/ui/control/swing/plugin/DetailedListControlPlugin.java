@@ -66,7 +66,7 @@ import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.swing.ControlPanel;
 
 public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 

@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.util.component;
+package xy.reflect.ui.util.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;

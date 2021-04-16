@@ -43,7 +43,7 @@ import xy.reflect.ui.control.swing.editor.WindowManager;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.AlternativeWindowDecorationsPanel;
+import xy.reflect.ui.util.swing.AlternativeWindowDecorationsPanel;
 
 public class CustomizationToolsRenderer extends SwingCustomizer {
 

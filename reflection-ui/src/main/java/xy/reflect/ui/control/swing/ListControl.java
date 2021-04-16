@@ -131,12 +131,12 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.AbstractControlButton;
-import xy.reflect.ui.util.component.AbstractLazyTreeNode;
-import xy.reflect.ui.util.component.ControlPanel;
-import xy.reflect.ui.util.component.ControlScrollPane;
-import xy.reflect.ui.util.component.ControlSplitPane;
-import xy.reflect.ui.util.component.ScrollPaneOptions;
+import xy.reflect.ui.util.swing.AbstractControlButton;
+import xy.reflect.ui.util.swing.AbstractLazyTreeNode;
+import xy.reflect.ui.util.swing.ControlPanel;
+import xy.reflect.ui.util.swing.ControlScrollPane;
+import xy.reflect.ui.util.swing.ControlSplitPane;
+import xy.reflect.ui.util.swing.ScrollPaneOptions;
 
 public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 

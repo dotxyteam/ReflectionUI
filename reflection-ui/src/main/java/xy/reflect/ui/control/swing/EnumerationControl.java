@@ -52,7 +52,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.swing.ControlPanel;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnumerationControl extends ControlPanel implements IAdvancedFieldControl {

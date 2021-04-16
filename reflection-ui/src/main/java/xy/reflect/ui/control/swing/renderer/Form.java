@@ -96,11 +96,11 @@ import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.component.AbstractControlButton;
-import xy.reflect.ui.util.component.ControlPanel;
-import xy.reflect.ui.util.component.ControlScrollPane;
-import xy.reflect.ui.util.component.ImagePanel;
-import xy.reflect.ui.util.component.ListTabbedPane;
+import xy.reflect.ui.util.swing.AbstractControlButton;
+import xy.reflect.ui.util.swing.ControlPanel;
+import xy.reflect.ui.util.swing.ControlScrollPane;
+import xy.reflect.ui.util.swing.ImagePanel;
+import xy.reflect.ui.util.swing.ListTabbedPane;
 
 public class Form extends ImagePanel {
 

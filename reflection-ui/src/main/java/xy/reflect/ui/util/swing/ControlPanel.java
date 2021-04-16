@@ -26,16 +26,15 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.util.component;
+package xy.reflect.ui.util.swing;
 
-import javax.swing.JSplitPane;
+import javax.swing.JPanel;
 
-public class ControlSplitPane extends JSplitPane {
+public class ControlPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public ControlSplitPane() {
-		super();
+	public ControlPanel() {
 		setOpaque(false);
 	}
 

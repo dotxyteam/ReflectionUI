@@ -110,7 +110,7 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.component.ControlPanel;
+import xy.reflect.ui.util.swing.ControlPanel;
 
 public class SwingRendererUtils {
 

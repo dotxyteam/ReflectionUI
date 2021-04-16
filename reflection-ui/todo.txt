@@ -1,3 +1,5 @@
+- it may be better to not have dependencies at all typically for
+swing-testing-toolkit that would be more compatible with projects 
 - lastFilePath should be saved by file type or ...
 - allow to select value options field.
 Note that it is difficult because virtual fields and their type are discovered at
