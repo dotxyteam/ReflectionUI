@@ -1,7 +1,15 @@
 - allow to select value options field.
-- Use html control to display online help.
-- Dialog icons seem to not show. Investigate.
-- date(-time) picer controls remove selection on delayed commit.
+Note that it is difficult because virtual fields and their type are discovered at
+runtime after the customizations application. Then there is no way, unless we
+are given a reference to the customized ITypeInfo, to know which fields are
+available when building the customization tools. It may be a solution to 
+cache the ITypeInfos maybe in the SwingCustomizer each time a form is created
+and customizations are enabled for instance. But it implies that the
+required ITypeInfo and therefore the candidate value options fields may not be 
+available preventing their selection. Maybe an explicit error message could be
+displayed in this case.
+- Use html control to display online help ???
+- date(-time) picker controls remove selection on delayed commit.
 - list customization (more options/item/open item shared type) does not allow
 to view item type "Object". One may want to add sub-types to the Object type.
 Think about it. Note that the type can be accessed from the customization
