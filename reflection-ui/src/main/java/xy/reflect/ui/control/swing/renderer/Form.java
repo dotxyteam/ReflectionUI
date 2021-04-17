@@ -1383,7 +1383,7 @@ public class Form extends ImagePanel {
 		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
 			return null;
 		}
-		final String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
+		final String title = ReflectionUIUtils.composeMessage(data.getCaption(), "Help");
 		final Image iconImage = swingRenderer.getObjectIconImage(object);
 		final JButton result = new AbstractControlButton() {
 
