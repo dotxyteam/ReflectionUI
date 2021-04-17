@@ -30,6 +30,7 @@ package xy.reflect.ui.util.swing;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
@@ -137,10 +138,20 @@ public abstract class AbstractControlButton extends JButton {
 	@Override
 	protected void paintComponent(Graphics g) {
 		if (backgroundImage != null) {
-			if (getModel().isArmed()) {
-				g.drawImage(activatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
+			Runnable paintAction = new Runnable() {
+				@Override
+				public void run() {
+					if (getModel().isArmed()) {
+						g.drawImage(activatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
+					} else {
+						g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+					}
+				}
+			};
+			if (g instanceof Graphics2D) {
+				SwingRendererUtils.withHighQualityScaling((Graphics2D) g, paintAction);
 			} else {
-				g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+				paintAction.run();
 			}
 		} else if (backgroundColor != null) {
 			if (getModel().isArmed()) {

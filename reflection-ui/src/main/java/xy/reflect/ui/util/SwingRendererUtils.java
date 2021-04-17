@@ -43,6 +43,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.AWTEventListener;
@@ -1140,6 +1141,22 @@ public class SwingRendererUtils {
 			}
 		});
 
+	}
+
+	public static void withHighQualityScaling(Graphics2D g, Runnable paintAction) {
+		Object KEY_ANTIALIASING_ToRestore = g.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+		Object KEY_INTERPOLATION_ToRestore = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		paintAction.run();
+		try {
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, KEY_ANTIALIASING_ToRestore);
+		} catch (Throwable ignore) {
+		}
+		try {
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, KEY_INTERPOLATION_ToRestore);
+		} catch (Throwable ignore) {
+		}
 	}
 
 }

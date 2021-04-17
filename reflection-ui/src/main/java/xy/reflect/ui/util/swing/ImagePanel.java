@@ -34,10 +34,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
 import xy.reflect.ui.util.MathUtils;
+import xy.reflect.ui.util.SwingRendererUtils;
 
 public class ImagePanel extends ControlPanel {
 
@@ -115,8 +115,17 @@ public class ImagePanel extends ControlPanel {
 		super.paintComponent(g);
 		Image imageToPaint = image;
 		if (imageToPaint != null) {
-			configureGraphics((Graphics2D) g);
-			paintImage(g, imageToPaint);
+			Runnable paintAction = new Runnable() {
+				@Override
+				public void run() {
+					paintImage(g, imageToPaint);
+				}
+			};
+			if (scalingQualitHigh && (g instanceof Graphics2D)) {
+				SwingRendererUtils.withHighQualityScaling((Graphics2D) g, paintAction);
+			} else {
+				paintAction.run();
+			}
 		}
 	}
 
@@ -136,13 +145,6 @@ public class ImagePanel extends ControlPanel {
 			}
 		} else {
 			return new Rectangle(0, 0, getWidth(), getHeight());
-		}
-	}
-
-	protected void configureGraphics(Graphics2D g) {
-		if (scalingQualitHigh) {
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		}
 	}
 
