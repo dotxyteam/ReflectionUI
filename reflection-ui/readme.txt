@@ -142,7 +142,7 @@ DEBIAN INTEGRATION
 ------------------
 Build commands:
 	export DEBFULLNAME="OTK Software"
-	export DEBEMAIL="contact@otksoftware.com"
+	export DEBEMAIL="dotxyteam@yahoo.fr"
 	
 	mh_make
 	

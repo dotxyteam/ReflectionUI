@@ -248,6 +248,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected boolean canCopy(ITypeInfo type, Object object) {
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+				type.getName());
+		if (t != null) {
+			if (t.isCopyForbidden()) {
+				return false;
+			}
+		}
+		return super.canCopy(type, object);
+	}
+
+	@Override
 	protected Object[] toArray(IListTypeInfo listType, Object listValue) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
