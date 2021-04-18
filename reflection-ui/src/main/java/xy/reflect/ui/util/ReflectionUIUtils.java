@@ -821,6 +821,9 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean canCopy(ReflectionUI reflectionUI, Object object) {
+		if(object == null) {
+			return false;
+		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.canCopy(object);
 	}

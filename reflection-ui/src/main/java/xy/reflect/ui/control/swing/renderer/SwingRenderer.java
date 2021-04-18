@@ -823,6 +823,9 @@ public class SwingRenderer {
 			@Override
 			protected ResourcePath getItemIconImagePath(Object choice) {
 				Image image = iconImages.get(choice);
+				if (image == null) {
+					return null;
+				}
 				return SwingRendererUtils.putImageInCache(image);
 			}
 

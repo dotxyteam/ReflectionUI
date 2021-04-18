@@ -2111,9 +2111,23 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_NULL_VALUE) {
 				newSubListItem = null;
 			} else {
-				newSubListItem = createItem(newSubItemPosition);
-				if (newSubListItem == null) {
-					return false;
+				boolean nullValueChosen = false;
+				if (subListType.isItemNullValueDistinct()) {
+					String choice = swingRenderer.openSelectionDialog(ListControl.this,
+							Arrays.asList("Create", "<Null>"), "Create", "Choose", getItemTitle(newSubItemPosition));
+					if (choice == null) {
+						return false;
+					}
+					if ("<Null>".equals(choice)) {
+						newSubListItem = null;
+						nullValueChosen = true;
+					}
+				}
+				if (!nullValueChosen) {
+					newSubListItem = createItem(newSubItemPosition);
+					if (newSubListItem == null) {
+						return false;
+					}
 				}
 			}
 			boolean itemConstructorSelectable = (subListType
@@ -2361,12 +2375,27 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected boolean prepare() {
 			newItemPosition = getNewItemPosition();
 			listType = newItemPosition.getContainingListType();
-			if (listType.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_NULL_VALUE) {
+			if (listType
+					.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_NULL_VALUE) {
 				newItem = null;
 			} else {
-				newItem = createItem(newItemPosition);
-				if (newItem == null) {
-					return false;
+				boolean nullValueChosen = false;
+				if (listType.isItemNullValueDistinct()) {
+					String choice = swingRenderer.openSelectionDialog(ListControl.this,
+							Arrays.asList("Create", "<Null>"), "Create", "Choose", getItemTitle(newItemPosition));
+					if (choice == null) {
+						return false;
+					}
+					if ("<Null>".equals(choice)) {
+						newItem = null;
+						nullValueChosen = true;
+					}
+				}
+				if (!nullValueChosen) {
+					newItem = createItem(newItemPosition);
+					if (newItem == null) {
+						return false;
+					}
 				}
 			}
 			boolean itemConstructorSelectable = (listType
