@@ -74,6 +74,12 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.ModificationStackControls;
 import xy.reflect.ui.control.swing.menu.Menu;
+import xy.reflect.ui.control.swing.util.AbstractControlButton;
+import xy.reflect.ui.control.swing.util.ControlPanel;
+import xy.reflect.ui.control.swing.util.ControlScrollPane;
+import xy.reflect.ui.control.swing.util.ImagePanel;
+import xy.reflect.ui.control.swing.util.ListTabbedPane;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -95,12 +101,6 @@ import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.swing.AbstractControlButton;
-import xy.reflect.ui.util.swing.ControlPanel;
-import xy.reflect.ui.util.swing.ControlScrollPane;
-import xy.reflect.ui.util.swing.ImagePanel;
-import xy.reflect.ui.util.swing.ListTabbedPane;
 
 public class Form extends ImagePanel {
 

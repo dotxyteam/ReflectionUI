@@ -26,15 +26,13 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.util.swing;
+package xy.reflect.ui.control.swing.util;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
 
 import javax.swing.*;
-
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class AlternativeWindowDecorationsPanel extends JPanel {
 

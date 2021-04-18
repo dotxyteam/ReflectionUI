@@ -51,9 +51,10 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
@@ -147,7 +148,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			if (length.unit == ControlSizeUnit.PIXELS) {
 				return length.value;
 			} else if (length.unit == ControlSizeUnit.SCREEN_PERCENT) {
-				Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+				Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
 				return Math.round((length.value / 100f) * screenSize.height);
 			} else {
 				throw new ReflectionUIError();

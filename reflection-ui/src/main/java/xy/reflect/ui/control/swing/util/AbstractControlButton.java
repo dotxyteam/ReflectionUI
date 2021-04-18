@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.util.swing;
+package xy.reflect.ui.control.swing.util;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -39,7 +39,6 @@ import javax.swing.JButton;
 import javax.swing.plaf.basic.BasicBorders;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractControlButton extends JButton {
 

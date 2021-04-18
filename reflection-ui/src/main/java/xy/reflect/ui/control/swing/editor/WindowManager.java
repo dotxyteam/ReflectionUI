@@ -54,14 +54,14 @@ import org.jdesktop.swingx.StackLayout;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.AlternativeWindowDecorationsPanel;
+import xy.reflect.ui.control.swing.util.ControlPanel;
+import xy.reflect.ui.control.swing.util.ControlScrollPane;
+import xy.reflect.ui.control.swing.util.ImagePanel;
+import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.swing.AlternativeWindowDecorationsPanel;
-import xy.reflect.ui.util.swing.ControlPanel;
-import xy.reflect.ui.util.swing.ControlScrollPane;
-import xy.reflect.ui.util.swing.ImagePanel;
-import xy.reflect.ui.util.swing.ScrollPaneOptions;
 
 public class WindowManager {
 

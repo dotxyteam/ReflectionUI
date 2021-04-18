@@ -70,6 +70,11 @@ import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfigura
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileNameFilterConfiguration;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.SelectionModeConfiguration;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.AbstractControlButton;
+import xy.reflect.ui.control.swing.util.ControlPanel;
+import xy.reflect.ui.control.swing.util.ControlScrollPane;
+import xy.reflect.ui.control.swing.util.ImagePanel;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -83,11 +88,6 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
-import xy.reflect.ui.util.swing.AbstractControlButton;
-import xy.reflect.ui.util.swing.ControlPanel;
-import xy.reflect.ui.util.swing.ControlScrollPane;
-import xy.reflect.ui.util.swing.ImagePanel;
 
 public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
@@ -265,7 +265,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			if (unit == ImageSizeUnit.PIXELS) {
 				return new Dimension(canvasWidth, canvasHeight);
 			} else if (unit == ImageSizeUnit.SCREEN_PERCENT) {
-				Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+				Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
 				int width = Math.round((canvasWidth / 100f) * screenSize.width);
 				int height = Math.round((canvasHeight / 100f) * screenSize.height);
 				return new Dimension(width, height);

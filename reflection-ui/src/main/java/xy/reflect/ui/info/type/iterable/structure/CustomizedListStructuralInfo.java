@@ -58,7 +58,6 @@ import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
@@ -87,7 +86,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			if (listCustomization.getLength().getUnit() == ListLengthUnit.PIXELS) {
 				return listCustomization.getLength().getValue();
 			} else if (listCustomization.getLength().getUnit() == ListLengthUnit.SCREEN_PERCENT) {
-				Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+				Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
 				return Math.round((listCustomization.getLength().getValue() / 100f) * screenSize.height);
 			} else {
 				throw new ReflectionUIError();

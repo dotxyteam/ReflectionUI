@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>reflection-ui</artifactId>
-			<version>4.9.9</version>
+			<version>4.9.92</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs</groupId>

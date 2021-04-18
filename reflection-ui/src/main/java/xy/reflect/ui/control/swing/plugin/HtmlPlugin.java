@@ -46,7 +46,7 @@ import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfigurati
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlSizeUnit;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class HtmlPlugin extends StyledTextPlugin {
 
@@ -83,7 +83,7 @@ public class HtmlPlugin extends StyledTextPlugin {
 			if (length.unit == ControlSizeUnit.PIXELS) {
 				return length.value;
 			} else if (length.unit == ControlSizeUnit.SCREEN_PERCENT) {
-				Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+				Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
 				return Math.round((length.value / 100f) * screenSize.height);
 			} else {
 				throw new ReflectionUIError();

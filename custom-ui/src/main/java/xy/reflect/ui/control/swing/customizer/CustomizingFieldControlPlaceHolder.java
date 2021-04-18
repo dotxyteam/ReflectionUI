@@ -32,8 +32,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class CustomizingFieldControlPlaceHolder extends FieldControlPlaceHolder {
 

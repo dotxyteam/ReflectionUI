@@ -121,7 +121,6 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
@@ -1313,7 +1312,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (width.getUnit() == FormSizeUnit.PIXELS) {
 						result.width = width.getValue();
 					} else if (width.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
-						Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+						Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
 						result.width = Math.round((width.getValue() / 100f) * screenSize.width);
 					} else {
 						throw new ReflectionUIError();
@@ -1324,7 +1323,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (height.getUnit() == FormSizeUnit.PIXELS) {
 						result.height = height.getValue();
 					} else if (height.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
-						Dimension screenSize = SwingRendererUtils.getDefaultScreenSize();
+						Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
 						result.height = Math.round((height.getValue() / 100f) * screenSize.height);
 					} else {
 						throw new ReflectionUIError();

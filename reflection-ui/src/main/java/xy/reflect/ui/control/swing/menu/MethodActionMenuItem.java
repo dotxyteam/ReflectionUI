@@ -11,9 +11,9 @@ import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class MethodActionMenuItem extends JMenuItem {
 

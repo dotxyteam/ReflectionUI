@@ -28,6 +28,9 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -1346,6 +1349,13 @@ public class ReflectionUIUtils {
 		} else {
 			return null;
 		}
+	}
+
+	public static Dimension getDefaultScreenSize() {
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		return new Dimension(width, height);
 	}
 
 }

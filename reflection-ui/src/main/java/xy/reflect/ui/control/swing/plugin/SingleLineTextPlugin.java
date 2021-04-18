@@ -38,7 +38,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.util.SwingRendererUtils;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 
 public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 

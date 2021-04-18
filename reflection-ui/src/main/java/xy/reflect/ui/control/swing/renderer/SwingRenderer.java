@@ -89,6 +89,8 @@ import xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin;
 import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
+import xy.reflect.ui.control.swing.util.AbstractControlButton;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -107,9 +109,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
-import xy.reflect.ui.util.swing.AbstractControlButton;
 
 /**
  * This is the {@link ReflectionUI} renderer class for Swing-based UIs.

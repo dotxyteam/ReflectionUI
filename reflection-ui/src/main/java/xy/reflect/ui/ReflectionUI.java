@@ -35,6 +35,7 @@ import java.util.Map;
 
 import com.google.common.cache.CacheBuilder;
 
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
 import xy.reflect.ui.info.app.DefaultApplicationInfo;
@@ -44,7 +45,6 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 /**

@@ -9,8 +9,8 @@ import javax.swing.JMenuItem;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 

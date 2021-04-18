@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.util;
+package xy.reflect.ui.control.swing.util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -111,7 +111,9 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.swing.ControlPanel;
+import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class SwingRendererUtils {
 
@@ -452,13 +454,6 @@ public class SwingRendererUtils {
 
 	public static Dimension getScreenSize(Component c) {
 		return getScreenBounds(c).getSize();
-	}
-
-	public static Dimension getDefaultScreenSize() {
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		int width = gd.getDisplayMode().getWidth();
-		int height = gd.getDisplayMode().getHeight();
-		return new Dimension(width, height);
 	}
 
 	public static void adjustWindowInitialBounds(Window window) {

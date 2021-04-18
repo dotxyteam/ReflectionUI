@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.util.swing;
+package xy.reflect.ui.control.swing.util;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,7 +37,6 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import xy.reflect.ui.util.MathUtils;
-import xy.reflect.ui.util.SwingRendererUtils;
 
 public class ImagePanel extends ControlPanel {
 
