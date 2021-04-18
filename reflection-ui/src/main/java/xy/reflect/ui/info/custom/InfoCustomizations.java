@@ -86,6 +86,7 @@ import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -3641,10 +3642,10 @@ public class InfoCustomizations implements Serializable {
 
 		protected String listTypeName;
 		protected String itemTypeName;
-		protected boolean itemTypeColumnAdded;
-		protected boolean positionColumnAdded;
-		protected boolean fieldColumnsAdded;
-		protected boolean stringValueColumnAdded;
+		protected boolean itemTypeColumnAdded = false;
+		protected boolean positionColumnAdded = false;
+		protected boolean fieldColumnsAdded = false;
+		protected boolean stringValueColumnAdded = false;
 		protected List<ColumnCustomization> columnCustomizations = new ArrayList<ColumnCustomization>();
 		protected List<String> columnsCustomOrder;
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
@@ -3652,12 +3653,13 @@ public class InfoCustomizations implements Serializable {
 		protected List<ListItemMethodShortcut> allowedItemMethodShortcuts = new ArrayList<ListItemMethodShortcut>();
 		protected List<InfoFilter> methodsExcludedFromItemDetails = new ArrayList<InfoFilter>();
 		protected List<InfoFilter> fieldsExcludedFromItemDetails = new ArrayList<InfoFilter>();
-		protected boolean itemDetailsViewDisabled;
+		protected boolean itemDetailsViewDisabled = false;
 		protected ListEditOptions editOptions = new ListEditOptions();
 		protected boolean listSorted = false;
-		protected IListItemDetailsAccessMode customDetailsAccessMode = null;
-		protected boolean itemContructorSelectableforced = false;
+		protected IListItemDetailsAccessMode customDetailsAccessMode;
 		protected ListLenghtCustomization length = null;
+		protected boolean itemNullValueAllowed = false;
+		protected InitialItemValueCreationOption initialItemValueCreationOption;
 
 		@Override
 		public boolean isInitial() {
@@ -3667,20 +3669,43 @@ public class InfoCustomizations implements Serializable {
 			return InfoCustomizations.isSimilar(this, defaultListCustomization);
 		}
 
+		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
+			return initialItemValueCreationOption;
+		}
+
+		public void setInitialItemValueCreationOption(InitialItemValueCreationOption initialItemValueCreationOption) {
+			this.initialItemValueCreationOption = initialItemValueCreationOption;
+		}
+
+		public boolean isItemNullValueAllowed() {
+			return itemNullValueAllowed;
+		}
+
+		public void setItemNullValueAllowed(boolean itemNullValueAllowed) {
+			this.itemNullValueAllowed = itemNullValueAllowed;
+		}
+
+		public boolean isItemContructorSelectableforced() {
+			return initialItemValueCreationOption == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
+		}
+
+		public void setItemContructorSelectableforced(boolean itemContructorSelectableforced) {
+			if (itemContructorSelectableforced) {
+				initialItemValueCreationOption = InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
+			} else {
+				if ((initialItemValueCreationOption != InitialItemValueCreationOption.CREATE_INITIAL_VALUE_AUTOMATICALLY)
+						&& (initialItemValueCreationOption != InitialItemValueCreationOption.CREATE_INITIAL_NULL_VALUE)) {
+					initialItemValueCreationOption = InitialItemValueCreationOption.CREATE_INITIAL_VALUE_AUTOMATICALLY;
+				}
+			}
+		}
+
 		public ListLenghtCustomization getLength() {
 			return length;
 		}
 
 		public void setLength(ListLenghtCustomization length) {
 			this.length = length;
-		}
-
-		public boolean isItemContructorSelectableforced() {
-			return itemContructorSelectableforced;
-		}
-
-		public void setItemContructorSelectableforced(boolean itemContructorSelectableforced) {
-			this.itemContructorSelectableforced = itemContructorSelectableforced;
 		}
 
 		@XmlElements({ @XmlElement(name = "detachedDetailsAccessMode", type = DetachedItemDetailsAccessMode.class),

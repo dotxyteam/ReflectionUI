@@ -143,6 +143,30 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			}
 			treeTableComponentScrollPane = createScrollPane();
 			treeTableComponentScrollPane.setViewportView(detailedCellsContainer);
+			clearSelectionWhenContainerClicked();
+			setupContexteMenu(detailedCellsContainer);
+		}
+
+		protected void clearSelectionWhenContainerClicked() {
+			detailedCellsContainer.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if (e.getComponent() != detailedCellsContainer) {
+						return;
+					}
+					setSelection(Collections.emptyList());
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if (e.getComponent() != detailedCellsContainer) {
+						return;
+					}
+					setSelection(Collections.emptyList());
+				}
+
+			});
 		}
 
 		@Override
@@ -382,6 +406,23 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			};
 		}
 
+		protected void setupContexteMenu(JPanel panel) {
+			panel.addMouseListener(new MouseAdapter() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if (e.getButton() != MouseEvent.BUTTON3) {
+						return;
+					}
+					if (e.getComponent() == panel) {
+						JPopupMenu popup = createPopupMenu();
+						popup.show(e.getComponent(), e.getX(), e.getY());
+					}
+				}
+
+			});
+		}
+
 		@Override
 		public String toString() {
 			return "DetailedListControl [data=" + listData + "]";
@@ -414,7 +455,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 					add(form, formConstraints);
 				}
 				enableSelection();
-				setupContexteMenu();
+				setupContexteMenu(this);
 			}
 
 			protected void enableSelection() {
@@ -498,23 +539,6 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 			public void refreshUI(boolean refreshStructure) {
 				formBuilder.refreshEditorForm(form, refreshStructure);
-			}
-
-			protected void setupContexteMenu() {
-				addMouseListener(new MouseAdapter() {
-
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						if (e.getButton() != MouseEvent.BUTTON3) {
-							return;
-						}
-						if (e.getComponent() == DetailedCellControl.this) {
-							JPopupMenu popup = createPopupMenu();
-							popup.show(e.getComponent(), e.getX(), e.getY());
-						}
-					}
-
-				});
 			}
 
 			@Override

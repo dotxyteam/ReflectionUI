@@ -56,6 +56,7 @@ import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
@@ -535,8 +536,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.isItemNullValueDistinct();
 	}
 
-	protected boolean isItemConstructorSelectable(IListTypeInfo type) {
-		return type.isItemConstructorSelectable();
+	protected InitialItemValueCreationOption getInitialItemValueCreationOption(IListTypeInfo type) {
+		return type.getInitialItemValueCreationOption();
 	}
 
 	protected ValueReturnMode getItemReturnMode(IListTypeInfo type) {
@@ -1360,11 +1361,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isItemConstructorSelectable() {
-			return InfoProxyFactory.this.isItemConstructorSelectable((IListTypeInfo) base);
-		}
-
-		@Override
 		public Object[] toArray(Object listValue) {
 			return InfoProxyFactory.this.toArray((IListTypeInfo) base, listValue);
 		}
@@ -1372,6 +1368,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isItemNullValueDistinct() {
 			return InfoProxyFactory.this.isItemNullValueDistinct((IListTypeInfo) base);
+		}
+
+		@Override
+		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
+			return InfoProxyFactory.this.getInitialItemValueCreationOption((IListTypeInfo) base);
 		}
 
 		@Override

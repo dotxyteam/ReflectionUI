@@ -103,6 +103,7 @@ import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo;
@@ -172,16 +173,29 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isItemConstructorSelectable(IListTypeInfo listType) {
+	protected boolean isItemNullValueDistinct(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			if (l.isItemContructorSelectableforced()) {
+			if (l.isItemNullValueAllowed()) {
 				return true;
 			}
 		}
-		return super.isItemConstructorSelectable(listType);
+		return super.isItemNullValueDistinct(listType);
+	}
+
+	@Override
+	protected InitialItemValueCreationOption getInitialItemValueCreationOption(IListTypeInfo listType) {
+		ITypeInfo itemType = listType.getItemType();
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
+		if (l != null) {
+			if (l.getInitialItemValueCreationOption() != null) {
+				return l.getInitialItemValueCreationOption();
+			}
+		}
+		return super.getInitialItemValueCreationOption(listType);
 	}
 
 	@Override

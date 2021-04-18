@@ -334,7 +334,7 @@ public class SwingRenderer {
 	 */
 	public Object onMethodInvocationRequest(final Component activatorComponent, final ITypeInfo objectType,
 			final Object object, final IMethodInfo method) {
-		MethodAction ctorAction = createMethodAction(new IMethodControlInput() {
+		MethodAction methodAction = createMethodAction(new IMethodControlInput() {
 
 			ModificationStack dummyModificationStack = new ModificationStack(null);
 
@@ -353,9 +353,9 @@ public class SwingRenderer {
 				return new DefaultMethodControlData(reflectionUI, object, method);
 			}
 		});
-		ctorAction.setShouldDisplayReturnValueIfAny(false);
-		ctorAction.onInvocationRequest(activatorComponent);
-		return ctorAction.getReturnValue();
+		methodAction.setShouldDisplayReturnValueIfAny(false);
+		methodAction.onInvocationRequest(activatorComponent);
+		return methodAction.getReturnValue();
 	}
 
 	/**
@@ -415,7 +415,6 @@ public class SwingRenderer {
 										.compareTo(new Integer(o2.getParameters().size()));
 							}
 						});
-
 						final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI,
 								constructors.toArray(), "ConstructorSelection [type=" + type.getName() + "]", "") {
 							protected String getItemCaption(Object choice) {
@@ -463,6 +462,39 @@ public class SwingRenderer {
 		} catch (Throwable t) {
 			throw new ReflectionUIError(
 					"Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
+		}
+	}
+
+	public boolean wouldTypeInstanciationRequestOpenDialog(ITypeInfo type) {
+		if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
+			final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
+			List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
+			if (polyTypes.size() == 1) {
+				return wouldTypeInstanciationRequestOpenDialog(polyTypes.get(0));
+			} else {
+				return true;
+			}
+		} else {
+			List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
+			{
+				for (IMethodInfo ctor : type.getConstructors()) {
+					if (ctor.isHidden()) {
+						continue;
+					}
+					constructors.add(ctor);
+				}
+			}
+			if (type.isConcrete() && (constructors.size() > 0)) {
+				final IMethodInfo chosenConstructor;
+				if (constructors.size() == 1) {
+					chosenConstructor = constructors.get(0);
+				} else {
+					return true;
+				}
+				return chosenConstructor.getParameters().size() > 0;
+			} else {
+				return true;
+			}
 		}
 	}
 

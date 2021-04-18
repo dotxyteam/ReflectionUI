@@ -112,6 +112,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
 import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -1167,8 +1168,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (typeToInstanciate == null) {
 			typeToInstanciate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 		}
-		if (listType.isItemConstructorSelectable()) {
-			return ReflectionUIUtils.canCreateDefaultInstance(typeToInstanciate, null, true);
+		boolean constructorSelectable = (listType
+				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
+		if (constructorSelectable) {
+			return swingRenderer.wouldTypeInstanciationRequestOpenDialog(typeToInstanciate);
 		} else {
 			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				return true;
@@ -1176,6 +1179,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		return false;
 	};
+
+	protected Object createItem(BufferedItemPosition itemPosition) {
+		IListTypeInfo listType = itemPosition.getContainingListType();
+		ITypeInfo typeToInstanciate = listType.getItemType();
+		if (typeToInstanciate == null) {
+			typeToInstanciate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+		}
+		boolean constructorSelectable = (listType
+				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
+		return listData.createValue(typeToInstanciate, constructorSelectable);
+	}
 
 	protected AbstractStandardListAction createAddChildAction() {
 		return new AddChildAction();
@@ -1191,15 +1205,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedObject));
 		return encapsulatedObjectType.getCaption();
-	}
-
-	protected Object createItem(BufferedItemPosition itemPosition) {
-		IListTypeInfo listType = itemPosition.getContainingListType();
-		ITypeInfo typeToInstanciate = listType.getItemType();
-		if (typeToInstanciate == null) {
-			typeToInstanciate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
-		}
-		return listData.createValue(typeToInstanciate, listType.isItemConstructorSelectable());
 	}
 
 	protected AbstractStandardListAction createCopyAction() {
@@ -2102,12 +2107,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected boolean prepare() {
 			newSubItemPosition = getNewSubItemPosition();
 			subListType = newSubItemPosition.getContainingListType();
-			newSubListItem = createItem(newSubItemPosition);
-			if (newSubListItem == null) {
-				return false;
+			if (subListType
+					.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_NULL_VALUE) {
+				newSubListItem = null;
+			} else {
+				newSubListItem = createItem(newSubItemPosition);
+				if (newSubListItem == null) {
+					return false;
+				}
 			}
-			if (!subListType.isItemConstructorSelectable()
-					&& getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+			boolean itemConstructorSelectable = (subListType
+					.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
+			if (!itemConstructorSelectable && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
@@ -2350,11 +2361,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected boolean prepare() {
 			newItemPosition = getNewItemPosition();
 			listType = newItemPosition.getContainingListType();
-			newItem = createItem(newItemPosition);
-			if (newItem == null) {
-				return false;
+			if (listType.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_NULL_VALUE) {
+				newItem = null;
+			} else {
+				newItem = createItem(newItemPosition);
+				if (newItem == null) {
+					return false;
+				}
 			}
-			if (!listType.isItemConstructorSelectable() && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+			boolean itemConstructorSelectable = (listType
+					.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
+			if (!itemConstructorSelectable && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;

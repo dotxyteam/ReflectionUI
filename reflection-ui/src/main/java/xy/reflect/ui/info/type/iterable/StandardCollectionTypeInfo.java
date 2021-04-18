@@ -84,6 +84,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
+	public InitialItemValueCreationOption getInitialItemValueCreationOption() {
+		return InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
+	}
+
+	@Override
 	public ValueReturnMode getItemReturnMode() {
 		return ValueReturnMode.INDETERMINATE;
 	}
@@ -187,11 +192,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return Collections.emptyList();
-	}
-
-	@Override
-	public boolean isItemConstructorSelectable() {
-		return false;
 	}
 
 	@Override

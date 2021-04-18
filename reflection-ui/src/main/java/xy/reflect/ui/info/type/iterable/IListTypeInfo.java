@@ -163,16 +163,15 @@ public interface IListTypeInfo extends ITypeInfo {
 	boolean isItemNullValueDistinct();
 
 	/**
+	 * @return an option describing how the UI reacts to item creation requests.
+	 */
+	InitialItemValueCreationOption getInitialItemValueCreationOption();
+
+	/**
 	 * @return the value return mode of the items of an instance of this list type.
 	 *         It may impact the behavior of the list control.
 	 */
 	ValueReturnMode getItemReturnMode();
-
-	/**
-	 * @return true if and only if the possibility to choose a constructor should be
-	 *         offered to the user when creating a list item.
-	 */
-	boolean isItemConstructorSelectable();
 
 	/**
 	 * Should be called by the renderer whenever the selection of items changes.
@@ -180,5 +179,17 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * @param newSelection The new selection.
 	 */
 	void onSelection(List<? extends ItemPosition> newSelection);
+
+	/**
+	 * Allows to choose how the UI behaves when creating items. Typically it answers
+	 * the question "should the framework require from users the creation option
+	 * values or not ?".
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public enum InitialItemValueCreationOption {
+		CREATE_INITIAL_NULL_VALUE, CREATE_INITIAL_VALUE_AUTOMATICALLY, CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES
+	}
 
 }

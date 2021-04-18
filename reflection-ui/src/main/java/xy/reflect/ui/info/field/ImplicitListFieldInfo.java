@@ -536,11 +536,6 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean isItemConstructorSelectable() {
-			return false;
-		}
-
-		@Override
 		public ResourcePath getIconImagePath() {
 			return null;
 		}
@@ -548,6 +543,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public boolean isItemNullValueDistinct() {
 			return false;
+		}
+
+		@Override
+		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
+			return InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
 		}
 
 		@Override
