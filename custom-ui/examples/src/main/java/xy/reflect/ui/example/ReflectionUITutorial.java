@@ -347,8 +347,8 @@ public class ReflectionUITutorial {
 					}
 
 					/*
-					 * This method allows you to modify the display of categories (classic, modern,
-					 * ...):
+					 * This method allows you to modify the display of categories (horizontal,
+					 * vertical, ...):
 					 */
 					@Override
 					protected CategoriesStyle getCategoriesStyle(ITypeInfo type) {
@@ -481,10 +481,10 @@ public class ReflectionUITutorial {
 								{
 									/*
 									 * Some standards menu items are provided by the framework (open file, save
-									 * file, quit, undo, redo, ...). Browse the package
-									 * "xy.reflect.ui.info.menu.builtin.swing" for more information. They use the
-									 * related features defined in the I*Info meta objects. The menu item categories
-									 * allow to distinctly separate groups of menu items.
+									 * file, quit, undo, redo, ...). See the
+									 * 'xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type' enum for more
+									 * information. The menu item categories allow to distinctly separate groups of
+									 * menu items.
 									 * 
 									 */
 									MenuItemCategory persistenceCategory = new MenuItemCategory("Persistence");
@@ -538,8 +538,7 @@ public class ReflectionUITutorial {
 		Object myObject = new HelloWorld();
 
 		/*
-		 * Control plugins make it easy to customize the generated UIs by providing
-		 * easy-to-use alternative controls. Each plugin potentially offers
+		 * Control plugins provide alternative controls. Each plugin potentially offers
 		 * configuration options. Some built-in plugins are available. Browse the
 		 * package "xy.reflect.ui.control.swing.plugin" for more information.
 		 */
@@ -595,14 +594,14 @@ public class ReflectionUITutorial {
 		Object myObject = new HelloWorld();
 
 		/*
-		 * Create a CustomizedUI: This is a subclass of ReflectionUI allowing the use of
+		 * CustomizedUI: This is a subclass of ReflectionUI allowing the use of
 		 * declarative customization of type informations.
 		 */
 		InfoCustomizations customizations = new InfoCustomizations();
 		CustomizedUI customizedUI = new CustomizedUI(customizations);
 
 		/*
-		 * Initilize the customization of the chosen type.
+		 * Initialize the customization of the chosen type.
 		 */
 		TypeCustomization helloWorldTypeCustomization = InfoCustomizations.getTypeCustomization(customizations,
 				HelloWorld.class.getName(), true);
@@ -692,7 +691,7 @@ public class ReflectionUITutorial {
 	private static void useXmlCustomizations() {
 		try {
 			/*
-			 * InfoCustomizations can be serialized/deserialized to XML.
+			 * InfoCustomizations can be serialized/deserialized to/from XML.
 			 */
 			InfoCustomizations customizations = new InfoCustomizations();
 			CustomizedUI customizedUI = new CustomizedUI(customizations);
