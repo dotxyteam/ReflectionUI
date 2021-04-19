@@ -30,7 +30,11 @@ package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
@@ -38,6 +42,7 @@ import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
@@ -75,6 +80,9 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 public class CustomizationToolsUI extends CustomizedUI {
+
+	protected static final String IS_FIELD_TYPE_SPECIFICITIES_TYPE = CustomizationToolsUI.class.getName() + ".is"
+			+ FieldTypeSpecificities.class.getSimpleName();
 
 	protected final SwingCustomizer swingCustomizer;
 
@@ -161,6 +169,16 @@ public class CustomizationToolsUI extends CustomizedUI {
 				} else {
 					return super.getValueOptions(object, field, containingType);
 				}
+			}
+
+			@Override
+			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+				if (type.getName().equals(FieldTypeSpecificities.class.getName())) {
+					Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
+					result.put(IS_FIELD_TYPE_SPECIFICITIES_TYPE, Boolean.TRUE);
+					return result;
+				}
+				return super.getSpecificProperties(type);
 			}
 
 			@Override
@@ -432,6 +450,37 @@ public class CustomizationToolsUI extends CustomizedUI {
 			protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
 					ITypeInfo containingType) {
 				return super.invoke(object, invocationData, method, containingType);
+			}
+
+		}.wrapTypeInfo(type);
+		return type;
+	}
+
+	@Override
+	protected ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
+		type = new InfoProxyFactory() {
+
+			@Override
+			public String toString() {
+				return "After" + CustomizationTools.class.getName() + InfoProxyFactory.class.getSimpleName();
+			}
+
+			@Override
+			protected List<IFieldInfo> getFields(ITypeInfo type) {
+				if (Boolean.TRUE.equals(type.getSpecificProperties().get(IS_FIELD_TYPE_SPECIFICITIES_TYPE))) {
+					List<IFieldInfo> result = new ArrayList<>(super.getFields(type));
+					for (Iterator<IFieldInfo> it = result.iterator(); it.hasNext();) {
+						IFieldInfo field = it.next();
+						InfoCategory category = field.getCategory();
+						if (category != null) {
+							if (!Arrays.asList("Types", "Lists", "Enumerations").contains(category.getCaption())) {
+								it.remove();
+							}
+						}
+					}
+					return result;
+				}
+				return super.getFields(type);
 			}
 
 		}.wrapTypeInfo(type);
