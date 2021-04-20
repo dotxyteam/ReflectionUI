@@ -11,9 +11,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +18,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
-import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
@@ -30,7 +26,6 @@ import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileNameFilterConfig
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.SelectionModeConfiguration;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin.OptionButtonsConfiguration;
-import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
@@ -40,9 +35,6 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
 import xy.reflect.ui.info.app.IApplicationInfo;
-import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -78,8 +70,6 @@ public class ReflectionUITutorial {
 		addMenus();
 		useFieldControlPlugins();
 		createCustomControls();
-		useInfoCustomizationsClass();
-		useXmlCustomizations();
 		openObjectFrame();
 	}
 
@@ -590,38 +580,6 @@ public class ReflectionUITutorial {
 		swingRenderer.openObjectDialog(null, myObject, "Language field control => radio buttons");
 	}
 
-	private static void useInfoCustomizationsClass() {
-		Object myObject = new HelloWorld();
-
-		/*
-		 * CustomizedUI: This is a subclass of ReflectionUI allowing the use of
-		 * declarative customization of type informations.
-		 */
-		InfoCustomizations customizations = new InfoCustomizations();
-		CustomizedUI customizedUI = new CustomizedUI(customizations);
-
-		/*
-		 * Initialize the customization of the chosen type.
-		 */
-		TypeCustomization helloWorldTypeCustomization = InfoCustomizations.getTypeCustomization(customizations,
-				HelloWorld.class.getName(), true);
-
-		/*
-		 * Customize a field of this type.
-		 */
-		FieldCustomization nameFieldCustomization = InfoCustomizations
-				.getFieldCustomization(helloWorldTypeCustomization, "name", true);
-		nameFieldCustomization.setCustomFieldCaption(
-				"(Caption modified through " + InfoCustomizations.class.getSimpleName() + " class) Name");
-
-		/*
-		 * Open the customized UI.
-		 */
-		SwingRenderer swingRenderer = new SwingRenderer(customizedUI);
-		swingRenderer.openObjectDialog(null, myObject,
-				"'Name' field caption modified using " + InfoCustomizations.class.getSimpleName() + " class");
-	}
-
 	private static void createCustomControls() {
 		Object myObject = new HelloWorld();
 		ReflectionUI reflectionUI = new ReflectionUI();
@@ -686,49 +644,6 @@ public class ReflectionUITutorial {
 
 		};
 		swingRenderer.openObjectDialog(null, myObject, "'Upper Case' field control => toggle button");
-	}
-
-	private static void useXmlCustomizations() {
-		try {
-			/*
-			 * InfoCustomizations can be serialized/deserialized to/from XML.
-			 */
-			InfoCustomizations customizations = new InfoCustomizations();
-			CustomizedUI customizedUI = new CustomizedUI(customizations);
-
-			/*
-			 * Customize a field.
-			 */
-			TypeCustomization helloWorldTypeCustomization = InfoCustomizations.getTypeCustomization(customizations,
-					HelloWorld.class.getName(), true);
-			FieldCustomization nameFieldCustomization = InfoCustomizations
-					.getFieldCustomization(helloWorldTypeCustomization, "name", true);
-			nameFieldCustomization.setCustomFieldCaption(
-					"(Caption modified through " + InfoCustomizations.class.getSimpleName() + " class) Name");
-
-			/*
-			 * Saving customizations to an XML stream.
-			 */
-			ByteArrayOutputStream memoryOutput = new ByteArrayOutputStream();
-			customizations.saveToStream(memoryOutput, ReflectionUIUtils.getDebugLogListener(customizedUI));
-
-			/*
-			 * Loading customizations from an XML stream.
-			 */
-			ByteArrayInputStream memoryInput = new ByteArrayInputStream(memoryOutput.toByteArray());
-			customizations.loadFromStream(memoryInput, ReflectionUIUtils.getDebugLogListener(customizedUI));
-
-			/*
-			 * Displaying XML serialization text.
-			 */
-			String message = "<!-- Check " + FileExplorer.class.getName() + ".java and " + Calculator.class.getName()
-					+ ".java examples for more information -->";
-			message += "\n\n" + memoryOutput.toString();
-			CustomizedSwingRenderer.getDefault().openInformationDialog(null, message, "XML customizations example",
-					null);
-		} catch (IOException e) {
-			throw new AssertionError(e);
-		}
 	}
 
 	private static void openObjectFrame() {
