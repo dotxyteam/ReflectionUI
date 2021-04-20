@@ -251,7 +251,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		return new CustomizingForm(this, object, infoFilter);
 	}
 
-	public class CustomizingForm extends Form {
+	protected class CustomizingForm extends Form {
 		private static final long serialVersionUID = 1L;
 
 		protected boolean toolsAdded;

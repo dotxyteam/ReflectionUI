@@ -201,36 +201,50 @@ public class SwingRenderer {
 		this.reflectionUI = reflectionUI;
 	}
 
+	/**
+	 * @return the abstract UI model generator use by this renderer.
+	 */
 	public ReflectionUI getReflectionUI() {
 		return reflectionUI;
 	}
 
+	/**
+	 * @return all displayed forms that were generated using this renderer.
+	 */
 	public List<Form> getAllDisplayedForms() {
 		return allDisplayedForms;
 	}
 
-	public Map<String, InvocationData> getLastInvocationDataByIdentifier() {
+	/**
+	 * @return the last parameters that were used to invoke methods identified by
+	 *         their signature.
+	 */
+	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
 		return lastInvocationDataByMethodSignature;
 	}
 
+	/**
+	 * @param string The string to display.
+	 * @return an eventual adjustment/translation of the provided string before it
+	 *         gets displayed on the UI.
+	 */
 	public String prepareStringToDisplay(String string) {
 		return string;
 	}
 
-	public String getObjectTitle(Object object) {
-		if (object == null) {
-			return "<Missing Value>";
-		}
-		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
-	}
-
+	/**
+	 * @param input An object providing what is needed to manage the method call
+	 *              from the UI.
+	 * @return an action that can collect parameters, invoke the given method and
+	 *         eventually display the result.
+	 */
 	public MethodAction createMethodAction(IMethodControlInput input) {
 		return new MethodAction(this, input);
 	}
 
 	/**
 	 * @param object Any object.
-	 * @return a form allowing to edit the given object.
+	 * @return a form allowing to view and edit the given object.
 	 */
 	public final Form createForm(Object object) {
 		return createForm(object, IInfoFilter.DEFAULT);
@@ -238,13 +252,16 @@ public class SwingRenderer {
 
 	/**
 	 * @param object     Any object.
-	 * @param infoFilter An object allowing to filter out some fields and methods.
-	 * @return a form allowing to edit the given object.
+	 * @param infoFilter An object allowing to filter out some fields or methods.
+	 * @return a form allowing to view and edit the given object.
 	 */
 	public Form createForm(final Object object, IInfoFilter infoFilter) {
 		return new Form(this, object, infoFilter);
 	}
 
+	/**
+	 * @return the plugins providing additional field controls.
+	 */
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
 		result.add(new OptionButtonsPlugin());
@@ -265,10 +282,29 @@ public class SwingRenderer {
 		return result;
 	}
 
+	/**
+	 * @return the virtual category in which non-categorized members will be put
+	 *         when there are at least 1 defined category.
+	 */
 	public InfoCategory getNullInfoCategory() {
 		return new InfoCategory("General", -1, null);
 	}
 
+	/**
+	 * @param object The object to describe.
+	 * @return words describing the given object type in an elegant way.
+	 */
+	public String getObjectTitle(Object object) {
+		if (object == null) {
+			return "<Missing Value>";
+		}
+		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
+	}
+
+	/**
+	 * @param object The object to describe.
+	 * @return an icon image describing the given object type.
+	 */
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -285,10 +321,18 @@ public class SwingRenderer {
 		return null;
 	}
 
+	/**
+	 * @param object The object to describe.
+	 * @return an icon describing the given object type.
+	 */
 	public ImageIcon getObjectIcon(Object object) {
 		return SwingRendererUtils.getIcon(getObjectIconImage(object));
 	}
 
+	/**
+	 * @param data The object describing the method.
+	 * @return an icon representing the method described by the given object.
+	 */
 	public ImageIcon getMethodIcon(IMethodControlData data) {
 		ResourcePath imagePath = data.getIconImagePath();
 		if (imagePath == null) {
@@ -298,6 +342,10 @@ public class SwingRenderer {
 				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
+	/**
+	 * @param itemInfo The enumeration item to be described.
+	 * @return an icon describing the given enumeration item.
+	 */
 	public ImageIcon getEnumerationItemIcon(IEnumerationItemInfo itemInfo) {
 		ResourcePath imagePath = itemInfo.getIconImagePath();
 		if (imagePath == null) {
@@ -307,6 +355,10 @@ public class SwingRenderer {
 				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
+	/**
+	 * @param menuItem The menu item
+	 * @return an icon that must be associated with the given menu item.
+	 */
 	public ImageIcon getMenuItemIcon(AbstractActionMenuItemInfo menuItem) {
 		ResourcePath imagePath = menuItem.getIconImagePath();
 		if (imagePath == null) {
@@ -316,21 +368,29 @@ public class SwingRenderer {
 				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 	}
 
+	/**
+	 * This method manages the display of exceptions typically thrown by the
+	 * underlying objects.
+	 * 
+	 * @param activatorComponent The owner component of the exception dialog or
+	 *                           null.
+	 * @param t                  The exception to be displayed.
+	 */
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
 		reflectionUI.logError(t);
 		openErrorDialog(activatorComponent, "An Error Occured", null, t);
 	}
 
 	/**
-	 * Allows to execute the given method and return the result or null if the
-	 * return type is "void".
+	 * Allows to retrieve parameter values and execute the given method.
 	 * 
 	 * @param activatorComponent A component belonging to the parent window of the
 	 *                           eventual dialogs or null.
 	 * @param objectType         The method owner type.
 	 * @param object             The method owner or null for static methods.
 	 * @param method             The method to be executed.
-	 * @return the return value of the method execution.
+	 * @return the method call return value or null if the method class was
+	 *         cancelled or the return type is "void".
 	 */
 	public Object onMethodInvocationRequest(final Component activatorComponent, final ITypeInfo objectType,
 			final Object object, final IMethodInfo method) {
@@ -465,6 +525,12 @@ public class SwingRenderer {
 		}
 	}
 
+	/**
+	 * @param type The type to instanciate.
+	 * @return whether dialogs would be displayed when calling
+	 *         {@link #onTypeInstanciationRequest(Component, ITypeInfo, Object)}
+	 *         with the given type.
+	 */
 	public boolean wouldTypeInstanciationRequestOpenDialog(ITypeInfo type) {
 		if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 			final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
@@ -498,6 +564,19 @@ public class SwingRenderer {
 		}
 	}
 
+	/**
+	 * Displays a dialog allowing to select a value from a list of enumeration
+	 * items.
+	 * 
+	 * @param parentComponent A component belonging to the parent window or null.
+	 * @param enumType        The enumeration type holding the list of displayed
+	 *                        items.
+	 * @param initialEnumItem The initially selected item.
+	 * @param message         A displayed description.
+	 * @param title           The title of the displayed window or null to have the
+	 *                        default title.
+	 * @return the selected item or null if the selection was cancelled.
+	 */
 	public Object openSelectionDialog(Component parentComponent, IEnumerationTypeInfo enumType, Object initialEnumItem,
 			String message, String title) {
 		if (initialEnumItem == null) {
@@ -519,6 +598,17 @@ public class SwingRenderer {
 		}
 	}
 
+	/**
+	 * Displays a dialog allowing to view, edit and then provide a value of any
+	 * type.
+	 * 
+	 * @param activatorComponent A component belonging to the parent window or null.
+	 * @param initialValue       The initially selected value.
+	 * @param valueCaption       A displayed description.
+	 * @param title              The title of the displayed window or null to have
+	 *                           the default title.
+	 * @return the input value or null if the dialog was cancelled.
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T openInputDialog(Component activatorComponent, T initialValue, String valueCaption, String title) {
 		if (initialValue == null) {
@@ -543,6 +633,15 @@ public class SwingRenderer {
 		}
 	}
 
+	/**
+	 * Displays a dialog allowing to answer a question by "Yes" or "No".
+	 * 
+	 * @param activatorComponent A component belonging to the parent window or null.
+	 * @param question           The question to be displayed.
+	 * @param title              The title of the displayed window or null to have
+	 *                           the default title.
+	 * @return whether "yes" was chosen or not.
+	 */
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title) {
 		return openQuestionDialog(activatorComponent, question, title, "Yes", "No");
 	}
@@ -559,6 +658,15 @@ public class SwingRenderer {
 		return dialogBuilder.wasOkPressed();
 	}
 
+	/**
+	 * Displays a simple text information dialog.
+	 * 
+	 * @param activatorComponent A component belonging to the parent window or null.
+	 * @param msg                The message to be displayed.
+	 * @param title              The title of the displayed window or null to have
+	 *                           the default title.
+	 * @param iconImage          The icon image of the displayed window.
+	 */
 	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
 		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 
@@ -574,6 +682,16 @@ public class SwingRenderer {
 		showDialog(dialogBuilder.createDialog(), true);
 	}
 
+	/**
+	 * Displays an error dialog.
+	 * 
+	 * @param activatorComponent A component belonging to the parent window or null.
+	 * @param title              The title of the displayed window or null to have
+	 *                           the default title.
+	 * @param iconImage          The icon image of the displayed window.
+	 * @param error              The exception corresponding to the error to
+	 *                           display.
+	 */
 	public void openErrorDialog(Component activatorComponent, String title, Image iconImage, final Throwable error) {
 		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 
@@ -646,10 +764,20 @@ public class SwingRenderer {
 		showDialog(dialogBuilder.createDialog(), true);
 	}
 
+	/**
+	 * @param error The exception resulting from the error to display.
+	 * @return An elegant error message from the given exception.
+	 */
 	public String formatErrorMessage(Throwable error) {
 		return ReflectionUIUtils.getPrettyErrorMessage(error);
 	}
 
+	/**
+	 * Displays a detailed error dialog (with stack trace, ...).
+	 * 
+	 * @param activatorComponent A component belonging to the parent window or null.
+	 * @param error              The exception resulting from the error to display.
+	 */
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
 		String statckTraceString = ReflectionUIUtils.getPrintedStackTrace(error);
 		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
@@ -667,7 +795,7 @@ public class SwingRenderer {
 	 * @param activatorComponent A component belonging to the parent window of the
 	 *                           dialog or null.
 	 * @param object             Any object.
-	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 * @return the dialog builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
 		return openObjectDialog(activatorComponent, object, null);
@@ -681,7 +809,7 @@ public class SwingRenderer {
 	 * @param object             Any object.
 	 * @param title              The title of the dialog or null to have the default
 	 *                           title.
-	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 * @return the dialog builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title) {
 		return openObjectDialog(activatorComponent, object, title, null);
@@ -697,7 +825,7 @@ public class SwingRenderer {
 	 *                           title.
 	 * @param iconImage          The dialog icon image or null to have the default
 	 *                           icon.
-	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 * @return the dialog builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			Image iconImage) {
@@ -714,9 +842,9 @@ public class SwingRenderer {
 	 *                           title.
 	 * @param iconImage          The dialog icon image or null to have the default
 	 *                           icon.
-	 * @param cancellable        Whether the object state changes can be cancelled
+	 * @param cancellable        Whether the object state changes may be cancelled
 	 *                           or not.
-	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 * @return the dialog builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			Image iconImage, boolean cancellable) {
@@ -733,10 +861,10 @@ public class SwingRenderer {
 	 *                           title.
 	 * @param iconImage          The dialog icon image or null to have the default
 	 *                           icon.
-	 * @param cancellable        Whether the object state changes can be cancelled
+	 * @param cancellable        Whether the object state changes may be cancelled
 	 *                           or not.
 	 * @param modal              Whether the dialog is modal or not.
-	 * @return the dialog builder allowing thus to check the status of the dialog.
+	 * @return the dialog builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			final Image iconImage, final boolean cancellable, boolean modal) {
@@ -746,6 +874,18 @@ public class SwingRenderer {
 		return editorBuilder;
 	}
 
+	/**
+	 * @param activatorComponent A component belonging to the parent window of the
+	 *                           dialog or null.
+	 * @param object             Any object.
+	 * @param title              The title of the dialog or null to have the default
+	 *                           title.
+	 * @param iconImage          The dialog icon image or null to have the default
+	 *                           icon.
+	 * @param cancellable        Whether the object state changes may be cancelled
+	 *                           or not.
+	 * @return an object allowing build an complete editor for the given object.
+	 */
 	public StandardEditorBuilder getEditorBuilder(Component activatorComponent, final Object object, final String title,
 			final Image iconImage, final boolean cancellable) {
 		return new StandardEditorBuilder(this, activatorComponent, object) {
@@ -852,10 +992,25 @@ public class SwingRenderer {
 
 	}
 
+	/**
+	 * @param activatorComponent A component belonging to the parent window of the
+	 *                           dialog or null.
+	 * @return an object allowing build a dialog.
+	 */
 	public DialogBuilder getDialogBuilder(Component activatorComponent) {
 		return new ApplicationDialogBuilder(activatorComponent);
 	}
 
+	/**
+	 * Runs a task while displaying a busy indicator. Note that the busy indicator
+	 * is shown only if the task lasts long enough.
+	 * 
+	 * @param activatorComponent A component belonging to the parent window of the
+	 *                           dialog or null.
+	 * @param runnable           The task to execute.
+	 * @param title              The title of the dialog or null to have the default
+	 *                           title.
+	 */
 	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {
 		if (Thread.currentThread() == busyDialogJobExecutorThread) {
 			throw new ReflectionUIError(
@@ -927,10 +1082,23 @@ public class SwingRenderer {
 		}
 	}
 
+	/**
+	 * Displays a dialog.
+	 * 
+	 * @param dialog The dialog to display.
+	 * @param modal  Whether the dialog should be modal or not.
+	 */
 	public void showDialog(JDialog dialog, boolean modal) {
 		showDialog(dialog, modal, true);
 	}
 
+	/**
+	 * Displays a dialog.
+	 * 
+	 * @param dialog    The dialog to display.
+	 * @param modal     Whether the dialog should be modal or not.
+	 * @param closeable Whether the dialog should be closable or not.
+	 */
 	public void showDialog(JDialog dialog, boolean modal, boolean closeable) {
 		if (modal) {
 			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
@@ -953,10 +1121,20 @@ public class SwingRenderer {
 
 	}
 
+	/**
+	 * @param window
+	 * @return an object that manages the appearance and behavior of a window
+	 *         (dialog or frame).
+	 */
 	public WindowManager createWindowManager(Window window) {
 		return new WindowManager(this, window);
 	}
 
+	/**
+	 * @param image The input image.
+	 * @return an image that simulates an activation effect when replacing the given
+	 *         image.
+	 */
 	public BufferedImage addImageActivationEffect(Image image) {
 		BufferedImage result = new BufferedImage(image.getWidth(null), image.getHeight(null),
 				BufferedImage.TYPE_4BYTE_ABGR);
@@ -969,6 +1147,11 @@ public class SwingRenderer {
 				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
 	}
 
+	/**
+	 * @param color The input color.
+	 * @return A color that simulates an activation effect when replacing the given
+	 *         color.
+	 */
 	public Color addColorActivationEffect(Color color) {
 		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
 		if (hsb[2] > 0.5f) {

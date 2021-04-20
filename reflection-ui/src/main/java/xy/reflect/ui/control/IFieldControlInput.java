@@ -30,12 +30,29 @@ package xy.reflect.ui.control;
 
 import xy.reflect.ui.undo.ModificationStack;
 
+/**
+ * This interface provides contextual information and tools needed by a field
+ * control to properly display its field values.
+ * 
+ * @author olitank
+ *
+ */
 public interface IFieldControlInput {
 
+	/**
+	 * @return an object providing what UI field controls need to look and behave
+	 *         properly.
+	 */
 	IFieldControlData getControlData();
 
+	/**
+	 * @return a reference to the current modification stack.
+	 */
 	ModificationStack getModificationStack();
 
+	/**
+	 * @return an object identifying the context in which the field is displayed.
+	 */
 	IContext getContext();
 
 }

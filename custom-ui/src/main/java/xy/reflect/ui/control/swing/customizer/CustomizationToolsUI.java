@@ -252,7 +252,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
 						MethodCustomization mc = (MethodCustomization) object;
-						InvocationData lastInvocationData = swingCustomizer.getLastInvocationDataByIdentifier()
+						InvocationData lastInvocationData = swingCustomizer.getLastInvocationDataByMethodSignature()
 								.get(mc.getMethodSignature());
 						if (lastInvocationData == null) {
 							throw new ReflectionUIError(

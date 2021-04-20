@@ -44,11 +44,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
  * <ul>
  * <li>there are 4 colors that controls must take into account:</li>
  * <ul>
- * <li>label foreground (note that every transparent part is considered as a
- * label)</li>
- * <li>editor (editable) background</li>
- * <li>editor (editable) foreground</li>
- * <li>border
+ * <li>label foreground color (usually the color of a non-editable text
+ * describing the control)</li>
+ * <li>editor background color (usually the background color of an editable
+ * text)</li>
+ * <li>editor foreground color (usually the color of an editable text)</li>
+ * <li>border color
  * </ul>
  * <li>note that the controls have 2 states that must be distinctly displayed
  * while respecting the above colors:</li>
@@ -56,15 +57,17 @@ import xy.reflect.ui.info.type.ITypeInfo;
  * <li>editable</li>
  * <li>not editable</li>
  * </ul>
- * <li>normally when 1 of these colors is not specified, the control must get
- * its natural color</li>
- * <li>It means there are 2 possible color combinations:</li>
+ * <li>normally when 1 of these colors is not specified, the control must
+ * replace it by its natural color</li>
+ * <li>It means there is typically 2 possible color combinations at the same
+ * area of the control:</li>
  * <ul>
- * <li>label foreground on transparent (not editable)</li>
- * <li>editor foreground on editor background (editable)</li>
+ * <li>the label foreground color above transparency (not editable)</li>
+ * <li>the editor foreground color above the editor background color
+ * (editable)</li>
  * </ul>
- * <li>In case the control cannot conform to the "not editable" color
- * combination, it is tolerated that it gets its natural colors</li>
+ * <li>In case the control cannot conform to the specified colors, it is
+ * tolerated that it gets its natural colors</li>
  * </ul>
  * 
  * @author olitank
@@ -80,8 +83,7 @@ public interface IFieldControlData {
 	/**
 	 * Updates the value that the control displays.
 	 * 
-	 * @param value
-	 *            The new value.
+	 * @param value The new value.
 	 */
 	void setValue(Object value);
 
@@ -91,8 +93,7 @@ public interface IFieldControlData {
 	String getCaption();
 
 	/**
-	 * @param newValue
-	 *            The new value.
+	 * @param newValue The new value.
 	 * @return a job that can revert the next value update or null if the default
 	 *         undo job should be used.
 	 */
@@ -223,10 +224,9 @@ public interface IFieldControlData {
 	/**
 	 * Allows the control to constructs a new instance of the edited control value.
 	 * 
-	 * @param typeToInstanciate
-	 *            The type of the value to instanciate.
-	 * @param selectableConstructor
-	 *            Whether the framework should allow to select a constructor or not.
+	 * @param typeToInstanciate     The type of the value to instanciate.
+	 * @param selectableConstructor Whether the framework should allow to select a
+	 *                              constructor or not.
 	 * @return the new instance.
 	 */
 	Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor);

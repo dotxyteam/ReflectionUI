@@ -563,7 +563,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			if (!controlData.isNullValueDistinct() || currentPlugin.canDisplayDistinctNullValue()) {
 				Component result;
 				try {
-					result = currentPlugin.createControl(swingRenderer, this);
+					result = (Component) currentPlugin.createControl(swingRenderer, this);
 				} catch (Throwable t) {
 					swingRenderer.getReflectionUI().logError(t);
 					result = createFieldErrorControl(t);

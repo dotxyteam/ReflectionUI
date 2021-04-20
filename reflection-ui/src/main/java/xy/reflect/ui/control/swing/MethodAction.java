@@ -143,8 +143,8 @@ public class MethodAction extends AbstractAction {
 	public InvocationData openMethoExecutionSettingDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(activatorComponent);
 		final InvocationData invocationData;
-		if (swingRenderer.getLastInvocationDataByIdentifier().containsKey(data.getInvocationIdentifier())) {
-			invocationData = swingRenderer.getLastInvocationDataByIdentifier().get(data.getInvocationIdentifier());
+		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getInvocationIdentifier())) {
+			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getInvocationIdentifier());
 		} else {
 			invocationData = data.createInvocationData();
 		}
@@ -178,7 +178,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	public void invokeAndUpdateReturnValue(InvocationData invocationData) {
-		swingRenderer.getLastInvocationDataByIdentifier().put(data.getInvocationIdentifier(), invocationData);
+		swingRenderer.getLastInvocationDataByMethodSignature().put(data.getInvocationIdentifier(), invocationData);
 		returnValueSet = false;
 		returnValue = data.invoke(invocationData);
 		returnValueSet = true;
