@@ -173,6 +173,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		public void actionPerformed(ActionEvent e) {
 		}
 	};
+	protected boolean initialized = false;
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -197,6 +198,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		updateToolbar();
 		initializeSelectionListening();
 		refreshUI(true);
+		this.initialized = true;
+	}
+
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		if (initialized) {
+			refreshUI(true);
+		}
 	}
 
 	public Object getRootListValue() {
@@ -1460,6 +1470,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			refreshTreeTableScrollPaneBorder();
 			refreshTreeTableComponentBackground();
 			refreshTreeTableComponentHeader();
+			refreshRendrers();
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		return true;
@@ -1480,13 +1491,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	protected void refreshRendrers() {
+		treeTableComponent.setDefaultRenderer(Object.class, createTableCellRenderer());
+		treeTableComponent.setTreeCellRenderer(createTreeCellRenderer());
+	}
+
 	protected void refreshTreeTableComponentBackground() {
 		if (listData.getEditorBackgroundColor() != null) {
 			treeTableComponent.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
 		} else {
 			treeTableComponent.setBackground(new JXTreeTable().getBackground());
 		}
-		treeTableComponent.setDefaultRenderer(Object.class, createTableCellRenderer());
 	}
 
 	protected void refreshTreeTableComponentHeader() {

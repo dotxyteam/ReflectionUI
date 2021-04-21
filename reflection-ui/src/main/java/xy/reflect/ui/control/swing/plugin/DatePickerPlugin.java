@@ -127,13 +127,24 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 				return DatePicker.this.getCommitDelayMilliseconds();
 			}
 		};
+		protected boolean initialized = false;
 
+		
 		public DatePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
 			setupEvents();
 			refreshUI(true);
+			this.initialized = true;
+		}
+		
+		@Override
+		public void updateUI() {
+			super.updateUI();
+			if(initialized) {
+				refreshUI(true);
+			}
 		}
 
 		protected void setupEvents() {
@@ -223,8 +234,8 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 						setBorder(new JXDatePicker().getBorder());
 					}
 					if (data.isGetOnly()) {
-						getEditor().setBackground(null);
-						getEditor().setForeground(null);
+						getEditor().setBackground(new JXDatePicker().getBackground());
+						getEditor().setForeground(new JXDatePicker().getForeground());
 					} else {
 						if (data.getEditorBackgroundColor() != null) {
 							getEditor().setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
@@ -246,6 +257,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			}
 		}
 
+		
 		protected long getCommitDelayMilliseconds() {
 			return 3000;
 		}

@@ -659,21 +659,12 @@ public class Form extends ImagePanel {
 		return true;
 	}
 
-	public Color getMainBackgroundColor() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		if (reflectionUI.getApplicationInfo().getMainBackgroundColor() != null) {
-			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainBackgroundColor());
-		} else {
-			return null;
-		}
-	}
-
 	public Color getMainForeroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		if (reflectionUI.getApplicationInfo().getMainForegroundColor() != null) {
 			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainForegroundColor());
 		} else {
-			return null;
+			return new JPanel().getForeground();
 		}
 	}
 
@@ -683,17 +674,6 @@ public class Form extends ImagePanel {
 			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainBorderColor());
 		} else {
 			return null;
-		}
-	}
-
-	public Image getMainBackgroundImage() {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		if (reflectionUI.getApplicationInfo().getMainBackgroundImagePath() == null) {
-			return null;
-		} else {
-			return SwingRendererUtils.loadImageThroughCache(
-					reflectionUI.getApplicationInfo().getMainBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 		}
 	}
 

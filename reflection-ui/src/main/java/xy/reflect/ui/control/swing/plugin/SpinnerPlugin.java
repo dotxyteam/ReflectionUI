@@ -253,8 +253,8 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						setBorder(new JSpinner().getBorder());
 					}
 					if (data.isGetOnly()) {
-						getEditor().getComponent(0).setBackground(null);
-						getEditor().getComponent(0).setForeground(null);
+						getEditor().getComponent(0).setBackground(new JSpinner().getEditor().getComponent(0).getBackground());
+						getEditor().getComponent(0).setForeground(new JSpinner().getEditor().getComponent(0).getForeground());
 					} else {
 						if (data.getEditorBackgroundColor() != null) {
 							getEditor().getComponent(0)

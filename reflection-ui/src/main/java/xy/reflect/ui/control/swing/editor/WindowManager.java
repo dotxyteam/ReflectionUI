@@ -47,8 +47,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-
 import org.jdesktop.swingx.StackLayout;
 
 import xy.reflect.ui.ReflectionUI;
@@ -110,7 +108,7 @@ public class WindowManager {
 	protected Color getAlternativeDecorationsBorderColor() {
 		Color result = getMainForegroundColor();
 		if (result == null) {
-			result = UIManager.getColor("Panel.foreground");
+			result = new JPanel().getForeground();
 		}
 		return result;
 	}
@@ -268,7 +266,7 @@ public class WindowManager {
 		if (appInfo.getMainBackgroundColor() != null) {
 			return SwingRendererUtils.getColor(appInfo.getMainBackgroundColor());
 		} else {
-			return null;
+			return new JPanel().getBackground();
 		}
 	}
 
@@ -354,7 +352,7 @@ public class WindowManager {
 				result = getTitleBackgroundColor();
 			}
 			if (result == null) {
-				result = UIManager.getColor("Panel.background");
+				result = new JPanel().getBackground();
 			}
 			return result;
 		}
@@ -369,7 +367,7 @@ public class WindowManager {
 				result = getMainForegroundColor();
 			}
 			if (result == null) {
-				result = UIManager.getColor("Panel.foreground");
+				result = new JPanel().getForeground();
 			}
 			return result;
 		}

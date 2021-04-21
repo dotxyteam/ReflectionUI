@@ -198,8 +198,8 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			}
 			if (data.isGetOnly()) {
 				comboBox.setEnabled(false);
-				comboBox.setBackground(null);
-				comboBox.setForeground(null);
+				comboBox.setBackground(new JComboBox().getBackground());
+				comboBox.setForeground(new JComboBox().getForeground());
 			} else {
 				comboBox.setEnabled(true);
 				if (data.getEditorBackgroundColor() != null) {
