@@ -1,7 +1,7 @@
 DESCRIPTION
 -----------
-The aim of ReflectionUI is to allow to build appropriate UIs from objects
-without coding (or with very few coding=).
+The aim of ReflectionUI is to allow to generate appropriate UIs from objects
+without coding (or with very few coding).
 
 
 DEVELOPER GUIDE
@@ -135,7 +135,7 @@ To achieve this goal, 2 main layers have been created:
 		---------
 		These are some of the main components of this library. For now only one renderer
 		is available: SwingRenderer. A renderer is actually a factory of GUI elements.
-		It will then create control data instances, controls, forms, ModificationStack objects
+		It will then create control data objects, controls, forms, ModificationStack objects
 		and glue them all together to provide a working UI.
 
 DEBIAN INTEGRATION
