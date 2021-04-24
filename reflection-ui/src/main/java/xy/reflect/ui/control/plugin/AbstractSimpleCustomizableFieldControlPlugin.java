@@ -28,81 +28,43 @@
  ******************************************************************************/
 package xy.reflect.ui.control.plugin;
 
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
-
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
-import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Base class of simple field control plugins that can be configured.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractSimpleCustomizableFieldControlPlugin extends AbstractSimpleFieldControlPlugin
 		implements ICustomizableFieldControlPlugin {
 
-	public abstract AbstractConfiguration getDefaultControlCustomization();
-
 	@Override
-	public JMenuItem makeFieldCustomizerMenuItem(final JButton customizerButton,
-			final FieldControlPlaceHolder fieldControlPlaceHolder, final InfoCustomizations infoCustomizations,
-			final ICustomizationTools customizationTools) {
-		return new JMenuItem(new AbstractAction(
-				customizationTools.getToolsRenderer().prepareStringToDisplay(getControlTitle() + " Options...")) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
-						fieldControlPlaceHolder.getControlData().getType().getName(), true);
-				AbstractConfiguration controlConfiguration = null;
-				try {
-					controlConfiguration = getControlCustomization(typeCustomization);
-				} catch (Throwable t) {
-					controlConfiguration = getDefaultControlCustomization();
-				}
-				StandardEditorBuilder status = customizationTools.getToolsRenderer().openObjectDialog(customizerButton,
-						controlConfiguration, null, null, true, true);
-				if (status.isCancelled()) {
-					return;
-				}
-				storeControlCustomization(controlConfiguration, typeCustomization, customizationTools);
-			}
-
-		});
+	public Map<String, Object> storeControlCustomization(AbstractConfiguration controlConfiguration,
+			Map<String, Object> specificProperties) {
+		specificProperties = new HashMap<String, Object>(specificProperties);
+		ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, getIdentifier(), controlConfiguration);
+		return specificProperties;
 	}
 
-	public void storeControlCustomization(AbstractConfiguration controlConfiguration,
-			TypeCustomization typeCustomization, ICustomizationTools customizationTools) {
-		Map<String, Object> specificProperties = typeCustomization.getSpecificProperties();
-		specificProperties = new HashMap<String, Object>(specificProperties);
-		storeControlCustomization(controlConfiguration, specificProperties);
-		customizationTools.changeCustomizationFieldValue(typeCustomization, "specificProperties", specificProperties);
+	@Override
+	public AbstractConfiguration getControlCustomization(Map<String, Object> specificProperties) {
+		AbstractConfiguration result = loadControlCustomization(specificProperties);
+		if (result == null) {
+			result = getDefaultControlCustomization();
+		}
+		return result;
 	}
 
 	public AbstractConfiguration loadControlCustomization(Map<String, Object> specificProperties) {
 		return (AbstractConfiguration) ReflectionUIUtils.getFieldControlPluginConfiguration(specificProperties,
 				getIdentifier());
-	}
-
-	public void storeControlCustomization(AbstractConfiguration controlConfiguration,
-			Map<String, Object> specificProperties) {
-		ReflectionUIUtils.setFieldControlPluginConfiguration(specificProperties, getIdentifier(), controlConfiguration);
-	}
-
-	public AbstractConfiguration getControlCustomization(TypeCustomization typeCustomization) {
-		AbstractConfiguration result = loadControlCustomization(typeCustomization.getSpecificProperties());
-		if (result == null) {
-			result = getDefaultControlCustomization();
-		}
-		return result;
 	}
 
 	public AbstractConfiguration loadControlCustomization(IFieldControlInput input) {

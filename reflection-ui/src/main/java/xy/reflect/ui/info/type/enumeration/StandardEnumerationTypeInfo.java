@@ -43,6 +43,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 
+/**
+ * Enumeration type information extracted from the Java enum type encapsulated
+ * in the given type information source.
+ * 
+ * @author olitank
+ *
+ */
 public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnumerationTypeInfo {
 
 	public StandardEnumerationTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {

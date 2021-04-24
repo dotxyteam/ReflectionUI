@@ -30,25 +30,94 @@ package xy.reflect.ui.info.type.iterable.structure;
 
 import java.util.List;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
 /**
- * Allows to describe tabular and hierarchical preferences of list types.
+ * Allows to describe tabular and hierarchical preferences about list types.
  * 
  * @author olitank
  *
  */
 public interface IListStructuralInfo {
 
+	/**
+	 * @return the list columns.
+	 */
 	List<IColumnInfo> getColumns();
 
+	/**
+	 * @param itemPosition The item position.
+	 * @return the field used to get the sub-list value from the current item or
+	 *         null if there is no sub-list.
+	 */
 	IFieldInfo getItemSubListField(ItemPosition itemPosition);
 
+	/**
+	 * @param itemPosition The item position.
+	 * @return the filter that must be applied to the item type information or null.
+	 */
 	IInfoFilter getItemInfoFilter(ItemPosition itemPosition);
 
+	/**
+	 * @return the height (in pixels) of the list or -1 if the default height should
+	 *         be used.
+	 */
 	int getLength();
+
+	/**
+	 * Version of {@link MultipleFieldsAsListFieldInfo} used for list structure
+	 * inspection only.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public static class SubListsGroupingField extends MultipleFieldsAsListFieldInfo {
+
+		public SubListsGroupingField(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo containingType) {
+			super(reflectionUI, fields, containingType);
+		}
+
+		@Override
+		public boolean isGetOnly() {
+			return false;
+		}
+
+		@Override
+		public void setValue(Object object, Object value) {
+		}
+
+		@Override
+		protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
+			return new SubListGroup(object, listFieldInfo);
+		}
+
+		@Override
+		protected ITypeInfo getListItemTypeInfo(final IFieldInfo field) {
+			return new SubListGroupTypeInfo(field);
+		}
+
+		public class SubListGroupTypeInfo extends ValueListItemTypeInfo {
+
+			public SubListGroupTypeInfo(IFieldInfo field) {
+				super(field);
+			}
+
+		}
+
+		public class SubListGroup extends ValueListItem {
+
+			public SubListGroup(Object object, IFieldInfo field) {
+				super(object, field);
+			}
+
+		}
+
+	}
 
 }

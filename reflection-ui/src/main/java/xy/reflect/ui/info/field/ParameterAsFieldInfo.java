@@ -50,6 +50,12 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Virtual field that allows to view/edit the underlying method parameter value.
+ * 
+ * @author olitank
+ *
+ */
 public class ParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected IParameterInfo param;
 	protected IMethodInfo method;

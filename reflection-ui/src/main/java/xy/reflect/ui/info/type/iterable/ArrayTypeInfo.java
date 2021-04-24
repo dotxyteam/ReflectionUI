@@ -40,6 +40,13 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.method.InvocationData;
 
+/**
+ * Type information extracted from the Java array type encapsulated in the given
+ * type information source.
+ * 
+ * @author olitank
+ *
+ */
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	public ArrayTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {

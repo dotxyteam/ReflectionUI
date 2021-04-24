@@ -28,6 +28,13 @@
  ******************************************************************************/
 package xy.reflect.ui.info;
 
+/**
+ * Base class of abstract UI model proxies. It ensures that the 'name' of the
+ * proxy is checked when computing the equality of 2 instances.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractInfoProxy extends AbstractInfo {
 
 	@Override

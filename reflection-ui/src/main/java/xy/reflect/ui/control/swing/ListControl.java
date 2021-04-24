@@ -89,6 +89,7 @@ import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -106,7 +107,7 @@ import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.filter.AbstractDelegatingInfoFilter;
+import xy.reflect.ui.info.filter.DelegatingInfoFilter;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.InvocationData;
@@ -119,7 +120,7 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroup;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListsGroupingField.SubListGroup;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
@@ -139,6 +140,12 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control that displays a tree table.
+ * 
+ * @author olitank
+ *
+ */
 public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
@@ -2088,7 +2095,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected IInfoFilter getEncapsulatedFormFilter() {
-			return new AbstractDelegatingInfoFilter() {
+			return new DelegatingInfoFilter() {
 				@Override
 				protected IInfoFilter getDelegate() {
 					BufferedItemPosition dynamicItemPosition = bufferedItemPosition.getSibling(-1);

@@ -38,6 +38,7 @@ import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -58,6 +59,13 @@ import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control that can display values of different types. It uses a
+ * sub-control that depends on the current value type.
+ * 
+ * @author olitank
+ *
+ */
 public class PolymorphicControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;

@@ -36,6 +36,13 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Factory that generates type information proxies that conform to the specified
+ * {@link IInfoFilter}.
+ * 
+ * @author olitank
+ *
+ */
 public class FilteredTypeFactory extends InfoProxyFactory {
 
 	protected IInfoFilter infoFilter;
@@ -72,7 +79,5 @@ public class FilteredTypeFactory extends InfoProxyFactory {
 	public String toString() {
 		return "FilteredTypeFactory [infoFilter=" + infoFilter + "]";
 	}
-	
-	
 
 }

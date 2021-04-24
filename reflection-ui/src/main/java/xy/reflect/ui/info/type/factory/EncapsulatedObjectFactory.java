@@ -59,6 +59,14 @@ import xy.reflect.ui.util.ArrayAccessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Factory that generates through {@link #getInstance(Accessor)} or
+ * {@link #getInstance(Object[])} virtual objects that encapsulate the provided
+ * objects. It also generates the virtual object type information.
+ * 
+ * @author olitank
+ *
+ */
 public class EncapsulatedObjectFactory {
 
 	public static final String IS_ENCAPSULATION_FIELD_PROPERTY_KEY = EncapsulatedObjectFactory.class.getName()

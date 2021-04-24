@@ -33,6 +33,13 @@ import java.util.Map;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 
+/**
+ * Application information proxy class. Its methods should be overriden to
+ * provide custom information.
+ * 
+ * @author olitank
+ *
+ */
 public class ApplicationInfoProxy implements IApplicationInfo {
 
 	protected IApplicationInfo base;

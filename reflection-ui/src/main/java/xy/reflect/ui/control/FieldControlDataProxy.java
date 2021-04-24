@@ -36,6 +36,13 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Field control data proxy class. Its methods should be overriden to provide a
+ * custom behavior.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldControlDataProxy implements IFieldControlData {
 
 	protected IFieldControlData base;

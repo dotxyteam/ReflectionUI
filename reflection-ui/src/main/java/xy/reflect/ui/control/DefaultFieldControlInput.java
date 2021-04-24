@@ -32,6 +32,13 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
+/**
+ * Default field control input. It just uses the given object and field to
+ * provide the features needed by the controls.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultFieldControlInput implements IFieldControlInput {
 
 	private ReflectionUI reflectionUI;

@@ -38,6 +38,13 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Virtual method allowing to execute the
+ * {@link ITypeInfo#load(Object, InputStream)} method.
+ * 
+ * @author olitank
+ *
+ */
 public class LoadFromFileMethod extends AbstractPersistenceMethod {
 
 	public LoadFromFileMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
@@ -85,5 +92,4 @@ public class LoadFromFileMethod extends AbstractPersistenceMethod {
 		return false;
 	}
 
-	
 }

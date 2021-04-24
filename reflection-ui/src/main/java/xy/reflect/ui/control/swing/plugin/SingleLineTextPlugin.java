@@ -40,6 +40,12 @@ import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 
+/**
+ * Field control plugin that allows to display only single-line text.
+ * 
+ * @author olitank
+ *
+ */
 public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

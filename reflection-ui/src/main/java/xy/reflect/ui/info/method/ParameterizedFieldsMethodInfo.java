@@ -42,13 +42,20 @@ import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Method proxy that have additional virtual parameters allowing view/update the
+ * values of specified fields.
+ * 
+ * @author olitank
+ *
+ */
 public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected List<IFieldInfo> parameterizedFields;
-	protected List<FieldAsParameterInfo> generatedParameters;
 	protected ITypeInfo containingType;
 	protected FututreActionBuilder undoJobBuilder;
+	protected List<FieldAsParameterInfo> generatedParameters;
 
 	public ParameterizedFieldsMethodInfo(ReflectionUI reflectionUI, IMethodInfo method,
 			List<IFieldInfo> parameterizedFields, ITypeInfo containingType) {
@@ -71,7 +78,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 				public boolean isHidden() {
 					return false;
 				}
-				
+
 			});
 		}
 		return result;

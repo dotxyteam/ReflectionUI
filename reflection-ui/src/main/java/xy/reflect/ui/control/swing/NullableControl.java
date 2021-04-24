@@ -44,6 +44,7 @@ import javax.swing.border.TitledBorder;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -62,6 +63,13 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control that allows to display/set/unset the null value. When the value
+ * is not null then a sub-control is used to handle the non-null value.
+ * 
+ * @author olitank
+ *
+ */
 public class NullableControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected SwingRenderer swingRenderer;

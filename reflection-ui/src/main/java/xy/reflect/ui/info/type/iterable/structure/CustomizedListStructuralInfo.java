@@ -32,6 +32,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
@@ -49,7 +50,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
-import xy.reflect.ui.info.type.iterable.structure.SubListsGroupingField.SubListGroupTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListsGroupingField.SubListGroupTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.ColumnInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.FieldColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -59,6 +60,13 @@ import xy.reflect.ui.info.type.iterable.structure.column.TypeNameColumnInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Structural information proxy that conforms the base structural information to
+ * the specified {@link ListCustomization}.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> columnFields;

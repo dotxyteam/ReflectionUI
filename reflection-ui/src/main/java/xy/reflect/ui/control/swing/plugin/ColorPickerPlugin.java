@@ -59,6 +59,13 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 
+/**
+ * Field control plugin that allows to display and update adequately
+ * {@link Color} values.
+ * 
+ * @author olitank
+ *
+ */
 public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();

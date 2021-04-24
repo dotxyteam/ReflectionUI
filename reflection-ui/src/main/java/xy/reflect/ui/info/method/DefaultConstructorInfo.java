@@ -43,6 +43,12 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Constructor information extracted from the given Java constructor.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	protected Constructor<?> javaConstructor;
@@ -73,7 +79,8 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	@Override
 	public ITypeInfo getReturnValueType() {
 		if (returnValueType == null) {
-			returnValueType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), null));
+			returnValueType = reflectionUI
+					.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), null));
 		}
 		return returnValueType;
 	}

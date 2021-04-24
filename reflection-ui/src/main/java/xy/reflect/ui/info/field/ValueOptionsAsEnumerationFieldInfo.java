@@ -36,6 +36,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
+/**
+ * Field proxy allowing to view/edit the base field value as an enumeration
+ * item.
+ * 
+ * @author olitank
+ *
+ */
 public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;

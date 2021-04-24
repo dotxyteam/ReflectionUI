@@ -55,6 +55,13 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Type information extracted from the Java collection type encapsulated in the
+ * given type information source.
+ * 
+ * @author olitank
+ *
+ */
 public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IListTypeInfo {
 
 	protected ITypeInfo itemType;

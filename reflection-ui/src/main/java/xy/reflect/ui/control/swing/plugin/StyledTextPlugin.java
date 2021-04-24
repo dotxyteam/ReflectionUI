@@ -56,6 +56,12 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that allows to display/update styled text.
+ * 
+ * @author olitank
+ *
+ */
 public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

@@ -32,6 +32,14 @@ import java.awt.Component;
 
 import javax.swing.JScrollPane;
 
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+
+/**
+ * Base class of most scroll panes used by the {@link SwingRenderer}.
+ * 
+ * @author olitank
+ *
+ */
 public class ControlScrollPane extends JScrollPane {
 
 	private static final long serialVersionUID = 1L;

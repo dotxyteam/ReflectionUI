@@ -31,6 +31,13 @@ package xy.reflect.ui.info.filter;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
+/**
+ * Filter proxy class. Its methods should be overriden to provide custom
+ * behavior.
+ * 
+ * @author olitank
+ *
+ */
 public class InfoFilterProxy implements IInfoFilter {
 
 	IInfoFilter delegate;

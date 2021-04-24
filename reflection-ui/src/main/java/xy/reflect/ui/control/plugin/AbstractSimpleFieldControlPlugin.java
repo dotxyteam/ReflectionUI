@@ -32,8 +32,18 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.util.ClassUtils;
 
+/**
+ * Base class of simple field control plugins.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlPlugin {
 
+	/**
+	 * @param javaType The tested java type.
+	 * @return Whether the current plugin is compatible with the given java type.
+	 */
 	protected abstract boolean handles(Class<?> javaType);
 
 	@Override

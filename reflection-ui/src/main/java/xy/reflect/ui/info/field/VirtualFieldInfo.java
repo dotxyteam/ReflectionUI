@@ -41,6 +41,13 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Purely virtual field. The field values are attached to the owner object and
+ * garbaged as soon as the owner object is garbaged.
+ * 
+ * @author olitank
+ *
+ */
 public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected String fieldName;

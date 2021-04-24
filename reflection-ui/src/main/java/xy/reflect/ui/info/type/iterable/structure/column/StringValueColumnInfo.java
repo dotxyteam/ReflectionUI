@@ -36,6 +36,12 @@ import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Column that displays the string representation of the current item.
+ * 
+ * @author olitank
+ *
+ */
 public class StringValueColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	protected ReflectionUI reflectionUI;

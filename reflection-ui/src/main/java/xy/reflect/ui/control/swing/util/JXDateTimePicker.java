@@ -45,11 +45,8 @@ import java.util.*;
 import java.awt.*;
 
 /**
- * This is licensed under LGPL. License can be found here:
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * This is provided as is. If you have questions please direct them to
- * charlie.hubbard at gmail dot you know what.
+ * An extended version the {@link JXDatePicker} allowing to display/edit time
+ * (hour, minute, ...).
  */
 public class JXDateTimePicker extends JXDatePicker {
 	private static final long serialVersionUID = 1L;

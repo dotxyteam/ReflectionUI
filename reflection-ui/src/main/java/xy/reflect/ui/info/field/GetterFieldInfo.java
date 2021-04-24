@@ -50,6 +50,15 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field generated from a '(get|is|has)Something()' Java method. If the
+ * corresponding 'setSomething(...)' method is not found in the same class then
+ * this field will be "read-only" (may not be editable, depends on the field
+ * type).
+ * 
+ * @author olitank
+ *
+ */
 public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)([A-Z].*)");

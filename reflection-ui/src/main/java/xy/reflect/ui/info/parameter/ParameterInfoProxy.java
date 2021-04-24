@@ -33,6 +33,13 @@ import java.util.Map;
 import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Parameter information proxy class. Its methods should be overriden to provide
+ * custom information.
+ * 
+ * @author olitank
+ *
+ */
 public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterInfo {
 
 	protected IParameterInfo base;

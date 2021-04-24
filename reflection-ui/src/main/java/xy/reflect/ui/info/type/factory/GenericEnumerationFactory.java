@@ -56,6 +56,13 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Factory that generates virtual enumeration type information from the
+ * specified list items (accessible via the {@link Iterable} object).
+ * 
+ * @author olitank
+ *
+ */
 public class GenericEnumerationFactory {
 	protected ReflectionUI reflectionUI;
 	protected Iterable<?> iterable;

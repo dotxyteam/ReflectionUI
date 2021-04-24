@@ -13,6 +13,12 @@ import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Menu item container class.
+ * 
+ * @author olitank
+ *
+ */
 public class Menu extends JMenu {
 
 	private static final long serialVersionUID = 1L;

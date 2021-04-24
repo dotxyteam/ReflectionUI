@@ -38,6 +38,12 @@ import java.awt.geom.Point2D;
 
 import xy.reflect.ui.util.MathUtils;
 
+/**
+ * Panel able to display an image.
+ * 
+ * @author olitank
+ *
+ */
 public class ImagePanel extends ControlPanel {
 
 	private static final long serialVersionUID = 1L;

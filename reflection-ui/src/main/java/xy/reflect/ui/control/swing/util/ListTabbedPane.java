@@ -63,6 +63,13 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * Alternate tabbed pane implementation that uses a list control to render tab
+ * headers.
+ * 
+ * @author olitank
+ *
+ */
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ListTabbedPane extends JPanel {
 

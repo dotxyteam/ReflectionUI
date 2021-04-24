@@ -31,6 +31,14 @@ package xy.reflect.ui.info.type.iterable.item;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
+/**
+ * Base class of factories that are intended to create directly or indirectly
+ * all {@link ItemPosition} instances. Actually these factories only create root
+ * item positions that will create children or sibling item positions.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractItemPositionFactory {
 
 	public abstract Object getRootListValue();

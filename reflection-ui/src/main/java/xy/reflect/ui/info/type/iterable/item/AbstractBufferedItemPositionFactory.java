@@ -28,6 +28,13 @@
  ******************************************************************************/
 package xy.reflect.ui.info.type.iterable.item;
 
+/**
+ * This class is a sub-class of {@link AbstractItemPositionFactory} that only
+ * creates {@link BufferedItemPosition} instances.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPositionFactory {
 
 	protected Object[] bufferedRootListRawValue;

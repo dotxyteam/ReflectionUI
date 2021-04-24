@@ -43,6 +43,12 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Virtual field that returns the underlying method return value.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo method;

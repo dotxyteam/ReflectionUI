@@ -68,6 +68,13 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Virtual list field that uses multiple fields/methods to simulate a list
+ * value.
+ * 
+ * @author olitank
+ *
+ */
 public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;

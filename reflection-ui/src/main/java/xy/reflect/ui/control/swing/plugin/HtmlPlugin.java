@@ -48,6 +48,13 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that allows to display/update text formatted using the
+ * HTML.
+ * 
+ * @author olitank
+ *
+ */
 public class HtmlPlugin extends StyledTextPlugin {
 
 	@Override

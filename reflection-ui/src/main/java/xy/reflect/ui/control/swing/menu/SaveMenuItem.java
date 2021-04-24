@@ -35,6 +35,12 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
+/**
+ * Menu item that allows to save an object state to a file.
+ * 
+ * @author olitank
+ *
+ */
 public class SaveMenuItem extends AbstractSaveMenuItem {
 
 	protected static final long serialVersionUID = 1L;

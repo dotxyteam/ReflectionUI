@@ -40,6 +40,12 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Base class of constructor specifications.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractConstructorInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override

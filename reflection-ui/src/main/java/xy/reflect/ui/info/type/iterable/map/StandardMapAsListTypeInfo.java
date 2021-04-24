@@ -43,6 +43,13 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Type information extracted from the Java standard map type (assignable to
+ * {@link Map}) encapsulated in the given type information source.
+ * 
+ * @author olitank
+ *
+ */
 public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	protected Class<?> keyJavaType;

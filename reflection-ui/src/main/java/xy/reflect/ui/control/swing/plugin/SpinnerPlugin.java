@@ -47,10 +47,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultFormatter;
 
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -60,6 +60,12 @@ import xy.reflect.ui.util.NumberUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that allows to use spinners.
+ * 
+ * @author olitank
+ *
+ */
 public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override
@@ -158,7 +164,6 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			refreshUI(true);
 		}
 
-		
 		protected void setupEvents() {
 			addChangeListener(new ChangeListener() {
 				@Override
@@ -253,8 +258,10 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						setBorder(new JSpinner().getBorder());
 					}
 					if (data.isGetOnly()) {
-						getEditor().getComponent(0).setBackground(new JSpinner().getEditor().getComponent(0).getBackground());
-						getEditor().getComponent(0).setForeground(new JSpinner().getEditor().getComponent(0).getForeground());
+						getEditor().getComponent(0)
+								.setBackground(new JSpinner().getEditor().getComponent(0).getBackground());
+						getEditor().getComponent(0)
+								.setForeground(new JSpinner().getEditor().getComponent(0).getForeground());
 					} else {
 						if (data.getEditorBackgroundColor() != null) {
 							getEditor().getComponent(0)

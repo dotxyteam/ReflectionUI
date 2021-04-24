@@ -68,6 +68,13 @@ import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Field control that displays a list of values in a grid. Each cell contains a
+ * sub-control allowing to edit each item.
+ * 
+ * @author olitank
+ *
+ */
 public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

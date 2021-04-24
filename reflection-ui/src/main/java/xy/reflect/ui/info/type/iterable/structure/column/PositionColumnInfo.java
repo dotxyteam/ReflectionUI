@@ -34,6 +34,13 @@ import java.util.Map;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
+/**
+ * Column that displays the position (1 + index) of the current item in the
+ * list.
+ * 
+ * @author olitank
+ *
+ */
 public class PositionColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	@Override
@@ -91,7 +98,6 @@ public class PositionColumnInfo extends AbstractInfo implements IColumnInfo {
 		return true;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "PositionColumnInfo []";

@@ -53,6 +53,12 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Base class for persistence (open, save, save as) menu items.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;

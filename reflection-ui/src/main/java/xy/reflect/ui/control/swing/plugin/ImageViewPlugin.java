@@ -61,10 +61,10 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowser;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileNameFilterConfiguration;
@@ -89,6 +89,12 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that allows to display/update images.
+ * 
+ * @author olitank
+ *
+ */
 public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override
@@ -428,7 +434,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					return caption;
 				}
 
-
 				@Override
 				public Image retrieveBackgroundImage() {
 					if (imageView.data.getButtonBackgroundImagePath() == null) {
@@ -465,7 +470,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						return SwingRendererUtils.getColor(imageView.data.getButtonBorderColor());
 					}
 				}
-				
 
 			};
 		}

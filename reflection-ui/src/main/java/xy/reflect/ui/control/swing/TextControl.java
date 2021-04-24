@@ -50,6 +50,7 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -60,6 +61,12 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control that displays String values in a text box.
+ * 
+ * @author olitank
+ *
+ */
 public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;

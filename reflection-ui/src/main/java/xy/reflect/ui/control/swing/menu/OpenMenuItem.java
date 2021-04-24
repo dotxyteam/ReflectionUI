@@ -39,6 +39,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Menu item that allows to load an object state from a file.
+ * 
+ * @author olitank
+ *
+ */
 public class OpenMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;

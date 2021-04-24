@@ -32,11 +32,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Control data proxy that stacks and returns the provided values before
+ * returning the underlying control data values.
+ * 
+ * @author olitank
+ *
+ */
 public class BufferedFieldControlData extends FieldControlDataProxy {
 
 	protected List<Object> buffer = new ArrayList<Object>();
 
-	public BufferedFieldControlData(IFieldControlData base, Object values) {
+	public BufferedFieldControlData(IFieldControlData base, Object... values) {
 		super(base);
 		buffer.addAll(Arrays.asList(values));
 	}

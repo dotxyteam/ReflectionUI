@@ -44,6 +44,13 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field proxy allowing to make the base field seem nullable. The null status of
+ * the field is actually given by another boolean field.
+ * 
+ * @author olitank
+ *
+ */
 public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
@@ -100,17 +107,17 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		} else {
 			Runnable job1 = nullStatusField.getNextUpdateCustomUndoJob(object, Boolean.TRUE);
 			Runnable job2 = super.getNextUpdateCustomUndoJob(object, newValue);
-			
-			if(job1 == null) {
+
+			if (job1 == null) {
 				job1 = ReflectionUIUtils.createDefaultUndoJob(object, nullStatusField);
 			}
-			if(job2 == null) {
+			if (job2 == null) {
 				job2 = ReflectionUIUtils.createDefaultUndoJob(object, this);
-			}			
-			
+			}
+
 			final Runnable finalJob1 = job1;
 			final Runnable finalJob2 = job2;
-			
+
 			return new Runnable() {
 				@Override
 				public void run() {

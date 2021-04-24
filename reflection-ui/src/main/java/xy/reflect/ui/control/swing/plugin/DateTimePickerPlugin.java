@@ -50,10 +50,10 @@ import javax.swing.event.DocumentListener;
 import org.jdesktop.swingx.JXDatePicker;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.JXDateTimePicker;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -63,6 +63,14 @@ import xy.reflect.ui.util.DelayedUpdateProcess;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that allows to display and update adequately
+ * {@link Date} values. Time (hours, minutes, seconds, ...) is handled by this
+ * control.
+ * 
+ * @author olitank
+ *
+ */
 public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

@@ -42,6 +42,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Base class of virtual persistence method specifications.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractPersistenceMethod implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;

@@ -39,6 +39,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Factory that generates virtual enumeration type information from the list of
+ * sub-types of the given polymorphic type information.
+ * 
+ * @author olitank
+ *
+ */
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	protected ITypeInfo polymorphicType;

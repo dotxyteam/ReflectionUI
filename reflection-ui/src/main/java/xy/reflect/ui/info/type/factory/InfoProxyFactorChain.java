@@ -35,6 +35,13 @@ import java.util.List;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Type information factory that just chains the given type information
+ * factories.
+ * 
+ * @author olitank
+ *
+ */
 public class InfoProxyFactorChain implements IInfoProxyFactory {
 
 	protected List<IInfoProxyFactory> factories = new ArrayList<IInfoProxyFactory>();

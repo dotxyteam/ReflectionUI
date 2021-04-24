@@ -28,17 +28,27 @@
  ******************************************************************************/
 package xy.reflect.ui.control;
 
-import javax.swing.SwingUtilities;
-
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Field control data that handle value access errors by notifying them and
+ * returning the last valid value.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 
 	protected Object lastFieldValue;
 	protected boolean lastFieldValueInitialized = false;
 	protected Throwable lastValueUpdateError;
 
-	protected abstract void displayError(Throwable t);
+	/**
+	 * Called to notify an error.
+	 * 
+	 * @param t The exception that was thrown or null if the error is gone.
+	 */
+	protected abstract void handleError(Throwable t);
 
 	public ErrorHandlingFieldControlData(IFieldControlData base) {
 		super(base);
@@ -52,22 +62,12 @@ public abstract class ErrorHandlingFieldControlData extends FieldControlDataProx
 			}
 			lastFieldValue = super.getValue();
 			lastFieldValueInitialized = true;
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					displayError(null);
-				}
-			});
+			handleError(null);
 		} catch (final Throwable t) {
 			if (!lastFieldValueInitialized) {
 				throw new ReflectionUIError(t);
 			} else {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						displayError(t);
-					}
-				});
+				handleError(t);
 			}
 		}
 		return lastFieldValue;

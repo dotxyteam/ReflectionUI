@@ -35,6 +35,13 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
+/**
+ * List structural information proxy class. Its methods should be overriden to
+ * provide custom information.
+ * 
+ * @author olitank
+ *
+ */
 public class ListStructuralInfoProxy implements IListStructuralInfo {
 
 	protected IListStructuralInfo base;

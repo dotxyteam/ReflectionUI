@@ -54,6 +54,13 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Virtual list field that aggregates many field values to simulate a list
+ * value. The number of list items is equal to the number of provided fields.
+ * 
+ * @author olitank
+ *
+ */
 public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected List<IFieldInfo> fields;

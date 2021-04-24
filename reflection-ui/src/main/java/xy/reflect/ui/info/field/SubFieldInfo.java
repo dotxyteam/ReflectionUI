@@ -42,6 +42,13 @@ import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Virtual field allowing to view/edit a value returned by a field owned by an
+ * object returned by another parent field.
+ * 
+ * @author olitank
+ *
+ */
 public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;

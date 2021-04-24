@@ -43,6 +43,7 @@ import javax.swing.JLabel;
 
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -63,6 +64,13 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control that displays a button allowing to open an editor for the field
+ * value.
+ * 
+ * @author olitank
+ *
+ */
 public class DialogAccessControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;

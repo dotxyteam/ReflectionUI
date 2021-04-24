@@ -35,6 +35,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -55,6 +56,13 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control that displays an embedded form allowing to edit the field
+ * value.
+ * 
+ * @author olitank
+ *
+ */
 public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;

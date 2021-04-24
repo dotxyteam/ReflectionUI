@@ -33,6 +33,13 @@ import java.util.Map;
 import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ResourcePath;
 
+/**
+ * Enumeration item information proxy class. Its methods should be overriden to
+ * provide custom information.
+ * 
+ * @author olitank
+ *
+ */
 public class EnumerationItemInfoProxy extends AbstractInfoProxy implements IEnumerationItemInfo {
 
 	protected IEnumerationItemInfo base;
@@ -64,8 +71,6 @@ public class EnumerationItemInfoProxy extends AbstractInfoProxy implements IEnum
 	public Map<String, Object> getSpecificProperties() {
 		return base.getSpecificProperties();
 	}
-
-	
 
 	@Override
 	public int hashCode() {

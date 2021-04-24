@@ -31,6 +31,13 @@ package xy.reflect.ui.control;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Context that builds its identifier from the given method and its containing
+ * type.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodContext implements IContext {
 
 	protected ITypeInfo containingType;

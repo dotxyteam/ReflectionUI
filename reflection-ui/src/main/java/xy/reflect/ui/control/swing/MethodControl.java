@@ -42,6 +42,12 @@ import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Method control that displays a button allowing to invoke the method.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodControl extends AbstractControlButton implements ActionListener {
 
 	protected static final long serialVersionUID = 1L;

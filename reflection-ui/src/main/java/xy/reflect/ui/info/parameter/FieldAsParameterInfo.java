@@ -36,6 +36,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 
+/**
+ * Virtual parameter allowing to view/update the underlying field value.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldAsParameterInfo implements IParameterInfo {
 
 	protected ReflectionUI reflectionUI;

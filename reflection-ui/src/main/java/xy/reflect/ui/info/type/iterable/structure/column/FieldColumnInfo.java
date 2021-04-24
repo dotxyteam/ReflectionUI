@@ -38,6 +38,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Column that displays the value of the specified item field.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	protected IFieldInfo field;

@@ -28,6 +28,12 @@
  ******************************************************************************/
 package xy.reflect.ui.control;
 
+/**
+ * Context with custom identifier.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomContext implements IContext {
 
 	protected String identifier;

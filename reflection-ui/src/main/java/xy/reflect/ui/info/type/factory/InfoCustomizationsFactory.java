@@ -123,6 +123,13 @@ import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Factory that generates proxying and virtual type informations according to
+ * the given {@link InfoCustomizations} object.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	protected CustomizedUI customizedUI;

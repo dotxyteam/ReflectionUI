@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control.swing;
+package xy.reflect.ui.control.swing.util;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -42,8 +42,6 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.AbstractControlButton;
-import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
@@ -52,6 +50,13 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Helper class that creates the buttons allowing to use the modification stack
+ * associated with the given form.
+ * 
+ * @author olitank
+ *
+ */
 public class ModificationStackControls {
 
 	protected ModificationStack modificationStack;

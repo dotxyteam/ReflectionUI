@@ -62,6 +62,13 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Type information extracted from the Java type encapsulated in the given type
+ * information source.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	protected JavaTypeInfoSource source;

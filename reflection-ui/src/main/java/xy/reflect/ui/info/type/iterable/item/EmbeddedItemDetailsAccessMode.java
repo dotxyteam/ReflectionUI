@@ -30,6 +30,14 @@ package xy.reflect.ui.info.type.iterable.item;
 
 import javax.xml.bind.annotation.XmlElement;
 
+/**
+ * Implementation of {@link IListItemDetailsAccessMode} specifying that items
+ * should be displayed in the same window as the list component, typically in an
+ * embedded details area that contains the currently selected item.
+ * 
+ * @author olitank
+ *
+ */
 public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode {
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +55,7 @@ public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode
 	}
 
 	@Override
-	@XmlElement(name="detailsAreaPosition")
+	@XmlElement(name = "detailsAreaPosition")
 	public ItemDetailsAreaPosition getEmbeddedDetailsAreaPosition() {
 		return embeddedDetailsAreaPosition;
 	}
@@ -57,7 +65,7 @@ public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode
 	}
 
 	@Override
-	@XmlElement(name="defaultDetailsAreaOccupationRatio")
+	@XmlElement(name = "defaultDetailsAreaOccupationRatio")
 	public double getDefaultEmbeddedDetailsAreaOccupationRatio() {
 		return defaultEmbeddedDetailsAreaOccupationRatio;
 	}
@@ -65,7 +73,5 @@ public class EmbeddedItemDetailsAccessMode implements IListItemDetailsAccessMode
 	public void setDefaultEmbeddedDetailsAreaOccupationRatio(double defaultEmbeddedDetailsAreaOccupationRatio) {
 		this.defaultEmbeddedDetailsAreaOccupationRatio = defaultEmbeddedDetailsAreaOccupationRatio;
 	}
-
-	
 
 }

@@ -44,6 +44,12 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Virtual method that just returns the underlying field value.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;

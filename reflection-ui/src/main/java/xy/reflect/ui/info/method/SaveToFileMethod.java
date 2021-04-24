@@ -38,6 +38,13 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Virtual method allowing to execute the
+ * {@link ITypeInfo#save(Object, OutputStream)} method.
+ * 
+ * @author olitank
+ *
+ */
 public class SaveToFileMethod extends AbstractPersistenceMethod {
 
 	public SaveToFileMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
@@ -85,5 +92,4 @@ public class SaveToFileMethod extends AbstractPersistenceMethod {
 		return true;
 	}
 
-	
 }

@@ -39,6 +39,12 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
+/**
+ * Field proxy allowing to view/edit the base field value as a singleton list.
+ * 
+ * @author olitank
+ *
+ */
 public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;

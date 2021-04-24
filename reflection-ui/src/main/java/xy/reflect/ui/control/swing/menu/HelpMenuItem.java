@@ -39,6 +39,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Menu item that allows to display the current object type online help.
+ * 
+ * @author olitank
+ *
+ */
 public class HelpMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;

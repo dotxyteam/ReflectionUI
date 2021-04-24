@@ -27,6 +27,7 @@
  * when possible).
  ******************************************************************************/
 package xy.reflect.ui.control.swing.util;
+
 import java.util.Enumeration;
 import java.util.List;
 
@@ -34,21 +35,29 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+/**
+ * General-purpose node in a tree data structure that loads its children on
+ * demand.
+ * 
+ * @author olitank
+ *
+ */
 @SuppressWarnings("unchecked")
 public abstract class AbstractLazyTreeNode extends DefaultMutableTreeNode {
 
 	protected static final long serialVersionUID = 1L;
 	protected boolean childrenLoaded = false;;
+
 	protected abstract List<AbstractLazyTreeNode> createChildrenNodes();
-	
+
 	protected void ensureChildrenAreLoaded() {
 		if (childrenLoaded) {
 			return;
 		}
 		childrenLoaded = true;
 		int i = 0;
-		for (AbstractLazyTreeNode node: createChildrenNodes()) {
-			super.insert(node, i); 
+		for (AbstractLazyTreeNode node : createChildrenNodes()) {
+			super.insert(node, i);
 			i++;
 		}
 	}

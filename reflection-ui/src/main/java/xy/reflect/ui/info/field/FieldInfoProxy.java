@@ -36,6 +36,13 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Field information proxy class. Its methods should be overriden to provide
+ * custom information.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 	protected IFieldInfo base;

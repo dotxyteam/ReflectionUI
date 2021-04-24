@@ -49,6 +49,7 @@ import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -57,7 +58,6 @@ import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.EnumerationControl;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.NullControl;
 import xy.reflect.ui.control.swing.NullableControl;
@@ -83,12 +83,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * 
  * They provide common field control features as error display, undo management,
  * busy indication, updates synchronization, etc. These features can be
- * customized/disabled by making the control override the @
+ * customized/disabled by making the control override the
  * {@link IAdvancedFieldControl} interface.
  * 
- * They also generate the input data that will be used by the
- * {@link #createFieldControl()} method and passed to the control constructor
- * directly or with some control-specific proxy layers.
+ * They also generate the input that will be used by the
+ * {@link #createFieldControl()} method and passed to the control constructor.
  * 
  * @author olitank
  *
@@ -286,20 +285,26 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			String currentlyDisplayedErrorId;
 
 			@Override
-			protected void displayError(Throwable t) {
-				boolean done = (fieldControl instanceof IAdvancedFieldControl) && ((IAdvancedFieldControl) fieldControl)
-						.displayError((t == null) ? null : ReflectionUIUtils.getPrettyErrorMessage(t));
-				if (!done && (t != null)) {
-					String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
-					if (!newErrorId.equals(currentlyDisplayedErrorId)) {
-						currentlyDisplayedErrorId = newErrorId;
-						SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
-						swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, t);
+			protected void handleError(Throwable t) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						boolean done = (fieldControl instanceof IAdvancedFieldControl)
+								&& ((IAdvancedFieldControl) fieldControl)
+										.displayError((t == null) ? null : ReflectionUIUtils.getPrettyErrorMessage(t));
+						if (!done && (t != null)) {
+							String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
+							if (!newErrorId.equals(currentlyDisplayedErrorId)) {
+								currentlyDisplayedErrorId = newErrorId;
+								SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
+								swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, t);
+							}
+						} else {
+							currentlyDisplayedErrorId = null;
+							setBorder(null);
+						}
 					}
-				} else {
-					currentlyDisplayedErrorId = null;
-					setBorder(null);
-				}
+				});
 			}
 
 			@Override

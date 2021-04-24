@@ -33,6 +33,13 @@ import java.util.List;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 
+/**
+ * This class is a sub-class of {@link ItemPosition} that uses a buffer to
+ * optimize the access to the targeted item.
+ * 
+ * @author olitank
+ *
+ */
 public class BufferedItemPosition extends ItemPosition {
 
 	public static final Object NULL_FAKE_ITEM = new Object() {

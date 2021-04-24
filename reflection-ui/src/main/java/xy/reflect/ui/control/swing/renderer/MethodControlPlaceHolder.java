@@ -61,9 +61,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * They provide common method control features as undo management, busy
  * indication, etc.
  * 
- * They also generate the input data that will be used by the
- * {@link #createMethodControl()} method and passed to the control constructor
- * directly or with some control-specific proxy layers.
+ * They also generate the input that will be used by the
+ * {@link #createMethodControl()} method and passed to the control constructor.
  * 
  * @author olitank
  *

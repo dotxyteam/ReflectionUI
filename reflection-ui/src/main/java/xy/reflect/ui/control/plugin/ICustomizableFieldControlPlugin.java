@@ -28,18 +28,37 @@
  ******************************************************************************/
 package xy.reflect.ui.control.plugin;
 
-import java.io.Serializable;
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
+import java.util.Map;
 
-import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
-import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin.AbstractConfiguration;
 
+/**
+ * Field control plugin that can be configured. The configuration is stored in a
+ * map.
+ * 
+ * @author olitank
+ *
+ */
 public interface ICustomizableFieldControlPlugin extends IFieldControlPlugin {
 
-	JMenuItem makeFieldCustomizerMenuItem(JButton customizerButton, FieldControlPlaceHolder fieldControlPlaceHolder,
-			InfoCustomizations infoCustomizations, ICustomizationTools customizationTools);
+	/**
+	 * @return the default configuration of the plugin control.
+	 */
+	AbstractConfiguration getDefaultControlCustomization();
 
-	Serializable getDefaultControlCustomization();
+	/**
+	 * @param specificProperties The plugin control configuration storage.
+	 * @return the plugin control configuration loaded from the given map.
+	 */
+	AbstractConfiguration getControlCustomization(Map<String, Object> specificProperties);
+
+	/**
+	 * @param controlConfiguration The new plugin control configuration.
+	 * @param specificProperties   The plugin control configuration storage.
+	 * @return A new version of the given map with the plugin control configuration
+	 *         updated with the specified value.
+	 */
+	Map<String, Object> storeControlCustomization(AbstractConfiguration controlConfiguration,
+			Map<String, Object> specificProperties);
 
 }

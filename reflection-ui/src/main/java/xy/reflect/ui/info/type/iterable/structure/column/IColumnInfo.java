@@ -29,12 +29,27 @@
 package xy.reflect.ui.info.type.iterable.structure.column;
 
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
-public interface IColumnInfo extends IInfo{
+/**
+ * Allows to describe a {@link IListTypeInfo} column.
+ * 
+ * @author olitank
+ *
+ */
+public interface IColumnInfo extends IInfo {
 
+	/**
+	 * @param itemPosition The item position.
+	 * @return The value that must be displayed in the current cell.
+	 */
 	String getCellValue(ItemPosition itemPosition);
 
+	/**
+	 * @param itemPosition The item position.
+	 * @return Whether a value should be displayed in the current cell or not.
+	 */
 	boolean hasCellValue(ItemPosition itemPosition);
 
 	int getMinimalCharacterCount();

@@ -36,6 +36,19 @@ package xy.reflect.ui.info.menu;
  */
 
 public enum MenuElementKind {
-	MENU, ITEM_CATEGORY, ITEM
+	/**
+	 * Menu item container (menu or sub-menu).
+	 */
+	MENU,
+	/**
+	 * Menu item category (each category should be distinctly separated from the
+	 * others).
+	 * 
+	 */
+	ITEM_CATEGORY,
+	/**
+	 * Menu item.
+	 */
+	ITEM
 
 }

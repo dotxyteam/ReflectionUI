@@ -38,6 +38,13 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Method information proxy class. Its methods should be overriden to provide
+ * custom information.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 	protected IMethodInfo base;

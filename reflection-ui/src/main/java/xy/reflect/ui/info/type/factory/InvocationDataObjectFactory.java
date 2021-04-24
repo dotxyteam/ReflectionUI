@@ -53,6 +53,13 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Factory that generates a virtual {@link ITypeInfo} and its instances from the
+ * parameters of the given method. Each parameter is then mapped to a field.
+ * 
+ * @author olitank
+ *
+ */
 public class InvocationDataObjectFactory {
 
 	protected ReflectionUI reflectionUI;

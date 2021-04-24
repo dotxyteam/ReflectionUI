@@ -35,6 +35,13 @@ import java.util.Map;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Factory that generates type proxies that should activate the specified field
+ * control plugin.
+ * 
+ * @author olitank
+ *
+ */
 public class ControlPluginActivationFactory extends InfoProxyFactory {
 
 	protected String pluginId;

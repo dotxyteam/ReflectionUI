@@ -38,7 +38,13 @@ import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 
-public abstract class  AbstractSaveMenuItem extends AbstractFileMenuItem {
+/**
+ * Base class for "save" and "save as" menu items.
+ * 
+ * @author olitank
+ *
+ */
+public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 

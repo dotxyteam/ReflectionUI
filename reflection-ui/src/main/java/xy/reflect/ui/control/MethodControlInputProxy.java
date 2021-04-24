@@ -30,6 +30,13 @@ package xy.reflect.ui.control;
 
 import xy.reflect.ui.undo.ModificationStack;
 
+/**
+ * Method control input proxy class. Its methods should be overriden to provide
+ * a custom behavior.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodControlInputProxy implements IMethodControlInput {
 
 	protected IMethodControlInput base;

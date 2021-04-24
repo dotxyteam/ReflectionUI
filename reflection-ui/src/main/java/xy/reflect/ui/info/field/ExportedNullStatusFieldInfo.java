@@ -39,6 +39,13 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field proxy allowing only to view and change the null status (as a boolean
+ * value) of the base field.
+ * 
+ * @author olitank
+ *
+ */
 public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;

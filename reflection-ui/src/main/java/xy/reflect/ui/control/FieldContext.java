@@ -31,6 +31,13 @@ package xy.reflect.ui.control;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Context that builds its identifier from the given field and its containing
+ * type.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldContext implements IContext {
 
 	protected IFieldInfo field;

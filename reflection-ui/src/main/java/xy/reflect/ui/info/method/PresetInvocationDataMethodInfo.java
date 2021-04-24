@@ -35,6 +35,13 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Zero-parameter method proxy that actually holds the parameter values and then
+ * allows to execute the base method without requiring these parameter values.
+ * 
+ * @author olitank
+ *
+ */
 public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	protected InvocationData invocationData;

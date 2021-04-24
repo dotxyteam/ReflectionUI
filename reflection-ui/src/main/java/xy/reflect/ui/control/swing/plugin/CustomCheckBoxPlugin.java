@@ -49,6 +49,13 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that displays check boxs with custom "selected" and
+ * "non-selected" images.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

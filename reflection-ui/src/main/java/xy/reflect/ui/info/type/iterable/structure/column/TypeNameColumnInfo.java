@@ -37,6 +37,12 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Column that displays the type of the current item.
+ * 
+ * @author olitank
+ *
+ */
 public class TypeNameColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	protected ReflectionUI reflectionUI;

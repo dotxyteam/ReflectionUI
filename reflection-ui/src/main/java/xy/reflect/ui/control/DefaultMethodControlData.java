@@ -41,7 +41,14 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InvocationDataObjectFactory;
 
-public class DefaultMethodControlData implements IMethodControlData { 
+/**
+ * Default method control input. It just uses the given object and method to
+ * provide the features needed by the controls.
+ * 
+ * @author olitank
+ *
+ */
+public class DefaultMethodControlData implements IMethodControlData {
 
 	protected ReflectionUI reflectionUI;
 	protected Object object;

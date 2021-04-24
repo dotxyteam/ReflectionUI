@@ -34,6 +34,12 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+/**
+ * Alternative decorations (title bar, border, ...) for windows.
+ * 
+ * @author olitank
+ *
+ */
 public class AlternativeWindowDecorationsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -273,7 +279,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		}
 	}
 
-	public void attachToWindow(Window window) {
+	public void setWindow(Window window) {
 		configureWindow(window);
 		installOnWindow(window);
 	}
@@ -287,14 +293,14 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 	}
 
 	private enum Side {
-		N(Cursor.N_RESIZE_CURSOR, new Dimension(0, Side.THICKNESS)), W(Cursor.W_RESIZE_CURSOR,
-				new Dimension(Side.THICKNESS, 0)), E(Cursor.E_RESIZE_CURSOR, new Dimension(Side.THICKNESS, 0)), S(
-						Cursor.S_RESIZE_CURSOR, new Dimension(0, Side.THICKNESS)), NW(Cursor.NW_RESIZE_CURSOR,
-								new Dimension(Side.THICKNESS, Side.THICKNESS)), NE(Cursor.NE_RESIZE_CURSOR,
-										new Dimension(Side.THICKNESS, Side.THICKNESS)), SW(Cursor.SW_RESIZE_CURSOR,
-												new Dimension(Side.THICKNESS, Side.THICKNESS)), SE(
-														Cursor.SE_RESIZE_CURSOR,
-														new Dimension(Side.THICKNESS, Side.THICKNESS));
+		N(Cursor.N_RESIZE_CURSOR, new Dimension(0, Side.THICKNESS)),
+		W(Cursor.W_RESIZE_CURSOR, new Dimension(Side.THICKNESS, 0)),
+		E(Cursor.E_RESIZE_CURSOR, new Dimension(Side.THICKNESS, 0)),
+		S(Cursor.S_RESIZE_CURSOR, new Dimension(0, Side.THICKNESS)),
+		NW(Cursor.NW_RESIZE_CURSOR, new Dimension(Side.THICKNESS, Side.THICKNESS)),
+		NE(Cursor.NE_RESIZE_CURSOR, new Dimension(Side.THICKNESS, Side.THICKNESS)),
+		SW(Cursor.SW_RESIZE_CURSOR, new Dimension(Side.THICKNESS, Side.THICKNESS)),
+		SE(Cursor.SE_RESIZE_CURSOR, new Dimension(Side.THICKNESS, Side.THICKNESS));
 
 		private static final int THICKNESS = 4;
 

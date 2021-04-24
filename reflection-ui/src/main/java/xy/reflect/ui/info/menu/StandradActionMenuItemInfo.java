@@ -31,6 +31,12 @@ package xy.reflect.ui.info.menu;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
 import xy.reflect.ui.info.ResourcePath;
 
+/**
+ * This class represents a standard menu item (eg: open, save, undo, ...)..
+ * 
+ * @author olitank
+ *
+ */
 public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 
 	private Type type;

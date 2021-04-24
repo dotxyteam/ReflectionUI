@@ -43,8 +43,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 /**
- * This interface allows to specify UI-oriented attributes of objects typically
- * inferred from classes. It is a kind of abstraction of GUI forms.
+ * This interface allows to specify UI-oriented attributes of objects. These
+ * attributes are typically inferred from classes.
  * 
  * @author olitank
  *
@@ -68,20 +68,16 @@ public interface ITypeInfo extends IInfo {
 	/**
 	 * Saves the given object state to the output stream.
 	 * 
-	 * @param object
-	 *            An object of the current type.
-	 * @param out
-	 *            The output stream.
+	 * @param object An object of the current type.
+	 * @param out    The output stream.
 	 */
 	void save(Object object, OutputStream out);
 
 	/**
 	 * Loads the given object state from the input stream.
 	 * 
-	 * @param object
-	 *            An object of the current type.
-	 * @param in
-	 *            The input stream.
+	 * @param object An object of the current type.
+	 * @param in     The input stream.
 	 */
 	void load(Object object, InputStream in);
 
@@ -119,8 +115,7 @@ public interface ITypeInfo extends IInfo {
 	List<IMethodInfo> getMethods();
 
 	/**
-	 * @param object
-	 *            Any object.
+	 * @param object Any object.
 	 * @return whether the type is compatible with the given object.
 	 */
 	boolean supportsInstance(Object object);
@@ -132,8 +127,7 @@ public interface ITypeInfo extends IInfo {
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
 
 	/**
-	 * @param object
-	 *            Any object of the current type.
+	 * @param object Any object of the current type.
 	 * @return the textual representation of the given object. Typically this method
 	 *         would allow to provide an alternative to the
 	 *         {@link Object#toString()} method of the given object.
@@ -144,24 +138,20 @@ public interface ITypeInfo extends IInfo {
 	 * Validates the state of the given object. An exception is thrown if the object
 	 * state is not valid. Otherwise the object is considered as valid.
 	 * 
-	 * @param object
-	 *            Any object of the current type.
-	 * @throws Exception
-	 *             If the state of the given object is not valid.
+	 * @param object Any object of the current type.
+	 * @throws Exception If the state of the given object is not valid.
 	 */
 	void validate(Object object) throws Exception;
 
 	/**
-	 * @param object
-	 *            Any object of the current type.
+	 * @param object Any object of the current type.
 	 * @return true if and only if the given object can be duplicated. Otherwise the
 	 *         {@link #copy(Object)} method should not be called.
 	 */
 	boolean canCopy(Object object);
 
 	/**
-	 * @param object
-	 *            Any object of the current type.
+	 * @param object Any object of the current type.
 	 * @return a copy of the given object.
 	 */
 	Object copy(Object object);
@@ -203,11 +193,9 @@ public interface ITypeInfo extends IInfo {
 	 * This method should be called by the renderer when the visibility of the form
 	 * generated for the given object changes.
 	 * 
-	 * @param object
-	 *            Any object of the current type.
-	 * @param visible
-	 *            true when the form becomes visible, false when it becomes
-	 *            invisible.
+	 * @param object  Any object of the current type.
+	 * @param visible true when the form becomes visible, false when it becomes
+	 *                invisible.
 	 * @return whether an update of the form is required.
 	 */
 	boolean onFormVisibilityChange(Object object, boolean visible);
@@ -230,8 +218,8 @@ public interface ITypeInfo extends IInfo {
 	ColorSpecification getFormForegroundColor();
 
 	/**
-	 * @return border color used by forms generated from this type or null if the default
-	 *         borders should be used.
+	 * @return border color used by forms generated from this type or null if the
+	 *         default borders should be used.
 	 */
 	ColorSpecification getFormBorderColor();
 

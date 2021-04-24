@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control.swing;
+package xy.reflect.ui.control;
 
 import xy.reflect.ui.info.menu.MenuModel;
 
@@ -47,25 +47,23 @@ public interface IAdvancedFieldControl {
 	boolean showsCaption();
 
 	/**
-	 * @param refreshStructure
-	 *            Whether the current control should update its structure to reflect
-	 *            the recent meta-data change. Mainly used in design mode.
+	 * @param refreshStructure Whether the current control should update its
+	 *                         structure to reflect the recent meta-data change.
+	 *                         Mainly used in design mode.
 	 * @return whether the current control successfully updated its state. If false
 	 *         is returned then the framework should recreate the control.
 	 */
 	boolean refreshUI(boolean refreshStructure);
 
 	/**
-	 * @throws Exception
-	 *             When an invalid sub-form is detected.
+	 * @throws Exception When an invalid sub-form is detected.
 	 */
 	void validateSubForm() throws Exception;
 
 	/**
 	 * Allows controls to forward menu contributions of sub-controls (forms mainly).
 	 * 
-	 * @param menuModel
-	 *            The menu model to be fed.
+	 * @param menuModel The menu model to be fed.
 	 */
 	void addMenuContribution(MenuModel menuModel);
 
@@ -77,20 +75,14 @@ public interface IAdvancedFieldControl {
 	boolean requestCustomFocus();
 
 	/**
-	 * @return whether the following features should be handled by the framework (If
+	 * @return whether the following features should be handled by the framework (if
 	 *         false is returned then the current control should take care of them):
-	 * 
-	 *         - busy indication
-	 * 
-	 *         - undo management
-	 * 
-	 *         - error display
+	 *         busy indication, undo management, error display.
 	 */
 	boolean isAutoManaged();
 
 	/**
-	 * @param msg
-	 *            The error message to be displayed.
+	 * @param msg The error message to be displayed.
 	 * @return whether the given error message was successfully displayed by the
 	 *         current control. If false is returned then the framework should take
 	 *         care of displaying the error message. Note that the framework will

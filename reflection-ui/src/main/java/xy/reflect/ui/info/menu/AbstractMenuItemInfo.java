@@ -28,9 +28,15 @@
  ******************************************************************************/
 package xy.reflect.ui.info.menu;
 
-public abstract class AbstractMenuItemInfo  extends AbstractMenuElementInfo {
+/**
+ * Base class of menu item specifications.
+ * 
+ * @author olitank
+ *
+ */
+public abstract class AbstractMenuItemInfo extends AbstractMenuElementInfo {
 	protected String caption = "";
-	
+
 	public AbstractMenuItemInfo(String caption) {
 		super();
 		this.caption = caption;
@@ -47,7 +53,6 @@ public abstract class AbstractMenuItemInfo  extends AbstractMenuElementInfo {
 		this.caption = caption;
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

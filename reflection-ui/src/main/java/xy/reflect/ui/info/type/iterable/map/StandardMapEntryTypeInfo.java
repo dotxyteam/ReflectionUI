@@ -50,6 +50,13 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Type information that should be associated with {@link StandardMapEntry}
+ * instances.
+ * 
+ * @author olitank
+ *
+ */
 public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEntryTypeInfo {
 
 	protected Class<?> keyJavaType;

@@ -28,13 +28,20 @@
  ******************************************************************************/
 package xy.reflect.ui.info.menu;
 
+/**
+ * Default implementation of {@link IMenuElementPosition}.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultMenuElementPosition implements IMenuElementPosition {
 
 	protected DefaultMenuElementPosition parent;
 	protected String elementName;
 	protected MenuElementKind elementKind;
 
-	public DefaultMenuElementPosition(String elementName, MenuElementKind elementKind, DefaultMenuElementPosition parent) {
+	public DefaultMenuElementPosition(String elementName, MenuElementKind elementKind,
+			DefaultMenuElementPosition parent) {
 		this.elementName = elementName;
 		this.elementKind = elementKind;
 		this.parent = parent;

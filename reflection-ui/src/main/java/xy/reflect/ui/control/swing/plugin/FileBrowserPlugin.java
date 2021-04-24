@@ -42,11 +42,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.DialogAccessControl;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.editor.DialogBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -64,6 +64,12 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that displays customizable file browser controls.
+ * 
+ * @author olitank
+ *
+ */
 public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();

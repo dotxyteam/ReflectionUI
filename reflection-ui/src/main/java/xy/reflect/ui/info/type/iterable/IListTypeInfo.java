@@ -44,10 +44,10 @@ import xy.reflect.ui.util.Mapper;
  * This interface allows to specify UI-oriented properties of list types.
  * 
  * Generating UIs for lists is complex because there are multiple
- * implementations (JDK implementations: arrays, collections) and not enough
- * considered conventions. A list can then be ordered or not, unmodifiable or
- * not, supporting null items or not, etc. This interface allows to describe the
- * all sorts of list types so that an aware renderer will be able to display
+ * implementations (arrays, collections, maps, ...) and not enough conventions.
+ * A list can then be ordered or not, unmodifiable or not, supporting null items
+ * or not, etc. This interface allows to describe all sorts of lists so that an
+ * aware renderer will be able to display and allow as much as possible to edit
  * them all.
  * 
  * Structural preferences such as tabular or hierarchical facets of lists are

@@ -32,7 +32,7 @@ import xy.reflect.ui.undo.ModificationStack;
 
 /**
  * This interface provides contextual information and tools needed by a field
- * control to properly display its field values.
+ * control to properly display and modify the field values.
  * 
  * @author olitank
  *

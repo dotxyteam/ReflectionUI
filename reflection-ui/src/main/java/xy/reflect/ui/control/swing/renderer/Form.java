@@ -70,15 +70,15 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
-import xy.reflect.ui.control.swing.ModificationStackControls;
 import xy.reflect.ui.control.swing.menu.Menu;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ImagePanel;
 import xy.reflect.ui.control.swing.util.ListTabbedPane;
+import xy.reflect.ui.control.swing.util.ModificationStackControls;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -102,6 +102,14 @@ import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Instances of this class are forms allowing to edit any object. The layout and
+ * the controls are generated according to type information ({@link ITypeInfo})
+ * extracted form the underlying object.
+ * 
+ * @author olitank
+ *
+ */
 public class Form extends ImagePanel {
 
 	private static final long serialVersionUID = 1L;

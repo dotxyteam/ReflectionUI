@@ -15,6 +15,12 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
+/**
+ * Menu item that allows to invoke a method.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodActionMenuItem extends JMenuItem {
 
 	private static final long serialVersionUID = 1L;

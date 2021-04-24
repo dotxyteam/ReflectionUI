@@ -36,6 +36,12 @@ import java.util.Map;
 
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
+/**
+ * Method parameter values class.
+ * 
+ * @author olitank
+ *
+ */
 public class InvocationData implements Serializable {
 
 	private static final long serialVersionUID = 1L;

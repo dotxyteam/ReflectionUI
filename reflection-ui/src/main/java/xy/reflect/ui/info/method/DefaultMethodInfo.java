@@ -50,6 +50,12 @@ import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Method information extracted from the given Java method.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;

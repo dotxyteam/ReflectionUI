@@ -28,6 +28,15 @@
  ******************************************************************************/
 package xy.reflect.ui.info.type.iterable.map;
 
+import java.util.Map;
+
+/**
+ * This class allows to hold temporarily key-value pairs of standard maps
+ * (assignable to {@link Map}).
+ * 
+ * @author olitank
+ *
+ */
 public class StandardMapEntry {
 	protected Object key;
 	protected Object value;

@@ -38,6 +38,13 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Method control data proxy class. Its methods should be overriden to provide a
+ * custom behavior.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodControlDataProxy implements IMethodControlData {
 
 	protected IMethodControlData base;

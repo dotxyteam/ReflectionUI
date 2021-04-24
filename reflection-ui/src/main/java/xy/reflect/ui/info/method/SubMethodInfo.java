@@ -47,6 +47,13 @@ import xy.reflect.ui.util.FututreActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Virtual method allowing to invoke a method owned by an object returned by a
+ * parent field.
+ * 
+ * @author olitank
+ *
+ */
 public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;

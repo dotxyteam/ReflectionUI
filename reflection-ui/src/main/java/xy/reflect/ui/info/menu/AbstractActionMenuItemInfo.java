@@ -30,6 +30,12 @@ package xy.reflect.ui.info.menu;
 
 import xy.reflect.ui.info.ResourcePath;
 
+/**
+ * Base class of action menu item specifications.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractActionMenuItemInfo extends AbstractMenuItemInfo {
 
 	protected ResourcePath iconImagePath;

@@ -36,8 +36,18 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Field control data that delegates to another field control data that can be
+ * replaced dynamically.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class DelegatingFieldControlData implements IFieldControlData {
 
+	/**
+	 * @return Dynamically the delegate.
+	 */
 	protected abstract IFieldControlData getDelegate();
 
 	public Object getValue() {

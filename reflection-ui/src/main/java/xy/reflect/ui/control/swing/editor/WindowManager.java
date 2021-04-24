@@ -61,6 +61,12 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Helper class aLlowing to configure windows adequately.
+ * 
+ * @author olitank
+ *
+ */
 public class WindowManager {
 
 	protected SwingRenderer swingRenderer;

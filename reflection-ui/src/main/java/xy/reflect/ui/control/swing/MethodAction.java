@@ -52,6 +52,13 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Action allowing to retrieve a method parameter values, invoke the method and
+ * display the return value.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodAction extends AbstractAction {
 
 	protected static final long serialVersionUID = 1L;
@@ -282,8 +289,7 @@ public class MethodAction extends AbstractAction {
 		} else {
 			if (returnValue == null) {
 				EncapsulatedObjectFactory nullEncapsulation = new EncapsulatedObjectFactory(
-						swingRenderer.getReflectionUI(),
-						"Encapsulation [context=" + input.getContext().getIdentifier()
+						swingRenderer.getReflectionUI(), "Encapsulation [context=" + input.getContext().getIdentifier()
 								+ ", subContext=NullReturnValue]",
 						data.getReturnValueType());
 				swingRenderer.openObjectFrame(nullEncapsulation.getInstance(Accessor.returning(null)));

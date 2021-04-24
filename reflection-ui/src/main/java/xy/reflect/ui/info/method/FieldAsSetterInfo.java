@@ -45,6 +45,12 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Virtual method that just updates the underlying field value.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;

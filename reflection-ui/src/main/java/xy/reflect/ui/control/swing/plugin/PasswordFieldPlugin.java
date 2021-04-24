@@ -36,6 +36,12 @@ import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
+/**
+ * Field control plugin that displays password text controls.
+ * 
+ * @author olitank
+ *
+ */
 public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

@@ -45,6 +45,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -54,6 +55,12 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 
+/**
+ * Field control that displays a combo box.
+ * 
+ * @author olitank
+ *
+ */
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class EnumerationControl extends ControlPanel implements IAdvancedFieldControl {
 

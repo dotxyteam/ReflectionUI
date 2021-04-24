@@ -1,3 +1,5 @@
+- add "virtual composed list field" customization option that would use 
+ImplicitListFieldInfo.
 - it may be better to not have dependencies at all typically for
 swing-testing-toolkit that would be more compatible with projects 
 - lastFilePath should be saved by file type or ...

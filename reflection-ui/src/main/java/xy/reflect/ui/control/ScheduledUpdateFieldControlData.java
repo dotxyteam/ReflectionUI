@@ -30,11 +30,23 @@ package xy.reflect.ui.control;
 
 import java.util.concurrent.Future;
 
+/**
+ * Field control data that delays updates.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class ScheduledUpdateFieldControlData extends FieldControlDataProxy {
 
 	protected Object scheduledFieldValue;
 	protected boolean scheduling = false;
 
+	/**
+	 * Should schedule the given task.
+	 * 
+	 * @param updateJob The task that updates the field control data value.
+	 * @return An object allowing to check the update status.
+	 */
 	protected abstract Future<?> scheduleUpdate(Runnable updateJob);
 
 	public ScheduledUpdateFieldControlData(IFieldControlData base) {

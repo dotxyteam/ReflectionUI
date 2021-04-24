@@ -58,6 +58,12 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Virtual field grouping the given members in a virtual sub-object.
+ * 
+ * @author olitank
+ *
+ */
 public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public static final String CONTAINING_CAPSULE_FIELD_PROPERTY_KEY = CapsuleFieldInfo.class.getName();

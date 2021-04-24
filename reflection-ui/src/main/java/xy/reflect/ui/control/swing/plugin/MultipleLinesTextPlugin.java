@@ -43,6 +43,13 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that allows to display multiline text. The height of the
+ * control is fixed.
+ * 
+ * @author olitank
+ *
+ */
 public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

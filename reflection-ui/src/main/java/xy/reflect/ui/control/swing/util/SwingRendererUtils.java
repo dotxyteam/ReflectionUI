@@ -90,13 +90,13 @@ import javax.swing.text.DefaultFormatter;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -115,6 +115,12 @@ import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Utilities for the {@link SwingRenderer} class.
+ * 
+ * @author olitank
+ *
+ */
 public class SwingRendererUtils {
 
 	public static final BufferedImage NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -1073,16 +1079,21 @@ public class SwingRendererUtils {
 			String currentlyDisplayedErrorId;
 
 			@Override
-			protected void displayError(Throwable t) {
-				if (t != null) {
-					String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
-					if (!newErrorId.equals(currentlyDisplayedErrorId)) {
-						currentlyDisplayedErrorId = newErrorId;
-						swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
+			protected void handleError(Throwable t) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						if (t != null) {
+							String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
+							if (!newErrorId.equals(currentlyDisplayedErrorId)) {
+								currentlyDisplayedErrorId = newErrorId;
+								swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
+							}
+						} else {
+							currentlyDisplayedErrorId = null;
+						}
 					}
-				} else {
-					currentlyDisplayedErrorId = null;
-				}
+				});
 			}
 		};
 	}

@@ -58,8 +58,8 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
-import xy.reflect.ui.control.plugin.ICustomizationTools;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
+import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin.AbstractConfiguration;
 import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
@@ -103,7 +103,7 @@ import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
-public class CustomizationTools implements ICustomizationTools {
+public class CustomizationTools {
 
 	protected final SwingCustomizer swingCustomizer;
 	protected CustomizationToolsRenderer toolsRenderer;
@@ -949,6 +949,38 @@ public class CustomizationTools implements ICustomizationTools {
 		}
 	}
 
+	protected JMenuItem makeCustomizableFieldControlPluginMenuItem(ICustomizableFieldControlPlugin plugin,
+			final JButton customizerButton, final FieldControlPlaceHolder fieldControlPlaceHolder,
+			final InfoCustomizations infoCustomizations) {
+		return new JMenuItem(
+				new AbstractAction(toolsRenderer.prepareStringToDisplay(plugin.getControlTitle() + " Options...")) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(
+								infoCustomizations, fieldControlPlaceHolder.getControlData().getType().getName(), true);
+						AbstractConfiguration controlConfiguration = null;
+						try {
+							controlConfiguration = plugin
+									.getControlCustomization(typeCustomization.getSpecificProperties());
+						} catch (Throwable t) {
+							controlConfiguration = plugin.getDefaultControlCustomization();
+						}
+						StandardEditorBuilder status = toolsRenderer.openObjectDialog(customizerButton,
+								controlConfiguration, null, null, true, true);
+						if (status.isCancelled()) {
+							return;
+						}
+						Map<String, Object> newSpecificProperties = plugin.storeControlCustomization(
+								controlConfiguration, typeCustomization.getSpecificProperties());
+						CustomizationTools.this.changeCustomizationFieldValue(typeCustomization, "specificProperties",
+								newSpecificProperties);
+					}
+
+				});
+	}
+
 	protected List<JMenuItem> makeMenuItemsForFieldControlPlugins(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder, InfoCustomizations infoCustomizations) {
 		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
@@ -965,8 +997,8 @@ public class CustomizationTools implements ICustomizationTools {
 				typeCustomization.getSpecificProperties(), fieldControlPlaceHolder);
 		if (currentPlugin != null) {
 			if (currentPlugin instanceof ICustomizableFieldControlPlugin) {
-				result.add(((ICustomizableFieldControlPlugin) currentPlugin).makeFieldCustomizerMenuItem(
-						customizerButton, fieldControlPlaceHolder, infoCustomizations, CustomizationTools.this));
+				result.add(makeCustomizableFieldControlPluginMenuItem((ICustomizableFieldControlPlugin) currentPlugin,
+						customizerButton, fieldControlPlaceHolder, infoCustomizations));
 			}
 		}
 

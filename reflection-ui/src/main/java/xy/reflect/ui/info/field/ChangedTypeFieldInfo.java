@@ -33,6 +33,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Field proxy allowing to change the type by performing the specified value
+ * conversions.
+ * 
+ * @author olitank
+ *
+ */
 public class ChangedTypeFieldInfo extends FieldInfoProxy {
 
 	protected ITypeInfo newType;

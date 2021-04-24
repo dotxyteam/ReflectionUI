@@ -40,6 +40,13 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Parameter information extracted from the given object representing a Java
+ * parameter.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo {
 
 	protected ReflectionUI reflectionUI;

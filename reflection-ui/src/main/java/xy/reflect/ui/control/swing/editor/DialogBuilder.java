@@ -47,6 +47,12 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Dialog factory.
+ * 
+ * @author olitank
+ *
+ */
 public class DialogBuilder {
 
 	protected SwingRenderer swingRenderer;

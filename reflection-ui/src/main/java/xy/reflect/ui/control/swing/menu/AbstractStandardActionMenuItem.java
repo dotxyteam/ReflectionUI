@@ -12,6 +12,12 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 
+/**
+ * Base class for standard menu items.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 
 	private static final long serialVersionUID = 1L;

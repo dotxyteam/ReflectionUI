@@ -33,7 +33,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
 
 /**
- * This interface allows to specify a set of common abstract UI properties.
+ * This interface allows to specify a set of global abstract UI properties.
  * 
  * @author olitank
  *

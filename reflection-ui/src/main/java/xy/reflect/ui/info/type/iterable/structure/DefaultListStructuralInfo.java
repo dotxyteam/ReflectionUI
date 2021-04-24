@@ -38,6 +38,14 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
 
+/**
+ * Default implementation of {@link IListStructuralInfo}. It specifies a simple
+ * (not hierarchical) list with a unique column that displays the string
+ * representation of each item.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultListStructuralInfo implements IListStructuralInfo {
 
 	protected ReflectionUI reflectionUI;

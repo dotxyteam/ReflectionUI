@@ -35,8 +35,17 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
+/**
+ * Field proxy that delegates to another field that can be replaced dynamically.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class DelegatingFieldInfo implements IFieldInfo {
 
+	/**
+	 * @return Dynamically the delegate.
+	 */
 	protected abstract IFieldInfo getDelegate();
 
 	public String getName() {

@@ -34,6 +34,12 @@ import java.util.Map;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 
+/**
+ * A default implementation of {@link IApplicationInfo}.
+ * 
+ * @author olitank
+ *
+ */
 public class DefaultApplicationInfo implements IApplicationInfo {
 
 	@Override

@@ -46,11 +46,11 @@ import xy.reflect.ui.util.FileUtils;
  * This is a renderer-independent resource location class. It allows to specify
  * how to access a resource from the heap, the class-path or the file system.
  * 
- * It will also detect alternative resource location strategies is some exist
+ * It will also detect alternative resource location strategies if some exist
  * for the current resource.
  * 
- * Note that objects of this class are just resource location specifications.
- * Engines must be created to provide the actual resource access routines.
+ * Note that objects of this class are just specifications. The actual resource
+ * access must be performed in another class.
  * 
  * @author olitank
  *
@@ -97,10 +97,8 @@ public class ResourcePath implements Serializable {
 	/**
 	 * Constructs a class-path resource path.
 	 * 
-	 * @param classInResourcePackage
-	 *            A class in the same package of the resource.
-	 * @param resourceName
-	 *            The name of the resource.
+	 * @param classInResourcePackage A class in the same package of the resource.
+	 * @param resourceName           The name of the resource.
 	 */
 	public ResourcePath(Class<?> classInResourcePackage, String resourceName) {
 		this(ResourcePath.specifyClassPathResourceSpecification(
@@ -111,17 +109,15 @@ public class ResourcePath implements Serializable {
 	 * Constructs a resource path from a specification. Specifications can be
 	 * created using the static specify*Location(String) methods of this class.
 	 * 
-	 * @param specification
-	 *            The specification.
+	 * @param specification The specification.
 	 */
 	public ResourcePath(String specification) {
 		setSpecification(specification);
 	}
 
 	/**
-	 * @param path
-	 *            A path that could be used as the argument of
-	 *            {@link Class#getResource(String)}
+	 * @param path A path that could be used as the argument of
+	 *             {@link Class#getResource(String)}
 	 * @return a class-path resource location specification string that can be
 	 *         passed to the {@link #setSpecification(String)} method.
 	 */
@@ -130,8 +126,7 @@ public class ResourcePath implements Serializable {
 	}
 
 	/**
-	 * @param path
-	 *            A arbitrary path that will uniquely identify a heap object.
+	 * @param path A arbitrary path that will uniquely identify a heap object.
 	 * @return a heap resource location specification string that can be passed to
 	 *         the {@link #setSpecification(String)} method.
 	 */
@@ -140,8 +135,7 @@ public class ResourcePath implements Serializable {
 	}
 
 	/**
-	 * @param specification
-	 *            The full resource location specification string.
+	 * @param specification The full resource location specification string.
 	 * @return the path that was passed to the
 	 *         {@link #specifyClassPathResourceSpecification(String)} method in
 	 *         order to create the given resource location specification.
@@ -151,8 +145,7 @@ public class ResourcePath implements Serializable {
 	}
 
 	/**
-	 * @param specification
-	 *            The full resource location specification string.
+	 * @param specification The full resource location specification string.
 	 * @return the path that was passed to the
 	 *         {@link #specifyMemoryObjectSpecification(String)} method in order to
 	 *         create the given resource location specification.
@@ -196,8 +189,7 @@ public class ResourcePath implements Serializable {
 	/**
 	 * Sets the full resource location specification string.
 	 * 
-	 * @param specification
-	 *            The full resource location specification string.
+	 * @param specification The full resource location specification string.
 	 */
 	public void setSpecification(String specification) {
 		if (specification.startsWith(ResourcePath.CLASSPATH_RESOURCE_PREFIX)) {
@@ -225,8 +217,7 @@ public class ResourcePath implements Serializable {
 	/**
 	 * Allows to specify the location of a file system resource.
 	 * 
-	 * @param file
-	 *            The file system resource path.
+	 * @param file The file system resource path.
 	 */
 	public void setFile(File file) {
 		path = file.getPath();
@@ -264,9 +255,9 @@ public class ResourcePath implements Serializable {
 	/**
 	 * Allows to select a resource location alternative.
 	 * 
-	 * @param chosenAlternative
-	 *            An alternative resource location. Must be included in the list
-	 *            returned by the {@link #getAlternativeOptions()} method.
+	 * @param chosenAlternative An alternative resource location. Must be included
+	 *                          in the list returned by the
+	 *                          {@link #getAlternativeOptions()} method.
 	 */
 	public void setChosenAlternative(ResourcePath chosenAlternative) {
 		List<ResourcePath> options = getAlternativeOptions();

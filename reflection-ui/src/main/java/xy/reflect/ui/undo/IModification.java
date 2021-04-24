@@ -30,7 +30,9 @@ package xy.reflect.ui.undo;
 
 /**
  * This is the base interface of every object state modification made through an
- * abstract UI model element.
+ * abstract UI model element. Note that it simulates a control action and then
+ * should operate at the same level as UI controls (eventually manage busy
+ * indication, ...).
  * 
  * @author olitank
  *

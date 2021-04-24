@@ -40,6 +40,13 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Field control that displays primitive (int, float, boolean, char, ...) values
+ * in a text box.
+ * 
+ * @author olitank
+ *
+ */
 public class PrimitiveValueControl extends TextControl {
 
 	private static final long serialVersionUID = 1L;

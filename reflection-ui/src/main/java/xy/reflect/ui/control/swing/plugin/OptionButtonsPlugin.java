@@ -44,10 +44,11 @@ import javax.swing.DefaultButtonModel;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
+
+import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
-import xy.reflect.ui.control.swing.IAdvancedFieldControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -59,6 +60,13 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field control plugin that displays toggle buttons allowing to choose an
+ * enumeration item.
+ * 
+ * @author olitank
+ *
+ */
 public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 	@Override

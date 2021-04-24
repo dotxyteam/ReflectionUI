@@ -44,6 +44,12 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Field information extracted from a Java field.
+ * 
+ * @author olitank
+ *
+ */
 public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected Field javaField;
