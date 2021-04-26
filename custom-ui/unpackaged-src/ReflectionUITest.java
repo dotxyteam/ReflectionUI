@@ -197,7 +197,7 @@ public class ReflectionUITest {
 			return object;
 		}
 
-		public String fieldToImportAsParameter = "fieldToImportAsParameter default value";
+		public String fieldToImportAsParameter = "fieldToImportAsParameter value";
 
 		public String echoFieldImportedAsParameter() {
 			return fieldToImportAsParameter;
@@ -205,6 +205,10 @@ public class ReflectionUITest {
 
 		public String echoParameterExportedAsField(String parameterToExportAsField) {
 			return parameterToExportAsField;
+		}
+
+		public String echoHiddenParameterDefaultValue(String parameterWithDefaultValue) {
+			return parameterWithDefaultValue;
 		}
 
 	}
