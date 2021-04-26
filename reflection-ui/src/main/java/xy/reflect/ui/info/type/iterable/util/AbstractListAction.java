@@ -42,6 +42,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * This class exists as convenience for creating {@link IDynamicListAction}
+ * objects. The implemented methods have a default behavior.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractListAction extends AbstractInfo implements IDynamicListAction {
 
 	@Override

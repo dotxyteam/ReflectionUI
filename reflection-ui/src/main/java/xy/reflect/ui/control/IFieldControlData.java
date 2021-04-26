@@ -105,7 +105,7 @@ public interface IFieldControlData {
 	String getOnlineHelp();
 
 	/**
-	 * @return UI-oriented type properties of the current field.
+	 * @return the type information of the current field.
 	 */
 	ITypeInfo getType();
 

@@ -59,19 +59,19 @@ import xy.reflect.ui.util.Mapper;
 public interface IListTypeInfo extends ITypeInfo {
 
 	/**
-	 * @return the known type of items supported by this list type.
+	 * @return the known type of items supported by lists of this type.
 	 */
 	ITypeInfo getItemType();
 
 	/**
 	 * @param listValue An instance of the current list type.
-	 * @return the list of items in the given list value packed in a generic array.
+	 * @return a generic array containing the items of the given list value.
 	 */
 	Object[] toArray(Object listValue);
 
 	/**
-	 * @return true if and only if this list type instances can be packed in a
-	 *         generic array. Otherwise {@link #fromArray(Object[])} should not be
+	 * @return true if and only if instances of this list type can be created from
+	 *         generic arrays. Otherwise {@link #fromArray(Object[])} should not be
 	 *         called.
 	 */
 	boolean canInstanciateFromArray();
@@ -84,8 +84,8 @@ public interface IListTypeInfo extends ITypeInfo {
 	Object fromArray(Object[] array);
 
 	/**
-	 * @return true if and only if an instance of this list type can have its list
-	 *         of items replaced by calling
+	 * @return true if and only if instances of this list type can have their
+	 *         content replaced by calling
 	 *         {@link #replaceContent(Object, Object[])}.
 	 */
 	boolean canReplaceContent();
@@ -101,64 +101,61 @@ public interface IListTypeInfo extends ITypeInfo {
 	void replaceContent(Object listValue, Object[] array);
 
 	/**
-	 * @return tabular and hierarchical preferences of this list type.
+	 * @return tabular and hierarchical preferences about this list type.
 	 */
 	IListStructuralInfo getStructuralInfo();
 
 	/**
-	 * @return preferences about items display of this list type.
+	 * @return preferences about the way item details are displayed.
 	 */
 	IListItemDetailsAccessMode getDetailsAccessMode();
 
 	/**
-	 * @return whether the items in instances of this list type are ordered.
+	 * @return whether the items in this list type instances are ordered (can be
+	 *         moved to specific positions) or not.
 	 */
 	boolean isOrdered();
 
 	/**
-	 * @return whether the item addition should be allowed on instances of this list
+	 * @return whether item addition should be allowed on instances of this list
 	 *         type.
 	 */
 	boolean isInsertionAllowed();
 
 	/**
-	 * @return whether the item removal should be allowed on instances of this list
+	 * @return whether item removal should be allowed on instances of this list
 	 *         type.
 	 */
 	boolean isRemovalAllowed();
 
 	/**
-	 * @return whether the item details display should be allowed on instances of
-	 *         this list type.
+	 * @return whether item details display should be allowed on instances of this
+	 *         list type.
 	 */
 	boolean canViewItemDetails();
 
 	/**
-	 * @param selection                       A list item position descriptors.
-	 * @param listModificationFactoryAccessor An object that maps item positions to
-	 *                                        list modification factories. This
-	 *                                        object will usually be provided in
-	 *                                        real-time by the renderer.
-	 * @return actions that can be performed on a list instance according to a given
-	 *         selection of items.
+	 * @param selection                       The list of selected item positions.
+	 * @param listModificationFactoryAccessor An object that maps the selection to a
+	 *                                        list modification factory.
+	 * @return actions that can be performed on a list instance according to the
+	 *         given selection of items.
 	 */
 	List<IDynamicListAction> getDynamicActions(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
 	/**
-	 * @param selection                       A list item position descriptors.
-	 * @param listModificationFactoryAccessor An object that maps item positions to
-	 *                                        list modification factories. This
-	 *                                        object will usually be provided in
-	 *                                        real-time by the renderer.
-	 * @return properties of a list instance that can be accessed according to a
-	 *         given selection of items.
+	 * @param selection                       The list of selected item positions.
+	 * @param listModificationFactoryAccessor An object that maps the selection to a
+	 *                                        list modification factory.
+	 * @return list instance properties that can be accessed according to the given
+	 *         selection of items.
 	 */
 	List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
 
 	/**
-	 * @return true if and only if instances of this list type supports null items.
+	 * @return whether instances of this list type support null items.
 	 */
 	boolean isItemNullValueDistinct();
 
@@ -168,13 +165,13 @@ public interface IListTypeInfo extends ITypeInfo {
 	InitialItemValueCreationOption getInitialItemValueCreationOption();
 
 	/**
-	 * @return the value return mode of the items of an instance of this list type.
-	 *         It may impact the behavior of the list control.
+	 * @return the value return mode of the items. It may impact the behavior of the
+	 *         list control.
 	 */
 	ValueReturnMode getItemReturnMode();
 
 	/**
-	 * Should be called by the renderer whenever the selection of items changes.
+	 * Is called by the renderer whenever the selection of items changes.
 	 * 
 	 * @param newSelection The new selection.
 	 */
@@ -182,14 +179,27 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	/**
 	 * Allows to choose how the UI behaves when creating items. Typically it answers
-	 * the question "should the framework require from users the creation option
-	 * values or not ?".
+	 * the question "should the framework require constructor parameter values from
+	 * users or not ?".
 	 * 
 	 * @author olitank
 	 *
 	 */
 	public enum InitialItemValueCreationOption {
-		CREATE_INITIAL_NULL_VALUE, CREATE_INITIAL_VALUE_AUTOMATICALLY, CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES
+		/**
+		 * Null items are created by default.
+		 */
+		CREATE_INITIAL_NULL_VALUE,
+		/**
+		 * Items are created by using using default constructors or other constructors
+		 * with default parameter values, etc, without requiring any information from
+		 * the user.
+		 */
+		CREATE_INITIAL_VALUE_AUTOMATICALLY,
+		/**
+		 * All item creation options are presented to the user who makes a choice.
+		 */
+		CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES
 	}
 
 }

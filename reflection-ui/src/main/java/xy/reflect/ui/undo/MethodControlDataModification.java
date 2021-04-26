@@ -32,6 +32,12 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.util.ReflectionUIError;
 
+/**
+ * Modification that invokes a method.
+ * 
+ * @author olitank
+ *
+ */
 public class MethodControlDataModification extends AbstractModification {
 
 	protected IMethodControlData data;
@@ -54,7 +60,7 @@ public class MethodControlDataModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
-		Runnable result = data.getNextUpdateCustomUndoJob(invocationData);
+		Runnable result = data.getNextInvocationUndoJob(invocationData);
 		if (result == null) {
 			throw new ReflectionUIError();
 		}

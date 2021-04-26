@@ -34,7 +34,7 @@ import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Parameter information proxy class. Its methods should be overriden to provide
+ * Parameter information proxy class. The methods in this class should be overriden to provide
  * custom information.
  * 
  * @author olitank

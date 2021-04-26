@@ -34,15 +34,22 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
+/**
+ * Class for filling the gap of the inexistence of java.lang.reflect.Parameter
+ * in Java 1.6.
+ * 
+ * @author olitank
+ *
+ */
 public class Parameter extends AccessibleObject {
 
 	public static final String NO_NAME = "";
-	
+
 	private final Member invokable;
 	private final int position;
 	private Class<?>[] invokableParameterTypes;
 	private Annotation[][] invokableParameterAnnotations;
-	
+
 	public Parameter(Member invokable, int position) {
 		this.invokable = invokable;
 		this.position = position;

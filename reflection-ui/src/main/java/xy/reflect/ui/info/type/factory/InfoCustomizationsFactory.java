@@ -124,8 +124,8 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Factory that generates proxying and virtual type informations according to
- * the given {@link InfoCustomizations} object.
+ * Factory that generates proxying and virtual type information objects
+ * according to the given {@link InfoCustomizations} object.
  * 
  * @author olitank
  *

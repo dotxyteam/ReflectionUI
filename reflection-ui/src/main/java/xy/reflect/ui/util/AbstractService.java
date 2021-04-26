@@ -28,6 +28,12 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+/**
+ * Base class for asynchronous jobs.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractService {
 
 	protected boolean active = false;

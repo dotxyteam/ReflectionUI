@@ -33,6 +33,12 @@ import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Modification that updates a field control data value.
+ * 
+ * @author olitank
+ *
+ */
 public class FieldControlDataModification extends AbstractModification {
 
 	protected IFieldControlData data;

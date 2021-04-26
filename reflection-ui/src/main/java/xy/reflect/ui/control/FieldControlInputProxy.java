@@ -31,7 +31,7 @@ package xy.reflect.ui.control;
 import xy.reflect.ui.undo.ModificationStack;
 
 /**
- * Field control input proxy class. Its methods should be overriden to provide a
+ * Field control input proxy class. The methods in this class should be overriden to provide a
  * custom behavior.
  * 
  * @author olitank

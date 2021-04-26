@@ -32,8 +32,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
 /**
- * Filter proxy class. Its methods should be overriden to provide custom
- * behavior.
+ * Filter proxy class. The methods in this class should be overriden to provide a custom behavior.
  * 
  * @author olitank
  *

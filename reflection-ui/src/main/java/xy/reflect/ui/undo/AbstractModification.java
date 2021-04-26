@@ -28,6 +28,14 @@
  ******************************************************************************/
 package xy.reflect.ui.undo;
 
+import xy.reflect.ui.util.ReflectionUIError;
+
+/**
+ * This class exists as convenience for creating {@link IModification} objects.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractModification implements IModification {
 
 	protected String title;
@@ -35,8 +43,14 @@ public abstract class AbstractModification implements IModification {
 	protected Runnable undoJob;
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
+	/**
+	 * @return The task that performs the modification. Must not be null.
+	 */
 	protected abstract Runnable createDoJob();
 
+	/**
+	 * @return The task that reverts the modification. Must not be null.
+	 */
 	protected abstract Runnable createUndoJob();
 
 	@Override
@@ -53,9 +67,15 @@ public abstract class AbstractModification implements IModification {
 	public IModification applyAndGetOpposite() {
 		if (doJob == null) {
 			doJob = createDoJob();
+			if (doJob == null) {
+				throw new ReflectionUIError();
+			}
 		}
 		if (undoJob == null) {
 			undoJob = createUndoJob();
+			if (undoJob == null) {
+				throw new ReflectionUIError();
+			}
 		}
 
 		doJob.run();

@@ -839,8 +839,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return info.getName();
 	}
 
-	protected Object getItem(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
-		return info.getItem();
+	protected Object getValue(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		return info.getValue();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
@@ -2026,8 +2026,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public Object getItem() {
-			return InfoProxyFactory.this.getItem(base, parentEnumType);
+		public Object getValue() {
+			return InfoProxyFactory.this.getValue(base, parentEnumType);
 		}
 
 		@Override

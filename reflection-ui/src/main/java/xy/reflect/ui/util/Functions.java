@@ -28,6 +28,12 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+/**
+ * Useful utilities intended to be called through reflection.
+ * 
+ * @author olitank
+ *
+ */
 public class Functions {
 
 	public static boolean negate(boolean b) {

@@ -77,6 +77,14 @@ public class InvocationData implements Serializable {
 		this.valueByParameterPosition = providedValues;
 	}
 
+	public Map<Integer, Object> getDefaultParameterValues() {
+		return defaultValueByParameterPosition;
+	}
+
+	public void setDefaultParameterValues(Map<Integer, Object> defaultValues) {
+		this.defaultValueByParameterPosition = defaultValues;
+	}
+
 	public Object getParameterValue(int parameterPosition) {
 		if (valueByParameterPosition.containsKey(parameterPosition)) {
 			return valueByParameterPosition.get(parameterPosition);
@@ -127,7 +135,7 @@ public class InvocationData implements Serializable {
 
 	@Override
 	public String toString() {
-		return new HashMap<Integer, Object>(valueByParameterPosition).toString();
+		return "ProvidedValues=" + valueByParameterPosition + ", DefaultValues=" + defaultValueByParameterPosition;
 	}
 
 }

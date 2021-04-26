@@ -39,6 +39,13 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
+/**
+ * Dynamic list action proxy class. The methods in this class should be
+ * overriden to provide custom information.
+ * 
+ * @author olitank
+ *
+ */
 public class DynamicListActionProxy implements IDynamicListAction {
 
 	protected IDynamicListAction base;
@@ -119,7 +126,6 @@ public class DynamicListActionProxy implements IDynamicListAction {
 		return base.getIconImagePath();
 	}
 
-	
 	public boolean isReturnValueDetached() {
 		return base.isReturnValueDetached();
 	}

@@ -33,7 +33,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
- * Allows to describe a {@link IListTypeInfo} column.
+ * Allows to describe {@link IListTypeInfo} columns.
  * 
  * @author olitank
  *
@@ -41,17 +41,21 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 public interface IColumnInfo extends IInfo {
 
 	/**
-	 * @param itemPosition The item position.
-	 * @return The value that must be displayed in the current cell.
+	 * @param itemPosition The position of the item in the list/tree.
+	 * @return the value that must be displayed in the current cell.
 	 */
 	String getCellValue(ItemPosition itemPosition);
 
 	/**
-	 * @param itemPosition The item position.
-	 * @return Whether a value should be displayed in the current cell or not.
+	 * @param itemPosition The position of the item in the list/tree.
+	 * @return whether a value should be displayed in the current cell or not.
 	 */
 	boolean hasCellValue(ItemPosition itemPosition);
 
+	/**
+	 * @return the number of characters that the column should always be able to
+	 *         display.
+	 */
 	int getMinimalCharacterCount();
 
 }

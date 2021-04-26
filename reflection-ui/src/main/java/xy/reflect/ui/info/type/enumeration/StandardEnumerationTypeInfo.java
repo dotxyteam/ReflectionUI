@@ -127,7 +127,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 				}
 
 				@Override
-				public Object getItem() {
+				public Object getValue() {
 					return object;
 				}
 

@@ -2178,7 +2178,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			BufferedItemPosition newSubItemPosition = getNewSubItemPosition();
 			if (newSubItemPosition == null) {
 				return false;
@@ -2262,7 +2262,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			if (getRootListRawValue().length > 0) {
 				if (createListModificationFactory(itemPositionFactory.getRootItemPosition(-1)).canClear()) {
 					if (getRootListType().isRemovalAllowed()) {
@@ -2302,7 +2302,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			List<BufferedItemPosition> selection = getSelection();
 			if (selection.size() > 0) {
 				if (canCopyAll(selection)) {
@@ -2356,7 +2356,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			List<BufferedItemPosition> selection = getSelection();
 			if (selection.size() > 0) {
 				if (canCopyAll(selection) && canRemoveAll(selection)) {
@@ -2480,7 +2480,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			BufferedItemPosition newItemPosition = getNewItemPosition();
 			if (newItemPosition != null) {
 				if (newItemPosition.getContainingListType().isInsertionAllowed()) {
@@ -2557,7 +2557,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			List<BufferedItemPosition> selection = getSelection();
 			if (selection.size() > 0) {
 				if (canMoveAll(selection, offset)) {
@@ -2605,7 +2605,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			if (!getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				return false;
 			}
@@ -2684,7 +2684,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			if (!super.isValid()) {
 				return false;
 			}
@@ -2699,7 +2699,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected class PasteIntoAction extends AbstractStandardListAction {
+	protected class PasteIntoAction extends AddChildAction {
 
 		protected static final long serialVersionUID = 1L;
 
@@ -2761,16 +2761,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected boolean isValid() {
-			if (clipboard.size() > 0) {
-				BufferedItemPosition newItemPosition = getNewItemPosition();
-				if (newItemPosition != null) {
-					if (createListModificationFactory(newItemPosition).canAddAll(newItemPosition.getIndex(),
-							clipboard)) {
-						return true;
-					}
-				}
+			if (!super.isValid()) {
+				return false;
 			}
-			return false;
+			if (clipboard.size() == 0) {
+				return false;
+			}
+			BufferedItemPosition newItemPosition = getNewItemPosition();
+			if (!createListModificationFactory(newItemPosition).canAddAll(newItemPosition.getIndex(), clipboard)) {
+				return false;
+			}
+			return true;
+			
 		}
 	}
 
@@ -2811,7 +2813,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			List<BufferedItemPosition> selection = getSelection();
 			if (selection.size() == 0) {
 				return false;
@@ -2902,7 +2904,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			return dynamicAction.isEnabled();
 		}
 
@@ -3041,7 +3043,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isValid() {
+		protected boolean isValid() {
 			return dynamicProperty.isEnabled();
 		}
 

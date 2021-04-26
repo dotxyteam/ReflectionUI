@@ -34,7 +34,7 @@ import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ResourcePath;
 
 /**
- * Enumeration item information proxy class. Its methods should be overriden to
+ * Enumeration item information proxy class. The methods in this class should be overriden to
  * provide custom information.
  * 
  * @author olitank
@@ -48,8 +48,8 @@ public class EnumerationItemInfoProxy extends AbstractInfoProxy implements IEnum
 		this.base = base;
 	}
 
-	public Object getItem() {
-		return base.getItem();
+	public Object getValue() {
+		return base.getValue();
 	}
 
 	public String getName() {

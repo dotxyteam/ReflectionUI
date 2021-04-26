@@ -182,11 +182,11 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			}
 
 			@Override
-			public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
+			public Runnable getNextInvocationUndoJob(InvocationData invocationData) {
 				if (isBusyIndicationDisabled()) {
-					return super.getNextUpdateCustomUndoJob(invocationData);
+					return super.getNextInvocationUndoJob(invocationData);
 				}
-				final Runnable result = data.getNextUpdateCustomUndoJob(invocationData);
+				final Runnable result = data.getNextInvocationUndoJob(invocationData);
 				if (result == null) {
 					return null;
 				}

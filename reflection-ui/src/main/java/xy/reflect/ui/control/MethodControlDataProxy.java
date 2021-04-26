@@ -39,7 +39,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Method control data proxy class. Its methods should be overriden to provide a
+ * Method control data proxy class. The methods in this class should be overriden to provide a
  * custom behavior.
  * 
  * @author olitank
@@ -119,8 +119,8 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getNullReturnValueLabel();
 	}
 
-	public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
-		return base.getNextUpdateCustomUndoJob(invocationData);
+	public Runnable getNextInvocationUndoJob(InvocationData invocationData) {
+		return base.getNextInvocationUndoJob(invocationData);
 	}
 
 	public void validateParameters(InvocationData invocationData) throws Exception {
@@ -143,8 +143,8 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getCaption();
 	}
 
-	public String getInvocationIdentifier() {
-		return base.getInvocationIdentifier();
+	public String getMethodSignature() {
+		return base.getMethodSignature();
 	}
 
 	public ResourcePath getIconImagePath() {

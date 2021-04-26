@@ -37,6 +37,13 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
+/**
+ * This class exists as convenience for creating {@link IDynamicListProperty}
+ * objects. The implemented methods have a default behavior.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractListProperty extends AbstractInfo implements IDynamicListProperty {
 
 	@Override

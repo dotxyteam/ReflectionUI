@@ -34,7 +34,7 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 
 /**
- * Application information proxy class. Its methods should be overriden to
+ * Application information proxy class. The methods in this class should be overriden to
  * provide custom information.
  * 
  * @author olitank

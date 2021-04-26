@@ -34,6 +34,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utilities for dealing with classes.
+ * 
+ * @author olitank
+ *
+ */
 public class ClassUtils {
 
 	protected static final Class<?>[] PRIMITIVE_CLASSES = new Class<?>[] { boolean.class, byte.class, short.class,

@@ -44,8 +44,8 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.DelayedUpdateProcess;
-import xy.reflect.ui.util.NumberUtils;
+import xy.reflect.ui.util.DelayedTaskProcess;
+import xy.reflect.ui.util.ConversionUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -102,9 +102,9 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
-		protected DelayedUpdateProcess dataUpdateProcess = new DelayedUpdateProcess() {
+		protected DelayedTaskProcess dataUpdateProcess = new DelayedTaskProcess() {
 			@Override
-			protected void commit() {
+			protected void execute() {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -114,7 +114,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			}
 
 			@Override
-			protected long getCommitDelayMilliseconds() {
+			protected long getExecutionDelayMilliseconds() {
 				return Slider.this.getCommitDelayMilliseconds();
 			}
 		};
@@ -174,7 +174,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 				if (value == null) {
 					intValue = getMinimum();
 				} else {
-					intValue = (Integer) NumberUtils.convertNumberToTargetClass((Number) value, Integer.class);
+					intValue = (Integer) ConversionUtils.convertNumberToTargetClass((Number) value, Integer.class);
 				}
 				if (intValue > getMaximum()) {
 					throw new ReflectionUIError(
@@ -206,7 +206,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		protected void commitChanges() {
-			Object value = NumberUtils.convertNumberToTargetClass(Slider.this.getValue(), numberClass);
+			Object value = ConversionUtils.convertNumberToTargetClass(Slider.this.getValue(), numberClass);
 			data.setValue(value);
 		}
 
@@ -214,13 +214,13 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			if (listenerDisabled) {
 				return;
 			}
-			dataUpdateProcess.cancelCommitSchedule();
-			dataUpdateProcess.scheduleCommit();
+			dataUpdateProcess.cancelSchedule();
+			dataUpdateProcess.schedule();
 		}
 
 		protected void onFocusLoss() {
-			if (dataUpdateProcess.isCommitScheduled()) {
-				dataUpdateProcess.cancelCommitSchedule();
+			if (dataUpdateProcess.isScheduled()) {
+				dataUpdateProcess.cancelSchedule();
 				commitChanges();
 			}
 		}

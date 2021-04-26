@@ -15169,6 +15169,10 @@
         </categoriesForegroundColor>
         <categoriesStyle>MODERN_VERTICAL</categoriesStyle>
         <copyForbidden>false</copyForbidden>
+        <customFieldsOrder>bannerImage</customFieldsOrder>
+        <customFieldsOrder>exceptionneableInfo</customFieldsOrder>
+        <customFieldsOrder>theModifiableDate</customFieldsOrder>
+        <customFieldsOrder>theModifiableDate.duplicate</customFieldsOrder>
         <customFieldsOrder>theEnum</customFieldsOrder>
         <customFieldsOrder>thecolor.nullStatus</customFieldsOrder>
         <customFieldsOrder>theByte</customFieldsOrder>
@@ -15206,6 +15210,8 @@
         <customFieldsOrder>test4</customFieldsOrder>
         <customFieldsOrder>theImage</customFieldsOrder>
         <customFieldsOrder>dates</customFieldsOrder>
+        <customFieldsOrder>fieldToImportAsParameter</customFieldsOrder>
+        <customFieldsOrder>echoParameterExportedAsField.text</customFieldsOrder>
         <customFieldsOrder>theDate</customFieldsOrder>
         <customFieldsOrder>theDatePlus1Day</customFieldsOrder>
         <customFieldsOrder>theFloatArray</customFieldsOrder>
@@ -15275,7 +15281,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6eeb</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46c2</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15320,7 +15326,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6eec</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46c1</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15407,7 +15413,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6eed</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46c0</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -15486,7 +15492,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6eee</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46bf</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -15556,7 +15562,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6eef</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46be</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15601,7 +15607,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef0</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46bd</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15655,7 +15661,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef1</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46bc</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15705,7 +15711,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef2</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46bb</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16014,7 +16020,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef3</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46ba</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -17925,7 +17931,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef4</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b9</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -17995,7 +18001,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef5</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b8</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -19636,7 +19642,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef6</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b7</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -19706,7 +19712,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef7</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b6</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -19751,7 +19757,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef8</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b5</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -19821,7 +19827,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6ef9</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b4</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -19973,7 +19979,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6efa</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b3</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -20027,7 +20033,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6efb</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b2</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -20072,7 +20078,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6efc</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b1</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -20949,7 +20955,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6efd</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46b0</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -21019,7 +21025,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6efe</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46af</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -21064,7 +21070,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6eff</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46ae</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -21174,7 +21180,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6f00</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46ad</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -21258,7 +21264,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6f01</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46ac</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -23914,6 +23920,87 @@
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>41c7f79a:1790977b832:59cf</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>fieldToImportAsParameter</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>41c7f79a:1790977b832:59d1</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>41c7f79a:1790977b832:59d0</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>41c7f79a:1790977b832:59e6</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>41c7f79a:1790977b832:59e7</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>4d6c4baa:17909f79c6a:-5a79</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption>Parameter Exported As Field</customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>echoParameterExportedAsField.text</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-5a77</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>4d6c4baa:17909f79c6a:-5a78</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>4d6c4baa:17909f79c6a:-5a75</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>4d6c4baa:17909f79c6a:-5a74</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
         <iconImagePath>
             <specification>tmp/obj16/ActionExecutionSpecification.gif</specification>
         </iconImagePath>
@@ -24163,7 +24250,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6f02</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46ab</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -24193,7 +24280,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6f03</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46aa</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -24245,7 +24332,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6f04</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46a9</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -24297,7 +24384,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5af711ba:178e62e4b97:6f05</uniqueIdentifier>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-46a8</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -24458,6 +24545,71 @@
             <specificReturnValueTypeCustomizations>
                 <appplicationCustomization>
                     <uniqueIdentifier>6e52f381:16a2213489f:-7a95</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>41c7f79a:1790977b832:59d8</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.lang.String echoFieldImportedAsParameter()</methodSignature>
+            <parameterizedFieldNames>fieldToImportAsParameter</parameterizedFieldNames>
+            <parametersCustomizations>
+                <uniqueIdentifier>41c7f79a:1790977b832:5ff1</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>41c7f79a:1790977b832:5ff2</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>fieldToImportAsParameter</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>41c7f79a:1790977b832:59d9</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>41c7f79a:1790977b832:59da</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>java.lang.String echoParameterExportedAsField(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>41c7f79a:1790977b832:59dc</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>41c7f79a:1790977b832:59dd</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>true</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>true</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>41c7f79a:1790977b832:59db</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
@@ -44966,6 +45118,168 @@
             <uniqueIdentifier>-5af711ba:178e62e4b97:62e4</uniqueIdentifier>
         </menuModel>
         <typeName>Encapsulation [encapsulatedObjectType=Encapsulation [typeCaption=Selection, fieldType=SubTypesEnumeration [polymorphicType=ReflectionUITest$AbstrcatTestDescendant], fieldCaption=Choose a type]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>41c7f79a:1790977b832:5c5f</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <fieldsCustomizations>
+            <uniqueIdentifier>41c7f79a:1790977b832:5c64</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>41c7f79a:1790977b832:5c66</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>41c7f79a:1790977b832:5c65</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>41c7f79a:1790977b832:5c6a</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>41c7f79a:1790977b832:5c6b</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>41c7f79a:1790977b832:5c60</uniqueIdentifier>
+        </menuModel>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.String echoFieldImportedAsParameter(), containingType=ReflectionUITest$Test], subContext=MethodResult, encapsulatedObjectType=java.lang.String]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>41c7f79a:1790977b832:687a</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <fieldsCustomizations>
+            <uniqueIdentifier>41c7f79a:1790977b832:687c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>fieldToImportAsParameter</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>41c7f79a:1790977b832:687e</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>41c7f79a:1790977b832:687d</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>41c7f79a:1790977b832:6880</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>41c7f79a:1790977b832:6881</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>41c7f79a:1790977b832:687b</uniqueIdentifier>
+        </menuModel>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=java.lang.String echoFieldImportedAsParameter(), containingType=ReflectionUITest$Test]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>4d6c4baa:17909f79c6a:-5776</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <fieldsCustomizations>
+            <uniqueIdentifier>4d6c4baa:17909f79c6a:-5771</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>4d6c4baa:17909f79c6a:-576f</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>4d6c4baa:17909f79c6a:-5770</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>4d6c4baa:17909f79c6a:-576b</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>4d6c4baa:17909f79c6a:-576a</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>4d6c4baa:17909f79c6a:-5775</uniqueIdentifier>
+        </menuModel>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.String echoParameterExportedAsField(java.lang.String), containingType=ReflectionUITest$Test], subContext=MethodResult, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

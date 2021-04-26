@@ -28,47 +28,67 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
-public class IdentityEqualityWrapper<T> {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 
-	private T object;
+/**
+ * Base class for delayed actions.
+ * 
+ * @author olitank
+ *
+ */
+public abstract class DelayedTaskProcess {
 
-	public IdentityEqualityWrapper(T object) {
-		super();
-		this.object = object;
+	protected abstract void execute();
+
+	protected abstract long getExecutionDelayMilliseconds();
+
+	protected Object executionMutex = new Object();
+	protected Future<?> taskStatus;
+	protected ExecutorService taskExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread result = new Thread(r);
+			result.setName("DelayedTaskExecutor [of=" + DelayedTaskProcess.this + "]");
+			result.setDaemon(true);
+			return result;
+		}
+	});
+	protected boolean executionScheduled = false;
+
+	public void schedule() {
+		synchronized (executionMutex) {
+			taskStatus = taskExecutor.submit(new Runnable() {
+				@Override
+				public void run() {
+					executionScheduled = true;
+					try {
+						try {
+							Thread.sleep(getExecutionDelayMilliseconds());
+						} catch (InterruptedException e) {
+							return;
+						}
+						execute();
+					} finally {
+						executionScheduled = false;
+					}
+				}
+			});
+		}
 	}
 
-	public T getObject() {
-		return object;
+	public void cancelSchedule() {
+		synchronized (executionMutex) {
+			if (taskStatus != null) {
+				taskStatus.cancel(true);
+			}
+		}
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((object == null) ? 0 : object.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		IdentityEqualityWrapper<?> other = (IdentityEqualityWrapper<?>) obj;
-		if (object == null) {
-			if (other.object != null)
-				return false;
-		} else if (object != other.object)
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "IdentityEqualityWrapper [object=" + object + "]";
+	public boolean isScheduled() {
+		return executionScheduled;
 	}
 
 }

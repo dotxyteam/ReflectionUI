@@ -36,7 +36,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 
 /**
- * Item position proxy class. Its methods should be overriden to provide custom
+ * Item position proxy class. The methods in this class should be overriden to provide custom
  * information.
  * 
  * @author olitank

@@ -28,8 +28,20 @@
  ******************************************************************************/
 package xy.reflect.ui.undo;
 
+/**
+ * This class exists as convenience for creating {@link IModificationListener}
+ * objects.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractSimpleModificationListener implements IModificationListener {
 
+	/**
+	 * Is called when any modification stack event occurs.
+	 * 
+	 * @param modification The modification related to the event.
+	 */
 	protected abstract void handleAnyEvent(IModification modification);
 
 	@Override

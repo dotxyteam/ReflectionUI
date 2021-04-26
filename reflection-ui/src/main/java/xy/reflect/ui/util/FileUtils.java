@@ -36,6 +36,12 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Utilities for dealing with files.
+ * 
+ * @author olitank
+ *
+ */
 public class FileUtils {
 
 	public static File createTempDirectory() throws Exception {
@@ -377,6 +383,5 @@ public class FileUtils {
 		}
 		return tempFile;
 	}
-
 
 }

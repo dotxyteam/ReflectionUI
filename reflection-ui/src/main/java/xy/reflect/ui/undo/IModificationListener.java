@@ -40,31 +40,27 @@ public interface IModificationListener {
 	 * Called after the execution of
 	 * {@link ModificationStack#pushUndo(IModification)}.
 	 * 
-	 * @param undoModification
-	 *            The parameter passed to
-	 *            {@link ModificationStack#pushUndo(IModification)}.
+	 * @param undoModification The parameter passed to
+	 *                         {@link ModificationStack#pushUndo(IModification)}.
 	 */
 	void afterPushUndo(IModification undoModification);
 
 	/**
 	 * Called after the execution of {@link ModificationStack#undo()}.
 	 * 
-	 * @param undoModification
-	 *            The undo modification that was executed.
+	 * @param undoModification The undo modification that was executed.
 	 */
 	void afterUndo(IModification undoModification);
 
 	/**
 	 * Called after the execution of {@link ModificationStack#redo()}.
 	 * 
-	 * @param modification
-	 *            The modification that was executed.
+	 * @param modification The redo modification that was executed.
 	 */
 	void afterRedo(IModification modification);
 
 	/**
-	 * Called after the execution of {@link ModificationStack#invalidate()} or
-	 * {@link ModificationStack#forget()}.
+	 * Called after the execution of {@link ModificationStack#invalidate()}.
 	 */
 	void afterInvalidate();
 

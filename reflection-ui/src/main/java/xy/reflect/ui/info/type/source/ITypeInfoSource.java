@@ -44,15 +44,14 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public interface ITypeInfoSource {
 
 	/**
-	 * @return specificities identifier or null. useful only if {@link CustomizedUI}
-	 *         is used the current abstract UI model generator.
+	 * @return specificities identifier or null. Useful only if {@link CustomizedUI}
+	 *         is the current abstract UI model generator.
 	 */
 	SpecificitiesIdentifier getSpecificitiesIdentifier();
 
 	/**
-	 * @param reflectionUI
-	 *            The current abstract UI model generator object.
-	 * @return a UI-oriented type information object.
+	 * @param reflectionUI The current abstract UI model generator object.
+	 * @return the type information.
 	 */
 	ITypeInfo getTypeInfo(ReflectionUI reflectionUI);
 

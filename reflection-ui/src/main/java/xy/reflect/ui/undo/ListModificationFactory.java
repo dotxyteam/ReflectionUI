@@ -36,6 +36,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.Mapper;
 
+/**
+ * Factory that creates {@link IModification} instances for lists.
+ * 
+ * @author olitank
+ *
+ */
 public class ListModificationFactory {
 
 	protected ItemPosition anyItemPosition;

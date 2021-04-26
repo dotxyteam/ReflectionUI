@@ -32,6 +32,13 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 
+/**
+ * Dynamic type information source that just provides the specified
+ * {@link ITypeInfo} that should have been precomputed elsewhere.
+ * 
+ * @author olitank
+ *
+ */
 public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 
 	protected ITypeInfo precomputedType;

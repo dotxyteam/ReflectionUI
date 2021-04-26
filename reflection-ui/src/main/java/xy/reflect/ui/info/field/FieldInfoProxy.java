@@ -37,7 +37,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Field information proxy class. Its methods should be overriden to provide
+ * Field information proxy class. The methods in this class should be overriden to provide
  * custom information.
  * 
  * @author olitank

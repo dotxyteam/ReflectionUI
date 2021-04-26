@@ -49,7 +49,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public interface IMethodInfo extends IInfo {
 
 	/**
-	 * Dummy instance of this class made available for utilitarian purposes.
+	 * Dummy instance of this class made for utilitarian purposes.
 	 */
 	public IMethodInfo NULL_METHOD_INFO = new IMethodInfo() {
 
@@ -173,7 +173,8 @@ public interface IMethodInfo extends IInfo {
 	String getSignature();
 
 	/**
-	 * @return UI-oriented return value type properties of the current method.
+	 * @return the type information of the return value of the current
+	 *         method.
 	 */
 	ITypeInfo getReturnValueType();
 
@@ -184,17 +185,15 @@ public interface IMethodInfo extends IInfo {
 
 	/**
 	 * 
-	 * @param object
-	 *            The object offering this method.
-	 * @param invocationData
-	 *            The parameter values of the method invocation.
+	 * @param object         The object offering this method.
+	 * @param invocationData The parameter values.
 	 * @return the result of this method execution.
 	 */
 	Object invoke(Object object, InvocationData invocationData);
 
 	/**
-	 * @return true if and only if the execution of this method is not supposed to
-	 *         affect the object on which it is executed.
+	 * @return true if and only if the execution of this method does not affect the
+	 *         object on which it is executed.
 	 */
 	boolean isReadOnly();
 
@@ -210,43 +209,39 @@ public interface IMethodInfo extends IInfo {
 	InfoCategory getCategory();
 
 	/**
-	 * @param object
-	 *            The object offering this method.
-	 * @param invocationData
-	 *            The parameter values of the method invocation.
+	 * @param object         The object offering this method.
+	 * @param invocationData The parameter values.
 	 * @return a job that can revert the next invocation of this method or null if
 	 *         the method execution cannot be reverted.
 	 */
 	Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData);
 
 	/**
-	 * Validates the values of the method parameters. An exception is thrown if the
+	 * Validates the values of the parameters. An exception is thrown if the
 	 * parameter values are not valid. Otherwise the values are considered as valid.
 	 * 
-	 * @param object
-	 *            The object offering this method.
-	 * @param invocationData
-	 *            The parameter values of the method invocation.
-	 * @throws Exception
-	 *             If the parameter values are not valid.
+	 * @param object         The object offering this method.
+	 * @param invocationData The parameter values.
+	 * @throws Exception If the parameter values are not valid.
 	 */
 	void validateParameters(Object object, InvocationData invocationData) throws Exception;
 
 	/**
 	 * @return the value return mode of this method. It may impact the behavior of
-	 *         the controls used to display the return value.
+	 *         the control used to display the return value.
 	 */
 	ValueReturnMode getValueReturnMode();
 
 	/**
-	 * @return the location of an image resource displayed on the method control or
+	 * @return the resource location of an image displayed on the method control or
 	 *         null.
 	 */
 	ResourcePath getIconImagePath();
 
 	/**
-	 * @return true if and only if the return values of this method should be
-	 *         displayed in a non-blocking view, usually a stand-alone window.
+	 * @return true if and only if the return value of this method should be
+	 *         displayed in a separate independent view, typically a stand-alone
+	 *         window.
 	 */
 	boolean isReturnValueDetached();
 
@@ -264,10 +259,8 @@ public interface IMethodInfo extends IInfo {
 	boolean isReturnValueIgnored();
 
 	/**
-	 * @param object
-	 *            The object offering this method.
-	 * @param invocationData
-	 *            The parameter values of the method invocation.
+	 * @param object         The object offering this method.
+	 * @param invocationData The parameter values.
 	 * @return a confirmation message to be displayed just before running this
 	 *         method invocation so that the user will be able to cancel the
 	 *         execution.
@@ -275,26 +268,25 @@ public interface IMethodInfo extends IInfo {
 	String getConfirmationMessage(Object object, InvocationData invocationData);
 
 	/**
-	 * @return true if and only if this method control should be filtered out from
+	 * @return true if and only if the method control should be filtered out from
 	 *         the display.
 	 */
 	boolean isHidden();
 
 	/**
-	 * @return the text displayed on the validation control of the parameters
-	 *         settings dialog or null if the default text should be used.
+	 * @return the text displayed on the validation control (typically a 'validate'
+	 *         button) of the parameters settings dialog or null if the default text
+	 *         should be used.
 	 */
 	String getParametersValidationCustomCaption();
 
 	/**
-	 * This method should be called by the renderer when the visibility of this
-	 * method changes for the given object in the generated UI.
+	 * This method is called by the renderer when the visibility of this method
+	 * control changes for the given object in the generated UI.
 	 * 
-	 * @param object
-	 *            The object offering this method.
-	 * @param visible
-	 *            true when the method becomes visible, false when it becomes
-	 *            invisible.
+	 * @param object  The object offering this method.
+	 * @param visible true when the method becomes visible, false when it becomes
+	 *                invisible.
 	 */
 	void onControlVisibilityChange(Object object, boolean visible);
 

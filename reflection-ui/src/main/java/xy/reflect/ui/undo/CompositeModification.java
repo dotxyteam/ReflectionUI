@@ -35,6 +35,13 @@ import java.util.List;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * Modification composed of sub-modifications that are applied in the specified
+ * order.
+ * 
+ * @author olitank
+ *
+ */
 public class CompositeModification implements IModification {
 
 	protected IModification[] modifications;
@@ -63,7 +70,7 @@ public class CompositeModification implements IModification {
 
 	@Override
 	public boolean isFake() {
-		if(modifications.length == 0) {
+		if (modifications.length == 0) {
 			return false;
 		}
 		for (IModification modif : modifications) {

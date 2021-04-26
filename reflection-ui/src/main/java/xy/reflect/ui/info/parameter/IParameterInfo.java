@@ -38,7 +38,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * This interface allows to specify UI-oriented parameter properties.
+ * This interface allows to specify UI-oriented properties of method parameters.
  * 
  * @author olitank
  *
@@ -46,7 +46,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public interface IParameterInfo extends IInfo {
 
 	/**
-	 * Dummy instance of this class made available for utilitarian purposes.
+	 * Dummy instance of this class made for utilitarian purposes.
 	 */
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
@@ -115,7 +115,7 @@ public interface IParameterInfo extends IInfo {
 	};
 
 	/**
-	 * @return UI-oriented type properties of the current parameter.
+	 * @return the type information of the current parameter.
 	 */
 	ITypeInfo getType();
 
@@ -128,34 +128,31 @@ public interface IParameterInfo extends IInfo {
 	boolean isNullValueDistinct();
 
 	/**
-	 * @param object
-	 *            The object offering the method hosting this parameter.
+	 * @param object The object offering the method hosting this parameter.
 	 * @return the default value of this parameter.
 	 */
 	Object getDefaultValue(Object object);
 
 	/**
-	 * @return the 0 based position of this parameter.
+	 * @return the 0-based position of this parameter.
 	 */
 	int getPosition();
 
 	/**
-	 * @return true if and only if this parameter control is filtered out from the
+	 * @return true if and only if the parameter control is filtered out from the
 	 *         display.
 	 */
 	boolean isHidden();
 
 	/**
-	 * @param object
-	 *            The object offering the method hosting this parameter.
+	 * @param object The object offering the method hosting this parameter.
 	 * @return whether this parameter value has options.
 	 */
 	boolean hasValueOptions(Object object);
 
 	/**
-	 * @param object
-	 *            The object offering the method hosting this parameter.
-	 * @return options for the value of this parameter.
+	 * @param object The object offering the method hosting this parameter.
+	 * @return the options for the value of this parameter.
 	 */
 	Object[] getValueOptions(Object object);
 

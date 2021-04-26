@@ -56,8 +56,8 @@ public interface IMethodControlData {
 
 	/**
 	 * 
-	 * @param invocationData
-	 *            The parameter values of the the underlying method invocation.
+	 * @param invocationData The parameter values of the the underlying method
+	 *                       invocation.
 	 * @return the result of the underlying method execution.
 	 */
 	Object invoke(InvocationData invocationData);
@@ -75,21 +75,18 @@ public interface IMethodControlData {
 	String getNullReturnValueLabel();
 
 	/**
-	 * @param invocationData
-	 *            The parameter values of the method invocation.
+	 * @param invocationData The parameter values of the method invocation.
 	 * @return a job that can revert the next invocation of the underlying method or
 	 *         null if the method execution cannot be reverted.
 	 */
-	Runnable getNextUpdateCustomUndoJob(InvocationData invocationData);
+	Runnable getNextInvocationUndoJob(InvocationData invocationData);
 
 	/**
 	 * Validates the values of the method parameters. An exception is thrown if the
 	 * parameter values are not valid. Otherwise the values are considered as valid.
 	 * 
-	 * @param invocationData
-	 *            The parameter values of the method invocation.
-	 * @throws Exception
-	 *             If the parameter values are not valid.
+	 * @param invocationData The parameter values of the method invocation.
+	 * @throws Exception If the parameter values are not valid.
 	 */
 	void validateParameters(InvocationData invocationData) throws Exception;
 
@@ -116,9 +113,9 @@ public interface IMethodControlData {
 	String getCaption();
 
 	/**
-	 * @return an identifier used to identify this method control data.
+	 * @return the method signature.
 	 */
-	String getInvocationIdentifier();
+	String getMethodSignature();
 
 	/**
 	 * @return true if and only if the return values of the underlying method should
@@ -147,8 +144,7 @@ public interface IMethodControlData {
 	boolean isReturnValueIgnored();
 
 	/**
-	 * @param invocationData
-	 *            The parameter values of the method invocation.
+	 * @param invocationData The parameter values of the method invocation.
 	 * @return a confirmation message to be displayed just before running the
 	 *         underlying method invocation so that the user will be able to cancel
 	 *         the execution.
@@ -177,17 +173,15 @@ public interface IMethodControlData {
 	ColorSpecification getBorderColor();
 
 	/**
-	 * @param parameterValues
-	 *            The parameter values used to fill the invocation data.
+	 * @param parameterValues The parameter values used to fill the invocation data.
 	 * @return the invocation data object filled with the given parameter values.
 	 */
 	InvocationData createInvocationData(Object... parameterValues);
 
 	/**
-	 * @param invocationData
-	 *            The given invocation data.
-	 * @param contextId
-	 *            An identifier used to build the type of the returned object.
+	 * @param invocationData The given invocation data.
+	 * @param contextId      An identifier used to build the type of the returned
+	 *                       object.
 	 * @return an object created to edit the given invocation data.
 	 */
 	Object createParametersObject(InvocationData invocationData, String contextId);

@@ -95,7 +95,6 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	public Object invoke(Object object, InvocationData invocationData) {
 		for (FieldAsParameterInfo generatedParameter : generatedParameters) {
 			Object value = invocationData.getParameterValue(generatedParameter.getPosition());
-			invocationData.withdrawParameterValue(generatedParameter.getPosition());
 			if (undoJobBuilder != null) {
 				undoJobBuilder.setOption(getUndoJobName(generatedParameter),
 						ReflectionUIUtils.getUndoJob(object, generatedParameter.getSourceField(), value));
@@ -134,6 +133,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 				if (baseMethodUndoJob == null) {
 					throw new IrreversibleModificationException();
 				}
+				baseMethodUndoJob.run();
 				for (int i = generatedParameters.size() - 1; i >= 0; i--) {
 					FieldAsParameterInfo generatedParameter = generatedParameters.get(i);
 					Runnable fieldUndoJob = (Runnable) options.get(getUndoJobName(generatedParameter));

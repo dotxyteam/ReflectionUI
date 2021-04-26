@@ -60,6 +60,13 @@ import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SystemProperties;
 
+/**
+ * Type information source for Java types. It extracts {@link ITypeInfo}
+ * instances from Java classes.
+ * 
+ * @author olitank
+ *
+ */
 public class JavaTypeInfoSource implements ITypeInfoSource {
 
 	protected static final Map<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>> CACHES = new WeakHashMap<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>>();

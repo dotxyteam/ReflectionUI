@@ -38,6 +38,12 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Utilities for dealing with numbers.
+ * 
+ * @author olitank
+ *
+ */
 public class MathUtils {
 
 	public static int round(Number x) {

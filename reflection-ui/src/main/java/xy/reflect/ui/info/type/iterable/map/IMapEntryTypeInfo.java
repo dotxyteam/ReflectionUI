@@ -39,8 +39,14 @@ import xy.reflect.ui.info.type.ITypeInfo;
  */
 public interface IMapEntryTypeInfo extends ITypeInfo {
 
+	/**
+	 * @return the field information about the entry key.
+	 */
 	IFieldInfo getKeyField();
 
+	/**
+	 * @return the field information about the entry value.
+	 */
 	IFieldInfo getValueField();
 
 }

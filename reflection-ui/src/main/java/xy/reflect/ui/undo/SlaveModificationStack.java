@@ -33,6 +33,15 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * A sub-class of {@link ModificationStack} that forwards its
+ * {@link IModification} instances to the given master modification stack. These
+ * modifications can then be undone or redone through this master modification
+ * stack.
+ * 
+ * @author olitank
+ *
+ */
 public class SlaveModificationStack extends ModificationStack {
 
 	protected Accessor<Boolean> valueModifAcceptedGetter;

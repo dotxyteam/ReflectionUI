@@ -499,7 +499,7 @@ public class GenericEnumerationFactory {
 			this.item = item;
 		}
 
-		public Object getItem() {
+		public Object getValue() {
 			return item;
 		}
 

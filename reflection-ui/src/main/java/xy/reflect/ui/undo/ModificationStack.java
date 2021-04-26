@@ -40,10 +40,10 @@ import xy.reflect.ui.util.ReflectionUIError;
  * This is an undo management class. it allows to undo/redo actions performed
  * using instances of {@link IModification}.
  * 
- * Objects should be exclusively modified through the same modification stack.
- * If a modification occurs but cannot be logged in the modification stack for
- * any reason, then {@link #invalidate()} should be called to inform the
- * modification stack and its clients.
+ * An object should be exclusively modified through the same modification stack
+ * to preserve its consistency. If a modification occurs but cannot be logged in
+ * the modification stack for any reason, then {@link #invalidate()} should be
+ * called to inform the modification stack and its clients.
  * 
  * @author olitank
  *

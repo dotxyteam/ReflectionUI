@@ -52,9 +52,9 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 public interface ITypeInfo extends IInfo {
 
 	/**
-	 * @return the source object from which this type was created. Note that the
-	 *         calling {@link ReflectionUI#getTypeInfo(ITypeInfoSource)} on the
-	 *         result should return an object equals to the current one.
+	 * @return the source object from which this type was created. Note that calling
+	 *         {@link ReflectionUI#getTypeInfo(ITypeInfoSource)} on the result
+	 *         should return an object equals to the current one.
 	 */
 	ITypeInfoSource getSource();
 
@@ -116,27 +116,26 @@ public interface ITypeInfo extends IInfo {
 
 	/**
 	 * @param object Any object.
-	 * @return whether the type is compatible with the given object.
+	 * @return whether the current type is compatible with the given object.
 	 */
 	boolean supportsInstance(Object object);
 
 	/**
-	 * @return the list of known types derived from the current one. They must
-	 *         support all the instances of the current type.
+	 * @return the list of known types derived from the current one.
 	 */
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
 
 	/**
 	 * @param object Any object of the current type.
-	 * @return the textual representation of the given object. Typically this method
-	 *         would allow to provide an alternative to the
-	 *         {@link Object#toString()} method of the given object.
+	 * @return the textual representation of the given object. This method allows to
+	 *         provide an alternative to the {@link Object#toString()} method of the
+	 *         given object for generated UIs.
 	 */
 	String toString(Object object);
 
 	/**
-	 * Validates the state of the given object. An exception is thrown if the object
-	 * state is not valid. Otherwise the object is considered as valid.
+	 * Validates the state of the given object. An exception should be thrown if the
+	 * object state is not valid. Otherwise the object is considered as valid.
 	 * 
 	 * @param object Any object of the current type.
 	 * @throws Exception If the state of the given object is not valid.
@@ -158,43 +157,43 @@ public interface ITypeInfo extends IInfo {
 
 	/**
 	 * @return true if and only if the undo/redo/etc features should be made
-	 *         available typically when an object of the current type is the root of
-	 *         a window.
+	 *         available typically when an object of the current type is the root
+	 *         one displayed in a window.
 	 */
 	boolean isModificationStackAccessible();
 
 	/**
-	 * @return the location of an image resource associated with objects of the
-	 *         current type or null.
+	 * @return the location of an icon image resource that should represent objects
+	 *         of the current type or null.
 	 */
 	ResourcePath getIconImagePath();
 
 	/**
 	 * @return the layout strategy to be used when displaying the fields of objects
-	 *         of the current type or null if the default layout strategy should be
-	 *         used.
+	 *         of the current type (or null if the default layout strategy should be
+	 *         used).
 	 */
 	ITypeInfo.FieldsLayout getFieldsLayout();
 
 	/**
 	 * @return the layout strategy to be used when displaying the methods of objects
-	 *         of the current type or null if the default layout strategy should be
-	 *         used.
+	 *         of the current type (or null if the default layout strategy should be
+	 *         used).
 	 */
 	ITypeInfo.MethodsLayout getMethodsLayout();
 
 	/**
-	 * @return the descriptor of the menu bar elements provided by objects of the
+	 * @return the descriptor of menu bar elements provided for objects of the
 	 *         current type.
 	 */
 	MenuModel getMenuModel();
 
 	/**
-	 * This method should be called by the renderer when the visibility of the form
+	 * This method is called by the renderer when the visibility of the form
 	 * generated for the given object changes.
 	 * 
 	 * @param object  Any object of the current type.
-	 * @param visible true when the form becomes visible, false when it becomes
+	 * @param visible Is true when the form becomes visible, false when it becomes
 	 *                invisible.
 	 * @return whether an update of the form is required.
 	 */
@@ -225,12 +224,13 @@ public interface ITypeInfo extends IInfo {
 
 	/**
 	 * @return the resource location of a background image displayed on forms
-	 *         generated from this type.
+	 *         generated from this type or null if no background image should be
+	 *         used.
 	 */
 	ResourcePath getFormBackgroundImagePath();
 
 	/**
-	 * @return the fields and methods categories display style.
+	 * @return the display style of the member categories control.
 	 */
 	CategoriesStyle getCategoriesStyle();
 
@@ -247,15 +247,14 @@ public interface ITypeInfo extends IInfo {
 	ColorSpecification getCategoriesForegroundColor();
 
 	/**
-	 * @return the text color of the editor component of controls generated from
-	 *         this type or null if the default text color should be used.
+	 * @return the editable text color of controls generated from this type or null
+	 *         if the default text color should be used.
 	 */
 	ColorSpecification getFormEditorsForegroundColor();
 
 	/**
-	 * @return the background color of the editor component of controls generated
-	 *         from this type or null if the default background color should be
-	 *         used.
+	 * @return the editable background color of controls generated from this type or
+	 *         null if the default background color should be used.
 	 */
 	ColorSpecification getFormEditorsBackgroundColor();
 
@@ -272,8 +271,8 @@ public interface ITypeInfo extends IInfo {
 	ColorSpecification getFormButtonForegroundColor();
 
 	/**
-	 * @return the background image of the buttons generated from this type or null
-	 *         if the default background should be used.
+	 * @return the resource path to a background image for the buttons generated
+	 *         from this type or null if no background image should be used.
 	 */
 	ResourcePath getFormButtonBackgroundImagePath();
 
@@ -304,7 +303,7 @@ public interface ITypeInfo extends IInfo {
 	}
 
 	/**
-	 * Fields and methods categories display style, subject to interpretation
+	 * Display style of member categories control, subject to interpretation
 	 * according to the renderer.
 	 * 
 	 * @author olitank

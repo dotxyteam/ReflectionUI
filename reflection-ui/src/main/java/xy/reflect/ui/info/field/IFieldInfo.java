@@ -49,7 +49,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public interface IFieldInfo extends IInfo {
 
 	/**
-	 * Dummy instance of this class made available for utilitarian purposes.
+	 * Dummy instance of this class made for utilitarian purposes.
 	 */
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
@@ -182,7 +182,7 @@ public interface IFieldInfo extends IInfo {
 	};
 
 	/**
-	 * @return UI-oriented type properties of the current field.
+	 * @return the type information of the current field.
 	 */
 	ITypeInfo getType();
 
@@ -233,14 +233,14 @@ public interface IFieldInfo extends IInfo {
 	boolean isNullValueDistinct();
 
 	/**
-	 * @return true if and only if this field value can be updated. Then
+	 * @return true if and only if this field value can be updated. Otherwise
 	 *         {@link #setValue(Object, Object)} should not be called.
 	 */
 	boolean isGetOnly();
 
 	/**
 	 * @return true if and only if this field value update should not be stored in a
-	 *         modification stack.
+	 *         modification stack (in order to be reverted).
 	 */
 	boolean isTransient();
 
@@ -252,7 +252,7 @@ public interface IFieldInfo extends IInfo {
 
 	/**
 	 * @return the value return mode of this field. It may impact the behavior of
-	 *         this field control.
+	 *         the field control.
 	 */
 	ValueReturnMode getValueReturnMode();
 
@@ -264,14 +264,14 @@ public interface IFieldInfo extends IInfo {
 	/**
 	 * @return true if this field value is forcibly displayed as a generic form. If
 	 *         false is returned then a custom control may be displayed. Note that
-	 *         the form is either embedded in the parent form or displayed in a
-	 *         child dialog according to the return value of
+	 *         the form to display is either embedded in the current window or
+	 *         displayed in a child dialog according to the return value of
 	 *         {@link #isFormControlEmbedded()}.
 	 */
 	boolean isFormControlMandatory();
 
 	/**
-	 * @return whether this field value form is embedded in the parent form or
+	 * @return whether this field value form is embedded in the current window or
 	 *         displayed in a child dialog. Note that this method has no impact if a
 	 *         custom control is displayed instead of a generic form.
 	 */
@@ -285,15 +285,15 @@ public interface IFieldInfo extends IInfo {
 	IInfoFilter getFormControlFilter();
 
 	/**
-	 * @return the automatic update period (in milliseconds) that this field control
+	 * @return the automatic update period (in milliseconds) that the field control
 	 *         will try to respect.-1 means that there is no automatic update and 0
 	 *         means that the update occurs as fast as possible.
 	 */
 	long getAutoUpdatePeriodMilliseconds();
 
 	/**
-	 * @return true if and only if this field control is filtered out from the
-	 *         display.
+	 * @return true if and only if the control of this field is filtered out from
+	 *         the display.
 	 */
 	boolean isHidden();
 
@@ -323,8 +323,8 @@ public interface IFieldInfo extends IInfo {
 	double getDisplayAreaVerticalWeight();
 
 	/**
-	 * This method should be called by the renderer when the visibility of this
-	 * field changes for the given object in the generated UI.
+	 * This method is called by the renderer when the visibility of the field
+	 * control changes for the given object in the generated UI.
 	 * 
 	 * @param object  The object hosting the field value.
 	 * @param visible true when the field becomes visible, false when it becomes

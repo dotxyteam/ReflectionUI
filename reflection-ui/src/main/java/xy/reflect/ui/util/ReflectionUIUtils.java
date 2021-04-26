@@ -92,6 +92,12 @@ import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
+/**
+ * Utilities for dealing with {@link ReflectionUI}.
+ * 
+ * @author olitank
+ *
+ */
 public class ReflectionUIUtils {
 
 	public static final ReflectionUI STANDARD_REFLECTION = new ReflectionUI();
@@ -821,7 +827,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean canCopy(ReflectionUI reflectionUI, Object object) {
-		if(object == null) {
+		if (object == null) {
 			return false;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -1005,8 +1011,8 @@ public class ReflectionUIUtils {
 		if (data.isReadOnly()) {
 			return data.invoke(invocationData);
 		} else {
-			Runnable undoJob = data.getNextUpdateCustomUndoJob(invocationData);
-			if (undoJob != null) {
+			final Runnable nextInvocationUndoJob = data.getNextInvocationUndoJob(invocationData);
+			if (nextInvocationUndoJob != null) {
 				final Object[] resultHolder = new Object[1];
 				data = new MethodControlDataProxy(data) {
 					@Override
@@ -1014,7 +1020,14 @@ public class ReflectionUIUtils {
 						return resultHolder[0] = super.invoke(invocationData);
 					}
 				};
-				MethodControlDataModification modif = new MethodControlDataModification(data, invocationData);
+				MethodControlDataModification modif = new MethodControlDataModification(data, invocationData) {
+
+					@Override
+					protected Runnable createUndoJob() {
+						return nextInvocationUndoJob;
+					}
+
+				};
 				try {
 					modifStack.apply(modif);
 				} catch (Throwable t) {

@@ -30,6 +30,14 @@ package xy.reflect.ui.util;
 
 import java.util.Arrays;
 
+/**
+ * Simple generic getter/setter class that stores the accessed value in an
+ * array.
+ * 
+ * @author olitank
+ *
+ * @param <T> The type that is accessed.
+ */
 public class ArrayAccessor<T> extends Accessor<T> {
 
 	protected T[] arrayValue;

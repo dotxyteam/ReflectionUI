@@ -28,6 +28,15 @@
  ******************************************************************************/
 package xy.reflect.ui.undo;
 
+/**
+ * Modification that calls undo() or redo() on the given modification stack
+ * according to the specified offset. If the offset is positive then +offset
+ * redo() calls will be performed. Otherwise -offset undo() calls will be
+ * performed.
+ * 
+ * @author olitank
+ *
+ */
 public class ModificationStackShitf extends AbstractModification {
 
 	protected ModificationStack modificationStack;

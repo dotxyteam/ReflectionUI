@@ -53,7 +53,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.DelayedUpdateProcess;
+import xy.reflect.ui.util.DelayedTaskProcess;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -119,9 +119,9 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
-		protected DelayedUpdateProcess textEditorChangesCommittingProcess = new DelayedUpdateProcess() {
+		protected DelayedTaskProcess textEditorChangesCommittingProcess = new DelayedTaskProcess() {
 			@Override
-			protected void commit() {
+			protected void execute() {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -131,7 +131,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			}
 
 			@Override
-			protected long getCommitDelayMilliseconds() {
+			protected long getExecutionDelayMilliseconds() {
 				return DatePicker.this.getCommitDelayMilliseconds();
 			}
 		};
@@ -175,7 +175,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					if (listenerDisabled) {
 						return;
 					}
-					textEditorChangesCommittingProcess.cancelCommitSchedule();
+					textEditorChangesCommittingProcess.cancelSchedule();
 					Date value = getDateFromTextEditor();
 					if (value == null) {
 						return;
@@ -183,7 +183,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					if (value.equals(data.getValue())) {
 						return;
 					}
-					textEditorChangesCommittingProcess.scheduleCommit();
+					textEditorChangesCommittingProcess.schedule();
 				}
 
 				@Override
@@ -304,8 +304,8 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected void onFocusLoss() {
-			if (textEditorChangesCommittingProcess.isCommitScheduled()) {
-				textEditorChangesCommittingProcess.cancelCommitSchedule();
+			if (textEditorChangesCommittingProcess.isScheduled()) {
+				textEditorChangesCommittingProcess.cancelSchedule();
 				commitTextEditorChanges();
 			}
 		}

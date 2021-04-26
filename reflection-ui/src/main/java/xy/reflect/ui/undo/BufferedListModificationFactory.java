@@ -32,6 +32,13 @@ import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.Mapper;
 
+/**
+ * This class is a sub-class of {@link ListModificationFactory} that works with
+ * {@link BufferedItemPosition} instances.
+ * 
+ * @author olitank
+ *
+ */
 public class BufferedListModificationFactory extends ListModificationFactory {
 
 	public BufferedListModificationFactory(BufferedItemPosition anyListItemPosition,

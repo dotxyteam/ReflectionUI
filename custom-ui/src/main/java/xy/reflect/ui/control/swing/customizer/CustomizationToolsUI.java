@@ -115,12 +115,12 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
-				Object item = info.getItem();
-				if (item instanceof IMenuItemContainerCustomization) {
+				Object itemValue = info.getValue();
+				if (itemValue instanceof IMenuItemContainerCustomization) {
 					IMenuElementPosition position = InfoCustomizations.getMenuElementPosition(
-							swingCustomizer.getInfoCustomizations(), (IMenuItemContainerCustomization) item);
+							swingCustomizer.getInfoCustomizations(), (IMenuItemContainerCustomization) itemValue);
 					if (position == null) {
-						return ((IMenuItemContainerCustomization) item).getName();
+						return ((IMenuItemContainerCustomization) itemValue).getName();
 					}
 					List<String> result = new ArrayList<String>();
 					result.add(position.getElementName());
@@ -136,8 +136,8 @@ public class CustomizationToolsUI extends CustomizedUI {
 					}
 					return ReflectionUIUtils.stringJoin(result, " / ");
 				}
-				if (info.getItem() instanceof ResourcePath) {
-					ResourcePath resourcePath = (ResourcePath) item;
+				if (info.getValue() instanceof ResourcePath) {
+					ResourcePath resourcePath = (ResourcePath) itemValue;
 					return resourcePath.getDefaultSpecification();
 				}
 				return super.getCaption(info, parentEnumType);

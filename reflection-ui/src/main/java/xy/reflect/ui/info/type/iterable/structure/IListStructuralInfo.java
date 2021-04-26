@@ -47,19 +47,19 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 public interface IListStructuralInfo {
 
 	/**
-	 * @return the list columns.
+	 * @return the list of columns.
 	 */
 	List<IColumnInfo> getColumns();
 
 	/**
-	 * @param itemPosition The item position.
+	 * @param itemPosition The position of the item in the list/tree.
 	 * @return the field used to get the sub-list value from the current item or
 	 *         null if there is no sub-list.
 	 */
 	IFieldInfo getItemSubListField(ItemPosition itemPosition);
 
 	/**
-	 * @param itemPosition The item position.
+	 * @param itemPosition The position of the item in the list/tree.
 	 * @return the filter that must be applied to the item type information or null.
 	 */
 	IInfoFilter getItemInfoFilter(ItemPosition itemPosition);
@@ -72,7 +72,7 @@ public interface IListStructuralInfo {
 
 	/**
 	 * Version of {@link MultipleFieldsAsListFieldInfo} used for list structure
-	 * inspection only.
+	 * creation and inspection only.
 	 * 
 	 * @author olitank
 	 *

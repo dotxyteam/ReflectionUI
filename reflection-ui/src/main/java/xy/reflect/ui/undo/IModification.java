@@ -29,10 +29,10 @@
 package xy.reflect.ui.undo;
 
 /**
- * This is the base interface of every object state modification made through an
- * abstract UI model element. Note that it simulates a control action and then
- * should operate at the same level as UI controls (eventually manage busy
- * indication, ...).
+ * This is the base interface of every reversible object state modification made
+ * through an abstract UI model element. Note that it simulates a control action
+ * and then should operate at the same level as UI controls (eventually manage
+ * busy indication, ...).
  * 
  * @author olitank
  *
@@ -40,7 +40,7 @@ package xy.reflect.ui.undo;
 public interface IModification {
 
 	/**
-	 * Dummy instance of this class made available for utilitarian purposes.
+	 * Dummy instance of this class made for utilitarian purposes.
 	 * Represents a null (no impact on the object state) modification. It just
 	 * returns true when {@link #isNull()} is called.
 	 */
@@ -73,7 +73,7 @@ public interface IModification {
 	};
 
 	/**
-	 * Dummy instance of this class made available for utilitarian purposes.
+	 * Dummy instance of this class made for utilitarian purposes.
 	 * Represents a null (no impact on the object state) modification. It just
 	 * returns true when {@link #isFake()} is called.
 	 */
@@ -109,8 +109,10 @@ public interface IModification {
 	 * Applies the current modification.
 	 * 
 	 * @return the opposite modification.
+	 * @throws IrreversibleModificationException When it appears that the
+	 *                                           modification cannot be reverted.
 	 */
-	IModification applyAndGetOpposite();
+	IModification applyAndGetOpposite() throws IrreversibleModificationException;
 
 	/**
 	 * @return true if and only if this modification should be considered as empty,

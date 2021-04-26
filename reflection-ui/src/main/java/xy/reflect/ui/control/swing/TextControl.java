@@ -58,7 +58,7 @@ import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.util.DelayedUpdateProcess;
+import xy.reflect.ui.util.DelayedTaskProcess;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -79,9 +79,9 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	protected boolean listenerDisabled = false;
 
 	protected Border defaultTextComponentBorder;
-	protected DelayedUpdateProcess dataUpdateProcess = new DelayedUpdateProcess() {
+	protected DelayedTaskProcess dataUpdateProcess = new DelayedTaskProcess() {
 		@Override
-		protected void commit() {
+		protected void execute() {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -91,7 +91,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected long getCommitDelayMilliseconds() {
+		protected long getExecutionDelayMilliseconds() {
 			return TextControl.this.getCommitDelayMilliseconds();
 		}
 	};
@@ -312,13 +312,13 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		if (listenerDisabled) {
 			return;
 		}
-		dataUpdateProcess.cancelCommitSchedule();
-		dataUpdateProcess.scheduleCommit();
+		dataUpdateProcess.cancelSchedule();
+		dataUpdateProcess.schedule();
 	}
 
 	protected void textComponentFocustLost() {
-		if (dataUpdateProcess.isCommitScheduled()) {
-			dataUpdateProcess.cancelCommitSchedule();
+		if (dataUpdateProcess.isScheduled()) {
+			dataUpdateProcess.cancelSchedule();
 			commitChanges();
 		}
 	}

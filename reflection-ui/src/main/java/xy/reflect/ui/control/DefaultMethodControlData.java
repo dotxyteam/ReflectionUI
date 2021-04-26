@@ -189,7 +189,7 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public Runnable getNextUpdateCustomUndoJob(InvocationData invocationData) {
+	public Runnable getNextInvocationUndoJob(InvocationData invocationData) {
 		return getMethod().getNextInvocationUndoJob(getObject(), invocationData);
 	}
 
@@ -204,7 +204,7 @@ public class DefaultMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public String getInvocationIdentifier() {
+	public String getMethodSignature() {
 		return getMethod().getSignature();
 	}
 

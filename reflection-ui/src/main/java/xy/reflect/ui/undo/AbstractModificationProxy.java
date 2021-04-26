@@ -28,31 +28,37 @@
  ******************************************************************************/
 package xy.reflect.ui.undo;
 
+/**
+ * Base class for modification proxies.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractModificationProxy implements IModification {
-	protected IModification delegate;
+	protected IModification base;
 
-	public AbstractModificationProxy(IModification delegate) {
+	public AbstractModificationProxy(IModification base) {
 		super();
-		this.delegate = delegate;
+		this.base = base;
 	}
 
 	public boolean isNull() {
-		return delegate.isNull();
+		return base.isNull();
 	}
 
 	public boolean isFake() {
-		return delegate.isFake();
+		return base.isFake();
 	}
 
 	public String getTitle() {
-		return delegate.getTitle();
+		return base.getTitle();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((delegate == null) ? 0 : delegate.hashCode());
+		result = prime * result + ((base == null) ? 0 : base.hashCode());
 		return result;
 	}
 
@@ -65,17 +71,17 @@ public abstract class AbstractModificationProxy implements IModification {
 		if (getClass() != obj.getClass())
 			return false;
 		AbstractModificationProxy other = (AbstractModificationProxy) obj;
-		if (delegate == null) {
-			if (other.delegate != null)
+		if (base == null) {
+			if (other.base != null)
 				return false;
-		} else if (!delegate.equals(other.delegate))
+		} else if (!base.equals(other.base))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ModificationProxy [delegate=" + delegate + "]";
+		return "ModificationProxy [base=" + base + "]";
 	}
 
 }

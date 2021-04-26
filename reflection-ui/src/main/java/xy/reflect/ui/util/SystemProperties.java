@@ -36,6 +36,12 @@ import java.lang.reflect.Field;
 
 import xy.reflect.ui.ReflectionUI;
 
+/**
+ * Contains the system properties exposed by the library.
+ * 
+ * @author olitank
+ *
+ */
 public class SystemProperties {
 
 	@Retention(RetentionPolicy.RUNTIME)

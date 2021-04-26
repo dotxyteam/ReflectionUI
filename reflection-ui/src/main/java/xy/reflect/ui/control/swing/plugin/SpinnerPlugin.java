@@ -55,8 +55,8 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.DelayedUpdateProcess;
-import xy.reflect.ui.util.NumberUtils;
+import xy.reflect.ui.util.DelayedTaskProcess;
+import xy.reflect.ui.util.ConversionUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -130,9 +130,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
-		protected DelayedUpdateProcess dataUpdateProcess = new DelayedUpdateProcess() {
+		protected DelayedTaskProcess dataUpdateProcess = new DelayedTaskProcess() {
 			@Override
-			protected void commit() {
+			protected void execute() {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -142,7 +142,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			}
 
 			@Override
-			protected long getCommitDelayMilliseconds() {
+			protected long getExecutionDelayMilliseconds() {
 				return Spinner.this.getCommitDelayMilliseconds();
 			}
 		};
@@ -293,7 +293,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 
 		protected Number getConvertedNumber(String s) {
 			Number result = parseNumber(s);
-			result = NumberUtils.convertNumberToTargetClass(result, numberClass);
+			result = ConversionUtils.convertNumberToTargetClass(result, numberClass);
 			return result;
 		}
 
@@ -312,13 +312,13 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			if (listenerDisabled) {
 				return;
 			}
-			dataUpdateProcess.cancelCommitSchedule();
-			dataUpdateProcess.scheduleCommit();
+			dataUpdateProcess.cancelSchedule();
+			dataUpdateProcess.schedule();
 		}
 
 		protected void onFocusLoss() {
-			if (dataUpdateProcess.isCommitScheduled()) {
-				dataUpdateProcess.cancelCommitSchedule();
+			if (dataUpdateProcess.isScheduled()) {
+				dataUpdateProcess.cancelSchedule();
 				commitChanges();
 			}
 		}
@@ -328,7 +328,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		}
 
 		protected void commitChanges() {
-			Object value = NumberUtils.convertNumberToTargetClass((Number) Spinner.this.getValue(), numberClass);
+			Object value = ConversionUtils.convertNumberToTargetClass((Number) Spinner.this.getValue(), numberClass);
 			data.setValue(value);
 		}
 

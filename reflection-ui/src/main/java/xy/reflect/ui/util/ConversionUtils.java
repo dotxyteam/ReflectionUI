@@ -34,28 +34,23 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 /**
- * Miscellaneous utility methods for number conversion and parsing. Mainly for
- * internal use within the framework; consider Jakarta's Commons Lang for a more
- * comprehensive suite of string utilities.
+ * Miscellaneous utility methods for number conversion and parsing.
+ * 
+ * @author olitank
  *
- * @author Juergen Hoeller
- * @author Rob Harrop
- * @since 1.1.2
  */
 @SuppressWarnings("rawtypes")
-public abstract class NumberUtils {
+public abstract class ConversionUtils {
 
 	/**
 	 * Convert the given number into an instance of the given target class.
 	 *
-	 * @param number
-	 *            the number to convert
-	 * @param targetClass
-	 *            the target class to convert to
+	 * @param number      the number to convert
+	 * @param targetClass the target class to convert to
 	 * @return the converted number
-	 * @throws IllegalArgumentException
-	 *             if the target class is not supported (i.e. not a standard Number
-	 *             subclass as included in the JDK)
+	 * @throws IllegalArgumentException if the target class is not supported (i.e.
+	 *                                  not a standard Number subclass as included
+	 *                                  in the JDK)
 	 * @see java.lang.Byte
 	 * @see java.lang.Short
 	 * @see java.lang.Integer
@@ -108,10 +103,8 @@ public abstract class NumberUtils {
 	/**
 	 * Raise an overflow exception for the given number and target class.
 	 *
-	 * @param number
-	 *            the number we tried to convert
-	 * @param targetClass
-	 *            the target class we tried to convert to
+	 * @param number      the number we tried to convert
+	 * @param targetClass the target class we tried to convert to
 	 */
 	private static void raiseOverflowException(Number number, Class targetClass) {
 		throw new IllegalArgumentException("Could not convert number [" + number + "] of type ["
@@ -124,14 +117,12 @@ public abstract class NumberUtils {
 	 * <code>String</code> before attempting to parse the number. Supports numbers
 	 * in hex format (with leading 0x) and in octal format (with leading 0).
 	 *
-	 * @param text
-	 *            the text to convert
-	 * @param targetClass
-	 *            the target class to parse into
+	 * @param text        the text to convert
+	 * @param targetClass the target class to parse into
 	 * @return the parsed number
-	 * @throws IllegalArgumentException
-	 *             if the target class is not supported (i.e. not a standard Number
-	 *             subclass as included in the JDK)
+	 * @throws IllegalArgumentException if the target class is not supported (i.e.
+	 *                                  not a standard Number subclass as included
+	 *                                  in the JDK)
 	 * @see java.lang.Byte#decode
 	 * @see java.lang.Short#decode
 	 * @see java.lang.Integer#decode
@@ -171,17 +162,15 @@ public abstract class NumberUtils {
 	 * the given NumberFormat. Trims the input <code>String</code> before attempting
 	 * to parse the number.
 	 *
-	 * @param text
-	 *            the text to convert
-	 * @param targetClass
-	 *            the target class to parse into
-	 * @param numberFormat
-	 *            the NumberFormat to use for parsing (if <code>null</code>, this
-	 *            method falls back to <code>parseNumber(String, Class)</code>)
+	 * @param text         the text to convert
+	 * @param targetClass  the target class to parse into
+	 * @param numberFormat the NumberFormat to use for parsing (if
+	 *                     <code>null</code>, this method falls back to
+	 *                     <code>parseNumber(String, Class)</code>)
 	 * @return the parsed number
-	 * @throws IllegalArgumentException
-	 *             if the target class is not supported (i.e. not a standard Number
-	 *             subclass as included in the JDK)
+	 * @throws IllegalArgumentException if the target class is not supported (i.e.
+	 *                                  not a standard Number subclass as included
+	 *                                  in the JDK)
 	 * @see java.text.NumberFormat#parse
 	 * @see #convertNumberToTargetClass
 	 * @see #parseNumber(String,Class)

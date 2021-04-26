@@ -28,6 +28,12 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+/**
+ * Main exception class of the library.
+ * 
+ * @author olitank
+ *
+ */
 public class ReflectionUIError extends RuntimeException {
 	protected static final long serialVersionUID = 1L;
 

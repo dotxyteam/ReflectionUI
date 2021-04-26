@@ -28,6 +28,13 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+/**
+ * Base class for asynchronous jobs that can started (or stopped) to perform a
+ * periodic task.
+ * 
+ * @author olitank
+ *
+ */
 public abstract class AbstractPollingService extends AbstractService {
 
 	private Thread thread;

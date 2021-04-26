@@ -31,6 +31,13 @@ package xy.reflect.ui.util;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utility class for creating template {@link Runnable} instances that can be
+ * filled and run later.
+ * 
+ * @author olitank
+ *
+ */
 public class FututreActionBuilder {
 
 	protected Action currentAction;

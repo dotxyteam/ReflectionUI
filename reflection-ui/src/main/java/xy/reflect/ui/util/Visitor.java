@@ -27,10 +27,22 @@
  * when possible).
  ******************************************************************************/
 package xy.reflect.ui.util;
- 
 
-public interface Visitor <T>{
+/**
+ * Simple generic visitor interface.
+ * 
+ * @author olitank
+ *
+ * @param <TE> The type of the visited elements.
+ */
+public interface Visitor<T> {
 
+	/**
+	 * Called for each visited element.
+	 * 
+	 * @param t The currently visited element.
+	 * @return whether the visit should continue or not.
+	 */
 	boolean visit(T t);
 
 }

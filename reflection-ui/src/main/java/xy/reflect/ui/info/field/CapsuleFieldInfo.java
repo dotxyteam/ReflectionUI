@@ -534,9 +534,9 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 						fieldValueString = fieldValueString.replace(newLine, " ");
 					}
 					fieldValueString = ReflectionUIUtils.truncateNicely(fieldValueString, 20);
-					String fieldName = field.getName();
-					if ((fieldName != null) && (fieldName.length() > 0)) {
-						fieldValueString = fieldName + "=" + fieldValueString;
+					String fieldId = field.getCaption();
+					if ((fieldId != null) && (fieldId.length() > 0)) {
+						fieldValueString = fieldId + "=" + fieldValueString;
 					}
 					if (result.length() > 0) {
 						result.append(", ");

@@ -1,3 +1,6 @@
+- ParameterizedFieldsMethodInfo undoJob is always created even if it cannot
+be executed mostly because the method cannot. Find a way to enable the undo
+button since it will not work.
 - add "virtual composed list field" customization option that would use 
 ImplicitListFieldInfo.
 - it may be better to not have dependencies at all typically for

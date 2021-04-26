@@ -28,6 +28,13 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+/**
+ * Simple generic filter interface.
+ * 
+ * @author olitank
+ *
+ * @param <T> The type that is filtered.
+ */
 public interface Filter<T> {
 
 	public static <T> Filter<T> nullFilter() {
@@ -39,8 +46,19 @@ public interface Filter<T> {
 		};
 	}
 
+	/**
+	 * @param t The value.
+	 * @return the filtered version of the given value.
+	 */
 	T get(T t);
 
+	/**
+	 * Simple generic filter chain.
+	 * 
+	 * @author olitank
+	 *
+	 * @param <T> The type that is filtered.
+	 */
 	public static class Chain<T> implements Filter<T> {
 
 		protected Filter<T> filter1;

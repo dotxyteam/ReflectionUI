@@ -29,10 +29,10 @@
 package xy.reflect.ui.info.type.source;
 
 /**
- * This class allows to include a context (typically the references of the field
- * that owns the type) in the abstract UI type informations so that the
- * appearance and the behavior of the generated controls can be automatically
- * adjusted in specific contexts (in addition to global adjustments).
+ * This class allows to include a context (typically the reference to the owner
+ * field) in an abstract UI type information so that the appearance and the
+ * behavior of the generated control can be automatically adjusted in specific
+ * contexts (in addition to the global adjustments).
  * 
  * @author olitank
  *

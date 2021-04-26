@@ -32,6 +32,13 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 
+/**
+ * Dynamic type information source proxy class. The methods in this class should
+ * be overriden to provide a custom behavior.
+ * 
+ * @author olitank
+ *
+ */
 public class TypeInfoSourceProxy implements ITypeInfoSource {
 
 	protected ITypeInfoSource base;
