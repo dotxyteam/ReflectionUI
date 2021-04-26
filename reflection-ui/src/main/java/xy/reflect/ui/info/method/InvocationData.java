@@ -37,7 +37,10 @@ import java.util.Map;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 
 /**
- * Method parameter values class.
+ * Method parameter values class. Parameters are referenced by their positions.
+ * The class holds the default and chosen (provided) parameter values. If a
+ * parameter value is not provided then the default value is used. If neither of
+ * these values is provided then the null value is used.
  * 
  * @author olitank
  *
@@ -97,7 +100,7 @@ public class InvocationData implements Serializable {
 		valueByParameterPosition.put(parameterPosition, value);
 	}
 
-	public void withdrawParameterValue(int parameterPosition) {
+	public void withdrawProvidedParameterValue(int parameterPosition) {
 		valueByParameterPosition.remove(parameterPosition);
 	}
 
@@ -135,7 +138,10 @@ public class InvocationData implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProvidedValues=" + valueByParameterPosition + ", DefaultValues=" + defaultValueByParameterPosition;
+		Map<Integer, Object> values = new HashMap<Integer, Object>();
+		values.putAll(defaultValueByParameterPosition);
+		values.putAll(valueByParameterPosition);
+		return values.toString();
 	}
 
 }

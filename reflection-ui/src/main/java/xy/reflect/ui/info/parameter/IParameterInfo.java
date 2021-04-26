@@ -129,7 +129,7 @@ public interface IParameterInfo extends IInfo {
 
 	/**
 	 * @param object The object offering the method hosting this parameter.
-	 * @return the default value of this parameter.
+	 * @return the default value of this parameter (may be null).
 	 */
 	Object getDefaultValue(Object object);
 
@@ -140,7 +140,9 @@ public interface IParameterInfo extends IInfo {
 
 	/**
 	 * @return true if and only if the parameter control is filtered out from the
-	 *         display.
+	 *         display. The specified default value (may be null) is then used when
+	 *         the method hosting this parameter is invoked. It should also be
+	 *         definitely considered that the host method has one parameter less.
 	 */
 	boolean isHidden();
 
