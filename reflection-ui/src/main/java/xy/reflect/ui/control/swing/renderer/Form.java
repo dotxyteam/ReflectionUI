@@ -121,8 +121,9 @@ public class Form extends ImagePanel {
 	protected ModificationStack modificationStack;
 	protected boolean fieldsUpdateListenerDisabled = false;
 	protected IInfoFilter infoFilter;
-	protected SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory;
-	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory;
+	protected SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
+	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
+
 	protected Container categoriesControl;
 	protected boolean busyIndicationDisabled;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
@@ -170,7 +171,8 @@ public class Form extends ImagePanel {
 		menuBar = createMenuBar();
 		statusBar = createStatusBar();
 		setStatusBarErrorMessage(null);
-		fill();
+		layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
+		refresh(true);
 	}
 
 	public Object getObject() {
@@ -411,23 +413,6 @@ public class Form extends ImagePanel {
 				}
 			}
 		});
-	}
-
-	public void fill() {
-		setLayout(new BorderLayout());
-
-		JPanel membersPanel = createMembersPanel();
-		{
-			add(membersPanel, BorderLayout.CENTER);
-			fieldControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
-			methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
-		}
-
-		refresh(true);
-	}
-
-	public JPanel createMembersPanel() {
-		return new ControlPanel();
 	}
 
 	public void layoutMembersControls(
