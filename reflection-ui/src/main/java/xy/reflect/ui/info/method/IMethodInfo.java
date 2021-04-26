@@ -173,8 +173,7 @@ public interface IMethodInfo extends IInfo {
 	String getSignature();
 
 	/**
-	 * @return the type information of the return value of the current
-	 *         method.
+	 * @return the type information of the return value of the current method.
 	 */
 	ITypeInfo getReturnValueType();
 
@@ -261,9 +260,9 @@ public interface IMethodInfo extends IInfo {
 	/**
 	 * @param object         The object offering this method.
 	 * @param invocationData The parameter values.
-	 * @return a confirmation message to be displayed just before running this
-	 *         method invocation so that the user will be able to cancel the
-	 *         execution.
+	 * @return a confirmation message to be displayed just before invoking this
+	 *         method so that the user will be able to cancel the execution or null
+	 *         if the execution should not be confirmed.
 	 */
 	String getConfirmationMessage(Object object, InvocationData invocationData);
 

@@ -33,16 +33,20 @@ import java.util.Map;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * This interface provides what UI field controls need to look and behave
- * properly. <br>
+ * This interface provides what field controls need to look and behave properly.
+ * 
+ * It is intended to be a proxy of {@link IFieldInfo} that hides pieces of
+ * information that are useless for field controls in order to maximize their
+ * reusability. Typically it hides the field owner object.<br>
  * <br>
  * About colors:
  * <ul>
- * <li>there are 4 colors that controls must take into account:</li>
+ * <li>There are 4 colors that controls must take into account:</li>
  * <ul>
  * <li>label foreground color (usually the color of a non-editable text
  * describing the control)</li>
@@ -51,20 +55,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
  * <li>editor foreground color (usually the color of an editable text)</li>
  * <li>border color
  * </ul>
- * <li>note that the controls have 2 states that must be distinctly displayed
- * while respecting the above colors:</li>
+ * <li>Note that the controls have usually 2 states that must be distinctly
+ * displayed while respecting the above colors:</li>
  * <ul>
- * <li>editable</li>
- * <li>not editable</li>
- * </ul>
- * <li>normally when 1 of these colors is not specified, the control must
- * replace it by its natural color</li>
- * <li>It means there is typically 2 possible color combinations at the same
- * area of the control:</li>
- * <ul>
- * <li>the label foreground color above transparency (not editable)</li>
- * <li>the editor foreground color above the editor background color
- * (editable)</li>
+ * <li>editable (typically when {@link #isGetOnly()} returns false)</li>
+ * <li>not editable (typically when {@link #isGetOnly()} returns true)</li>
  * </ul>
  * <li>In case the control cannot conform to the specified colors, it is
  * tolerated that it gets its natural colors</li>
@@ -81,14 +76,14 @@ public interface IFieldControlData {
 	Object getValue();
 
 	/**
-	 * Updates the value that the control displays.
+	 * Updates the value provided through the control.
 	 * 
 	 * @param value The new value.
 	 */
 	void setValue(Object value);
 
 	/**
-	 * @return the displayed name of this control value.
+	 * @return the name that the field control must display.
 	 */
 	String getCaption();
 
@@ -100,30 +95,30 @@ public interface IFieldControlData {
 	Runnable getNextUpdateCustomUndoJob(Object newValue);
 
 	/**
-	 * @return the help text of this field control data.
+	 * @return the help text of the field control.
 	 */
 	String getOnlineHelp();
 
 	/**
-	 * @return the type information of the current field.
+	 * @return the type information of the underlying field.
 	 */
 	ITypeInfo getType();
 
 	/**
-	 * @return true if and only if the control value can be updated. Then
+	 * @return true if and only if the control value can be updated. Otherwise
 	 *         {@link #setValue(Object)} should not be called.
 	 */
 	boolean isGetOnly();
 
 	/**
-	 * @return true if and only if this field value update should not be stored in a
-	 *         modification stack.
+	 * @return true if and only if this control value update should not be stored in
+	 *         a modification stack.
 	 */
 	boolean isTransient();
 
 	/**
 	 * @return the value return mode of this control data. It may impact the
-	 *         behavior of this control.
+	 *         behavior of the control.
 	 */
 	ValueReturnMode getValueReturnMode();
 
@@ -142,87 +137,94 @@ public interface IFieldControlData {
 	String getNullValueLabel();
 
 	/**
-	 * @return true if this control value is forcibly displayed as a generic form.
-	 *         If false is returned then a custom control may be displayed. Note
-	 *         that the form is either embedded in the parent form or displayed in a
-	 *         child dialog according to the return value of
+	 * @return true if the control associated with this field control data must be a
+	 *         generic form. If false is returned then a custom control may be
+	 *         displayed. Note that the form is either embedded in the parent form
+	 *         or displayed in a child dialog according to the return value of
 	 *         {@link #isFormControlEmbedded()}.
 	 */
 	boolean isFormControlMandatory();
 
 	/**
-	 * @return whether this control value form is embedded in the parent form or
-	 *         displayed in a child dialog. Note that this method has no impact if a
-	 *         custom control is displayed instead of a generic form.
+	 * @return whether the generic form associated with this field control data is
+	 *         embedded in the parent form or displayed in a child dialog. Note that
+	 *         this method has no impact if a custom control is displayed instead of
+	 *         a generic form.
 	 */
 	boolean isFormControlEmbedded();
 
 	/**
-	 * @return an object used to filter out some fields and methods from this field
-	 *         value form. Note that this method has no impact if a custom control
-	 *         is displayed instead of a generic form.
+	 * @return an object used to filter out some fields and methods from the generic
+	 *         form associated with this field control data. Note that this method
+	 *         has no impact if a custom control is displayed instead of a generic
+	 *         form.
 	 */
 	IInfoFilter getFormControlFilter();
 
 	/**
-	 * @return custom properties intended to be used to extend the this control data
-	 *         for specific renderers.
+	 * @return custom properties intended to be used to extend the this field
+	 *         control data for specific renderers.
 	 */
 	Map<String, Object> getSpecificProperties();
 
 	/**
-	 * @return the color that the control must use on its transparent parts.
+	 * @return the text color that the control must use on its non-editable parts or
+	 *         null if the default text color should be used.
 	 */
 	ColorSpecification getLabelForegroundColor();
 
 	/**
-	 * @return the border color that the control must use.
+	 * @return the border color that the control must use or null if the default
+	 *         border should be used.
 	 */
 	ColorSpecification getBorderColor();
 
 	/**
-	 * @return the background color that the control must use on its editing parts.
-	 *         Note that this color must be used in combination with the foreground
+	 * @return the background color that the control must use on its editable parts
+	 *         or null if the default background color should be used. Note that
+	 *         this color is intended to be used in combination with the foreground
 	 *         color returned by {@link #getEditorForegroundColor()}.
 	 */
 	ColorSpecification getEditorBackgroundColor();
 
 	/**
-	 * @return the text color that the control must use on its editing parts. Note
-	 *         that this color must be used in combination with the background color
-	 *         returned by {@link #getEditorBackgroundColor()}.
+	 * @return the text color that the control must use on its editable parts or
+	 *         null if the default text color should be used. Note that this color
+	 *         must be used in combination with the background color returned by
+	 *         {@link #getEditorBackgroundColor()}.
 	 */
 	ColorSpecification getEditorForegroundColor();
 
 	/**
-	 * @return the path to an image that buttons of the control must use as their
-	 *         background image or null if the control buttons must have the default
-	 *         background.
+	 * @return the resource location of an image that the buttons of the control
+	 *         must use as their background image or null if the control buttons
+	 *         must have their default background.
 	 */
 	ResourcePath getButtonBackgroundImagePath();
 
 	/**
-	 * @return the background color that buttons of the control must use as their
-	 *         background color or null if the control buttons must have the default
-	 *         background color.
+	 * @return the background color that the buttons of the control must use as
+	 *         their background color or null if the control buttons must have their
+	 *         default background color.
 	 */
 	ColorSpecification getButtonBackgroundColor();
 
 	/**
-	 * @return the text color that buttons of the control must use as their text
+	 * @return the text color that the buttons of the control must use as their text
 	 *         color or null if the control buttons must have the default text
 	 *         color.
 	 */
 	ColorSpecification getButtonForegroundColor();
 
 	/**
-	 * @return the border color that buttons of the control must use as their border
-	 *         color or null if the control buttons must have the default border.
+	 * @return the border color that the buttons of the control must use as their
+	 *         border color or null if the control buttons must have their default
+	 *         border.
 	 */
 	ColorSpecification getButtonBorderColor();
 
 	/**
-	 * Allows the control to constructs a new instance of the edited control value.
+	 * Allows the control to build a new instance of the edited value.
 	 * 
 	 * @param typeToInstanciate     The type of the value to instanciate.
 	 * @param selectableConstructor Whether the framework should allow to select a

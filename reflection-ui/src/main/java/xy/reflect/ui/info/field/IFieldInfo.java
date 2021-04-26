@@ -233,7 +233,7 @@ public interface IFieldInfo extends IInfo {
 	boolean isNullValueDistinct();
 
 	/**
-	 * @return true if and only if this field value can be updated. Otherwise
+	 * @return true if and only if this field value can be replaced. Otherwise
 	 *         {@link #setValue(Object, Object)} should not be called.
 	 */
 	boolean isGetOnly();
@@ -262,7 +262,7 @@ public interface IFieldInfo extends IInfo {
 	InfoCategory getCategory();
 
 	/**
-	 * @return true if this field value is forcibly displayed as a generic form. If
+	 * @return true if this field value must be displayed as a generic form. If
 	 *         false is returned then a custom control may be displayed. Note that
 	 *         the form to display is either embedded in the current window or
 	 *         displayed in a child dialog according to the return value of
