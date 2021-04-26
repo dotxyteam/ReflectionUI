@@ -52,6 +52,9 @@ public class InvocationData implements Serializable {
 	protected Map<Integer, Object> valueByParameterPosition = new HashMap<Integer, Object>();
 	protected Map<Integer, Object> defaultValueByParameterPosition = new HashMap<Integer, Object>();
 
+	public InvocationData() {
+	}
+
 	public InvocationData(Object object, List<IParameterInfo> parameters, Object... parameterValues) {
 		for (IParameterInfo param : parameters) {
 			defaultValueByParameterPosition.put(param.getPosition(), param.getDefaultValue(object));

@@ -56,10 +56,6 @@ public class ParameterInfoProxy extends AbstractInfoProxy implements IParameterI
 		return base.getName();
 	}
 
-	public boolean isHidden() {
-		return base.isHidden();
-	}
-
 	public String getCaption() {
 		return base.getCaption();
 	}

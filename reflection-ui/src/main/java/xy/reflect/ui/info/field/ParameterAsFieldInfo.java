@@ -182,7 +182,7 @@ public class ParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isHidden() {
-		return param.isHidden();
+		return false;
 	}
 
 	@Override

@@ -183,11 +183,6 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 		}
 
 		@Override
-		public boolean isHidden() {
-			return false;
-		}
-
-		@Override
 		public boolean hasValueOptions(Object object) {
 			return false;
 		}

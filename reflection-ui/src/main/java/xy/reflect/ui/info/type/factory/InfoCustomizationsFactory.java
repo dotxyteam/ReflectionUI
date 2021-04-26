@@ -1638,7 +1638,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
 			result.add(new MethodCommonOptionsTransformer());
-			result.add(new MethodParameterDefaultValueSettingTransformer());
 			result.add(new ParameterizedFieldsMethodTransformer());
 			result.add(new MethodParameterAsFieldTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
@@ -1942,6 +1941,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
 									param.getName());
 							if (pc != null) {
+								if (pc.isHidden()) {
+									continue;
+								}
 								param = new ParameterInfoProxy(param) {
 
 									@Override
@@ -1982,27 +1984,41 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										return super.getOnlineHelp();
 									}
 
+									@Override
+									public Object getDefaultValue(Object object) {
+										Object defaultValue = pc.getDefaultValue().load();
+										if (defaultValue != null) {
+											return pc.getDefaultValue();
+										}
+										return super.getDefaultValue(object);
+									}
+
 								};
 							}
 							result.add(param);
 						}
-						result = removeHiddenParameters(result);
 						return result;
 					}
 
-					protected List<IParameterInfo> removeHiddenParameters(List<IParameterInfo> params) {
-						List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-						for (IParameterInfo param : params) {
-							ParameterCustomization p = InfoCustomizations.getParameterCustomization(mc,
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						InvocationData newInvocationData = new InvocationData();
+						newInvocationData.setDefaultParameterValues(invocationData.getDefaultParameterValues());
+						newInvocationData.setProvidedParameterValues(invocationData.getProvidedParameterValues());
+						for (IParameterInfo param : super.getParameters()) {
+							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
 									param.getName());
-							if (p != null) {
-								if (p.isHidden()) {
-									continue;
+							if (pc != null) {
+								if (pc.isHidden()) {
+									Object defaultValue = pc.getDefaultValue().load();
+									if (defaultValue == null) {
+										defaultValue = pc.getDefaultValue();
+									}
+									newInvocationData.provideParameterValue(param.getPosition(), defaultValue);
 								}
 							}
-							result.add(param);
 						}
-						return result;
+						return super.invoke(object, newInvocationData);
 					}
 
 					@Override
@@ -2183,45 +2199,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							};
 							newFields.add(methodParameterAsField);
 							method = methodParameterAsField.getReducedParameterListMethod();
-						}
-					}
-				}
-				return method;
-			}
-
-		}
-
-		protected class MethodParameterDefaultValueSettingTransformer extends AbstractMethodTransformer {
-
-			@Override
-			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
-					List<IMethodInfo> newMethods) {
-				for (final IParameterInfo param : method.getParameters()) {
-					final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc, param.getName());
-					if (pc != null) {
-						final Object defaultValue = pc.getDefaultValue().load();
-						if (defaultValue != null) {
-							method = new MethodInfoProxy(method) {
-
-								@Override
-								public List<IParameterInfo> getParameters() {
-									List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-									for (IParameterInfo param : super.getParameters()) {
-										if (pc.getParameterName().equals(param.getName())) {
-											param = new ParameterInfoProxy(param) {
-
-												@Override
-												public Object getDefaultValue(Object object) {
-													return defaultValue;
-												}
-
-											};
-										}
-										result.add(param);
-									}
-									return result;
-								}
-							};
 						}
 					}
 				}

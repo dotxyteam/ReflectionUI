@@ -69,11 +69,6 @@ public interface IParameterInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isHidden() {
-			return false;
-		}
-
-		@Override
 		public String getCaption() {
 			return "";
 		}
@@ -137,14 +132,6 @@ public interface IParameterInfo extends IInfo {
 	 * @return the 0-based position of this parameter.
 	 */
 	int getPosition();
-
-	/**
-	 * @return true if and only if the parameter control is filtered out from the
-	 *         display. The specified default value (may be null) is then used when
-	 *         the method hosting this parameter is invoked. It should also be
-	 *         definitely considered that the host method has one parameter less.
-	 */
-	boolean isHidden();
 
 	/**
 	 * @param object The object offering the method hosting this parameter.

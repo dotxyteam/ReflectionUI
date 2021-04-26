@@ -84,7 +84,6 @@ import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
@@ -734,11 +733,6 @@ public class InfoCustomizations implements Serializable {
 				}
 				if ((otherInfo instanceof IMethodInfo)) {
 					if (((IMethodInfo) otherInfo).isHidden()) {
-						continue;
-					}
-				}
-				if ((otherInfo instanceof IParameterInfo)) {
-					if (((IParameterInfo) otherInfo).isHidden()) {
 						continue;
 					}
 				}

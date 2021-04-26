@@ -72,14 +72,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 		for (int i = 0; i < parameterizedFields.size(); i++) {
 			final IFieldInfo field = parameterizedFields.get(i);
 			final int position = i + startPosition;
-			result.add(new FieldAsParameterInfo(reflectionUI, field, position) {
-
-				@Override
-				public boolean isHidden() {
-					return false;
-				}
-
-			});
+			result.add(new FieldAsParameterInfo(reflectionUI, field, position));
 		}
 		return result;
 	}

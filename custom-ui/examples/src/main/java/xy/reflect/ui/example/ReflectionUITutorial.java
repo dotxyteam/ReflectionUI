@@ -210,11 +210,6 @@ public class ReflectionUITutorial {
 						return super.isHidden(method, containingType);
 					}
 
-					@Override
-					protected boolean isHidden(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-						return super.isHidden(param, method, containingType);
-					}
-
 				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
 			}
 
