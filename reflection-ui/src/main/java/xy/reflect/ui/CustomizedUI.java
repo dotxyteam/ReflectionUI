@@ -48,8 +48,8 @@ import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
- * This is a subclass of ReflectionUI supporting declarative customizations of
- * the generated abstract UI models.
+ * This is a subclass of {@link ReflectionUI} that adapts its introspection
+ * mechanics according to the given {@link InfoCustomizations} instance.
  * 
  * @author olitank
  *

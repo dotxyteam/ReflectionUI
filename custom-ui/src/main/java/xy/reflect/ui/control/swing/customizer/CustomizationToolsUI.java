@@ -39,6 +39,7 @@ import java.util.Map;
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
@@ -79,6 +80,13 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * This is a sub-class of {@link ReflectionUI} that generates the abstract UI
+ * model of customization tools.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomizationToolsUI extends CustomizedUI {
 
 	protected static final String IS_FIELD_TYPE_SPECIFICITIES_TYPE = CustomizationToolsUI.class.getName() + ".is"

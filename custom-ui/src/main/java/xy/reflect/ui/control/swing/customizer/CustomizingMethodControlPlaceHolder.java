@@ -37,12 +37,20 @@ import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.method.IMethodInfo;
 
+/**
+ * This is a sub-class of {@link MethodControlPlaceHolder} that allows to
+ * install method customization tools.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomizingMethodControlPlaceHolder extends MethodControlPlaceHolder {
 
 	private static final long serialVersionUID = 1L;
 	protected Component infoCustomizationsComponent;
 
-	public CustomizingMethodControlPlaceHolder(SwingCustomizer swingCustomizer, CustomizingForm form, IMethodInfo method) {
+	public CustomizingMethodControlPlaceHolder(SwingCustomizer swingCustomizer, CustomizingForm form,
+			IMethodInfo method) {
 		super(swingCustomizer, form, method);
 	}
 

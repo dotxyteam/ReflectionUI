@@ -103,6 +103,13 @@ import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * This class inserts controls in the generated UIs (tools) that allow to
+ * customize them in real-time.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomizationTools {
 
 	protected final SwingCustomizer swingCustomizer;

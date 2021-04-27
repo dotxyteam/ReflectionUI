@@ -28,6 +28,12 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.customizer;
 
+/**
+ * This class holds global editing options for WYSIWYG UI customizations.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomizationOptions {
 
 	protected final SwingCustomizer swingCustomizer;

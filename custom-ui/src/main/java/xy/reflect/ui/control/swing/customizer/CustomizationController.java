@@ -48,6 +48,14 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
+/**
+ * This class allows to display a window that monitors and controls the WYSIWYG
+ * UI customizations. Customizations can be undone/re-done, saved or listed via
+ * this window.
+ * 
+ * @author olitank
+ *
+ */
 public class CustomizationController {
 
 	protected SwingCustomizer swingCustomizer;
