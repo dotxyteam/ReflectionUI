@@ -33,8 +33,8 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * This interface allows to specify a plugin that will provide typically an
- * additional field control that would be used by UI renderer.
+ * This interface allows to specify a plugin that will provide a selectable
+ * custom field control.
  * 
  * @author olitank
  *
@@ -42,13 +42,13 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public interface IFieldControlPlugin {
 
 	/**
-	 * A key of {@link ITypeInfo#getSpecificProperties()} that references the name
-	 * of the chosen field control plugin.
+	 * The key that references the name of the chosen field control plugin in the
+	 * map returned by {@link ITypeInfo#getSpecificProperties()}.
 	 */
 	public String CHOSEN_PROPERTY_KEY = IFieldControlPlugin.class.getName() + ".CHOSEN";
 
 	/**
-	 * @param input An object describing the field to be displayed.
+	 * @param input The specification of the field to be displayed.
 	 * @return whether the field described by the given input object can be
 	 *         displayed by the current plugin control.
 	 */
@@ -62,8 +62,8 @@ public interface IFieldControlPlugin {
 
 	/**
 	 * @param renderer The UI renderer object.
-	 * @param input    An object describing the field to be displayed.
-	 * @return A control able to display the field described by the given input
+	 * @param input    The specification of the field to be displayed.
+	 * @return A control able to display the field specified by the given input
 	 *         object.
 	 */
 	Object createControl(Object renderer, IFieldControlInput input);
@@ -80,10 +80,10 @@ public interface IFieldControlPlugin {
 
 	/**
 	 * @param renderer    The UI renderer object.
-	 * @param controlData An object allowing to manipulate the value of the field to
-	 *                    be displayed.
-	 * @return a field control data corresponding to the input field control data
-	 *         but optionally modified to be more convenient with null values.
+	 * @param controlData An object allowing to handle the value of the field to be
+	 *                    displayed.
+	 * @return an output field control data corresponding to the input field control
+	 *         data but optionally modified to handle conveniently null values.
 	 *         Typically its type would have an additional zero-arg constructor
 	 *         allowing to move smoothly from a null to a non-null field value.
 	 */

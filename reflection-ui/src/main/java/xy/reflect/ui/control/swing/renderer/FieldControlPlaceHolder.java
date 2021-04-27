@@ -82,9 +82,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * Instances of this class are field control containers.
  * 
  * They provide common field control features as error display, undo management,
- * busy indication, updates synchronization, etc. These features can be
- * customized/disabled by making the control override the
- * {@link IAdvancedFieldControl} interface.
+ * busy indication, updates synchronization, etc. These features can be tweaked
+ * by making the field control override the {@link IAdvancedFieldControl}
+ * interface.
  * 
  * They also generate the input that will be used by the
  * {@link #createFieldControl()} method and passed to the control constructor.

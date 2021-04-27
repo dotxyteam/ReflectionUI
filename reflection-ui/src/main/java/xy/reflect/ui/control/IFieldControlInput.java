@@ -40,7 +40,7 @@ import xy.reflect.ui.undo.ModificationStack;
 public interface IFieldControlInput {
 
 	/**
-	 * @return an object providing what UI field controls need to look and behave
+	 * @return an object providing what field controls need to look and behave
 	 *         properly.
 	 */
 	IFieldControlData getControlData();

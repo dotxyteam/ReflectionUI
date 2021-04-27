@@ -99,14 +99,6 @@ public class InvocationData implements Serializable {
 		}
 	}
 
-	public void provideParameterValue(int parameterPosition, Object value) {
-		valueByParameterPosition.put(parameterPosition, value);
-	}
-
-	public void withdrawProvidedParameterValue(int parameterPosition) {
-		valueByParameterPosition.remove(parameterPosition);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
