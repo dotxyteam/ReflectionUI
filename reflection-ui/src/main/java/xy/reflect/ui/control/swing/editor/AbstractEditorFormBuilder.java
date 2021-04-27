@@ -52,29 +52,25 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * This is a base class for form-based editor control factories.
+ * This is a base class for form-based editor factories.
  * 
  * Each instance of this class handles a target value/object according to the
- * specifications provided through the implementation of the various class
- * methods.
+ * specifications provided through the implementation of the various methods.
  * 
  * Note that the target value/object is encapsulated in a virtual parent object
- * for practical reasons. The editor control is thus a form representing this
- * capsule.
+ * for practical reasons. The editor is thus a form representing this capsule.
  * 
  * This class also handles the complex relationship that may exists between the
  * target value/object and a potential parent object. The parent object form
  * will typically embed (real-time link) or maintain a detached parent-child
- * relationship (e.g.: child dialog) with the target value/object form.
+ * relationship (e.g.: child dialog) with the target value/object form. Note
+ * that the target value/object modifications will be committed to the parent
+ * object and forwarded so that they can be undone or redone through the parent
+ * modification stack.
  * 
- * A real-time link to the parent object can be exclusive or not, meaning that
- * the target value/object is the only child of its parent object. This
- * information is used when forwarding target value/object modifications to the
- * parent modification stack. Typically, calling
- * {@link ModificationStack#forget()} on the target value/object modification
- * stack will trigger the same call on the parent modification stack only and
- * only if only the link is exclusive. Otherwise
- * {@link ModificationStack#invalidate()} will be called instead.
+ * A real-time link with the parent object form can be exclusive, meaning that
+ * the target value/object form is the only child of its parent object form. It
+ * affects the 'undo' management.
  * 
  * @author olitank
  *
@@ -100,7 +96,7 @@ public abstract class AbstractEditorFormBuilder {
 	/**
 	 * @return the title or the title prefix (in case of multiple modifications) of
 	 *         the modification(s) that will be communicated to the parent object
-	 *         modification stack or null (if there is no parent object).
+	 *         modification stack.
 	 */
 	protected abstract String getParentModificationTitle();
 
@@ -121,16 +117,14 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract IModification createCommittingModification(Object newObjectValue);
 
 	/**
-	 * @return source of the declared type information that will be used to handle
-	 *         the target value/object. If null is returned then this type
-	 *         information source will be dynamically inferred from the target
-	 *         value/object.
+	 * @return source of the type information that will be used to handle the target
+	 *         value/object. If null is returned then this type information source
+	 *         will be dynamically inferred from the target value/object.
 	 */
 	protected abstract ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource();
 
 	/**
-	 * @return the return mode (from the parent object) of the target value/object
-	 *         (null can be returned if there is no parent object).
+	 * @return the return mode (from the parent object) of the target value/object.
 	 */
 	protected abstract ValueReturnMode getReturnModeFromParent();
 
@@ -146,14 +140,14 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract Object getInitialValue();
 
 	/**
-	 * @return an object that will be used to uniquely name the capsule type (or
+	 * @return an object that will be used to uniquely name the capsule type (may be
 	 *         null).
 	 */
 	protected abstract IContext getContext();
 
 	/**
 	 * @return an secondary object that will be used to uniquely name the capsule
-	 *         type (or null).
+	 *         type (may be null).
 	 */
 	protected abstract IContext getSubContext();
 
@@ -184,7 +178,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the initial target value/object has been acquired.
+	 * @return whether the initial target value/object has been acquired or not.
 	 */
 	public boolean isInitialized() {
 		return objectValueInitialized;
@@ -299,8 +293,8 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract boolean isEncapsulatedFormEmbedded();
 
 	/**
-	 * @return true if the target value/object is forcibly displayed as a generic
-	 *         form (not a custom control).
+	 * @return true if the target value/object must be displayed as a generic form
+	 *         (not a custom control).
 	 */
 	protected boolean isCustomEncapsulatedControlForbidden() {
 		return false;
@@ -377,15 +371,15 @@ public abstract class AbstractEditorFormBuilder {
 	/**
 	 * @return whether the editor control is refreshed every time a modification of
 	 *         the target value/object is detected. It typically allows to keep a
-	 *         calculated read-only target value/object coherent by resetting it to
-	 *         its initial state whenever its temporary value is modified.
+	 *         calculated read-only target value/object coherent by resetting it
+	 *         whenever it is modified.
 	 */
 	protected boolean isEditorFormRefreshedOnModification() {
 		return isInReadOnlyMode();
 	}
 
 	/**
-	 * @return whether the target value/object modifications have no impact on the
+	 * @return true if the target value/object modifications does not impact the
 	 *         parent object. If there is no parent object then false should be
 	 *         returned.
 	 */
@@ -394,7 +388,8 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the editor control is expected to be empty or not.
+	 * @return whether the editor control is empty or not. It can be checked before
+	 *         actually creating the editor control.
 	 */
 	public boolean isFormEmpty() {
 		Object capsule = getCapsule();
@@ -422,7 +417,8 @@ public abstract class AbstractEditorFormBuilder {
 	 * @param realTimeLinkWithParent  Whether a real-time link should be maintained
 	 *                                with the parent object.
 	 * @param exclusiveLinkWithParent Whether the real-time link with the parent
-	 *                                object (if existing) is exclusive or not.
+	 *                                object (if existing) should be exclusive or
+	 *                                not.
 	 * @return the created editor control.
 	 */
 	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
@@ -441,7 +437,8 @@ public abstract class AbstractEditorFormBuilder {
 	 * @param realTimeLinkWithParent  Whether a real-time link should be maintained
 	 *                                with the parent object.
 	 * @param exclusiveLinkWithParent Whether the real-time link with the parent
-	 *                                object (if existing) is exclusive or not.
+	 *                                object (if existing) should be exclusive or
+	 *                                not.
 	 */
 	protected void setupLinkWithParent(Form editorForm, boolean realTimeLinkWithParent,
 			boolean exclusiveLinkWithParent) {
@@ -497,8 +494,8 @@ public abstract class AbstractEditorFormBuilder {
 	 * 
 	 * @param editorForm       The created editor control.
 	 * @param refreshStructure Whether the editor control should update its
-	 *                         structure to reflect the recent meta-data change.
-	 *                         Mainly used in design mode.
+	 *                         structure to reflect the recent meta-data changes
+	 *                         (mainly used in design mode).
 	 */
 	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
 		encapsulatedObjectValueAccessor.set(getInitialValue());
@@ -507,10 +504,10 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @param value The new target value.
-	 * @return whether the new target value passed as argument was accepted or
-	 *         rejected, typically by a user.
+	 * @return whether the new target value passed as argument should be integrated
+	 *         or not, typically because it was accepted or rejected by a user.
 	 */
-	protected boolean shouldAcceptNewObjectValue(Object value) {
+	protected boolean shouldIntegrateNewObjectValue(Object value) {
 		return true;
 	}
 
@@ -527,7 +524,7 @@ public abstract class AbstractEditorFormBuilder {
 		Accessor<Boolean> childModifAcceptedGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return shouldAcceptNewObjectValue(getCurrentValue());
+				return shouldIntegrateNewObjectValue(getCurrentValue());
 			}
 		};
 		Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {

@@ -64,7 +64,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	protected boolean parentModificationStackImpacted = false;
 
 	/**
-	 * @return the owner component of the editor dialog or null.
+	 * @return the owner component of the editor window or null.
 	 */
 	protected abstract Component getOwnerComponent();
 
@@ -79,7 +79,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	}
 
 	/**
-	 * @return the icon image path of the capsule type.
+	 * @return the path to the icon image of the capsule type.
 	 */
 	protected ResourcePath getCapsuleTypeIconImagePath() {
 		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getIconImagePath();
@@ -94,7 +94,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 
 	/**
 	 * @return true if and only if the undo/redo/etc features should be made
-	 *         available typically when the capsule is the root of a window.
+	 *         available.
 	 */
 	protected boolean isCapsuleTypeModificationStackAccessible() {
 		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource())
@@ -110,7 +110,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 
 	/**
 	 * @return whether the editing session should be cancellable (a cancel button
-	 *         will be displayed) or not. Note that it only makes sense if a editor
+	 *         will be displayed) or not. Note that it only makes sense if an editor
 	 *         dialog (not a frame) is created.
 	 */
 	protected boolean isCancellable() {
@@ -177,9 +177,11 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	}
 
 	/**
-	 * @return common controls that will be laid on the button bar.
+	 * @return most controls (the list includes
+	 *         {@link #getAdditionalButtonBarControls()}, but not ok/cancel/close
+	 *         buttons) that will be laid on the button bar.
 	 */
-	protected List<Component> createCommonButtonBarControls() {
+	protected List<Component> createMostButtonBarControls() {
 		List<Component> result = new ArrayList<Component>();
 		List<Component> commonButtonBarControls = createdEditorForm.createButtonBarControls();
 		if (commonButtonBarControls != null) {
@@ -201,7 +203,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		createdEditorForm = createEditorForm(false, false);
 		createdFrame = new JFrame();
 		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
-		windowManager.set(createdEditorForm, new ArrayList<Component>(createCommonButtonBarControls()),
+		windowManager.set(createdEditorForm, new ArrayList<Component>(createMostButtonBarControls()),
 				getEditorWindowTitle(), getEditorWindowIconImage());
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
@@ -261,7 +263,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		dialogBuilder.setTitle(getEditorWindowTitle());
 		dialogBuilder.setIconImage(getEditorWindowIconImage());
 
-		List<Component> buttonBarControls = new ArrayList<Component>(createCommonButtonBarControls());
+		List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls());
 		{
 			if (isCancellable()) {
 				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
@@ -337,7 +339,8 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		} else {
 			committingModif = createCommittingModification(currentValue);
 		}
-		boolean valueModifAccepted = shouldAcceptNewObjectValue(currentValue) && ((!isCancellable()) || !isCancelled());
+		boolean valueModifAccepted = shouldIntegrateNewObjectValue(currentValue)
+				&& ((!isCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
 		parentModificationStackImpacted = ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack,
 				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, committingModif,
