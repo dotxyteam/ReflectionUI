@@ -49,6 +49,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Virtual field that allows to view/edit the underlying method parameter value.
@@ -236,9 +237,14 @@ public class ParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 			}
 
 			@Override
+			public String getSignature() {
+				return ReflectionUIUtils.buildMethodSignature(this);
+			}
+
+			@Override
 			public Object invoke(Object object, InvocationData invocationData) {
 				Object paramValue = ParameterAsFieldInfo.this.getValue(object);
-				invocationData.provideParameterValue(param.getPosition(), paramValue);
+				invocationData.getProvidedParameterValues().put(param.getPosition(), paramValue);
 				try {
 					super.validateParameters(object, invocationData);
 				} catch (Exception e) {
@@ -250,7 +256,7 @@ public class ParameterAsFieldInfo extends AbstractInfo implements IFieldInfo {
 			@Override
 			public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 				Object paramValue = ParameterAsFieldInfo.this.getValue(object);
-				invocationData.provideParameterValue(param.getPosition(), paramValue);
+				invocationData.getProvidedParameterValues().put(param.getPosition(), paramValue);
 				return super.getNextInvocationUndoJob(object, invocationData);
 			}
 

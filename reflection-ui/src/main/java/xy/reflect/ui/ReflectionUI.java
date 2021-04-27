@@ -49,7 +49,8 @@ import xy.reflect.ui.util.SystemProperties;
 
 /**
  * This class reads and interprets the metadata (usually the class) of objects
- * in order to propose an abstract UI model (ITypeInfo).
+ * in order to propose an abstract UI model (ITypeInfo) that a renderer can use
+ * to generate a working UI.
  * 
  * @author olitank
  *
@@ -102,32 +103,28 @@ public class ReflectionUI {
 	}
 
 	/**
-	 * Allows to associate an object with a predefined ITypeInfo instance.
+	 * Allows to associate an object with a predefined {@link ITypeInfo} instance.
 	 * 
-	 * @param object
-	 *            The object to associate.
-	 * @param type
-	 *            The ITypeInfo instance to associate with the object.
+	 * @param object The object to associate with the type information.
+	 * @param type   The ITypeInfo instance to associate with the object.
 	 */
 	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
 		precomputedTypeInfoByObject.put(object, type);
 	}
 
 	/**
-	 * Allows to break the association between an object and a predefined ITypeInfo
-	 * instance.
+	 * Allows to break the association between an object and a predefined
+	 * {@link ITypeInfo} instance.
 	 * 
-	 * @param object
-	 *            The object that was associated.
+	 * @param object The object that was associated with the type information.
 	 */
 	public void unregisterPrecomputedTypeInfoObject(Object object) {
 		precomputedTypeInfoByObject.remove(object);
 	}
 
 	/**
-	 * @param object
-	 *            Any object from which a UI needs to be created.
-	 * @return a metadata object from which an abstract UI model will be extracted.
+	 * @param object Any object from which a UI needs to be generated.
+	 * @return a metadata object from which a type information will be extracted.
 	 */
 	public ITypeInfoSource getTypeInfoSource(Object object) {
 		ITypeInfo precomputedType = precomputedTypeInfoByObject.get(object);
@@ -139,19 +136,18 @@ public class ReflectionUI {
 	}
 
 	/**
-	 * @param typeInfoSource
-	 *            The data object needed to generate the UI-oriented type
-	 *            information.
-	 * @return an object encapsulating UI-oriented type information. Note that the
-	 *         calling {@link ITypeInfo#getSource()} on the result should return an
-	 *         object equals to the given parameter value.
+	 * @param typeInfoSource The data object needed to generate the UI-oriented type
+	 *                       information.
+	 * @return an object containing the UI-oriented type information extracted from
+	 *         the given source. Note that the calling {@link ITypeInfo#getSource()}
+	 *         on the result should return an object equals to the given source.
 	 */
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
 		return typeInfoSource.getTypeInfo(this);
 	}
 
 	/**
-	 * @return the common UI properties descriptor.
+	 * @return the UI-oriented application (global) information.
 	 */
 	public IApplicationInfo getApplicationInfo() {
 		return new DefaultApplicationInfo();

@@ -1,3 +1,13 @@
+- MembersCustomizationsFactory.transformMethods() potential issue: the signature 
+of the transformed method often changes during the transformation but not the
+method customization and this may cause issues in proxies that must deal with
+this inconsistency.
+- Find a strict rule to conveniently order MembersCustomizationsFactory
+transformers. 
+Hints: 
+	. Should new generated members inherit customizations and then change 
+	"silently" while the source member is being modified ?
+	. ...
 - ParameterizedFieldsMethodInfo undoJob is always created even if it cannot
 be executed mostly because the method cannot. Find a way to enable the undo
 button since it will not work.

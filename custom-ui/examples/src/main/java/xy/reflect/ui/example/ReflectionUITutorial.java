@@ -271,6 +271,11 @@ public class ReflectionUITutorial {
 								}
 
 								@Override
+								public String getSignature() {
+									return ReflectionUIUtils.buildMethodSignature(this);
+								}
+
+								@Override
 								public String getCaption() {
 									return "(Virtual) Reset Fields";
 								}

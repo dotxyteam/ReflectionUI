@@ -28,6 +28,12 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+/**
+ * Contains the system properties exposed by the library.
+ * 
+ * @author olitank
+ *
+ */
 public class MoreSystemProperties extends SystemProperties {
 
 	@Usage("If the value of this property is \"true\" then the UI customization tools will be hidden.")

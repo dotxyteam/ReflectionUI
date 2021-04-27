@@ -196,7 +196,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 
 			@Override
-			protected boolean shouldAcceptNewObjectValue(Object value) {
+			protected boolean shouldIntegrateNewObjectValue(Object value) {
 				return true;
 			}
 

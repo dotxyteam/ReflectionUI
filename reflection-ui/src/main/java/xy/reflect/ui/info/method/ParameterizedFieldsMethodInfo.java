@@ -85,6 +85,11 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
+	public String getSignature() {
+		return ReflectionUIUtils.buildMethodSignature(this);
+	}
+
+	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
 		for (FieldAsParameterInfo generatedParameter : generatedParameters) {
 			Object value = invocationData.getParameterValue(generatedParameter.getPosition());

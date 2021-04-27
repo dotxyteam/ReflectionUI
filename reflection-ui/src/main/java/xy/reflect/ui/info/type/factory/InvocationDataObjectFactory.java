@@ -451,7 +451,7 @@ public class InvocationDataObjectFactory {
 		@Override
 		public void setValue(Object object, Object value) {
 			Instance instance = (Instance) object;
-			instance.invocationData.provideParameterValue(param.getPosition(), value);
+			instance.invocationData.getProvidedParameterValues().put(param.getPosition(), value);
 		}
 
 		@Override

@@ -72,6 +72,7 @@ import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.MethodAsFieldInfo;
+import xy.reflect.ui.info.field.NullReplacedFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
@@ -1427,6 +1428,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		return new MembersCustomizationsFactory(type);
 	}
 
+	/**
+	 * Helper class that customizes information about the fields and methods of a
+	 * specific type according to the related {@link TypeCustomization} .
+	 * 
+	 * @author olitank
+	 *
+	 */
 	protected class MembersCustomizationsFactory {
 
 		protected List<CapsuleFieldInfo> capsuleFields = new ArrayList<CapsuleFieldInfo>();
@@ -1638,8 +1646,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
 			result.add(new MethodCommonOptionsTransformer());
+			result.add(new MethodParameterPropertiesTransformer());
+			result.add(new MethodHiddenParametersTransformer());
 			result.add(new ParameterizedFieldsMethodTransformer());
-			result.add(new MethodParameterAsFieldTransformer());
+			result.add(new MethodParameterAsFieldGeneratingTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
 			result.add(new MethodPresetsGeneratingTransformer());
 			result.add(new MethodMenuItemGeneratingTransformer());
@@ -1664,7 +1674,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										encapsulatedMembers);
 							}
 							encapsulatedMembers.getFirst().add(field);
-							ReflectionUIUtils.replaceItem(fields, field, new FieldHiddenAfterEncapsulation(field));
+							ReflectionUIUtils.replaceItem(fields, field, new HiddenFieldInfoProxy(field));
 						}
 					}
 				}
@@ -1685,7 +1695,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										encapsulatedMembers);
 							}
 							encapsulatedMembers.getSecond().add(method);
-							ReflectionUIUtils.replaceItem(methods, method, new MethodHiddenAfterEncapsulation(method));
+							ReflectionUIUtils.replaceItem(methods, method, new HiddenMethodInfoProxy(method));
 						}
 					}
 				}
@@ -1781,6 +1791,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 								return super.getName() + ".duplicateError";
 							}
 
+							@Override
+							public String getSignature() {
+								return ReflectionUIUtils.buildMethodSignature(this);
+							}
+
 						};
 						outputMethods.set(outputMethods.indexOf(method2), errorMethod);
 					}
@@ -1809,6 +1824,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 								return super.getName() + ".duplicateError";
 							}
 
+							@Override
+							public String getSignature() {
+								return ReflectionUIUtils.buildMethodSignature(this);
+							}
+
 						};
 						outputConstructors.set(outputConstructors.indexOf(constructor2), errorConstructor);
 					}
@@ -1832,18 +1852,136 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			return menuModel;
 		}
 
-		protected class FieldHiddenAfterEncapsulation extends HiddenFieldInfoProxy {
+		protected class MethodParameterPropertiesTransformer extends AbstractMethodTransformer {
 
-			public FieldHiddenAfterEncapsulation(IFieldInfo base) {
-				super(base);
+			@Override
+			public IMethodInfo process(IMethodInfo method, final MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
+				method = new MethodInfoProxy(method) {
+
+					@Override
+					public List<IParameterInfo> getParameters() {
+						List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+						for (IParameterInfo param : super.getParameters()) {
+							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
+									param.getName());
+							if (pc != null) {
+								param = new ParameterInfoProxy(param) {
+
+									@Override
+									public boolean isNullValueDistinct() {
+										if (pc.isNullValueDistinctForced()) {
+											return true;
+										}
+										return super.isNullValueDistinct();
+									}
+
+									@Override
+									public Map<String, Object> getSpecificProperties() {
+										Map<String, Object> result = new HashMap<String, Object>(
+												super.getSpecificProperties());
+										result.put(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY,
+												getInfoCustomizations());
+										if (pc.getSpecificProperties() != null) {
+											if (pc.getSpecificProperties().entrySet().size() > 0) {
+												result.putAll(pc.getSpecificProperties());
+											}
+										}
+										return result;
+									}
+
+									@Override
+									public String getCaption() {
+										if (pc.getCustomParameterCaption() != null) {
+											return pc.getCustomParameterCaption();
+										}
+										return super.getCaption();
+									}
+
+									@Override
+									public String getOnlineHelp() {
+										if (pc.getOnlineHelp() != null) {
+											return pc.getOnlineHelp();
+										}
+										return super.getOnlineHelp();
+									}
+
+									@Override
+									public Object getDefaultValue(Object object) {
+										Object defaultValue = pc.getDefaultValue().load();
+										if (defaultValue != null) {
+											return defaultValue;
+										}
+										return super.getDefaultValue(object);
+									}
+
+								};
+							}
+							result.add(param);
+						}
+						return result;
+					}
+
+				};
+				return method;
 			}
 
 		}
 
-		protected class MethodHiddenAfterEncapsulation extends HiddenMethodInfoProxy {
+		protected class MethodHiddenParametersTransformer extends AbstractMethodTransformer {
 
-			public MethodHiddenAfterEncapsulation(IMethodInfo base) {
-				super(base);
+			@Override
+			public IMethodInfo process(IMethodInfo method, final MethodCustomization mc, List<IFieldInfo> newFields,
+					List<IMethodInfo> newMethods) {
+				method = new MethodInfoProxy(method) {
+
+					@Override
+					public List<IParameterInfo> getParameters() {
+						List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+						for (IParameterInfo param : super.getParameters()) {
+							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
+									param.getName());
+							if (pc != null) {
+								if (pc.isHidden()) {
+									continue;
+								}
+							}
+							result.add(param);
+						}
+						return result;
+					}
+
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						InvocationData newInvocationData = new InvocationData();
+						newInvocationData.getDefaultParameterValues()
+								.putAll(invocationData.getDefaultParameterValues());
+						newInvocationData.getProvidedParameterValues()
+								.putAll(invocationData.getProvidedParameterValues());
+						for (IParameterInfo param : super.getParameters()) {
+							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
+									param.getName());
+							if (pc != null) {
+								if (pc.isHidden()) {
+									Object defaultValue = pc.getDefaultValue().load();
+									if (defaultValue == null) {
+										defaultValue = param.getDefaultValue(object);
+									}
+									newInvocationData.getDefaultParameterValues().put(param.getPosition(),
+											defaultValue);
+								}
+							}
+						}
+						return super.invoke(object, newInvocationData);
+					}
+
+					@Override
+					public String getSignature() {
+						return ReflectionUIUtils.buildMethodSignature(this);
+					}
+
+				};
+				return method;
 			}
 
 		}
@@ -1932,93 +2070,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							}
 						}
 						return result;
-					}
-
-					@Override
-					public List<IParameterInfo> getParameters() {
-						List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-						for (IParameterInfo param : super.getParameters()) {
-							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
-									param.getName());
-							if (pc != null) {
-								if (pc.isHidden()) {
-									continue;
-								}
-								param = new ParameterInfoProxy(param) {
-
-									@Override
-									public boolean isNullValueDistinct() {
-										if (pc.isNullValueDistinctForced()) {
-											return true;
-										}
-										return super.isNullValueDistinct();
-									}
-
-									@Override
-									public Map<String, Object> getSpecificProperties() {
-										Map<String, Object> result = new HashMap<String, Object>(
-												super.getSpecificProperties());
-										result.put(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY,
-												getInfoCustomizations());
-										if (pc.getSpecificProperties() != null) {
-											if (pc.getSpecificProperties().entrySet().size() > 0) {
-												result.putAll(pc.getSpecificProperties());
-											}
-										}
-										return result;
-									}
-
-									@Override
-									public String getCaption() {
-										if (pc.getCustomParameterCaption() != null) {
-											return pc.getCustomParameterCaption();
-										}
-										return super.getCaption();
-									}
-
-									@Override
-									public String getOnlineHelp() {
-										if (pc.getOnlineHelp() != null) {
-											return pc.getOnlineHelp();
-										}
-										return super.getOnlineHelp();
-									}
-
-									@Override
-									public Object getDefaultValue(Object object) {
-										Object defaultValue = pc.getDefaultValue().load();
-										if (defaultValue != null) {
-											return pc.getDefaultValue();
-										}
-										return super.getDefaultValue(object);
-									}
-
-								};
-							}
-							result.add(param);
-						}
-						return result;
-					}
-
-					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						InvocationData newInvocationData = new InvocationData();
-						newInvocationData.setDefaultParameterValues(invocationData.getDefaultParameterValues());
-						newInvocationData.setProvidedParameterValues(invocationData.getProvidedParameterValues());
-						for (IParameterInfo param : super.getParameters()) {
-							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
-									param.getName());
-							if (pc != null) {
-								if (pc.isHidden()) {
-									Object defaultValue = pc.getDefaultValue().load();
-									if (defaultValue == null) {
-										defaultValue = pc.getDefaultValue();
-									}
-									newInvocationData.provideParameterValue(param.getPosition(), defaultValue);
-								}
-							}
-						}
-						return super.invoke(object, newInvocationData);
 					}
 
 					@Override
@@ -2172,7 +2223,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
-		protected class MethodParameterAsFieldTransformer extends AbstractMethodTransformer {
+		protected class MethodParameterAsFieldGeneratingTransformer extends AbstractMethodTransformer {
 
 			@Override
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
@@ -2627,6 +2678,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
+		/**
+		 * Base class for factories that generate proxies or new members from field
+		 * information according to the specified {@link FieldCustomization}.
+		 * 
+		 * @author olitank
+		 *
+		 */
 		protected class FieldNullReplacementTransformer extends AbstractFieldTransformer {
 
 			@Override
@@ -2639,47 +2697,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				return field;
 			}
 
-			protected class NullReplacedFieldInfo extends FieldInfoProxy {
-
-				private Object nullReplacement;
-
-				public NullReplacedFieldInfo(IFieldInfo base, Object nullReplacement) {
-					super(base);
-					this.nullReplacement = nullReplacement;
-				}
-
-				@Override
-				public Object getValue(Object object) {
-					Object result = super.getValue(object);
-					if (result == null) {
-						result = nullReplacement;
-					}
-					return result;
-				}
-
-				@Override
-				public int hashCode() {
-					final int prime = 31;
-					int result = super.hashCode();
-					result = prime * result + ((nullReplacement == null) ? 0 : nullReplacement.hashCode());
-					return result;
-				}
-
-				@Override
-				public boolean equals(Object obj) {
-					if (!super.equals(obj))
-						return false;
-					NullReplacedFieldInfo other = (NullReplacedFieldInfo) obj;
-					if (nullReplacement == null) {
-						if (other.nullReplacement != null)
-							return false;
-					} else if (!nullReplacement.equals(other.nullReplacement))
-						return false;
-					return true;
-				}
-
-			}
-
 		}
 
 		protected abstract class AbstractFieldTransformer {
@@ -2689,6 +2706,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
+		/**
+		 * Base class for factories that generate proxies or new members from method
+		 * information according to the specified {@link MethodCustomization}.
+		 * 
+		 * @author olitank
+		 *
+		 */
 		protected abstract class AbstractMethodTransformer {
 
 			public abstract IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,

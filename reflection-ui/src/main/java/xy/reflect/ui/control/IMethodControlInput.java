@@ -40,7 +40,7 @@ import xy.reflect.ui.undo.ModificationStack;
 public interface IMethodControlInput {
 
 	/**
-	 * @return an object providing what UI method controls need to look and behave
+	 * @return an object providing what method controls need to look and behave
 	 *         properly.
 	 */
 	IMethodControlData getControlData();

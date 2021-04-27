@@ -116,7 +116,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Utilities for the {@link SwingRenderer} class.
+ * Utilities for dealing with {@link SwingRenderer} instances.
  * 
  * @author olitank
  *

@@ -93,7 +93,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
 /**
- * Utilities for dealing with {@link ReflectionUI}.
+ * Utilities for dealing with {@link ReflectionUI} instances.
  * 
  * @author olitank
  *

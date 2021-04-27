@@ -62,7 +62,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Helper class aLlowing to configure windows adequately.
+ * Helper class allowing to configure windows adequately.
  * 
  * @author olitank
  *

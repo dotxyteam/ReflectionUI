@@ -63,9 +63,9 @@ import xy.reflect.ui.util.SwingCustomizerUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 /**
- * This class is a sub-class of {@link SwingRenderer} allowing to visually edit
- * {@link InfoCustomizations} (save, load, undo, redo, ...) and instantly
- * preview the result.
+ * This class is a sub-class of {@link SwingRenderer} that allows to customize
+ * generated UIs by visually editing an {@link InfoCustomizations} instance and
+ * instantly previewing the result.
  * 
  * @author olitank
  *

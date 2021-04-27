@@ -29,7 +29,9 @@
 package xy.reflect.ui.info.method;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -48,7 +50,14 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	public PresetInvocationDataMethodInfo(IMethodInfo base, InvocationData invocationData) {
 		super(base);
-		this.invocationData = invocationData;
+		this.invocationData = new InvocationData();
+		Set<Integer> parameterPositions = new HashSet<Integer>();
+		parameterPositions.addAll(invocationData.getProvidedParameterValues().keySet());
+		parameterPositions.addAll(invocationData.getDefaultParameterValues().keySet());
+		for (int parameterPosition : parameterPositions) {
+			this.invocationData.getProvidedParameterValues().put(parameterPosition,
+					invocationData.getParameterValue(parameterPosition));
+		}
 	}
 
 	@Override

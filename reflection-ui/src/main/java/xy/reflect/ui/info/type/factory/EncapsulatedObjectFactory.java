@@ -624,6 +624,12 @@ public class EncapsulatedObjectFactory {
 							}
 							return returnValueType;
 						}
+
+						@Override
+						public String getSignature() {
+							return ReflectionUIUtils.buildMethodSignature(this);
+						}
+
 					});
 				}
 			}

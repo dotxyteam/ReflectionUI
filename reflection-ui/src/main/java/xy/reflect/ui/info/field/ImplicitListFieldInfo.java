@@ -234,8 +234,8 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		for (int i = 0; i < array.length; i++) {
 			Object item = array[i];
 			InvocationData invocationData = new InvocationData(object, getAddMethod());
-			invocationData.provideParameterValue(0, i);
-			invocationData.provideParameterValue(1, item);
+			invocationData.getProvidedParameterValues().put(0, i);
+			invocationData.getProvidedParameterValues().put(1, item);
 			getAddMethod().invoke(object, invocationData);
 		}
 	}

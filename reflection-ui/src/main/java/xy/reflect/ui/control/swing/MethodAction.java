@@ -185,7 +185,9 @@ public class MethodAction extends AbstractAction {
 	}
 
 	public void invokeAndUpdateReturnValue(InvocationData invocationData) {
-		swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
+		if (data.getParameters().size() > 0) {
+			swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
+		}
 		returnValueSet = false;
 		returnValue = data.invoke(invocationData);
 		returnValueSet = true;
