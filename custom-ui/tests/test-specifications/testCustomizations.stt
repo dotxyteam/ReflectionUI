@@ -1008,7 +1008,7 @@
     <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
-        <occurrencesToSkip>0</occurrencesToSkip>
+        <occurrencesToSkip>1</occurrencesToSkip>
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>

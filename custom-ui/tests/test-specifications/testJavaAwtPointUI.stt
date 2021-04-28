@@ -285,7 +285,7 @@
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
     <xy.ui.testing.action.component.property.CheckComponentPropertyAction>
-      <componentClassName>xy.reflect.ui.control.swing.ModificationStackControls$1</componentClassName>
+      <componentClassName>xy.reflect.ui.control.swing.util.AbstractControlButton</componentClassName>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <occurrencesToSkip>0</occurrencesToSkip>
         <visibleString>Undo</visibleString>
