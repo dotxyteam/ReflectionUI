@@ -166,7 +166,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 						ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
 						if (item instanceof ValueListItem) {
 							result.add(field);
-						} else if ((subListItemType != null) && isValidSubListNodeItemType(subListItemType)) {
+						} else if (isValidSubListNodeItemType(subListItemType)) {
 							result.add(field);
 						}
 					}
@@ -179,6 +179,9 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 	protected boolean isValidSubListNodeItemType(ITypeInfo type) {
 		if (listCustomization.getTreeStructureDiscoverySettings().isHeterogeneousTree()) {
 			return true;
+		}
+		if (type == null) {
+			return false;
 		}
 		if (rootItemType.getName().equals(type.getName())) {
 			return true;
