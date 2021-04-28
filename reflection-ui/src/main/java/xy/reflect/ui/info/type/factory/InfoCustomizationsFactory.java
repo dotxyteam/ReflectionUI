@@ -1638,29 +1638,29 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected List<AbstractFieldTransformer> getFieldTransformers() {
 			List<AbstractFieldTransformer> result = new ArrayList<AbstractFieldTransformer>();
 			result.add(new FieldDuplicateGeneratingTransformer());
-			result.add(new FieldNullReplacementTransformer());
-			result.add(new FieldCustomSetterTransformer());
-			result.add(new FieldTypeConversionTransformer());
-			result.add(new FieldCommonOptionsTransformer());
-			result.add(new FieldValueAsListTransformer());
-			result.add(new FieldNullStatusImportTransformer());
-			result.add(new FieldNullStatusExportTransformer());
 			result.add(new FieldGetterGeneratingTransformer());
 			result.add(new FieldSetterGeneratingTransformer());
+			result.add(new FieldNullStatusExportTransformer());
+			result.add(new FieldNullStatusImportTransformer());
+			result.add(new FieldCustomSetterTransformer());
+			result.add(new FieldNullReplacementTransformer());
+			result.add(new FieldTypeConversionTransformer());
+			result.add(new FieldValueAsListTransformer());
+			result.add(new FieldCommonOptionsTransformer());
 			return result;
 		}
 
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
 			result.add(new MethodDuplicateGeneratingTransformer());
-			result.add(new MethodCommonOptionsTransformer());
-			result.add(new MethodParameterPropertiesTransformer());
-			result.add(new MethodHiddenParametersTransformer());
-			result.add(new ParameterizedFieldsMethodTransformer());
-			result.add(new MethodParameterAsFieldGeneratingTransformer());
+			result.add(new MethodParameterFieldGeneratingTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
 			result.add(new MethodPresetsGeneratingTransformer());
 			result.add(new MethodMenuItemGeneratingTransformer());
+			result.add(new MethodCommonOptionsTransformer());
+			result.add(new MethodParameterizedFieldsTransformer());
+			result.add(new MethodParameterPropertiesTransformer());
+			result.add(new MethodHiddenParametersTransformer());
 			return result;
 		}
 
@@ -1949,7 +1949,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
 									param.getName());
 							if (pc != null) {
-								if (pc.isHidden()) {
+								if (pc.isHidden() || pc.isDisplayedAsField()) {
 									continue;
 								}
 							}
@@ -2201,7 +2201,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
-		protected class ParameterizedFieldsMethodTransformer extends AbstractMethodTransformer {
+		protected class MethodParameterizedFieldsTransformer extends AbstractMethodTransformer {
 
 			@Override
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
@@ -2219,6 +2219,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 								}
 								return result;
 							}
+
+							@Override
+							protected Object getDelegateId() {
+								return fieldName;
+							}
 						};
 						parameterizedFields.add(field);
 					}
@@ -2230,7 +2235,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
-		protected class MethodParameterAsFieldGeneratingTransformer extends AbstractMethodTransformer {
+		protected class MethodParameterFieldGeneratingTransformer extends AbstractMethodTransformer {
 
 			@Override
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
@@ -2256,7 +2261,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 							};
 							newFields.add(methodParameterAsField);
-							method = methodParameterAsField.getReducedParameterListMethod();
 						}
 					}
 				}
@@ -2532,6 +2536,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										"Null status field not found: '" + f.getImportedNullStatusFieldName() + "'");
 							}
 							return result;
+						}
+
+						@Override
+						protected Object getDelegateId() {
+							return f.getImportedNullStatusFieldName();
 						}
 					};
 					field = new ImportedNullStatusFieldInfo(customizedUI, field, nullStatusField, containingType);
