@@ -1430,7 +1430,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	/**
 	 * Helper class that customizes information about the fields and methods of a
-	 * specific type according to the related {@link TypeCustomization} .
+	 * specific type according to the related {@link TypeCustomization}.
+	 * 
+	 * The customization is split into multiple transformations handled by the
+	 * sub-classes of {@link AbstractFieldTransformer} and
+	 * {@link AbstractMethodTransformer}.
+	 * 
+	 * Note that the order in which these transformations are executed is important
+	 * since they generate proxies that are stacked and impact one another.
 	 * 
 	 * @author olitank
 	 *
@@ -1630,6 +1637,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected List<AbstractFieldTransformer> getFieldTransformers() {
 			List<AbstractFieldTransformer> result = new ArrayList<AbstractFieldTransformer>();
+			result.add(new FieldDuplicateGeneratingTransformer());
 			result.add(new FieldNullReplacementTransformer());
 			result.add(new FieldCustomSetterTransformer());
 			result.add(new FieldTypeConversionTransformer());
@@ -1639,12 +1647,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			result.add(new FieldNullStatusExportTransformer());
 			result.add(new FieldGetterGeneratingTransformer());
 			result.add(new FieldSetterGeneratingTransformer());
-			result.add(new FieldDuplicateGeneratingTransformer());
 			return result;
 		}
 
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
+			result.add(new MethodDuplicateGeneratingTransformer());
 			result.add(new MethodCommonOptionsTransformer());
 			result.add(new MethodParameterPropertiesTransformer());
 			result.add(new MethodHiddenParametersTransformer());
@@ -1653,7 +1661,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
 			result.add(new MethodPresetsGeneratingTransformer());
 			result.add(new MethodMenuItemGeneratingTransformer());
-			result.add(new MethodDuplicateGeneratingTransformer());
 			return result;
 		}
 

@@ -198,7 +198,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         of the editor control.
 	 */
 	public boolean canReplaceValue() {
-		return canCommitToParent();
+		return !hasParentObject() || canCommitToParent();
 	}
 
 	/**

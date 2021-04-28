@@ -7,7 +7,8 @@ transformers.
 Hints: 
 	. Should new generated members inherit customizations and then change 
 	"silently" while the source member is being modified ?
-	. ...
+	. Should the order of customization options in the customization tools
+	be respected ?
 - ParameterizedFieldsMethodInfo undoJob is always created even if it cannot
 be executed mostly because the method cannot. Find a way to enable the undo
 button since it will not work.

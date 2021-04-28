@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control.swing.editor;
+package xy.reflect.ui.control.swing.util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -52,12 +52,6 @@ import org.jdesktop.swingx.StackLayout;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.AlternativeWindowDecorationsPanel;
-import xy.reflect.ui.control.swing.util.ControlPanel;
-import xy.reflect.ui.control.swing.util.ControlScrollPane;
-import xy.reflect.ui.control.swing.util.ImagePanel;
-import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
-import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 

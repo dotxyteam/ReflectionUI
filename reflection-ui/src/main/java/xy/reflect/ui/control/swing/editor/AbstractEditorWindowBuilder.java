@@ -40,7 +40,9 @@ import javax.swing.JFrame;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.util.DialogBuilder;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.control.swing.util.WindowManager;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;

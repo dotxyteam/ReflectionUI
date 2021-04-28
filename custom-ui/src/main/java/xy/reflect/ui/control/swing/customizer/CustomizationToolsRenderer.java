@@ -39,10 +39,10 @@ import javax.swing.JFrame;
 
 import org.jdesktop.swingx.StackLayout;
 
-import xy.reflect.ui.control.swing.editor.WindowManager;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AlternativeWindowDecorationsPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.control.swing.util.WindowManager;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.MoreSystemProperties;
 
