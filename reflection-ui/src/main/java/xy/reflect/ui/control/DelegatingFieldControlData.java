@@ -50,6 +50,15 @@ public abstract class DelegatingFieldControlData implements IFieldControlData {
 	 */
 	protected abstract IFieldControlData getDelegate();
 
+	/**
+	 * @return An object identifying the delegate. It allows to compare instances of
+	 *         the current class even if the delegate cannot be retrieved. By
+	 *         default the return value is the delegate itself.
+	 */
+	protected Object getDelegateId() {
+		return getDelegate();
+	}
+
 	public Object getValue() {
 		return getDelegate().getValue();
 	}
@@ -134,7 +143,7 @@ public abstract class DelegatingFieldControlData implements IFieldControlData {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((getDelegate() == null) ? 0 : getDelegate().hashCode());
+		result = prime * result + ((getDelegateId() == null) ? 0 : getDelegateId().hashCode());
 		return result;
 	}
 
@@ -147,17 +156,17 @@ public abstract class DelegatingFieldControlData implements IFieldControlData {
 		if (getClass() != obj.getClass())
 			return false;
 		DelegatingFieldControlData other = (DelegatingFieldControlData) obj;
-		if (getDelegate() == null) {
-			if (other.getDelegate() != null)
+		if (getDelegateId() == null) {
+			if (other.getDelegateId() != null)
 				return false;
-		} else if (!getDelegate().equals(other.getDelegate()))
+		} else if (!getDelegateId().equals(other.getDelegateId()))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DelegatingFieldControlData [delegate=" + getDelegate() + "]";
+		return "DelegatingFieldControlData [delegate=" + getDelegateId() + "]";
 	}
 
 }

@@ -48,6 +48,15 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 	 */
 	protected abstract IFieldInfo getDelegate();
 
+	/**
+	 * @return An object identifying the delegate. It allows to compare instances of
+	 *         the current class even if the delegate cannot be retrieved. By
+	 *         default the return value is the delegate itself.
+	 */
+	protected Object getDelegateId() {
+		return getDelegate();
+	}
+
 	public String getName() {
 		return getDelegate().getName();
 	}
@@ -151,7 +160,7 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((getDelegate() == null) ? 0 : getDelegate().hashCode());
+		result = prime * result + ((getDelegateId() == null) ? 0 : getDelegateId().hashCode());
 		return result;
 	}
 
@@ -164,17 +173,17 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		DelegatingFieldInfo other = (DelegatingFieldInfo) obj;
-		if (getDelegate() == null) {
-			if (other.getDelegate() != null)
+		if (getDelegateId() == null) {
+			if (other.getDelegateId() != null)
 				return false;
-		} else if (!getDelegate().equals(other.getDelegate()))
+		} else if (!getDelegateId().equals(other.getDelegateId()))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DelegatingFieldInfo [getDelegate()=" + getDelegate() + "]";
+		return "DelegatingFieldInfo [delegate=" + getDelegateId() + "]";
 	}
 
 }
