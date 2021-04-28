@@ -104,8 +104,8 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * This class inserts controls in the generated UIs (tools) that allow to
- * customize them in real-time.
+ * This class inserts controls (buttons, context menus, ...) in the generated
+ * UIs that allow to customize them in real-time.
  * 
  * @author olitank
  *

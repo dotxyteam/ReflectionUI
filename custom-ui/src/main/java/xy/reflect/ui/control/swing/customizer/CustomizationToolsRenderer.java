@@ -47,7 +47,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
- * This is a sub-class of {@link SwingRenderer} that generates customization
+ * This is a sub-class of {@link SwingRenderer} that generates the customization
  * tools UIs.
  * 
  * @author olitank
