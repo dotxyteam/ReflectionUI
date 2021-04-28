@@ -194,14 +194,6 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the target object/value can be replaced during the lifetime
-	 *         of the editor control.
-	 */
-	public boolean canReplaceValue() {
-		return !hasParentObject() || canCommitToParent();
-	}
-
-	/**
 	 * @return the current target object/value.
 	 */
 	public Object getCurrentValue() {
@@ -338,10 +330,13 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the encapsulated field is get-only.
+	 * @return whether the encapsulated field is get-only. Note that it is not
+	 *         guaranteed that modifications will not occur on an encapsulated
+	 *         get-only field value. It depends on the encapsulated field control
+	 *         that is used.
 	 */
 	protected boolean isEncapsulatedFieldGetOnly() {
-		return isInReadOnlyMode() || !canReplaceValue();
+		return isInReadOnlyMode() || (hasParentObject() && !canCommitToParent());
 	}
 
 	/**
@@ -460,7 +455,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether modifications of the target value/object can impact the
+	 * @return whether modifications of the target value/object may impact the
 	 *         parent object.
 	 */
 	public boolean mayModifyParentObject() {

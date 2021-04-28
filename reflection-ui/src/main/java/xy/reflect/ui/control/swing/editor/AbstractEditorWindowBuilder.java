@@ -99,6 +99,9 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 *         available.
 	 */
 	protected boolean isCapsuleTypeModificationStackAccessible() {
+		if(isInReadOnlyMode()) {
+			return false;
+		}
 		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource())
 				.isModificationStackAccessible();
 	}
@@ -116,6 +119,9 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 *         dialog (not a frame) is created.
 	 */
 	protected boolean isCancellable() {
+		if (isInReadOnlyMode()) {
+			return false;
+		}
 		Object encapsualted = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsualted));
@@ -172,14 +178,14 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	}
 
 	/**
-	 * @return additional controls that will be laid on the button bar.
+	 * @return additional button bar controls that will be laid on the button bar.
 	 */
 	protected List<Component> getAdditionalButtonBarControls() {
 		return Collections.emptyList();
 	}
 
 	/**
-	 * @return most controls (the list includes
+	 * @return most button bar controls (the list includes
 	 *         {@link #getAdditionalButtonBarControls()}, but not ok/cancel/close
 	 *         buttons) that will be laid on the button bar.
 	 */
