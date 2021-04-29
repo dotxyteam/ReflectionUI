@@ -428,19 +428,22 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static String formatParameterList(List<IParameterInfo> parameters) {
+	public static String formatRequiredParameterList(List<IParameterInfo> parameters) {
 		StringBuilder result = new StringBuilder();
-		int iParam = 0;
+		int iRequiredParam = 0;
 		for (IParameterInfo param : parameters) {
-			if (iParam > 0) {
-				if (iParam == parameters.size() - 1) {
+			if (param.isHidden()) {
+				continue;
+			}
+			if (iRequiredParam > 0) {
+				if (iRequiredParam == parameters.size() - 1) {
 					result.append(" AND ");
 				} else {
 					result.append(", ");
 				}
 			}
 			result.append(param.getCaption());
-			iParam++;
+			iRequiredParam++;
 		}
 		return result.toString();
 	}
@@ -733,7 +736,7 @@ public class ReflectionUIUtils {
 			}
 			for (IMethodInfo constructor : type.getConstructors()) {
 				InvocationData invocationData = new InvocationData(parentObject, constructor);
-				if (ReflectionUIUtils.areAllDefaultValuesProvided(parentObject, constructor.getParameters())) {
+				if (!ReflectionUIUtils.requiresParameterValue(constructor)) {
 					return constructor.invoke(parentObject, invocationData);
 				}
 			}
@@ -764,7 +767,7 @@ public class ReflectionUIUtils {
 			return true;
 		}
 		for (IMethodInfo constructor : type.getConstructors()) {
-			if (ReflectionUIUtils.areAllDefaultValuesProvided(parentObject, constructor.getParameters())) {
+			if (!ReflectionUIUtils.requiresParameterValue(constructor)) {
 				return true;
 			}
 		}
@@ -1093,11 +1096,11 @@ public class ReflectionUIUtils {
 
 	public static String getContructorDescription(IMethodInfo ctor) {
 		StringBuilder result = new StringBuilder(ctor.getCaption());
-		if (ctor.getParameters().size() == 0) {
+		if (!ReflectionUIUtils.requiresParameterValue(ctor)) {
 			result.append(" - by default");
 		} else {
 			result.append(" - specify ");
-			result.append(formatParameterList(ctor.getParameters()));
+			result.append(formatRequiredParameterList(ctor.getParameters()));
 		}
 		return result.toString();
 	}
@@ -1243,7 +1246,7 @@ public class ReflectionUIUtils {
 
 	public static String formatMethodControlCaption(String methodCaption, List<IParameterInfo> methodParameters) {
 		if (methodCaption.length() > 0) {
-			if (methodParameters.size() > 0) {
+			if (requiresParameterValue(methodParameters)) {
 				methodCaption += "...";
 			}
 		}
@@ -1260,7 +1263,7 @@ public class ReflectionUIUtils {
 				if (toolTipText.length() > 0) {
 					toolTipText += "\n";
 				}
-				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatParameterList(methodParameters);
+				toolTipText += "Parameter(s): " + ReflectionUIUtils.formatRequiredParameterList(methodParameters);
 				return toolTipText;
 			} else {
 				return null;
@@ -1322,13 +1325,17 @@ public class ReflectionUIUtils {
 		return new UID().toString();
 	}
 
-	public static boolean areAllDefaultValuesProvided(Object object, List<IParameterInfo> parameters) {
+	public static boolean requiresParameterValue(IMethodInfo method) {
+		return requiresParameterValue(method.getParameters());
+	}
+
+	public static boolean requiresParameterValue(List<IParameterInfo> parameters) {
 		for (IParameterInfo param : parameters) {
-			if (param.getDefaultValue(object) == null) {
-				return false;
+			if (!param.isHidden()) {
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public static void setFieldControlPluginIdentifier(Map<String, Object> specificProperties, String identifier) {

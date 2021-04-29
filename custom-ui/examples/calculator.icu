@@ -52,6 +52,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>8acb233:15bc8e8e6ed:-7078</uniqueIdentifier>
             <specificProperties/>
@@ -319,13 +320,14 @@
             <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>eval.text</fieldName>
+            <fieldName>parameter1 of java.lang.Object eval(java.lang.String)</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>true</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
                 <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f78</uniqueIdentifier>
+                <data>rO0ABXQAAA==</data>
             </nullReplacement>
             <nullStatusFieldExported>false</nullStatusFieldExported>
             <nullValueDistinctForced>false</nullValueDistinctForced>
@@ -342,6 +344,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:1f87</uniqueIdentifier>
@@ -402,6 +405,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:1f93</uniqueIdentifier>
@@ -415,6 +419,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:2475</uniqueIdentifier>
@@ -428,6 +433,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-2f8bf4ce:16677077596:-2701</uniqueIdentifier>
@@ -468,6 +474,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <fieldsCustomizations>
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-2785</uniqueIdentifier>
                         <specificProperties/>
@@ -533,6 +540,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-634d4a82:16788bb17bb:148f</uniqueIdentifier>
@@ -549,7 +557,7 @@
             <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>eval.text</fieldName>
+            <fieldName>parameter1 of java.lang.Object eval(java.lang.String)</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
@@ -572,6 +580,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-634d4a82:16788bb17bb:15ba</uniqueIdentifier>
@@ -979,7 +988,7 @@
                     <data>rO0ABXQAAA==</data>
                 </defaultValue>
                 <displayedAsField>true</displayedAsField>
-                <hidden>false</hidden>
+                <hidden>true</hidden>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>text</parameterName>
             </parametersCustomizations>
@@ -1481,6 +1490,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customTypeCaption>Calculator</customTypeCaption>
         <fieldsCustomizations>
             <uniqueIdentifier>3e9ac662:15bc8ef805e:-7158</uniqueIdentifier>
@@ -1511,13 +1521,14 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <fieldsCustomizations>
                         <uniqueIdentifier>-2f8bf4ce:16677077596:-29ef</uniqueIdentifier>
                         <specificProperties/>
                         <hidden>false</hidden>
                         <displayedAsSingletonList>false</displayedAsSingletonList>
                         <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>eval.text</fieldName>
+                        <fieldName>parameter1 of java.lang.Object eval(java.lang.String)</fieldName>
                         <formControlCreationForced>false</formControlCreationForced>
                         <formControlEmbeddingForced>false</formControlEmbeddingForced>
                         <getOnlyForced>false</getOnlyForced>
@@ -2512,6 +2523,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>true</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customFieldsOrder>toString.result</customFieldsOrder>
         <customFieldsOrder>row1</customFieldsOrder>
         <customFieldsOrder>row3</customFieldsOrder>
@@ -2574,6 +2586,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:2037</uniqueIdentifier>
@@ -2614,6 +2627,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:234b</uniqueIdentifier>
@@ -2738,6 +2752,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:240f</uniqueIdentifier>
@@ -2862,6 +2877,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:23ad</uniqueIdentifier>
@@ -2986,6 +3002,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>113a54e0:16655c46814:2471</uniqueIdentifier>
@@ -3110,6 +3127,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <fieldsCustomizations>
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-39af</uniqueIdentifier>
                         <specificProperties/>
@@ -6066,6 +6084,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>113a54e0:16655c46814:21e3</uniqueIdentifier>
@@ -6189,6 +6208,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>113a54e0:16655c46814:21f5</uniqueIdentifier>
@@ -6312,6 +6332,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>113a54e0:16655c46814:2207</uniqueIdentifier>
@@ -6435,6 +6456,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customMethodsOrder>append.savedInvocation0</customMethodsOrder>
         <customMethodsOrder>append.savedInvocation15</customMethodsOrder>
         <customMethodsOrder>append.savedInvocation10</customMethodsOrder>
@@ -6539,6 +6561,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>58d1b151:166a1a0bfe8:-39b2</uniqueIdentifier>
             <specificProperties/>
@@ -6569,6 +6592,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-3972</uniqueIdentifier>
@@ -6602,6 +6626,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>58d1b151:166a1a0bfe8:-2788</uniqueIdentifier>
             <specificProperties/>
@@ -6632,6 +6657,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-26a0</uniqueIdentifier>
@@ -6645,6 +6671,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-269e</uniqueIdentifier>

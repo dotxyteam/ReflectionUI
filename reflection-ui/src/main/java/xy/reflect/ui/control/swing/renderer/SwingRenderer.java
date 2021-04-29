@@ -557,7 +557,7 @@ public class SwingRenderer {
 				} else {
 					return true;
 				}
-				return chosenConstructor.getParameters().size() > 0;
+				return ReflectionUIUtils.requiresParameterValue(chosenConstructor);
 			} else {
 				return true;
 			}

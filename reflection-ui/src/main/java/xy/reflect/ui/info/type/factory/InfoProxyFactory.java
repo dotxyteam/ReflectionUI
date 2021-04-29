@@ -302,6 +302,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return param.getCaption();
 	}
 
+	protected boolean isHidden(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		return param.isHidden();
+	}
+
 	protected String getName(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
 		return param.getName();
 	}
@@ -1899,6 +1903,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getCaption() {
 			return InfoProxyFactory.this.getCaption(base, method, containingType);
+		}
+
+		@Override
+		public boolean isHidden() {
+			return InfoProxyFactory.this.isHidden(base, method, containingType);
 		}
 
 		@Override

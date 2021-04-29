@@ -472,6 +472,11 @@ public class InvocationDataObjectFactory {
 			return param.getValueOptions(instance.object);
 		}
 
+		@Override
+		public boolean isHidden() {
+			return param.isHidden();
+		}
+
 		private InvocationDataObjectFactory getOuterType() {
 			return InvocationDataObjectFactory.this;
 		}

@@ -58,11 +58,13 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public MethodAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
-		if (method.getParameters().size() > 0) {
-			throw new ReflectionUIError("Cannot create field from method having parameters");
+		if (ReflectionUIUtils.requiresParameterValue(method)) {
+			throw new ReflectionUIError(
+					"Cannot create field from method: Parameter value(s) required: " + method.getSignature());
 		}
 		if (method.getReturnValueType() == null) {
-			throw new ReflectionUIError("Cannot create field from method having void return type");
+			throw new ReflectionUIError(
+					"Cannot create field from method: The return type is void: " + method.getSignature());
 		}
 		this.method = method;
 		this.containingType = containingType;

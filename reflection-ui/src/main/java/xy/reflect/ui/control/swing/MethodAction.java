@@ -133,7 +133,7 @@ public class MethodAction extends AbstractAction {
 
 	public InvocationData prepare(Component activatorComponent) {
 		InvocationData result = null;
-		if (data.getParameters().size() == 0) {
+		if (!ReflectionUIUtils.requiresParameterValue(data.getParameters())) {
 			result = data.createInvocationData();
 		} else {
 			result = openMethoExecutionSettingDialog(activatorComponent);

@@ -158,6 +158,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 		}
 
 		@Override
+		public boolean isHidden() {
+			return false;
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}

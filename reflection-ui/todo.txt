@@ -1,3 +1,11 @@
+- Parameters:
+	. null is a possible default value. Then areAllDefaultValuesProvided()
+	is a non-sense. Should never rely on this method. But note that 
+	IParamInfo.isHidden() validates the fact that the default value is 
+	usable (null or not). Then another method could be created.
+	. it is more intuitive to be able to hide and unhide a parameter from
+	the same method customization. Then hiding a parameter should not change
+	the method signature.
 - MembersCustomizationsFactory.transformMethods() potential issue: the signature 
 of the transformed method often changes during the transformation but not the
 method customization and this may cause issues in proxies that must deal with

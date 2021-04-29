@@ -1378,9 +1378,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					IMethodInfo method = ReflectionUIUtils.findMethodBySignature(type.getMethods(),
 							m.getMethodSignature());
 					if (method != null) {
-						if (method.getParameters().size() > 0) {
+						if (ReflectionUIUtils.requiresParameterValue(method)) {
 							throw new ReflectionUIError(
-									"Invalid validating method: Number of parameters > 0: " + method.getSignature());
+									"Invalid validating method: Parameter value(s) required: " + method.getSignature());
 						}
 						method.invoke(object, new InvocationData(object, method));
 					}
@@ -1399,9 +1399,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				IMethodInfo method = ReflectionUIUtils.findMethodBySignature(type.getMethods(), m.getMethodSignature());
 				if ((m.isRunWhenObjectShown() && visible) || (m.isRunWhenObjectHidden() && !visible)) {
 					if (method != null) {
-						if (method.getParameters().size() > 0) {
+						if (ReflectionUIUtils.requiresParameterValue(method)) {
 							throw new ReflectionUIError(
-									"Cannot call method on object visibilty change: Number of parameters > 0: "
+									"Cannot call method on object visibilty change: Parameter value(s) required: "
 											+ method.getSignature());
 						}
 						method.invoke(object, new InvocationData(object, method));
@@ -1454,6 +1454,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected MenuModel menuModel = new MenuModel();
 		protected ITypeInfo containingType;
 		protected TypeCustomization containingTypeCustomization;
+
+		protected Map<ParameterCustomization, ParameterAsFieldInfo> methodParameterAsFields = new HashMap<ParameterCustomization, ParameterAsFieldInfo>();
 
 		public MembersCustomizationsFactory(ITypeInfo containingType) {
 			this.containingType = containingType;
@@ -1653,14 +1655,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
 			result.add(new MethodDuplicateGeneratingTransformer());
-			result.add(new MethodParameterFieldGeneratingTransformer());
-			result.add(new MethodReturnValueFieldGeneratingTransformer());
+			result.add(new MethodHiddenParametersTransformer());
 			result.add(new MethodPresetsGeneratingTransformer());
 			result.add(new MethodMenuItemGeneratingTransformer());
-			result.add(new MethodCommonOptionsTransformer());
-			result.add(new MethodParameterizedFieldsTransformer());
+			result.add(new MethodReturnValueFieldGeneratingTransformer());
+			result.add(new MethodExportedParametersGeneratingTransformer());
+			result.add(new MethodImportedParametersTransformer());
 			result.add(new MethodParameterPropertiesTransformer());
-			result.add(new MethodHiddenParametersTransformer());
+			result.add(new MethodCommonOptionsTransformer());
 			return result;
 		}
 
@@ -1913,15 +1915,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										return super.getOnlineHelp();
 									}
 
-									@Override
-									public Object getDefaultValue(Object object) {
-										Object defaultValue = pc.getDefaultValue().load();
-										if (defaultValue != null) {
-											return defaultValue;
-										}
-										return super.getDefaultValue(object);
-									}
-
 								};
 							}
 							result.add(param);
@@ -1949,42 +1942,37 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
 									param.getName());
 							if (pc != null) {
-								if (pc.isHidden() || pc.isDisplayedAsField()) {
-									continue;
-								}
+								param = new ParameterInfoProxy(param) {
+
+									@Override
+									public boolean isHidden() {
+										if (pc.isHidden() || pc.isDisplayedAsField()) {
+											return true;
+										}
+										return super.isHidden();
+									}
+
+									@Override
+									public Object getDefaultValue(Object object) {
+										ParameterAsFieldInfo methodParameterAsField = MembersCustomizationsFactory.this.methodParameterAsFields
+												.get(pc);
+										if (methodParameterAsField != null) {
+											if (methodParameterAsField.isInitialized(object)) {
+												return methodParameterAsField.getValue(object);
+											}
+										}
+										Object defaultValue = pc.getDefaultValue().load();
+										if (defaultValue != null) {
+											return defaultValue;
+										}
+										return super.getDefaultValue(object);
+									}
+
+								};
 							}
 							result.add(param);
 						}
 						return result;
-					}
-
-					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						InvocationData newInvocationData = new InvocationData();
-						newInvocationData.getDefaultParameterValues()
-								.putAll(invocationData.getDefaultParameterValues());
-						newInvocationData.getProvidedParameterValues()
-								.putAll(invocationData.getProvidedParameterValues());
-						for (IParameterInfo param : super.getParameters()) {
-							final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc,
-									param.getName());
-							if (pc != null) {
-								if (pc.isHidden()) {
-									Object defaultValue = pc.getDefaultValue().load();
-									if (defaultValue == null) {
-										defaultValue = param.getDefaultValue(object);
-									}
-									newInvocationData.getDefaultParameterValues().put(param.getPosition(),
-											defaultValue);
-								}
-							}
-						}
-						return super.invoke(object, newInvocationData);
-					}
-
-					@Override
-					public String getSignature() {
-						return ReflectionUIUtils.buildMethodSignature(this);
 					}
 
 				};
@@ -2201,7 +2189,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
-		protected class MethodParameterizedFieldsTransformer extends AbstractMethodTransformer {
+		protected class MethodImportedParametersTransformer extends AbstractMethodTransformer {
 
 			@Override
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
@@ -2235,7 +2223,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
-		protected class MethodParameterFieldGeneratingTransformer extends AbstractMethodTransformer {
+		protected class MethodExportedParametersGeneratingTransformer extends AbstractMethodTransformer {
 
 			@Override
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
@@ -2244,22 +2232,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ParameterCustomization pc = InfoCustomizations.getParameterCustomization(mc, param.getName());
 					if (pc != null) {
 						if (pc.isDisplayedAsField()) {
-							final IMethodInfo finalMethod = method;
-							final ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(customizedUI,
-									method, param, containingType) {
+							ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(customizedUI, method,
+									param, containingType) {
 
 								@Override
-								public String getName() {
-									return finalMethod.getName() + "." + param.getName();
+								public boolean isHidden() {
+									return false;
 								}
-
-								@Override
-								public String getCaption() {
-									return ReflectionUIUtils.composeMessage(finalMethod.getCaption(),
-											param.getCaption());
-								}
-
 							};
+							MembersCustomizationsFactory.this.methodParameterAsFields.put(pc, methodParameterAsField);
 							newFields.add(methodParameterAsField);
 						}
 					}

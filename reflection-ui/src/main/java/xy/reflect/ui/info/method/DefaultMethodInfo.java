@@ -163,14 +163,6 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		}
 	}
 
-	public static String getDescription(IMethodInfo method) {
-		StringBuilder result = new StringBuilder(method.getCaption());
-		if (method.getParameters().size() > 0) {
-			result.append(" - specify ");
-			result.append(ReflectionUIUtils.formatParameterList(method.getParameters()));
-		}
-		return result.toString();
-	}
 
 	@Override
 	public String getName() {
