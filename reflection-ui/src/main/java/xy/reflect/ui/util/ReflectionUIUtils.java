@@ -54,6 +54,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1379,6 +1380,29 @@ public class ReflectionUIUtils {
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
 		return new Dimension(width, height);
+	}
+
+	public static boolean isTypeEmpty(ITypeInfo type, IInfoFilter infoFilter) {
+		List<IFieldInfo> fields = type.getFields();
+		List<IMethodInfo> methods = type.getMethods();
+
+		fields = new ArrayList<IFieldInfo>(fields);
+		for (Iterator<IFieldInfo> it = fields.iterator(); it.hasNext();) {
+			IFieldInfo field = it.next();
+			if (field.isHidden() || infoFilter.excludeField(field)) {
+				it.remove();
+			}
+		}
+
+		methods = new ArrayList<IMethodInfo>(methods);
+		for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
+			IMethodInfo method = it.next();
+			if (method.isHidden() || infoFilter.excludeMethod(method)) {
+				it.remove();
+			}
+		}
+
+		return (fields.size() + methods.size()) == 0;
 	}
 
 }

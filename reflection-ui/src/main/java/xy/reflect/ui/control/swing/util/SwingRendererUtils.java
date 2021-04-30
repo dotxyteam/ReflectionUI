@@ -63,7 +63,6 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -105,8 +104,6 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -401,29 +398,6 @@ public class SwingRendererUtils {
 			}
 		}
 		return result;
-	}
-
-	public static boolean isFormEmpty(ITypeInfo type, IInfoFilter infoFilter, SwingRenderer swingRenderer) {
-		List<IFieldInfo> fields = type.getFields();
-		List<IMethodInfo> methods = type.getMethods();
-
-		fields = new ArrayList<IFieldInfo>(fields);
-		for (Iterator<IFieldInfo> it = fields.iterator(); it.hasNext();) {
-			IFieldInfo field = it.next();
-			if (infoFilter.excludeField(field)) {
-				it.remove();
-			}
-		}
-
-		methods = new ArrayList<IMethodInfo>(methods);
-		for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
-			IMethodInfo method = it.next();
-			if (infoFilter.excludeMethod(method)) {
-				it.remove();
-			}
-		}
-
-		return (fields.size() + methods.size()) == 0;
 	}
 
 	public static boolean isForm(Component c, SwingRenderer swingRenderer) {

@@ -35,7 +35,6 @@ import java.util.Map;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -44,9 +43,9 @@ import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
-import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -400,7 +399,7 @@ public abstract class AbstractEditorFormBuilder {
 		}
 		ITypeInfo actualObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(object));
-		if (!SwingRendererUtils.isFormEmpty(actualObjectType, getEncapsulatedFormFilter(), getSwingRenderer())) {
+		if (!ReflectionUIUtils.isTypeEmpty(actualObjectType, getEncapsulatedFormFilter())) {
 			return false;
 		}
 		return true;
