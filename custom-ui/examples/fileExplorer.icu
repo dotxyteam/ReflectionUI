@@ -63,8 +63,10 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
+        <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemNullValueAllowed>false</itemNullValueAllowed>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.io.File</itemTypeName>
         <listSorted>true</listSorted>
@@ -282,8 +284,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>true</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.io.File</itemTypeName>
                     <listSorted>false</listSorted>
@@ -1770,7 +1774,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-7752</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76ad</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1817,7 +1821,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-7751</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76ae</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1864,7 +1868,7 @@
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-7750</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76af</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1942,7 +1946,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-774f</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b0</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2015,7 +2019,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-774e</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b1</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2047,7 +2051,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-774d</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b2</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -3197,14 +3201,21 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>true</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.io.File</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>[Ljava.io.File;</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
                     <stringValueColumnAdded>false</stringValueColumnAdded>
+                    <treeStructureDiscoverySettings>
+                        <uniqueIdentifier>-47abbd6b:179268d8702:6ae2</uniqueIdentifier>
+                        <heterogeneousTree>false</heterogeneousTree>
+                        <singleSubListFieldNameNeverDisplayedAsTreeNode>false</singleSubListFieldNameNeverDisplayedAsTreeNode>
+                    </treeStructureDiscoverySettings>
                 </listCustomizations>
                 <typeCustomizations>
                     <uniqueIdentifier>68c6f25e:16676f539bf:-2917</uniqueIdentifier>
@@ -3253,7 +3264,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-774c</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b3</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -3456,7 +3467,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f69</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-774b</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b4</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3488,7 +3499,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f67</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-774a</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b5</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3624,7 +3635,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f61</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-7749</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b6</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3684,8 +3695,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.lang.Object</itemTypeName>
                     <listSorted>false</listSorted>
@@ -3702,8 +3715,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
                     <listSorted>false</listSorted>
@@ -4324,7 +4339,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-1ce69961:178e55ae492:-7748</uniqueIdentifier>
+                <uniqueIdentifier>-47abbd6b:179268d8702:76b7</uniqueIdentifier>
                 <caption>Actions</caption>
             </category>
             <categoryCaption>Actions</categoryCaption>
@@ -5819,8 +5834,10 @@ Do you really want to delete this resource ?  </confirmationMessage>
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>true</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.io.File</itemTypeName>
                     <length>
@@ -7955,6 +7972,156 @@ Do you really want to delete this resource ?  </confirmationMessage>
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-47abbd6b:179268d8702:664f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-47abbd6b:179268d8702:6651</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:6652</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>-47abbd6b:179268d8702:6653</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:6654</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:6650</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-47abbd6b:179268d8702:6655</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-47abbd6b:179268d8702:6657</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:6658</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:6656</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-47abbd6b:179268d8702:6659</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.io.File, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-47abbd6b:179268d8702:665b</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:665c</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>file</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>-47abbd6b:179268d8702:665d</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:665e</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:665a</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-47abbd6b:179268d8702:665f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.net.URI)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-47abbd6b:179268d8702:6661</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:6662</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>uRI</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-47abbd6b:179268d8702:6660</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -8387,8 +8554,10 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     </columnCustomizations>
                     <editOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>true</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.io.File</itemTypeName>
                     <listSorted>false</listSorted>
@@ -8628,8 +8797,10 @@ Do you really want to delete this resource ?  </confirmationMessage>
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.io.File</itemTypeName>
                     <listSorted>false</listSorted>
@@ -12710,8 +12881,10 @@ Do you really want to delete this resource ?  </confirmationMessage>
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.lang.Object</itemTypeName>
                     <listSorted>false</listSorted>
@@ -12890,8 +13063,10 @@ Do you really want to delete this resource ?  </confirmationMessage>
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.lang.Object</itemTypeName>
                     <listSorted>false</listSorted>
