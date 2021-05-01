@@ -1158,35 +1158,38 @@ public class CustomizationTools {
 			if (fieldControl instanceof ListControl) {
 				ItemPosition selected = ((ListControl) fieldControl).getSingleSelection();
 				if (selected != null) {
-					if (selected.getSubListField() != null) {
-						if (!(selected.getSubListField() instanceof SubListGroupField)) {
+					if (selected.getParentItemPosition() != null) {
+						if (!(selected.getContainingListFieldIfNotRoot() instanceof SubListGroupField)) {
 							JMenu listSelectionMenu = new JMenu(
-									this.toolsRenderer.prepareStringToDisplay("Current Selection"));
-							listSelectionMenu.add(new AbstractAction(
-									this.swingCustomizer.prepareStringToDisplay("Sub-list Options...")) {
-								private static final long serialVersionUID = 1L;
+									this.toolsRenderer.prepareStringToDisplay("Selected Sub-list"));
+							listSelectionMenu.add(
+									new AbstractAction(this.swingCustomizer.prepareStringToDisplay("More Options...")) {
+										private static final long serialVersionUID = 1L;
 
-								@Override
-								public void actionPerformed(ActionEvent e) {
-									final InfoCustomizations infoCustomizations;
-									if (infoCustomizationsShared) {
-										infoCustomizations = swingCustomizer.getInfoCustomizations();
-									} else {
-										ITypeInfo actualItemType = swingCustomizer.getCustomizedUI()
-												.getTypeInfo(swingCustomizer.getCustomizedUI()
-														.getTypeInfoSource(selected.getItem()));
-										FieldCustomization fieldCustomization = InfoCustomizations
-												.getFieldCustomization(
-														InfoCustomizations.getTypeCustomization(
-																swingCustomizer.getInfoCustomizations(),
-																actualItemType.getName()),
-														selected.getSubListField().getName(), true);
-										infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
-									}
-									openListCutomizationDialog(customizerButton, infoCustomizations,
-											(IListTypeInfo) selected.getSubListField().getType());
-								}
-							});
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											final InfoCustomizations infoCustomizations;
+											if (infoCustomizationsShared) {
+												infoCustomizations = swingCustomizer.getInfoCustomizations();
+											} else {
+												ITypeInfo parentItemType = swingCustomizer.getCustomizedUI()
+														.getTypeInfo(
+																swingCustomizer.getCustomizedUI().getTypeInfoSource(
+																		selected.getParentItemPosition().getItem()));
+												FieldCustomization fieldCustomization = InfoCustomizations
+														.getFieldCustomization(
+																InfoCustomizations.getTypeCustomization(
+																		swingCustomizer.getInfoCustomizations(),
+																		parentItemType.getName()),
+																selected.getContainingListFieldIfNotRoot().getName(),
+																true);
+												infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
+											}
+											openListCutomizationDialog(customizerButton, infoCustomizations,
+													(IListTypeInfo) selected.getContainingListFieldIfNotRoot()
+															.getType());
+										}
+									});
 							result.add(listSelectionMenu);
 						}
 					}
