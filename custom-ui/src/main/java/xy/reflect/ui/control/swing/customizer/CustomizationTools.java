@@ -671,7 +671,6 @@ public class CustomizationTools {
 										true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleContainerTypeName, true);
-								transferFieldCustomizationSettings(srcTc, dstTc, field.getName());
 								FieldCustomization srcFc = InfoCustomizations.getFieldCustomization(srcTc,
 										field.getName());
 								removeCustomizationItem(srcTc, "fieldsCustomizations", srcFc);
@@ -733,7 +732,6 @@ public class CustomizationTools {
 										true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleContainerTypeName, true);
-								transferMethodCustomizationSettings(srcTc, dstTc, method.getSignature());
 								MethodCustomization srcMc = InfoCustomizations.getMethodCustomization(srcTc,
 										method.getSignature());
 								removeCustomizationItem(srcTc, "methodsCustomizations", srcMc);
@@ -863,52 +861,25 @@ public class CustomizationTools {
 			removeCustomizationItem(dstTc, "fieldsCustomizations", dstFc);
 		} else {
 			changeCustomizationFieldValue(dstFc, "customFieldCaption", srcFc.getCustomFieldCaption());
-			changeCustomizationFieldValue(srcFc, "customFieldCaption", null);
-
 			changeCustomizationFieldValue(dstFc, "customValueReturnMode", srcFc.getCustomValueReturnMode());
-			changeCustomizationFieldValue(srcFc, "customValueReturnMode", null);
-
 			changeCustomizationFieldValue(dstFc, "displayedAsSingletonList", srcFc.isDisplayedAsSingletonList());
-			changeCustomizationFieldValue(srcFc, "displayedAsSingletonList", false);
-
 			changeCustomizationFieldValue(dstFc, "formControlCreationForced", srcFc.isFormControlCreationForced());
-			changeCustomizationFieldValue(srcFc, "formControlCreationForced", false);
-
 			changeCustomizationFieldValue(dstFc, "formControlEmbeddingForced", srcFc.isFormControlEmbeddingForced());
-			changeCustomizationFieldValue(srcFc, "formControlEmbeddingForced", false);
-
 			changeCustomizationFieldValue(dstFc, "autoUpdatePeriodMilliseconds",
 					srcFc.getAutoUpdatePeriodMilliseconds());
-			changeCustomizationFieldValue(srcFc, "autoUpdatePeriodMilliseconds", null);
-
 			changeCustomizationFieldValue(dstFc, "getOnlyForced", srcFc.isGetOnlyForced());
-			changeCustomizationFieldValue(srcFc, "getOnlyForced", false);
-
 			changeCustomizationFieldValue(dstFc, "nullValueDistinctForced", srcFc.isNullValueDistinctForced());
-			changeCustomizationFieldValue(srcFc, "nullValueDistinctForced", false);
-
 			changeCustomizationFieldValue(dstFc, "nullValueLabel", srcFc.getNullValueLabel());
-			changeCustomizationFieldValue(srcFc, "nullValueLabel", null);
-
 			changeCustomizationFieldValue(dstFc, "onlineHelp", srcFc.getOnlineHelp());
-			changeCustomizationFieldValue(srcFc, "onlineHelp", null);
-
 			changeCustomizationFieldValue(dstFc, "typeConversion",
 					(TypeConversion) ReflectionUIUtils.copyThroughSerialization(srcFc.getTypeConversion()));
-			changeCustomizationFieldValue(srcFc, "typeConversion", null);
-
 			changeCustomizationFieldValue(dstFc, "nullReplacement", (srcFc.getNullReplacement() == null) ? null
 					: (TextualStorage) ReflectionUIUtils.copyThroughSerialization(srcFc.getNullReplacement()));
-			changeCustomizationFieldValue(srcFc, "nullReplacement", new TextualStorage());
-
 			changeCustomizationFieldValue(dstFc, "specificProperties", (Map<String, Object>) ReflectionUIUtils
 					.copyThroughSerialization((Serializable) srcFc.getSpecificProperties()));
-			changeCustomizationFieldValue(srcFc, "specificProperties", new HashMap<String, Object>());
-
 			changeCustomizationFieldValue(dstFc, "specificTypeCustomizations",
 					(FieldTypeSpecificities) ReflectionUIUtils
 							.copyThroughSerialization(srcFc.getSpecificTypeCustomizations()));
-			changeCustomizationFieldValue(srcFc, "specificTypeCustomizations", new FieldTypeSpecificities());
 		}
 	}
 
@@ -921,32 +892,15 @@ public class CustomizationTools {
 			removeCustomizationItem(dstTc, "methodsCustomizations", dstMc);
 		} else {
 			changeCustomizationFieldValue(dstMc, "customMethodCaption", srcMc.getCustomMethodCaption());
-			changeCustomizationFieldValue(srcMc, "customMethodCaption", null);
-
 			changeCustomizationFieldValue(dstMc, "customValueReturnMode", srcMc.getCustomValueReturnMode());
-			changeCustomizationFieldValue(srcMc, "customValueReturnMode", null);
-
 			changeCustomizationFieldValue(dstMc, "detachedReturnValueForced", srcMc.isDetachedReturnValueForced());
-			changeCustomizationFieldValue(srcMc, "detachedReturnValueForced", false);
-
 			changeCustomizationFieldValue(dstMc, "iconImagePath", srcMc.getIconImagePath());
-			changeCustomizationFieldValue(srcMc, "iconImagePath", null);
-
 			changeCustomizationFieldValue(dstMc, "nullReturnValueLabel", srcMc.getNullReturnValueLabel());
-			changeCustomizationFieldValue(srcMc, "nullReturnValueLabel", null);
-
 			changeCustomizationFieldValue(dstMc, "onlineHelp", srcMc.getOnlineHelp());
-			changeCustomizationFieldValue(srcMc, "onlineHelp", null);
-
 			changeCustomizationFieldValue(dstMc, "readOnlyForced", srcMc.isReadOnlyForced());
-			changeCustomizationFieldValue(srcMc, "readOnlyForced", false);
-
 			changeCustomizationFieldValue(dstMc, "ignoredReturnValueForced", srcMc.isIgnoredReturnValueForced());
-			changeCustomizationFieldValue(srcMc, "ignoredReturnValueForced", false);
-
 			changeCustomizationFieldValue(dstMc, "specificProperties", (Map<String, Object>) ReflectionUIUtils
 					.copyThroughSerialization((Serializable) dstMc.getSpecificProperties()));
-			changeCustomizationFieldValue(srcMc, "specificProperties", new HashMap<String, Object>());
 		}
 	}
 
