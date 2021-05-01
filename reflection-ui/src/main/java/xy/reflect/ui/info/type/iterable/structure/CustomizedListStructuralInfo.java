@@ -48,6 +48,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPositionProxy;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListGroupField.SubListGroupItem;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListGroupField.SubListGroupItemTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.ColumnInfoProxy;
@@ -115,11 +116,21 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	@Override
 	public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
+		final Object item = itemPosition.getItem();
+		if (item == null) {
+			return null;
+		}
+		itemPosition = new ItemPositionProxy(itemPosition) {
+			// optimization to not retrieve multiple times the same item.
+			@Override
+			public Object getItem() {
+				return item;
+			}
+		};
 		if (listCustomization.getTreeStructureDiscoverySettings() == null) {
 			return super.getItemSubListField(itemPosition);
 		}
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
-		Object item = itemPosition.getItem();
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 		if (candidateFields.size() == 0) {
 			return null;

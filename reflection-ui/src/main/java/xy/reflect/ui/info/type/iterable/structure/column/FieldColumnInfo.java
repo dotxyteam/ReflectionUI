@@ -66,6 +66,9 @@ public class FieldColumnInfo extends AbstractInfo implements IColumnInfo {
 	@Override
 	public boolean hasCellValue(ItemPosition itemPosition) {
 		Object item = itemPosition.getItem();
+		if (item == null) {
+			return false;
+		}
 		return ownerType.supportsInstance(item);
 	}
 

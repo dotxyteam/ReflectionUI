@@ -1172,10 +1172,10 @@ public class CustomizationTools {
 											if (infoCustomizationsShared) {
 												infoCustomizations = swingCustomizer.getInfoCustomizations();
 											} else {
+												Object parentItem = selected.getParentItemPosition().getItem();
 												ITypeInfo parentItemType = swingCustomizer.getCustomizedUI()
-														.getTypeInfo(
-																swingCustomizer.getCustomizedUI().getTypeInfoSource(
-																		selected.getParentItemPosition().getItem()));
+														.getTypeInfo(swingCustomizer.getCustomizedUI()
+																.getTypeInfoSource(parentItem));
 												FieldCustomization fieldCustomization = InfoCustomizations
 														.getFieldCustomization(
 																InfoCustomizations.getTypeCustomization(

@@ -40,6 +40,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 /**
  * Column that displays the type of the current item.
  * 
+ * Note that for map entries the key string representation is displayed.
+ * 
  * @author olitank
  *
  */

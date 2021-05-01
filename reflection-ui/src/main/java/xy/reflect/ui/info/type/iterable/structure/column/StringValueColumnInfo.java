@@ -78,7 +78,11 @@ public class StringValueColumnInfo extends AbstractInfo implements IColumnInfo {
 
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
-		return ReflectionUIUtils.toString(reflectionUI, itemPosition.getItem());
+		Object item = itemPosition.getItem();
+		if (item == null) {
+			return "";
+		}
+		return ReflectionUIUtils.toString(reflectionUI, item);
 	}
 
 	@Override
