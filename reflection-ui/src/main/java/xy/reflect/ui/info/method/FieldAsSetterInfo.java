@@ -102,6 +102,11 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 			}
 
 			@Override
+			public Object getDefaultValue(Object object) {
+				return field.getValue(object);
+			}
+
+			@Override
 			public String toString() {
 				return "Parameter [of=" + FieldAsSetterInfo.this.toString() + "]";
 			}
