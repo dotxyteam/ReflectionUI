@@ -255,7 +255,12 @@ public class Form extends ImagePanel {
 	public Dimension getPreferredSize() {
 		Dimension result = super.getPreferredSize();
 		if (result == null) {
-			return null;
+			result = new Dimension(100, 100);
+		} else {
+			int screenWidth = SwingRendererUtils.getScreenBounds(this).width;
+			if (result.width > screenWidth) {
+				result.width = screenWidth;
+			}
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
