@@ -2216,7 +2216,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						parameterizedFields.add(field);
 					}
 					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields,
-							containingType);
+							containingType) {
+						@Override
+						public String getSignature() {
+							return base.getSignature();
+						}
+					};
 				}
 				return method;
 			}
@@ -2698,7 +2703,19 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected abstract class AbstractFieldTransformer {
 
-			public abstract IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+			/**
+			 * @param field      The field that needs to be transformed.
+			 * @param fc         The transformation settings.
+			 * @param newFields  The new fields generated during the transformation. Note
+			 *                   that they must have unique names compared to the other
+			 *                   fields of the same type.
+			 * @param newMethods The new methods generated during the transformation. Note
+			 *                   that they must have unique signatures compared to the other
+			 *                   methods of the same type.
+			 * @return the input field or a proxy to this input field. Note that in case of
+			 *         a proxy the name of the field must not change.
+			 */
+			public abstract IFieldInfo process(IFieldInfo field, FieldCustomization fc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods);
 
 		}
@@ -2712,6 +2729,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		 */
 		protected abstract class AbstractMethodTransformer {
 
+			/**
+			 * @param method     The method that needs to be transformed.
+			 * @param mc         The transformation settings.
+			 * @param newFields  The new fields generated during the transformation. Note
+			 *                   that they must have unique names compared to the other
+			 *                   fields of the same type.
+			 * @param newMethods The new methods generated during the transformation. Note
+			 *                   that they must have unique signatures compared to the other
+			 *                   methods of the same type.
+			 * @return the input method or a proxy to this input method. Note that in case
+			 *         of a proxy the signature of the method must not change.
+			 */
 			public abstract IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods);
 
