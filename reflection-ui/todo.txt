@@ -1,12 +1,5 @@
 - check that (may be automitically and constantly) that
 typeInfo.source == source.typeInfo
-- itemPosition.getItem() can be null. Need to handle this case.
-- ValueAsList: how to handle null values ? with empty list ?
-- check trees:
-	. stt inspector
-	. commandui model editor
-	. customui menu tools
-	. file explorer example
 - MembersCustomizationsFactory.transformMethods() potential issue: the signature 
 of the transformed method often changes during the transformation but not the
 method customization and this may cause issues in proxies that must deal with
