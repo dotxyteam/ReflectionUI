@@ -39,7 +39,9 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -113,8 +115,13 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		for (Object obj : ((Map) listValue).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
-			reflectionUI.registerPrecomputedTypeInfoObject(standardMapEntry,
-					new StandardMapEntryTypeInfo(reflectionUI, keyJavaType, valueJavaType));
+			reflectionUI.registerPrecomputedTypeInfoObject(standardMapEntry, new StandardMapEntryTypeInfo(reflectionUI,
+					new JavaTypeInfoSource(StandardMapEntry.class, null), keyJavaType, valueJavaType) {
+				@Override
+				public ITypeInfoSource getSource() {
+					return new PrecomputedTypeInfoSource(this, null);
+				}
+			});
 			result.add(standardMapEntry);
 		}
 		return result.toArray();

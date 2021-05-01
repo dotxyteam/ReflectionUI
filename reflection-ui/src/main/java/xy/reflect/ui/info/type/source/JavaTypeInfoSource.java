@@ -124,7 +124,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 					keyClass = genericParams[0];
 					valueClass = genericParams[1];
 				}
-				result = new StandardMapEntryTypeInfo(reflectionUI, keyClass, valueClass);
+				result = new StandardMapEntryTypeInfo(reflectionUI, this, keyClass, valueClass);
 			} else if (getJavaType().isArray()) {
 				result = new ArrayTypeInfo(reflectionUI, this);
 			} else if (getJavaType().isEnum()) {

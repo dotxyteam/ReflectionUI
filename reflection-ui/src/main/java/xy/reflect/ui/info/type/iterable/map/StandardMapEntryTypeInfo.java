@@ -65,8 +65,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected GetterFieldInfo keyField;
 	protected GetterFieldInfo valueField;
 
-	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, Class<?> keyJavaType, Class<?> valueJavaType) {
-		super(reflectionUI, new JavaTypeInfoSource(StandardMapEntry.class, null));
+	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
+		super(reflectionUI, source);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}

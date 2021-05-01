@@ -44,6 +44,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
@@ -143,7 +144,13 @@ public class ReflectionUI {
 	 *         on the result should return an object equals to the given source.
 	 */
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
-		return typeInfoSource.getTypeInfo(this);
+		ITypeInfo result = typeInfoSource.getTypeInfo(this);
+		if (!result.getSource().equals(typeInfoSource)) {
+			throw new ReflectionUIError("Calling " + ITypeInfo.class.getSimpleName()
+					+ "#getSource() on the following instance does not return an object equals to the source object: "
+					+ result);
+		}
+		return result;
 	}
 
 	/**

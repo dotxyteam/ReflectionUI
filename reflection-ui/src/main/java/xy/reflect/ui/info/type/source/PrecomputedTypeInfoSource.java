@@ -63,7 +63,7 @@ public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 				return PrecomputedTypeInfoSource.this.toString();
 			}
 
-		}.wrapFieldTypeInfo(precomputedType);
+		}.wrapTypeInfo(precomputedType);
 	}
 
 	@Override
