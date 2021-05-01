@@ -30,6 +30,7 @@ package xy.reflect.ui.info.field;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
@@ -42,6 +43,8 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 
 /**
  * Field proxy allowing to view/edit the base field value as a singleton list.
+ * 
+ * Note that the returned list is empty when the base field value is null.
  * 
  * @author olitank
  *
@@ -98,7 +101,12 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getValue(Object object) {
-		return new ArrayList(Arrays.asList(super.getValue(object)));
+		Object singleItem = super.getValue(object);
+		if (singleItem == null) {
+			return Collections.emptyList();
+		} else {
+			return new ArrayList(Arrays.asList(singleItem));
+		}
 	}
 
 	@Override
