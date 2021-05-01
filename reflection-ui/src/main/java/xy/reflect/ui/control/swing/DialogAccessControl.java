@@ -353,7 +353,16 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	@Override
 	public boolean requestCustomFocus() {
-		return SwingRendererUtils.requestAnyComponentFocus(statusControl, swingRenderer);
+		if (data.isGetOnly()) {
+			return false;
+		}
+		if (SwingRendererUtils.requestAnyComponentFocus(statusControl, swingRenderer)) {
+			return true;
+		}
+		if (SwingRendererUtils.requestAnyComponentFocus(actionControl, swingRenderer)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

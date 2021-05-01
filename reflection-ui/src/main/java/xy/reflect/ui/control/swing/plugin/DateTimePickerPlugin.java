@@ -404,6 +404,9 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		public boolean requestCustomFocus() {
+			if (data.isGetOnly()) {
+				return false;
+			}
 			return SwingRendererUtils.requestAnyComponentFocus(getEditor(), swingRenderer);
 		}
 

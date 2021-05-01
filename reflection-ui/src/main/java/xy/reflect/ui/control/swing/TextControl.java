@@ -359,6 +359,9 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean requestCustomFocus() {
+		if (data.isGetOnly()) {
+			return false;
+		}
 		setCurrentTextEditPosition(textComponent.getText().length());
 		if (SwingRendererUtils.requestAnyComponentFocus(textComponent, swingRenderer)) {
 			return true;

@@ -102,6 +102,9 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 
 	@Override
 	public boolean requestCustomFocus() {
+		if (data.isGetOnly()) {
+			return false;
+		}
 		for (Component c : getComponents()) {
 			if (SwingRendererUtils.requestAnyComponentFocus(c, swingRenderer)) {
 				return true;

@@ -233,6 +233,9 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 		@Override
 		public boolean requestCustomFocus() {
+			if (data.isGetOnly()) {
+				return false;
+			}
 			for (Component c : getComponents()) {
 				if (SwingRendererUtils.requestAnyComponentFocus(c, swingRenderer)) {
 					return true;

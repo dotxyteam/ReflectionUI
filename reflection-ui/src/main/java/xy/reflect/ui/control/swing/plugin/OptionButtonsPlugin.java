@@ -314,6 +314,9 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 		@Override
 		public boolean requestCustomFocus() {
+			if (data.isGetOnly()) {
+				return false;
+			}
 			Enumeration<AbstractButton> buttonEnum = buttonGroup.getElements();
 			while (buttonEnum.hasMoreElements()) {
 				AbstractButton button = buttonEnum.nextElement();

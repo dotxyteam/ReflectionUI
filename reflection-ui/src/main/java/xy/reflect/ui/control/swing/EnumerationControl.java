@@ -231,6 +231,9 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 
 	@Override
 	public boolean requestCustomFocus() {
+		if (data.isGetOnly()) {
+			return false;
+		}
 		return SwingRendererUtils.requestAnyComponentFocus(comboBox, swingRenderer);
 	}
 

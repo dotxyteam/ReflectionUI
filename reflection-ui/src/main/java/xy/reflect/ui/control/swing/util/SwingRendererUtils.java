@@ -810,19 +810,17 @@ public class SwingRendererUtils {
 	}
 
 	public static boolean requestAnyComponentFocus(Component c, SwingRenderer swingRenderer) {
-		if(!c.isEnabled()) {
+		if (c instanceof IAdvancedFieldControl) {
+			return ((IAdvancedFieldControl) c).requestCustomFocus();
+		}
+		if (isForm(c, swingRenderer)) {
+			return ((Form) c).requestFormFocus();
+		}
+		if (!c.isEnabled()) {
 			return false;
 		}
 		if (c.hasFocus()) {
 			return true;
-		}
-		if (c instanceof IAdvancedFieldControl) {
-			if (((IAdvancedFieldControl) c).requestCustomFocus()) {
-				return true;
-			}
-		}
-		if (isForm(c, swingRenderer)) {
-			return ((Form) c).requestFormFocus();
 		}
 		if (c.requestFocusInWindow()) {
 			return true;
