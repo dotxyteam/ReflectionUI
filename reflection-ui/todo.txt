@@ -1,3 +1,7 @@
+- check that (may be automitically and constantly) that
+typeInfo.source == source.typeInfo
+- itemPosition.getItem() can be null. Need to handle this case.
+- ValueAsList: how to handle null values ? with empty list ?
 - check trees:
 	. stt inspector
 	. commandui model editor

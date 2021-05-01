@@ -613,7 +613,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public ITypeInfo getType() {
-			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(base.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(

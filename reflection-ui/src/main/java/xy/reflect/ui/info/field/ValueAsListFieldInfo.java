@@ -35,6 +35,7 @@ import java.util.List;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
@@ -60,7 +61,7 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(new StandardCollectionTypeInfo(reflectionUI,
+			type = reflectionUI.getTypeInfo(new StandardCollectionTypeInfo(reflectionUI,
 					new JavaTypeInfoSource(ArrayList.class, null), super.getType()) {
 
 				@Override
@@ -83,7 +84,13 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 					return true;
 				}
 
-			}, new SpecificitiesIdentifier(containingType.getName(), ValueAsListFieldInfo.this.getName())));
+				@Override
+				public ITypeInfoSource getSource() {
+					return new PrecomputedTypeInfoSource(this,
+							new SpecificitiesIdentifier(containingType.getName(), ValueAsListFieldInfo.this.getName()));
+				}
+
+			}.getSource());
 		}
 		return type;
 	}
