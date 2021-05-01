@@ -879,7 +879,7 @@ public class InfoCustomizations implements Serializable {
 			this.name = name;
 		}
 
-		@XmlElements({ @XmlElement(name = "menu", type = MenuInfo.class),
+		@XmlElements({ @XmlElement(name = "menu", type = MenuCustomization.class),
 				@XmlElement(name = "exitMenuItem", type = ExitMenuItemCustomization.class),
 				@XmlElement(name = "helpMenuItem", type = HelpMenuItemCustomization.class),
 				@XmlElement(name = "undoMenuItem", type = UndoMenuItemCustomization.class),
@@ -1111,7 +1111,7 @@ public class InfoCustomizations implements Serializable {
 			return result;
 		}
 
-		@XmlElements({ @XmlElement(name = "menu", type = MenuInfo.class),
+		@XmlElements({ @XmlElement(name = "menu", type = MenuCustomization.class),
 				@XmlElement(name = "exitMenuItem", type = ExitMenuItemCustomization.class),
 				@XmlElement(name = "helpMenuItem", type = HelpMenuItemCustomization.class),
 				@XmlElement(name = "undoMenuItem", type = UndoMenuItemCustomization.class),
