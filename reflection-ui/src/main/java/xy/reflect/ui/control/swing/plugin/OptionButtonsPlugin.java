@@ -314,6 +314,13 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 		@Override
 		public boolean requestCustomFocus() {
+			Enumeration<AbstractButton> buttonEnum = buttonGroup.getElements();
+			while (buttonEnum.hasMoreElements()) {
+				AbstractButton button = buttonEnum.nextElement();
+				if (SwingRendererUtils.requestAnyComponentFocus(button, swingRenderer)) {
+					return true;
+				}
+			}
 			return false;
 		}
 

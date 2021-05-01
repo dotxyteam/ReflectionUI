@@ -394,7 +394,15 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 	@Override
 	public boolean requestCustomFocus() {
-		return SwingRendererUtils.requestAnyComponentFocus(typeEnumerationControl, swingRenderer);
+		if (SwingRendererUtils.requestAnyComponentFocus(typeEnumerationControl, swingRenderer)) {
+			return true;
+		}
+		if (dynamicControl != null) {
+			if (SwingRendererUtils.requestAnyComponentFocus(dynamicControl, swingRenderer)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

@@ -28,6 +28,7 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -232,6 +233,11 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 
 		@Override
 		public boolean requestCustomFocus() {
+			for (Component c : getComponents()) {
+				if (SwingRendererUtils.requestAnyComponentFocus(c, swingRenderer)) {
+					return true;
+				}
+			}
 			return false;
 		}
 

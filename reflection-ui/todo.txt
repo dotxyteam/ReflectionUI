@@ -1,3 +1,8 @@
+- check trees:
+	. stt inspector
+	. commandui model editor
+	. customui menu tools
+	. file explorer example
 - MembersCustomizationsFactory.transformMethods() potential issue: the signature 
 of the transformed method often changes during the transformation but not the
 method customization and this may cause issues in proxies that must deal with

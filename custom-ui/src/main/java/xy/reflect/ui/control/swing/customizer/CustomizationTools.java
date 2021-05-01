@@ -46,8 +46,6 @@ import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
-import xy.reflect.ui.util.ImageIcon;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -57,9 +55,10 @@ import javax.swing.JPopupMenu;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin.AbstractConfiguration;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin.AbstractConfiguration;
+import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
@@ -92,12 +91,15 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListGroupField;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.FileUtils;
+import xy.reflect.ui.util.ImageIcon;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -134,6 +136,7 @@ public class CustomizationTools {
 		JButton result = new JButton(this.swingCustomizer.getCustomizationsIcon());
 		result.setForeground(toolsRenderer.getToolsForegroundColor());
 		result.setPreferredSize(new Dimension(result.getPreferredSize().height, result.getPreferredSize().height));
+		result.setFocusable(false);
 		return result;
 	}
 
@@ -1099,7 +1102,8 @@ public class CustomizationTools {
 					}
 				}));
 		if (fieldType instanceof IListTypeInfo) {
-			result.add(makeMenuItemForListInfo(customizerButton, infoCustomizations, (IListTypeInfo) fieldType));
+			result.add(makeMenuItemForListInfo(customizerButton, fieldControlPlaceHolder, infoCustomizationsShared,
+					(IListTypeInfo) fieldType));
 		}
 		if (fieldType instanceof IEnumerationTypeInfo) {
 			result.add(
@@ -1122,7 +1126,16 @@ public class CustomizationTools {
 	}
 
 	protected JMenuItem makeMenuItemForListInfo(final JButton customizerButton,
-			final InfoCustomizations infoCustomizations, final IListTypeInfo customizedListType) {
+			FieldControlPlaceHolder fieldControlPlaceHolder, final boolean infoCustomizationsShared,
+			final IListTypeInfo customizedListType) {
+		final InfoCustomizations infoCustomizations;
+		if (infoCustomizationsShared) {
+			infoCustomizations = swingCustomizer.getInfoCustomizations();
+		} else {
+			FieldCustomization fieldCustomization = getFieldCustomization(fieldControlPlaceHolder,
+					swingCustomizer.getInfoCustomizations());
+			infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
+		}
 		JMenu result = new JMenu(this.toolsRenderer.prepareStringToDisplay("List"));
 		{
 			result.add(new AbstractAction(this.toolsRenderer.prepareStringToDisplay("Move Columns...")) {
@@ -1141,6 +1154,44 @@ public class CustomizationTools {
 					openListCutomizationDialog(customizerButton, infoCustomizations, customizedListType);
 				}
 			});
+			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+			if (fieldControl instanceof ListControl) {
+				ItemPosition selected = ((ListControl) fieldControl).getSingleSelection();
+				if (selected != null) {
+					if (selected.getSubListField() != null) {
+						if (!(selected.getSubListField() instanceof SubListGroupField)) {
+							JMenu listSelectionMenu = new JMenu(
+									this.toolsRenderer.prepareStringToDisplay("Current Selection"));
+							listSelectionMenu.add(new AbstractAction(
+									this.swingCustomizer.prepareStringToDisplay("Sub-list Options...")) {
+								private static final long serialVersionUID = 1L;
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									final InfoCustomizations infoCustomizations;
+									if (infoCustomizationsShared) {
+										infoCustomizations = swingCustomizer.getInfoCustomizations();
+									} else {
+										ITypeInfo actualItemType = swingCustomizer.getCustomizedUI()
+												.getTypeInfo(swingCustomizer.getCustomizedUI()
+														.getTypeInfoSource(selected.getItem()));
+										FieldCustomization fieldCustomization = InfoCustomizations
+												.getFieldCustomization(
+														InfoCustomizations.getTypeCustomization(
+																swingCustomizer.getInfoCustomizations(),
+																actualItemType.getName()),
+														selected.getSubListField().getName(), true);
+										infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
+									}
+									openListCutomizationDialog(customizerButton, infoCustomizations,
+											(IListTypeInfo) selected.getSubListField().getType());
+								}
+							});
+							result.add(listSelectionMenu);
+						}
+					}
+				}
+			}
 		}
 		return result;
 	}

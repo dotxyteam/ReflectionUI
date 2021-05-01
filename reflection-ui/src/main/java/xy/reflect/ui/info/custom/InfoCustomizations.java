@@ -858,7 +858,7 @@ public class InfoCustomizations implements Serializable {
 			implements IMenuItemContainerCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected String name;
+		protected String name = "";
 		protected List<AbstractMenuItemCustomization> itemCustomizations = new ArrayList<AbstractMenuItemCustomization>();
 
 		@Override
@@ -908,7 +908,7 @@ public class InfoCustomizations implements Serializable {
 			implements IMenuElementCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected String name;
+		protected String name = "";
 		protected ResourcePath iconImagePath;
 
 		@Override

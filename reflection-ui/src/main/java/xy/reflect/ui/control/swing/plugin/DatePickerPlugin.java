@@ -328,7 +328,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 		@Override
 		public boolean requestCustomFocus() {
-			return false;
+			return SwingRendererUtils.requestAnyComponentFocus(getEditor(), swingRenderer);
 		}
 
 		@Override

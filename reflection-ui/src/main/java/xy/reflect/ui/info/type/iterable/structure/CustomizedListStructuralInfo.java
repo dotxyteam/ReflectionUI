@@ -42,15 +42,14 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListLengthUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo.ValueListItem;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
-import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
-import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListsGroupingField.SubListGroupTypeInfo;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListGroupField.SubListGroupItem;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListGroupField.SubListGroupItemTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.ColumnInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.FieldColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -126,7 +125,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			return null;
 		} else if (candidateFields.size() == 1) {
 			IFieldInfo candidateField = candidateFields.get(0);
-			if (displaysSubListFieldNameAsTreeNode(candidateField, itemPosition)) {
+			if (isSubListFieldNameDisplayedAsTreeNode(candidateField, itemPosition)) {
 				return getSubListsGroupingField(Collections.singletonList(candidateField), actualItemType);
 			} else {
 				return candidateField;
@@ -137,7 +136,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	protected IFieldInfo getSubListsGroupingField(List<IFieldInfo> subListFields, ITypeInfo actualItemType) {
-		return new SubListsGroupingField(reflectionUI, subListFields, actualItemType);
+		return new SubListGroupField(reflectionUI, subListFields, actualItemType);
 	}
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
@@ -145,8 +144,8 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		Object item = itemPosition.getItem();
 		if (item != null) {
 			ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
-			if (actualItemType instanceof SubListGroupTypeInfo) {
-				result.add(((SubListGroupTypeInfo) actualItemType).getDetailsField());
+			if (actualItemType instanceof SubListGroupItemTypeInfo) {
+				result.add(((SubListGroupItemTypeInfo) actualItemType).getDetailsField());
 			} else {
 				List<IFieldInfo> itemFields = actualItemType.getFields();
 				for (IFieldInfo field : itemFields) {
@@ -164,9 +163,9 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 					ITypeInfo fieldType = field.getType();
 					if (fieldType instanceof IListTypeInfo) {
 						ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
-						if (item instanceof ValueListItem) {
+						if (item instanceof SubListGroupItem) {
 							result.add(field);
-						} else if (isValidSubListNodeItemType(subListItemType)) {
+						} else if (isValidSubListItemType(subListItemType)) {
 							result.add(field);
 						}
 					}
@@ -176,25 +175,15 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		return result;
 	}
 
-	protected boolean isValidSubListNodeItemType(ITypeInfo type) {
+	protected boolean isValidSubListItemType(ITypeInfo itemType) {
 		if (listCustomization.getTreeStructureDiscoverySettings().isHeterogeneousTree()) {
 			return true;
 		}
-		if (type == null) {
+		if (itemType == null) {
 			return false;
 		}
-		if (rootItemType.getName().equals(type.getName())) {
+		if (rootItemType.getName().equals(itemType.getName())) {
 			return true;
-		}
-		if (type instanceof IMapEntryTypeInfo) {
-			IMapEntryTypeInfo entryType = (IMapEntryTypeInfo) type;
-			ITypeInfo entryValueType = entryType.getValueField().getType();
-			if (entryValueType instanceof IListTypeInfo) {
-				ITypeInfo entryValuListItemType = ((IListTypeInfo) entryValueType).getItemType();
-				if ((entryValuListItemType != null) && isValidSubListNodeItemType(entryValuListItemType)) {
-					return true;
-				}
-			}
 		}
 		return false;
 	}
@@ -293,15 +282,12 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		return filteredResult;
 	}
 
-	protected boolean displaysSubListFieldNameAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
+	protected boolean isSubListFieldNameDisplayedAsTreeNode(IFieldInfo subListField, ItemPosition itemPosition) {
 		ITypeInfo itemType = itemPosition.getContainingListType().getItemType();
-		if (itemPosition.getItem() instanceof SubListsGroupingField.ValueListItem) {
+		if (itemPosition.getItem() instanceof SubListGroupField.ValueListItem) {
 			return false;
 		}
-		if (itemType instanceof IMapEntryTypeInfo) {
-			return false;
-		}
-		if (itemType instanceof SubListGroupTypeInfo) {
+		if (itemType instanceof SubListGroupItemTypeInfo) {
 			return false;
 		}
 		if (listCustomization.getTreeStructureDiscoverySettings().isSingleSubListFieldNameNeverDisplayedAsTreeNode()) {

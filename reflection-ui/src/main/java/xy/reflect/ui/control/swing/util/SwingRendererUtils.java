@@ -810,6 +810,9 @@ public class SwingRendererUtils {
 	}
 
 	public static boolean requestAnyComponentFocus(Component c, SwingRenderer swingRenderer) {
+		if(!c.isEnabled()) {
+			return false;
+		}
 		if (c.hasFocus()) {
 			return true;
 		}

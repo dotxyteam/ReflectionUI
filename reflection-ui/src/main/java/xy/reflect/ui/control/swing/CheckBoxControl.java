@@ -28,6 +28,7 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -101,7 +102,13 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 
 	@Override
 	public boolean requestCustomFocus() {
+		for (Component c : getComponents()) {
+			if (SwingRendererUtils.requestAnyComponentFocus(c, swingRenderer)) {
+				return true;
+			}
+		}
 		return false;
+
 	}
 
 	@Override

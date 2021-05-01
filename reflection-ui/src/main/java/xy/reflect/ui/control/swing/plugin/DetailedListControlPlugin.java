@@ -401,8 +401,8 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		public IListStructuralInfo getStructuralInfo() {
-			return new ListStructuralInfoProxy(super.getStructuralInfo()) {
+		public IListStructuralInfo getStructuralInfo(BufferedItemPosition itemPosition) {
+			return new ListStructuralInfoProxy(super.getStructuralInfo(itemPosition)) {
 
 				@Override
 				public List<IColumnInfo> getColumns() {

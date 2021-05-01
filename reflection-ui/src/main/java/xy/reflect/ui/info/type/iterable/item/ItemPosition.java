@@ -272,7 +272,7 @@ public class ItemPosition implements Cloneable {
 	 *         there is no sub-list.
 	 */
 	public IFieldInfo getSubListField() {
-		IListStructuralInfo treeInfo = getContainingListStructuralInfo();
+		IListStructuralInfo treeInfo = getContainingListType().getStructuralInfo();
 		if (treeInfo == null) {
 			return null;
 		}
@@ -304,14 +304,8 @@ public class ItemPosition implements Cloneable {
 	}
 
 	/**
-	 * @return the containing list structural information.
-	 */
-	public IListStructuralInfo getContainingListStructuralInfo() {
-		return getRoot().getContainingListType().getStructuralInfo();
-	}
-
-	/**
-	 * @return positions of items in the sub-list.
+	 * @return positions of items in the sub-list. An empty list is returned if
+	 *         there is no sub-list.
 	 */
 	public List<? extends ItemPosition> getSubItemPositions() {
 		Object[] subListRawValue = retrieveSubListRawValue();

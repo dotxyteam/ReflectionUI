@@ -33,11 +33,10 @@ import java.util.List;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 
 /**
- * Item position proxy class. The methods in this class should be overriden to provide custom
- * information.
+ * Item position proxy class. The methods in this class should be overriden to
+ * provide custom information.
  * 
  * @author olitank
  *
@@ -148,10 +147,6 @@ public class ItemPositionProxy extends ItemPosition {
 
 	public ItemPosition getSubItemPosition(int index) {
 		return base.getSubItemPosition(index);
-	}
-
-	public IListStructuralInfo getContainingListStructuralInfo() {
-		return base.getContainingListStructuralInfo();
 	}
 
 	public ItemPosition clone() {

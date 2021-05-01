@@ -120,7 +120,7 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListsGroupingField.SubListGroup;
+import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListGroupField.SubListGroupItem;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
@@ -308,8 +308,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		toolbar.setLayout(layout);
 
 		if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
-			if (getRootListType().canViewItemDetails()) {
-				toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, createOpenItemAction()));
+			AbstractStandardListAction openAction = createOpenItemAction();
+			if (openAction.isValid()) {
+				toolbar.add(createTool(null, SwingRendererUtils.DETAILS_ICON, true, false, openAction));
 			}
 		}
 
@@ -557,13 +558,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return true;
 	}
 
-	public IListStructuralInfo getStructuralInfo() {
+	public IListStructuralInfo getRootStructuralInfo() {
+		return getStructuralInfo(getRootListItemPosition(-1));
+	}
+
+	public IListStructuralInfo getStructuralInfo(BufferedItemPosition itemPosition) {
 		if (structuralInfo == null) {
-			IListTypeInfo listType = getRootListType();
+			IListTypeInfo listType = itemPosition.getContainingListType();
 			structuralInfo = listType.getStructuralInfo();
 			if (structuralInfo == null) {
 				throw new ReflectionUIError("No " + IListStructuralInfo.class.getSimpleName() + " found on the type '"
-						+ listType.getName());
+						+ listType.getName() + "'");
 			}
 		}
 		return structuralInfo;
@@ -642,7 +647,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (result == null) {
 					return null;
 				}
-				IListStructuralInfo structure = getStructuralInfo();
+				IListStructuralInfo structure = getRootStructuralInfo();
 				if (structure.getLength() != -1) {
 					result.height = structure.getLength();
 				}
@@ -705,18 +710,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public String getColumnCaption(int columnIndex) {
-		if (getStructuralInfo() == null) {
+		IListStructuralInfo tableInfo = getRootStructuralInfo();
+		if (tableInfo == null) {
 			return "";
 		}
-		IListStructuralInfo tableInfo = getStructuralInfo();
 		return tableInfo.getColumns().get(columnIndex).getCaption();
 	}
 
 	public int getColumnCount() {
-		if (getStructuralInfo() == null) {
+		IListStructuralInfo tableInfo = getRootStructuralInfo();
+		if (tableInfo == null) {
 			return 1;
 		}
-		IListStructuralInfo tableInfo = getStructuralInfo();
 		return tableInfo.getColumns().size();
 	}
 
@@ -735,14 +740,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				value = "";
 			} else {
 				Object item = itemPosition.getItem();
-				if (item instanceof SubListGroup) {
+				if (item instanceof SubListGroupItem) {
 					if (columnIndex == 0) {
 						value = item.toString();
 					} else {
 						return null;
 					}
 				} else {
-					IListStructuralInfo tableInfo = getStructuralInfo();
+					IListStructuralInfo tableInfo = getRootStructuralInfo();
 					if (tableInfo == null) {
 						value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), item);
 					} else {
@@ -1420,7 +1425,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (refreshStructure) {
 					TableColumnModel columnModel = treeTableComponent.getColumnModel();
 					{
-						List<IColumnInfo> columnInfos = getStructuralInfo().getColumns();
+						List<IColumnInfo> columnInfos = getRootStructuralInfo().getColumns();
 						for (int i = 0; i < columnInfos.size(); i++) {
 							IColumnInfo columnInfo = columnInfos.get(i);
 							TableColumn column = columnModel.getColumn(i);
@@ -1556,7 +1561,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		runnable.run();
 
 		columnModel = treeTableComponent.getColumnModel();
-		List<IColumnInfo> columnInfos = getStructuralInfo().getColumns();
+		List<IColumnInfo> columnInfos = getRootStructuralInfo().getColumns();
 		for (int i = 0; i < columnModel.getColumnCount(); i++) {
 			TableColumn col = columnModel.getColumn(i);
 			IColumnInfo columnInfo = columnInfos.get(i);
@@ -2100,7 +2105,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				protected IInfoFilter getDelegate() {
 					BufferedItemPosition dynamicItemPosition = bufferedItemPosition.getSibling(-1);
 					dynamicItemPosition.setFakeItem(getCurrentValue());
-					return getStructuralInfo().getItemInfoFilter(dynamicItemPosition);
+					return getStructuralInfo(dynamicItemPosition).getItemInfoFilter(dynamicItemPosition);
 				}
 			};
 		}
@@ -2612,7 +2617,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			BufferedItemPosition singleSelectedPosition = getSingleSelection();
 			if (singleSelectedPosition != null) {
 				if (!new ItemUIBuilder(singleSelectedPosition).isFormEmpty()) {
-					if (getRootListType().canViewItemDetails()) {
+					IListTypeInfo listType = singleSelectedPosition.getContainingListType();
+					if (listType.canViewItemDetails()) {
 						return true;
 					}
 				}
@@ -2772,7 +2778,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return false;
 			}
 			return true;
-			
+
 		}
 	}
 

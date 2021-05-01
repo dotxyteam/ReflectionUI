@@ -28,6 +28,7 @@
  ******************************************************************************/
 package xy.reflect.ui.info.type.iterable.structure;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
@@ -37,6 +38,8 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 
 /**
  * Allows to describe tabular and hierarchical preferences about list types.
@@ -77,10 +80,15 @@ public interface IListStructuralInfo {
 	 * @author olitank
 	 *
 	 */
-	public static class SubListsGroupingField extends MultipleFieldsAsListFieldInfo {
+	public static class SubListGroupField extends MultipleFieldsAsListFieldInfo {
 
-		public SubListsGroupingField(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo containingType) {
-			super(reflectionUI, fields, containingType);
+		public SubListGroupField(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo containingItemType) {
+			super(reflectionUI, fields, containingItemType);
+		}
+
+		@Override
+		public String getName() {
+			return "subListGroup [containingItemType=" + getContainingItemType().getName() + "]";
 		}
 
 		@Override
@@ -94,28 +102,117 @@ public interface IListStructuralInfo {
 
 		@Override
 		protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
-			return new SubListGroup(object, listFieldInfo);
+			return new SubListGroupItem(object, listFieldInfo);
 		}
 
 		@Override
-		protected ITypeInfo getListItemTypeInfo(final IFieldInfo field) {
-			return new SubListGroupTypeInfo(field);
+		public ITypeInfo getType() {
+			if (type == null) {
+				type = reflectionUI.getTypeInfo(new SubListGroupTypeInfo().getSource());
+			}
+			return type;
 		}
 
-		public class SubListGroupTypeInfo extends ValueListItemTypeInfo {
+		@Override
+		public Object getValue(Object object) {
+			List<ValueListItem> result = new ArrayList<ValueListItem>();
+			for (IFieldInfo field : fields) {
+				ValueListItem listItem = getListItem(object, field);
+				reflectionUI.registerPrecomputedTypeInfoObject(listItem, new SubListGroupItemTypeInfo(field));
+				result.add(listItem);
+			}
+			return result;
+		}
 
-			public SubListGroupTypeInfo(IFieldInfo field) {
+		public ITypeInfo getContainingItemType() {
+			return containingType;
+		}
+
+		@Override
+		public String toString() {
+			return "SubListGroupField [containingItemType=" + getContainingItemType() + "]";
+		}
+
+		public class SubListGroupTypeInfo extends ValueListTypeInfo {
+
+			@Override
+			public IListStructuralInfo getStructuralInfo() {
+				return new ListStructuralInfoProxy(super.getStructuralInfo()) {
+
+					@Override
+					public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
+						return new SubListGroupItemDetailsFieldInfo(
+								((SubListGroupItem) itemPosition.getItem()).getField());
+					}
+
+				};
+			}
+
+			@Override
+			public String toString() {
+				return "SubListGroupTypeInfo [containingItemType=" + getContainingItemType() + "]";
+			}
+
+		}
+
+		public class SubListGroupItemTypeInfo extends ValueListItemTypeInfo {
+
+			public SubListGroupItemTypeInfo(IFieldInfo field) {
 				super(field);
 			}
 
+			@Override
+			public String getName() {
+				return "SubListGroupItemTypeInfo [of=" + SubListGroupField.this.getName() + ", itemField="
+						+ field.getName() + "]";
+			}
+
+			@Override
+			public IFieldInfo getDetailsField() {
+				return new SubListGroupItemDetailsFieldInfo(field);
+			}
+
+			@Override
+			public String toString() {
+				return "SubListGroupItemTypeInfo [of=" + SubListGroupField.this + ", itemField=" + field + "]";
+			}
+
 		}
 
-		public class SubListGroup extends ValueListItem {
+		public class SubListGroupItem extends ValueListItem {
 
-			public SubListGroup(Object object, IFieldInfo field) {
+			public SubListGroupItem(Object object, IFieldInfo field) {
 				super(object, field);
 			}
 
+		}
+
+		public class SubListGroupItemDetailsFieldInfo extends ValueListItemDetailsFieldInfo {
+
+			public SubListGroupItemDetailsFieldInfo(IFieldInfo field) {
+				super(field);
+			}
+
+			public SubListGroupItemTypeInfo getSubListGroupItemTypeInfo() {
+				return new SubListGroupItemTypeInfo(base);
+			}
+
+			@Override
+			public ITypeInfo getType() {
+				return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return new SpecificitiesIdentifier(
+								new SubListGroupItemTypeInfo(SubListGroupItemDetailsFieldInfo.this.base).getName(),
+								SubListGroupItemDetailsFieldInfo.this.getName());
+					}
+				});
+			}
+
+			@Override
+			public String toString() {
+				return "SubListGroupItemDetailsFieldInfo [of=" + SubListGroupField.this + ", itemField=" + base + "]";
+			}
 		}
 
 	}
