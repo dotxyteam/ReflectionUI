@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!--Generated with Custom UI (http://otksoftware.com/custom-ui)-->
+<!--Generated with Custom UI (http://javacollection.net/reflectionui/)-->
 <infoCustomizations>
     <appplicationCustomization>
         <uniqueIdentifier>6a9d1b49:1668ce57f94:-7d30</uniqueIdentifier>
@@ -20,8 +20,10 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemNullValueAllowed>false</itemNullValueAllowed>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
         <itemTypeName>java.lang.StackTraceElement</itemTypeName>
         <listSorted>false</listSorted>
@@ -47,8 +49,10 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemNullValueAllowed>false</itemNullValueAllowed>
         <itemTypeColumnAdded>true</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
         <listSorted>false</listSorted>
@@ -73,8 +77,10 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>true</fieldColumnsAdded>
+        <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
         <itemContructorSelectableforced>false</itemContructorSelectableforced>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+        <itemNullValueAllowed>false</itemNullValueAllowed>
         <itemTypeColumnAdded>true</itemTypeColumnAdded>
         <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
         <listSorted>false</listSorted>
@@ -88,6 +94,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5e00</uniqueIdentifier>
@@ -660,6 +667,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d8a</uniqueIdentifier>
             <specificProperties/>
@@ -689,6 +697,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c3e</uniqueIdentifier>
@@ -697,6 +706,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d88</uniqueIdentifier>
@@ -727,6 +737,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c3c</uniqueIdentifier>
@@ -735,6 +746,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d86</uniqueIdentifier>
@@ -765,6 +777,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c3a</uniqueIdentifier>
@@ -773,6 +786,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d84</uniqueIdentifier>
@@ -803,6 +817,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c40</uniqueIdentifier>
@@ -811,6 +826,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -825,6 +841,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d7f</uniqueIdentifier>
             <specificProperties/>
@@ -887,8 +904,10 @@
                         <regularExpression>false</regularExpression>
                         <value>productsByDuration</value>
                     </fieldsExcludedFromItemDetails>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
                     <listSorted>false</listSorted>
@@ -897,7 +916,7 @@
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                     <treeStructureDiscoverySettings>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5d76</uniqueIdentifier>
-                        <heterogeneousTree>false</heterogeneousTree>
+                        <heterogeneousTree>true</heterogeneousTree>
                         <singleSubListFieldNameNeverDisplayedAsTreeNode>false</singleSubListFieldNameNeverDisplayedAsTreeNode>
                     </treeStructureDiscoverySettings>
                 </listCustomizations>
@@ -907,6 +926,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c76</uniqueIdentifier>
@@ -915,6 +935,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -929,6 +950,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d72</uniqueIdentifier>
             <specificProperties/>
@@ -958,6 +980,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5bf1</uniqueIdentifier>
@@ -966,6 +989,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d70</uniqueIdentifier>
@@ -996,6 +1020,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5bef</uniqueIdentifier>
@@ -1004,6 +1029,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d6e</uniqueIdentifier>
@@ -1034,6 +1060,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5bed</uniqueIdentifier>
@@ -1042,6 +1069,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d6c</uniqueIdentifier>
@@ -1072,6 +1100,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5beb</uniqueIdentifier>
@@ -1080,6 +1109,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d6a</uniqueIdentifier>
@@ -1110,6 +1140,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5bf3</uniqueIdentifier>
@@ -1118,6 +1149,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -1132,6 +1164,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d65</uniqueIdentifier>
             <specificProperties/>
@@ -1161,6 +1194,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5be5</uniqueIdentifier>
@@ -1169,6 +1203,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-6ed7a0ed:1668d8c97c6:42d7</uniqueIdentifier>
@@ -1202,8 +1237,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.lang.Object</itemTypeName>
                     <listSorted>false</listSorted>
@@ -1220,8 +1257,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
                     <listSorted>false</listSorted>
@@ -1230,6 +1269,7 @@
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d63</uniqueIdentifier>
@@ -1260,6 +1300,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5be3</uniqueIdentifier>
@@ -1268,6 +1309,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d61</uniqueIdentifier>
@@ -1298,6 +1340,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5be7</uniqueIdentifier>
@@ -1306,6 +1349,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d5f</uniqueIdentifier>
@@ -1344,8 +1388,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;</itemTypeName>
                     <listSorted>false</listSorted>
@@ -1359,6 +1405,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5be1</uniqueIdentifier>
@@ -1367,6 +1414,57 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>7a487c07:17925222748:5f40</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=xy.reflect.ui.TableTreeModelExample$Loaning, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=xy.reflect.ui.TableTreeModelExample$Loaning, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class xy.reflect.ui.TableTreeModelExample$Loaning, specificitiesIdentifier=null]]]]]</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>7a487c07:17925222748:5f42</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>7a487c07:17925222748:5f41</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <listCustomizations>
+                    <uniqueIdentifier>7a487c07:17925222748:5f43</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>7a487c07:17925222748:5f5d</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>7a487c07:17925222748:5f44</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.ArrayList</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -1381,6 +1479,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d5a</uniqueIdentifier>
             <specificProperties/>
@@ -1410,6 +1509,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c34</uniqueIdentifier>
@@ -1418,6 +1518,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d58</uniqueIdentifier>
@@ -1448,6 +1549,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c32</uniqueIdentifier>
@@ -1456,6 +1558,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d56</uniqueIdentifier>
@@ -1486,6 +1589,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c36</uniqueIdentifier>
@@ -1494,6 +1598,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d54</uniqueIdentifier>
@@ -1547,8 +1652,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
                     <listSorted>false</listSorted>
@@ -1562,6 +1669,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c30</uniqueIdentifier>
@@ -1570,6 +1678,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -1584,6 +1693,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>6a9d1b49:1668ce57f94:419f</uniqueIdentifier>
             <specificProperties/>
@@ -1613,6 +1723,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>6a9d1b49:1668ce57f94:43da</uniqueIdentifier>
@@ -1621,6 +1732,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>6a9d1b49:1668ce57f94:41a4</uniqueIdentifier>
@@ -1651,6 +1763,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>6a9d1b49:1668ce57f94:43dc</uniqueIdentifier>
@@ -1659,6 +1772,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>6a9d1b49:1668ce57f94:41a9</uniqueIdentifier>
@@ -1689,6 +1803,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>6a9d1b49:1668ce57f94:43de</uniqueIdentifier>
@@ -1697,6 +1812,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -1731,6 +1847,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d35</uniqueIdentifier>
             <specificProperties/>
@@ -1761,6 +1878,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-46a2</uniqueIdentifier>
@@ -1769,6 +1887,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d33</uniqueIdentifier>
@@ -1823,8 +1942,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
                     <listSorted>false</listSorted>
@@ -1838,6 +1959,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-46a0</uniqueIdentifier>
@@ -1867,6 +1989,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -1888,7 +2011,7 @@
                     <data>rO0ABXNyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAAAA</data>
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
+                <hidden>true</hidden>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>key</parameterName>
             </parametersCustomizations>
@@ -1900,7 +2023,7 @@
                     <data>rO0ABXVyAC5bTHh5LnJlZmxlY3QudWkuVGFibGVUcmVlTW9kZWxFeGFtcGxlJFByb2R1Y3Q7oCbRVp42PJcCAAB4cAAAAAA=</data>
                 </defaultValue>
                 <displayedAsField>false</displayedAsField>
-                <hidden>false</hidden>
+                <hidden>true</hidden>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>value</parameterName>
             </parametersCustomizations>
@@ -1926,6 +2049,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d2e</uniqueIdentifier>
@@ -2067,6 +2191,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d13</uniqueIdentifier>
             <specificProperties/>
@@ -2091,6 +2216,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2105,6 +2231,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d0f</uniqueIdentifier>
             <specificProperties/>
@@ -2129,6 +2256,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2143,6 +2271,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d0b</uniqueIdentifier>
             <specificProperties/>
@@ -2167,6 +2296,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2181,6 +2311,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d07</uniqueIdentifier>
             <specificProperties>
@@ -2210,6 +2341,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2224,6 +2356,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5d03</uniqueIdentifier>
             <specificProperties/>
@@ -2248,6 +2381,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2262,6 +2396,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cff</uniqueIdentifier>
             <specificProperties/>
@@ -2286,6 +2421,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2300,6 +2436,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5ceb</uniqueIdentifier>
             <specificProperties/>
@@ -2324,6 +2461,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2338,6 +2476,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5ce7</uniqueIdentifier>
             <specificProperties/>
@@ -2362,6 +2501,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2376,6 +2516,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5ce3</uniqueIdentifier>
             <specificProperties/>
@@ -2400,6 +2541,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2414,6 +2556,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cdf</uniqueIdentifier>
             <specificProperties/>
@@ -2438,6 +2581,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2452,6 +2596,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cdb</uniqueIdentifier>
             <specificProperties/>
@@ -2476,6 +2621,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2490,6 +2636,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cd3</uniqueIdentifier>
             <specificProperties/>
@@ -2514,6 +2661,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2528,6 +2676,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5ccb</uniqueIdentifier>
             <specificProperties/>
@@ -2552,6 +2701,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2566,6 +2716,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cc7</uniqueIdentifier>
             <specificProperties/>
@@ -2590,6 +2741,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2604,6 +2756,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cc3</uniqueIdentifier>
             <specificProperties/>
@@ -2628,6 +2781,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2642,6 +2796,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cbf</uniqueIdentifier>
             <specificProperties/>
@@ -2666,6 +2821,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2680,6 +2836,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cbb</uniqueIdentifier>
             <specificProperties/>
@@ -2704,6 +2861,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2718,6 +2876,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cb5</uniqueIdentifier>
             <specificProperties/>
@@ -2742,6 +2901,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2756,6 +2916,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cb1</uniqueIdentifier>
             <specificProperties/>
@@ -2780,6 +2941,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5caf</uniqueIdentifier>
@@ -2805,6 +2967,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2819,6 +2982,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5cab</uniqueIdentifier>
             <specificProperties/>
@@ -2843,6 +3007,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5ca9</uniqueIdentifier>
@@ -2868,6 +3033,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2882,6 +3048,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5ca5</uniqueIdentifier>
             <specificProperties/>
@@ -2906,6 +3073,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5ca3</uniqueIdentifier>
@@ -2931,6 +3099,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2945,6 +3114,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c9f</uniqueIdentifier>
             <specificProperties/>
@@ -2969,6 +3139,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c9d</uniqueIdentifier>
@@ -2994,6 +3165,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3008,6 +3180,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c99</uniqueIdentifier>
             <specificProperties/>
@@ -3032,6 +3205,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c97</uniqueIdentifier>
@@ -3057,6 +3231,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3071,6 +3246,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c93</uniqueIdentifier>
             <specificProperties/>
@@ -3100,6 +3276,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c42</uniqueIdentifier>
@@ -3108,6 +3285,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3122,6 +3300,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c8f</uniqueIdentifier>
             <specificProperties/>
@@ -3151,6 +3330,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5bf5</uniqueIdentifier>
@@ -3159,6 +3339,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3173,6 +3354,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c8b</uniqueIdentifier>
             <specificProperties/>
@@ -3202,6 +3384,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5be9</uniqueIdentifier>
@@ -3210,6 +3393,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3224,6 +3408,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c87</uniqueIdentifier>
             <specificProperties/>
@@ -3253,6 +3438,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c38</uniqueIdentifier>
@@ -3261,6 +3447,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3275,6 +3462,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c83</uniqueIdentifier>
             <specificProperties/>
@@ -3299,6 +3487,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3313,6 +3502,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c7f</uniqueIdentifier>
             <specificProperties/>
@@ -3342,6 +3532,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-46a4</uniqueIdentifier>
@@ -3350,6 +3541,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3364,6 +3556,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c7b</uniqueIdentifier>
             <specificProperties/>
@@ -3393,6 +3586,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c78</uniqueIdentifier>
@@ -3401,6 +3595,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3415,6 +3610,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c59</uniqueIdentifier>
             <specificProperties/>
@@ -3444,6 +3640,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-5c56</uniqueIdentifier>
@@ -3452,6 +3649,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3466,6 +3664,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c51</uniqueIdentifier>
             <specificProperties/>
@@ -3525,6 +3724,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>6a9d1b49:1668ce57f94:43d0</uniqueIdentifier>
@@ -3533,6 +3733,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3547,6 +3748,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-4aa7</uniqueIdentifier>
             <specificProperties/>
@@ -3577,6 +3779,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-4aa2</uniqueIdentifier>
@@ -3585,6 +3788,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-10c49653:163be5e816a:-4aa5</uniqueIdentifier>
@@ -3638,8 +3842,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
                     <listSorted>false</listSorted>
@@ -3653,6 +3859,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-10c49653:163be5e816a:-4aa0</uniqueIdentifier>
@@ -3661,6 +3868,126 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>7a487c07:17925222748:5f81</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>parameter1 of xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;)</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>7a487c07:17925222748:5f83</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>7a487c07:17925222748:5f82</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>7a487c07:17925222748:5f8b</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>7a487c07:17925222748:5f8c</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.Integer</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>7a487c07:17925222748:5f84</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>parameter2 of xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;)</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>7a487c07:17925222748:5f86</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>7a487c07:17925222748:5f85</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <listCustomizations>
+                    <uniqueIdentifier>7a487c07:17925222748:5f8f</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>7a487c07:17925222748:5f91</uniqueIdentifier>
+                        <columnName>typeName</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <uniqueIdentifier>7a487c07:17925222748:5f92</uniqueIdentifier>
+                        <columnName>name</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <uniqueIdentifier>7a487c07:17925222748:5f93</uniqueIdentifier>
+                        <columnName>description</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <columnCustomizations>
+                        <uniqueIdentifier>7a487c07:17925222748:5f94</uniqueIdentifier>
+                        <columnName>price</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>7a487c07:17925222748:5f90</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.TableTreeModelExample$Product</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>[Lxy.reflect.ui.TableTreeModelExample$Product;</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>7a487c07:17925222748:5f8d</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>7a487c07:17925222748:5f8e</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>[Lxy.reflect.ui.TableTreeModelExample$Product;</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3675,6 +4002,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-1597c6a8:1668dd634f5:50a9</uniqueIdentifier>
             <specificProperties/>
@@ -3704,6 +4032,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-1597c6a8:1668dd634f5:50b6</uniqueIdentifier>
@@ -3712,6 +4041,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-1597c6a8:1668dd634f5:50ac</uniqueIdentifier>
@@ -3742,6 +4072,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-1597c6a8:1668dd634f5:50b8</uniqueIdentifier>
@@ -3750,6 +4081,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3808,6 +4140,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-6ed7a0ed:1668d8c97c6:4304</uniqueIdentifier>
             <specificProperties/>
@@ -3837,6 +4170,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-6ed7a0ed:1668d8c97c6:430e</uniqueIdentifier>
@@ -3850,6 +4184,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-6ed7a0ed:1668d8c97c6:4310</uniqueIdentifier>
@@ -3858,6 +4193,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3906,6 +4242,49 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>7a487c07:17925222748:64a3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>7a487c07:17925222748:64a5</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>7a487c07:17925222748:64a6</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>key</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>7a487c07:17925222748:64a7</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>7a487c07:17925222748:64a8</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>value</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <specificReturnValueTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>7a487c07:17925222748:64a4</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificReturnValueTypeCustomizations>
+            <validating>false</validating>
+        </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
@@ -3915,6 +4294,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-1597c6a8:1668dd634f5:434b</uniqueIdentifier>
             <specificProperties/>
@@ -3959,6 +4339,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-1597c6a8:1668dd634f5:4358</uniqueIdentifier>
@@ -3967,6 +4348,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3981,6 +4363,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-1597c6a8:1668dd634f5:4350</uniqueIdentifier>
             <specificProperties/>
@@ -4010,6 +4393,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-1597c6a8:1668dd634f5:4356</uniqueIdentifier>
@@ -4018,6 +4402,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -4032,6 +4417,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>5491b38c:1668e0f6139:5126</uniqueIdentifier>
             <specificProperties/>
@@ -4061,6 +4447,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>5491b38c:1668e0f6139:5130</uniqueIdentifier>
@@ -4074,6 +4461,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>5491b38c:1668e0f6139:5132</uniqueIdentifier>
@@ -4082,6 +4470,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -4139,6 +4528,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-2b72cc3c:166edfe57e0:66a2</uniqueIdentifier>
             <specificProperties/>
@@ -4171,8 +4561,10 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;</itemTypeName>
                     <listSorted>false</listSorted>
@@ -4181,12 +4573,78 @@
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-2b72cc3c:166edfe57e0:66a1</uniqueIdentifier>
         </menuModel>
         <typeName>FieldAsListItemTypeInfo [index=0, containingList=listFromProductsByDuration]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>7a487c07:17925222748:5f5f</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <fieldsCustomizations>
+            <uniqueIdentifier>7a487c07:17925222748:5f61</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>productsByDuration</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>7a487c07:17925222748:5f63</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>7a487c07:17925222748:5f62</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <listCustomizations>
+                    <uniqueIdentifier>7a487c07:17925222748:5f64</uniqueIdentifier>
+                    <columnCustomizations>
+                        <uniqueIdentifier>7a487c07:17925222748:60c8</uniqueIdentifier>
+                        <columnName>toStringValue</columnName>
+                        <hidden>false</hidden>
+                    </columnCustomizations>
+                    <editOptions>
+                        <uniqueIdentifier>7a487c07:17925222748:5f65</uniqueIdentifier>
+                        <itemCreationEnabled>true</itemCreationEnabled>
+                        <itemDeletionEnabled>true</itemDeletionEnabled>
+                        <itemMoveEnabled>true</itemMoveEnabled>
+                    </editOptions>
+                    <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
+                    <itemNullValueAllowed>false</itemNullValueAllowed>
+                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
+                    <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;</itemTypeName>
+                    <listSorted>false</listSorted>
+                    <listTypeName>java.util.Map</listTypeName>
+                    <positionColumnAdded>false</positionColumnAdded>
+                    <stringValueColumnAdded>false</stringValueColumnAdded>
+                </listCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>7a487c07:17925222748:5f60</uniqueIdentifier>
+        </menuModel>
+        <typeName>FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=xy.reflect.ui.TableTreeModelExample$Loaning, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=xy.reflect.ui.TableTreeModelExample$Loaning, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class xy.reflect.ui.TableTreeModelExample$Loaning, specificitiesIdentifier=null]]]]]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>
