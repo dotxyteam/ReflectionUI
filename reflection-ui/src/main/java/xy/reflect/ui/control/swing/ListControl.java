@@ -1192,7 +1192,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-		return constructorSelectable && swingRenderer.isDecisionRequiredOnTypeInstanciationRequest(typeToInstanciate);
+		return constructorSelectable && (listType.isItemNullValueDistinct()
+				|| swingRenderer.isDecisionRequiredOnTypeInstanciationRequest(typeToInstanciate));
 	};
 
 	protected Object createItem(BufferedItemPosition itemPosition) {
@@ -2877,7 +2878,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			action.invokeAndUpdateReturnValue(invocationData);
+			action.invokeAndSetReturnValue(invocationData);
 			if (dynamicAction.getPostSelection() != null) {
 				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicAction.getPostSelection());
