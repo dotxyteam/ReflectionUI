@@ -288,58 +288,30 @@
             <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <uniqueIdentifier>8acb233:15bc8e8e6ed:-706f</uniqueIdentifier>
+            <uniqueIdentifier>-634d4a82:16788bb17bb:1489</uniqueIdentifier>
             <specificProperties/>
-            <hidden>true</hidden>
+            <hidden>false</hidden>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>factory</fieldName>
+            <fieldName>customizationError</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
-                <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f85</uniqueIdentifier>
+                <uniqueIdentifier>-634d4a82:16788bb17bb:148b</uniqueIdentifier>
             </nullReplacement>
             <nullStatusFieldExported>false</nullStatusFieldExported>
             <nullValueDistinctForced>false</nullValueDistinctForced>
             <setterGenerated>false</setterGenerated>
             <specificTypeCustomizations>
                 <appplicationCustomization>
-                    <uniqueIdentifier>113a54e0:16655c46814:1f7f</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>8acb233:15bc8e8e6ed:-705c</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <customFieldCaption></customFieldCaption>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>parameter1 of java.lang.Object eval(java.lang.String)</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>true</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f78</uniqueIdentifier>
-                <data>rO0ABXQAAA==</data>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>113a54e0:16655c46814:1f84</uniqueIdentifier>
+                    <uniqueIdentifier>-634d4a82:16788bb17bb:148a</uniqueIdentifier>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
                 <typeCustomizations>
-                    <uniqueIdentifier>697af9b3:15bd4f31415:-369f</uniqueIdentifier>
+                    <uniqueIdentifier>-634d4a82:16788bb17bb:148e</uniqueIdentifier>
                     <specificProperties/>
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
@@ -347,31 +319,13 @@
                     <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
-                        <uniqueIdentifier>113a54e0:16655c46814:1f87</uniqueIdentifier>
+                        <uniqueIdentifier>-634d4a82:16788bb17bb:148f</uniqueIdentifier>
                     </menuModel>
-                    <typeName>java.lang.StringBuilder</typeName>
+                    <typeName>java.lang.Object</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
-            <typeConversion>
-                <uniqueIdentifier>3e9ac662:15bc8ef805e:-713f</uniqueIdentifier>
-                <conversionMethodFinder>
-                    <uniqueIdentifier>3e9ac662:15bc8ef805e:-7111</uniqueIdentifier>
-                    <conversionClassName>java.lang.StringBuilder</conversionClassName>
-                    <conversionMethodSignature>java.lang.StringBuilder (java.lang.String)</conversionMethodSignature>
-                </conversionMethodFinder>
-                <reverseConversionMethodFinder>
-                    <uniqueIdentifier>3e9ac662:15bc8ef805e:-710f</uniqueIdentifier>
-                    <conversionClassName>java.lang.String</conversionClassName>
-                    <conversionMethodSignature>java.lang.String (java.lang.StringBuilder)</conversionMethodSignature>
-                </reverseConversionMethodFinder>
-                <javaClassBasedTypeInfoFinder>
-                    <uniqueIdentifier>3e9ac662:15bc8ef805e:-7132</uniqueIdentifier>
-                    <className>java.lang.StringBuilder</className>
-                </javaClassBasedTypeInfoFinder>
-                <nullValueConverted>false</nullValueConverted>
-            </typeConversion>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-4ae45705:15bca100395:-7110</uniqueIdentifier>
@@ -445,10 +399,110 @@
             <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
+            <uniqueIdentifier>8acb233:15bc8e8e6ed:-706f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>factory</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f85</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>113a54e0:16655c46814:1f7f</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>8acb233:15bc8e8e6ed:-705c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>eval.text</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>37fbb1d1:15bccdd7bb0:-7f78</uniqueIdentifier>
+                <data>rO0ABXQAAA==</data>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>113a54e0:16655c46814:1f84</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>697af9b3:15bd4f31415:-369f</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>113a54e0:16655c46814:1f87</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.StringBuilder</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+                <typeCustomizations>
+                    <uniqueIdentifier>293b6fd5:1792d1d44d5:-43a4</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>293b6fd5:1792d1d44d5:-43a3</uniqueIdentifier>
+                    </menuModel>
+                    <typeName>java.lang.String</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+            <typeConversion>
+                <uniqueIdentifier>3e9ac662:15bc8ef805e:-713f</uniqueIdentifier>
+                <conversionMethodFinder>
+                    <uniqueIdentifier>3e9ac662:15bc8ef805e:-7111</uniqueIdentifier>
+                    <conversionClassName>java.lang.StringBuilder</conversionClassName>
+                    <conversionMethodSignature>java.lang.StringBuilder (java.lang.String)</conversionMethodSignature>
+                </conversionMethodFinder>
+                <reverseConversionMethodFinder>
+                    <uniqueIdentifier>3e9ac662:15bc8ef805e:-710f</uniqueIdentifier>
+                    <conversionClassName>java.lang.String</conversionClassName>
+                    <conversionMethodSignature>java.lang.String (java.lang.StringBuilder)</conversionMethodSignature>
+                </reverseConversionMethodFinder>
+                <javaClassBasedTypeInfoFinder>
+                    <uniqueIdentifier>3e9ac662:15bc8ef805e:-7132</uniqueIdentifier>
+                    <className>java.lang.StringBuilder</className>
+                </javaClassBasedTypeInfoFinder>
+                <nullValueConverted>false</nullValueConverted>
+            </typeConversion>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
             <uniqueIdentifier>58d1b151:166a1a0bfe8:-27fb</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>Result</customFieldCaption>
+            <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
             <fieldName>resultGroup</fieldName>
@@ -506,86 +560,6 @@
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-2789</uniqueIdentifier>
                     </menuModel>
                     <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=jdk.nashorn.api.scripting.NashornScriptEngine], fieldName=resultGroup]</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-634d4a82:16788bb17bb:1489</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>customizationError</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-634d4a82:16788bb17bb:148b</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-634d4a82:16788bb17bb:148a</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-634d4a82:16788bb17bb:148e</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-634d4a82:16788bb17bb:148f</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.Object</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-634d4a82:16788bb17bb:15b6</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>parameter1 of java.lang.Object eval(java.lang.String)</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-634d4a82:16788bb17bb:15b8</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-634d4a82:16788bb17bb:15b7</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-634d4a82:16788bb17bb:15b9</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-634d4a82:16788bb17bb:15ba</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -1528,7 +1502,7 @@
                         <hidden>false</hidden>
                         <displayedAsSingletonList>false</displayedAsSingletonList>
                         <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>parameter1 of java.lang.Object eval(java.lang.String)</fieldName>
+                        <fieldName>eval.text</fieldName>
                         <formControlCreationForced>false</formControlCreationForced>
                         <formControlEmbeddingForced>false</formControlEmbeddingForced>
                         <getOnlyForced>false</getOnlyForced>
@@ -3101,7 +3075,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <uniqueIdentifier>58d1b151:166a1a0bfe8:-3a4b</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
-            <customFieldCaption>Input</customFieldCaption>
+            <customFieldCaption></customFieldCaption>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
             <fieldName>inputGroup</fieldName>
@@ -6682,6 +6656,16 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
+        <formBackgroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </formBackgroundColor>
+        <formForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>204</red>
+        </formForegroundColor>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>58d1b151:166a1a0bfe8:-278b</uniqueIdentifier>
