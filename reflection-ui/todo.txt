@@ -1,3 +1,5 @@
+- add a customization option for type icon based of field value.
+- IMethodInfo.validateParameters() never overriden on proxies. Check.
 - check that (may be automitically and constantly) that
 typeInfo.source == source.typeInfo
 - MembersCustomizationsFactory.transformMethods() potential issue: the signature 

@@ -122,7 +122,7 @@ public class MethodAction extends AbstractAction {
 			return;
 		}
 		try {
-			invokeAndUpdateReturnValue(invocationData);
+			invokeAndSetReturnValue(invocationData);
 			if (shouldDisplayReturnValue()) {
 				openMethodReturnValueWindow(activatorComponent);
 			}
@@ -184,7 +184,7 @@ public class MethodAction extends AbstractAction {
 		return ReflectionUIUtils.composeMessage(data.getCaption(), "Execution");
 	}
 
-	public void invokeAndUpdateReturnValue(InvocationData invocationData) {
+	public void invokeAndSetReturnValue(InvocationData invocationData) {
 		if (data.getParameters().size() > 0) {
 			swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
 		}
