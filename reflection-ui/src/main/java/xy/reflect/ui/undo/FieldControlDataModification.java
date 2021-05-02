@@ -58,11 +58,11 @@ public class FieldControlDataModification extends AbstractModification {
 		}
 	}
 
-	public static String getTitle(String targetCaption) {
-		if ((targetCaption == null) || (targetCaption.length() == 0)) {
-			return "";
+	public static String getTitle(String fieldCaption) {
+		if ((fieldCaption == null) || (fieldCaption.length() == 0)) {
+			return null;
 		}
-		return "Edit '" + targetCaption + "'";
+		return "Edit '" + fieldCaption + "'";
 	}
 
 	@Override

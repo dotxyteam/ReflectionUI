@@ -107,7 +107,11 @@ public class CompositeModification implements IModification {
 		} else {
 			List<String> result = new ArrayList<String>();
 			for (IModification modif : modifications) {
-				result.add(modif.getTitle());
+				String modifTitle = modif.getTitle();
+				if (modifTitle == null) {
+					return null;
+				}
+				result.add(modifTitle);
 			}
 			return ReflectionUIUtils.stringJoin(result, ", ");
 		}

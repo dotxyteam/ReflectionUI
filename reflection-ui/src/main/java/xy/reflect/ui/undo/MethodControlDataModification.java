@@ -72,8 +72,8 @@ public class MethodControlDataModification extends AbstractModification {
 		return getTitle(data.getCaption());
 	}
 
-	public static String getTitle(String targetCaption) {
-		return "Execute '" + targetCaption + "'";
+	public static String getTitle(String methodCaption) {
+		return "Execute '" + methodCaption + "'";
 	}
 
 	@Override
