@@ -34,7 +34,6 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Virtual field that allows to view/edit the underlying method parameter value.
@@ -44,28 +43,38 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class ParameterAsFieldInfo extends VirtualFieldInfo {
 
+	protected ReflectionUI reflectionUI;
 	protected IParameterInfo param;
 	protected IMethodInfo method;
+	protected ITypeInfo containingType;
+
+	protected ITypeInfo type;
 
 	public ParameterAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, IParameterInfo param,
 			ITypeInfo containingType) {
-		super(computeName(method, param), computeType(reflectionUI, method, param, containingType));
+		super(param.getName(), param.getType());
+		this.reflectionUI = reflectionUI;
+		this.containingType = containingType;
 		this.method = method;
 		this.param = param;
 	}
 
-	protected static ITypeInfo computeType(ReflectionUI reflectionUI, IMethodInfo method, IParameterInfo param,
-			ITypeInfo containingType) {
-		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
-			@Override
-			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-				return new SpecificitiesIdentifier(containingType.getName(), computeName(method, param));
-			}
-		});
+	@Override
+	public String getName() {
+		return "parameter [of=" + method.getSignature() + ", position=" + param.getPosition() + "]";
 	}
 
-	protected static String computeName(IMethodInfo method, IParameterInfo param) {
-		return "parameter" + (param.getPosition() + 1) + " of " + method.getSignature();
+	@Override
+	public ITypeInfo getType() {
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(containingType.getName(), getName());
+				}
+			});
+		}
+		return type;
 	}
 
 	public void ensureInitialValueIsDefaultParameterValue(Object object) {
@@ -86,7 +95,7 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.composeMessage(method.getCaption(), param.getCaption());
+		return param.getCaption();
 	}
 
 	@Override
@@ -107,6 +116,11 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 	@Override
 	public String getOnlineHelp() {
 		return param.getOnlineHelp();
+	}
+
+	@Override
+	public String toString() {
+		return "ParameterAsFieldInfo [method=" + method + ", param=" + param + "]";
 	}
 
 }

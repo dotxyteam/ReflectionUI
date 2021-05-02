@@ -39,7 +39,6 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IrreversibleModificationException;
 import xy.reflect.ui.util.FututreActionBuilder;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -72,7 +71,13 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 		for (int i = 0; i < parameterizedFields.size(); i++) {
 			final IFieldInfo field = parameterizedFields.get(i);
 			final int position = i + startPosition;
-			result.add(new FieldAsParameterInfo(reflectionUI, field, position));
+			result.add(new FieldAsParameterInfo(reflectionUI, field, position) {
+
+				@Override
+				public String getName() {
+					return "field." + field.getName();
+				}
+			});
 		}
 		return result;
 	}
@@ -91,6 +96,9 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
+		InvocationData newInvocationData = new InvocationData();
+		newInvocationData.getProvidedParameterValues().putAll(invocationData.getProvidedParameterValues());
+		newInvocationData.getDefaultParameterValues().putAll(invocationData.getDefaultParameterValues());
 		for (FieldAsParameterInfo generatedParameter : generatedParameters) {
 			Object value = invocationData.getParameterValue(generatedParameter.getPosition());
 			if (undoJobBuilder != null) {
@@ -98,11 +106,8 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 						ReflectionUIUtils.getUndoJob(object, generatedParameter.getSourceField(), value));
 			}
 			generatedParameter.getSourceField().setValue(object, value);
-		}
-		try {
-			super.validateParameters(object, invocationData);
-		} catch (Exception e) {
-			throw new ReflectionUIError(e);
+			newInvocationData.getProvidedParameterValues().remove(generatedParameter.getPosition());
+			newInvocationData.getDefaultParameterValues().remove(generatedParameter.getPosition());
 		}
 		if (undoJobBuilder != null) {
 			undoJobBuilder.setOption(getBaseMethodUndoJobName(),
@@ -110,7 +115,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 			undoJobBuilder.build();
 			undoJobBuilder = null;
 		}
-		return super.invoke(object, invocationData);
+		return super.invoke(object, newInvocationData);
 	}
 
 	protected String getBaseMethodUndoJobName() {

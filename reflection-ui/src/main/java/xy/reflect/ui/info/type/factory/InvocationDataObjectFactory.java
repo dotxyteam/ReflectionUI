@@ -449,7 +449,16 @@ public class InvocationDataObjectFactory {
 		}
 
 		@Override
+		public String getName() {
+			return param.getName();
+		}
+
+		@Override
 		public void setValue(Object object, Object value) {
+			if (!param.getType().supportsInstance(value)) {
+				throw new ReflectionUIError("Parameter '" + param.getName() + "': New value not supported: '" + value
+						+ "'. Expected value of type '" + param.getType().getName() + "'");
+			}
 			Instance instance = (Instance) object;
 			instance.invocationData.getProvidedParameterValues().put(param.getPosition(), value);
 		}
