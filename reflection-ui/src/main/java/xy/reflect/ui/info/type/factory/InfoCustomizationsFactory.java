@@ -1455,7 +1455,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected ITypeInfo containingType;
 		protected TypeCustomization containingTypeCustomization;
 
-		protected Map<ParameterCustomization, ParameterAsFieldInfo> methodParameterAsFields = new HashMap<ParameterCustomization, ParameterAsFieldInfo>();
+		protected Map<Pair<MethodCustomization, ParameterCustomization>, ParameterAsFieldInfo> methodParameterAsFields = new HashMap<Pair<MethodCustomization, ParameterCustomization>, ParameterAsFieldInfo>();
 
 		public MembersCustomizationsFactory(ITypeInfo containingType) {
 			this.containingType = containingType;
@@ -1655,7 +1655,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected List<AbstractMethodTransformer> getMethodTransformers() {
 			List<AbstractMethodTransformer> result = new ArrayList<AbstractMethodTransformer>();
 			result.add(new MethodDuplicateGeneratingTransformer());
-			result.add(new MethodHiddenParametersTransformer());
+			result.add(new MethodHiddenParametersAndDefaultValuesTransformer());
 			result.add(new MethodPresetsGeneratingTransformer());
 			result.add(new MethodMenuItemGeneratingTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
@@ -1928,7 +1928,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
-		protected class MethodHiddenParametersTransformer extends AbstractMethodTransformer {
+		protected class MethodHiddenParametersAndDefaultValuesTransformer extends AbstractMethodTransformer {
 
 			@Override
 			public IMethodInfo process(IMethodInfo method, final MethodCustomization mc, List<IFieldInfo> newFields,
@@ -1955,7 +1955,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									@Override
 									public Object getDefaultValue(Object object) {
 										ParameterAsFieldInfo methodParameterAsField = MembersCustomizationsFactory.this.methodParameterAsFields
-												.get(pc);
+												.get(new Pair<MethodCustomization, ParameterCustomization>(mc, pc));
 										if (methodParameterAsField != null) {
 											if (methodParameterAsField.isInitialized(object)) {
 												return methodParameterAsField.getValue(object);
@@ -2241,11 +2241,23 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									param, containingType) {
 
 								@Override
+								public String getName() {
+									return method.getName() + "." + param.getName();
+								}
+
+								@Override
+								public String getCaption() {
+									return ReflectionUIUtils.composeMessage(method.getCaption(), param.getCaption());
+								}
+
+								@Override
 								public boolean isHidden() {
 									return false;
 								}
 							};
-							MembersCustomizationsFactory.this.methodParameterAsFields.put(pc, methodParameterAsField);
+							MembersCustomizationsFactory.this.methodParameterAsFields.put(
+									new Pair<MethodCustomization, ParameterCustomization>(mc, pc),
+									methodParameterAsField);
 							newFields.add(methodParameterAsField);
 						}
 					}
@@ -2374,6 +2386,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							if (valueOptionsfield == null) {
 								throw new ReflectionUIError(
 										"Value options field not found: '" + fc.getValueOptionsFieldName() + "'");
+							}
+							if (!(valueOptionsfield.getType() instanceof IListTypeInfo)) {
+								throw new ReflectionUIError("Value options field '" + fc.getValueOptionsFieldName()
+										+ "' type is not a list type: '" + valueOptionsfield.getType().getName() + "'");
 							}
 							IListTypeInfo valueOptionsfieldType = (IListTypeInfo) valueOptionsfield.getType();
 							Object options = valueOptionsfield.getValue(object);
