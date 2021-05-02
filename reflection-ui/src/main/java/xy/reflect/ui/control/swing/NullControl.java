@@ -72,13 +72,15 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		this.data = input.getControlData();
 		setLayout(new BorderLayout());
 		add(labelComponent = createLabelComponent(), BorderLayout.CENTER);
-		setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
-		if (data.getLabelForegroundColor() != null) {
-			((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-		}
-		if (data.getBorderColor() != null) {
-			((TitledBorder) getBorder())
-					.setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+		if (data.getCaption().length() > 0) {
+			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+			if (data.getLabelForegroundColor() != null) {
+				((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+			}
+			if (data.getBorderColor() != null) {
+				((TitledBorder) getBorder())
+						.setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+			}
 		}
 		setupActivationAction();
 	}
