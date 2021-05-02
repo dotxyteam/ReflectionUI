@@ -39,17 +39,19 @@ import java.util.Map;
 public interface IInfo {
 
 	/**
-	 * @return the name of this abstract UI model element.
+	 * @return the name of this abstract UI model element. It may be empty but not
+	 *         null.
 	 */
 	String getName();
 
 	/**
-	 * @return the displayed name of this abstract UI model element.
+	 * @return the displayed name of this abstract UI model element. It may be empty
+	 *         but not null.
 	 */
 	String getCaption();
 
 	/**
-	 * @return the help text of this abstract UI model element.
+	 * @return the help text of this abstract UI model element or null.
 	 */
 	String getOnlineHelp();
 

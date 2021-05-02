@@ -234,9 +234,11 @@ public interface IFieldInfo extends IInfo {
 
 	/**
 	 * @return true if and only if this field value can be set. Otherwise
-	 *         {@link #setValue(Object, Object)} should not be called. Note that it
-	 *         is not guaranteed that modifications will not occur on a get-only
-	 *         field value. It depends on the field control that is used.
+	 *         {@link #setValue(Object, Object)} should not be called. Note that a
+	 *         get-only field does not prevent all modifications. The field value
+	 *         may be modified and these modifications may be volatile (for
+	 *         calculated values, copies, ..) or persistent even if the new field
+	 *         value is not set.
 	 */
 	boolean isGetOnly();
 

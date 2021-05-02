@@ -55,17 +55,18 @@ public enum ValueReturnMode {
 
 	/**
 	 * Means that the value could be stored in the source object or not. Thus
-	 * altering the could alter or not the source object.
+	 * altering the value may alter (or not) the source object.
 	 */
 	INDETERMINATE;
 
 	/**
 	 * 
-	 * @param parent
-	 *            The parent return mode.
-	 * @param child
-	 *            The child return mode.
-	 * @return the result of the combination of 2 overlaid value return modes.
+	 * @param parent The parent return mode.
+	 * @param child  The child return mode.
+	 * @return the result of the combination of 2 value return modes as if a parent
+	 *         value was obtained using the parent value return mode and a child
+	 *         value was obtained from the parent value using the child return value
+	 *         mode.
 	 */
 	public static ValueReturnMode combine(ValueReturnMode parent, ValueReturnMode child) {
 		return Collections.max(Arrays.asList(parent, child));

@@ -329,10 +329,11 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the encapsulated field is get-only. Note that it is not
-	 *         guaranteed that modifications will not occur on an encapsulated
-	 *         get-only field value. It depends on the encapsulated field control
-	 *         that is used.
+	 * @return whether the encapsulated field is get-only. Note that an encapsulated
+	 *         get-only field does not prevent all modifications. The encapsulated
+	 *         field value may be modified and these modifications may be volatile
+	 *         (for calculated values, copies, ..) or persistent even if the new
+	 *         encapsulated field value is not set.
 	 */
 	protected boolean isEncapsulatedFieldGetOnly() {
 		return isInReadOnlyMode() || (hasParentObject() && !canCommitToParent());
