@@ -37,7 +37,6 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -78,11 +77,6 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	@Override
 	public String getCaption() {
 		return "Create " + getReturnValueType().getCaption();
-	}
-
-	@Override
-	public ITypeInfo getReturnValueType() {
-		return null;
 	}
 
 	@Override
