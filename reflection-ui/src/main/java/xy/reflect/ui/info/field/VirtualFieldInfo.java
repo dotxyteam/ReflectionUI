@@ -39,6 +39,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -110,6 +111,15 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 		return valueByField.get(this);
 	}
 
+	@Override
+	public void setValue(Object object, Object value) {
+		if (!fieldType.supportsInstance(value)) {
+			throw new ReflectionUIError("Virtual field '" + fieldName + "': New value not supported: '" + value
+					+ "'. Expected value of type '" + fieldType.getName() + "'");
+		}
+		getValueByField(object).put(this, value);
+	}
+
 	protected Map<IFieldInfo, Object> getValueByField(Object object) {
 		Map<IFieldInfo, Object> valueByField = valueByFieldByObject.get(object);
 		if (valueByField == null) {
@@ -127,11 +137,6 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public Object[] getValueOptions(Object object) {
 		return null;
-	}
-
-	@Override
-	public void setValue(Object object, Object value) {
-		getValueByField(object).put(this, value);
 	}
 
 	@Override
