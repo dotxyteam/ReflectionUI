@@ -531,12 +531,12 @@ public class SwingRenderer {
 	 *         {@link #onTypeInstanciationRequest(Component, ITypeInfo, Object)}
 	 *         with the given type.
 	 */
-	public boolean wouldTypeInstanciationRequestOpenDialog(ITypeInfo type) {
+	public boolean isDecisionRequiredOnTypeInstanciationRequest(ITypeInfo type) {
 		if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 			final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
 			List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
 			if (polyTypes.size() == 1) {
-				return wouldTypeInstanciationRequestOpenDialog(polyTypes.get(0));
+				return isDecisionRequiredOnTypeInstanciationRequest(polyTypes.get(0));
 			} else {
 				return true;
 			}

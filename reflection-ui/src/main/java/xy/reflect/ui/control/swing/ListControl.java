@@ -1192,14 +1192,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-		if (constructorSelectable) {
-			return swingRenderer.wouldTypeInstanciationRequestOpenDialog(typeToInstanciate);
-		} else {
-			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
-				return true;
-			}
-		}
-		return false;
+		return constructorSelectable && swingRenderer.isDecisionRequiredOnTypeInstanciationRequest(typeToInstanciate);
 	};
 
 	protected Object createItem(BufferedItemPosition itemPosition) {
@@ -2157,9 +2150,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 			}
-			boolean itemConstructorSelectable = (subListType
-					.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-			if (!itemConstructorSelectable && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+			boolean wasDialogDisplayed = isDialogDisplayedOnItemCreation(newSubItemPosition);
+			if (!wasDialogDisplayed && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
@@ -2225,7 +2217,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (subListItemType != null) {
 				title += " " + getItemTitle(subItemPosition);
 			}
-			if (isDialogDisplayedOnItemCreation(subItemPosition)) {
+			if (isDialogDisplayedOnItemCreation(subItemPosition)
+					|| getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				title += "...";
 			}
 			return title;
@@ -2425,9 +2418,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 			}
-			boolean itemConstructorSelectable = (listType
-					.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-			if (!itemConstructorSelectable && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+			boolean wasDialogDisplayed = isDialogDisplayedOnItemCreation(newItemPosition);
+			if (!wasDialogDisplayed && getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
@@ -2456,7 +2448,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				} else if (insertPosition == InsertPosition.BEFORE) {
 					buttonText += " Before";
 				}
-				if (isDialogDisplayedOnItemCreation(newItemPosition)) {
+				if (isDialogDisplayedOnItemCreation(newItemPosition)
+						|| getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 					buttonText += " ...";
 				}
 			}
