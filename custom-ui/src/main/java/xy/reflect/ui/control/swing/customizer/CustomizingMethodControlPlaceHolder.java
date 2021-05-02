@@ -61,8 +61,7 @@ public class CustomizingMethodControlPlaceHolder extends MethodControlPlaceHolde
 	}
 
 	public void refreshInfoCustomizationsControl() {
-		if (((SwingCustomizer) swingRenderer)
-				.areCustomizationsEditable(getObject()) == (infoCustomizationsComponent != null)) {
+		if (((CustomizingForm) form).areCustomizationsEditable(getObject()) == (infoCustomizationsComponent != null)) {
 			return;
 		}
 		if (infoCustomizationsComponent == null) {

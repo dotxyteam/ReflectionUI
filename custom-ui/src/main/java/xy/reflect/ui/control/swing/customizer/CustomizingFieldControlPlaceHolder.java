@@ -31,6 +31,7 @@ package xy.reflect.ui.control.swing.customizer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
+import xy.reflect.ui.control.swing.customizer.SwingCustomizer.CustomizingForm;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -59,7 +60,7 @@ public class CustomizingFieldControlPlaceHolder extends FieldControlPlaceHolder 
 	}
 
 	public void refreshInfoCustomizationsControl() {
-		if (((SwingCustomizer) swingRenderer)
+		if (((CustomizingForm) form)
 				.areCustomizationsEditable(getObject()) == (infoCustomizationsComponent != null)) {
 			return;
 		}

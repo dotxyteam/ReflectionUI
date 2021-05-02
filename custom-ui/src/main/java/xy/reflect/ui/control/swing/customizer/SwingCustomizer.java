@@ -212,28 +212,6 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		return SwingCustomizerUtils.CUSTOMIZATION_ICON;
 	}
 
-	/**
-	 * @param object
-	 * @return whether customizations are enabled for the specified object or not.
-	 */
-	public boolean areCustomizationsEditable(Object object) {
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (!isCustomizationsEditorEnabled()) {
-			return false;
-		}
-		if (!customizationOptions.isInEditMode()) {
-			return false;
-		}
-		if (!getInfoCustomizations()
-				.equals(type.getSpecificProperties().get(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY))) {
-			return false;
-		}
-		if (Boolean.TRUE.equals(type.getSpecificProperties().get(CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY))) {
-			return false;
-		}
-		return true;
-	}
-
 	protected CustomizationController createCustomizationController() {
 		return new CustomizationController(this);
 	}
@@ -276,6 +254,27 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 					}
 				});
 			}
+		}
+
+		/**
+		 * @param object
+		 * @return whether customizations are enabled for the specified object or not.
+		 */
+		public boolean areCustomizationsEditable(Object object) {
+			if (!isCustomizationsEditorEnabled()) {
+				return false;
+			}
+			if (!customizationOptions.isInEditMode()) {
+				return false;
+			}
+			if (!getInfoCustomizations()
+					.equals(objectType.getSpecificProperties().get(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY))) {
+				return false;
+			}
+			if (Boolean.TRUE.equals(objectType.getSpecificProperties().get(CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY))) {
+				return false;
+			}
+			return true;
 		}
 
 		/**

@@ -73,6 +73,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
 	protected ITypeInfo containingType;
+	protected ITypeInfo type;
 
 	public CapsuleFieldInfo(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
 			List<IMethodInfo> encapsulatedMethods, ITypeInfo containingType) {
@@ -155,7 +156,10 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
+		}
+		return type; 
 	}
 
 	@Override

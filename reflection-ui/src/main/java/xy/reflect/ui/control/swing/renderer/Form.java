@@ -118,6 +118,7 @@ public class Form extends ImagePanel {
 
 	protected SwingRenderer swingRenderer;
 	protected Object object;
+	protected ITypeInfo objectType;
 	protected ModificationStack modificationStack;
 	protected boolean fieldsUpdateListenerDisabled = false;
 	protected IInfoFilter infoFilter;
@@ -137,6 +138,7 @@ public class Form extends ImagePanel {
 		setObject(object);
 		setInfoFilter(infoFilter);
 		setModificationStack(new ModificationStack(toString()));
+		objectType = buildFormFilteredType();
 		addAncestorListener(new AncestorListener() {
 
 			@Override
@@ -262,15 +264,15 @@ public class Form extends ImagePanel {
 				result.width = screenWidth;
 			}
 		}
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		Dimension size = type.getFormPreferredSize();
-		if (size != null) {
-			if (size.width > 0) {
-				result.width = size.width;
-			}
-			if (size.height > 0) {
-				result.height = size.height;
+		if (objectType != null) {
+			Dimension configuredSize = objectType.getFormPreferredSize();
+			if (configuredSize != null) {
+				if (configuredSize.width > 0) {
+					result.width = configuredSize.width;
+				}
+				if (configuredSize.height > 0) {
+					result.height = configuredSize.height;
+				}
 			}
 		}
 		return result;
@@ -813,7 +815,7 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
-	public ITypeInfo getFormFilteredType() {
+	public ITypeInfo buildFormFilteredType() {
 		IInfoFilter infoFilter = this.infoFilter;
 		if (infoFilter == null) {
 			infoFilter = IInfoFilter.DEFAULT;
@@ -1054,15 +1056,15 @@ public class Form extends ImagePanel {
 
 		boolean modificationsDetected = false;
 
-		ITypeInfo type = getFormFilteredType();
+		objectType = buildFormFilteredType();
 
 		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
 		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> displayedMethodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
 
 		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> newFieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(
-				type.getFields());
+				objectType.getFields());
 		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> newMethodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
-				type.getMethods());
+				objectType.getMethods());
 
 		if (!modificationsDetected) {
 			if (!new ArrayList<InfoCategory>(newFieldControlPlaceHoldersByCategory.keySet())
