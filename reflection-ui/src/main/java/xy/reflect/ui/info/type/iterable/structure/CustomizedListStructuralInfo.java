@@ -304,7 +304,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		if (listCustomization.getTreeStructureDiscoverySettings().isSingleSubListFieldNameNeverDisplayedAsTreeNode()) {
 			return false;
 		}
-		return !subListField.getCaption().equals(itemPosition.getContainingListTitle());
+		return true;
 	}
 
 	@Override
