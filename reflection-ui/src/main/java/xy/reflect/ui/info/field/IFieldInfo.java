@@ -228,7 +228,9 @@ public interface IFieldInfo extends IInfo {
 	 * @return true if and only if this field control must distinctly display and
 	 *         allow to set the null value. This is usually needed if a null value
 	 *         has a special meaning different from "empty/default value" for the
-	 *         developer.
+	 *         developer. Note that the null value may be returned by
+	 *         {@link #getValue(Object)} even if it should not be distinctly
+	 *         displayed (false is returned by the current method).
 	 */
 	boolean isNullValueDistinct();
 

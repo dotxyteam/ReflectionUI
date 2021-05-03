@@ -85,7 +85,9 @@ public interface IFieldControlPlugin {
 	 * @return an output field control data corresponding to the input field control
 	 *         data but optionally modified to handle conveniently null values.
 	 *         Typically its type would have an additional zero-arg constructor
-	 *         allowing to move smoothly from a null to a non-null field value.
+	 *         allowing to move smoothly from a null to a non-null field value. This
+	 *         method is not used if {@link #canDisplayDistinctNullValue()} returns
+	 *         true.
 	 */
 	IFieldControlData filterDistinctNullValueControlData(Object renderer, IFieldControlData controlData);
 }
