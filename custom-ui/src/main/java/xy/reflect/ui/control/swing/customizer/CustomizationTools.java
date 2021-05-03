@@ -59,7 +59,6 @@ import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.ListControl;
-import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
@@ -947,11 +946,7 @@ public class CustomizationTools {
 
 	protected List<JMenuItem> makeMenuItemsForFieldControlPlugins(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder, InfoCustomizations infoCustomizations) {
-		Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 		if (fieldControlPlaceHolder.getControlData().isFormControlMandatory()) {
-			return Collections.emptyList();
-		}
-		if (fieldControl instanceof NullableControl) {
 			return Collections.emptyList();
 		}
 		List<JMenuItem> result = new ArrayList<JMenuItem>();

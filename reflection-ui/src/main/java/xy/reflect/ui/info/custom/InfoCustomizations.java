@@ -4042,6 +4042,9 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void validate() throws ClassNotFoundException {
+			if ((className == null) || (className.length() == 0)) {
+				throw new ReflectionUIError("Class name not specified !");
+			}
 			ClassUtils.getCachedClassforName(className);
 		}
 
@@ -4107,6 +4110,9 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void validate() throws ClassNotFoundException {
+			if ((implementationClassName == null) || (implementationClassName.length() == 0)) {
+				throw new ReflectionUIError("Implementation class name not specified !");
+			}
 			ClassUtils.getCachedClassforName(implementationClassName);
 		}
 
