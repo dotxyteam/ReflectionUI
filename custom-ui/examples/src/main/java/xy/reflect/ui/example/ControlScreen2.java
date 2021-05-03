@@ -19,7 +19,8 @@ public class ControlScreen2 {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "controlScreen2.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "controlScreen2.icu");
 		renderer.openObjectFrame(new ControlScreen2());
 	}
 

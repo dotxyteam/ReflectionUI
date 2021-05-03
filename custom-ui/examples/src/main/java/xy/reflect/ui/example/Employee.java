@@ -21,7 +21,8 @@ public class Employee {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "employee.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "employee.icu");
 		renderer.openObjectFrame(new Employee());
 	}
 

@@ -18,7 +18,8 @@ public class CreditCardPayment {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "creditCardPayment.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "creditCardPayment.icu");
 		renderer.openObjectFrame(new CreditCardPayment());
 	}
 

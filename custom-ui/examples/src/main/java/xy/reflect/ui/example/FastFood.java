@@ -31,7 +31,8 @@ public class FastFood implements Serializable {
 	public static void main(String[] args) {
 		final FastFood fastFood = new FastFood();
 
-		final File fastFoodFile = new File("fastFood.db");
+		final File fastFoodFile = new File(
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "fastFood.db");
 		if (fastFoodFile.exists()) {
 			fastFood.load(fastFoodFile);
 		}
@@ -47,7 +48,8 @@ public class FastFood implements Serializable {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "fastFood.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "fastFood.icu");
 		renderer.openObjectFrame(fastFood);
 	}
 

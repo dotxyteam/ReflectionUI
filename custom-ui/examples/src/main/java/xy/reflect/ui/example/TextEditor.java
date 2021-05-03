@@ -24,7 +24,8 @@ public class TextEditor implements Serializable {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "textEditor.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "textEditor.icu");
 		renderer.openObjectFrame(new TextEditor());
 	}
 

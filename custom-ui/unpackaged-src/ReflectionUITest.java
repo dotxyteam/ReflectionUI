@@ -357,7 +357,8 @@ public class ReflectionUITest {
 				}.wrapTypeInfo(result);
 			}
 		};
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "unpackaged-src/default.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/default.icu");
 		renderer.openObjectFrame(new Test(), null, null);
 	}
 }

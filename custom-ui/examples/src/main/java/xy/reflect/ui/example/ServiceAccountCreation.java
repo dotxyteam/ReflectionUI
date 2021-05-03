@@ -21,7 +21,9 @@ public class ServiceAccountCreation {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "serviceAccountCreation.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./")
+						+ "serviceAccountCreation.icu");
 		renderer.openObjectFrame(new ServiceAccountCreation());
 	}
 

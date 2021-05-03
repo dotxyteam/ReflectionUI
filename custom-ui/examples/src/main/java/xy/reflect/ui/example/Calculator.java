@@ -26,7 +26,8 @@ public class Calculator {
 		ScriptEngine engine = factory.getEngineByName("JavaScript");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "calculator.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "calculator.icu");
 		renderer.openObjectFrame(engine);
 	}
 

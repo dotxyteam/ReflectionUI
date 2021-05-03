@@ -16,11 +16,12 @@ import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 
 public class Library implements Serializable {
-	
+
 	public static void main(String[] args) {
 		final Library library = new Library();
 
-		final File libraryFile = new File("library.db");
+		final File libraryFile = new File(
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "library.db");
 		if (libraryFile.exists()) {
 			library.load(libraryFile);
 		}
@@ -33,7 +34,8 @@ public class Library implements Serializable {
 		});
 
 		CustomizedUI ui = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(ui, "library.icu");
+		SwingCustomizer renderer = new SwingCustomizer(ui,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "library.icu");
 		renderer.openObjectFrame(library);
 	}
 
@@ -154,7 +156,7 @@ public class Library implements Serializable {
 		}
 	}
 
-	public static class Book implements Serializable, Comparable<Book>{
+	public static class Book implements Serializable, Comparable<Book> {
 
 		private static final long serialVersionUID = 1L;
 

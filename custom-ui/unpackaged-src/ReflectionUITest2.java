@@ -15,7 +15,9 @@ public class ReflectionUITest2 {
 	public static void main(String[] args) {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations);
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "unpackaged-src/default.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-ui.project.directory", "./")
+						+ "unpackaged-src/default.icu");
 		renderer.openObjectFrame(new ReflectionUITest2(), null, null);
 	}
 
@@ -176,7 +178,7 @@ public class ReflectionUITest2 {
 	public void buttonTest() {
 
 	}
-	
+
 	public void exceptionTest() {
 		throw new RuntimeException();
 	}

@@ -5,7 +5,8 @@ import xy.reflect.ui.util.MoreSystemProperties;
 public class ThreadExplorerTest {
 
 	public static void main(String[] args) {
-		System.setProperty(MoreSystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH, "unpackaged-src/thread.icu");
+		System.setProperty(MoreSystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_FILE_PATH,
+				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/thread.icu");
 		SwingCustomizer.getDefault().openObjectFrame(new Thread(new Runnable() {
 
 			@Override

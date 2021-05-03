@@ -29,7 +29,8 @@ public class ATMSimulator {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "atmSimulator.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "atmSimulator.icu");
 		renderer.openObjectFrame(new ATMSimulator());
 	}
 
@@ -326,7 +327,8 @@ public class ATMSimulator {
 	}
 
 	private static enum State {
-		IDLE, AUTHENTICATING, AUTHENTICATED, AUTHENTICATION_FAILED, TRANSACTION_AMOUNT_CHOSEN, OTHER_TRANSACTION_AMOUNT_CHOSEN, RECEIPT, TRANSACTION_READY, TRANSACTION_FINISHED
+		IDLE, AUTHENTICATING, AUTHENTICATED, AUTHENTICATION_FAILED, TRANSACTION_AMOUNT_CHOSEN,
+		OTHER_TRANSACTION_AMOUNT_CHOSEN, RECEIPT, TRANSACTION_READY, TRANSACTION_FINISHED
 	}
 
 }

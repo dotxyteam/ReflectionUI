@@ -22,11 +22,13 @@ public class MailClient {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "mailClient.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "mailClient.icu");
 		renderer.openObjectFrame(new MailClient());
 	}
 
-	private List<Message> inbox = Arrays.asList(new Message("test@address.com", new Date(), "subject1", "body\nbody\nbody"),
+	private List<Message> inbox = Arrays.asList(
+			new Message("test@address.com", new Date(), "subject1", "body\nbody\nbody"),
 			new Message("test@address.com", new Date(), "subject2", "body\nbody\nbody"),
 			new Message("test@address.com", new Date(), "subject3", "body\nbody\nbody"),
 			new Message("test@address.com", new Date(), "subject4", "body\nbody\nbody"));

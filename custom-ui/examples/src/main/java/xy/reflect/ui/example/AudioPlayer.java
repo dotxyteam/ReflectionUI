@@ -36,7 +36,8 @@ public class AudioPlayer {
 		AudioPlayer player = new AudioPlayer();
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI, "audioPlayer.icu");
+		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "audioPlayer.icu");
 		renderer.openObjectFrame(player);
 	}
 
@@ -234,7 +235,7 @@ public class AudioPlayer {
 				return "";
 			}
 		}
-		
+
 		public void play() throws Exception {
 			currentTrackIndex = playList.indexOf(this);
 			AudioPlayer.this.play();

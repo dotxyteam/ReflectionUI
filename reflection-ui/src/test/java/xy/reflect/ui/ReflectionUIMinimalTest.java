@@ -1,6 +1,5 @@
 package xy.reflect.ui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,21 +8,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.util.FileUtils;
-import xy.reflect.ui.util.SystemProperties;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
-public class MinimalTest {
+public class ReflectionUIMinimalTest {
 
 	private List<String> errors = new ArrayList<String>();
-	private CustomizedUI customizedUI = new CustomizedUI() {
+	private ReflectionUI customizedUI = new ReflectionUI() {
 		@Override
 		public void logError(String msg) {
 			errors.add(msg);
 		}
 	};
-	private SwingCustomizer renderer = new SwingCustomizer(customizedUI);
+	private SwingRenderer renderer = new SwingRenderer(customizedUI);
 
 	@Before
 	public void resetLoggedErrors() {
@@ -38,14 +35,13 @@ public class MinimalTest {
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void test() {
 		Object object = new Thread();
 		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
 				renderer.getObjectIconImage(object), true, false);
 		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
 		dialogBuilder.getCreatedDialog().dispose();
 		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
-		FileUtils.delete(new File(SystemProperties.getDefaultInfoCustomizationsFilePath()));
 	}
 
 }

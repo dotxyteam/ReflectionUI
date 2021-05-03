@@ -49,6 +49,7 @@ import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
@@ -59,6 +60,7 @@ import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.control.swing.ListControl;
+import xy.reflect.ui.control.swing.NonNullableControl;
 import xy.reflect.ui.control.swing.NullControl;
 import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
@@ -104,7 +106,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected Form form;
 	protected IFieldInfo field;
 	protected IFieldControlData controlData;
-	protected IFieldControlData lastInitialControlData;
 	protected boolean layoutInContainerUpdateNeeded = true;
 	protected int positionInContainer = -1;
 	protected boolean ancestorVisible = false;
@@ -398,7 +399,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	public void refreshUI(boolean refreshStructure) {
 		if (fieldControl == null) {
 			try {
-				controlData = lastInitialControlData = getInitialControlData();
+				controlData = getInitialControlData();
 				fieldControl = createFieldControl();
 			} catch (Throwable t) {
 				swingRenderer.getReflectionUI().logError(t);
@@ -406,26 +407,21 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			}
 			layoutFieldControl();
 		} else {
-			if (isFieldControlObsolete()) {
+			if (fieldControl instanceof IAdvancedFieldControl) {
+				try {
+					if (!((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure)) {
+						destroyFieldControl();
+						refreshUI(refreshStructure);
+					}
+				} catch (Throwable t) {
+					destroyFieldControl();
+					swingRenderer.getReflectionUI().logError(t);
+					fieldControl = createFieldErrorControl(t);
+					layoutFieldControl();
+				}
+			} else {
 				destroyFieldControl();
 				refreshUI(refreshStructure);
-			} else {
-				if (fieldControl instanceof IAdvancedFieldControl) {
-					try {
-						if (!((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure)) {
-							destroyFieldControl();
-							refreshUI(refreshStructure);
-						}
-					} catch (Throwable t) {
-						destroyFieldControl();
-						swingRenderer.getReflectionUI().logError(t);
-						fieldControl = createFieldErrorControl(t);
-						layoutFieldControl();
-					}
-				} else {
-					destroyFieldControl();
-					refreshUI(refreshStructure);
-				}
 			}
 		}
 		if (refreshStructure) {
@@ -447,19 +443,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			remove(fieldControl);
 			fieldControl = null;
 		}
-	}
-
-	public boolean isFieldControlObsolete() {
-		IFieldControlData newInitialControlData;
-		try {
-			newInitialControlData = getInitialControlData();
-		} catch (Throwable t) {
-			return true;
-		}
-		if (!newInitialControlData.equals(lastInitialControlData)) {
-			return true;
-		}
-		return false;
 	}
 
 	public IFieldControlData getInitialControlData() {
@@ -490,61 +473,71 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public Component createFieldControl() {
-		if (!controlData.isFormControlMandatory()) {
+		IFieldControlInput controlInput = this;
+		if (!controlInput.getControlData().isFormControlMandatory()) {
 			Component result = createCustomFieldControl();
 			if (result != null) {
 				return result;
 			}
 		}
-		if (controlData.isNullValueDistinct()) {
-			return new NullableControl(this.swingRenderer, this);
+		if (controlInput.getControlData().isNullValueDistinct()) {
+			return new NullableControl(this.swingRenderer, controlInput);
 		}
-		Object value = controlData.getValue();
-		controlData = new BufferedFieldControlData(controlData, value);
+		final Object value = controlInput.getControlData().getValue();
+		controlInput = new FieldControlInputProxy(controlInput) {
+			@Override
+			public IFieldControlData getControlData() {
+				return new BufferedFieldControlData(super.getControlData(), value);
+			}
+		};
 		if (value == null) {
-			return new NullControl(swingRenderer, this);
+			return new NullControl(swingRenderer, controlInput);
 		}
-		ITypeInfo actualValueType = this.swingRenderer.reflectionUI
+		final SpecificitiesIdentifier specificitiesIdentifier = controlInput.getControlData().getType().getSource()
+				.getSpecificitiesIdentifier();
+		final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
 				.getTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
-					SpecificitiesIdentifier specificitiesIdentifier = controlData.getType().getSource()
-							.getSpecificitiesIdentifier();
-
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return specificitiesIdentifier;
 					}
 				});
-		if (!controlData.getType().getName().equals(actualValueType.getName())) {
-			final ITypeInfo finalActualValueType = actualValueType;
-			controlData = new FieldControlDataProxy(controlData) {
+		if (!controlInput.getControlData().getType().getName().equals(actualValueType.getName())) {
+			controlInput = new FieldControlInputProxy(controlInput) {
 				@Override
-				public ITypeInfo getType() {
-					return finalActualValueType;
+				public IFieldControlData getControlData() {
+					return new FieldControlDataProxy(super.getControlData()) {
+						@Override
+						public ITypeInfo getType() {
+							return actualValueType;
+						}
+					};
 				}
 			};
-			return createFieldControl();
+			return new NonNullableControl(this.swingRenderer, controlInput);
 		}
-		if (controlData.isFormControlEmbedded()) {
-			return new EmbeddedFormControl(this.swingRenderer, this);
+		if (controlInput.getControlData().isFormControlEmbedded()) {
+			return new EmbeddedFormControl(this.swingRenderer, controlInput);
 		} else {
-			return new DialogAccessControl(this.swingRenderer, this);
+			return new DialogAccessControl(this.swingRenderer, controlInput);
 		}
 	}
 
 	public Component createCustomFieldControl() {
+		IFieldControlInput controlInput = this;
+		
 		IFieldControlPlugin currentPlugin = getCurrentPlugin();
-
 		if (currentPlugin == null) {
-			if (controlData.getType() instanceof IEnumerationTypeInfo) {
-				return new EnumerationControl(swingRenderer, this);
+			if (controlInput.getControlData().getType() instanceof IEnumerationTypeInfo) {
+				return new EnumerationControl(swingRenderer, controlInput);
 			}
-			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType())) {
-				return new PolymorphicControl(swingRenderer, this);
+			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlInput.getControlData().getType())) {
+				return new PolymorphicControl(swingRenderer, controlInput);
 			}
-			if (!controlData.isNullValueDistinct()) {
-				ITypeInfo fieldType = controlData.getType();
+			if (!controlInput.getControlData().isNullValueDistinct()) {
+				ITypeInfo fieldType = controlInput.getControlData().getType();
 				if (fieldType instanceof IListTypeInfo) {
-					return new ListControl(swingRenderer, this);
+					return new ListControl(swingRenderer, controlInput);
 				}
 				final Class<?> javaType;
 				try {
@@ -553,29 +546,35 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					return null;
 				}
 				if (boolean.class.equals(javaType) || Boolean.class.equals(javaType)) {
-					return new CheckBoxControl(swingRenderer, this);
+					return new CheckBoxControl(swingRenderer, controlInput);
 				}
 				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
-					return new PrimitiveValueControl(swingRenderer, this);
+					return new PrimitiveValueControl(swingRenderer, controlInput);
 				}
 				if (String.class.equals(javaType)) {
-					return new TextControl(swingRenderer, this);
+					return new TextControl(swingRenderer, controlInput);
 				}
 			}
 		}
 
 		if (currentPlugin != null) {
-			if (!controlData.isNullValueDistinct() || currentPlugin.canDisplayDistinctNullValue()) {
+			if (controlInput.getControlData().isNullValueDistinct() && !currentPlugin.canDisplayDistinctNullValue()) {
+				controlInput = new FieldControlInputProxy(controlInput) {
+					@Override
+					public IFieldControlData getControlData() {
+						return currentPlugin.filterDistinctNullValueControlData(swingRenderer, super.getControlData());
+					}
+				};
+				return new NullableControl(this.swingRenderer, controlInput);
+			} else {
 				Component result;
 				try {
-					result = (Component) currentPlugin.createControl(swingRenderer, this);
+					result = (Component) currentPlugin.createControl(swingRenderer, controlInput);
 				} catch (Throwable t) {
 					swingRenderer.getReflectionUI().logError(t);
 					result = createFieldErrorControl(t);
 				}
 				return result;
-			} else {
-				controlData = currentPlugin.filterDistinctNullValueControlData(swingRenderer, controlData);
 			}
 		}
 
