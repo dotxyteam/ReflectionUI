@@ -26,45 +26,62 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import xy.reflect.ui.control.BufferedFieldControlData;
+import xy.reflect.ui.control.CustomContext;
+import xy.reflect.ui.control.FieldControlInputProxy;
+import xy.reflect.ui.control.IContext;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 /**
- * Control data proxy that stacks and returns the provided values before
- * returning the underlying control data values.
+ * Field control that rejects null values ({@link #refreshUI(boolean)} will
+ * return false when the value is null). A sub-form is used to display the
+ * values.
  * 
  * @author olitank
  *
  */
-public class BufferedFieldControlData extends FieldControlDataProxy {
+public class NonNullableControl extends NullableControl {
 
-	protected List<Object> buffer = new ArrayList<Object>();
+	private static final long serialVersionUID = 1L;
 
-	public BufferedFieldControlData(IFieldControlData base, Object... values) {
-		super(base);
-		buffer.addAll(Arrays.asList(values));
+	public NonNullableControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
+		super(swingRenderer, new FieldControlInputProxy(input) {
+
+			@Override
+			public IFieldControlData getControlData() {
+				return new BufferedFieldControlData(super.getControlData());
+			}
+		});
 	}
 
 	@Override
-	public Object getValue() {
-		if (buffer.size() > 0) {
-			Object nextValue = buffer.remove(0);
-			return nextValue;
+	public boolean refreshUI(boolean refreshStructure) {
+		Object value = data.getValue();
+		if (value == null) {
+			return false;
 		}
-		return super.getValue();
+		((BufferedFieldControlData) data).addInBuffer(value);
+		boolean result = super.refreshUI(refreshStructure);
+		nullStatusControl.setVisible(false);
+		return result;
 	}
 
 	@Override
-	public void setValue(Object value) {
-		buffer.clear();
-		super.setValue(value);
+	protected boolean isCaptionDisplayedOnNullStatusControl() {
+		return false;
 	}
 
-	public void addInBuffer(Object value) {
-		buffer.add(value);
+	@Override
+	protected IContext getSubContext() {
+		return new CustomContext("NonNullableInstance");
 	}
 
+	@Override
+	public String toString() {
+		return "NonNullableControl [data=" + data + "]";
+	}
 }

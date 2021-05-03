@@ -64,8 +64,8 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Field control that allows to display/set/unset the null value. When the value
- * is not null then a sub-control is used to handle the non-null value.
+ * Field control that allows to display/set/unset the null value. A sub-form is
+ * used to display the non-null values.
  * 
  * @author olitank
  *
@@ -109,7 +109,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		refreshSubControl(refreshStructure);
 		if (!Arrays.asList(getComponents()).contains(subControl) || refreshStructure) {
 			removeAll();
-			if (isSubControlAlwaysDisplayed()) {
+			if (!isCaptionDisplayedOnNullStatusControl()) {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 				add(subControl, BorderLayout.CENTER);
 				nullStatusControl.setText("");
@@ -140,8 +140,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		return true;
 	}
 
-	protected boolean isSubControlAlwaysDisplayed() {
-		return data.getNullValueLabel() != null;
+	protected boolean isCaptionDisplayedOnNullStatusControl() {
+		return !(subControl instanceof NullControl) || !isSubControlDisplayed();
+	}
+
+	protected boolean isSubControlDisplayed() {
+		return !((subControl instanceof NullControl) && (data.getNullValueLabel() == null));
 	}
 
 	public Component getSubControl() {
@@ -204,9 +208,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
 			subControl = createSubForm();
 		}
-		if (subControl instanceof NullControl) {
-			subControl.setVisible(isSubControlAlwaysDisplayed());
-		}
+		subControl.setVisible(isSubControlDisplayed());
 	}
 
 	protected JCheckBox createNullStatusControl() {
@@ -268,7 +270,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 			@Override
 			protected IContext getSubContext() {
-				return new CustomContext("NullableInstance");
+				return  NullableControl.this.getSubContext();
 			}
 
 			@Override
@@ -332,6 +334,10 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		};
 		Form result = subFormBuilder.createEditorForm(true, false);
 		return result;
+	}
+
+	protected IContext getSubContext() {
+		return new CustomContext("NullableInstance");
 	}
 
 	@Override
