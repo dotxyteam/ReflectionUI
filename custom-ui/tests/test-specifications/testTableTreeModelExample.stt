@@ -222,6 +222,31 @@
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.specific.ExpandTreetTableToItemAction>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Type</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <itemPath>
+        <int>1</int>
+        <int>0</int>
+      </itemPath>
+    </xy.ui.testing.action.component.specific.ExpandTreetTableToItemAction>
+    <xy.ui.testing.action.component.specific.SelectTableRowAction>
+      <addedToExistingSelection>false</addedToExistingSelection>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Type</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <firstItemToSelect>2</firstItemToSelect>
+      <lastItemToSelect>2</lastItemToSelect>
+    </xy.ui.testing.action.component.specific.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.PropertyBasedComponentFinder">
@@ -230,7 +255,7 @@
         <propertyValueList>
           <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             <propertyName>Tool Tip Text</propertyName>
-            <propertyValueExpected>&lt;HTML&gt;Add Child Product...&lt;br/&gt;or&lt;br/&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
+            <propertyValueExpected>&lt;HTML&gt;Add Child Product...&lt;/HTML&gt;</propertyValueExpected>
             <outer-class reference="../../.."/>
           </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
         </propertyValueList>
@@ -241,25 +266,6 @@
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
-    <xy.ui.testing.action.component.ClickOnMenuItemAction>
-      <componentFinder>
-        <menuItemPath>
-          <xy.ui.testing.finder.PropertyBasedComponentFinder>
-            <componentClassName>javax.swing.JMenuItem</componentClassName>
-            <occurrencesToSkip>0</occurrencesToSkip>
-            <propertyValueList>
-              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
-                <propertyName>Text</propertyName>
-                <propertyValueExpected>Add Child Product...</propertyValueExpected>
-                <outer-class reference="../../.."/>
-              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
-            </propertyValueList>
-            <windowIndex>1</windowIndex>
-          </xy.ui.testing.finder.PropertyBasedComponentFinder>
-        </menuItemPath>
-      </componentFinder>
-      <disabled>false</disabled>
-    </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JComboBox</componentClassName>
@@ -341,7 +347,7 @@
         <propertyValueList>
           <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             <propertyName>Tool Tip Text</propertyName>
-            <propertyValueExpected>&lt;HTML&gt;Add Child Product...&lt;br/&gt;or&lt;br/&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
+            <propertyValueExpected>&lt;HTML&gt;Insert Product Before ...&lt;br/&gt;or&lt;br/&gt;Insert Product After ...&lt;/HTML&gt;</propertyValueExpected>
             <outer-class reference="../../.."/>
           </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
         </propertyValueList>

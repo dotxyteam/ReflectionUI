@@ -39,22 +39,30 @@ public class TestWithAutomation {
 
 	@Test
 	public void testJavaAwtPointUI() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester, new File("test-specifications/testJavaAwtPointUI.stt"));
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testJavaAwtPointUI.stt"));
 	}
 
 	@Test
 	public void testJavaLangThreadUI() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester, new File("test-specifications/testJavaLangThreadUI.stt"));
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testJavaLangThreadUI.stt"));
 	}
 
 	@Test
 	public void testTableTreeModelExample() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester, new File("test-specifications/testTableTreeModelExample.stt"));
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testTableTreeModelExample.stt"));
 	}
 
 	@Test
 	public void testCustomizations() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester, new File("test-specifications/testCustomizations.stt"));
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testCustomizations.stt"));
 	}
 
 }
