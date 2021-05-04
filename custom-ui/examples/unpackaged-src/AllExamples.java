@@ -23,6 +23,7 @@ public class AllExamples {
 	public static void main(String[] args) throws Exception {
 		System.setProperty(MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
 		for (Class<?> c : CLASSES) {
+			System.out.println("Running " + c.getName());
 			c.getMethod("main", String[].class).invoke(null, (Object) new String[0]);
 		}
 	}
