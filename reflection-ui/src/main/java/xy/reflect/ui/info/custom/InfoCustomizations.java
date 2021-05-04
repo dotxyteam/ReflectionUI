@@ -120,14 +120,7 @@ public class InfoCustomizations implements Serializable {
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
 	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
 
-	@Override
-	public String toString() {
-		if (this == defaultInstance) {
-			return "InfoCustomizations.DEFAULT";
-		} else {
-			return super.toString();
-		}
-	}
+	protected Migrator migrator = new Migrator();
 
 	/**
 	 * @return the default instance of this class. Note that it may try to load the
@@ -137,7 +130,16 @@ public class InfoCustomizations implements Serializable {
 	 */
 	public static InfoCustomizations getDefault() {
 		if (defaultInstance == null) {
-			defaultInstance = new InfoCustomizations();
+			defaultInstance = new InfoCustomizations() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public String toString() {
+					return "InfoCustomizations.DEFAULT";
+				}
+
+			};
 			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
 				String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
 				File file = new File(filePath);
@@ -151,6 +153,12 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 		return defaultInstance;
+	}
+
+	/**
+	 * The default constructor. Builds an empty instance.
+	 */
+	public InfoCustomizations() {
 	}
 
 	public ApplicationCustomization getAppplicationCustomization() {
@@ -212,6 +220,7 @@ public class InfoCustomizations implements Serializable {
 		enumerationCustomizations = loaded.enumerationCustomizations;
 
 		fillXMLSerializationGap();
+		migrator.migrate();
 	}
 
 	protected void fillXMLSerializationGap() {
@@ -284,37 +293,6 @@ public class InfoCustomizations implements Serializable {
 			throw new IOException(e);
 		}
 
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((listCustomizations == null) ? 0 : listCustomizations.hashCode());
-		result = prime * result + ((typeCustomizations == null) ? 0 : typeCustomizations.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		InfoCustomizations other = (InfoCustomizations) obj;
-		if (listCustomizations == null) {
-			if (other.listCustomizations != null)
-				return false;
-		} else if (!listCustomizations.equals(other.listCustomizations))
-			return false;
-		if (typeCustomizations == null) {
-			if (other.typeCustomizations != null)
-				return false;
-		} else if (!typeCustomizations.equals(other.typeCustomizations))
-			return false;
-		return true;
 	}
 
 	public static void clean(InfoCustomizations infoCustomizations, Listener<String> debugLogListener) {
@@ -2745,11 +2723,6 @@ public class InfoCustomizations implements Serializable {
 			if (data == null) {
 				return null;
 			} else {
-				Object fixedResult;
-				if ((fixedResult = fixTemporarilyHistoricalImageIconClassSwappingIssue()) != null) {
-					return fixedResult;
-				}
-
 				Object result = ReflectionUIUtils.deserializeFromHexaText(data);
 				if (preConversion != null) {
 					Filter<Object> reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
@@ -2757,43 +2730,6 @@ public class InfoCustomizations implements Serializable {
 				}
 				return result;
 			}
-		}
-
-		private Object fixTemporarilyHistoricalImageIconClassSwappingIssue() {
-			if (preConversion != null) {
-				ConversionMethodFinder reverseConversionMethodFinder = preConversion.getReverseConversionMethodFinder();
-				if (reverseConversionMethodFinder != null) {
-					if (xy.reflect.ui.util.ImageIcon.class.getName()
-							.equals(reverseConversionMethodFinder.getConversionClassName())) {
-						String reverseConversionMethodSignature = reverseConversionMethodFinder
-								.getConversionMethodSignature();
-						if (reverseConversionMethodSignature != null) {
-							if (ReflectionUIUtils
-									.buildMethodSignature(Image.class.getName(), "getImage", Collections.emptyList())
-									.equals(reverseConversionMethodSignature)) {
-								try {
-									byte[] binary = DatatypeConverter.parseBase64Binary(data);
-									ByteArrayInputStream bais = new ByteArrayInputStream(binary);
-									ObjectInputStream ois = ReflectionUIUtils.getClassSwappingObjectInputStream(bais,
-											javax.swing.ImageIcon.class.getName(),
-											xy.reflect.ui.util.ImageIcon.class.getName());
-									Object result = ois.readObject();
-									if (preConversion != null) {
-										Filter<Object> reverseConversionMethod = preConversion
-												.buildOverallReverseConversionMethod();
-										result = reverseConversionMethod.get(result);
-									}
-									save(result);
-									return result;
-								} catch (Exception e) {
-									throw new ReflectionUIError(e);
-								}
-							}
-						}
-					}
-				}
-			}
-			return null;
 		}
 
 	}
@@ -4154,6 +4090,86 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		public String toString() {
 			return "CustomTypeInfoFinder [implementationClassName=" + implementationClassName + "]";
+		}
+
+	}
+
+	protected class Migrator {
+
+		public void migrate() {
+			boolean migrated = false;
+			for (TypeCustomization tc : getTypeCustomizations()) {
+				if (migrate(tc)) {
+					migrated = true;
+				}
+			}
+			if (migrated) {
+				System.err.println("[" + InfoCustomizations.class.getName() + "] DEPRECATION NOTICE: " + this
+						+ " was migrated automatically. The customizations file must be saved to remain valid with future releases.");
+			}
+		}
+
+		private boolean migrate(TypeCustomization tc) {
+			boolean migrated = false;
+			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
+				if (migrate(fc)) {
+					migrated = true;
+				}
+			}
+			return migrated;
+		}
+
+		private boolean migrate(FieldCustomization fc) {
+			boolean migrated = false;
+			if (fc.getNullReplacement() != null) {
+				if (fixTemporarilyHistoricalImageIconClassSwappingIssue(fc.getNullReplacement())) {
+					migrated = true;
+				}
+			}
+			for (TypeCustomization fieldTc : fc.getSpecificTypeCustomizations().getTypeCustomizations()) {
+				if (migrate(fieldTc)) {
+					migrated = true;
+				}
+			}
+			return migrated;
+		}
+
+		private boolean fixTemporarilyHistoricalImageIconClassSwappingIssue(TextualStorage textualStorage) {
+			if (textualStorage.getData() != null) {
+				Mapping preConversion = textualStorage.getPreConversion();
+				if (preConversion != null) {
+					ConversionMethodFinder reverseConversionMethodFinder = preConversion
+							.getReverseConversionMethodFinder();
+					if (reverseConversionMethodFinder != null) {
+						if (xy.reflect.ui.util.ImageIcon.class.getName()
+								.equals(reverseConversionMethodFinder.getConversionClassName())) {
+							String reverseConversionMethodSignature = reverseConversionMethodFinder
+									.getConversionMethodSignature();
+							if (reverseConversionMethodSignature != null) {
+								if (ReflectionUIUtils.buildMethodSignature(Image.class.getName(), "getImage",
+										Collections.emptyList()).equals(reverseConversionMethodSignature)) {
+									try {
+										byte[] binary = DatatypeConverter.parseBase64Binary(textualStorage.getData());
+										ByteArrayInputStream bais = new ByteArrayInputStream(binary);
+										ObjectInputStream ois = ReflectionUIUtils.getClassSwappingObjectInputStream(
+												bais, javax.swing.ImageIcon.class.getName(),
+												xy.reflect.ui.util.ImageIcon.class.getName());
+										Object result = ois.readObject();
+										Filter<Object> reverseConversionMethod = preConversion
+												.buildOverallReverseConversionMethod();
+										result = reverseConversionMethod.get(result);
+										textualStorage.save(result);
+										return true;
+									} catch (Exception e) {
+										throw new ReflectionUIError(e);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return false;
 		}
 
 	}

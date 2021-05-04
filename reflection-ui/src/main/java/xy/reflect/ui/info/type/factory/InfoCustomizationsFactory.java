@@ -2758,9 +2758,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected class FieldNullReplacementTransformer extends AbstractFieldTransformer {
 
 			@Override
-			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
+			public IFieldInfo process(IFieldInfo field, FieldCustomization fc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
-				Object nullReplacement = f.getNullReplacement().load();
+				Object nullReplacement = fc.getNullReplacement().load();
 				if (nullReplacement != null) {
 					field = new NullReplacedFieldInfo(field, nullReplacement);
 				}
