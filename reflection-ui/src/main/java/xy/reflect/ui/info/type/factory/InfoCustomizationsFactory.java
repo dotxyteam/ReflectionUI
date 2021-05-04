@@ -2320,7 +2320,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 												if (sameSignatureMethod != null) {
 													int methodIndex = methodsWithPresets.indexOf(sameSignatureMethod);
 													if (methodIndex > 0) {
-														result += Integer.toString(methodIndex);
+														result += "." + Integer.toString(methodIndex);
 													}
 												}
 											}
@@ -2613,11 +2613,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					newMethods.add(new FieldAsSetterInfo(customizedUI, field) {
 
 						@Override
-						public String getCaption() {
-							return "Set " + field.getCaption();
-						}
-
-						@Override
 						public boolean isHidden() {
 							return false;
 						}
@@ -2711,11 +2706,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (f.isGetterGenerated()) {
 					newMethods.add(new FieldAsGetterInfo(customizedUI, field, containingType) {
-
-						@Override
-						public String getCaption() {
-							return "Show " + field.getCaption();
-						}
 
 						@Override
 						public boolean isHidden() {

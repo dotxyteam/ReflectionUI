@@ -79,6 +79,11 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getCaption() {
+		return "Show " + field.getCaption();
+	}
+
+	@Override
 	public boolean isHidden() {
 		return false;
 	}
@@ -121,11 +126,6 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public String getOnlineHelp() {
 		return null;
-	}
-
-	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultMethodCaption(this);
 	}
 
 	@Override

@@ -56,6 +56,7 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo type;
 	protected Class<?> containingJavaClass;
+	protected String name;
 
 	public PublicFieldInfo(ReflectionUI reflectionUI, Field field, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
@@ -70,6 +71,35 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public Field getJavaField() {
 		return javaField;
+	}
+
+	@Override
+	public String getName() {
+		if (name == null) {
+			name = javaField.getName();
+			int index = getDuplicateNameIndex(javaField);
+			if (index > 0) {
+				name += "." + Integer.toString(index);
+			}
+		}
+		return name;
+	}
+
+	protected static int getDuplicateNameIndex(Field javaField) {
+		for (Field otherField : javaField.getDeclaringClass().getFields()) {
+			if (otherField.getName().equals(javaField.getName())) {
+				if (!otherField.equals(javaField)) {
+					// other field with same name forcibly declared in base class
+					return getDuplicateNameIndex(otherField) + 1;
+				}
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public String getCaption() {
+		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override
@@ -145,11 +175,6 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
-	}
-
-	@Override
 	public boolean isNullValueDistinct() {
 		return false;
 	}
@@ -167,11 +192,6 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.DIRECT_OR_PROXY;
-	}
-
-	@Override
-	public String getName() {
-		return javaField.getName();
 	}
 
 	public static boolean isCompatibleWith(Field field) {

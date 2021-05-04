@@ -30,12 +30,11 @@ package xy.reflect.ui.info.method;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -63,11 +62,51 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected List<IParameterInfo> parameters;
 	protected ITypeInfo returnValueType;
 	protected boolean returnValueVoid = false;
+	protected String name;
 
 	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod) {
 		this.reflectionUI = reflectionUI;
 		this.javaMethod = javaMethod;
 		resolveJavaReflectionModelAccessProblems();
+	}
+
+	protected void resolveJavaReflectionModelAccessProblems() {
+		javaMethod.setAccessible(true);
+	}
+
+	@Override
+	public String getName() {
+		if (name == null) {
+			name = javaMethod.getName();
+			int index = getDuplicateSignatureIndex(javaMethod);
+			if (index > 0) {
+				name += "." + Integer.toString(index);
+			}
+		}
+		return name;
+	}
+
+	protected static int getDuplicateSignatureIndex(Method javaMethod) {
+		for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
+			if (ReflectionUIUtils.buildMethodSignature(otherMethod)
+					.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
+				if (!otherMethod.equals(javaMethod)) {
+					// other method with same signature forcibly declared in base class
+					return getDuplicateSignatureIndex(otherMethod) + 1;
+				}
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public String getSignature() {
+		return ReflectionUIUtils.buildMethodSignature(this);
+	}
+
+	@Override
+	public String getCaption() {
+		return ReflectionUIUtils.getDefaultMethodCaption(this);
 	}
 
 	@Override
@@ -78,15 +117,6 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public String getParametersValidationCustomCaption() {
 		return null;
-	}
-
-	@Override
-	public String getSignature() {
-		return ReflectionUIUtils.buildMethodSignature(this);
-	}
-
-	protected void resolveJavaReflectionModelAccessProblems() {
-		javaMethod.setAccessible(true);
 	}
 
 	@Override
@@ -107,11 +137,6 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public boolean isReturnValueIgnored() {
 		return false;
-	}
-
-	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultMethodCaption(this);
 	}
 
 	@Override
@@ -163,22 +188,10 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		}
 	}
 
-
-	@Override
-	public String getName() {
-		return javaMethod.getName();
-	}
-
 	@Override
 	public boolean isHidden() {
-		if (Modifier.isStatic(javaMethod.getModifiers())) {
-			if (javaMethod.getReturnType().equals(Void.TYPE)) {
-				if ("main".equals(javaMethod.getName())) {
-					if (Arrays.equals(javaMethod.getParameterTypes(), new Class<?>[] { String[].class })) {
-						return true;
-					}
-				}
-			}
+		if(ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
+			return true;
 		}
 		return false;
 	}
@@ -189,7 +202,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isReadOnly() {
-		return Modifier.isStatic(javaMethod.getModifiers());
+		return false;
 	}
 
 	@Override

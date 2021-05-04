@@ -216,6 +216,19 @@ public class ReflectionUIUtils {
 		return buildMethodSignature(returnTypeName, methodName, parameterTypeNames);
 	}
 
+	public static Object buildMethodSignature(Method method) {
+		Class<?> returnType = method.getReturnType();
+		String returnTypeName = returnType.getName();
+		String methodName = method.getName();
+		List<String> parameterTypeNames = new ArrayList<String>();
+		Class<?>[] paramTypes = method.getParameterTypes();
+		for (int i = 0; i < paramTypes.length; i++) {
+			Class<?> paramType = paramTypes[i];
+			parameterTypeNames.add(paramType.getName());
+		}
+		return buildMethodSignature(returnTypeName, methodName, parameterTypeNames);
+	}
+
 	public static String extractMethodReturnTypeNameFromSignature(String methodSignature) {
 		Pattern pattern = Pattern.compile(METHOD_SIGNATURE_REGEX);
 		Matcher matcher = pattern.matcher(methodSignature);
@@ -1404,5 +1417,4 @@ public class ReflectionUIUtils {
 
 		return (fields.size() + methods.size()) == 0;
 	}
-
 }

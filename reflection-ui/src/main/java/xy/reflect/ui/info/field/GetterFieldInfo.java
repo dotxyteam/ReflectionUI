@@ -30,6 +30,7 @@ package xy.reflect.ui.info.field;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -77,7 +78,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		resolveJavaReflectionModelAccessProblems();
 	}
 
-	public static String getFieldName(String getterMethodName) {
+	protected static String getterToFieldName(String getterMethodName) {
 		Matcher m = GETTER_PATTERN.matcher(getterMethodName);
 		if (!m.matches()) {
 			return null;
@@ -90,17 +91,25 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> containingJavaClass) {
-		String fieldName = getFieldName(javaGetterMethod.getName());
+		String fieldName = getterToFieldName(javaGetterMethod.getName());
 		String setterMethodName = "set" + ReflectionUIUtils.changeCase(fieldName, true, 0, 1);
-		Method result;
 		try {
-			result = containingJavaClass.getMethod(setterMethodName, new Class[] { javaGetterMethod.getReturnType() });
-		} catch (NoSuchMethodException e) {
+			for (Method otherMethod : containingJavaClass.getMethods()) {
+				if (otherMethod.getName().equals(setterMethodName)) {
+					if (otherMethod.getParameterTypes().length == 1) {
+						if (otherMethod.getParameterTypes()[0].equals(javaGetterMethod.getReturnType())) {
+							if (Modifier.isStatic(otherMethod.getModifiers()) == Modifier
+									.isStatic(javaGetterMethod.getModifiers())) {
+								return otherMethod;
+							}
+						}
+					}
+				}
+			}
 			return null;
 		} catch (SecurityException e) {
 			throw new ReflectionUIError(e);
 		}
-		return result;
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
@@ -110,7 +119,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (javaMethod.isBridge()) {
 			return false;
 		}
-		String fieldName = GetterFieldInfo.getFieldName(javaMethod.getName());
+		String fieldName = GetterFieldInfo.getterToFieldName(javaMethod.getName());
 		if (fieldName == null) {
 			return false;
 		}
@@ -158,9 +167,26 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public String getName() {
 		if (name == null) {
-			name = GetterFieldInfo.getFieldName(javaGetterMethod.getName());
+			name = GetterFieldInfo.getterToFieldName(javaGetterMethod.getName());
+			int index = getDuplicateSignatureIndex(javaGetterMethod);
+			if (index > 0) {
+				name += "." + Integer.toString(index);
+			}
 		}
 		return name;
+	}
+
+	protected static int getDuplicateSignatureIndex(Method javaMethod) {
+		for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
+			if (ReflectionUIUtils.buildMethodSignature(otherMethod)
+					.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
+				if (!otherMethod.equals(javaMethod)) {
+					// other method with same signature forcibly declared in base class
+					return getDuplicateSignatureIndex(otherMethod) + 1;
+				}
+			}
+		}
+		return 0;
 	}
 
 	@Override
