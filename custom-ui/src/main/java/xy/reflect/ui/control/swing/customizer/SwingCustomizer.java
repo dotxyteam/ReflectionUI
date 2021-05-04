@@ -118,6 +118,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	public static SwingCustomizer getDefault() {
 		if (defaultInstance == null) {
 			defaultInstance = new SwingCustomizer(CustomizedUI.getDefault());
+			defaultInstance.infoCustomizationsOutputFilePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
 		}
 		return defaultInstance;
 	}
@@ -157,14 +158,12 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	}
 
 	/**
-	 * A constructor allowing to specify the {@link CustomizedUI} instance. The path
-	 * of the customizations file will be
-	 * {@link SystemProperties#getDefaultInfoCustomizationsFilePath()}.
+	 * A constructor allowing to specify only the {@link CustomizedUI} instance.
 	 * 
 	 * @param customizedUI The {@link CustomizedUI} instance to use.
 	 */
 	public SwingCustomizer(CustomizedUI customizedUI) {
-		this(customizedUI, SystemProperties.getDefaultInfoCustomizationsFilePath());
+		this(customizedUI, null);
 	}
 
 	/**

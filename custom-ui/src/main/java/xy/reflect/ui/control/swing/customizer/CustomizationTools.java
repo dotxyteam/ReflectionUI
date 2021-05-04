@@ -97,7 +97,6 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.FileUtils;
 import xy.reflect.ui.util.ImageIcon;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MoreSystemProperties;
@@ -172,14 +171,15 @@ public class CustomizationTools {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		try {
 			String customizationsFilePath = MoreSystemProperties.getInfoCustomizationToolsCustomizationsFilePath();
-			if (customizationsFilePath == null) {
-				customizationsFilePath = FileUtils
-						.getStreamAsFile(
-								ReflectionUI.class.getResource("resource/customizations-tools.icu").openStream())
-						.getPath();
+			if (customizationsFilePath != null) {
+				infoCustomizations.loadFromFile(new File(customizationsFilePath),
+						ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
+			} else {
+				infoCustomizations.loadFromStream(
+						ReflectionUI.class.getResourceAsStream("resource/customizations-tools.icu"),
+						ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
 			}
-			infoCustomizations.loadFromFile(new File(customizationsFilePath),
-					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
+
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
 		}
