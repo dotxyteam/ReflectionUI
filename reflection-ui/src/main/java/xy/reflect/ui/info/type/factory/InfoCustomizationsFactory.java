@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1657,12 +1658,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			result.add(new MethodDuplicateGeneratingTransformer());
 			result.add(new MethodHiddenParametersAndDefaultValuesTransformer());
 			result.add(new MethodPresetsGeneratingTransformer());
-			result.add(new MethodMenuItemGeneratingTransformer());
 			result.add(new MethodReturnValueFieldGeneratingTransformer());
 			result.add(new MethodExportedParametersGeneratingTransformer());
 			result.add(new MethodImportedParametersTransformer());
 			result.add(new MethodParameterPropertiesTransformer());
 			result.add(new MethodCommonOptionsTransformer());
+			result.add(new MethodMenuItemGeneratingTransformer());
 			return result;
 		}
 
@@ -2277,9 +2278,60 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final int finalI = i;
 					newMethods.add(
 							new PresetInvocationDataMethodInfo(method, (InvocationData) invocationDataStorage.load()) {
+
+								String namePrefix = buildUniqueNamePrefixFromBaseMethod();
+
+								/**
+								 * @return The name of the base method with an eventual suffix to make it unique
+								 *         since many methods with different signatures may have the same name.
+								 *         It allows to avoid preset method names collision while preserving
+								 *         backward compatibility. It seems better actually to include the
+								 *         method signature in the preset method name.
+								 */
+								String buildUniqueNamePrefixFromBaseMethod() {
+									String result = base.getName();
+									{
+										List<IMethodInfo> siblingMethods = containingType.getMethods();
+										List<IMethodInfo> sameNameMethods = new ArrayList<IMethodInfo>();
+										for (IMethodInfo method : siblingMethods) {
+											if (method.getName().equals(base.getName())) {
+												sameNameMethods.add(method);
+											}
+										}
+										if (sameNameMethods.size() > 1) {
+											List<IMethodInfo> methodsWithPresets = new ArrayList<IMethodInfo>();
+											for (IMethodInfo method : sameNameMethods) {
+												MethodCustomization methodCustomization = InfoCustomizations
+														.getMethodCustomization(containingTypeCustomization,
+																method.getSignature());
+												if (methodCustomization.getSerializedInvocationDatas().size() > 0) {
+													methodsWithPresets.add(method);
+												}
+											}
+											if (methodsWithPresets.size() > 1) {
+												Collections.sort(methodsWithPresets, new Comparator<IMethodInfo>() {
+													@Override
+													public int compare(IMethodInfo m1, IMethodInfo m2) {
+														return m1.getSignature().compareTo(m2.getSignature());
+													}
+												});
+												IMethodInfo sameSignatureMethod = ReflectionUIUtils
+														.findMethodBySignature(methodsWithPresets, base.getSignature());
+												if (sameSignatureMethod != null) {
+													int methodIndex = methodsWithPresets.indexOf(sameSignatureMethod);
+													if (methodIndex > 0) {
+														result += Integer.toString(methodIndex);
+													}
+												}
+											}
+										}
+									}
+									return result;
+								}
+
 								@Override
 								public String getName() {
-									return super.getName() + ".savedInvocation" + finalI;
+									return namePrefix + ".savedInvocation" + finalI;
 								}
 
 								@Override
