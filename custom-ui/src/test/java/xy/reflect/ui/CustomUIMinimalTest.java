@@ -1,6 +1,5 @@
 package xy.reflect.ui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +10,6 @@ import org.junit.Test;
 
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
-import xy.reflect.ui.util.FileUtils;
-import xy.reflect.ui.util.SystemProperties;
 
 public class CustomUIMinimalTest {
 
@@ -45,7 +42,6 @@ public class CustomUIMinimalTest {
 		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
 		dialogBuilder.getCreatedDialog().dispose();
 		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
-		FileUtils.delete(new File(SystemProperties.getDefaultInfoCustomizationsFilePath()));
 	}
 
 }
