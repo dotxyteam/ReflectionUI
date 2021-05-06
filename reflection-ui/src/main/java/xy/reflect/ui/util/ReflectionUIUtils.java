@@ -1063,24 +1063,6 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static String getDefaultMethodCaption(IMethodInfo method) {
-		String result = ReflectionUIUtils.identifierToCaption(method.getName());
-		if (method.getReturnValueType() != null) {
-			result = result.replaceAll("^Get ", "Show ");
-		}
-		return result;
-	}
-
-	public static String getDefaultFieldCaption(IFieldInfo field) {
-		String result = ReflectionUIUtils.identifierToCaption(field.getName());
-		return result;
-	}
-
-	public static String getDefaultParameterCaption(IParameterInfo param) {
-		String result = ReflectionUIUtils.identifierToCaption(param.getName());
-		return result;
-	}
-
 	public static String getDefaultListTypeCaption(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		if (itemType == null) {

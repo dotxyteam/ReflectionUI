@@ -2554,16 +2554,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					newFields.add(new ExportedNullStatusFieldInfo(customizedUI, field, containingType) {
 
 						@Override
-						public String getCaption() {
-							return "Set " + base.getCaption();
-						}
-
-						@Override
-						public String getName() {
-							return super.getName() + ".nullStatus";
-						}
-
-						@Override
 						public boolean isHidden() {
 							return false;
 						}
