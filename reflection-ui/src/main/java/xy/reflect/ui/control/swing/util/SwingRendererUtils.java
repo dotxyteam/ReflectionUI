@@ -1055,15 +1055,17 @@ public class SwingRendererUtils {
 
 			@Override
 			protected void handleError(Throwable t) {
+				final String newErrorId = (t == null) ? null : ReflectionUIUtils.getPrintedStackTrace(t);
+				if (ReflectionUIUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
+					return;
+				}
+				currentlyDisplayedErrorId = newErrorId;
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 						if (t != null) {
-							String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
-							if (!newErrorId.equals(currentlyDisplayedErrorId)) {
-								currentlyDisplayedErrorId = newErrorId;
-								swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
-							}
+							currentlyDisplayedErrorId = newErrorId;
+							swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
 						} else {
 							currentlyDisplayedErrorId = null;
 						}

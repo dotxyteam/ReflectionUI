@@ -287,6 +287,11 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 			@Override
 			protected void handleError(Throwable t) {
+				final String newErrorId = (t == null) ? null : ReflectionUIUtils.getPrintedStackTrace(t);
+				if (ReflectionUIUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
+					return;
+				}
+				currentlyDisplayedErrorId = newErrorId;
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -294,12 +299,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 								&& ((IAdvancedFieldControl) fieldControl)
 										.displayError((t == null) ? null : ReflectionUIUtils.getPrettyErrorMessage(t));
 						if (!done && (t != null)) {
-							String newErrorId = ReflectionUIUtils.getPrintedStackTrace(t);
-							if (!newErrorId.equals(currentlyDisplayedErrorId)) {
-								currentlyDisplayedErrorId = newErrorId;
-								SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
-								swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, t);
-							}
+							SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
+							swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, t);
 						} else {
 							currentlyDisplayedErrorId = null;
 							setBorder(null);
@@ -525,7 +526,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	public Component createCustomFieldControl() {
 		IFieldControlInput controlInput = this;
-		
+
 		IFieldControlPlugin currentPlugin = getCurrentPlugin();
 		if (currentPlugin == null) {
 			if (controlInput.getControlData().getType() instanceof IEnumerationTypeInfo) {
