@@ -59,7 +59,7 @@ import xy.reflect.ui.control.swing.util.JXDateTimePicker;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.DelayedTaskProcess;
+import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -127,7 +127,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
-		protected DelayedTaskProcess textEditorChangesCommittingProcess = new DelayedTaskProcess() {
+		protected ReschedulableTask textEditorChangesCommittingProcess = new ReschedulableTask() {
 			@Override
 			protected void execute() {
 				SwingUtilities.invokeLater(new Runnable() {

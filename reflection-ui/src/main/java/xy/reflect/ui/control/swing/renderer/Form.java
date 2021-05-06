@@ -245,14 +245,6 @@ public class Form extends ImagePanel {
 		this.busyIndicationDisabled = busyIndicationDisabled;
 	}
 
-	public IModificationListener getFieldsUpdateListener() {
-		return fieldsUpdateListener;
-	}
-
-	public void setFieldsUpdateListener(IModificationListener fieldsUpdateListener) {
-		this.fieldsUpdateListener = fieldsUpdateListener;
-	}
-
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension result = super.getPreferredSize();
@@ -315,21 +307,25 @@ public class Form extends ImagePanel {
 			public void run() {
 				try {
 					validateForm();
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							setStatusBarErrorMessage(null);
-						}
-					});
+					if (getStatusBarMessage() != null) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								setStatusBarErrorMessage(null);
+							}
+						});
+					}
 				} catch (Exception e) {
 					swingRenderer.getReflectionUI().logDebug(e);
 					final String errorMsg = ReflectionUIUtils.getPrettyErrorMessage(e);
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							setStatusBarErrorMessage(errorMsg);
-						}
-					});
+					if (!errorMsg.equals(getStatusBarMessage())) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								setStatusBarErrorMessage(errorMsg);
+							}
+						});
+					}
 				}
 
 			}
@@ -338,6 +334,8 @@ public class Form extends ImagePanel {
 
 	public void setStatusBarErrorMessage(String errorMsg) {
 		if (errorMsg == null) {
+			((JLabel) statusBar).setIcon(null);
+			((JLabel) statusBar).setText(null);
 			statusBar.setVisible(false);
 		} else {
 			((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
@@ -346,6 +344,10 @@ public class Form extends ImagePanel {
 			statusBar.setVisible(true);
 		}
 		SwingRendererUtils.handleComponentSizeChange(statusBar);
+	}
+
+	public String getStatusBarMessage() {
+		return ((JLabel) statusBar).getText();
 	}
 
 	public void formShown() {

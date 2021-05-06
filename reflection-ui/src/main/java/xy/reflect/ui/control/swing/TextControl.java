@@ -58,7 +58,7 @@ import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.util.DelayedTaskProcess;
+import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -79,7 +79,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	protected boolean listenerDisabled = false;
 
 	protected Border defaultTextComponentBorder;
-	protected DelayedTaskProcess dataUpdateProcess = new DelayedTaskProcess() {
+	protected ReschedulableTask dataUpdateProcess = new ReschedulableTask() {
 		@Override
 		protected void execute() {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -312,8 +312,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		if (listenerDisabled) {
 			return;
 		}
-		dataUpdateProcess.cancelSchedule();
-		dataUpdateProcess.schedule();
+		dataUpdateProcess.reschedule();
 	}
 
 	protected void textComponentFocustLost() {

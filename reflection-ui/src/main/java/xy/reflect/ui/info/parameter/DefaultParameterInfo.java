@@ -64,20 +64,6 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	}
 
 	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultParameterCaption(this);
-	}
-
-	@Override
-	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
-					javaParameter.getDeclaringInvokable(), javaParameter.getPosition(), null));
-		}
-		return type;
-	}
-
-	@Override
 	public String getName() {
 		if (name == null) {
 			name = javaParameter.getName();
@@ -104,6 +90,20 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 			}
 		}
 		return name;
+	}
+
+	@Override
+	public String getCaption() {
+		return ReflectionUIUtils.identifierToCaption(getName());
+	}
+
+	@Override
+	public ITypeInfo getType() {
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
+					javaParameter.getDeclaringInvokable(), javaParameter.getPosition(), null));
+		}
+		return type;
 	}
 
 	@Override

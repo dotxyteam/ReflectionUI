@@ -356,7 +356,7 @@ public class ItemPosition implements Cloneable {
 	}
 
 	/**
-	 * @return whether the containing list can be set or not.
+	 * @return whether the containing list is get-only (cannot be set) or not.
 	 */
 	public boolean isContainingListGetOnly() {
 		if (isRoot()) {
@@ -399,7 +399,13 @@ public class ItemPosition implements Cloneable {
 	}
 
 	/**
-	 * Updates the containing list so that it will only contain the given items.
+	 * Updates the containing list so that it will only contain the given items. If
+	 * the containing list has a parent item then the parent item field that hosts
+	 * the containing list will be updated and the current method will called
+	 * recursively on the new parent item containing list. Otherwise the object
+	 * returned by {@link #retrieveContainingListValue()} will be modified and
+	 * returned as the result of this method.
+	 * 
 	 * Note that the containing list reference may be altered by this operation.
 	 * 
 	 * @param newContainingListRawValue The array that contains the items that

@@ -56,7 +56,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.DelayedTaskProcess;
+import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ConversionUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -131,7 +131,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
-		protected DelayedTaskProcess dataUpdateProcess = new DelayedTaskProcess() {
+		protected ReschedulableTask dataUpdateProcess = new ReschedulableTask() {
 			@Override
 			protected void execute() {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -313,8 +313,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			if (listenerDisabled) {
 				return;
 			}
-			dataUpdateProcess.cancelSchedule();
-			dataUpdateProcess.schedule();
+			dataUpdateProcess.reschedule();
 		}
 
 		protected void onFocusLoss() {
