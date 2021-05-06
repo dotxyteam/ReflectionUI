@@ -4,6 +4,7 @@ public class MemberNamesCollisionTest {
 
 	public static class BaseBaseBase {
 		public static String anyBaseStatic;
+		public static String staticAndNonStaticAleternatively;
 
 		public static void anyBaseStatic() {
 		}
@@ -11,6 +12,7 @@ public class MemberNamesCollisionTest {
 
 	public static class BaseBase extends BaseBaseBase {
 		public static String anyBaseStatic;
+		public String staticAndNonStaticAleternatively;
 
 		public static void anyBaseStatic() {
 		}
@@ -18,6 +20,7 @@ public class MemberNamesCollisionTest {
 
 	public static class Base extends BaseBase {
 		public static String anyBaseStatic;
+		public static String staticAndNonStaticAleternatively;
 
 		public static void anyBaseStatic() {
 		}
@@ -31,6 +34,7 @@ public class MemberNamesCollisionTest {
 
 	public static class Sub extends Base {
 		private static String staticAccess;
+		public String staticAndNonStaticAleternatively;
 		private static String instanceAccess;
 		private static String staticGetAndInstanceSet;
 		private static String staticSetAndInstanceGet;

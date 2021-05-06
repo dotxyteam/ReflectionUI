@@ -71,6 +71,16 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
+	public String getName() {
+		return base.getName() + ".nullStatus";
+	}
+
+	@Override
+	public String getCaption() {
+		return "Set " + base.getCaption();
+	}
+
+	@Override
 	public InfoCategory getCategory() {
 		return null;
 	}
@@ -118,11 +128,6 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 					new SpecificitiesIdentifier(containingType.getName(), ExportedNullStatusFieldInfo.this.getName())));
 		}
 		return type;
-	}
-
-	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override

@@ -164,6 +164,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public String getCaption() {
+		return ReflectionUIUtils.identifierToCaption(fieldName);
+	}
+
+	@Override
 	public boolean isHidden() {
 		return false;
 	}
@@ -180,11 +185,6 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
-	}
-
-	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override

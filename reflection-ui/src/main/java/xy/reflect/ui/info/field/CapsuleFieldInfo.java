@@ -140,6 +140,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public String getCaption() {
+		return ReflectionUIUtils.identifierToCaption(fieldName);
+	}
+
+	@Override
 	public double getDisplayAreaHorizontalWeight() {
 		return 1.0;
 	}
@@ -159,12 +164,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
 		}
-		return type; 
-	}
-
-	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
+		return type;
 	}
 
 	@Override

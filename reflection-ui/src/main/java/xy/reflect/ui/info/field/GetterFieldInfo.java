@@ -54,8 +54,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 /**
  * Field generated from a '(get|is|has)Something()' Java method. If the
  * corresponding 'setSomething(...)' method is not found in the same class then
- * this field will be "read-only" (may not be editable, depends on the field
- * type).
+ * this field will be "read-only" (may not be editable).
+ * 
+ * Note that a unique suffix may be added to the field name to avoid collisions
+ * when there are multiple fields with the same name accessible from the same
+ * class.
  * 
  * @author olitank
  *
@@ -69,7 +72,9 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected Class<?> containingJavaClass;
 	protected ITypeInfo type;
 	protected IMethodInfo setterMethodInfo;
+	protected int duplicateNameIndex = -1;
 	protected String name;
+	protected String caption;
 
 	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
@@ -176,17 +181,35 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		return name;
 	}
 
-	protected static int getDuplicateSignatureIndex(Method javaMethod) {
-		for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
-			if (ReflectionUIUtils.buildMethodSignature(otherMethod)
-					.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
-				if (!otherMethod.equals(javaMethod)) {
-					// other method with same signature forcibly declared in base class
-					return getDuplicateSignatureIndex(otherMethod) + 1;
+	protected int getDuplicateSignatureIndex(Method javaMethod) {
+		if (duplicateNameIndex == -1) {
+			for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
+				if (ReflectionUIUtils.buildMethodSignature(otherMethod)
+						.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
+					if (!otherMethod.equals(javaMethod)) {
+						// other method with same signature forcibly declared in base class
+						duplicateNameIndex = getDuplicateSignatureIndex(otherMethod) + 1;
+					}
 				}
 			}
+			if (duplicateNameIndex == -1) {
+				duplicateNameIndex = 0;
+			}
 		}
-		return 0;
+		return duplicateNameIndex;
+	}
+
+	@Override
+	public String getCaption() {
+		if (caption == null) {
+			caption = ReflectionUIUtils
+					.identifierToCaption(GetterFieldInfo.getterToFieldName(javaGetterMethod.getName()));
+			int index = getDuplicateSignatureIndex(javaGetterMethod);
+			if (index > 0) {
+				caption += " (" + (index + 1) + ")";
+			}
+		}
+		return caption;
 	}
 
 	@Override
@@ -218,11 +241,6 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 					});
 		}
 		return type;
-	}
-
-	@Override
-	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
 	}
 
 	@Override

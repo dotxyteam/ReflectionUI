@@ -47,6 +47,10 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 /**
  * Field information extracted from a Java field.
  * 
+ * Note that a unique suffix may be added to the field name to avoid collisions
+ * when there are multiple fields with the same name accessible from the same
+ * class.
+ * 
  * @author olitank
  *
  */
@@ -56,7 +60,9 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo type;
 	protected Class<?> containingJavaClass;
+	protected int duplicateNameIndex = -1;
 	protected String name;
+	protected String caption;
 
 	public PublicFieldInfo(ReflectionUI reflectionUI, Field field, Class<?> containingJavaClass) {
 		this.reflectionUI = reflectionUI;
@@ -85,21 +91,31 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 		return name;
 	}
 
-	protected static int getDuplicateNameIndex(Field javaField) {
-		for (Field otherField : javaField.getDeclaringClass().getFields()) {
-			if (otherField.getName().equals(javaField.getName())) {
-				if (!otherField.equals(javaField)) {
-					// other field with same name forcibly declared in base class
-					return getDuplicateNameIndex(otherField) + 1;
+	protected int getDuplicateNameIndex(Field javaField) {
+		if (duplicateNameIndex == -1) {
+			duplicateNameIndex = 0;
+			for (Field otherField : javaField.getDeclaringClass().getFields()) {
+				if (otherField.getName().equals(javaField.getName())) {
+					if (!otherField.equals(javaField)) {
+						// other field with same name forcibly declared in base class
+						duplicateNameIndex += 1;
+					}
 				}
 			}
 		}
-		return 0;
+		return duplicateNameIndex;
 	}
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.getDefaultFieldCaption(this);
+		if (caption == null) {
+			caption = ReflectionUIUtils.identifierToCaption(javaField.getName());
+			int index = getDuplicateNameIndex(javaField);
+			if (index > 0) {
+				caption += " (" + (index + 1) + ")";
+			}
+		}
+		return caption;
 	}
 
 	@Override

@@ -52,6 +52,10 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 /**
  * Method information extracted from the given Java method.
  * 
+ * Note that a unique suffix may be added to the method name to avoid collisions
+ * when there are multiple methods with the same signature accessible from the
+ * same class.
+ * 
  * @author olitank
  *
  */
@@ -62,7 +66,9 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected List<IParameterInfo> parameters;
 	protected ITypeInfo returnValueType;
 	protected boolean returnValueVoid = false;
+	protected int duplicateNameIndex = -1;
 	protected String name;
+	protected String caption;
 
 	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod) {
 		this.reflectionUI = reflectionUI;
@@ -86,17 +92,20 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		return name;
 	}
 
-	protected static int getDuplicateSignatureIndex(Method javaMethod) {
-		for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
-			if (ReflectionUIUtils.buildMethodSignature(otherMethod)
-					.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
-				if (!otherMethod.equals(javaMethod)) {
-					// other method with same signature forcibly declared in base class
-					return getDuplicateSignatureIndex(otherMethod) + 1;
+	protected int getDuplicateSignatureIndex(Method javaMethod) {
+		if (duplicateNameIndex == -1) {
+			duplicateNameIndex = 0;
+			for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
+				if (ReflectionUIUtils.buildMethodSignature(otherMethod)
+						.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
+					if (!otherMethod.equals(javaMethod)) {
+						// other method with same signature forcibly declared in base class
+						duplicateNameIndex += 1;
+					}
 				}
 			}
 		}
-		return 0;
+		return duplicateNameIndex;
 	}
 
 	@Override
@@ -106,7 +115,17 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.getDefaultMethodCaption(this);
+		if (caption == null) {
+			caption = ReflectionUIUtils.identifierToCaption(javaMethod.getName());
+			if (getReturnValueType() != null) {
+				caption = caption.replaceAll("^Get ", "Show ");
+			}
+			int index = getDuplicateSignatureIndex(javaMethod);
+			if (index > 0) {
+				caption += " (" + (index + 1) + ")";
+			}
+		}
+		return caption;
 	}
 
 	@Override
@@ -190,7 +209,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isHidden() {
-		if(ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
+		if (ReflectionUIUtils.isJavaClassMainMethod(javaMethod)) {
 			return true;
 		}
 		return false;
