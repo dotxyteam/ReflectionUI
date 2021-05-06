@@ -478,7 +478,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		};
 
-		result.setFocusable(false);
 		if (actionsToPresent.size() > 0) {
 			result.addActionListener(new ActionListener() {
 				@Override
@@ -1342,7 +1341,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 			SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
-			scrollTo(detailsControlItemPosition);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -1819,8 +1817,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			String text = getCellValue(node, columnIndex);
 			if ((text == null) || (text.length() == 0)) {
 				label.setText(" ");
+				label.setToolTipText(null);
 			} else {
 				label.setText(swingRenderer.prepareStringToDisplay(text));
+				label.setToolTipText(swingRenderer.prepareStringToDisplay(text));
 			}
 
 			Image iconImage = getCellIconImage(node, columnIndex);
