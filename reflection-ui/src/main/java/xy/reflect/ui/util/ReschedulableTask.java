@@ -34,12 +34,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * Base class for delayed actions.
+ * Base class for delayed tasks that will be executed 1 time (not more, not
+ * less) after {@link #schedule()} is called. If the action is already scheduled
+ * (can be checked with {@link #isScheduled()}) calling {@link #reschedule()}
+ * again will cancel the current schedule (can be done with
+ * {@link #cancelSchedule()}) and setup another one.
  * 
  * @author olitank
  *
  */
-public abstract class DelayedTaskProcess {
+public abstract class ReschedulableTask {
 
 	protected abstract void execute();
 
@@ -51,7 +55,7 @@ public abstract class DelayedTaskProcess {
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);
-			result.setName("DelayedTaskExecutor [of=" + DelayedTaskProcess.this + "]");
+			result.setName("Executor [of=" + ReschedulableTask.this + "]");
 			result.setDaemon(true);
 			return result;
 		}
@@ -60,35 +64,53 @@ public abstract class DelayedTaskProcess {
 
 	public void schedule() {
 		synchronized (executionMutex) {
-			taskStatus = taskExecutor.submit(new Runnable() {
-				@Override
-				public void run() {
-					executionScheduled = true;
-					try {
+			if (!executionScheduled) {
+				executionScheduled = true;
+				taskStatus = taskExecutor.submit(new Runnable() {
+					@Override
+					public void run() {
 						try {
-							Thread.sleep(getExecutionDelayMilliseconds());
-						} catch (InterruptedException e) {
-							return;
+							try {
+								Thread.sleep(getExecutionDelayMilliseconds());
+							} catch (InterruptedException e) {
+								return;
+							}
+						} finally {
+							executionScheduled = false;
 						}
 						execute();
-					} finally {
-						executionScheduled = false;
 					}
-				}
-			});
+				});
+			}
 		}
 	}
 
 	public void cancelSchedule() {
 		synchronized (executionMutex) {
-			if (taskStatus != null) {
+			if (executionScheduled) {
 				taskStatus.cancel(true);
+				while (executionScheduled) {
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}
+				}
 			}
 		}
 	}
 
 	public boolean isScheduled() {
 		return executionScheduled;
+	}
+
+	public void reschedule() {
+		synchronized (executionMutex) {
+			if (isScheduled()) {
+				cancelSchedule();
+			}
+			schedule();
+		}
 	}
 
 }
