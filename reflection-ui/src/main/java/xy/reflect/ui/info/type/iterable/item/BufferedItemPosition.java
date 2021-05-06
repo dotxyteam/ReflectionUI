@@ -144,7 +144,9 @@ public class BufferedItemPosition extends ItemPosition {
 	@Override
 	public Object updateContainingList(Object[] newContainingListRawValue) {
 		Object result = super.updateContainingList(newContainingListRawValue);
-		refreshContainingList();
+		if (!isRoot()) {
+			refreshContainingList();
+		}
 		return result;
 	}
 
