@@ -55,7 +55,7 @@ public abstract class ReschedulableTask {
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);
-			result.setName("Executor [of=" + ReschedulableTask.this + "]");
+			result.setName("ReschedulableTaskExecutor [of=" + ReschedulableTask.this + "]");
 			result.setDaemon(true);
 			return result;
 		}
@@ -90,6 +90,10 @@ public abstract class ReschedulableTask {
 			if (executionScheduled) {
 				taskStatus.cancel(true);
 				while (executionScheduled) {
+					if (taskStatus.isDone()) {
+						executionScheduled = false;
+						break;
+					}
 					try {
 						Thread.sleep(1);
 					} catch (InterruptedException e) {
