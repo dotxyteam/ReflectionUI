@@ -28,17 +28,18 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.plugin;
 
-import java.awt.Dimension;
+import java.io.IOException;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 import javax.swing.text.JTextComponent;
 
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 
 /**
  * Field control plugin that allows to display only single-line text.
@@ -76,7 +77,14 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 	public static class SingleLineTextConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
-		public Integer preferredCharacterCount;
+		public char invalidCharacterReplacement = ' ';
+
+		private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+			in.defaultReadObject();
+			if (invalidCharacterReplacement == 0) {
+				invalidCharacterReplacement = ' ';
+			}
+		}
 
 	}
 
@@ -90,39 +98,24 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		protected JTextComponent createTextComponent() {
-			return new JTextField() {
-				private static final long serialVersionUID = 1L;
-
+			JTextComponent result = super.createTextComponent();
+			((AbstractDocument) result.getDocument()).setDocumentFilter(new DocumentFilter() {
 				@Override
-				public void replaceSelection(String content) {
-					boolean listenerWasDisabled = listenerDisabled;
-					listenerDisabled = true;
-					try {
-						super.replaceSelection(content);
-					} finally {
-						listenerDisabled = listenerWasDisabled;
-					}
-					textComponentEditHappened();
+				public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+						throws BadLocationException {
+					SingleLineTextConfiguration controlCustomization = (SingleLineTextConfiguration) loadControlCustomization(
+							input);
+					text = text.replace("\r\n", Character.toString(controlCustomization.invalidCharacterReplacement));
+					text = text.replace("\n", Character.toString(controlCustomization.invalidCharacterReplacement));
+					text = text.replace("\r", Character.toString(controlCustomization.invalidCharacterReplacement));
+					super.replace(fb, offset, length, text, attrs);
 				}
-
-			};
-		}
-
-		@Override
-		protected Dimension getDynamicPreferredSize(JScrollPane scrollPane, Dimension defaultSize) {
-			Dimension result = super.getDynamicPreferredSize(scrollPane, defaultSize);
-			SingleLineTextConfiguration controlCustomization = (SingleLineTextConfiguration) loadControlCustomization(
-					input);
-			if (controlCustomization.preferredCharacterCount != null) {
-				int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
-				result.width = characterSize * controlCustomization.preferredCharacterCount;
-			}
+			});
 			return result;
-
 		}
 
 		@Override
-		protected boolean isMultiline() {
+		protected boolean areScrollBarsEnabled() {
 			return false;
 		}
 
