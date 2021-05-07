@@ -1,3 +1,6 @@
+- AbstractEditorFormBuilder.refreshEditorFormOnModification(Form) may
+be obsolete since all fields (sub-forms, ..) are refreshed on any
+modification. Check and correct.
 - method result field: the name will be duplicate if there are
 2 methods with same name but different signatures.
 - undo/redo title often empty. See Calculator example.
