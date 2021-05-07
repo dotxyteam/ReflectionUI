@@ -120,7 +120,7 @@ public class InfoCustomizations implements Serializable {
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
 	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
 
-	protected Migrator migrator = new Migrator();
+	protected transient Migrator migrator = new Migrator();
 
 	/**
 	 * @return the default instance of this class. Note that it may try to load the
