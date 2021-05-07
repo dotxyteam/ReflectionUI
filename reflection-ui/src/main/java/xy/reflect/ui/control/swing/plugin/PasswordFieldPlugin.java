@@ -106,7 +106,7 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		@Override
-		protected boolean isMultiline() {
+		protected boolean areScrollBarsEnabled() {
 			return false;
 		}
 

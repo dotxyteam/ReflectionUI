@@ -186,7 +186,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void updateScrollPolicy() {
 		if (scrollPane != null) {
-			if (isMultiline()) {
+			if (areScrollBarsEnabled()) {
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			} else {
@@ -196,8 +196,8 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected boolean isMultiline() {
-		return textComponent.getText().indexOf('\n') != -1;
+	protected boolean areScrollBarsEnabled() {
+		return true;
 	}
 
 	protected JScrollPane createScrollPane() {
@@ -218,7 +218,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected Dimension getDynamicPreferredSize(JScrollPane scrollPane, Dimension defaultPreferredSize) {
 		Dimension result = defaultPreferredSize;
-		if (isMultiline()) {
+		if (scrollPane.getHorizontalScrollBar().isVisible()) {
 			result.height += scrollPane.getHorizontalScrollBar().getPreferredSize().height;
 		}
 		int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
