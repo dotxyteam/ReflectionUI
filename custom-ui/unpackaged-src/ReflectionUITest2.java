@@ -16,8 +16,7 @@ public class ReflectionUITest2 {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations);
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
-				System.getProperty("custom-ui.project.directory", "./")
-						+ "unpackaged-src/default.icu");
+				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/default.icu");
 		renderer.openObjectFrame(new ReflectionUITest2(), null, null);
 	}
 
@@ -121,10 +120,10 @@ public class ReflectionUITest2 {
 		return new File(".");
 	};
 
-	public String htmlTest = "azerty";
+	public String htmlTest = "customizations icon: <img src=\"resource/custom.png\">";
 
 	public String getHtmlGetOnlyTest() {
-		return "azerty";
+		return "google: <img src=\"https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png\">";
 	};
 
 	public String singleLineTextTest = "";
