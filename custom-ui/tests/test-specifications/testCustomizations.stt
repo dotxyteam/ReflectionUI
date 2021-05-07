@@ -6,7 +6,7 @@
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
   </editingOptions>
   <maximumSecondsToWaitBetwneenActions>15.0</maximumSecondsToWaitBetwneenActions>
-  <minimumSecondsToWaitBetwneenActions>0.1</minimumSecondsToWaitBetwneenActions>
+  <minimumSecondsToWaitBetwneenActions>1.0</minimumSecondsToWaitBetwneenActions>
   <testActions>
     <xy.ui.testing.action.CallMainMethodAction>
       <arguments/>

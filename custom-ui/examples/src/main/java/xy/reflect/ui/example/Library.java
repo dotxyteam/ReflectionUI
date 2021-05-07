@@ -1,5 +1,7 @@
 package xy.reflect.ui.example;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 
 public class Library implements Serializable {
 
@@ -25,18 +28,19 @@ public class Library implements Serializable {
 		if (libraryFile.exists()) {
 			library.load(libraryFile);
 		}
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				library.save(libraryFile);
-			}
-
-		});
-
+		
 		CustomizedUI ui = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(ui,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "library.icu");
-		renderer.openObjectFrame(library);
+		StandardEditorBuilder windowBuilder = renderer.getEditorBuilder(null, library, null, null, false);
+		windowBuilder.createAndShowFrame();
+		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				library.save(libraryFile);
+			}
+		});
 	}
 
 	private static final long serialVersionUID = 1L;

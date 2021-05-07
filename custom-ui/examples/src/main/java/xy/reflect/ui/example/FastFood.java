@@ -1,6 +1,8 @@
 package xy.reflect.ui.example;
 
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.util.ImageIcon;
 import xy.reflect.ui.util.MoreSystemProperties;
 
@@ -36,21 +39,22 @@ public class FastFood implements Serializable {
 		if (fastFoodFile.exists()) {
 			fastFood.load(fastFoodFile);
 		}
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				fastFood.save(fastFoodFile);
-			}
-
-		});
-
+		
 		System.out.println("Set the following system property to disable the design mode:\n-D"
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "fastFood.icu");
-		renderer.openObjectFrame(fastFood);
+		StandardEditorBuilder windowBuilder = renderer.getEditorBuilder(null, fastFood, null, null, false);
+		windowBuilder.createAndShowFrame();
+		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				fastFood.save(fastFoodFile);
+			}
+		});
 	}
 
 	private List<Product> products = new ArrayList<Product>();
