@@ -132,9 +132,15 @@ public class HtmlPlugin extends StyledTextPlugin {
 			public URL getURL() throws Exception {
 				Class<?> theClass = Class.forName(sourceClassName);
 				String path = "/";
-				Package thePackage = theClass.getPackage();
-				if (thePackage != null) {
-					path += thePackage.getName().replace(".", "/") + "/";
+				{
+					/*
+					 * build the absolute path because the relative path (".") does not work in some
+					 * situations
+					 */
+					Package thePackage = theClass.getPackage();
+					if (thePackage != null) {
+						path += thePackage.getName().replace(".", "/") + "/";
+					}
 				}
 				URL result = theClass.getResource(path);
 				return result;
