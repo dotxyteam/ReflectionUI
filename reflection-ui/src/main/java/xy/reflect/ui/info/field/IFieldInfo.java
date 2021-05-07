@@ -235,7 +235,7 @@ public interface IFieldInfo extends IInfo {
 	boolean isNullValueDistinct();
 
 	/**
-	 * @return true if and only if this field value can be set. Otherwise
+	 * @return false if and only if this field value can be set. Otherwise
 	 *         {@link #setValue(Object, Object)} should not be called. Note that a
 	 *         get-only field does not prevent all modifications. The field value
 	 *         may be modified and these modifications may be volatile (for

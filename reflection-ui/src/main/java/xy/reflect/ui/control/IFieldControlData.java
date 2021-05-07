@@ -105,7 +105,7 @@ public interface IFieldControlData {
 	ITypeInfo getType();
 
 	/**
-	 * @return true if and only if the control value can be updated. Otherwise
+	 * @return false if and only if the control value can be set. Otherwise
 	 *         {@link #setValue(Object)} should not be called.
 	 */
 	boolean isGetOnly();
