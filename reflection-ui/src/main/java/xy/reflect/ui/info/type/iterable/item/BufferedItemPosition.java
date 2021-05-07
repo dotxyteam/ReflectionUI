@@ -35,7 +35,11 @@ import xy.reflect.ui.info.field.IFieldInfo;
 
 /**
  * This class is a sub-class of {@link ItemPosition} that uses a buffer to
- * optimize the access to the targeted item.
+ * optimize the access to the item. The buffer is actually a copy of the
+ * containing list stored either in the parent {@link BufferedItemPosition} or
+ * in the associated factory when the current item position is root.
+ * Additionally a fake item value that overrides the actual item value can be
+ * set.
  * 
  * @author olitank
  *
@@ -57,6 +61,40 @@ public class BufferedItemPosition extends ItemPosition {
 		super();
 	}
 
+	/**
+	 * Sets the fake item value that overrides the actual item value. Note that null
+	 * is a valid value, not the absence of value. In order to remove the fake item
+	 * value {@link #unsetFakeItem()} must be used.
+	 * 
+	 * @param item The new fake item value. Can be null.
+	 */
+	public void setFakeItem(Object item) {
+		if (item == null) {
+			fakeItem = NULL_FAKE_ITEM;
+		} else {
+			fakeItem = item;
+		}
+	}
+
+	/**
+	 * Removes the fake item value that overrides the actual item value.
+	 */
+	public void unsetFakeItem() {
+		fakeItem = null;
+	}
+
+	/**
+	 * Updates the containing list buffer.
+	 */
+	public void refreshContainingList() {
+		if (isRoot()) {
+			((AbstractBufferedItemPositionFactory) factory).refresh();
+		} else {
+			((BufferedItemPosition) parentItemPosition).bufferedSubListRawValue = null;
+			((BufferedItemPosition) parentItemPosition).bufferedSubListField = null;
+		}
+	}
+
 	@Override
 	public Object getItem() {
 		if (fakeItem != null) {
@@ -69,25 +107,9 @@ public class BufferedItemPosition extends ItemPosition {
 		return super.getItem();
 	}
 
-	public void setFakeItem(Object item) {
-		if (item == null) {
-			fakeItem = NULL_FAKE_ITEM;
-		} else {
-			fakeItem = item;
-		}
-	}
-
-	public void unsetFakeItem() {
-		fakeItem = null;
-	}
-
-	public void refreshContainingList() {
-		if (isRoot()) {
-			((AbstractBufferedItemPositionFactory) factory).refresh();
-		} else {
-			((BufferedItemPosition) parentItemPosition).bufferedSubListRawValue = null;
-			((BufferedItemPosition) parentItemPosition).bufferedSubListField = null;
-		}
+	@Override
+	public AbstractBufferedItemPositionFactory getFactory() {
+		return (AbstractBufferedItemPositionFactory) super.getFactory();
 	}
 
 	@Override

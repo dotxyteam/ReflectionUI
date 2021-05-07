@@ -40,6 +40,10 @@ import java.util.concurrent.ThreadFactory;
  * again will cancel the current schedule (can be done with
  * {@link #cancelSchedule()}) and setup another one.
  * 
+ * Limitation: All the task executions are performed by a single thread. Long
+ * running tasks would then block all scheduling attempts while they are
+ * running.
+ * 
  * @author olitank
  *
  */
@@ -65,10 +69,12 @@ public abstract class ReschedulableTask {
 	public void schedule() {
 		synchronized (executionMutex) {
 			if (!executionScheduled) {
-				executionScheduled = true;
+				boolean[] statusChanged = new boolean[] { false };
 				taskStatus = taskExecutor.submit(new Runnable() {
 					@Override
 					public void run() {
+						executionScheduled = true;
+						statusChanged[0] = true;
 						try {
 							try {
 								Thread.sleep(getExecutionDelayMilliseconds());
@@ -81,6 +87,13 @@ public abstract class ReschedulableTask {
 						execute();
 					}
 				});
+				while (!statusChanged[0]) {
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						throw new ReflectionUIError(e);
+					}
+				}
 			}
 		}
 	}
@@ -90,14 +103,10 @@ public abstract class ReschedulableTask {
 			if (executionScheduled) {
 				taskStatus.cancel(true);
 				while (executionScheduled) {
-					if (taskStatus.isDone()) {
-						executionScheduled = false;
-						break;
-					}
 					try {
 						Thread.sleep(1);
 					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
+						throw new ReflectionUIError(e);
 					}
 				}
 			}

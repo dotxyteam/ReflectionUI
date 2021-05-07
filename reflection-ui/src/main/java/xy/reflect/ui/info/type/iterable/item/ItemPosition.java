@@ -401,9 +401,10 @@ public class ItemPosition implements Cloneable {
 	/**
 	 * Updates the containing list so that it will only contain the given items. If
 	 * the containing list has a parent item then the parent item field that hosts
-	 * the containing list will be updated and the current method will called
-	 * recursively on the new parent item containing list. Otherwise the object
-	 * returned by {@link #retrieveContainingListValue()} will be modified and
+	 * the containing list will be updated and the current method will be called
+	 * recursively on the new parent item containing list. Otherwise the list object
+	 * returned by {@link #retrieveContainingListValue()} or a new list object
+	 * created with {@link IListTypeInfo#fromArray(Object[])} will be modified and
 	 * returned as the result of this method.
 	 * 
 	 * Note that the containing list reference may be altered by this operation.
