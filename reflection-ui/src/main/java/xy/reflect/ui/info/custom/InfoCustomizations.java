@@ -2070,6 +2070,10 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 
+		public void validate() {
+			find();
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
