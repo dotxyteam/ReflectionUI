@@ -217,7 +217,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public Object getRootListValue() {
-		return itemPositionFactory.getRootListValue();
+		return itemPositionFactory.retrieveRootListValue();
 	}
 
 	public String getRootListTitle() {
@@ -948,17 +948,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected ListModificationFactory createListModificationFactory(BufferedItemPosition anyListItemPosition) {
-		Mapper<Object, IModification> commitModifAccessor = new Mapper<Object, IModification>() {
-			@Override
-			public IModification get(Object rootListValue) {
-				if (listData.isGetOnly()) {
-					return IModification.NULL_MODIFICATION;
-				} else {
-					return new FieldControlDataModification(listData, rootListValue);
-				}
-			}
-		};
-		return new BufferedListModificationFactory(anyListItemPosition, commitModifAccessor);
+		return new BufferedListModificationFactory(anyListItemPosition);
 	}
 
 	protected boolean allSelectionItemsInSameList() {
@@ -3057,8 +3047,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {
 
 		@Override
-		public Object getNonBufferedRootListValue() {
+		public Object retrieveNonBufferedRootListValue() {
 			return listData.getValue();
+		}
+
+		@Override
+		protected void commitNonBufferedRootListValue(Object rootListValue) {
+			listData.setValue(rootListValue);
 		}
 
 		@Override
