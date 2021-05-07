@@ -30,7 +30,6 @@ package xy.reflect.ui.undo;
 
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
-import xy.reflect.ui.util.Mapper;
 
 /**
  * This class is a sub-class of {@link ListModificationFactory} that works with
@@ -41,29 +40,26 @@ import xy.reflect.ui.util.Mapper;
  */
 public class BufferedListModificationFactory extends ListModificationFactory {
 
-	public BufferedListModificationFactory(BufferedItemPosition anyListItemPosition,
-			Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
-		super(anyListItemPosition, rootListValueCommitModificationAccessor);
+	public BufferedListModificationFactory(BufferedItemPosition anyListItemPosition) {
+		super(anyListItemPosition);
 	}
 
 	@Override
-	public IModification createListModification(ItemPosition itemPosition, Object[] newListRawValue) {
-		return new BufferedListModification(itemPosition, newListRawValue, rootListValueCommitModificationAccessor);
+	public IModification createListModification(Object[] newListRawValue) {
+		return new BufferedListModification(anyItemPosition, newListRawValue);
 	}
 
 	public static class BufferedListModification extends ListModification {
 
-		public BufferedListModification(ItemPosition itemPosition, Object[] newListRawValue,
-				Mapper<Object, IModification> rootListValueCommitModificationAccessor) {
-			super(itemPosition, newListRawValue, rootListValueCommitModificationAccessor);
+		public BufferedListModification(ItemPosition itemPosition, Object[] newListRawValue) {
+			super(itemPosition, newListRawValue);
 		}
 
 		@Override
 		public IModification applyAndGetOpposite() {
 			((BufferedItemPosition) itemPosition).refreshContainingList();
 			ListModification opposite = (ListModification) super.applyAndGetOpposite();
-			return new BufferedListModification(opposite.itemPosition, opposite.newListRawValue,
-					opposite.rootListValueCommitModificationAccessor);
+			return new BufferedListModification(opposite.itemPosition, opposite.newListRawValue);
 		}
 
 	}

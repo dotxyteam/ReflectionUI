@@ -223,7 +223,7 @@ public class ItemPosition implements Cloneable {
 	 */
 	public Object retrieveContainingListValue() {
 		if (isRoot()) {
-			return factory.getRootListValue();
+			return factory.retrieveRootListValue();
 		} else {
 			return parentItemPosition.retrieveSubListValue();
 		}
@@ -356,7 +356,7 @@ public class ItemPosition implements Cloneable {
 	}
 
 	/**
-	 * @return whether the containing list is get-only (cannot be set) or not.
+	 * @return false if and only if the containing list value can be set.
 	 */
 	public boolean isContainingListGetOnly() {
 		if (isRoot()) {
@@ -401,23 +401,19 @@ public class ItemPosition implements Cloneable {
 	/**
 	 * Updates the containing list so that it will only contain the given items. If
 	 * the containing list has a parent item then the parent item field that hosts
-	 * the containing list will be updated and the current method will be called
-	 * recursively on the new parent item containing list. Otherwise the list object
-	 * returned by {@link #retrieveContainingListValue()} or a new list object
-	 * created with {@link IListTypeInfo#fromArray(Object[])} will be modified and
-	 * returned as the result of this method.
+	 * the containing list value will be updated and the current method will be
+	 * called recursively on the parent item position with its new containing list.
+	 * Otherwise only the factory root list value is updated.
 	 * 
-	 * Note that the containing list reference may be altered by this operation.
+	 * Note that this method must not be called if
+	 * {@link #isContainingListEditable()} returns false. Note also that the
+	 * containing list reference may be altered by this operation.
 	 * 
 	 * @param newContainingListRawValue The array that contains the items that
 	 *                                  should replace all the containing list
 	 *                                  items.
-	 * @return the new root list object if one was created for the purpose of this
-	 *         update. Note that this value is volatile and would need to be
-	 *         committed somehow to make the update durable.
 	 */
-	public Object updateContainingList(Object[] newContainingListRawValue) {
-		Object newRootListValue = null;
+	public void updateContainingList(Object[] newContainingListRawValue) {
 		boolean done = false;
 		ItemPosition parentItemPosition = getParentItemPosition();
 		Object parentItem = isRoot() ? null : parentItemPosition.getItem();
@@ -436,7 +432,9 @@ public class ItemPosition implements Cloneable {
 				if (!done) {
 					if (!isContainingListGetOnly()) {
 						listType.replaceContent(containingListValue, newContainingListRawValue);
-						if (!isRoot()) {
+						if (isRoot()) {
+							getFactory().commitRootListValue(containingListValue);
+						} else {
 							getContainingListFieldIfNotRoot().setValue(parentItem, containingListValue);
 						}
 						done = true;
@@ -449,7 +447,7 @@ public class ItemPosition implements Cloneable {
 				if (!isContainingListGetOnly()) {
 					Object containingListValue = listType.fromArray(newContainingListRawValue);
 					if (isRoot()) {
-						newRootListValue = containingListValue;
+						getFactory().commitRootListValue(containingListValue);
 					} else {
 						getContainingListFieldIfNotRoot().setValue(parentItem, containingListValue);
 					}
@@ -467,10 +465,8 @@ public class ItemPosition implements Cloneable {
 			if (parentItem != parentItemContainingListRawValue[parentItemPosition.getIndex()]) {
 				parentItemContainingListRawValue[parentItemPosition.getIndex()] = parentItem;
 			}
-			newRootListValue = parentItemPosition.updateContainingList(parentItemContainingListRawValue);
+			parentItemPosition.updateContainingList(parentItemContainingListRawValue);
 		}
-
-		return newRootListValue;
 	}
 
 	/**
