@@ -116,9 +116,9 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract IModification createCommittingModification(Object newObjectValue);
 
 	/**
-	 * @return source of the type information that will be used to handle the target
-	 *         value/object. If null is returned then this type information source
-	 *         will be dynamically inferred from the target value/object.
+	 * @return the source of the type information that will be used to handle the
+	 *         target value/object. If null is returned then this type information
+	 *         source will be dynamically inferred from the target value/object.
 	 */
 	protected abstract ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource();
 

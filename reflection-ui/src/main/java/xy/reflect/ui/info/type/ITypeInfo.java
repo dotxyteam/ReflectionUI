@@ -33,7 +33,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ResourcePath;
@@ -43,8 +42,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 /**
- * This interface allows to specify UI-oriented attributes of objects. These
- * attributes are typically inferred from classes.
+ * This interface allows to specify UI-oriented type information of objects.
+ * This information is typically inferred from object classes.
  * 
  * @author olitank
  *
@@ -52,9 +51,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 public interface ITypeInfo extends IInfo {
 
 	/**
-	 * @return the source object from which this type was created. Note that calling
-	 *         {@link ReflectionUI#getTypeInfo(ITypeInfoSource)} on the result
-	 *         should return an object equals to the current one.
+	 * @return the source object from which this type information was created.
 	 */
 	ITypeInfoSource getSource();
 
