@@ -30,33 +30,47 @@ package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Factory that generates virtual enumeration type information from the list of
- * sub-types of the given polymorphic type information.
+ * sub-types of the given polymorphic type information. The base type itself is
+ * added as an item to the resulting enumeration if it is concrete. This base
+ * type enumeration item holds actually a proxy of the base type that is not
+ * polymorphic anymore and makes that a {@link BlockedPolymorphismException}
+ * exception is thrown when another {@link PolymorphicTypeOptionsFactory} is
+ * instanciated with it. This is intended to prevent infinite recursive
+ * polymorphism detection.
  * 
  * @author olitank
  *
  */
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
+	protected static final String POLYMORPHISM_BLOCKED = PolymorphicTypeOptionsFactory.class.getName()
+			+ ".POLYMORPHISM_BLOCKED";
+
 	protected ITypeInfo polymorphicType;
 
 	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
-		super(reflectionUI, getTypeOptionsCollector(polymorphicType),
+		super(reflectionUI, getTypeOptionsCollector(reflectionUI, polymorphicType),
 				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "", false);
 		this.polymorphicType = polymorphicType;
 	}
 
-	protected static Iterable<ITypeInfo> getTypeOptionsCollector(final ITypeInfo polymorphicType) {
+	protected static Iterable<ITypeInfo> getTypeOptionsCollector(ReflectionUI reflectionUI,
+			final ITypeInfo polymorphicType) {
 		return new Iterable<ITypeInfo>() {
 
 			@Override
@@ -65,7 +79,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 						polymorphicType.getPolymorphicInstanceSubTypes());
 				{
 					if (polymorphicType.isConcrete()) {
-						result.add(0, blockPolymorphism(polymorphicType));
+						result.add(0, blockPolymorphism(polymorphicType, reflectionUI));
 					}
 				}
 				return result.iterator();
@@ -74,8 +88,21 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	}
 
-	protected static ITypeInfo blockPolymorphism(final ITypeInfo type) {
-		return new InfoProxyFactory() {
+	protected static ITypeInfo blockPolymorphism(final ITypeInfo type, ReflectionUI reflectionUI) {
+		if (Boolean.TRUE.equals(type.getSpecificProperties().get(POLYMORPHISM_BLOCKED))) {
+			throw new BlockedPolymorphismException();
+		}
+		final ITypeInfoSource typeSource = type.getSource();
+		final ITypeInfo unwrappedType = typeSource.getTypeInfo(reflectionUI);
+		final ITypeInfo[] blockedPolymorphismType = new ITypeInfo[1];
+		blockedPolymorphismType[0] = new InfoProxyFactory() {
+
+			@Override
+			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
+				result.put(POLYMORPHISM_BLOCKED, Boolean.TRUE);
+				return result;
+			}
 
 			@Override
 			protected String getCaption(ITypeInfo type) {
@@ -92,7 +119,15 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 				return Collections.emptyList();
 			}
 
-		}.wrapTypeInfo(type);
+			@Override
+			protected ITypeInfoSource getSource(ITypeInfo type) {
+				return new PrecomputedTypeInfoSource(blockedPolymorphismType[0],
+						typeSource.getSpecificitiesIdentifier());
+			}
+
+		}.wrapTypeInfo(unwrappedType);
+		ITypeInfo result = reflectionUI.getTypeInfo(blockedPolymorphismType[0].getSource());
+		return result;
 	}
 
 	public List<ITypeInfo> getTypeOptions() {
@@ -103,13 +138,23 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	public ITypeInfo guessSubType(Object instance) {
+	/**
+	 * @param instance The instance to analyze.
+	 * @return the type information among {@link #getTypeOptions()} that best fits
+	 *         the given instance. Note that the base polymorphic type may be a
+	 *         valid option (because it is a concrete type for instance). In this
+	 *         case the sub-types have precedence over the base type. The actual
+	 *         instance type may also be a sub-type of one of the type options.
+	 * @throws ReflectionUIError If there are multiple type options that match the
+	 *                           instance or if any type inconsistency is detected.
+	 */
+	public ITypeInfo guessSubType(Object instance) throws ReflectionUIError {
 		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getTypeOptions());
 		ITypeInfo polymorphicTypeAsValidOption = null;
 		ITypeInfo validSubType = null;
 		for (ITypeInfo type : options) {
 			if (type.supportsInstance(instance)) {
-				if (type.getName().equals(polymorphicType.getName())) {
+				if (type.getName().equals(blockPolymorphism(polymorphicType, reflectionUI).getName())) {
 					polymorphicTypeAsValidOption = type;
 				} else {
 					if (validSubType != null) {
@@ -125,18 +170,15 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		if (validSubType != null) {
 			ITypeInfo actualType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
 			if (actualType.getName().equals(polymorphicType.getName())) {
-				throw new ReflectionUIError("Polymorphism inconsistency detected:" + "\n- Base type: "
-						+ polymorphicType.getName() + "\n- Current sub-type: " + validSubType.getName()
-						+ "\n- Actual type: " + actualType.getName());
+				throw new ReflectionUIError(
+						"Polymorphism inconsistency detected: The base type instance is supported by a sub-type : "
+								+ "\n- Base polymorphic type: " + polymorphicType.getName() + "\n- Detected sub-type: "
+								+ validSubType.getName() + "\n- Actual type: " + actualType.getName());
 			}
 			return validSubType;
 		}
 		if (polymorphicTypeAsValidOption != null) {
 			return polymorphicTypeAsValidOption;
-		}
-		ITypeInfo actualType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
-		if (actualType.getName().equals(polymorphicType.getName())) {
-			return blockPolymorphism(actualType);
 		}
 		return null;
 	}
@@ -168,6 +210,12 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	@Override
 	public String toString() {
 		return "PolymorphicTypeOptionsFactory [polymorphicType=" + polymorphicType + "]";
+	}
+
+	public static class BlockedPolymorphismException extends ReflectionUIError {
+
+		private static final long serialVersionUID = 1L;
+
 	}
 
 }

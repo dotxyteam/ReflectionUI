@@ -42,6 +42,7 @@ import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.RejectedFieldControlInputException;
 import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -52,16 +53,21 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
+import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory.BlockedPolymorphismException;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Field control that can display values of different types. It uses a
- * sub-control that depends on the current value type.
+ * Field control that can display values of different types. It uses 2
+ * sub-controls: an enumeration control to display possible types, and another
+ * dynamic control to display the actual field value. Note that the constructor
+ * throws a {@link RejectedFieldControlInputException} if it detects that it is
+ * being recreated recursively inside the dynamic control.
  * 
  * @author olitank
  *
@@ -86,21 +92,25 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected Object currentInstance;
 
 	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
-		this.swingRenderer = swingRenderer;
-		this.input = new FieldControlInputProxy(input) {
-			@Override
-			public IFieldControlData getControlData() {
-				IFieldControlData result = super.getControlData();
-				result = SwingRendererUtils.handleErrors(swingRenderer, result, PolymorphicControl.this);
-				return result;
-			}
-		};
-		this.data = input.getControlData();
-		this.polymorphicType = input.getControlData().getType();
-		this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(), polymorphicType);
-
-		setLayout(new BorderLayout());
-		refreshUI(true);
+		try {
+			this.swingRenderer = swingRenderer;
+			this.input = new FieldControlInputProxy(input) {
+				@Override
+				public IFieldControlData getControlData() {
+					IFieldControlData result = super.getControlData();
+					result = SwingRendererUtils.handleErrors(swingRenderer, result, PolymorphicControl.this);
+					return result;
+				}
+			};
+			this.data = input.getControlData();
+			this.polymorphicType = input.getControlData().getType();
+			this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(),
+					polymorphicType);
+			setLayout(new BorderLayout());
+			refreshUI(true);
+		} catch (BlockedPolymorphismException e) {
+			throw new RejectedFieldControlInputException();
+		}
 	}
 
 	@Override
@@ -256,6 +266,10 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		ITypeInfo result = ReflectionUIUtils.getFirstKeyFromValue(subTypeInstanceCache, instance);
 		if (result == null) {
 			result = typeOptionsFactory.guessSubType(instance);
+			if (result == null) {
+				throw new ReflectionUIError("Failed to  a compatible sub-type for '" + instance
+						+ "'. Sub-type options: " + typeOptionsFactory.getTypeOptions());
+			}
 			subTypeInstanceCache.put(result, instance);
 		}
 		return result;
