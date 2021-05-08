@@ -54,7 +54,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.ReflectionUI;
@@ -529,18 +528,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					setBorder(BorderFactory.createEmptyBorder());
 				}
 				setOpaque(false);
-				if (data.isGetOnly()) {
-					imagePanelContainer.setOpaque(false);
-				} else {
-					if (data.getEditorBackgroundColor() != null) {
-						imagePanelContainer.setOpaque(true);
-						imagePanelContainer.setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
-					} else {
-						imagePanelContainer.setOpaque(true);
-						imagePanelContainer.setBackground(new JTextField().getBackground());
-					}
-				}
-
 				imagePanelContainer.removeAll();
 				imagePanel = null;
 			}
