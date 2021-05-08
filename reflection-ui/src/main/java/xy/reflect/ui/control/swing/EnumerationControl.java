@@ -56,7 +56,8 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 
 /**
- * Field control that displays a combo box.
+ * Field control that displays a combo box. Compatible with
+ * {@link IEnumerationTypeInfo}.
  * 
  * @author olitank
  *

@@ -42,7 +42,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 
 /**
- * Field control that displays a check box.
+ * Field control that displays a check box. Compatible with booleans.
  * 
  * @author olitank
  *

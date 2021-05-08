@@ -53,8 +53,8 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Action allowing to retrieve a method parameter values, invoke the method and
- * display the return value.
+ * Action allowing orchestrate a method execution (retrieve parameter values,
+ * invoke the method and display the return value).
  * 
  * @author olitank
  *

@@ -141,7 +141,8 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Field control that displays a tree table.
+ * Field control that displays a tree table. Compatible with
+ * {@link IListTypeInfo}.
  * 
  * @author olitank
  *

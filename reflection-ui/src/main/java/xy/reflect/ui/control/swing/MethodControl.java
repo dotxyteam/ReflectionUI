@@ -43,7 +43,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Method control that displays a button allowing to invoke the method.
+ * Control that displays a button allowing to invoke a method.
  * 
  * @author olitank
  *
@@ -124,7 +124,7 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 		MethodAction action = swingRenderer.createMethodAction(input);
-		action.actionPerformed(e);		
+		action.actionPerformed(e);
 	}
 
 	@Override
