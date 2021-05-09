@@ -152,9 +152,6 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			}
 		}
 		this.infoCustomizationsOutputFilePath = infoCustomizationsOutputFilePath;
-		this.customizationTools = createCustomizationTools();
-		this.customizationOptions = createCustomizationOptions();
-		this.customizationController = createCustomizationController();
 	}
 
 	/**
@@ -177,6 +174,9 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	 * @return the {@link CustomizationTools} instance that is used.
 	 */
 	public CustomizationTools getCustomizationTools() {
+		if (customizationTools == null) {
+			customizationTools = createCustomizationTools();
+		}
 		return customizationTools;
 	}
 
@@ -184,6 +184,9 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	 * @return the {@link CustomizationOptions} instance that is used.
 	 */
 	public CustomizationOptions getCustomizationOptions() {
+		if (customizationOptions == null) {
+			customizationOptions = createCustomizationOptions();
+		}
 		return customizationOptions;
 	}
 
@@ -191,6 +194,9 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	 * @return the {@link CustomizationController} instance that is used.
 	 */
 	public CustomizationController getCustomizationController() {
+		if (customizationController == null) {
+			customizationController = createCustomizationController();
+		}
 		return customizationController;
 	}
 
@@ -263,7 +269,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			if (!isCustomizationsEditorEnabled()) {
 				return false;
 			}
-			if (!customizationOptions.isInEditMode()) {
+			if (!getCustomizationOptions().isInEditMode()) {
 				return false;
 			}
 			if (!getInfoCustomizations()
@@ -314,7 +320,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 				JPanel typeCustomizationsControl = new ControlPanel();
 				{
 					typeCustomizationsControl.setLayout(new BorderLayout());
-					typeCustomizationsControl.add(customizationTools.makeButtonForTypeInfo(object),
+					typeCustomizationsControl.add(getCustomizationTools().makeButtonForTypeInfo(object),
 							BorderLayout.CENTER);
 					membersPanel.add(
 							SwingRendererUtils.flowInLayout(typeCustomizationsControl, GridBagConstraints.CENTER),

@@ -57,6 +57,7 @@ import xy.reflect.ui.control.swing.util.WrapLayout;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -191,7 +192,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				AbstractButton button = radioButtonsEnum.nextElement();
 				listenerDisabled = true;
 				try {
-					button.setSelected(ReflectionUIUtils.equalsOrBothNull(currentValue, possibleValues.get(i)));
+					button.setSelected(MiscUtils.equalsOrBothNull(currentValue, possibleValues.get(i)));
 				} finally {
 					listenerDisabled = false;
 				}

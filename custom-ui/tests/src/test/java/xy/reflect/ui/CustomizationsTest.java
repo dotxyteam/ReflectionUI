@@ -9,7 +9,7 @@ import java.util.List;
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.MiscUtils;
 
 public class CustomizationsTest {
 
@@ -100,7 +100,7 @@ public class CustomizationsTest {
 		}
 
 		public void throwException() throws Exception {
-			throw new Exception(ReflectionUIUtils.getPrintedStackTrace(new AssertionError()));
+			throw new Exception(MiscUtils.getPrintedStackTrace(new AssertionError()));
 		}
 
 		public void callWithManyParams(int i, String s, Date d, Color c) throws Exception {

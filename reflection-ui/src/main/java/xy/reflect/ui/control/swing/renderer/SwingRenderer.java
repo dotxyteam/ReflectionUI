@@ -106,7 +106,8 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
@@ -508,7 +509,7 @@ public class SwingRenderer {
 					}
 					try {
 						type = reflectionUI
-								.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getCachedClassforName(className), null));
+								.getTypeInfo(new JavaTypeInfoSource(ReflectionUtils.getCachedClassforName(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}
@@ -769,7 +770,7 @@ public class SwingRenderer {
 	 * @return An elegant error message from the given exception.
 	 */
 	public String formatErrorMessage(Throwable error) {
-		return ReflectionUIUtils.getPrettyErrorMessage(error);
+		return MiscUtils.getPrettyErrorMessage(error);
 	}
 
 	/**
@@ -779,7 +780,7 @@ public class SwingRenderer {
 	 * @param error              The exception resulting from the error to display.
 	 */
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
-		String statckTraceString = ReflectionUIUtils.getPrintedStackTrace(error);
+		String statckTraceString = MiscUtils.getPrintedStackTrace(error);
 		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
 		dialogBuilder.setButtonBarControls(
 				Collections.<Component>singletonList(dialogBuilder.createDialogClosingButton("Close", null)));

@@ -76,7 +76,8 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -111,7 +112,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			protected boolean isDerivedTypeInfo(ITypeInfo type, Class<?> baseClass) {
 				Class<?> clazz;
 				try {
-					clazz = ClassUtils.getCachedClassforName(type.getName());
+					clazz = ReflectionUtils.getCachedClassforName(type.getName());
 				} catch (ClassNotFoundException e) {
 					return false;
 				}
@@ -142,7 +143,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 							throw new ReflectionUIError();
 						}
 					}
-					return ReflectionUIUtils.stringJoin(result, " / ");
+					return MiscUtils.stringJoin(result, " / ");
 				}
 				if (info.getValue() instanceof ResourcePath) {
 					ResourcePath resourcePath = (ResourcePath) itemValue;
@@ -372,7 +373,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 				} else if (object instanceof TypeConversion) {
 					String result = "To ";
 					ITypeInfoFinder newTypeFinder = ((TypeConversion) object).getNewTypeFinder();
-					if (ReflectionUIUtils.equalsOrBothNull(newTypeFinder, new TypeConversion().getNewTypeFinder())) {
+					if (MiscUtils.equalsOrBothNull(newTypeFinder, new TypeConversion().getNewTypeFinder())) {
 						result += "...";
 					} else {
 						result += "<" + ReflectionUIUtils.toString(CustomizationToolsUI.this, newTypeFinder) + ">";

@@ -78,7 +78,8 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -288,8 +289,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 			@Override
 			protected void handleError(Throwable t) {
-				final String newErrorId = (t == null) ? null : ReflectionUIUtils.getPrintedStackTrace(t);
-				if (ReflectionUIUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
+				final String newErrorId = (t == null) ? null : MiscUtils.getPrintedStackTrace(t);
+				if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
 					return;
 				}
 				currentlyDisplayedErrorId = newErrorId;
@@ -298,7 +299,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					public void run() {
 						boolean done = (fieldControl instanceof IAdvancedFieldControl)
 								&& ((IAdvancedFieldControl) fieldControl)
-										.displayError((t == null) ? null : ReflectionUIUtils.getPrettyErrorMessage(t));
+										.displayError((t == null) ? null : MiscUtils.getPrettyErrorMessage(t));
 						if (!done && (t != null)) {
 							SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
 							swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, t);
@@ -568,7 +569,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 				final Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(fieldType.getName());
+					javaType = ReflectionUtils.getCachedClassforName(fieldType.getName());
 				} catch (ClassNotFoundException e) {
 					return null;
 				}
@@ -578,7 +579,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
-				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+				if (ReflectionUtils.isPrimitiveClassOrWrapper(javaType)) {
 					try {
 						return new PrimitiveValueControl(swingRenderer, controlInput);
 					} catch (RejectedFieldControlInputException e) {
@@ -632,7 +633,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				return new DefaultFieldControlData(swingRenderer.getReflectionUI()) {
 					@Override
 					public String getNullValueLabel() {
-						return ReflectionUIUtils.getPrettyErrorMessage(t);
+						return MiscUtils.getPrettyErrorMessage(t);
 					}
 				};
 			}

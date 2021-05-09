@@ -57,7 +57,7 @@ public class ReflectionUIError extends RuntimeException {
 	public String getMessage() {
 		String result = super.getMessage();
 		if (result == null) {
-			result = ReflectionUIUtils.getPrintedStackTrace(this);
+			result = MiscUtils.getPrintedStackTrace(this);
 		}
 		if (getCause() != null) {
 			String causeClassName = getCause().getClass().getName();

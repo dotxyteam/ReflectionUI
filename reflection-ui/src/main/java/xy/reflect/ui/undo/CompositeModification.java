@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Modification composed of sub-modifications that are applied in the specified
@@ -113,7 +113,7 @@ public class CompositeModification implements IModification {
 				}
 				result.add(modifTitle);
 			}
-			return ReflectionUIUtils.stringJoin(result, ", ");
+			return MiscUtils.stringJoin(result, ", ");
 		}
 	}
 

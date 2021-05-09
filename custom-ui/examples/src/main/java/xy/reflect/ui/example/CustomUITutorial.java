@@ -14,7 +14,7 @@ import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
-import xy.reflect.ui.util.FileUtils;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.SystemProperties;
 
@@ -49,7 +49,7 @@ public class CustomUITutorial {
 	private static void changeCustomizationsFilePath() {
 		File tmpDirectory;
 		try {
-			tmpDirectory = FileUtils.createTempDirectory();
+			tmpDirectory = IOUtils.createTempDirectory();
 		} catch (Exception e) {
 			throw new AssertionError(e);
 		}

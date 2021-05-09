@@ -118,9 +118,10 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -238,7 +239,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getSavingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(type.getName());
+					javaType = ReflectionUtils.getCachedClassforName(type.getName());
 					Method method = javaType.getMethod(t.getSavingMethodName(), OutputStream.class);
 					method.invoke(object, out);
 					return;
@@ -258,7 +259,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getLoadingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(type.getName());
+					javaType = ReflectionUtils.getCachedClassforName(type.getName());
 					Method method = javaType.getMethod(t.getLoadingMethodName(), InputStream.class);
 					method.invoke(object, in);
 					return;
@@ -1347,7 +1348,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (width.getUnit() == FormSizeUnit.PIXELS) {
 						result.width = width.getValue();
 					} else if (width.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
-						Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
+						Dimension screenSize = MiscUtils.getDefaultScreenSize();
 						result.width = Math.round((width.getValue() / 100f) * screenSize.width);
 					} else {
 						throw new ReflectionUIError();
@@ -1358,7 +1359,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (height.getUnit() == FormSizeUnit.PIXELS) {
 						result.height = height.getValue();
 					} else if (height.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
-						Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
+						Dimension screenSize = MiscUtils.getDefaultScreenSize();
 						result.height = Math.round((height.getValue() / 100f) * screenSize.height);
 					} else {
 						throw new ReflectionUIError();
@@ -1552,7 +1553,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				transformMethods(inputMethods, outputMethods, newFields, newMethods);
 				transformMethods(inputConstructors, outputConstructors, newFields, newConstructors);
 			} catch (final Throwable t) {
-				customizedUI.logError(ReflectionUIUtils.getPrintedStackTrace(t));
+				customizedUI.logError(MiscUtils.getPrintedStackTrace(t));
 				outputFields.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
 					@Override
@@ -1684,7 +1685,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										encapsulatedMembers);
 							}
 							encapsulatedMembers.getFirst().add(field);
-							ReflectionUIUtils.replaceItem(fields, field, new HiddenFieldInfoProxy(field));
+							MiscUtils.replaceItem(fields, field, new HiddenFieldInfoProxy(field));
 						}
 					}
 				}
@@ -1705,7 +1706,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										encapsulatedMembers);
 							}
 							encapsulatedMembers.getSecond().add(method);
-							ReflectionUIUtils.replaceItem(methods, method, new HiddenMethodInfoProxy(method));
+							MiscUtils.replaceItem(methods, method, new HiddenMethodInfoProxy(method));
 						}
 					}
 				}

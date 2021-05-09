@@ -99,6 +99,7 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Filter;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -317,7 +318,7 @@ public class Form extends ImagePanel {
 					}
 				} catch (Exception e) {
 					swingRenderer.getReflectionUI().logDebug(e);
-					final String errorMsg = ReflectionUIUtils.getPrettyErrorMessage(e);
+					final String errorMsg = MiscUtils.getPrettyErrorMessage(e);
 					if (!errorMsg.equals(getStatusBarMessage())) {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
@@ -339,7 +340,7 @@ public class Form extends ImagePanel {
 			statusBar.setVisible(false);
 		} else {
 			((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
-			((JLabel) statusBar).setText(ReflectionUIUtils.multiToSingleLine(errorMsg));
+			((JLabel) statusBar).setText(MiscUtils.multiToSingleLine(errorMsg));
 			SwingRendererUtils.setMultilineToolTipText(((JLabel) statusBar), errorMsg);
 			statusBar.setVisible(true);
 		}

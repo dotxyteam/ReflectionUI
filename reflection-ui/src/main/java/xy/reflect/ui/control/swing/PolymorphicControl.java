@@ -59,6 +59,7 @@ import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -263,7 +264,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		if (instance == null) {
 			return null;
 		}
-		ITypeInfo result = ReflectionUIUtils.getFirstKeyFromValue(subTypeInstanceCache, instance);
+		ITypeInfo result = MiscUtils.getFirstKeyFromValue(subTypeInstanceCache, instance);
 		if (result == null) {
 			result = typeOptionsFactory.guessSubType(instance);
 			if (result == null) {

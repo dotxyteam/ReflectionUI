@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.util.FileUtils;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
@@ -41,7 +41,7 @@ public class TextEditor implements Serializable {
 
 	public void save(File file) {
 		try {
-			FileUtils.write(file, text, false);
+			IOUtils.write(file, text, false);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -49,7 +49,7 @@ public class TextEditor implements Serializable {
 
 	public void load(File file) {
 		try {
-			text = FileUtils.read(file);
+			text = IOUtils.read(file);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

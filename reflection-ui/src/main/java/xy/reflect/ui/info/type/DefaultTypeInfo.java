@@ -58,7 +58,8 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -176,12 +177,12 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public void save(Object object, OutputStream output) {
-		ReflectionUIUtils.serialize(object, output);
+		IOUtils.serialize(object, output);
 	}
 
 	@Override
 	public void load(Object object, InputStream input) {
-		Object loaded = ReflectionUIUtils.deserialize(input);
+		Object loaded = IOUtils.deserialize(input);
 		try {
 			ReflectionUIUtils.copyFieldValues(reflectionUI, loaded, object, true);
 		} catch (Throwable t) {
@@ -211,7 +212,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public boolean isImmutable() {
-		return ClassUtils.isKnownAsImmutableClass(getJavaType());
+		return ReflectionUtils.isKnownAsImmutableClass(getJavaType());
 	}
 
 	@Override
@@ -237,7 +238,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		if (constructors == null) {
 			constructors = new ArrayList<IMethodInfo>();
-			if (ClassUtils.isPrimitiveClassOrWrapperOrString(getJavaType())) {
+			if (ReflectionUtils.isPrimitiveClassOrWrapperOrString(getJavaType())) {
 				constructors.add(new AbstractConstructorInfo() {
 
 					ITypeInfo returnValueType;
@@ -248,10 +249,10 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 							return "";
 						} else {
 							Class<?> primitiveType = getJavaType();
-							if (ClassUtils.isPrimitiveWrapperClass(primitiveType)) {
-								primitiveType = ClassUtils.wrapperToPrimitiveClass(getJavaType());
+							if (ReflectionUtils.isPrimitiveWrapperClass(primitiveType)) {
+								primitiveType = ReflectionUtils.wrapperToPrimitiveClass(getJavaType());
 							}
-							return ClassUtils.getDefaultPrimitiveValue(primitiveType);
+							return ReflectionUtils.getDefaultPrimitiveValue(primitiveType);
 						}
 					}
 
@@ -291,7 +292,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		if (String.class.equals(getJavaType())) {
 			return "Text";
 		} else if (getJavaType().isPrimitive()) {
-			return ClassUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
+			return ReflectionUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
 		} else {
 			return ReflectionUIUtils.identifierToCaption(getJavaType().getSimpleName());
 		}
@@ -337,7 +338,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	@Override
 	public boolean supportsInstance(Object object) {
 		if (getJavaType().isPrimitive()) {
-			return ClassUtils.primitiveToWrapperClass(getJavaType()).isInstance(object);
+			return ReflectionUtils.primitiveToWrapperClass(getJavaType()).isInstance(object);
 		} else {
 			return getJavaType().isInstance(object);
 		}
@@ -406,7 +407,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		if (object == null) {
 			return null;
 		}
-		return ReflectionUIUtils.copyThroughSerialization((Serializable) object);
+		return IOUtils.copyThroughSerialization((Serializable) object);
 	}
 
 	@Override

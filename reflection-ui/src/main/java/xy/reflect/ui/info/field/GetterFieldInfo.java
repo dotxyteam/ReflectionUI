@@ -48,8 +48,10 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ReflectionUtils;
 
 /**
  * Field generated from a '(get|is|has)Something()' Java method. If the
@@ -90,14 +92,14 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 		String result = m.group(1);
 		if (result != null) {
-			result = ReflectionUIUtils.changeCase(result, false, 0, 1);
+			result = MiscUtils.changeCase(result, false, 0, 1);
 		}
 		return result;
 	}
 
 	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> containingJavaClass) {
 		String fieldName = getterToFieldName(javaGetterMethod.getName());
-		String setterMethodName = "set" + ReflectionUIUtils.changeCase(fieldName, true, 0, 1);
+		String setterMethodName = "set" + MiscUtils.changeCase(fieldName, true, 0, 1);
 		try {
 			for (Method otherMethod : containingJavaClass.getMethods()) {
 				if (otherMethod.getName().equals(setterMethodName)) {
@@ -139,7 +141,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 			return false;
 		}
 		for (Method commonMethod : Object.class.getMethods()) {
-			if (ReflectionUIUtils.isOverridenBy(commonMethod, javaMethod)) {
+			if (ReflectionUtils.isOverridenBy(commonMethod, javaMethod)) {
 				return false;
 			}
 		}

@@ -37,7 +37,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -63,9 +63,9 @@ public class PrimitiveValueControl extends TextControl {
 	protected static IFieldControlData handleValueConversions(final ReflectionUI reflectionUI, IFieldControlData data) {
 		final Class<?> primitiveWrapperClass;
 		try {
-			Class<?> dataClass = ClassUtils.getCachedClassforName(data.getType().getName());
+			Class<?> dataClass = ReflectionUtils.getCachedClassforName(data.getType().getName());
 			if (dataClass.isPrimitive()) {
-				dataClass = ClassUtils.primitiveToWrapperClass(dataClass);
+				dataClass = ReflectionUtils.primitiveToWrapperClass(dataClass);
 			}
 			primitiveWrapperClass = dataClass;
 		} catch (ClassNotFoundException e1) {
@@ -99,11 +99,11 @@ public class PrimitiveValueControl extends TextControl {
 	}
 
 	protected static String toText(Object object) {
-		return ClassUtils.primitiveToString(object);
+		return ReflectionUtils.primitiveToString(object);
 	}
 
 	protected static Object fromText(String text, Class<?> primitiveWrapperClass) {
-		return ClassUtils.primitiveFromString(text, primitiveWrapperClass);
+		return ReflectionUtils.primitiveFromString(text, primitiveWrapperClass);
 	}
 
 	@Override

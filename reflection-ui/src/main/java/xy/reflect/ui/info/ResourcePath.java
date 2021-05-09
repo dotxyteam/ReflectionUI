@@ -40,7 +40,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlTransient;
 
-import xy.reflect.ui.util.FileUtils;
+import xy.reflect.ui.util.IOUtils;
 
 /**
  * This is a renderer-independent resource location class. It allows to specify
@@ -276,8 +276,8 @@ public class ResourcePath implements Serializable {
 				result.addAll(findMatchingClassPathResources(file));
 				if (pathKind == PathKind.ABSOLUTE_FILE) {
 					File currentDir = new File(".");
-					if (FileUtils.isAncestor(currentDir, file)) {
-						File relativeFile = FileUtils.relativizeFile(currentDir, file);
+					if (IOUtils.isAncestor(currentDir, file)) {
+						File relativeFile = IOUtils.relativizeFile(currentDir, file);
 						result.add(new ResourcePath(relativeFile.getPath()));
 					}
 				}
@@ -301,7 +301,7 @@ public class ResourcePath implements Serializable {
 			while (mostAncestorFile.getParentFile() != null) {
 				mostAncestorFile = mostAncestorFile.getParentFile();
 			}
-			candidateResourceFile = FileUtils.relativizeFile(mostAncestorFile, candidateResourceFile);
+			candidateResourceFile = IOUtils.relativizeFile(mostAncestorFile, candidateResourceFile);
 			String candidateResourcePath = candidateResourceFile.getPath().replaceAll("\\\\", "/");
 			URL resourceURL = ResourcePath.class.getClassLoader().getResource(candidateResourcePath);
 			if (resourceURL != null) {

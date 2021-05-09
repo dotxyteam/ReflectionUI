@@ -137,6 +137,7 @@ import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -957,7 +958,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		List<BufferedItemPosition> selection = getSelection();
 		BufferedItemPosition firstSelectionItem = selection.get(0);
 		for (BufferedItemPosition selectionItem : selection) {
-			if (!ReflectionUIUtils.equalsOrBothNull(firstSelectionItem.getParentItemPosition(),
+			if (!MiscUtils.equalsOrBothNull(firstSelectionItem.getParentItemPosition(),
 					selectionItem.getParentItemPosition())) {
 				result = false;
 				break;
@@ -1303,7 +1304,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void updateDetailsArea(boolean refreshStructure) {
 		BufferedItemPosition singleSelection = getSingleSelection();
-		if (!ReflectionUIUtils.equalsOrBothNull(singleSelection, detailsControlItemPosition)) {
+		if (!MiscUtils.equalsOrBothNull(singleSelection, detailsControlItemPosition)) {
 			detailsControlItemPosition = singleSelection;
 			if (detailsControl != null) {
 				detailsArea.removeAll();
@@ -2871,7 +2872,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
 			action.invokeAndSetReturnValue(invocationData);
 			if (dynamicAction.getPostSelection() != null) {
-				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
+				toPostSelectHolder[0] = MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicAction.getPostSelection());
 			}
 		}
@@ -3017,7 +3018,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				subDialogBuilder.impactParent();
 			}
 			if (dynamicProperty.getPostSelection() != null) {
-				toPostSelectHolder[0] = ReflectionUIUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
+				toPostSelectHolder[0] = MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicProperty.getPostSelection());
 			}
 		}

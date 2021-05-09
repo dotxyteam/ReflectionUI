@@ -30,6 +30,7 @@ package xy.reflect.ui.control.plugin;
 
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.RejectedFieldControlInputException;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
@@ -65,8 +66,11 @@ public interface IFieldControlPlugin {
 	 * @param input    The specification of the field to be displayed.
 	 * @return A control able to display the field specified by the given input
 	 *         object.
+	 * @throws RejectedFieldControlInputException If it is discovered during the
+	 *                                            creation that the input cannot be
+	 *                                            handled.
 	 */
-	Object createControl(Object renderer, IFieldControlInput input);
+	Object createControl(Object renderer, IFieldControlInput input) throws RejectedFieldControlInputException;
 
 	/**
 	 * @return words describing the current plugin.

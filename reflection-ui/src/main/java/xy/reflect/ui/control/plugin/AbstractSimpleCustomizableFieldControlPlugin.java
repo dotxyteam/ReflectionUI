@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -82,7 +83,7 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 
 		@Override
 		public int hashCode() {
-			return Arrays.hashCode(ReflectionUIUtils.serializeToBinary(this));
+			return Arrays.hashCode(IOUtils.serializeToBinary(this));
 		}
 
 		@Override
@@ -93,7 +94,7 @@ public abstract class AbstractSimpleCustomizableFieldControlPlugin extends Abstr
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			if (!Arrays.equals(ReflectionUIUtils.serializeToBinary(obj), ReflectionUIUtils.serializeToBinary(this)))
+			if (!Arrays.equals(IOUtils.serializeToBinary(obj), IOUtils.serializeToBinary(this)))
 				return false;
 			return true;
 		}

@@ -30,7 +30,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 @SuppressWarnings("unused")
@@ -187,7 +187,7 @@ public class ReflectionUITest {
 		}
 
 		public void throwException() throws Exception {
-			throw new Exception(ReflectionUIUtils.getPrintedStackTrace(new AssertionError()));
+			throw new Exception(MiscUtils.getPrintedStackTrace(new AssertionError()));
 		}
 
 		public void callWithManyParams(int i, String s, Date d, Color c) throws Exception {

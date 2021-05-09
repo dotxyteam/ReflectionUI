@@ -91,9 +91,11 @@ import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.Filter;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -265,13 +267,13 @@ public class InfoCustomizations implements Serializable {
 	public void saveToStream(OutputStream output, Listener<String> debugLogListener, final String comment)
 			throws IOException {
 		InfoCustomizations toSave = new InfoCustomizations();
-		toSave.appplicationCustomization = (ApplicationCustomization) ReflectionUIUtils
+		toSave.appplicationCustomization = (ApplicationCustomization) IOUtils
 				.copyThroughSerialization((Serializable) appplicationCustomization);
-		toSave.typeCustomizations = (List<TypeCustomization>) ReflectionUIUtils
+		toSave.typeCustomizations = (List<TypeCustomization>) IOUtils
 				.copyThroughSerialization((Serializable) typeCustomizations);
-		toSave.listCustomizations = (List<ListCustomization>) ReflectionUIUtils
+		toSave.listCustomizations = (List<ListCustomization>) IOUtils
 				.copyThroughSerialization((Serializable) listCustomizations);
-		toSave.enumerationCustomizations = (List<EnumerationCustomization>) ReflectionUIUtils
+		toSave.enumerationCustomizations = (List<EnumerationCustomization>) IOUtils
 				.copyThroughSerialization((Serializable) enumerationCustomizations);
 		InfoCustomizations.clean(toSave, debugLogListener);
 		try {
@@ -610,7 +612,7 @@ public class InfoCustomizations implements Serializable {
 			String itemTypeName, boolean createIfNotFound) {
 		for (ListCustomization l : infoCustomizations.getListCustomizations()) {
 			if (listTypeName.equals(l.getListTypeName())) {
-				if (ReflectionUIUtils.equalsOrBothNull(l.getItemTypeName(), itemTypeName)) {
+				if (MiscUtils.equalsOrBothNull(l.getItemTypeName(), itemTypeName)) {
 					return l;
 				}
 			}
@@ -715,7 +717,7 @@ public class InfoCustomizations implements Serializable {
 					}
 				}
 				InfoCategory otherInfoCategory = ReflectionUIUtils.getCategory(otherInfo);
-				if (ReflectionUIUtils.equalsOrBothNull(infoCategory, otherInfoCategory)) {
+				if (MiscUtils.equalsOrBothNull(infoCategory, otherInfoCategory)) {
 					nextSameCategoryInfoIndex = currentInfoIndex;
 					break;
 				}
@@ -1484,7 +1486,7 @@ public class InfoCustomizations implements Serializable {
 		public List<String> getSavingMethodNameOptions() {
 			Class<?> javaType;
 			try {
-				javaType = ClassUtils.getCachedClassforName(typeName);
+				javaType = ReflectionUtils.getCachedClassforName(typeName);
 			} catch (ClassNotFoundException e) {
 				return Collections.emptyList();
 			}
@@ -1496,7 +1498,7 @@ public class InfoCustomizations implements Serializable {
 				if (!method.getReturnType().equals(void.class)) {
 					continue;
 				}
-				List<Parameter> parameters = ReflectionUIUtils.getJavaParameters(method);
+				List<Parameter> parameters = ReflectionUtils.getJavaParameters(method);
 				if (parameters.size() != 1) {
 					continue;
 				}
@@ -1521,7 +1523,7 @@ public class InfoCustomizations implements Serializable {
 		public List<String> getLoadingMethodNameOptions() {
 			Class<?> javaType;
 			try {
-				javaType = ClassUtils.getCachedClassforName(typeName);
+				javaType = ReflectionUtils.getCachedClassforName(typeName);
 			} catch (ClassNotFoundException e) {
 				return Collections.emptyList();
 			}
@@ -1533,7 +1535,7 @@ public class InfoCustomizations implements Serializable {
 				if (!method.getReturnType().equals(void.class)) {
 					continue;
 				}
-				List<Parameter> parameters = ReflectionUIUtils.getJavaParameters(method);
+				List<Parameter> parameters = ReflectionUtils.getJavaParameters(method);
 				if (parameters.size() != 1) {
 					continue;
 				}
@@ -1849,7 +1851,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(TypeCustomization o) {
-			return ReflectionUIUtils.compareNullables(typeName, o.typeName);
+			return MiscUtils.compareNullables(typeName, o.typeName);
 		}
 
 		@Override
@@ -2009,7 +2011,7 @@ public class InfoCustomizations implements Serializable {
 		public List<String> getConversionMethodSignatureOptions() {
 			Class<?> conversionClass;
 			try {
-				conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
+				conversionClass = ReflectionUtils.getCachedClassforName(conversionClassName);
 			} catch (Exception e) {
 				return Collections.emptyList();
 			}
@@ -2046,7 +2048,7 @@ public class InfoCustomizations implements Serializable {
 				return null;
 			}
 			try {
-				final Class<?> conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
+				final Class<?> conversionClass = ReflectionUtils.getCachedClassforName(conversionClassName);
 				if ((conversionMethodSignature == null) || (conversionMethodSignature.length() == 0)) {
 					throw new ReflectionUIError("Conversion method not specified!");
 				}
@@ -2056,7 +2058,7 @@ public class InfoCustomizations implements Serializable {
 						.extractMethodParameterTypeNamesFromSignature(conversionMethodSignature);
 				final Class<?>[] conversionMethodParameterTypes = new Class<?>[conversionMethodParameterTypeNames.length];
 				for (int i = 0; i < conversionMethodParameterTypeNames.length; i++) {
-					conversionMethodParameterTypes[i] = ClassUtils
+					conversionMethodParameterTypes[i] = ReflectionUtils
 							.getCachedClassforName(conversionMethodParameterTypeNames[i]);
 				}
 				if (conversionMethodName == null) {
@@ -2676,7 +2678,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(FieldCustomization o) {
-			return ReflectionUIUtils.compareNullables(fieldName, o.fieldName);
+			return MiscUtils.compareNullables(fieldName, o.fieldName);
 		}
 
 		@Override
@@ -2719,7 +2721,7 @@ public class InfoCustomizations implements Serializable {
 					Filter<Object> conversionMethod = preConversion.buildOverallConversionMethod();
 					object = conversionMethod.get(object);
 				}
-				this.data = ReflectionUIUtils.serializeToHexaText(object);
+				this.data = IOUtils.serializeToHexaText(object);
 			}
 		}
 
@@ -2727,7 +2729,7 @@ public class InfoCustomizations implements Serializable {
 			if (data == null) {
 				return null;
 			} else {
-				Object result = ReflectionUIUtils.deserializeFromHexaText(data);
+				Object result = IOUtils.deserializeFromHexaText(data);
 				if (preConversion != null) {
 					Filter<Object> reverseConversionMethod = preConversion.buildOverallReverseConversionMethod();
 					result = reverseConversionMethod.get(result);
@@ -2973,7 +2975,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(MethodCustomization o) {
-			return ReflectionUIUtils.compareNullables(getMethodName(), o.getMethodName());
+			return MiscUtils.compareNullables(getMethodName(), o.getMethodName());
 		}
 
 		@Override
@@ -3078,7 +3080,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(ParameterCustomization o) {
-			return ReflectionUIUtils.compareNullables(parameterName, o.parameterName);
+			return MiscUtils.compareNullables(parameterName, o.parameterName);
 		}
 
 		@Override
@@ -3400,7 +3402,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(EnumerationItemCustomization o) {
-			int result = ReflectionUIUtils.compareNullables(itemName, o.itemName);
+			int result = MiscUtils.compareNullables(itemName, o.itemName);
 			return result;
 		}
 
@@ -3477,7 +3479,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(EnumerationCustomization o) {
-			int result = ReflectionUIUtils.compareNullables(enumerationTypeName, o.enumerationTypeName);
+			int result = MiscUtils.compareNullables(enumerationTypeName, o.enumerationTypeName);
 			return result;
 		}
 
@@ -3814,9 +3816,9 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(ListCustomization o) {
-			int result = ReflectionUIUtils.compareNullables(listTypeName, o.listTypeName);
+			int result = MiscUtils.compareNullables(listTypeName, o.listTypeName);
 			if (result == 0) {
-				result = ReflectionUIUtils.compareNullables(itemTypeName, o.itemTypeName);
+				result = MiscUtils.compareNullables(itemTypeName, o.itemTypeName);
 			}
 			return result;
 		}
@@ -3947,7 +3949,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public int compareTo(ColumnCustomization o) {
-			return ReflectionUIUtils.compareNullables(columnName, o.columnName);
+			return MiscUtils.compareNullables(columnName, o.columnName);
 		}
 
 		@Override
@@ -3985,14 +3987,14 @@ public class InfoCustomizations implements Serializable {
 			if ((className == null) || (className.length() == 0)) {
 				throw new ReflectionUIError("Class name not specified !");
 			}
-			ClassUtils.getCachedClassforName(className);
+			ReflectionUtils.getCachedClassforName(className);
 		}
 
 		@Override
 		public ITypeInfo find(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier) {
 			Class<?> javaType;
 			try {
-				javaType = ClassUtils.getCachedClassforName(className);
+				javaType = ReflectionUtils.getCachedClassforName(className);
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
@@ -4053,13 +4055,13 @@ public class InfoCustomizations implements Serializable {
 			if ((implementationClassName == null) || (implementationClassName.length() == 0)) {
 				throw new ReflectionUIError("Implementation class name not specified !");
 			}
-			ClassUtils.getCachedClassforName(implementationClassName);
+			ReflectionUtils.getCachedClassforName(implementationClassName);
 		}
 
 		@Override
 		public ITypeInfo find(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier) {
 			try {
-				Class<?> implementationClass = ClassUtils.getCachedClassforName(implementationClassName);
+				Class<?> implementationClass = ReflectionUtils.getCachedClassforName(implementationClassName);
 				return (ITypeInfo) implementationClass.newInstance();
 			} catch (Exception e) {
 				throw new ReflectionUIError("Failed to instanciate class implenation class: " + e.toString(), e);
@@ -4155,7 +4157,7 @@ public class InfoCustomizations implements Serializable {
 									try {
 										byte[] binary = DatatypeConverter.parseBase64Binary(textualStorage.getData());
 										ByteArrayInputStream bais = new ByteArrayInputStream(binary);
-										ObjectInputStream ois = ReflectionUIUtils.getClassSwappingObjectInputStream(
+										ObjectInputStream ois = IOUtils.getClassSwappingObjectInputStream(
 												bais, javax.swing.ImageIcon.class.getName(),
 												xy.reflect.ui.util.ImageIcon.class.getName());
 										Object result = ois.readObject();

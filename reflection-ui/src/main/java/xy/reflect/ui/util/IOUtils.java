@@ -28,6 +28,7 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,14 +36,21 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
+import java.io.OutputStream;
+import java.io.Serializable;
+
+import javax.xml.bind.DatatypeConverter;
 
 /**
- * Utilities for dealing with files.
+ * Utilities for dealing with files and streams.
  * 
  * @author olitank
  *
  */
-public class FileUtils {
+public class IOUtils {
 
 	public static File createTempDirectory() throws Exception {
 		File baseDir = new File(System.getProperty("java.io.tmpdir"));
@@ -252,14 +260,6 @@ public class FileUtils {
 		}
 	}
 
-	public static File getCanonicalParent(File file) {
-		try {
-			return file.getCanonicalFile().getParentFile();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	public static void delete(File file) throws Exception {
 		delete(file, null, null);
 	}
@@ -306,13 +306,12 @@ public class FileUtils {
 		}
 	}
 
-	public static boolean hasFileNameExtension(String fileName, String[] extensions) {
-		for (String ext : extensions) {
-			if (ext.toLowerCase().equals(getFileNameExtension(fileName).toLowerCase())) {
-				return true;
-			}
+	public static File getCanonicalParent(File file) {
+		try {
+			return file.getCanonicalFile().getParentFile();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
-		return false;
 	}
 
 	public static boolean isAncestor(File ancestor, File file) {
@@ -358,7 +357,7 @@ public class FileUtils {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		if (!FileUtils.isAncestor(ancestor, file)) {
+		if (!IOUtils.isAncestor(ancestor, file)) {
 			return null;
 		}
 		String relativePath = file.getPath().substring(ancestor.getPath().length(), file.getPath().length());
@@ -382,6 +381,95 @@ public class FileUtils {
 			out.close();
 		}
 		return tempFile;
+	}
+
+	public static void transferStream(InputStream inputStream, OutputStream outputStream) throws IOException {
+		int read = 0;
+		byte[] bytes = new byte[1024];
+		while ((read = inputStream.read(bytes)) != -1) {
+			outputStream.write(bytes, 0, read);
+		}
+	}
+
+	public static Object copyThroughSerialization(Serializable object) {
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			serialize(object, baos);
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			Object copy = deserialize(bais);
+			return copy;
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Could not copy object through serialization: " + t.toString());
+		}
+	}
+
+	public static void serialize(Object object, OutputStream out) {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(out);
+			oos.writeObject(object);
+			oos.flush();
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Failed to serialize object: " + t.toString());
+		}
+	}
+
+	public static Object deserialize(InputStream in) {
+		try {
+			ObjectInputStream ois = new ObjectInputStream(in);
+			return ois.readObject();
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Failed to deserialize object: " + t.toString());
+		}
+	}
+
+	public static byte[] serializeToBinary(Object object) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		serialize(object, baos);
+		return baos.toByteArray();
+	}
+
+	public static Object deserializeFromBinary(byte[] binary) {
+		ByteArrayInputStream bais = new ByteArrayInputStream(binary);
+		return deserialize(bais);
+	}
+
+	public static String serializeToHexaText(Object object) {
+		return DatatypeConverter.printBase64Binary(serializeToBinary(object));
+	}
+
+	public static Object deserializeFromHexaText(String text) {
+		return deserializeFromBinary(DatatypeConverter.parseBase64Binary(text));
+	}
+
+	public static ObjectInputStream getClassSwappingObjectInputStream(InputStream in, String fromClass,
+			final String toClass) throws IOException, ClassNotFoundException {
+		final String from = "^" + fromClass, fromArray = "^\\[L" + fromClass, toArray = "[L" + toClass;
+		return new ObjectInputStream(in) {
+			protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+				String name = desc.getName().replaceFirst(from, toClass);
+				name = name.replaceFirst(fromArray, toArray);
+				return Class.forName(name);
+			}
+
+			protected ObjectStreamClass readClassDescriptor() throws IOException, ClassNotFoundException {
+				ObjectStreamClass cd = super.readClassDescriptor();
+				String name = cd.getName().replaceFirst(from, toClass);
+				name = name.replaceFirst(fromArray, toArray);
+				if (!name.equals(cd.getName())) {
+					cd = ObjectStreamClass.lookup(Class.forName(name));
+				}
+				return cd;
+			}
+		};
+	}
+
+	public static boolean hasFileNameExtension(String fileName, String[] extensions) {
+		for (String ext : extensions) {
+			if (ext.toLowerCase().equals(getFileNameExtension(fileName).toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

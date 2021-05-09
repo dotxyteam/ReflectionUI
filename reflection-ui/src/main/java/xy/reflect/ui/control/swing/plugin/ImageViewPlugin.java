@@ -84,7 +84,8 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -198,7 +199,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> imageClass;
 			try {
-				imageClass = ClassUtils.getCachedClassforName(type.getName());
+				imageClass = ReflectionUtils.getCachedClassforName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -270,7 +271,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			if (unit == ImageSizeUnit.PIXELS) {
 				return new Dimension(canvasWidth, canvasHeight);
 			} else if (unit == ImageSizeUnit.SCREEN_PERCENT) {
-				Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
 				int width = Math.round((canvasWidth / 100f) * screenSize.width);
 				int height = Math.round((canvasHeight / 100f) * screenSize.height);
 				return new Dimension(width, height);
@@ -495,9 +496,9 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			this.input = input;
 			this.data = input.getControlData();
 			try {
-				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ReflectionUtils.getCachedClassforName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
-					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
+					this.numberClass = ReflectionUtils.primitiveToWrapperClass(numberClass);
 				}
 			} catch (ClassNotFoundException e1) {
 				throw new ReflectionUIError(e1);

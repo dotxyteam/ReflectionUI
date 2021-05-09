@@ -29,10 +29,18 @@
 package xy.reflect.ui.util;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Utilities for dealing with classes.
@@ -40,7 +48,7 @@ import java.util.Map;
  * @author olitank
  *
  */
-public class ClassUtils {
+public class ReflectionUtils {
 
 	protected static final Class<?>[] PRIMITIVE_CLASSES = new Class<?>[] { boolean.class, byte.class, short.class,
 			int.class, long.class, float.class, double.class, char.class };
@@ -189,7 +197,7 @@ public class ClassUtils {
 
 	public static Object primitiveFromString(String text, Class<?> javaType) {
 		if (javaType.isPrimitive()) {
-			javaType = ClassUtils.primitiveToWrapperClass(javaType);
+			javaType = ReflectionUtils.primitiveToWrapperClass(javaType);
 		}
 		if (javaType == Character.class) {
 			if (text.length() != 1) {
@@ -233,6 +241,130 @@ public class ClassUtils {
 			return true;
 		}
 		return false;
+	}
+
+	public static List<Class<?>> getAncestorClasses(Class<?> type) {
+		List<Class<?>> result = new ArrayList<Class<?>>();
+		while (type.getSuperclass() != null) {
+			result.add(type.getSuperclass());
+			type = type.getSuperclass();
+		}
+		return result;
+	}
+
+	public static Set<Class<?>> getAncestorClassesAndInterfaces(Class<?> type) {
+		Set<Class<?>> result = new HashSet<Class<?>>();
+		List<Class<?>> ancestorClasses = getAncestorClasses(type);
+		result.addAll(ancestorClasses);
+		result.addAll(getSuperInterfaces(type.getInterfaces()));
+		for (Class<?> ancestor : ancestorClasses) {
+			result.addAll(getSuperInterfaces(ancestor.getInterfaces()));
+		}
+		return result;
+	}
+
+	public static Set<Class<?>> getSuperInterfaces(Class<?>[] childInterfaces) {
+		Set<Class<?>> allInterfaces = new HashSet<Class<?>>();
+		for (int i = 0; i < childInterfaces.length; i++) {
+			allInterfaces.add(childInterfaces[i]);
+			allInterfaces.addAll(getSuperInterfaces(childInterfaces[i].getInterfaces()));
+		}
+		return allInterfaces;
+	}
+
+	public static List<String> gatClassNames(Class<?>[] classes) {
+		List<String> result = new ArrayList<String>();
+		for (Class<?> clazz : classes) {
+			result.add(clazz.getName());
+		}
+		return result;
+	}
+
+	public static Set<Class<?>> getAncestorsAndSelfClassesAndInterfaces(Class<?> type) {
+		Set<Class<?>> result = new HashSet<Class<?>>(getAncestorClassesAndInterfaces(type));
+		result.add(type);
+		return result;
+	}
+
+	public static List<Parameter> getJavaParameters(Method javaMethod) {
+		List<Parameter> result = new ArrayList<Parameter>();
+		for (int i = 0; i < javaMethod.getParameterTypes().length; i++) {
+			result.add(new Parameter(javaMethod, i));
+		}
+		return result;
+	}
+
+	public static List<Parameter> getJavaParameters(Constructor<?> ctor) {
+		List<Parameter> result = new ArrayList<Parameter>();
+		for (int i = 0; i < ctor.getParameterTypes().length; i++) {
+			result.add(new Parameter(ctor, i));
+		}
+		return result;
+	}
+
+	public static List<Field> getAllFields(Class<?> type) {
+		List<Field> result = new ArrayList<Field>();
+		Class<?> currentType = type;
+		while (currentType != null && currentType != Object.class) {
+			result.addAll(Arrays.asList(currentType.getDeclaredFields()));
+			currentType = currentType.getSuperclass();
+		}
+		return result;
+	}
+
+	public static boolean isJavaClassMainMethod(Method javaMethod) {
+		if (Modifier.isStatic(javaMethod.getModifiers())) {
+			if (javaMethod.getReturnType().equals(void.class)) {
+				if (javaMethod.getName().equals("main")) {
+					Class<?>[] paramTypes = javaMethod.getParameterTypes();
+					if (paramTypes.length == 1) {
+						if (paramTypes[0].equals(String[].class)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public static String getQualifiedName(Field field) {
+		return field.getDeclaringClass().getName() + "#" + field.getName();
+	}
+
+	public static String getQualifiedName(Method method) {
+		return method.getDeclaringClass().getName() + "#" + method.getName() + "("
+				+ MiscUtils.stringJoin(gatClassNames(method.getParameterTypes()), ",") + ")";
+	}
+
+	public static String getQualifiedName(Constructor<?> constructor) {
+		return constructor.getDeclaringClass().getName() + "#" + constructor.getName() + "("
+				+ MiscUtils.stringJoin(gatClassNames(constructor.getParameterTypes()), ",") + ")";
+	}
+
+	public static boolean isOverridenBy(Method baseMethod, Method overridingMethod) {
+		if (!baseMethod.getDeclaringClass().isAssignableFrom(overridingMethod.getDeclaringClass())) {
+			return false;
+		}
+		if (!baseMethod.getName().equals(overridingMethod.getName())) {
+			return false;
+		}
+		if (!baseMethod.getReturnType().isAssignableFrom(overridingMethod.getReturnType())) {
+			return false;
+		}
+		Class<?>[] baseMethodParamTypes = baseMethod.getParameterTypes();
+		Class<?>[] overridingMethodParamTypes = overridingMethod.getParameterTypes();
+		if (baseMethodParamTypes.length != overridingMethodParamTypes.length) {
+			return false;
+		}
+		for (int iParam = 0; iParam < baseMethodParamTypes.length; iParam++) {
+			Class<?> baseMethodParamType = baseMethodParamTypes[iParam];
+			Class<?> overridingMethodParamType = overridingMethodParamTypes[iParam];
+			if (!baseMethodParamType.isAssignableFrom(overridingMethodParamType)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

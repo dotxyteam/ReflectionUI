@@ -53,8 +53,8 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReschedulableTask;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control plugin that allows to display and update adequately
@@ -298,7 +298,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 				return result;
 			} catch (ParseException e) {
 				swingRenderer.getReflectionUI().logError(e);
-				displayError(ReflectionUIUtils.getPrettyErrorMessage(e));
+				displayError(MiscUtils.getPrettyErrorMessage(e));
 				return null;
 			}
 		}

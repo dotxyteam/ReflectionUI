@@ -44,8 +44,8 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 
 /**
@@ -173,7 +173,7 @@ public class ReflectionUI {
 	}
 
 	public void logDebug(Throwable t) {
-		logDebug(ReflectionUIUtils.getPrintedStackTrace(t));
+		logDebug(MiscUtils.getPrintedStackTrace(t));
 	}
 
 	public void logError(String msg) {
@@ -181,7 +181,7 @@ public class ReflectionUI {
 	}
 
 	public void logError(Throwable t) {
-		logError(ReflectionUIUtils.getPrintedStackTrace(t));
+		logError(MiscUtils.getPrintedStackTrace(t));
 	}
 
 	@Override

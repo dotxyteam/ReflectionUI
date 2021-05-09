@@ -53,8 +53,8 @@ import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control plugin that allows to display/update styled text.
@@ -154,7 +154,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			if (length.unit == ControlSizeUnit.PIXELS) {
 				return length.value;
 			} else if (length.unit == ControlSizeUnit.SCREEN_PERCENT) {
-				Dimension screenSize = ReflectionUIUtils.getDefaultScreenSize();
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
 				return Math.round((length.value / 100f) * screenSize.height);
 			} else {
 				throw new ReflectionUIError();

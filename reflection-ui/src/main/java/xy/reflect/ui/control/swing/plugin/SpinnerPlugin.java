@@ -55,11 +55,11 @@ import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ConversionUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control plugin that allows to use spinners.
@@ -77,7 +77,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 	@Override
 	protected boolean handles(Class<?> javaType) {
 		if (javaType.isPrimitive()) {
-			javaType = ClassUtils.primitiveToWrapperClass(javaType);
+			javaType = ReflectionUtils.primitiveToWrapperClass(javaType);
 		}
 		return Number.class.isAssignableFrom(javaType);
 	}
@@ -153,9 +153,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			this.input = input;
 			this.data = input.getControlData();
 			try {
-				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ReflectionUtils.getCachedClassforName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
-					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
+					this.numberClass = ReflectionUtils.primitiveToWrapperClass(numberClass);
 				}
 			} catch (ClassNotFoundException e1) {
 				throw new ReflectionUIError(e1);
@@ -196,7 +196,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 											value = formatter.stringToValue(string);
 										} catch (ParseException e) {
 											swingRenderer.getReflectionUI().logError(e);
-											displayError(ReflectionUIUtils.getPrettyErrorMessage(e));
+											displayError(MiscUtils.getPrettyErrorMessage(e));
 											return;
 										}
 										int caretPosition = textField.getCaretPosition();

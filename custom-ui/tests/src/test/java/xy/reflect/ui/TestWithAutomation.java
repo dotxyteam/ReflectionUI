@@ -5,8 +5,8 @@ import java.io.File;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.MoreSystemProperties;
-import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
 import xy.ui.testing.Tester;
 import xy.ui.testing.util.TestingUtils;
@@ -17,7 +17,7 @@ public class TestWithAutomation {
 
 	protected static void checkSystemProperty(String key, String expectedValue) {
 		String value = System.getProperty(key);
-		if (!ReflectionUIUtils.equalsOrBothNull(expectedValue, value)) {
+		if (!MiscUtils.equalsOrBothNull(expectedValue, value)) {
 			String errorMsg = "System property invalid value:\n" + "-D" + key + "=" + value + "\nExpected:\n" + "-D"
 					+ key + "=" + expectedValue;
 			System.err.println(errorMsg);

@@ -29,7 +29,6 @@
 package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,13 +44,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Factory that generates virtual enumeration type information from the list of
- * sub-types of the given polymorphic type information. The base type itself is
- * added as an item to the resulting enumeration if it is concrete. This base
- * type enumeration item holds actually a proxy of the base type that is not
- * polymorphic anymore and makes that a {@link BlockedPolymorphismException}
- * exception is thrown when another {@link PolymorphicTypeOptionsFactory} is
- * instanciated with it. This is intended to prevent infinite recursive
- * polymorphism detection.
+ * sub-types of the given polymorphic type information. The base polymorphic
+ * type itself is added as an item to the resulting enumeration if it is a
+ * concrete type. This base type enumeration item holds actually a proxy of the
+ * base type that triggers a {@link BlockedPolymorphismException} exception when
+ * it is used with another {@link PolymorphicTypeOptionsFactory}. This is
+ * intended to prevent the infinite recursive enumeration of type options.
  * 
  * @author olitank
  *
@@ -105,18 +103,8 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			}
 
 			@Override
-			protected String getCaption(ITypeInfo type) {
-				return ReflectionUIUtils.composeMessage("Basic", super.getCaption(type));
-			}
-
-			@Override
 			public String getIdentifier() {
 				return "PolymorphicRecursionBlocker [polymorphicType=" + type.getName() + "]";
-			}
-
-			@Override
-			protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
-				return Collections.emptyList();
 			}
 
 			@Override
@@ -154,7 +142,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		ITypeInfo validSubType = null;
 		for (ITypeInfo type : options) {
 			if (type.supportsInstance(instance)) {
-				if (type.getName().equals(blockPolymorphism(polymorphicType, reflectionUI).getName())) {
+				if (type.getName().equals(polymorphicType.getName())) {
 					polymorphicTypeAsValidOption = type;
 				} else {
 					if (validSubType != null) {
@@ -204,7 +192,11 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	@Override
 	protected String getItemCaption(Object arrayItem) {
 		ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-		return polyTypesItem.getCaption();
+		String result = polyTypesItem.getCaption();
+		if (polyTypesItem.getName().equals(polymorphicType.getName())) {
+			return ReflectionUIUtils.composeMessage("Basic", result);
+		}
+		return result;
 	}
 
 	@Override

@@ -36,7 +36,7 @@ import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -119,7 +119,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	@Override
 	public Object getDefaultValue(Object object) {
 		if (javaParameter.getType().isPrimitive()) {
-			return ClassUtils.getDefaultPrimitiveValue(javaParameter.getType());
+			return ReflectionUtils.getDefaultPrimitiveValue(javaParameter.getType());
 		} else {
 			return null;
 		}

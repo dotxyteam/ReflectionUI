@@ -59,7 +59,7 @@ import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ReschedulableTask;
-import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.MiscUtils;
 
 /**
  * Field control that displays String values in a text box.
@@ -291,11 +291,11 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			if (newText == null) {
 				newText = "";
 			}
-			if (!ReflectionUIUtils.equalsOrBothNull(textComponent.getText(), newText)) {
+			displayError(null);
+			if (!MiscUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 				int lastCaretPosition = textComponent.getCaretPosition();
 				textComponent.setText(newText);
 				setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
-				displayError(null);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 		} finally {
@@ -331,7 +331,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			data.setValue(textComponent.getText());
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
-			displayError(ReflectionUIUtils.getPrettyErrorMessage(t));
+			displayError(MiscUtils.getPrettyErrorMessage(t));
 		}
 	}
 

@@ -97,6 +97,7 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ImageIcon;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MoreSystemProperties;
@@ -871,13 +872,13 @@ public class CustomizationTools {
 			changeCustomizationFieldValue(dstFc, "nullValueLabel", srcFc.getNullValueLabel());
 			changeCustomizationFieldValue(dstFc, "onlineHelp", srcFc.getOnlineHelp());
 			changeCustomizationFieldValue(dstFc, "typeConversion",
-					(TypeConversion) ReflectionUIUtils.copyThroughSerialization(srcFc.getTypeConversion()));
+					(TypeConversion) IOUtils.copyThroughSerialization(srcFc.getTypeConversion()));
 			changeCustomizationFieldValue(dstFc, "nullReplacement", (srcFc.getNullReplacement() == null) ? null
-					: (TextualStorage) ReflectionUIUtils.copyThroughSerialization(srcFc.getNullReplacement()));
-			changeCustomizationFieldValue(dstFc, "specificProperties", (Map<String, Object>) ReflectionUIUtils
+					: (TextualStorage) IOUtils.copyThroughSerialization(srcFc.getNullReplacement()));
+			changeCustomizationFieldValue(dstFc, "specificProperties", (Map<String, Object>) IOUtils
 					.copyThroughSerialization((Serializable) srcFc.getSpecificProperties()));
 			changeCustomizationFieldValue(dstFc, "specificTypeCustomizations",
-					(FieldTypeSpecificities) ReflectionUIUtils
+					(FieldTypeSpecificities) IOUtils
 							.copyThroughSerialization(srcFc.getSpecificTypeCustomizations()));
 		}
 	}
@@ -898,7 +899,7 @@ public class CustomizationTools {
 			changeCustomizationFieldValue(dstMc, "onlineHelp", srcMc.getOnlineHelp());
 			changeCustomizationFieldValue(dstMc, "readOnlyForced", srcMc.isReadOnlyForced());
 			changeCustomizationFieldValue(dstMc, "ignoredReturnValueForced", srcMc.isIgnoredReturnValueForced());
-			changeCustomizationFieldValue(dstMc, "specificProperties", (Map<String, Object>) ReflectionUIUtils
+			changeCustomizationFieldValue(dstMc, "specificProperties", (Map<String, Object>) IOUtils
 					.copyThroughSerialization((Serializable) dstMc.getSpecificProperties()));
 		}
 	}

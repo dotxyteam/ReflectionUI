@@ -44,7 +44,7 @@ import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ConversionUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -126,9 +126,9 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			this.data = input.getControlData();
 			setOpaque(false);
 			try {
-				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ReflectionUtils.getCachedClassforName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
-					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
+					this.numberClass = ReflectionUtils.primitiveToWrapperClass(numberClass);
 				}
 			} catch (ClassNotFoundException e1) {
 				throw new ReflectionUIError(e1);

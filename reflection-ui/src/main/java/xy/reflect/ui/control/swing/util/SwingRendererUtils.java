@@ -109,6 +109,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -270,7 +271,7 @@ public class SwingRendererUtils {
 		if (toolTipText == null) {
 			c.setToolTipText(null);
 		} else {
-			c.setToolTipText("<HTML>" + ReflectionUIUtils.escapeHTML(toolTipText, true) + "</HTML>");
+			c.setToolTipText("<HTML>" + MiscUtils.escapeHTML(toolTipText, true) + "</HTML>");
 		}
 	}
 
@@ -838,26 +839,29 @@ public class SwingRendererUtils {
 		return false;
 	}
 
-	public static void displayErrorOnBorderAndTooltip(JComponent borderComponent, JComponent tooltipComponent,
+	public static void displayErrorOnBorderAndTooltip(JComponent borderComponent, JComponent toolTipComponent,
 			String msg, SwingRenderer swingRenderer) {
-		String oldTooltipText;
-		String newTooltipText;
-		if (msg == null) {
-			borderComponent.setBorder(null);
-			oldTooltipText = tooltipComponent.getToolTipText();
-			newTooltipText = null;
-		} else {
-			SwingRendererUtils.setErrorBorder(borderComponent);
-			oldTooltipText = tooltipComponent.getToolTipText();
-			newTooltipText = swingRenderer.prepareStringToDisplay(msg);
-			if (newTooltipText.length() == 0) {
-				newTooltipText = null;
+		String oldTooltipText = toolTipComponent.getToolTipText();
+		String newTooltipText = null;
+		{
+			if (msg != null) {
+				newTooltipText = swingRenderer.prepareStringToDisplay(msg);
+				if (newTooltipText.length() == 0) {
+					newTooltipText = null;
+				}
 			}
 		}
-		SwingRendererUtils.setMultilineToolTipText(tooltipComponent, newTooltipText);
-		if (!ReflectionUIUtils.equalsOrBothNull(oldTooltipText, tooltipComponent.getToolTipText())) {
-			SwingRendererUtils.handleComponentSizeChange(borderComponent);
+		boolean changeDetected = !MiscUtils.equalsOrBothNull(oldTooltipText, newTooltipText);
+		if (!changeDetected) {
+			return;
 		}
+		if (newTooltipText == null) {
+			borderComponent.setBorder(null);
+		} else {
+			SwingRendererUtils.setErrorBorder(borderComponent);
+		}
+		SwingRendererUtils.setMultilineToolTipText(toolTipComponent, newTooltipText);
+		SwingRendererUtils.handleComponentSizeChange(borderComponent);
 	}
 
 	public static List<Form> findObjectDisplayedForms(Object object, SwingRenderer swingRenderer) {
@@ -1055,8 +1059,8 @@ public class SwingRendererUtils {
 
 			@Override
 			protected void handleError(Throwable t) {
-				final String newErrorId = (t == null) ? null : ReflectionUIUtils.getPrintedStackTrace(t);
-				if (ReflectionUIUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
+				final String newErrorId = (t == null) ? null : MiscUtils.getPrintedStackTrace(t);
+				if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
 					return;
 				}
 				currentlyDisplayedErrorId = newErrorId;

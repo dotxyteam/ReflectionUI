@@ -60,9 +60,9 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control plugin that displays customizable file browser controls.
@@ -177,7 +177,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> fileClass;
 			try {
-				fileClass = ClassUtils.getCachedClassforName(type.getName());
+				fileClass = ReflectionUtils.getCachedClassforName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -329,7 +329,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			int i = 0;
 			for (FileNameFilterConfiguration filter : controlConfiguration.fileNameFilters) {
 				String swingFilterDescription = filter.description + "(*."
-						+ ReflectionUIUtils.stringJoin(filter.extensions, ", *.") + ")";
+						+ MiscUtils.stringJoin(filter.extensions, ", *.") + ")";
 				String[] swingFilterExtensions = filter.extensions.toArray(new String[filter.extensions.size()]);
 				FileNameExtensionFilter newFileFilter = new FileNameExtensionFilter(swingFilterDescription,
 						swingFilterExtensions);
