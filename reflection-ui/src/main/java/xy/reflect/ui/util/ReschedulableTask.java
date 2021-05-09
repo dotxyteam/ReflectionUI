@@ -29,7 +29,6 @@
 package xy.reflect.ui.util;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
@@ -40,7 +39,7 @@ import java.util.concurrent.ThreadFactory;
  * again will cancel the current schedule (can be done with
  * {@link #cancelSchedule()}) and setup another one.
  * 
- * Limitation: All the task executions are performed by a single thread. Long
+ * Limitation: All the task executions are performed by at most one thread. Long
  * running tasks would then block all scheduling attempts while they are
  * running.
  * 
@@ -55,7 +54,7 @@ public abstract class ReschedulableTask {
 
 	protected Object executionMutex = new Object();
 	protected Future<?> taskStatus;
-	protected ExecutorService taskExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
+	protected ExecutorService taskExecutor = MiscUtils.newAutoShutdownSingleThreadExecutor(new ThreadFactory() {
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);

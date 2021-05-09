@@ -13,6 +13,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Various utilities.
@@ -133,7 +138,7 @@ public class MiscUtils {
 		boolean lastWasBlankChar = false;
 		int len = string.length();
 		char c;
-	
+
 		for (int i = 0; i < len; i++) {
 			c = string.charAt(i);
 			if (c == ' ') {
@@ -241,6 +246,13 @@ public class MiscUtils {
 
 	public static String getPrettyErrorMessage(Throwable t) {
 		return new ReflectionUIError(t).toString();
+	}
+
+	public static ExecutorService newAutoShutdownSingleThreadExecutor(ThreadFactory threadFactory) {
+		ThreadPoolExecutor result = new ThreadPoolExecutor(1, 1, 10000, TimeUnit.MILLISECONDS,
+				new LinkedBlockingQueue<Runnable>(), threadFactory);
+		result.allowCoreThreadTimeOut(true);
+		return result;
 	}
 
 }

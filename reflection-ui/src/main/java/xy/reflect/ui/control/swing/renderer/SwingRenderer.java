@@ -47,7 +47,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -172,17 +171,18 @@ public class SwingRenderer {
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
 	protected Thread busyDialogJobExecutorThread;
-	protected ExecutorService busyDialogJobExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
-		@Override
-		public Thread newThread(Runnable r) {
-			Thread result = new Thread(r);
-			result.setName("busyDialogJobExecutor");
-			result.setDaemon(true);
-			busyDialogJobExecutorThread = result;
-			return result;
-		}
-	});
-	protected ExecutorService busyDialogCloser = Executors.newSingleThreadExecutor(new ThreadFactory() {
+	protected ExecutorService busyDialogJobExecutor = MiscUtils
+			.newAutoShutdownSingleThreadExecutor(new ThreadFactory() {
+				@Override
+				public Thread newThread(Runnable r) {
+					Thread result = new Thread(r);
+					result.setName("busyDialogJobExecutor");
+					result.setDaemon(true);
+					busyDialogJobExecutorThread = result;
+					return result;
+				}
+			});
+	protected ExecutorService busyDialogCloser = MiscUtils.newAutoShutdownSingleThreadExecutor(new ThreadFactory() {
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);
@@ -508,8 +508,8 @@ public class SwingRenderer {
 						return null;
 					}
 					try {
-						type = reflectionUI
-								.getTypeInfo(new JavaTypeInfoSource(ReflectionUtils.getCachedClassforName(className), null));
+						type = reflectionUI.getTypeInfo(
+								new JavaTypeInfoSource(ReflectionUtils.getCachedClassforName(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}
