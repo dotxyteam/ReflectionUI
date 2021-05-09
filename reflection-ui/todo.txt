@@ -1,3 +1,6 @@
+- JFrames (maybe JDialog too) do not get garbaged. They are intended
+to be reused. SwingRenderer always create new windows( never reuse).
+It must be possible to use a pool of windows.
 - AbstractEditorFormBuilder.refreshEditorFormOnModification(Form) may
 be obsolete since all fields (sub-forms, ..) are refreshed on any
 modification. Check and correct.
