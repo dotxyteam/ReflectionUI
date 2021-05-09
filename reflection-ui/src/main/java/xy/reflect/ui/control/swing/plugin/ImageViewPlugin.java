@@ -613,7 +613,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 								protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 									Map<String, Object> result = super.getSpecificProperties(type);
 									result = new HashMap<String, Object>();
-									browserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
+									result = browserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
 									return result;
 								}
 
