@@ -131,8 +131,8 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 							@Override
 							protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 								Map<String, Object> result = super.getSpecificProperties(type);
-								result = new HashMap<String, Object>();
-								fileBrowserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
+								result = new HashMap<String, Object>(result);
+								result = fileBrowserPlugin.storeControlCustomization(fileBrowserConfiguration, result);
 								return result;
 							}
 
