@@ -230,6 +230,10 @@ public class WindowManager {
 		adjustBounds();
 	}
 
+	public void clear() {
+		layoutRootPane(new ControlPanel());
+	}
+
 	public void refreshWindowStructureAsMuchAsPossible() {
 		Color backgroundColor = getMainBackgroundColor();
 		Image backgroundImage = getMainBackgroundImage();
