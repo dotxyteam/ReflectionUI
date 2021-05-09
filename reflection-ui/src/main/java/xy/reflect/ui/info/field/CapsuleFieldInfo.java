@@ -51,6 +51,8 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
@@ -722,6 +724,36 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 				}
 			}
 			return returnValueType;
+		}
+
+		@Override
+		public List<IParameterInfo> getParameters() {
+			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
+			for (IParameterInfo param : super.getParameters()) {
+				param = new ParameterInfoProxy(param) {
+
+					@Override
+					public Object getDefaultValue(Object object) {
+						object = ((Value) object).getObject();
+						return super.getDefaultValue(object);
+					}
+
+					@Override
+					public boolean hasValueOptions(Object object) {
+						object = ((Value) object).getObject();
+						return super.hasValueOptions(object);
+					}
+
+					@Override
+					public Object[] getValueOptions(Object object) {
+						object = ((Value) object).getObject();
+						return super.getValueOptions(object);
+					}
+
+				};
+				result.add(param);
+			}
+			return result;
 		}
 
 		@Override
