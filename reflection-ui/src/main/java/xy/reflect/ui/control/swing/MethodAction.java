@@ -148,7 +148,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	public InvocationData openMethoExecutionSettingDialog(final Component activatorComponent) {
-		final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(activatorComponent);
+		final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(activatorComponent);
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
 			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getMethodSignature());

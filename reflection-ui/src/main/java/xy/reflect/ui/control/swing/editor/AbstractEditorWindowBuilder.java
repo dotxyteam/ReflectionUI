@@ -99,7 +99,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 *         available.
 	 */
 	protected boolean isCapsuleTypeModificationStackAccessible() {
-		if(isInReadOnlyMode()) {
+		if (isInReadOnlyMode()) {
 			return false;
 		}
 		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource())
@@ -209,10 +209,23 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 */
 	public JFrame createFrame() {
 		createdEditorForm = createEditorForm(false, false);
-		createdFrame = new JFrame();
-		WindowManager windowManager = getSwingRenderer().createWindowManager(createdFrame);
-		windowManager.set(createdEditorForm, new ArrayList<Component>(createMostButtonBarControls()),
-				getEditorWindowTitle(), getEditorWindowIconImage());
+		createdFrame = new JFrame() {
+
+			private static final long serialVersionUID = 1L;
+
+			WindowManager windowManager = getSwingRenderer().createWindowManager(this);
+			{
+				windowManager.install(createdEditorForm, new ArrayList<Component>(createMostButtonBarControls()),
+						getEditorWindowTitle(), getEditorWindowIconImage());
+			}
+
+			@Override
+			public void dispose() {
+				windowManager.uninstall();
+				super.dispose();
+			}
+
+		};
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}
@@ -235,7 +248,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 * @return the dialog builder used to build the editor dialog.
 	 */
 	protected DialogBuilder createDelegateDialogBuilder() {
-		DialogBuilder dialogBuilder = getSwingRenderer().getDialogBuilder(getOwnerComponent());
+		DialogBuilder dialogBuilder = getSwingRenderer().createDialogBuilder(getOwnerComponent());
 		ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 		Object object = getCapsule();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));

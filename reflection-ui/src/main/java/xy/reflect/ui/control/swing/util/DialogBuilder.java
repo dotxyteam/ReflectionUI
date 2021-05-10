@@ -239,7 +239,13 @@ public class DialogBuilder {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
 		dialog = new JDialog(owner) {
 			protected static final long serialVersionUID = 1L;
-			protected boolean disposed = false;
+
+			boolean disposed = false;
+			WindowManager windowManager = swingRenderer.createWindowManager(this);
+
+			{
+				windowManager.install(contentComponent, buttonBarControls, title, iconImage);
+			}
 
 			@Override
 			public void dispose() {
@@ -247,6 +253,7 @@ public class DialogBuilder {
 					return;
 				}
 				disposed = true;
+				windowManager.uninstall();
 				super.dispose();
 				executeClosingTask();
 			}
@@ -262,8 +269,6 @@ public class DialogBuilder {
 			}
 
 		};
-		WindowManager windowManager = swingRenderer.createWindowManager(dialog);
-		windowManager.set(contentComponent, buttonBarControls, title, iconImage);
 		dialog.setResizable(true);
 		return dialog;
 	}

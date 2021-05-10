@@ -38,6 +38,7 @@ import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -51,6 +52,7 @@ import org.jdesktop.swingx.StackLayout;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.Form.IRefreshListener;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -73,6 +75,26 @@ public class WindowManager {
 	protected JScrollPane scrollPane;
 	protected JPanel buttonBar;
 	protected List<Component> buttonBarControls;
+	protected Form form;
+	protected WindowListener windowListener = new WindowAdapter() {
+		@Override
+		public void windowOpened(WindowEvent e) {
+			if (form == null) {
+				return;
+			}
+			form.updateMenuBar();
+			form.validateFormInBackgroundAndReportOnStatusBar();
+			SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
+		}
+	};
+	protected IRefreshListener formRefreshListener = new Form.IRefreshListener() {
+		@Override
+		public void onRefresh(boolean refreshStructure) {
+			if (refreshStructure) {
+				WindowManager.this.refreshWindowStructureAsMuchAsPossible();
+			}
+		}
+	};
 
 	public WindowManager(SwingRenderer swingRenderer, Window window) {
 		this.swingRenderer = swingRenderer;
@@ -181,17 +203,17 @@ public class WindowManager {
 		contentPane.add(buttonBar, BorderLayout.SOUTH);
 	}
 
-	public void set(final Component content, List<Component> buttonBarControls, String title, Image iconImage) {
+	public void install(final Component content, List<Component> buttonBarControls, String title, Image iconImage) {
 		setTitle(title);
 		setIconImage(iconImage);
-		set(content, buttonBarControls);
+		install(content, buttonBarControls);
 	}
 
 	public void adjustBounds() {
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
-	public void set(Component content, List<Component> buttonBarControls) {
+	public void install(Component content, List<Component> buttonBarControls) {
 		this.buttonBarControls = buttonBarControls;
 		rootPane = createRootPane();
 		layoutRootPane(rootPane);
@@ -199,27 +221,13 @@ public class WindowManager {
 		layoutBackgroundPane(backgroundPane);
 		contentPane = createContentPane();
 		layoutContentPane(contentPane);
+		form = null;
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, swingRenderer)) {
-				final Form form = (Form) content;
+				form = (Form) content;
 				layoutMenuBar(form.getMenuBar());
 				layoutStatusBar(form.getStatusBar());
-				window.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowOpened(WindowEvent e) {
-						form.updateMenuBar();
-						form.validateFormInBackgroundAndReportOnStatusBar();
-						SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
-					}
-				});
-				form.getRefreshListeners().add(new Form.IRefreshListener() {
-					@Override
-					public void onRefresh(boolean refreshStructure) {
-						if (refreshStructure) {
-							WindowManager.this.refreshWindowStructureAsMuchAsPossible();
-						}
-					}
-				});
+				form.getRefreshListeners().add(formRefreshListener);
 			}
 			scrollPane = createScrollPane(content);
 			layoutContent(scrollPane);
@@ -228,10 +236,15 @@ public class WindowManager {
 		layoutButtonBar(buttonBar);
 		refreshWindowStructureAsMuchAsPossible();
 		adjustBounds();
+		window.addWindowListener(windowListener);
 	}
 
-	public void clear() {
+	public void uninstall() {
 		layoutRootPane(new ControlPanel());
+		if (form != null) {
+			form.getRefreshListeners().remove(formRefreshListener);
+		}
+		window.removeWindowListener(windowListener);
 	}
 
 	public void refreshWindowStructureAsMuchAsPossible() {

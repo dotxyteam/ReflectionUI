@@ -32,7 +32,7 @@ public class Library implements Serializable {
 		CustomizedUI ui = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(ui,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "library.icu");
-		StandardEditorBuilder windowBuilder = renderer.getEditorBuilder(null, library, null, null, false);
+		StandardEditorBuilder windowBuilder = renderer.createEditorBuilder(null, library, null, null, false);
 		windowBuilder.createAndShowFrame();
 		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
 

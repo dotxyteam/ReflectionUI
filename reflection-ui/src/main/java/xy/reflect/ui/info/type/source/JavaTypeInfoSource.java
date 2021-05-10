@@ -69,7 +69,7 @@ import xy.reflect.ui.util.SystemProperties;
  */
 public class JavaTypeInfoSource implements ITypeInfoSource {
 
-	protected static final Map<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>> CACHES = new WeakHashMap<ReflectionUI, Map<ITypeInfoSource, ITypeInfo>>();
+	protected static final Map<ReflectionUI, Map<JavaTypeInfoSource, ITypeInfo>> CACHES = new WeakHashMap<ReflectionUI, Map<JavaTypeInfoSource, ITypeInfo>>();
 	protected static final Object CACHES_MUTEX = new Object();
 
 	protected Class<?> javaType;
@@ -100,7 +100,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 
 	@Override
 	public ITypeInfo getTypeInfo(ReflectionUI reflectionUI) {
-		Map<ITypeInfoSource, ITypeInfo> cache = getCache(reflectionUI);
+		Map<JavaTypeInfoSource, ITypeInfo> cache = getCache(reflectionUI);
 		ITypeInfo result = cache.get(this);
 		if (result == null) {
 			if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
@@ -137,12 +137,12 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		return result;
 	}
 
-	protected Map<ITypeInfoSource, ITypeInfo> getCache(ReflectionUI reflectionUI) {
+	protected Map<JavaTypeInfoSource, ITypeInfo> getCache(ReflectionUI reflectionUI) {
 		synchronized (CACHES_MUTEX) {
-			Map<ITypeInfoSource, ITypeInfo> cache = CACHES.get(reflectionUI);
+			Map<JavaTypeInfoSource, ITypeInfo> cache = CACHES.get(reflectionUI);
 			if (cache == null) {
 				cache = CacheBuilder.newBuilder().maximumSize(SystemProperties.getStandardCacheSize())
-						.<ITypeInfoSource, ITypeInfo>build().asMap();
+						.<JavaTypeInfoSource, ITypeInfo>build().asMap();
 				CACHES.put(reflectionUI, cache);
 			}
 			return cache;

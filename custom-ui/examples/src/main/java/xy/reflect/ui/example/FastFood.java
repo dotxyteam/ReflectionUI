@@ -46,7 +46,7 @@ public class FastFood implements Serializable {
 		CustomizedUI reflectionUI = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "fastFood.icu");
-		StandardEditorBuilder windowBuilder = renderer.getEditorBuilder(null, fastFood, null, null, false);
+		StandardEditorBuilder windowBuilder = renderer.createEditorBuilder(null, fastFood, null, null, false);
 		windowBuilder.createAndShowFrame();
 		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
 

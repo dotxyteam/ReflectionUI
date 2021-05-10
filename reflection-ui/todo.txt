@@ -1,3 +1,5 @@
+- Some objects and their editor components are never garbage collected
+when their editors are disposed. Find a solution. Check static caches. 
 - JFrames (maybe JDialog too) do not get garbaged. They are intended
 to be reused. SwingRenderer always create new windows( never reuse).
 It must be possible to use a pool of windows.

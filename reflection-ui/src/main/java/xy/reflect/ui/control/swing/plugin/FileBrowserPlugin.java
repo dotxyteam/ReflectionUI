@@ -353,7 +353,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			fileChooser.setCurrentDirectory(lastDirectory);
 			configureFileChooser(fileChooser, currentFile);
 
-			final DialogBuilder dialogBuilder = swingRenderer.getDialogBuilder(owner);
+			final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(owner);
 			dialogBuilder.setTitle(getDialogTitle());
 			fileChooser.setApproveButtonText(swingRenderer.prepareStringToDisplay("OK"));
 			fileChooser.rescanCurrentDirectory();

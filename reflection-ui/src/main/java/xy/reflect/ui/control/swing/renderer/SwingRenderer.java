@@ -624,7 +624,7 @@ public class SwingRenderer {
 		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
 
-		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, encapsulatedValue, title,
+		StandardEditorBuilder editorBuilder = createEditorBuilder(activatorComponent, encapsulatedValue, title,
 				getObjectIconImage(encapsulatedValue), true);
 		editorBuilder.createAndShowDialog();
 		if (!editorBuilder.isCancelled()) {
@@ -649,7 +649,7 @@ public class SwingRenderer {
 
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title,
 			final String yesCaption, final String noCaption) {
-		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+		final DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		dialogBuilder.setButtonBarControls(
 				new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption)));
 		dialogBuilder
@@ -669,7 +669,7 @@ public class SwingRenderer {
 	 * @param iconImage          The icon image of the displayed window.
 	 */
 	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
-		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
@@ -694,7 +694,7 @@ public class SwingRenderer {
 	 *                           display.
 	 */
 	public void openErrorDialog(Component activatorComponent, String title, Image iconImage, final Throwable error) {
-		DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
 		final JButton deatilsButton = new AbstractControlButton() {
@@ -781,7 +781,7 @@ public class SwingRenderer {
 	 */
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
 		String statckTraceString = MiscUtils.getPrintedStackTrace(error);
-		final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+		final DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		dialogBuilder.setButtonBarControls(
 				Collections.<Component>singletonList(dialogBuilder.createDialogClosingButton("Close", null)));
 		dialogBuilder.setContentComponent(
@@ -869,7 +869,7 @@ public class SwingRenderer {
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			final Image iconImage, final boolean cancellable, boolean modal) {
-		StandardEditorBuilder editorBuilder = getEditorBuilder(activatorComponent, object, title, iconImage,
+		StandardEditorBuilder editorBuilder = createEditorBuilder(activatorComponent, object, title, iconImage,
 				cancellable);
 		showDialog(editorBuilder.createDialog(), modal);
 		return editorBuilder;
@@ -887,8 +887,8 @@ public class SwingRenderer {
 	 *                           or not.
 	 * @return an object allowing build an complete editor for the given object.
 	 */
-	public StandardEditorBuilder getEditorBuilder(Component activatorComponent, final Object object, final String title,
-			final Image iconImage, final boolean cancellable) {
+	public StandardEditorBuilder createEditorBuilder(Component activatorComponent, final Object object,
+			final String title, final Image iconImage, final boolean cancellable) {
 		return new StandardEditorBuilder(this, activatorComponent, object) {
 
 			@Override
@@ -924,7 +924,7 @@ public class SwingRenderer {
 	 * @param iconImage The frame icon image or null to have the default icon.
 	 */
 	public void openObjectFrame(Object object, String title, Image iconImage) {
-		StandardEditorBuilder editorBuilder = getEditorBuilder(null, object, title, iconImage, false);
+		StandardEditorBuilder editorBuilder = createEditorBuilder(null, object, title, iconImage, false);
 		showFrame(editorBuilder.createFrame());
 
 	}
@@ -998,7 +998,7 @@ public class SwingRenderer {
 	 *                           dialog or null.
 	 * @return an object allowing build a dialog.
 	 */
-	public DialogBuilder getDialogBuilder(Component activatorComponent) {
+	public DialogBuilder createDialogBuilder(Component activatorComponent) {
 		return new ApplicationDialogBuilder(activatorComponent);
 	}
 
@@ -1035,7 +1035,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError(e);
 		}
 		if (!busyDialogJob.isDone()) {
-			final DialogBuilder dialogBuilder = getDialogBuilder(activatorComponent);
+			final DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 			busyDialogCloser.submit(new Runnable() {
 				@Override
 				public void run() {
@@ -1074,6 +1074,7 @@ public class SwingRenderer {
 				@Override
 				public void windowClosing(WindowEvent e) {
 					busyDialogJob.cancel(true);
+					dialog.removeWindowListener(this);
 				}
 			});
 			showDialog(dialog, true, false);
