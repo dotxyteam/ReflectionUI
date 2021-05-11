@@ -59,8 +59,8 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType,
 			Class<?> valueJavaType) {
-		super(reflectionUI, source, reflectionUI.getTypeInfo(
-				new JavaTypeInfoSource(StandardMapEntry.class, new Class<?>[] { keyJavaType, valueJavaType }, null)));
+		super(reflectionUI, source, reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
+				StandardMapEntry.class, new Class<?>[] { keyJavaType, valueJavaType }, null)));
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}
@@ -116,7 +116,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 			Map.Entry entry = (Entry) obj;
 			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
 			reflectionUI.registerPrecomputedTypeInfoObject(standardMapEntry, new StandardMapEntryTypeInfo(reflectionUI,
-					new JavaTypeInfoSource(StandardMapEntry.class, null), keyJavaType, valueJavaType) {
+					new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class, null), keyJavaType, valueJavaType) {
 				@Override
 				public ITypeInfoSource getSource() {
 					return new PrecomputedTypeInfoSource(this, null);

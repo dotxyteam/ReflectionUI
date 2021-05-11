@@ -5,6 +5,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,11 +15,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
 /**
  * Various utilities.
@@ -248,11 +257,74 @@ public class MiscUtils {
 		return new ReflectionUIError(t).toString();
 	}
 
-	public static ExecutorService newAutoShutdownSingleThreadExecutor(ThreadFactory threadFactory) {
-		ThreadPoolExecutor result = new ThreadPoolExecutor(1, 1, 10000, TimeUnit.MILLISECONDS,
+	public static ExecutorService newAutoShutdownSingleThreadExecutor(ThreadFactory threadFactory,
+			long idleTimeoutMilliseconds) {
+		ThreadPoolExecutor result = new ThreadPoolExecutor(1, 1, idleTimeoutMilliseconds, TimeUnit.MILLISECONDS,
 				new LinkedBlockingQueue<Runnable>(), threadFactory);
 		result.allowCoreThreadTimeOut(true);
 		return result;
+	}
+
+	public static <K, V> Map<K, V> newWeakKeysEqualityBasedMap() {
+		return new WeakHashMap<K, V>();
+	}
+
+	public static Map<JavaTypeInfoSource, ITypeInfo> newWeakValuesEqualityBasedMap() {
+		return newAutoCleanUpCache(false, true, -1, 10000, "WeakValuesEqualityBasedMapCleaner");
+	}
+
+	public static <K, V> Map<K, V> newWeakKeysIdentityBasedMap() {
+		return newAutoCleanUpCache(true, false, -1, 10000, "WeakKeysIdentityBasedMapCleaner");
+	}
+
+	public static <K, V> Map<K, V> newWeakKeysIdentityBasedCache(int maxSize) {
+		return newAutoCleanUpCache(true, false, maxSize, 1000,
+				"WeakKeysIdentityBasedCacheCleaner");
+	}
+
+	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues,
+			int maxSize, final long cleanUpPeriodMilliseconds, String cleanUpThreadNamePrefix) {
+		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+		if (maxSize != -1) {
+			builder = builder.maximumSize(maxSize);
+		}
+		if (weakKeys) {
+			builder = builder.weakKeys();
+		}
+		if (weakValues) {
+			builder = builder.weakValues();
+		}
+		Cache<K, V> cache = builder.<K, V>build();
+		Map<K, V> map = cache.asMap();
+		final WeakReference<Map<K, V>> mapWeakRef = new WeakReference<Map<K, V>>(map);
+		new Thread(cleanUpThreadNamePrefix + " [cache=" + cache + ", maxSize=" + maxSize + "]") {
+			{
+				setDaemon(true);
+			}
+
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						Thread.sleep(cleanUpPeriodMilliseconds);
+					} catch (InterruptedException e) {
+						throw new ReflectionUIError(e);
+					}
+					Map<K, V> map = mapWeakRef.get();
+					if (map == null) {
+						break;
+					}
+					try {
+						Method cleanUpMethod = map.getClass().getMethod("cleanUp");
+						cleanUpMethod.setAccessible(true);
+						cleanUpMethod.invoke(map);
+					} catch (Exception e) {
+						throw new ReflectionUIError(e);
+					}
+				}
+			}
+		}.start();
+		return map;
 	}
 
 }

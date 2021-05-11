@@ -237,8 +237,8 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 						@Override
 						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 							return new SpecificitiesIdentifier(reflectionUI
-									.getTypeInfo(new JavaTypeInfoSource(containingJavaClass, null)).getName(),
-									GetterFieldInfo.this.getName());
+									.getTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null))
+									.getName(), GetterFieldInfo.this.getName());
 						}
 					});
 		}

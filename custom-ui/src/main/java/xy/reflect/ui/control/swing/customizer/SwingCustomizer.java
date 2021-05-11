@@ -42,6 +42,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.CustomizedUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -90,8 +91,9 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		} else {
 			throw new IllegalArgumentException(usageText);
 		}
+		ReflectionUI reflectionUI = SwingCustomizer.getDefault().getReflectionUI();
 		Object object = SwingCustomizer.getDefault().onTypeInstanciationRequest(null,
-				SwingCustomizer.getDefault().getReflectionUI().getTypeInfo(new JavaTypeInfoSource(clazz, null)), null);
+				reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)), null);
 		if (object == null) {
 			return;
 		}

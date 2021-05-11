@@ -62,7 +62,7 @@ public abstract class ReschedulableTask {
 			result.setDaemon(true);
 			return result;
 		}
-	});
+	}, 10000);
 	protected boolean executionScheduled = false;
 
 	public void schedule() {

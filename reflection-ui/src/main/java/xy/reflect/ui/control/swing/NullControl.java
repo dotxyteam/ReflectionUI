@@ -134,7 +134,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 					@Override
 					public ITypeInfo getType() {
 						return new DefaultTypeInfo(swingRenderer.getReflectionUI(),
-								new JavaTypeInfoSource(String.class, null));
+								new JavaTypeInfoSource(swingRenderer.getReflectionUI(), String.class, null));
 					}
 
 				};

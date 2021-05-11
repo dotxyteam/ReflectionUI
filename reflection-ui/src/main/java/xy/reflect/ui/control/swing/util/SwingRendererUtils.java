@@ -756,7 +756,8 @@ public class SwingRendererUtils {
 
 					@Override
 					public ITypeInfo getType() {
-						return swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(String.class, null));
+						return swingRenderer.getReflectionUI().getTypeInfo(
+								new JavaTypeInfoSource(swingRenderer.getReflectionUI(), String.class, null));
 					}
 
 					@Override

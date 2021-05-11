@@ -283,8 +283,9 @@ public class ReflectionUITutorial {
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
 									HelloWorld newObject = new HelloWorld();
-									for (IFieldInfo field : ReflectionUI.getDefault()
-											.getTypeInfo(new JavaTypeInfoSource(HelloWorld.class, null)).getFields()) {
+									for (IFieldInfo field : ReflectionUI.getDefault().getTypeInfo(
+											new JavaTypeInfoSource(ReflectionUI.getDefault(), HelloWorld.class, null))
+											.getFields()) {
 										if (field.isGetOnly()) {
 											continue;
 										}

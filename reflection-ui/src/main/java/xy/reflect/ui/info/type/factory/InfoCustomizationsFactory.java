@@ -1569,7 +1569,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 					@Override
 					public ITypeInfo getType() {
-						return customizedUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
+						return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
 								new SpecificitiesIdentifier(containingType.getName(), "customizationError")));
 					}
 
@@ -1770,7 +1770,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 							@Override
 							public ITypeInfo getType() {
-								return customizedUI.getTypeInfo(new JavaTypeInfoSource(Object.class,
+								return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
 										new SpecificitiesIdentifier(containingType.getName(), getName())));
 							}
 

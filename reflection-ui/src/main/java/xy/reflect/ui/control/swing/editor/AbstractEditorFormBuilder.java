@@ -315,14 +315,17 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the encapsulated field value options.
+	 * @return whether the encapsulated field value has options. If true then
+	 *         {@link #getEncapsulatedFieldValueOptions()} must not return null.
 	 */
 	protected boolean hasEncapsulatedFieldValueOptions() {
 		return false;
 	}
 
 	/**
-	 * @return the encapsulated field value options.
+	 * @return the encapsulated field value options. If
+	 *         {@link #hasEncapsulatedFieldValueOptions()} returns true then this
+	 *         method must not return null.
 	 */
 	protected Object[] getEncapsulatedFieldValueOptions() {
 		return null;
@@ -360,7 +363,7 @@ public abstract class AbstractEditorFormBuilder {
 		if (initialObjectValue != null) {
 			return getSwingRenderer().getReflectionUI().getTypeInfoSource(initialObjectValue);
 		}
-		return new JavaTypeInfoSource(Object.class, null);
+		return new JavaTypeInfoSource(getSwingRenderer().getReflectionUI(), Object.class, null);
 	}
 
 	/**

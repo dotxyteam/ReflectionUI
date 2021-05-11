@@ -13,11 +13,12 @@ public class TestPrimitiveWrapperTypeEquality {
 	public static void main(String[] args) throws Exception {
 		System.out.println(int.class.equals(Integer.class));
 		Method pointMoveMethod = Point.class.getMethod("move", int.class, int.class);
-		ITypeInfo type = new ReflectionUI()
-				.getTypeInfo(new JavaTypeInfoSource(Integer.class, pointMoveMethod, 1, null));
+		ReflectionUI reflectionUI = new ReflectionUI();
+		ITypeInfo type = reflectionUI
+				.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Integer.class, pointMoveMethod, 1, null));
 		System.out.println(type);
-		type = new ReflectionUI()
-				.getTypeInfo(new JavaTypeInfoSource(pointMoveMethod.getParameterTypes()[1], pointMoveMethod, 1, null));
+		type = reflectionUI.getTypeInfo(
+				new JavaTypeInfoSource(reflectionUI, pointMoveMethod.getParameterTypes()[1], pointMoveMethod, 1, null));
 		System.out.println(type);
 	}
 

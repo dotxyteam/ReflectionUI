@@ -32,13 +32,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.MapMaker;
-
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -54,7 +53,8 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected String fieldName;
 	protected ITypeInfo fieldType;
 
-	protected static Map<Object, Map<IFieldInfo, Object>> valueByFieldByObject = new MapMaker().weakKeys().makeMap();
+	protected static Map<Object, Map<IFieldInfo, Object>> valueByFieldByObject = MiscUtils
+			.newWeakKeysIdentityBasedMap();
 
 	public VirtualFieldInfo(String fieldName, ITypeInfo fieldType) {
 		this.fieldName = fieldName;

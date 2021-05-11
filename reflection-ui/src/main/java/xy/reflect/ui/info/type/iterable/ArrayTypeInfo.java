@@ -50,8 +50,8 @@ import xy.reflect.ui.info.method.InvocationData;
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	public ArrayTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {
-		super(reflectionUI, source,
-				reflectionUI.getTypeInfo(new JavaTypeInfoSource(source.getJavaType().getComponentType(), null)));
+		super(reflectionUI, source, reflectionUI
+				.getTypeInfo(new JavaTypeInfoSource(reflectionUI, source.getJavaType().getComponentType(), null)));
 	}
 
 	@Override

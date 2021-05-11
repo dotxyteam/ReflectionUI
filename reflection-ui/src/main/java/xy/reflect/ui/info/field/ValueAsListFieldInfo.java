@@ -65,7 +65,7 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new StandardCollectionTypeInfo(reflectionUI,
-					new JavaTypeInfoSource(ArrayList.class, null), super.getType()) {
+					new JavaTypeInfoSource(reflectionUI, ArrayList.class, null), super.getType()) {
 
 				@Override
 				public boolean isInsertionAllowed() {

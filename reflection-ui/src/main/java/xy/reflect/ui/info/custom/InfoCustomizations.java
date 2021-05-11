@@ -2270,7 +2270,8 @@ public class InfoCustomizations implements Serializable {
 			if (newTypeFinder != null) {
 				return newTypeFinder.find(reflectionUI, specificitiesIdentifier);
 			} else {
-				return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, specificitiesIdentifier));
+				return reflectionUI
+						.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
 			}
 		}
 
@@ -3998,7 +3999,7 @@ public class InfoCustomizations implements Serializable {
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaType, specificitiesIdentifier));
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaType, specificitiesIdentifier));
 		}
 
 		@Override
@@ -4157,8 +4158,8 @@ public class InfoCustomizations implements Serializable {
 									try {
 										byte[] binary = DatatypeConverter.parseBase64Binary(textualStorage.getData());
 										ByteArrayInputStream bais = new ByteArrayInputStream(binary);
-										ObjectInputStream ois = IOUtils.getClassSwappingObjectInputStream(
-												bais, javax.swing.ImageIcon.class.getName(),
+										ObjectInputStream ois = IOUtils.getClassSwappingObjectInputStream(bais,
+												javax.swing.ImageIcon.class.getName(),
 												xy.reflect.ui.util.ImageIcon.class.getName());
 										Object result = ois.readObject();
 										Filter<Object> reverseConversionMethod = preConversion

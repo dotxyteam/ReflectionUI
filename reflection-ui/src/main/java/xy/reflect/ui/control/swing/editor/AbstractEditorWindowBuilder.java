@@ -309,7 +309,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	}
 
 	/**
-	 * Creates and shows the editor dialog.
+	 * Creates and shows the editor dialog. Note that the dialog is modal.
 	 */
 	public void createAndShowDialog() {
 		getSwingRenderer().showDialog(createDialog(), true);

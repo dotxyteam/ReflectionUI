@@ -80,7 +80,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	public ITypeInfo getReturnValueType() {
 		if (returnValueType == null) {
 			returnValueType = reflectionUI
-					.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), null));
+					.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaConstructor.getDeclaringClass(), null));
 		}
 		return returnValueType;
 	}

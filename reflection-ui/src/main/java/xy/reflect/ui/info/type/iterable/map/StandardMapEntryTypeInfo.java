@@ -142,10 +142,10 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
 							if (keyJavaType == null) {
 								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(Object.class, specificitiesIdentifier));
+										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
 							} else {
 								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(keyJavaType, specificitiesIdentifier));
+										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, keyJavaType, specificitiesIdentifier));
 							}
 						}
 						return type;
@@ -176,10 +176,10 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
 							if (valueJavaType == null) {
 								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(Object.class, specificitiesIdentifier));
+										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
 							} else {
 								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(valueJavaType, specificitiesIdentifier));
+										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, valueJavaType, specificitiesIdentifier));
 							}
 						}
 						return type;

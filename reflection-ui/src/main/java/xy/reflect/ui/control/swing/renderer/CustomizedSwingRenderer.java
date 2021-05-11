@@ -29,6 +29,7 @@
 package xy.reflect.ui.control.swing.renderer;
 
 import xy.reflect.ui.CustomizedUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.SystemProperties;
@@ -60,9 +61,9 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 		} else {
 			throw new IllegalArgumentException(usageText);
 		}
+		ReflectionUI reflectionUI = CustomizedSwingRenderer.getDefault().getReflectionUI();
 		Object object = CustomizedSwingRenderer.getDefault().onTypeInstanciationRequest(null,
-				CustomizedSwingRenderer.getDefault().getReflectionUI().getTypeInfo(new JavaTypeInfoSource(clazz, null)),
-				null);
+				reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)), null);
 		if (object == null) {
 			return;
 		}

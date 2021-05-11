@@ -68,13 +68,14 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 		if (name == null) {
 			name = javaParameter.getName();
 			if (name == Parameter.NO_NAME) {
-				name = new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(javaParameter.getType(), null))
-						.getCaption();
+				name = new DefaultTypeInfo(reflectionUI,
+						new JavaTypeInfoSource(reflectionUI, javaParameter.getType(), null)).getCaption();
 				int sameNameCount = 0;
 				int sameNamePosition = 0;
 				int parameterposition = 0;
 				for (Class<?> c : javaParameter.getDeclaringInvokableParameterTypes()) {
-					if (name.equals(new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(c, null)).getCaption())) {
+					if (name.equals(new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(reflectionUI, c, null))
+							.getCaption())) {
 						sameNameCount++;
 						if (parameterposition < javaParameter.getPosition()) {
 							sameNamePosition++;
@@ -100,7 +101,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(),
 					javaParameter.getDeclaringInvokable(), javaParameter.getPosition(), null));
 		}
 		return type;

@@ -51,7 +51,7 @@ public interface IParameterInfo extends IInfo {
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
 		ITypeInfo type = new DefaultTypeInfo(ReflectionUIUtils.STANDARD_REFLECTION,
-				new JavaTypeInfoSource(Object.class, null));
+				new JavaTypeInfoSource(ReflectionUIUtils.STANDARD_REFLECTION, Object.class, null));
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {

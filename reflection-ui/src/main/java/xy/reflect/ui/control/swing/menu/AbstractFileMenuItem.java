@@ -34,8 +34,6 @@ import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
-import com.google.common.collect.MapMaker;
-
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.IFieldControlData;
@@ -51,6 +49,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -63,8 +62,8 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 
 	private static final long serialVersionUID = 1L;
 
-	protected static Map<Form, File> lastFileByForm = new MapMaker().weakKeys().makeMap();
-	protected static Map<Form, Long> lastPersistedVersionByForm = new MapMaker().weakKeys().makeMap();
+	protected static Map<Form, File> lastFileByForm = MiscUtils.newWeakKeysEqualityBasedMap();
+	protected static Map<Form, Long> lastPersistedVersionByForm = MiscUtils.newWeakKeysEqualityBasedMap();
 
 	protected FileBrowserConfiguration fileBrowserConfiguration;
 
@@ -136,8 +135,8 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 								return result;
 							}
 
-						}.wrapTypeInfo(
-								swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(File.class, null)));
+						}.wrapTypeInfo(swingRenderer.getReflectionUI().getTypeInfo(
+								new JavaTypeInfoSource(swingRenderer.getReflectionUI(), File.class, null)));
 					}
 
 				};

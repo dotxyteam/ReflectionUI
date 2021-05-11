@@ -33,8 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import com.google.common.cache.CacheBuilder;
-
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
@@ -60,8 +58,8 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = CacheBuilder.newBuilder().weakKeys()
-			.<Object, ITypeInfo>build().asMap();
+	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = MiscUtils
+			.newWeakKeysIdentityBasedMap();
 
 	/**
 	 * Constructs an instance of this class.
@@ -132,7 +130,7 @@ public class ReflectionUI {
 		if (precomputedType != null) {
 			return new PrecomputedTypeInfoSource(precomputedType, null);
 		} else {
-			return new JavaTypeInfoSource(object.getClass(), null);
+			return new JavaTypeInfoSource(this, object.getClass(), null);
 		}
 	}
 
@@ -144,7 +142,7 @@ public class ReflectionUI {
 	 *         the result should return an object equals to the given source.
 	 */
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
-		ITypeInfo result = typeInfoSource.getTypeInfo(this);
+		ITypeInfo result = typeInfoSource.getTypeInfo();
 		if (!result.getSource().equals(typeInfoSource)) {
 			throw new ReflectionUIError("Calling " + ITypeInfo.class.getSimpleName()
 					+ "#getSource() on the following instance does not return an object equals to the source object: "

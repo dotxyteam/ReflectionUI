@@ -54,7 +54,7 @@ public interface IFieldInfo extends IInfo {
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
 		ITypeInfo type = new DefaultTypeInfo(ReflectionUIUtils.STANDARD_REFLECTION,
-				new JavaTypeInfoSource(Object.class, null));
+				new JavaTypeInfoSource(ReflectionUIUtils.STANDARD_REFLECTION, Object.class, null));
 
 		@Override
 		public String getName() {

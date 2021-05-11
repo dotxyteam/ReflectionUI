@@ -50,9 +50,8 @@ public interface ITypeInfoSource {
 	SpecificitiesIdentifier getSpecificitiesIdentifier();
 
 	/**
-	 * @param reflectionUI The current abstract UI model generator object.
-	 * @return the type information.
+	 * @return the type information generated from the current source object.
 	 */
-	ITypeInfo getTypeInfo(ReflectionUI reflectionUI);
+	ITypeInfo getTypeInfo();
 
 }

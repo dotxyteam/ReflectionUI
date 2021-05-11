@@ -92,7 +92,7 @@ public class PrimitiveValueControl extends TextControl {
 
 			@Override
 			public ITypeInfo getType() {
-				return new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(String.class, null));
+				return new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(reflectionUI, String.class, null));
 			}
 
 		};

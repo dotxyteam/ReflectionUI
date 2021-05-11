@@ -110,7 +110,7 @@ public class TestIterableTypeInfos {
 				return itemListFieldInfo.getCaption();
 			}
 		}.getRootItemPosition(0);
-		ITypeInfo firstItemType = customizedUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass(), null));
+		ITypeInfo firstItemType = customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, itemList.get(0).getClass(), null));
 		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),
 				firstItemType.getCaption());
 

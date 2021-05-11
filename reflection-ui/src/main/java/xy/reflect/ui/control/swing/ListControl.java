@@ -1179,7 +1179,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		IListTypeInfo listType = newItemPosition.getContainingListType();
 		ITypeInfo typeToInstanciate = listType.getItemType();
 		if (typeToInstanciate == null) {
-			typeToInstanciate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+			typeToInstanciate = swingRenderer.getReflectionUI()
+					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
 		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
@@ -1191,7 +1192,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		ITypeInfo typeToInstanciate = listType.getItemType();
 		if (typeToInstanciate == null) {
-			typeToInstanciate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+			typeToInstanciate = swingRenderer.getReflectionUI()
+					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
 		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
@@ -2060,7 +2062,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (itemType != null) {
 				return itemType.getSource();
 			}
-			return new JavaTypeInfoSource(Object.class, null);
+			return new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null);
 		}
 
 		@Override

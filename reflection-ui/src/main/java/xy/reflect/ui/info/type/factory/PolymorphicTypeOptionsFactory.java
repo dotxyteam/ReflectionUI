@@ -91,7 +91,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			throw new BlockedPolymorphismException();
 		}
 		final ITypeInfoSource typeSource = type.getSource();
-		final ITypeInfo unwrappedType = typeSource.getTypeInfo(reflectionUI);
+		final ITypeInfo unwrappedType = typeSource.getTypeInfo();
 		final ITypeInfo[] blockedPolymorphismType = new ITypeInfo[1];
 		blockedPolymorphismType[0] = new InfoProxyFactory() {
 

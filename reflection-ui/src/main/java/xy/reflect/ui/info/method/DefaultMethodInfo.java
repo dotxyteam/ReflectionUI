@@ -168,8 +168,8 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 			if (javaMethod.getReturnType() == void.class) {
 				returnValueVoid = true;
 			} else {
-				returnValueType = reflectionUI
-						.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod, -1, null));
+				returnValueType = reflectionUI.getTypeInfo(
+						new JavaTypeInfoSource(reflectionUI, javaMethod.getReturnType(), javaMethod, -1, null));
 			}
 		}
 		return returnValueType;

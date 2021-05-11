@@ -617,8 +617,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 									return result;
 								}
 
-							}.wrapTypeInfo(swingRenderer.getReflectionUI()
-									.getTypeInfo(new JavaTypeInfoSource(File.class, null)));
+							}.wrapTypeInfo(swingRenderer.getReflectionUI().getTypeInfo(
+									new JavaTypeInfoSource(swingRenderer.getReflectionUI(), File.class, null)));
 						}
 
 					};
