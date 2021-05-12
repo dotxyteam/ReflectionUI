@@ -7,6 +7,8 @@ import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.Map;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.junit.Assert;
@@ -15,6 +17,7 @@ import org.junit.Test;
 import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
@@ -67,7 +70,7 @@ public class MiscTests {
 		}
 		Assert.assertTrue(cacheThreadFound);
 
-		System.gc();
+		tryToForceGarbageCollection();
 		Thread.sleep(2000);
 		Assert.assertEquals(0, cache.size());
 
@@ -84,7 +87,7 @@ public class MiscTests {
 		Assert.assertTrue(cacheThreadFound);
 
 		cacheReference.set(null);
-		System.gc();
+		tryToForceGarbageCollection();
 		Thread.sleep(3000);
 		cacheThreadFound = false;
 		for (Thread t : Thread.getAllStackTraces().keySet()) {
@@ -98,21 +101,57 @@ public class MiscTests {
 
 	@Test
 	public void testGarbageCollection() throws Exception {
-		final SwingRenderer renderer = new SwingRenderer(new ReflectionUI());
+		final SwingRenderer swingRenderer = new SwingRenderer(new ReflectionUI());
 		final WeakReference<?>[] objectWeakRef = new WeakReference[1];
-		final WeakReference<?>[] formWeakRef = new WeakReference[1];
+		final WeakReference<?>[] formWeakRefs = new WeakReference[2];
+		final StandardEditorBuilder[] builders = new StandardEditorBuilder[2];
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
-				StandardEditorBuilder builder = renderer.openObjectFrame(new TestObject());
-				objectWeakRef[0] = new WeakReference<TestObject>((TestObject) builder.getCurrentValue());
-				formWeakRef[0] = new WeakReference<Form>(builder.getCreatedEditorForm());
-				builder.getCreatedFrame().dispose();
+				TestObject testObject = new TestObject();
+				builders[0] = swingRenderer.openObjectFrame(testObject);
+				builders[1] = swingRenderer.openObjectDialog(null, testObject, null, null, false, false);
+				objectWeakRef[0] = new WeakReference<TestObject>(testObject);
 			}
 		});
+		Thread.sleep(1000);
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+				Form frameForm = SwingRendererUtils.findObjectDisplayedForms(objectWeakRef[0].get(), swingRenderer)
+						.get(0);
+				Form dialogForm = SwingRendererUtils.findObjectDisplayedForms(objectWeakRef[0].get(), swingRenderer)
+						.get(1);
+				Assert.assertTrue(SwingUtilities.getWindowAncestor(frameForm) instanceof JFrame);
+				Assert.assertTrue(SwingUtilities.getWindowAncestor(dialogForm) instanceof JDialog);
+				formWeakRefs[0] = new WeakReference<Form>(frameForm);
+				formWeakRefs[1] = new WeakReference<Form>(dialogForm);
+				builders[0].getCreatedFrame().dispose();
+				builders[1].getCreatedDialog().dispose();
+			}
+		});
+		builders[0] = null;
+		builders[1] = null;
+		tryToForceGarbageCollection();
+		assertGarbageCollected(objectWeakRef[0], 10, 1000);
+		assertGarbageCollected(formWeakRefs[0], 10, 1000);
+		assertGarbageCollected(formWeakRefs[1], 10, 1000);
+	}
+
+	private void assertGarbageCollected(WeakReference<?> weakReference, int gcCount, int delayMilliseconds)
+			throws InterruptedException {
+		for (int i = 0; i < gcCount; i++) {
+			if (weakReference.get() == null) {
+				return;
+			}
+			Thread.sleep(delayMilliseconds);
+			tryToForceGarbageCollection();
+		}
+		Assert.fail();
+	}
+
+	private void tryToForceGarbageCollection() {
 		System.gc();
-		Assert.assertTrue(objectWeakRef[0].get() == null);
-		Assert.assertTrue(formWeakRef[0].get() == null);
 	}
 
 	public static class TestObject {

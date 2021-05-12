@@ -875,7 +875,7 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Form findObjectFirstDisplayedForm(Object object, SwingRenderer swingRenderer) {
+	public static Form findFirstObjectDisplayedForm(Object object, SwingRenderer swingRenderer) {
 		for (Form form : findObjectDisplayedForms(object, swingRenderer)) {
 			return form;
 		}

@@ -719,7 +719,7 @@ public class SwingRenderer {
 	 *                           the default title.
 	 * @param yesCaption         The actual text displayed on the 'yes' button.
 	 * @param noCaption          The actual text displayed on the 'no' button.
-	 * @return
+	 * @return whether 'yes' was chosen or not.
 	 */
 	public boolean openQuestionDialog(Component activatorComponent, String question, String title,
 			final String yesCaption, final String noCaption) {
@@ -730,7 +730,7 @@ public class SwingRenderer {
 				.setContentComponent(SwingRendererUtils.getMessagePane(question, JOptionPane.QUESTION_MESSAGE, this));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.createDialog(), true);
-		return dialogBuilder.wasOkPressed();
+		return dialogBuilder.getCreatedDialog().wasOkPressed();
 	}
 
 	/**

@@ -61,8 +61,7 @@ public class DialogBuilder {
 	protected Component contentComponent;
 	protected List<Component> buttonBarControls;
 	protected Runnable whenClosing;
-	protected boolean okPressed = false;
-	protected JDialog dialog;
+	protected BuiltDialog dialog;
 	protected Image buttonBackgroundImage;
 	protected Color buttonBackgroundColor;
 	protected Color buttonForegroundColor;
@@ -78,6 +77,10 @@ public class DialogBuilder {
 			this.iconImage = SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
 					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 		}
+	}
+
+	public SwingRenderer getSwingRenderer() {
+		return swingRenderer;
 	}
 
 	public Image getButtonBackgroundImage() {
@@ -112,11 +115,7 @@ public class DialogBuilder {
 		this.buttonBorderColor = buttonBorderColor;
 	}
 
-	public boolean wasOkPressed() {
-		return okPressed;
-	}
-
-	public JDialog getCreatedDialog() {
+	public BuiltDialog getCreatedDialog() {
 		return dialog;
 	}
 
@@ -222,54 +221,90 @@ public class DialogBuilder {
 		result.add(createDialogClosingButton((customOKCaption == null) ? "OK" : customOKCaption, new Runnable() {
 			@Override
 			public void run() {
-				okPressed = true;
+				dialog.setOkPressed();
 			}
 		}));
-		result.add(createDialogClosingButton((customCancelCaption == null) ? "Cancel" : customCancelCaption,
-				new Runnable() {
-					@Override
-					public void run() {
-						okPressed = false;
-					}
-				}));
+		result.add(createDialogClosingButton((customCancelCaption == null) ? "Cancel" : customCancelCaption, null));
 		return result;
 	}
 
-	public JDialog createDialog() {
+	public BuiltDialog createDialog() {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
-		dialog = new JDialog(owner) {
-			protected static final long serialVersionUID = 1L;
-
-			boolean disposed = false;
-			WindowManager windowManager = swingRenderer.createWindowManager(this);
-
-			{
-				windowManager.install(contentComponent, buttonBarControls, title, iconImage);
-			}
-
-			@Override
-			public void dispose() {
-				if (disposed) {
-					return;
-				}
-				disposed = true;
-				windowManager.uninstall();
-				super.dispose();
-				executeClosingTask();
-			}
-
-			private void executeClosingTask() {
-				if (whenClosing != null) {
-					try {
-						whenClosing.run();
-					} catch (Throwable t) {
-						swingRenderer.handleExceptionsFromDisplayedUI(this, t);
-					}
-				}
-			}
-
-		};
+		dialog = new BuiltDialog(owner, this);
 		dialog.setResizable(true);
 		return dialog;
 	}
+
+	/**
+	 * Dialog created using {@link DialogBuilder}.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public static class BuiltDialog extends JDialog {
+
+		protected static final long serialVersionUID = 1L;
+
+		protected DialogBuilder dialogBuilder;
+		protected WindowManager windowManager;
+		protected Runnable whenClosing;
+		protected boolean disposed = false;
+		protected boolean okPressed = false;
+
+		public BuiltDialog(Window owner, DialogBuilder dialogBuilder) {
+			super(owner);
+			this.dialogBuilder = dialogBuilder;
+			this.windowManager = dialogBuilder.getSwingRenderer().createWindowManager(this);
+			this.whenClosing = dialogBuilder.getWhenClosing();
+			installComponents();
+		}
+
+		@Override
+		public void dispose() {
+			if (disposed) {
+				return;
+			}
+			disposed = true;
+			uninstallComponents();
+			this.windowManager = null;
+			this.dialogBuilder = null;
+			super.dispose();
+			executeClosingTask();
+		}
+
+		public boolean isDisposed() {
+			return disposed;
+		}
+
+		public boolean wasOkPressed() {
+			return okPressed;
+		}
+
+		public void setOkPressed() {
+			this.okPressed = true;
+		}
+
+		protected void installComponents() {
+			windowManager.install(dialogBuilder.getContentComponent(), dialogBuilder.getButtonBarControls(),
+					dialogBuilder.getTitle(), dialogBuilder.getIconImage());
+		}
+
+		protected void uninstallComponents() {
+			windowManager.uninstall();
+		}
+
+		protected void executeClosingTask() {
+			if (whenClosing != null) {
+				try {
+					whenClosing.run();
+				} catch (Throwable t) {
+					dialogBuilder.getSwingRenderer().handleExceptionsFromDisplayedUI(this, t);
+				} finally {
+					whenClosing = null;
+				}
+			}
+		}
+
+	}
+
 }

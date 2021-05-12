@@ -173,7 +173,7 @@ public class MethodAction extends AbstractAction {
 		dialogBuilder.setTitle(getTitle());
 
 		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
-		if (dialogBuilder.wasOkPressed()) {
+		if (dialogBuilder.getCreatedDialog().wasOkPressed()) {
 			return invocationData;
 		} else {
 			return null;
@@ -281,7 +281,7 @@ public class MethodAction extends AbstractAction {
 				if (data.isReturnValueDetached()) {
 					return null;
 				} else {
-					return modificationStack;
+					return createdFormModificationStack;
 				}
 			}
 

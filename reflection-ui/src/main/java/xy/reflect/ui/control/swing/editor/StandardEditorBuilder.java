@@ -34,7 +34,6 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -51,7 +50,6 @@ public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 	protected SwingRenderer swingRenderer;
 	protected Component ownerComponent;
 	protected Object rootObject;
-	protected ITypeInfo rootObjectType;
 
 	/**
 	 * Constructs a standard editor window builder.
@@ -71,8 +69,6 @@ public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
 		if (rootObject == null) {
 			throw new ReflectionUIError();
 		}
-		this.rootObjectType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(rootObject));
 	}
 
 	@Override

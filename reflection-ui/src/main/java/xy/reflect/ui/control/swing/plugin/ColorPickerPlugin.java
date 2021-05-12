@@ -280,7 +280,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			dialogBuilder.setButtonBarControls(
 					new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(null, null)));
 			swingRenderer.showDialog(dialogBuilder.createDialog(), true);
-			if (!dialogBuilder.wasOkPressed()) {
+			if (!dialogBuilder.getCreatedDialog().wasOkPressed()) {
 				return;
 			}
 			Color newColor = colorChooser.getColor();

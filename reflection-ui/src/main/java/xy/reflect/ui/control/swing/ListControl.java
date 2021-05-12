@@ -218,6 +218,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+
 	public Object getRootListValue() {
 		return itemPositionFactory.retrieveRootListValue();
 	}
@@ -1005,7 +1006,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public void setSingleSelection(BufferedItemPosition toSelect) {
-		setSelection(Collections.singletonList(toSelect));
+		if (toSelect == null) {
+			setSelection(Collections.emptyList());
+		} else {
+			setSelection(Collections.singletonList(toSelect));
+		}
 	}
 
 	public BufferedItemPosition findItemPositionByReference(final Object item) {

@@ -43,6 +43,7 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.DialogBuilder;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
+import xy.reflect.ui.control.swing.util.DialogBuilder.BuiltDialog;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -60,9 +61,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuilder {
 
-	protected DialogBuilder dialogBuilder;
-	protected Form createdEditorForm;
-	protected JFrame createdFrame;
+	protected ModificationStack createdFormModificationStack;
+	protected EditorFrame createdFrame;
+	protected BuiltDialog createdDialog;
 	protected boolean parentModificationStackImpacted = false;
 
 	/**
@@ -185,13 +186,14 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	}
 
 	/**
-	 * @return most button bar controls (the list includes
+	 * @param editorForm The generated editor form.
+	 * @return most button bar controls (the result includes
 	 *         {@link #getAdditionalButtonBarControls()}, but not ok/cancel/close
-	 *         buttons) that will be laid on the button bar.
+	 *         buttons) that will be displayed on the button bar.
 	 */
-	protected List<Component> createMostButtonBarControls() {
+	protected List<Component> createMostButtonBarControls(Form editorForm) {
 		List<Component> result = new ArrayList<Component>();
-		List<Component> commonButtonBarControls = createdEditorForm.createButtonBarControls();
+		List<Component> commonButtonBarControls = editorForm.createButtonBarControls();
 		if (commonButtonBarControls != null) {
 			result.addAll(commonButtonBarControls);
 		}
@@ -202,30 +204,19 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		return result;
 	}
 
+	@Override
+	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
+		Form result = super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
+		return result;
+	}
+
 	/**
 	 * Creates and returns the editor frame.
 	 * 
 	 * @return the created editor frame.
 	 */
 	public JFrame createFrame() {
-		createdEditorForm = createEditorForm(false, false);
-		createdFrame = new JFrame() {
-
-			private static final long serialVersionUID = 1L;
-
-			WindowManager windowManager = getSwingRenderer().createWindowManager(this);
-			{
-				windowManager.install(createdEditorForm, new ArrayList<Component>(createMostButtonBarControls()),
-						getEditorWindowTitle(), getEditorWindowIconImage());
-			}
-
-			@Override
-			public void dispose() {
-				windowManager.uninstall();
-				super.dispose();
-			}
-
-		};
+		createdFrame = new EditorFrame(this);
 		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}
@@ -233,7 +224,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	/**
 	 * @return the created editor frame.
 	 */
-	public JFrame getCreatedFrame() {
+	public EditorFrame getCreatedFrame() {
 		return createdFrame;
 	}
 
@@ -278,13 +269,13 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 * @return the created editor dialog.
 	 */
 	public JDialog createDialog() {
-		createdEditorForm = createEditorForm(false, false);
-		dialogBuilder = createDelegateDialogBuilder();
-		dialogBuilder.setContentComponent(createdEditorForm);
+		Form editorForm = createEditorForm(false, false);
+		DialogBuilder dialogBuilder = createDelegateDialogBuilder();
+		dialogBuilder.setContentComponent(editorForm);
 		dialogBuilder.setTitle(getEditorWindowTitle());
 		dialogBuilder.setIconImage(getEditorWindowIconImage());
 
-		List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls());
+		List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls(editorForm));
 		{
 			if (isCancellable()) {
 				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
@@ -295,17 +286,15 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 			}
 			dialogBuilder.setButtonBarControls(buttonBarControls);
 		}
-		return dialogBuilder.createDialog();
+		createdDialog = dialogBuilder.createDialog();
+		return createdDialog;
 	}
 
 	/**
 	 * @return the created editor dialog.
 	 */
 	public JDialog getCreatedDialog() {
-		if (dialogBuilder == null) {
-			return null;
-		}
-		return dialogBuilder.getCreatedDialog();
+		return createdDialog;
 	}
 
 	/**
@@ -332,13 +321,6 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 				}
 			}
 		}, getParentModificationTitle());
-	}
-
-	/**
-	 * @return the created editor form.
-	 */
-	public Form getCreatedEditorForm() {
-		return createdEditorForm;
 	}
 
 	/**
@@ -372,20 +354,20 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 * @return whether the user cancelled the editor dialog.
 	 */
 	public boolean isCancelled() {
-		if (dialogBuilder == null) {
+		if (createdDialog == null) {
 			return false;
 		}
-		return !dialogBuilder.wasOkPressed();
+		if (!createdDialog.isDisposed()) {
+			return false;
+		}
+		return !createdDialog.wasOkPressed();
 	}
 
 	/**
 	 * @return the modification stack of the target value/object.
 	 */
 	public ModificationStack getModificationStack() {
-		if (createdEditorForm == null) {
-			return null;
-		}
-		return createdEditorForm.getModificationStack();
+		return createdFormModificationStack;
 	}
 
 	/**
@@ -393,6 +375,55 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 */
 	public boolean isParentModificationStackImpacted() {
 		return parentModificationStackImpacted;
+	}
+
+	/**
+	 * Frame created using an implementation of {@link AbstractEditorWindowBuilder}.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public static class EditorFrame extends JFrame {
+
+		private static final long serialVersionUID = 1L;
+
+		protected WindowManager windowManager;
+		protected AbstractEditorWindowBuilder editorWindowBuilder;
+		protected boolean disposed = false;
+
+		public EditorFrame(AbstractEditorWindowBuilder editorWindowBuilder) {
+			this.editorWindowBuilder = editorWindowBuilder;
+			this.windowManager = editorWindowBuilder.getSwingRenderer().createWindowManager(this);
+			installComponents();
+		}
+
+		@Override
+		public void dispose() {
+			if (disposed) {
+				return;
+			}
+			disposed = true;
+			uninstallComponents();
+			this.windowManager = null;
+			this.editorWindowBuilder = null;
+			super.dispose();
+		}
+
+		public boolean isDisposed() {
+			return disposed;
+		}
+
+		protected void installComponents() {
+			Form editorForm = editorWindowBuilder.createEditorForm(false, false);
+			windowManager.install(editorForm,
+					new ArrayList<Component>(editorWindowBuilder.createMostButtonBarControls(editorForm)),
+					editorWindowBuilder.getEditorWindowTitle(), editorWindowBuilder.getEditorWindowIconImage());
+		}
+
+		protected void uninstallComponents() {
+			windowManager.uninstall();
+		}
+
 	}
 
 }

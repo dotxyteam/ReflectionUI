@@ -74,7 +74,6 @@ public class WindowManager {
 	protected ControlPanel topBarsContainer;
 	protected JScrollPane scrollPane;
 	protected JPanel buttonBar;
-	protected List<Component> buttonBarControls;
 	protected Form form;
 	protected WindowListener windowListener = new WindowAdapter() {
 		@Override
@@ -152,7 +151,7 @@ public class WindowManager {
 		return result;
 	}
 
-	protected JPanel createButtonBar() {
+	protected JPanel createButtonBar(List<Component> buttonBarControls) {
 		JPanel result = new ControlPanel();
 		result.setLayout(new FlowLayout(FlowLayout.CENTER));
 		if ((buttonBarControls != null) && (buttonBarControls.size() > 0)) {
@@ -214,7 +213,6 @@ public class WindowManager {
 	}
 
 	public void install(Component content, List<Component> buttonBarControls) {
-		this.buttonBarControls = buttonBarControls;
 		rootPane = createRootPane();
 		layoutRootPane(rootPane);
 		backgroundPane = createBackgroundPane();
@@ -232,7 +230,7 @@ public class WindowManager {
 			scrollPane = createScrollPane(content);
 			layoutContent(scrollPane);
 		}
-		buttonBar = createButtonBar();
+		buttonBar = createButtonBar(buttonBarControls);
 		layoutButtonBar(buttonBar);
 		refreshWindowStructureAsMuchAsPossible();
 		adjustBounds();
@@ -240,11 +238,21 @@ public class WindowManager {
 	}
 
 	public void uninstall() {
+		window.removeWindowListener(windowListener);
 		layoutRootPane(new ControlPanel());
+		{
+			alternativeDecorationsPanel = null;
+			scrollPane = null;
+			rootPane = null;
+			backgroundPane = null;
+			contentPane = null;
+			topBarsContainer = null;
+			buttonBar = null;
+		}
 		if (form != null) {
 			form.getRefreshListeners().remove(formRefreshListener);
+			form = null;
 		}
-		window.removeWindowListener(windowListener);
 	}
 
 	public void refreshWindowStructureAsMuchAsPossible() {

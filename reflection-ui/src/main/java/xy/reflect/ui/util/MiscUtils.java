@@ -270,11 +270,11 @@ public class MiscUtils {
 	}
 
 	public static Map<JavaTypeInfoSource, ITypeInfo> newWeakValuesEqualityBasedMap() {
-		return newAutoCleanUpCache(false, true, -1, 10000, "WeakValuesEqualityBasedMapCleaner");
+		return newAutoCleanUpCache(false, true, -1, 1000, "WeakValuesEqualityBasedMapCleaner");
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedMap() {
-		return newAutoCleanUpCache(true, false, -1, 10000, "WeakKeysIdentityBasedMapCleaner");
+		return newAutoCleanUpCache(true, false, -1, 1000, "WeakKeysIdentityBasedMapCleaner");
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedCache(int maxSize) {
@@ -321,6 +321,7 @@ public class MiscUtils {
 					} catch (Exception e) {
 						throw new ReflectionUIError(e);
 					}
+					System.out.println(map.size() + " - " + this);
 				}
 			}
 		}.start();

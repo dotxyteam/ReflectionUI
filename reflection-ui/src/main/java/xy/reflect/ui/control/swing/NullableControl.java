@@ -93,7 +93,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 		};
 		this.data = input.getControlData();
-
 		initialize();
 	}
 
@@ -270,7 +269,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 			@Override
 			protected IContext getSubContext() {
-				return  NullableControl.this.getSubContext();
+				return NullableControl.this.getSubContext();
 			}
 
 			@Override
