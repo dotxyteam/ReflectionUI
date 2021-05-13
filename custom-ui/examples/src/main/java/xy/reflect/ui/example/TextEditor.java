@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.IOUtils;
@@ -24,9 +26,14 @@ public class TextEditor implements Serializable {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "textEditor.icu");
-		renderer.openObjectFrame(new TextEditor());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectFrame(new TextEditor());
+			}
+		});
 	}
 
 	private String text = "";

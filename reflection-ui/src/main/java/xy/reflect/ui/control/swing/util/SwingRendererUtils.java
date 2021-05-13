@@ -1147,4 +1147,10 @@ public class SwingRendererUtils {
 		}
 	}
 
+	public static void expectInUIThread() {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			throw new ReflectionUIError("The current thread must be the UI thread.");
+		}
+	}
+
 }

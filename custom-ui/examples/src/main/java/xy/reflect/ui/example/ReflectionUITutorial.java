@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
@@ -58,19 +59,24 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ReflectionUITutorial {
 
 	public static void main(String[] args) {
-		openObjectDialog();
-		createObjectForm();
-		changeFieldsAndMethodOrder();
-		allowToSetNull();
-		hideSomeFieldsAndMethods();
-		addVirtualFieldsAndMethods();
-		categorizeFieldsAndMethods();
-		customizeCopyCutPasteFeature();
-		customizeColors();
-		addMenus();
-		useFieldControlPlugins();
-		createCustomControls();
-		openObjectFrame();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				openObjectDialog();
+				createObjectForm();
+				changeFieldsAndMethodOrder();
+				allowToSetNull();
+				hideSomeFieldsAndMethods();
+				addVirtualFieldsAndMethods();
+				categorizeFieldsAndMethods();
+				customizeCopyCutPasteFeature();
+				customizeColors();
+				addMenus();
+				useFieldControlPlugins();
+				createCustomControls();
+				openObjectFrame();
+			}
+		});
 	}
 
 	private static void openObjectDialog() {

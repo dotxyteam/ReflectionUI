@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.MoreSystemProperties;
@@ -21,9 +23,14 @@ public class Employee {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "employee.icu");
-		renderer.openObjectFrame(new Employee());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectFrame(new Employee());
+			}
+		});
 	}
 
 	private String firstName;

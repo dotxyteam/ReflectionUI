@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.MoreSystemProperties;
 
@@ -15,11 +17,15 @@ import xy.reflect.ui.util.MoreSystemProperties;
  */
 public class HelloWorld implements Serializable {
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		System.out.println("Set the following system property to disable the design mode:\n-D"
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
-		
-		SwingCustomizer.getDefault().openObjectFrame(new HelloWorld());		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				SwingCustomizer.getDefault().openObjectFrame(new HelloWorld());
+			}
+		});
 	}
 
 	private static final long serialVersionUID = 1L;

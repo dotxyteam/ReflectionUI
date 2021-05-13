@@ -2,6 +2,8 @@ package xy.reflect.ui.example;
 
 import java.io.IOException;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.MoreSystemProperties;
@@ -21,7 +23,12 @@ public class ControlScreen2 {
 		CustomizedUI reflectionUI = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "controlScreen2.icu");
-		renderer.openObjectFrame(new ControlScreen2());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectFrame(new ControlScreen2());
+			}
+		});
 	}
 
 	public Configuration getConfiguration() {

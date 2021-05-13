@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
@@ -30,9 +31,14 @@ public class CurrencyConverter {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "currencyConverter.icu");
-		renderer.openObjectFrame(new CurrencyConverter());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectFrame(new CurrencyConverter());
+			}
+		});
 	}
 
 	private Currency sourceCurrency = Currency.USD;

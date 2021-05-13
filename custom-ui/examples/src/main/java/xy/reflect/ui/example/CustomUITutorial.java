@@ -9,6 +9,8 @@ package xy.reflect.ui.example;
 
 import java.io.File;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -21,10 +23,15 @@ import xy.reflect.ui.util.SystemProperties;
 public class CustomUITutorial {
 
 	public static void main(String[] args) {
-		openObjectDialog();
-		disableDesignMode();
-		changeCustomizationsFilePath();
-		addHandCodedCustomizations();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				openObjectDialog();
+				disableDesignMode();
+				changeCustomizationsFilePath();
+				addHandCodedCustomizations();
+			}
+		});
 	}
 
 	private static void openObjectDialog() {

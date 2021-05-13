@@ -1,3 +1,5 @@
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 
 public class MemberNamesCollisionTest {
@@ -79,7 +81,12 @@ public class MemberNamesCollisionTest {
 	}
 
 	public static void main(String[] args) {
-		SwingCustomizer.getDefault().openObjectFrame(new Sub());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				SwingCustomizer.getDefault().openObjectFrame(new Sub());
+			}
+		});
 	}
 
 }

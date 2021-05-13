@@ -5,12 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 
 public class TableTreeModelExample {
 
 	public static void main(String[] args) {
-		SwingCustomizer.getDefault().openObjectDialog(null, new Catalog(), "Catalog", null, false, false);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				SwingCustomizer.getDefault().openObjectDialog(null, new Catalog(), "Catalog", null, false, false);
+			}
+		});
 	}
 
 	public static class Catalog {
@@ -118,7 +125,7 @@ public class TableTreeModelExample {
 			return products;
 		}
 
-		public void setProducts(List<Product> products) {			
+		public void setProducts(List<Product> products) {
 			this.products = products;
 		}
 

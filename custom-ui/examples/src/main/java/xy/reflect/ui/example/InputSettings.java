@@ -1,5 +1,7 @@
 package xy.reflect.ui.example;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.MoreSystemProperties;
@@ -17,9 +19,14 @@ public class InputSettings {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "inputSettings.icu");
-		renderer.openObjectDialog(null, new InputSettings());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectDialog(null, new InputSettings());
+			}
+		});
 	}
 
 	private MouseSettings mouseSettings = new MouseSettings();

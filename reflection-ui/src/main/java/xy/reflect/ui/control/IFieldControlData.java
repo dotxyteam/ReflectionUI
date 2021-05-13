@@ -42,7 +42,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
  * 
  * It is intended to be a proxy of {@link IFieldInfo} that hides pieces of
  * information that are useless for field controls in order to maximize their
- * reusability. Typically it hides the field owner object.<br>
+ * reusability. Typically it hides the field owner object. <br>
  * <br>
  * About colors:
  * <ul>
@@ -71,21 +71,28 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public interface IFieldControlData {
 
 	/**
+	 * Retrieves the underlying field value.
+	 * 
 	 * @return the value that the control must display.
 	 */
 	Object getValue();
 
 	/**
-	 * Updates the value provided through the control.
+	 * Updates the underlying field with the provided value.
 	 * 
 	 * @param value The new value.
 	 */
 	void setValue(Object value);
 
 	/**
-	 * @return the name that the field control must display.
+	 * Allows the control to build a new instance of the edited value.
+	 * 
+	 * @param typeToInstanciate     The type of the value to instanciate.
+	 * @param selectableConstructor Whether the framework should allow to select a
+	 *                              constructor or not.
+	 * @return the new instance.
 	 */
-	String getCaption();
+	Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor);
 
 	/**
 	 * @param newValue The new value.
@@ -93,6 +100,11 @@ public interface IFieldControlData {
 	 *         undo job should be used.
 	 */
 	Runnable getNextUpdateCustomUndoJob(Object newValue);
+
+	/**
+	 * @return the name that the field control must display.
+	 */
+	String getCaption();
 
 	/**
 	 * @return the help text of the field control.
@@ -224,15 +236,5 @@ public interface IFieldControlData {
 	 *         border.
 	 */
 	ColorSpecification getButtonBorderColor();
-
-	/**
-	 * Allows the control to build a new instance of the edited value.
-	 * 
-	 * @param typeToInstanciate     The type of the value to instanciate.
-	 * @param selectableConstructor Whether the framework should allow to select a
-	 *                              constructor or not.
-	 * @return the new instance.
-	 */
-	Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor);
 
 }

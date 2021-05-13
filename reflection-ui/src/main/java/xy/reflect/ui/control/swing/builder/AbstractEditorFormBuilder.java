@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control.swing.editor;
+package xy.reflect.ui.control.swing.builder;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -420,8 +420,8 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return the created editor control.
 	 */
 	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
-		Object encapsulated = getCapsule();
-		Form result = getSwingRenderer().createForm(encapsulated);
+		Object capsule = getCapsule();
+		Form result = getSwingRenderer().createForm(capsule);
 		setupLinkWithParent(result, realTimeLinkWithParent, exclusiveLinkWithParent);
 		return result;
 	}

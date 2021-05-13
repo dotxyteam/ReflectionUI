@@ -96,7 +96,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodControlDataProxy;
-import xy.reflect.ui.control.swing.editor.AbstractEditorWindowBuilder;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
@@ -218,6 +218,25 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	@Override
+	public void addNotify() {
+		super.addNotify();
+		if (getRootListSize() > 0) {
+			setSingleSelection(getRootListItemPosition(0));
+		}
+	}
+
+	@Override
+	public void removeNotify() {
+		/*
+		 * Selection must be cleared. Otherwise the item encapsulation type indirectly
+		 * references the its instance through the details control. It prevents the
+		 * corresponding entry in Reflection#precomputedTypeInfoByObject from being
+		 * garbage collected and causes a memory leak.
+		 */
+		setSingleSelection(null);
+		super.removeNotify();
+	}
 
 	public Object getRootListValue() {
 		return itemPositionFactory.retrieveRootListValue();
@@ -240,9 +259,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected void updateDetailsAreaOnSelection() {
 		selectionListeners.add(new Listener<List<BufferedItemPosition>>() {
 			@Override
-			public void handle(List<BufferedItemPosition> event) {
+			public void handle(List<BufferedItemPosition> newSelection) {
 				if (!getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 					return;
+				}
+				if (newSelection.size() == 1) {
+					if (newSelection.get(0).equals(detailsControlItemPosition)) {
+						return;
+					}
+				} else {
+					if (detailsControlItemPosition == null) {
+						return;
+					}
 				}
 				updateDetailsArea(false);
 			}
@@ -1210,14 +1238,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	};
 
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
-		Object encapsulatedObject = new ItemUIBuilder(itemPosition) {
+		Object capsule = new ItemUIBuilder(itemPosition) {
 			@Override
 			protected Object getInitialValue() {
 				return null;
 			}
 		}.getCapsule();
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(encapsulatedObject));
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
 	}
 
@@ -1927,18 +1955,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				if (!prepare()) {
-					return;
-				}
 				swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
 					public void run() {
+						if (!prepare()) {
+							return;
+						}
 						final String modifTitle = getCompositeModificationTitle();
 						@SuppressWarnings("unchecked")
 						final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
 						if (modifTitle == null) {
 							perform(toPostSelectHolder);
 							new RefreshStructureModification(toPostSelectHolder[0]).applyAndGetOpposite();
-
 						} else {
 							final ModificationStack modifStack = getModificationStack();
 							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
@@ -1964,10 +1991,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						}
 					}
 				}, getCompositeModificationTitle());
+				displayResult();
 			} catch (Throwable t) {
 				swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
 			}
-			displayResult();
 		}
 
 		protected void displayResult() {
@@ -1975,7 +2002,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	};
 
-	protected class ItemUIBuilder extends AbstractEditorWindowBuilder {
+	protected class ItemUIBuilder extends AbstractEditorBuilder {
 		protected BufferedItemPosition bufferedItemPosition;
 		protected ListModificationFactory modificationFactory;
 		protected boolean canCommit;
@@ -2917,7 +2944,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected static final long serialVersionUID = 1L;
 
 		protected IDynamicListProperty dynamicProperty;
-		protected AbstractEditorWindowBuilder subDialogBuilder;
+		protected AbstractEditorBuilder subDialogBuilder;
 
 		public DynamicPropertyHook(IDynamicListProperty dynamicProperty) {
 			this.dynamicProperty = dynamicProperty;
@@ -2925,7 +2952,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected boolean prepare() {
-			subDialogBuilder = new AbstractEditorWindowBuilder() {
+			subDialogBuilder = new AbstractEditorBuilder() {
 
 				@Override
 				protected String getCapsuleTypeCaption() {
@@ -3056,12 +3083,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {
 
 		@Override
-		public Object retrieveNonBufferedRootListValue() {
+		public Object getNonBufferedRootListValue() {
 			return listData.getValue();
 		}
 
 		@Override
-		protected void commitNonBufferedRootListValue(Object rootListValue) {
+		protected void setNonBufferedRootListValue(Object rootListValue) {
 			listData.setValue(rootListValue);
 		}
 

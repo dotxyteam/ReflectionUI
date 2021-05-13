@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
@@ -15,9 +17,14 @@ public class ReflectionUITest2 {
 	public static void main(String[] args) {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations);
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/default.icu");
-		renderer.openObjectFrame(new ReflectionUITest2(), null, null);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectFrame(new ReflectionUITest2(), null, null);
+			}
+		});
 	}
 
 	public String textControlTest = "azerty";

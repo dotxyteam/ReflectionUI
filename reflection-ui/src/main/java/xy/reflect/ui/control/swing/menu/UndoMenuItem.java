@@ -67,7 +67,12 @@ public class UndoMenuItem extends AbstractStandardActionMenuItem {
 
 	@Override
 	protected void execute() {
-		form.getModificationStack().undo();
+		swingRenderer.showBusyDialogWhile(form, new Runnable() {
+			@Override
+			public void run() {
+				form.getModificationStack().undo();
+			}
+		}, getToolTipText());
 	}
 
 }

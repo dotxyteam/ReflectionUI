@@ -17,6 +17,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
@@ -359,6 +360,11 @@ public class ReflectionUITest {
 		};
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/default.icu");
-		renderer.openObjectFrame(new Test(), null, null);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectFrame(new Test(), null, null);
+			}
+		});
 	}
 }

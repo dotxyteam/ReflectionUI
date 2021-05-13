@@ -70,7 +70,8 @@ import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.MethodAction;
-import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.control.swing.builder.DialogBuilder;
+import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.plugin.ColorPickerPlugin;
 import xy.reflect.ui.control.swing.plugin.CustomCheckBoxPlugin;
 import xy.reflect.ui.control.swing.plugin.DatePickerPlugin;
@@ -87,7 +88,6 @@ import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
-import xy.reflect.ui.control.swing.util.DialogBuilder;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
 import xy.reflect.ui.info.InfoCategory;
@@ -120,11 +120,11 @@ import xy.reflect.ui.util.SystemProperties;
 public class SwingRenderer {
 
 	public static void main(String[] args) throws Exception {
-		Class<?> clazz = Object.class;
 		String usageText = "Expected arguments: [ <className> | --help ]"
 				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
 				+ "\n  => --help: Displays this help message" + "\n"
 				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
+		final Class<?> clazz;
 		if (args.length == 0) {
 			clazz = Object.class;
 		} else if (args.length == 1) {
@@ -137,13 +137,18 @@ public class SwingRenderer {
 		} else {
 			throw new IllegalArgumentException(usageText);
 		}
-		ReflectionUI reflectionUI = SwingRenderer.getDefault().getReflectionUI();
-		Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
-				reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)), null);
-		if (object == null) {
-			return;
-		}
-		SwingRenderer.getDefault().openObjectFrame(object);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				ReflectionUI reflectionUI = SwingRenderer.getDefault().getReflectionUI();
+				Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)), null);
+				if (object == null) {
+					return;
+				}
+				SwingRenderer.getDefault().openObjectFrame(object);
+			}
+		});
 	}
 
 	protected static SwingRenderer defaultInstance;
@@ -171,23 +176,24 @@ public class SwingRenderer {
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
-	protected Thread busyDialogJobExecutorThread;
-	protected ExecutorService busyDialogJobExecutor = MiscUtils
-			.newAutoShutdownSingleThreadExecutor(new ThreadFactory() {
-				@Override
-				public Thread newThread(Runnable r) {
-					Thread result = new Thread(r);
-					result.setName("busyDialogJobExecutor");
-					result.setDaemon(true);
-					busyDialogJobExecutorThread = result;
-					return result;
-				}
-			}, 10000);
-	protected ExecutorService busyDialogCloser = MiscUtils.newAutoShutdownSingleThreadExecutor(new ThreadFactory() {
+	protected static final String BUSY_DIALOG_JOB_EXECUTOR_NAME = SwingRenderer.class.getName()
+			+ ".busyDialogJobExecutor";
+	protected ExecutorService busyDialogJobExecutor = MiscUtils.newAutoShutdownMultiThreadExecutor(new ThreadFactory() {
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread result = new Thread(r);
-			result.setName("busyDialogCloser");
+			result.setName(BUSY_DIALOG_JOB_EXECUTOR_NAME);
+			result.setDaemon(true);
+			return result;
+		}
+	}, 10000);
+
+	protected static final String BUSY_DIALOG_CLOSER_NAME = SwingRenderer.class.getName() + ".busyDialogCloser";
+	protected ExecutorService busyDialogCloser = MiscUtils.newAutoShutdownMultiThreadExecutor(new ThreadFactory() {
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread result = new Thread(r);
+			result.setName(BUSY_DIALOG_CLOSER_NAME);
 			result.setDaemon(true);
 			return result;
 		}
@@ -872,7 +878,7 @@ public class SwingRenderer {
 	 * @param activatorComponent A component belonging to the parent window of the
 	 *                           dialog or null.
 	 * @param object             Any object.
-	 * @return the window builder allowing to check the status of the dialog.
+	 * @return the editor builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object) {
 		return openObjectDialog(activatorComponent, object, null);
@@ -887,7 +893,7 @@ public class SwingRenderer {
 	 * @param object             Any object.
 	 * @param title              The title of the dialog or null to have the default
 	 *                           title.
-	 * @return the window builder allowing to check the status of the dialog.
+	 * @return the editor builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title) {
 		return openObjectDialog(activatorComponent, object, title, null);
@@ -904,7 +910,7 @@ public class SwingRenderer {
 	 *                           title.
 	 * @param iconImage          The dialog icon image or null to have the default
 	 *                           icon.
-	 * @return the window builder allowing to check the status of the dialog.
+	 * @return the editor builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			Image iconImage) {
@@ -923,7 +929,7 @@ public class SwingRenderer {
 	 *                           icon.
 	 * @param cancellable        Whether the object state changes may be cancelled
 	 *                           or not.
-	 * @return the window builder allowing to check the status of the dialog.
+	 * @return the editor builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			Image iconImage, boolean cancellable) {
@@ -943,7 +949,7 @@ public class SwingRenderer {
 	 * @param cancellable        Whether the object state changes may be cancelled
 	 *                           or not.
 	 * @param modal              Whether the dialog is modal or not.
-	 * @return the window builder allowing to check the status of the dialog.
+	 * @return the editor builder allowing to check the status of the dialog.
 	 */
 	public StandardEditorBuilder openObjectDialog(Component activatorComponent, Object object, final String title,
 			final Image iconImage, final boolean cancellable, boolean modal) {
@@ -963,7 +969,7 @@ public class SwingRenderer {
 	 *                           icon.
 	 * @param cancellable        Whether the object state changes may be cancelled
 	 *                           or not.
-	 * @return an object allowing build an complete editor for the given object.
+	 * @return an object allowing build a complete editor for the given object.
 	 */
 	public StandardEditorBuilder createEditorBuilder(Component activatorComponent, final Object object,
 			final String title, final Image iconImage, final boolean cancellable) {
@@ -1000,7 +1006,7 @@ public class SwingRenderer {
 	 * @param object    Any object.
 	 * @param title     The title of the frame or null to have the default title.
 	 * @param iconImage The frame icon image or null to have the default icon.
-	 * @return the window builder allowing to check the status of the frame.
+	 * @return the editor builder allowing to check the status of the frame.
 	 */
 	public StandardEditorBuilder openObjectFrame(Object object, String title, Image iconImage) {
 		StandardEditorBuilder editorBuilder = createEditorBuilder(null, object, title, iconImage, false);
@@ -1012,7 +1018,7 @@ public class SwingRenderer {
 	 * Opens a frame allowing to edit the given object.
 	 * 
 	 * @param object Any object.
-	 * @return the window builder allowing to check the status of the frame.
+	 * @return the editor builder allowing to check the status of the frame.
 	 */
 	public StandardEditorBuilder openObjectFrame(Object object) {
 		return openObjectFrame(object, null, null);
@@ -1038,16 +1044,26 @@ public class SwingRenderer {
 
 	/**
 	 * Runs a task while displaying a busy indicator in a modal dialog. Note that
-	 * the busy indicator is shown only if the task lasts long enough.
+	 * the busy indicator is shown only if the task lasts long enough. <br>
+	 * The following rules should be considered before using this method:
+	 * <ul>
+	 * <li>Invoke busy indication: we are in the UI thread and we are not updating
+	 * the UI and the task duration is long/unknown.</li>
+	 * <li>Invoke the UI thread: when we are not in the UI thread and we are
+	 * updating the UI (maybe to allow user input).</li>
+	 * <li>Run the task directly: otherwise.</li>
+	 * <ul>
 	 * 
 	 * @param activatorComponent A component belonging to the parent window of the
 	 *                           dialog or null.
-	 * @param runnable           The task to execute.
+	 * @param bakgroundTask      The task to execute.
 	 * @param title              The title of the dialog or null to have the default
 	 *                           title.
 	 */
-	public void showBusyDialogWhile(final Component activatorComponent, final Runnable runnable, final String title) {
-		if (Thread.currentThread() == busyDialogJobExecutorThread) {
+	public void showBusyDialogWhile(final Component activatorComponent, final Runnable bakgroundTask,
+			final String title) {
+		SwingRendererUtils.expectInUIThread();
+		if (Thread.currentThread().getName().equals(BUSY_DIALOG_CLOSER_NAME)) {
 			throw new ReflectionUIError(
 					"Illegal: must not call showBusyDialogWhile() from the busyDialogJobExecutorThread");
 		}
@@ -1056,7 +1072,7 @@ public class SwingRenderer {
 			@Override
 			public void run() {
 				try {
-					runnable.run();
+					bakgroundTask.run();
 				} catch (Throwable t) {
 					exceptionThrown[0] = t;
 				}

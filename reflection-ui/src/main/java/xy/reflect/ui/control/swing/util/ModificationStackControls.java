@@ -172,22 +172,21 @@ public class ModificationStackControls {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingRenderer.showBusyDialogWhile(result, new Runnable() {
-
-					@Override
-					public void run() {
-						try {
+				try {
+					swingRenderer.showBusyDialogWhile(result, new Runnable() {
+						@Override
+						public void run() {
 							action.run();
-						} catch (final Throwable t) {
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									swingRenderer.handleExceptionsFromDisplayedUI(result, t);
-								}
-							});
 						}
-					}
-				}, "Running: " + tooltipText.get());
+					}, "Running: " + tooltipText.get());
+				} catch (final Throwable t) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+						}
+					});
+				}
 			}
 		});
 		result.setEnabled(enabled.get());

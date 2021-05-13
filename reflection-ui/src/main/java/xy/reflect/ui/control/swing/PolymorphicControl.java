@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
@@ -43,7 +42,7 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.RejectedFieldControlInputException;
-import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
+import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -57,11 +56,9 @@ import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory.BlockedPoly
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control that can display values of different types. It uses 2
@@ -137,125 +134,9 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		return true;
 	}
 
-	protected void onSubTypeSelection(ITypeInfo selectedSubType) {
-		try {
-			Object instance;
-			if (selectedSubType == null) {
-				instance = null;
-			} else {
-				instance = subTypeInstanceCache.get(selectedSubType);
-				if (instance == null) {
-					instance = data.createValue(selectedSubType, true);
-					if (instance == null) {
-						return;
-					}
-				}
-			}
-			ReflectionUIUtils.setFieldValueThroughModificationStack(data, instance, input.getModificationStack());
-		} catch (Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
-		}
-		try {
-			refreshDynamicControl(false);
-			refreshTypeEnumerationControl(false);
-		} catch (Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(this, t);
-		}
-	}
-
 	protected Form createTypeEnumerationControl() {
-		typeEnumerationControlBuilder = new AbstractEditorFormBuilder() {
-
-			@Override
-			protected IContext getContext() {
-				return input.getContext();
-			}
-
-			@Override
-			protected IContext getSubContext() {
-				return null;
-			}
-
-			@Override
-			protected boolean isEncapsulatedFormEmbedded() {
-				return false;
-			}
-
-			@Override
-			protected boolean isNullValueDistinct() {
-				return data.isNullValueDistinct();
-			}
-
-			@Override
-			protected Object getInitialValue() {
-				return typeOptionsFactory.getInstance(getCurrentSubType());
-			}
-
-			@Override
-			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
-				return typeOptionsFactory.getInstanceTypeInfoSource(null);
-			}
-
-			@Override
-			protected ValueReturnMode getReturnModeFromParent() {
-				return ValueReturnMode.CALCULATED;
-			}
-
-			@Override
-			protected boolean canCommitToParent() {
-				return !data.isGetOnly();
-			}
-
-			@Override
-			protected boolean shouldIntegrateNewObjectValue(Object value) {
-				return true;
-			}
-
-			@Override
-			protected IModification createCommittingModification(final Object value) {
-				return new AbstractModificationProxy(IModification.NULL_MODIFICATION) {
-
-					@Override
-					public String toString() {
-						return "CommitModification [editor=PolymorphicControlEnumeration, data=" + data + "]";
-					}
-
-					@Override
-					public IModification applyAndGetOpposite() {
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								ITypeInfo selectedSubType = (value == null) ? null
-										: (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
-								onSubTypeSelection(selectedSubType);
-							}
-						});
-						return IModification.NULL_MODIFICATION;
-					}
-				};
-			}
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
-			protected String getParentModificationTitle() {
-				return FieldControlDataModification.getTitle(data.getCaption());
-			}
-
-			@Override
-			protected IInfoFilter getEncapsulatedFormFilter() {
-				return IInfoFilter.DEFAULT;
-			}
-
-			@Override
-			protected ModificationStack getParentModificationStack() {
-				return input.getModificationStack();
-			}
-
-		};
+		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,
+				getCurrentSubType(), subTypeInstanceCache);
 		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
 
@@ -290,78 +171,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	protected Form createDynamicControl(final ITypeInfo instanceType) {
-		dynamicControlBuilder = new AbstractEditorFormBuilder() {
-
-			@Override
-			protected IContext getContext() {
-				return input.getContext();
-			}
-
-			@Override
-			protected IContext getSubContext() {
-				return new CustomContext("PolymorphicInstance");
-			}
-
-			@Override
-			protected boolean isEncapsulatedFormEmbedded() {
-				return data.isFormControlEmbedded();
-			}
-
-			@Override
-			protected boolean isNullValueDistinct() {
-				return false;
-			}
-
-			@Override
-			protected boolean canCommitToParent() {
-				return !data.isGetOnly();
-			}
-
-			@Override
-			protected IModification createCommittingModification(Object newObjectValue) {
-				return new FieldControlDataModification(data, newObjectValue);
-			}
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
-			protected ValueReturnMode getReturnModeFromParent() {
-				return data.getValueReturnMode();
-			}
-
-			@Override
-			protected String getParentModificationTitle() {
-				return FieldControlDataModification.getTitle(data.getCaption());
-			}
-
-			@Override
-			protected IInfoFilter getEncapsulatedFormFilter() {
-				IInfoFilter result = data.getFormControlFilter();
-				if (result == null) {
-					result = IInfoFilter.DEFAULT;
-				}
-				return result;
-			}
-
-			@Override
-			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
-				return instanceType.getSource();
-			}
-
-			@Override
-			protected ModificationStack getParentModificationStack() {
-				return input.getModificationStack();
-			}
-
-			@Override
-			protected Object getInitialValue() {
-				return currentInstance;
-			}
-
-		};
+		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, input, instanceType, currentInstance);
 		return dynamicControlBuilder.createEditorForm(true, false);
 	}
 
@@ -437,6 +247,199 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	@Override
 	public String toString() {
 		return "PolymorphicControl [data=" + data + "]";
+	}
+
+	protected static class TypeEnumerationControlBuilder extends AbstractEditorFormBuilder {
+
+		protected SwingRenderer swingRenderer;
+		protected IFieldControlInput input;
+		protected IFieldControlData data;
+		protected PolymorphicTypeOptionsFactory typeOptionsFactory;
+		protected ITypeInfo currentSubType;
+		protected Map<ITypeInfo, Object> subTypeInstanceCache;
+
+		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
+				PolymorphicTypeOptionsFactory typeOptionsFactory, ITypeInfo currentSubType,
+				Map<ITypeInfo, Object> subTypeInstanceCache) {
+			this.swingRenderer = swingRenderer;
+			this.input = input;
+			this.data = input.getControlData();
+			this.typeOptionsFactory = typeOptionsFactory;
+			this.currentSubType = currentSubType;
+			this.subTypeInstanceCache = subTypeInstanceCache;
+		}
+
+		@Override
+		protected IContext getContext() {
+			return input.getContext();
+		}
+
+		@Override
+		protected IContext getSubContext() {
+			return null;
+		}
+
+		@Override
+		protected boolean isEncapsulatedFormEmbedded() {
+			return false;
+		}
+
+		@Override
+		protected boolean isNullValueDistinct() {
+			return data.isNullValueDistinct();
+		}
+
+		@Override
+		protected Object getInitialValue() {
+			return typeOptionsFactory.getInstance(currentSubType);
+		}
+
+		@Override
+		protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			return typeOptionsFactory.getInstanceTypeInfoSource(null);
+		}
+
+		@Override
+		protected ValueReturnMode getReturnModeFromParent() {
+			return ValueReturnMode.CALCULATED;
+		}
+
+		@Override
+		protected boolean canCommitToParent() {
+			return !data.isGetOnly();
+		}
+
+		@Override
+		protected boolean shouldIntegrateNewObjectValue(Object value) {
+			return true;
+		}
+
+		@Override
+		protected IModification createCommittingModification(final Object value) {
+			ITypeInfo selectedSubType = (value == null) ? null : (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
+			Object instance;
+			if (selectedSubType == null) {
+				instance = null;
+			} else {
+				instance = subTypeInstanceCache.get(selectedSubType);
+				if (instance == null) {
+					instance = data.createValue(selectedSubType, true);
+					if (instance == null) {
+						return IModification.NULL_MODIFICATION;
+					}
+				}
+			}
+			return new FieldControlDataModification(data, instance);
+		}
+
+		@Override
+		public SwingRenderer getSwingRenderer() {
+			return swingRenderer;
+		}
+
+		@Override
+		protected String getParentModificationTitle() {
+			return FieldControlDataModification.getTitle(data.getCaption());
+		}
+
+		@Override
+		protected IInfoFilter getEncapsulatedFormFilter() {
+			return IInfoFilter.DEFAULT;
+		}
+
+		@Override
+		protected ModificationStack getParentModificationStack() {
+			return input.getModificationStack();
+		}
+
+	}
+
+	protected static class DynamicControlBuilder extends AbstractEditorFormBuilder {
+
+		protected SwingRenderer swingRenderer;
+		protected IFieldControlInput input;
+		protected IFieldControlData data;
+		protected ITypeInfo instanceType;
+		protected Object currentInstance;
+
+		public DynamicControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input, ITypeInfo instanceType,
+				Object currentInstance) {
+			this.swingRenderer = swingRenderer;
+			this.input = input;
+			this.data = input.getControlData();
+			this.instanceType = instanceType;
+			this.currentInstance = currentInstance;
+		}
+
+		@Override
+		protected IContext getContext() {
+			return input.getContext();
+		}
+
+		@Override
+		protected IContext getSubContext() {
+			return new CustomContext("PolymorphicInstance");
+		}
+
+		@Override
+		protected boolean isEncapsulatedFormEmbedded() {
+			return data.isFormControlEmbedded();
+		}
+
+		@Override
+		protected boolean isNullValueDistinct() {
+			return false;
+		}
+
+		@Override
+		protected boolean canCommitToParent() {
+			return !data.isGetOnly();
+		}
+
+		@Override
+		protected IModification createCommittingModification(Object newObjectValue) {
+			return new FieldControlDataModification(data, newObjectValue);
+		}
+
+		@Override
+		public SwingRenderer getSwingRenderer() {
+			return swingRenderer;
+		}
+
+		@Override
+		protected ValueReturnMode getReturnModeFromParent() {
+			return data.getValueReturnMode();
+		}
+
+		@Override
+		protected String getParentModificationTitle() {
+			return FieldControlDataModification.getTitle(data.getCaption());
+		}
+
+		@Override
+		protected IInfoFilter getEncapsulatedFormFilter() {
+			IInfoFilter result = data.getFormControlFilter();
+			if (result == null) {
+				result = IInfoFilter.DEFAULT;
+			}
+			return result;
+		}
+
+		@Override
+		protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			return instanceType.getSource();
+		}
+
+		@Override
+		protected ModificationStack getParentModificationStack() {
+			return input.getModificationStack();
+		}
+
+		@Override
+		protected Object getInitialValue() {
+			return currentInstance;
+		}
+
 	}
 
 }

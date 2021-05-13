@@ -270,10 +270,8 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 	public IMethodControlData getInitialControlData() {
 		IMethodControlData result = new InitialMethodControlData(method);
-
 		result = makeMethodModificationsUndoable(result);
 		result = indicateWhenBusy(result);
-
 		return result;
 	}
 

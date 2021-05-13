@@ -33,6 +33,7 @@ import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,6 +81,7 @@ import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -668,15 +670,23 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 
 		@Override
-		public Object getObject() {
-			return form.getObject();
-		}
-
-		@Override
 		public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
 			if (selectableConstructor) {
-				return swingRenderer.onTypeInstanciationRequest(FieldControlPlaceHolder.this, typeToInstanciate,
-						getObject());
+				final Object[] result = new Object[1];
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
+							result[0] = swingRenderer.onTypeInstanciationRequest(FieldControlPlaceHolder.this,
+									typeToInstanciate, getObject());
+						}
+					});
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
+				} catch (InterruptedException e) {
+					throw new ReflectionUIError(e);
+				}
+				return result[0];
 			} else {
 				return ReflectionUIUtils.createDefaultInstance(typeToInstanciate, getObject());
 			}

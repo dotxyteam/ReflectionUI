@@ -60,11 +60,19 @@ public interface IMethodControlData {
 	List<IParameterInfo> getParameters();
 
 	/**
+	 * Executes the underlying method.
 	 * 
 	 * @param invocationData The parameter values.
 	 * @return the result of the underlying method execution.
 	 */
 	Object invoke(InvocationData invocationData);
+
+	/**
+	 * @param invocationData The parameter values.
+	 * @return a job that can revert the next invocation of the underlying method or
+	 *         null if the method execution cannot be reverted.
+	 */
+	Runnable getNextInvocationUndoJob(InvocationData invocationData);
 
 	/**
 	 * @return true if and only if the execution of the underlying method does not
@@ -77,13 +85,6 @@ public interface IMethodControlData {
 	 *         null return value.
 	 */
 	String getNullReturnValueLabel();
-
-	/**
-	 * @param invocationData The parameter values.
-	 * @return a job that can revert the next invocation of the underlying method or
-	 *         null if the method execution cannot be reverted.
-	 */
-	Runnable getNextInvocationUndoJob(InvocationData invocationData);
 
 	/**
 	 * Validates the values of the method parameters. An exception is thrown if the

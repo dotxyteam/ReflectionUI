@@ -37,10 +37,10 @@ import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
-import xy.reflect.ui.control.swing.editor.AbstractEditorWindowBuilder;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.builder.DialogBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.DialogBuilder;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.InvocationData;
@@ -210,7 +210,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
-		AbstractEditorWindowBuilder editorBuilder = new AbstractEditorWindowBuilder() {
+		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {
 
 			@Override
 			protected IContext getContext() {

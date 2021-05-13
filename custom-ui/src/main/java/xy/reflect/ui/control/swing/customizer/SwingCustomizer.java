@@ -37,6 +37,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -74,11 +75,11 @@ import xy.reflect.ui.util.SystemProperties;
 public class SwingCustomizer extends CustomizedSwingRenderer {
 
 	public static void main(String[] args) throws Exception {
-		Class<?> clazz = Object.class;
 		String usageText = "Expected arguments: [ <className> | --help ]"
 				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
 				+ "\n  => --help: Displays this help message" + "\n"
 				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + MoreSystemProperties.describe();
+		final Class<?> clazz;
 		if (args.length == 0) {
 			clazz = Object.class;
 		} else if (args.length == 1) {
@@ -91,13 +92,18 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		} else {
 			throw new IllegalArgumentException(usageText);
 		}
-		ReflectionUI reflectionUI = SwingCustomizer.getDefault().getReflectionUI();
-		Object object = SwingCustomizer.getDefault().onTypeInstanciationRequest(null,
-				reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)), null);
-		if (object == null) {
-			return;
-		}
-		SwingCustomizer.getDefault().openObjectFrame(object);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				ReflectionUI reflectionUI = SwingCustomizer.getDefault().getReflectionUI();
+				Object object = SwingCustomizer.getDefault().onTypeInstanciationRequest(null,
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)), null);
+				if (object == null) {
+					return;
+				}
+				SwingCustomizer.getDefault().openObjectFrame(object);
+			}
+		});
 	}
 
 	/**

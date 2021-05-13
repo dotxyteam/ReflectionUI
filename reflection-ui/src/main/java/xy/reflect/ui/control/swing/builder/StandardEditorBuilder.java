@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control.swing.editor;
+package xy.reflect.ui.control.swing.builder;
 
 import java.awt.Component;
 
@@ -45,7 +45,7 @@ import xy.reflect.ui.util.ReflectionUIError;
  * @author olitank
  *
  */
-public class StandardEditorBuilder extends AbstractEditorWindowBuilder {
+public class StandardEditorBuilder extends AbstractEditorBuilder {
 
 	protected SwingRenderer swingRenderer;
 	protected Component ownerComponent;

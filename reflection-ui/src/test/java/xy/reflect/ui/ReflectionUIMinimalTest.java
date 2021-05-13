@@ -3,12 +3,14 @@ package xy.reflect.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 public class ReflectionUIMinimalTest {
@@ -35,13 +37,18 @@ public class ReflectionUIMinimalTest {
 	}
 
 	@Test
-	public void test() {
-		Object object = new Thread();
-		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
-				renderer.getObjectIconImage(object), true, false);
-		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
-		dialogBuilder.getCreatedDialog().dispose();
-		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+	public void test() throws Exception{
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+				Object object = new Thread();
+				StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object,
+						renderer.getObjectTitle(object), renderer.getObjectIconImage(object), true, false);
+				Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
+				dialogBuilder.getCreatedDialog().dispose();
+				Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+			}
+		});
 	}
 
 }

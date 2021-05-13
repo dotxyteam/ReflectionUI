@@ -14,9 +14,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
+import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 import xy.reflect.ui.util.ImageIcon;
 import xy.reflect.ui.util.MoreSystemProperties;
 
@@ -39,17 +41,21 @@ public class FastFood implements Serializable {
 		if (fastFoodFile.exists()) {
 			fastFood.load(fastFoodFile);
 		}
-		
+
 		System.out.println("Set the following system property to disable the design mode:\n-D"
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "fastFood.icu");
-		StandardEditorBuilder windowBuilder = renderer.createEditorBuilder(null, fastFood, null, null, false);
-		windowBuilder.createAndShowFrame();
+		final StandardEditorBuilder windowBuilder = renderer.createEditorBuilder(null, fastFood, null, null, false);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				windowBuilder.createAndShowFrame();
+			}
+		});
 		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
-
 			@Override
 			public void windowClosing(WindowEvent e) {
 				fastFood.save(fastFoodFile);

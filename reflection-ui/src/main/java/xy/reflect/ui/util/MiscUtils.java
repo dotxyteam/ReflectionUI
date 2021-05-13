@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -259,9 +260,15 @@ public class MiscUtils {
 
 	public static ExecutorService newAutoShutdownSingleThreadExecutor(ThreadFactory threadFactory,
 			long idleTimeoutMilliseconds) {
-		ThreadPoolExecutor result = new ThreadPoolExecutor(1, 1, idleTimeoutMilliseconds, TimeUnit.MILLISECONDS,
+		ThreadPoolExecutor result = new ThreadPoolExecutor(0, 1, idleTimeoutMilliseconds, TimeUnit.MILLISECONDS,
 				new LinkedBlockingQueue<Runnable>(), threadFactory);
-		result.allowCoreThreadTimeOut(true);
+		return result;
+	}
+
+	public static ExecutorService newAutoShutdownMultiThreadExecutor(ThreadFactory threadFactory,
+			long idleTimeoutMilliseconds) {
+		ThreadPoolExecutor result = new ThreadPoolExecutor(0, Integer.MAX_VALUE, idleTimeoutMilliseconds,
+				TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>(), threadFactory);
 		return result;
 	}
 
@@ -278,12 +285,11 @@ public class MiscUtils {
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedCache(int maxSize) {
-		return newAutoCleanUpCache(true, false, maxSize, 1000,
-				"WeakKeysIdentityBasedCacheCleaner");
+		return newAutoCleanUpCache(true, false, maxSize, 1000, "WeakKeysIdentityBasedCacheCleaner");
 	}
 
-	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues,
-			int maxSize, final long cleanUpPeriodMilliseconds, String cleanUpThreadNamePrefix) {
+	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues, int maxSize,
+			final long cleanUpPeriodMilliseconds, String cleanUpThreadNamePrefix) {
 		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
 		if (maxSize != -1) {
 			builder = builder.maximumSize(maxSize);

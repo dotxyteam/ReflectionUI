@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
@@ -18,7 +20,7 @@ public class CustomizationsTest {
 		File tmpCustomizationsFile = File.createTempFile(CustomizationsTest.class.getName(), ".icu");
 		tmpCustomizationsFile.deleteOnExit();
 		reflectionUI.getInfoCustomizations().saveToFile(tmpCustomizationsFile, null);
-		SwingCustomizer swingCustomizer = new SwingCustomizer(reflectionUI, tmpCustomizationsFile.getPath()) {
+		final SwingCustomizer swingCustomizer = new SwingCustomizer(reflectionUI, tmpCustomizationsFile.getPath()) {
 
 			@Override
 			public boolean isCustomizationsEditorEnabled() {
@@ -49,7 +51,12 @@ public class CustomizationsTest {
 			}
 
 		};
-		swingCustomizer.openObjectFrame(new Sample(), null, null);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				swingCustomizer.openObjectFrame(new Sample(), null, null);
+			}
+		});
 	}
 
 	public static class Sample {

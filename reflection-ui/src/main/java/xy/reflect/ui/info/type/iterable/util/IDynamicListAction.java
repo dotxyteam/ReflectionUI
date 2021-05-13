@@ -39,7 +39,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
  * instance according to the current selection of items. Such an action will
  * typically be available on the list control tool bar.
  * 
- * The current selection is provided through
+ * The current selection is provided as the 1st parameter of
  * {@link IListTypeInfo#getDynamicActions(List, xy.reflect.ui.util.Mapper)}.
  * 
  * Note that the owner object passed to

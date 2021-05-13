@@ -40,9 +40,9 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 	protected Object[] bufferedRootListRawValue;
 	protected Object bufferedRootListValue;
 
-	protected abstract Object retrieveNonBufferedRootListValue();
+	protected abstract Object getNonBufferedRootListValue();
 
-	protected abstract void commitNonBufferedRootListValue(Object rootListValue);
+	protected abstract void setNonBufferedRootListValue(Object rootListValue);
 
 	@Override
 	public BufferedItemPosition getRootItemPosition(int index) {
@@ -57,7 +57,7 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 	@Override
 	public Object retrieveRootListValue() {
 		if (bufferedRootListValue == null) {
-			bufferedRootListValue = retrieveNonBufferedRootListValue();
+			bufferedRootListValue = getNonBufferedRootListValue();
 		}
 		return bufferedRootListValue;
 	}
@@ -72,7 +72,7 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 
 	@Override
 	public void commitRootListValue(Object rootListValue) {
-		commitNonBufferedRootListValue(rootListValue);
+		setNonBufferedRootListValue(rootListValue);
 		refresh();
 	}
 

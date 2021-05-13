@@ -3,6 +3,8 @@ package xy.reflect.ui.example;
 import java.io.IOException;
 import java.util.Objects;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.MoreSystemProperties;
@@ -29,9 +31,14 @@ public class ATMSimulator {
 				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
-		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
+		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "atmSimulator.icu");
-		renderer.openObjectFrame(new ATMSimulator());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				renderer.openObjectFrame(new ATMSimulator());
+			}
+		});
 	}
 
 	private boolean cardInserted = false;

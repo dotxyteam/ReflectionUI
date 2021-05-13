@@ -1,18 +1,20 @@
 package xy.reflect.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.swing.SwingUtilities;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
+import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.CustomizedSwingRenderer;
 import xy.reflect.ui.example.AudioPlayer;
 import xy.reflect.ui.example.LoginScreen;
@@ -43,54 +45,88 @@ public class MinimalTest {
 
 	@Test
 	public void testFileExplorer() throws Exception {
-		customizedUI.getInfoCustomizations().loadFromFile(new File("fileExplorer.icu"),
-				ReflectionUIUtils.getDebugLogListener(customizedUI));
-		Object object = new File[] { new File(System.getProperty("java.io.tmpdir")) };
-		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
-				renderer.getObjectIconImage(object), true, false);
-		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
-		dialogBuilder.getCreatedDialog().dispose();
-		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					customizedUI.getInfoCustomizations().loadFromFile(new File("fileExplorer.icu"),
+							ReflectionUIUtils.getDebugLogListener(customizedUI));
+				} catch (IOException e) {
+					throw new AssertionError(e);
+				}
+				Object object = new File[] { new File(System.getProperty("java.io.tmpdir")) };
+				StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object,
+						renderer.getObjectTitle(object), renderer.getObjectIconImage(object), true, false);
+				Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
+				dialogBuilder.getCreatedDialog().dispose();
+				Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+			}
+		});
 	}
 
 	@Test
 	public void testCalculator() throws Exception {
-		customizedUI.getInfoCustomizations().loadFromFile(new File("calculator.icu"),
-				ReflectionUIUtils.getDebugLogListener(customizedUI));
-		ScriptEngineManager factory = new ScriptEngineManager();
-		ScriptEngine engine = factory.getEngineByName("JavaScript");
-		Object object = engine;
-		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
-				renderer.getObjectIconImage(object), true, false);
-		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
-		dialogBuilder.getCreatedDialog().dispose();
-		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					customizedUI.getInfoCustomizations().loadFromFile(new File("calculator.icu"),
+							ReflectionUIUtils.getDebugLogListener(customizedUI));
+				} catch (IOException e) {
+					throw new AssertionError(e);
+				}
+				ScriptEngineManager factory = new ScriptEngineManager();
+				ScriptEngine engine = factory.getEngineByName("JavaScript");
+				Object object = engine;
+				StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object,
+						renderer.getObjectTitle(object), renderer.getObjectIconImage(object), true, false);
+				Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
+				dialogBuilder.getCreatedDialog().dispose();
+				Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+			}
+		});
 	}
-	
-	
+
 	@Test
 	public void testLoginScreen() throws Exception {
-		customizedUI.getInfoCustomizations().loadFromFile(new File("loginScreen.icu"),
-				ReflectionUIUtils.getDebugLogListener(customizedUI));
-		Object object = new LoginScreen();
-		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
-				renderer.getObjectIconImage(object), true, false);
-		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
-		dialogBuilder.getCreatedDialog().dispose();
-		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					customizedUI.getInfoCustomizations().loadFromFile(new File("loginScreen.icu"),
+							ReflectionUIUtils.getDebugLogListener(customizedUI));
+				} catch (IOException e) {
+					throw new AssertionError(e);
+				}
+				Object object = new LoginScreen();
+				StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object,
+						renderer.getObjectTitle(object), renderer.getObjectIconImage(object), true, false);
+				Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
+				dialogBuilder.getCreatedDialog().dispose();
+				Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+			}
+		});
 	}
-	
-	
+
 	@Test
 	public void testAudioPlayer() throws Exception {
-		customizedUI.getInfoCustomizations().loadFromFile(new File("audioPlayer.icu"),
-				ReflectionUIUtils.getDebugLogListener(customizedUI));
-		Object object = new AudioPlayer();
-		StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object, renderer.getObjectTitle(object),
-				renderer.getObjectIconImage(object), true, false);
-		Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
-		dialogBuilder.getCreatedDialog().dispose();
-		Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					customizedUI.getInfoCustomizations().loadFromFile(new File("audioPlayer.icu"),
+							ReflectionUIUtils.getDebugLogListener(customizedUI));
+				} catch (IOException e) {
+					throw new AssertionError(e);
+				}
+				Object object = new AudioPlayer();
+				StandardEditorBuilder dialogBuilder = renderer.openObjectDialog(null, object,
+						renderer.getObjectTitle(object), renderer.getObjectIconImage(object), true, false);
+				Assert.assertTrue(dialogBuilder.getCreatedDialog().isVisible());
+				dialogBuilder.getCreatedDialog().dispose();
+				Assert.assertTrue(!dialogBuilder.getCreatedDialog().isVisible());
+			}
+		});
 	}
 
 }

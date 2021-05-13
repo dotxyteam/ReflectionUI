@@ -1,3 +1,19 @@
+- the ui thread is for actions that need to update the ui.
+An action can start from the ui and end by modifying it.
+In the meantime the action can run in a background thread
+to allow the ui to display a feedback. Then the scheme is 
+ui-trigger, ui-busy-indication, background-processing and 
+then ui-update. Sometimes during the background processing
+some user input may be required. Then the ui thread will 
+be temporarilry solicited. These are the only possible schemes.
+Then
+	. when to invoke busy indication: when we are in the ui thread
+	and we are not updating the ui
+	. when to invoke the ui thread: when we are not in the ui thread 
+	and we update the ui (or when we require user input).
+	. when to run the task directly: otherwise
+- check why ReschedulableTask threads cannot be single. Normally they can
+since they do not reference the ReschedulableTask object.
 - Some objects and their editor components are never garbage collected
 when their editors are disposed. Find a solution. Check static caches. 
 - JFrames (maybe JDialog too) do not get garbaged. They are intended

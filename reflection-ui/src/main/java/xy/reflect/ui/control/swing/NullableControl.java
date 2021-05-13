@@ -48,7 +48,7 @@ import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.editor.AbstractEditorFormBuilder;
+import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -260,77 +260,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	protected Component createSubForm() {
-		subFormBuilder = new AbstractEditorFormBuilder() {
-
-			@Override
-			protected IContext getContext() {
-				return input.getContext();
-			}
-
-			@Override
-			protected IContext getSubContext() {
-				return NullableControl.this.getSubContext();
-			}
-
-			@Override
-			protected boolean isEncapsulatedFormEmbedded() {
-				return data.isFormControlEmbedded();
-			}
-
-			@Override
-			protected boolean isNullValueDistinct() {
-				return false;
-			}
-
-			@Override
-			protected boolean canCommitToParent() {
-				return !data.isGetOnly();
-			}
-
-			@Override
-			protected IModification createCommittingModification(Object newObjectValue) {
-				return new FieldControlDataModification(data, newObjectValue);
-			}
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
-			protected ValueReturnMode getReturnModeFromParent() {
-				return data.getValueReturnMode();
-			}
-
-			@Override
-			protected String getParentModificationTitle() {
-				return FieldControlDataModification.getTitle(data.getCaption());
-			}
-
-			@Override
-			protected IInfoFilter getEncapsulatedFormFilter() {
-				IInfoFilter result = data.getFormControlFilter();
-				if (result == null) {
-					result = IInfoFilter.DEFAULT;
-				}
-				return result;
-			}
-
-			@Override
-			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
-				return data.getType().getSource();
-			}
-
-			@Override
-			protected ModificationStack getParentModificationStack() {
-				return input.getModificationStack();
-			}
-
-			@Override
-			protected Object getInitialValue() {
-				return data.getValue();
-			}
-		};
+		subFormBuilder = new SubFormBuilder(swingRenderer, input, getSubContext());
 		Form result = subFormBuilder.createEditorForm(true, false);
 		return result;
 	}
@@ -376,4 +306,89 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	public String toString() {
 		return "NullableControl [data=" + data + "]";
 	}
+
+	protected static class SubFormBuilder extends AbstractEditorFormBuilder {
+
+		protected SwingRenderer swingRenderer;
+		protected IFieldControlInput input;
+		protected IFieldControlData data;
+		protected IContext subContext;
+
+		public SubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input, IContext subContext) {
+			this.swingRenderer = swingRenderer;
+			this.input = input;
+			this.data = input.getControlData();
+			this.subContext = subContext;
+		}
+
+		@Override
+		protected IContext getContext() {
+			return input.getContext();
+		}
+
+		@Override
+		protected IContext getSubContext() {
+			return subContext;
+		}
+
+		@Override
+		protected boolean isEncapsulatedFormEmbedded() {
+			return data.isFormControlEmbedded();
+		}
+
+		@Override
+		protected boolean isNullValueDistinct() {
+			return false;
+		}
+
+		@Override
+		protected boolean canCommitToParent() {
+			return !data.isGetOnly();
+		}
+
+		@Override
+		protected IModification createCommittingModification(Object newObjectValue) {
+			return new FieldControlDataModification(data, newObjectValue);
+		}
+
+		@Override
+		public SwingRenderer getSwingRenderer() {
+			return swingRenderer;
+		}
+
+		@Override
+		protected ValueReturnMode getReturnModeFromParent() {
+			return data.getValueReturnMode();
+		}
+
+		@Override
+		protected String getParentModificationTitle() {
+			return FieldControlDataModification.getTitle(data.getCaption());
+		}
+
+		@Override
+		protected IInfoFilter getEncapsulatedFormFilter() {
+			IInfoFilter result = data.getFormControlFilter();
+			if (result == null) {
+				result = IInfoFilter.DEFAULT;
+			}
+			return result;
+		}
+
+		@Override
+		protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			return data.getType().getSource();
+		}
+
+		@Override
+		protected ModificationStack getParentModificationStack() {
+			return input.getModificationStack();
+		}
+
+		@Override
+		protected Object getInitialValue() {
+			return data.getValue();
+		}
+	}
+
 }

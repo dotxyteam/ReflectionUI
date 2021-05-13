@@ -14,9 +14,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.CustomizedUI;
+import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.control.swing.editor.StandardEditorBuilder;
 
 public class Library implements Serializable {
 
@@ -28,12 +30,17 @@ public class Library implements Serializable {
 		if (libraryFile.exists()) {
 			library.load(libraryFile);
 		}
-		
+
 		CustomizedUI ui = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(ui,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "library.icu");
-		StandardEditorBuilder windowBuilder = renderer.createEditorBuilder(null, library, null, null, false);
-		windowBuilder.createAndShowFrame();
+		final StandardEditorBuilder windowBuilder = renderer.createEditorBuilder(null, library, null, null, false);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				windowBuilder.createAndShowFrame();
+			}
+		});
 		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
 
 			@Override

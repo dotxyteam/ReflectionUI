@@ -55,7 +55,12 @@ public class ResetMenuItem extends AbstractStandardActionMenuItem {
 
 	@Override
 	protected void execute() {
-		form.getModificationStack().undoAll();
+		swingRenderer.showBusyDialogWhile(form, new Runnable() {
+			@Override
+			public void run() {
+				form.getModificationStack().undoAll();
+			}
+		}, "Resetting");
 	}
 
 }

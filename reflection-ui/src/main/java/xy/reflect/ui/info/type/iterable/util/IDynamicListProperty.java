@@ -39,12 +39,11 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
  * according to the current selection of items. Such a property will typically
  * be available on the list control tool bar.
  * 
- * The current selection is provided through
+ * The current selection is provided as the 1st parameter of
  * {@link IListTypeInfo#getDynamicProperties(List, xy.reflect.ui.util.Mapper)}.
  * 
- * Note that the owner object passed to
- * {@link #invoke(Object, xy.reflect.ui.info.method.InvocationData)} is
- * {@link IDynamicListProperty#NO_OWNER}.
+ * Note that the owner object passed to {@link #setValue(Object, Object)} and
+ * {@link #getValue(Object)} is {@link IDynamicListProperty#NO_OWNER}.
  * 
  * @author olitank
  *

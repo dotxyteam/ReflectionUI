@@ -47,7 +47,7 @@ import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.swing.editor.AbstractEditorWindowBuilder;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -237,86 +237,15 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void openDialog(Component owner) {
-		AbstractEditorWindowBuilder subDialogBuilder = getSubDialogBuilder(owner);
+		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder(owner);
 		subDialogBuilder.createAndShowDialog();
 		if (subDialogBuilder.isParentModificationStackImpacted()) {
 			refreshUI(false);
 		}
 	}
 
-	protected AbstractEditorWindowBuilder getSubDialogBuilder(final Component owner) {
-		return new AbstractEditorWindowBuilder() {
-
-			@Override
-			protected IContext getContext() {
-				return input.getContext();
-			}
-
-			@Override
-			protected IContext getSubContext() {
-				return null;
-			}
-
-			@Override
-			protected boolean isEncapsulatedFormEmbedded() {
-				return true;
-			}
-
-			@Override
-			protected boolean isNullValueDistinct() {
-				return false;
-			}
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
-			protected ValueReturnMode getReturnModeFromParent() {
-				return data.getValueReturnMode();
-			}
-
-			@Override
-			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
-				return data.getType().getSource();
-			}
-
-			@Override
-			protected Object getInitialValue() {
-				return data.getValue();
-			}
-
-			@Override
-			protected String getParentModificationTitle() {
-				return FieldControlDataModification.getTitle(data.getCaption());
-			}
-
-			@Override
-			protected ModificationStack getParentModificationStack() {
-				return input.getModificationStack();
-			}
-
-			@Override
-			protected Component getOwnerComponent() {
-				return owner;
-			}
-
-			@Override
-			protected boolean canCommitToParent() {
-				return !data.isGetOnly();
-			}
-
-			@Override
-			protected IModification createCommittingModification(Object newObjectValue) {
-				return new FieldControlDataModification(data, newObjectValue);
-			}
-
-			@Override
-			protected IInfoFilter getEncapsulatedFormFilter() {
-				return data.getFormControlFilter();
-			}
-		};
+	protected AbstractEditorBuilder getSubDialogBuilder(final Component owner) {
+		return new SubDialogBuilder(swingRenderer, owner, input);
 	}
 
 	protected void updateActionControl() {
@@ -376,6 +305,91 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	@Override
 	public String toString() {
 		return "DialogAccessControl [data=" + data + "]";
+	}
+
+	protected static class SubDialogBuilder extends AbstractEditorBuilder {
+
+		protected SwingRenderer swingRenderer;
+		protected Component ownerComponent;
+		protected IFieldControlInput input;
+		protected IFieldControlData data;
+
+		public SubDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, IFieldControlInput input) {
+			this.swingRenderer = swingRenderer;
+			this.ownerComponent = ownerComponent;
+			this.input = input;
+			this.data = input.getControlData();
+		}
+
+		@Override
+		protected IContext getContext() {
+			return input.getContext();
+		}
+
+		@Override
+		protected IContext getSubContext() {
+			return null;
+		}
+
+		@Override
+		protected boolean isEncapsulatedFormEmbedded() {
+			return true;
+		}
+
+		@Override
+		protected boolean isNullValueDistinct() {
+			return false;
+		}
+
+		@Override
+		public SwingRenderer getSwingRenderer() {
+			return swingRenderer;
+		}
+
+		@Override
+		protected ValueReturnMode getReturnModeFromParent() {
+			return data.getValueReturnMode();
+		}
+
+		@Override
+		protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			return data.getType().getSource();
+		}
+
+		@Override
+		protected Object getInitialValue() {
+			return data.getValue();
+		}
+
+		@Override
+		protected String getParentModificationTitle() {
+			return FieldControlDataModification.getTitle(data.getCaption());
+		}
+
+		@Override
+		protected ModificationStack getParentModificationStack() {
+			return input.getModificationStack();
+		}
+
+		@Override
+		protected Component getOwnerComponent() {
+			return ownerComponent;
+		}
+
+		@Override
+		protected boolean canCommitToParent() {
+			return !data.isGetOnly();
+		}
+
+		@Override
+		protected IModification createCommittingModification(Object newObjectValue) {
+			return new FieldControlDataModification(data, newObjectValue);
+		}
+
+		@Override
+		protected IInfoFilter getEncapsulatedFormFilter() {
+			return data.getFormControlFilter();
+		}
 	}
 
 }

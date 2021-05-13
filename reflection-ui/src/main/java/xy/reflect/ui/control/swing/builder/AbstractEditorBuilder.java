@@ -26,7 +26,7 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control.swing.editor;
+package xy.reflect.ui.control.swing.builder;
 
 import java.awt.Component;
 import java.awt.Image;
@@ -39,11 +39,10 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.builder.DialogBuilder.BuiltDialog;
 import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.control.swing.util.DialogBuilder;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
-import xy.reflect.ui.control.swing.util.DialogBuilder.BuiltDialog;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -59,7 +58,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * @author olitank
  *
  */
-public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuilder {
+public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 	protected ModificationStack createdFormModificationStack;
 	protected EditorFrame createdFrame;
@@ -123,9 +122,9 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		if (isInReadOnlyMode()) {
 			return false;
 		}
-		Object encapsualted = getCapsule();
+		Object capsule = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
-				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsualted));
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.isModificationStackAccessible();
 	}
 
@@ -133,9 +132,9 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 * @return the title of the editor window.
 	 */
 	protected String getEditorWindowTitle() {
-		Object encapsulatedObject = getCapsule();
+		Object capsule = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
-				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(encapsulatedObject));
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
 	}
 
@@ -144,8 +143,8 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	 */
 	protected Image getEditorWindowIconImage() {
 		ensureIsInitialized();
-		Object encapsulatedObject = getCapsule();
-		Image result = getSwingRenderer().getObjectIconImage(encapsulatedObject);
+		Object capsule = getCapsule();
+		Image result = getSwingRenderer().getObjectIconImage(capsule);
 		if (result == null) {
 			ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
@@ -204,9 +203,17 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		return result;
 	}
 
+	/**
+	 * @return the modification stack of the target value/object.
+	 */
+	public ModificationStack getModificationStack() {
+		return createdFormModificationStack;
+	}
+
 	@Override
 	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
 		Form result = super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
+		createdFormModificationStack = result.getModificationStack();
 		return result;
 	}
 
@@ -241,8 +248,8 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	protected DialogBuilder createDelegateDialogBuilder() {
 		DialogBuilder dialogBuilder = getSwingRenderer().createDialogBuilder(getOwnerComponent());
 		ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
-		Object object = getCapsule();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		Object capsule = getCapsule();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(capsule));
 
 		if (type.getFormButtonBackgroundColor() != null) {
 			dialogBuilder.setButtonBackgroundColor(SwingRendererUtils.getColor(type.getFormButtonBackgroundColor()));
@@ -364,13 +371,6 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	}
 
 	/**
-	 * @return the modification stack of the target value/object.
-	 */
-	public ModificationStack getModificationStack() {
-		return createdFormModificationStack;
-	}
-
-	/**
 	 * @return whether a potential modification of the parent object is detected.
 	 */
 	public boolean isParentModificationStackImpacted() {
@@ -378,7 +378,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 	}
 
 	/**
-	 * Frame created using an implementation of {@link AbstractEditorWindowBuilder}.
+	 * Frame created using an implementation of {@link AbstractEditorBuilder}.
 	 * 
 	 * @author olitank
 	 *
@@ -388,12 +388,12 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		private static final long serialVersionUID = 1L;
 
 		protected WindowManager windowManager;
-		protected AbstractEditorWindowBuilder editorWindowBuilder;
+		protected AbstractEditorBuilder editorBuilder;
 		protected boolean disposed = false;
 
-		public EditorFrame(AbstractEditorWindowBuilder editorWindowBuilder) {
-			this.editorWindowBuilder = editorWindowBuilder;
-			this.windowManager = editorWindowBuilder.getSwingRenderer().createWindowManager(this);
+		public EditorFrame(AbstractEditorBuilder editorBuilder) {
+			this.editorBuilder = editorBuilder;
+			this.windowManager = editorBuilder.getSwingRenderer().createWindowManager(this);
 			installComponents();
 		}
 
@@ -405,7 +405,7 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 			disposed = true;
 			uninstallComponents();
 			this.windowManager = null;
-			this.editorWindowBuilder = null;
+			this.editorBuilder = null;
 			super.dispose();
 		}
 
@@ -414,10 +414,10 @@ public abstract class AbstractEditorWindowBuilder extends AbstractEditorFormBuil
 		}
 
 		protected void installComponents() {
-			Form editorForm = editorWindowBuilder.createEditorForm(false, false);
+			Form editorForm = editorBuilder.createEditorForm(false, false);
 			windowManager.install(editorForm,
-					new ArrayList<Component>(editorWindowBuilder.createMostButtonBarControls(editorForm)),
-					editorWindowBuilder.getEditorWindowTitle(), editorWindowBuilder.getEditorWindowIconImage());
+					new ArrayList<Component>(editorBuilder.createMostButtonBarControls(editorForm)),
+					editorBuilder.getEditorWindowTitle(), editorBuilder.getEditorWindowIconImage());
 		}
 
 		protected void uninstallComponents() {

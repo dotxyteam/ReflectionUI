@@ -54,7 +54,7 @@ public class RedoMenuItem extends AbstractStandardActionMenuItem {
 		super.initialize();
 		IModification nextRedoModification = form.getModificationStack().getNextRedoModification();
 		if (nextRedoModification != null) {
-			setToolTipText(nextRedoModification.getTitle());
+			setToolTipText(swingRenderer.prepareStringToDisplay(nextRedoModification.getTitle()));
 		} else {
 			setToolTipText(null);
 		}
@@ -67,7 +67,12 @@ public class RedoMenuItem extends AbstractStandardActionMenuItem {
 
 	@Override
 	protected void execute() {
-		form.getModificationStack().redo();
+		swingRenderer.showBusyDialogWhile(form, new Runnable() {
+			@Override
+			public void run() {
+				form.getModificationStack().redo();
+			}
+		}, getToolTipText());
 	}
 
 }
