@@ -132,7 +132,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	protected Object getInitialValue() {
+	protected Object loadValue() {
 		return rootObject;
 	}
 

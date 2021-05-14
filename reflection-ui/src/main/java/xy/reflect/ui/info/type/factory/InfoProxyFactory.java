@@ -407,10 +407,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return field.getDisplayAreaVerticalWeight();
 	}
 
-	protected void getDisplayAreaVerticalWeight(IFieldInfo field, Object object, boolean visible) {
-		field.onControlVisibilityChange(object, visible);
-	}
-
 	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
 		return method.getCategory();
 	}
@@ -473,8 +469,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return method.isHidden();
 	}
 
-	protected void onControlVisibilityChange(IMethodInfo method, Object object, boolean visible) {
+	protected void onControlVisibilityChange(Object object, boolean visible, IMethodInfo method,
+			ITypeInfo containingType) {
 		method.onControlVisibilityChange(object, visible);
+	}
+
+	protected void onControlVisibilityChange(Object object, boolean visible, IFieldInfo field,
+			ITypeInfo containingType) {
+		field.onControlVisibilityChange(object, visible);
 	}
 
 	protected String getSignature(IMethodInfo method, ITypeInfo containingType) {
@@ -1545,7 +1547,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, object, visible);
+			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, containingType);
 		}
 
 		@Override
@@ -1719,7 +1721,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			InfoProxyFactory.this.onControlVisibilityChange(base, object, visible);
+			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, containingType);
 		}
 
 		@Override

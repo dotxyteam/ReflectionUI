@@ -1,0 +1,322 @@
+package xy.reflect.ui.util;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+
+/**
+ * Wrapper allowing to associate an object with a predefined {@link ITypeInfo}.
+ * 
+ * @author olitank
+ *
+ */
+public class PrecomputedTypeInstanceWrapper {
+
+	protected Object instance;
+	protected ITypeInfo precomputedType;
+
+	public PrecomputedTypeInstanceWrapper(Object instance, ITypeInfo precomputedType) {
+		super();
+		this.instance = instance;
+		this.precomputedType = precomputedType;
+	}
+
+	/**
+	 * @return the wrapped object.
+	 */
+	public Object unwrap() {
+		return instance;
+	}
+
+	/**
+	 * @return the source of type information that must be used to process this
+	 *         wrapper.
+	 */
+	public ITypeInfoSource getTypeInfoSource() {
+		return new TypeInfoSource(precomputedType);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((instance == null) ? 0 : instance.hashCode());
+		result = prime * result + ((precomputedType == null) ? 0 : precomputedType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PrecomputedTypeInstanceWrapper other = (PrecomputedTypeInstanceWrapper) obj;
+		if (instance == null) {
+			if (other.instance != null)
+				return false;
+		} else if (!instance.equals(other.instance))
+			return false;
+		if (precomputedType == null) {
+			if (other.precomputedType != null)
+				return false;
+		} else if (!precomputedType.equals(other.precomputedType))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "PrecomputedTypeInfoWrapper [instance=" + instance + ", precomputedType=" + precomputedType + "]";
+	}
+
+	public static class TypeInfoSource implements ITypeInfoSource {
+
+		protected ITypeInfo precomputedType;
+
+		public TypeInfoSource(ITypeInfo precomputedType) {
+			this.precomputedType = precomputedType;
+		}
+
+		@Override
+		public ITypeInfo getTypeInfo() {
+			return new InfoFactory(this).wrapTypeInfo(precomputedType);
+		}
+
+		@Override
+		public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+			return precomputedType.getSource().getSpecificitiesIdentifier();
+		}
+
+		public ITypeInfo getPrecomputedType() {
+			return precomputedType;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((precomputedType == null) ? 0 : precomputedType.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			TypeInfoSource other = (TypeInfoSource) obj;
+			if (precomputedType == null) {
+				if (other.precomputedType != null)
+					return false;
+			} else if (!precomputedType.equals(other.precomputedType))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "PrecomputedTypeInstanceWrapper.TypeInfoSource [type=" + precomputedType + "]";
+		}
+
+	}
+
+	public static class InfoFactory extends InfoProxyFactory {
+
+		protected TypeInfoSource typeInfoSource;
+
+		public InfoFactory(TypeInfoSource typeInfoSource) {
+			this.typeInfoSource = typeInfoSource;
+		}
+
+		@Override
+		public String getIdentifier() {
+			return "PrecomputedTypeInstanceWrapping [type=" + typeInfoSource.getPrecomputedType().getName() + "]";
+		}
+
+		@Override
+		protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+				Object object) {
+			return super.getDefaultValue(param, method, containingType,
+					((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected boolean hasValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+				Object object) {
+			return super.hasValueOptions(param, method, containingType,
+					((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected Object[] getValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+				Object object) {
+			return super.getValueOptions(param, method, containingType,
+					((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
+			return super.getValue(((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
+		}
+
+		@Override
+		protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+			return super.hasValueOptions(((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
+		}
+
+		@Override
+		protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+			return super.getValueOptions(((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
+		}
+
+		@Override
+		protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+			super.setValue(((PrecomputedTypeInstanceWrapper) object).unwrap(), value, field, containingType);
+		}
+
+		@Override
+		protected Runnable getNextUpdateCustomUndoJob(Object object, Object value, IFieldInfo field,
+				ITypeInfo containingType) {
+			return super.getNextUpdateCustomUndoJob(((PrecomputedTypeInstanceWrapper) object).unwrap(), value, field,
+					containingType);
+		}
+
+		@Override
+		protected String toString(ITypeInfo type, Object object) {
+			return super.toString(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected boolean canCopy(ITypeInfo type, Object object) {
+			return super.canCopy(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected Object copy(ITypeInfo type, Object object) {
+			return super.copy(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
+				ITypeInfo containingType) {
+			return super.invoke(((PrecomputedTypeInstanceWrapper) object).unwrap(), invocationData, method,
+					containingType);
+		}
+
+		@Override
+		protected String getConfirmationMessage(Object object, InvocationData invocationData, IMethodInfo method,
+				ITypeInfo containingType) {
+			return super.getConfirmationMessage(((PrecomputedTypeInstanceWrapper) object).unwrap(), invocationData,
+					method, containingType);
+		}
+
+		@Override
+		protected void onControlVisibilityChange(Object object, boolean visible, IMethodInfo method,
+				ITypeInfo containingType) {
+			super.onControlVisibilityChange(((PrecomputedTypeInstanceWrapper) object).unwrap(), visible, method,
+					containingType);
+		}
+
+		@Override
+		protected void onControlVisibilityChange(Object object, boolean visible, IFieldInfo field,
+				ITypeInfo containingType) {
+			super.onControlVisibilityChange(((PrecomputedTypeInstanceWrapper) object).unwrap(), visible, field,
+					containingType);
+		}
+
+		@Override
+		protected void replaceContent(IListTypeInfo type, Object listValue, Object[] array) {
+			super.replaceContent(type, ((PrecomputedTypeInstanceWrapper) listValue).unwrap(), array);
+		}
+
+		@Override
+		protected Object fromArray(IListTypeInfo type, Object[] array) {
+			return new PrecomputedTypeInstanceWrapper(super.fromArray(type, array), type);
+		}
+
+		@Override
+		protected Object[] toArray(IListTypeInfo type, Object listValue) {
+			return super.toArray(type, ((PrecomputedTypeInstanceWrapper) listValue).unwrap());
+		}
+
+		@Override
+		protected void save(ITypeInfo type, Object object, OutputStream out) {
+			super.save(type, ((PrecomputedTypeInstanceWrapper) object).unwrap(), out);
+		}
+
+		@Override
+		protected void load(ITypeInfo type, Object object, InputStream in) {
+			super.load(type, ((PrecomputedTypeInstanceWrapper) object).unwrap(), in);
+		}
+
+		@Override
+		protected boolean supportsInstance(ITypeInfo type, Object object) {
+			if (object == null) {
+				return super.supportsInstance(type, null);
+			}
+			return super.supportsInstance(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
+			return super.onFormVisibilityChange(type, ((PrecomputedTypeInstanceWrapper) object).unwrap(), visible);
+		}
+
+		@Override
+		protected ITypeInfoSource getSource(ITypeInfo type) {
+			return typeInfoSource;
+		}
+
+		@Override
+		protected void validate(ITypeInfo type, Object object) throws Exception {
+			super.validate(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+		@Override
+		protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
+				InvocationData invocationData) throws Exception {
+			super.validateParameters(method, containingType, ((PrecomputedTypeInstanceWrapper) object).unwrap(),
+					invocationData);
+		}
+
+		@Override
+		protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo containingType, Object object,
+				InvocationData invocationData) {
+			return super.getNextInvocationUndoJob(method, containingType,
+					((PrecomputedTypeInstanceWrapper) object).unwrap(), invocationData);
+		}
+
+		@Override
+		protected Object[] getPossibleValues(IEnumerationTypeInfo type) {
+			Object[] result = super.getPossibleValues(type);
+			for (int i = 0; i < result.length; i++) {
+				result[i] = new PrecomputedTypeInstanceWrapper(result[i], type);
+			}
+			return result;
+		}
+
+		@Override
+		protected IEnumerationItemInfo getValueInfo(IEnumerationTypeInfo type, Object object) {
+			return super.getValueInfo(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+		}
+
+	}
+
+}

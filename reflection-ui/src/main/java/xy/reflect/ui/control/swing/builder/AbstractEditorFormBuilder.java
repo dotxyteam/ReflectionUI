@@ -53,22 +53,22 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 /**
  * This is a base class for form-based editor factories.
  * 
- * Each instance of this class handles a target value/object according to the
+ * Each instance of this class handles a local value/object according to the
  * specifications provided through the implementation of the various methods.
  * 
- * Note that the target value/object is encapsulated in a virtual parent object
+ * Note that the local value/object is encapsulated in a virtual parent object
  * for practical reasons. The editor is thus a form representing this capsule.
  * 
  * This class also handles the complex relationship that may exists between the
- * target value/object and a potential parent object. The parent object form
- * will typically embed (real-time link) or maintain a detached parent-child
- * relationship (e.g.: child dialog) with the target value/object form. Note
- * that the target value/object modifications will be committed to the parent
- * object and forwarded so that they can be undone or redone through the parent
+ * local value/object and a potential parent object. The parent object form will
+ * typically embed (real-time link) or maintain a detached parent-child
+ * relationship (e.g.: child dialog) with the local value/object form. Note that
+ * the local value/object modifications will be committed to the parent object
+ * and forwarded so that they can be undone or redone through the parent
  * modification stack.
  * 
  * A real-time link with the parent object form can be exclusive, meaning that
- * the target value/object form is the only child of its parent object form. It
+ * the local value/object form is the only child of its parent object form. It
  * affects the 'undo' management.
  * 
  * @author olitank
@@ -82,7 +82,7 @@ public abstract class AbstractEditorFormBuilder {
 	protected Accessor<Object> encapsulatedObjectValueAccessor;
 
 	/**
-	 * @return the renderer used to create the target value/object form(s).
+	 * @return the renderer used to create the local value/object form(s).
 	 */
 	public abstract SwingRenderer getSwingRenderer();
 
@@ -100,7 +100,7 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract String getParentModificationTitle();
 
 	/**
-	 * @return whether modifications of the target value/object can be committed
+	 * @return whether modifications of the local value/object can be committed
 	 *         (using the result of {@link #createCommittingModification(Object)})
 	 *         to make them real for the parent object.
 	 */
@@ -108,7 +108,7 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @param newObjectValue
-	 * @return a modification that will be applied in order to make any target
+	 * @return a modification that will be applied in order to make any local
 	 *         value/object modification real for the parent object. Typically
 	 *         primitive field values would need to be committed (set back) to their
 	 *         parent object after modification.
@@ -117,13 +117,13 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return the source of the type information that will be used to handle the
-	 *         target value/object. If null is returned then this type information
-	 *         source will be dynamically inferred from the target value/object.
+	 *         local value/object. If null is returned then this type information
+	 *         source will be dynamically inferred from the local value/object.
 	 */
 	protected abstract ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource();
 
 	/**
-	 * @return the return mode (from the parent object) of the target value/object.
+	 * @return the return mode (from the parent object) of the local value/object.
 	 */
 	protected abstract ValueReturnMode getReturnModeFromParent();
 
@@ -134,9 +134,9 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract boolean isNullValueDistinct();
 
 	/**
-	 * @return the initial target object/value.
+	 * @return the initial local object/value.
 	 */
-	protected abstract Object getInitialValue();
+	protected abstract Object loadValue();
 
 	/**
 	 * @return an object that will be used to uniquely name the capsule type (may be
@@ -151,7 +151,7 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract IContext getSubContext();
 
 	/**
-	 * Ensures that the initial target value/object has been acquired.
+	 * Ensures that the initial local value/object has been acquired.
 	 */
 	protected void ensureIsInitialized() {
 		if (objectValueInitialized) {
@@ -159,7 +159,7 @@ public abstract class AbstractEditorFormBuilder {
 		}
 		encapsulatedObjectValueAccessor = new Accessor<Object>() {
 
-			Object object = initialObjectValue = getInitialValue();
+			Object object = initialObjectValue = loadValue();
 
 			@Override
 			public Object get() {
@@ -177,14 +177,14 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the initial target value/object has been acquired or not.
+	 * @return whether the initial local value/object has been acquired or not.
 	 */
 	public boolean isInitialized() {
 		return objectValueInitialized;
 	}
 
 	/**
-	 * @return whether the target object/value has been replaced during the lifetime
+	 * @return whether the local object/value has been replaced during the lifetime
 	 *         of the editor control. Typically immutable objects like primitive
 	 *         wrappers would be replaced on every modification.
 	 */
@@ -193,7 +193,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the current target object/value.
+	 * @return the current local object/value.
 	 */
 	public Object getCurrentValue() {
 		ensureIsInitialized();
@@ -201,7 +201,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the capsule holding the target value/object.
+	 * @return the capsule holding the local value/object.
 	 */
 	public Object getCapsule() {
 		ensureIsInitialized();
@@ -235,7 +235,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the target value/object capsule factory.
+	 * @return the local value/object capsule factory.
 	 */
 	public EncapsulatedObjectFactory getEncapsulation() {
 		ITypeInfo fieldType = getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource());
@@ -270,21 +270,21 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return a form filter that will used (in case the target value/object is
+	 * @return a form filter that will used (in case the local value/object is
 	 *         represented by a generic form control).
 	 */
 	protected abstract IInfoFilter getEncapsulatedFormFilter();
 
 	/**
-	 * @return whether the target object/value form is embedded in the editor
-	 *         control or displayed in a child dialog. Note that this method has no
-	 *         impact in case the target value/object is not represented by a
-	 *         generic form control.
+	 * @return whether the local object/value form is embedded in the editor control
+	 *         or displayed in a child dialog. Note that this method has no impact
+	 *         in case the local value/object is not represented by a generic form
+	 *         control.
 	 */
 	protected abstract boolean isEncapsulatedFormEmbedded();
 
 	/**
-	 * @return true if the target value/object must be displayed as a generic form
+	 * @return true if the local value/object must be displayed as a generic form
 	 *         (not a custom control).
 	 */
 	protected boolean isCustomEncapsulatedControlForbidden() {
@@ -292,7 +292,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the name of the encapsulated field that will return target
+	 * @return the name of the encapsulated virtual field that will return local
 	 *         value/object.
 	 */
 	protected String getEncapsulatedFieldName() {
@@ -343,7 +343,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the caption of the encapsulated field that will return target
+	 * @return the caption of the encapsulated virtual field that will return local
 	 *         value/object.
 	 */
 	protected String getEncapsulatedFieldCaption() {
@@ -352,7 +352,7 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return the source of the type information that is used to qualify the
-	 *         encapsulated field that returns the target value/object.
+	 *         encapsulated virtual field that returns the local value/object.
 	 */
 	protected ITypeInfoSource getEncapsulatedFieldTypeSource() {
 		ITypeInfoSource result = getEncapsulatedFieldDeclaredTypeSource();
@@ -368,8 +368,8 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return whether the editor control is refreshed every time a modification of
-	 *         the target value/object is detected. It typically allows to keep a
-	 *         calculated read-only target value/object coherent by resetting it
+	 *         the local value/object is detected. It typically allows to keep a
+	 *         calculated read-only local value/object coherent by resetting it
 	 *         whenever it is modified.
 	 */
 	protected boolean isEditorFormRefreshedOnModification() {
@@ -377,7 +377,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return true if the target value/object modifications does not impact the
+	 * @return true if the local value/object modifications does not impact the
 	 *         parent object. If there is no parent object then false should be
 	 *         returned.
 	 */
@@ -427,11 +427,10 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * Installs the link between the target value/object editor control and its
+	 * Installs the link between the local value/object editor control and its
 	 * parent object form.
 	 * 
-	 * @param editorForm              The created target value/object editor
-	 *                                control.
+	 * @param editorForm              The created local value/object editor control.
 	 * @param realTimeLinkWithParent  Whether a real-time link should be maintained
 	 *                                with the parent object.
 	 * @param exclusiveLinkWithParent Whether the real-time link with the parent
@@ -451,15 +450,15 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the target value/object has a parent object or not.
+	 * @return whether the local value/object has a parent object or not.
 	 */
 	protected boolean hasParentObject() {
 		return getParentModificationStack() != null;
 	}
 
 	/**
-	 * @return whether modifications of the target value/object may impact the
-	 *         parent object.
+	 * @return whether modifications of the local value/object may impact the parent
+	 *         object.
 	 */
 	public boolean mayModifyParentObject() {
 		if (!hasParentObject()) {
@@ -473,7 +472,7 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * Installs a listener that will trigger the editor control refreshing whenever
-	 * a modification of the target value/object is detected.
+	 * a modification of the local value/object is detected.
 	 * 
 	 * @param editorForm The created editor control.
 	 */
@@ -488,7 +487,7 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * Refreshes the editor control.
+	 * Reloads the local object/value and refreshes the editor control.
 	 * 
 	 * @param editorForm       The created editor control.
 	 * @param refreshStructure Whether the editor control should update its
@@ -496,21 +495,22 @@ public abstract class AbstractEditorFormBuilder {
 	 *                         (mainly used in design mode).
 	 */
 	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
-		encapsulatedObjectValueAccessor.set(getInitialValue());
+		encapsulatedObjectValueAccessor.set(loadValue());
 		editorForm.refresh(refreshStructure);
 	}
 
 	/**
-	 * @param value The new target value.
-	 * @return whether the new target value passed as argument should be integrated
-	 *         or not, typically because it was accepted or rejected by a user.
+	 * @param value The new local value.
+	 * @return whether the new local value passed as argument should be integrated
+	 *         in the parent object or not, typically because it was accepted or
+	 *         rejected by a user.
 	 */
 	protected boolean shouldIntegrateNewObjectValue(Object value) {
 		return true;
 	}
 
 	/**
-	 * Installs on the editor control a listener that will forward the target
+	 * Installs on the editor control a listener that will forward the local
 	 * value/object modifications to the parent object modification stack.
 	 * 
 	 * @param editorForm              The created editor control.

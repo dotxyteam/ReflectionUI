@@ -1230,7 +1230,20 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-		return listData.createValue(typeToInstanciate, constructorSelectable);
+		ItemUIBuilder itemUIBuilder = new ItemUIBuilder(itemPosition) {
+			@Override
+			protected Object loadValue() {
+				return null;
+			}
+
+			@Override
+			protected String getEncapsulatedFieldName() {
+				return "";
+			}
+
+		};
+		return itemUIBuilder.createEditorForm(false, false).getFieldControlPlaceHolder("").getControlData()
+				.createValue(typeToInstanciate, constructorSelectable);
 	}
 
 	protected AbstractStandardListAction createAddChildAction() {
@@ -1240,7 +1253,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
 		Object capsule = new ItemUIBuilder(itemPosition) {
 			@Override
-			protected Object getInitialValue() {
+			protected Object loadValue() {
 				return null;
 			}
 		}.getCapsule();
@@ -1480,21 +1493,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
-		restoringSelectionAsMuchAsPossible(new Runnable() {
-			@Override
-			public void run() {
-				restoringExpandedPathsAsMuchAsPossible(new Runnable() {
-					@Override
-					public void run() {
-						refreshTreeTableModelAndControl(refreshStructure);
-					}
-				});
-			}
-		});
 		if (refreshStructure) {
 			removeAll();
 			detailsMode = null;
+			structuralInfo = null;
 			layoutControls();
+			refreshTreeTableModelAndControl(refreshStructure);
 			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
@@ -1503,6 +1507,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			refreshTreeTableComponentHeader();
 			refreshRendrers();
 			SwingRendererUtils.handleComponentSizeChange(this);
+		} else {
+			restoringSelectionAsMuchAsPossible(new Runnable() {
+				@Override
+				public void run() {
+					restoringExpandedPathsAsMuchAsPossible(new Runnable() {
+						@Override
+						public void run() {
+							refreshTreeTableModelAndControl(refreshStructure);
+						}
+					});
+				}
+			});
+			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
+				updateDetailsArea(false);
+			}
 		}
 		return true;
 	}
@@ -2103,7 +2122,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected Object getInitialValue() {
+		protected Object loadValue() {
 			bufferedItemPosition.refreshContainingList();
 			return bufferedItemPosition.getItem();
 		}
@@ -2995,7 +3014,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				protected Object getInitialValue() {
+				protected Object loadValue() {
 					return dynamicProperty.getValue(IDynamicListProperty.NO_OWNER);
 				}
 

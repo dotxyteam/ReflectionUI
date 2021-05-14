@@ -65,6 +65,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -200,16 +201,15 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = (IListTypeInfo) reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
+			type = (IListTypeInfo) reflectionUI
+					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 		}
 		return type;
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		Object result = new ValueInstance(object);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new ValueTypeInfo());
-		return result;
+		return new PrecomputedTypeInstanceWrapper(new ValueInstance(object), new ValueTypeInfo());
 	}
 
 	@Override
@@ -219,7 +219,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		ValueInstance implicitListFieldValue = (ValueInstance) value;
+		ValueInstance implicitListFieldValue = (ValueInstance) ((PrecomputedTypeInstanceWrapper) value).unwrap();
 		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
 			throw new ReflectionUIError();
 		}

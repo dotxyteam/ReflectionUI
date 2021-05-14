@@ -357,7 +357,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		}
 
 		@Override
-		protected Object getInitialValue() {
+		protected Object loadValue() {
 			return data.getValue();
 		}
 

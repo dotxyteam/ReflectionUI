@@ -103,8 +103,10 @@ public class SlaveModificationStack extends ModificationStack {
 		IModification committingModif = committingModificationGetter.get();
 		String modifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
 		String modifTitlePrefix = masterModificationTitleGetter.get();
-		if (modifTitlePrefix != null) {
+		if ((modifTitlePrefix != null) && (modifTitle != null)) {
 			modifTitle = ReflectionUIUtils.composeMessage(modifTitlePrefix, modifTitle);
+		} else if (modifTitlePrefix != null) {
+			modifTitle = modifTitlePrefix;
 		}
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		return ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,

@@ -457,7 +457,7 @@ public class SwingRenderer {
 						return null;
 					}
 					return onTypeInstanciationRequest(activatorComponent,
-							(ITypeInfo) enumFactory.unwrapInstance(resultEnumItem), parentObject);
+							(ITypeInfo) enumFactory.getInstanceItem(resultEnumItem), parentObject);
 				}
 			} else {
 				List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
@@ -496,7 +496,7 @@ public class SwingRenderer {
 						if (resultEnumItem == null) {
 							return null;
 						}
-						chosenConstructor = (IMethodInfo) enumFactory.unwrapInstance(resultEnumItem);
+						chosenConstructor = (IMethodInfo) enumFactory.getInstanceItem(resultEnumItem);
 						if (chosenConstructor == null) {
 							return null;
 						}
@@ -659,11 +659,11 @@ public class SwingRenderer {
 		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 				.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 		Object resultEnumItem = openSelectionDialog(parentComponent, enumType,
-				enumFactory.getInstance(initialSelection), message, title);
+				enumFactory.getItemInstance(initialSelection), message, title);
 		if (resultEnumItem == null) {
 			return null;
 		}
-		T result = (T) enumFactory.unwrapInstance(resultEnumItem);
+		T result = (T) enumFactory.getInstanceItem(resultEnumItem);
 		return result;
 
 	}
@@ -1048,7 +1048,7 @@ public class SwingRenderer {
 	 * The following rules should be considered before using this method:
 	 * <ul>
 	 * <li>Invoke busy indication: we are in the UI thread and we are not updating
-	 * the UI and the task duration is long/unknown.</li>
+	 * the UI (not mandatory if the task duration is known and short).</li>
 	 * <li>Invoke the UI thread: when we are not in the UI thread and we are
 	 * updating the UI (maybe to allow user input).</li>
 	 * <li>Run the task directly: otherwise.</li>

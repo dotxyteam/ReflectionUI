@@ -53,6 +53,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -105,20 +106,18 @@ public class GenericEnumerationFactory {
 		return ReflectionUIUtils.getIconImagePath(reflectionUI, item);
 	}
 
-	public Object getInstance(Object item) {
+	public Object getItemInstance(Object item) {
 		if (item == null) {
 			return null;
 		}
-		Instance result = new Instance(item);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
-		return result;
+		return new PrecomputedTypeInstanceWrapper(new Instance(item), new TypeInfo());
 	}
 
-	public Object unwrapInstance(Object obj) {
-		if (obj == null) {
+	public Object getInstanceItem(Object object) {
+		if (object == null) {
 			return null;
 		}
-		Instance instance = (Instance) obj;
+		Instance instance = (Instance) ((PrecomputedTypeInstanceWrapper) object).unwrap();
 		if (!instance.getOuterType().equals(this)) {
 			throw new ReflectionUIError();
 		}
@@ -126,7 +125,12 @@ public class GenericEnumerationFactory {
 	}
 
 	public ITypeInfoSource getInstanceTypeInfoSource(SpecificitiesIdentifier specificitiesIdentifier) {
-		return new PrecomputedTypeInfoSource(new TypeInfo(), specificitiesIdentifier);
+		return new PrecomputedTypeInstanceWrapper.TypeInfoSource(new TypeInfo()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return specificitiesIdentifier;
+			}
+		};
 	}
 
 	@Override
@@ -408,7 +412,7 @@ public class GenericEnumerationFactory {
 
 					@Override
 					public Object invoke(Object parentObject, InvocationData invocationData) {
-						return getInstance(iterable.iterator().next());
+						return getItemInstance(iterable.iterator().next());
 					}
 
 					@Override
@@ -421,16 +425,25 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public Object[] getPossibleValues() {
-			List<Instance> result = new ArrayList<Instance>();
+			List<Object> result = new ArrayList<Object>();
 			for (Object item : iterable) {
-				result.add((Instance) getInstance(item));
+				result.add(new Instance(item));
 			}
 			return result.toArray();
 		}
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(final Object object) {
-			final Object item = unwrapInstance(object);
+			final Object item;
+			if (object == null) {
+				item = null;
+			} else {
+				Instance instance = (Instance) object;
+				if (!instance.getOuterType().equals(getOuterType())) {
+					throw new ReflectionUIError();
+				}
+				item = instance.getArrayItem();
+			}
 			return new ItemInfo(item);
 		}
 

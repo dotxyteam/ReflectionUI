@@ -56,6 +56,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ArrayAccessor;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -117,9 +118,11 @@ public class EncapsulatedObjectFactory {
 		if ((value != null) && !fieldType.supportsInstance(value)) {
 			throw new ReflectionUIError();
 		}
-		Instance result = new Instance(fieldValueAccessor);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
-		return result;
+		return new PrecomputedTypeInstanceWrapper(new Instance(fieldValueAccessor), new TypeInfo());
+	}
+
+	public Object getInstance(Object[] fieldValueHolder) {
+		return getInstance(new ArrayAccessor<Object>(fieldValueHolder));
 	}
 
 	public String getTypeName() {
@@ -300,21 +303,6 @@ public class EncapsulatedObjectFactory {
 
 	protected Runnable getFieldCustomUndoUpdateJob(Object object, Object value) {
 		return null;
-	}
-
-	public Object getInstance(Object[] fieldValueHolder) {
-		return getInstance(new ArrayAccessor<Object>(fieldValueHolder));
-	}
-
-	public Object unwrapInstance(Object obj) {
-		if (obj == null) {
-			return null;
-		}
-		Instance instance = (Instance) obj;
-		if (!instance.getOuterType().equals(this)) {
-			throw new ReflectionUIError();
-		}
-		return instance.getValue();
 	}
 
 	@Override
@@ -723,7 +711,6 @@ public class EncapsulatedObjectFactory {
 		}
 
 		public Instance(Accessor<Object> fieldValueAccessor) {
-			super();
 			this.fieldValueAccessor = fieldValueAccessor;
 		}
 

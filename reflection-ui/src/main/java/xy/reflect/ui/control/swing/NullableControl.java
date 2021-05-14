@@ -386,7 +386,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 
 		@Override
-		protected Object getInitialValue() {
+		protected Object loadValue() {
 			return data.getValue();
 		}
 	}

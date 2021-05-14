@@ -33,9 +33,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
+import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
@@ -57,6 +59,8 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -135,8 +139,26 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	protected Form createTypeEnumerationControl() {
+		Listener<Object> beforeCommit = new Listener<Object>() {
+			@Override
+			public void handle(Object newInstance) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						currentInstance = newInstance;
+						refreshDynamicControl(false);
+					}
+				});
+			}
+		};
+		Accessor<ITypeInfo> currentSubTypeAccessor = new Accessor<ITypeInfo>() {
+			@Override
+			public ITypeInfo get() {
+				return getCurrentSubType();
+			}
+		};
 		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,
-				getCurrentSubType(), subTypeInstanceCache);
+				currentSubTypeAccessor, subTypeInstanceCache, beforeCommit);
 		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
 
@@ -255,18 +277,20 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected PolymorphicTypeOptionsFactory typeOptionsFactory;
-		protected ITypeInfo currentSubType;
+		protected Accessor<ITypeInfo> currentSubTypeAccessor;
 		protected Map<ITypeInfo, Object> subTypeInstanceCache;
+		protected Listener<Object> beforeCommit;
 
 		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
-				PolymorphicTypeOptionsFactory typeOptionsFactory, ITypeInfo currentSubType,
-				Map<ITypeInfo, Object> subTypeInstanceCache) {
+				PolymorphicTypeOptionsFactory typeOptionsFactory, Accessor<ITypeInfo> currentSubTypeAccessor,
+				Map<ITypeInfo, Object> subTypeInstanceCache, Listener<Object> beforeCommit) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
 			this.typeOptionsFactory = typeOptionsFactory;
-			this.currentSubType = currentSubType;
+			this.currentSubTypeAccessor = currentSubTypeAccessor;
 			this.subTypeInstanceCache = subTypeInstanceCache;
+			this.beforeCommit = beforeCommit;
 		}
 
 		@Override
@@ -290,8 +314,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
-		protected Object getInitialValue() {
-			return typeOptionsFactory.getInstance(currentSubType);
+		protected Object loadValue() {
+			return typeOptionsFactory.getItemInstance(currentSubTypeAccessor.get());
 		}
 
 		@Override
@@ -316,7 +340,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 		@Override
 		protected IModification createCommittingModification(final Object value) {
-			ITypeInfo selectedSubType = (value == null) ? null : (ITypeInfo) typeOptionsFactory.unwrapInstance(value);
+			ITypeInfo selectedSubType = (value == null) ? null : (ITypeInfo) typeOptionsFactory.getInstanceItem(value);
 			Object instance;
 			if (selectedSubType == null) {
 				instance = null;
@@ -329,7 +353,14 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					}
 				}
 			}
-			return new FieldControlDataModification(data, instance);
+			final Object finalInstance = instance;
+			return new FieldControlDataModification(new FieldControlDataProxy(data) {
+				@Override
+				public void setValue(Object value) {
+					beforeCommit.handle(value);
+					super.setValue(value);
+				}
+			}, finalInstance);
 		}
 
 		@Override
@@ -436,7 +467,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
-		protected Object getInitialValue() {
+		protected Object loadValue() {
 			return currentInstance;
 		}
 
