@@ -70,24 +70,24 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.info.method.InvocationData;
 
 /**
- * This is default implementation of global abstract UI model transformers.
+ * This is the default implementation of abstract UI model transformers.
  * 
  * By default this class generates proxies that behave exactly like the wrapped
  * objects. In order to change the generated UI behavior, the appropriate
  * methods of this class must be overriden.
  * 
- * By convention these methods have the same name as the methods of the elements
- * of the abstract UI model they affect. In addition, they have parameters that
- * specify the invocation context.
+ * By convention these methods have the same name as the methods of the
+ * underlying abstract UI model elements that they affect. In addition, they
+ * have parameters that specify the invocation context.
  * 
  * Ex: Overriding {@link #getCaption(IFieldInfo, ITypeInfo)} allows to change
- * the behavior of {@link IFieldInfo#getCaption()} according to the parent
+ * the behavior of {@link IFieldInfo#getCaption()} according to the containing
  * {@link ITypeInfo} instance.
  * 
  * Note: To avoid accidentally wrapping the same object with the same proxy
  * multiple times, a check is made by comparing the return values of
  * {@link #getIdentifier ()} for the factories that generated each proxy. If a
- * duplicate is found, an exception will be thrown. It may then be necessary to
+ * duplicate is found then an exception is thrown. It may then be necessary to
  * override {@link #getIdentifier ()} to distinguish between two presumed
  * identical proxies.
  * 
@@ -407,10 +407,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return field.getDisplayAreaVerticalWeight();
 	}
 
-	protected void getDisplayAreaVerticalWeight(IFieldInfo field, Object object, boolean visible) {
-		field.onControlVisibilityChange(object, visible);
-	}
-
 	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
 		return method.getCategory();
 	}
@@ -473,8 +469,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return method.isHidden();
 	}
 
-	protected void onControlVisibilityChange(IMethodInfo method, Object object, boolean visible) {
+	protected void onControlVisibilityChange(Object object, boolean visible, IMethodInfo method,
+			ITypeInfo containingType) {
 		method.onControlVisibilityChange(object, visible);
+	}
+
+	protected void onControlVisibilityChange(Object object, boolean visible, IFieldInfo field,
+			ITypeInfo containingType) {
+		field.onControlVisibilityChange(object, visible);
 	}
 
 	protected String getSignature(IMethodInfo method, ITypeInfo containingType) {
@@ -1545,7 +1547,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, object, visible);
+			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, containingType);
 		}
 
 		@Override
@@ -1719,7 +1721,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			InfoProxyFactory.this.onControlVisibilityChange(base, object, visible);
+			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, containingType);
 		}
 
 		@Override

@@ -151,6 +151,9 @@ public class SwingRenderer {
 		});
 	}
 
+	protected static final boolean DEBUG = Boolean
+			.valueOf(System.getProperty(SwingRenderer.class.getName() + ".debug", "false"));
+
 	protected static SwingRenderer defaultInstance;
 
 	/**
@@ -435,7 +438,7 @@ public class SwingRenderer {
 	 *                           eventual dialogs or null.
 	 * @param type               An abstract UI type information object.
 	 * @param parentObject       The parent object of the new instance or null if
-	 *                           none exists.
+	 *                           there is no parent object.
 	 * @return an object created using the given type information.
 	 */
 	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type,
@@ -457,7 +460,7 @@ public class SwingRenderer {
 						return null;
 					}
 					return onTypeInstanciationRequest(activatorComponent,
-							(ITypeInfo) enumFactory.unwrapInstance(resultEnumItem), parentObject);
+							(ITypeInfo) enumFactory.getInstanceItem(resultEnumItem), parentObject);
 				}
 			} else {
 				List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
@@ -496,7 +499,7 @@ public class SwingRenderer {
 						if (resultEnumItem == null) {
 							return null;
 						}
-						chosenConstructor = (IMethodInfo) enumFactory.unwrapInstance(resultEnumItem);
+						chosenConstructor = (IMethodInfo) enumFactory.getInstanceItem(resultEnumItem);
 						if (chosenConstructor == null) {
 							return null;
 						}
@@ -659,11 +662,11 @@ public class SwingRenderer {
 		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 				.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 		Object resultEnumItem = openSelectionDialog(parentComponent, enumType,
-				enumFactory.getInstance(initialSelection), message, title);
+				enumFactory.getItemInstance(initialSelection), message, title);
 		if (resultEnumItem == null) {
 			return null;
 		}
-		T result = (T) enumFactory.unwrapInstance(resultEnumItem);
+		T result = (T) enumFactory.getInstanceItem(resultEnumItem);
 		return result;
 
 	}
@@ -1048,7 +1051,7 @@ public class SwingRenderer {
 	 * The following rules should be considered before using this method:
 	 * <ul>
 	 * <li>Invoke busy indication: we are in the UI thread and we are not updating
-	 * the UI and the task duration is long/unknown.</li>
+	 * the UI (not mandatory if the task duration is known and short).</li>
 	 * <li>Invoke the UI thread: when we are not in the UI thread and we are
 	 * updating the UI (maybe to allow user input).</li>
 	 * <li>Run the task directly: otherwise.</li>
@@ -1062,7 +1065,9 @@ public class SwingRenderer {
 	 */
 	public void showBusyDialogWhile(final Component activatorComponent, final Runnable bakgroundTask,
 			final String title) {
-		SwingRendererUtils.expectInUIThread();
+		if (DEBUG) {
+			SwingRendererUtils.expectInUIThread();
+		}
 		if (Thread.currentThread().getName().equals(BUSY_DIALOG_CLOSER_NAME)) {
 			throw new ReflectionUIError(
 					"Illegal: must not call showBusyDialogWhile() from the busyDialogJobExecutorThread");

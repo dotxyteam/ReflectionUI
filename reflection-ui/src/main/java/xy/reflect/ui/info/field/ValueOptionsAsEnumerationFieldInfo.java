@@ -87,18 +87,18 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 	@Override
 	public Object getValue(Object object) {
 		Object value = super.getValue(object);
-		return enumFactory.getInstance(value);
+		return enumFactory.getItemInstance(value);
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
-		value = enumFactory.unwrapInstance(value);
+		value = enumFactory.getInstanceItem(value);
 		super.setValue(object, value);
 	}
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-		value = enumFactory.unwrapInstance(value);
+		value = enumFactory.getInstanceItem(value);
 		return super.getNextUpdateCustomUndoJob(object, value);
 	}
 

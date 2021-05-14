@@ -50,6 +50,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -72,32 +73,9 @@ public class InvocationDataObjectFactory {
 		this.contextId = contextId;
 	}
 
-	public Instance getInstance(Object object, InvocationData invocationData) {
-		Instance result = new InvocationDataObjectFactory.Instance(object, invocationData);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new TypeInfo());
-		return result;
-	}
-
-	public Object unwrapInstanceObject(Object obj) {
-		if (obj == null) {
-			return null;
-		}
-		Instance instance = (Instance) obj;
-		if (!instance.getOuterType().equals(this)) {
-			throw new ReflectionUIError();
-		}
-		return instance.getObject();
-	}
-
-	public InvocationData unwrapInstanceInvocationData(Object obj) {
-		if (obj == null) {
-			return null;
-		}
-		Instance instance = (Instance) obj;
-		if (!instance.getOuterType().equals(this)) {
-			throw new ReflectionUIError();
-		}
-		return instance.getInvocationData();
+	public Object getInstance(Object object, InvocationData invocationData) {
+		return new PrecomputedTypeInstanceWrapper(new InvocationDataObjectFactory.Instance(object, invocationData),
+				new TypeInfo());
 	}
 
 	public ITypeInfoSource getInstanceTypeInfoSource(SpecificitiesIdentifier specificitiesIdentifier) {

@@ -44,14 +44,14 @@ public abstract class AbstractItemPositionFactory {
 	/**
 	 * @return the root list value.
 	 */
-	public abstract Object retrieveRootListValue();
+	public abstract Object getRootListValue();
 
 	/**
 	 * Updates the root list value.
 	 * 
 	 * @param rootListValue The new root list value.
 	 */
-	public abstract void commitRootListValue(Object rootListValue);
+	public abstract void setRootListValue(Object rootListValue);
 
 	/**
 	 * @return the type information of the root list value.
@@ -65,7 +65,7 @@ public abstract class AbstractItemPositionFactory {
 
 	/**
 	 * @return false if and only if the root list value can be set. Otherwise
-	 *         {@link #commitRootListValue(Object)} should not be called.
+	 *         {@link #setRootListValue(Object)} should not be called.
 	 */
 	public abstract boolean isRootListGetOnly();
 
@@ -90,8 +90,8 @@ public abstract class AbstractItemPositionFactory {
 	/**
 	 * @return an array containing the root list items.
 	 */
-	public Object[] retrieveRootListRawValue() {
-		Object rootListValue = retrieveRootListValue();
+	public Object[] getRootListRawValue() {
+		Object rootListValue = getRootListValue();
 		if (rootListValue == null) {
 			return new Object[0];
 		}

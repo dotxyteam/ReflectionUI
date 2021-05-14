@@ -40,6 +40,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 
 /**
  * Allows to describe tabular and hierarchical preferences about list types.
@@ -108,20 +109,20 @@ public interface IListStructuralInfo {
 		@Override
 		public ITypeInfo getType() {
 			if (type == null) {
-				type = reflectionUI.getTypeInfo(new SubListGroupTypeInfo().getSource());
+				type = reflectionUI
+						.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new SubListGroupTypeInfo()));
 			}
 			return type;
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			List<ValueListItem> result = new ArrayList<ValueListItem>();
+			List<Object> result = new ArrayList<Object>();
 			for (IFieldInfo field : fields) {
-				ValueListItem listItem = getListItem(object, field);
-				reflectionUI.registerPrecomputedTypeInfoObject(listItem, new SubListGroupItemTypeInfo(field));
-				result.add(listItem);
+				result.add(new PrecomputedTypeInstanceWrapper(getListItem(object, field),
+						new SubListGroupItemTypeInfo(field)));
 			}
-			return result;
+			return new PrecomputedTypeInstanceWrapper(result, new SubListGroupTypeInfo());
 		}
 
 		public ITypeInfo getContainingItemType() {
@@ -141,8 +142,9 @@ public interface IListStructuralInfo {
 
 					@Override
 					public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
-						return new SubListGroupItemDetailsFieldInfo(
-								((SubListGroupItem) itemPosition.getItem()).getField());
+						SubListGroupItem subListGroupItem = (SubListGroupItem) ((PrecomputedTypeInstanceWrapper) itemPosition
+								.getItem()).unwrap();
+						return new SubListGroupItemDetailsFieldInfo(subListGroupItem.getField());
 					}
 
 				};

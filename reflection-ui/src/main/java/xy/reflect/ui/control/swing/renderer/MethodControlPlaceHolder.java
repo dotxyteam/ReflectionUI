@@ -37,7 +37,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.control.AbstractMethodControlData;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
@@ -280,15 +280,23 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return "MethodControlPlaceHolder [method=" + method + ", form=" + form + "]";
 	}
 
-	protected class InitialMethodControlData extends DefaultMethodControlData {
+	protected class InitialMethodControlData extends AbstractMethodControlData {
+
+		protected IMethodInfo finalMethod;
 
 		public InitialMethodControlData(IMethodInfo finalMethod) {
-			super(swingRenderer.getReflectionUI(), form.getObject(), finalMethod);
+			super(swingRenderer.getReflectionUI());
+			this.finalMethod = finalMethod;
 		}
 
 		@Override
 		public Object getObject() {
 			return form.getObject();
+		}
+
+		@Override
+		protected IMethodInfo getMethod() {
+			return finalMethod;
 		}
 
 		private Object getOuterType() {

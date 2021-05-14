@@ -59,6 +59,7 @@ import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -165,16 +166,14 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
+			type = reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 		}
 		return type;
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		Value result = new Value(object);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new ValueTypeInfo());
-		return result;
+		return new PrecomputedTypeInstanceWrapper(new Value(object), new ValueTypeInfo());
 	}
 
 	@Override
@@ -684,6 +683,12 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public void onControlVisibilityChange(Object object, boolean visible) {
+			object = ((Value) object).getObject();
+			super.onControlVisibilityChange(object, visible);
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
 			result.put(CONTAINING_CAPSULE_FIELD_PROPERTY_KEY, CapsuleFieldInfo.this);
@@ -772,6 +777,12 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 			object = ((Value) object).getObject();
 			super.validateParameters(object, invocationData);
+		}
+
+		@Override
+		public void onControlVisibilityChange(Object object, boolean visible) {
+			object = ((Value) object).getObject();
+			super.onControlVisibilityChange(object, visible);
 		}
 
 		@Override

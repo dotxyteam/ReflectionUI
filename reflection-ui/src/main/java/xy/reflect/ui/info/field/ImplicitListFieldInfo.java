@@ -65,6 +65,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -98,43 +99,6 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		this.addMethodName = addMethodName;
 		this.removeMethodName = removeMethodName;
 		this.sizeMethodName = sizeMethodName;
-		itemType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(itemType.getSource()) {
-			@Override
-			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-				return null;
-			}
-		});
-		itemType = new InfoProxyFactory() {
-
-			@Override
-			protected List<IMethodInfo> getConstructors(final ITypeInfo type) {
-				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
-
-					@Override
-					public ITypeInfo getReturnValueType() {
-						return type;
-					}
-
-					@Override
-					public Object invoke(Object parentObject, InvocationData invocationData) {
-						Object result = getCreateMethod().invoke(parentObject,
-								new InvocationData(parentObject, getCreateMethod(), parentObject));
-						return result;
-					}
-
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
-					}
-				});
-			}
-
-			@Override
-			public String toString() {
-				return "addItemContructor [listField=" + ImplicitListFieldInfo.this + "]";
-			}
-
-		}.wrapTypeInfo(itemType);
 		this.itemType = itemType;
 	}
 
@@ -200,16 +164,15 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public IListTypeInfo getType() {
 		if (type == null) {
-			type = (IListTypeInfo) reflectionUI.getTypeInfo(new ValueTypeInfo().getSource());
+			type = (IListTypeInfo) reflectionUI
+					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 		}
 		return type;
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		Object result = new ValueInstance(object);
-		reflectionUI.registerPrecomputedTypeInfoObject(result, new ValueTypeInfo());
-		return result;
+		return new PrecomputedTypeInstanceWrapper(new ValueInstance(object), new ValueTypeInfo());
 	}
 
 	@Override
@@ -219,11 +182,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		ValueInstance implicitListFieldValue = (ValueInstance) value;
-		if (!this.equals(implicitListFieldValue.getImplicitListField())) {
-			throw new ReflectionUIError();
-		}
-		Object[] array = getType().toArray(implicitListFieldValue);
+		Object[] array = getType().toArray(value);
 		while (true) {
 			int size = (Integer) getSizeField().getValue(object);
 			if (size == 0) {
@@ -422,12 +381,14 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return ValueInstance.class.getSimpleName() + ": " + Arrays.toString(getArray());
+			return "ValueInstance [of=" + getImplicitListField() + "]";
 		}
 
 	}
 
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
+
+		protected ITypeInfo finalItemType;
 
 		@Override
 		public ITypeInfoSource getSource() {
@@ -634,8 +595,10 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public Object[] toArray(Object listValue) {
 			ValueInstance implicitListFieldValue = (ValueInstance) listValue;
+			if (!ImplicitListFieldInfo.this.equals(implicitListFieldValue.getImplicitListField())) {
+				throw new ReflectionUIError();
+			}
 			return implicitListFieldValue.getArray();
-
 		}
 
 		@Override
@@ -703,7 +666,47 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public ITypeInfo getItemType() {
-			return itemType;
+			if (finalItemType == null) {
+				finalItemType = itemType;
+				finalItemType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(finalItemType.getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return null;
+					}
+				});
+				finalItemType = new InfoProxyFactory() {
+
+					@Override
+					protected List<IMethodInfo> getConstructors(final ITypeInfo type) {
+						return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+							@Override
+							public ITypeInfo getReturnValueType() {
+								return type;
+							}
+
+							@Override
+							public Object invoke(Object parentObject, InvocationData invocationData) {
+								Object result = getCreateMethod().invoke(parentObject,
+										new InvocationData(parentObject, getCreateMethod(), parentObject));
+								return result;
+							}
+
+							@Override
+							public List<IParameterInfo> getParameters() {
+								return Collections.emptyList();
+							}
+						});
+					}
+
+					@Override
+					public String toString() {
+						return "addItemContructor [listField=" + ImplicitListFieldInfo.this + "]";
+					}
+
+				}.wrapTypeInfo(finalItemType);
+			}
+			return finalItemType;
 		}
 
 		public List<IMethodInfo> getItemConstructors() {

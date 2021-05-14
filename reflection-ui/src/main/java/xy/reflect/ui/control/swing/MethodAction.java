@@ -223,7 +223,7 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			protected Object getInitialValue() {
+			protected Object loadValue() {
 				return returnValue;
 			}
 

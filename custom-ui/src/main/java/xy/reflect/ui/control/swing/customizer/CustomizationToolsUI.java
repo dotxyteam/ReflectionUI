@@ -455,12 +455,6 @@ public class CustomizationToolsUI extends CustomizedUI {
 				}
 			}
 
-			@Override
-			protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
-					ITypeInfo containingType) {
-				return super.invoke(object, invocationData, method, containingType);
-			}
-
 		}.wrapTypeInfo(type);
 		return type;
 	}

@@ -50,6 +50,8 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -133,6 +135,16 @@ public class Form extends ImagePanel {
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
+
+	protected ExecutorService validator = MiscUtils.newAutoShutdownMultiThreadExecutor(new ThreadFactory() {
+		@Override
+		public Thread newThread(Runnable r) {
+			Thread result = new Thread(r);
+			result.setName(Form.class.getName() + ".validator");
+			result.setDaemon(true);
+			return result;
+		}
+	}, 10000);
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
 		this.swingRenderer = swingRenderer;
@@ -280,7 +292,6 @@ public class Form extends ImagePanel {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		type.validate(object);
-
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
@@ -303,7 +314,7 @@ public class Form extends ImagePanel {
 	}
 
 	public void validateFormInBackgroundAndReportOnStatusBar() {
-		new Thread("Validator: " + object) {
+		validator.submit(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -317,7 +328,6 @@ public class Form extends ImagePanel {
 						});
 					}
 				} catch (Exception e) {
-					swingRenderer.getReflectionUI().logDebug(e);
 					final String errorMsg = MiscUtils.getPrettyErrorMessage(e);
 					if (!errorMsg.equals(getStatusBarMessage())) {
 						SwingUtilities.invokeLater(new Runnable() {
@@ -328,9 +338,8 @@ public class Form extends ImagePanel {
 						});
 					}
 				}
-
 			}
-		}.start();
+		});
 	}
 
 	public void setStatusBarErrorMessage(String errorMsg) {

@@ -31,8 +31,6 @@ package xy.reflect.ui;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
-
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
@@ -41,8 +39,8 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SystemProperties;
 
@@ -57,9 +55,6 @@ import xy.reflect.ui.util.SystemProperties;
 public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
-
-	protected Map<Object, ITypeInfo> precomputedTypeInfoByObject = MiscUtils
-			.newWeakKeysIdentityBasedMap();
 
 	/**
 	 * Constructs an instance of this class.
@@ -102,36 +97,15 @@ public class ReflectionUI {
 	}
 
 	/**
-	 * Allows to associate an object with a predefined {@link ITypeInfo} instance.
-	 * 
-	 * @param object The object to associate with the type information.
-	 * @param type   The ITypeInfo instance to associate with the object.
-	 */
-	public void registerPrecomputedTypeInfoObject(Object object, ITypeInfo type) {
-		precomputedTypeInfoByObject.put(object, type);
-	}
-
-	/**
-	 * Allows to break the association between an object and a predefined
-	 * {@link ITypeInfo} instance.
-	 * 
-	 * @param object The object that was associated with the type information.
-	 */
-	public void unregisterPrecomputedTypeInfoObject(Object object) {
-		precomputedTypeInfoByObject.remove(object);
-	}
-
-	/**
 	 * @param object Any object from which a UI needs to be generated.
-	 * @return a metadata object from which a type information will be extracted.
+	 * @return an object from which the UI-oriented type information of the given
+	 *         object will be extracted.
 	 */
 	public ITypeInfoSource getTypeInfoSource(Object object) {
-		ITypeInfo precomputedType = precomputedTypeInfoByObject.get(object);
-		if (precomputedType != null) {
-			return new PrecomputedTypeInfoSource(precomputedType, null);
-		} else {
-			return new JavaTypeInfoSource(this, object.getClass(), null);
+		if (object instanceof PrecomputedTypeInstanceWrapper) {
+			return ((PrecomputedTypeInstanceWrapper) object).getTypeInfoSource();
 		}
+		return new JavaTypeInfoSource(this, object.getClass(), null);
 	}
 
 	/**

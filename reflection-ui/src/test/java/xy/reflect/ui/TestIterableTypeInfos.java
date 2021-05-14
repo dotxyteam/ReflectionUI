@@ -81,12 +81,12 @@ public class TestIterableTypeInfos {
 		ItemPosition firstItemPosition = new AbstractItemPositionFactory() {
 
 			@Override
-			public Object retrieveRootListValue() {
+			public Object getRootListValue() {
 				return itemListValue;
 			}
 
 			@Override
-			public void commitRootListValue(Object rootListValue) {
+			public void setRootListValue(Object rootListValue) {
 				throw new UnsupportedOperationException();
 			}
 

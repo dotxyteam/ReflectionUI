@@ -39,7 +39,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.builder.DialogBuilder.BuiltDialog;
+import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
@@ -62,7 +62,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 	protected ModificationStack createdFormModificationStack;
 	protected EditorFrame createdFrame;
-	protected BuiltDialog createdDialog;
+	protected RenderedDialog createdDialog;
 	protected boolean parentModificationStackImpacted = false;
 
 	/**

@@ -64,7 +64,7 @@ public class DialogBuilder {
 	protected Component contentComponent;
 	protected List<Component> buttonBarControls;
 	protected Runnable whenClosing;
-	protected BuiltDialog dialog;
+	protected RenderedDialog dialog;
 	protected Image buttonBackgroundImage;
 	protected Color buttonBackgroundColor;
 	protected Color buttonForegroundColor;
@@ -118,7 +118,7 @@ public class DialogBuilder {
 		this.buttonBorderColor = buttonBorderColor;
 	}
 
-	public BuiltDialog getCreatedDialog() {
+	public RenderedDialog getCreatedDialog() {
 		return dialog;
 	}
 
@@ -231,9 +231,9 @@ public class DialogBuilder {
 		return result;
 	}
 
-	public BuiltDialog createDialog() {
+	public RenderedDialog createDialog() {
 		Window owner = SwingRendererUtils.getWindowAncestorOrSelf(ownerComponent);
-		dialog = new BuiltDialog(owner, this);
+		dialog = new RenderedDialog(owner, this);
 		dialog.setResizable(true);
 		return dialog;
 	}
@@ -244,7 +244,7 @@ public class DialogBuilder {
 	 * @author olitank
 	 *
 	 */
-	public static class BuiltDialog extends JDialog {
+	public static class RenderedDialog extends JDialog {
 
 		protected static final long serialVersionUID = 1L;
 
@@ -254,7 +254,7 @@ public class DialogBuilder {
 		protected boolean disposed = false;
 		protected boolean okPressed = false;
 
-		public BuiltDialog(Window owner, DialogBuilder dialogBuilder) {
+		public RenderedDialog(Window owner, DialogBuilder dialogBuilder) {
 			super(owner);
 			this.dialogBuilder = dialogBuilder;
 			this.windowManager = dialogBuilder.getSwingRenderer().createWindowManager(this);

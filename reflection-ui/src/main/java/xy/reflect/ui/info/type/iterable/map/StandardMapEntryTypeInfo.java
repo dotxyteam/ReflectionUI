@@ -44,9 +44,9 @@ import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -65,7 +65,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected GetterFieldInfo keyField;
 	protected GetterFieldInfo valueField;
 
-	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
+	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType,
+			Class<?> valueJavaType) {
 		super(reflectionUI, source);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
@@ -141,11 +142,11 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
 							if (keyJavaType == null) {
-								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
+								type = reflectionUI.getTypeInfo(
+										new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
 							} else {
-								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, keyJavaType, specificitiesIdentifier));
+								type = reflectionUI.getTypeInfo(
+										new JavaTypeInfoSource(reflectionUI, keyJavaType, specificitiesIdentifier));
 							}
 						}
 						return type;
@@ -175,11 +176,11 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
 							if (valueJavaType == null) {
-								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
+								type = reflectionUI.getTypeInfo(
+										new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
 							} else {
-								type = reflectionUI
-										.getTypeInfo(new JavaTypeInfoSource(reflectionUI, valueJavaType, specificitiesIdentifier));
+								type = reflectionUI.getTypeInfo(
+										new JavaTypeInfoSource(reflectionUI, valueJavaType, specificitiesIdentifier));
 							}
 						}
 						return type;
@@ -270,11 +271,6 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		}
 
 		@Override
-		public ITypeInfo getReturnValueType() {
-			return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardMapEntryTypeInfo.this, null));
-		}
-
-		@Override
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 			for (IParameterInfo param : super.getParameters()) {
@@ -336,10 +332,15 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		}
 
 		@Override
+		public ITypeInfo getReturnValueType() {
+			return reflectionUI
+					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(StandardMapEntryTypeInfo.this));
+		}
+
+		@Override
 		public Object invoke(Object parentObject, InvocationData invocationData) {
-			StandardMapEntry result = (StandardMapEntry) super.invoke(parentObject, invocationData);
-			reflectionUI.registerPrecomputedTypeInfoObject(result, StandardMapEntryTypeInfo.this);
-			return result;
+			StandardMapEntry standardMapEntry = (StandardMapEntry) super.invoke(parentObject, invocationData);
+			return new PrecomputedTypeInstanceWrapper(standardMapEntry, StandardMapEntryTypeInfo.this);
 		}
 
 	}

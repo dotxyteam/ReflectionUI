@@ -169,7 +169,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected ItemUIBuilder detailsControlBuilder;
 	protected IListItemDetailsAccessMode detailsMode;
 	protected BufferedItemPosition detailsControlItemPosition;
-	protected Object detailsControlItem;
 
 	protected List<Listener<List<BufferedItemPosition>>> selectionListeners = new ArrayList<Listener<List<BufferedItemPosition>>>();
 	protected boolean selectionListenersEnabled = true;
@@ -239,7 +238,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public Object getRootListValue() {
-		return itemPositionFactory.retrieveRootListValue();
+		return itemPositionFactory.getRootListValue();
 	}
 
 	public String getRootListTitle() {
@@ -1221,16 +1220,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				|| swingRenderer.isDecisionRequiredOnTypeInstanciationRequest(typeToInstanciate));
 	};
 
-	protected Object createItem(BufferedItemPosition itemPosition) {
+	protected Object onItemCreationRequest(BufferedItemPosition itemPosition) {
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		ITypeInfo typeToInstanciate = listType.getItemType();
 		if (typeToInstanciate == null) {
 			typeToInstanciate = swingRenderer.getReflectionUI()
 					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
-		boolean constructorSelectable = (listType
+		final boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-		return listData.createValue(typeToInstanciate, constructorSelectable);
+		Object[] result = new Object[1];
+		final ITypeInfo finalTypeToInstanciate = typeToInstanciate;
+		swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
+			@Override
+			public void run() {
+				result[0] = listData.createValue(finalTypeToInstanciate, constructorSelectable);
+			}
+		}, ReflectionUIUtils.composeMessage(itemPosition.getContainingListTitle(), "Item Creation"));
+		return result[0];
 	}
 
 	protected AbstractStandardListAction createAddChildAction() {
@@ -1240,7 +1247,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
 		Object capsule = new ItemUIBuilder(itemPosition) {
 			@Override
-			protected Object getInitialValue() {
+			protected Object loadValue() {
 				return null;
 			}
 		}.getCapsule();
@@ -1339,24 +1346,43 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void updateDetailsArea(boolean refreshStructure) {
 		BufferedItemPosition singleSelection = getSingleSelection();
-		if (!MiscUtils.equalsOrBothNull(singleSelection, detailsControlItemPosition)) {
-			detailsControlItemPosition = singleSelection;
-			if (detailsControl != null) {
-				detailsArea.removeAll();
-				detailsControlItem = null;
-				detailsControl = null;
-				if (detailsControlItemPosition == null) {
-					SwingRendererUtils.handleComponentSizeChange(detailsArea);
-				}
-			}
-		}
-		if (detailsControlItemPosition == null) {
+		if ((detailsControlItemPosition == null) && (singleSelection == null)) {
 			return;
 		}
-		if (detailsControl != null) {
-			detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
-		} else {
+		if ((detailsControlItemPosition != null) && (singleSelection != null)) {
+			Object detailsControlItem = detailsControlBuilder.getCurrentValue();
+			Object singleSelectionItem = singleSelection.getItem();
+			if ((detailsControlItem == null) && (singleSelectionItem == null)) {
+				return;
+			}
+			if ((detailsControlItem != null) && (singleSelectionItem != null)) {
+				final ITypeInfo detailsControlItemType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(detailsControlItem));
+				final ITypeInfo singleSelectionItemType = swingRenderer.getReflectionUI()
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(singleSelectionItem));
+				if (detailsControlItemType.equals(singleSelectionItemType)) {
+					detailsControlItemPosition = singleSelection;
+					detailsControlBuilder.setBufferedItemPosition(detailsControlItemPosition);
+					detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
+					return;
+				}
+			}
+			detailsControlItemPosition = null;
 			detailsArea.removeAll();
+			detailsControlBuilder = null;
+			detailsControl = null;
+			updateDetailsArea(refreshStructure);
+		}
+		if ((detailsControlItemPosition != null) && (singleSelection == null)) {
+			detailsControlItemPosition = null;
+			detailsArea.removeAll();
+			detailsControlBuilder = null;
+			detailsControl = null;
+			SwingRendererUtils.handleComponentSizeChange(detailsArea);
+			return;
+		}
+		if ((detailsControlItemPosition == null) && (singleSelection != null)) {
+			detailsControlItemPosition = singleSelection;
 			detailsArea.setLayout(new BorderLayout());
 			detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
 			detailsControl = detailsControlBuilder.createEditorForm(true, false);
@@ -1367,7 +1393,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			detailsArea.add(createDetailsAreaScrollPane(detailsControl), BorderLayout.CENTER);
 			detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 			SwingRendererUtils.handleComponentSizeChange(detailsArea);
-			SwingRendererUtils.requestAnyComponentFocus(detailsControl, swingRenderer);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -1375,6 +1400,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			});
 		}
+		throw new ReflectionUIError();
 	}
 
 	protected Component createDetailsAreaScrollPane(Form detailsControl) {
@@ -1480,21 +1506,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
-		restoringSelectionAsMuchAsPossible(new Runnable() {
-			@Override
-			public void run() {
-				restoringExpandedPathsAsMuchAsPossible(new Runnable() {
-					@Override
-					public void run() {
-						refreshTreeTableModelAndControl(refreshStructure);
-					}
-				});
-			}
-		});
 		if (refreshStructure) {
 			removeAll();
 			detailsMode = null;
+			structuralInfo = null;
 			layoutControls();
+			refreshTreeTableModelAndControl(refreshStructure);
 			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
@@ -1503,6 +1520,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			refreshTreeTableComponentHeader();
 			refreshRendrers();
 			SwingRendererUtils.handleComponentSizeChange(this);
+		} else {
+			restoringSelectionAsMuchAsPossible(new Runnable() {
+				@Override
+				public void run() {
+					restoringExpandedPathsAsMuchAsPossible(new Runnable() {
+						@Override
+						public void run() {
+							refreshTreeTableModelAndControl(refreshStructure);
+						}
+					});
+				}
+			});
+			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
+				updateDetailsArea(false);
+			}
 		}
 		return true;
 	}
@@ -1955,11 +1987,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				if (!prepare()) {
+					return;
+				}
 				swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
 					public void run() {
-						if (!prepare()) {
-							return;
-						}
 						final String modifTitle = getCompositeModificationTitle();
 						@SuppressWarnings("unchecked")
 						final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
@@ -2009,7 +2041,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected ValueReturnMode objectValueReturnMode;
 
 		public ItemUIBuilder(BufferedItemPosition bufferedItemPosition) {
-			super();
+			setBufferedItemPosition(bufferedItemPosition);
+		}
+
+		public void setBufferedItemPosition(BufferedItemPosition bufferedItemPosition) {
 			this.bufferedItemPosition = bufferedItemPosition;
 			this.modificationFactory = createListModificationFactory(bufferedItemPosition);
 			this.canCommit = modificationFactory.canSet(bufferedItemPosition.getIndex());
@@ -2103,7 +2138,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected Object getInitialValue() {
+		protected Object loadValue() {
 			bufferedItemPosition.refreshContainingList();
 			return bufferedItemPosition.getItem();
 		}
@@ -2171,7 +2206,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 				if (!nullValueChosen) {
-					newSubListItem = createItem(newSubItemPosition);
+					newSubListItem = onItemCreationRequest(newSubItemPosition);
 					if (newSubListItem == null) {
 						return false;
 					}
@@ -2439,7 +2474,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 				if (!nullValueChosen) {
-					newItem = createItem(newItemPosition);
+					newItem = onItemCreationRequest(newItemPosition);
 					if (newItem == null) {
 						return false;
 					}
@@ -2995,7 +3030,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				protected Object getInitialValue() {
+				protected Object loadValue() {
 					return dynamicProperty.getValue(IDynamicListProperty.NO_OWNER);
 				}
 

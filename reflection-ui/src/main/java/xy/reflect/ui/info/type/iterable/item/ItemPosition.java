@@ -142,7 +142,7 @@ public class ItemPosition implements Cloneable {
 	public Object getItem() {
 		Object[] containingListRawValue;
 		if (isRoot()) {
-			containingListRawValue = factory.retrieveRootListRawValue();
+			containingListRawValue = factory.getRootListRawValue();
 		} else {
 			containingListRawValue = parentItemPosition.retrieveSubListRawValue();
 		}
@@ -223,7 +223,7 @@ public class ItemPosition implements Cloneable {
 	 */
 	public Object retrieveContainingListValue() {
 		if (isRoot()) {
-			return factory.retrieveRootListValue();
+			return factory.getRootListValue();
 		} else {
 			return parentItemPosition.retrieveSubListValue();
 		}
@@ -234,7 +234,7 @@ public class ItemPosition implements Cloneable {
 	 */
 	public Object[] retrieveContainingListRawValue() {
 		if (isRoot()) {
-			return factory.retrieveRootListRawValue();
+			return factory.getRootListRawValue();
 		} else {
 			return parentItemPosition.retrieveSubListRawValue();
 		}
@@ -433,7 +433,7 @@ public class ItemPosition implements Cloneable {
 					if (!isContainingListGetOnly()) {
 						listType.replaceContent(containingListValue, newContainingListRawValue);
 						if (isRoot()) {
-							getFactory().commitRootListValue(containingListValue);
+							getFactory().setRootListValue(containingListValue);
 						} else {
 							getContainingListFieldIfNotRoot().setValue(parentItem, containingListValue);
 						}
@@ -447,7 +447,7 @@ public class ItemPosition implements Cloneable {
 				if (!isContainingListGetOnly()) {
 					Object containingListValue = listType.fromArray(newContainingListRawValue);
 					if (isRoot()) {
-						getFactory().commitRootListValue(containingListValue);
+						getFactory().setRootListValue(containingListValue);
 					} else {
 						getContainingListFieldIfNotRoot().setValue(parentItem, containingListValue);
 					}

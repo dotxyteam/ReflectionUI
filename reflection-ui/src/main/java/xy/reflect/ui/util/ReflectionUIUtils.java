@@ -266,7 +266,8 @@ public class ReflectionUIUtils {
 					return result;
 				}
 
-				result = MiscUtils.compareNullables(f1.getType().getName().toUpperCase(), f2.getType().getName().toUpperCase());
+				result = MiscUtils.compareNullables(f1.getType().getName().toUpperCase(),
+						f2.getType().getName().toUpperCase());
 				if (result != 0) {
 					return result;
 				}
@@ -302,7 +303,8 @@ public class ReflectionUIUtils {
 					parameterTypeNames2.add(param.getType().getName());
 				}
 				Collections.sort(parameterTypeNames2);
-				result = MiscUtils.stringJoin(parameterTypeNames1, "\n").compareTo(MiscUtils.stringJoin(parameterTypeNames2, "\n"));
+				result = MiscUtils.stringJoin(parameterTypeNames1, "\n")
+						.compareTo(MiscUtils.stringJoin(parameterTypeNames2, "\n"));
 				if (result != 0) {
 					return result;
 				}
@@ -935,5 +937,9 @@ public class ReflectionUIUtils {
 		}
 
 		return (fields.size() + methods.size()) == 0;
+	}
+
+	public static boolean isConstructor(IMethodInfo method) {
+		return method.getName().length() == 0;
 	}
 }

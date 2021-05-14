@@ -327,7 +327,6 @@ public class MiscUtils {
 					} catch (Exception e) {
 						throw new ReflectionUIError(e);
 					}
-					System.out.println(map.size() + " - " + this);
 				}
 			}
 		}.start();

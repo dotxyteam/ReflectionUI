@@ -44,6 +44,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
@@ -412,7 +413,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			}
 			layoutFieldControl();
 		} else {
-			if (fieldControl instanceof IAdvancedFieldControl) {
+			if ((fieldControl instanceof IAdvancedFieldControl)
+					&& !(refreshStructure && !controlData.equals(getInitialControlData()))) {
 				try {
 					if (!((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure)) {
 						destroyFieldControl();
@@ -663,10 +665,23 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return "FieldControlPlaceHolder [field=" + field + ", form=" + form + "]";
 	}
 
-	protected class InitialFieldControlData extends DefaultFieldControlData {
+	protected class InitialFieldControlData extends AbstractFieldControlData {
+
+		protected IFieldInfo finalField;
 
 		public InitialFieldControlData(IFieldInfo finalField) {
-			super(swingRenderer.getReflectionUI(), form.getObject(), finalField);
+			super(swingRenderer.getReflectionUI());
+			this.finalField = finalField;
+		}
+
+		@Override
+		protected Object getObject() {
+			return form.getObject();
+		}
+
+		@Override
+		protected IFieldInfo getField() {
+			return finalField;
 		}
 
 		@Override

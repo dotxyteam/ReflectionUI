@@ -128,7 +128,10 @@ public interface IParameterInfo extends IInfo {
 	boolean isNullValueDistinct();
 
 	/**
-	 * @param object The object offering the method hosting this parameter.
+	 * @param object The object offering the method hosting this parameter. If the
+	 *               method is a constructor then this parameter is the parent
+	 *               object that will host the new object. In case of a list item
+	 *               constructor it is the object that hosts the list.
 	 * @return the default value of this parameter (may be null).
 	 */
 	Object getDefaultValue(Object object);
@@ -147,13 +150,19 @@ public interface IParameterInfo extends IInfo {
 	boolean isHidden();
 
 	/**
-	 * @param object The object offering the method hosting this parameter.
+	 * @param object The object offering the method hosting this parameter. If the
+	 *               method is a constructor then this parameter is the parent
+	 *               object that will host the new object. In case of a list item
+	 *               constructor it is the object that hosts the list.
 	 * @return whether this parameter value has options.
 	 */
 	boolean hasValueOptions(Object object);
 
 	/**
-	 * @param object The object offering the method hosting this parameter.
+	 * @param object The object offering the method hosting this parameter. If the
+	 *               method is a constructor then this parameter is the parent
+	 *               object that will host the new object. In case of a list item
+	 *               constructor it is the object that hosts the list.
 	 * @return the options for the value of this parameter.
 	 */
 	Object[] getValueOptions(Object object);

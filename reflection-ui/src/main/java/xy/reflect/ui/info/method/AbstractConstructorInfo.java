@@ -40,15 +40,13 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Base class of constructor specifications.
+ * Base class of constructor specifications. Note that {@link #getName()}
+ * returns an empty string for instances of this class.
  * 
  * @author olitank
  *
  */
 public abstract class AbstractConstructorInfo extends AbstractInfo implements IMethodInfo {
-
-	@Override
-	public abstract Object invoke(Object parentObject, InvocationData invocationData);
 
 	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {

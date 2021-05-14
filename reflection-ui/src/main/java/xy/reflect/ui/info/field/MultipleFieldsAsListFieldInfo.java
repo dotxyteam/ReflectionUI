@@ -52,6 +52,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -79,14 +80,6 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
-	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new ValueListTypeInfo().getSource());
-		}
-		return type;
-	}
-
-	@Override
 	public String getCaption() {
 		StringBuilder result = new StringBuilder(MultipleFieldsAsListFieldInfo.class.getSimpleName());
 		result.append("List Containing ");
@@ -102,14 +95,21 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
-	public Object getValue(Object object) {
-		List<ValueListItem> result = new ArrayList<ValueListItem>();
-		for (IFieldInfo field : fields) {
-			ValueListItem listItem = getListItem(object, field);
-			reflectionUI.registerPrecomputedTypeInfoObject(listItem, new ValueListItemTypeInfo(field));
-			result.add(listItem);
+	public ITypeInfo getType() {
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
 		}
-		return result;
+		return type;
+	}
+
+	@Override
+	public Object getValue(Object object) {
+		List<Object> result = new ArrayList<Object>();
+		for (IFieldInfo field : fields) {
+			result.add(
+					new PrecomputedTypeInstanceWrapper(getListItem(object, field), new ValueListItemTypeInfo(field)));
+		}
+		return new PrecomputedTypeInstanceWrapper(result, new ValueListTypeInfo());
 	}
 
 	protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
