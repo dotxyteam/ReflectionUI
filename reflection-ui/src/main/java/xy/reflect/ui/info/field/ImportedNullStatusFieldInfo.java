@@ -28,19 +28,8 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
-import java.util.Collections;
-import java.util.List;
-
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.method.AbstractConstructorInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.factory.InfoProxyFactory;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
-import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -66,9 +55,12 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		this.containingType = containingType;
 	}
 
-	@Override
-	public boolean isGetOnly() {
-		return super.isGetOnly() && nullStatusField.isGetOnly();
+	protected boolean getNullStatus(Object object) {
+		Object nullStatus = nullStatusField.getValue(object);
+		if (!(nullStatus instanceof Boolean)) {
+			throw new ReflectionUIError("Invalid null status field value (boolean expected): '" + nullStatus + "'");
+		}
+		return (Boolean) nullStatus;
 	}
 
 	@Override
@@ -80,23 +72,13 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		}
 	}
 
-	protected boolean getNullStatus(Object object) {
-		Object nullStatus = nullStatusField.getValue(object);
-		if (!(nullStatus instanceof Boolean)) {
-			throw new ReflectionUIError("Invalid null status field value (boolean expected): '" + nullStatus + "'");
-		}
-		return (Boolean) nullStatus;
-	}
-
 	@Override
 	public void setValue(Object object, Object value) {
 		if (value == null) {
 			nullStatusField.setValue(object, Boolean.FALSE);
 		} else {
 			nullStatusField.setValue(object, Boolean.TRUE);
-			if (!super.isGetOnly()) {
-				super.setValue(object, value);
-			}
+			super.setValue(object, value);
 		}
 	}
 
@@ -126,59 +108,6 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 				}
 			};
 		}
-	}
-
-	@Override
-	public ITypeInfo getType() {
-		if (type == null) {
-			type = super.getType();
-			type = new InfoProxyFactory() {
-
-				@Override
-				protected boolean isConcrete(ITypeInfo type) {
-					return true;
-				}
-
-				@Override
-				protected List<IMethodInfo> getConstructors(final ITypeInfo type) {
-					return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
-
-						@Override
-						public Object invoke(Object parentObject, InvocationData invocationData) {
-							return ImportedNullStatusFieldInfo.super.getValue(parentObject);
-						}
-
-						@Override
-						public ITypeInfo getReturnValueType() {
-							return type;
-						}
-
-						@Override
-						public List<IParameterInfo> getParameters() {
-							return Collections.emptyList();
-						}
-					});
-				}
-
-				@Override
-				protected ITypeInfoSource getSource(ITypeInfo type) {
-					return new TypeInfoSourceProxy(super.getSource(type)) {
-						@Override
-						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-							return new SpecificitiesIdentifier(containingType.getName(),
-									ImportedNullStatusFieldInfo.this.getName());
-						}
-					};
-				}
-
-				@Override
-				public String toString() {
-					return "setFakeValueContructor [field=" + ImportedNullStatusFieldInfo.this + "]";
-				}
-
-			}.wrapTypeInfo(type);
-		}
-		return type;
 	}
 
 	@Override

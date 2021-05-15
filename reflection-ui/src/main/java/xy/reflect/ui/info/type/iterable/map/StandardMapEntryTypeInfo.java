@@ -319,11 +319,11 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 					}
 
 					@Override
-					public Object getDefaultValue(Object object) {
-						if (ReflectionUIUtils.canCreateDefaultInstance(getType(), object, true)) {
-							return ReflectionUIUtils.createDefaultInstance(getType(), object, true);
+					public Object getDefaultValue(Object ignore) {
+						if (ReflectionUIUtils.canCreateDefaultInstance(getType(), true)) {
+							return ReflectionUIUtils.createDefaultInstance(getType(), true);
 						}
-						return super.getDefaultValue(object);
+						return super.getDefaultValue(ignore);
 					}
 
 				});
@@ -338,8 +338,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		}
 
 		@Override
-		public Object invoke(Object parentObject, InvocationData invocationData) {
-			StandardMapEntry standardMapEntry = (StandardMapEntry) super.invoke(parentObject, invocationData);
+		public Object invoke(Object ignore, InvocationData invocationData) {
+			StandardMapEntry standardMapEntry = (StandardMapEntry) super.invoke(ignore, invocationData);
 			return new PrecomputedTypeInstanceWrapper(standardMapEntry, StandardMapEntryTypeInfo.this);
 		}
 

@@ -193,10 +193,8 @@ public interface IMethodInfo extends IInfo {
 
 	/**
 	 * 
-	 * @param object         The object offering this method. If the method is a
-	 *                       constructor then this parameter is the parent object
-	 *                       that will host the new object. In case of a list item
-	 *                       constructor it is the object that hosts the list.
+	 * @param object         The object offering this method or null (if the method
+	 *                       is static or a constructor).
 	 * @param invocationData The parameter values.
 	 * @return the result of this method execution.
 	 */
@@ -220,10 +218,8 @@ public interface IMethodInfo extends IInfo {
 	InfoCategory getCategory();
 
 	/**
-	 * @param object         The object offering this method. If the method is a
-	 *                       constructor then this parameter is the parent object
-	 *                       that will host the new object. In case of a list item
-	 *                       constructor it is the object that hosts the list.
+	 * @param object         The object offering this method or null (if the method
+	 *                       is static or a constructor)
 	 * @param invocationData The parameter values.
 	 * @return a job that can revert the next invocation of this method or null if
 	 *         the method execution cannot be reverted.
@@ -234,10 +230,8 @@ public interface IMethodInfo extends IInfo {
 	 * Validates the values of the parameters. An exception is thrown if the
 	 * parameter values are not valid. Otherwise the values are considered as valid.
 	 * 
-	 * @param object         The object offering this method. If the method is a
-	 *                       constructor then this parameter is the parent object
-	 *                       that will host the new object. In case of a list item
-	 *                       constructor it is the object that hosts the list.
+	 * @param object         The object offering this method or null (if the method
+	 *                       is static or a constructor)
 	 * @param invocationData The parameter values.
 	 * @throws Exception If the parameter values are not valid.
 	 */
@@ -276,10 +270,8 @@ public interface IMethodInfo extends IInfo {
 	boolean isReturnValueIgnored();
 
 	/**
-	 * @param object         The object offering this method. If the method is a
-	 *                       constructor then this parameter is the parent object
-	 *                       that will host the new object. In case of a list item
-	 *                       constructor it is the object that hosts the list.
+	 * @param object         The object offering this method or null (if the method
+	 *                       is static or a constructor)
 	 * @param invocationData The parameter values.
 	 * @return a confirmation message to be displayed just before invoking this
 	 *         method so that the user will be able to cancel the execution or null
@@ -304,10 +296,8 @@ public interface IMethodInfo extends IInfo {
 	 * This method is called by the renderer when the visibility of this method
 	 * control changes for the given object in the generated UI.
 	 * 
-	 * @param object  The object offering this method. If the method is a
-	 *                constructor then this parameter is the parent object that will
-	 *                host the new object. In case of a list item constructor it is
-	 *                the object that hosts the list.
+	 * @param object  The object offering this method or null (if the method is
+	 *                static or a constructor)
 	 * @param visible true when the method becomes visible, false when it becomes
 	 *                invisible.
 	 */

@@ -312,10 +312,11 @@ public class PrecomputedTypeInstanceWrapper {
 		@Override
 		protected Object[] getPossibleValues(IEnumerationTypeInfo type) {
 			Object[] result = super.getPossibleValues(type);
+			Object[] newResult = new Object[result.length];
 			for (int i = 0; i < result.length; i++) {
-				result[i] = new PrecomputedTypeInstanceWrapper(result[i], type);
+				newResult[i] = new PrecomputedTypeInstanceWrapper(result[i], type);
 			}
-			return result;
+			return newResult;
 		}
 
 		@Override

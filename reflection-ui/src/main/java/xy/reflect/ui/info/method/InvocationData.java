@@ -64,15 +64,15 @@ public class InvocationData implements Serializable {
 		}
 	}
 
+	public InvocationData(Object object, IMethodInfo method, Object... parameterValues) {
+		this(object, method.getParameters(), parameterValues);
+	}
+
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
 		if (defaultValueByParameterPosition == null) {
 			defaultValueByParameterPosition = new HashMap<Integer, Object>();
 		}
-	}
-
-	public InvocationData(Object object, IMethodInfo method, Object... parameterValues) {
-		this(object, method.getParameters(), parameterValues);
 	}
 
 	public Map<Integer, Object> getProvidedParameterValues() {

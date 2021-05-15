@@ -35,11 +35,6 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
-	public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public Object getValue() {
 		return getField().getValue(getObject());
 	}

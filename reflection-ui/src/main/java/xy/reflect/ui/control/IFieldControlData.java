@@ -92,16 +92,6 @@ public interface IFieldControlData {
 	void setValue(Object value);
 
 	/**
-	 * Allows the control to build a new instance of the edited value.
-	 * 
-	 * @param typeToInstanciate     The type of the value to instanciate.
-	 * @param selectableConstructor Whether the framework should allow to select a
-	 *                              constructor or not.
-	 * @return the new instance.
-	 */
-	Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor);
-
-	/**
 	 * @param newValue The new value.
 	 * @return a job that can revert the next value update or null if the default
 	 *         undo job should be used.

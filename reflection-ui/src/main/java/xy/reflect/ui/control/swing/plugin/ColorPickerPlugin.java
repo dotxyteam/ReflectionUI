@@ -161,7 +161,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		public Object invoke(Object parentObject, InvocationData invocationData) {
+		public Object invoke(Object ignore, InvocationData invocationData) {
 			return Color.GRAY;
 		}
 

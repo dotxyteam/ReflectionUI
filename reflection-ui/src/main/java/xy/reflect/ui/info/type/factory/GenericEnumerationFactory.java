@@ -411,7 +411,7 @@ public class GenericEnumerationFactory {
 					}
 
 					@Override
-					public Object invoke(Object parentObject, InvocationData invocationData) {
+					public Object invoke(Object ignore, InvocationData invocationData) {
 						return getItemInstance(iterable.iterator().next());
 					}
 

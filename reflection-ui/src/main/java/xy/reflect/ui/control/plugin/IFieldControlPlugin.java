@@ -84,8 +84,8 @@ public interface IFieldControlPlugin {
 
 	/**
 	 * @param renderer    The UI renderer object.
-	 * @param controlData An object allowing to handle the value of the field to be
-	 *                    displayed.
+	 * @param controlData The field control data allowing to handle the value of the
+	 *                    field to be displayed.
 	 * @return an output field control data corresponding to the input field control
 	 *         data but optionally modified to handle conveniently null values.
 	 *         Typically its type would have an additional zero-arg constructor

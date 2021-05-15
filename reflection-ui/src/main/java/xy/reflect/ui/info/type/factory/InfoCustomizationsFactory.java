@@ -816,9 +816,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (l.getEditOptions().getListInstanciationOption().getCustomInstanceTypeFinder() != null) {
 						ITypeInfo customInstanceType = l.getEditOptions().getListInstanciationOption()
 								.getCustomInstanceTypeFinder().find(customizedUI, null);
-						newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType, null);
+						newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType);
 					} else {
-						newListInstance = ReflectionUIUtils.createDefaultInstance(listType, null);
+						newListInstance = ReflectionUIUtils.createDefaultInstance(listType);
 					}
 					super.replaceContent(listType, newListInstance, array);
 					return newListInstance;

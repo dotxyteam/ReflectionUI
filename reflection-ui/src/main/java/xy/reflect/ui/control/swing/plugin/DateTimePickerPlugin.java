@@ -35,9 +35,12 @@ import java.awt.event.FocusListener;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
@@ -49,6 +52,7 @@ import javax.swing.event.DocumentListener;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
@@ -58,10 +62,18 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.JXDateTimePicker;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUtils;
 
 /**
  * Field control plugin that allows to display and update adequately
@@ -98,14 +110,116 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		return new FieldControlDataProxy(controlData) {
 
 			@Override
-			public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
-				if (typeToInstanciate.getName().equals(Date.class.getName())) {
-					return new Date();
-				}
-				return super.createValue(typeToInstanciate, selectableConstructor);
+			public ITypeInfo getType() {
+				return new DateTypeInfoProxyFactory(((SwingRenderer) renderer).getReflectionUI())
+						.wrapTypeInfo(super.getType());
 			}
 
 		};
+	}
+
+	protected static class DateTypeInfoProxyFactory extends InfoProxyFactory {
+
+		protected ReflectionUI reflectionUI;
+
+		public DateTypeInfoProxyFactory(ReflectionUI reflectionUI) {
+			this.reflectionUI = reflectionUI;
+		}
+
+		@Override
+		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
+			if (DateConstructor.isCompatibleWith(type)) {
+				List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+				result.add(new DateConstructor(reflectionUI, type));
+				return result;
+			}
+			return super.getConstructors(type);
+		}
+
+		@Override
+		protected boolean isConcrete(ITypeInfo type) {
+			if (DateConstructor.isCompatibleWith(type)) {
+				return true;
+			}
+			return super.isConcrete(type);
+		}
+
+	}
+
+	protected static class DateConstructor extends AbstractConstructorInfo {
+
+		protected ReflectionUI reflectionUI;
+		protected ITypeInfo type;
+		protected ITypeInfo returnType;
+
+		public DateConstructor(ReflectionUI reflectionUI, ITypeInfo type) {
+			this.reflectionUI = reflectionUI;
+			this.type = type;
+		}
+
+		@Override
+		public ITypeInfo getReturnValueType() {
+			if (returnType == null) {
+				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return null;
+					}
+				});
+			}
+			return returnType;
+		}
+
+		@Override
+		public List<IParameterInfo> getParameters() {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public Object invoke(Object ignore, InvocationData invocationData) {
+			return new Date();
+		}
+
+		public static boolean isCompatibleWith(ITypeInfo type) {
+			Class<?> dateClass;
+			try {
+				dateClass = ReflectionUtils.getCachedClassforName(type.getName());
+			} catch (ClassNotFoundException e) {
+				return false;
+			}
+			return Date.class.isAssignableFrom(dateClass);
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((type == null) ? 0 : type.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			DateConstructor other = (DateConstructor) obj;
+			if (type == null) {
+				if (other.type != null)
+					return false;
+			} else if (!type.equals(other.type))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ColorConstructor [type=" + type + "]";
+		}
+
 	}
 
 	@Override

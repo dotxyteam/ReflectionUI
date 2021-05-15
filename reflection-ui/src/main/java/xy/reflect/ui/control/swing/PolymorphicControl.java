@@ -61,6 +61,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -157,8 +158,14 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				return getCurrentSubType();
 			}
 		};
+		Mapper<ITypeInfo, Object> instanceCreator = new Mapper<ITypeInfo, Object>() {
+			@Override
+			public Object get(ITypeInfo instanceType) {
+				return swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this, instanceType);
+			}
+		};
 		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,
-				currentSubTypeAccessor, subTypeInstanceCache, beforeCommit);
+				currentSubTypeAccessor, subTypeInstanceCache, beforeCommit, instanceCreator);
 		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
 
@@ -286,10 +293,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected Accessor<ITypeInfo> currentSubTypeAccessor;
 		protected Map<ITypeInfo, Object> subTypeInstanceCache;
 		protected Listener<Object> beforeCommit;
+		protected Mapper<ITypeInfo, Object> instanceCreator;
 
 		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 				PolymorphicTypeOptionsFactory typeOptionsFactory, Accessor<ITypeInfo> currentSubTypeAccessor,
-				Map<ITypeInfo, Object> subTypeInstanceCache, Listener<Object> beforeCommit) {
+				Map<ITypeInfo, Object> subTypeInstanceCache, Listener<Object> beforeCommit,
+				Mapper<ITypeInfo, Object> instanceCreator) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
@@ -297,6 +306,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.currentSubTypeAccessor = currentSubTypeAccessor;
 			this.subTypeInstanceCache = subTypeInstanceCache;
 			this.beforeCommit = beforeCommit;
+			this.instanceCreator = instanceCreator;
 		}
 
 		@Override
@@ -353,7 +363,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			} else {
 				instance = subTypeInstanceCache.get(selectedSubType);
 				if (instance == null) {
-					instance = data.createValue(selectedSubType, true);
+					instance = instanceCreator.get(selectedSubType);
 					if (instance == null) {
 						return IModification.NULL_MODIFICATION;
 					}

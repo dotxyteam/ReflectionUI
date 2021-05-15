@@ -347,11 +347,11 @@ public class ReflectionUIUtils {
 		return contextMessage + " - " + localMessage;
 	}
 
-	public static Object createDefaultInstance(ITypeInfo type, Object parentObject) {
-		return createDefaultInstance(type, parentObject, true);
+	public static Object createDefaultInstance(ITypeInfo type) {
+		return createDefaultInstance(type, true);
 	}
 
-	public static Object createDefaultInstance(ITypeInfo type, Object parentObject, boolean subTypeInstanceAllowed) {
+	public static Object createDefaultInstance(ITypeInfo type, boolean subTypeInstanceAllowed) {
 		try {
 			if (!type.isConcrete()) {
 				if (subTypeInstanceAllowed) {
@@ -359,7 +359,7 @@ public class ReflectionUIUtils {
 						List<ITypeInfo> subTypes = type.getPolymorphicInstanceSubTypes();
 						for (ITypeInfo subType : subTypes) {
 							try {
-								return createDefaultInstance(subType, parentObject, true);
+								return createDefaultInstance(subType, true);
 							} catch (Throwable ignore) {
 							}
 						}
@@ -372,13 +372,12 @@ public class ReflectionUIUtils {
 
 			IMethodInfo zeroParamConstructor = getZeroParameterMethod(type.getConstructors());
 			if (zeroParamConstructor != null) {
-				return zeroParamConstructor.invoke(parentObject,
-						new InvocationData(parentObject, zeroParamConstructor));
+				return zeroParamConstructor.invoke(null, new InvocationData(null, zeroParamConstructor));
 			}
 			for (IMethodInfo constructor : type.getConstructors()) {
-				InvocationData invocationData = new InvocationData(parentObject, constructor);
+				InvocationData invocationData = new InvocationData(null, constructor);
 				if (!ReflectionUIUtils.requiresParameterValue(constructor)) {
-					return constructor.invoke(parentObject, invocationData);
+					return constructor.invoke(null, invocationData);
 				}
 			}
 			throw new ReflectionUIError("Default constructor not found");
@@ -389,14 +388,13 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static boolean canCreateDefaultInstance(ITypeInfo type, Object parentObject,
-			boolean subTypeInstanceAllowed) {
+	public static boolean canCreateDefaultInstance(ITypeInfo type, boolean subTypeInstanceAllowed) {
 		if (!type.isConcrete()) {
 			if (subTypeInstanceAllowed) {
 				if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 					List<ITypeInfo> subTypes = type.getPolymorphicInstanceSubTypes();
 					for (ITypeInfo subType : subTypes) {
-						return canCreateDefaultInstance(subType, parentObject, true);
+						return canCreateDefaultInstance(subType, true);
 					}
 				}
 			}
@@ -511,7 +509,7 @@ public class ReflectionUIUtils {
 								if (itemType.isImmutable()) {
 									dstArray[i] = srcItem;
 								} else {
-									Object dstItem = ReflectionUIUtils.createDefaultInstance(itemType, dst, false);
+									Object dstItem = ReflectionUIUtils.createDefaultInstance(itemType, false);
 									copyFieldValues(reflectionUI, srcItem, dstItem, true);
 									dstArray[i] = dstItem;
 								}
@@ -519,13 +517,13 @@ public class ReflectionUIUtils {
 							}
 							dstFieldValue = ((IListTypeInfo) fieldValueType).fromArray(dstArray);
 						} else if (((IListTypeInfo) fieldValueType).canReplaceContent()) {
-							dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, dst, false);
+							dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
 							((IListTypeInfo) fieldValueType).replaceContent(dstFieldValue, srcArray);
 						} else {
 							throw new ReflectionUIError("Cannot copy list value: '" + srcFieldValue + "'");
 						}
 					} else {
-						dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, dst, false);
+						dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
 						copyFieldValues(reflectionUI, srcFieldValue, dstFieldValue, true);
 					}
 					dstField.setValue(dst, dstFieldValue);

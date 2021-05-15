@@ -60,6 +60,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
@@ -77,9 +78,10 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  *
  */
 public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
+
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
-	protected IListTypeInfo type;
+	protected ITypeInfo type;
 	protected ITypeInfo itemType;
 	protected ITypeInfo parentType;
 	protected String createMethodName;
@@ -162,17 +164,17 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public IListTypeInfo getType() {
+	public ITypeInfo getType() {
 		if (type == null) {
-			type = (IListTypeInfo) reflectionUI
-					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class,
+					new SpecificitiesIdentifier(parentType.getName(), ImplicitListFieldInfo.this.getName())));
 		}
 		return type;
 	}
 
 	@Override
 	public Object getValue(Object object) {
-		return new PrecomputedTypeInstanceWrapper(new ValueInstance(object), new ValueTypeInfo());
+		return new PrecomputedTypeInstanceWrapper(new ValueInstance(object), new ValueTypeInfo(object));
 	}
 
 	@Override
@@ -182,7 +184,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		Object[] array = getType().toArray(value);
+		Object[] array = new ValueTypeInfo(object).toArray(((PrecomputedTypeInstanceWrapper) value).unwrap());
 		while (true) {
 			int size = (Integer) getSizeField().getValue(object);
 			if (size == 0) {
@@ -383,6 +385,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		protected ITypeInfo finalItemType;
+		protected Object parentObject;
+
+		public ValueTypeInfo(Object parentObject) {
+			this.parentObject = parentObject;
+		}
 
 		@Override
 		public ITypeInfoSource getSource() {
@@ -680,7 +687,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 							}
 
 							@Override
-							public Object invoke(Object parentObject, InvocationData invocationData) {
+							public Object invoke(Object ignore, InvocationData invocationData) {
 								Object result = getCreateMethod().invoke(parentObject,
 										new InvocationData(parentObject, getCreateMethod(), parentObject));
 								return result;

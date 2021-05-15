@@ -142,7 +142,7 @@ public class SwingRenderer {
 			public void run() {
 				ReflectionUI reflectionUI = SwingRenderer.getDefault().getReflectionUI();
 				Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
-						reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)), null);
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)));
 				if (object == null) {
 					return;
 				}
@@ -437,12 +437,9 @@ public class SwingRenderer {
 	 * @param activatorComponent A component belonging to the parent window of the
 	 *                           eventual dialogs or null.
 	 * @param type               An abstract UI type information object.
-	 * @param parentObject       The parent object of the new instance or null if
-	 *                           there is no parent object.
 	 * @return an object created using the given type information.
 	 */
-	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type,
-			final Object parentObject) {
+	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
 		try {
 			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 
@@ -450,7 +447,7 @@ public class SwingRenderer {
 
 				List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
 				if (polyTypes.size() == 1) {
-					return onTypeInstanciationRequest(activatorComponent, polyTypes.get(0), parentObject);
+					return onTypeInstanciationRequest(activatorComponent, polyTypes.get(0));
 				} else {
 					IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 							.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
@@ -460,7 +457,7 @@ public class SwingRenderer {
 						return null;
 					}
 					return onTypeInstanciationRequest(activatorComponent,
-							(ITypeInfo) enumFactory.getInstanceItem(resultEnumItem), parentObject);
+							(ITypeInfo) enumFactory.getInstanceItem(resultEnumItem));
 				}
 			} else {
 				List<IMethodInfo> constructors = new ArrayList<IMethodInfo>();
@@ -504,7 +501,7 @@ public class SwingRenderer {
 							return null;
 						}
 					}
-					return onMethodInvocationRequest(activatorComponent, type, parentObject, chosenConstructor);
+					return onMethodInvocationRequest(activatorComponent, type, null, chosenConstructor);
 				} else {
 					String typeCaption = type.getCaption();
 					String msg;
@@ -526,7 +523,7 @@ public class SwingRenderer {
 					if (type == null) {
 						return null;
 					} else {
-						return onTypeInstanciationRequest(activatorComponent, type, parentObject);
+						return onTypeInstanciationRequest(activatorComponent, type);
 					}
 				}
 			}

@@ -1227,17 +1227,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			typeToInstanciate = swingRenderer.getReflectionUI()
 					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
-		final boolean constructorSelectable = (listType
+		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-		Object[] result = new Object[1];
-		final ITypeInfo finalTypeToInstanciate = typeToInstanciate;
-		swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
-			@Override
-			public void run() {
-				result[0] = listData.createValue(finalTypeToInstanciate, constructorSelectable);
-			}
-		}, ReflectionUIUtils.composeMessage(itemPosition.getContainingListTitle(), "Item Creation"));
-		return result[0];
+
+		if (constructorSelectable) {
+			return swingRenderer.onTypeInstanciationRequest(ListControl.this, typeToInstanciate);
+		} else {
+			return ReflectionUIUtils.createDefaultInstance(typeToInstanciate);
+		}
 	}
 
 	protected AbstractStandardListAction createAddChildAction() {

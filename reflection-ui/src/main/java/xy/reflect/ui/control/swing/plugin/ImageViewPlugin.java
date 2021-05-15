@@ -192,7 +192,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public Object invoke(Object parentObject, InvocationData invocationData) {
+		public Object invoke(Object ignore, InvocationData invocationData) {
 			return new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 		}
 

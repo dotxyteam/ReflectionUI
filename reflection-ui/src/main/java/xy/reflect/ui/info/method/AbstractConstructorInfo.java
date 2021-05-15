@@ -40,8 +40,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Base class of constructor specifications. Note that {@link #getName()}
- * returns an empty string for instances of this class.
+ * Base class to ease the implementation of constructor information objects.
  * 
  * @author olitank
  *

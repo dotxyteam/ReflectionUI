@@ -135,10 +135,6 @@ public abstract class DelegatingFieldControlData implements IFieldControlData {
 		return getDelegate().getButtonBorderColor();
 	}
 
-	public Object createValue(ITypeInfo typeToInstanciate, boolean selectableConstructor) {
-		return getDelegate().createValue(typeToInstanciate, selectableConstructor);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

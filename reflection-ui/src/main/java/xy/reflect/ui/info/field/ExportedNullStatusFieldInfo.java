@@ -62,9 +62,9 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 		return value != null;
 	}
 
-	protected Object booleanTovalue(Boolean value, Object object) {
+	protected Object booleanTovalue(Boolean value) {
 		if ((Boolean) value) {
-			return ReflectionUIUtils.createDefaultInstance(super.getType(), object);
+			return ReflectionUIUtils.createDefaultInstance(super.getType());
 		} else {
 			return null;
 		}
@@ -92,12 +92,12 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		super.setValue(object, booleanTovalue((Boolean) value, object));
+		super.setValue(object, booleanTovalue((Boolean) value));
 	}
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(final Object object, final Object newValue) {
-		final Object baseNewValue = booleanTovalue((Boolean) newValue, object);
+		final Object baseNewValue = booleanTovalue((Boolean) newValue);
 		Runnable result = super.getNextUpdateCustomUndoJob(object, baseNewValue);
 		if (result == null) {
 			final Object baseOldValue = super.getValue(object);

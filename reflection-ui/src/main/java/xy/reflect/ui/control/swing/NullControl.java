@@ -50,7 +50,6 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Empty field control that allows to represent the null value.
@@ -97,21 +96,11 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 			setActivationAction(new Runnable() {
 				@Override
 				public void run() {
-					Object[] newValue = new Object[1];
-					try {
-						swingRenderer.showBusyDialogWhile(NullControl.this, new Runnable() {
-							@Override
-							public void run() {
-								newValue[0] = data.createValue(data.getType(), true);
-							}
-						}, ReflectionUIUtils.composeMessage(data.getCaption(), "Creating Value"));
-					} catch (Throwable t) {
-						swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
-					}
-					if (newValue[0] == null) {
+					Object newValue = swingRenderer.onTypeInstanciationRequest(NullControl.this, data.getType());
+					if (newValue == null) {
 						return;
 					}
-					data.setValue(newValue[0]);
+					data.setValue(newValue);
 				}
 			});
 		}

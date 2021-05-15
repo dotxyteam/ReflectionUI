@@ -601,8 +601,8 @@ public class EncapsulatedObjectFactory {
 						ITypeInfo returnValueType;
 
 						@Override
-						public Object invoke(Object parentObject, InvocationData invocationData) {
-							return getInstance(Accessor.returning(super.invoke(parentObject, invocationData), true));
+						public Object invoke(Object ignore, InvocationData invocationData) {
+							return getInstance(Accessor.returning(super.invoke(ignore, invocationData), true));
 						}
 
 						@Override
