@@ -1362,7 +1362,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(singleSelectionItem));
 				if (detailsControlItemType.equals(singleSelectionItemType)) {
 					detailsControlItemPosition = singleSelection;
-					detailsControlBuilder.setBufferedItemPosition(detailsControlItemPosition);
+					detailsControlBuilder.setPosition(detailsControlItemPosition);
 					detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
 					return;
 				}
@@ -1372,6 +1372,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			detailsControlBuilder = null;
 			detailsControl = null;
 			updateDetailsArea(refreshStructure);
+			return;
 		}
 		if ((detailsControlItemPosition != null) && (singleSelection == null)) {
 			detailsControlItemPosition = null;
@@ -1399,6 +1400,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					scrollTo(detailsControlItemPosition);
 				}
 			});
+			return;
 		}
 		throw new ReflectionUIError();
 	}
@@ -2041,10 +2043,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected ValueReturnMode objectValueReturnMode;
 
 		public ItemUIBuilder(BufferedItemPosition bufferedItemPosition) {
-			setBufferedItemPosition(bufferedItemPosition);
+			setPosition(bufferedItemPosition);
 		}
 
-		public void setBufferedItemPosition(BufferedItemPosition bufferedItemPosition) {
+		public void setPosition(BufferedItemPosition bufferedItemPosition) {
 			this.bufferedItemPosition = bufferedItemPosition;
 			this.modificationFactory = createListModificationFactory(bufferedItemPosition);
 			this.canCommit = modificationFactory.canSet(bufferedItemPosition.getIndex());

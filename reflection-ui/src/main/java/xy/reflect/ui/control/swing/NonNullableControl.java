@@ -39,7 +39,19 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 /**
  * Field control that rejects null values ({@link #refreshUI(boolean)} will
  * return false when the value is null). A sub-form is used to display the
- * values.
+ * non-null value.
+ * 
+ * Note that this control is used when
+ * {@link IFieldControlData#isNullValueDistinct()} returns false. Which means
+ * that it prevents controls from encountering null and then displaying a
+ * default value. It seems that it is not the expected behavior but fortunately
+ * it only happens when the field declared value type is different from the
+ * actual value type. The null value in this case allows to destroy the current
+ * control, pick a more suitable one and change both the actual type and the
+ * control later. Anyway in order to display the default value when null is
+ * returned it is still possible to alter the field declared type typically by
+ * using a proxy, some customizations, etc.
+ * 
  * 
  * @author olitank
  *

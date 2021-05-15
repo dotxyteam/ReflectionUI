@@ -325,15 +325,17 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public class ValueInstance {
-		protected Object object;
 		protected Object[] array;
 
 		public ValueInstance(Object object) {
-			this.object = object;
-			array = buildArrayFromObject();
+			this.array = buildArrayFromObject(object);
 		}
 
-		protected Object[] buildArrayFromObject() {
+		public ValueInstance(Object[] precomputedArray) {
+			this.array = precomputedArray;
+		}
+
+		protected Object[] buildArrayFromObject(Object object) {
 			List<Object> result = new ArrayList<Object>();
 			int size = (Integer) getSizeField().getValue(object);
 			for (int i = 0; i < size; i++) {
@@ -343,16 +345,8 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			return result.toArray();
 		}
 
-		public ValueInstance(Object[] precomputedArray) {
-			this.array = precomputedArray;
-		}
-
 		public ImplicitListFieldInfo getImplicitListField() {
 			return ImplicitListFieldInfo.this;
-		}
-
-		public Object getObject() {
-			return object;
 		}
 
 		protected Object[] getArray() {

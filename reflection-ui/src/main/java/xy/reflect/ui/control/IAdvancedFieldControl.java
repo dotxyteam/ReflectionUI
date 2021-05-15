@@ -47,6 +47,8 @@ public interface IAdvancedFieldControl {
 	boolean showsCaption();
 
 	/**
+	 * Updates the state of the current control.
+	 * 
 	 * @param refreshStructure Whether the current control should update its
 	 *                         structure to reflect the recent meta-data change.
 	 *                         Mainly used in design mode.

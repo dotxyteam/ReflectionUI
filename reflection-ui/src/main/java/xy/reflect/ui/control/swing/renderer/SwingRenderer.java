@@ -388,7 +388,7 @@ public class SwingRenderer {
 	 * @param t                  The exception to be displayed.
 	 */
 	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
-		reflectionUI.logError(t);
+		reflectionUI.logDebug(t);
 		openErrorDialog(activatorComponent, "An Error Occured", null, t);
 	}
 

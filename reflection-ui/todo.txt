@@ -1,3 +1,80 @@
+- review the logging system: there are some validation 
+error logs that are always displayed. They should be 
+displayed only in debug mode. The rule is: if error
+already displayed on the screen then log the details 
+only in debug mode. 
+- a field control has no way to express that it cannot
+display null. Ideally if it cannot then it must be
+wrapped either in a nullable control if null must be
+distinctly displayed or in a non-nullable control otherwise.
+Note that the "can handle null" information would be
+available only after the creation of the control that 
+would then fail in the current state of the API.
+The only solution is then to throw a kind of 
+InputRejectedException during the creation or the update
+of the control. Currently a similar exception is taken into 
+account during the creation of the control but not during
+the update. Note that currently null will cause issues 
+with ListControl and Slider maybe. Must the API be changed?
+May be a control factory should be added for each type of 
+control so that the capabilities of the controls would
+be known before their creation, just like field control
+plugins actually. For now it may be quicker/simpler to throw 
+an InputRejectedException exception and handle it or
+ensure that all controls support null and document
+that new controls must necessarily support null. 
+
+Supporting null
+means that the control does not crash and displays a default
+value (not distinct). This is actually wanted unless 
+isNullValueDisticnt() returns true in which case the null 
+value must be distinct.
+Currently built-in controls (except enum control, polymorphic 
+control and plugin controls) are systematically
+considered as not being able to distinctly display null
+values and plugins all declare themselves as not being able
+to distinctly display it. All the controls except
+ListControl support null. My bet is that for now it would
+be enough to make the ListControl support null and document
+all these somewhere. Update: the ListControl supports null,
+then there is nothing to do (except document it).
+Caution: 
+Currently the non-nullable control is used when
+isNullValueDistinct() returns false. Which means that it
+prevents controls from encountering null and displaying a default value. 
+It seems that it is not the expected behavior but fortunately
+it only happens when the declared type is different from
+the actual value type. Null in this case allows to pick
+a more suitable control and change both the actual type
+and the control later. Anyway in order to display the default
+value on null it is still possible to alter the declared type.
+
+
+
+- a field info is the specification of an object attribute
+that must be displayed on the screen. When displaying an
+object attribute it is sometimes necessary to create a
+new value for the attribute and how to do that must be
+specified in the field info. The fieldInfo.type.contructors
+should give this information. Most of the time it is enough
+except for the creation of implicit list items: the parent
+object is required while creating items. The problem is
+that the field info cannot hold a reference to the owner object
+of the attribute that it is describing. Why: because by
+design the specification of how to display an object on the screen
+(type info) must be known before encountering any possible
+variation of the object (instances). Why: because a UI
+has limited capabilities by nature: it cannot adapt to
+every possible set of values since it is not intelligent
+and we also need it to be predictable, to inform us about
+all the possible values, the current one, and allow us to 
+choose another one. Then the domain of values (the type) 
+must always be known. But it still does not imply that
+the instance should not be referenced by its type info.
+
+
+
+
 - the ui thread is for actions that need to update the ui.
 An action can start from the ui and end by modifying it.
 In the meantime the action can run in a background thread

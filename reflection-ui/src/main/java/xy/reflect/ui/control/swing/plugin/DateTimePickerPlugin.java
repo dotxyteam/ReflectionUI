@@ -373,7 +373,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 				displayError(null);
 				return result;
 			} catch (ParseException e) {
-				swingRenderer.getReflectionUI().logError(e);
+				swingRenderer.getReflectionUI().logDebug(e);
 				displayError(MiscUtils.getPrettyErrorMessage(e));
 				return null;
 			}

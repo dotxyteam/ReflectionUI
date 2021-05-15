@@ -73,6 +73,12 @@ public interface IFieldControlData {
 	/**
 	 * Retrieves the underlying field value.
 	 * 
+	 * Note that null may be returned even if {@link #isNullValueDistinct()} returns
+	 * false. All field controls must then support null (not crash and display a
+	 * default value, not a distinct null value). This is actually wanted unless
+	 * {@link #isNullValueDistinct()} returns true in which case the null value must
+	 * be distinctly displayed.
+	 * 
 	 * @return the value that the control must display.
 	 */
 	Object getValue();
@@ -80,7 +86,8 @@ public interface IFieldControlData {
 	/**
 	 * Updates the underlying field with the provided value.
 	 * 
-	 * @param value The new value.
+	 * @param value The new value. May be null if {@link #isNullValueDistinct()}
+	 *              returns true.
 	 */
 	void setValue(Object value);
 
@@ -140,7 +147,7 @@ public interface IFieldControlData {
 	 *         special meaning different from "empty/default value" for the
 	 *         developer. Note that the null value may be returned by
 	 *         {@link #getValue()} even if it should not be distinctly displayed
-	 *         (false is returned by the current method).
+	 *         (false returned by the current method).
 	 */
 	boolean isNullValueDistinct();
 

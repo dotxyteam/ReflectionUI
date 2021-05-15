@@ -330,7 +330,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		try {
 			data.setValue(textComponent.getText());
 		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logError(t);
+			swingRenderer.getReflectionUI().logDebug(t);
 			displayError(MiscUtils.getPrettyErrorMessage(t));
 		}
 	}

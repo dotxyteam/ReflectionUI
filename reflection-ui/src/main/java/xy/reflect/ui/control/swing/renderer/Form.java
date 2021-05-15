@@ -330,6 +330,7 @@ public class Form extends ImagePanel {
 				} catch (Exception e) {
 					final String errorMsg = MiscUtils.getPrettyErrorMessage(e);
 					if (!errorMsg.equals(getStatusBarMessage())) {
+						swingRenderer.getReflectionUI().logDebug(e);
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {

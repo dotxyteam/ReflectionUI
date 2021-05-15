@@ -132,11 +132,23 @@ public class ReflectionUI {
 		return new DefaultApplicationInfo();
 	}
 
+	/**
+	 * Formats the given message (used for logging).
+	 * 
+	 * @param msg The message to format.
+	 * @return A formatted message.
+	 */
 	protected String formatLogMessage(String msg) {
 		return SimpleDateFormat.getDateTimeInstance().format(new Date()) + " [" + ReflectionUI.class.getSimpleName()
 				+ "] " + msg;
 	}
 
+	/**
+	 * Logs the given message (to the console output stream by default) if the debug
+	 * mode is active (see {@link SystemProperties#isDebugModeActive()}).
+	 * 
+	 * @param msg The message.
+	 */
 	public void logDebug(String msg) {
 		if (!SystemProperties.isDebugModeActive()) {
 			return;
@@ -144,14 +156,34 @@ public class ReflectionUI {
 		System.out.println(formatLogMessage("DEBUG - " + msg));
 	}
 
+	/**
+	 * Logs the given exception (to the console output stream by default) if the
+	 * debug mode is active (see {@link SystemProperties#isDebugModeActive()}).
+	 * 
+	 * @param t The exception.
+	 */
 	public void logDebug(Throwable t) {
 		logDebug(MiscUtils.getPrintedStackTrace(t));
 	}
 
+	/**
+	 * Logs the given error message (to the console error stream by default). If the
+	 * error is already displayed on the screen then {@link #logDebug(String)}
+	 * should be used instead.
+	 * 
+	 * @param msg The message.
+	 */
 	public void logError(String msg) {
 		System.err.println(formatLogMessage("ERROR - " + msg));
 	}
 
+	/**
+	 * Logs the given exception (to the console error stream by default). If the
+	 * error is already displayed on the screen then {@link #logDebug(Throwable)}
+	 * should be used instead.
+	 * 
+	 * @param t The exception.
+	 */
 	public void logError(Throwable t) {
 		logError(MiscUtils.getPrintedStackTrace(t));
 	}

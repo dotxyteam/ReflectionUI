@@ -90,7 +90,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * 
  * They provide common field control features as error display, undo management,
  * busy indication, updates synchronization, etc. These features can be tweaked
- * by making the field control override the {@link IAdvancedFieldControl}
+ * by making the field control implement the {@link IAdvancedFieldControl}
  * interface.
  * 
  * They also generate the input that will be used by the
@@ -408,7 +408,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				controlData = getInitialControlData();
 				fieldControl = createFieldControl();
 			} catch (Throwable t) {
-				swingRenderer.getReflectionUI().logError(t);
 				fieldControl = createFieldErrorControl(t);
 			}
 			layoutFieldControl();
@@ -617,7 +616,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					} catch (RejectedFieldControlInputException e) {
 					}
 				} catch (Throwable t) {
-					swingRenderer.getReflectionUI().logError(t);
 					return createFieldErrorControl(t);
 				}
 			}

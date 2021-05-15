@@ -195,7 +195,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 										try {
 											value = formatter.stringToValue(string);
 										} catch (ParseException e) {
-											swingRenderer.getReflectionUI().logError(e);
+											swingRenderer.getReflectionUI().logDebug(e);
 											displayError(MiscUtils.getPrettyErrorMessage(e));
 											return;
 										}

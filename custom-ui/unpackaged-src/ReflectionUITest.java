@@ -138,7 +138,8 @@ public class ReflectionUITest {
 		public List<File> theFileList = Arrays.asList(new File("tmp"));
 		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));
 		public Stack<Integer> theStack = new Stack<Integer>();
-
+		public List<File> theNullList = null;
+		
 		public Test4 test4 = new Test4();
 
 		public Date getTheDate() {
