@@ -281,7 +281,7 @@ public class MethodAction extends AbstractAction {
 				if (data.isReturnValueDetached()) {
 					return null;
 				} else {
-					return createdFormModificationStack;
+					return MethodAction.this.modificationStack;
 				}
 			}
 
