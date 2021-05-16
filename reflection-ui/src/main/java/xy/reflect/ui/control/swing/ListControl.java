@@ -38,8 +38,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -69,6 +67,8 @@ import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -311,14 +311,23 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			} else {
 				throw new ReflectionUIError();
 			}
-			splitPane.addComponentListener(new ComponentAdapter() {
-				public void componentResized(ComponentEvent event) {
-					if (splitPane.isShowing()) {
-						splitPane.setDividerLocation(dividerLocation);
-						splitPane.setResizeWeight(dividerLocation);
-						splitPane.removeComponentListener(this);
-					}
+			splitPane.addAncestorListener(new AncestorListener() {
+
+				@Override
+				public void ancestorAdded(AncestorEvent event) {
+					splitPane.setDividerLocation(dividerLocation);
+					splitPane.setResizeWeight(dividerLocation);
+					splitPane.removeAncestorListener(this);
 				}
+
+				@Override
+				public void ancestorRemoved(AncestorEvent event) {
+				}
+
+				@Override
+				public void ancestorMoved(AncestorEvent event) {
+				}
+
 			});
 		} else {
 			add(treeTableComponentScrollPane, BorderLayout.CENTER);
@@ -1216,7 +1225,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
-		return constructorSelectable && (listType.isItemNullValueDistinct()
+		return constructorSelectable && (listType.isItemNullValueSupported()
 				|| swingRenderer.isDecisionRequiredOnTypeInstanciationRequest(typeToInstanciate));
 	};
 
@@ -2067,7 +2076,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected boolean isNullValueDistinct() {
-			return bufferedItemPosition.getContainingListType().isItemNullValueDistinct();
+			return bufferedItemPosition.getContainingListType().isItemNullValueSupported();
 		}
 
 		@Override
@@ -2193,7 +2202,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				newSubListItem = null;
 			} else {
 				boolean nullValueChosen = false;
-				if (subListType.isItemNullValueDistinct()) {
+				if (subListType.isItemNullValueSupported()) {
 					String choice = swingRenderer.openSelectionDialog(ListControl.this,
 							Arrays.asList("Create", "<Null>"), "Create", "Choose", getItemTitle(newSubItemPosition));
 					if (choice == null) {
@@ -2461,7 +2470,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				newItem = null;
 			} else {
 				boolean nullValueChosen = false;
-				if (listType.isItemNullValueDistinct()) {
+				if (listType.isItemNullValueSupported()) {
 					String choice = swingRenderer.openSelectionDialog(ListControl.this,
 							Arrays.asList("Create", "<Null>"), "Create", "Choose", getItemTitle(newItemPosition));
 					if (choice == null) {

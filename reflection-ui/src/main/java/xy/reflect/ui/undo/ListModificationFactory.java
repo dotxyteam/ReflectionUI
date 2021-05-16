@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
@@ -92,12 +91,9 @@ public class ListModificationFactory {
 		if (!canAdd(index)) {
 			return false;
 		}
-		ITypeInfo itemType = anyItemPosition.getContainingListType().getItemType();
-		if (itemType != null) {
-			for (Object item : items) {
-				if (!itemType.supportsInstance(item)) {
-					return false;
-				}
+		for (Object item : items) {
+			if (!anyItemPosition.supportsItem(item)) {
+				return false;
 			}
 		}
 		return true;
@@ -168,11 +164,8 @@ public class ListModificationFactory {
 		if (!canSet(index)) {
 			return false;
 		}
-		ITypeInfo itemType = anyItemPosition.getContainingListType().getItemType();
-		if (itemType != null) {
-			if (!itemType.supportsInstance(item)) {
-				return false;
-			}
+		if (!anyItemPosition.supportsItem(item)) {
+			return false;
 		}
 		return true;
 	}

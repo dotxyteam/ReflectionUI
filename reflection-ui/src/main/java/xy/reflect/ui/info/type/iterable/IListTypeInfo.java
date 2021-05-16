@@ -157,7 +157,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	/**
 	 * @return whether instances of this list type support null items.
 	 */
-	boolean isItemNullValueDistinct();
+	boolean isItemNullValueSupported();
 
 	/**
 	 * @return an option describing how the UI reacts to item creation requests.

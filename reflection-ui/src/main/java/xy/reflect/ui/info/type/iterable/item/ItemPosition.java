@@ -110,8 +110,19 @@ public class ItemPosition implements Cloneable {
 	 * @return whether this given object could be an item at this position or not.
 	 */
 	public boolean supportsItem(Object object) {
-		ITypeInfo itemType = getContainingListType().getItemType();
-		return (itemType == null) || (itemType.supportsInstance(object));
+		IListTypeInfo listType = getContainingListType();
+		ITypeInfo itemType = listType.getItemType();
+		if (itemType != null) {
+			if (!itemType.supportsInstance(object)) {
+				return false;
+			}
+		}
+		if (object == null) {
+			if (!listType.isItemNullValueSupported()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -482,7 +493,7 @@ public class ItemPosition implements Cloneable {
 		if (itemType != null) {
 			for (Object item : listRawValue) {
 				if (item != null) {
-					if (!itemType.supportsInstance(item)) {
+					if (!supportsItem(item)) {
 						throw new ReflectionUIError("Item not supported: '" + item + "'. Was expecting instance of '"
 								+ itemType.getName() + "'");
 

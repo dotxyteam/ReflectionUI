@@ -183,7 +183,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isItemNullValueDistinct(IListTypeInfo listType) {
+	protected boolean isItemNullValueSupported(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
@@ -192,7 +192,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				return true;
 			}
 		}
-		return super.isItemNullValueDistinct(listType);
+		return super.isItemNullValueSupported(listType);
 	}
 
 	@Override

@@ -510,7 +510,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean isItemNullValueDistinct() {
+		public boolean isItemNullValueSupported() {
 			return false;
 		}
 

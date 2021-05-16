@@ -338,8 +338,14 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	@Override
 	public boolean supportsInstance(Object object) {
 		if (getJavaType().isPrimitive()) {
+			if(object == null) {
+				return false;
+			}
 			return ReflectionUtils.primitiveToWrapperClass(getJavaType()).isInstance(object);
 		} else {
+			if(object == null) {
+				return true;
+			}
 			return getJavaType().isInstance(object);
 		}
 	}

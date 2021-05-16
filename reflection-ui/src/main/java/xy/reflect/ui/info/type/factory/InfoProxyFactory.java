@@ -534,8 +534,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.isOrdered();
 	}
 
-	protected boolean isItemNullValueDistinct(IListTypeInfo type) {
-		return type.isItemNullValueDistinct();
+	protected boolean isItemNullValueSupported(IListTypeInfo type) {
+		return type.isItemNullValueSupported();
 	}
 
 	protected InitialItemValueCreationOption getInitialItemValueCreationOption(IListTypeInfo type) {
@@ -1368,8 +1368,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isItemNullValueDistinct() {
-			return InfoProxyFactory.this.isItemNullValueDistinct((IListTypeInfo) base);
+		public boolean isItemNullValueSupported() {
+			return InfoProxyFactory.this.isItemNullValueSupported((IListTypeInfo) base);
 		}
 
 		@Override
