@@ -64,6 +64,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
@@ -439,6 +440,9 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean hasPolymorphicInstanceSubTypes(ITypeInfo type) {
+		if (PolymorphicTypeOptionsFactory.isPolymorphismBlocked(type)) {
+			return false;
+		}
 		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 		return (polyTypes != null) && (polyTypes.size() > 0);
 	}
@@ -535,9 +539,6 @@ public class ReflectionUIUtils {
 	}
 
 	public static void checkInstance(ITypeInfo type, Object object) {
-		if (object == null) {
-			return;
-		}
 		if (!type.supportsInstance(object)) {
 			throw new ReflectionUIError();
 		}

@@ -56,7 +56,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
-	protected static final String POLYMORPHISM_BLOCKED = PolymorphicTypeOptionsFactory.class.getName()
+	protected static final String POLYMORPHISM_BLOCKED_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class.getName()
 			+ ".POLYMORPHISM_BLOCKED";
 
 	protected ITypeInfo polymorphicType;
@@ -87,7 +87,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	}
 
 	protected static ITypeInfo blockPolymorphism(final ITypeInfo type, ReflectionUI reflectionUI) {
-		if (Boolean.TRUE.equals(type.getSpecificProperties().get(POLYMORPHISM_BLOCKED))) {
+		if (isPolymorphismBlocked(type)) {
 			throw new BlockedPolymorphismException();
 		}
 		final ITypeInfoSource typeSource = type.getSource();
@@ -98,7 +98,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			@Override
 			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-				result.put(POLYMORPHISM_BLOCKED, Boolean.TRUE);
+				result.put(POLYMORPHISM_BLOCKED_PROPERTY_KEY, Boolean.TRUE);
 				return result;
 			}
 
@@ -116,6 +116,10 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		}.wrapTypeInfo(unwrappedType);
 		ITypeInfo result = reflectionUI.getTypeInfo(blockedPolymorphismType[0].getSource());
 		return result;
+	}
+
+	public static boolean isPolymorphismBlocked(ITypeInfo type) {
+		return Boolean.TRUE.equals(type.getSpecificProperties().get(POLYMORPHISM_BLOCKED_PROPERTY_KEY));
 	}
 
 	public List<ITypeInfo> getTypeOptions() {

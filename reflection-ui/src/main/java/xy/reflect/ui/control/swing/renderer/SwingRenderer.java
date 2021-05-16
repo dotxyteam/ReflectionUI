@@ -443,9 +443,9 @@ public class SwingRenderer {
 		try {
 			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 
-				final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
-
+				PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
 				List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
+				
 				if (polyTypes.size() == 1) {
 					return onTypeInstanciationRequest(activatorComponent, polyTypes.get(0));
 				} else {
