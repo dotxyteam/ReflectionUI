@@ -33,7 +33,7 @@ import javax.swing.JSplitPane;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 /**
- * Base class of most split panes used by the {@link SwingRenderer}.
+ * Class of most split panes used by the {@link SwingRenderer}.
  * 
  * @author olitank
  *
