@@ -786,6 +786,12 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public String getConfirmationMessage(Object object, InvocationData invocationData) {
+			object = ((Value) object).getObject();
+			return super.getConfirmationMessage(object, invocationData);
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
 			result.put(CONTAINING_CAPSULE_FIELD_PROPERTY_KEY, CapsuleFieldInfo.this);
