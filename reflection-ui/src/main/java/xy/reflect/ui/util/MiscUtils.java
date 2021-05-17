@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -25,9 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-
-import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
 /**
  * Various utilities.
@@ -258,17 +254,17 @@ public class MiscUtils {
 		return new ReflectionUIError(t).toString();
 	}
 
-	public static ExecutorService newAutoShutdownSingleThreadExecutor(ThreadFactory threadFactory,
-			long idleTimeoutMilliseconds) {
-		ThreadPoolExecutor result = new ThreadPoolExecutor(0, 1, idleTimeoutMilliseconds, TimeUnit.MILLISECONDS,
-				new LinkedBlockingQueue<Runnable>(), threadFactory);
-		return result;
-	}
-
-	public static ExecutorService newAutoShutdownMultiThreadExecutor(ThreadFactory threadFactory,
-			long idleTimeoutMilliseconds) {
-		ThreadPoolExecutor result = new ThreadPoolExecutor(0, Integer.MAX_VALUE, idleTimeoutMilliseconds,
-				TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>(), threadFactory);
+	public static ExecutorService newExecutor(final String threadName, int minimumThreadCount) {
+		ThreadPoolExecutor result = new ThreadPoolExecutor(minimumThreadCount, Integer.MAX_VALUE, 60000,
+				TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>(), new ThreadFactory() {
+					@Override
+					public Thread newThread(Runnable r) {
+						Thread result = new Thread(r);
+						result.setName(threadName);
+						result.setDaemon(true);
+						return result;
+					}
+				});
 		return result;
 	}
 
@@ -276,16 +272,16 @@ public class MiscUtils {
 		return new WeakHashMap<K, V>();
 	}
 
-	public static Map<JavaTypeInfoSource, ITypeInfo> newWeakValuesEqualityBasedMap() {
-		return newAutoCleanUpCache(false, true, -1, 1000, "WeakValuesEqualityBasedMapCleaner");
+	public static <K, V> Map<K, V> newWeakValuesEqualityBasedMap() {
+		return newAutoCleanUpCache(false, true, -1, 5000, "WeakValuesEqualityBasedMapCleaner");
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedMap() {
-		return newAutoCleanUpCache(true, false, -1, 1000, "WeakKeysIdentityBasedMapCleaner");
+		return newAutoCleanUpCache(true, false, -1, 5000, "WeakKeysIdentityBasedMapCleaner");
 	}
 
 	public static <K, V> Map<K, V> newWeakKeysIdentityBasedCache(int maxSize) {
-		return newAutoCleanUpCache(true, false, maxSize, 1000, "WeakKeysIdentityBasedCacheCleaner");
+		return newAutoCleanUpCache(true, false, maxSize, 5000, "WeakKeysIdentityBasedCacheCleaner");
 	}
 
 	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues, int maxSize,

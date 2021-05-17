@@ -65,7 +65,7 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class JavaTypeInfoSource implements ITypeInfoSource {
 
-	protected static final Map<JavaTypeInfoSource, ITypeInfo> CACHE = MiscUtils.newWeakValuesEqualityBasedMap();
+	protected static final Map<JavaTypeInfoSource, DefaultTypeInfo> CACHE = MiscUtils.newWeakValuesEqualityBasedMap();
 	protected static final Object CACHE_MUTEX = new Object();
 
 	protected ReflectionUI reflectionUI;
@@ -100,9 +100,9 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	}
 
 	@Override
-	public ITypeInfo getTypeInfo() {
+	public DefaultTypeInfo getTypeInfo() {
 		synchronized (CACHE_MUTEX) {
-			ITypeInfo result = CACHE.get(this);
+			DefaultTypeInfo result = CACHE.get(this);
 			if (result == null) {
 				if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
 					Class<?> itemClass = guessGenericTypeParameters(Collection.class, 0);

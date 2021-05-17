@@ -53,7 +53,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected String fieldName;
 	protected ITypeInfo fieldType;
 
-	protected static Map<Object, Map<IFieldInfo, Object>> valueByFieldByObject = MiscUtils
+	protected static Map<Object, Map<VirtualFieldInfo, Object>> valueByFieldByObject = MiscUtils
 			.newWeakKeysIdentityBasedMap();
 
 	public VirtualFieldInfo(String fieldName, ITypeInfo fieldType) {
@@ -107,7 +107,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Object getValue(Object object) {
-		Map<IFieldInfo, Object> valueByField = getValueByField(object);
+		Map<VirtualFieldInfo, Object> valueByField = getValueByField(object);
 		return valueByField.get(this);
 	}
 
@@ -120,10 +120,10 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 		getValueByField(object).put(this, value);
 	}
 
-	protected Map<IFieldInfo, Object> getValueByField(Object object) {
-		Map<IFieldInfo, Object> valueByField = valueByFieldByObject.get(object);
+	protected Map<VirtualFieldInfo, Object> getValueByField(Object object) {
+		Map<VirtualFieldInfo, Object> valueByField = valueByFieldByObject.get(object);
 		if (valueByField == null) {
-			valueByField = new HashMap<IFieldInfo, Object>();
+			valueByField = new HashMap<VirtualFieldInfo, Object>();
 			valueByFieldByObject.put(object, valueByField);
 		}
 		return valueByField;

@@ -280,6 +280,8 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			if (!getCustomizationOptions().isInEditMode()) {
 				return false;
 			}
+			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			if (!getInfoCustomizations()
 					.equals(objectType.getSpecificProperties().get(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY))) {
 				return false;
@@ -345,9 +347,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 		@Override
 		public void refresh(boolean refreshStructure) {
 			if (areCustomizationsEditable(object) != toolsAdded) {
-				removeAll();
-				fieldControlPlaceHoldersByCategory.clear();
-				methodControlPlaceHoldersByCategory.clear();
+				objectType = null;
 				super.refresh(true);
 			} else {
 				super.refresh(refreshStructure);
