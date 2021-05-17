@@ -282,6 +282,8 @@
       <visibleStrings>
         <string>234</string>
         <string>the new virtual value</string>
+        <string>234</string>
+        <string>234</string>
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>

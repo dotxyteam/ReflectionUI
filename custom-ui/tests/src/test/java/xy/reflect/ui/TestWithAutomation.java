@@ -29,6 +29,7 @@ public class TestWithAutomation {
 	public static void setupTestEnvironment() {
 		checkSystemProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
 		checkSystemProperty(MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
+		checkSystemProperty(MoreSystemProperties.DEBUG, "true");
 	}
 
 	@BeforeClass
@@ -70,6 +71,13 @@ public class TestWithAutomation {
 		TestingUtils.assertSuccessfulReplay(tester,
 				new File(System.getProperty("custom-ui-tests.project.directory", "./")
 						+ "test-specifications/testDuplicates.stt"));
+	}
+
+	@Test
+	public void testMemberNamesCollision() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testMemberNamesCollision.stt"));
 	}
 
 }
