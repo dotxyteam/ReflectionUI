@@ -121,6 +121,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		this.swingRenderer = swingRenderer;
 		this.form = form;
 		this.field = field;
+		setName("fieldControlPlaceHolder [field=" + field.getName() + ", parent=" + form.getName() + "]");
 		setLayout(new BorderLayout());
 		manageVisibiltyChanges();
 		refreshUI(false);
@@ -405,6 +406,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			try {
 				controlData = getInitialControlData();
 				fieldControl = createFieldControl();
+				fieldControl.setName("fieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
 			} catch (Throwable t) {
 				fieldControl = createFieldErrorControl(t);
 			}
@@ -639,6 +641,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			}
 		}), BorderLayout.CENTER);
 		SwingRendererUtils.setErrorBorder(result);
+		result.setName("errorFieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
 		return result;
 	}
 

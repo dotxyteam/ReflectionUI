@@ -51,8 +51,6 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadFactory;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -136,22 +134,13 @@ public class Form extends ImagePanel {
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
 
-	protected ExecutorService validator = MiscUtils.newAutoShutdownMultiThreadExecutor(new ThreadFactory() {
-		@Override
-		public Thread newThread(Runnable r) {
-			Thread result = new Thread(r);
-			result.setName(Form.class.getName() + ".validator");
-			result.setDaemon(true);
-			return result;
-		}
-	}, 10000);
+	protected ExecutorService validator = MiscUtils.newExecutor(Form.class.getName() + ".validator", 1);
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
 		this.swingRenderer = swingRenderer;
 		setObject(object);
 		setInfoFilter(infoFilter);
 		setModificationStack(new ModificationStack(toString()));
-		objectType = buildFormFilteredType();
 		addAncestorListener(new AncestorListener() {
 
 			@Override
@@ -186,7 +175,6 @@ public class Form extends ImagePanel {
 		menuBar = createMenuBar();
 		statusBar = createStatusBar();
 		setStatusBarErrorMessage(null);
-		layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
 		refresh(true);
 	}
 
@@ -494,12 +482,14 @@ public class Form extends ImagePanel {
 		JLabel result = new JLabel();
 		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
+		result.setName("statusBar");
 		return result;
 	}
 
 	public JMenuBar createMenuBar() {
 		JMenuBar result = new JMenuBar();
 		result.setOpaque(false);
+		result.setName("menuBar");
 		return result;
 	}
 
@@ -524,6 +514,7 @@ public class Form extends ImagePanel {
 
 			{
 				setOpaque(false);
+				setName("categoriesControl [parent=" + this.getName() + "]");
 			}
 
 			@Override
@@ -953,6 +944,7 @@ public class Form extends ImagePanel {
 			result.add(methodControlPlaceHolder);
 			updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 		}
+		result.setName("methodsPanel [parent=" + this.getName() + "]");
 		return new ControlScrollPane(SwingRendererUtils.flowInLayout(result, GridBagConstraints.CENTER)) {
 
 			private static final long serialVersionUID = 1L;
@@ -1067,12 +1059,18 @@ public class Form extends ImagePanel {
 
 	public boolean recreateControlPlaceHoldersIfNeeded() {
 
-		boolean modificationsDetected = false;
-
-		objectType = buildFormFilteredType();
-
 		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
 		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> displayedMethodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
+
+		boolean modificationsDetected = false;
+
+		ITypeInfo oldObjectType = objectType;
+		objectType = buildFormFilteredType();
+
+		if (!objectType.equals(oldObjectType)) {
+			modificationsDetected = true;
+			setName("form [objectType=" + objectType.getName() + "]");
+		}
 
 		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> newFieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(
 				objectType.getFields());
@@ -1241,6 +1239,7 @@ public class Form extends ImagePanel {
 				updateFieldControlLayoutInContainer(fieldControlPlaceHolder);
 			}
 		}
+		fieldsPanel.setName("fieldsPanel [parent=" + this.getName() + "]");
 		return fieldsPanel;
 	}
 
@@ -1321,7 +1320,7 @@ public class Form extends ImagePanel {
 			fieldsPanel.remove(onlineHelpControl);
 			fieldControlPlaceHolder.setSiblingOnlineHelpControl(null);
 		}
-		onlineHelpControl = createFieldOnlineHelpControl(fieldControlPlaceHolder.getControlData());
+		onlineHelpControl = createFieldOnlineHelpControl(fieldControlPlaceHolder);
 		if (onlineHelpControl != null) {
 			fieldControlPlaceHolder.setSiblingOnlineHelpControl(onlineHelpControl);
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
@@ -1371,7 +1370,8 @@ public class Form extends ImagePanel {
 		SwingRendererUtils.handleComponentSizeChange(methodsPanel);
 	}
 
-	public Component createFieldOnlineHelpControl(final IFieldControlData data) {
+	public Component createFieldOnlineHelpControl(FieldControlPlaceHolder fieldControlPlaceHolder) {
+		final IFieldControlData data = fieldControlPlaceHolder.getControlData();
 		final String onlineHelp = data.getOnlineHelp();
 		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
 			return null;
@@ -1447,6 +1447,8 @@ public class Form extends ImagePanel {
 				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
 			}
 		});
+		result.setName("fieldOnlineHelpControl [field=" + fieldControlPlaceHolder.getField().getName() + ", parent="
+				+ this.getName() + "]");
 		return result;
 	}
 
@@ -1540,6 +1542,7 @@ public class Form extends ImagePanel {
 				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
 			}
 		});
+		result.setName("buttonBarOnlineHelpControl [parent=" + this.getName() + "]");
 		return result;
 	}
 
@@ -1549,6 +1552,8 @@ public class Form extends ImagePanel {
 		if (data.getLabelForegroundColor() != null) {
 			result.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 		}
+		result.setName("captionControl [field=" + fieldControlPlaceHolder.getField().getName() + ", parent="
+				+ this.getName() + "]");
 		return result;
 	}
 

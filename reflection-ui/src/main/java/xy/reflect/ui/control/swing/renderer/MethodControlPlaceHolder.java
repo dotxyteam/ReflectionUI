@@ -82,6 +82,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		this.swingRenderer = swingRenderer;
 		this.form = form;
 		this.method = method;
+		setName("methodControlPlaceHolder [method=" + method.getName() + ", parent=" + form.getName() + "]");
 		setLayout(new BorderLayout());
 		manageVisibiltyChanges();
 		refreshUI();
@@ -264,6 +265,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		}
 		controlData = getInitialControlData();
 		methodControl = createMethodControl();
+		methodControl.setName("methodControl [method=" + method.getName() + ", parent=" + form.getName() + "]");
 		add(methodControl, BorderLayout.CENTER);
 		SwingRendererUtils.handleComponentSizeChange(this);
 	}
