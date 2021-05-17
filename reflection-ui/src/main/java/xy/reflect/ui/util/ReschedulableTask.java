@@ -30,7 +30,6 @@ package xy.reflect.ui.util;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * Base class for delayed tasks that will be executed 1 time (not more, not
@@ -38,10 +37,6 @@ import java.util.concurrent.ThreadFactory;
  * (can be checked with {@link #isScheduled()}) calling {@link #reschedule()}
  * again will cancel the current schedule (can be done with
  * {@link #cancelSchedule()}) and setup another one.
- * 
- * Limitation: All the task executions are performed by at most one thread. Long
- * running tasks would then block all scheduling attempts while they are
- * running.
  * 
  * @author olitank
  *
@@ -54,15 +49,8 @@ public abstract class ReschedulableTask {
 
 	protected Object executionMutex = new Object();
 	protected Future<?> taskStatus;
-	protected ExecutorService taskExecutor = MiscUtils.newAutoShutdownSingleThreadExecutor(new ThreadFactory() {
-		@Override
-		public Thread newThread(Runnable r) {
-			Thread result = new Thread(r);
-			result.setName("ReschedulableTaskExecutor [of=" + ReschedulableTask.this + "]");
-			result.setDaemon(true);
-			return result;
-		}
-	}, 10000);
+	protected ExecutorService taskExecutor = MiscUtils
+			.newExecutor("ReschedulableTaskExecutor [of=" + ReschedulableTask.this + "]", 1);
 	protected boolean executionScheduled = false;
 
 	public void schedule() {
