@@ -28,7 +28,13 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -119,6 +125,36 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	@Override
 	public ITypeInfo getType() {
 		return newType;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		List<IMethodInfo> superResult = super.getAlternativeConstructors(object);
+		if (superResult == null) {
+			return null;
+		}
+		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+		for (IMethodInfo superCtor : superResult) {
+			result.add(new MethodInfoProxy(superCtor) {
+
+				@Override
+				public ITypeInfo getReturnValueType() {
+					return newType;
+				}
+
+				@Override
+				public Object invoke(Object object, InvocationData invocationData) {
+					return convert(super.invoke(object, invocationData));
+				}
+
+			});
+		}
+		return result;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		return null;
 	}
 
 	@Override

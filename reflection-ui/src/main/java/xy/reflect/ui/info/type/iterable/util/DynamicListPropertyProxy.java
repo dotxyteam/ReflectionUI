@@ -34,6 +34,7 @@ import java.util.Map;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
@@ -83,6 +84,16 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 
 	public ITypeInfo getType() {
 		return base.getType();
+	}
+
+	
+
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return base.getAlternativeConstructors(object);
+	}
+
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		return base.getAlternativeListItemConstructors(object);
 	}
 
 	public Object getValue(Object object) {

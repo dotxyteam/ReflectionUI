@@ -28,8 +28,16 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
+import java.util.Collections;
+import java.util.List;
+
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.method.AbstractConstructorInfo;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -66,6 +74,48 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 	@Override
 	public boolean isGetOnly() {
 		return super.isGetOnly() && nullStatusField.isGetOnly();
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
+
+			@Override
+			public Object invoke(Object ignore, InvocationData invocationData) {
+				return ImportedNullStatusFieldInfo.super.getValue(object);
+			}
+
+			@Override
+			public ITypeInfo getReturnValueType() {
+				return type;
+			}
+
+			@Override
+			public List<IParameterInfo> getParameters() {
+				return Collections.emptyList();
+			}
+		});
+	}
+
+	@Override
+	public ITypeInfo getType() {
+		if (type == null) {
+			type = super.getType();
+			type = new InfoProxyFactory() {
+
+				@Override
+				protected boolean isConcrete(ITypeInfo type) {
+					return true;
+				}
+
+				@Override
+				public String toString() {
+					return "ConcreteTypeMaker [field=" + ImportedNullStatusFieldInfo.this + "]";
+				}
+
+			}.wrapTypeInfo(type);
+		}
+		return type;
 	}
 
 	@Override

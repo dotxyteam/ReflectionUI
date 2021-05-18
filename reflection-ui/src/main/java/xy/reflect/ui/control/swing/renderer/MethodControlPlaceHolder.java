@@ -33,7 +33,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.SortedMap;
-import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -50,9 +49,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -180,38 +177,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 				}
 				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(MethodControlPlaceHolder.this,
 						swingRenderer, data, invocationData);
-			}
-
-			@Override
-			public Runnable getNextInvocationUndoJob(InvocationData invocationData) {
-				if (isBusyIndicationDisabled()) {
-					return super.getNextInvocationUndoJob(invocationData);
-				}
-				final Runnable result = data.getNextInvocationUndoJob(invocationData);
-				if (result == null) {
-					return null;
-				}
-				return new Runnable() {
-					@Override
-					public void run() {
-						try {
-							SwingUtilities.invokeAndWait(new Runnable() {
-								@Override
-								public void run() {
-									MethodControlPlaceHolder.this.swingRenderer
-											.showBusyDialogWhile(MethodControlPlaceHolder.this, new Runnable() {
-												public void run() {
-													result.run();
-												}
-											}, AbstractModification.getUndoTitle(ReflectionUIUtils
-													.composeMessage(data.getCaption(), "Executing...")));
-								}
-							});
-						} catch (Exception e) {
-							throw new ReflectionUIError(e);
-						}
-					}
-				};
 			}
 
 		};

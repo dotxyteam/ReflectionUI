@@ -1,3 +1,5 @@
+- DefaultTypeInfo do not need reflectionUI as a constructor
+param. It is already in the JavaTypeInfoSource param.
 - change the number of threads of the SwingRenderer
 to 1 minimum to infinite maximum. Check that it does not
 cause memory leaks.

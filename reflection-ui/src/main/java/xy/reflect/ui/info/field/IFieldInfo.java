@@ -29,14 +29,17 @@
 package xy.reflect.ui.info.field;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -145,6 +148,16 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public List<IMethodInfo> getAlternativeConstructors(Object object) {
+			return null;
+		}
+
+		@Override
+		public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+			return null;
+		}
+
+		@Override
 		public InfoCategory getCategory() {
 			return null;
 		}
@@ -228,6 +241,27 @@ public interface IFieldInfo extends IInfo {
 	 *         default undo job should be used.
 	 */
 	Runnable getNextUpdateCustomUndoJob(Object object, Object newValue);
+
+	/**
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
+	 * @return a list of constructors that must be used instead of those returned by
+	 *         the call of {@linkplain ITypeInfo#getConstructors()} on the result of
+	 *         the call of {@link #getType()}.
+	 */
+	List<IMethodInfo> getAlternativeConstructors(Object object);
+
+	/**
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
+	 * @return a list of constructors that must be used to create a new item when
+	 *         the current field is a list field ({@link #getType()} instanceof
+	 *         {@link IListTypeInfo}) instead of those returned by the call of
+	 *         {@linkplain ITypeInfo#getConstructors()} on the result of the call of
+	 *         {@link IListTypeInfo#getItemType()} on the result of the call of
+	 *         {@link #getType()}.
+	 */
+	List<IMethodInfo> getAlternativeListItemConstructors(Object object);
 
 	/**
 	 * @return true if and only if this field control must distinctly display and

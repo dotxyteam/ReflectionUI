@@ -28,11 +28,13 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
@@ -71,6 +73,16 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 
 	public Map<String, Object> getSpecificProperties() {
 		return getDelegate().getSpecificProperties();
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return getDelegate().getAlternativeConstructors(object);
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		return getDelegate().getAlternativeListItemConstructors(object);
 	}
 
 	public ITypeInfo getType() {

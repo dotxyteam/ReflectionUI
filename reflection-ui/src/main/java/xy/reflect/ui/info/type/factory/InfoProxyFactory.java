@@ -318,6 +318,15 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return wrapFieldTypeInfo(field.getType());
 	}
 
+	protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field, ITypeInfo containingType) {
+		return field.getAlternativeConstructors(object);
+	}
+
+	protected List<IMethodInfo> getAlternativeListItemConstructors(Object object, IFieldInfo field,
+			ITypeInfo containingType) {
+		return field.getAlternativeListItemConstructors(object);
+	}
+
 	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
 		return field.getValue(object);
 	}
@@ -1533,6 +1542,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isHidden() {
 			return InfoProxyFactory.this.isHidden(base, containingType);
+		}
+
+		@Override
+		public List<IMethodInfo> getAlternativeConstructors(Object object) {
+			return InfoProxyFactory.this.getAlternativeConstructors(object, base, containingType);
+		}
+
+		@Override
+		public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+			return InfoProxyFactory.this.getAlternativeListItemConstructors(object, base, containingType);
 		}
 
 		@Override

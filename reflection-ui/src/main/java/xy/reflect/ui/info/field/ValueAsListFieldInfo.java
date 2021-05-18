@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
@@ -122,6 +123,16 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public Object[] getValueOptions(Object object) {
+		return null;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return null;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
 		return null;
 	}
 

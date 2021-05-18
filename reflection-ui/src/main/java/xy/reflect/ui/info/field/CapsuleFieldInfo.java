@@ -172,6 +172,16 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return null;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		return null;
+	}
+
+	@Override
 	public Object getValue(Object object) {
 		return new PrecomputedTypeInstanceWrapper(new Value(object), new ValueTypeInfo());
 	}
@@ -680,6 +690,18 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public void setValue(Object object, Object value) {
 			object = ((Value) object).getObject();
 			super.setValue(object, value);
+		}
+
+		@Override
+		public List<IMethodInfo> getAlternativeConstructors(Object object) {
+			object = ((Value) object).getObject();
+			return super.getAlternativeConstructors(object);
+		}
+
+		@Override
+		public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+			object = ((Value) object).getObject();
+			return super.getAlternativeListItemConstructors(object);
 		}
 
 		@Override

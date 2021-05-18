@@ -28,6 +28,7 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
@@ -35,6 +36,7 @@ import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
@@ -96,6 +98,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
+		Object fieldValue = expectTheFieldValue(object);
+		theSubField.onControlVisibilityChange(fieldValue, visible);
 	}
 
 	@Override
@@ -119,6 +123,18 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.composeMessage(theField.getCaption(), theSubField.getCaption());
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		Object fieldValue = expectTheFieldValue(object);
+		return theSubField.getAlternativeConstructors(fieldValue);
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		Object fieldValue = expectTheFieldValue(object);
+		return theSubField.getAlternativeListItemConstructors(fieldValue);
 	}
 
 	@Override

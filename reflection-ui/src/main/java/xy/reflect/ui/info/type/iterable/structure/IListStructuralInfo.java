@@ -142,8 +142,8 @@ public interface IListStructuralInfo {
 
 					@Override
 					public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
-						SubListGroupItem subListGroupItem = (SubListGroupItem) ((PrecomputedTypeInstanceWrapper) itemPosition
-								.getItem()).unwrap();
+						PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) itemPosition.getItem();
+						SubListGroupItem subListGroupItem = (SubListGroupItem) (item).unwrap();
 						return new SubListGroupItemDetailsFieldInfo(subListGroupItem.getField());
 					}
 

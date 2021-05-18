@@ -126,7 +126,7 @@ public class ItemPosition implements Cloneable {
 	}
 
 	/**
-	 * @return the type of the containing list.
+	 * @return the type information of the containing list.
 	 */
 	public IListTypeInfo getContainingListType() {
 		if (isRoot()) {

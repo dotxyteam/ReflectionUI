@@ -448,6 +448,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										return delegate.getType();
 									}
 
+									public List<IMethodInfo> getAlternativeConstructors(Object object) {
+										return delegate.getAlternativeConstructors(object);
+									}
+
+									public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+										return delegate.getAlternativeListItemConstructors(object);
+									}
+
 									public Object getValue(Object object) {
 										return delegate.getValue(object);
 									}
@@ -573,7 +581,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						public ITypeInfo getType() {
 							throw new UnsupportedOperationException();
 						}
-
 					};
 					result.add(property);
 

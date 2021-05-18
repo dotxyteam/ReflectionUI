@@ -2,6 +2,7 @@ package xy.reflect.ui.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -184,6 +185,20 @@ public class PrecomputedTypeInstanceWrapper {
 		@Override
 		protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
 			return super.getValueOptions(((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
+		}
+
+		@Override
+		protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field,
+				ITypeInfo containingType) {
+			return super.getAlternativeConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
+					containingType);
+		}
+
+		@Override
+		protected List<IMethodInfo> getAlternativeListItemConstructors(Object object, IFieldInfo field,
+				ITypeInfo containingType) {
+			return super.getAlternativeListItemConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
+					containingType);
 		}
 
 		@Override

@@ -30,8 +30,10 @@ package xy.reflect.ui.info.field;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
@@ -105,6 +107,16 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 	@Override
 	public ITypeInfo getType() {
 		return enumType;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return null;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		return null;
 	}
 
 	@Override

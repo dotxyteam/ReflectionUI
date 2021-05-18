@@ -28,6 +28,7 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
@@ -88,6 +89,16 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public double getDisplayAreaVerticalWeight() {
 		return 1.0;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return null;
+	}
+
+	@Override
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		return null;
 	}
 
 	@Override

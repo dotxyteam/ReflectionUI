@@ -1,5 +1,6 @@
 package xy.reflect.ui.control;
 
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
@@ -8,7 +9,11 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
 /**
  * Base class of common implementations of {@link IFieldControlData}.
@@ -61,7 +66,19 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 
 	@Override
 	public ITypeInfo getType() {
-		return getField().getType();
+		final IFieldInfo field = getField();
+		final Object object = getObject();
+		ITypeInfo result = field.getType();
+		if (field.getAlternativeConstructors(object) != null) {
+			result = new FieldAlternativeConstructorsInstaller(reflectionUI, object, field).wrapTypeInfo(result);
+		}
+		final List<IMethodInfo> alternativeListItemConstructors = field.getAlternativeListItemConstructors(object);
+		if (alternativeListItemConstructors != null) {
+			result = new FieldAlternativeListItemConstructorsInstaller(reflectionUI, object, field)
+					.wrapTypeInfo(result);
+		}
+
+		return result;
 	}
 
 	@Override
@@ -232,6 +249,94 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public String toString() {
 		return "FieldControlData [object=" + getObject() + ", field=" + getField() + "]";
+	}
+
+	public static class FieldAlternativeConstructorsInstaller extends InfoProxyFactory {
+
+		protected ReflectionUI reflectionUI;
+		protected Object object;
+		protected IFieldInfo field;
+
+		public FieldAlternativeConstructorsInstaller(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
+			this.reflectionUI = reflectionUI;
+			this.object = object;
+			this.field = field;
+		}
+
+		protected String getContainingTypeName() {
+			ITypeInfo containingType = (object == null) ? null
+					: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			return ((containingType == null) ? "<unknown>" : containingType.getName());
+		}
+
+		protected String getFieldName() {
+			return field.getName();
+		}
+
+		@Override
+		public String getIdentifier() {
+			return "FieldAlternativeConstructorsInstaller [field=" + getFieldName() + ", containingType="
+					+ getContainingTypeName() + "]";
+		}
+
+		@Override
+		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
+			return field.getAlternativeConstructors(object);
+		}
+
+	}
+
+	public static class FieldAlternativeListItemConstructorsInstaller extends InfoProxyFactory {
+
+		protected ReflectionUI reflectionUI;
+		protected Object object;
+		protected IFieldInfo field;
+
+		public FieldAlternativeListItemConstructorsInstaller(ReflectionUI reflectionUI, Object object,
+				IFieldInfo field) {
+			this.reflectionUI = reflectionUI;
+			this.object = object;
+			this.field = field;
+		}
+
+		protected String getContainingTypeName() {
+			ITypeInfo containingType = (object == null) ? null
+					: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			return ((containingType == null) ? "<unknown>" : containingType.getName());
+		}
+
+		protected String getFieldName() {
+			return field.getName();
+		}
+
+		@Override
+		public String getIdentifier() {
+			return "FieldAlternativeListItemConstructorsInstaller [field=" + getFieldName() + ", containingType="
+					+ getContainingTypeName() + "]";
+		}
+
+		@Override
+		protected ITypeInfo getItemType(IListTypeInfo type) {
+			ITypeInfo result = super.getItemType(type);
+			if (result == null) {
+				result = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, null));
+			}
+			result = new InfoProxyFactory() {
+
+				@Override
+				public String getIdentifier() {
+					return "ItemConstructorsInstaller [parent=FieldAlternativeListItemConstructorsInstaller [field="
+							+ getFieldName() + ", containingType=" + getContainingTypeName() + "]]";
+				}
+
+				@Override
+				protected List<IMethodInfo> getConstructors(ITypeInfo type) {
+					return field.getAlternativeListItemConstructors(object);
+				}
+
+			}.wrapTypeInfo(result);
+			return result;
+		}
 	}
 
 }

@@ -85,6 +85,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
@@ -107,6 +108,7 @@ import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.DelegatingInfoFilter;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -1236,6 +1238,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			typeToInstanciate = swingRenderer.getReflectionUI()
 					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
+
+		BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
+		if (parentItemPosition != null) {
+			Object parentItem = parentItemPosition.getItem();
+			IFieldInfo containingListField = itemPosition.getContainingListFieldIfNotRoot();
+			if (containingListField.getAlternativeListItemConstructors(parentItem) != null) {
+				typeToInstanciate = new AbstractFieldControlData.FieldAlternativeListItemConstructorsInstaller(
+						swingRenderer.getReflectionUI(), parentItem, containingListField)
+								.wrapTypeInfo(typeToInstanciate);
+			}
+		}
+
 		boolean constructorSelectable = (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
 
@@ -1403,7 +1417,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					scrollTo(detailsControlItemPosition);
+					if (detailsControlItemPosition != null) {
+						scrollTo(detailsControlItemPosition);
+					}
 				}
 			});
 			return;

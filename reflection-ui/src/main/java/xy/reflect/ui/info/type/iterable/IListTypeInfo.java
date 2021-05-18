@@ -59,7 +59,8 @@ import xy.reflect.ui.util.Mapper;
 public interface IListTypeInfo extends ITypeInfo {
 
 	/**
-	 * @return the known type of items supported by lists of this type.
+	 * @return the type of items supported by the lists of this type or null if this
+	 *         type is not known.
 	 */
 	ITypeInfo getItemType();
 

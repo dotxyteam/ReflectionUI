@@ -865,6 +865,16 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public List<IMethodInfo> getAlternativeConstructors(Object object) {
+			return null;
+		}
+
+		@Override
+		public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+			return null;
+		}
+
+		@Override
 		public String getOnlineHelp() {
 			return fieldOnlineHelp;
 		}

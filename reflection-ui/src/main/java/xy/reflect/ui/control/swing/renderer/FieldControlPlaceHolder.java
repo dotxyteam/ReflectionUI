@@ -77,7 +77,6 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUtils;
 import xy.reflect.ui.util.MiscUtils;
@@ -370,28 +369,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 				SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this, swingRenderer,
 						data, newValue);
-			}
-
-			@Override
-			public Runnable getNextUpdateCustomUndoJob(Object newValue) {
-				if (isBusyIndicationDisabled()) {
-					return super.getNextUpdateCustomUndoJob(newValue);
-				}
-				final Runnable result = data.getNextUpdateCustomUndoJob(newValue);
-				if (result == null) {
-					return null;
-				}
-				return new Runnable() {
-					@Override
-					public void run() {
-						FieldControlPlaceHolder.this.swingRenderer.showBusyDialogWhile(FieldControlPlaceHolder.this,
-								new Runnable() {
-									public void run() {
-										result.run();
-									}
-								}, AbstractModification.getUndoTitle("Setting " + data.getCaption()));
-					}
-				};
 			}
 
 		};

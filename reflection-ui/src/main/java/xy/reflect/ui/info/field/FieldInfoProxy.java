@@ -28,17 +28,19 @@
  ******************************************************************************/
 package xy.reflect.ui.info.field;
 
+import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Field information proxy class. The methods in this class should be overriden to provide
- * custom information.
+ * Field information proxy class. The methods in this class should be overriden
+ * to provide custom information.
  * 
  * @author olitank
  *
@@ -53,6 +55,14 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 	public IFieldInfo getBase() {
 		return base;
+	}
+
+	public List<IMethodInfo> getAlternativeConstructors(Object object) {
+		return base.getAlternativeConstructors(object);
+	}
+
+	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
+		return base.getAlternativeListItemConstructors(object);
 	}
 
 	public void onControlVisibilityChange(Object object, boolean visible) {
