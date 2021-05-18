@@ -378,7 +378,8 @@ public class SwingRenderer {
 	 * @param activatorComponent A component belonging to the parent window of the
 	 *                           eventual dialogs or null.
 	 * @param objectType         The method owner type.
-	 * @param object             The method owner or null for static methods.
+	 * @param object             The method owner or null for static methods or
+	 *                           constructors.
 	 * @param method             The method to be executed.
 	 * @return the method call return value or null if the method class was
 	 *         cancelled or the return type is "void".
