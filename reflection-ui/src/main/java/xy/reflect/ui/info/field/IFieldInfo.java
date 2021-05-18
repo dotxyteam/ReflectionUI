@@ -187,13 +187,15 @@ public interface IFieldInfo extends IInfo {
 	ITypeInfo getType();
 
 	/**
-	 * @param object The object hosting the field value.
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
 	 * @return the value of this field extracted from the given object.
 	 */
 	Object getValue(Object object);
 
 	/**
-	 * @param object The object hosting the field value.
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
 	 * @return whether this field value has options. If the return value is 'true'
 	 *         then the {@link #getValueOptions(Object)} method must not return
 	 *         null.
@@ -201,7 +203,8 @@ public interface IFieldInfo extends IInfo {
 	boolean hasValueOptions(Object object);
 
 	/**
-	 * @param object The object hosting the field value.
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
 	 * @return options for the value of this field. If the
 	 *         {@link #hasValueOptions(Object)} method return value is 'true' then
 	 *         this method must not return null.
@@ -211,13 +214,15 @@ public interface IFieldInfo extends IInfo {
 	/**
 	 * Updates the current field of the given object with the given value.
 	 * 
-	 * @param object The object hosting the field value.
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
 	 * @param value  The new field value.
 	 */
 	void setValue(Object object, Object value);
 
 	/**
-	 * @param object   The object hosting the field value.
+	 * @param object   The object hosting the field value or null if the field is
+	 *                 static.
 	 * @param newValue The new field value.
 	 * @return a job that can revert the next field value update or null if the
 	 *         default undo job should be used.
@@ -332,7 +337,8 @@ public interface IFieldInfo extends IInfo {
 	 * This method is called by the renderer when the visibility of the field
 	 * control changes for the given object in the generated UI.
 	 * 
-	 * @param object  The object hosting the field value.
+	 * @param object  The object hosting the field value or null if the field is
+	 *                static.
 	 * @param visible true when the field becomes visible, false when it becomes
 	 *                invisible.
 	 */
