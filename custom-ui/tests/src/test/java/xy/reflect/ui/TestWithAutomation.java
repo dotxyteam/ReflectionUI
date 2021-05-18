@@ -80,4 +80,11 @@ public class TestWithAutomation {
 						+ "test-specifications/testMemberNamesCollision.stt"));
 	}
 
+	@Test
+	public void testPlugins() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testPlugins.stt"));
+	}
+
 }
