@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
@@ -204,6 +205,11 @@ public class CustomizedUI extends ReflectionUI {
 			public String getIdentifier() {
 				return "SpecificitiesFactory [of=" + CustomizedUI.this.toString() + ", specificitiesIdentifier="
 						+ specificitiesIdentifier.toString() + "]";
+			}
+
+			@Override
+			protected void traceCurrentCustomizations(Map<String, Object> specificProperties) {
+				specificProperties.put(CURRENT_CUSTOMIZATIONS_KEY, CustomizedUI.this.getInfoCustomizations());
 			}
 
 		};

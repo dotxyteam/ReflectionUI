@@ -112,7 +112,6 @@ import xy.reflect.ui.util.SystemProperties;
 public class InfoCustomizations implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String CURRENT_CUSTOMIZATIONS_KEY = InfoCustomizations.class.getName() + ".current";
 	public static final String UID_FIELD_NAME = "uniqueIdentifier";
 	public static final Object INITIAL_STATE_FIELD_NAME = "initial";
 

@@ -57,6 +57,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -283,7 +284,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			if (!getInfoCustomizations()
-					.equals(objectType.getSpecificProperties().get(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY))) {
+					.equals(objectType.getSpecificProperties().get(InfoCustomizationsFactory.CURRENT_CUSTOMIZATIONS_KEY))) {
 				return false;
 			}
 			if (Boolean.TRUE.equals(objectType.getSpecificProperties().get(CUSTOMIZATIONS_FORBIDDEN_PROPERTY_KEY))) {

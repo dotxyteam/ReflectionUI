@@ -135,6 +135,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
+	public static final String CURRENT_CUSTOMIZATIONS_KEY = InfoCustomizations.class.getName() + ".current";
+
 	protected CustomizedUI customizedUI;
 	protected InfoCustomizations infoCustomizations;
 
@@ -147,6 +149,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	public InfoCustomizations getInfoCustomizations() {
 		return infoCustomizations;
+	}
+
+	protected void traceCurrentCustomizations(Map<String, Object> specificProperties) {
+		specificProperties.put(CURRENT_CUSTOMIZATIONS_KEY, getInfoCustomizations());
 	}
 
 	@Override
@@ -971,7 +977,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-		result.put(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY, this.getInfoCustomizations());
+		traceCurrentCustomizations(result);
 		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
 				type.getName());
 		if (t != null) {
@@ -1891,8 +1897,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									public Map<String, Object> getSpecificProperties() {
 										Map<String, Object> result = new HashMap<String, Object>(
 												super.getSpecificProperties());
-										result.put(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY,
-												getInfoCustomizations());
+										traceCurrentCustomizations(result);
 										if (pc.getSpecificProperties() != null) {
 											if (pc.getSpecificProperties().entrySet().size() > 0) {
 												result.putAll(pc.getSpecificProperties());
@@ -2060,7 +2065,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					@Override
 					public Map<String, Object> getSpecificProperties() {
 						Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-						result.put(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY, getInfoCustomizations());
+						traceCurrentCustomizations(result);
 						if (mc.getSpecificProperties() != null) {
 							if (mc.getSpecificProperties().entrySet().size() > 0) {
 								result.putAll(mc.getSpecificProperties());
@@ -2482,7 +2487,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					@Override
 					public Map<String, Object> getSpecificProperties() {
 						Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-						result.put(InfoCustomizations.CURRENT_CUSTOMIZATIONS_KEY, getInfoCustomizations());
+						traceCurrentCustomizations(result);
 						if (fc.getSpecificProperties() != null) {
 							result.putAll(fc.getSpecificProperties());
 						}
