@@ -64,6 +64,11 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 	}
 
 	@Override
+	public boolean isGetOnly() {
+		return super.isGetOnly() && nullStatusField.isGetOnly();
+	}
+
+	@Override
 	public Object getValue(Object object) {
 		if (getNullStatus(object)) {
 			return super.getValue(object);
@@ -78,7 +83,9 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 			nullStatusField.setValue(object, Boolean.FALSE);
 		} else {
 			nullStatusField.setValue(object, Boolean.TRUE);
-			super.setValue(object, value);
+			if (!super.isGetOnly()) {
+				super.setValue(object, value);
+			}
 		}
 	}
 
