@@ -50,7 +50,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.concurrent.ExecutorService;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -133,8 +132,6 @@ public class Form extends ImagePanel {
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
-
-	protected ExecutorService validator = MiscUtils.newExecutor(Form.class.getName() + ".validator", 1);
 
 	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
 		this.swingRenderer = swingRenderer;
@@ -302,7 +299,7 @@ public class Form extends ImagePanel {
 	}
 
 	public void validateFormInBackgroundAndReportOnStatusBar() {
-		validator.submit(new Runnable() {
+		swingRenderer.getFormValidator().submit(new Runnable() {
 			@Override
 			public void run() {
 				try {

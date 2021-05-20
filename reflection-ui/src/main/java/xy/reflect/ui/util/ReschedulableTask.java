@@ -38,6 +38,10 @@ import java.util.concurrent.Future;
  * again will cancel the current schedule (can be done with
  * {@link #cancelSchedule()}) and setup another one.
  * 
+ * Note that scheduling attempts are synchronized and may be blocked if the
+ * tasks duration are long and if the provided task execution service
+ * ({@link #getTaskExecutor()}) is not able to process them in parallel.
+ * 
  * @author olitank
  *
  */
@@ -47,17 +51,17 @@ public abstract class ReschedulableTask {
 
 	protected abstract long getExecutionDelayMilliseconds();
 
+	protected abstract ExecutorService getTaskExecutor();
+
 	protected Object executionMutex = new Object();
 	protected Future<?> taskStatus;
-	protected ExecutorService taskExecutor = MiscUtils
-			.newExecutor("ReschedulableTaskExecutor [of=" + ReschedulableTask.this + "]", 1);
 	protected boolean executionScheduled = false;
 
 	public void schedule() {
 		synchronized (executionMutex) {
 			if (!executionScheduled) {
 				boolean[] statusChanged = new boolean[] { false };
-				taskStatus = taskExecutor.submit(new Runnable() {
+				taskStatus = getTaskExecutor().submit(new Runnable() {
 					@Override
 					public void run() {
 						executionScheduled = true;

@@ -31,6 +31,7 @@ package xy.reflect.ui.control.swing.plugin;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.concurrent.ExecutorService;
 
 import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
@@ -112,6 +113,11 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 						Slider.this.commitChanges();
 					}
 				});
+			}
+
+			@Override
+			protected ExecutorService getTaskExecutor() {
+				return swingRenderer.getDelayedUpdateExecutor();
 			}
 
 			@Override

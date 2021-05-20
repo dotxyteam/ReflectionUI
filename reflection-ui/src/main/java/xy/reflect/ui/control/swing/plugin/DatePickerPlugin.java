@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
@@ -242,6 +243,11 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 						DatePicker.this.commitTextEditorChanges();
 					}
 				});
+			}
+
+			@Override
+			protected ExecutorService getTaskExecutor() {
+				return swingRenderer.getDelayedUpdateExecutor();
 			}
 
 			@Override

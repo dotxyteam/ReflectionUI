@@ -34,6 +34,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.ExecutorService;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -88,6 +89,11 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 					TextControl.this.commitChanges();
 				}
 			});
+		}
+
+		@Override
+		protected ExecutorService getTaskExecutor() {
+			return swingRenderer.getDelayedUpdateExecutor();
 		}
 
 		@Override

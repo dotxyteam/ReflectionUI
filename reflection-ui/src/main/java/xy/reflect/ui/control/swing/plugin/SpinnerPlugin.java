@@ -35,6 +35,7 @@ import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
+import java.util.concurrent.ExecutorService;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
@@ -140,6 +141,11 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						Spinner.this.commitChanges();
 					}
 				});
+			}
+
+			@Override
+			protected ExecutorService getTaskExecutor() {
+				return swingRenderer.getDelayedUpdateExecutor();
 			}
 
 			@Override
