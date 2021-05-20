@@ -32,6 +32,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.ExecutorService;
@@ -192,28 +194,12 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void updateScrollPolicy() {
 		if (scrollPane != null) {
-			boolean changeDetected = false;
 			if (areScrollBarsEnabled()) {
-				if (scrollPane.getHorizontalScrollBarPolicy() != ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED) {
-					scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-					changeDetected = true;
-				}
-				if (scrollPane.getVerticalScrollBarPolicy() != ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED) {
-					scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-					changeDetected = true;
-				}
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 			} else {
-				if (scrollPane.getHorizontalScrollBarPolicy() != ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER) {
-					scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-					changeDetected = true;
-				}
-				if (scrollPane.getVerticalScrollBarPolicy() != ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER) {
-					scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-					changeDetected = true;
-				}
-			}
-			if(changeDetected) {
-				SwingRendererUtils.handleComponentSizeChange(scrollPane);
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 			}
 		}
 	}
@@ -229,11 +215,34 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 			{
 				SwingRendererUtils.removeScrollPaneBorder(this);
+				adaptSizeOnScrollBarsVisibilityChange();
 			}
 
 			@Override
 			public Dimension getPreferredSize() {
 				return getDynamicPreferredSize(this, super.getPreferredSize());
+			}
+
+			void adaptSizeOnScrollBarsVisibilityChange() {
+				final ControlScrollPane thisScrollPane = this;
+				getVerticalScrollBar().addHierarchyListener(new HierarchyListener() {
+					@Override
+					public void hierarchyChanged(HierarchyEvent e) {
+						if (e.getID() == HierarchyEvent.HIERARCHY_CHANGED
+								&& (e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
+							SwingRendererUtils.handleComponentSizeChange(thisScrollPane);
+						}
+					}
+				});
+				getHorizontalScrollBar().addHierarchyListener(new HierarchyListener() {
+					@Override
+					public void hierarchyChanged(HierarchyEvent e) {
+						if (e.getID() == HierarchyEvent.HIERARCHY_CHANGED
+								&& (e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
+							SwingRendererUtils.handleComponentSizeChange(thisScrollPane);
+						}
+					}
+				});
 			}
 		};
 	}
@@ -318,7 +327,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				int lastCaretPosition = textComponent.getCaretPosition();
 				textComponent.setText(newText);
 				setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
-				SwingRendererUtils.handleComponentSizeChange(this);
+				SwingRendererUtils.handleComponentSizeChange(textComponent);
 			}
 		} finally {
 			listenerDisabled = false;
