@@ -208,6 +208,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		updateToolbar();
 		initializeSelectionListening();
 		refreshUI(true);
+		if (getRootListSize() > 0) {
+			setSingleSelection(getRootListItemPosition(0));
+		}
 		this.initialized = true;
 	}
 
@@ -217,26 +220,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (initialized) {
 			refreshUI(true);
 		}
-	}
-
-	@Override
-	public void addNotify() {
-		super.addNotify();
-		if (getRootListSize() > 0) {
-			setSingleSelection(getRootListItemPosition(0));
-		}
-	}
-
-	@Override
-	public void removeNotify() {
-		/*
-		 * Selection must be cleared. Otherwise the item encapsulation type indirectly
-		 * references the its instance through the details control. It prevents the
-		 * corresponding entry in Reflection#precomputedTypeInfoByObject from being
-		 * garbage collected and causes a memory leak.
-		 */
-		setSingleSelection(null);
-		super.removeNotify();
 	}
 
 	public Object getRootListValue() {
@@ -1535,14 +1518,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			detailsMode = null;
 			structuralInfo = null;
 			layoutControls();
-			refreshTreeTableModelAndControl(refreshStructure);
-			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
-				updateDetailsArea(true);
-			}
 			refreshTreeTableScrollPaneBorder();
 			refreshTreeTableComponentBackground();
 			refreshTreeTableComponentHeader();
 			refreshRendrers();
+			restoringSelectionAsMuchAsPossible(new Runnable() {
+				@Override
+				public void run() {
+					restoringExpandedPathsAsMuchAsPossible(new Runnable() {
+						@Override
+						public void run() {
+							refreshTreeTableModelAndControl(refreshStructure);
+						}
+					});
+				}
+			});
+			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
+				updateDetailsArea(true);
+			}
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			restoringSelectionAsMuchAsPossible(new Runnable() {
