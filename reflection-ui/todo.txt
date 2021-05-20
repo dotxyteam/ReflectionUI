@@ -1,35 +1,16 @@
 - tests to add:
-	. default param value, presets, ...
 	. list shortcuts
 	. menu creation
 	. validation status display
-- DefaultTypeInfo do not need reflectionUI as a constructor
-param. It is already in the JavaTypeInfoSource param.
-- change the number of threads of the SwingRenderer
-to 1 minimum to infinite maximum. Check that it does not
-cause memory leaks.
 - when refreshing the structure of a form, the controls
 are recreated. For sub-forms their controls are then
 recreated multiple times maybe for nothing. Optimize.
-- maybe cache threads are not needed anymore: the remaining
-java type info cache must only store low level type info.
-- review the logging system: there are some validation 
-error logs that are always displayed. They should be 
-displayed only in debug mode. The rule is: if error
-already displayed on the screen then log the details 
-only in debug mode. 
-- check why ReschedulableTask threads cannot be single. Normally they can
-since they do not reference the ReschedulableTask object.
-- Some objects and their editor components are never garbage collected
-when their editors are disposed. Find a solution. Check static caches. 
 - JFrames (maybe JDialog too) do not get garbaged. They are intended
 to be reused. SwingRenderer always create new windows( never reuse).
 It must be possible to use a pool of windows.
 - AbstractEditorFormBuilder.refreshEditorFormOnModification(Form) may
 be obsolete since all fields (sub-forms, ..) are refreshed on any
 modification. Check and correct.
-- method result field: the name will be duplicate if there are
-2 methods with same name but different signatures.
 - undo/redo title often empty. See Calculator example.
 - add a customization option for type icon based of field value.
 - IMethodInfo.validateParameters() never overriden on proxies. Check.
