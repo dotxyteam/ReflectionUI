@@ -241,7 +241,12 @@ public class ReflectionUIUtils {
 					result.append(", ");
 				}
 			}
-			result.append(param.getCaption());
+			String paramCaption = param.getCaption();
+			if (paramCaption.length() > 0) {
+				result.append(paramCaption);
+			} else {
+				result.append(param.getType().getCaption());
+			}
 			iRequiredParam++;
 		}
 		return result.toString();
@@ -808,7 +813,7 @@ public class ReflectionUIUtils {
 		if (methodOnlineHelp != null) {
 			return methodOnlineHelp;
 		} else {
-			if (methodParameters.size() > 0) {
+			if (ReflectionUIUtils.requiresParameterValue(methodParameters)) {
 				String toolTipText = formatMethodControlCaption(methodCaption, methodParameters);
 				if (toolTipText.length() > 0) {
 					toolTipText += "\n";
