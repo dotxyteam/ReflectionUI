@@ -37,6 +37,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Change Control</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -49,6 +50,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Custom Check Box</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -69,6 +71,7 @@
       <disabled>false</disabled>
       <propertyName>Class</propertyName>
       <propertyValueExpected>xy.reflect.ui.control.swing.plugin.CustomCheckBoxPlugin$CustomCheckBoxControl</propertyValueExpected>
+      <regularExpressionExpected>false</regularExpressionExpected>
     </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -93,6 +96,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Custom Check Box Options...</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -192,6 +196,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Change Control</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -204,6 +209,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Spinner</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -224,6 +230,7 @@
       <disabled>false</disabled>
       <propertyName>Class</propertyName>
       <propertyValueExpected>javax.swing.JFormattedTextField</propertyValueExpected>
+      <regularExpressionExpected>false</regularExpressionExpected>
     </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -248,6 +255,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Spinner Options...</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -386,6 +394,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Change Control</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -398,6 +407,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Slider</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -444,6 +454,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Slider Options...</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -581,6 +592,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Change Control</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -593,6 +605,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Color Picker</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -612,6 +625,7 @@
       <disabled>false</disabled>
       <propertyName>Background</propertyName>
       <propertyValueExpected>0,255,0</propertyValueExpected>
+      <regularExpressionExpected>false</regularExpressionExpected>
     </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -636,6 +650,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Change Control</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -648,6 +663,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Image View</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -667,6 +683,7 @@
       <disabled>false</disabled>
       <propertyName>Class</propertyName>
       <propertyValueExpected>xy.reflect.ui.control.swing.plugin.ImageViewPlugin$ImageView</propertyValueExpected>
+      <regularExpressionExpected>false</regularExpressionExpected>
     </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -691,6 +708,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Image View Options...</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -899,6 +917,46 @@
       <disabled>false</disabled>
       <propertyName>Width</propertyName>
       <propertyValueExpected>200</propertyValueExpected>
+      <regularExpressionExpected>false</regularExpressionExpected>
     </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.util.ImagePanel</componentClassName>
+        <occurrencesToSkip>2</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.property.CheckComponentPropertyAction>
+      <componentClassName>javax.swing.JComboBox</componentClassName>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <componentClassName>javax.swing.JComboBox</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Images(*.jpg, *.bmp, *.gif, *.png, *.wbmp, *.jpeg)</visibleString>
+        <visibleStringInTree>true</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <propertyName>Displayed Strings</propertyName>
+      <propertyValueExpected>&quot;Images\(.*\)&quot;</propertyValueExpected>
+      <regularExpressionExpected>true</regularExpressionExpected>
+    </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Cancel</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
   </testActions>
 </xy.ui.testing.Tester>
