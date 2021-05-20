@@ -503,10 +503,6 @@ public class InfoCustomizations implements Serializable {
 			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
 				result.addAll(getTypeCustomizationsPlusMemberSpecificities(fc.getSpecificTypeCustomizations()));
 			}
-			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
-				result.addAll(
-						getTypeCustomizationsPlusMemberSpecificities(mc.getSpecificReturnValueTypeCustomizations()));
-			}
 		}
 		return result;
 	}
@@ -2754,7 +2750,6 @@ public class InfoCustomizations implements Serializable {
 		protected ValueReturnMode customValueReturnMode;
 		protected String nullReturnValueLabel;
 		protected boolean returnValueFieldGenerated = false;
-		protected MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations = new MethodReturnValueTypeSpecificities();
 		protected boolean detachedReturnValueForced = false;
 		protected String encapsulationFieldName;
 		protected List<String> parameterizedFieldNames = new ArrayList<String>();
@@ -2881,15 +2876,6 @@ public class InfoCustomizations implements Serializable {
 
 		public void setDetachedReturnValueForced(boolean detachedReturnValueForced) {
 			this.detachedReturnValueForced = detachedReturnValueForced;
-		}
-
-		public MethodReturnValueTypeSpecificities getSpecificReturnValueTypeCustomizations() {
-			return specificReturnValueTypeCustomizations;
-		}
-
-		public void setSpecificReturnValueTypeCustomizations(
-				MethodReturnValueTypeSpecificities specificReturnValueTypeCustomizations) {
-			this.specificReturnValueTypeCustomizations = specificReturnValueTypeCustomizations;
 		}
 
 		public boolean isValidating() {
