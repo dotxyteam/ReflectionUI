@@ -82,7 +82,7 @@ public class FieldControlDataModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
-		return ReflectionUIUtils.getUndoJob(data, newValue);
+		return ReflectionUIUtils.getNextUpdateUndoJob(data, newValue);
 	}
 
 	@Override

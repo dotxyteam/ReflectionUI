@@ -103,7 +103,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 			Object value = invocationData.getParameterValue(generatedParameter.getPosition());
 			if (undoJobBuilder != null) {
 				undoJobBuilder.setOption(getUndoJobName(generatedParameter),
-						ReflectionUIUtils.getUndoJob(object, generatedParameter.getSourceField(), value));
+						ReflectionUIUtils.getNextUpdateUndoJob(object, generatedParameter.getSourceField(), value));
 			}
 			generatedParameter.getSourceField().setValue(object, value);
 			newInvocationData.getProvidedParameterValues().remove(generatedParameter.getPosition());
@@ -116,14 +116,6 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 			undoJobBuilder = null;
 		}
 		return super.invoke(object, newInvocationData);
-	}
-
-	protected String getBaseMethodUndoJobName() {
-		return "baseMethodUndoJob";
-	}
-
-	protected String getUndoJobName(FieldAsParameterInfo generatedParameter) {
-		return "field" + generatedParameter.getPosition() + "UndoJob";
 	}
 
 	@Override
@@ -144,6 +136,14 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 				}
 			}
 		});
+	}
+
+	protected String getBaseMethodUndoJobName() {
+		return "baseMethodUndoJob";
+	}
+
+	protected String getUndoJobName(FieldAsParameterInfo generatedParameter) {
+		return "field" + generatedParameter.getPosition() + "UndoJob";
 	}
 
 	@Override

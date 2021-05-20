@@ -161,7 +161,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 		theSubField.setValue(fieldValue, subFieldValue);
 		if (isTheFieldUpdatePerformedAfterInvocation()) {
 			if (undoJobBuilder != null) {
-				Runnable theFieldUndoJob = ReflectionUIUtils.getUndoJob(object, theField, fieldValue);
+				Runnable theFieldUndoJob = ReflectionUIUtils.getNextUpdateUndoJob(object, theField, fieldValue);
 				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
 			}
 			theField.setValue(object, fieldValue);

@@ -830,23 +830,23 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Runnable getUndoJob(final IFieldControlData data, Object newValue) {
+	public static Runnable getNextUpdateUndoJob(final IFieldControlData data, Object newValue) {
 		Runnable result = data.getNextUpdateCustomUndoJob(newValue);
 		if (result == null) {
-			result = createDefaultUndoJob(data);
+			result = createNextUpdateDefaultUndoJob(data);
 		}
 		return result;
 	}
 
-	public static Runnable getUndoJob(Object object, IFieldInfo field, Object newValue) {
+	public static Runnable getNextUpdateUndoJob(Object object, IFieldInfo field, Object newValue) {
 		Runnable result = field.getNextUpdateCustomUndoJob(object, newValue);
 		if (result == null) {
-			result = createDefaultUndoJob(object, field);
+			result = createNextUpdateDefaultUndoJob(object, field);
 		}
 		return result;
 	}
 
-	public static Runnable createDefaultUndoJob(final IFieldControlData data) {
+	public static Runnable createNextUpdateDefaultUndoJob(final IFieldControlData data) {
 		final Object oldValue = data.getValue();
 		return new Runnable() {
 			@Override
@@ -856,7 +856,7 @@ public class ReflectionUIUtils {
 		};
 	}
 
-	public static Runnable createDefaultUndoJob(final Object object, final IFieldInfo field) {
+	public static Runnable createNextUpdateDefaultUndoJob(final Object object, final IFieldInfo field) {
 		final Object oldValue = field.getValue(object);
 		return new Runnable() {
 			@Override

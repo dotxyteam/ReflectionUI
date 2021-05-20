@@ -158,7 +158,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 		Object result = theSubMethod.invoke(fieldValue, invocationData);
 		if (isTheFieldUpdatePerformedAfterInvocation()) {
 			if (undoJobBuilder != null) {
-				Runnable theFieldUndoJob = ReflectionUIUtils.getUndoJob(object, theField, fieldValue);
+				Runnable theFieldUndoJob = ReflectionUIUtils.getNextUpdateUndoJob(object, theField, fieldValue);
 				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
 			}
 			theField.setValue(object, fieldValue);

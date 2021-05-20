@@ -66,12 +66,12 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
-	public Object invoke(Object object, InvocationData invocationData) {
+	public Object invoke(Object object, InvocationData ignore) {
 		return super.invoke(object, this.invocationData);
 	}
 
 	@Override
-	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData ignore) {
 		return super.getNextInvocationUndoJob(object, this.invocationData);
 	}
 

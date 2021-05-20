@@ -144,24 +144,16 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		if (newValue == null) {
 			return nullStatusField.getNextUpdateCustomUndoJob(object, Boolean.FALSE);
 		} else {
-			Runnable job1 = nullStatusField.getNextUpdateCustomUndoJob(object, Boolean.TRUE);
-			Runnable job2 = super.getNextUpdateCustomUndoJob(object, newValue);
-
-			if (job1 == null) {
-				job1 = ReflectionUIUtils.createDefaultUndoJob(object, nullStatusField);
-			}
-			if (job2 == null) {
-				job2 = ReflectionUIUtils.createDefaultUndoJob(object, this);
-			}
-
-			final Runnable finalJob1 = job1;
-			final Runnable finalJob2 = job2;
-
+			final Runnable nullStatusFieldUndoJob = ReflectionUIUtils.getNextUpdateUndoJob(object, nullStatusField,
+					Boolean.TRUE);
+			final Runnable baseUndoJob = ReflectionUIUtils.getNextUpdateUndoJob(object, base, newValue);
 			return new Runnable() {
 				@Override
 				public void run() {
-					finalJob1.run();
-					finalJob2.run();
+					if (!ImportedNullStatusFieldInfo.super.isGetOnly()) {
+						baseUndoJob.run();
+					}
+					nullStatusFieldUndoJob.run();
 				}
 			};
 		}

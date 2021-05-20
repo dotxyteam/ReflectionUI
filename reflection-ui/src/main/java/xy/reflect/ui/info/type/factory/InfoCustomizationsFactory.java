@@ -2679,6 +2679,16 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				if (f.getCustomSetterSignature() != null) {
 					field = new FieldInfoProxy(field) {
 
+						protected IMethodInfo getCustomSetter() {
+							IMethodInfo result = ReflectionUIUtils.findMethodBySignature(outputMethods,
+									f.getCustomSetterSignature());
+							if (result == null) {
+								throw new ReflectionUIError("Field '" + f.getFieldName()
+										+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");
+							}
+							return result;
+						}
+
 						@Override
 						public boolean isGetOnly() {
 							return false;
@@ -2686,13 +2696,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public void setValue(Object object, Object value) {
-							IMethodInfo customMethod = ReflectionUIUtils.findMethodBySignature(outputMethods,
-									f.getCustomSetterSignature());
-							if (customMethod == null) {
-								throw new ReflectionUIError("Field '" + f.getFieldName()
-										+ "': Custom setter not found: '" + f.getCustomSetterSignature() + "'");
-							}
-							customMethod.invoke(object, new InvocationData(object, customMethod, value));
+							IMethodInfo customSetter = getCustomSetter();
+							customSetter.invoke(object, new InvocationData(object, customSetter, value));
+						}
+
+						@Override
+						public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+							IMethodInfo customSetter = getCustomSetter();
+							return customSetter.getNextInvocationUndoJob(object,
+									new InvocationData(object, customSetter, value));
 						}
 
 					};
