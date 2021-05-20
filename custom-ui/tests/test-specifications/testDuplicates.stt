@@ -165,6 +165,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Edit</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -187,6 +188,7 @@
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
                 <propertyValueExpected>Set ...</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
               </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
             </propertyValueList>
@@ -287,6 +289,62 @@
       </visibleStrings>
       <windowIndex>0</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Undo</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.CheckVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentName>fieldsPanel [parent=form [objectType=CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]]]</componentName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <negated>false</negated>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>124</string>
+        <string>the default virtual value</string>
+      </visibleStrings>
+    </xy.ui.testing.action.component.CheckVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Redo</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.CheckVisibleStringsAction>
+      <completenessChecked>false</completenessChecked>
+      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentName>fieldsPanel [parent=form [objectType=CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]]]</componentName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <negated>false</negated>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>234</string>
+        <string>the new virtual value</string>
+      </visibleStrings>
+    </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.window.CloseWindowAction>
       <disabled>false</disabled>
       <windowIndex>0</windowIndex>
