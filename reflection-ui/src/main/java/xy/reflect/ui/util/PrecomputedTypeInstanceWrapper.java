@@ -22,7 +22,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
  * @author olitank
  *
  */
-public class PrecomputedTypeInstanceWrapper {
+public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTypeInstanceWrapper> {
 
 	protected Object instance;
 	protected ITypeInfo precomputedType;
@@ -46,6 +46,24 @@ public class PrecomputedTypeInstanceWrapper {
 	 */
 	public ITypeInfoSource getTypeInfoSource() {
 		return new TypeInfoSource(precomputedType);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public int compareTo(PrecomputedTypeInstanceWrapper that) {
+		if (this.instance == null) {
+			if (that.instance == null) {
+				return 0; // equal
+			} else {
+				return -1; // null is before other values
+			}
+		} else {// this.member != null
+			if (that.instance == null) {
+				return 1; // all other values are after null
+			} else {
+				return ((Comparable) this.instance).compareTo((Comparable) that.instance);
+			}
+		}
 	}
 
 	@Override

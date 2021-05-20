@@ -38,11 +38,8 @@ import java.util.SortedMap;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -59,12 +56,17 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
+	protected JavaTypeInfoSource entryTypeSource;
+
 	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType,
 			Class<?> valueJavaType) {
-		super(reflectionUI, source, reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
-				StandardMapEntry.class, new Class<?>[] { keyJavaType, valueJavaType }, null)));
+		super(reflectionUI, source, null);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
+		this.entryTypeSource = new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,
+				new Class[] { keyJavaType, valueJavaType }, null);
+		this.itemType = reflectionUI
+				.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(entryTypeSource.getTypeInfo()));
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
@@ -72,12 +74,6 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public ITypeInfo getItemType() {
-		return reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(
-				new ItemType(reflectionUI, keyJavaType, valueJavaType)));
 	}
 
 	@Override
@@ -123,8 +119,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		for (Object obj : ((Map) listValue).entrySet()) {
 			Map.Entry entry = (Entry) obj;
 			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
-			result.add(new PrecomputedTypeInstanceWrapper(standardMapEntry,
-					new ItemType(reflectionUI, keyJavaType, valueJavaType)));
+			result.add(new PrecomputedTypeInstanceWrapper(standardMapEntry, entryTypeSource.getTypeInfo()));
 		}
 		return result.toArray();
 	}
@@ -146,19 +141,6 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	@Override
 	public String toString() {
 		return "StandardMapAsListTypeInfo [source=" + source + ", entryType=" + itemType + "]";
-	}
-
-	protected class ItemType extends StandardMapEntryTypeInfo {
-
-		public ItemType(ReflectionUI reflectionUI, Class<?> keyJavaType, Class<?> valueJavaType) {
-			super(reflectionUI, new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class, null), keyJavaType,
-					valueJavaType);
-		}
-
-		@Override
-		public ITypeInfoSource getSource() {
-			return new PrecomputedTypeInfoSource(this, null);
-		}
 	}
 
 }

@@ -37,7 +37,7 @@ import java.util.Map;
  * @author olitank
  *
  */
-public class StandardMapEntry {
+public class StandardMapEntry implements Comparable<StandardMapEntry> {
 	protected Object key;
 	protected Object value;
 
@@ -67,6 +67,24 @@ public class StandardMapEntry {
 		Object oldValue = this.value;
 		this.value = value;
 		return oldValue;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public int compareTo(StandardMapEntry that) {
+		if (this.key == null) {
+			if (that.key == null) {
+				return 0; // equal
+			} else {
+				return -1; // null is before other values
+			}
+		} else {// this.member != null
+			if (that.key == null) {
+				return 1; // all other values are after null
+			} else {
+				return ((Comparable) this.key).compareTo((Comparable) that.key);
+			}
+		}
 	}
 
 	@Override
