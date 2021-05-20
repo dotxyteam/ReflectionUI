@@ -878,8 +878,7 @@ public class CustomizationTools {
 			changeCustomizationFieldValue(dstFc, "specificProperties", (Map<String, Object>) IOUtils
 					.copyThroughSerialization((Serializable) srcFc.getSpecificProperties()));
 			changeCustomizationFieldValue(dstFc, "specificTypeCustomizations",
-					(FieldTypeSpecificities) IOUtils
-							.copyThroughSerialization(srcFc.getSpecificTypeCustomizations()));
+					(FieldTypeSpecificities) IOUtils.copyThroughSerialization(srcFc.getSpecificTypeCustomizations()));
 		}
 	}
 
@@ -1226,7 +1225,6 @@ public class CustomizationTools {
 		changeCustomizationFieldValue(tc, "customMethodsOrder", newOrder);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void openListColumnsOrderDialog(final JButton customizerButton, InfoCustomizations infoCustomizations,
 			final IListTypeInfo customizedListType) {
 		ITypeInfo customizedItemType = customizedListType.getItemType();
@@ -1234,17 +1232,17 @@ public class CustomizationTools {
 		ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations, customizedListType.getName(),
 				itemTypeName, true);
 		IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
-		List<ColumnOrderItem> columnOrder = new ArrayList<ColumnOrderItem>();
-		for (final IColumnInfo c : customizedListStructure.getColumns()) {
-			ColumnOrderItem orderItem = new ColumnOrderItem(c);
-			columnOrder.add(orderItem);
+		List<IColumnInfo> columns = customizedListStructure.getColumns();
+		ColumnOrderItem[] columnOrderItems = new ColumnOrderItem[columns.size()];
+		for (int i = 0; i < columns.size(); i++) {
+			columnOrderItems[i] = new ColumnOrderItem(columns.get(i));
 		}
-		StandardEditorBuilder dialogStatus = toolsRenderer.openObjectDialog(customizerButton, columnOrder,
+		StandardEditorBuilder dialogStatus = toolsRenderer.openObjectDialog(customizerButton, columnOrderItems,
 				"Columns Order", this.swingCustomizer.getCustomizationsIcon().getImage(), true, true);
 		if (!dialogStatus.isCancelled()) {
-			columnOrder = (List<ColumnOrderItem>) dialogStatus.getCurrentValue();
+			columnOrderItems = (ColumnOrderItem[]) dialogStatus.getCurrentValue();
 			List<String> newOrder = new ArrayList<String>();
-			for (ColumnOrderItem item : columnOrder) {
+			for (ColumnOrderItem item : columnOrderItems) {
 				newOrder.add(item.getColumnInfo().getName());
 			}
 			changeCustomizationFieldValue(lc, "columnsCustomOrder", newOrder);
