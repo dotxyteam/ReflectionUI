@@ -1611,7 +1611,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 				@Override
 				public String getCaption() {
-					return "<a customization error occured>";
+					return "";
 				}
 
 				@Override
@@ -2201,6 +2201,63 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
 					newFields.add(new MethodAsFieldInfo(customizedUI, method, containingType) {
+
+						String namePrefix = buildUniqueNamePrefixFromBaseMethod();
+
+						/**
+						 * @return The name of the base method with an eventual suffix to make it unique
+						 *         since many methods with different signatures may have the same name.
+						 *         It allows to avoid preset method names collision while preserving
+						 *         backward compatibility. Though it seems better to include the method
+						 *         signature in the preset method name and this may then be done in the
+						 *         future.
+						 */
+						String buildUniqueNamePrefixFromBaseMethod() {
+							String result = method.getName();
+							{
+								List<IMethodInfo> siblingMethods = containingType.getMethods();
+								List<IMethodInfo> sameNameMethods = new ArrayList<IMethodInfo>();
+								for (IMethodInfo method : siblingMethods) {
+									if (method.getName().equals(method.getName())) {
+										sameNameMethods.add(method);
+									}
+								}
+								if (sameNameMethods.size() > 1) {
+									List<IMethodInfo> methodsWithReturnValueField = new ArrayList<IMethodInfo>();
+									for (IMethodInfo method : sameNameMethods) {
+										MethodCustomization methodCustomization = InfoCustomizations
+												.getMethodCustomization(containingTypeCustomization,
+														method.getSignature());
+										if (methodCustomization.isReturnValueFieldGenerated()) {
+											methodsWithReturnValueField.add(method);
+										}
+									}
+									if (methodsWithReturnValueField.size() > 1) {
+										Collections.sort(methodsWithReturnValueField, new Comparator<IMethodInfo>() {
+											@Override
+											public int compare(IMethodInfo m1, IMethodInfo m2) {
+												return m1.getSignature().compareTo(m2.getSignature());
+											}
+										});
+										IMethodInfo sameSignatureMethod = ReflectionUIUtils.findMethodBySignature(
+												methodsWithReturnValueField, method.getSignature());
+										if (sameSignatureMethod != null) {
+											int methodIndex = methodsWithReturnValueField.indexOf(sameSignatureMethod);
+											if (methodIndex > 0) {
+												result += "." + Integer.toString(methodIndex);
+											}
+										}
+									}
+								}
+							}
+							return result;
+						}
+
+						@Override
+						public String getName() {
+							return namePrefix + ".result";
+						}
+
 						@Override
 						public boolean isHidden() {
 							return false;
@@ -2308,8 +2365,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 								 * @return The name of the base method with an eventual suffix to make it unique
 								 *         since many methods with different signatures may have the same name.
 								 *         It allows to avoid preset method names collision while preserving
-								 *         backward compatibility. It seems better actually to include the
-								 *         method signature in the preset method name.
+								 *         backward compatibility. Though it seems better to include the method
+								 *         signature in the preset method name and this may then be done in the
+								 *         future.
 								 */
 								String buildUniqueNamePrefixFromBaseMethod() {
 									String result = base.getName();
