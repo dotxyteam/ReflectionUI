@@ -82,9 +82,20 @@ public class TestWithAutomation {
 
 	@Test
 	public void testPlugins() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester,
-				new File(System.getProperty("custom-ui-tests.project.directory", "./")
-						+ "test-specifications/testPlugins.stt"));
+		TestingUtils.assertSuccessfulReplay(tester, new File(
+				System.getProperty("custom-ui-tests.project.directory", "./") + "test-specifications/testPlugins.stt"));
+	}
+
+	@Test
+	public void testEcho() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester, new File(
+				System.getProperty("custom-ui-tests.project.directory", "./") + "test-specifications/testEcho.stt"));
+	}
+
+	@Test
+	public void testEmptyObject() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester, new File(
+				System.getProperty("custom-ui-tests.project.directory", "./") + "test-specifications/testEmptyObject.stt"));
 	}
 
 }

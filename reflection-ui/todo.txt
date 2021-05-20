@@ -1,3 +1,8 @@
+- tests to add:
+	. default param value, presets, ...
+	. list shortcuts
+	. menu creation
+	. validation status display
 - DefaultTypeInfo do not need reflectionUI as a constructor
 param. It is already in the JavaTypeInfoSource param.
 - change the number of threads of the SwingRenderer
