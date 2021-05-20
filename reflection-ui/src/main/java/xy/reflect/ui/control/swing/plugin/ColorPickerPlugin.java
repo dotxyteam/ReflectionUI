@@ -239,7 +239,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 						@Override
 						public ITypeInfo getType() {
-							return new DefaultTypeInfo(swingRenderer.getReflectionUI(),
+							return new DefaultTypeInfo(
 									new JavaTypeInfoSource(swingRenderer.getReflectionUI(), String.class, null));
 						}
 

@@ -90,8 +90,8 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		this.specificitiesIdentifier = specificitiesIdentifier;
 	}
 
-	public JavaTypeInfoSource(ReflectionUI reflectionUI, Class<?> javaType, Member declaringMember, int declaringInvokableParameterPosition,
-			SpecificitiesIdentifier specificitiesIdentifier) {
+	public JavaTypeInfoSource(ReflectionUI reflectionUI, Class<?> javaType, Member declaringMember,
+			int declaringInvokableParameterPosition, SpecificitiesIdentifier specificitiesIdentifier) {
 		this.reflectionUI = reflectionUI;
 		this.javaType = javaType;
 		this.declaringMember = declaringMember;
@@ -112,11 +112,11 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 					} else {
 						itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
 					}
-					result = new StandardCollectionTypeInfo(reflectionUI, this, itemType);
+					result = new StandardCollectionTypeInfo(this, itemType);
 				} else if (StandardMapAsListTypeInfo.isCompatibleWith(getJavaType())) {
 					Class<?> keyClass = guessGenericTypeParameters(Map.class, 0);
 					Class<?> valueClass = guessGenericTypeParameters(Map.class, 1);
-					result = new StandardMapAsListTypeInfo(reflectionUI, this, keyClass, valueClass);
+					result = new StandardMapAsListTypeInfo(this, keyClass, valueClass);
 				} else if (StandardMapEntryTypeInfo.isCompatibleWith(getJavaType())) {
 					Class<?> keyClass = null;
 					Class<?> valueClass = null;
@@ -125,18 +125,22 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 						keyClass = genericParams[0];
 						valueClass = genericParams[1];
 					}
-					result = new StandardMapEntryTypeInfo(reflectionUI, this, keyClass, valueClass);
+					result = new StandardMapEntryTypeInfo(this, keyClass, valueClass);
 				} else if (getJavaType().isArray()) {
-					result = new ArrayTypeInfo(reflectionUI, this);
+					result = new ArrayTypeInfo(this);
 				} else if (getJavaType().isEnum()) {
-					result = new StandardEnumerationTypeInfo(reflectionUI, this);
+					result = new StandardEnumerationTypeInfo(this);
 				} else {
-					result = new DefaultTypeInfo(reflectionUI, this);
+					result = new DefaultTypeInfo(this);
 				}
 				CACHE.put(this, result);
 			}
 			return result;
 		}
+	}
+
+	public ReflectionUI getReflectionUI() {
+		return reflectionUI;
 	}
 
 	@Override
@@ -238,8 +242,6 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		}
 		return parameterClasses.get(genericParameterIndex);
 	}
-
-
 
 	@Override
 	public int hashCode() {

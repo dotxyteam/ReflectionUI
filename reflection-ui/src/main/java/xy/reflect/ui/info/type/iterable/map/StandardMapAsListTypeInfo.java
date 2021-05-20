@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
@@ -58,9 +57,8 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	protected JavaTypeInfoSource entryTypeSource;
 
-	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType,
-			Class<?> valueJavaType) {
-		super(reflectionUI, source, null);
+	public StandardMapAsListTypeInfo(JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
+		super(source, null);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 		this.entryTypeSource = new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,

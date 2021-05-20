@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
@@ -65,9 +64,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected GetterFieldInfo keyField;
 	protected GetterFieldInfo valueField;
 
-	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType,
-			Class<?> valueJavaType) {
-		super(reflectionUI, source);
+	public StandardMapEntryTypeInfo(JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
+		super(source);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}

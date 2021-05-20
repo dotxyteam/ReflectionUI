@@ -65,7 +65,7 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new StandardCollectionTypeInfo(reflectionUI,
+			type = reflectionUI.getTypeInfo(new StandardCollectionTypeInfo(
 					new JavaTypeInfoSource(reflectionUI, ArrayList.class, null), super.getType()) {
 
 				@Override

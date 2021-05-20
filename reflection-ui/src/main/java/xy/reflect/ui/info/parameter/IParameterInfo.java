@@ -50,7 +50,7 @@ public interface IParameterInfo extends IInfo {
 	 */
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
-		ITypeInfo type = new DefaultTypeInfo(ReflectionUIUtils.STANDARD_REFLECTION,
+		ITypeInfo type = new DefaultTypeInfo(
 				new JavaTypeInfoSource(ReflectionUIUtils.STANDARD_REFLECTION, Object.class, null));
 
 		@Override

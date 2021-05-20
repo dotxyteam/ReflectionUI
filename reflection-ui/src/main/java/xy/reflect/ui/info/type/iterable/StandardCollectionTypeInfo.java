@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -66,8 +65,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	protected ITypeInfo itemType;
 
-	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, ITypeInfo itemType) {
-		super(reflectionUI, source);
+	public StandardCollectionTypeInfo(JavaTypeInfoSource source, ITypeInfo itemType) {
+		super(source);
 		this.itemType = itemType;
 	}
 

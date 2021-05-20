@@ -294,7 +294,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 						@Override
 						public ITypeInfo getType() {
-							return new DefaultTypeInfo(swingRenderer.getReflectionUI(),
+							return new DefaultTypeInfo(
 									new JavaTypeInfoSource(swingRenderer.getReflectionUI(), String.class, null));
 						}
 					};
