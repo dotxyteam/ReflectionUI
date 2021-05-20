@@ -533,12 +533,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String toString(Object object) {
-			Value value = (Value) object;
-			ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+			ITypeInfo valueType = reflectionUI.getTypeInfo(getSource());
 			StringBuilder result = new StringBuilder();
 			for (IFieldInfo field : valueType.getFields()) {
 				try {
-					Object fieldValue = field.getValue(value);
+					Object fieldValue = field.getValue(object);
 					if (fieldValue == null) {
 						continue;
 					}
