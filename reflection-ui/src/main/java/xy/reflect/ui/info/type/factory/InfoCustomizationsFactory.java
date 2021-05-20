@@ -1567,26 +1567,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				transformMethods(inputConstructors, outputConstructors, newFields, newConstructors);
 			} catch (final Throwable t) {
 				customizedUI.logError(MiscUtils.getPrintedStackTrace(t));
-				outputFields.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
-
-					@Override
-					public Object getValue(Object object) {
-						throw new ReflectionUIError(t);
-
-					}
-
-					@Override
-					public String getName() {
-						return "customizationError";
-					}
-
-					@Override
-					public ITypeInfo getType() {
-						return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
-								new SpecificitiesIdentifier(containingType.getName(), "customizationError")));
-					}
-
-				});
+				outputFields.add(createErrorField(new ReflectionUIError(t)));
 				return;
 			}
 
@@ -1612,6 +1593,34 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((inputFields.size() > 0) || (inputMethods.size() > 0) || (inputConstructors.size() > 0)) {
 				evolveMembers();
 			}
+		}
+
+		protected IFieldInfo createErrorField(final ReflectionUIError error) {
+			return new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+
+				@Override
+				public Object getValue(Object object) {
+					throw error;
+
+				}
+
+				@Override
+				public String getName() {
+					return MembersCustomizationsFactory.class.getName() + ".customizationError";
+				}
+
+				@Override
+				public String getCaption() {
+					return "<a customization error occured>";
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
+							new SpecificitiesIdentifier(containingType.getName(), "customizationError")));
+				}
+
+			};
 		}
 
 		protected void transformFields(List<IFieldInfo> baseFields, List<IFieldInfo> modifiedFields,
@@ -2217,7 +2226,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							protected IFieldInfo getDelegate() {
 								IFieldInfo result = ReflectionUIUtils.findInfoByName(outputFields, fieldName);
 								if (result == null) {
-									throw new ReflectionUIError("Parameterized field not found: '" + fieldName + "'");
+									return createErrorField(new ReflectionUIError(
+											"Parameterized field not found: '" + fieldName + "'"));
 								}
 								return result;
 							}
@@ -2589,8 +2599,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							IFieldInfo result = ReflectionUIUtils.findInfoByName(outputFields,
 									f.getImportedNullStatusFieldName());
 							if (result == null) {
-								throw new ReflectionUIError(
-										"Null status field not found: '" + f.getImportedNullStatusFieldName() + "'");
+								return createErrorField(new ReflectionUIError(
+										"Null status field not found: '" + f.getImportedNullStatusFieldName() + "'"));
 							}
 							return result;
 						}
