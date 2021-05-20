@@ -94,6 +94,11 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public void setValue(Object object, Object value) {
+		boolean currentNullStatus = (Boolean)getValue(object);
+		boolean newNullStatus = (Boolean)value;
+		if(currentNullStatus == newNullStatus) {
+			return;
+		}
 		super.setValue(object, booleanTovalue((Boolean) value));
 	}
 
