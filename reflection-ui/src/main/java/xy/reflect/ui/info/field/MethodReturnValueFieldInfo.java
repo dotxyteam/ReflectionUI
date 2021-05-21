@@ -50,14 +50,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * @author olitank
  *
  */
-public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
+public class MethodReturnValueFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
 	protected ITypeInfo type;
 
-	public MethodAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
+	public MethodReturnValueFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		if (ReflectionUIUtils.requiresParameterValue(method)) {
 			throw new ReflectionUIError(
@@ -73,7 +73,15 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String getName() {
-		return method.getName() + ".result";
+		return buildReturnValueFieldName(method.getSignature());
+	}
+
+	public static String buildReturnValueFieldName(String baseMethodSignature) {
+		return "returnValueOf-" + ReflectionUIUtils.buildNameFromMethodSignature(baseMethodSignature);
+	}
+
+	public static String buildLegacyReturnValueFieldName(String baseMethodName) {
+		return baseMethodName + ".result";
 	}
 
 	@Override
@@ -223,7 +231,7 @@ public class MethodAsFieldInfo extends AbstractInfo implements IFieldInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodAsFieldInfo other = (MethodAsFieldInfo) obj;
+		MethodReturnValueFieldInfo other = (MethodReturnValueFieldInfo) obj;
 		if (method == null) {
 			if (other.method != null)
 				return false;

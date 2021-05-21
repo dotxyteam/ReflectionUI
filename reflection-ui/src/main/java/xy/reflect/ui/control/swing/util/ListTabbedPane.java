@@ -388,6 +388,7 @@ public class ListTabbedPane extends JPanel {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				preventMultipleVisibleCardsIssue();
 				if (currentIndex == -1) {
 					cardLayout.show(currentComponentContainer, getCardName(null));
 				} else {
@@ -395,6 +396,14 @@ public class ListTabbedPane extends JPanel {
 							getCardName(listControl.getModel().getElementAt(currentIndex)));
 				}
 				notifyChangeListeners();
+			}
+
+			void preventMultipleVisibleCardsIssue() {
+				for (Component comp : currentComponentContainer.getComponents()) {
+					if (comp.isVisible()) {
+						comp.setVisible(false);
+					}
+				}
 			}
 		});
 		lastListSelectionIndex = currentIndex;

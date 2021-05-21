@@ -639,7 +639,7 @@ public class CustomizationTools {
 						UndoOrder.getNormal(), new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								String capsuleTypeName = CapsuleFieldInfo.formatTypeName(capsuleFieldName,
+								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
 										containingCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), containingCustomizedType.getName(),
@@ -700,7 +700,7 @@ public class CustomizationTools {
 						UndoOrder.getNormal(), new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								String capsuleTypeName = CapsuleFieldInfo.formatTypeName(capsuleFieldName,
+								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
 										containingCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), containingCustomizedType.getName(),

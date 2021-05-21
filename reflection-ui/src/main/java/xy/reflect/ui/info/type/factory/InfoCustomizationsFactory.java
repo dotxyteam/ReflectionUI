@@ -35,7 +35,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +71,7 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
-import xy.reflect.ui.info.field.MethodAsFieldInfo;
+import xy.reflect.ui.info.field.MethodReturnValueFieldInfo;
 import xy.reflect.ui.info.field.NullReplacedFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
@@ -2200,63 +2199,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
-					newFields.add(new MethodAsFieldInfo(customizedUI, method, containingType) {
-
-						String namePrefix = buildUniqueNamePrefixFromBaseMethod();
-
-						/**
-						 * @return The name of the base method with an eventual suffix to make it unique
-						 *         since many methods with different signatures may have the same name.
-						 *         It allows to avoid preset method names collision while preserving
-						 *         backward compatibility. Though it seems better to include the method
-						 *         signature in the preset method name and this may then be done in the
-						 *         future.
-						 */
-						String buildUniqueNamePrefixFromBaseMethod() {
-							String result = method.getName();
-							{
-								List<IMethodInfo> siblingMethods = containingType.getMethods();
-								List<IMethodInfo> sameNameMethods = new ArrayList<IMethodInfo>();
-								for (IMethodInfo method : siblingMethods) {
-									if (method.getName().equals(method.getName())) {
-										sameNameMethods.add(method);
-									}
-								}
-								if (sameNameMethods.size() > 1) {
-									List<IMethodInfo> methodsWithReturnValueField = new ArrayList<IMethodInfo>();
-									for (IMethodInfo method : sameNameMethods) {
-										MethodCustomization methodCustomization = InfoCustomizations
-												.getMethodCustomization(containingTypeCustomization,
-														method.getSignature());
-										if (methodCustomization.isReturnValueFieldGenerated()) {
-											methodsWithReturnValueField.add(method);
-										}
-									}
-									if (methodsWithReturnValueField.size() > 1) {
-										Collections.sort(methodsWithReturnValueField, new Comparator<IMethodInfo>() {
-											@Override
-											public int compare(IMethodInfo m1, IMethodInfo m2) {
-												return m1.getSignature().compareTo(m2.getSignature());
-											}
-										});
-										IMethodInfo sameSignatureMethod = ReflectionUIUtils.findMethodBySignature(
-												methodsWithReturnValueField, method.getSignature());
-										if (sameSignatureMethod != null) {
-											int methodIndex = methodsWithReturnValueField.indexOf(sameSignatureMethod);
-											if (methodIndex > 0) {
-												result += "." + Integer.toString(methodIndex);
-											}
-										}
-									}
-								}
-							}
-							return result;
-						}
-
-						@Override
-						public String getName() {
-							return namePrefix + ".result";
-						}
+					newFields.add(new MethodReturnValueFieldInfo(customizedUI, method, containingType) {
 
 						@Override
 						public boolean isHidden() {
@@ -2322,16 +2265,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									param, containingType) {
 
 								@Override
-								public String getName() {
-									return method.getName() + "." + param.getName();
-								}
-
-								@Override
-								public String getCaption() {
-									return ReflectionUIUtils.composeMessage(method.getCaption(), param.getCaption());
-								}
-
-								@Override
 								public boolean isHidden() {
 									return false;
 								}
@@ -2359,65 +2292,19 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					newMethods.add(
 							new PresetInvocationDataMethodInfo(method, (InvocationData) invocationDataStorage.load()) {
 
-								String namePrefix = buildUniqueNamePrefixFromBaseMethod();
-
-								/**
-								 * @return The name of the base method with an eventual suffix to make it unique
-								 *         since many methods with different signatures may have the same name.
-								 *         It allows to avoid preset method names collision while preserving
-								 *         backward compatibility. Though it seems better to include the method
-								 *         signature in the preset method name and this may then be done in the
-								 *         future.
-								 */
-								String buildUniqueNamePrefixFromBaseMethod() {
-									String result = base.getName();
-									{
-										List<IMethodInfo> siblingMethods = containingType.getMethods();
-										List<IMethodInfo> sameNameMethods = new ArrayList<IMethodInfo>();
-										for (IMethodInfo method : siblingMethods) {
-											if (method.getName().equals(base.getName())) {
-												sameNameMethods.add(method);
-											}
-										}
-										if (sameNameMethods.size() > 1) {
-											List<IMethodInfo> methodsWithPresets = new ArrayList<IMethodInfo>();
-											for (IMethodInfo method : sameNameMethods) {
-												MethodCustomization methodCustomization = InfoCustomizations
-														.getMethodCustomization(containingTypeCustomization,
-																method.getSignature());
-												if (methodCustomization.getSerializedInvocationDatas().size() > 0) {
-													methodsWithPresets.add(method);
-												}
-											}
-											if (methodsWithPresets.size() > 1) {
-												Collections.sort(methodsWithPresets, new Comparator<IMethodInfo>() {
-													@Override
-													public int compare(IMethodInfo m1, IMethodInfo m2) {
-														return m1.getSignature().compareTo(m2.getSignature());
-													}
-												});
-												IMethodInfo sameSignatureMethod = ReflectionUIUtils
-														.findMethodBySignature(methodsWithPresets, base.getSignature());
-												if (sameSignatureMethod != null) {
-													int methodIndex = methodsWithPresets.indexOf(sameSignatureMethod);
-													if (methodIndex > 0) {
-														result += "." + Integer.toString(methodIndex);
-													}
-												}
-											}
-										}
-									}
-									return result;
+								@Override
+								public String getName() {
+									return buildPresetMethodName(base.getSignature(), finalI);
 								}
 
 								@Override
-								public String getName() {
-									return namePrefix + ".savedInvocation" + finalI;
+								public String getSignature() {
+									return ReflectionUIUtils.buildMethodSignature(this);
 								}
 
 								@Override
 								public String getCaption() {
-									return ReflectionUIUtils.composeMessage(super.getCaption(),
+									return ReflectionUIUtils.composeMessage(base.getCaption(),
 											"Preset " + (finalI + 1));
 								}
 

@@ -34,6 +34,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Virtual field that allows to view/edit the underlying method parameter value.
@@ -59,9 +60,22 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 		this.param = param;
 	}
 
+	public static String buildParameterFieldName(String baseMethodSignature, String parameterName) {
+		return parameterName + "Of-" + ReflectionUIUtils.buildNameFromMethodSignature(baseMethodSignature);
+	}
+
+	public static String buildLegacyParameterFieldName(String baseMethodName, String parameterName) {
+		return baseMethodName + "." + parameterName;
+	}
+
 	@Override
 	public String getName() {
-		return "parameter [of=" + method.getSignature() + ", position=" + param.getPosition() + "]";
+		return buildParameterFieldName(method.getSignature(), param.getName());
+	}
+
+	@Override
+	public String getCaption() {
+		return ReflectionUIUtils.composeMessage(method.getCaption(), param.getCaption());
 	}
 
 	@Override
@@ -91,11 +105,6 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 	public Object getValue(Object object) {
 		ensureInitialValueIsDefaultParameterValue(object);
 		return super.getValue(object);
-	}
-
-	@Override
-	public String getCaption() {
-		return param.getCaption();
 	}
 
 	@Override

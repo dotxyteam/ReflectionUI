@@ -216,9 +216,13 @@ public class MiscUtils {
 		return Arrays.copyOfRange(result, 1 + firstElementsToRemove, result.length);
 	}
 
-	public static <T> void replaceItem(List<T> list, T t1, T t2) {
+	public static <T> boolean replaceItem(List<T> list, T t1, T t2) {
 		int index = list.indexOf(t1);
+		if(index == -1) {
+			return false;
+		}
 		list.set(index, t2);
+		return true;
 	}
 
 	public static String getUniqueID() {

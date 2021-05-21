@@ -70,7 +70,10 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.MethodReturnValueFieldInfo;
+import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
@@ -84,6 +87,7 @@ import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.PresetInvocationDataMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
@@ -299,6 +303,7 @@ public class InfoCustomizations implements Serializable {
 	public static void clean(InfoCustomizations infoCustomizations, Listener<String> debugLogListener) {
 		for (TypeCustomization tc : new ArrayList<TypeCustomization>(infoCustomizations.getTypeCustomizations())) {
 			for (FieldCustomization fc : new ArrayList<FieldCustomization>(tc.getFieldsCustomizations())) {
+				clean(fc.getSpecificTypeCustomizations(), debugLogListener);
 				if (fc.isInitial()) {
 					tc.getFieldsCustomizations().remove(fc);
 					continue;
@@ -480,7 +485,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static TypeCustomization findParentTypeCustomization(InfoCustomizations infoCustomizations,
 			AbstractMemberCustomization memberCustumization) {
-		for (TypeCustomization tc : getTypeCustomizationsPlusMemberSpecificities(infoCustomizations)) {
+		for (TypeCustomization tc : getTypeCustomizationsPlusFieldSpecificities(infoCustomizations)) {
 			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
 				if (fc == memberCustumization) {
 					return tc;
@@ -495,13 +500,13 @@ public class InfoCustomizations implements Serializable {
 		return null;
 	}
 
-	public static List<TypeCustomization> getTypeCustomizationsPlusMemberSpecificities(
+	public static List<TypeCustomization> getTypeCustomizationsPlusFieldSpecificities(
 			InfoCustomizations infoCustomizations) {
 		List<TypeCustomization> result = new ArrayList<TypeCustomization>();
 		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
 			result.add(tc);
 			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
-				result.addAll(getTypeCustomizationsPlusMemberSpecificities(fc.getSpecificTypeCustomizations()));
+				result.addAll(getTypeCustomizationsPlusFieldSpecificities(fc.getSpecificTypeCustomizations()));
 			}
 		}
 		return result;
@@ -2057,6 +2062,9 @@ public class InfoCustomizations implements Serializable {
 							.getCachedClassforName(conversionMethodParameterTypeNames[i]);
 				}
 				if (conversionMethodName == null) {
+					throw new ReflectionUIError("Malformed method signature: '" + conversionMethodSignature + "'");
+				}
+				if (conversionMethodName.length() == 0) {
 					return new ConstructorBasedConverter(conversionClass, conversionMethodParameterTypes);
 				} else {
 					return new MethodBasedConverter(conversionClass, conversionMethodName,
@@ -2838,6 +2846,14 @@ public class InfoCustomizations implements Serializable {
 			return ReflectionUIUtils.extractMethodNameFromSignature(methodSignature);
 		}
 
+		public void setMethodName(String methodName) {
+			String returnTypeName = ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(methodSignature);
+			String[] parameterTypeNames = ReflectionUIUtils
+					.extractMethodParameterTypeNamesFromSignature(methodSignature);
+			this.methodSignature = ReflectionUIUtils.buildMethodSignature(returnTypeName, methodName,
+					Arrays.asList(parameterTypeNames));
+		}
+
 		public ResourcePath getIconImagePath() {
 			return iconImagePath;
 		}
@@ -3171,7 +3187,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void validate() {
-			if (methodSignature != null) {
+			if ((methodSignature != null) && (methodSignature.length() > 0)) {
 				if (ReflectionUIUtils.extractMethodNameFromSignature(methodSignature) == null) {
 					throw new ReflectionUIError("Malformed method signature: '" + methodSignature + "'");
 				}
@@ -4086,6 +4102,14 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	/**
+	 * Maintains backward compatibility as much as possible with
+	 * {@link InfoCustomizations} files by detecting and upgrading specific
+	 * customizations.
+	 * 
+	 * @author olitank
+	 *
+	 */
 	protected class Migrator {
 
 		public void migrate() {
@@ -4104,17 +4128,22 @@ public class InfoCustomizations implements Serializable {
 		private boolean migrate(TypeCustomization tc) {
 			boolean migrated = false;
 			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
-				if (migrate(fc)) {
+				if (migrate(fc, tc)) {
+					migrated = true;
+				}
+			}
+			for (MethodCustomization mc : tc.getMethodsCustomizations()) {
+				if (migrate(mc, tc)) {
 					migrated = true;
 				}
 			}
 			return migrated;
 		}
 
-		private boolean migrate(FieldCustomization fc) {
+		private boolean migrate(FieldCustomization fc, TypeCustomization containingTc) {
 			boolean migrated = false;
 			if (fc.getNullReplacement() != null) {
-				if (fixTemporarilyHistoricalImageIconClassSwappingIssue(fc.getNullReplacement())) {
+				if (fixHistoricalImageIconClassSwappingIssue(fc.getNullReplacement())) {
 					migrated = true;
 				}
 			}
@@ -4126,7 +4155,135 @@ public class InfoCustomizations implements Serializable {
 			return migrated;
 		}
 
-		private boolean fixTemporarilyHistoricalImageIconClassSwappingIssue(TextualStorage textualStorage) {
+		private boolean migrate(MethodCustomization mc, TypeCustomization containingTc) {
+			boolean migrated = false;
+			if (mc.isReturnValueFieldGenerated()) {
+				if (upgradeReturnValueFieldName(mc, containingTc)) {
+					migrated = true;
+				}
+			}
+			if (mc.getSerializedInvocationDatas().size() > 0) {
+				if (upgradePresetMethodNames(mc, containingTc)) {
+					migrated = true;
+				}
+			}
+			for (ParameterCustomization pc : mc.getParametersCustomizations()) {
+				if (migrate(pc, mc, containingTc)) {
+					migrated = true;
+				}
+			}
+			return migrated;
+		}
+
+		private boolean migrate(ParameterCustomization pc, MethodCustomization mc, TypeCustomization containingTc) {
+			boolean migrated = false;
+			if (pc.isDisplayedAsField()) {
+				if (upgradeParameterFieldName(pc, mc, containingTc)) {
+					migrated = true;
+				}
+			}
+			return migrated;
+		}
+
+		private boolean upgradeParameterFieldName(ParameterCustomization pc, MethodCustomization mc,
+				TypeCustomization containingTc) {
+			boolean migrated = false;
+			for (FieldCustomization siblingFc : containingTc.getFieldsCustomizations()) {
+				if (siblingFc.getFieldName().equals(ParameterAsFieldInfo
+						.buildLegacyParameterFieldName(mc.getMethodName(), pc.getParameterName()))) {
+					String oldFieldName = siblingFc.getFieldName();
+					siblingFc.setFieldName(ParameterAsFieldInfo.buildParameterFieldName(mc.getMethodSignature(),
+							pc.getParameterName()));
+					if (containingTc.getCustomFieldsOrder() != null) {
+						MiscUtils.replaceItem(containingTc.getCustomFieldsOrder(), oldFieldName,
+								siblingFc.getFieldName());
+					}
+					if (siblingFc.getEncapsulationFieldName() != null) {
+						FieldCustomization capsuleFc = getFieldCustomization(containingTc,
+								siblingFc.getEncapsulationFieldName(), false);
+						if (capsuleFc != null) {
+							String capsuleTypeName = CapsuleFieldInfo
+									.buildTypeName(siblingFc.getEncapsulationFieldName(), containingTc.getTypeName());
+							TypeCustomization capsuleTc = getTypeCustomization(InfoCustomizations.this, capsuleTypeName,
+									false);
+							if (capsuleTc != null) {
+								upgradeParameterFieldName(pc, mc, capsuleTc);
+							}
+						}
+					}
+					migrated = true;
+				}
+			}
+			return migrated;
+		}
+
+		private boolean upgradePresetMethodNames(MethodCustomization mc, TypeCustomization containingTc) {
+			boolean migrated = false;
+			List<TextualStorage> serializedInvocationDatas = mc.getSerializedInvocationDatas();
+			for (int invocationDataIndex = 0; invocationDataIndex < serializedInvocationDatas
+					.size(); invocationDataIndex++) {
+				for (MethodCustomization siblingMc : containingTc.getMethodsCustomizations()) {
+					if (siblingMc.getMethodName().equals(PresetInvocationDataMethodInfo
+							.buildLegacyPresetMethodName(mc.getMethodName(), invocationDataIndex))) {
+						String oldMethodSignature = siblingMc.getMethodSignature();
+						siblingMc.setMethodName(PresetInvocationDataMethodInfo
+								.buildPresetMethodName(mc.getMethodSignature(), invocationDataIndex));
+						if (containingTc.getCustomMethodsOrder() != null) {
+							MiscUtils.replaceItem(containingTc.getCustomMethodsOrder(), oldMethodSignature,
+									siblingMc.getMethodSignature());
+						}
+						if (siblingMc.getEncapsulationFieldName() != null) {
+							FieldCustomization capsuleFc = getFieldCustomization(containingTc,
+									siblingMc.getEncapsulationFieldName(), false);
+							if (capsuleFc != null) {
+								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(
+										siblingMc.getEncapsulationFieldName(), containingTc.getTypeName());
+								TypeCustomization capsuleTc = getTypeCustomization(InfoCustomizations.this,
+										capsuleTypeName, false);
+								if (capsuleTc != null) {
+									upgradePresetMethodNames(mc, capsuleTc);
+								}
+							}
+						}
+						migrated = true;
+					}
+				}
+			}
+			return migrated;
+		}
+
+		private boolean upgradeReturnValueFieldName(MethodCustomization mc, TypeCustomization containingTc) {
+			boolean migrated = false;
+			for (FieldCustomization siblingFc : containingTc.getFieldsCustomizations()) {
+				if (siblingFc.getFieldName()
+						.equals(MethodReturnValueFieldInfo.buildLegacyReturnValueFieldName(mc.getMethodName()))) {
+					String oldFieldName = siblingFc.getFieldName();
+					siblingFc.setFieldName(
+							MethodReturnValueFieldInfo.buildReturnValueFieldName(mc.getMethodSignature()));
+					if (containingTc.getCustomFieldsOrder() != null) {
+						MiscUtils.replaceItem(containingTc.getCustomFieldsOrder(), oldFieldName,
+								siblingFc.getFieldName());
+					}
+					if (siblingFc.getEncapsulationFieldName() != null) {
+						FieldCustomization capsuleFc = getFieldCustomization(containingTc,
+								siblingFc.getEncapsulationFieldName(), false);
+						if (capsuleFc != null) {
+							String capsuleTypeName = CapsuleFieldInfo
+									.buildTypeName(siblingFc.getEncapsulationFieldName(), containingTc.getTypeName());
+							TypeCustomization capsuleTc = getTypeCustomization(InfoCustomizations.this, capsuleTypeName,
+									false);
+							if (capsuleTc != null) {
+								upgradeReturnValueFieldName(mc, capsuleTc);
+							}
+						}
+					}
+					migrated = true;
+				}
+			}
+			return migrated;
+		}
+
+		private boolean fixHistoricalImageIconClassSwappingIssue(TextualStorage textualStorage) {
 			if (textualStorage.getData() != null) {
 				Mapping preConversion = textualStorage.getPreConversion();
 				if (preConversion != null) {

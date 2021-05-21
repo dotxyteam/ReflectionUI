@@ -145,7 +145,9 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		String result = matcher.group(2);
-		if (result != null) {
+		if (result == null) {
+			result = "";
+		} else {
 			result = result.trim();
 		}
 		return result;
@@ -945,5 +947,15 @@ public class ReflectionUIUtils {
 
 	public static boolean isConstructor(IMethodInfo method) {
 		return method.getName().length() == 0;
+	}
+
+	public static String buildNameFromMethodSignature(String baseMethodSignature) {
+		String baseMethodReturnTypeName = ReflectionUIUtils
+				.extractMethodReturnTypeNameFromSignature(baseMethodSignature);
+		String baseMethodName = ReflectionUIUtils.extractMethodNameFromSignature(baseMethodSignature);
+		String[] baseMethodParameterTypeNames = ReflectionUIUtils
+				.extractMethodParameterTypeNamesFromSignature(baseMethodSignature);
+		return baseMethodReturnTypeName + "-" + ((baseMethodName.length() == 0) ? "<constructor>" : baseMethodName)
+				+ "-" + MiscUtils.stringJoin(Arrays.asList(baseMethodParameterTypeNames), "-");
 	}
 }

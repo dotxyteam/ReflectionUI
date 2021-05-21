@@ -28,6 +28,7 @@
  ******************************************************************************/
 package xy.reflect.ui.info.method;
 
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,6 +54,20 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 			this.invocationData.getProvidedParameterValues().put(param.getPosition(),
 					invocationData.getParameterValue(param.getPosition()));
 		}
+	}
+
+	public static String buildPresetMethodName(String baseMethodSignature, int index) {
+		return "preset" + ((index != -1) ? new DecimalFormat("00").format(index + 1) : "") + "Of-"
+				+ ReflectionUIUtils.buildNameFromMethodSignature(baseMethodSignature);
+	}
+
+	public static String buildLegacyPresetMethodName(String baseMethodName, int index) {
+		return baseMethodName + ".savedInvocation" + index;
+	}
+
+	@Override
+	public String getName() {
+		return buildPresetMethodName(base.getSignature(), -1);
 	}
 
 	@Override
