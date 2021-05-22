@@ -107,7 +107,9 @@ public interface IListTypeInfo extends ITypeInfo {
 	IListStructuralInfo getStructuralInfo();
 
 	/**
-	 * @return preferences about the way item details are displayed.
+	 * @return preferences about the way item details are displayed. Note that when
+	 *         the list is actually a tree then this method must be called from the
+	 *         root list type information.
 	 */
 	IListItemDetailsAccessMode getDetailsAccessMode();
 
@@ -140,7 +142,10 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * @param listModificationFactoryAccessor An object that maps the selection to a
 	 *                                        list modification factory.
 	 * @return actions that can be performed on a list instance according to the
-	 *         given selection of items.
+	 *         given selection of items. Note that when the list is actually a tree
+	 *         then this method must be called from the root list type information
+	 *         since the selection may include items positioned at different levels
+	 *         of depth in the tree.
 	 */
 	List<IDynamicListAction> getDynamicActions(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
@@ -150,7 +155,10 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * @param listModificationFactoryAccessor An object that maps the selection to a
 	 *                                        list modification factory.
 	 * @return list instance properties that can be accessed according to the given
-	 *         selection of items.
+	 *         selection of items. Note that when the list is actually a tree then
+	 *         this method must be called from the root list type information since
+	 *         the selection may include items positioned at different levels of
+	 *         depth in the tree.
 	 */
 	List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor);
@@ -172,7 +180,10 @@ public interface IListTypeInfo extends ITypeInfo {
 	ValueReturnMode getItemReturnMode();
 
 	/**
-	 * Is called by the renderer whenever the selection of items changes.
+	 * Is called by the renderer whenever the selection of items changes. Note that
+	 * when the list is actually a tree then this method must be called from the
+	 * root list type information since the selection may include items positioned
+	 * at different levels of depth in the tree.
 	 * 
 	 * @param newSelection The new selection.
 	 */

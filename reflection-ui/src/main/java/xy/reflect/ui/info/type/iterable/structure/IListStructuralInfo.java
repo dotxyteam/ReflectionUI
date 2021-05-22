@@ -51,7 +51,8 @@ import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 public interface IListStructuralInfo {
 
 	/**
-	 * @return the list of columns.
+	 * @return the list of columns. Note that when the list is actually a tree then
+	 *         this method must be called from the root list type information.
 	 */
 	List<IColumnInfo> getColumns();
 
@@ -70,7 +71,8 @@ public interface IListStructuralInfo {
 
 	/**
 	 * @return the height (in pixels) of the list or -1 if the default height should
-	 *         be used.
+	 *         be used. Note that when the list is actually a tree then this method
+	 *         must be called from the root list type information.
 	 */
 	int getLength();
 
@@ -144,7 +146,9 @@ public interface IListStructuralInfo {
 					public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
 						PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) itemPosition.getItem();
 						SubListGroupItem subListGroupItem = (SubListGroupItem) (item).unwrap();
-						return new SubListGroupItemDetailsFieldInfo(subListGroupItem.getField());
+						return new PrecomputedTypeInstanceWrapper.TypeInfoSource(
+								new SubListGroupItemTypeInfo(subListGroupItem.getField())).getTypeInfo().getFields()
+										.get(0);
 					}
 
 				};
