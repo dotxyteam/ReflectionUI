@@ -187,10 +187,6 @@ public class Form extends ImagePanel {
 		return swingRenderer;
 	}
 
-	public void setSwingRenderer(SwingRenderer swingRenderer) {
-		this.swingRenderer = swingRenderer;
-	}
-
 	public ModificationStack getModificationStack() {
 		return modificationStack;
 	}
@@ -376,12 +372,21 @@ public class Form extends ImagePanel {
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final boolean[] formUpdateNeeded = new boolean[] { false };
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
 			public void run() {
-				type.onFormVisibilityChange(object, false);
+				formUpdateNeeded[0] = type.onFormVisibilityChange(object, false);
 			}
 		}, swingRenderer.getObjectTitle(object) + " - Cleaning up...");
+		if (formUpdateNeeded[0]) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					refresh(false);
+				}
+			});
+		}
 		swingRenderer.getAllDisplayedForms().remove(this);
 	}
 
@@ -458,10 +463,12 @@ public class Form extends ImagePanel {
 					}
 
 					JPanel tab = new ControlPanel();
+					tab.setName("categoryContainerControl [category=" + category.getCaption() + "]");
 					addCategoryTab(category, tab);
 					tab.setLayout(new BorderLayout());
 
 					JPanel tabContent = new ControlPanel();
+					tabContent.setName("categoryContentControl [category=" + category.getCaption() + "]");
 					tab.add(tabContent, BorderLayout.NORTH);
 					layoutMembersControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
 
