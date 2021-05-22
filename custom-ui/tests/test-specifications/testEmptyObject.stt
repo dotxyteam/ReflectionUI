@@ -36,6 +36,192 @@
             <propertyValueList>
               <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
                 <propertyName>Text</propertyName>
+                <propertyValueExpected>Add Virtual Text Field...</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
+                <outer-class reference="../../.."/>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            </propertyValueList>
+            <windowIndex>0</windowIndex>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder>
+        </menuItemPath>
+      </componentFinder>
+      <disabled>false</disabled>
+    </xy.ui.testing.action.component.ClickOnMenuItemAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>virtualText</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>Hello world !</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Customize (xy.reflect.ui.EmptyObjectTest)</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickOnMenuItemAction>
+      <componentFinder>
+        <menuItemPath>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder>
+            <componentClassName>javax.swing.JMenuItem</componentClassName>
+            <occurrencesToSkip>0</occurrencesToSkip>
+            <propertyValueList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+                <propertyName>Text</propertyName>
+                <propertyValueExpected>Add Virtual Image Field...</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
+                <outer-class reference="../../.."/>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            </propertyValueList>
+            <windowIndex>0</windowIndex>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder>
+        </menuItemPath>
+      </componentFinder>
+      <disabled>false</disabled>
+    </xy.ui.testing.action.component.ClickOnMenuItemAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>virtualImage</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.SendKeysAction>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <keyboardInteractions>
+        <xy.ui.testing.action.component.SendKeysAction_-WriteText>
+          <text>virtualImage.jpg</text>
+        </xy.ui.testing.action.component.SendKeysAction_-WriteText>
+      </keyboardInteractions>
+      <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
+    </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.property.CheckComponentPropertyAction>
+      <componentClassName>xy.reflect.ui.control.swing.plugin.ImageViewPlugin$ImageView</componentClassName>
+      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentName>fieldControl [field=virtualImage, parent=form [objectType=xy.reflect.ui.EmptyObjectTest]]</componentName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <propertyName>Class</propertyName>
+      <propertyValueExpected>xy.reflect.ui.control.swing.plugin.ImageViewPlugin$ImageView</propertyValueExpected>
+      <regularExpressionExpected>false</regularExpressionExpected>
+    </xy.ui.testing.action.component.property.CheckComponentPropertyAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Customize (xy.reflect.ui.EmptyObjectTest)</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickOnMenuItemAction>
+      <componentFinder>
+        <menuItemPath>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder>
+            <componentClassName>javax.swing.JMenuItem</componentClassName>
+            <occurrencesToSkip>0</occurrencesToSkip>
+            <propertyValueList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+                <propertyName>Text</propertyName>
                 <propertyValueExpected>Type Options (Shared)...</propertyValueExpected>
                 <regularExpressionExpected>false</regularExpressionExpected>
                 <outer-class reference="../../.."/>
@@ -47,6 +233,28 @@
       </componentFinder>
       <disabled>false</disabled>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
+    <xy.ui.testing.action.component.CheckVisibleStringsAction>
+      <completenessChecked>true</completenessChecked>
+      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentName>categoryContainerControl [category=General]</componentName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <negated>false</negated>
+      <orderChecked>true</orderChecked>
+      <visibleStrings>
+        <string>Type Name: </string>
+        <string>xy.reflect.ui.EmptyObjectTest</string>
+        <string>&lt;HTML&gt;The name of the current type.&lt;/HTML&gt;</string>
+        <string>Custom Type Caption (windows reloading required)</string>
+        <string>&lt;HTML&gt;Custom display name of this type. &lt;br/&gt;If not set, a default display name is provided.&lt;/HTML&gt;</string>
+        <string>Online Help</string>
+        <string>&lt;HTML&gt;Help message displayed for the type.&lt;/HTML&gt;</string>
+        <string>Icon Image Path (windows reloading required)</string>
+        <string>&lt;HTML&gt;Icon image displayed for this type.&lt;/HTML&gt;</string>
+      </visibleStrings>
+    </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>true</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -80,6 +288,121 @@
       <firstItemToSelect>1</firstItemToSelect>
       <lastItemToSelect>1</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>&lt;HTML&gt;Open&lt;/HTML&gt;</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.CheckVisibleStringsAction>
+      <completenessChecked>true</completenessChecked>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>javax.swing.JList</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <negated>false</negated>
+      <orderChecked>true</orderChecked>
+      <visibleStrings>
+        <string>General</string>
+        <string>Display</string>
+        <string>Advanced</string>
+      </visibleStrings>
+    </xy.ui.testing.action.component.CheckVisibleStringsAction>
+    <xy.ui.testing.action.component.CheckVisibleStringsAction>
+      <completenessChecked>true</completenessChecked>
+      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentName>categoryContainerControl [category=General]</componentName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <negated>false</negated>
+      <orderChecked>true</orderChecked>
+      <visibleStrings>
+        <string>Field Name: </string>
+        <string>virtualImage</string>
+        <string>&lt;HTML&gt;The name of the current field.&lt;/HTML&gt;</string>
+        <string>Custom Field Caption</string>
+        <string>&lt;HTML&gt;Allows to specify the display name of this field. &lt;br/&gt;If not set a default display name is provided.&lt;/HTML&gt;</string>
+        <string>Hide</string>
+        <string>&lt;HTML&gt;Allows to hide this field.&lt;/HTML&gt;</string>
+        <string>Get-Only</string>
+        <string>&lt;HTML&gt;Allows to specify that this field value &lt;br/&gt;(the reference or the primitive value) &lt;br/&gt;cannot be set. Note that it does not &lt;br/&gt;mean that the field is read-only unless&lt;br/&gt;its value is immutable. &lt;/HTML&gt;</string>
+        <string>Transient (does not affect the undo management)</string>
+        <string>&lt;HTML&gt;Allows to specify if this field&lt;br/&gt;update will affect the undo&lt;br/&gt;management (checked) or &lt;br/&gt;not (unchecked).&lt;/HTML&gt;</string>
+        <string>Online Help</string>
+        <string>&lt;HTML&gt;Allows to specify a help message &lt;br/&gt;to be displayed for this field.&lt;/HTML&gt;</string>
+        <string>Category: </string>
+        <string>&lt;HTML&gt;Allows to specify the category in&lt;br/&gt;which this field will be put.&lt;br/&gt;Note that the possible categories&lt;br/&gt;are declared at the type level.&lt;/HTML&gt;</string>
+      </visibleStrings>
+    </xy.ui.testing.action.component.CheckVisibleStringsAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>RIGHT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.ListControl$TreeTable</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.ClickOnMenuItemAction>
+      <componentFinder>
+        <menuItemPath>
+          <xy.ui.testing.finder.PropertyBasedComponentFinder>
+            <componentClassName>javax.swing.JMenuItem</componentClassName>
+            <occurrencesToSkip>0</occurrencesToSkip>
+            <propertyValueList>
+              <xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+                <propertyName>Text</propertyName>
+                <propertyValueExpected>Remove All</propertyValueExpected>
+                <regularExpressionExpected>false</regularExpressionExpected>
+                <outer-class reference="../../.."/>
+              </xy.ui.testing.finder.PropertyBasedComponentFinder_-PropertyValue>
+            </propertyValueList>
+            <windowIndex>2</windowIndex>
+          </xy.ui.testing.finder.PropertyBasedComponentFinder>
+        </menuItemPath>
+      </componentFinder>
+      <disabled>false</disabled>
+    </xy.ui.testing.action.component.ClickOnMenuItemAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>OK</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
       <completenessChecked>true</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
@@ -170,6 +493,37 @@
         <string>Parameters</string>
         <string>Display</string>
         <string>Advanced</string>
+      </visibleStrings>
+    </xy.ui.testing.action.component.CheckVisibleStringsAction>
+    <xy.ui.testing.action.component.CheckVisibleStringsAction>
+      <completenessChecked>true</completenessChecked>
+      <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
+        <componentName>categoryContainerControl [category=General]</componentName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>2</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <negated>false</negated>
+      <orderChecked>true</orderChecked>
+      <visibleStrings>
+        <string>Method Name: </string>
+        <string>&lt;HTML&gt;The name of the current method.&lt;/HTML&gt;</string>
+        <string>Signature: </string>
+        <string>xy.reflect.ui.EmptyObjectTest ()</string>
+        <string>&lt;HTML&gt;The signature of the current method.&lt;/HTML&gt;</string>
+        <string>Custom Method Caption</string>
+        <string>&lt;HTML&gt;The display name of this method.&lt;br/&gt;If not set, a default display name &lt;br/&gt;is provided.&lt;/HTML&gt;</string>
+        <string>Hide</string>
+        <string>&lt;HTML&gt;Allows to hide this method.&lt;/HTML&gt;</string>
+        <string>Read-Only (does not affect the undo management)</string>
+        <string>&lt;HTML&gt;Allows to specify if this method &lt;br/&gt;is read-only or not. Read-only &lt;br/&gt;methods will not affect the undo&lt;br/&gt;management.&lt;/HTML&gt;</string>
+        <string>Online Help</string>
+        <string>&lt;HTML&gt;Allows to display a help message &lt;br/&gt;for this method.&lt;/HTML&gt;</string>
+        <string>Icon Image Path</string>
+        <string>&lt;HTML&gt;Specifies an icon image to be used&lt;br/&gt;for the display of this method.&lt;/HTML&gt;</string>
+        <string>Category: </string>
+        <string>&lt;HTML&gt;Allows to specify the category in&lt;br/&gt;which this method will be put.&lt;br/&gt;Note that the possible categories&lt;br/&gt;are declared at the type level.&lt;/HTML&gt;</string>
+        <string>Validating</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.specific.SelectTableRowAction>

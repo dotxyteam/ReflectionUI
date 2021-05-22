@@ -94,8 +94,16 @@ public class TestWithAutomation {
 
 	@Test
 	public void testEmptyObject() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester, new File(
-				System.getProperty("custom-ui-tests.project.directory", "./") + "test-specifications/testEmptyObject.stt"));
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testEmptyObject.stt"));
+	}
+
+	@Test
+	public void testClassExplorer() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testClassExplorer.stt"));
 	}
 
 }

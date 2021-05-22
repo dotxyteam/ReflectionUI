@@ -1,3 +1,6 @@
+- parameter customizations are based on the parameter name and this
+name may change according to the JVM version and maybe even according
+to some JVM options. Think about it.
 - tests to add:
 	. list shortcuts
 	. menu creation
