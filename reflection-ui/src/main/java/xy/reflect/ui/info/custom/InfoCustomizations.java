@@ -317,7 +317,8 @@ public class InfoCustomizations implements Serializable {
 			}
 			if (tc.isInitial()) {
 				if (debugLogListener != null) {
-					debugLogListener.handle("Serialization cleanup: Excluding " + tc);
+					debugLogListener
+							.handle(InfoCustomizations.class.getName() + ": Serialization cleanup: Excluding " + tc);
 				}
 				infoCustomizations.getTypeCustomizations().remove(tc);
 				continue;
@@ -333,7 +334,7 @@ public class InfoCustomizations implements Serializable {
 			}
 			if (lc.isInitial()) {
 				if (debugLogListener != null) {
-					debugLogListener.handle("Serialization cleanup: Excluding " + lc);
+					debugLogListener.handle(InfoCustomizations.class.getName() + ": Serialization cleanup: Excluding " + lc);
 				}
 				infoCustomizations.getListCustomizations().remove(lc);
 				continue;
@@ -351,7 +352,7 @@ public class InfoCustomizations implements Serializable {
 			}
 			if (ec.isInitial()) {
 				if (debugLogListener != null) {
-					debugLogListener.handle("Serialization cleanup: Excluding " + ec);
+					debugLogListener.handle(InfoCustomizations.class.getName() + ": Serialization cleanup: Excluding " + ec);
 				}
 				infoCustomizations.getEnumerationCustomizations().remove(ec);
 				continue;
@@ -4300,15 +4301,23 @@ public class InfoCustomizations implements Serializable {
 									try {
 										byte[] binary = DatatypeConverter.parseBase64Binary(textualStorage.getData());
 										ByteArrayInputStream bais = new ByteArrayInputStream(binary);
-										ObjectInputStream ois = IOUtils.getClassSwappingObjectInputStream(bais,
-												javax.swing.ImageIcon.class.getName(),
-												xy.reflect.ui.util.ImageIcon.class.getName());
-										Object result = ois.readObject();
-										Filter<Object> reverseConversionMethod = preConversion
-												.buildOverallReverseConversionMethod();
-										result = reverseConversionMethod.get(result);
-										textualStorage.save(result);
-										return true;
+										try {
+											ObjectInputStream ois = new ObjectInputStream(bais);
+											if (!(ois.readObject() instanceof xy.reflect.ui.util.ImageIcon)) {
+												throw new ClassCastException();
+											}
+										} catch (Exception e) {
+											ObjectInputStream ois = IOUtils.getClassSwappingObjectInputStream(bais,
+													javax.swing.ImageIcon.class.getName(),
+													xy.reflect.ui.util.ImageIcon.class.getName());
+											xy.reflect.ui.util.ImageIcon xyIcon = (xy.reflect.ui.util.ImageIcon) ois
+													.readObject();
+											Filter<Object> reverseConversionMethod = preConversion
+													.buildOverallReverseConversionMethod();
+											Image image = (Image) reverseConversionMethod.get(xyIcon);
+											textualStorage.save(image);
+											return true;
+										}
 									} catch (Exception e) {
 										throw new ReflectionUIError(e);
 									}
