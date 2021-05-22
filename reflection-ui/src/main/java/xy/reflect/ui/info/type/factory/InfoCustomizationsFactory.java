@@ -2263,6 +2263,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						if (pc.isDisplayedAsField()) {
 							ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(customizedUI, method,
 									param, containingType) {
+								
+								@Override
+								public String getCaption() {
+									return ReflectionUIUtils.composeMessage(method.getCaption(), param.getCaption());
+								}
 
 								@Override
 								public boolean isHidden() {
