@@ -268,7 +268,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			listAndToolbarPanel.setLayout(new BorderLayout());
 			listAndToolbarPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
 			listAndToolbarPanel.add(toolbar, BorderLayout.EAST);
-			ControlScrollPane listAndToolbarScrollPane = new ControlScrollPane(listAndToolbarPanel);
+			ControlScrollPane listAndToolbarScrollPane = createTreeTableAndToolBarScrollPane(listAndToolbarPanel);
 			SwingRendererUtils.removeScrollPaneBorder(listAndToolbarScrollPane);
 			final JSplitPane splitPane = new ControlSplitPane();
 			add(splitPane, BorderLayout.CENTER);
@@ -613,8 +613,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		itemPositionFactory = createItemPositionfactory();
 		rootNode = createRootNode();
 		treeTableComponent = createTreeTable();
-		treeTableComponentScrollPane = createScrollPane();
-		treeTableComponentScrollPane.setViewportView(treeTableComponent);
+		treeTableComponentScrollPane = createTreeTableScrollPane(treeTableComponent);
 		treeTableComponent.setExpandsSelectedPaths(true);
 		treeTableComponent.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		treeTableComponent.setRootVisible(false);
@@ -660,8 +659,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return new ItemTreeCellRenderer();
 	}
 
-	protected JScrollPane createScrollPane() {
-		return new ControlScrollPane() {
+	protected ControlScrollPane createScrollPane(Component view) {
+		return new ControlScrollPane(view) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -676,7 +675,47 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				return result;
 			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result == null) {
+					return null;
+				}
+				IListStructuralInfo structure = getRootStructuralInfo();
+				if (structure.getLength() != -1) {
+					result.height = structure.getLength();
+				}
+				return result;
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				Dimension result = super.getMaximumSize();
+				if (result == null) {
+					return null;
+				}
+				IListStructuralInfo structure = getRootStructuralInfo();
+				if (structure.getLength() != -1) {
+					result.height = structure.getLength();
+				}
+				return result;
+			}
 		};
+	}
+
+	protected ControlScrollPane createTreeTableScrollPane(Component view) {
+		return createScrollPane(view);
+	}
+
+	protected ControlScrollPane createTreeTableAndToolBarScrollPane(Component view) {
+		return createScrollPane(view);
+	}
+
+	protected ControlScrollPane createDetailsAreaScrollPane(Component view) {
+		ControlScrollPane result = createScrollPane(new ScrollPaneOptions(view, true, false));
+		SwingRendererUtils.removeScrollPaneBorder(result);
+		return result;
 	}
 
 	protected AbstractBufferedItemPositionFactory createItemPositionfactory() {
@@ -1408,12 +1447,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return;
 		}
 		throw new ReflectionUIError();
-	}
-
-	protected Component createDetailsAreaScrollPane(Form detailsControl) {
-		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(detailsControl, true, false));
-		SwingRendererUtils.removeScrollPaneBorder(result);
-		return result;
 	}
 
 	protected void openDetailsDialogOnItemDoubleClick() {

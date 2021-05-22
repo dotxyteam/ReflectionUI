@@ -148,8 +148,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			{
 				detailedCellsContainer.setLayout(new GridBagLayout());
 			}
-			treeTableComponentScrollPane = createScrollPane();
-			treeTableComponentScrollPane.setViewportView(detailedCellsContainer);
+			treeTableComponentScrollPane = createTreeTableScrollPane(detailedCellsContainer);
 			clearSelectionWhenContainerClicked();
 			setupContexteMenu(detailedCellsContainer);
 		}
