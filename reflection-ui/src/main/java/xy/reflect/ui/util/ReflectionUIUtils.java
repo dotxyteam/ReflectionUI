@@ -956,6 +956,7 @@ public class ReflectionUIUtils {
 		String[] baseMethodParameterTypeNames = ReflectionUIUtils
 				.extractMethodParameterTypeNamesFromSignature(baseMethodSignature);
 		return baseMethodReturnTypeName + "-" + ((baseMethodName.length() == 0) ? "<constructor>" : baseMethodName)
-				+ "-" + MiscUtils.stringJoin(Arrays.asList(baseMethodParameterTypeNames), "-");
+				+ ((baseMethodParameterTypeNames.length == 0) ? ""
+						: ("-" + MiscUtils.stringJoin(Arrays.asList(baseMethodParameterTypeNames), "-")));
 	}
 }
