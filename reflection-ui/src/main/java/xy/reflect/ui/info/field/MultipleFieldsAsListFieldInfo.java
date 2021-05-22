@@ -643,64 +643,56 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public Object getValue(Object object) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			return super.getValue(object);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			super.setValue(object, value);
 		}
 
 		@Override
 		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			return super.getNextUpdateCustomUndoJob(object, value);
 		}
 
 		@Override
 		public boolean hasValueOptions(Object object) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			return super.hasValueOptions(object);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			return super.getValueOptions(object);
 		}
 
 		@Override
 		public List<IMethodInfo> getAlternativeConstructors(Object object) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			return super.getAlternativeConstructors(object);
 		}
 
 		@Override
 		public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			return super.getAlternativeListItemConstructors(object);
 		}
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) object;
-			ValueListItem valueListItem = (ValueListItem) (item).unwrap();
+			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			super.onControlVisibilityChange(object, visible);
 		}

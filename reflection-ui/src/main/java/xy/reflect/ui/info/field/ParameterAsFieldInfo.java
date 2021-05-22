@@ -75,7 +75,7 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.composeMessage(method.getCaption(), param.getCaption());
+		return param.getCaption();
 	}
 
 	@Override
