@@ -1,6 +1,7 @@
 package xy.reflect.ui;
 
 import java.io.File;
+import java.nio.file.Files;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -94,9 +95,15 @@ public class TestWithAutomation {
 
 	@Test
 	public void testEmptyObject() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester,
-				new File(System.getProperty("custom-ui-tests.project.directory", "./")
-						+ "test-specifications/testEmptyObject.stt"));
+		File virtualImageFile = new File("virtualImage.jpg");
+		Files.copy(getClass().getResourceAsStream("virtualImage.jpg"), virtualImageFile.toPath());
+		try {
+			TestingUtils.assertSuccessfulReplay(tester,
+					new File(System.getProperty("custom-ui-tests.project.directory", "./")
+							+ "test-specifications/testEmptyObject.stt"));
+		} finally {
+			Files.delete(virtualImageFile.toPath());
+		}
 	}
 
 	@Test
@@ -106,4 +113,18 @@ public class TestWithAutomation {
 						+ "test-specifications/testClassExplorer.stt"));
 	}
 
+	@Test
+	public void testMenuCreation() throws Exception {
+		File testFile = new File("test.tst");
+		if (testFile.exists()) {
+			Files.delete(testFile.toPath());
+		}
+		try {
+			TestingUtils.assertSuccessfulReplay(tester,
+					new File(System.getProperty("custom-ui-tests.project.directory", "./")
+							+ "test-specifications/testMenuCreation.stt"));
+		} finally {
+			Files.delete(testFile.toPath());
+		}
+	}
 }
