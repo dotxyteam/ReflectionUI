@@ -334,7 +334,8 @@ public class InfoCustomizations implements Serializable {
 			}
 			if (lc.isInitial()) {
 				if (debugLogListener != null) {
-					debugLogListener.handle(InfoCustomizations.class.getName() + ": Serialization cleanup: Excluding " + lc);
+					debugLogListener
+							.handle(InfoCustomizations.class.getName() + ": Serialization cleanup: Excluding " + lc);
 				}
 				infoCustomizations.getListCustomizations().remove(lc);
 				continue;
@@ -352,7 +353,8 @@ public class InfoCustomizations implements Serializable {
 			}
 			if (ec.isInitial()) {
 				if (debugLogListener != null) {
-					debugLogListener.handle(InfoCustomizations.class.getName() + ": Serialization cleanup: Excluding " + ec);
+					debugLogListener
+							.handle(InfoCustomizations.class.getName() + ": Serialization cleanup: Excluding " + ec);
 				}
 				infoCustomizations.getEnumerationCustomizations().remove(ec);
 				continue;
@@ -839,9 +841,14 @@ public class InfoCustomizations implements Serializable {
 			implements IMenuItemContainerCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected String name = "";
+		protected String name;
 		protected List<AbstractMenuItemCustomization> itemCustomizations = new ArrayList<AbstractMenuItemCustomization>();
 
+		public MenuItemCategoryCustomization() {
+			name = "Category";
+		}
+
+		
 		@Override
 		public MenuItemCategory createMenuElementInfo() {
 			MenuItemCategory result = new MenuItemCategory();
@@ -1078,6 +1085,10 @@ public class InfoCustomizations implements Serializable {
 
 		protected List<AbstractMenuItemCustomization> itemCustomizations = new ArrayList<AbstractMenuItemCustomization>();
 		protected List<MenuItemCategoryCustomization> itemCategoryCustomizations = new ArrayList<MenuItemCategoryCustomization>();
+
+		public MenuCustomization() {
+			name = "Menu";
+		}
 
 		@Override
 		public MenuInfo createMenuElementInfo() {
