@@ -256,6 +256,9 @@ public class Form extends ImagePanel {
 
 	/**
 	 * Changes the filter that is used to exclude some fields/methods of the object.
+	 * Note that this method does not refresh the form. {@link #refresh(boolean)}
+	 * should be called with the parameter refreshStructure=true after to actually
+	 * apply the new filter.
 	 * 
 	 * @param infoFilter The new filter.
 	 */

@@ -1,3 +1,6 @@
+- when refreshing forms structure the currently displayed category is lost
+if a field is moved etc. Maybe there is a more elegant solution.
+Think about it.
 - parameter customizations are based on the parameter name and this
 name may change according to the JVM version and maybe even according
 to some JVM options. Think about it.
