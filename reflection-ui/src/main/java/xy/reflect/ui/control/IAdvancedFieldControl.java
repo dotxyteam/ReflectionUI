@@ -50,7 +50,7 @@ public interface IAdvancedFieldControl {
 	 * Updates the state of the current control.
 	 * 
 	 * @param refreshStructure Whether the current control should update its
-	 *                         structure to reflect the recent meta-data change.
+	 *                         structure to reflect the recent meta-data changes.
 	 *                         Mainly used in design mode.
 	 * @return whether the current control successfully updated its state. If false
 	 *         is returned then the renderer will replace the current control by
