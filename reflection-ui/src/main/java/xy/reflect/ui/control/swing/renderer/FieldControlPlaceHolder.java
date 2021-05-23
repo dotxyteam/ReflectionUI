@@ -471,9 +471,11 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		final Object value = controlInput.getControlData().getValue();
 		controlInput = new FieldControlInputProxy(controlInput) {
+			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(super.getControlData(),
+					value);
 			@Override
 			public IFieldControlData getControlData() {
-				return new BufferedFieldControlData(super.getControlData(), value);
+				return bufferedFieldControlData;
 			}
 		};
 		if (value == null) {

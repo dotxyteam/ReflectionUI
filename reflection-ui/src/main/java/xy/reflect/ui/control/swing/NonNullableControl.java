@@ -62,10 +62,11 @@ public class NonNullableControl extends NullableControl {
 
 	public NonNullableControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, new FieldControlInputProxy(input) {
+			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(super.getControlData());
 
 			@Override
 			public IFieldControlData getControlData() {
-				return new BufferedFieldControlData(super.getControlData());
+				return bufferedFieldControlData;
 			}
 		});
 	}

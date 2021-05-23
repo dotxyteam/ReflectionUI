@@ -84,7 +84,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	public DialogAccessControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = new FieldControlInputProxy(input) {
+		input = new FieldControlInputProxy(input) {
 			@Override
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
@@ -92,6 +92,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 				return result;
 			}
 		};
+		this.input = input;
 		this.data = input.getControlData();
 
 		setLayout(new GridBagLayout());
