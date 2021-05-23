@@ -122,7 +122,6 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo.SubListGroupField.SubListGroupItem;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
@@ -801,29 +800,25 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (itemPosition == null) {
 				value = "";
 			} else {
-				Object item = itemPosition.getItem();
-				if (item instanceof SubListGroupItem) {
-					if (columnIndex == 0) {
-						value = item.toString();
-					} else {
-						return null;
-					}
+				IListStructuralInfo tableInfo = getRootStructuralInfo();
+				if (tableInfo == null) {
+					value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), itemPosition.getItem());
 				} else {
-					IListStructuralInfo tableInfo = getRootStructuralInfo();
-					if (tableInfo == null) {
-						value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), item);
-					} else {
-						List<IColumnInfo> columns = tableInfo.getColumns();
-						if (columnIndex < columns.size()) {
-							IColumnInfo column = tableInfo.getColumns().get(columnIndex);
-							if (column.hasCellValue(itemPosition)) {
-								value = column.getCellValue(itemPosition);
+					List<IColumnInfo> columns = tableInfo.getColumns();
+					if (columnIndex < columns.size()) {
+						IColumnInfo column = tableInfo.getColumns().get(columnIndex);
+						if (column.hasCellValue(itemPosition)) {
+							value = column.getCellValue(itemPosition);
+						} else {
+							if (columnIndex == 0) {
+								value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(),
+										itemPosition.getItem());
 							} else {
 								value = null;
 							}
-						} else {
-							value = null;
 						}
+					} else {
+						value = null;
 					}
 				}
 			}
