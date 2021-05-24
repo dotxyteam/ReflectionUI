@@ -72,7 +72,7 @@ import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.MethodReturnValueFieldInfo;
-import xy.reflect.ui.info.field.NullReplacedFieldInfo;
+import xy.reflect.ui.info.field.NullReplacementFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
 import xy.reflect.ui.info.field.ValueAsListFieldInfo;
@@ -2263,7 +2263,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						if (pc.isDisplayedAsField()) {
 							ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(customizedUI, method,
 									param, containingType) {
-								
+
 								@Override
 								public String getCaption() {
 									return ReflectionUIUtils.composeMessage(method.getCaption(), param.getCaption());
@@ -2725,9 +2725,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			@Override
 			public IFieldInfo process(IFieldInfo field, FieldCustomization fc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
-				Object nullReplacement = fc.getNullReplacement().load();
-				if (nullReplacement != null) {
-					field = new NullReplacedFieldInfo(field, nullReplacement);
+				if (fc.getNullReplacement().getData() != null) {
+					field = new NullReplacementFieldInfo(field, fc.getNullReplacement());
 				}
 				return field;
 			}
