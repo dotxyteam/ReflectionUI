@@ -523,7 +523,6 @@
         <string>&lt;HTML&gt;Specifies an icon image to be used&lt;br/&gt;for the display of this method.&lt;/HTML&gt;</string>
         <string>Category: </string>
         <string>&lt;HTML&gt;Allows to specify the category in&lt;br/&gt;which this method will be put.&lt;br/&gt;Note that the possible categories&lt;br/&gt;are declared at the type level.&lt;/HTML&gt;</string>
-        <string>Validating</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.specific.SelectTableRowAction>

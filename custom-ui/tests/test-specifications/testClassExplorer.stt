@@ -514,6 +514,31 @@
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.specific.SelectTableRowAction>
+      <addedToExistingSelection>false</addedToExistingSelection>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>General</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <firstItemToSelect>3</firstItemToSelect>
+      <lastItemToSelect>3</lastItemToSelect>
+    </xy.ui.testing.action.component.specific.SelectTableRowAction>
+    <xy.ui.testing.action.component.ClickAction>
+      <button>LEFT_BUTTON</button>
+      <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <visibleString>Heterogeneous Sub-list(s)</visibleString>
+        <visibleStringInTree>false</visibleStringInTree>
+        <windowIndex>1</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <doubleClick>false</doubleClick>
+      <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
+      <poupTrigger>false</poupTrigger>
+    </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
@@ -527,6 +552,22 @@
       <eventsIntervalMilliseconds>100</eventsIntervalMilliseconds>
       <poupTrigger>false</poupTrigger>
     </xy.ui.testing.action.component.ClickAction>
+    <xy.ui.testing.action.component.CheckVisibleStringsAction>
+      <completenessChecked>true</completenessChecked>
+      <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
+        <componentClassName>xy.reflect.ui.control.swing.ListControl$TreeTable</componentClassName>
+        <occurrencesToSkip>0</occurrencesToSkip>
+        <windowIndex>0</windowIndex>
+      </componentFinder>
+      <disabled>false</disabled>
+      <negated>false</negated>
+      <orderChecked>false</orderChecked>
+      <visibleStrings>
+        <string>class javax.swing.JButton</string>
+        <string>Classes</string>
+        <string>Interfaces</string>
+      </visibleStrings>
+    </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
