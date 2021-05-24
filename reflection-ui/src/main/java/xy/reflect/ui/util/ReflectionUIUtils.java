@@ -447,7 +447,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean hasPolymorphicInstanceSubTypes(ITypeInfo type) {
-		if (PolymorphicTypeOptionsFactory.isPolymorphismBlocked(type)) {
+		if (PolymorphicTypeOptionsFactory.isRecursivityDetected(type)) {
 			return false;
 		}
 		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
@@ -959,4 +959,5 @@ public class ReflectionUIUtils {
 				+ ((baseMethodParameterTypeNames.length == 0) ? ""
 						: ("-" + MiscUtils.stringJoin(Arrays.asList(baseMethodParameterTypeNames), "-")));
 	}
+
 }

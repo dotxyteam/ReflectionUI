@@ -47,17 +47,18 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * sub-types of the given polymorphic type information. The base polymorphic
  * type itself is added as an item to the resulting enumeration if it is a
  * concrete type. This base type enumeration item holds actually a proxy of the
- * base type that triggers a {@link BlockedPolymorphismException} exception when
- * it is used with another {@link PolymorphicTypeOptionsFactory}. This is
- * intended to prevent the infinite recursive enumeration of type options.
+ * base type that triggers a {@link RecursivePolymorphismDetectionException}
+ * exception when it is used with another {@link PolymorphicTypeOptionsFactory}.
+ * This is intended to prevent the infinite recursive enumeration of type
+ * options.
  * 
  * @author olitank
  *
  */
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
-	protected static final String POLYMORPHISM_BLOCKED_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class.getName()
-			+ ".POLYMORPHISM_BLOCKED";
+	protected static final String RECURSIVE_POLYMORPHISM_DETECTED_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class
+			.getName() + ".POLYMORPHISM_BLOCKED";
 
 	protected ITypeInfo polymorphicType;
 
@@ -73,22 +74,30 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 			@Override
 			public Iterator<ITypeInfo> iterator() {
-				final List<ITypeInfo> result = new ArrayList<ITypeInfo>(
-						polymorphicType.getPolymorphicInstanceSubTypes());
-				{
-					if (polymorphicType.isConcrete()) {
-						result.add(0, blockPolymorphism(polymorphicType, reflectionUI));
-					}
-				}
-				return result.iterator();
+				return collectOptionsFrom(reflectionUI, detectRecursivity(reflectionUI, polymorphicType)).iterator();
 			}
+
 		};
 
 	}
 
-	protected static ITypeInfo blockPolymorphism(final ITypeInfo type, ReflectionUI reflectionUI) {
-		if (isPolymorphismBlocked(type)) {
-			throw new BlockedPolymorphismException();
+	protected static List<ITypeInfo> collectOptionsFrom(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
+		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+		List<ITypeInfo> subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
+		if (subTypes != null) {
+			for (ITypeInfo subType : subTypes) {
+				result.addAll(collectOptionsFrom(reflectionUI, detectRecursivity(reflectionUI, subType)));
+			}
+		}
+		if (polymorphicType.isConcrete()) {
+			result.add(0, polymorphicType);
+		}
+		return result;
+	}
+
+	protected static ITypeInfo detectRecursivity(ReflectionUI reflectionUI, final ITypeInfo type) {
+		if (isRecursivityDetected(type)) {
+			throw new RecursivePolymorphismDetectionException();
 		}
 		final ITypeInfoSource typeSource = type.getSource();
 		final ITypeInfo unwrappedType = typeSource.getTypeInfo();
@@ -98,7 +107,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			@Override
 			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-				result.put(POLYMORPHISM_BLOCKED_PROPERTY_KEY, Boolean.TRUE);
+				result.put(RECURSIVE_POLYMORPHISM_DETECTED_PROPERTY_KEY, Boolean.TRUE);
 				return result;
 			}
 
@@ -118,14 +127,14 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	public static boolean isPolymorphismBlocked(ITypeInfo type) {
-		return Boolean.TRUE.equals(type.getSpecificProperties().get(POLYMORPHISM_BLOCKED_PROPERTY_KEY));
+	public static boolean isRecursivityDetected(ITypeInfo type) {
+		return Boolean.TRUE.equals(type.getSpecificProperties().get(RECURSIVE_POLYMORPHISM_DETECTED_PROPERTY_KEY));
 	}
 
 	public List<ITypeInfo> getTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-		for (Object arrayItem : iterable) {
-			result.add((ITypeInfo) arrayItem);
+		for (Object item : iterable) {
+			result.add((ITypeInfo) item);
 		}
 		return result;
 	}
@@ -149,13 +158,20 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 				if (type.getName().equals(polymorphicType.getName())) {
 					polymorphicTypeAsValidOption = type;
 				} else {
-					if (validSubType != null) {
-						throw new ReflectionUIError(
-								"Failed to guess the polymorphic value type option: Ambiguity detected: More than 1 valid types found:"
-										+ "\n- " + validSubType.getName() + "\n- " + type.getName()
-										+ "\nInheritance between these types is not supported");
+					if (validSubType == null) {
+						validSubType = type;
+						continue;
 					}
-					validSubType = type;
+					if (collectOptionsFrom(reflectionUI, validSubType).contains(type)) {
+						validSubType = type;
+						continue;
+					}
+					if (collectOptionsFrom(reflectionUI, type).contains(validSubType)) {
+						continue;
+					}
+					throw new ReflectionUIError(
+							"Failed to guess the polymorphic value type: Ambiguity detected: More than 1 valid types found:"
+									+ "\n- " + validSubType.getName() + "\n- " + type.getName());
 				}
 			}
 		}
@@ -208,7 +224,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return "PolymorphicTypeOptionsFactory [polymorphicType=" + polymorphicType + "]";
 	}
 
-	public static class BlockedPolymorphismException extends ReflectionUIError {
+	public static class RecursivePolymorphismDetectionException extends ReflectionUIError {
 
 		private static final long serialVersionUID = 1L;
 

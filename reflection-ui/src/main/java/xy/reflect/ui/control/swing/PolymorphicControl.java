@@ -53,7 +53,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
-import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory.BlockedPolymorphismException;
+import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory.RecursivePolymorphismDetectionException;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
@@ -110,7 +110,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					polymorphicType);
 			setLayout(new BorderLayout());
 			refreshUI(true);
-		} catch (BlockedPolymorphismException e) {
+		} catch (RecursivePolymorphismDetectionException e) {
 			throw new RejectedFieldControlInputException();
 		}
 	}
@@ -131,6 +131,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			} else {
 				setBorder(null);
 			}
+			subTypeInstanceCache.clear();
 		}
 		currentInstance = data.getValue();
 		refreshTypeEnumerationControl(refreshStructure);
@@ -175,7 +176,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						onSubTypeSelection(selectedSubType);
+						try {
+							onSubTypeSelection(selectedSubType);
+						} catch (Throwable t) {
+							swingRenderer.handleExceptionsFromDisplayedUI(PolymorphicControl.this, t);
+							refreshUI(false);
+						}
 					}
 				});
 			}
