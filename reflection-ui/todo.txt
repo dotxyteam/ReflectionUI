@@ -1,3 +1,11 @@
+- allow to resolve ambiguity between polymorphic sub-types:
+	. detect all descendant types
+	. allow to change the order of enum items
+	. if an ambiguity is detected then choose the more precise type
+- example issues. Check
+	. FileExplorer
+	. Library
+	. Restaurant 
 - when refreshing forms structure the currently displayed category is lost
 if a field is moved etc. Maybe there is a more elegant solution.
 Think about it.

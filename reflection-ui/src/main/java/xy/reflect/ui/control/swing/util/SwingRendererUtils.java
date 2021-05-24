@@ -281,7 +281,6 @@ public class SwingRendererUtils {
 	}
 
 	public static void setSafelyDividerLocation(final JSplitPane splitPane, final double proportionalLocation) {
-		System.out.println("getSize=" + splitPane.getSize());
 		if (splitPane.isShowing()) {
 			if ((splitPane.getWidth() > 0) && (splitPane.getHeight() > 0)
 					&& (splitPane.getMinimumDividerLocation() < splitPane.getMaximumDividerLocation())) {

@@ -53,12 +53,12 @@ public class FastFood implements Serializable {
 			@Override
 			public void run() {
 				windowBuilder.createAndShowFrame();
-			}
-		});
-		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				fastFood.save(fastFoodFile);
+				windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						fastFood.save(fastFoodFile);
+					}
+				});
 			}
 		});
 	}

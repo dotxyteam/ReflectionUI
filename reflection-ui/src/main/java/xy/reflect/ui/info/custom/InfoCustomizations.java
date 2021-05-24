@@ -848,7 +848,6 @@ public class InfoCustomizations implements Serializable {
 			name = "Category";
 		}
 
-		
 		@Override
 		public MenuItemCategory createMenuElementInfo() {
 			MenuItemCategory result = new MenuItemCategory();
@@ -2754,6 +2753,43 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((data == null) ? 0 : data.hashCode());
+			result = prime * result + ((preConversion == null) ? 0 : preConversion.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			TextualStorage other = (TextualStorage) obj;
+			if (data == null) {
+				if (other.data != null)
+					return false;
+			} else if (!data.equals(other.data))
+				return false;
+			if (preConversion == null) {
+				if (other.preConversion != null)
+					return false;
+			} else if (!preConversion.equals(other.preConversion))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "TextualStorage [data=" + ((data == null) ? null : MiscUtils.truncateNicely(data, 30))
+					+ ", preConversion=" + preConversion + "]";
+		}
+
 	}
 
 	public static class MethodCustomization extends AbstractMemberCustomization
@@ -4311,13 +4347,14 @@ public class InfoCustomizations implements Serializable {
 										Collections.emptyList()).equals(reverseConversionMethodSignature)) {
 									try {
 										byte[] binary = DatatypeConverter.parseBase64Binary(textualStorage.getData());
-										ByteArrayInputStream bais = new ByteArrayInputStream(binary);
 										try {
+											ByteArrayInputStream bais = new ByteArrayInputStream(binary);
 											ObjectInputStream ois = new ObjectInputStream(bais);
 											if (!(ois.readObject() instanceof xy.reflect.ui.util.ImageIcon)) {
 												throw new ClassCastException();
 											}
 										} catch (Exception e) {
+											ByteArrayInputStream bais = new ByteArrayInputStream(binary);
 											ObjectInputStream ois = IOUtils.getClassSwappingObjectInputStream(bais,
 													javax.swing.ImageIcon.class.getName(),
 													xy.reflect.ui.util.ImageIcon.class.getName());

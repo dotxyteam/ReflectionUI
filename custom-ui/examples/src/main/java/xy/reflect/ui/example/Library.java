@@ -39,13 +39,12 @@ public class Library implements Serializable {
 			@Override
 			public void run() {
 				windowBuilder.createAndShowFrame();
-			}
-		});
-		windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				library.save(libraryFile);
+				windowBuilder.getCreatedFrame().addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						library.save(libraryFile);
+					}
+				});
 			}
 		});
 	}
