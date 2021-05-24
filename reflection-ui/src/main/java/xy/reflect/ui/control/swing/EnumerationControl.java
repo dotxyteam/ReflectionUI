@@ -185,8 +185,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			possibleValues = collectPossibleValues();
 		}
 		List<Object> extendedPossibleValues = new ArrayList<Object>(possibleValues);
-		Object currentValue;
-		currentValue = data.getValue();
+		Object currentValue = data.getValue();
 		if (!possibleValues.contains(currentValue)) {
 			extendedPossibleValues.add(currentValue);
 		}
