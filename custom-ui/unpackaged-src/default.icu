@@ -7519,7 +7519,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7273</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17e4</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7550,7 +7550,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7272</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17e3</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7623,7 +7623,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7271</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17e2</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7683,7 +7683,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7270</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17e1</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7734,7 +7734,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-726f</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17e0</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7765,7 +7765,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-726e</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17df</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7819,7 +7819,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-726d</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17de</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7869,7 +7869,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-726c</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17dd</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7971,6 +7971,12 @@
                         </iconImagePath>
                         <itemName>Item [value=z]</itemName>
                     </itemCustomizations>
+                    <itemsCustomOrder>Item [value=z]</itemsCustomOrder>
+                    <itemsCustomOrder>Item [value=a]</itemsCustomOrder>
+                    <itemsCustomOrder>Item [value=e]</itemsCustomOrder>
+                    <itemsCustomOrder>Item [value=r]</itemsCustomOrder>
+                    <itemsCustomOrder>Item [value=t]</itemsCustomOrder>
+                    <itemsCustomOrder>Item [value=y]</itemsCustomOrder>
                 </enumerationCustomizations>
                 <typeCustomizations>
                     <uniqueIdentifier>425dad0a:165406a083a:6987</uniqueIdentifier>
@@ -8103,7 +8109,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-726b</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17dc</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -9076,7 +9082,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-726a</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17db</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9127,7 +9133,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7269</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17da</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9779,7 +9785,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7268</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d9</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9830,7 +9836,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7267</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d8</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -9861,7 +9867,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7266</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d7</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9912,7 +9918,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7265</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d6</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10049,7 +10055,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7264</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d5</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -10103,7 +10109,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7263</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d4</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11286,7 +11292,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7262</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d3</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11925,7 +11931,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7261</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d2</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11976,7 +11982,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7260</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d1</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -12007,7 +12013,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-725f</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17d0</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -12084,7 +12090,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-725e</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17cf</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -12163,7 +12169,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-725d</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17ce</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14541,7 +14547,7 @@
             <uniqueIdentifier>2e34d93a:17970a4d5a7:-43a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-725c</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17cd</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14599,7 +14605,7 @@
             <uniqueIdentifier>-7fd953ed:179723000f4:-2c20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-725b</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17cc</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -14967,7 +14973,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-725a</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17cb</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15017,7 +15023,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7259</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17ca</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15063,7 +15069,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7258</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17c9</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15109,7 +15115,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54cd1c78:17995dadf33:-7257</uniqueIdentifier>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-17c8</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -42735,6 +42741,193 @@
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=test2, containingType=ReflectionUITest$Test], subContext=NullableInstance, encapsulatedObjectType=ReflectionUITest$Test2]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-1e27d5e4:1799fd5756a:-7f9</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <fieldsCustomizations>
+            <uniqueIdentifier>-1e27d5e4:1799fd5756a:-7f6</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName></fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>-1e27d5e4:1799fd5756a:-7f4</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>-1e27d5e4:1799fd5756a:-7f5</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <enumerationCustomizations>
+                    <uniqueIdentifier>-1e27d5e4:1799fd5756a:-7ef</uniqueIdentifier>
+                    <dynamicEnumerationForced>false</dynamicEnumerationForced>
+                    <enumerationTypeName>SubTypesEnumeration [polymorphicType=java.lang.Exception]</enumerationTypeName>
+                    <itemsCustomOrder>java.io.FileNotFoundException</itemsCustomOrder>
+                    <itemsCustomOrder>java.lang.RuntimeException</itemsCustomOrder>
+                    <itemsCustomOrder>java.lang.Exception</itemsCustomOrder>
+                </enumerationCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>-1e27d5e4:1799fd5756a:-7f8</uniqueIdentifier>
+        </menuModel>
+        <typeName>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=java.lang.Exception]]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d9e</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d9d</uniqueIdentifier>
+        </menuModel>
+        <methodsCustomizations>
+            <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d99</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.lang.Exception] (java.lang.Throwable)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d98</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d97</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>throwable</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d96</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.lang.Exception] (java.lang.String, java.lang.Throwable)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d95</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d94</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d93</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d92</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>throwable</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d91</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.lang.Exception] (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d90</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d8f</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.lang.Exception]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d39</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d38</uniqueIdentifier>
+        </menuModel>
+        <methodsCustomizations>
+            <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d33</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.io.FileNotFoundException] (java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d32</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>-1e27d5e4:1799fd71eb2:-5d31</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>Encapsulation [context=FieldContext [fieldName=theException2, containingType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.io.FileNotFoundException]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

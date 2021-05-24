@@ -125,7 +125,7 @@ public class CustomizingForm extends Form {
 			JPanel typeCustomizationsControl = new ControlPanel();
 			{
 				typeCustomizationsControl.setLayout(new BorderLayout());
-				typeCustomizationsControl.add(getSwingRenderer().getCustomizationTools().makeButtonForTypeInfo(object),
+				typeCustomizationsControl.add(getSwingRenderer().getCustomizationTools().makeButtonForType(object),
 						BorderLayout.CENTER);
 				membersPanel.add(SwingRendererUtils.flowInLayout(typeCustomizationsControl, GridBagConstraints.CENTER),
 						BorderLayout.NORTH);

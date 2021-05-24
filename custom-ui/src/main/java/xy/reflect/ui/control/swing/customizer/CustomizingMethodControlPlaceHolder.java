@@ -65,7 +65,7 @@ public class CustomizingMethodControlPlaceHolder extends MethodControlPlaceHolde
 		}
 		if (infoCustomizationsComponent == null) {
 			infoCustomizationsComponent = ((SwingCustomizer) swingRenderer).getCustomizationTools()
-					.makeButtonForMethodInfo(this);
+					.makeButtonForMethod(this);
 			add(infoCustomizationsComponent, BorderLayout.WEST);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {

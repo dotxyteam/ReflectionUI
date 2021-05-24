@@ -100,6 +100,7 @@ import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ImageIcon;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.MoreSystemProperties;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -187,7 +188,7 @@ public class CustomizationTools {
 		return new CustomizationToolsUI(infoCustomizations, swingCustomizer);
 	}
 
-	public Component makeButtonForTypeInfo(final Object object) {
+	public Component makeButtonForType(final Object object) {
 		final ITypeInfo customizedType = this.swingCustomizer.getReflectionUI()
 				.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 		final JButton result = makeButton();
@@ -479,7 +480,7 @@ public class CustomizationTools {
 		return t;
 	}
 
-	public Component makeButtonForFieldInfo(final FieldControlPlaceHolder fieldControlPlaceHolder) {
+	public Component makeButtonForField(final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = makeButton();
 		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
 				.prepareStringToDisplay(getCustomizationTitle(fieldControlPlaceHolder.getField().getName())));
@@ -509,7 +510,7 @@ public class CustomizationTools {
 					popupMenu.add(menuItem);
 				}
 
-				for (JMenuItem menuItem : makeMenuItemsForFieldTypeInfo(result, fieldControlPlaceHolder, false,
+				for (JMenuItem menuItem : makeMenuItemsForFieldType(result, fieldControlPlaceHolder, false,
 						getFieldControlDataCustomizedType(fieldControlPlaceHolder))) {
 					popupMenu.add(menuItem);
 				}
@@ -1022,7 +1023,7 @@ public class CustomizationTools {
 		return result;
 	}
 
-	protected List<JMenuItem> makeMenuItemsForFieldTypeInfo(final JButton customizerButton,
+	protected List<JMenuItem> makeMenuItemsForFieldType(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder, final boolean infoCustomizationsShared,
 			final ITypeInfo fieldType) {
 		final InfoCustomizations infoCustomizations;
@@ -1051,7 +1052,7 @@ public class CustomizationTools {
 					}
 				}));
 		if (fieldType instanceof IListTypeInfo) {
-			result.add(makeMenuItemForListInfo(customizerButton, fieldControlPlaceHolder, infoCustomizationsShared,
+			result.add(makeMenuItemForList(customizerButton, fieldControlPlaceHolder, infoCustomizationsShared,
 					(IListTypeInfo) fieldType));
 		}
 		if (fieldType instanceof IEnumerationTypeInfo) {
@@ -1064,7 +1065,7 @@ public class CustomizationTools {
 				final JMenu sharedTypeInfoSubMenu = new JMenu(
 						CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Shared"));
 				result.add(sharedTypeInfoSubMenu);
-				for (JMenuItem menuItem : makeMenuItemsForFieldTypeInfo(customizerButton, fieldControlPlaceHolder, true,
+				for (JMenuItem menuItem : makeMenuItemsForFieldType(customizerButton, fieldControlPlaceHolder, true,
 						fieldType)) {
 					sharedTypeInfoSubMenu.add(menuItem);
 				}
@@ -1074,7 +1075,7 @@ public class CustomizationTools {
 
 	}
 
-	protected JMenuItem makeMenuItemForListInfo(final JButton customizerButton,
+	protected JMenuItem makeMenuItemForList(final JButton customizerButton,
 			FieldControlPlaceHolder fieldControlPlaceHolder, final boolean infoCustomizationsShared,
 			final IListTypeInfo customizedListType) {
 		final InfoCustomizations infoCustomizations;
@@ -1092,7 +1093,13 @@ public class CustomizationTools {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					openListColumnsOrderDialog(customizerButton, infoCustomizations, customizedListType);
+					ITypeInfo customizedItemType = customizedListType.getItemType();
+					String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
+					ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations,
+							customizedListType.getName(), itemTypeName, true);
+					IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
+					List<IInfo> columns = MiscUtils.convertCollection(customizedListStructure.getColumns());
+					openInfosOrderDialog(customizerButton, lc, "columnsCustomOrder", columns, "Columns Order");
 				}
 			});
 			result.add(new AbstractAction(this.swingCustomizer.prepareStringToDisplay("More Options...")) {
@@ -1152,6 +1159,21 @@ public class CustomizationTools {
 			final InfoCustomizations infoCustomizations, final IEnumerationTypeInfo customizedEnumType) {
 		JMenu result = new JMenu(this.toolsRenderer.prepareStringToDisplay("Enumeration"));
 		{
+			result.add(new AbstractAction(this.toolsRenderer.prepareStringToDisplay("Move Items...")) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					EnumerationCustomization ec = InfoCustomizations.getEnumerationCustomization(infoCustomizations,
+							customizedEnumType.getName(), true);
+					List<IInfo> valueInfos = new ArrayList<IInfo>();
+					for (Object value : customizedEnumType.getPossibleValues()) {
+						valueInfos.add(customizedEnumType.getValueInfo(value));
+					}
+					openInfosOrderDialog(customizerButton, ec, "itemsCustomOrder", valueInfos,
+							"Enumeration Items Order");
+				}
+			});
 			result.add(new AbstractAction(this.toolsRenderer.prepareStringToDisplay("More Options...")) {
 				private static final long serialVersionUID = 1L;
 
@@ -1225,27 +1247,21 @@ public class CustomizationTools {
 		changeCustomizationFieldValue(tc, "customMethodsOrder", newOrder);
 	}
 
-	protected void openListColumnsOrderDialog(final JButton customizerButton, InfoCustomizations infoCustomizations,
-			final IListTypeInfo customizedListType) {
-		ITypeInfo customizedItemType = customizedListType.getItemType();
-		String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
-		ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations, customizedListType.getName(),
-				itemTypeName, true);
-		IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
-		List<IColumnInfo> columns = customizedListStructure.getColumns();
-		ColumnOrderItem[] columnOrderItems = new ColumnOrderItem[columns.size()];
-		for (int i = 0; i < columns.size(); i++) {
-			columnOrderItems[i] = new ColumnOrderItem(columns.get(i));
+	protected void openInfosOrderDialog(final JButton customizerButton, AbstractCustomization customization,
+			String customizationOrderFieldName, List<IInfo> currentInfoList, String title) {
+		InfoOrderItem[] orderItems = new InfoOrderItem[currentInfoList.size()];
+		for (int i = 0; i < currentInfoList.size(); i++) {
+			orderItems[i] = new InfoOrderItem(currentInfoList.get(i));
 		}
-		StandardEditorBuilder dialogStatus = toolsRenderer.openObjectDialog(customizerButton, columnOrderItems,
-				"Columns Order", this.swingCustomizer.getCustomizationsIcon().getImage(), true, true);
+		StandardEditorBuilder dialogStatus = toolsRenderer.openObjectDialog(customizerButton, orderItems, title,
+				this.swingCustomizer.getCustomizationsIcon().getImage(), true, true);
 		if (!dialogStatus.isCancelled()) {
-			columnOrderItems = (ColumnOrderItem[]) dialogStatus.getCurrentValue();
+			orderItems = (InfoOrderItem[]) dialogStatus.getCurrentValue();
 			List<String> newOrder = new ArrayList<String>();
-			for (ColumnOrderItem item : columnOrderItems) {
-				newOrder.add(item.getColumnInfo().getName());
+			for (InfoOrderItem item : orderItems) {
+				newOrder.add(item.getInfo().getName());
 			}
-			changeCustomizationFieldValue(lc, "columnsCustomOrder", newOrder);
+			changeCustomizationFieldValue(customization, customizationOrderFieldName, newOrder);
 		}
 	}
 
@@ -1324,7 +1340,7 @@ public class CustomizationTools {
 		}
 	}
 
-	public Component makeButtonForMethodInfo(final MethodControlPlaceHolder methodControlPlaceHolder) {
+	public Component makeButtonForMethod(final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = makeButton();
 		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
 				.prepareStringToDisplay(getCustomizationTitle(methodControlPlaceHolder.getMethod().getSignature())));
@@ -1381,29 +1397,29 @@ public class CustomizationTools {
 		return result;
 	}
 
-	public static class ColumnOrderItem {
-		protected IColumnInfo columnInfo;
+	public static class InfoOrderItem {
+		protected IInfo info;
 
-		public ColumnOrderItem(IColumnInfo columnInfo) {
+		public InfoOrderItem(IInfo info) {
 			super();
-			this.columnInfo = columnInfo;
+			this.info = info;
 		}
 
-		public IColumnInfo getColumnInfo() {
-			return columnInfo;
+		public IInfo getInfo() {
+			return info;
 		}
 
-		public String getColumnName() {
-			return columnInfo.getName();
+		public String getName() {
+			return info.getName();
 		}
 
-		public String getColumnCaption() {
-			return columnInfo.getCaption();
+		public String getCaption() {
+			return info.getCaption();
 		}
 
 		@Override
 		public String toString() {
-			return columnInfo.getCaption();
+			return info.getCaption();
 		}
 
 	}

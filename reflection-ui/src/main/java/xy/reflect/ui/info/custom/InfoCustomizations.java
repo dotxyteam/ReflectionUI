@@ -3495,6 +3495,7 @@ public class InfoCustomizations implements Serializable {
 		protected String enumerationTypeName;
 		protected List<EnumerationItemCustomization> itemCustomizations = new ArrayList<EnumerationItemCustomization>();
 		protected boolean dynamicEnumerationForced = false;
+		protected List<String> itemsCustomOrder;
 
 		@Override
 		public boolean isInitial() {
@@ -3517,6 +3518,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setItemCustomizations(List<EnumerationItemCustomization> itemCustomizations) {
 			this.itemCustomizations = itemCustomizations;
+		}
+
+		public List<String> getItemsCustomOrder() {
+			return itemsCustomOrder;
+		}
+
+		public void setItemsCustomOrder(List<String> itemsCustomOrder) {
+			this.itemsCustomOrder = itemsCustomOrder;
 		}
 
 		public boolean isDynamicEnumerationForced() {

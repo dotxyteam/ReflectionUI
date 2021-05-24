@@ -65,7 +65,7 @@ public class CustomizingFieldControlPlaceHolder extends FieldControlPlaceHolder 
 		}
 		if (infoCustomizationsComponent == null) {
 			infoCustomizationsComponent = ((SwingCustomizer) swingRenderer).getCustomizationTools()
-					.makeButtonForFieldInfo(this);
+					.makeButtonForField(this);
 			add(infoCustomizationsComponent, BorderLayout.EAST);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {

@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -309,8 +310,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				enumType.getName());
 		if (e != null) {
 			List<Object> result = new ArrayList<Object>();
+			List<IEnumerationItemInfo> valueInfos = new ArrayList<IEnumerationItemInfo>();
 			for (Object value : super.getPossibleValues(enumType)) {
 				IEnumerationItemInfo valueInfo = getValueInfo(enumType, value);
+				valueInfos.add(valueInfo);
 				EnumerationItemCustomization i = InfoCustomizations.getEnumerationItemCustomization(e,
 						valueInfo.getName());
 				if (i != null) {
@@ -320,6 +323,20 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 				result.add(value);
 			}
+
+			final List<String> customOrder = e.getItemsCustomOrder();
+			if (customOrder != null) {
+				final Comparator<IEnumerationItemInfo> valueInfoComparator = ReflectionUIUtils
+						.getInfosComparator(customOrder, valueInfos);
+				Collections.sort(result, new Comparator<Object>() {
+					@Override
+					public int compare(Object value1, Object value2) {
+						return valueInfoComparator.compare(getValueInfo(enumType, value1),
+								getValueInfo(enumType, value2));
+					}
+				});
+			}
+
 			return result.toArray();
 		}
 		return super.getPossibleValues(enumType);
