@@ -67,8 +67,6 @@ import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -295,24 +293,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			} else {
 				throw new ReflectionUIError();
 			}
-			splitPane.addAncestorListener(new AncestorListener() {
-
-				@Override
-				public void ancestorAdded(AncestorEvent event) {
-					splitPane.setDividerLocation(dividerLocation);
-					splitPane.setResizeWeight(dividerLocation);
-					splitPane.removeAncestorListener(this);
-				}
-
-				@Override
-				public void ancestorRemoved(AncestorEvent event) {
-				}
-
-				@Override
-				public void ancestorMoved(AncestorEvent event) {
-				}
-
-			});
+			SwingRendererUtils.setSafelyDividerLocation(splitPane, dividerLocation);
+			splitPane.setResizeWeight(dividerLocation);
 		} else {
 			add(treeTableComponentScrollPane, BorderLayout.CENTER);
 			add(toolbar, BorderLayout.EAST);

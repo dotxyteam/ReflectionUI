@@ -48,8 +48,12 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.AWTEventListenerProxy;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -79,6 +83,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
@@ -272,6 +277,34 @@ public class SwingRendererUtils {
 			c.setToolTipText(null);
 		} else {
 			c.setToolTipText("<HTML>" + MiscUtils.escapeHTML(toolTipText, true) + "</HTML>");
+		}
+	}
+
+	public static void setSafelyDividerLocation(final JSplitPane splitPane, final double proportionalLocation) {
+		System.out.println("getSize=" + splitPane.getSize());
+		if (splitPane.isShowing()) {
+			if ((splitPane.getWidth() > 0) && (splitPane.getHeight() > 0)
+					&& (splitPane.getMinimumDividerLocation() < splitPane.getMaximumDividerLocation())) {
+				splitPane.setDividerLocation(proportionalLocation);
+			} else {
+				splitPane.addComponentListener(new ComponentAdapter() {
+					@Override
+					public void componentResized(ComponentEvent ce) {
+						splitPane.removeComponentListener(this);
+						setSafelyDividerLocation(splitPane, proportionalLocation);
+					}
+				});
+			}
+		} else {
+			splitPane.addHierarchyListener(new HierarchyListener() {
+				@Override
+				public void hierarchyChanged(HierarchyEvent e) {
+					if (((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) && splitPane.isShowing()) {
+						splitPane.removeHierarchyListener(this);
+						setSafelyDividerLocation(splitPane, proportionalLocation);
+					}
+				}
+			});
 		}
 	}
 
