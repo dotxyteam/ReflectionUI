@@ -32,7 +32,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import xy.reflect.ui.control.swing.customizer.SwingCustomizer.CustomizingForm;
 import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.method.IMethodInfo;
