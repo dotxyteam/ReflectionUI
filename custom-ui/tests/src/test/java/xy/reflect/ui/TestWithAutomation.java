@@ -127,4 +127,12 @@ public class TestWithAutomation {
 			Files.delete(testFile.toPath());
 		}
 	}
+
+	@Test
+	public void testPolymorphism() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testPolymorphism.stt"));
+	}
+
 }
