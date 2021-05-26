@@ -536,14 +536,21 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			ITypeInfo valueType = reflectionUI.getTypeInfo(getSource());
 			StringBuilder result = new StringBuilder();
 			for (IFieldInfo field : valueType.getFields()) {
+				if (field.isHidden()) {
+					continue;
+				}
 				try {
 					Object fieldValue = field.getValue(object);
+					String fieldValueString;
 					if (fieldValue == null) {
-						continue;
-					}
-					String fieldValueString = ReflectionUIUtils.toString(reflectionUI, fieldValue);
-					if (fieldValueString.length() == 0) {
-						continue;
+						fieldValueString = "<none>";
+					} else {
+						String stringValue = ReflectionUIUtils.toString(reflectionUI, fieldValue);
+						if (stringValue.length() == 0) {
+							fieldValueString = "<empty>";
+						} else {
+							fieldValueString = stringValue;
+						}
 					}
 					for (String newLine : MiscUtils.NEW_LINE_SEQUENCES) {
 						fieldValueString = fieldValueString.replace(newLine, " ");
@@ -552,6 +559,9 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 					String fieldId = field.getCaption();
 					if ((fieldId != null) && (fieldId.length() > 0)) {
 						fieldValueString = fieldId + "=" + fieldValueString;
+					}
+					if (fieldValueString.length() == 0) {
+						continue;
 					}
 					if (result.length() > 0) {
 						result.append(", ");
