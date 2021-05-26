@@ -105,6 +105,7 @@ import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.control.swing.util.TableLastColumnAutoResizer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.DelegatingInfoFilter;
@@ -267,28 +268,29 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			listAndToolbarPanel.add(toolbar, BorderLayout.EAST);
 			ControlScrollPane listAndToolbarScrollPane = createTreeTableAndToolBarScrollPane(listAndToolbarPanel);
 			SwingRendererUtils.removeScrollPaneBorder(listAndToolbarScrollPane);
+			ControlScrollPane detailsAreaScrollPane = createDetailsAreaScrollPane(detailsArea);
 			final JSplitPane splitPane = new ControlSplitPane();
 			add(splitPane, BorderLayout.CENTER);
 			final double dividerLocation;
 			if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 				splitPane.setLeftComponent(listAndToolbarScrollPane);
-				splitPane.setRightComponent(detailsArea);
+				splitPane.setRightComponent(detailsAreaScrollPane);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.LEFT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 				splitPane.setRightComponent(listAndToolbarScrollPane);
-				splitPane.setLeftComponent(detailsArea);
+				splitPane.setLeftComponent(detailsAreaScrollPane);
 				dividerLocation = getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				splitPane.setTopComponent(listAndToolbarScrollPane);
-				splitPane.setBottomComponent(detailsArea);
+				splitPane.setBottomComponent(detailsAreaScrollPane);
 				dividerLocation = 1.0 - getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
 			} else if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.TOP) {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				splitPane.setBottomComponent(listAndToolbarScrollPane);
-				splitPane.setTopComponent(detailsArea);
+				splitPane.setTopComponent(detailsAreaScrollPane);
 				dividerLocation = getDetailsAccessMode().getDefaultEmbeddedDetailsAreaOccupationRatio();
 			} else {
 				throw new ReflectionUIError();
@@ -512,28 +514,33 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				adjustSelection(e);
+				popupMenu(e);
+			}
+
+			void popupMenu(MouseEvent e) {
 				if (e.getButton() != MouseEvent.BUTTON3) {
 					return;
 				}
-				selectOnRighClick(e);
 				if (e.getComponent() == treeTableComponent) {
 					JPopupMenu popup = createPopupMenu();
 					popup.show(e.getComponent(), e.getX(), e.getY());
+					return;
 				}
 			}
 
-			protected void selectOnRighClick(MouseEvent e) {
-				if (e.getButton() != MouseEvent.BUTTON3) {
-					return;
-				}
+			void adjustSelection(MouseEvent e) {
 				int row = treeTableComponent.rowAtPoint(e.getPoint());
 				if (treeTableComponent.isRowSelected(row)) {
 					return;
 				}
-				if (row >= 0 && row < treeTableComponent.getRowCount()) {
-					treeTableComponent.setRowSelectionInterval(row, row);
-				} else {
+				if ((row < 0) || (row >= treeTableComponent.getRowCount())) {
 					treeTableComponent.clearSelection();
+					return;
+				}
+				if (e.getButton() == MouseEvent.BUTTON3) {
+					treeTableComponent.setRowSelectionInterval(row, row);
+					return;
 				}
 			}
 		});
@@ -601,10 +608,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.setShowsRootHandles(true);
 		treeTableComponent.setDefaultRenderer(Object.class, createTableCellRenderer());
 		treeTableComponent.setTreeCellRenderer(createTreeCellRenderer());
-		treeTableComponent.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		treeTableComponent.setHorizontalScrollEnabled(true);
 		treeTableComponent.setColumnMargin(5);
 		treeTableComponent.getTableHeader().setReorderingAllowed(false);
+		treeTableComponent.setHorizontalScrollEnabled(true);
+		new TableLastColumnAutoResizer().installOn(treeTableComponent);
 		treeTableComponent.addTreeExpansionListener(new TreeExpansionListener() {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
@@ -1403,14 +1410,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		if ((detailsControlItemPosition == null) && (singleSelection != null)) {
 			detailsControlItemPosition = singleSelection;
-			detailsArea.setLayout(new BorderLayout());
 			detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
 			detailsControl = detailsControlBuilder.createEditorForm(true, false);
+			detailsArea.setLayout(new BorderLayout());
 			Component statusBar = detailsControl.getStatusBar();
 			{
 				detailsArea.add(statusBar, BorderLayout.NORTH);
 			}
-			detailsArea.add(createDetailsAreaScrollPane(detailsControl), BorderLayout.CENTER);
+			detailsArea.add(detailsControl, BorderLayout.CENTER);
 			detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 			SwingRendererUtils.handleComponentSizeChange(detailsArea);
 			SwingUtilities.invokeLater(new Runnable() {
@@ -1549,6 +1556,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			restoringSelectionAsMuchAsPossible(new Runnable() {
+
 				@Override
 				public void run() {
 					restoringExpandedPathsAsMuchAsPossible(new Runnable() {
@@ -1558,6 +1566,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						}
 					});
 				}
+
 			});
 			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 				updateDetailsArea(false);
@@ -1793,6 +1802,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						}
 					}
 				}
+
 			});
 			return new RefreshStructureModification(Accessor.returning(oldSelection), Accessor.returning(newSelection));
 		}
