@@ -67,12 +67,7 @@ public class RedoMenuItem extends AbstractStandardActionMenuItem {
 
 	@Override
 	protected void execute() {
-		swingRenderer.showBusyDialogWhile(form, new Runnable() {
-			@Override
-			public void run() {
-				form.getModificationStack().redo();
-			}
-		}, getToolTipText());
+		form.getModificationStack().redo();
 	}
 
 }

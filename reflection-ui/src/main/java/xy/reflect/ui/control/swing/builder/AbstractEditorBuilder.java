@@ -309,25 +309,20 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 */
 	public void createAndShowDialog() {
 		getSwingRenderer().showDialog(createDialog(), true);
-		getSwingRenderer().showBusyDialogWhile(getOwnerComponent(), new Runnable() {
-			@Override
-			public void run() {
-				if (hasParentObject()) {
-					if (mayModifyParentObject()) {
-						impactParent();
-					}
-				} else {
-					if (isCancelled()) {
-						ModificationStack modifStack = getModificationStack();
-						modifStack.undoAll();
-						if (modifStack.wasInvalidated()) {
-							getSwingRenderer().getReflectionUI().logDebug(
-									"WARNING: Cannot undo completely invalidated modification stack: " + modifStack);
-						}
-					}
+		if (hasParentObject()) {
+			if (mayModifyParentObject()) {
+				impactParent();
+			}
+		} else {
+			if (isCancelled()) {
+				ModificationStack modifStack = getModificationStack();
+				modifStack.undoAll();
+				if (modifStack.wasInvalidated()) {
+					getSwingRenderer().getReflectionUI()
+							.logDebug("WARNING: Cannot undo completely invalidated modification stack: " + modifStack);
 				}
 			}
-		}, getParentModificationTitle());
+		}
 	}
 
 	/**

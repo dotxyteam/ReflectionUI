@@ -236,9 +236,9 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	public IMethodControlData getInitialControlData() {
-		IMethodControlData result = new InitialMethodControlData(method);
-		result = makeMethodModificationsUndoable(result);
+		IMethodControlData result = new MethodControlData(method);
 		result = indicateWhenBusy(result);
+		result = makeMethodModificationsUndoable(result);
 		return result;
 	}
 
@@ -247,11 +247,11 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return "MethodControlPlaceHolder [method=" + method + ", form=" + form + "]";
 	}
 
-	protected class InitialMethodControlData extends AbstractMethodControlData {
+	protected class MethodControlData extends AbstractMethodControlData {
 
 		protected IMethodInfo finalMethod;
 
-		public InitialMethodControlData(IMethodInfo finalMethod) {
+		public MethodControlData(IMethodInfo finalMethod) {
 			super(swingRenderer.getReflectionUI());
 			this.finalMethod = finalMethod;
 		}
@@ -287,7 +287,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			InitialMethodControlData other = (InitialMethodControlData) obj;
+			MethodControlData other = (MethodControlData) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (!super.equals(other))

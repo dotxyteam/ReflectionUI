@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.CustomContext;
@@ -46,7 +45,9 @@ import xy.reflect.ui.control.RejectedFieldControlInputException;
 import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.BusyIndicatingFieldControldata;
 import xy.reflect.ui.control.swing.util.ControlPanel;
+import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -100,7 +101,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				@Override
 				public IFieldControlData getControlData() {
 					IFieldControlData result = super.getControlData();
-					result = SwingRendererUtils.handleErrors(swingRenderer, result, PolymorphicControl.this);
+					result = new BusyIndicatingFieldControldata(result, swingRenderer, PolymorphicControl.this);
+					result = new ErrorHandlingFieldControlData(result, swingRenderer, PolymorphicControl.this);
 					return result;
 				}
 			};
@@ -154,13 +156,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 		currentInstance = instance;
 		refreshDynamicControl(false);
-		swingRenderer.showBusyDialogWhile(PolymorphicControl.this, new Runnable() {
-			@Override
-			public void run() {
-				ReflectionUIUtils.setFieldValueThroughModificationStack(data, currentInstance,
-						input.getModificationStack());
-			}
-		}, FieldControlDataModification.getTitle(data.getCaption()));
+		ReflectionUIUtils.setFieldValueThroughModificationStack(data, currentInstance,
+				input.getModificationStack());
 	}
 
 	protected Form createTypeEnumerationControl() {
@@ -173,17 +170,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		Listener<ITypeInfo> subTypeSelectionHandler = new Listener<ITypeInfo>() {
 			@Override
 			public void handle(final ITypeInfo selectedSubType) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							onSubTypeSelection(selectedSubType);
-						} catch (Throwable t) {
-							swingRenderer.handleExceptionsFromDisplayedUI(PolymorphicControl.this, t);
-							refreshUI(false);
-						}
-					}
-				});
+				try {
+					onSubTypeSelection(selectedSubType);
+				} catch (Throwable t) {
+					swingRenderer.handleExceptionsFromDisplayedUI(PolymorphicControl.this, t);
+					refreshUI(false);
+				}
 			}
 		};
 		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,

@@ -93,7 +93,6 @@ import javax.swing.text.DefaultFormatter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
-import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
@@ -1082,34 +1081,6 @@ public class SwingRendererUtils {
 						((ICustomizableFieldControlPlugin) plugin).getDefaultControlCustomization());
 			}
 		}
-	}
-
-	public static IFieldControlData handleErrors(final SwingRenderer swingRenderer, IFieldControlData data,
-			final Component errorDialogOwner) {
-		return new ErrorHandlingFieldControlData(data) {
-
-			String currentlyDisplayedErrorId;
-
-			@Override
-			protected void handleError(Throwable t) {
-				final String newErrorId = (t == null) ? null : MiscUtils.getPrintedStackTrace(t);
-				if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
-					return;
-				}
-				currentlyDisplayedErrorId = newErrorId;
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						if (t != null) {
-							currentlyDisplayedErrorId = newErrorId;
-							swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
-						} else {
-							currentlyDisplayedErrorId = null;
-						}
-					}
-				});
-			}
-		};
 	}
 
 	public static void generateChangeEventsDuringTextFieldEditing(final JSpinner spinner) {

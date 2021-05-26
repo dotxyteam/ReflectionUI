@@ -103,6 +103,7 @@ import xy.reflect.ui.control.swing.util.AbstractLazyTreeNode;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
+import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.TableLastColumnAutoResizer;
@@ -127,6 +128,7 @@ import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.BufferedListModificationFactory;
+import xy.reflect.ui.undo.BusyIndicatingModification;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
@@ -189,7 +191,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
-				result = SwingRendererUtils.handleErrors(swingRenderer, result, ListControl.this);
+				result = new ErrorHandlingFieldControlData(result, swingRenderer, ListControl.this);
 				return result;
 			}
 		};
@@ -785,32 +787,42 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (nodeValues.containsKey(columnIndex)) {
 			value = nodeValues.get(columnIndex);
 		} else {
-			BufferedItemPosition itemPosition = findItemPositionByNode(node);
-			if (itemPosition == null) {
-				value = "";
-			} else {
-				IListStructuralInfo tableInfo = getRootStructuralInfo();
-				if (tableInfo == null) {
-					value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(), itemPosition.getItem());
-				} else {
-					List<IColumnInfo> columns = tableInfo.getColumns();
-					if (columnIndex < columns.size()) {
-						IColumnInfo column = tableInfo.getColumns().get(columnIndex);
-						if (column.hasCellValue(itemPosition)) {
-							value = column.getCellValue(itemPosition);
+			final String[] freshValueHolder = new String[1];
+			swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
+				@Override
+				public void run() {
+					String freshValue;
+					BufferedItemPosition itemPosition = findItemPositionByNode(node);
+					if (itemPosition == null) {
+						freshValue = "";
+					} else {
+						IListStructuralInfo tableInfo = getRootStructuralInfo();
+						if (tableInfo == null) {
+							freshValue = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(),
+									itemPosition.getItem());
 						} else {
-							if (columnIndex == 0) {
-								value = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(),
-										itemPosition.getItem());
+							List<IColumnInfo> columns = tableInfo.getColumns();
+							if (columnIndex < columns.size()) {
+								IColumnInfo column = tableInfo.getColumns().get(columnIndex);
+								if (column.hasCellValue(itemPosition)) {
+									freshValue = column.getCellValue(itemPosition);
+								} else {
+									if (columnIndex == 0) {
+										freshValue = ReflectionUIUtils.toString(swingRenderer.getReflectionUI(),
+												itemPosition.getItem());
+									} else {
+										freshValue = null;
+									}
+								}
 							} else {
-								value = null;
+								freshValue = null;
 							}
 						}
-					} else {
-						value = null;
 					}
+					freshValueHolder[0] = freshValue;
 				}
-			}
+			}, ReflectionUIUtils.composeMessage(getRootListTitle(), "Loading"));
+			value = freshValueHolder[0];
 			nodeValues.put(columnIndex, value);
 		}
 		return value;
@@ -995,7 +1007,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected ListModificationFactory createListModificationFactory(BufferedItemPosition anyListItemPosition) {
-		return new BufferedListModificationFactory(anyListItemPosition);
+		return new BufferedListModificationFactory(anyListItemPosition) {
+
+			@Override
+			public IModification createListModification(Object[] newListRawValue) {
+				return new BusyIndicatingModification(super.createListModification(newListRawValue), swingRenderer,
+						ListControl.this);
+			}
+
+		};
 	}
 
 	protected boolean allSelectionItemsInSameList() {
@@ -1733,19 +1753,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected List<AbstractLazyTreeNode> createChildrenNodes() {
-			List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();
-			if (currentItemPosition == null) {
-				for (int i = 0; i < itemPositionFactory.getRootItemPosition(-1).getContainingListSize(); i++) {
-					BufferedItemPosition rootItemPosition = itemPositionFactory.getRootItemPosition(i);
-					ItemNode node = new ItemNode(rootItemPosition);
-					result.add(node);
+			final List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();
+			swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
+				@Override
+				public void run() {
+					if (currentItemPosition == null) {
+						for (int i = 0; i < itemPositionFactory.getRootItemPosition(-1).getContainingListSize(); i++) {
+							BufferedItemPosition rootItemPosition = itemPositionFactory.getRootItemPosition(i);
+							ItemNode node = new ItemNode(rootItemPosition);
+							result.add(node);
+						}
+					} else {
+						for (BufferedItemPosition childItemPosition : currentItemPosition.getSubItemPositions()) {
+							ItemNode node = new ItemNode(childItemPosition);
+							result.add(node);
+						}
+					}
 				}
-			} else {
-				for (BufferedItemPosition childItemPosition : currentItemPosition.getSubItemPositions()) {
-					ItemNode node = new ItemNode(childItemPosition);
-					result.add(node);
-				}
-			}
+			}, ReflectionUIUtils.composeMessage(getRootListTitle(), "Loading"));
 			return result;
 		}
 
@@ -1773,38 +1798,31 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public IModification applyAndGetOpposite() {
-			final List<BufferedItemPosition> newSelection = newSelectionGetter.get();
-			final List<BufferedItemPosition> oldSelection = oldSelectionGetter.get();
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					if (newSelection == null) {
-						restoringSelectionAsMuchAsPossible(new Runnable() {
-							public void run() {
-								restoringExpandedPathsAsMuchAsPossible(new Runnable() {
-									@Override
-									public void run() {
-										refreshTreeTableModelAndControl(false);
-									}
-								});
-							}
-						});
-					} else {
+			List<BufferedItemPosition> newSelection = newSelectionGetter.get();
+			if (newSelection == null) {
+				restoringSelectionAsMuchAsPossible(new Runnable() {
+					public void run() {
 						restoringExpandedPathsAsMuchAsPossible(new Runnable() {
 							@Override
 							public void run() {
 								refreshTreeTableModelAndControl(false);
 							}
 						});
-						setSelection(newSelection);
-						if (newSelection.size() > 0) {
-							scrollTo(newSelection.get(0));
-						}
 					}
+				});
+			} else {
+				restoringExpandedPathsAsMuchAsPossible(new Runnable() {
+					@Override
+					public void run() {
+						refreshTreeTableModelAndControl(false);
+					}
+				});
+				setSelection(newSelection);
+				if (newSelection.size() > 0) {
+					scrollTo(newSelection.get(0));
 				}
-
-			});
-			return new RefreshStructureModification(Accessor.returning(oldSelection), Accessor.returning(newSelection));
+			}
+			return new RefreshStructureModification(oldSelectionGetter, Accessor.returning(newSelection));
 		}
 
 		@Override
@@ -1850,21 +1868,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public IModification applyAndGetOpposite() {
-			final List<BufferedItemPosition> newSelection = newSelectionGetter.get();
-			final List<BufferedItemPosition> oldSelection = oldSelectionGetter.get();
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					List<BufferedItemPosition> newSelection = newSelectionGetter.get();
-					if (newSelection != null) {
-						setSelection(newSelection);
-						if (newSelection.size() > 0) {
-							scrollTo(newSelection.get(0));
-						}
-					}
+			List<BufferedItemPosition> newSelection = newSelectionGetter.get();
+			if (newSelection != null) {
+				setSelection(newSelection);
+				if (newSelection.size() > 0) {
+					scrollTo(newSelection.get(0));
 				}
-			});
-			return new SelectModification(Accessor.returning(oldSelection), Accessor.returning(newSelection));
+			}
+			return new SelectModification(oldSelectionGetter, Accessor.returning(newSelection));
 		}
 
 		@Override
@@ -2027,39 +2038,35 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (!prepare()) {
 					return;
 				}
-				swingRenderer.showBusyDialogWhile(ListControl.this, new Runnable() {
-					public void run() {
-						final String modifTitle = getCompositeModificationTitle();
-						@SuppressWarnings("unchecked")
-						final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
-						if (modifTitle == null) {
-							perform(toPostSelectHolder);
-							new RefreshStructureModification(toPostSelectHolder[0]).applyAndGetOpposite();
-						} else {
-							final ModificationStack modifStack = getModificationStack();
-							modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
-								@Override
-								public Boolean get() {
-									if (modifStack.insideComposite(modifTitle + " (without list control update)",
-											UndoOrder.getNormal(), new Accessor<Boolean>() {
-												@Override
-												public Boolean get() {
-													perform(toPostSelectHolder);
-													return true;
-												}
-											})) {
-										modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
-										return true;
-									} else {
-										modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
-										return false;
-									}
-								}
-							});
-
+				final String modifTitle = getCompositeModificationTitle();
+				@SuppressWarnings("unchecked")
+				final List<BufferedItemPosition>[] toPostSelectHolder = new List[1];
+				if (modifTitle == null) {
+					perform(toPostSelectHolder);
+					new RefreshStructureModification(toPostSelectHolder[0]).applyAndGetOpposite();
+				} else {
+					final ModificationStack modifStack = getModificationStack();
+					modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
+						@Override
+						public Boolean get() {
+							if (modifStack.insideComposite(modifTitle + " (without list control update)",
+									UndoOrder.getNormal(), new Accessor<Boolean>() {
+										@Override
+										public Boolean get() {
+											perform(toPostSelectHolder);
+											return true;
+										}
+									})) {
+								modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+								return true;
+							} else {
+								modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+								return false;
+							}
 						}
-					}
-				}, getCompositeModificationTitle());
+					});
+
+				}
 				displayResult();
 			} catch (Throwable t) {
 				swingRenderer.handleExceptionsFromDisplayedUI(ListControl.this, t);
@@ -2115,39 +2122,44 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected IModification createCommittingModification(Object newObjectValue) {
-			IModification result = modificationFactory.set(bufferedItemPosition.getIndex(), newObjectValue);
-			result = new CompositeModification(result.getTitle(), UndoOrder.FIFO, result,
-					new RefreshStructureModification(new Accessor<List<BufferedItemPosition>>() {
-						@Override
-						public List<BufferedItemPosition> get() {
-							return null;
+			Accessor<List<BufferedItemPosition>> oldObjectValuePositionGetter = new Accessor<List<BufferedItemPosition>>() {
+				@Override
+				public List<BufferedItemPosition> get() {
+					return Collections.singletonList(bufferedItemPosition);
+				}
+			};
+			Accessor<List<BufferedItemPosition>> newObjectValuePositionGetter = new Accessor<List<BufferedItemPosition>>() {
+				@Override
+				public List<BufferedItemPosition> get() {
+					BufferedItemPosition toSelect = bufferedItemPosition;
+					if (!bufferedItemPosition.getContainingListType().isOrdered()) {
+						bufferedItemPosition.refreshContainingList();
+						int indexToSelect = Arrays.asList(bufferedItemPosition.retrieveContainingListRawValue())
+								.indexOf(newObjectValue);
+						if (indexToSelect != -1) {
+							toSelect = bufferedItemPosition.getSibling(indexToSelect);
 						}
-					}, new Accessor<List<BufferedItemPosition>>() {
-						@Override
-						public List<BufferedItemPosition> get() {
-							return null;
-						}
-					}), new SelectModification(new Accessor<List<BufferedItemPosition>>() {
-						@Override
-						public List<BufferedItemPosition> get() {
-							BufferedItemPosition toSelect = bufferedItemPosition;
-							if (!bufferedItemPosition.getContainingListType().isOrdered()) {
-								bufferedItemPosition.refreshContainingList();
-								int indexToSelect = Arrays.asList(bufferedItemPosition.retrieveContainingListRawValue())
-										.indexOf(newObjectValue);
-								if (indexToSelect != -1) {
-									toSelect = bufferedItemPosition.getSibling(indexToSelect);
-								}
-							}
-							return Collections.singletonList(toSelect);
-						}
-					}, new Accessor<List<BufferedItemPosition>>() {
-						@Override
-						public List<BufferedItemPosition> get() {
-							return getSelection();
-						}
-					}));
-			return result;
+					}
+					return Collections.singletonList(toSelect);
+				}
+			};
+			Accessor<List<BufferedItemPosition>> nullPositionGetter = new Accessor<List<BufferedItemPosition>>() {
+				@Override
+				public List<BufferedItemPosition> get() {
+					return null;
+				}
+			};
+			{
+				IModification preSelection = new SelectModification(oldObjectValuePositionGetter,
+						newObjectValuePositionGetter);
+				IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newObjectValue);
+				IModification structureRefreshing = new RefreshStructureModification(nullPositionGetter,
+						nullPositionGetter);
+				IModification postSelection = new SelectModification(newObjectValuePositionGetter,
+						oldObjectValuePositionGetter);
+				return new CompositeModification(update.getTitle(), UndoOrder.FIFO, preSelection, update,
+						structureRefreshing, postSelection);
+			}
 		}
 
 		@Override

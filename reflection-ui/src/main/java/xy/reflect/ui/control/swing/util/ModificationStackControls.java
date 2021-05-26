@@ -173,12 +173,7 @@ public class ModificationStackControls {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					swingRenderer.showBusyDialogWhile(result, new Runnable() {
-						@Override
-						public void run() {
-							action.run();
-						}
-					}, "Running: " + tooltipText.get());
+					action.run();
 				} catch (final Throwable t) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override

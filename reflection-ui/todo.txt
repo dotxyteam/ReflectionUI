@@ -1,3 +1,8 @@
+- form.isBusyIndicationDisabled() not respected in ListControl eg 
+and generally in auto-managed controls. Check if it is still
+meaningful.
+- in the list control: busy indication is shown when modifying
+but not when getting nodes and cell values. Check.
 - allow to change the order of enum items
 - allow to resolve ambiguity between polymorphic sub-types:
 	. detect all descendant types

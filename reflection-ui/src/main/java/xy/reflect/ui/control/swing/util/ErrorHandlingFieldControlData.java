@@ -26,8 +26,16 @@
  * appropriate place (with a link to http://javacollection.net/reflectionui/ web site 
  * when possible).
  ******************************************************************************/
-package xy.reflect.ui.control;
+package xy.reflect.ui.control.swing.util;
 
+import java.awt.Component;
+
+import javax.swing.SwingUtilities;
+
+import xy.reflect.ui.control.FieldControlDataProxy;
+import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -37,21 +45,21 @@ import xy.reflect.ui.util.ReflectionUIError;
  * @author olitank
  *
  */
-public abstract class ErrorHandlingFieldControlData extends FieldControlDataProxy {
+public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
+
+	protected SwingRenderer swingRenderer;
+	protected Component errorDialogOwner;
 
 	protected Object lastFieldValue;
 	protected boolean lastFieldValueInitialized = false;
 	protected Throwable lastValueUpdateError;
+	protected String currentlyDisplayedErrorId;
 
-	/**
-	 * Called to notify an error.
-	 * 
-	 * @param t The exception that was thrown or null if the error is gone.
-	 */
-	protected abstract void handleError(Throwable t);
-
-	public ErrorHandlingFieldControlData(IFieldControlData base) {
-		super(base);
+	public ErrorHandlingFieldControlData(IFieldControlData data, SwingRenderer swingRenderer,
+			Component errorDialogOwner) {
+		super(data);
+		this.swingRenderer = swingRenderer;
+		this.errorDialogOwner = errorDialogOwner;
 	}
 
 	@Override
@@ -84,4 +92,29 @@ public abstract class ErrorHandlingFieldControlData extends FieldControlDataProx
 			lastValueUpdateError = t;
 		}
 	}
+
+	/**
+	 * Called to notify an error.
+	 * 
+	 * @param t The exception that was thrown or null if the error is gone.
+	 */
+	protected void handleError(Throwable t) {
+		final String newErrorId = (t == null) ? null : MiscUtils.getPrintedStackTrace(t);
+		if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
+			return;
+		}
+		currentlyDisplayedErrorId = newErrorId;
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				if (t != null) {
+					currentlyDisplayedErrorId = newErrorId;
+					swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
+				} else {
+					currentlyDisplayedErrorId = null;
+				}
+			}
+		});
+	}
+
 }

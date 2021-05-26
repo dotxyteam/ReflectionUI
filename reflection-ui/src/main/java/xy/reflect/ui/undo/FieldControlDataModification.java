@@ -52,9 +52,12 @@ public class FieldControlDataModification extends AbstractModification {
 
 	protected void check(IFieldControlData data) {
 		if (Boolean.TRUE.equals(data.getSpecificProperties()
-				.get(FieldControlPlaceHolder.COMMON_CONTROL_MANAGEMENT_ENABLED_PROPERTY_KEY))) {
+				.get(FieldControlPlaceHolder.CONTROL_AUTO_MANAGEMENT_ENABLED_PROPERTY_KEY))) {
 			throw new ReflectionUIError("A " + FieldControlDataModification.class.getSimpleName()
-					+ " must not be constructed with a data that has the common control management enabled");
+					+ " must not be constructed with a control data that has the control auto-management property enabled."
+					+ "\n" + "It ensures that a " + FieldControlDataModification.class.getSimpleName()
+					+ " is not already constructed by the " + FieldControlPlaceHolder.class.getSimpleName()
+					+ " undo-management proxy for the same control data.");
 		}
 	}
 

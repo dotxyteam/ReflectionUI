@@ -47,7 +47,6 @@ import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlInput;
-import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -69,6 +68,7 @@ import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.PrimitiveValueControl;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.util.ControlPanel;
+import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
@@ -100,7 +100,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	protected static final long serialVersionUID = 1L;
 
-	public static final String COMMON_CONTROL_MANAGEMENT_ENABLED_PROPERTY_KEY = FieldControlPlaceHolder.class.getName()
+	public static final String CONTROL_AUTO_MANAGEMENT_ENABLED_PROPERTY_KEY = FieldControlPlaceHolder.class.getName()
 			+ ".COMMON_CONTROL_MANAGEMENT_ENABLED";
 
 	protected final SwingRenderer swingRenderer;
@@ -274,6 +274,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	protected boolean isFieldControlAutoManaged() {
 		Component c = fieldControl;
+		if(c == null) {
+			return true;
+		}
 		if ((c instanceof IAdvancedFieldControl)) {
 			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
 			if (fieldControl.isAutoManaged()) {
@@ -284,7 +287,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	protected IFieldControlData handleValueAccessIssues(final IFieldControlData data) {
-		return new ErrorHandlingFieldControlData(data) {
+		return new ErrorHandlingFieldControlData(data, swingRenderer, FieldControlPlaceHolder.this) {
 
 			String currentlyDisplayedErrorId;
 
@@ -435,21 +438,21 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, object, field);
 		}
 		final IFieldInfo finalField = field;
-		IFieldControlData result = new InitialFieldControlData(finalField);
+		IFieldControlData result = new FieldControlData(finalField);
 		result = handleValueAccessIssues(result);
-		result = makeFieldModificationsUndoable(result);
 		result = indicateWhenBusy(result);
-		result = addControlManagementStatusProperty(result);
+		result = makeFieldModificationsUndoable(result);
+		result = addControlAutoManagementStatusProperty(result);
 		return result;
 	}
 
-	protected IFieldControlData addControlManagementStatusProperty(IFieldControlData result) {
+	protected IFieldControlData addControlAutoManagementStatusProperty(IFieldControlData result) {
 		return new FieldControlDataProxy(result) {
 
 			@Override
 			public Map<String, Object> getSpecificProperties() {
 				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-				result.put(COMMON_CONTROL_MANAGEMENT_ENABLED_PROPERTY_KEY, !isFieldControlAutoManaged());
+				result.put(CONTROL_AUTO_MANAGEMENT_ENABLED_PROPERTY_KEY, !isFieldControlAutoManaged());
 				return result;
 			}
 		};
@@ -473,6 +476,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		controlInput = new FieldControlInputProxy(controlInput) {
 			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(super.getControlData(),
 					value);
+
 			@Override
 			public IFieldControlData getControlData() {
 				return bufferedFieldControlData;
@@ -643,11 +647,11 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return "FieldControlPlaceHolder [field=" + field + ", form=" + form + "]";
 	}
 
-	protected class InitialFieldControlData extends AbstractFieldControlData {
+	protected class FieldControlData extends AbstractFieldControlData {
 
 		protected IFieldInfo finalField;
 
-		public InitialFieldControlData(IFieldInfo finalField) {
+		public FieldControlData(IFieldInfo finalField) {
 			super(swingRenderer.getReflectionUI());
 			this.finalField = finalField;
 		}
@@ -683,7 +687,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			InitialFieldControlData other = (InitialFieldControlData) obj;
+			FieldControlData other = (FieldControlData) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (!super.equals(other))

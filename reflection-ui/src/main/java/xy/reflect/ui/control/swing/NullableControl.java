@@ -51,7 +51,9 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.BusyIndicatingFieldControldata;
 import xy.reflect.ui.control.swing.util.ControlPanel;
+import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -88,7 +90,8 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			@Override
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
-				result = SwingRendererUtils.handleErrors(swingRenderer, result, NullableControl.this);
+				result = new BusyIndicatingFieldControldata(result, swingRenderer, NullableControl.this);
+				result = new ErrorHandlingFieldControlData(result, swingRenderer, NullableControl.this);
 				return result;
 			}
 		};
