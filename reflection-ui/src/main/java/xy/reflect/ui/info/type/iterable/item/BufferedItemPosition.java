@@ -164,9 +164,10 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public void updateContainingList(Object[] newContainingListRawValue) {
-		super.updateContainingList(newContainingListRawValue);
+	public boolean updateContainingList(Object[] newContainingListRawValue) {
+		boolean result = super.updateContainingList(newContainingListRawValue);
 		refreshContainingList();
+		return result;
 	}
 
 	@Override
