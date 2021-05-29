@@ -47,6 +47,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -116,6 +117,14 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract IModification createCommittingModification(Object newObjectValue);
 
 	/**
+	 * Processes exceptions thrown when the local value/object to committed to the
+	 * parent object through a real-time link.
+	 * 
+	 * @param t The thrown exception.
+	 */
+	protected abstract void handleRealtimeLinkCommitException(Throwable t);
+
+	/**
 	 * @return the source of the type information that will be used to handle the
 	 *         local value/object. If null is returned then this type information
 	 *         source will be dynamically inferred from the local value/object.
@@ -167,8 +176,8 @@ public abstract class AbstractEditorFormBuilder {
 			}
 
 			@Override
-			public void set(Object t) {
-				object = t;
+			public void set(Object o) {
+				object = o;
 				objectValueReplaced = true;
 			}
 
@@ -556,7 +565,6 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		};
 		Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {
-
 			@Override
 			public ModificationStack get() {
 				ModificationStack result = getParentModificationStack();
@@ -566,10 +574,17 @@ public abstract class AbstractEditorFormBuilder {
 				return result;
 			}
 		};
+		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
+			@Override
+			public void handle(Throwable t) {
+				handleRealtimeLinkCommitException(t);
+			}
+		};
 		editorForm.setModificationStack(new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
 				childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, childModifTitleGetter,
 				masterModifStackGetter, exclusiveLinkWithParent,
-				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI())));
+				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
+				masterModificationExceptionListener));
 	}
 
 }

@@ -54,13 +54,10 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	/**
 	 * Constructs a standard editor window builder.
 	 * 
-	 * @param swingRenderer
-	 *            The renderer object used to generate the controls.
-	 * @param ownerComponent
-	 *            the component that will own the editor dialog.
-	 * @param rootObject
-	 *            The target object that will be viewed/modified by the editor
-	 *            window.
+	 * @param swingRenderer  The renderer object used to generate the controls.
+	 * @param ownerComponent the component that will own the editor dialog.
+	 * @param rootObject     The local object that will be viewed/modified by the
+	 *                       editor window.
 	 */
 	public StandardEditorBuilder(SwingRenderer swingRenderer, Component ownerComponent, Object rootObject) {
 		this.swingRenderer = swingRenderer;
@@ -114,6 +111,11 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	@Override
 	protected IModification createCommittingModification(Object newObjectValue) {
 		return null;
+	}
+
+	@Override
+	protected void handleRealtimeLinkCommitException(Throwable t) {
+		throw new ReflectionUIError();
 	}
 
 	@Override

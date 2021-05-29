@@ -204,7 +204,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the modification stack of the target value/object.
+	 * @return the modification stack of the local value/object.
 	 */
 	public ModificationStack getModificationStack() {
 		return createdFormModificationStack;
@@ -326,7 +326,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * Update the parent object and its modification stack according to the target
+	 * Update the parent object and its modification stack according to the local
 	 * value/object modifications and the current editor builder specifications.
 	 */
 	public void impactParent() {

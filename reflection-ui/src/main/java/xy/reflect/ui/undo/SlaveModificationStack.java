@@ -52,12 +52,13 @@ public class SlaveModificationStack extends ModificationStack {
 	protected Accessor<IModification> committingModificationGetter;
 	protected boolean exclusiveLinkWithParent;
 	protected Listener<String> debugLogListener;
+	protected Listener<Throwable> masterModificationExceptionListener;
 
 	public SlaveModificationStack(String name, Accessor<Boolean> valueModifAcceptedGetter,
 			Accessor<ValueReturnMode> valueReturnModeGetter, Accessor<Boolean> valueReplacedGetter,
 			Accessor<IModification> committingModificationGetter, Accessor<String> masterModificationTitleGetter,
 			Accessor<ModificationStack> masterModificationStackGetter, boolean exclusiveLinkWithParent,
-			Listener<String> debugLogListener) {
+			Listener<String> debugLogListener, Listener<Throwable> masterModificationExceptionListener) {
 		super(name);
 		this.valueModifAcceptedGetter = valueModifAcceptedGetter;
 		this.valueReturnModeGetter = valueReturnModeGetter;
@@ -67,19 +68,20 @@ public class SlaveModificationStack extends ModificationStack {
 		this.masterModificationStackGetter = masterModificationStackGetter;
 		this.exclusiveLinkWithParent = exclusiveLinkWithParent;
 		this.debugLogListener = debugLogListener;
+		this.masterModificationExceptionListener = masterModificationExceptionListener;
 	}
 
 	@Override
-	public boolean pushUndo(final IModification undoModif) {
+	public boolean push(final IModification undoModif) {
 		if (undoModif.isNull()) {
 			return false;
 		}
-		boolean result = super.pushUndo(undoModif);
+		boolean result = super.push(undoModif);
 		if (isInComposite()) {
 			return result;
 		}
 		ModificationStack valueModifStack = new ModificationStack(null);
-		valueModifStack.pushUndo(new ModificationStackShitf(this, -1, undoModif.getTitle()) {
+		valueModifStack.push(new ModificationStackShitf(this, -1, undoModif.getTitle()) {
 
 			@Override
 			protected void shiftBackward() {
@@ -109,8 +111,13 @@ public class SlaveModificationStack extends ModificationStack {
 			modifTitle = modifTitlePrefix;
 		}
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
-		return ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
-				valueReturnMode, valueReplaced, committingModif, modifTitle, debugLogListener);
+		try {
+			return ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack,
+					valueModifAccepted, valueReturnMode, valueReplaced, committingModif, modifTitle, debugLogListener);
+		} catch (Throwable t) {
+			masterModificationExceptionListener.handle(t);
+			return true;
+		}
 	}
 
 	@Override

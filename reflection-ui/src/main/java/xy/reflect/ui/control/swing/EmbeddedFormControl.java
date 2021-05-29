@@ -40,7 +40,6 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.BusyIndicatingFieldControldata;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -55,6 +54,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -83,7 +83,6 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			@Override
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
-				result = new BusyIndicatingFieldControldata(result, swingRenderer, EmbeddedFormControl.this);
 				result = new ErrorHandlingFieldControlData(result, swingRenderer, EmbeddedFormControl.this);
 				return result;
 			}
@@ -150,10 +149,17 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			};
 			boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
+			Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
+				@Override
+				public void handle(Throwable t) {
+					swingRenderer.handleObjectException(EmbeddedFormControl.this, t);
+				}
+			};
 			subForm.setModificationStack(new SlaveModificationStack(subForm.toString(), childModifAcceptedGetter,
 					childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, childModifTitleGetter,
 					masterModifStackGetter, exclusiveLinkWithParent,
-					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI())));
+					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
+					masterModificationExceptionListener));
 		}
 	}
 
@@ -231,12 +237,12 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public void validateSubForm() throws Exception {
+	public void validateSubForms() throws Exception {
 		subForm.validateForm();
 	}
 
 	@Override
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributions(MenuModel menuModel) {
 		subForm.addMenuContributionTo(menuModel);
 	}
 

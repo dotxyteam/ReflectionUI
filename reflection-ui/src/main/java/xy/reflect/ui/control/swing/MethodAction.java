@@ -50,6 +50,7 @@ import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -110,7 +111,7 @@ public class MethodAction extends AbstractAction {
 		try {
 			onInvocationRequest(activatorComponent);
 		} catch (Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
+			swingRenderer.handleObjectException(activatorComponent, t);
 		}
 
 	}
@@ -127,7 +128,7 @@ public class MethodAction extends AbstractAction {
 				openMethodReturnValueWindow(activatorComponent);
 			}
 		} catch (final Throwable t) {
-			swingRenderer.handleExceptionsFromDisplayedUI(activatorComponent, t);
+			swingRenderer.handleObjectException(activatorComponent, t);
 		}
 	}
 
@@ -239,6 +240,11 @@ public class MethodAction extends AbstractAction {
 
 			protected boolean canCommitToParent() {
 				return false;
+			}
+
+			@Override
+			protected void handleRealtimeLinkCommitException(Throwable t) {
+				throw new ReflectionUIError();
 			}
 
 			@Override

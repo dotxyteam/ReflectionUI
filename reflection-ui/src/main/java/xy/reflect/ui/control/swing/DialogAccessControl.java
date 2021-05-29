@@ -50,7 +50,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
-import xy.reflect.ui.control.swing.util.BusyIndicatingFieldControldata;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -90,7 +89,6 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			@Override
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
-				result = new BusyIndicatingFieldControldata(result, swingRenderer, DialogAccessControl.this);
 				result = new ErrorHandlingFieldControlData(result, swingRenderer, DialogAccessControl.this);
 				return result;
 			}
@@ -209,7 +207,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 				try {
 					openDialog(DialogAccessControl.this);
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+					swingRenderer.handleObjectException(result, t);
 				}
 			}
 		});
@@ -299,11 +297,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public void validateSubForm() throws Exception {
+	public void validateSubForms() throws Exception {
 	}
 
 	@Override
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributions(MenuModel menuModel) {
 	}
 
 	@Override
@@ -393,6 +391,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		@Override
 		protected IInfoFilter getEncapsulatedFormFilter() {
 			return data.getFormControlFilter();
+		}
+
+		@Override
+		protected void handleRealtimeLinkCommitException(Throwable t) {
+			swingRenderer.handleObjectException(ownerComponent, t);
 		}
 	}
 

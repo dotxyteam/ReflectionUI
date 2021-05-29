@@ -132,7 +132,6 @@ import xy.reflect.ui.undo.BufferedListModificationFactory;
 import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
-import xy.reflect.ui.undo.IrreversibleModificationException;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -2173,9 +2172,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected IModification createCommittingModification(Object newObjectValue) {
-			final IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newObjectValue);
-			final IModification structureRefreshing = new RefreshStructureModification(
+		protected IModification createCommittingModification(final Object newObjectValue) {
+			IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newObjectValue);
+			IModification structureRefreshing = new RefreshStructureModification(
 					new Accessor<List<BufferedItemPosition>>() {
 						@Override
 						public List<BufferedItemPosition> get() {
@@ -2187,11 +2186,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							return null;
 						}
 					});
-			final IModification postSelection;
+			IModification postSelection;
 			if (bufferedItemPosition.getContainingListType().isOrdered()) {
 				postSelection = IModification.NULL_MODIFICATION;
 			} else {
 				final BufferedItemPosition currentPosition = bufferedItemPosition;
+				final Object oldObjectValue = bufferedItemPosition.getItem();
 				postSelection = new AbstractModification() {
 
 					@Override
@@ -2200,16 +2200,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 
 					@Override
-					protected Runnable createUndoJob() {
-						return createAnyJob();
-					}
-
-					@Override
 					protected Runnable createDoJob() {
-						return createAnyJob();
-					}
-
-					Runnable createAnyJob() {
 						return new Runnable() {
 							@Override
 							public void run() {
@@ -2223,38 +2214,30 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						};
 					}
 
+					@Override
+					protected Runnable createUndoJob() {
+						return new Runnable() {
+							@Override
+							public void run() {
+								currentPosition.refreshContainingList();
+								int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
+										.indexOf(oldObjectValue);
+								if (indexToSelect != -1) {
+									setSelection(Collections.singletonList(currentPosition.getSibling(indexToSelect)));
+								}
+							}
+						};
+					}
+
 				};
 			}
-			return new IModification() {
+			return new CompositeModification(update.getTitle(), UndoOrder.FIFO, update, structureRefreshing,
+					postSelection);
+		}
 
-				@Override
-				public boolean isNull() {
-					return false;
-				}
-
-				@Override
-				public boolean isFake() {
-					return false;
-				}
-
-				@Override
-				public String getTitle() {
-					return update.getTitle();
-				}
-
-				@Override
-				public IModification applyAndGetOpposite() throws IrreversibleModificationException {
-					IModification updateOpposite = update.applyAndGetOpposite();
-					if (updateOpposite == IModification.NULL_MODIFICATION) {
-						return IModification.NULL_MODIFICATION;
-					}
-					IModification structureRefreshingOpposite = structureRefreshing.applyAndGetOpposite();
-					IModification postSelectionOpposite = postSelection.applyAndGetOpposite();
-					return new CompositeModification(updateOpposite.getTitle(), UndoOrder.FIFO, updateOpposite,
-							structureRefreshingOpposite, postSelectionOpposite);
-				}
-			};
-
+		@Override
+		protected void handleRealtimeLinkCommitException(Throwable t) {
+			displayError(MiscUtils.getPrettyErrorMessage(t));
 		}
 
 		@Override
@@ -3217,6 +3200,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
+				protected void handleRealtimeLinkCommitException(Throwable t) {
+					throw new ReflectionUIError();
+				}
+
+				@Override
 				protected IInfoFilter getEncapsulatedFormFilter() {
 					return dynamicProperty.getFormControlFilter();
 				}
@@ -3259,26 +3247,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
-	protected class ControlItemPosition extends BufferedItemPosition {
-
-		@Override
-		public boolean updateContainingList(Object[] newContainingListRawValue) {
-			try {
-				return super.updateContainingList(newContainingListRawValue);
-			} catch (Throwable t) {
-				displayError(MiscUtils.getPrettyErrorMessage(t));
-				return false;
-			}
-		}
-
-	}
-
 	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {
-
-		@Override
-		protected BufferedItemPosition createItemPosition() {
-			return new ControlItemPosition();
-		}
 
 		@Override
 		public Object getNonBufferedRootListValue() {

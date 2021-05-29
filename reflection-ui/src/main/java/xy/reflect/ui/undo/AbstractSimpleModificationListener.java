@@ -45,7 +45,7 @@ public abstract class AbstractSimpleModificationListener implements IModificatio
 	protected abstract void handleAnyEvent(IModification modification);
 
 	@Override
-	public void afterPushUndo(IModification modification) {
+	public void afterPush(IModification modification) {
 		handleAnyEvent(modification);
 	}
 
