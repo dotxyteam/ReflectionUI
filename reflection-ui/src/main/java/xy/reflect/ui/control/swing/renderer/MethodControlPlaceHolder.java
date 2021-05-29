@@ -41,16 +41,13 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
-import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Instances of this class are method control containers.
@@ -148,29 +145,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
 	}
 
-	protected IMethodControlData makeMethodModificationsUndoable(final IMethodControlData data) {
-		return new MethodControlDataProxy(data) {
-
-			@Override
-			public Object invoke(InvocationData invocationData) {
-				return ReflectionUIUtils.invokeMethodThroughModificationStack(data, invocationData,
-						getModificationStack());
-			}
-
-		};
-	}
-
-	protected IMethodControlData indicateWhenBusy(final IMethodControlData data) {
-		return new MethodControlDataProxy(data) {
-
-			@Override
-			public Object invoke(final InvocationData invocationData) {
-				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(MethodControlPlaceHolder.this,
-						swingRenderer, data, invocationData);
-			}
-
-		};
-	}
+	
 
 	public Component getMethodControl() {
 		return methodControl;
@@ -227,8 +202,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 	public IMethodControlData getInitialControlData() {
 		IMethodControlData result = new MethodControlData(method);
-		result = indicateWhenBusy(result);
-		result = makeMethodModificationsUndoable(result);
 		return result;
 	}
 
