@@ -1,13 +1,11 @@
-- form.isBusyIndicationDisabled() not respected in ListControl eg 
-and generally in auto-managed controls. Check if it is still
-meaningful.
-- in the list control: busy indication is shown when modifying
-but not when getting nodes and cell values. Check.
-- allow to change the order of enum items
-- allow to resolve ambiguity between polymorphic sub-types:
-	. detect all descendant types
-	. allow to change the order of enum items
-	. if an ambiguity is detected then choose the more precise type
+- some modifications references controls that may be destroyed when
+they are undone/redone. Ex: 
+	. ListControl.SelectModification
+	. MethodControlDataModification.busyDialogOwner
+- actually in applications modifications are not replayed: the
+object states are rather saved and restored. Then undo/redo should
+be fast and never display a busy indicator. The current design of
+modifications may need to be reviewed: doJob != redoJob. 
 - when refreshing forms structure the currently displayed category is lost
 if a field is moved etc. Maybe there is a more elegant solution.
 Think about it.
