@@ -166,7 +166,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 			try {
 				activationAction.run();
 			} catch (Throwable t) {
-				swingRenderer.handleExceptionsFromDisplayedUI(NullControl.this, t);
+				swingRenderer.handleObjectException(NullControl.this, t);
 			}
 		}
 	}
@@ -200,11 +200,11 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void validateSubForm() throws Exception {
+	public void validateSubForms() throws Exception {
 	}
 
 	@Override
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributions(MenuModel menuModel) {
 	}
 
 	@Override

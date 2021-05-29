@@ -382,20 +382,20 @@ public class SwingRenderer {
 	}
 
 	/**
-	 * This method manages the display of exceptions typically thrown by the
-	 * underlying objects.
+	 * This method manages the display of exceptions typically thrown when
+	 * interacting with the generated UI underlying objects.
 	 * 
 	 * @param activatorComponent The owner component of the exception dialog or
 	 *                           null.
 	 * @param t                  The exception to be displayed.
 	 */
-	public void handleExceptionsFromDisplayedUI(Component activatorComponent, final Throwable t) {
+	public void handleObjectException(Component activatorComponent, final Throwable t) {
 		reflectionUI.logDebug(t);
 		openErrorDialog(activatorComponent, "An Error Occured", null, t);
 	}
 
 	/**
-	 * Allows to retrieve parameter values and execute the given method.
+	 * Allows to retrieve the parameter values and execute the specified method.
 	 * 
 	 * @param activatorComponent A component belonging to the parent window of the
 	 *                           eventual dialogs or null.

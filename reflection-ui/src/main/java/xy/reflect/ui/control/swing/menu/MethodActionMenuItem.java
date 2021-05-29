@@ -68,7 +68,7 @@ public class MethodActionMenuItem extends JMenuItem {
 					MethodAction methodAction = swingRenderer.createMethodAction(input);
 					methodAction.onInvocationRequest((Form) form);
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
+					swingRenderer.handleObjectException(form, t);
 				}
 			}
 

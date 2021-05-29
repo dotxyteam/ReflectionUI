@@ -125,9 +125,8 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 				try {
 					Object selected = comboBox.getSelectedItem();
 					data.setValue(selected);
-					refreshUI(false);
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(EnumerationControl.this, t);
+					swingRenderer.handleObjectException(EnumerationControl.this, t);
 				}
 			}
 		});
@@ -238,11 +237,11 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public void validateSubForm() throws Exception {
+	public void validateSubForms() throws Exception {
 	}
 
 	@Override
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributions(MenuModel menuModel) {
 	}
 
 	@Override

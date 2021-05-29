@@ -71,7 +71,7 @@ public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 				try {
 					execute();
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(form, t);
+					swingRenderer.handleObjectException(form, t);
 				}
 			}
 		};

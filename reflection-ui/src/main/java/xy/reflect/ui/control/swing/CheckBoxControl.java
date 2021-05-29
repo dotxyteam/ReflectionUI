@@ -65,7 +65,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 				try {
 					data.setValue(isSelected());
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(CheckBoxControl.this, t);
+					swingRenderer.handleObjectException(CheckBoxControl.this, t);
 				}
 			}
 		});
@@ -115,11 +115,11 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public void validateSubForm() throws Exception {
+	public void validateSubForms() throws Exception {
 	}
 
 	@Override
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributions(MenuModel menuModel) {
 	}
 
 	@Override

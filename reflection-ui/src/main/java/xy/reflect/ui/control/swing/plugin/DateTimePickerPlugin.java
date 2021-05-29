@@ -531,11 +531,11 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		}
 
 		@Override
-		public void validateSubForm() throws Exception {
+		public void validateSubForms() throws Exception {
 		}
 
 		@Override
-		public void addMenuContribution(MenuModel menuModel) {
+		public void addMenuContributions(MenuModel menuModel) {
 		}
 
 		@Override

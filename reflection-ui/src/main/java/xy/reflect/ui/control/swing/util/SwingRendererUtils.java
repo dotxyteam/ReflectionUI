@@ -661,40 +661,6 @@ public class SwingRendererUtils {
 
 	}
 
-	public static Object showBusyDialogWhileGettingFieldValue(Component activatorComponent, SwingRenderer swingRenderer,
-			final IFieldControlData data) {
-		final Object[] result = new Object[1];
-		final String title;
-		if ((data.getCaption() == null) || (data.getCaption().length() == 0)) {
-			title = "Getting Value(s)";
-		} else {
-			title = "Getting " + data.getCaption();
-		}
-		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
-			public void run() {
-				result[0] = data.getValue();
-			}
-		}, title);
-		return result[0];
-
-	}
-
-	public static void showBusyDialogWhileSettingFieldValue(Component activatorComponent, SwingRenderer swingRenderer,
-			final IFieldControlData data, final Object value) {
-		final String title;
-		if ((data.getCaption() == null) || (data.getCaption().length() == 0)) {
-			title = "Setting Value(s)";
-		} else {
-			title = "Setting " + data.getCaption();
-		}
-		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
-			public void run() {
-				data.setValue(value);
-			}
-		}, title);
-
-	}
-
 	public static void setErrorBorder(JComponent c) {
 		c.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 

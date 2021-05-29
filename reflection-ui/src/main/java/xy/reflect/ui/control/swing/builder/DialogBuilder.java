@@ -210,7 +210,7 @@ public class DialogBuilder {
 						beforeClosingAction.run();
 					}
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+					swingRenderer.handleObjectException(result, t);
 				} finally {
 					dialog.dispose();
 				}
@@ -301,7 +301,7 @@ public class DialogBuilder {
 				try {
 					whenClosing.run();
 				} catch (Throwable t) {
-					dialogBuilder.getSwingRenderer().handleExceptionsFromDisplayedUI(this, t);
+					dialogBuilder.getSwingRenderer().handleObjectException(this, t);
 				} finally {
 					whenClosing = null;
 				}

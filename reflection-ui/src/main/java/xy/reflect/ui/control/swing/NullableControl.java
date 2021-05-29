@@ -51,7 +51,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.BusyIndicatingFieldControldata;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -63,6 +62,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -90,7 +90,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			@Override
 			public IFieldControlData getControlData() {
 				IFieldControlData result = super.getControlData();
-				result = new BusyIndicatingFieldControldata(result, swingRenderer, NullableControl.this);
 				result = new ErrorHandlingFieldControlData(result, swingRenderer, NullableControl.this);
 				return result;
 			}
@@ -222,7 +221,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				try {
 					onNullingControlStateChange();
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(NullableControl.this, t);
+					swingRenderer.handleObjectException(NullableControl.this, t);
 				}
 			}
 		});
@@ -263,7 +262,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	protected Component createSubForm() {
-		subFormBuilder = new SubFormBuilder(swingRenderer, input, getSubContext());
+		subFormBuilder = new SubFormBuilder(swingRenderer, input, getSubContext(), new Listener<Throwable>() {
+			@Override
+			public void handle(Throwable t) {
+				swingRenderer.handleObjectException(NullableControl.this, t);
+			}
+		});
 		Form result = subFormBuilder.createEditorForm(true, false);
 		return result;
 	}
@@ -288,14 +292,14 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	@Override
-	public void validateSubForm() throws Exception {
+	public void validateSubForms() throws Exception {
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
 			((Form) subControl).validateForm();
 		}
 	}
 
 	@Override
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributions(MenuModel menuModel) {
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
 			((Form) subControl).addMenuContributionTo(menuModel);
 		}
@@ -316,12 +320,15 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected IContext subContext;
+		protected Listener<Throwable> commitExceptionHandler;
 
-		public SubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input, IContext subContext) {
+		public SubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input, IContext subContext,
+				Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
 			this.subContext = subContext;
+			this.commitExceptionHandler = commitExceptionHandler;
 		}
 
 		@Override
@@ -352,6 +359,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		@Override
 		protected IModification createCommittingModification(Object newObjectValue) {
 			return new FieldControlDataModification(data, newObjectValue);
+		}
+
+		@Override
+		protected void handleRealtimeLinkCommitException(Throwable t) {
+			commitExceptionHandler.handle(t);
 		}
 
 		@Override

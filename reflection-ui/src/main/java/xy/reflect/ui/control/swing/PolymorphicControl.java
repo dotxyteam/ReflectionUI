@@ -45,7 +45,6 @@ import xy.reflect.ui.control.RejectedFieldControlInputException;
 import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.BusyIndicatingFieldControldata;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -101,7 +100,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				@Override
 				public IFieldControlData getControlData() {
 					IFieldControlData result = super.getControlData();
-					result = new BusyIndicatingFieldControldata(result, swingRenderer, PolymorphicControl.this);
 					result = new ErrorHandlingFieldControlData(result, swingRenderer, PolymorphicControl.this);
 					return result;
 				}
@@ -156,8 +154,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 		currentInstance = instance;
 		refreshDynamicControl(false);
-		ReflectionUIUtils.setFieldValueThroughModificationStack(data, currentInstance,
-				input.getModificationStack());
+		ReflectionUIUtils.setFieldValueThroughModificationStack(data, currentInstance, input.getModificationStack());
 	}
 
 	protected Form createTypeEnumerationControl() {
@@ -173,7 +170,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				try {
 					onSubTypeSelection(selectedSubType);
 				} catch (Throwable t) {
-					swingRenderer.handleExceptionsFromDisplayedUI(PolymorphicControl.this, t);
+					swingRenderer.handleObjectException(PolymorphicControl.this, t);
 					refreshUI(false);
 				}
 			}
@@ -220,7 +217,13 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				return currentInstance;
 			}
 		};
-		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, input, instanceType, currentInstanceAccessor);
+		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, input, instanceType, currentInstanceAccessor,
+				new Listener<Throwable>() {
+					@Override
+					public void handle(Throwable t) {
+						swingRenderer.handleObjectException(PolymorphicControl.this, t);
+					}
+				});
 		return dynamicControlBuilder.createEditorForm(true, false);
 	}
 
@@ -280,14 +283,14 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public void validateSubForm() throws Exception {
+	public void validateSubForms() throws Exception {
 		if (dynamicControl != null) {
 			dynamicControl.validateForm();
 		}
 	}
 
 	@Override
-	public void addMenuContribution(MenuModel menuModel) {
+	public void addMenuContributions(MenuModel menuModel) {
 		if (dynamicControl != null) {
 			dynamicControl.addMenuContributionTo(menuModel);
 		}
@@ -371,6 +374,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
+		protected void handleRealtimeLinkCommitException(Throwable t) {
+			throw new ReflectionUIError();
+		}
+
+		@Override
 		public SwingRenderer getSwingRenderer() {
 			return swingRenderer;
 		}
@@ -399,14 +407,16 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected IFieldControlData data;
 		protected ITypeInfo instanceType;
 		protected Accessor<Object> currentInstanceAccessor;
+		protected Listener<Throwable> commitExceptionHandler;
 
 		public DynamicControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input, ITypeInfo instanceType,
-				Accessor<Object> currentInstanceAccessor) {
+				Accessor<Object> currentInstanceAccessor, Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
 			this.instanceType = instanceType;
 			this.currentInstanceAccessor = currentInstanceAccessor;
+			this.commitExceptionHandler = commitExceptionHandler;
 		}
 
 		@Override
@@ -437,6 +447,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		@Override
 		protected IModification createCommittingModification(Object newObjectValue) {
 			return new FieldControlDataModification(data, newObjectValue);
+		}
+
+		@Override
+		protected void handleRealtimeLinkCommitException(Throwable t) {
+			commitExceptionHandler.handle(t);
 		}
 
 		@Override

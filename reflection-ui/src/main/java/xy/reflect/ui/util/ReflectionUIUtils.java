@@ -566,7 +566,7 @@ public class ReflectionUIUtils {
 
 		if (subModificationsStack.isInitial()) {
 			if (!subModificationsStack.isExhaustive()) {
-				parentModificationStack.pushUndo(IModification.FAKE_MODIFICATION);
+				parentModificationStack.push(IModification.FAKE_MODIFICATION);
 				return true;
 			}
 		}
@@ -583,7 +583,7 @@ public class ReflectionUIUtils {
 										parentModificationStack.invalidate();
 									} else {
 										parentModificationStack
-												.pushUndo(subModificationsStack.toCompositeUndoModification(null));
+												.push(subModificationsStack.toCompositeUndoModification(null));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {

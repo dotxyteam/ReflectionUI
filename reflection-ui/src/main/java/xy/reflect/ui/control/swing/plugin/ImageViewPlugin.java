@@ -563,7 +563,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					try {
 						onBrowseImage();
 					} catch (Throwable t) {
-						ImageView.this.swingRenderer.handleExceptionsFromDisplayedUI(ImageView.this, t);
+						ImageView.this.swingRenderer.handleObjectException(ImageView.this, t);
 					}
 				}
 			});
@@ -683,11 +683,11 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public void validateSubForm() throws Exception {
+		public void validateSubForms() throws Exception {
 		}
 
 		@Override
-		public void addMenuContribution(MenuModel menuModel) {
+		public void addMenuContributions(MenuModel menuModel) {
 		}
 
 		@Override

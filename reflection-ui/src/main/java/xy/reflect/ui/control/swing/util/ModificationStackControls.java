@@ -178,7 +178,7 @@ public class ModificationStackControls {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							swingRenderer.handleExceptionsFromDisplayedUI(result, t);
+							swingRenderer.handleObjectException(result, t);
 						}
 					});
 				}
