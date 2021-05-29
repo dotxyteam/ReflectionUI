@@ -43,6 +43,9 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 
 	@Override
 	public void componentResized(ComponentEvent e) {
+		if (!table.isDisplayable() || !table.isVisible()) {
+			return;
+		}
 		if (columnListChangeDetected(widthByColumnIdForRestorationAfterWholeTableResizing.keySet())) {
 			saveColumnWidths(widthByColumnIdForRestorationAfterWholeTableResizing);
 		} else {
