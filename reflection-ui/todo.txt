@@ -1,7 +1,9 @@
+- allow to specify via customizations how to undo a method call
 - some modifications references controls that may be destroyed when
 they are undone/redone. Ex: 
-	. ListControl.SelectModification
-	. MethodControlDataModification.busyDialogOwner
+	. ListControl.SelectModification: difficult to avoid this
+	. MethodControlDataModification.busyDialogOwner: solved by
+	finding dynamically a new owner component
 - actually in applications modifications are not replayed: the
 object states are rather saved and restored. Then undo/redo should
 be fast and never display a busy indicator. The current design of
