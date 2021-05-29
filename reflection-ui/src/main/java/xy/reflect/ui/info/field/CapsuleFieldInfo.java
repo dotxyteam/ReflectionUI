@@ -54,6 +54,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
@@ -547,7 +548,17 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 					} else {
 						String stringValue = ReflectionUIUtils.toString(reflectionUI, fieldValue);
 						if (stringValue.length() == 0) {
-							fieldValueString = "<empty>";
+							if (fieldValue instanceof String) {
+								fieldValueString = "<blank>";
+							} else {
+								ITypeInfo actualFieldValueType = reflectionUI
+										.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
+								if (actualFieldValueType instanceof IListTypeInfo) {
+									fieldValueString = "<empty>";
+								} else {
+									fieldValueString = "";
+								}
+							}
 						} else {
 							fieldValueString = stringValue;
 						}
