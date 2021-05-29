@@ -48,7 +48,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -656,7 +655,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.setColumnMargin(5);
 		treeTableComponent.getTableHeader().setReorderingAllowed(false);
 		treeTableComponent.setHorizontalScrollEnabled(true);
-		new TableLastColumnAutoResizer().installOn(treeTableComponent);
+		new TableLastColumnAutoResizer() {
+
+			@Override
+			protected Object getColumnId(TableColumn column) {
+				return column.getHeaderValue().toString();
+			}
+
+		}.installOn(treeTableComponent);
 		treeTableComponent.addTreeExpansionListener(new TreeExpansionListener() {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
@@ -857,8 +863,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						}
 					}
 				} catch (Throwable t) {
-					displayError(MiscUtils.getPrettyErrorMessage(t));
-					value = "";
+					value = "<" + MiscUtils.getPrettyErrorMessage(t) + ">";
 				}
 			}
 			nodeValues.put(columnIndex, value);
@@ -3066,7 +3071,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			action.invokeAndSetReturnValue(invocationData);
+			action.invokeAndSetReturnValue(invocationData, ListControl.this);
 			if (dynamicAction.getPostSelection() != null) {
 				toPostSelectHolder[0] = MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicAction.getPostSelection());

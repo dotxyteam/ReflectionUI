@@ -5,6 +5,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,10 +29,10 @@ import javax.swing.table.TableColumnModel;
  */
 public class TableLastColumnAutoResizer implements ComponentListener, MouseListener {
 
-	protected Map<TableColumn, Integer> widthByColumnForRestorationAfterWholeTableResizing = new LinkedHashMap<TableColumn, Integer>();
-	protected Map<TableColumn, Integer> widthByColumnForManualColumnResizingDetection = new LinkedHashMap<TableColumn, Integer>();
+	protected Map<Object, Integer> widthByColumnIdForRestorationAfterWholeTableResizing = new LinkedHashMap<Object, Integer>();
+	protected Map<Object, Integer> widthByColumnIdForManualColumnResizingDetection = new LinkedHashMap<Object, Integer>();
 	protected JTable table;
-	protected ScheduledExecutorService delayedColumnWidthRestorationExecutor = Executors
+	protected static ScheduledExecutorService delayedColumnWidthRestorationExecutor = Executors
 			.newSingleThreadScheduledExecutor(new DelayedColumnWidthRestorationThreadFactory());
 
 	public void installOn(JTable table) {
@@ -42,11 +43,8 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		if (!table.isDisplayable() || !table.isVisible()) {
-			return;
-		}
-		if (columnListChangeDetected(widthByColumnForRestorationAfterWholeTableResizing)) {
-			saveColumnWidths(widthByColumnForRestorationAfterWholeTableResizing);
+		if (columnListChangeDetected(widthByColumnIdForRestorationAfterWholeTableResizing.keySet())) {
+			saveColumnWidths(widthByColumnIdForRestorationAfterWholeTableResizing);
 		} else {
 			delayedColumnWidthRestorationExecutor.schedule(new Runnable() {
 				@Override
@@ -54,10 +52,11 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							if (columnListChangeDetected(widthByColumnForRestorationAfterWholeTableResizing)) {
+							if (columnListChangeDetected(
+									widthByColumnIdForRestorationAfterWholeTableResizing.keySet())) {
 								return;
 							}
-							restoreColumnWidths(widthByColumnForRestorationAfterWholeTableResizing);
+							restoreColumnWidths(widthByColumnIdForRestorationAfterWholeTableResizing);
 						}
 					});
 				}
@@ -67,24 +66,29 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		saveColumnWidths(widthByColumnForManualColumnResizingDetection);
+		saveColumnWidths(widthByColumnIdForManualColumnResizingDetection);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Map<TableColumn, Integer> newWidthByColumn = new LinkedHashMap<TableColumn, Integer>();
-		saveColumnWidths(newWidthByColumn);
-		if (!newWidthByColumn.equals(widthByColumnForManualColumnResizingDetection)) {
-			saveColumnWidths(widthByColumnForRestorationAfterWholeTableResizing);
+		Map<Object, Integer> newWidthByColumnId = new LinkedHashMap<Object, Integer>();
+		saveColumnWidths(newWidthByColumnId);
+		if (!newWidthByColumnId.equals(widthByColumnIdForManualColumnResizingDetection)) {
+			saveColumnWidths(widthByColumnIdForRestorationAfterWholeTableResizing);
 		}
 	}
 
-	protected boolean columnListChangeDetected(Map<TableColumn, Integer> initialWidthByColumn) {
-		return !Arrays.equals(initialWidthByColumn.keySet().toArray(),
-				Collections.list(table.getColumnModel().getColumns()).toArray());
+	protected boolean columnListChangeDetected(Collection<?> initialColumnIdList) {
+		Object[] currentColumnIds = Collections.list(table.getColumnModel().getColumns()).stream()
+				.map(column -> getColumnId(column)).toArray();
+		return !Arrays.equals(initialColumnIdList.toArray(), currentColumnIds);
 	}
 
-	protected void restoreColumnWidths(Map<TableColumn, Integer> widthByColumn) {
+	protected Object getColumnId(TableColumn column) {
+		return column;
+	}
+
+	protected void restoreColumnWidths(Map<Object, Integer> widthByColumnId) {
 		TableColumnModel columnModel = table.getColumnModel();
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			boolean lastColumn = (i == (table.getColumnCount() - 1));
@@ -94,8 +98,8 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 			final TableColumn column = columnModel.getColumn(i);
 			final int initialMaxWidth = column.getMaxWidth();
 			final int initialMinWidth = column.getMinWidth();
-			column.setMaxWidth(widthByColumn.get(column));
-			column.setMinWidth(widthByColumn.get(column));
+			column.setMaxWidth(widthByColumnId.get(getColumnId(column)));
+			column.setMinWidth(widthByColumnId.get(getColumnId(column)));
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
@@ -106,12 +110,12 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 		}
 	}
 
-	protected void saveColumnWidths(Map<TableColumn, Integer> widthByColumn) {
-		widthByColumn.clear();
+	protected void saveColumnWidths(Map<Object, Integer> widthByColumnId) {
+		widthByColumnId.clear();
 		TableColumnModel columnModel = table.getColumnModel();
 		for (int i = 0; i < columnModel.getColumnCount(); i++) {
 			TableColumn column = columnModel.getColumn(i);
-			widthByColumn.put(column, column.getWidth());
+			widthByColumnId.put(getColumnId(column), column.getWidth());
 		}
 	}
 
