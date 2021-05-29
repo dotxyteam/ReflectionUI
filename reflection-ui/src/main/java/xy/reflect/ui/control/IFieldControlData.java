@@ -86,8 +86,7 @@ public interface IFieldControlData {
 	/**
 	 * Updates the underlying field with the provided value.
 	 * 
-	 * @param value The new value. May be null if {@link #isNullValueDistinct()}
-	 *              returns true.
+	 * @param value The new value.
 	 */
 	void setValue(Object value);
 

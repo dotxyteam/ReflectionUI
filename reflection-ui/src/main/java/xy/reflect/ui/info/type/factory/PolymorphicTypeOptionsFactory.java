@@ -44,13 +44,13 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Factory that generates virtual enumeration type information from the list of
- * sub-types of the given polymorphic type information. The base polymorphic
- * type itself is added as an item to the resulting enumeration if it is a
- * concrete type. This base type enumeration item holds actually a proxy of the
- * base type that triggers a {@link RecursivePolymorphismDetectionException}
- * exception when it is used with another {@link PolymorphicTypeOptionsFactory}.
- * This is intended to prevent the infinite recursive enumeration of type
- * options.
+ * concrete descendant types of the given polymorphic type information. The base
+ * polymorphic type itself is added as an item to the resulting enumeration if
+ * it is a concrete type. The resulting enumeration items are wrapped with
+ * proxies that trigger a {@link RecursivePolymorphismDetectionException}
+ * exception when they are reused as the base polymorphic type with another
+ * {@link PolymorphicTypeOptionsFactory}. This is intended to prevent the
+ * infinite recursive enumeration of type options.
  * 
  * @author olitank
  *
@@ -58,7 +58,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	protected static final String RECURSIVE_POLYMORPHISM_DETECTED_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class
-			.getName() + ".POLYMORPHISM_BLOCKED";
+			.getName() + ".RECURSIVE_POLYMORPHISM_DETECTED";
 
 	protected ITypeInfo polymorphicType;
 
@@ -143,11 +143,10 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	 * @param instance The instance to analyze.
 	 * @return the type information among {@link #getTypeOptions()} that best fits
 	 *         the given instance. Note that the base polymorphic type may be a
-	 *         valid option (because it is a concrete type for instance). In this
-	 *         case the sub-types have precedence over the base type. The actual
-	 *         instance type may also be a sub-type of one of the type options.
-	 * @throws ReflectionUIError If there are multiple type options that match the
-	 *                           instance or if any type inconsistency is detected.
+	 *         valid option (because it is a concrete type for instance). Descendant
+	 *         types have precedence over their ancestors. The actual instance type
+	 *         may also be a sub-type of one of the type options.
+	 * @throws ReflectionUIError If any ambiguity or if inconsistency is detected.
 	 */
 	public ITypeInfo guessSubType(Object instance) throws ReflectionUIError {
 		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getTypeOptions());
