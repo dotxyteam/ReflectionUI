@@ -135,4 +135,11 @@ public class TestWithAutomation {
 						+ "test-specifications/testPolymorphism.stt"));
 	}
 
+	@Test
+	public void testListModification() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testListModification.stt"));
+	}
+
 }
