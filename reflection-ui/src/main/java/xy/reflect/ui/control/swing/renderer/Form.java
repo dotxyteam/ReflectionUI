@@ -131,7 +131,6 @@ public class Form extends ImagePanel {
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
 
 	protected Container categoriesControl;
-	protected boolean busyIndicationDisabled;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
@@ -161,7 +160,7 @@ public class Form extends ImagePanel {
 				try {
 					formShown();
 				} catch (Throwable t) {
-					Form.this.swingRenderer.handleExceptionsFromDisplayedUI(Form.this, t);
+					Form.this.swingRenderer.handleObjectException(Form.this, t);
 				}
 			}
 
@@ -173,7 +172,7 @@ public class Form extends ImagePanel {
 				try {
 					formHidden();
 				} catch (Throwable t) {
-					Form.this.swingRenderer.handleExceptionsFromDisplayedUI(Form.this, t);
+					Form.this.swingRenderer.handleObjectException(Form.this, t);
 				}
 			}
 
@@ -294,22 +293,6 @@ public class Form extends ImagePanel {
 		return methodControlPlaceHoldersByCategory;
 	}
 
-	/**
-	 * @return whether busy indication is disabled for controls of this form or not.
-	 */
-	public boolean isBusyIndicationDisabled() {
-		return busyIndicationDisabled;
-	}
-
-	/**
-	 * Updates whether busy indication is disabled for controls of this form or not.
-	 * 
-	 * @param busyIndicationDisabled The new busy indication status.
-	 */
-	public void setBusyIndicationDisabled(boolean busyIndicationDisabled) {
-		this.busyIndicationDisabled = busyIndicationDisabled;
-	}
-
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension result = super.getPreferredSize();
@@ -355,7 +338,7 @@ public class Form extends ImagePanel {
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
-						((IAdvancedFieldControl) fieldControl).validateSubForm();
+						((IAdvancedFieldControl) fieldControl).validateSubForms();
 					} catch (Exception e) {
 						String errorMsg = e.toString();
 						IFieldInfo field = fieldControlPlaceHolder.getField();
@@ -1323,7 +1306,7 @@ public class Form extends ImagePanel {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {
-					((IAdvancedFieldControl) fieldControl).addMenuContribution(menuModel);
+					((IAdvancedFieldControl) fieldControl).addMenuContributions(menuModel);
 				}
 			}
 		}

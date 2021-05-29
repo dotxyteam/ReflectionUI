@@ -163,18 +163,8 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	protected IMethodControlData indicateWhenBusy(final IMethodControlData data) {
 		return new MethodControlDataProxy(data) {
 
-			private boolean isBusyIndicationDisabled() {
-				if (form.isBusyIndicationDisabled()) {
-					return true;
-				}
-				return false;
-			}
-
 			@Override
 			public Object invoke(final InvocationData invocationData) {
-				if (isBusyIndicationDisabled()) {
-					return super.invoke(invocationData);
-				}
 				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(MethodControlPlaceHolder.this,
 						swingRenderer, data, invocationData);
 			}

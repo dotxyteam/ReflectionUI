@@ -98,23 +98,20 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	 * 
 	 * @param t The exception that was thrown or null if the error is gone.
 	 */
-	protected void handleError(Throwable t) {
-		final String newErrorId = (t == null) ? null : MiscUtils.getPrintedStackTrace(t);
+	protected void handleError(final Throwable t) {
+		final String newErrorId = (t == null) ? null : t.toString();
 		if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
 			return;
 		}
 		currentlyDisplayedErrorId = newErrorId;
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				if (t != null) {
-					currentlyDisplayedErrorId = newErrorId;
-					swingRenderer.handleExceptionsFromDisplayedUI(errorDialogOwner, t);
-				} else {
-					currentlyDisplayedErrorId = null;
+		if (t != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					swingRenderer.handleObjectException(errorDialogOwner, t);
 				}
-			}
-		});
+			});
+		}
 	}
 
 }

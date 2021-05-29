@@ -264,7 +264,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			@Override
 			public void setValue(Object newValue) {
 				if (isFieldControlAutoManaged()) {
-					super.setValue(newValue);
+					data.setValue(newValue);
 					return;
 				}
 				ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, getModificationStack());
@@ -289,11 +289,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected IFieldControlData handleValueAccessIssues(final IFieldControlData data) {
 		return new ErrorHandlingFieldControlData(data, swingRenderer, FieldControlPlaceHolder.this) {
 
-			String currentlyDisplayedErrorId;
-
 			@Override
 			protected void handleError(Throwable t) {
-				final String newErrorId = (t == null) ? null : MiscUtils.getPrintedStackTrace(t);
+				final String newErrorId = (t == null) ? null : t.toString();
 				if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
 					return;
 				}
@@ -306,7 +304,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 										.displayError((t == null) ? null : MiscUtils.getPrettyErrorMessage(t));
 						if (!done && (t != null)) {
 							SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
-							swingRenderer.handleExceptionsFromDisplayedUI(fieldControl, t);
+							swingRenderer.handleObjectException(fieldControl, t);
 						} else {
 							currentlyDisplayedErrorId = null;
 							setBorder(null);
@@ -335,47 +333,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		};
 	}
 
-	protected IFieldControlData indicateWhenBusy(final IFieldControlData data) {
-		return new FieldControlDataProxy(data) {
-
-			private boolean isBusyIndicationDisabled() {
-				if (form.isBusyIndicationDisabled()) {
-					return true;
-				}
-				if (field.getAutoUpdatePeriodMilliseconds() >= 0) {
-					return true;
-				}
-				return false;
-			}
-
-			@Override
-			public Object getValue() {
-				if (isFieldControlAutoManaged()) {
-					return super.getValue();
-				}
-				if (isBusyIndicationDisabled()) {
-					return super.getValue();
-				}
-				return SwingRendererUtils.showBusyDialogWhileGettingFieldValue(FieldControlPlaceHolder.this,
-						swingRenderer, data);
-			}
-
-			@Override
-			public void setValue(final Object newValue) {
-				if (isFieldControlAutoManaged()) {
-					super.setValue(newValue);
-					return;
-				}
-				if (isBusyIndicationDisabled()) {
-					super.setValue(newValue);
-					return;
-				}
-				SwingRendererUtils.showBusyDialogWhileSettingFieldValue(FieldControlPlaceHolder.this, swingRenderer,
-						data, newValue);
-			}
-
-		};
-	}
+	
 
 	public Component getFieldControl() {
 		return fieldControl;
@@ -440,7 +398,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		final IFieldInfo finalField = field;
 		IFieldControlData result = new FieldControlData(finalField);
 		result = handleValueAccessIssues(result);
-		result = indicateWhenBusy(result);
 		result = makeFieldModificationsUndoable(result);
 		result = addControlAutoManagementStatusProperty(result);
 		return result;
