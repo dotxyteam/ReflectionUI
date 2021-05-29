@@ -44,13 +44,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Factory that generates virtual enumeration type information from the list of
- * concrete descendant types of the given polymorphic type information. The base
- * polymorphic type itself is added as an item to the resulting enumeration if
- * it is a concrete type. The resulting enumeration items are wrapped with
- * proxies that trigger a {@link RecursivePolymorphismDetectionException}
- * exception when they are reused as the base polymorphic type with another
- * {@link PolymorphicTypeOptionsFactory}. This is intended to prevent the
- * infinite recursive enumeration of type options.
+ * descendants of the specified polymorphic type. The base polymorphic type
+ * itself is added as an item to the resulting enumeration if it is a concrete
+ * type. Note that it is then wrapped with a proxy that trigger a
+ * {@link RecursivePolymorphismDetectionException} when it is reused as the base
+ * polymorphic type with another {@link PolymorphicTypeOptionsFactory}. This is
+ * intended to prevent an infinite recursive enumeration of type options.
  * 
  * @author olitank
  *
@@ -74,23 +73,26 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 			@Override
 			public Iterator<ITypeInfo> iterator() {
-				return collectOptionsFrom(reflectionUI, detectRecursivity(reflectionUI, polymorphicType)).iterator();
+				List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+				if (polymorphicType.isConcrete()) {
+					result.add(0, detectRecursivity(reflectionUI, polymorphicType));
+				}
+				result.addAll(listDescendantTypes(polymorphicType));
+				return result.iterator();
 			}
 
 		};
 
 	}
 
-	protected static List<ITypeInfo> collectOptionsFrom(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
+	protected static List<ITypeInfo> listDescendantTypes(ITypeInfo polymorphicType) {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 		List<ITypeInfo> subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 		if (subTypes != null) {
 			for (ITypeInfo subType : subTypes) {
-				result.addAll(collectOptionsFrom(reflectionUI, detectRecursivity(reflectionUI, subType)));
+				result.add(subType);
+				result.addAll(listDescendantTypes(subType));
 			}
-		}
-		if (polymorphicType.isConcrete()) {
-			result.add(0, polymorphicType);
 		}
 		return result;
 	}
@@ -146,7 +148,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	 *         valid option (because it is a concrete type for instance). Descendant
 	 *         types have precedence over their ancestors. The actual instance type
 	 *         may also be a sub-type of one of the type options.
-	 * @throws ReflectionUIError If any ambiguity or if inconsistency is detected.
+	 * @throws ReflectionUIError If any ambiguity or inconsistency is detected.
 	 */
 	public ITypeInfo guessSubType(Object instance) throws ReflectionUIError {
 		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getTypeOptions());
@@ -161,11 +163,11 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 						validSubType = type;
 						continue;
 					}
-					if (collectOptionsFrom(reflectionUI, validSubType).contains(type)) {
+					if (listDescendantTypes(validSubType).contains(type)) {
 						validSubType = type;
 						continue;
 					}
-					if (collectOptionsFrom(reflectionUI, type).contains(validSubType)) {
+					if (listDescendantTypes(type).contains(validSubType)) {
 						continue;
 					}
 					throw new ReflectionUIError(
