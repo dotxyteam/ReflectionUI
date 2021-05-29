@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>custom-reflection-ui-examples</artifactId>
-	<version>4.9.92</version>
+	<version>5.0.2</version>
 	<name>CustomUI (ReflectionUI) Examples</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>custom-ui</artifactId>
-			<version>4.9.92</version>
+			<version>5.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.soundlibs</groupId>

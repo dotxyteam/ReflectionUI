@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>custom-ui</artifactId>
-	<version>4.9.92</version>
+	<version>5.0.2</version>
 	<name>Custom UI</name>
 	<description>Customizations editor for ReflectionUI</description>
 	<url>http://javacollection.net/reflectionui/</url>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>reflection-ui</artifactId>
-			<version>4.9.92</version>
+			<version>5.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs</groupId>
