@@ -38,12 +38,12 @@ public interface IModificationListener {
 
 	/**
 	 * Called after the execution of
-	 * {@link ModificationStack#pushUndo(IModification)}.
+	 * {@link ModificationStack#push(IModification)}.
 	 * 
 	 * @param undoModification The parameter passed to
-	 *                         {@link ModificationStack#pushUndo(IModification)}.
+	 *                         {@link ModificationStack#push(IModification)}.
 	 */
-	void afterPushUndo(IModification undoModification);
+	void afterPush(IModification undoModification);
 
 	/**
 	 * Called after the execution of {@link ModificationStack#undo()}.

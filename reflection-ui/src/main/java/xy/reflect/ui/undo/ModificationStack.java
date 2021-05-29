@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Stack;
 
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -61,6 +62,7 @@ public class ModificationStack {
 	protected boolean exhaustive = true;
 	protected long stateVersion = 0;
 	protected boolean eventFiringEnabled = true;
+	protected Filter<IModification> pushFilter;
 
 	protected IModificationListener internalListener = new IModificationListener() {
 
@@ -75,7 +77,7 @@ public class ModificationStack {
 		}
 
 		@Override
-		public void afterPushUndo(IModification undoModification) {
+		public void afterPush(IModification undoModification) {
 			stateVersion++;
 		}
 
@@ -92,14 +94,14 @@ public class ModificationStack {
 	protected IModificationListener allListenersProxy = new IModificationListener() {
 
 		@Override
-		public void afterPushUndo(IModification undoModification) {
-			internalListener.afterPushUndo(undoModification);
+		public void afterPush(IModification undoModification) {
+			internalListener.afterPush(undoModification);
 			if (!eventFiringEnabled) {
 				return;
 			}
 			for (IModificationListener listener : new ArrayList<IModificationListener>(
 					ModificationStack.this.listeners)) {
-				listener.afterPushUndo(undoModification);
+				listener.afterPush(undoModification);
 			}
 		}
 
@@ -257,34 +259,69 @@ public class ModificationStack {
 	}
 
 	/**
-	 * Executes the specified modification and stores its opposite modification in
-	 * the undo stack.
+	 * @return a filter used to alter modifications before adding them on the undo
+	 *         stack or null.
+	 */
+	public Filter<IModification> getPushFilter() {
+		return pushFilter;
+	}
+
+	/**
+	 * Changes the filter used to alter modifications before adding them on the undo
+	 * stack.
 	 * 
-	 * @param modification The modification.
+	 * @param pushFilter The new filter or null.
+	 */
+	public void setPushFilter(Filter<IModification> pushFilter) {
+		this.pushFilter = pushFilter;
+	}
+
+	/**
+	 * Executes the specified modification and pushes its opposite modification on
+	 * the undo stack (calls {@link #push(IModification)}).
+	 * 
+	 * @param modification The modification that must be executed.
 	 */
 	public void apply(IModification modification) {
 		try {
-			pushUndo(modification.applyAndGetOpposite());
+			push(modification.applyAndGetOpposite());
 		} catch (IrreversibleModificationException e) {
 			invalidate();
 		}
 	}
 
 	/**
-	 * If the specified undo modification is not fake
-	 * ({@link IModification#isFake()} == false), stores it on the undo stack.
-	 * Otherwise marks this modification stack as non-exhaustive
-	 * ({@link #isExhaustive()} will return false).
+	 * Normally stores the specified undo modification on the undo stack and clears
+	 * redo stack.
 	 * 
-	 * @param undoModification The undo modification.
+	 * If there is a 'push' filter (see {@link #getPushFilter()}) then the specified
+	 * undo modification will be filtered before being stored.
+	 * 
+	 * If the specified undo modification is null (see
+	 * {@link IModification#isNull()}) then it will not be stored and false will be
+	 * returned.
+	 * 
+	 * If the specified undo modification is fake (see
+	 * {@link IModification#isFake()}) then it will not be stored and this
+	 * modification stack will be marked as non-exhaustive (see
+	 * {@link #isExhaustive()}).
+	 * 
+	 * If there is a current composite stack (see {@link #isInComposite()}) then the
+	 * specified undo modification will rather be stored on it.
+	 * 
+	 * @param undoModification The undo modification that should be pushed on the
+	 *                         undo stack.
 	 * @return true only and only if the specified undo modification is not null.
 	 */
-	public boolean pushUndo(IModification undoModification) {
+	public boolean push(IModification undoModification) {
 		if (undoModification.isNull()) {
 			return false;
 		}
+		if (pushFilter != null) {
+			undoModification = pushFilter.get(undoModification);
+		}
 		if (compositeStack.size() > 0) {
-			compositeStack.peek().pushUndo(undoModification);
+			compositeStack.peek().push(undoModification);
 			return true;
 		}
 		validate();
@@ -300,7 +337,7 @@ public class ModificationStack {
 		if (!undoModification.isFake()) {
 			redoStack.clear();
 		}
-		allListenersProxy.afterPushUndo(undoModification);
+		allListenersProxy.afterPush(undoModification);
 		return true;
 	}
 
@@ -440,7 +477,7 @@ public class ModificationStack {
 		if (!topComposite.isExhaustive()) {
 			compositeParent.exhaustive = false;
 		}
-		return compositeParent.pushUndo(topCompositeUndoModif);
+		return compositeParent.push(topCompositeUndoModif);
 	}
 
 	/**
