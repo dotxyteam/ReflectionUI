@@ -235,9 +235,7 @@ public class ListModificationFactory {
 	}
 
 	/**
-	 * Class of modifications that update lists. Note that when the execution of a
-	 * modification instance fails then the returned opposite modification is
-	 * {@link IModification#NULL_MODIFICATION}.
+	 * Class of modifications that update lists.
 	 * 
 	 * @author olitank
 	 *
@@ -260,9 +258,7 @@ public class ListModificationFactory {
 		@Override
 		public IModification applyAndGetOpposite() {
 			Object[] oldListRawValue = itemPosition.retrieveContainingListRawValue();
-			if (!itemPosition.updateContainingList(newListRawValue)) {
-				return IModification.NULL_MODIFICATION;
-			}
+			itemPosition.updateContainingList(newListRawValue);
 			return new ListModification(itemPosition, oldListRawValue);
 		}
 

@@ -423,9 +423,8 @@ public class ItemPosition implements Cloneable {
 	 * @param newContainingListRawValue The array that contains the items that
 	 *                                  should replace all the containing list
 	 *                                  items.
-	 * @return whether the update was successful or not.
 	 */
-	public boolean updateContainingList(Object[] newContainingListRawValue) {
+	public void updateContainingList(Object[] newContainingListRawValue) {
 		boolean done = false;
 		ItemPosition parentItemPosition = getParentItemPosition();
 		Object parentItem = isRoot() ? null : parentItemPosition.getItem();
@@ -477,12 +476,8 @@ public class ItemPosition implements Cloneable {
 			if (parentItem != parentItemContainingListRawValue[parentItemPosition.getIndex()]) {
 				parentItemContainingListRawValue[parentItemPosition.getIndex()] = parentItem;
 			}
-			if (!parentItemPosition.updateContainingList(parentItemContainingListRawValue)) {
-				return false;
-			}
+			parentItemPosition.updateContainingList(parentItemContainingListRawValue);
 		}
-
-		return true;
 	}
 
 	/**
