@@ -210,21 +210,23 @@ public class MethodAction extends AbstractAction {
 			 * then the first displayed ancestor component will be used as the busy dialog
 			 * owner. TGhis is why the list of ancestor components is saved here.
 			 */
-			
+
 			List<Component> initialComponentHierachy = getComponentHierachy(activatorComponent);
 
 			List<Component> getComponentHierachy(Component c) {
 				List<Component> result = new ArrayList<Component>();
-				result.add(c);
-				if (c instanceof Window) {
-					Window ownerWindow = ((Window) c).getOwner();
-					if (ownerWindow != null) {
-						result.addAll(getComponentHierachy(ownerWindow));
-					}
-				} else {
-					Window window = SwingUtilities.getWindowAncestor(c);
-					if (window != null) {
-						result.addAll(getComponentHierachy(window));
+				if (c != null) {
+					result.add(c);
+					if (c instanceof Window) {
+						Window ownerWindow = ((Window) c).getOwner();
+						if (ownerWindow != null) {
+							result.addAll(getComponentHierachy(ownerWindow));
+						}
+					} else {
+						Window window = SwingUtilities.getWindowAncestor(c);
+						if (window != null) {
+							result.addAll(getComponentHierachy(window));
+						}
 					}
 				}
 				return result;
@@ -247,8 +249,8 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public Object invoke(final InvocationData invocationData) {
-				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(getDisplayedActivatorComponent(), swingRenderer,
-						data, invocationData);
+				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(getDisplayedActivatorComponent(),
+						swingRenderer, data, invocationData);
 			}
 
 		};
