@@ -24,6 +24,9 @@ import javax.swing.table.TableColumnModel;
  * created because {@link JTable#AUTO_RESIZE_LAST_COLUMN} works only for manual
  * column size changes, not for the whole table size changes.
  * 
+ * WARNING: Under undetermined circumstances it causes column dragging to not
+ * work anymore.
+ * 
  * @author olitank
  *
  */
@@ -32,6 +35,8 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 	protected Map<Object, Integer> widthByColumnIdForRestorationAfterWholeTableResizing = new LinkedHashMap<Object, Integer>();
 	protected Map<Object, Integer> widthByColumnIdForManualColumnResizingDetection = new LinkedHashMap<Object, Integer>();
 	protected JTable table;
+	protected boolean componentResizedListenerDisabled = false;
+
 	protected static ScheduledExecutorService delayedColumnWidthRestorationExecutor = Executors
 			.newSingleThreadScheduledExecutor(new DelayedColumnWidthRestorationThreadFactory());
 
@@ -43,7 +48,7 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		if (!table.isDisplayable() || !table.isVisible()) {
+		if (!table.isDisplayable() || !table.isVisible() || componentResizedListenerDisabled) {
 			return;
 		}
 		if (columnListChangeDetected(widthByColumnIdForRestorationAfterWholeTableResizing.keySet())) {
@@ -55,6 +60,9 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
+							if (componentResizedListenerDisabled) {
+								return;
+							}
 							if (columnListChangeDetected(
 									widthByColumnIdForRestorationAfterWholeTableResizing.keySet())) {
 								return;
@@ -69,6 +77,7 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		componentResizedListenerDisabled = true;
 		saveColumnWidths(widthByColumnIdForManualColumnResizingDetection);
 	}
 
@@ -79,6 +88,7 @@ public class TableLastColumnAutoResizer implements ComponentListener, MouseListe
 		if (!newWidthByColumnId.equals(widthByColumnIdForManualColumnResizingDetection)) {
 			saveColumnWidths(widthByColumnIdForRestorationAfterWholeTableResizing);
 		}
+		componentResizedListenerDisabled = false;
 	}
 
 	protected boolean columnListChangeDetected(Collection<?> initialColumnIdList) {

@@ -105,7 +105,6 @@ import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.control.swing.util.TableLastColumnAutoResizer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.DelegatingInfoFilter;
@@ -655,14 +654,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.setColumnMargin(5);
 		treeTableComponent.getTableHeader().setReorderingAllowed(false);
 		treeTableComponent.setHorizontalScrollEnabled(true);
-		new TableLastColumnAutoResizer() {
-
-			@Override
-			protected Object getColumnId(TableColumn column) {
-				return column.getHeaderValue().toString();
-			}
-
-		}.installOn(treeTableComponent);
 		treeTableComponent.addTreeExpansionListener(new TreeExpansionListener() {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
