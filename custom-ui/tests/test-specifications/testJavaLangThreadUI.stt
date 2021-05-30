@@ -118,7 +118,7 @@
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>0</occurrencesToSkip>
+        <occurrencesToSkip>3</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>

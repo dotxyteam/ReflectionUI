@@ -96,6 +96,9 @@ public class TestWithAutomation {
 	@Test
 	public void testEmptyObject() throws Exception {
 		File virtualImageFile = new File("virtualImage.jpg");
+		if(virtualImageFile.exists()) {
+			Files.delete(virtualImageFile.toPath());
+		}
 		Files.copy(getClass().getResourceAsStream("virtualImage.jpg"), virtualImageFile.toPath());
 		try {
 			TestingUtils.assertSuccessfulReplay(tester,
