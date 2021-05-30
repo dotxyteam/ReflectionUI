@@ -748,7 +748,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected ControlScrollPane createTreeTableAndToolBarScrollPane(Component view) {
-		return createScrollPane(view);
+		ControlScrollPane result = createScrollPane(new ScrollPaneOptions(view, true, false));
+		return result;
 	}
 
 	protected ControlScrollPane createDetailsAreaScrollPane(Component view) {
