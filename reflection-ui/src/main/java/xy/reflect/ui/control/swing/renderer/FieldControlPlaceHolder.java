@@ -274,7 +274,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	protected boolean isFieldControlAutoManaged() {
 		Component c = fieldControl;
-		if(c == null) {
+		if (c == null) {
 			return true;
 		}
 		if ((c instanceof IAdvancedFieldControl)) {
@@ -333,8 +333,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		};
 	}
 
-	
-
 	public Component getFieldControl() {
 		return fieldControl;
 	}
@@ -390,10 +388,14 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public IFieldControlData getInitialControlData() {
-		Object object = getObject();
 		IFieldInfo field = FieldControlPlaceHolder.this.field;
-		if (field.hasValueOptions(object)) {
-			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, object, field);
+		if (field.hasValueOptions(getObject())) {
+			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, field) {
+				@Override
+				protected Object getObject() {
+					return FieldControlPlaceHolder.this.getObject();
+				}
+			};
 		}
 		final IFieldInfo finalField = field;
 		IFieldControlData result = new FieldControlData(finalField);

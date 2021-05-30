@@ -45,35 +45,38 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
  * @author olitank
  *
  */
-public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
+public abstract class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 
-	protected Object object;
-	protected ITypeInfo objectType;
 	protected GenericEnumerationFactory enumFactory;
 	protected ITypeInfo enumType;
 
-	public ValueOptionsAsEnumerationFieldInfo(ReflectionUI reflectionUI, Object object, IFieldInfo base) {
+	protected abstract Object getObject();
+
+	public ValueOptionsAsEnumerationFieldInfo(ReflectionUI reflectionUI, IFieldInfo base) {
 		super(base);
 		this.reflectionUI = reflectionUI;
-		this.object = object;
-		this.objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		this.enumFactory = createEnumerationFactory();
-		this.enumType = reflectionUI.getTypeInfo(
-				enumFactory.getInstanceTypeInfoSource(new SpecificitiesIdentifier(objectType.getName(), getName())));
+		this.enumType = reflectionUI.getTypeInfo(enumFactory
+				.getInstanceTypeInfoSource(new SpecificitiesIdentifier(getObjectType().getName(), getName())));
 	}
 
 	protected GenericEnumerationFactory createEnumerationFactory() {
-		String enumTypeName = "ValueOptions [ownerType=" + objectType.getName() + ", field=" + base.getName() + "]";
+		String enumTypeName = "ValueOptions [ownerType=" + getObjectType().getName() + ", field=" + base.getName()
+				+ "]";
 		Iterable<Object> iterable = new Iterable<Object>() {
 			@Override
 			public Iterator<Object> iterator() {
-				Object[] valueOptions = base.getValueOptions(object);
+				Object[] valueOptions = base.getValueOptions(getObject());
 				return Arrays.asList(valueOptions).iterator();
 			}
 		};
 		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false);
+	}
+
+	protected ITypeInfo getObjectType() {
+		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 	}
 
 	@Override
@@ -123,7 +126,7 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((object == null) ? 0 : object.hashCode());
+		result = prime * result + ((getObject() == null) ? 0 : getObject().hashCode());
 		return result;
 	}
 
@@ -136,10 +139,10 @@ public class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		ValueOptionsAsEnumerationFieldInfo other = (ValueOptionsAsEnumerationFieldInfo) obj;
-		if (object == null) {
-			if (other.object != null)
+		if (getObject() == null) {
+			if (other.getObject() != null)
 				return false;
-		} else if (!object.equals(other.object))
+		} else if (!getObject().equals(other.getObject()))
 			return false;
 		return true;
 	}
