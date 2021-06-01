@@ -182,7 +182,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		public void actionPerformed(ActionEvent e) {
 		}
 	};
-	protected Filter<IModification> detailsItemPreSelectionFilter = createDetailsItemPreSelectionFilter();
 	protected boolean initialized = false;
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -212,46 +211,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			setSingleSelection(getRootListItemPosition(0));
 		}
 		this.initialized = true;
-	}
-
-	protected Filter<IModification> createDetailsItemPreSelectionFilter() {
-		return new Filter<IModification>() {
-			@Override
-			public IModification get(IModification undoModif) {
-				final BufferedItemPosition currentPosition = detailsControlItemPosition;
-				IModification preSelection = new AbstractModification() {
-
-					@Override
-					public String getTitle() {
-						return "Item Selection";
-					}
-
-					@Override
-					protected Runnable createUndoJob() {
-						return createAnyJob();
-					}
-
-					@Override
-					protected Runnable createDoJob() {
-						return createAnyJob();
-					}
-
-					Runnable createAnyJob() {
-						return new Runnable() {
-							@Override
-							public void run() {
-								setSelection(Collections.singletonList(currentPosition));
-								if (!currentPosition.equals(detailsControlItemPosition)) {
-									updateDetailsArea(false);
-								}
-							}
-						};
-					}
-
-				};
-				return new CompositeModification(undoModif.getTitle(), UndoOrder.FIFO, preSelection, undoModif);
-			}
-		};
 	}
 
 	@Override
@@ -1434,19 +1393,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				final ITypeInfo singleSelectionItemType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(singleSelectionItem));
 				if (detailsControlItemType.equals(singleSelectionItemType)) {
-					if (detailsControl.getModificationStack().getPushFilter() == detailsItemPreSelectionFilter) {
-						/*
-						 * Here we will try to perform an optimization by reusing the same
-						 * detailsControlBuilder to display another item. But before doing so, we must
-						 * ensure that the position of the current item will be successfully restored
-						 * (otherwise the modified item reference will be wrong) before
-						 * reverting/replaying modifications on it.
-						 */
-						detailsControlItemPosition = singleSelection;
-						detailsControlBuilder.setPosition(detailsControlItemPosition);
-						detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
-						return;
-					}
+					/*
+					 * Here we will try to perform an optimization by reusing the same
+					 * detailsControlBuilder to display another item. Before doing so, we ensured
+					 * that the item type is the same.
+					 */
+					detailsControlItemPosition = singleSelection;
+					detailsControlBuilder.setPosition(detailsControlItemPosition);
+					detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
+					return;
 				}
 			}
 			detailsControlItemPosition = null;
@@ -1469,18 +1424,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			detailsControlItemPosition = singleSelection;
 			detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
 			detailsControl = detailsControlBuilder.createEditorForm(true, false);
-			if (singleSelection.getContainingListType().isOrdered()) {
-				/*
-				 * A pre-selection must be done before each undo/redo modification to ensure
-				 * that the replayed modification will affect the right item. Otherwise it may
-				 * not be the case when the same detailsControlBuilder is reused to display
-				 * multiple items (optimization): the modification will then affect the
-				 * currently selected item instead of the one that was initially modified since
-				 * the modification references the modified item through the current
-				 * detailsControl.
-				 */
-				detailsControl.getModificationStack().setPushFilter(detailsItemPreSelectionFilter);
-			}
+			/*
+			 * A pre-selection must be done before each undo/redo modification to ensure
+			 * that the replayed modification will affect the right item. Otherwise it may
+			 * not be the case when the same detailsControlBuilder is reused to display
+			 * multiple items (optimization): the modification would then affect the
+			 * currently selected item instead of the one that was initially modified since
+			 * the modification references the modified item through the current
+			 * detailsControl.
+			 */
+			detailsControl.getModificationStack().setPushFilter(new Filter<IModification>() {
+				@Override
+				public IModification get(IModification undoModif) {
+					Object oldItem = detailsControlItemPosition.getItem();
+					Object newItem = detailsControlBuilder.getCurrentValue();
+					IModification preSelection = new PreSelection(detailsControlItemPosition, oldItem, newItem);
+					return new CompositeModification(undoModif.getTitle(), UndoOrder.FIFO, preSelection, undoModif);
+				}
+			});
 			detailsArea.setLayout(new BorderLayout());
 			Component statusBar = detailsControl.getStatusBar();
 			{
@@ -1961,6 +1922,54 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	protected class PreSelection extends AbstractModification {
+
+		protected BufferedItemPosition currentPosition;
+		protected Object oldItem;
+		protected Object newItem;
+
+		public PreSelection(BufferedItemPosition currentPosition, Object oldItem, Object newItem) {
+			this.currentPosition = currentPosition;
+			this.oldItem = oldItem;
+			this.newItem = newItem;
+		}
+
+		@Override
+		public String getTitle() {
+			return "Item Selection";
+		}
+
+		@Override
+		protected Runnable createDoJob() {
+			return createAnyJob(newItem);
+		}
+
+		@Override
+		protected Runnable createUndoJob() {
+			return createAnyJob(oldItem);
+		}
+
+		Runnable createAnyJob(final Object currentItem) {
+			return new Runnable() {
+				@Override
+				public void run() {
+					if (!currentPosition.getContainingListType().isOrdered()) {
+						int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
+								.indexOf(currentItem);
+						if (indexToSelect == -1) {
+							throw new ReflectionUIError("Cannot find item equal to: '" + currentItem + "'");
+						}
+						currentPosition = currentPosition.getSibling(indexToSelect);
+					}
+					setSelection(Collections.singletonList(currentPosition));
+					if (!currentPosition.equals(detailsControlItemPosition)) {
+						updateDetailsArea(false);
+					}
+				}
+			};
+		}
+	}
+
 	protected abstract class AbstractItemCellRenderer {
 
 		protected void customizeCellRendererComponent(JLabel label, ItemNode node, int rowIndex, int columnIndex,
@@ -2169,8 +2178,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected IModification createCommittingModification(final Object newObjectValue) {
-			IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newObjectValue);
+		protected IModification createCommittingModification(final Object newItem) {
+			IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newItem);
 			IModification structureRefreshing = new RefreshStructureModification(
 					new Accessor<List<BufferedItemPosition>>() {
 						@Override
@@ -2203,7 +2212,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							public void run() {
 								currentPosition.refreshContainingList();
 								int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
-										.indexOf(newObjectValue);
+										.indexOf(newItem);
 								if (indexToSelect != -1) {
 									setSelection(Collections.singletonList(currentPosition.getSibling(indexToSelect)));
 								}
