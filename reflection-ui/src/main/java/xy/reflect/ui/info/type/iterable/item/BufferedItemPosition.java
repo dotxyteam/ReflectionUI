@@ -95,6 +95,20 @@ public class BufferedItemPosition extends ItemPosition {
 		}
 	}
 
+	/**
+	 * Updates the containing lists from the root to the current one. It ensures
+	 * that the next call to {@link #getItem()} or
+	 * {@link #retrieveContainingListRawValue()} or
+	 * {@link #retrieveContainingListValue()} return up to date values (not old
+	 * buffered values).
+	 */
+	public void refreshContainingListsRecursively() {
+		if (!isRoot()) {
+			getParentItemPosition().refreshContainingListsRecursively();
+		}
+		refreshContainingList();
+	}
+
 	@Override
 	public Object getItem() {
 		if (fakeItem != null) {
