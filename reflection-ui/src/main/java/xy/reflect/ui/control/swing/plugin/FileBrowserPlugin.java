@@ -74,6 +74,10 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 	protected static File lastDirectory = new File(".").getAbsoluteFile();
 
+	public static File getLastDirectory() {
+		return lastDirectory;
+	}
+
 	@Override
 	public String getControlTitle() {
 		return "File Browser";
@@ -315,7 +319,11 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		protected void configureFileChooser(JFileChooser fileChooser, File currentFile) {
 			FileBrowserConfiguration controlConfiguration = (FileBrowserConfiguration) loadControlCustomization(input);
 			if (currentFile != null) {
-				fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
+				if (currentFile.getPath().length() == 0) {
+					fileChooser.setCurrentDirectory(new File(".").getAbsoluteFile());
+				} else {
+					fileChooser.setSelectedFile(currentFile.getAbsoluteFile());
+				}
 			}
 			if (controlConfiguration.selectionMode == SelectionModeConfiguration.FILES_AND_DIRECTORIES) {
 				fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
