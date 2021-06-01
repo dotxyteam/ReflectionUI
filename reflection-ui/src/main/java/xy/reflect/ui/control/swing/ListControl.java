@@ -1957,7 +1957,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
 								.indexOf(currentItem);
 						if (indexToSelect == -1) {
-							throw new ReflectionUIError("Cannot find item equal to: '" + currentItem + "'");
+							throw new ReflectionUIError("Cannot find item equals to: '" + currentItem + "'");
 						}
 						currentPosition = currentPosition.getSibling(indexToSelect);
 					}
@@ -1968,6 +1968,52 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			};
 		}
+	}
+
+	protected class PostSelection extends AbstractModification {
+
+		protected BufferedItemPosition currentPosition;
+		protected Object oldItem;
+		protected Object newItem;
+
+		public PostSelection(BufferedItemPosition currentPosition, Object oldItem, Object newItem) {
+			this.currentPosition = currentPosition;
+			this.oldItem = oldItem;
+			this.newItem = newItem;
+		}
+
+		@Override
+		public String getTitle() {
+			return "Item Selection";
+		}
+
+		@Override
+		protected Runnable createDoJob() {
+			return createUndoJob(newItem);
+		}
+
+		@Override
+		protected Runnable createUndoJob() {
+			return createUndoJob(oldItem);
+		}
+
+		protected Runnable createUndoJob(final Object currentItem) {
+			return new Runnable() {
+				@Override
+				public void run() {
+					if (currentPosition.getContainingListType().isOrdered()) {
+						return;
+					}
+					currentPosition.refreshContainingList();
+					int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
+							.indexOf(currentItem);
+					if (indexToSelect != -1) {
+						setSelection(Collections.singletonList(currentPosition.getSibling(indexToSelect)));
+					}
+				}
+			};
+		}
+
 	}
 
 	protected abstract class AbstractItemCellRenderer {
@@ -2196,46 +2242,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (bufferedItemPosition.getContainingListType().isOrdered()) {
 				postSelection = IModification.NULL_MODIFICATION;
 			} else {
-				final BufferedItemPosition currentPosition = bufferedItemPosition;
-				final Object oldObjectValue = bufferedItemPosition.getItem();
-				postSelection = new AbstractModification() {
-
-					@Override
-					public String getTitle() {
-						return "Item Selection";
-					}
-
-					@Override
-					protected Runnable createDoJob() {
-						return new Runnable() {
-							@Override
-							public void run() {
-								currentPosition.refreshContainingList();
-								int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
-										.indexOf(newItem);
-								if (indexToSelect != -1) {
-									setSelection(Collections.singletonList(currentPosition.getSibling(indexToSelect)));
-								}
-							}
-						};
-					}
-
-					@Override
-					protected Runnable createUndoJob() {
-						return new Runnable() {
-							@Override
-							public void run() {
-								currentPosition.refreshContainingList();
-								int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
-										.indexOf(oldObjectValue);
-								if (indexToSelect != -1) {
-									setSelection(Collections.singletonList(currentPosition.getSibling(indexToSelect)));
-								}
-							}
-						};
-					}
-
-				};
+				BufferedItemPosition currentPosition = bufferedItemPosition;
+				Object oldItem = bufferedItemPosition.getItem();
+				postSelection = new PostSelection(currentPosition, oldItem, newItem);
 			}
 			return new CompositeModification(update.getTitle(), UndoOrder.FIFO, update, structureRefreshing,
 					postSelection);
