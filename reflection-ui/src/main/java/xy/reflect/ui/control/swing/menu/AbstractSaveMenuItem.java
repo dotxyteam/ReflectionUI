@@ -37,6 +37,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Base class for "save" and "save as" menu items.
@@ -55,22 +56,28 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 	@Override
 	protected void persist(final SwingRenderer swingRenderer, final Form form, File file) {
 		Object object = form.getObject();
-		ITypeInfo type = swingRenderer.getReflectionUI()
+		final ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-		OutputStream out = null;
-		try {
-			out = new FileOutputStream(file);
-			type.save(object, out);
-		} catch (Throwable t) {
-			throw new ReflectionUIError(t);
-		} finally {
-			if (out != null) {
+		swingRenderer.showBusyDialogWhile(form, new Runnable() {
+			@Override
+			public void run() {
+				OutputStream out = null;
 				try {
-					out.close();
-				} catch (Throwable ignore) {
+					out = new FileOutputStream(file);
+					type.save(object, out);
+				} catch (Throwable t) {
+					throw new ReflectionUIError(t);
+				} finally {
+					if (out != null) {
+						try {
+							out.close();
+						} catch (Throwable ignore) {
+						}
+					}
 				}
 			}
-		}
+		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Saving..."));
+
 	}
 
 	@Override

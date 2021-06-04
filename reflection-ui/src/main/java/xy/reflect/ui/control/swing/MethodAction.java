@@ -345,6 +345,11 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
+			protected boolean isParentModificationFake() {
+				return false;
+			}
+
+			@Override
 			protected IInfoFilter getEncapsulatedFormFilter() {
 				return IInfoFilter.DEFAULT;
 			}

@@ -51,10 +51,12 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class ModificationStack {
 
+	public static final String DEFAULT_CAPACITY_PROPERTY_KEY = ModificationStack.class.getName() + ".defaultCapacity";
+
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
-	protected int maximumSize = 25;
+	protected int maximumSize = Integer.valueOf(System.getProperty(DEFAULT_CAPACITY_PROPERTY_KEY, "25"));
 	protected Stack<ModificationStack> compositeStack = new Stack<ModificationStack>();
 	protected List<IModificationListener> listeners = new ArrayList<IModificationListener>();
 	protected boolean invalidated = false;
@@ -448,12 +450,15 @@ public class ModificationStack {
 	/**
 	 * @param title The composite modification title.
 	 * @param order The composite modification undo order.
+	 * @param fake  Whether the composite modification will be marked as fake or
+	 *              not. Note that if false is returned the composite modification
+	 *              may be fake anyway (when composed of fake modifications only).
 	 * @return true if a potential modification was detected since the call of
 	 *         {@link #beginComposite()}. Note that true will also be returned if
 	 *         the composite modification creation have been aborted because of an
 	 *         invalidation.
 	 */
-	public boolean endComposite(String title, UndoOrder order) {
+	public boolean endComposite(String title, UndoOrder order, boolean fake) {
 		if (invalidated) {
 			abortComposite();
 			return true;
@@ -472,7 +477,17 @@ public class ModificationStack {
 				Collections.reverse(list);
 			}
 			topCompositeUndoModif = new CompositeModification(AbstractModification.getUndoTitle(title), order,
-					list.toArray(new IModification[list.size()]));
+					list.toArray(new IModification[list.size()])) {
+
+				@Override
+				public boolean isFake() {
+					if (fake) {
+						return true;
+					}
+					return super.isFake();
+				}
+
+			};
 		}
 		if (!topComposite.isExhaustive()) {
 			compositeParent.exhaustive = false;
@@ -489,24 +504,25 @@ public class ModificationStack {
 	}
 
 	/**
-	 * Convenient composite modification creation method to that calls
-	 * {@link #beginComposite()}, performs the specified action and call
+	 * Convenient composite modification creation method that calls
+	 * {@link #beginComposite()}, performs the specified action and calls
 	 * {@link #endComposite(String, UndoOrder)} or {@link #abortComposite()}.
 	 * 
 	 * @param title  The composite modification title.
 	 * @param order  The composite modification undo order.
-	 * @param action The method {@link Accessor#get()} will be called from this
-	 *               parameter object before the current method returns. It should
-	 *               push the children undo modifications in the current
-	 *               modification stack and return true if a potential modification
-	 *               is detected.
-	 * @return whether a potential modification was detected.
+	 * @param fake   Whether the composite modification will be marked as fake or
+	 *               not. Note that if false is returned the composite modification
+	 *               may be fake anyway (when composed of fake modifications only).
+	 * @param action If the call of {@link Accessor#get()} on this parameter returns
+	 *               true then the composite modification is ended. Otherwise the
+	 *               composite modification is aborted.
+	 * @return whether a potential modification is detected or not.
 	 */
-	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action) {
+	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action, boolean fake) {
 		beginComposite();
-		boolean modificationDetected;
+		boolean ok;
 		try {
-			modificationDetected = action.get();
+			ok = action.get();
 		} catch (Throwable t) {
 			try {
 				invalidate();
@@ -515,8 +531,8 @@ public class ModificationStack {
 			abortComposite();
 			throw new ReflectionUIError(t);
 		}
-		if (modificationDetected) {
-			return endComposite(title, order);
+		if (ok) {
+			return endComposite(title, order, fake);
 		} else {
 			abortComposite();
 			return false;

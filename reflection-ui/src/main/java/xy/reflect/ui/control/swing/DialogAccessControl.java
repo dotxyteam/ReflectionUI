@@ -369,6 +369,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		}
 
 		@Override
+		protected boolean isParentModificationFake() {
+			return data.isTransient();
+		}
+
+		@Override
 		protected ModificationStack getParentModificationStack() {
 			return input.getModificationStack();
 		}

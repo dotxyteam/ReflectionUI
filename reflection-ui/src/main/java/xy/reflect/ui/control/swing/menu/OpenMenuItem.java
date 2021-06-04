@@ -31,13 +31,13 @@ package xy.reflect.ui.control.swing.menu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Menu item that allows to load an object state from a file.
@@ -56,24 +56,29 @@ public class OpenMenuItem extends AbstractFileMenuItem {
 	@Override
 	protected void persist(final SwingRenderer swingRenderer, final Form form, File file) {
 		Object object = form.getObject();
-		ITypeInfo type = swingRenderer.getReflectionUI()
+		final ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-		InputStream in = null;
-		try {
-			in = new FileInputStream(file);
-			type.load(object, in);
-		} catch (Throwable t) {
-			throw new ReflectionUIError(t);
-		} finally {
-			if (in != null) {
+		swingRenderer.showBusyDialogWhile(form, new Runnable() {
+			@Override
+			public void run() {
+				InputStream in = null;
 				try {
-					in.close();
-				} catch (Throwable ignore) {
+					in = new FileInputStream(file);
+					type.load(object, in);
+				} catch (Throwable t) {
+					throw new ReflectionUIError(t);
+				} finally {
+					if (in != null) {
+						try {
+							in.close();
+						} catch (Throwable ignore) {
+						}
+					}
+					ModificationStack modifStack = form.getModificationStack();
+					modifStack.forget();
 				}
 			}
-			ModificationStack modifStack = form.getModificationStack();
-			modifStack.forget();
-		}
+		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Loading..."));
 	}
 
 }

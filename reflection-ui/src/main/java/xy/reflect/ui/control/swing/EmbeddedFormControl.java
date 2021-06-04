@@ -147,6 +147,12 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					return input.getModificationStack();
 				}
 			};
+			Accessor<Boolean> masterModifFakeGetter = new Accessor<Boolean>() {
+				@Override
+				public Boolean get() {
+					return data.isTransient();
+				}
+			};
 			boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
 			Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
@@ -157,7 +163,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			};
 			subForm.setModificationStack(new SlaveModificationStack(subForm.toString(), childModifAcceptedGetter,
 					childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, childModifTitleGetter,
-					masterModifStackGetter, exclusiveLinkWithParent,
+					masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
 					masterModificationExceptionListener));
 		}

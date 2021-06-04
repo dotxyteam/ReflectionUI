@@ -389,6 +389,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
+		protected boolean isParentModificationFake() {
+			return data.isTransient();
+		}
+
+		@Override
 		protected IInfoFilter getEncapsulatedFormFilter() {
 			return IInfoFilter.DEFAULT;
 		}
@@ -467,6 +472,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		@Override
 		protected String getParentModificationTitle() {
 			return FieldControlDataModification.getTitle(data.getCaption());
+		}
+
+		@Override
+		protected boolean isParentModificationFake() {
+			return data.isTransient();
 		}
 
 		@Override

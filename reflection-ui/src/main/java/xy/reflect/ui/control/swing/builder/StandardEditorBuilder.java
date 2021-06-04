@@ -104,6 +104,11 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
+	protected boolean isParentModificationFake() {
+		return false;
+	}
+
+	@Override
 	protected boolean canCommitToParent() {
 		return false;
 	}

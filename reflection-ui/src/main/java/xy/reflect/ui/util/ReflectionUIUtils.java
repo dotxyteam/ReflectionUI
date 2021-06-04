@@ -554,7 +554,7 @@ public class ReflectionUIUtils {
 	public static boolean finalizeSubModifications(final ModificationStack parentModificationStack,
 			final ModificationStack subModificationsStack, boolean subModificationsAccepted,
 			final ValueReturnMode valueReturnMode, final boolean valueReplaced,
-			final IModification committingModification, String parentModificationTitle,
+			final IModification committingModification, String parentModificationTitle, boolean fakeParentModification,
 			final Listener<String> debugLogListener) {
 
 		if (parentModificationStack == null) {
@@ -596,7 +596,7 @@ public class ReflectionUIUtils {
 								}
 								return true;
 							}
-						});
+						}, fakeParentModification);
 			} else {
 				if (valueReturnMode != ValueReturnMode.CALCULATED) {
 					if (!subModificationsStack.wasInvalidated()) {

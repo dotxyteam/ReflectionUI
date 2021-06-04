@@ -252,7 +252,7 @@ public class CustomizationTools {
 									changeCustomizationFieldValue(fc, "getOnlyForced", true);
 									return true;
 								}
-							});
+							}, false);
 						} catch (Throwable t) {
 							toolsRenderer.handleObjectException(result, t);
 						}
@@ -337,7 +337,7 @@ public class CustomizationTools {
 									changeCustomizationFieldValue(ftc, "specificProperties", specificProperties);
 									return true;
 								}
-							});
+							}, false);
 						} catch (Throwable t) {
 							toolsRenderer.handleObjectException(result, t);
 						}
@@ -653,7 +653,7 @@ public class CustomizationTools {
 								changeCustomizationFieldValue(srcFc, "encapsulationFieldName", capsuleFieldName);
 								return true;
 							}
-						});
+						}, false);
 			}
 		};
 		Runnable decapsulator = new Runnable() {
@@ -680,7 +680,7 @@ public class CustomizationTools {
 								changeCustomizationFieldValue(dstFc, "encapsulationFieldName", null);
 								return true;
 							}
-						});
+						}, false);
 			}
 		};
 		return makeMenuItemsForMemberEncapsulation(customizerButton, field, containingCustomizedType, encapsulator,
@@ -714,7 +714,7 @@ public class CustomizationTools {
 								changeCustomizationFieldValue(srcMc, "encapsulationFieldName", capsuleFieldName);
 								return true;
 							}
-						});
+						}, false);
 			}
 		};
 		Runnable decapsulator = new Runnable() {
@@ -741,7 +741,7 @@ public class CustomizationTools {
 								changeCustomizationFieldValue(dstMc, "encapsulationFieldName", null);
 								return true;
 							}
-						});
+						}, false);
 			}
 		};
 		return makeMenuItemsForMemberEncapsulation(customizerButton, method, containingCustomizedType, encapsulator,
@@ -833,7 +833,7 @@ public class CustomizationTools {
 											encapsulator.handle(newFieldName);
 											return true;
 										}
-									});
+									}, false);
 						}
 					}));
 		}

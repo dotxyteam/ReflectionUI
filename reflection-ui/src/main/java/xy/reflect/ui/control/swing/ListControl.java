@@ -1369,11 +1369,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				swingRenderer.getReflectionUI().logError(t);
 			}
 		}
-		try {
-			getRootListType().onSelection(newSelection);
-		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logError(t);
-		}
 	}
 
 	protected void updateDetailsArea(boolean refreshStructure) {
@@ -1968,6 +1963,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			};
 		}
+
 	}
 
 	protected class PostSelection extends AbstractModification {
@@ -2159,7 +2155,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 											perform(toPostSelectHolder);
 											return true;
 										}
-									})) {
+									}, listData.isTransient())) {
 								modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
 								return true;
 							} else {
@@ -2167,7 +2163,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								return false;
 							}
 						}
-					});
+					}, listData.isTransient());
 
 				}
 				displayResult();
@@ -2238,14 +2234,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							return null;
 						}
 					});
-			IModification postSelection;
-			if (bufferedItemPosition.getContainingListType().isOrdered()) {
-				postSelection = IModification.NULL_MODIFICATION;
-			} else {
-				BufferedItemPosition currentPosition = bufferedItemPosition;
-				Object oldItem = bufferedItemPosition.getItem();
-				postSelection = new PostSelection(currentPosition, oldItem, newItem);
-			}
+			BufferedItemPosition currentPosition = bufferedItemPosition;
+			Object oldItem = bufferedItemPosition.getItem();
+			IModification postSelection = new PostSelection(currentPosition, oldItem, newItem);
 			return new CompositeModification(update.getTitle(), UndoOrder.FIFO, update, structureRefreshing,
 					postSelection);
 		}
@@ -2263,6 +2254,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		protected String getParentModificationTitle() {
 			return getItemModificationTitle();
+		}
+
+		@Override
+		protected boolean isParentModificationFake() {
+			return listData.isTransient();
 		}
 
 		@Override
@@ -3190,6 +3186,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				protected String getParentModificationTitle() {
 					return "Edit "
 							+ ReflectionUIUtils.composeMessage(listData.getCaption(), dynamicProperty.getCaption());
+				}
+
+				@Override
+				protected boolean isParentModificationFake() {
+					return listData.isTransient();
 				}
 
 				@Override

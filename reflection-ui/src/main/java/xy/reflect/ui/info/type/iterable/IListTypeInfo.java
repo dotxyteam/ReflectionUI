@@ -180,16 +180,6 @@ public interface IListTypeInfo extends ITypeInfo {
 	ValueReturnMode getItemReturnMode();
 
 	/**
-	 * Is called by the renderer whenever the selection of items changes. Note that
-	 * when the list is actually a tree then this method must be called from the
-	 * root list type information since the selection may include items positioned
-	 * at different levels of depth in the tree.
-	 * 
-	 * @param newSelection The new selection.
-	 */
-	void onSelection(List<? extends ItemPosition> newSelection);
-
-	/**
 	 * Allows to choose how the UI behaves when creating items. Typically it answers
 	 * the question "should the framework require constructor parameter values from
 	 * users or not ?".

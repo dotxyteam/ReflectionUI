@@ -571,10 +571,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.toArray(listValue);
 	}
 
-	protected void onSelection(IListTypeInfo type, List<? extends ItemPosition> newSelection) {
-		type.onSelection(newSelection);
-	}
-
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		return type.getConstructors();
 	}
@@ -1364,11 +1360,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
-		}
-
-		@Override
-		public void onSelection(List<? extends ItemPosition> newSelection) {
-			InfoProxyFactory.this.onSelection((IListTypeInfo) base, newSelection);
 		}
 
 		@Override

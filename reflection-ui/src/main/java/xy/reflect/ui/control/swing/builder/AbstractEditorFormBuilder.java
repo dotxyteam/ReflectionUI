@@ -94,11 +94,17 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract ModificationStack getParentModificationStack();
 
 	/**
-	 * @return the title or the title prefix (in case of multiple modifications) of
-	 *         the modification(s) that will be communicated to the parent object
-	 *         modification stack.
+	 * @return the title (or the title prefix) of the modification(s) that will be
+	 *         communicated to the parent object modification stack.
 	 */
 	protected abstract String getParentModificationTitle();
+
+	/**
+	 * @return whether the modifications that will be communicated to the parent
+	 *         object modification stack are fake (typically because the source
+	 *         field is transient) or not.
+	 */
+	protected abstract boolean isParentModificationFake();
 
 	/**
 	 * @return whether modifications of the local value/object can be committed
@@ -109,10 +115,10 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @param newObjectValue
-	 * @return a modification that will be applied in order to make any local
-	 *         value/object modification real for the parent object. Typically
-	 *         primitive field values would need to be committed (set back) to their
-	 *         parent object after modification.
+	 * @return a modification (may be null) that will be applied in order to make
+	 *         any local value/object modification real for the parent object.
+	 *         Typically primitive field values would need to be committed (set
+	 *         back) to their parent object after modification.
 	 */
 	protected abstract IModification createCommittingModification(Object newObjectValue);
 
@@ -558,7 +564,7 @@ public abstract class AbstractEditorFormBuilder {
 				return createCommittingModification(getCurrentValue());
 			}
 		};
-		Accessor<String> childModifTitleGetter = new Accessor<String>() {
+		Accessor<String> masterModifTitleGetter = new Accessor<String>() {
 			@Override
 			public String get() {
 				return getParentModificationTitle();
@@ -574,6 +580,12 @@ public abstract class AbstractEditorFormBuilder {
 				return result;
 			}
 		};
+		Accessor<Boolean> masterModifFakeGetter = new Accessor<Boolean>() {
+			@Override
+			public Boolean get() {
+				return isParentModificationFake();
+			}
+		};
 		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
 			@Override
 			public void handle(Throwable t) {
@@ -581,8 +593,8 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		};
 		editorForm.setModificationStack(new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, childModifTitleGetter,
-				masterModifStackGetter, exclusiveLinkWithParent,
+				childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, masterModifTitleGetter,
+				masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener));
 	}

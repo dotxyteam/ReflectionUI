@@ -415,10 +415,6 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public void onSelection(List<? extends ItemPosition> newSelection) {
-		}
-
-		@Override
 		public CategoriesStyle getCategoriesStyle() {
 			return CategoriesStyle.getDefault();
 		}

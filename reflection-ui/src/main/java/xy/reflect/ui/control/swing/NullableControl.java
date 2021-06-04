@@ -382,6 +382,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 
 		@Override
+		protected boolean isParentModificationFake() {
+			return data.isTransient();
+		}
+
+		@Override
 		protected IInfoFilter getEncapsulatedFormFilter() {
 			IInfoFilter result = data.getFormControlFilter();
 			if (result == null) {

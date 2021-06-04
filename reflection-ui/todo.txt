@@ -1,50 +1,9 @@
-- list control: ItemControlBuilder reuse: the ItemControlBuilder
-should be reusable in a sorted (non-ordered) list. For now it is not the
-case. Moreover the details control is not usable at all if it is
-recreated on each item detail modification. It means that a position
-change caused by an item detail modification must not cause the
-destruction of the details control. Maybe also manual position changes
-should not cause the item control destruction as long as the item
-type is the same. Note that this strategy is already implemented.
-The problem is that it is disabled when the list is not ordered
-because the item position must be saved and restored before replaying
-modifications and that cannot be done with unordered lists. Why:
-because unordered list item positions must be considered as not
-predictable. Remark: the current details item cannot change as long
-as the details area is not updated, even if the item position changes.
-Then a solution would then be to not update the details area on item
-detail modification or at least to not refresh the details control.
-But that could lead to inconsistencies since the details item reference
-in the list may have changed and the details form may be holding an
-obsolete reference. Then the right details item reference must be
-found and provided to the details form. To achieve this we may
-search the details item by reference (stored just after the modification).
-If this reference changes we may search it by equality but there
-is a risk: there may be multiple items that are equal with volatile
-differences in the list. We may anyway consider that these are
-acceptable drawbacks. There is another potential issue: the item
-may not be found by equality eg because the equals method is not
-implemented. In this case the framework must throw an exception.
-
-Again a potential issue: the sub-undo modifications may be executed
-on orphan objects if the found item on which the undo modification
-will be applied is the same that was output by the do-modification 
-but with a different reference eg. In order to avoid this the 
-un-modified item must absolutely be the one that was stored when
-committing the modified buffered containing list. Actually this is
-not an issue since the un-modified item will not be the currently
-displayed when the undo button is hit but it will be the one that 
-was stored when committing and that will be committed back at the 
-end of the undo.
-
- 
-be there anymore    
-- busy dialog should be used when executing:
-	. ITypeInfo.copy()
-	. ReflectionUIUtils.createDefaultInstance(ITypeInfo)
-	. ITypeInfo.save()
-	. ITypeInfo.load()
-	. onSelection(List<? extends ItemPosition>)
+- auto-managed controls do not generate fake modifications when
+the field is transient. Must be fixed.
+- IListTypeInfo.onSelection(List<? extends ItemPosition>): 
+	. called multiple times with the same selection of items
+	. may be called during modification replay without an actual 
+	selection 
 - allow to specify via customizations how to undo a method call
 - some modifications references controls that may be destroyed when
 they are undone/redone. Ex: 

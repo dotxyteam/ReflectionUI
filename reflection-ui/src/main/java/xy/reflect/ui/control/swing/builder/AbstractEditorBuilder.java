@@ -347,11 +347,13 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		boolean valueModifAccepted = shouldIntegrateNewObjectValue(currentValue)
 				&& ((!isCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
+		boolean parentObjectModifFake = isParentModificationFake();
 		parentModificationStackImpacted = ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack,
 				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, committingModif,
-				parentObjectModifTitle, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
+				parentObjectModifTitle, parentObjectModifFake, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
 	}
 
+	
 	/**
 	 * @return whether the user cancelled the editor dialog.
 	 */

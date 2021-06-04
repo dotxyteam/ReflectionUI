@@ -81,10 +81,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public void onSelection(List<? extends ItemPosition> newSelection) {
-	}
-
-	@Override
 	public boolean isItemNullValueSupported() {
 		return false;
 	}
