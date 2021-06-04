@@ -1,9 +1,3 @@
-- auto-managed controls do not generate fake modifications when
-the field is transient. Must be fixed.
-- IListTypeInfo.onSelection(List<? extends ItemPosition>): 
-	. called multiple times with the same selection of items
-	. may be called during modification replay without an actual 
-	selection 
 - allow to specify via customizations how to undo a method call
 - some modifications references controls that may be destroyed when
 they are undone/redone. Ex: 

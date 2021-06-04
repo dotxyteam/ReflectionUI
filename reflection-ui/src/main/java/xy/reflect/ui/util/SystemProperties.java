@@ -44,6 +44,10 @@ import xy.reflect.ui.ReflectionUI;
  */
 public class SystemProperties {
 
+	public  static void main(String[] args) {
+		System.out.println(describe());
+	}
+
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ ElementType.FIELD })
 	public @interface Usage {

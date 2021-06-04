@@ -35,6 +35,10 @@ package xy.reflect.ui.util;
  *
  */
 public class MoreSystemProperties extends SystemProperties {
+	
+	public  static void main(String[] args) {
+		System.out.println(describe());
+	}
 
 	@Usage("If the value of this property is \"true\" then the UI customization tools will be hidden.")
 	public static final String HIDE_INFO_CUSTOMIZATIONS_TOOLS = PREFIX + ".infoCustomizationsToolsHidden";
