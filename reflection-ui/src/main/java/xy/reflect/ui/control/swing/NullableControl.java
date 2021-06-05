@@ -57,7 +57,6 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
@@ -80,7 +79,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected JCheckBox nullStatusControl;
 	protected Component subControl;
 	protected IFieldControlInput input;
-	protected ITypeInfo subControlValueType;
 	protected AbstractEditorFormBuilder subFormBuilder;
 	protected Runnable nullControlActivationAction;
 
@@ -192,23 +190,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	public void refreshSubControl(boolean refreshStructure) {
 		Object value = data.getValue();
 		if (value != null) {
-			ITypeInfo newValueType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
-			if (newValueType.equals(subControlValueType)) {
-				if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-					subFormBuilder.refreshEditorForm((Form) subControl, refreshStructure);
-					return;
-				}
+			if (subControl instanceof Form) {
+				subFormBuilder.refreshEditorForm((Form) subControl, refreshStructure);
+				return;
 			}
 		}
-		if (value == null) {
-			subControlValueType = null;
-			subControl = createNullControl();
-		} else {
-			subControlValueType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
-			subControl = createSubForm();
-		}
+		subControl = createNullControl();
 		subControl.setVisible(isSubControlDisplayed());
 	}
 
@@ -303,10 +290,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
 			((Form) subControl).addMenuContributionTo(menuModel);
 		}
-	}
-
-	public ITypeInfo getSubControlValueType() {
-		return subControlValueType;
 	}
 
 	@Override

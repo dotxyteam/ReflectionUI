@@ -37,13 +37,13 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
 /**
- * Field control that rejects null values ({@link #refreshUI(boolean)} will
- * return false when the value is null). A sub-form is used to display the
- * non-null value.
+ * Field control that detects and rejects ({@link #refreshUI(boolean)} will
+ * return false) unsupported (type not compatible) and null values . A sub-form
+ * is used to display the non-null supported value.
  * 
  * Note that this control is used when
  * {@link IFieldControlData#isNullValueDistinct()} returns false. Which means
- * that it prevents controls from encountering null and then displaying a
+ * that it prevents its sub-control from encountering null and then displaying a
  * default value. It seems that it is not the expected behavior but fortunately
  * it only happens when the field declared value type is different from the
  * actual value type. The null value in this case allows to destroy the current
@@ -56,11 +56,11 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
  * @author olitank
  *
  */
-public class NonNullableControl extends NullableControl {
+public class MutableTypeControl extends NullableControl {
 
 	private static final long serialVersionUID = 1L;
 
-	public NonNullableControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
+	public MutableTypeControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, new FieldControlInputProxy(input) {
 			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(super.getControlData());
 
@@ -75,6 +75,9 @@ public class NonNullableControl extends NullableControl {
 	public boolean refreshUI(boolean refreshStructure) {
 		Object value = data.getValue();
 		if (value == null) {
+			return false;
+		}
+		if (!data.getType().supportsInstance(value)) {
 			return false;
 		}
 		((BufferedFieldControlData) data).addInBuffer(value);
@@ -95,6 +98,6 @@ public class NonNullableControl extends NullableControl {
 
 	@Override
 	public String toString() {
-		return "NonNullableControl [data=" + data + "]";
+		return "MutableTypeControl [data=" + data + "]";
 	}
 }

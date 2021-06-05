@@ -1377,33 +1377,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if ((detailsControlItemPosition != null) && (singleSelection != null)) {
-			Object detailsControlItem = detailsControlBuilder.getCurrentValue();
-			Object singleSelectionItem = singleSelection.getItem();
-			if ((detailsControlItem == null) && (singleSelectionItem == null)) {
-				return;
-			}
-			if ((detailsControlItem != null) && (singleSelectionItem != null)) {
-				final ITypeInfo detailsControlItemType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(detailsControlItem));
-				final ITypeInfo singleSelectionItemType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(singleSelectionItem));
-				if (detailsControlItemType.equals(singleSelectionItemType)) {
-					/*
-					 * Here we will try to perform an optimization by reusing the same
-					 * detailsControlBuilder to display another item. Before doing so, we ensured
-					 * that the item type is the same.
-					 */
-					detailsControlItemPosition = singleSelection;
-					detailsControlBuilder.setPosition(detailsControlItemPosition);
-					detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
-					return;
-				}
-			}
-			detailsControlItemPosition = null;
-			detailsArea.removeAll();
-			detailsControlBuilder = null;
-			detailsControl = null;
-			updateDetailsArea(refreshStructure);
+			/*
+			 * Here we will try to perform an optimization by reusing the same
+			 * detailsControlBuilder to display another item.
+			 */
+			detailsControlItemPosition = singleSelection;
+			detailsControlBuilder.setPosition(detailsControlItemPosition);
+			detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
 			return;
 		}
 		if ((detailsControlItemPosition != null) && (singleSelection == null)) {

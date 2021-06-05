@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -450,9 +451,22 @@ public abstract class AbstractEditorFormBuilder {
 	 *                         (mainly used in design mode).
 	 */
 	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
-		encapsulatedObjectValueAccessor.set(loadValue());
+		Object oldValue = encapsulatedObjectValueAccessor.get();
+		Object newValue = loadValue();
+		encapsulatedObjectValueAccessor.set(newValue);		
 		if (refreshStructure) {
 			editorForm.setObject(getCapsule());
+		}else {
+			if (oldValue != newValue) {
+				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
+				ITypeInfo oldValueType = reflectionUI
+						.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
+				ITypeInfo newValueType = reflectionUI
+						.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
+				if (!oldValueType.equals(newValueType)) {
+					editorForm.setObject(getCapsule());
+				}
+			}
 		}
 		editorForm.refresh(refreshStructure);
 	}

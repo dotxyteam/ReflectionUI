@@ -61,7 +61,7 @@ import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.EnumerationControl;
 import xy.reflect.ui.control.swing.ListControl;
-import xy.reflect.ui.control.swing.NonNullableControl;
+import xy.reflect.ui.control.swing.MutableTypeControl;
 import xy.reflect.ui.control.swing.NullControl;
 import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
@@ -469,7 +469,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 			};
 			try {
-				return new NonNullableControl(this.swingRenderer, controlInput);
+				return new MutableTypeControl(this.swingRenderer, controlInput);
 			} catch (RejectedFieldControlInputException e) {
 			}
 		}
