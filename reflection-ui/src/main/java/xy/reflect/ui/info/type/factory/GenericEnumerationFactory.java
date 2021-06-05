@@ -65,11 +65,13 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  *
  */
 public class GenericEnumerationFactory {
+	
 	protected ReflectionUI reflectionUI;
 	protected Iterable<?> iterable;
 	protected String enumerationTypeName;
 	protected String typeCaption;
 	protected boolean dynamicEnumeration;
+	private List<Object> bufferedItems;
 
 	public GenericEnumerationFactory(ReflectionUI reflectionUI, Iterable<?> iterable, String enumerationTypeName,
 			String typeCaption, boolean dynamicEnumeration) {
@@ -104,6 +106,17 @@ public class GenericEnumerationFactory {
 
 	protected ResourcePath getItemIconImagePath(Object item) {
 		return ReflectionUIUtils.getIconImagePath(reflectionUI, item);
+	}
+
+	protected List<Object> getOrLoadItems() {
+		if (bufferedItems == null) {
+			List<Object> result = new ArrayList<Object>();
+			for (Object item : iterable) {
+				result.add(item);
+			}
+			bufferedItems = result;
+		}
+		return bufferedItems;
 	}
 
 	public Object getItemInstance(Object item) {
@@ -395,7 +408,8 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			if (!iterable.iterator().hasNext()) {
+			final List<Object> items = getOrLoadItems();
+			if (items.size() == 0) {
 				return Collections.emptyList();
 			} else {
 				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
@@ -412,7 +426,7 @@ public class GenericEnumerationFactory {
 
 					@Override
 					public Object invoke(Object ignore, InvocationData invocationData) {
-						return getItemInstance(iterable.iterator().next());
+						return new Instance(items.get(0));
 					}
 
 					@Override
@@ -426,7 +440,7 @@ public class GenericEnumerationFactory {
 		@Override
 		public Object[] getPossibleValues() {
 			List<Object> result = new ArrayList<Object>();
-			for (Object item : iterable) {
+			for (Object item : getOrLoadItems()) {
 				result.add(new Instance(item));
 			}
 			return result.toArray();
@@ -434,16 +448,11 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(final Object object) {
-			final Object item;
-			if (object == null) {
-				item = null;
-			} else {
-				Instance instance = (Instance) object;
-				if (!instance.getOuterType().equals(getOuterType())) {
-					throw new ReflectionUIError();
-				}
-				item = instance.getArrayItem();
+			Instance instance = (Instance) object;
+			if (!instance.getOuterType().equals(getOuterType())) {
+				throw new ReflectionUIError();
 			}
+			Object item = instance.getArrayItem();
 			return new ItemInfo(item);
 		}
 

@@ -135,7 +135,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	public List<ITypeInfo> getTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-		for (Object item : iterable) {
+		for (Object item : getOrLoadItems()) {
 			result.add((ITypeInfo) item);
 		}
 		return result;
