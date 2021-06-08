@@ -29,17 +29,23 @@
 package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 
 /**
- * This class is a sub-class of {@link ItemPosition} that uses a buffer to
- * optimize the access to the item. The buffer is actually a copy of the
+ * This class is a sub-class of {@link ItemPosition} that uses buffers to
+ * optimize the access to the item. The main buffer is actually a copy of the
  * containing list stored either in the parent {@link BufferedItemPosition} or
- * in the associated factory when the current item position is root.
+ * in the associated factory (when the current item position is root).
  * Additionally a fake item value that overrides the actual item value can be
  * set.
+ * 
+ * Note that there cannot be 2 similar instances (created from the same factory,
+ * at the same depth and index) unless the containing list is refreshed.
  * 
  * @author olitank
  *
@@ -56,6 +62,7 @@ public class BufferedItemPosition extends ItemPosition {
 	protected Object fakeItem;
 	protected Object[] bufferedSubListRawValue;
 	protected IFieldInfo bufferedSubListField;
+	protected Map<Integer, BufferedItemPosition> bufferedSubItemPositionByIndex = new HashMap<Integer, BufferedItemPosition>();
 
 	protected BufferedItemPosition() {
 		super();
@@ -84,7 +91,9 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	/**
-	 * Updates the containing list buffer.
+	 * Updates the containing list buffer. Note that the containing list (including
+	 * the current item) may not contain up-to-date values after this operation if
+	 * the parent item itself has an old obsolete buffered value.
 	 */
 	public void refreshContainingList() {
 		if (isRoot()) {
@@ -92,14 +101,15 @@ public class BufferedItemPosition extends ItemPosition {
 		} else {
 			((BufferedItemPosition) parentItemPosition).bufferedSubListRawValue = null;
 			((BufferedItemPosition) parentItemPosition).bufferedSubListField = null;
+			((BufferedItemPosition) parentItemPosition).bufferedSubItemPositionByIndex.clear();
 		}
 	}
 
 	/**
-	 * Updates the containing lists from the root to the current one. It ensures
-	 * that the next call to {@link #getItem()} or
+	 * Updates the ancestor lists buffers recursively (from the root to the current
+	 * containing list). It ensures that the next call to {@link #getItem()} or
 	 * {@link #retrieveContainingListRawValue()} or
-	 * {@link #retrieveContainingListValue()} return up to date values (not old
+	 * {@link #retrieveContainingListValue()} returns up-to-date values (not old
 	 * buffered values).
 	 */
 	public void refreshContainingListsRecursively() {
@@ -107,6 +117,24 @@ public class BufferedItemPosition extends ItemPosition {
 			getParentItemPosition().refreshContainingListsRecursively();
 		}
 		refreshContainingList();
+	}
+
+	/**
+	 * Updates the descendant lists buffers recursively. All existing descendant
+	 * item positions will be up-to-date after this operation.
+	 */
+	public void refreshBranch() {
+		for (int index : bufferedSubItemPositionByIndex.keySet()) {
+			BufferedItemPosition bufferedSubItemPosition = bufferedSubItemPositionByIndex.get(index);
+			if (bufferedSubItemPosition == null) {
+				continue;
+			}
+			bufferedSubItemPosition.refreshBranch();
+		}
+		bufferedSubListRawValue = null;
+		bufferedSubListField = null;
+		bufferedSubItemPositionByIndex.clear();
+
 	}
 
 	@Override
@@ -180,16 +208,27 @@ public class BufferedItemPosition extends ItemPosition {
 	@Override
 	public void updateContainingList(Object[] newContainingListRawValue) {
 		super.updateContainingList(newContainingListRawValue);
-		refreshContainingList();
+		if (isRoot()) {
+			getFactory().bufferedRootListRawValue = Arrays.copyOf(newContainingListRawValue,
+					newContainingListRawValue.length);
+		} else {
+			getParentItemPosition().bufferedSubListRawValue = Arrays.copyOf(newContainingListRawValue,
+					newContainingListRawValue.length);
+		}
 	}
 
 	@Override
 	public BufferedItemPosition getSubItemPosition(int index) {
+		if (bufferedSubItemPositionByIndex.containsKey(index)) {
+			return bufferedSubItemPositionByIndex.get(index);
+		}
 		BufferedItemPosition result = (BufferedItemPosition) super.getSubItemPosition(index);
 		if (result != null) {
 			result.bufferedSubListField = null;
 			result.bufferedSubListRawValue = null;
+			result.bufferedSubItemPositionByIndex = new HashMap<Integer, BufferedItemPosition>();
 		}
+		bufferedSubItemPositionByIndex.put(index, result);
 		return result;
 	}
 

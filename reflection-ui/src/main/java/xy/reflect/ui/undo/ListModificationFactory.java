@@ -64,7 +64,7 @@ public class ListModificationFactory {
 	 *         the specified array items
 	 */
 	public IModification createListModification(Object[] newListRawValue) {
-		return new ListModification(anyItemPosition, newListRawValue);
+		return new ListModification(anyItemPosition, newListRawValue, anyItemPosition.retrieveContainingListRawValue());
 	}
 
 	/**
@@ -244,10 +244,12 @@ public class ListModificationFactory {
 
 		protected ItemPosition itemPosition;
 		protected Object[] newListRawValue;
+		protected Object[] oldListRawValue;
 
-		public ListModification(ItemPosition itemPosition, Object[] newListRawValue) {
+		public ListModification(ItemPosition itemPosition, Object[] newListRawValue, Object[] oldListRawValue) {
 			this.itemPosition = itemPosition;
 			this.newListRawValue = newListRawValue;
+			this.oldListRawValue = oldListRawValue;
 		}
 
 		@Override
@@ -257,9 +259,8 @@ public class ListModificationFactory {
 
 		@Override
 		public IModification applyAndGetOpposite() {
-			Object[] oldListRawValue = itemPosition.retrieveContainingListRawValue();
 			itemPosition.updateContainingList(newListRawValue);
-			return new ListModification(itemPosition, oldListRawValue);
+			return new ListModification(itemPosition, oldListRawValue, newListRawValue);
 		}
 
 		@Override

@@ -492,7 +492,7 @@ public class ReflectionUIUtils {
 		return type.copy(object);
 	}
 
-	public static void copyFieldValues(ReflectionUI reflectionUI, Object src, Object dst, boolean deep) {
+	public static void copyFieldValues(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply) {
 		ITypeInfo srcType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(src));
 		ITypeInfo dstType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(dst));
 		for (IFieldInfo dstField : dstType.getFields()) {
@@ -508,7 +508,7 @@ public class ReflectionUIUtils {
 				dstField.setValue(dst, null);
 			} else {
 				ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
-				if (deep && !fieldValueType.isImmutable()) {
+				if (deeply && !fieldValueType.isImmutable()) {
 					Object dstFieldValue;
 					if (fieldValueType instanceof IListTypeInfo) {
 						Object[] srcArray = ((IListTypeInfo) fieldValueType).toArray(srcFieldValue);

@@ -46,20 +46,21 @@ public class BufferedListModificationFactory extends ListModificationFactory {
 
 	@Override
 	public IModification createListModification(Object[] newListRawValue) {
-		return new BufferedListModification(anyItemPosition, newListRawValue);
+		return new BufferedListModification(anyItemPosition, newListRawValue,
+				anyItemPosition.retrieveContainingListRawValue());
 	}
 
 	public static class BufferedListModification extends ListModification {
 
-		public BufferedListModification(ItemPosition itemPosition, Object[] newListRawValue) {
-			super(itemPosition, newListRawValue);
+		public BufferedListModification(ItemPosition itemPosition, Object[] newListRawValue, Object[] oldListRawValue) {
+			super(itemPosition, newListRawValue, oldListRawValue);
 		}
 
 		@Override
 		public IModification applyAndGetOpposite() {
-			((BufferedItemPosition) itemPosition).refreshContainingListsRecursively();
 			ListModification opposite = (ListModification) super.applyAndGetOpposite();
-			return new BufferedListModification(opposite.itemPosition, opposite.newListRawValue);
+			return new BufferedListModification(opposite.itemPosition, opposite.newListRawValue,
+					opposite.oldListRawValue);
 		}
 
 	}

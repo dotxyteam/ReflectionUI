@@ -135,16 +135,7 @@ public class InfoCustomizations implements Serializable {
 	 */
 	public static InfoCustomizations getDefault() {
 		if (defaultInstance == null) {
-			defaultInstance = new InfoCustomizations() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public String toString() {
-					return "InfoCustomizations.DEFAULT";
-				}
-
-			};
+			defaultInstance = new InfoCustomizations();
 			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
 				String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
 				File file = new File(filePath);
@@ -164,6 +155,15 @@ public class InfoCustomizations implements Serializable {
 	 * The default constructor. Builds an empty instance.
 	 */
 	public InfoCustomizations() {
+	}
+
+	@Override
+	public String toString() {
+		if (this == defaultInstance) {
+			return "InfoCustomizations.DEFAULT";
+		} else {
+			return super.toString();
+		}
 	}
 
 	public ApplicationCustomization getAppplicationCustomization() {

@@ -440,6 +440,7 @@ public class GenericEnumerationFactory {
 		@Override
 		public Object[] getPossibleValues() {
 			List<Object> result = new ArrayList<Object>();
+			bufferedItems = null;
 			for (Object item : getOrLoadItems()) {
 				result.add(new Instance(item));
 			}

@@ -18,9 +18,6 @@ to some JVM options. Think about it.
 	. list shortcuts
 	. menu creation
 	. validation status display
-- when refreshing the structure of a form, the controls
-are recreated. For sub-forms their controls are then
-recreated multiple times maybe for nothing. Optimize.
 - JFrames (maybe JDialog too) do not get garbaged. They are intended
 to be reused. SwingRenderer always create new windows( never reuse).
 It must be possible to use a pool of windows.

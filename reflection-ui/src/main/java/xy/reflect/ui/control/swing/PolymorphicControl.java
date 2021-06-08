@@ -189,7 +189,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		if (result == null) {
 			result = typeOptionsFactory.guessSubType(instance);
 			if (result == null) {
-				throw new ReflectionUIError("Failed to  a compatible sub-type for '" + instance
+				throw new ReflectionUIError("Failed to find a compatible sub-type for '" + instance
 						+ "'. Sub-type options: " + typeOptionsFactory.getTypeOptions());
 			}
 			subTypeInstanceCache.put(result, instance);

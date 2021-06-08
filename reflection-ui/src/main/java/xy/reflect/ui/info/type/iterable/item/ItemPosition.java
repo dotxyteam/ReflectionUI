@@ -224,9 +224,11 @@ public class ItemPosition implements Cloneable {
 	 *         given index.
 	 */
 	public ItemPosition getSibling(int index) {
-		ItemPosition result = (ItemPosition) clone();
-		result.index = index;
-		return result;
+		if(isRoot()) {
+			return factory.getRootItemPosition(index);
+		}else {
+			return parentItemPosition.getSubItemPosition(index);
+		}
 	}
 
 	/**

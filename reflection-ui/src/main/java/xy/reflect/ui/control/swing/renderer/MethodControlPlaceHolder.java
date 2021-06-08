@@ -76,11 +76,15 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		this.swingRenderer = swingRenderer;
 		this.form = form;
 		this.method = method;
+		this.controlData = createControlData();
 		setName("methodControlPlaceHolder [method=" + method.getName() + ", parent=" + form.getName() + "]");
 		setLayout(new BorderLayout());
-		manageVisibiltyChanges();
-		refreshUI();
+		manageVisibiltyChanges();		
 	}
+
+	public void initializeUI() {
+		refreshUI();
+	};
 
 	protected void manageVisibiltyChanges() {
 		addAncestorListener(new AncestorListener() {
@@ -145,8 +149,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		return SwingRendererUtils.getStandardCharacterWidth(form) * 10;
 	}
 
-	
-
 	public Component getMethodControl() {
 		return methodControl;
 	}
@@ -193,14 +195,13 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			remove(methodControl);
 			methodControl = null;
 		}
-		controlData = getInitialControlData();
 		methodControl = createMethodControl();
 		methodControl.setName("methodControl [method=" + method.getName() + ", parent=" + form.getName() + "]");
 		add(methodControl, BorderLayout.CENTER);
 		SwingRendererUtils.handleComponentSizeChange(this);
 	}
 
-	public IMethodControlData getInitialControlData() {
+	public IMethodControlData createControlData() {
 		IMethodControlData result = new MethodControlData(method);
 		return result;
 	}
@@ -263,6 +264,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			return "InitialControlData [of=" + MethodControlPlaceHolder.this + ", finalMethod=" + getMethod() + "]";
 		}
 
-	};
+	}
 
 }

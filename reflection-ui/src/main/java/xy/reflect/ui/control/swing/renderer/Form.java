@@ -1067,10 +1067,25 @@ public class Form extends ImagePanel {
 	 *                         in design mode.
 	 */
 	public void refresh(boolean refreshStructure) {
-		if (refreshStructure && recreateControlPlaceHoldersIfNeeded()) {
+		if (refreshStructure && detectStructuralChanges()) {
 			InfoCategory displayedCategory = getDisplayedCategory();
 			try {
 				removeAll();
+				fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(objectType.getFields());
+				methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
+						objectType.getMethods());
+				for (List<FieldControlPlaceHolder> fieldControlPlaceHolders : fieldControlPlaceHoldersByCategory
+						.values()) {
+					for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
+						fieldControlPlaceHolder.initializeUI();
+					}
+				}
+				for (List<MethodControlPlaceHolder> methodControlPlaceHolders : methodControlPlaceHoldersByCategory
+						.values()) {
+					for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
+						methodControlPlaceHolder.initializeUI();
+					}
+				}
 				layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
@@ -1147,7 +1162,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected boolean recreateControlPlaceHoldersIfNeeded() {
+	protected boolean detectStructuralChanges() {
 
 		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
 		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> displayedMethodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
@@ -1198,11 +1213,6 @@ public class Form extends ImagePanel {
 						modificationsDetected = true;
 						break;
 					}
-					if (!fieldControlPlaceHolder.getFieldControl().getClass()
-							.equals(displayedFieldControlPlaceHolder.getFieldControl().getClass())) {
-						modificationsDetected = true;
-						break;
-					}
 				}
 				if (modificationsDetected) {
 					break;
@@ -1228,21 +1238,11 @@ public class Form extends ImagePanel {
 						modificationsDetected = true;
 						break;
 					}
-					if (!methodControlPlaceHolder.getMethodControl().getClass()
-							.equals(displayedMethodControlPlaceHolder.getMethodControl().getClass())) {
-						modificationsDetected = true;
-						break;
-					}
 				}
 				if (modificationsDetected) {
 					break;
 				}
 			}
-		}
-
-		if (modificationsDetected) {
-			fieldControlPlaceHoldersByCategory = newFieldControlPlaceHoldersByCategory;
-			methodControlPlaceHoldersByCategory = newMethodControlPlaceHoldersByCategory;
 		}
 
 		return modificationsDetected;

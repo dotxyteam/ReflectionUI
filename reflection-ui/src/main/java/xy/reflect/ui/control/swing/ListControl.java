@@ -82,6 +82,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
@@ -1379,8 +1380,27 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if ((detailsControlItemPosition != null) && (singleSelection != null)) {
 			/*
 			 * Here we will try to perform an optimization by reusing the same
-			 * detailsControlBuilder to display another item.
+			 * detailsControlBuilder to display another item. Therefore we must request the
+			 * details control structure refreshing if we detect that the type of the item
+			 * changes.
 			 */
+			{
+				if (!MiscUtils.equalsOrBothNull(detailsControlItemPosition.getContainingListType().getItemType(),
+						singleSelection.getContainingListType().getItemType())) {
+					refreshStructure = true;
+				} else {
+					Object newItem = singleSelection.getItem();
+					Object currentItem = detailsControlBuilder.getCurrentValue();
+					if ((newItem != null) && (currentItem != null)) {
+						ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+						ITypeInfo newItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newItem));
+						ITypeInfo currentItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(currentItem));
+						if(!newItemType.equals(currentItemType)) {
+							refreshStructure = true;
+						}
+					}
+				}
+			}
 			detailsControlItemPosition = singleSelection;
 			detailsControlBuilder.setPosition(detailsControlItemPosition);
 			detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
@@ -1413,7 +1433,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				public IModification get(IModification undoModif) {
 					Object oldItem = detailsControlItemPosition.getItem();
 					Object newItem = detailsControlBuilder.getCurrentValue();
-					IModification preSelection = new PreSelection(detailsControlItemPosition, oldItem, newItem);
+					IModification preSelection = new PreSelection(detailsControlItemPosition, newItem, oldItem);
 					return new CompositeModification(undoModif.getTitle(), UndoOrder.FIFO, preSelection, undoModif);
 				}
 			});
@@ -1493,7 +1513,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public void run() {
 				valuesByNode.clear();
-				itemPositionFactory = createItemPositionfactory();
 				rootNode = createRootNode();
 				treeTableComponent.setTreeTableModel(createTreeTableModel());
 				if (refreshStructure) {
@@ -1550,8 +1569,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					restoringExpandedPathsAsMuchAsPossible(new Runnable() {
 						@Override
 						public void run() {
+							refreshItemPositionBuffers();
 							refreshTreeTableModelAndControl(refreshStructure);
 						}
+
 					});
 				}
 			});
@@ -1567,6 +1588,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					restoringExpandedPathsAsMuchAsPossible(new Runnable() {
 						@Override
 						public void run() {
+							refreshItemPositionBuffers();
 							refreshTreeTableModelAndControl(refreshStructure);
 						}
 					});
@@ -1578,6 +1600,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}
 		return true;
+	}
+
+	protected void refreshItemPositionBuffers() {
+		itemPositionFactory.refreshAll();
 	}
 
 	protected void refreshTreeTableScrollPaneBorder() {
@@ -1710,13 +1736,38 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void restoringExpandedPathsAsMuchAsPossible(Runnable runnable) {
-		List<BufferedItemPosition> wereExpanded = getExpandedItemPositions(null);
+		List<BufferedItemPosition> wereExpandedPositions = getExpandedItemPositions(null);
+		List<Object> wereExpanded = new ArrayList<Object>();
+		for (int i = 0; i < wereExpandedPositions.size(); i++) {
+			try {
+				BufferedItemPosition wasExpandedPosition = wereExpandedPositions.get(i);
+				wereExpanded.add(wasExpandedPosition.getItem());
+			} catch (Throwable t) {
+				wereExpanded.add(null);
+			}
+		}
 
 		runnable.run();
 
 		collapseAllItemPositions();
-		for (BufferedItemPosition wasExpanded : wereExpanded) {
-			expandItemPosition(wasExpanded);
+		int i = 0;
+		for (Iterator<BufferedItemPosition> it = wereExpandedPositions.iterator(); it.hasNext();) {
+			BufferedItemPosition wasExpandedPosition = it.next();
+			try {
+				if (!wasExpandedPosition.getContainingListType().isOrdered()) {
+					Object wasSelected = wereExpanded.get(i);
+					int index = Arrays.asList(wasExpandedPosition.retrieveContainingListRawValue())
+							.indexOf(wasSelected);
+					wasExpandedPosition = wasExpandedPosition.getSibling(index);
+					wereExpandedPositions.set(i, wasExpandedPosition);
+				}
+			} catch (Throwable t) {
+				it.remove();
+			}
+			i++;
+		}
+		for (BufferedItemPosition wasExpandedPosition : wereExpandedPositions) {
+			expandItemPosition(wasExpandedPosition);
 		}
 	}
 
@@ -1900,13 +1951,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class PreSelection extends AbstractModification {
 
 		protected BufferedItemPosition currentPosition;
-		protected Object oldItem;
-		protected Object newItem;
+		protected Object doItem;
+		protected Object undoItem;
 
-		public PreSelection(BufferedItemPosition currentPosition, Object oldItem, Object newItem) {
+		public PreSelection(BufferedItemPosition currentPosition, Object doItem, Object undoItem) {
 			this.currentPosition = currentPosition;
-			this.oldItem = oldItem;
-			this.newItem = newItem;
+			this.doItem = doItem;
+			this.undoItem = undoItem;
 		}
 
 		@Override
@@ -1916,12 +1967,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected Runnable createDoJob() {
-			return createAnyJob(newItem);
+			return createAnyJob(doItem);
 		}
 
 		@Override
 		protected Runnable createUndoJob() {
-			return createAnyJob(oldItem);
+			return createAnyJob(undoItem);
 		}
 
 		Runnable createAnyJob(final Object currentItem) {
@@ -1939,52 +1990,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					setSelection(Collections.singletonList(currentPosition));
 					if (!currentPosition.equals(detailsControlItemPosition)) {
 						updateDetailsArea(false);
-					}
-				}
-			};
-		}
-
-	}
-
-	protected class PostSelection extends AbstractModification {
-
-		protected BufferedItemPosition currentPosition;
-		protected Object oldItem;
-		protected Object newItem;
-
-		public PostSelection(BufferedItemPosition currentPosition, Object oldItem, Object newItem) {
-			this.currentPosition = currentPosition;
-			this.oldItem = oldItem;
-			this.newItem = newItem;
-		}
-
-		@Override
-		public String getTitle() {
-			return "Item Selection";
-		}
-
-		@Override
-		protected Runnable createDoJob() {
-			return createUndoJob(newItem);
-		}
-
-		@Override
-		protected Runnable createUndoJob() {
-			return createUndoJob(oldItem);
-		}
-
-		protected Runnable createUndoJob(final Object currentItem) {
-			return new Runnable() {
-				@Override
-				public void run() {
-					if (currentPosition.getContainingListType().isOrdered()) {
-						return;
-					}
-					currentPosition.refreshContainingList();
-					int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
-							.indexOf(currentItem);
-					if (indexToSelect != -1) {
-						setSelection(Collections.singletonList(currentPosition.getSibling(indexToSelect)));
 					}
 				}
 			};
@@ -2214,9 +2219,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							return null;
 						}
 					});
-			BufferedItemPosition currentPosition = bufferedItemPosition;
-			Object oldItem = bufferedItemPosition.getItem();
-			IModification postSelection = new PostSelection(currentPosition, oldItem, newItem);
+			IModification postSelection = new SelectModification(
+					Accessor.returning(Collections.singletonList(bufferedItemPosition)),
+					Accessor.returning(Collections.singletonList(bufferedItemPosition)));
 			return new CompositeModification(update.getTitle(), UndoOrder.FIFO, update, structureRefreshing,
 					postSelection);
 		}
@@ -2257,7 +2262,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected Object loadValue() {
-			bufferedItemPosition.refreshContainingList();
 			return bufferedItemPosition.getItem();
 		}
 

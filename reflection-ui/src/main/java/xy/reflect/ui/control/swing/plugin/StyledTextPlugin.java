@@ -182,9 +182,26 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 	public class StyledTextControl extends TextControl {
 
 		private static final long serialVersionUID = 1L;
+		
+		protected StyledTextConfiguration controlCustomization;
 
 		public StyledTextControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		protected StyledTextConfiguration getOrLoadControlCustomization() {
+			if (controlCustomization == null) {
+				controlCustomization = (StyledTextConfiguration) loadControlCustomization(input);
+			}
+			return controlCustomization;
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			if(refreshStructure) {
+				controlCustomization = null;
+			}
+			return super.refreshUI(refreshStructure);
 		}
 
 		@Override
@@ -222,7 +239,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected void updateTextComponentStyle(boolean refreshStructure) {
-			StyledTextConfiguration controlCustomization = (StyledTextConfiguration) loadControlCustomization(input);
+			StyledTextConfiguration controlCustomization = getOrLoadControlCustomization();
 			StyledDocument document = (StyledDocument) textComponent.getDocument();
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setBold(attributes, controlCustomization.fontBold);
@@ -262,8 +279,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected int getConfiguredScrollPaneHeight() {
-			StyledTextConfiguration controlCustomization = (StyledTextConfiguration) loadControlCustomization(input);
-			return controlCustomization.getLenghthInPixels();
+			return getOrLoadControlCustomization().getLenghthInPixels();
 		}
 
 		@Override

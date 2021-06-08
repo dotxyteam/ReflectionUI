@@ -114,16 +114,21 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected AutoUpdater autoRefreshThread;
 	protected Component siblingCaptionControl;
 	protected Component siblingOnlineHelpControl;
+	protected Map<String, Object> lastFieldControlSelectionCriteria;
 
 	public FieldControlPlaceHolder(SwingRenderer swingRenderer, Form form, IFieldInfo field) {
 		super();
 		this.swingRenderer = swingRenderer;
 		this.form = form;
 		this.field = field;
+		this.controlData = createControlData();
 		setName("fieldControlPlaceHolder [field=" + field.getName() + ", parent=" + form.getName() + "]");
 		setLayout(new BorderLayout());
 		manageVisibiltyChanges();
-		refreshUI(false);
+	}
+
+	public void initializeUI() {
+		refreshUI(true);
 	}
 
 	public Component getSiblingCaptionControl() {
@@ -340,8 +345,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	public void refreshUI(boolean refreshStructure) {
 		if (fieldControl == null) {
 			try {
-				controlData = getInitialControlData();
 				fieldControl = createFieldControl();
+				lastFieldControlSelectionCriteria = getFieldControlSelectionCriteria(controlData);
 				fieldControl.setName("fieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
 			} catch (Throwable t) {
 				fieldControl = createFieldErrorControl(t);
@@ -349,7 +354,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			layoutFieldControl();
 		} else {
 			if ((fieldControl instanceof IAdvancedFieldControl)
-					&& !(refreshStructure && !controlData.equals(getInitialControlData()))) {
+					&& !(refreshStructure && !getFieldControlSelectionCriteria(createControlData())
+							.equals(lastFieldControlSelectionCriteria))) {
 				try {
 					if (!((IAdvancedFieldControl) fieldControl).refreshUI(refreshStructure)) {
 						destroyFieldControl();
@@ -363,6 +369,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 			} else {
 				destroyFieldControl();
+				controlData = createControlData();
 				refreshUI(refreshStructure);
 			}
 		}
@@ -387,7 +394,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 	}
 
-	public IFieldControlData getInitialControlData() {
+	public IFieldControlData createControlData() {
 		IFieldInfo field = FieldControlPlaceHolder.this.field;
 		if (field.hasValueOptions(getObject())) {
 			field = new ValueOptionsAsEnumerationFieldInfo(this.swingRenderer.reflectionUI, field) {
@@ -584,6 +591,17 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}), BorderLayout.CENTER);
 		SwingRendererUtils.setErrorBorder(result);
 		result.setName("errorFieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
+		return result;
+	}
+
+	protected Map<String, Object> getFieldControlSelectionCriteria(IFieldControlData controlData) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("typeName", controlData.getType().getName());
+		result.put("fieldControlPluginIdentifier",
+				ReflectionUIUtils.getFieldControlPluginIdentifier(controlData.getType().getSpecificProperties()));
+		result.put("nullValueDistinct", controlData.isNullValueDistinct());
+		result.put("formControlEmbedded", controlData.isFormControlEmbedded());
+		result.put("formControlMandatory", controlData.isFormControlMandatory());
 		return result;
 	}
 

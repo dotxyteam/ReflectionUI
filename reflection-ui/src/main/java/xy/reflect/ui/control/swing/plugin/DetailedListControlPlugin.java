@@ -184,7 +184,6 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		public void refreshTreeTableModelAndControl(boolean refreshStructure) {
-			itemPositionFactory = createItemPositionfactory();
 			int itemCount = itemPositionFactory.getRootItemPosition(-1).getContainingListSize();
 			if (detailedCellControlList == null) {
 				detailedCellControlList = new ArrayList<DetailedCellControl>();

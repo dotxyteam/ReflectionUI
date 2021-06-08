@@ -195,7 +195,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				return;
 			}
 		}
-		subControl = createNullControl();
+		if (value == null) {
+			subControl = createNullControl();
+		} else {
+			subControl = createSubForm();
+		}
 		subControl.setVisible(isSubControlDisplayed());
 	}
 
