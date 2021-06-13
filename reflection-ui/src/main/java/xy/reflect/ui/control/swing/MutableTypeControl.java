@@ -93,7 +93,7 @@ public class MutableTypeControl extends NullableControl {
 
 	@Override
 	protected IContext getSubContext() {
-		return new CustomContext("NonNullableInstance");
+		return new CustomContext("MutableInstance");
 	}
 
 	@Override
