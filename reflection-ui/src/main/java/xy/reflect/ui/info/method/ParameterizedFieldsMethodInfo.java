@@ -96,9 +96,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
-		InvocationData newInvocationData = new InvocationData();
-		newInvocationData.getProvidedParameterValues().putAll(invocationData.getProvidedParameterValues());
-		newInvocationData.getDefaultParameterValues().putAll(invocationData.getDefaultParameterValues());
+		InvocationData newInvocationData = new InvocationData(invocationData);
 		for (FieldAsParameterInfo generatedParameter : generatedParameters) {
 			Object value = invocationData.getParameterValue(generatedParameter.getPosition());
 			if (undoJobBuilder != null) {
