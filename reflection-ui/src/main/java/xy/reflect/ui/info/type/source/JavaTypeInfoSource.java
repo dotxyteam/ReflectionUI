@@ -53,6 +53,7 @@ import xy.reflect.ui.info.type.iterable.ArrayTypeInfo;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -63,6 +64,9 @@ import xy.reflect.ui.util.ReflectionUIError;
  *
  */
 public class JavaTypeInfoSource implements ITypeInfoSource {
+
+	protected static final Map<JavaTypeInfoSource, DefaultTypeInfo> CACHE = MiscUtils.newWeakValuesEqualityBasedMap();
+	protected static final Object CACHE_MUTEX = new Object();
 
 	protected ReflectionUI reflectionUI;
 	protected Class<?> javaType;
@@ -97,37 +101,42 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 
 	@Override
 	public DefaultTypeInfo getTypeInfo() {
-		DefaultTypeInfo result;
-		if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
-			Class<?> itemClass = guessGenericTypeParameters(Collection.class, 0);
-			ITypeInfo itemType;
-			if (itemClass == null) {
-				itemType = null;
-			} else {
-				itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
+		synchronized (CACHE_MUTEX) {
+			DefaultTypeInfo result = CACHE.get(this);
+			if (result == null) {
+				if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
+					Class<?> itemClass = guessGenericTypeParameters(Collection.class, 0);
+					ITypeInfo itemType;
+					if (itemClass == null) {
+						itemType = null;
+					} else {
+						itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
+					}
+					result = new StandardCollectionTypeInfo(this, itemType);
+				} else if (StandardMapAsListTypeInfo.isCompatibleWith(getJavaType())) {
+					Class<?> keyClass = guessGenericTypeParameters(Map.class, 0);
+					Class<?> valueClass = guessGenericTypeParameters(Map.class, 1);
+					result = new StandardMapAsListTypeInfo(this, keyClass, valueClass);
+				} else if (StandardMapEntryTypeInfo.isCompatibleWith(getJavaType())) {
+					Class<?> keyClass = null;
+					Class<?> valueClass = null;
+					Class<?>[] genericParams = getGenericTypeParameters();
+					if (genericParams != null) {
+						keyClass = genericParams[0];
+						valueClass = genericParams[1];
+					}
+					result = new StandardMapEntryTypeInfo(this, keyClass, valueClass);
+				} else if (getJavaType().isArray()) {
+					result = new ArrayTypeInfo(this);
+				} else if (getJavaType().isEnum()) {
+					result = new StandardEnumerationTypeInfo(this);
+				} else {
+					result = new DefaultTypeInfo(this);
+				}
+				CACHE.put(this, result);
 			}
-			result = new StandardCollectionTypeInfo(this, itemType);
-		} else if (StandardMapAsListTypeInfo.isCompatibleWith(getJavaType())) {
-			Class<?> keyClass = guessGenericTypeParameters(Map.class, 0);
-			Class<?> valueClass = guessGenericTypeParameters(Map.class, 1);
-			result = new StandardMapAsListTypeInfo(this, keyClass, valueClass);
-		} else if (StandardMapEntryTypeInfo.isCompatibleWith(getJavaType())) {
-			Class<?> keyClass = null;
-			Class<?> valueClass = null;
-			Class<?>[] genericParams = getGenericTypeParameters();
-			if (genericParams != null) {
-				keyClass = genericParams[0];
-				valueClass = genericParams[1];
-			}
-			result = new StandardMapEntryTypeInfo(this, keyClass, valueClass);
-		} else if (getJavaType().isArray()) {
-			result = new ArrayTypeInfo(this);
-		} else if (getJavaType().isEnum()) {
-			result = new StandardEnumerationTypeInfo(this);
-		} else {
-			result = new DefaultTypeInfo(this);
+			return result;
 		}
-		return result;
 	}
 
 	public ReflectionUI getReflectionUI() {
