@@ -39,6 +39,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -380,6 +381,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(this, null);
+		}
+
+		@Override
+		public ITransactionInfo getTransaction(Object object) {
+			return null;
 		}
 
 		@Override

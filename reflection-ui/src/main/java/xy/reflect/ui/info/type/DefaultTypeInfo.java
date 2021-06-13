@@ -44,6 +44,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -89,6 +90,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	@Override
 	public ITypeInfoSource getSource() {
 		return source;
+	}
+
+	@Override
+	public ITransactionInfo getTransaction(Object object) {
+		return null;
 	}
 
 	@Override
@@ -338,12 +344,12 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	@Override
 	public boolean supportsInstance(Object object) {
 		if (getJavaType().isPrimitive()) {
-			if(object == null) {
+			if (object == null) {
 				return false;
 			}
 			return ReflectionUtils.primitiveToWrapperClass(getJavaType()).isInstance(object);
 		} else {
-			if(object == null) {
+			if (object == null) {
 				return true;
 			}
 			return getJavaType().isInstance(object);

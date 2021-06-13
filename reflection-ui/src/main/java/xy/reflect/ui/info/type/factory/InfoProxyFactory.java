@@ -40,6 +40,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -711,6 +712,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getCategoriesStyle();
 	}
 
+	protected ITransactionInfo getTransaction(ITypeInfo type, Object object) {
+		return type.getTransaction(object);
+	}
+
 	protected ResourcePath getFormBackgroundImagePath(ITypeInfo type) {
 		return type.getFormBackgroundImagePath();
 	}
@@ -1070,6 +1075,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ITypeInfoSource getSource() {
 			return InfoProxyFactory.this.getSource(base);
+		}
+
+		@Override
+		public ITransactionInfo getTransaction(Object object) {
+			return InfoProxyFactory.this.getTransaction(base, object);
 		}
 
 		@Override

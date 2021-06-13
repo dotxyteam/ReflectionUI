@@ -40,6 +40,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -412,6 +413,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(this,
 					new SpecificitiesIdentifier(parentType.getName(), ImplicitListFieldInfo.this.getName()));
+		}
+
+		@Override
+		public ITransactionInfo getTransaction(Object object) {
+			return null;
 		}
 
 		@Override

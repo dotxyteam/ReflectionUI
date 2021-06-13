@@ -42,6 +42,7 @@ import java.util.Map;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -61,6 +62,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
+import xy.reflect.ui.info.custom.InfoCustomizations.TransactionalRole;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.CapsuleFieldInfo;
@@ -1404,11 +1406,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected void validate(ITypeInfo type, Object object) throws Exception {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
-			for (MethodCustomization m : t.getMethodsCustomizations()) {
-				if (m.isValidating()) {
-					IMethodInfo method = ReflectionUIUtils.findMethodBySignature(type.getMethods(),
-							m.getMethodSignature());
-					if (method != null) {
+			for (IMethodInfo method : type.getMethods()) {
+				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
+				if (m != null) {
+					if (m.isValidating()) {
 						if (ReflectionUIUtils.requiresParameterValue(method)) {
 							throw new ReflectionUIError(
 									"Invalid validating method: Parameter value(s) required: " + method.getSignature());
@@ -1426,10 +1427,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		boolean formUpdateNeeded = false;
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
-			for (MethodCustomization m : t.getMethodsCustomizations()) {
-				IMethodInfo method = ReflectionUIUtils.findMethodBySignature(type.getMethods(), m.getMethodSignature());
-				if ((m.isRunWhenObjectShown() && visible) || (m.isRunWhenObjectHidden() && !visible)) {
-					if (method != null) {
+			for (IMethodInfo method : type.getMethods()) {
+				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
+				if (m != null) {
+					if ((m.isRunWhenObjectShown() && visible) || (m.isRunWhenObjectHidden() && !visible)) {
 						if (ReflectionUIUtils.requiresParameterValue(method)) {
 							throw new ReflectionUIError(
 									"Cannot call method on object visibilty change: Parameter value(s) required: "
@@ -1441,7 +1442,58 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 			}
 		}
-		return formUpdateNeeded || super.onFormVisibilityChange(type, object, visible);
+		return super.onFormVisibilityChange(type, object, visible) || formUpdateNeeded;
+	}
+
+	@Override
+	protected ITransactionInfo getTransaction(ITypeInfo type, final Object object) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			final Map<TransactionalRole, List<IMethodInfo>> transactionMethodsByRole = new HashMap<InfoCustomizations.TransactionalRole, List<IMethodInfo>>();
+			transactionMethodsByRole.put(TransactionalRole.BEGIN, new ArrayList<IMethodInfo>());
+			transactionMethodsByRole.put(TransactionalRole.COMMIT, new ArrayList<IMethodInfo>());
+			transactionMethodsByRole.put(TransactionalRole.ROLLBACK, new ArrayList<IMethodInfo>());
+			for (IMethodInfo method : type.getMethods()) {
+				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
+				if (m != null) {
+					if (m.getTransactionalRole() != null) {
+						if (ReflectionUIUtils.requiresParameterValue(method)) {
+							throw new ReflectionUIError("Invalid transactional method: Parameter value(s) required: "
+									+ method.getSignature());
+						}
+						transactionMethodsByRole.get(m.getTransactionalRole()).add(method);
+					}
+				}
+			}
+			if ((transactionMethodsByRole.get(TransactionalRole.BEGIN).size() > 0)
+					|| (transactionMethodsByRole.get(TransactionalRole.COMMIT).size() > 0)
+					|| (transactionMethodsByRole.get(TransactionalRole.ROLLBACK).size() > 0)) {
+				return new ITransactionInfo() {
+
+					@Override
+					public void rollback() {
+						for (IMethodInfo method : transactionMethodsByRole.get(TransactionalRole.ROLLBACK)) {
+							method.invoke(object, new InvocationData(object, method));
+						}
+					}
+
+					@Override
+					public void commit() {
+						for (IMethodInfo method : transactionMethodsByRole.get(TransactionalRole.COMMIT)) {
+							method.invoke(object, new InvocationData(object, method));
+						}
+					}
+
+					@Override
+					public void begin() {
+						for (IMethodInfo method : transactionMethodsByRole.get(TransactionalRole.BEGIN)) {
+							method.invoke(object, new InvocationData(object, method));
+						}
+					}
+				};
+			}
+		}
+		return super.getTransaction(type, object);
 	}
 
 	@Override

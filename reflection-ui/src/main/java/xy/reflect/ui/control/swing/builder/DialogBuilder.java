@@ -275,6 +275,10 @@ public class DialogBuilder {
 			executeClosingTask();
 		}
 
+		public DialogBuilder getDialogBuilder() {
+			return dialogBuilder;
+		}
+
 		public boolean isDisposed() {
 			return disposed;
 		}

@@ -7466,6 +7466,8 @@
         </categoriesForegroundColor>
         <categoriesStyle>MODERN_VERTICAL</categoriesStyle>
         <copyForbidden>false</copyForbidden>
+        <customFieldsOrder>test4</customFieldsOrder>
+        <customFieldsOrder>test3</customFieldsOrder>
         <customFieldsOrder>theNullList</customFieldsOrder>
         <customFieldsOrder>bannerImage</customFieldsOrder>
         <customFieldsOrder>exceptionneableInfo</customFieldsOrder>
@@ -7502,11 +7504,9 @@
         <customFieldsOrder>theSet</customFieldsOrder>
         <customFieldsOrder>theStack</customFieldsOrder>
         <customFieldsOrder>theBooleanPrimitive</customFieldsOrder>
-        <customFieldsOrder>test2.nullStatus</customFieldsOrder>
         <customFieldsOrder>test2</customFieldsOrder>
         <customFieldsOrder>theString.duplicate</customFieldsOrder>
         <customFieldsOrder>theString.duplicate.duplicate</customFieldsOrder>
-        <customFieldsOrder>test4</customFieldsOrder>
         <customFieldsOrder>theImage</customFieldsOrder>
         <customFieldsOrder>dates</customFieldsOrder>
         <customFieldsOrder>fieldToImportAsParameter</customFieldsOrder>
@@ -7519,7 +7519,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ac6</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e7f</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7550,7 +7550,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ac5</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e80</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7623,7 +7623,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ac4</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e81</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7683,7 +7683,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ac3</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e82</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7734,7 +7734,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ac2</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e83</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7765,7 +7765,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ac1</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e84</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7819,7 +7819,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ac0</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e85</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7869,7 +7869,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7abf</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e86</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8109,7 +8109,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7abe</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e87</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -9082,7 +9082,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7abd</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e88</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9133,7 +9133,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7abc</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e89</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9785,7 +9785,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7abb</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e8a</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9836,7 +9836,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7aba</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e8b</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -9867,7 +9867,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab9</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e8c</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -9918,7 +9918,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab8</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e8d</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10055,7 +10055,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab7</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e8e</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -10109,7 +10109,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab6</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e8f</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11292,7 +11292,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab5</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e90</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11931,7 +11931,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab4</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e91</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11982,7 +11982,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab3</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e92</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -12013,7 +12013,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab2</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e93</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -12090,7 +12090,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab1</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e94</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -12169,7 +12169,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7ab0</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e95</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14547,7 +14547,7 @@
             <uniqueIdentifier>2e34d93a:17970a4d5a7:-43a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7aaf</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e96</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14605,7 +14605,7 @@
             <uniqueIdentifier>-7fd953ed:179723000f4:-2c20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7aae</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e97</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -14977,7 +14977,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7aad</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e98</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15027,7 +15027,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7aac</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e99</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15073,7 +15073,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7aab</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e9a</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -15119,7 +15119,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>4949961:179d7b03e5a:-7aaa</uniqueIdentifier>
+                <uniqueIdentifier>5ce6b30f:17a054d2c55:5e9b</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -15750,7 +15750,7 @@
         <methodsCustomizations>
             <uniqueIdentifier>4e83da18:1651daf46ca:116a</uniqueIdentifier>
             <specificProperties/>
-            <hidden>false</hidden>
+            <hidden>true</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
@@ -15761,6 +15761,54 @@
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>true</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-6a21ba6b:17a051b7b2a:-5f8</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>beginTransaction</methodName>
+            <methodSignature>void beginTransaction()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <transactionalRole>BEGIN</transactionalRole>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-6a21ba6b:17a051b7b2a:-5f7</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>commitTransaction</methodName>
+            <methodSignature>void commitTransaction()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <transactionalRole>COMMIT</transactionalRole>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>-6a21ba6b:17a051b7b2a:-5f6</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>true</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>rollbackTransaction</methodName>
+            <methodSignature>void rollbackTransaction()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <transactionalRole>ROLLBACK</transactionalRole>
+            <validating>false</validating>
         </methodsCustomizations>
         <typeName>ReflectionUITest$Test3</typeName>
         <undoManagementHidden>false</undoManagementHidden>

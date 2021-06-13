@@ -47,6 +47,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -551,40 +552,47 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static boolean finalizeSubModifications(final ModificationStack parentModificationStack,
-			final ModificationStack subModificationsStack, boolean subModificationsAccepted,
-			final ValueReturnMode valueReturnMode, final boolean valueReplaced,
+	public static boolean finalizeModifications(final ModificationStack parentModificationStack,
+			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
+			final ValueReturnMode valueReturnMode, final boolean valueReplaced, ITransactionInfo valueTransaction,
 			final IModification committingModification, String parentModificationTitle, boolean fakeParentModification,
-			final Listener<String> debugLogListener) {
+			final Listener<String> debugLogListener, Listener<String> errorLogListener) {
 
-		if (parentModificationStack == null) {
-			throw new ReflectionUIError();
-		}
-		if (subModificationsStack == null) {
+		if (currentModificationsStack == null) {
 			throw new ReflectionUIError();
 		}
 
-		if (subModificationsStack.isInitial()) {
-			if (!subModificationsStack.isExhaustive()) {
-				parentModificationStack.push(IModification.FAKE_MODIFICATION);
+		if (!mayModificationsHaveImpact(false, valueReturnMode, (committingModification != null))) {
+			return false;
+		}
+
+		if (currentModificationsStack.isInitial()) {
+			if (!currentModificationsStack.isExhaustive()) {
+				if (parentModificationStack != null) {
+					parentModificationStack.push(IModification.FAKE_MODIFICATION);
+				}
 				return true;
 			}
+			return false;
 		}
 
 		boolean parentObjectImpacted = false;
-		if (!subModificationsStack.isInitial()) {
-			if (subModificationsAccepted) {
+		if (currentModificationsAccepted) {
+			if (parentModificationStack != null) {
 				parentObjectImpacted = parentModificationStack.insideComposite(parentModificationTitle, UndoOrder.FIFO,
 						new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
 								if (valueReturnMode != ValueReturnMode.CALCULATED) {
-									if (subModificationsStack.wasInvalidated()) {
+									if (currentModificationsStack.wasInvalidated()) {
 										parentModificationStack.invalidate();
 									} else {
 										parentModificationStack
-												.push(subModificationsStack.toCompositeUndoModification(null));
+												.push(currentModificationsStack.toCompositeUndoModification(null));
 									}
+								}
+								if (valueTransaction != null) {
+									valueTransaction.commit();
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
 									if (committingModification != null) {
@@ -597,19 +605,29 @@ public class ReflectionUIUtils {
 								return true;
 							}
 						}, fakeParentModification);
-			} else {
-				if (valueReturnMode != ValueReturnMode.CALCULATED) {
-					if (!subModificationsStack.wasInvalidated()) {
+			}
+		} else {
+			if (valueReturnMode != ValueReturnMode.CALCULATED) {
+				if (valueTransaction != null) {
+					valueTransaction.rollback();
+				} else {
+					if (!currentModificationsStack.wasInvalidated()) {
 						if (debugLogListener != null) {
-							debugLogListener.handle("Undoing " + subModificationsStack);
+							debugLogListener.handle("Undoing " + currentModificationsStack);
 						}
-						subModificationsStack.undoAll();
+						currentModificationsStack.undoAll();
 					} else {
-						if (debugLogListener != null) {
-							debugLogListener.handle("WARNING: Cannot undo invalidated sub-modification stack: "
-									+ subModificationsStack + "\n=> Invalidating parent modification stack");
+						if (errorLogListener != null) {
+							errorLogListener.handle(
+									"Cannot undo invalidated sub-modification stack: " + currentModificationsStack);
 						}
-						parentModificationStack.invalidate();
+						if (parentModificationStack != null) {
+							if (debugLogListener != null) {
+								debugLogListener.handle(
+										"=> Invalidating parent modification stack: " + parentModificationStack);
+							}
+							parentModificationStack.invalidate();
+						}
 						parentObjectImpacted = true;
 					}
 				}
@@ -618,7 +636,7 @@ public class ReflectionUIUtils {
 		return parentObjectImpacted;
 	}
 
-	public static boolean mayModifyValue(boolean valueKnownAsImmutable, ValueReturnMode valueReturnMode,
+	public static boolean mayModificationsHaveImpact(boolean valueKnownAsImmutable, ValueReturnMode valueReturnMode,
 			boolean canCommit) {
 		if ((valueReturnMode != ValueReturnMode.CALCULATED) && !valueKnownAsImmutable) {
 			return true;

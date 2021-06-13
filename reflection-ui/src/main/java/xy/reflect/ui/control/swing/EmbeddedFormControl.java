@@ -43,6 +43,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -107,7 +108,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void forwardSubFormModifications() {
-		if (!ReflectionUIUtils.mayModifyValue(
+		if (!ReflectionUIUtils.mayModificationsHaveImpact(
 				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subFormObject),
 				data.getValueReturnMode(), !data.isGetOnly())) {
 			ModificationStack childModifStack = subForm.getModificationStack();
@@ -124,8 +125,14 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			});
 		} else {
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
-			Accessor<ValueReturnMode> childValueReturnModeGetter = Accessor.returning(data.getValueReturnMode());
+			Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
+				@Override
+				public ValueReturnMode get() {
+					return data.getValueReturnMode();
+				}
+			};
 			Accessor<Boolean> childValueReplacedGetter = Accessor.returning(Boolean.FALSE);
+			Accessor<ITransactionInfo> childValueTransactionGetter = Accessor.returning(null);
 			Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
@@ -162,9 +169,10 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				}
 			};
 			subForm.setModificationStack(new SlaveModificationStack(subForm.toString(), childModifAcceptedGetter,
-					childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, childModifTitleGetter,
-					masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
-					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
+					childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionGetter,
+					committingModifGetter, childModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
+					exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
+					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
 					masterModificationExceptionListener));
 		}
 	}

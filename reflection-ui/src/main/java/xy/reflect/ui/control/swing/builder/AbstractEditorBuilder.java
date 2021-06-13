@@ -43,6 +43,7 @@ import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
@@ -50,6 +51,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -64,6 +66,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	protected EditorFrame createdFrame;
 	protected RenderedDialog createdDialog;
 	protected boolean parentModificationStackImpacted = false;
+	protected ITransactionInfo currentValueTransaction;
 
 	/**
 	 * @return the owner component of the editor window or null.
@@ -308,36 +311,51 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * Creates and shows the editor dialog. Note that the dialog is modal.
 	 */
 	public void createAndShowDialog() {
-		getSwingRenderer().showDialog(createDialog(), true);
-		if (hasParentObject()) {
-			if (mayModifyParentObject()) {
-				impactParent();
+		createDialog();
+		initializeDialogModifications();
+		getSwingRenderer().showDialog(createdDialog, true);
+		finalizeDialogModifications();
+	}
+
+	/**
+	 * Prepares a dialog edit session. Must be called before
+	 * {@link #finalizeDialogModifications()}.
+	 */
+	public void initializeDialogModifications() {
+		if (createdDialog == null) {
+			throw new ReflectionUIError();
+		}
+		currentValueTransaction = null;
+		{
+			Object value = getCurrentValue();
+			if (value != null) {
+				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
+				ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+				currentValueTransaction = valueType.getTransaction(value);
 			}
+		}
+		if (currentValueTransaction != null) {
+			currentValueTransaction.begin();
+			((Form)createdDialog.getDialogBuilder().getContentComponent()).refresh(false);
 		} else {
-			if (isCancelled()) {
-				ModificationStack modifStack = getModificationStack();
-				modifStack.undoAll();
-				if (modifStack.wasInvalidated()) {
-					getSwingRenderer().getReflectionUI()
-							.logDebug("WARNING: Cannot undo completely invalidated modification stack: " + modifStack);
-				}
-			}
+			createdFormModificationStack.setMaximumSize(Integer.MAX_VALUE);
 		}
 	}
 
 	/**
-	 * Update the parent object and its modification stack according to the local
-	 * value/object modifications and the current editor builder specifications.
+	 * Terminates a dialog edit session by eventually updating the local
+	 * value/object, its parent and their modification stacks according to the
+	 * performed modifications and the current editor builder state and
+	 * specifications. Must be preceded by a call to
+	 * {@link #initializeDialogModifications()}.
 	 */
-	public void impactParent() {
+	public void finalizeDialogModifications() {
 		ModificationStack parentObjectModifStack = getParentModificationStack();
-		if (parentObjectModifStack == null) {
-			return;
-		}
 		ModificationStack valueModifStack = getModificationStack();
 		ValueReturnMode valueReturnMode = getReturnModeFromParent();
 		Object currentValue = getCurrentValue();
 		boolean valueReplaced = isValueReplaced();
+		ITransactionInfo valueTransaction = currentValueTransaction;
 		IModification committingModif;
 		if (!canCommitToParent()) {
 			committingModif = null;
@@ -348,12 +366,19 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 				&& ((!isCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifFake = isParentModificationFake();
-		parentModificationStackImpacted = ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack,
-				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, committingModif,
-				parentObjectModifTitle, parentObjectModifFake, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()));
+		parentModificationStackImpacted = ReflectionUIUtils.finalizeModifications(parentObjectModifStack,
+				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, valueTransaction, committingModif,
+				parentObjectModifTitle, parentObjectModifFake,
+				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
+				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()));
+		if (currentValueTransaction != null) {
+			currentValueTransaction = null;
+			if (parentObjectModifStack != null) {
+				parentObjectModifStack.push(IModification.FAKE_MODIFICATION);
+			}
+		}
 	}
 
-	
 	/**
 	 * @return whether the user cancelled the editor dialog.
 	 */

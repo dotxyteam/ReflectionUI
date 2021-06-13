@@ -36,6 +36,7 @@ import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -79,8 +80,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractEditorFormBuilder {
 
 	protected Object initialObjectValue;
-	protected boolean objectValueInitialized = false;
-	protected boolean objectValueReplaced = false;
+	protected boolean initialized = false;
 	protected Accessor<Object> encapsulatedObjectValueAccessor;
 
 	/**
@@ -170,7 +170,7 @@ public abstract class AbstractEditorFormBuilder {
 	 * Ensures that the initial local value/object has been acquired.
 	 */
 	protected void ensureIsInitialized() {
-		if (objectValueInitialized) {
+		if (initialized) {
 			return;
 		}
 		encapsulatedObjectValueAccessor = new Accessor<Object>() {
@@ -185,27 +185,26 @@ public abstract class AbstractEditorFormBuilder {
 			@Override
 			public void set(Object o) {
 				object = o;
-				objectValueReplaced = true;
 			}
 
 		};
-		objectValueInitialized = true;
+		initialized = true;
 	}
 
 	/**
 	 * @return whether the initial local value/object has been acquired or not.
 	 */
 	public boolean isInitialized() {
-		return objectValueInitialized;
+		return initialized;
 	}
 
 	/**
-	 * @return whether the local object/value has been replaced during the lifetime
-	 *         of the editor control. Typically immutable objects like primitive
-	 *         wrappers would be replaced on every modification.
+	 * @return whether the local object/value reference (or primitive value) has
+	 *         changed. Typically immutable objects like primitive wrappers would be
+	 *         replaced on every modification.
 	 */
 	public boolean isValueReplaced() {
-		return objectValueReplaced;
+		return getCurrentValue() != initialObjectValue;
 	}
 
 	/**
@@ -451,18 +450,18 @@ public abstract class AbstractEditorFormBuilder {
 	 *                         (mainly used in design mode).
 	 */
 	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
-		Object oldValue = encapsulatedObjectValueAccessor.get();
-		Object newValue = loadValue();
-		encapsulatedObjectValueAccessor.set(newValue);		
 		if (refreshStructure) {
+			initialized = false;
+			ensureIsInitialized();
 			editorForm.setObject(getCapsule());
-		}else {
+		} else {
+			Object oldValue = encapsulatedObjectValueAccessor.get();
+			Object newValue = loadValue();
 			if (oldValue != newValue) {
+				encapsulatedObjectValueAccessor.set(newValue);
 				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
-				ITypeInfo oldValueType = reflectionUI
-						.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
-				ITypeInfo newValueType = reflectionUI
-						.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
+				ITypeInfo oldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
+				ITypeInfo newValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
 				if (!oldValueType.equals(newValueType)) {
 					editorForm.setObject(getCapsule());
 				}
@@ -510,7 +509,7 @@ public abstract class AbstractEditorFormBuilder {
 			return false;
 		}
 		ensureIsInitialized();
-		return ReflectionUIUtils.mayModifyValue(
+		return ReflectionUIUtils.mayModificationsHaveImpact(
 				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
 				getReturnModeFromParent(), canCommitToParent());
 	}
@@ -569,6 +568,7 @@ public abstract class AbstractEditorFormBuilder {
 				return isValueReplaced();
 			}
 		};
+		Accessor<ITransactionInfo> childValueTransactionGetter = Accessor.returning(null);
 		Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
@@ -607,9 +607,10 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		};
 		editorForm.setModificationStack(new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, committingModifGetter, masterModifTitleGetter,
+				childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionGetter, committingModifGetter, masterModifTitleGetter,
 				masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
+				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener));
 	}
 

@@ -40,6 +40,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -65,7 +66,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  *
  */
 public class GenericEnumerationFactory {
-	
+
 	protected ReflectionUI reflectionUI;
 	protected Iterable<?> iterable;
 	protected String enumerationTypeName;
@@ -236,6 +237,11 @@ public class GenericEnumerationFactory {
 		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(TypeInfo.this, null);
+		}
+
+		@Override
+		public ITransactionInfo getTransaction(Object object) {
+			return null;
 		}
 
 		@Override

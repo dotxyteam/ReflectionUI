@@ -54,6 +54,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -1394,8 +1395,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					if ((newItem != null) && (currentItem != null)) {
 						ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 						ITypeInfo newItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newItem));
-						ITypeInfo currentItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(currentItem));
-						if(!newItemType.equals(currentItemType)) {
+						ITypeInfo currentItemType = reflectionUI
+								.getTypeInfo(reflectionUI.getTypeInfoSource(currentItem));
+						if (!newItemType.equals(currentItemType)) {
 							refreshStructure = true;
 						}
 					}
@@ -2764,15 +2766,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected boolean prepare() {
 			BufferedItemPosition itemPosition = getSingleSelection();
 			dialogBuilder = new ItemUIBuilder(itemPosition);
-			swingRenderer.showDialog(dialogBuilder.createDialog(), true);
+			JDialog dialog = dialogBuilder.createDialog();
+			dialogBuilder.initializeDialogModifications();
+			swingRenderer.showDialog(dialog, true);
 			return true;
 		}
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			if (dialogBuilder.mayModifyParentObject()) {
-				dialogBuilder.impactParent();
-			}
+			dialogBuilder.finalizeDialogModifications();
 			toPostSelectHolder[0] = getSelection();
 		}
 
@@ -3209,15 +3211,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return dynamicProperty.getFormControlFilter();
 				}
 			};
-			swingRenderer.showDialog(subDialogBuilder.createDialog(), true);
+			JDialog dialog = subDialogBuilder.createDialog();
+			subDialogBuilder.initializeDialogModifications();
+			swingRenderer.showDialog(dialog, true);
 			return true;
 		}
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			if (subDialogBuilder.mayModifyParentObject()) {
-				subDialogBuilder.impactParent();
-			}
+			subDialogBuilder.finalizeDialogModifications();
 			if (dynamicProperty.getPostSelection() != null) {
 				toPostSelectHolder[0] = MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicProperty.getPostSelection());

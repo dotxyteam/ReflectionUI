@@ -2792,6 +2792,10 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public enum TransactionalRole {
+		BEGIN, COMMIT, ROLLBACK
+	}
+
 	public static class MethodCustomization extends AbstractMemberCustomization
 			implements Comparable<MethodCustomization> {
 		private static final long serialVersionUID = 1L;
@@ -2816,12 +2820,21 @@ public class InfoCustomizations implements Serializable {
 		protected boolean duplicateGenerated = false;
 		protected String confirmationMessage;
 		protected String parametersValidationCustomCaption;
+		protected TransactionalRole transactionalRole;
 
 		@Override
 		public boolean isInitial() {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
 			return InfoCustomizations.isSimilar(this, defaultMethodCustomization);
+		}
+
+		public TransactionalRole getTransactionalRole() {
+			return transactionalRole;
+		}
+
+		public void setTransactionalRole(TransactionalRole transactionalRole) {
+			this.transactionalRole = transactionalRole;
 		}
 
 		public String getParametersValidationCustomCaption() {
@@ -4184,6 +4197,10 @@ public class InfoCustomizations implements Serializable {
 
 		private boolean migrate(TypeCustomization tc) {
 			boolean migrated = false;
+			if(tc.getTypeName().contains("NonNullableInstance")) {
+				tc.setTypeName(tc.getTypeName().replace("NonNullableInstance", "MutableInstance"));
+				migrated = true;
+			}
 			for (FieldCustomization fc : tc.getFieldsCustomizations()) {
 				if (migrate(fc, tc)) {
 					migrated = true;

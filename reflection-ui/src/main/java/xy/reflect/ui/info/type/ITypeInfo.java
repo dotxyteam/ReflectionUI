@@ -35,6 +35,7 @@ import java.util.List;
 
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -49,6 +50,12 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
  *
  */
 public interface ITypeInfo extends IInfo {
+
+	/**
+	 * @param object Any object of the current type.
+	 * @return a transaction manager for the given instance.
+	 */
+	ITransactionInfo getTransaction(Object object);
 
 	/**
 	 * @return the source object from which this type information was created.

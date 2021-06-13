@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -374,6 +375,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(this,
 					new SpecificitiesIdentifier(containingType.getName(), fieldName));
+		}
+
+		@Override
+		public ITransactionInfo getTransaction(Object object) {
+			return null;
 		}
 
 		@Override

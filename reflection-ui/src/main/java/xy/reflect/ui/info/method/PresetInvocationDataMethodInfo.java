@@ -49,7 +49,9 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	public PresetInvocationDataMethodInfo(IMethodInfo base, InvocationData invocationData) {
 		super(base);
-		this.invocationData = new InvocationData();
+		this.invocationData = new InvocationData(invocationData);
+		this.invocationData.getProvidedParameterValues().clear();
+		this.invocationData.getDefaultParameterValues().clear();
 		for (IParameterInfo param : base.getParameters()) {
 			this.invocationData.getProvidedParameterValues().put(param.getPosition(),
 					invocationData.getParameterValue(param.getPosition()));
