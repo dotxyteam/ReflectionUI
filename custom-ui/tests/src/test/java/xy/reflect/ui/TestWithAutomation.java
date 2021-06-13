@@ -152,4 +152,11 @@ public class TestWithAutomation {
 						+ "test-specifications/testTransientFields.stt"));
 	}
 
+	@Test
+	public void testTransactions() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testTransactions.stt"));
+	}
+
 }

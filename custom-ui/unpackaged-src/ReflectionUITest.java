@@ -116,13 +116,12 @@ public class ReflectionUITest {
 		public List<String> theStringList = new ArrayList<String>(Arrays.asList("a", "b", "c", "d"));
 		public List<Boolean> theBooleanList = new ArrayList<Boolean>(Arrays.asList(true, false, true, false));
 		public float[] theFloatArray = new float[] { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f };
-		public Test2 test2 = new Test2();
 		public AbstrcatTestDescendant[] theArrayTreeTable = new AbstrcatTestDescendant[] {
 				new Test2(new ArrayList<ReflectionUITest.AbstrcatTestDescendant>(
 						Arrays.<AbstrcatTestDescendant>asList(new Test3(), new Test4()))),
 				new Test3() };
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public Collection theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2()));
+		public Collection theGenericVector = new Vector(Arrays.asList(new Test2(), new Test2(), new Test3()));
 		public Map<Integer, String> theMap = new HashMap<Integer, String>(new HashMap<Integer, String>() {
 			private static final long serialVersionUID = 1L;
 
@@ -139,7 +138,9 @@ public class ReflectionUITest {
 		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));
 		public Stack<Integer> theStack = new Stack<Integer>();
 		public List<File> theNullList = null;
-		
+
+		public Test2 test2 = new Test2();
+		public Test3 test3 = new Test3();
 		public Test4 test4 = new Test4();
 
 		public Date getTheDate() {
@@ -253,10 +254,29 @@ public class ReflectionUITest {
 
 	public static class Test3 extends AbstrcatTestDescendant {
 		public String reference;
+		public String transactionState;
 
 		public List<String> getValidReferences() {
 			return Arrays.asList("ref1", "ref2", "ref3");
 		}
+
+		public void beginTransaction() {
+			transactionState = "started";
+		}
+
+		public void commitTransaction() {
+			transactionState = "committed";
+		}
+
+		public void rollbackTransaction() {
+			transactionState = "rolled back";
+		}
+
+		@Override
+		public String toString() {
+			return "Test3 [reference=" + reference + ", transactionState=" + transactionState + "]";
+		}
+
 	}
 
 	public static class Test4 extends AbstrcatTestDescendant {
