@@ -308,10 +308,10 @@ public class ModificationStack {
 	 * modification stack will be marked as non-exhaustive (see
 	 * {@link #isExhaustive()}).
 	 * 
-	 * If there is a current composite stack (see {@link #isInComposite()}) then the
-	 * specified undo modification will rather be stored on it.
+	 * If there is a current composite modification (see {@link #isInComposite()})
+	 * then the specified undo modification will rather be stored on it.
 	 * 
-	 * @param undoModification The undo modification that should be pushed on the
+	 * @param undoModification The undo modification that should be pushed onto the
 	 *                         undo stack.
 	 * @return true only and only if the specified undo modification is not null.
 	 */
@@ -453,22 +453,22 @@ public class ModificationStack {
 	 * @param fake  Whether the composite modification will be marked as fake or
 	 *              not. Note that if false is returned the composite modification
 	 *              may be fake anyway (when composed of fake modifications only).
-	 * @return true if a potential modification was detected since the call of
-	 *         {@link #beginComposite()}. Note that true will also be returned if
-	 *         the composite modification creation have been aborted because of an
-	 *         invalidation.
+	 * @return true if the final composite undo modification was successfully pushed
+	 *         onto the undo stack. If the composite modification is null or
+	 *         invalidated then false will be returned.
 	 */
 	public boolean endComposite(String title, UndoOrder order, boolean fake) {
-		if (invalidated) {
-			abortComposite();
-			return true;
-		}
 		ModificationStack topComposite = compositeStack.pop();
 		ModificationStack compositeParent;
 		if (compositeStack.size() > 0) {
 			compositeParent = compositeStack.peek();
 		} else {
 			compositeParent = this;
+		}
+		if (topComposite.wasInvalidated) {
+			abortComposite();
+			compositeParent.invalidate();
+			return false;
 		}
 		CompositeModification topCompositeUndoModif;
 		{
@@ -516,7 +516,9 @@ public class ModificationStack {
 	 * @param action If the call of {@link Accessor#get()} on this parameter returns
 	 *               true then the composite modification is ended. Otherwise the
 	 *               composite modification is aborted.
-	 * @return whether a potential modification is detected or not.
+	 * @return true if the final composite undo modification was successfully pushed
+	 *         onto the undo stack. If the composite modification is null or
+	 *         invalidated then false will be returned.
 	 */
 	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action, boolean fake) {
 		beginComposite();
@@ -537,17 +539,23 @@ public class ModificationStack {
 			abortComposite();
 			return false;
 		}
-
 	}
 
 	/**
 	 * Informs the modification stack of the current undo management inconsistency.
-	 * Subsequently {@link #isInvalidated()} will return true and the undo and redo
-	 * stacks will be emptied to ensure that the undo management remains consistent.
-	 * This invalidation state will be cleared if an undo modification gets added
-	 * afterwards.
+	 * Subsequently {@link #isInvalidated()} and {@link #wasInvalidated()} will
+	 * return true and the undo and redo stacks will be emptied to ensure that the
+	 * undo management remains consistent. This invalidation state will be cleared
+	 * if an undo modification gets added afterwards but {@link #wasInvalidated()}
+	 * will always return true after this operation. Note that if there is a current
+	 * composite modification (see {@link #isInComposite()}) then this operation
+	 * will only invalidate it.
 	 */
 	public void invalidate() {
+		if (compositeStack.size() > 0) {
+			compositeStack.peek().invalidate();
+			return;
+		}
 		wasInvalidated = invalidated = true;
 		allListenersProxy.afterInvalidate();
 	}

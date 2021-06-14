@@ -241,9 +241,6 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	protected void openDialog(Component owner) {
 		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder(owner);
 		subDialogBuilder.createAndShowDialog();
-		if (subDialogBuilder.isParentModificationStackImpacted()) {
-			refreshUI(false);
-		}
 	}
 
 	protected AbstractEditorBuilder getSubDialogBuilder(final Component owner) {

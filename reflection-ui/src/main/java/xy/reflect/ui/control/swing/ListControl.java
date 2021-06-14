@@ -2146,7 +2146,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
 								return true;
 							} else {
-								modifStack.apply(new RefreshStructureModification(toPostSelectHolder[0]));
+								new RefreshStructureModification(toPostSelectHolder[0]).applyAndGetOpposite();
 								return false;
 							}
 						}

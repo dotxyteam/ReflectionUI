@@ -65,7 +65,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	protected ModificationStack createdFormModificationStack;
 	protected EditorFrame createdFrame;
 	protected RenderedDialog createdDialog;
-	protected boolean parentModificationStackImpacted = false;
 	protected ITransactionInfo currentValueTransaction;
 
 	/**
@@ -366,7 +365,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 				&& ((!isCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifFake = isParentModificationFake();
-		parentModificationStackImpacted = ReflectionUIUtils.finalizeModifications(parentObjectModifStack,
+		ReflectionUIUtils.finalizeModifications(parentObjectModifStack,
 				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, valueTransaction, committingModif,
 				parentObjectModifTitle, parentObjectModifFake,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
@@ -390,13 +389,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			return false;
 		}
 		return !createdDialog.wasOkPressed();
-	}
-
-	/**
-	 * @return whether a potential modification of the parent object is detected.
-	 */
-	public boolean isParentModificationStackImpacted() {
-		return parentModificationStackImpacted;
 	}
 
 	/**

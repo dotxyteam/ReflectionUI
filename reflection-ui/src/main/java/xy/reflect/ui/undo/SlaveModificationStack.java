@@ -123,13 +123,13 @@ public class SlaveModificationStack extends ModificationStack {
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean masterModificationFake = masterModificationFakeGetter.get();
 		try {
-			return ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
 					valueReturnMode, valueReplaced, valueTransaction, committingModif, modifTitle,
 					masterModificationFake, debugLogListener, errorLogListener);
 		} catch (Throwable t) {
 			masterModificationExceptionListener.handle(t);
-			return true;
 		}
+		return true;
 	}
 
 	@Override

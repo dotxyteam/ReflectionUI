@@ -40,9 +40,9 @@ package xy.reflect.ui.undo;
 public interface IModification {
 
 	/**
-	 * Dummy instance of this class made for utilitarian purposes.
-	 * Represents a null (no impact on the object state) modification. It just
-	 * returns true when {@link #isNull()} is called.
+	 * Dummy instance of this class made for utilitarian purposes. Represents a null
+	 * (no impact on the object state) modification. It just returns true when
+	 * {@link #isNull()} is called.
 	 */
 	IModification NULL_MODIFICATION = new IModification() {
 		@Override
@@ -73,9 +73,9 @@ public interface IModification {
 	};
 
 	/**
-	 * Dummy instance of this class made for utilitarian purposes.
-	 * Represents a null (no impact on the object state) modification. It just
-	 * returns true when {@link #isFake()} is called.
+	 * Dummy instance of this class made for utilitarian purposes. Represents a null
+	 * (no impact on the object state) modification. It just returns true when
+	 * {@link #isFake()} is called.
 	 */
 	IModification FAKE_MODIFICATION = new IModification() {
 		@Override
@@ -125,7 +125,7 @@ public interface IModification {
 	 * @return true if and only if this modification should be considered as fake,
 	 *         with no impact on the target object state but with impact on its
 	 *         associated {@link ModificationStack} listeners that should receive
-	 *         notifications.
+	 *         notifications and typically refresh themselves.
 	 */
 	boolean isFake();
 

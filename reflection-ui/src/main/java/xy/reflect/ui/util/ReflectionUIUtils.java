@@ -552,7 +552,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static boolean finalizeModifications(final ModificationStack parentModificationStack,
+	public static void finalizeModifications(final ModificationStack parentModificationStack,
 			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
 			final ValueReturnMode valueReturnMode, final boolean valueReplaced, ITransactionInfo valueTransaction,
 			final IModification committingModification, String parentModificationTitle, boolean fakeParentModification,
@@ -563,7 +563,7 @@ public class ReflectionUIUtils {
 		}
 
 		if (!mayModificationsHaveImpact(false, valueReturnMode, (committingModification != null))) {
-			return false;
+			return;
 		}
 
 		if (currentModificationsStack.isInitial()) {
@@ -571,15 +571,14 @@ public class ReflectionUIUtils {
 				if (parentModificationStack != null) {
 					parentModificationStack.push(IModification.FAKE_MODIFICATION);
 				}
-				return true;
+				return;
 			}
-			return false;
+			return;
 		}
 
-		boolean parentObjectImpacted = false;
 		if (currentModificationsAccepted) {
 			if (parentModificationStack != null) {
-				parentObjectImpacted = parentModificationStack.insideComposite(parentModificationTitle, UndoOrder.FIFO,
+				parentModificationStack.insideComposite(parentModificationTitle, UndoOrder.FIFO,
 						new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
@@ -593,6 +592,11 @@ public class ReflectionUIUtils {
 								}
 								if (valueTransaction != null) {
 									valueTransaction.commit();
+									/*
+									 * Note that at this point we are sure that the parentModificationStack will
+									 * fire an event allowing the parent object UI to refresh and then take into
+									 * account the changes caused by the transaction.
+									 */
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
 									if (committingModification != null) {
@@ -610,6 +614,14 @@ public class ReflectionUIUtils {
 			if (valueReturnMode != ValueReturnMode.CALCULATED) {
 				if (valueTransaction != null) {
 					valueTransaction.rollback();
+					/*
+					 * We then need to make sure that the parentModificationStack will fire an event
+					 * allowing the parent object UI to refresh and then take into account the
+					 * changes caused by the transaction.
+					 */
+					if (parentModificationStack != null) {
+						parentModificationStack.push(IModification.FAKE_MODIFICATION);
+					}
 				} else {
 					if (!currentModificationsStack.wasInvalidated()) {
 						if (debugLogListener != null) {
@@ -628,12 +640,10 @@ public class ReflectionUIUtils {
 							}
 							parentModificationStack.invalidate();
 						}
-						parentObjectImpacted = true;
 					}
 				}
 			}
 		}
-		return parentObjectImpacted;
 	}
 
 	public static boolean mayModificationsHaveImpact(boolean valueKnownAsImmutable, ValueReturnMode valueReturnMode,
