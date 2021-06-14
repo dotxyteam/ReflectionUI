@@ -664,6 +664,7 @@
         <string>Duplicate</string>
         <string>Run When Instance Shown</string>
         <string>Run When Instance Hidden</string>
+        <string>Transactional Role</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>
