@@ -195,20 +195,6 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @return whether this modification stack is currently invalidated.
-	 */
-	public boolean isInvalidated() {
-		return invalidated;
-	}
-
-	/**
-	 * @return whether this modification stack has been at least once invalidated.
-	 */
-	public boolean wasInvalidated() {
-		return wasInvalidated;
-	}
-
-	/**
 	 * @return false if a fake modification ({@link IModification#isFake()} == true)
 	 *         has been submitted at least once to this modification stack (means
 	 *         that some listeners may need to be informed of the occurrence of
@@ -322,7 +308,7 @@ public class ModificationStack {
 		if (pushFilter != null) {
 			undoModification = pushFilter.get(undoModification);
 		}
-		if (compositeStack.size() > 0) {
+		if (isInComposite()) {
 			compositeStack.peek().push(undoModification);
 			return true;
 		}
@@ -348,6 +334,9 @@ public class ModificationStack {
 	 *         {@link ModificationStack#undo()}.
 	 */
 	public IModification getNextUndoModification() {
+		if (isInComposite()) {
+			return null;
+		}
 		if (undoStack.size() == 0) {
 			return null;
 		}
@@ -359,6 +348,9 @@ public class ModificationStack {
 	 *         {@link ModificationStack#redo()}.
 	 */
 	public IModification getNextRedoModification() {
+		if (isInComposite()) {
+			return null;
+		}
 		if (redoStack.size() == 0) {
 			return null;
 		}
@@ -372,7 +364,7 @@ public class ModificationStack {
 	 * @throws ReflectionUIError If a composite modification is being created.
 	 */
 	public void undo() {
-		if (compositeStack.size() > 0) {
+		if (isInComposite()) {
 			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
 		}
 		if (undoStack.size() == 0) {
@@ -395,7 +387,7 @@ public class ModificationStack {
 	 * @throws ReflectionUIError If a composite modification is being created.
 	 */
 	public void redo() {
-		if (compositeStack.size() > 0) {
+		if (isInComposite()) {
 			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
 		}
 		if (redoStack.size() == 0) {
@@ -422,6 +414,29 @@ public class ModificationStack {
 	}
 
 	/**
+	 * @return whether there are remaining undo modifications.
+	 */
+	public Boolean canUndo() {
+		return (getNextUndoModification() != null) && !isInvalidated();
+	}
+
+	/**
+	 * @return whether there are remaining redo modifications.
+	 */
+	public Boolean canRedo() {
+		return (getNextRedoModification() != null) && !isInvalidated();
+	}
+
+	/**
+	 * @return whether the objects managed by this modification stack can be
+	 *         reverted to their initial state (in other terms, there are remaining
+	 *         undo modifications and the modification stack was never invalidated).
+	 */
+	public Boolean canReset() {
+		return canUndo() && !wasInvalidated();
+	}
+
+	/**
 	 * Begins the creation of a composite modification. Following this method call,
 	 * all the modifications that will be added to this stack will be packed into a
 	 * unique modification until the call of
@@ -439,9 +454,9 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @return true if a call to {@link #beginComposite()} have been performed but
-	 *         the call to the related {@link #endComposite(String, UndoOrder)} or
-	 *         {@link #abortComposite()} has not been performed yet.
+	 * @return true if a call to {@link #beginComposite()} have been done but the
+	 *         call to the related {@link #endComposite(String, UndoOrder)} or
+	 *         {@link #abortComposite()} has not been done yet.
 	 */
 	public boolean isInComposite() {
 		return compositeStack.size() > 0;
@@ -466,7 +481,6 @@ public class ModificationStack {
 			compositeParent = this;
 		}
 		if (topComposite.wasInvalidated) {
-			abortComposite();
 			compositeParent.invalidate();
 			return false;
 		}
@@ -547,12 +561,13 @@ public class ModificationStack {
 	 * return true and the undo and redo stacks will be emptied to ensure that the
 	 * undo management remains consistent. This invalidation state will be cleared
 	 * if an undo modification gets added afterwards but {@link #wasInvalidated()}
-	 * will always return true after this operation. Note that if there is a current
-	 * composite modification (see {@link #isInComposite()}) then this operation
-	 * will only invalidate it.
+	 * will always return true after this operation. Note that if the invalidation
+	 * occurs during a composite modification creation (see
+	 * {@link #isInComposite()}) then it will be cancelled if the composite
+	 * modification creation is aborted.
 	 */
 	public void invalidate() {
-		if (compositeStack.size() > 0) {
+		if (isInComposite()) {
 			compositeStack.peek().invalidate();
 			return;
 		}
@@ -561,13 +576,44 @@ public class ModificationStack {
 	}
 
 	protected void validate() {
+		if (isInComposite()) {
+			compositeStack.peek().validate();
+			return;
+		}
 		if (invalidated) {
 			redoStack.clear();
 			undoStack.clear();
-			compositeStack.clear();
 			invalidated = false;
 			allListenersProxy.afterClearInvalidation();
 		}
+	}
+
+	/**
+	 * @return whether this modification stack is currently invalidated. Note that
+	 *         if the invalidation occurred during a composite modification creation
+	 *         (see {@link #isInComposite()}) then it will be cancelled if the
+	 *         composite modification creation is aborted.
+	 */
+	public boolean isInvalidated() {
+		if (isInComposite()) {
+			return compositeStack.peek().isInvalidated();
+		}
+		return invalidated;
+	}
+
+	/**
+	 * @return whether this modification stack has been at least once invalidated
+	 *         (invalidation not cancelled). Note that this status is temporarily
+	 *         reset during a composite modification creation (see
+	 *         {@link #isInComposite()}) and persisted if true at the end of the
+	 *         composite modification creation or restored if the composite
+	 *         modification creation is aborted.
+	 */
+	public boolean wasInvalidated() {
+		if (isInComposite()) {
+			return compositeStack.peek().wasInvalidated();
+		}
+		return wasInvalidated;
 	}
 
 	/**
@@ -576,36 +622,13 @@ public class ModificationStack {
 	 * return false.
 	 */
 	public void forget() {
-		if (compositeStack.size() > 0) {
+		if (isInComposite()) {
 			throw new ReflectionUIError("Cannot forget while composite modification creation is ongoing");
 		}
 		invalidate();
 		validate();
 		wasInvalidated = false;
 		exhaustive = true;
-	}
-
-	/**
-	 * @return whether there are remaining undo modifications.
-	 */
-	public Boolean canUndo() {
-		return !isInvalidated() && (getNextUndoModification() != null);
-	}
-
-	/**
-	 * @return whether there are remaining redo modifications.
-	 */
-	public Boolean canRedo() {
-		return !isInvalidated() && (getNextRedoModification() != null);
-	}
-
-	/**
-	 * @return whether the objects managed by this modification stack can be
-	 *         reverted to their initial state (in other terms, there are remaining
-	 *         undo modifications and the modification stack was never invalidated).
-	 */
-	public Boolean canReset() {
-		return !wasInvalidated() && canUndo();
 	}
 
 	/**
@@ -617,7 +640,10 @@ public class ModificationStack {
 		if (getNextUndoModification() != null) {
 			return false;
 		}
-		if (wasInvalidated()) {
+		if (wasInvalidated) {
+			return false;
+		}
+		if (isInComposite() && !compositeStack.peek().isInitial()) {
 			return false;
 		}
 		return true;

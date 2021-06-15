@@ -135,6 +135,9 @@ public class SlaveModificationStack extends ModificationStack {
 	@Override
 	public void invalidate() {
 		super.invalidate();
+		if (isInComposite()) {
+			return;
+		}
 		forwardInvalidation();
 	}
 
@@ -149,9 +152,13 @@ public class SlaveModificationStack extends ModificationStack {
 		String parentObjectModifTitle = null;
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean parentObjectModificationFake = masterModificationFakeGetter.get();
-		ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
-				valueReturnMode, valueReplaced, valueTransaction, committingModif, parentObjectModifTitle, parentObjectModificationFake,
-				debugLogListener, errorLogListener);
+		try {
+			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+					valueReturnMode, valueReplaced, valueTransaction, committingModif, parentObjectModifTitle,
+					parentObjectModificationFake, debugLogListener, errorLogListener);
+		} catch (Throwable t) {
+			masterModificationExceptionListener.handle(t);
+		}
 	}
 
 	@Override

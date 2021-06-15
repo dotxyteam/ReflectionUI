@@ -551,7 +551,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected JPopupMenu createPopupMenu() {
 		JPopupMenu result = new JPopupMenu();
-		for (Action action : createCurrentSelectionActions()) {
+		for (Action action : getCurrentSelectionActions()) {
 			if (action == SEPARATOR_ACTION) {
 				result.add(new JSeparator());
 				continue;
@@ -832,11 +832,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return null;
 	}
 
-	protected List<AbstractAction> createCurrentSelectionActions() {
+	protected List<AbstractAction> getCurrentSelectionActions() {
 
 		List<AbstractAction> result = new ArrayList<AbstractAction>();
-
-		List<BufferedItemPosition> selection = getSelection();
 
 		AbstractStandardListAction standardAction;
 
@@ -931,6 +929,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return createListModificationFactory((BufferedItemPosition) itemPosition);
 			}
 		};
+
+		List<BufferedItemPosition> selection = getSelection();
+
 		for (IDynamicListProperty listProperty : getRootListType().getDynamicProperties(selection,
 				modificationFactoryAccessor)) {
 			result.add(createDynamicPropertyHook(listProperty));
@@ -1604,6 +1605,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return true;
 	}
 
+	protected boolean isSelectionUseful() {
+		if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
+			return true;
+		}
+		
+		return false;
+	}
+
 	protected void refreshItemPositionBuffers() {
 		itemPositionFactory.refreshAll();
 	}
@@ -2147,7 +2156,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								return true;
 							} else {
 								new RefreshStructureModification(toPostSelectHolder[0]).applyAndGetOpposite();
-								return false;
+								return modifStack.wasInvalidated();
 							}
 						}
 					}, listData.isTransient());
