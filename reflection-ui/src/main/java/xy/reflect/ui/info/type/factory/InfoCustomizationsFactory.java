@@ -59,6 +59,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemFieldShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuModelCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
@@ -155,6 +156,616 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	protected void traceCurrentCustomizations(Map<String, Object> specificProperties) {
 		specificProperties.put(CURRENT_CUSTOMIZATIONS_KEY, getInfoCustomizations());
+	}
+
+	protected static class ChangedTypeNameInfoCustomizationsFactory extends InfoCustomizationsFactory {
+
+		protected InfoCustomizationsFactory base;
+		protected String sourceTypeName;
+		protected String targetTypeName;
+
+		public ChangedTypeNameInfoCustomizationsFactory(InfoCustomizationsFactory base, String sourceTypeName,
+				String targetTypeName) {
+			super(base.customizedUI,
+					new ChangedTypeNameInfoCustomizations(base.infoCustomizations, sourceTypeName, targetTypeName));
+			this.base = base;
+			this.sourceTypeName = sourceTypeName;
+			this.targetTypeName = targetTypeName;
+		}
+
+		@Override
+		public String getIdentifier() {
+			return "ChangedTypeNameInfoCustomizationsFactory [sourceTypeName=" + sourceTypeName + ", targetTypeName="
+					+ targetTypeName + ", base=" + base + "]";
+		}
+
+		public static boolean isWrapping(ITypeInfo type, InfoCustomizationsFactory infoCustomizationsFactory) {
+			if (!(type instanceof GeneratedBasicTypeInfoProxy)) {
+				return false;
+			}
+			InfoProxyFactory factory = ((GeneratedBasicTypeInfoProxy) type).factory;
+			if (!(factory instanceof ChangedTypeNameInfoCustomizationsFactory)) {
+				return false;
+			}
+			InfoCustomizationsFactory base = ((ChangedTypeNameInfoCustomizationsFactory) factory).base;
+			if (!base.equals(infoCustomizationsFactory)) {
+				return false;
+			}
+			return true;
+		}
+
+	}
+
+	protected static class ChangedTypeNameInfoCustomizations extends InfoCustomizations {
+
+		private static final long serialVersionUID = 1L;
+
+		protected InfoCustomizations base;
+		protected String sourceTypeName;
+		protected String targetTypeName;
+
+		public ChangedTypeNameInfoCustomizations(InfoCustomizations base, String sourceTypeName,
+				String targetTypeName) {
+			this.base = base;
+			this.sourceTypeName = sourceTypeName;
+			this.targetTypeName = targetTypeName;
+		}
+
+		public ApplicationCustomization getAppplicationCustomization() {
+			return base.getAppplicationCustomization();
+		}
+
+		public List<TypeCustomization> getTypeCustomizations() {
+			List<TypeCustomization> result = new ArrayList<InfoCustomizations.TypeCustomization>();
+			for (TypeCustomization tc : base.getTypeCustomizations()) {
+				if (tc.getTypeName().equals(sourceTypeName)) {
+					result.add(new ChangedTypeNameCustomization(tc, targetTypeName));
+				} else if (tc.getTypeName().equals(targetTypeName)) {
+					continue;
+				} else {
+					result.add(tc);
+				}
+			}
+			return result;
+		}
+
+		public List<ListCustomization> getListCustomizations() {
+			return base.getListCustomizations();
+		}
+
+		public List<EnumerationCustomization> getEnumerationCustomizations() {
+			return base.getEnumerationCustomizations();
+		}
+
+		public void setAppplicationCustomization(ApplicationCustomization appplicationCustomization) {
+			throw new UnsupportedOperationException();
+		}
+
+		public void setTypeCustomizations(List<TypeCustomization> typeCustomizations) {
+			throw new UnsupportedOperationException();
+		}
+
+		public void setListCustomizations(List<ListCustomization> listCustomizations) {
+			throw new UnsupportedOperationException();
+		}
+
+		public void setEnumerationCustomizations(List<EnumerationCustomization> enumerationCustomizations) {
+			throw new UnsupportedOperationException();
+		}
+
+	}
+
+	protected static class ChangedTypeNameCustomization extends TypeCustomization {
+
+		private static final long serialVersionUID = 1L;
+
+		protected static boolean classChecked = false;
+
+		protected static void ensureClassChecked() {
+			if (classChecked) {
+				return;
+			}
+			for (Method method : ChangedTypeNameCustomization.class.getMethods()) {
+				if (Arrays.asList(Object.class.getMethods()).contains(method)) {
+					continue;
+				}
+				if (!(GetterFieldInfo.GETTER_PATTERN.matcher(method.getName()).matches()
+						|| method.getName().startsWith("set"))) {
+					continue;
+				}
+				if (method.getDeclaringClass() != ChangedTypeNameCustomization.class) {
+					throw new ReflectionUIError(method + " not overriden in " + ChangedTypeNameCustomization.class);
+				}
+			}
+			classChecked = true;
+		}
+
+		protected TypeCustomization base;
+		protected String targetTypeName;
+
+		public ChangedTypeNameCustomization(TypeCustomization base, String targetTypeName) {
+			ensureClassChecked();
+			this.base = base;
+			this.typeName = this.targetTypeName = targetTypeName;
+		}
+
+		@Override
+		public String getTypeName() {
+			return targetTypeName;
+		}
+
+		@Override
+		public String getBaseTypeName() {
+			return null;
+		}
+
+		@Override
+		public void setBaseTypeName(String baseTypeName) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getUniqueIdentifier() {
+			return base.getUniqueIdentifier();
+		}
+
+		@Override
+		public void setUniqueIdentifier(String uniqueIdentifier) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return base.getSpecificProperties();
+		}
+
+		@Override
+		public void setSpecificProperties(Map<String, Object> specificProperties) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isInitial() {
+			return base.isInitial();
+		}
+
+		@Override
+		public boolean isCopyForbidden() {
+			return base.isCopyForbidden();
+		}
+
+		@Override
+		public void setCopyForbidden(boolean copyForbidden) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getSavingMethodName() {
+			return base.getSavingMethodName();
+		}
+
+		@Override
+		public void setSavingMethodName(String savingMethodName) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<String> getSavingMethodNameOptions() {
+			return base.getSavingMethodNameOptions();
+		}
+
+		@Override
+		public String getLoadingMethodName() {
+			return base.getLoadingMethodName();
+		}
+
+		@Override
+		public void setLoadingMethodName(String loadingMethodName) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<String> getLoadingMethodNameOptions() {
+			return base.getLoadingMethodNameOptions();
+		}
+
+		@Override
+		public boolean isAnyPersistenceMemberIncluded() {
+			return base.isAnyPersistenceMemberIncluded();
+		}
+
+		@Override
+		public void setAnyPersistenceMemberIncluded(boolean anyPersistenceMemberIncluded) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public CategoriesStyle getCategoriesStyle() {
+			return base.getCategoriesStyle();
+		}
+
+		@Override
+		public void setCategoriesStyle(CategoriesStyle categoriesStyle) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ResourcePath getFormBackgroundImagePath() {
+			return base.getFormBackgroundImagePath();
+		}
+
+		@Override
+		public void setFormBackgroundImagePath(ResourcePath formBackgroundImagePath) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormBackgroundColor() {
+			return base.getFormBackgroundColor();
+		}
+
+		@Override
+		public void setFormBackgroundColor(ColorSpecification formBackgroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormForegroundColor() {
+			return base.getFormForegroundColor();
+		}
+
+		@Override
+		public void setFormForegroundColor(ColorSpecification formForegroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormBorderColor() {
+			return base.getFormBorderColor();
+		}
+
+		@Override
+		public void setFormBorderColor(ColorSpecification formBorderColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormEditorsForegroundColor() {
+			return base.getFormEditorsForegroundColor();
+		}
+
+		@Override
+		public void setFormEditorsForegroundColor(ColorSpecification formEditorsForegroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormEditorsBackgroundColor() {
+			return base.getFormEditorsBackgroundColor();
+		}
+
+		@Override
+		public void setFormEditorsBackgroundColor(ColorSpecification formEditorsBackgroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBackgroundColor() {
+			return base.getFormButtonBackgroundColor();
+		}
+
+		@Override
+		public void setFormButtonBackgroundColor(ColorSpecification formButtonBackgroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormButtonForegroundColor() {
+			return base.getFormButtonForegroundColor();
+		}
+
+		@Override
+		public void setFormButtonForegroundColor(ColorSpecification formButtonForegroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBorderColor() {
+			return base.getFormButtonBorderColor();
+		}
+
+		@Override
+		public void setFormButtonBorderColor(ColorSpecification formButtonBorderColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ResourcePath getFormButtonBackgroundImagePath() {
+			return base.getFormButtonBackgroundImagePath();
+		}
+
+		@Override
+		public void setFormButtonBackgroundImagePath(ResourcePath formButtonBackgroundImagePath) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getCategoriesForegroundColor() {
+			return base.getCategoriesForegroundColor();
+		}
+
+		@Override
+		public void setCategoriesForegroundColor(ColorSpecification categoriesForegroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ColorSpecification getCategoriesBackgroundColor() {
+			return base.getCategoriesBackgroundColor();
+		}
+
+		@Override
+		public void setCategoriesBackgroundColor(ColorSpecification categoriesBackgroundColor) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public FormSizeCustomization getFormWidth() {
+			return base.getFormWidth();
+		}
+
+		@Override
+		public void setFormWidth(FormSizeCustomization formWidth) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public FormSizeCustomization getFormHeight() {
+			return base.getFormHeight();
+		}
+
+		@Override
+		public void setFormHeight(FormSizeCustomization formHeight) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<VirtualFieldDeclaration> getVirtualFieldDeclarations() {
+			return base.getVirtualFieldDeclarations();
+		}
+
+		@Override
+		public void setVirtualFieldDeclarations(List<VirtualFieldDeclaration> virtualFieldDeclarations) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isAnyDefaultObjectMemberIncluded() {
+			return base.isAnyDefaultObjectMemberIncluded();
+		}
+
+		@Override
+		public void setAnyDefaultObjectMemberIncluded(boolean anyDefaultObjectMemberIncluded) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public MenuModelCustomization getMenuModelCustomization() {
+			return base.getMenuModelCustomization();
+		}
+
+		@Override
+		public void setMenuModelCustomization(MenuModelCustomization menuModelCustomization) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public FieldsLayout getFieldsLayout() {
+			return base.getFieldsLayout();
+		}
+
+		@Override
+		public void setFieldsLayout(FieldsLayout fieldsLayout) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public MethodsLayout getMethodsLayout() {
+			return base.getMethodsLayout();
+		}
+
+		@Override
+		public void setMethodsLayout(MethodsLayout methodsLayout) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ResourcePath getIconImagePath() {
+			return base.getIconImagePath();
+		}
+
+		@Override
+		public void setIconImagePath(ResourcePath iconImagePath) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void setTypeName(String typeName) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isAbstractForced() {
+			return base.isAbstractForced();
+		}
+
+		@Override
+		public void setAbstractForced(boolean abtractForced) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isImmutableForced() {
+			return base.isImmutableForced();
+		}
+
+		@Override
+		public void setImmutableForced(boolean immutableForced) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<ITypeInfoFinder> getPolymorphicSubTypeFinders() {
+			return base.getPolymorphicSubTypeFinders();
+		}
+
+		@Override
+		public void setPolymorphicSubTypeFinders(List<ITypeInfoFinder> polymorphicSubTypeFinders) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<CustomizationCategory> getMemberCategories() {
+			return base.getMemberCategories();
+		}
+
+		@Override
+		public void setMemberCategories(List<CustomizationCategory> memberCategories) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<String> getCustomFieldsOrder() {
+			return base.getCustomFieldsOrder();
+		}
+
+		@Override
+		public void setCustomFieldsOrder(List<String> customFieldsOrder) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<String> getCustomMethodsOrder() {
+			return base.getCustomMethodsOrder();
+		}
+
+		@Override
+		public void setCustomMethodsOrder(List<String> customMethodsOrder) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getCustomTypeCaption() {
+			return base.getCustomTypeCaption();
+		}
+
+		@Override
+		public void setCustomTypeCaption(String customTypeCaption) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<FieldCustomization> getFieldsCustomizations() {
+			return base.getFieldsCustomizations();
+		}
+
+		@Override
+		public void setFieldsCustomizations(List<FieldCustomization> fieldsCustomizations) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<MethodCustomization> getMethodsCustomizations() {
+			return base.getMethodsCustomizations();
+		}
+
+		@Override
+		public void setMethodsCustomizations(List<MethodCustomization> methodsCustomizations) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return base.getOnlineHelp();
+		}
+
+		@Override
+		public void setOnlineHelp(String onlineHelp) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isUndoManagementHidden() {
+			return base.isUndoManagementHidden();
+		}
+
+		@Override
+		public void setUndoManagementHidden(boolean undoManagementHidden) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public int compareTo(TypeCustomization o) {
+			return super.compareTo(o);
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((base == null) ? 0 : base.hashCode());
+			result = prime * result + ((targetTypeName == null) ? 0 : targetTypeName.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ChangedTypeNameCustomization other = (ChangedTypeNameCustomization) obj;
+			if (base == null) {
+				if (other.base != null)
+					return false;
+			} else if (!base.equals(other.base))
+				return false;
+			if (targetTypeName == null) {
+				if (other.targetTypeName != null)
+					return false;
+			} else if (!targetTypeName.equals(other.targetTypeName))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "ChangedTypeNameCustomization [base=" + base + ", targetTypeName=" + targetTypeName + "]";
+		}
+
+	}
+
+	@Override
+	public ITypeInfo wrapTypeInfo(ITypeInfo type) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			if (t.getBaseTypeName() != null) {
+				type = new ChangedTypeNameInfoCustomizationsFactory(this, t.getBaseTypeName(), type.getName())
+						.wrapTypeInfo(type);
+			}
+		}
+		return super.wrapTypeInfo(type);
+	}
+
+	@Override
+	public ITypeInfo unwrapTypeInfo(ITypeInfo type) {
+		type = super.unwrapTypeInfo(type);
+		if (ChangedTypeNameInfoCustomizationsFactory.isWrapping(type, this)) {
+			type = ((GeneratedBasicTypeInfoProxy) type).factory.unwrapTypeInfo(type);
+		}
+		return type;
 	}
 
 	@Override

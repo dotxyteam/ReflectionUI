@@ -1434,6 +1434,7 @@ public class InfoCustomizations implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		protected String typeName;
+		protected String baseTypeName;
 		protected String customTypeCaption;
 		protected String onlineHelp;
 		protected List<FieldCustomization> fieldsCustomizations = new ArrayList<InfoCustomizations.FieldCustomization>();
@@ -1476,6 +1477,14 @@ public class InfoCustomizations implements Serializable {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public String getBaseTypeName() {
+			return baseTypeName;
+		}
+
+		public void setBaseTypeName(String baseTypeName) {
+			this.baseTypeName = baseTypeName;
 		}
 
 		public boolean isCopyForbidden() {
@@ -4197,7 +4206,7 @@ public class InfoCustomizations implements Serializable {
 
 		private boolean migrate(TypeCustomization tc) {
 			boolean migrated = false;
-			if(tc.getTypeName().contains("NonNullableInstance")) {
+			if (tc.getTypeName().contains("NonNullableInstance")) {
 				tc.setTypeName(tc.getTypeName().replace("NonNullableInstance", "MutableInstance"));
 				migrated = true;
 			}
