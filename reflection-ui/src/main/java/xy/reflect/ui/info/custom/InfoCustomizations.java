@@ -75,15 +75,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodReturnValueFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
-import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
-import xy.reflect.ui.info.menu.IMenuElementInfo;
 import xy.reflect.ui.info.menu.IMenuItemContainerInfo;
-import xy.reflect.ui.info.menu.MenuElementKind;
-import xy.reflect.ui.info.menu.MenuInfo;
-import xy.reflect.ui.info.menu.MenuItemCategory;
-import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -387,65 +379,7 @@ public class InfoCustomizations implements Serializable {
 		});
 	}
 
-	public static MenuElementKind getMenuElementKind(IMenuElementCustomization elementCustomization) {
-		return ReflectionUIUtils.getMenuElementKind(elementCustomization.createMenuElementInfo());
-	}
-
-	public static DefaultMenuElementPosition getMenuElementPosition(InfoCustomizations infoCustomizations,
-			IMenuItemContainerCustomization menuItemContainerCustomization) {
-		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
-			DefaultMenuElementPosition result = getMenuElementPosition(tc.getMenuModelCustomization(),
-					menuItemContainerCustomization);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	public static DefaultMenuElementPosition getMenuElementPosition(MenuModelCustomization menuModelCustomization,
-			IMenuItemContainerCustomization menuItemContainerCustomization) {
-		for (MenuCustomization menuCustomization : menuModelCustomization.getMenuCustomizations()) {
-			DefaultMenuElementPosition result = getMenuElementPosition(menuCustomization,
-					menuItemContainerCustomization);
-			if (result != null) {
-				return result;
-			}
-		}
-		return null;
-	}
-
-	public static DefaultMenuElementPosition getMenuElementPosition(IMenuItemContainerCustomization fromContainer,
-			IMenuItemContainerCustomization elementContainer) {
-		String elementName = fromContainer.getName();
-		MenuElementKind elementKind = getMenuElementKind(fromContainer);
-		DefaultMenuElementPosition rootPosition = new DefaultMenuElementPosition(elementName, elementKind, null);
-		if (fromContainer == elementContainer) {
-			return rootPosition;
-		}
-		for (AbstractMenuItemCustomization menuItemCustomization : fromContainer.getItemCustomizations()) {
-			if (menuItemCustomization instanceof IMenuItemContainerCustomization) {
-				DefaultMenuElementPosition result = getMenuElementPosition(
-						(IMenuItemContainerCustomization) menuItemCustomization, elementContainer);
-				if (result != null) {
-					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
-					return result;
-				}
-			}
-		}
-		if (fromContainer instanceof MenuCustomization) {
-			for (MenuItemCategoryCustomization menuItemCategoryCustomization : ((MenuCustomization) fromContainer)
-					.getItemCategoryCustomizations()) {
-				DefaultMenuElementPosition result = getMenuElementPosition(menuItemCategoryCustomization,
-						elementContainer);
-				if (result != null) {
-					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
-					return result;
-				}
-			}
-		}
-		return null;
-	}
+	
 
 	public static List<IMenuItemContainerCustomization> getAllMenuItemContainerCustomizations(TypeCustomization tc) {
 		List<IMenuItemContainerCustomization> result = new ArrayList<IMenuItemContainerCustomization>();
@@ -830,7 +764,6 @@ public class InfoCustomizations implements Serializable {
 
 		public String getName();
 
-		public IMenuElementInfo createMenuElementInfo();
 	}
 
 	public static interface IMenuItemContainerCustomization extends IMenuElementCustomization {
@@ -846,16 +779,6 @@ public class InfoCustomizations implements Serializable {
 
 		public MenuItemCategoryCustomization() {
 			name = "Category";
-		}
-
-		@Override
-		public MenuItemCategory createMenuElementInfo() {
-			MenuItemCategory result = new MenuItemCategory();
-			result.setCaption(name);
-			for (AbstractMenuItemCustomization menuItemCustomization : itemCustomizations) {
-				result.getItems().add(menuItemCustomization.createMenuElementInfo());
-			}
-			return result;
 		}
 
 		public String getName() {
@@ -898,9 +821,6 @@ public class InfoCustomizations implements Serializable {
 		protected String name = "";
 		protected ResourcePath iconImagePath;
 
-		@Override
-		public abstract AbstractMenuItemInfo createMenuElementInfo();
-
 		public String getName() {
 			return name;
 		}
@@ -929,9 +849,6 @@ public class InfoCustomizations implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		@Override
-		public abstract StandradActionMenuItemInfo createMenuElementInfo();
-
 	}
 
 	public static class ExitMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
@@ -939,11 +856,6 @@ public class InfoCustomizations implements Serializable {
 
 		public ExitMenuItemCustomization() {
 			name = "Exit";
-		}
-
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.EXIT);
 		}
 
 	}
@@ -978,11 +890,6 @@ public class InfoCustomizations implements Serializable {
 			name = "Help";
 		}
 
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.HELP);
-		}
-
 	}
 
 	public static class OpenMenuItemCustomization extends AbstractFileMenuItemCustomization {
@@ -993,41 +900,6 @@ public class InfoCustomizations implements Serializable {
 			name = "Open...";
 			fileBrowserConfiguration.actionTitle = "Open";
 		}
-
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.OPEN,
-					fileBrowserConfiguration);
-		}
-	}
-
-	public static class RedoMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
-
-		private static final long serialVersionUID = 1L;
-
-		public RedoMenuItemCustomization() {
-			name = "Redo";
-		}
-
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.REDO);
-		}
-	}
-
-	public static class ResetMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
-
-		private static final long serialVersionUID = 1L;
-
-		public ResetMenuItemCustomization() {
-			name = "Reset";
-		}
-
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.RESET);
-		}
-
 	}
 
 	public static class SaveAsMenuItemCustomization extends AbstractSaveMenuItemCustomization {
@@ -1037,12 +909,6 @@ public class InfoCustomizations implements Serializable {
 		public SaveAsMenuItemCustomization() {
 			name = "Save As...";
 			fileBrowserConfiguration.actionTitle = "Save";
-		}
-
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.SAVE_AS,
-					fileBrowserConfiguration);
 		}
 
 	}
@@ -1056,11 +922,26 @@ public class InfoCustomizations implements Serializable {
 			fileBrowserConfiguration.actionTitle = "Save";
 		}
 
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.SAVE,
-					fileBrowserConfiguration);
+	}
+
+	public static class RedoMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
+
+		private static final long serialVersionUID = 1L;
+
+		public RedoMenuItemCustomization() {
+			name = "Redo";
 		}
+
+	}
+
+	public static class ResetMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
+
+		private static final long serialVersionUID = 1L;
+
+		public ResetMenuItemCustomization() {
+			name = "Reset";
+		}
+
 	}
 
 	public static class UndoMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
@@ -1069,11 +950,6 @@ public class InfoCustomizations implements Serializable {
 
 		public UndoMenuItemCustomization() {
 			name = "Undo";
-		}
-
-		@Override
-		public StandradActionMenuItemInfo createMenuElementInfo() {
-			return new StandradActionMenuItemInfo(name, iconImagePath, StandradActionMenuItemInfo.Type.UNDO);
 		}
 
 	}
@@ -1087,19 +963,6 @@ public class InfoCustomizations implements Serializable {
 
 		public MenuCustomization() {
 			name = "Menu";
-		}
-
-		@Override
-		public MenuInfo createMenuElementInfo() {
-			MenuInfo result = new MenuInfo();
-			result.setCaption(name);
-			for (MenuItemCategoryCustomization menuItemCategoryCustomization : itemCategoryCustomizations) {
-				result.getItemCategories().add(menuItemCategoryCustomization.createMenuElementInfo());
-			}
-			for (AbstractMenuItemCustomization menuItemCustomization : itemCustomizations) {
-				result.getItems().add(menuItemCustomization.createMenuElementInfo());
-			}
-			return result;
 		}
 
 		@XmlElements({ @XmlElement(name = "menu", type = MenuCustomization.class),
@@ -1140,14 +1003,6 @@ public class InfoCustomizations implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		protected List<MenuCustomization> menuCustomizations = new ArrayList<MenuCustomization>();
-
-		public MenuModel createMenuModel() {
-			MenuModel result = new MenuModel();
-			for (MenuCustomization menuCustomization : menuCustomizations) {
-				result.getMenus().add(menuCustomization.createMenuElementInfo());
-			}
-			return result;
-		}
 
 		@XmlElement(name = "menus")
 		public List<MenuCustomization> getMenuCustomizations() {

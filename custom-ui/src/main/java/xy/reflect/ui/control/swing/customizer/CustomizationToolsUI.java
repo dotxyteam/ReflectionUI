@@ -126,7 +126,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
 				Object itemValue = info.getValue();
 				if (itemValue instanceof IMenuItemContainerCustomization) {
-					IMenuElementPosition position = InfoCustomizations.getMenuElementPosition(
+					IMenuElementPosition position = ReflectionUIUtils.getMenuElementPosition(
 							swingCustomizer.getInfoCustomizations(), (IMenuItemContainerCustomization) itemValue);
 					if (position == null) {
 						return ((IMenuItemContainerCustomization) itemValue).getName();

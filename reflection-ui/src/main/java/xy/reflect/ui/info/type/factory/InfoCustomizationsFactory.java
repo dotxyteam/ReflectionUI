@@ -2178,7 +2178,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, containingType);
 				inputFields.add(newField);
 			}
-			menuModel.importContributions(containingTypeCustomization.getMenuModelCustomization().createMenuModel());
+			menuModel.importContributions(
+					ReflectionUIUtils.createMenuModel(containingTypeCustomization.getMenuModelCustomization()));
 		}
 
 		protected IFieldInfo createVirtualField(VirtualFieldDeclaration virtualFieldDeclaration) {
@@ -2827,7 +2828,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.getMenuLocation() != null) {
-					IMenuElementPosition menuItemContainerPosition = InfoCustomizations.getMenuElementPosition(
+					IMenuElementPosition menuItemContainerPosition = ReflectionUIUtils.getMenuElementPosition(
 							containingTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
 					if (menuItemContainerPosition != null) {
 						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(customizedUI,
@@ -2837,6 +2838,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 				return method;
 			}
+
 		}
 
 		protected class MethodDuplicateGeneratingTransformer extends AbstractMethodTransformer {

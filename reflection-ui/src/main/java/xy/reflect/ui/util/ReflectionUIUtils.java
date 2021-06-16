@@ -51,14 +51,34 @@ import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.AbstractFileMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ExitMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.HelpMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.IMenuElementCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.IMenuItemContainerCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuItemCategoryCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuModelCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.OpenMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.RedoMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ResetMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.SaveAsMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.SaveMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.UndoMenuItemCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
+import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.info.menu.IMenuElementInfo;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.menu.MenuItemCategory;
+import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -986,6 +1006,136 @@ public class ReflectionUIUtils {
 		return baseMethodReturnTypeName + "-" + ((baseMethodName.length() == 0) ? "<constructor>" : baseMethodName)
 				+ ((baseMethodParameterTypeNames.length == 0) ? ""
 						: ("-" + MiscUtils.stringJoin(Arrays.asList(baseMethodParameterTypeNames), "-")));
+	}
+
+	public static DefaultMenuElementPosition getMenuElementPosition(MenuModelCustomization menuModelCustomization,
+			IMenuItemContainerCustomization menuItemContainerCustomization) {
+		for (MenuCustomization menuCustomization : menuModelCustomization.getMenuCustomizations()) {
+			DefaultMenuElementPosition result = getMenuElementPosition(menuCustomization,
+					menuItemContainerCustomization);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static DefaultMenuElementPosition getMenuElementPosition(IMenuItemContainerCustomization fromContainer,
+			IMenuItemContainerCustomization elementContainer) {
+		String elementName = fromContainer.getName();
+		MenuElementKind elementKind = getMenuElementKind(fromContainer);
+		DefaultMenuElementPosition rootPosition = new DefaultMenuElementPosition(elementName, elementKind, null);
+		if (fromContainer == elementContainer) {
+			return rootPosition;
+		}
+		for (AbstractMenuItemCustomization menuItemCustomization : fromContainer.getItemCustomizations()) {
+			if (menuItemCustomization instanceof IMenuItemContainerCustomization) {
+				DefaultMenuElementPosition result = getMenuElementPosition(
+						(IMenuItemContainerCustomization) menuItemCustomization, elementContainer);
+				if (result != null) {
+					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
+					return result;
+				}
+			}
+		}
+		if (fromContainer instanceof MenuCustomization) {
+			for (MenuItemCategoryCustomization menuItemCategoryCustomization : ((MenuCustomization) fromContainer)
+					.getItemCategoryCustomizations()) {
+				DefaultMenuElementPosition result = getMenuElementPosition(menuItemCategoryCustomization,
+						elementContainer);
+				if (result != null) {
+					((DefaultMenuElementPosition) result).getRoot().setParent(rootPosition);
+					return result;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static DefaultMenuElementPosition getMenuElementPosition(InfoCustomizations infoCustomizations,
+			IMenuItemContainerCustomization menuItemContainerCustomization) {
+		for (TypeCustomization tc : infoCustomizations.getTypeCustomizations()) {
+			DefaultMenuElementPosition result = getMenuElementPosition(tc.getMenuModelCustomization(),
+					menuItemContainerCustomization);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public static MenuElementKind getMenuElementKind(IMenuElementCustomization elementCustomization) {
+		return ReflectionUIUtils.getMenuElementKind(createMenuElementInfo(elementCustomization));
+	}
+
+	public static MenuModel createMenuModel(MenuModelCustomization menuModelCustomization) {
+		MenuModel result = new MenuModel();
+		for (MenuCustomization menuCustomization : menuModelCustomization.getMenuCustomizations()) {
+			result.getMenus().add((MenuInfo) createMenuElementInfo(menuCustomization));
+		}
+		return result;
+	}
+
+	public static IMenuElementInfo createMenuElementInfo(IMenuElementCustomization menuElementCustomization) {
+		if (menuElementCustomization instanceof MenuCustomization) {
+			MenuInfo result = new MenuInfo();
+			result.setCaption(menuElementCustomization.getName());
+			for (MenuItemCategoryCustomization menuItemCategoryCustomization : ((MenuCustomization) menuElementCustomization)
+					.getItemCategoryCustomizations()) {
+				result.getItemCategories().add((MenuItemCategory) createMenuElementInfo(menuItemCategoryCustomization));
+			}
+			for (AbstractMenuItemCustomization menuItemCustomization : ((MenuCustomization) menuElementCustomization)
+					.getItemCustomizations()) {
+				result.getItems().add((AbstractMenuItemInfo) createMenuElementInfo(menuItemCustomization));
+			}
+			return result;
+		} else if (menuElementCustomization instanceof MenuItemCategoryCustomization) {
+			MenuItemCategory result = new MenuItemCategory();
+			result.setCaption(menuElementCustomization.getName());
+			for (AbstractMenuItemCustomization menuItemCustomization : ((MenuItemCategoryCustomization) menuElementCustomization)
+					.getItemCustomizations()) {
+				result.getItems().add((AbstractMenuItemInfo) createMenuElementInfo(menuItemCustomization));
+			}
+			return result;
+		} else if (menuElementCustomization instanceof OpenMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.OPEN,
+					((AbstractFileMenuItemCustomization) menuElementCustomization).getFileBrowserConfiguration());
+		} else if (menuElementCustomization instanceof SaveAsMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.SAVE_AS,
+					((AbstractFileMenuItemCustomization) menuElementCustomization).getFileBrowserConfiguration());
+		} else if (menuElementCustomization instanceof SaveMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.SAVE,
+					((AbstractFileMenuItemCustomization) menuElementCustomization).getFileBrowserConfiguration());
+		} else if (menuElementCustomization instanceof ExitMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.EXIT);
+		} else if (menuElementCustomization instanceof HelpMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.HELP);
+
+		} else if (menuElementCustomization instanceof RedoMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.REDO);
+		} else if (menuElementCustomization instanceof UndoMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.UNDO);
+		} else if (menuElementCustomization instanceof ResetMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.RESET);
+		} else {
+			throw new ReflectionUIError();
+		}
 	}
 
 }
