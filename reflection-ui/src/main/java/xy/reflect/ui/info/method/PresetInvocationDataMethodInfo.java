@@ -29,8 +29,11 @@
 package xy.reflect.ui.info.method;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -45,17 +48,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
-	protected InvocationData invocationData;
+	protected InvocationData presetInvocationData;
 
-	public PresetInvocationDataMethodInfo(IMethodInfo base, InvocationData invocationData) {
+	public PresetInvocationDataMethodInfo(IMethodInfo base, InvocationData presetInvocationData) {
 		super(base);
-		this.invocationData = new InvocationData(invocationData);
-		this.invocationData.getProvidedParameterValues().clear();
-		this.invocationData.getDefaultParameterValues().clear();
-		for (IParameterInfo param : base.getParameters()) {
-			this.invocationData.getProvidedParameterValues().put(param.getPosition(),
-					invocationData.getParameterValue(param.getPosition()));
-		}
+		this.presetInvocationData = presetInvocationData;
 	}
 
 	public static String buildPresetMethodName(String baseMethodSignature, int index) {
@@ -79,17 +76,41 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		return Collections.emptyList();
+		List<IParameterInfo> result = new ArrayList<IParameterInfo>(base.getParameters());
+		SortedSet<Integer> presetParameterPositions = new TreeSet<Integer>();
+		presetParameterPositions.addAll(presetInvocationData.getDefaultParameterValues().keySet());
+		presetParameterPositions.addAll(presetInvocationData.getProvidedParameterValues().keySet());
+		List<Integer> reversedPresetParameterPositions = new ArrayList<Integer>(presetParameterPositions);
+		Collections.reverse(reversedPresetParameterPositions);
+		for (int parameterPosition : reversedPresetParameterPositions) {
+			result.remove(parameterPosition);
+		}
+		return result;
 	}
 
 	@Override
-	public Object invoke(Object object, InvocationData ignore) {
-		return super.invoke(object, this.invocationData);
+	public Object invoke(Object object, InvocationData invocationData) {
+		return super.invoke(object, buildFinalInvocationData(invocationData));
+	}
+
+	protected InvocationData buildFinalInvocationData(InvocationData invocationData) {
+		InvocationData finalInvocationData = new InvocationData(presetInvocationData);
+		finalInvocationData.getProvidedParameterValues().clear();
+		finalInvocationData.getDefaultParameterValues().clear();
+		for (IParameterInfo param : base.getParameters()) {
+			finalInvocationData.getProvidedParameterValues().put(param.getPosition(),
+					presetInvocationData.getParameterValue(param.getPosition()));
+		}
+		for (IParameterInfo param : getParameters()) {
+			finalInvocationData.getProvidedParameterValues().put(param.getPosition(),
+					invocationData.getParameterValue(param.getPosition()));
+		}
+		return finalInvocationData;
 	}
 
 	@Override
-	public Runnable getNextInvocationUndoJob(Object object, InvocationData ignore) {
-		return super.getNextInvocationUndoJob(object, this.invocationData);
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+		return super.getNextInvocationUndoJob(object, buildFinalInvocationData(invocationData));
 	}
 
 	@Override
@@ -101,7 +122,7 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((invocationData == null) ? 0 : invocationData.hashCode());
+		result = prime * result + ((presetInvocationData == null) ? 0 : presetInvocationData.hashCode());
 		return result;
 	}
 
@@ -114,17 +135,17 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		PresetInvocationDataMethodInfo other = (PresetInvocationDataMethodInfo) obj;
-		if (invocationData == null) {
-			if (other.invocationData != null)
+		if (presetInvocationData == null) {
+			if (other.presetInvocationData != null)
 				return false;
-		} else if (!invocationData.equals(other.invocationData))
+		} else if (!presetInvocationData.equals(other.presetInvocationData))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "PresetInvocationDataMethod [base=" + base + ", invocationData=" + invocationData + "]";
+		return "PresetInvocationDataMethod [base=" + base + ", invocationData=" + presetInvocationData + "]";
 	}
 
 }
