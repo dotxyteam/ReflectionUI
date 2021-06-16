@@ -103,7 +103,7 @@ public class ReflectionUITest {
 		public Short theShort = 2;
 		public Long theLong = 3l;
 		public float theFloat = 0.5f;
-		public Double theDouble = 145678e-2;
+		public Double theDouble = 0.05;
 		public boolean theBooleanPrimitive;
 		public Boolean theBooleanObject;
 		public File theFile = new File("tmp");
