@@ -51,6 +51,7 @@ import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -194,6 +195,15 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return Collections.emptyList();
+	}
+
+	@Override
+	public String toString(Object object) {
+		List<String> result = new ArrayList<String>();
+		for (Object item : toArray(object)) {
+			result.add(ReflectionUIUtils.toString(reflectionUI, item));
+		}
+		return MiscUtils.stringJoin(result, ", ");
 	}
 
 	@Override

@@ -480,16 +480,7 @@ public class ReflectionUIUtils {
 			return "";
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type instanceof IListTypeInfo) {
-			IListTypeInfo listType = (IListTypeInfo) type;
-			List<String> result = new ArrayList<String>();
-			for (Object item : listType.toArray(object)) {
-				result.add(toString(reflectionUI, item));
-			}
-			return MiscUtils.stringJoin(result, ", ");
-		} else {
-			return type.toString(object);
-		}
+		return type.toString(object);
 	}
 
 	public static ResourcePath getIconImagePath(ReflectionUI reflectionUI, Object object) {

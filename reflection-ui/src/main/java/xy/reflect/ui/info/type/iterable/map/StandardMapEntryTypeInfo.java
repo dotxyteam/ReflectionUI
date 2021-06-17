@@ -227,6 +227,13 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	}
 
 	@Override
+	public String toString(Object object) {
+		Object key = getKeyField().getValue(object);
+		Object value = getValueField().getValue(object);
+		return ReflectionUIUtils.toString(reflectionUI, key) + ": " + ReflectionUIUtils.toString(reflectionUI, value);
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();

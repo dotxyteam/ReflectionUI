@@ -365,9 +365,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public String toString(Object object) {
 		ReflectionUIUtils.checkInstance(this, object);
 		if (object == null) {
-			return null;
+			return "";
 		} else if (object instanceof String) {
 			return (String) object;
+		} else if (ReflectionUtils.isPrimitiveClassOrWrapper(getJavaType())) {
+			return ReflectionUtils.primitiveToString(object);
 		} else {
 			String result = object.toString();
 			if (result == null) {
