@@ -48,8 +48,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class SaveToFileMethod extends AbstractPersistenceMethod {
 
 	public SaveToFileMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
-		this.reflectionUI = reflectionUI;
-		this.containingType = containingType;
+		super(reflectionUI, containingType);
 	}
 
 	@Override
@@ -90,6 +89,11 @@ public class SaveToFileMethod extends AbstractPersistenceMethod {
 	@Override
 	public boolean isReadOnly() {
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "SaveToFileMethod [containingType=" + containingType + "]";
 	}
 
 }

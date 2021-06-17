@@ -48,8 +48,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class LoadFromFileMethod extends AbstractPersistenceMethod {
 
 	public LoadFromFileMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
-		this.reflectionUI = reflectionUI;
-		this.containingType = containingType;
+		super(reflectionUI, containingType);
 	}
 
 	@Override
@@ -90,6 +89,11 @@ public class LoadFromFileMethod extends AbstractPersistenceMethod {
 	@Override
 	public boolean isReadOnly() {
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "LoadFromFileMethod [containingType=" + containingType + "]";
 	}
 
 }

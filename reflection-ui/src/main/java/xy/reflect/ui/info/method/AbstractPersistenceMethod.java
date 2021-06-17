@@ -53,8 +53,9 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
 
-	public AbstractPersistenceMethod() {
-		super();
+	public AbstractPersistenceMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
+		this.reflectionUI = reflectionUI;
+		this.containingType = containingType;
 	}
 
 	@Override
@@ -197,6 +198,37 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 			return null;
 		}
 
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractPersistenceMethod other = (AbstractPersistenceMethod) obj;
+		if (containingType == null) {
+			if (other.containingType != null)
+				return false;
+		} else if (!containingType.equals(other.containingType))
+			return false;
+		if (reflectionUI == null) {
+			if (other.reflectionUI != null)
+				return false;
+		} else if (!reflectionUI.equals(other.reflectionUI))
+			return false;
+		return true;
 	}
 
 }
