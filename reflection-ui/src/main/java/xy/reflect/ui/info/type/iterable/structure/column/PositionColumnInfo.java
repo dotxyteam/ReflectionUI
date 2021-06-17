@@ -31,8 +31,10 @@ package xy.reflect.ui.info.type.iterable.structure.column;
 import java.util.Collections;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Column that displays the position (1 + index) of the current item in the
@@ -43,10 +45,16 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
  */
 public class PositionColumnInfo extends AbstractInfo implements IColumnInfo {
 
+	protected ReflectionUI reflectionUI;
+
+	public PositionColumnInfo(ReflectionUI reflectionUI) {
+		this.reflectionUI = reflectionUI;
+	}
+
 	@Override
 	public String getCellValue(ItemPosition itemPosition) {
 		if (itemPosition.isRoot()) {
-			return Integer.toString(itemPosition.getIndex() + 1);
+			return ReflectionUIUtils.toString(reflectionUI, new Integer(itemPosition.getIndex() + 1));
 		} else {
 			return null;
 		}

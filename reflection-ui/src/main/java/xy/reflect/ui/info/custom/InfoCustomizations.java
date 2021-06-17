@@ -1866,7 +1866,7 @@ public class InfoCustomizations implements Serializable {
 	public static class ConversionMethodFinder extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected static final String NON_STATIC_METHOD_OWNER_AS_PARAMETER_NAME = "<the-method-owner>";
+		protected static final String NON_STATIC_METHOD_OWNER_AS_PARAMETER_NAME = "(The method owner)";
 
 		protected String conversionClassName;
 		protected String conversionMethodSignature;
@@ -1887,6 +1887,22 @@ public class InfoCustomizations implements Serializable {
 
 		public void setConversionMethodSignature(String conversionMethodSignature) {
 			this.conversionMethodSignature = conversionMethodSignature;
+		}
+
+		public int getChosenParameterPosition() {
+			return chosenParameterPosition;
+		}
+
+		public void setChosenParameterPosition(int chosenParameterPosition) {
+			this.chosenParameterPosition = chosenParameterPosition;
+		}
+
+		public Map<Integer, TextualStorage> getOtherParameterValueStorages() {
+			return otherParameterValueStorages;
+		}
+
+		public void setOtherParameterValueStorages(Map<Integer, TextualStorage> otherParameterValueStorages) {
+			this.otherParameterValueStorages = otherParameterValueStorages;
 		}
 
 		public List<String> getConversionMethodSignatureOptions() {
@@ -2059,6 +2075,7 @@ public class InfoCustomizations implements Serializable {
 			return result;
 		}
 
+		@XmlTransient
 		public String getChosenParameterName() {
 			if (!isParameterPluralityResolvingRequired()) {
 				return null;
@@ -2109,6 +2126,7 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 
+		@XmlTransient
 		public Map<String, TextualStorage> getOtherParameterValueStorageByName() {
 			if (!isParameterPluralityResolvingRequired()) {
 				return null;
@@ -2315,9 +2333,7 @@ public class InfoCustomizations implements Serializable {
 			public int hashCode() {
 				final int prime = 31;
 				int result = 1;
-				result = prime * result + ((theClass == null) ? 0 : theClass.hashCode());
-				result = prime * result + ((methodName == null) ? 0 : methodName.hashCode());
-				result = prime * result + Arrays.hashCode(parameterTypes);
+				result = prime * result + ((conversionMethodFinder == null) ? 0 : conversionMethodFinder.hashCode());
 				return result;
 			}
 
@@ -2330,25 +2346,17 @@ public class InfoCustomizations implements Serializable {
 				if (getClass() != obj.getClass())
 					return false;
 				MethodBasedConverter other = (MethodBasedConverter) obj;
-				if (theClass == null) {
-					if (other.theClass != null)
+				if (conversionMethodFinder == null) {
+					if (other.conversionMethodFinder != null)
 						return false;
-				} else if (!theClass.equals(other.theClass))
-					return false;
-				if (methodName == null) {
-					if (other.methodName != null)
-						return false;
-				} else if (!methodName.equals(other.methodName))
-					return false;
-				if (!Arrays.equals(parameterTypes, other.parameterTypes))
+				} else if (!conversionMethodFinder.equals(other.conversionMethodFinder))
 					return false;
 				return true;
 			}
 
 			@Override
 			public String toString() {
-				return "MethodBasedConverter [theClass=" + theClass + ", methodName=" + methodName + ", parameterTypes="
-						+ Arrays.toString(parameterTypes) + "]";
+				return "MethodBasedConverter [conversionMethodFinder=" + conversionMethodFinder + "]";
 			}
 
 		}
@@ -2410,8 +2418,7 @@ public class InfoCustomizations implements Serializable {
 			public int hashCode() {
 				final int prime = 31;
 				int result = 1;
-				result = prime * result + ((theClass == null) ? 0 : theClass.hashCode());
-				result = prime * result + Arrays.hashCode(parameterTypes);
+				result = prime * result + ((conversionMethodFinder == null) ? 0 : conversionMethodFinder.hashCode());
 				return result;
 			}
 
@@ -2424,20 +2431,17 @@ public class InfoCustomizations implements Serializable {
 				if (getClass() != obj.getClass())
 					return false;
 				ConstructorBasedConverter other = (ConstructorBasedConverter) obj;
-				if (theClass == null) {
-					if (other.theClass != null)
+				if (conversionMethodFinder == null) {
+					if (other.conversionMethodFinder != null)
 						return false;
-				} else if (!theClass.equals(other.theClass))
-					return false;
-				if (!Arrays.equals(parameterTypes, other.parameterTypes))
+				} else if (!conversionMethodFinder.equals(other.conversionMethodFinder))
 					return false;
 				return true;
 			}
 
 			@Override
 			public String toString() {
-				return "ConstructorBasedConverter [theClass=" + theClass + ", parameterTypes="
-						+ Arrays.toString(parameterTypes) + "]";
+				return "ConstructorBasedConverter [conversionMethodFinder=" + conversionMethodFinder + "]";
 			}
 
 		};

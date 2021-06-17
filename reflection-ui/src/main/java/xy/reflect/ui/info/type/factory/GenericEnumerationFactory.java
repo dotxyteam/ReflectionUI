@@ -455,17 +455,21 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public IEnumerationItemInfo getValueInfo(final Object object) {
+			ReflectionUIUtils.checkInstance(this, object);
 			Instance instance = (Instance) object;
-			if (!instance.getOuterType().equals(getOuterType())) {
-				throw new ReflectionUIError();
-			}
-			Object item = instance.getArrayItem();
-			return new ItemInfo(item);
+			return new ItemInfo(instance.getArrayItem());
 		}
 
 		@Override
 		public boolean supportsInstance(Object object) {
-			return object instanceof Instance;
+			if (!(object instanceof Instance)) {
+				return false;
+			}
+			Instance instance = (Instance) object;
+			if (!instance.getOuterType().equals(getOuterType())) {
+				return false;
+			}
+			return true;
 		}
 
 		@Override
@@ -487,7 +491,8 @@ public class GenericEnumerationFactory {
 		@Override
 		public String toString(Object object) {
 			ReflectionUIUtils.checkInstance(this, object);
-			return object.toString();
+			Instance instance = (Instance) object;
+			return ReflectionUIUtils.toString(reflectionUI, instance.getArrayItem());
 		}
 
 		protected GenericEnumerationFactory getOuterType() {

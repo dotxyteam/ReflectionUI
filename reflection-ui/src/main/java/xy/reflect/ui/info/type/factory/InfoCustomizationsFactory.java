@@ -2977,7 +2977,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 					final int finalI = i;
 					newMethods.add(
-							new PresetInvocationDataMethodInfo(method, (InvocationData) invocationDataStorage.load()) {
+							new PresetInvocationDataMethodInfo(method, invocationDataStorage) {
 
 								@Override
 								public String getName() {

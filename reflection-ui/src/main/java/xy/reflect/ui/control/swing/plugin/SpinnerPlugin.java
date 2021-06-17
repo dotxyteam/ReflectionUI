@@ -48,7 +48,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultFormatter;
-
+import javax.swing.text.DefaultFormatterFactory;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -185,6 +185,8 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					if ("editor".equals(evt.getPropertyName())) {
 						JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) Spinner.this.getEditor();
 						final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
+						textField.setFormatterFactory(
+								new DefaultFormatterFactory(ReflectionUtils.getDefaultNumberFormatter(numberClass)));
 						textField.setHorizontalAlignment(JTextField.LEFT);
 						textField.getDocument().addDocumentListener(new DocumentListener() {
 

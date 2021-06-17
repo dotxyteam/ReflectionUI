@@ -34,6 +34,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,6 +42,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.text.NumberFormatter;
 
 /**
  * Utilities for dealing with classes.
@@ -192,6 +195,13 @@ public class ReflectionUtils {
 		if (!isPrimitiveClassOrWrapper(javaType)) {
 			throw new RuntimeException("Invalid primitive type: '" + javaType.getName() + "'");
 		}
+		if (Number.class.isAssignableFrom(javaType)) {
+			try {
+				return getDefaultNumberFormatter(javaType).valueToString(object);
+			} catch (ParseException e) {
+				throw new RuntimeException(e);
+			}
+		}
 		return object.toString();
 	}
 
@@ -213,6 +223,12 @@ public class ReflectionUtils {
 			}
 			throw new RuntimeException("Invalid value: '" + text + "'. Expected '" + Boolean.TRUE.toString() + "' or '"
 					+ Boolean.FALSE.toString() + "'");
+		} else if (Number.class.isAssignableFrom(javaType)) {
+			try {
+				return getDefaultNumberFormatter(javaType).stringToValue(text);
+			} catch (ParseException e) {
+				throw new RuntimeException(e);
+			}
 		} else {
 			try {
 				try {
@@ -234,6 +250,12 @@ public class ReflectionUtils {
 				throw new ReflectionUIError(javaType.getSimpleName() + " Inupt Error: " + t.toString(), t);
 			}
 		}
+	}
+
+	public static NumberFormatter getDefaultNumberFormatter(Class<?> javaType) {
+		NumberFormatter result = new NumberFormatter();
+		result.setValueClass(javaType);
+		return result;
 	}
 
 	public static boolean isKnownAsImmutableClass(Class<?> class1) {

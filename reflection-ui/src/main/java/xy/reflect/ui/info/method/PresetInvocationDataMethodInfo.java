@@ -36,6 +36,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -48,11 +49,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
+	protected TextualStorage invocationDataStorage;
 	protected InvocationData presetInvocationData;
 
-	public PresetInvocationDataMethodInfo(IMethodInfo base, InvocationData presetInvocationData) {
+	public PresetInvocationDataMethodInfo(IMethodInfo base, TextualStorage invocationDataStorage) {
 		super(base);
-		this.presetInvocationData = presetInvocationData;
+		this.invocationDataStorage = (TextualStorage) ReflectionUIUtils.copy(ReflectionUIUtils.STANDARD_REFLECTION,
+				invocationDataStorage);
+		this.presetInvocationData = (InvocationData) invocationDataStorage.load();
 	}
 
 	public static String buildPresetMethodName(String baseMethodSignature, int index) {
@@ -122,7 +126,7 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((presetInvocationData == null) ? 0 : presetInvocationData.hashCode());
+		result = prime * result + ((invocationDataStorage == null) ? 0 : invocationDataStorage.hashCode());
 		return result;
 	}
 
@@ -135,10 +139,10 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		PresetInvocationDataMethodInfo other = (PresetInvocationDataMethodInfo) obj;
-		if (presetInvocationData == null) {
-			if (other.presetInvocationData != null)
+		if (invocationDataStorage == null) {
+			if (other.invocationDataStorage != null)
 				return false;
-		} else if (!presetInvocationData.equals(other.presetInvocationData))
+		} else if (!invocationDataStorage.equals(other.invocationDataStorage))
 			return false;
 		return true;
 	}

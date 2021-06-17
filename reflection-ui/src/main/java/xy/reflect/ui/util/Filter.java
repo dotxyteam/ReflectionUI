@@ -76,6 +76,45 @@ public interface Filter<T> {
 			return t2;
 		}
 
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((filter1 == null) ? 0 : filter1.hashCode());
+			result = prime * result + ((filter2 == null) ? 0 : filter2.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			@SuppressWarnings("rawtypes")
+			Chain other = (Chain) obj;
+			if (filter1 == null) {
+				if (other.filter1 != null)
+					return false;
+			} else if (!filter1.equals(other.filter1))
+				return false;
+			if (filter2 == null) {
+				if (other.filter2 != null)
+					return false;
+			} else if (!filter2.equals(other.filter2))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "FilterChain [filter1=" + filter1 + ", filter2=" + filter2 + "]";
+		}
+
+		
+		
 	}
 
 }

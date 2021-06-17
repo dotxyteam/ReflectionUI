@@ -61,13 +61,9 @@ public class PrimitiveValueControl extends TextControl {
 	}
 
 	protected static IFieldControlData handleValueConversions(final ReflectionUI reflectionUI, IFieldControlData data) {
-		final Class<?> primitiveWrapperClass;
+		final Class<?> dataClass;
 		try {
-			Class<?> dataClass = ReflectionUtils.getCachedClassforName(data.getType().getName());
-			if (dataClass.isPrimitive()) {
-				dataClass = ReflectionUtils.primitiveToWrapperClass(dataClass);
-			}
-			primitiveWrapperClass = dataClass;
+			 dataClass = ReflectionUtils.getCachedClassforName(data.getType().getName());
 		} catch (ClassNotFoundException e1) {
 			throw new ReflectionUIError(e1);
 		}
@@ -85,7 +81,7 @@ public class PrimitiveValueControl extends TextControl {
 			@Override
 			public void setValue(Object value) {
 				if (value != null) {
-					value = fromText((String) value, primitiveWrapperClass);
+					value = fromText((String) value, dataClass);
 				}
 				super.setValue(value);
 			}
@@ -102,8 +98,8 @@ public class PrimitiveValueControl extends TextControl {
 		return ReflectionUtils.primitiveToString(object);
 	}
 
-	protected static Object fromText(String text, Class<?> primitiveWrapperClass) {
-		return ReflectionUtils.primitiveFromString(text, primitiveWrapperClass);
+	protected static Object fromText(String text, Class<?> dataClass) {
+		return ReflectionUtils.primitiveFromString(text, dataClass);
 	}
 
 	@Override

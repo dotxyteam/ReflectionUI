@@ -119,8 +119,10 @@ public interface ITypeInfo extends IInfo {
 	List<IMethodInfo> getMethods();
 
 	/**
-	 * @param object Any object.
-	 * @return whether the current type is compatible with the given object.
+	 * @param object Any object or null.
+	 * @return whether the current type is compatible with the given object. If null
+	 *         is passed it returns whether fields/parameters/... of the current
+	 *         type support null.
 	 */
 	boolean supportsInstance(Object object);
 

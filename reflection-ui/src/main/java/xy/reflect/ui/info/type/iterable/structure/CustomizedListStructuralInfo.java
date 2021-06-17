@@ -252,7 +252,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			result.add(0, new TypeNameColumnInfo(reflectionUI));
 		}
 		if (listCustomization.isPositionColumnAdded()) {
-			result.add(0, new PositionColumnInfo());
+			result.add(0, new PositionColumnInfo(reflectionUI));
 		}
 
 		final List<IColumnInfo> filteredResult = new ArrayList<IColumnInfo>();
