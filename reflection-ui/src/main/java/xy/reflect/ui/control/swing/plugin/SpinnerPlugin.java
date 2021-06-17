@@ -56,11 +56,12 @@ import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ConversionUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control plugin that allows to use spinners.
@@ -78,7 +79,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 	@Override
 	protected boolean handles(Class<?> javaType) {
 		if (javaType.isPrimitive()) {
-			javaType = ReflectionUtils.primitiveToWrapperClass(javaType);
+			javaType = ClassUtils.primitiveToWrapperClass(javaType);
 		}
 		return Number.class.isAssignableFrom(javaType);
 	}
@@ -159,9 +160,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			this.input = input;
 			this.data = input.getControlData();
 			try {
-				this.numberClass = ReflectionUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
-					this.numberClass = ReflectionUtils.primitiveToWrapperClass(numberClass);
+					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}
 			} catch (ClassNotFoundException e1) {
 				throw new ReflectionUIError(e1);
@@ -186,7 +187,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) Spinner.this.getEditor();
 						final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
 						textField.setFormatterFactory(
-								new DefaultFormatterFactory(ReflectionUtils.getDefaultNumberFormatter(numberClass)));
+								new DefaultFormatterFactory(ReflectionUIUtils.getDefaultNumberFormatter(numberClass)));
 						textField.setHorizontalAlignment(JTextField.LEFT);
 						textField.getDocument().addDocumentListener(new DocumentListener() {
 

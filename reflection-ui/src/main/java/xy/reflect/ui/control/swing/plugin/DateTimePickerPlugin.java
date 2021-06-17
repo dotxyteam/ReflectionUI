@@ -33,6 +33,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,9 +73,10 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReschedulableTask;
+import xy.reflect.ui.util.StrictDateFormat;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 
 /**
  * Field control plugin that allows to display and update adequately
@@ -184,7 +186,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> dateClass;
 			try {
-				dateClass = ReflectionUtils.getCachedClassforName(type.getName());
+				dateClass = ClassUtils.getCachedClassforName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -272,6 +274,15 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			setupEvents();
 			refreshUI(true);
 			this.initialized = true;
+		}
+
+		@Override
+		public void setFormats(DateFormat... formats) {
+			DateFormat[] strictFormats = new DateFormat[formats.length];
+			for (int i = 0; i < formats.length; i++) {
+				strictFormats[i] = new StrictDateFormat(formats[i]);
+			}
+			super.setFormats(strictFormats);
 		}
 
 		@Override
