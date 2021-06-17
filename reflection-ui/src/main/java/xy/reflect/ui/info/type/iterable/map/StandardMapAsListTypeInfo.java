@@ -75,6 +75,11 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
+	public boolean isItemNullValueSupported() {
+		return false;
+	}
+
+	@Override
 	public boolean canReplaceContent() {
 		return true;
 	}

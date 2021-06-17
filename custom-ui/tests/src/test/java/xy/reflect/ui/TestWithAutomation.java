@@ -2,6 +2,7 @@ package xy.reflect.ui;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Locale;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -31,6 +32,7 @@ public class TestWithAutomation {
 		checkSystemProperty(SystemProperties.DEFAULT_INFO_CUSTOMIZATIONS_ACTIVE, "true");
 		checkSystemProperty(MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS, "true");
 		checkSystemProperty(MoreSystemProperties.DEBUG, "true");
+		Locale.setDefault(Locale.US);
 	}
 
 	@BeforeClass
@@ -96,7 +98,7 @@ public class TestWithAutomation {
 	@Test
 	public void testEmptyObject() throws Exception {
 		File virtualImageFile = new File("virtualImage.jpg");
-		if(virtualImageFile.exists()) {
+		if (virtualImageFile.exists()) {
 			Files.delete(virtualImageFile.toPath());
 		}
 		Files.copy(getClass().getResourceAsStream("virtualImage.jpg"), virtualImageFile.toPath());

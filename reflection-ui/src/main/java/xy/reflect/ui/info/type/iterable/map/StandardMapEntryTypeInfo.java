@@ -87,26 +87,27 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	}
 
 	@Override
-	public boolean supportsInstance(Object object) {
-		if (!super.supportsInstance(object)) {
+	public boolean supports(Object object) {
+		if (object == null) {
+			return false;
+		}
+		if (!(object instanceof StandardMapEntry)) {
 			return false;
 		}
 		StandardMapEntry entry = (StandardMapEntry) object;
-		if (entry != null) {
-			Object key = entry.getKey();
-			if (key != null) {
-				if (keyJavaType != null) {
-					if (!keyJavaType.isInstance(key)) {
-						return false;
-					}
+		Object key = entry.getKey();
+		if (key != null) {
+			if (keyJavaType != null) {
+				if (!keyJavaType.isInstance(key)) {
+					return false;
 				}
 			}
-			Object value = entry.getValue();
-			if (value != null) {
-				if (valueJavaType != null) {
-					if (!valueJavaType.isInstance(value)) {
-						return false;
-					}
+		}
+		Object value = entry.getValue();
+		if (value != null) {
+			if (valueJavaType != null) {
+				if (!valueJavaType.isInstance(value)) {
+					return false;
 				}
 			}
 		}

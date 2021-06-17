@@ -60,7 +60,7 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -181,7 +181,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> fileClass;
 			try {
-				fileClass = ReflectionUtils.getCachedClassforName(type.getName());
+				fileClass = ClassUtils.getCachedClassforName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

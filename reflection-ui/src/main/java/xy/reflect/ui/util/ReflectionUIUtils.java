@@ -29,8 +29,11 @@
 package xy.reflect.ui.util;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.text.NumberFormatter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
@@ -558,7 +563,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static void checkInstance(ITypeInfo type, Object object) {
-		if (!type.supportsInstance(object)) {
+		if (!type.supports(object)) {
 			throw new ReflectionUIError();
 		}
 	}
@@ -793,7 +798,7 @@ public class ReflectionUIUtils {
 		if ((o1 == null) || (o2 == null)) {
 			return false;
 		}
-		if (ReflectionUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())) {
+		if (ClassUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())) {
 			return o1.equals(o2);
 		}
 		ITypeInfo type1 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o1));
@@ -1127,6 +1132,74 @@ public class ReflectionUIUtils {
 		} else {
 			throw new ReflectionUIError();
 		}
+	}
+
+	public static String primitiveToString(Object object) {
+		Class<?> javaType = object.getClass();
+		if (!ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+			throw new RuntimeException("Invalid primitive type: '" + javaType.getName() + "'");
+		}
+		if (Number.class.isAssignableFrom(javaType)) {
+			try {
+				return getDefaultNumberFormatter(javaType).valueToString(object);
+			} catch (ParseException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return object.toString();
+	}
+
+	public static Object primitiveFromString(String text, Class<?> javaType) {
+		if (javaType.isPrimitive()) {
+			javaType = ClassUtils.primitiveToWrapperClass(javaType);
+		}
+		if (javaType == Character.class) {
+			if (text.length() != 1) {
+				throw new RuntimeException("Invalid value: '" + text + "'. 1 character is expected");
+			}
+			return text.charAt(0);
+		} else if (javaType == Boolean.class) {
+			if (Boolean.TRUE.toString().equals(text)) {
+				return true;
+			}
+			if (Boolean.FALSE.toString().equals(text)) {
+				return false;
+			}
+			throw new RuntimeException("Invalid value: '" + text + "'. Expected '" + Boolean.TRUE.toString() + "' or '"
+					+ Boolean.FALSE.toString() + "'");
+		} else if (Number.class.isAssignableFrom(javaType)) {
+			try {
+				return getDefaultNumberFormatter(javaType).stringToValue(text);
+			} catch (ParseException e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			try {
+				try {
+					return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
+				} catch (IllegalArgumentException e) {
+					throw new ReflectionUIError(e);
+				} catch (SecurityException e) {
+					throw new ReflectionUIError(e);
+				} catch (InstantiationException e) {
+					throw new ReflectionUIError(e);
+				} catch (IllegalAccessException e) {
+					throw new ReflectionUIError(e);
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
+				} catch (NoSuchMethodException e) {
+					throw new ReflectionUIError(e);
+				}
+			} catch (Throwable t) {
+				throw new ReflectionUIError(javaType.getSimpleName() + " Inupt Error: " + t.toString(), t);
+			}
+		}
+	}
+
+	public static NumberFormatter getDefaultNumberFormatter(Class<?> javaType) {
+		NumberFormatter result = new NumberFormatter(new StrictNumberFormat(NumberFormat.getNumberInstance()));
+		result.setValueClass(javaType);
+		return result;
 	}
 
 }

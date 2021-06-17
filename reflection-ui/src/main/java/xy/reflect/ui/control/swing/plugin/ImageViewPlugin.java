@@ -84,7 +84,7 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -199,7 +199,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> imageClass;
 			try {
-				imageClass = ReflectionUtils.getCachedClassforName(type.getName());
+				imageClass = ClassUtils.getCachedClassforName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -496,9 +496,9 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			this.input = input;
 			this.data = input.getControlData();
 			try {
-				this.numberClass = ReflectionUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
-					this.numberClass = ReflectionUtils.primitiveToWrapperClass(numberClass);
+					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}
 			} catch (ClassNotFoundException e1) {
 				throw new ReflectionUIError(e1);
