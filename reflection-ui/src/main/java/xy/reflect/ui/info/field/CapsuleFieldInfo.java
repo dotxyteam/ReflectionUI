@@ -529,7 +529,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean supportsInstance(Object object) {
+		public boolean supports(Object object) {
 			return object instanceof Value;
 		}
 

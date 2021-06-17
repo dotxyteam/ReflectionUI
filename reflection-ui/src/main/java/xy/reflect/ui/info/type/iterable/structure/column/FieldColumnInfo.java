@@ -69,7 +69,7 @@ public class FieldColumnInfo extends AbstractInfo implements IColumnInfo {
 		if (item == null) {
 			return false;
 		}
-		return ownerType.supportsInstance(item);
+		return ownerType.supports(item);
 	}
 
 	@Override

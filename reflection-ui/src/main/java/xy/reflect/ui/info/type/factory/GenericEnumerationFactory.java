@@ -72,21 +72,24 @@ public class GenericEnumerationFactory {
 	protected String enumerationTypeName;
 	protected String typeCaption;
 	protected boolean dynamicEnumeration;
-	private List<Object> bufferedItems;
+	protected List<Object> bufferedItems;
+	protected boolean nullSupported;
 
 	public GenericEnumerationFactory(ReflectionUI reflectionUI, Iterable<?> iterable, String enumerationTypeName,
-			String typeCaption, boolean dynamicEnumeration) {
+			String typeCaption, boolean dynamicEnumeration, boolean nullSupported) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.iterable = iterable;
 		this.enumerationTypeName = enumerationTypeName;
 		this.typeCaption = typeCaption;
 		this.dynamicEnumeration = dynamicEnumeration;
+		this.nullSupported = nullSupported;
 	}
 
 	public GenericEnumerationFactory(ReflectionUI reflectionUI, Object[] array, String enumerationTypeName,
 			String typeCaption) {
-		this(reflectionUI, Arrays.asList(array), enumerationTypeName, typeCaption, false);
+		this(reflectionUI, Arrays.asList(array), enumerationTypeName, typeCaption, false,
+				Arrays.asList(array).contains(null));
 	}
 
 	protected Map<String, Object> getItemSpecificProperties(Object item) {
@@ -461,7 +464,10 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
-		public boolean supportsInstance(Object object) {
+		public boolean supports(Object object) {
+			if(object == null) {
+				return nullSupported;
+			}
 			if (!(object instanceof Instance)) {
 				return false;
 			}

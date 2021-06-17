@@ -125,7 +125,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public void setValue(Object object, Object value) {
-		if (!fieldType.supportsInstance(value)) {
+		if (!fieldType.supports(value)) {
 			throw new ReflectionUIError("Virtual field '" + fieldName + "': New value not supported: '" + value
 					+ "'. Expected value of type '" + fieldType.getName() + "'");
 		}

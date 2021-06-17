@@ -37,8 +37,9 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control that displays primitive (int, float, boolean, char, ...) values
@@ -63,7 +64,7 @@ public class PrimitiveValueControl extends TextControl {
 	protected static IFieldControlData handleValueConversions(final ReflectionUI reflectionUI, IFieldControlData data) {
 		final Class<?> dataClass;
 		try {
-			 dataClass = ReflectionUtils.getCachedClassforName(data.getType().getName());
+			 dataClass = ClassUtils.getCachedClassforName(data.getType().getName());
 		} catch (ClassNotFoundException e1) {
 			throw new ReflectionUIError(e1);
 		}
@@ -95,11 +96,11 @@ public class PrimitiveValueControl extends TextControl {
 	}
 
 	protected static String toText(Object object) {
-		return ReflectionUtils.primitiveToString(object);
+		return ReflectionUIUtils.primitiveToString(object);
 	}
 
 	protected static Object fromText(String text, Class<?> dataClass) {
-		return ReflectionUtils.primitiveFromString(text, dataClass);
+		return ReflectionUIUtils.primitiveFromString(text, dataClass);
 	}
 
 	@Override

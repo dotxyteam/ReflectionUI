@@ -52,7 +52,7 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 
 /**
  * Field generated from a '(get|is|has)Something()' Java method. If the
@@ -142,7 +142,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 			return false;
 		}
 		for (Method commonMethod : Object.class.getMethods()) {
-			if (ReflectionUtils.isOverridenBy(commonMethod, javaMethod)) {
+			if (ClassUtils.isOverridenBy(commonMethod, javaMethod)) {
 				return false;
 			}
 		}

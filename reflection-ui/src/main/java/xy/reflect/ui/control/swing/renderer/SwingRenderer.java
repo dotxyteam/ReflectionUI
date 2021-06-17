@@ -104,7 +104,7 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -519,7 +519,7 @@ public class SwingRenderer {
 					}
 					try {
 						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
-								ReflectionUtils.getCachedClassforName(className), null));
+								ClassUtils.getCachedClassforName(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}

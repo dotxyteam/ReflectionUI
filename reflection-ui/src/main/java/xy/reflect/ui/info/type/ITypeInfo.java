@@ -124,7 +124,7 @@ public interface ITypeInfo extends IInfo {
 	 *         is passed it returns whether fields/parameters/... of the current
 	 *         type support null.
 	 */
-	boolean supportsInstance(Object object);
+	boolean supports(Object object);
 
 	/**
 	 * @return the list of known types derived from the current one.
@@ -132,7 +132,7 @@ public interface ITypeInfo extends IInfo {
 	List<ITypeInfo> getPolymorphicInstanceSubTypes();
 
 	/**
-	 * @param object Any object of the current type.
+	 * @param object Any object of the current type (not null).
 	 * @return the textual representation of the given object. This method allows to
 	 *         provide an alternative to the {@link Object#toString()} method of the
 	 *         given object for generated UIs.

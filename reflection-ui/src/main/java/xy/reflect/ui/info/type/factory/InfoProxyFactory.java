@@ -616,8 +616,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.isModificationStackAccessible();
 	}
 
-	protected boolean supportsInstance(ITypeInfo type, Object object) {
-		return type.supportsInstance(object);
+	protected boolean supports(ITypeInfo type, Object object) {
+		return type.supports(object);
 	}
 
 	protected String getCaption(ITypeInfo type) {
@@ -1163,8 +1163,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean supportsInstance(Object object) {
-			return InfoProxyFactory.this.supportsInstance(base, object);
+		public boolean supports(Object object) {
+			return InfoProxyFactory.this.supports(base, object);
 		}
 
 		@Override

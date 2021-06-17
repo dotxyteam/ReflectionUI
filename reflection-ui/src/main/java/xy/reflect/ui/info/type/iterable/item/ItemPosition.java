@@ -113,7 +113,7 @@ public class ItemPosition implements Cloneable {
 		IListTypeInfo listType = getContainingListType();
 		ITypeInfo itemType = listType.getItemType();
 		if (itemType != null) {
-			if (!itemType.supportsInstance(object)) {
+			if (!itemType.supports(object)) {
 				return false;
 			}
 		}

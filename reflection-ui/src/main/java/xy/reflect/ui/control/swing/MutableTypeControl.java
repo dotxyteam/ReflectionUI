@@ -77,7 +77,7 @@ public class MutableTypeControl extends NullableControl {
 		if (value == null) {
 			return false;
 		}
-		if (!data.getType().supportsInstance(value)) {
+		if (!data.getType().supports(value)) {
 			return false;
 		}
 		((BufferedFieldControlData) data).addInBuffer(value);

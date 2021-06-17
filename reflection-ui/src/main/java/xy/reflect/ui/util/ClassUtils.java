@@ -28,13 +28,10 @@
  ******************************************************************************/
 package xy.reflect.ui.util;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,15 +40,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.text.NumberFormatter;
-
 /**
  * Utilities for dealing with classes.
  * 
  * @author olitank
  *
  */
-public class ReflectionUtils {
+public class ClassUtils {
 
 	protected static final Class<?>[] PRIMITIVE_CLASSES = new Class<?>[] { boolean.class, byte.class, short.class,
 			int.class, long.class, float.class, double.class, char.class };
@@ -175,87 +170,6 @@ public class ReflectionUtils {
 		} else {
 			throw new IllegalArgumentException("Class '" + clazz + "' is not a valid primitive wrapper class");
 		}
-	}
-
-	public static Object primitiveToWrapperArray(final Object primitiveArray) {
-		final Class<?> arrayType = primitiveArray.getClass();
-		final int length = Array.getLength(primitiveArray);
-		Class<?> primitiveType = arrayType.getComponentType();
-		Class<?> wrapperType = primitiveToWrapperClass(primitiveType);
-		Object result = Array.newInstance(wrapperType, length);
-		for (int i = 0; i < length; i++) {
-			final Object wrapper = Array.get(primitiveArray, i);
-			Array.set(result, i, wrapper);
-		}
-		return result;
-	}
-
-	public static String primitiveToString(Object object) {
-		Class<?> javaType = object.getClass();
-		if (!isPrimitiveClassOrWrapper(javaType)) {
-			throw new RuntimeException("Invalid primitive type: '" + javaType.getName() + "'");
-		}
-		if (Number.class.isAssignableFrom(javaType)) {
-			try {
-				return getDefaultNumberFormatter(javaType).valueToString(object);
-			} catch (ParseException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return object.toString();
-	}
-
-	public static Object primitiveFromString(String text, Class<?> javaType) {
-		if (javaType.isPrimitive()) {
-			javaType = ReflectionUtils.primitiveToWrapperClass(javaType);
-		}
-		if (javaType == Character.class) {
-			if (text.length() != 1) {
-				throw new RuntimeException("Invalid value: '" + text + "'. 1 character is expected");
-			}
-			return text.charAt(0);
-		} else if (javaType == Boolean.class) {
-			if (Boolean.TRUE.toString().equals(text)) {
-				return true;
-			}
-			if (Boolean.FALSE.toString().equals(text)) {
-				return false;
-			}
-			throw new RuntimeException("Invalid value: '" + text + "'. Expected '" + Boolean.TRUE.toString() + "' or '"
-					+ Boolean.FALSE.toString() + "'");
-		} else if (Number.class.isAssignableFrom(javaType)) {
-			try {
-				return getDefaultNumberFormatter(javaType).stringToValue(text);
-			} catch (ParseException e) {
-				throw new RuntimeException(e);
-			}
-		} else {
-			try {
-				try {
-					return javaType.getConstructor(new Class[] { String.class }).newInstance(text);
-				} catch (IllegalArgumentException e) {
-					throw new ReflectionUIError(e);
-				} catch (SecurityException e) {
-					throw new ReflectionUIError(e);
-				} catch (InstantiationException e) {
-					throw new ReflectionUIError(e);
-				} catch (IllegalAccessException e) {
-					throw new ReflectionUIError(e);
-				} catch (InvocationTargetException e) {
-					throw new ReflectionUIError(e.getTargetException());
-				} catch (NoSuchMethodException e) {
-					throw new ReflectionUIError(e);
-				}
-			} catch (Throwable t) {
-				throw new ReflectionUIError(javaType.getSimpleName() + " Inupt Error: " + t.toString(), t);
-			}
-		}
-	}
-
-	public static NumberFormatter getDefaultNumberFormatter(Class<?> javaType) {
-		NumberFormatter result = new NumberFormatter();
-		result.setValueClass(javaType);
-		return result;
 	}
 
 	public static boolean isKnownAsImmutableClass(Class<?> class1) {

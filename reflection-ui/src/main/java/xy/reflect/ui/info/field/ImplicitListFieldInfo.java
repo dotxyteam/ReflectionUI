@@ -569,7 +569,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean supportsInstance(Object object) {
+		public boolean supports(Object object) {
 			return object instanceof ValueInstance;
 		}
 

@@ -48,7 +48,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 
 /**
  * Method information extracted from the given Java method.
@@ -210,7 +210,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public boolean isHidden() {
-		if (ReflectionUtils.isJavaClassMainMethod(javaMethod)) {
+		if (ClassUtils.isJavaClassMainMethod(javaMethod)) {
 			return true;
 		}
 		return false;
@@ -255,7 +255,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 			}
 		}
 		for (Method commonMethod : Object.class.getMethods()) {
-			if (ReflectionUtils.isOverridenBy(commonMethod, javaMethod)) {
+			if (ClassUtils.isOverridenBy(commonMethod, javaMethod)) {
 				return false;
 			}
 		}

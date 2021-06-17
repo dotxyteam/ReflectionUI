@@ -552,7 +552,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public boolean supportsInstance(Object object) {
+		public boolean supports(Object object) {
 			return object instanceof ValueListItem;
 		}
 

@@ -116,7 +116,7 @@ public class EncapsulatedObjectFactory {
 
 	public Object getInstance(Accessor<Object> fieldValueAccessor) {
 		Object value = fieldValueAccessor.get();
-		if ((value != null) && !fieldType.supportsInstance(value)) {
+		if ((value != null) && !fieldType.supports(value)) {
 			throw new ReflectionUIError();
 		}
 		return new PrecomputedTypeInstanceWrapper(new Instance(fieldValueAccessor), new TypeInfo());
@@ -644,7 +644,7 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public boolean supportsInstance(Object object) {
+		public boolean supports(Object object) {
 			return object instanceof Instance;
 		}
 

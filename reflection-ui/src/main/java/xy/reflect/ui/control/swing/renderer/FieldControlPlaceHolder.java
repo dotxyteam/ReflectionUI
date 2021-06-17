@@ -78,7 +78,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -521,7 +521,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 				final Class<?> javaType;
 				try {
-					javaType = ReflectionUtils.getCachedClassforName(fieldType.getName());
+					javaType = ClassUtils.getCachedClassforName(fieldType.getName());
 				} catch (ClassNotFoundException e) {
 					return null;
 				}
@@ -531,7 +531,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
-				if (ReflectionUtils.isPrimitiveClassOrWrapper(javaType)) {
+				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
 					try {
 						return new PrimitiveValueControl(swingRenderer, controlInput);
 					} catch (RejectedFieldControlInputException e) {

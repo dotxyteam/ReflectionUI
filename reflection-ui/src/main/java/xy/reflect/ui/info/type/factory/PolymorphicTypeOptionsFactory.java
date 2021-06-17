@@ -63,7 +63,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	public PolymorphicTypeOptionsFactory(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
 		super(reflectionUI, getTypeOptionsCollector(reflectionUI, polymorphicType),
-				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "", false);
+				"SubTypesEnumeration [polymorphicType=" + polymorphicType.getName() + "]", "", false, false);
 		this.polymorphicType = polymorphicType;
 	}
 
@@ -155,7 +155,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		ITypeInfo polymorphicTypeAsValidOption = null;
 		ITypeInfo validSubType = null;
 		for (ITypeInfo type : options) {
-			if (type.supportsInstance(instance)) {
+			if (type.supports(instance)) {
 				if (type.getName().equals(polymorphicType.getName())) {
 					polymorphicTypeAsValidOption = type;
 				} else {

@@ -72,7 +72,8 @@ public abstract class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy 
 				return Arrays.asList(valueOptions).iterator();
 			}
 		};
-		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false) {
+		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false,
+				base.getType().supports(null)) {
 			@Override
 			protected String getItemName(Object item) {
 				return "Option [index=" + getOrLoadItems().indexOf(item) + "]";

@@ -304,11 +304,11 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected boolean supportsInstance(ITypeInfo type, Object object) {
+		protected boolean supports(ITypeInfo type, Object object) {
 			if (object == null) {
-				return super.supportsInstance(type, null);
+				return super.supports(type, null);
 			}
-			return super.supportsInstance(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			return super.supports(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
 		}
 
 		@Override

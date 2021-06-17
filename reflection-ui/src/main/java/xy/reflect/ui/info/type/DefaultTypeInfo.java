@@ -59,7 +59,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -218,7 +218,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public boolean isImmutable() {
-		return ReflectionUtils.isKnownAsImmutableClass(getJavaType());
+		return ClassUtils.isKnownAsImmutableClass(getJavaType());
 	}
 
 	@Override
@@ -244,7 +244,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		if (constructors == null) {
 			constructors = new ArrayList<IMethodInfo>();
-			if (ReflectionUtils.isPrimitiveClassOrWrapperOrString(getJavaType())) {
+			if (ClassUtils.isPrimitiveClassOrWrapperOrString(getJavaType())) {
 				constructors.add(new AbstractConstructorInfo() {
 
 					ITypeInfo returnValueType;
@@ -255,10 +255,10 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 							return "";
 						} else {
 							Class<?> primitiveType = getJavaType();
-							if (ReflectionUtils.isPrimitiveWrapperClass(primitiveType)) {
-								primitiveType = ReflectionUtils.wrapperToPrimitiveClass(getJavaType());
+							if (ClassUtils.isPrimitiveWrapperClass(primitiveType)) {
+								primitiveType = ClassUtils.wrapperToPrimitiveClass(getJavaType());
 							}
-							return ReflectionUtils.getDefaultPrimitiveValue(primitiveType);
+							return ClassUtils.getDefaultPrimitiveValue(primitiveType);
 						}
 					}
 
@@ -298,7 +298,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		if (String.class.equals(getJavaType())) {
 			return "Text";
 		} else if (getJavaType().isPrimitive()) {
-			return ReflectionUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
+			return ClassUtils.primitiveToWrapperClass(getJavaType()).getSimpleName();
 		} else {
 			return ReflectionUIUtils.identifierToCaption(getJavaType().getSimpleName());
 		}
@@ -342,12 +342,12 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
-	public boolean supportsInstance(Object object) {
+	public boolean supports(Object object) {
 		if (getJavaType().isPrimitive()) {
 			if (object == null) {
 				return false;
 			}
-			return ReflectionUtils.primitiveToWrapperClass(getJavaType()).isInstance(object);
+			return ClassUtils.primitiveToWrapperClass(getJavaType()).isInstance(object);
 		} else {
 			if (object == null) {
 				return true;
@@ -364,12 +364,10 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	@Override
 	public String toString(Object object) {
 		ReflectionUIUtils.checkInstance(this, object);
-		if (object == null) {
-			return "";
-		} else if (object instanceof String) {
+		if (object instanceof String) {
 			return (String) object;
-		} else if (ReflectionUtils.isPrimitiveClassOrWrapper(getJavaType())) {
-			return ReflectionUtils.primitiveToString(object);
+		} else if (ClassUtils.isPrimitiveClassOrWrapper(getJavaType())) {
+			return ReflectionUIUtils.primitiveToString(object);
 		} else {
 			String result = object.toString();
 			if (result == null) {

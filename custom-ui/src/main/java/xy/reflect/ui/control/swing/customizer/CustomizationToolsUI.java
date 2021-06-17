@@ -76,7 +76,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -112,7 +112,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			protected boolean isDerivedTypeInfo(ITypeInfo type, Class<?> baseClass) {
 				Class<?> clazz;
 				try {
-					clazz = ReflectionUtils.getCachedClassforName(type.getName());
+					clazz = ClassUtils.getCachedClassforName(type.getName());
 				} catch (ClassNotFoundException e) {
 					return false;
 				}

@@ -91,7 +91,7 @@ import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.Listener;
@@ -1363,7 +1363,7 @@ public class InfoCustomizations implements Serializable {
 		public List<String> getSavingMethodNameOptions() {
 			Class<?> javaType;
 			try {
-				javaType = ReflectionUtils.getCachedClassforName(typeName);
+				javaType = ClassUtils.getCachedClassforName(typeName);
 			} catch (ClassNotFoundException e) {
 				return Collections.emptyList();
 			}
@@ -1375,7 +1375,7 @@ public class InfoCustomizations implements Serializable {
 				if (!method.getReturnType().equals(void.class)) {
 					continue;
 				}
-				List<Parameter> parameters = ReflectionUtils.getJavaParameters(method);
+				List<Parameter> parameters = ClassUtils.getJavaParameters(method);
 				if (parameters.size() != 1) {
 					continue;
 				}
@@ -1400,7 +1400,7 @@ public class InfoCustomizations implements Serializable {
 		public List<String> getLoadingMethodNameOptions() {
 			Class<?> javaType;
 			try {
-				javaType = ReflectionUtils.getCachedClassforName(typeName);
+				javaType = ClassUtils.getCachedClassforName(typeName);
 			} catch (ClassNotFoundException e) {
 				return Collections.emptyList();
 			}
@@ -1412,7 +1412,7 @@ public class InfoCustomizations implements Serializable {
 				if (!method.getReturnType().equals(void.class)) {
 					continue;
 				}
-				List<Parameter> parameters = ReflectionUtils.getJavaParameters(method);
+				List<Parameter> parameters = ClassUtils.getJavaParameters(method);
 				if (parameters.size() != 1) {
 					continue;
 				}
@@ -1908,7 +1908,7 @@ public class InfoCustomizations implements Serializable {
 		public List<String> getConversionMethodSignatureOptions() {
 			Class<?> conversionClass;
 			try {
-				conversionClass = ReflectionUtils.getCachedClassforName(conversionClassName);
+				conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
 			} catch (Exception e) {
 				return Collections.emptyList();
 			}
@@ -1945,7 +1945,7 @@ public class InfoCustomizations implements Serializable {
 				return null;
 			}
 			try {
-				final Class<?> conversionClass = ReflectionUtils.getCachedClassforName(conversionClassName);
+				final Class<?> conversionClass = ClassUtils.getCachedClassforName(conversionClassName);
 				if ((conversionMethodSignature == null) || (conversionMethodSignature.length() == 0)) {
 					throw new ReflectionUIError("Conversion method not specified!");
 				}
@@ -1955,7 +1955,7 @@ public class InfoCustomizations implements Serializable {
 						.extractMethodParameterTypeNamesFromSignature(conversionMethodSignature);
 				final Class<?>[] conversionMethodParameterTypes = new Class<?>[conversionMethodParameterTypeNames.length];
 				for (int i = 0; i < conversionMethodParameterTypeNames.length; i++) {
-					conversionMethodParameterTypes[i] = ReflectionUtils
+					conversionMethodParameterTypes[i] = ClassUtils
 							.getCachedClassforName(conversionMethodParameterTypeNames[i]);
 				}
 				if (conversionMethodName == null) {
@@ -4274,14 +4274,14 @@ public class InfoCustomizations implements Serializable {
 			if ((className == null) || (className.length() == 0)) {
 				throw new ReflectionUIError("Class name not specified !");
 			}
-			ReflectionUtils.getCachedClassforName(className);
+			ClassUtils.getCachedClassforName(className);
 		}
 
 		@Override
 		public ITypeInfo find(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier) {
 			Class<?> javaType;
 			try {
-				javaType = ReflectionUtils.getCachedClassforName(className);
+				javaType = ClassUtils.getCachedClassforName(className);
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
@@ -4342,13 +4342,13 @@ public class InfoCustomizations implements Serializable {
 			if ((implementationClassName == null) || (implementationClassName.length() == 0)) {
 				throw new ReflectionUIError("Implementation class name not specified !");
 			}
-			ReflectionUtils.getCachedClassforName(implementationClassName);
+			ClassUtils.getCachedClassforName(implementationClassName);
 		}
 
 		@Override
 		public ITypeInfo find(ReflectionUI reflectionUI, SpecificitiesIdentifier specificitiesIdentifier) {
 			try {
-				Class<?> implementationClass = ReflectionUtils.getCachedClassforName(implementationClassName);
+				Class<?> implementationClass = ClassUtils.getCachedClassforName(implementationClassName);
 				return (ITypeInfo) implementationClass.newInstance();
 			} catch (Exception e) {
 				throw new ReflectionUIError("Failed to instanciate class implenation class: " + e.toString(), e);

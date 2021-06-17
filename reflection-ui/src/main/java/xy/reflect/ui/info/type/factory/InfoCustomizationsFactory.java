@@ -121,7 +121,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
-import xy.reflect.ui.util.ReflectionUtils;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
@@ -858,7 +858,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getSavingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ReflectionUtils.getCachedClassforName(type.getName());
+					javaType = ClassUtils.getCachedClassforName(type.getName());
 					Method method = javaType.getMethod(t.getSavingMethodName(), OutputStream.class);
 					method.invoke(object, out);
 					return;
@@ -878,7 +878,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getLoadingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ReflectionUtils.getCachedClassforName(type.getName());
+					javaType = ClassUtils.getCachedClassforName(type.getName());
 					Method method = javaType.getMethod(t.getLoadingMethodName(), InputStream.class);
 					method.invoke(object, in);
 					return;
@@ -2214,7 +2214,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						newMethod = new MethodInfoProxy(newMethod) {
 							@Override
 							public Object invoke(Object object, InvocationData invocationData) {
-								return containingType.toString(object);
+								return ReflectionUIUtils.toString(customizedUI, object);
 							}
 						};
 					}

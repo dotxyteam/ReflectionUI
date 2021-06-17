@@ -378,7 +378,7 @@ public class InvocationDataObjectFactory {
 		}
 
 		@Override
-		public boolean supportsInstance(Object object) {
+		public boolean supports(Object object) {
 			return object instanceof Instance;
 		}
 
@@ -445,7 +445,7 @@ public class InvocationDataObjectFactory {
 
 		@Override
 		public void setValue(Object object, Object value) {
-			if (!param.getType().supportsInstance(value)) {
+			if (!param.getType().supports(value)) {
 				throw new ReflectionUIError("Parameter '" + param.getName() + "': New value not supported: '" + value
 						+ "'. Expected value of type '" + param.getType().getName() + "'");
 			}
