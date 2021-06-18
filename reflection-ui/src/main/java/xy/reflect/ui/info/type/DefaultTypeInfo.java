@@ -168,32 +168,17 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
+	public int getFormSpacing() {
+		return ITypeInfo.DEFAULT_FORM_SPACING;
+	}
+
+	@Override
 	public boolean onFormVisibilityChange(Object object, boolean visible) {
 		return false;
 	}
 
 	public Class<?> getJavaType() {
 		return source.getJavaType();
-	}
-
-	@Override
-	public boolean canPersist() {
-		return true;
-	}
-
-	@Override
-	public void save(Object object, OutputStream output) {
-		IOUtils.serialize(object, output);
-	}
-
-	@Override
-	public void load(Object object, InputStream input) {
-		Object loaded = IOUtils.deserialize(input);
-		try {
-			ReflectionUIUtils.copyFieldValues(reflectionUI, loaded, object, true);
-		} catch (Throwable t) {
-			throw new ReflectionUIError("Deserialized object: Deep copy failure: " + t.toString(), t);
-		}
 	}
 
 	@Override
@@ -402,11 +387,34 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
+	public boolean canPersist() {
+		if (Serializable.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void save(Object object, OutputStream output) {
+		IOUtils.serialize(object, output);
+	}
+
+	@Override
+	public void load(Object object, InputStream input) {
+		Object loaded = IOUtils.deserialize(input);
+		try {
+			ReflectionUIUtils.copyFieldValues(reflectionUI, loaded, object, true);
+		} catch (Throwable t) {
+			throw new ReflectionUIError("Deserialized object: Deep copy failure: " + t.toString(), t);
+		}
+	}
+
+	@Override
 	public boolean canCopy(Object object) {
-		ReflectionUIUtils.checkInstance(this, object);
 		if (object == null) {
 			return true;
 		}
+		ReflectionUIUtils.checkInstance(this, object);
 		if (object instanceof Serializable) {
 			return true;
 		}
@@ -415,11 +423,14 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public Object copy(Object object) {
-		ReflectionUIUtils.checkInstance(this, object);
 		if (object == null) {
 			return null;
 		}
-		return IOUtils.copyThroughSerialization((Serializable) object);
+		ReflectionUIUtils.checkInstance(this, object);
+		if (object instanceof Serializable) {
+			return IOUtils.copyThroughSerialization((Serializable) object);
+		}
+		throw new ReflectionUIError();
 	}
 
 	@Override

@@ -492,6 +492,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public int getFormSpacing() {
+			return ITypeInfo.DEFAULT_FORM_SPACING;
+		}
+
+		@Override
 		public boolean canPersist() {
 			return false;
 		}

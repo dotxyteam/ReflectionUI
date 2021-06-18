@@ -768,6 +768,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getFormPreferredSize();
 	}
 
+	protected int getFormSpacing(ITypeInfo type) {
+		return type.getFormSpacing();
+	}
+
 	protected IFieldInfo getKeyField(IMapEntryTypeInfo type) {
 		return wrapFieldInfo(type.getKeyField(), type);
 	}
@@ -1150,6 +1154,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public Dimension getFormPreferredSize() {
 			return InfoProxyFactory.this.getFormPreferredSize(base);
+		}
+
+		@Override
+		public int getFormSpacing() {
+			return InfoProxyFactory.this.getFormSpacing(base);
 		}
 
 		@Override

@@ -459,6 +459,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public int getFormSpacing() {
+			return ITypeInfo.DEFAULT_FORM_SPACING;
+		}
+
+		@Override
 		public boolean canPersist() {
 			return false;
 		}

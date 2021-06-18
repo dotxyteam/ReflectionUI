@@ -520,6 +520,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public int getFormSpacing() {
+			return ITypeInfo.DEFAULT_FORM_SPACING;
+		}
+
+		@Override
 		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return false;
 		}

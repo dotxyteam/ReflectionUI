@@ -127,11 +127,17 @@ public class WindowManager {
 	}
 
 	protected Color getAlternativeDecorationsBorderColor() {
-		Color result = getMainForegroundColor();
-		if (result == null) {
-			result = new JPanel().getForeground();
+		Color color1 = getMainBackgroundColor();
+		if (color1 == null) {
+			color1 = new JPanel().getBackground();
 		}
-		return result;
+		Color color2 = getTitleBackgroundColor();
+		if (color2 == null) {
+			color2 = new JPanel().getBackground();
+		}
+		Color averageColor = new Color((color1.getRed() + color2.getRed()) / 2,
+				(color1.getGreen() + color2.getGreen()) / 2, (color1.getBlue() + color2.getBlue()) / 2);
+		return averageColor;
 	}
 
 	protected JScrollPane createScrollPane(Component content) {
@@ -263,7 +269,7 @@ public class WindowManager {
 		backgroundPane.setOpaque((backgroundColor != null) && (backgroundImage == null));
 		if (alternativeDecorationsPanel != null) {
 			alternativeDecorationsPanel
-					.setBorder(BorderFactory.createLineBorder(getAlternativeDecorationsBorderColor(), 4));
+					.setBorder(BorderFactory.createLineBorder(getAlternativeDecorationsBorderColor(), 1));
 		}
 		Color borderColor = getMainBorderColor();
 		if (borderColor != null) {

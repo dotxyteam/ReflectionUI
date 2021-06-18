@@ -131,7 +131,15 @@ public class InfoCustomizations implements Serializable {
 	 */
 	public static InfoCustomizations getDefault() {
 		if (defaultInstance == null) {
-			defaultInstance = new InfoCustomizations();
+			defaultInstance = new InfoCustomizations() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public String toString() {
+					return "InfoCustomizations.DEFAULT";
+				}
+			};
 			if (SystemProperties.areDefaultInfoCustomizationsActive()) {
 				String filePath = SystemProperties.getDefaultInfoCustomizationsFilePath();
 				File file = new File(filePath);
@@ -151,15 +159,6 @@ public class InfoCustomizations implements Serializable {
 	 * The default constructor. Builds an empty instance.
 	 */
 	public InfoCustomizations() {
-	}
-
-	@Override
-	public String toString() {
-		if (this == defaultInstance) {
-			return "InfoCustomizations.DEFAULT";
-		} else {
-			return super.toString();
-		}
 	}
 
 	public ApplicationCustomization getAppplicationCustomization() {
@@ -1328,12 +1327,21 @@ public class InfoCustomizations implements Serializable {
 		protected String savingMethodName;
 		protected String loadingMethodName;
 		protected boolean copyForbidden = false;
+		protected Integer formSpacing;
 
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public Integer getFormSpacing() {
+			return formSpacing;
+		}
+
+		public void setFormSpacing(Integer formSpacing) {
+			this.formSpacing = formSpacing;
 		}
 
 		public String getBaseTypeName() {

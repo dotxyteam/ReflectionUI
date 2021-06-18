@@ -1682,7 +1682,7 @@ public class Form extends ImagePanel {
 	}
 
 	protected int getLayoutSpacing() {
-		return SwingRendererUtils.getStandardCharacterWidth(this) * 1;
+		return objectType.getFormSpacing();
 	}
 
 	/**

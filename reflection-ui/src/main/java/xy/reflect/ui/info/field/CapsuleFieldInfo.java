@@ -443,6 +443,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public int getFormSpacing() {
+			return ITypeInfo.DEFAULT_FORM_SPACING;
+		}
+
+		@Override
 		public ColorSpecification getCategoriesBackgroundColor() {
 			return null;
 		}

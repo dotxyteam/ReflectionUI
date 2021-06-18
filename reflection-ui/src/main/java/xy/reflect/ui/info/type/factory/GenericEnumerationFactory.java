@@ -318,6 +318,11 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
+		public int getFormSpacing() {
+			return ITypeInfo.DEFAULT_FORM_SPACING;
+		}
+
+		@Override
 		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return false;
 		}
@@ -465,7 +470,7 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public boolean supports(Object object) {
-			if(object == null) {
+			if (object == null) {
 				return nullSupported;
 			}
 			if (!(object instanceof Instance)) {

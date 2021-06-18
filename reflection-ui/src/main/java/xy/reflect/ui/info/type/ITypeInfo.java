@@ -51,6 +51,8 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
  */
 public interface ITypeInfo extends IInfo {
 
+	public int DEFAULT_FORM_SPACING = 10;
+
 	/**
 	 * @param object Any object of the current type.
 	 * @return a transaction manager for the given instance.
@@ -209,6 +211,12 @@ public interface ITypeInfo extends IInfo {
 	 * @return the preferred size (in pixels) of forms generated from this type.
 	 */
 	Dimension getFormPreferredSize();
+
+	/**
+	 * @return the space (in pixels) between elements in forms generated from this
+	 *         type.
+	 */
+	int getFormSpacing();
 
 	/**
 	 * @return background color of forms generated from this type or null if the
