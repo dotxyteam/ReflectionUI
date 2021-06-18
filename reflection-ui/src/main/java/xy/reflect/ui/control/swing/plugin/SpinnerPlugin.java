@@ -81,7 +81,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		if (javaType.isPrimitive()) {
 			javaType = ClassUtils.primitiveToWrapperClass(javaType);
 		}
-		return Number.class.isAssignableFrom(javaType);
+		return Number.class.isAssignableFrom(javaType) && Comparable.class.isAssignableFrom(javaType);
 	}
 
 	@Override
@@ -250,6 +250,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			});
 		}
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
 			listenerDisabled = true;
@@ -289,9 +290,18 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						}
 					}
 				}
+				SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) getModel();
 				Number value = (Number) data.getValue();
 				if (value == null) {
-					value = (Number) ((SpinnerNumberModel) getModel()).getMinimum();
+					value = (Number) spinnerNumberModel.getMinimum();
+				}
+				if (((Comparable) value).compareTo(spinnerNumberModel.getMaximum()) > 0) {
+					throw new ReflectionUIError("The value is greater than the maximum value: " + value + " > "
+							+ spinnerNumberModel.getMaximum());
+				}
+				if (((Comparable) value).compareTo(spinnerNumberModel.getMinimum()) < 0) {
+					throw new ReflectionUIError("The value is less than the minimum value: " + value + " < "
+							+ spinnerNumberModel.getMinimum());
 				}
 				setValue(value);
 				displayError(null);
