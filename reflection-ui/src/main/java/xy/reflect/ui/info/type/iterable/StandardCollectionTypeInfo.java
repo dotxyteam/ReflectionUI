@@ -31,14 +31,10 @@ package xy.reflect.ui.info.type.iterable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
@@ -121,15 +117,12 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public boolean canInstanciateFromArray() {
-		return isConcrete() && (ReflectionUIUtils.getZeroParameterMethod(getConstructors()) != null)
-				&& canReplaceContent();
+		return ReflectionUIUtils.canCreateDefaultInstance(this, false) && canReplaceContent();
 	}
 
-	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public Object fromArray(Object[] array) {
-		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterMethod(getConstructors());
-		Collection result = (Collection) constructor.invoke(null, new InvocationData(null, constructor));
+		Object result = ReflectionUIUtils.createDefaultInstance(this, false);
 		replaceContent(result, array);
 		return result;
 	}
@@ -151,16 +144,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public boolean isOrdered() {
-		if (Set.class.equals(getJavaType())) {
-			return false;
+		if (List.class.isAssignableFrom(getJavaType())) {
+			return true;
 		}
-		if (HashSet.class.equals(getJavaType())) {
-			return false;
+		if (LinkedHashSet.class.isAssignableFrom(getJavaType())) {
+			return true;
 		}
-		if (SortedSet.class.isAssignableFrom(getJavaType())) {
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -195,6 +185,60 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
 			Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
 		return Collections.emptyList();
+	}
+
+	@Override
+	public boolean canCopy(Object object) {
+		if (super.canCopy(object)) {
+			return true;
+		}
+		Object[] srcArray = toArray(object);
+		if (canInstanciateFromArray()) {
+			boolean ok = true;
+			for (Object srcItem : srcArray) {
+				ITypeInfo itemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
+				if (!itemType.isImmutable()) {
+					if (!ReflectionUIUtils.canCopy(reflectionUI, srcItem)) {
+						ok = false;
+						break;
+					}
+				}
+			}
+			return ok;
+		} else if (canReplaceContent()) {
+			return ReflectionUIUtils.canCreateDefaultInstance(this, false);
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public Object copy(Object object) {
+		if (super.canCopy(object)) {
+			return super.copy(object);
+		}
+		Object[] srcArray = toArray(object);
+		if (canInstanciateFromArray()) {
+			Object[] dstArray = new Object[srcArray.length];
+			int i = 0;
+			for (Object srcItem : srcArray) {
+				ITypeInfo itemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
+				if (itemType.isImmutable()) {
+					dstArray[i] = srcItem;
+				} else {
+					Object dstItem = ReflectionUIUtils.copy(reflectionUI, srcItem);
+					dstArray[i] = dstItem;
+				}
+				i++;
+			}
+			return fromArray(dstArray);
+		} else if (canReplaceContent()) {
+			Object newInstance = ReflectionUIUtils.createDefaultInstance(this, false);
+			replaceContent(newInstance, srcArray);
+			return newInstance;
+		} else {
+			throw new ReflectionUIError("Cannot copy list: '" + object + "'");
+		}
 	}
 
 	@Override

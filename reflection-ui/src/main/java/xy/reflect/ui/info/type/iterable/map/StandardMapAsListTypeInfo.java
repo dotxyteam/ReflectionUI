@@ -30,13 +30,10 @@ package xy.reflect.ui.info.type.iterable.map;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.SortedMap;
-
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
@@ -101,20 +98,6 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		map.putAll(tmpMap);
 	}
 
-	@Override
-	public boolean canInstanciateFromArray() {
-		return true;
-	}
-
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	public Object fromArray(Object[] array) {
-		IMethodInfo constructor = ReflectionUIUtils.getZeroParameterMethod(getConstructors());
-		Map result = (Map) constructor.invoke(null, new InvocationData(null, constructor));
-		replaceContent(result, array);
-		return result;
-	}
-
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public Object[] toArray(Object listValue) {
@@ -129,16 +112,10 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 
 	@Override
 	public boolean isOrdered() {
-		if (Map.class.equals(getJavaType())) {
-			return false;
+		if (LinkedHashMap.class.isAssignableFrom(getJavaType())) {
+			return true;
 		}
-		if (HashMap.class.equals(getJavaType())) {
-			return false;
-		}
-		if (SortedMap.class.isAssignableFrom(getJavaType())) {
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	@Override

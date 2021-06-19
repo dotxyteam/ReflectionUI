@@ -323,14 +323,23 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.isCopyForbidden()) {
 				return false;
 			}
-			if(super.canCopy(type, object)) {
+			if (super.canCopy(type, object)) {
 				return true;
 			}
-			ITypeInfo customizedType = wrapTypeInfo(type);
-			if (customizedType.canPersist() && ReflectionUIUtils.canCreateDefaultInstance(customizedType, false)) {
-				return true;
+			// if possible use specified persistence methods to implement copy/cut/paste
+			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
+				Class<?> javaType;
+				try {
+					javaType = ClassUtils.getCachedClassforName(type.getName());
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+				if (object.getClass().equals(javaType)) {
+					if (ReflectionUIUtils.canCreateDefaultInstance(wrapTypeInfo(type), false)) {
+						return true;
+					}
+				}
 			}
-
 		}
 		return super.canCopy(type, object);
 	}
@@ -343,17 +352,37 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.isCopyForbidden()) {
 				throw new ReflectionUIError();
 			}
-			if(super.canCopy(type, object)) {
+			if (super.canCopy(type, object)) {
 				return super.copy(type, object);
 			}
-			ITypeInfo customizedType = wrapTypeInfo(type);
-			if (customizedType.canPersist() && ReflectionUIUtils.canCreateDefaultInstance(customizedType, false)) {
-				ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
-				customizedType.save(object, outputBuffer);
-				Object newInstance = ReflectionUIUtils.createDefaultInstance(customizedType, false);
-				ByteArrayInputStream inputBuffer = new ByteArrayInputStream(outputBuffer.toByteArray());
-				customizedType.load(newInstance, inputBuffer);
-				return newInstance;
+			// if possible use specified persistence methods to implement copy/cut/paste
+			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
+				Class<?> javaType;
+				try {
+					javaType = ClassUtils.getCachedClassforName(type.getName());
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+				if (object.getClass().equals(javaType)) {
+					if (ReflectionUIUtils.canCreateDefaultInstance(wrapTypeInfo(type), false)) {
+						ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
+						try {
+							Method method = javaType.getMethod(t.getSavingMethodName(), OutputStream.class);
+							method.invoke(object, outputBuffer);
+						} catch (Exception e) {
+							throw new ReflectionUIError(e);
+						}
+						Object newInstance = ReflectionUIUtils.createDefaultInstance(wrapTypeInfo(type), false);
+						ByteArrayInputStream inputBuffer = new ByteArrayInputStream(outputBuffer.toByteArray());
+						try {
+							Method method = javaType.getMethod(t.getLoadingMethodName(), InputStream.class);
+							method.invoke(newInstance, inputBuffer);
+						} catch (Exception e) {
+							throw new ReflectionUIError(e);
+						}
+						return newInstance;
+					}
+				}
 			}
 		}
 		return super.copy(type, object);
@@ -2444,7 +2473,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				for (int i = 0; i < mc.getSerializedInvocationDatas().size(); i++) {
 					final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 					final int finalI = i;
-					newMethods.add(new PresetInvocationDataMethodInfo(method, invocationDataStorage) {
+					newMethods.add(new PresetInvocationDataMethodInfo(method, (TextualStorage) ReflectionUIUtils
+							.copy(ReflectionUIUtils.STANDARD_REFLECTION, invocationDataStorage)) {
 
 						@Override
 						public String getName() {
@@ -2874,7 +2904,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization fc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (fc.getNullReplacement().getData() != null) {
-					field = new NullReplacementFieldInfo(field, fc.getNullReplacement());
+					field = new NullReplacementFieldInfo(field, (TextualStorage) ReflectionUIUtils
+							.copy(ReflectionUIUtils.STANDARD_REFLECTION, fc.getNullReplacement()));
 				}
 				return field;
 			}
