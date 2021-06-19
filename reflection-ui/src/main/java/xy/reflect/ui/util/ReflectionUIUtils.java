@@ -527,29 +527,8 @@ public class ReflectionUIUtils {
 				ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
 				if (deeply && !fieldValueType.isImmutable()) {
 					Object dstFieldValue;
-					if (fieldValueType instanceof IListTypeInfo) {
-						Object[] srcArray = ((IListTypeInfo) fieldValueType).toArray(srcFieldValue);
-						if (((IListTypeInfo) fieldValueType).canInstanciateFromArray()) {
-							Object[] dstArray = new Object[srcArray.length];
-							int i = 0;
-							for (Object srcItem : srcArray) {
-								ITypeInfo itemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
-								if (itemType.isImmutable()) {
-									dstArray[i] = srcItem;
-								} else {
-									Object dstItem = ReflectionUIUtils.createDefaultInstance(itemType, false);
-									copyFieldValues(reflectionUI, srcItem, dstItem, true);
-									dstArray[i] = dstItem;
-								}
-								i++;
-							}
-							dstFieldValue = ((IListTypeInfo) fieldValueType).fromArray(dstArray);
-						} else if (((IListTypeInfo) fieldValueType).canReplaceContent()) {
-							dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
-							((IListTypeInfo) fieldValueType).replaceContent(dstFieldValue, srcArray);
-						} else {
-							throw new ReflectionUIError("Cannot copy list value: '" + srcFieldValue + "'");
-						}
+					if (canCopy(reflectionUI, srcFieldValue)) {
+						dstFieldValue = copy(reflectionUI, srcFieldValue);
 					} else {
 						dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
 						copyFieldValues(reflectionUI, srcFieldValue, dstFieldValue, true);
