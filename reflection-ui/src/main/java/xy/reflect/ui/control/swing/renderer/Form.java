@@ -1065,6 +1065,7 @@ public class Form extends ImagePanel {
 	 * @param refreshStructure Whether the current form should update its structure
 	 *                         to reflect the recent meta-data changes. Mainly used
 	 *                         in design mode.
+	 * 
 	 */
 	public void refresh(boolean refreshStructure) {
 		if (refreshStructure && detectStructuralChanges()) {
@@ -1471,6 +1472,7 @@ public class Form extends ImagePanel {
 		MethodsLayout methodsOrientation = type.getMethodsLayout();
 		JPanel methodsPanel = (JPanel) methodControlPlaceHolder.getParent();
 		int spacing = getLayoutSpacing();
+		methodsPanel.setBorder(BorderFactory.createEmptyBorder(spacing, spacing, spacing, spacing));
 		GridLayout newLayout;
 		if (methodsOrientation == MethodsLayout.HORIZONTAL_FLOW) {
 			newLayout = new GridLayout(1, 0, spacing, spacing);
@@ -1738,4 +1740,5 @@ public class Form extends ImagePanel {
 		void onRefresh(boolean refreshStructure);
 
 	}
+
 }
