@@ -149,7 +149,7 @@ public class Form extends ImagePanel {
 		this.swingRenderer = swingRenderer;
 		setObject(object);
 		setInfoFilter(infoFilter);
-		setModificationStack(new ModificationStack(toString()));
+		setModificationStack(new ModificationStack(null));
 		addAncestorListener(new AncestorListener() {
 
 			@Override
@@ -1068,7 +1068,7 @@ public class Form extends ImagePanel {
 	 * 
 	 */
 	public void refresh(boolean refreshStructure) {
-		if (refreshStructure && detectStructuralChanges()) {
+		if (refreshStructure && detectStructureChange()) {
 			InfoCategory displayedCategory = getDisplayedCategory();
 			try {
 				removeAll();
@@ -1163,7 +1163,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected boolean detectStructuralChanges() {
+	protected boolean detectStructureChange() {
 
 		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
 		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> displayedMethodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
@@ -1176,6 +1176,7 @@ public class Form extends ImagePanel {
 		if (!objectType.equals(oldObjectType)) {
 			modificationsDetected = true;
 			setName("form [objectType=" + objectType.getName() + "]");
+			modificationStack.setName(getName());
 		}
 
 		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> newFieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(

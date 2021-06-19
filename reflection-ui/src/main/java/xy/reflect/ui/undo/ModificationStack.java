@@ -174,6 +174,15 @@ public class ModificationStack {
 	}
 
 	/**
+	 * Updates the name of this modification stack.
+	 * 
+	 * @param name The new name.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
 	 * @return the maximum size of the stack. Note that once this size is exceeded,
 	 *         {@link #wasInvalidated()} will return true.
 	 */
