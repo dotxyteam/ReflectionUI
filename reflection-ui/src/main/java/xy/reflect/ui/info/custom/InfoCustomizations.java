@@ -2274,32 +2274,38 @@ public class InfoCustomizations implements Serializable {
 
 		protected static class MethodBasedConverter implements Filter<Object> {
 
-			protected ConversionMethodFinder conversionMethodFinder;
-			protected Class<?> theClass;
-			protected String methodName;
-			protected Class<?>[] parameterTypes;
+			protected Method method;
+			protected int parameterCount;
+			protected boolean parameterPluralityResolvingRequired;
+			protected int chosenParameterPosition;
+			protected Map<Integer, TextualStorage> otherParameterValueStorages;
 
 			public MethodBasedConverter(ConversionMethodFinder conversionMethodFinder, Class<?> theClass,
 					String methodName, Class<?>[] parameterTypes) {
-				this.conversionMethodFinder = conversionMethodFinder;
-				this.theClass = theClass;
-				this.methodName = methodName;
-				this.parameterTypes = parameterTypes;
+				try {
+					this.method = theClass.getMethod(methodName, parameterTypes);
+				} catch (NoSuchMethodException e) {
+					throw new ReflectionUIError(e);
+				} catch (SecurityException e) {
+					throw new ReflectionUIError(e);
+				}
+				this.parameterCount = conversionMethodFinder.getParameterCount(method);
+				this.parameterPluralityResolvingRequired = parameterCount  > 1;
+				this.otherParameterValueStorages = conversionMethodFinder.getOtherParameterValueStorages();
+				this.chosenParameterPosition = conversionMethodFinder.getChosenParameterPosition();
 			}
 
 			@Override
 			public Object get(Object obj) {
 				try {
 					Method method = getMethod();
-					if (conversionMethodFinder.isParameterPluralityResolvingRequired()) {
-						Object[] paramValues = new Object[conversionMethodFinder.getParameterCount(method)];
+					if (parameterPluralityResolvingRequired) {
+						Object[] paramValues = new Object[parameterCount];
 						for (int paramPosition = 0; paramPosition < paramValues.length; paramPosition++) {
-							String parmName = conversionMethodFinder.getParameterName(method, paramPosition);
-							if (parmName.equals(conversionMethodFinder.getChosenParameterName())) {
+							if (paramPosition == chosenParameterPosition) {
 								paramValues[paramPosition] = obj;
 							} else {
-								TextualStorage storage = conversionMethodFinder.getOtherParameterValueStorageByName()
-										.get(parmName);
+								TextualStorage storage = otherParameterValueStorages.get(paramPosition);
 								if (storage == null) {
 									continue;
 								}
@@ -2328,20 +2334,19 @@ public class InfoCustomizations implements Serializable {
 			}
 
 			public Method getMethod() {
-				try {
-					return theClass.getMethod(methodName, parameterTypes);
-				} catch (NoSuchMethodException e) {
-					throw new ReflectionUIError(e);
-				} catch (SecurityException e) {
-					throw new ReflectionUIError(e);
-				}
+				return method;
 			}
 
 			@Override
 			public int hashCode() {
 				final int prime = 31;
 				int result = 1;
-				result = prime * result + ((conversionMethodFinder == null) ? 0 : conversionMethodFinder.hashCode());
+				result = prime * result + chosenParameterPosition;
+				result = prime * result + ((method == null) ? 0 : method.hashCode());
+				result = prime * result
+						+ ((otherParameterValueStorages == null) ? 0 : otherParameterValueStorages.hashCode());
+				result = prime * result + parameterCount;
+				result = prime * result + (parameterPluralityResolvingRequired ? 1231 : 1237);
 				return result;
 			}
 
@@ -2354,46 +2359,69 @@ public class InfoCustomizations implements Serializable {
 				if (getClass() != obj.getClass())
 					return false;
 				MethodBasedConverter other = (MethodBasedConverter) obj;
-				if (conversionMethodFinder == null) {
-					if (other.conversionMethodFinder != null)
+				if (chosenParameterPosition != other.chosenParameterPosition)
+					return false;
+				if (method == null) {
+					if (other.method != null)
 						return false;
-				} else if (!conversionMethodFinder.equals(other.conversionMethodFinder))
+				} else if (!method.equals(other.method))
+					return false;
+				if (otherParameterValueStorages == null) {
+					if (other.otherParameterValueStorages != null)
+						return false;
+				} else if (!otherParameterValueStorages.equals(other.otherParameterValueStorages))
+					return false;
+				if (parameterCount != other.parameterCount)
+					return false;
+				if (parameterPluralityResolvingRequired != other.parameterPluralityResolvingRequired)
 					return false;
 				return true;
 			}
 
 			@Override
 			public String toString() {
-				return "MethodBasedConverter [conversionMethodFinder=" + conversionMethodFinder + "]";
+				return "MethodBasedConverter [method=" + method + ", parameterCount=" + parameterCount
+						+ ", parameterPluralityResolvingRequired=" + parameterPluralityResolvingRequired
+						+ ", chosenParameterPosition=" + chosenParameterPosition + ", otherParameterValueStorages="
+						+ otherParameterValueStorages + "]";
 			}
 
 		}
 
 		protected static class ConstructorBasedConverter implements Filter<Object> {
-			protected Class<?> theClass;
-			protected Class<?>[] parameterTypes;
-			protected ConversionMethodFinder conversionMethodFinder;
+
+			protected Constructor<?> constrcutor;
+			protected int parameterCount;
+			protected boolean parameterPluralityResolvingRequired;
+			protected int chosenParameterPosition;
+			protected Map<Integer, TextualStorage> otherParameterValueStorages;
 
 			public ConstructorBasedConverter(ConversionMethodFinder conversionMethodFinder, Class<?> theClass,
 					Class<?>[] parameterTypes) {
-				this.conversionMethodFinder = conversionMethodFinder;
-				this.theClass = theClass;
-				this.parameterTypes = parameterTypes;
+				try {
+					this.constrcutor = theClass.getDeclaredConstructor(parameterTypes);
+				} catch (NoSuchMethodException e) {
+					throw new ReflectionUIError(e);
+				} catch (SecurityException e) {
+					throw new ReflectionUIError(e);
+				}
+				this.parameterCount = conversionMethodFinder.getParameterCount(constrcutor);
+				this.parameterPluralityResolvingRequired = parameterCount  > 1;
+				this.otherParameterValueStorages = conversionMethodFinder.getOtherParameterValueStorages();
+				this.chosenParameterPosition = conversionMethodFinder.getChosenParameterPosition();
 			}
 
 			@Override
 			public Object get(Object obj) {
 				try {
 					Constructor<?> constructor = getConstructor();
-					if (conversionMethodFinder.isParameterPluralityResolvingRequired()) {
-						Object[] paramValues = new Object[conversionMethodFinder.getParameterCount(constructor)];
+					if (parameterPluralityResolvingRequired) {
+						Object[] paramValues = new Object[parameterCount];
 						for (int paramPosition = 0; paramPosition < paramValues.length; paramPosition++) {
-							String parmName = conversionMethodFinder.getParameterName(constructor, paramPosition);
-							if (parmName.equals(conversionMethodFinder.getChosenParameterName())) {
+							if (paramPosition == chosenParameterPosition) {
 								paramValues[paramPosition] = obj;
 							} else {
-								TextualStorage storage = conversionMethodFinder.getOtherParameterValueStorageByName()
-										.get(parmName);
+								TextualStorage storage = otherParameterValueStorages.get(paramPosition);
 								if (storage == null) {
 									continue;
 								}
@@ -2413,20 +2441,19 @@ public class InfoCustomizations implements Serializable {
 			}
 
 			public Constructor<?> getConstructor() {
-				try {
-					return theClass.getDeclaredConstructor(parameterTypes);
-				} catch (NoSuchMethodException e) {
-					throw new ReflectionUIError(e);
-				} catch (SecurityException e) {
-					throw new ReflectionUIError(e);
-				}
+				return constrcutor;
 			}
 
 			@Override
 			public int hashCode() {
 				final int prime = 31;
 				int result = 1;
-				result = prime * result + ((conversionMethodFinder == null) ? 0 : conversionMethodFinder.hashCode());
+				result = prime * result + chosenParameterPosition;
+				result = prime * result + ((constrcutor == null) ? 0 : constrcutor.hashCode());
+				result = prime * result
+						+ ((otherParameterValueStorages == null) ? 0 : otherParameterValueStorages.hashCode());
+				result = prime * result + parameterCount;
+				result = prime * result + (parameterPluralityResolvingRequired ? 1231 : 1237);
 				return result;
 			}
 
@@ -2439,17 +2466,31 @@ public class InfoCustomizations implements Serializable {
 				if (getClass() != obj.getClass())
 					return false;
 				ConstructorBasedConverter other = (ConstructorBasedConverter) obj;
-				if (conversionMethodFinder == null) {
-					if (other.conversionMethodFinder != null)
+				if (chosenParameterPosition != other.chosenParameterPosition)
+					return false;
+				if (constrcutor == null) {
+					if (other.constrcutor != null)
 						return false;
-				} else if (!conversionMethodFinder.equals(other.conversionMethodFinder))
+				} else if (!constrcutor.equals(other.constrcutor))
+					return false;
+				if (otherParameterValueStorages == null) {
+					if (other.otherParameterValueStorages != null)
+						return false;
+				} else if (!otherParameterValueStorages.equals(other.otherParameterValueStorages))
+					return false;
+				if (parameterCount != other.parameterCount)
+					return false;
+				if (parameterPluralityResolvingRequired != other.parameterPluralityResolvingRequired)
 					return false;
 				return true;
 			}
 
 			@Override
 			public String toString() {
-				return "ConstructorBasedConverter [conversionMethodFinder=" + conversionMethodFinder + "]";
+				return "ConstructorBasedConverter [constrcutor=" + constrcutor + ", parameterCount=" + parameterCount
+						+ ", parameterPluralityResolvingRequired=" + parameterPluralityResolvingRequired
+						+ ", chosenParameterPosition=" + chosenParameterPosition + ", otherParameterValueStorages="
+						+ otherParameterValueStorages + "]";
 			}
 
 		};
