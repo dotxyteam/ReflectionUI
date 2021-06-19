@@ -56,8 +56,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
-	protected static final String RECURSIVE_POLYMORPHISM_DETECTED_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class
-			.getName() + ".RECURSIVE_POLYMORPHISM_DETECTED";
+	protected static final String POLYMORPHISM_EXPLORED_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class.getName()
+			+ ".POLYMORPHISM_EXPLORED_PROPERTY_KEY";
 
 	protected ITypeInfo polymorphicType;
 
@@ -103,34 +103,34 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		}
 		final ITypeInfoSource typeSource = type.getSource();
 		final ITypeInfo unwrappedType = typeSource.getTypeInfo();
-		final ITypeInfo[] blockedPolymorphismType = new ITypeInfo[1];
-		blockedPolymorphismType[0] = new InfoProxyFactory() {
+		final ITypeInfo[] blockedRecursivityType = new ITypeInfo[1];
+		blockedRecursivityType[0] = new InfoProxyFactory() {
 
 			@Override
 			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-				result.put(RECURSIVE_POLYMORPHISM_DETECTED_PROPERTY_KEY, Boolean.TRUE);
+				result.put(POLYMORPHISM_EXPLORED_PROPERTY_KEY, Boolean.TRUE);
 				return result;
 			}
 
 			@Override
 			public String getIdentifier() {
-				return "PolymorphicRecursionBlocker [polymorphicType=" + type.getName() + "]";
+				return "PolymorphismExplorationDetector [polymorphicType=" + type.getName() + "]";
 			}
 
 			@Override
 			protected ITypeInfoSource getSource(ITypeInfo type) {
-				return new PrecomputedTypeInfoSource(blockedPolymorphismType[0],
+				return new PrecomputedTypeInfoSource(blockedRecursivityType[0],
 						typeSource.getSpecificitiesIdentifier());
 			}
 
 		}.wrapTypeInfo(unwrappedType);
-		ITypeInfo result = reflectionUI.getTypeInfo(blockedPolymorphismType[0].getSource());
+		ITypeInfo result = reflectionUI.getTypeInfo(blockedRecursivityType[0].getSource());
 		return result;
 	}
 
 	public static boolean isRecursivityDetected(ITypeInfo type) {
-		return Boolean.TRUE.equals(type.getSpecificProperties().get(RECURSIVE_POLYMORPHISM_DETECTED_PROPERTY_KEY));
+		return Boolean.TRUE.equals(type.getSpecificProperties().get(POLYMORPHISM_EXPLORED_PROPERTY_KEY));
 	}
 
 	public List<ITypeInfo> getTypeOptions() {

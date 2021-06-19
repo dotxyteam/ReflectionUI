@@ -54,8 +54,7 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	public PresetInvocationDataMethodInfo(IMethodInfo base, TextualStorage invocationDataStorage) {
 		super(base);
-		this.invocationDataStorage = (TextualStorage) ReflectionUIUtils.copy(ReflectionUIUtils.STANDARD_REFLECTION,
-				invocationDataStorage);
+		this.invocationDataStorage = invocationDataStorage;
 		this.presetInvocationData = (InvocationData) invocationDataStorage.load();
 	}
 

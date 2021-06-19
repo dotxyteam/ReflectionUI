@@ -65,6 +65,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class WindowManager {
 
+	protected static final Color DEFAULT_TITLE_BAR_COLOR = Color.BLUE;
+	protected static final Color DEFAULT_DECORATIONS_FOREROUND_COLOR = Color.WHITE;
+	
 	protected SwingRenderer swingRenderer;
 	protected Window window;
 	protected AlternativeWindowDecorationsPanel alternativeDecorationsPanel;
@@ -127,17 +130,17 @@ public class WindowManager {
 	}
 
 	protected Color getAlternativeDecorationsBorderColor() {
-		Color color1 = getMainBackgroundColor();
-		if (color1 == null) {
-			color1 = new JPanel().getBackground();
+		Color mainBackgroundColor = getMainBackgroundColor();
+		if (mainBackgroundColor == null) {
+			mainBackgroundColor = new JPanel().getBackground();
 		}
-		Color color2 = getTitleBackgroundColor();
-		if (color2 == null) {
-			color2 = new JPanel().getBackground();
+		Color titleBackgroundColor = getTitleBackgroundColor();
+		if (titleBackgroundColor == null) {
+			titleBackgroundColor = DEFAULT_TITLE_BAR_COLOR;
 		}
-		Color averageColor = new Color((color1.getRed() + color2.getRed()) / 2,
-				(color1.getGreen() + color2.getGreen()) / 2, (color1.getBlue() + color2.getBlue()) / 2);
-		return averageColor;
+		Color averageBackgroundColor = new Color((mainBackgroundColor.getRed() + titleBackgroundColor.getRed()) / 2,
+				(mainBackgroundColor.getGreen() + titleBackgroundColor.getGreen()) / 2, (mainBackgroundColor.getBlue() + titleBackgroundColor.getBlue()) / 2);
+		return averageBackgroundColor;
 	}
 
 	protected JScrollPane createScrollPane(Component content) {
@@ -383,7 +386,7 @@ public class WindowManager {
 				result = getTitleBackgroundColor();
 			}
 			if (result == null) {
-				result = new JPanel().getBackground();
+				result = DEFAULT_TITLE_BAR_COLOR;
 			}
 			return result;
 		}
@@ -395,10 +398,7 @@ public class WindowManager {
 				result = getTitleForegroundColor();
 			}
 			if (result == null) {
-				result = getMainForegroundColor();
-			}
-			if (result == null) {
-				result = new JPanel().getForeground();
+				result = DEFAULT_DECORATIONS_FOREROUND_COLOR;
 			}
 			return result;
 		}

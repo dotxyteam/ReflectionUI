@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field proxy that returns the value extracted from the given storage instead
@@ -17,8 +16,7 @@ public class NullReplacementFieldInfo extends FieldInfoProxy {
 
 	public NullReplacementFieldInfo(IFieldInfo base, TextualStorage nullReplacementStorage) {
 		super(base);
-		this.nullReplacementStorage = (TextualStorage) ReflectionUIUtils.copy(ReflectionUIUtils.STANDARD_REFLECTION,
-				nullReplacementStorage);
+		this.nullReplacementStorage = nullReplacementStorage;
 		this.nullReplacement = nullReplacementStorage.load();
 	}
 
