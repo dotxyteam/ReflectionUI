@@ -28,18 +28,25 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing;
 
-import xy.reflect.ui.control.BufferedFieldControlData;
+import java.util.HashMap;
+import java.util.Map;
+
 import xy.reflect.ui.control.CustomContext;
-import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
+import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.util.Listener;
 
 /**
  * Field control that detects and rejects ({@link #refreshUI(boolean)} will
- * return false) unsupported (type not compatible) and null values . A sub-form
- * is used to display the non-null supported value.
+ * return false) null and unsupported values (type not compatible). A sub-form
+ * is used to display the non-null supported value. It fails to refresh if it
+ * detects that a similar control that have the same role is being created
+ * inside its sub-form probably because the value type has evolved.
  * 
  * Note that this control is used when
  * {@link IFieldControlData#isNullValueDistinct()} returns false. Which means
@@ -60,15 +67,43 @@ public class MutableTypeControl extends NullableControl {
 
 	private static final long serialVersionUID = 1L;
 
+	protected static final String MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY = MutableTypeControl.class.getName()
+			+ ".MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY";
+
+	protected boolean recreationNeeded = false;
+
 	public MutableTypeControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
-		super(swingRenderer, new FieldControlInputProxy(input) {
-			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(super.getControlData());
+		super(swingRenderer, input);
+	}
+
+	@Override
+	protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
+			IContext subContext, Listener<Throwable> commitExceptionHandler) {
+		final MutableTypeControl parent = (MutableTypeControl) input.getControlData().getSpecificProperties()
+				.get(MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY);
+		if (parent != null) {
+			parent.recreationNeeded = true;
+		}
+		return new SubFormBuilder(swingRenderer, input, subContext, commitExceptionHandler) {
 
 			@Override
-			public IFieldControlData getControlData() {
-				return bufferedFieldControlData;
+			protected Map<String, Object> getEncapsulatedFieldSpecificProperties() {
+				Map<String, Object> result = new HashMap<String, Object>(
+						super.getEncapsulatedFieldSpecificProperties());
+				result.put(MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY, MutableTypeControl.this);
+				return result;
 			}
-		});
+
+			@Override
+			public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
+				if (parent != null) {
+					return new Form(swingRenderer, new Object(), IInfoFilter.DEFAULT);
+				} else {
+					return super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
+				}
+			}
+
+		};
 	}
 
 	@Override
@@ -80,8 +115,11 @@ public class MutableTypeControl extends NullableControl {
 		if (!data.getType().supports(value)) {
 			return false;
 		}
-		((BufferedFieldControlData) data).addInBuffer(value);
+		data.addInBuffer(value);
 		boolean result = super.refreshUI(refreshStructure);
+		if (recreationNeeded) {
+			result = false;
+		}
 		nullStatusControl.setVisible(false);
 		return result;
 	}

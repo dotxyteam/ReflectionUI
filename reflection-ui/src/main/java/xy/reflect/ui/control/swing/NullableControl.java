@@ -41,6 +41,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
+import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -75,7 +76,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 	protected SwingRenderer swingRenderer;
 	protected static final long serialVersionUID = 1L;
-	protected IFieldControlData data;
+	protected BufferedFieldControlData data;
 	protected JCheckBox nullStatusControl;
 	protected Component subControl;
 	protected IFieldControlInput input;
@@ -84,15 +85,18 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 	public NullableControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = new FieldControlInputProxy(input) {
+		input = new FieldControlInputProxy(input) {
+
+			BufferedFieldControlData bufferedErrorHandlingFieldControlData = new BufferedFieldControlData(
+					new ErrorHandlingFieldControlData(super.getControlData(), swingRenderer, NullableControl.this));
+
 			@Override
 			public IFieldControlData getControlData() {
-				IFieldControlData result = super.getControlData();
-				result = new ErrorHandlingFieldControlData(result, swingRenderer, NullableControl.this);
-				return result;
+				return bufferedErrorHandlingFieldControlData;
 			}
 		};
-		this.data = input.getControlData();
+		this.input = input;
+		this.data = (BufferedFieldControlData) input.getControlData();
 		initialize();
 	}
 
@@ -190,6 +194,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	public void refreshSubControl(boolean refreshStructure) {
 		Object value = data.getValue();
 		if (value != null) {
+			data.addInBuffer(value);
 			if (subControl instanceof Form) {
 				subFormBuilder.refreshEditorForm((Form) subControl, refreshStructure);
 				return;
@@ -253,7 +258,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	protected Component createSubForm() {
-		subFormBuilder = new SubFormBuilder(swingRenderer, input, getSubContext(), new Listener<Throwable>() {
+		subFormBuilder = createSubFormBuilder(swingRenderer, input, getSubContext(), new Listener<Throwable>() {
 			@Override
 			public void handle(Throwable t) {
 				swingRenderer.handleObjectException(NullableControl.this, t);
@@ -261,6 +266,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		});
 		Form result = subFormBuilder.createEditorForm(true, false);
 		return result;
+	}
+
+	protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
+			IContext subContext, Listener<Throwable> commitExceptionHandler) {
+		return new SubFormBuilder(swingRenderer, input, subContext, commitExceptionHandler);
 	}
 
 	protected IContext getSubContext() {
