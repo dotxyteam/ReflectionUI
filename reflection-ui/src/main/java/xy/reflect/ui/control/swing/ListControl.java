@@ -107,6 +107,7 @@ import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.DelegatingInfoFilter;
@@ -356,7 +357,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			for (IDynamicListAction listAction : dynamicActions) {
 				AbstractAction dynamicActionHook = createDynamicActionHook(listAction);
-				toolbar.add(createTool((String) dynamicActionHook.getValue(AbstractAction.NAME), null, true, false,
+				toolbar.add(createTool((String) dynamicActionHook.getValue(AbstractAction.NAME),
+						(Icon) dynamicActionHook.getValue(AbstractAction.LARGE_ICON_KEY), true, false,
 						dynamicActionHook));
 			}
 		}
@@ -1376,6 +1378,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void updateDetailsArea(boolean refreshStructure) {
 		BufferedItemPosition singleSelection = getSingleSelection();
+		if (singleSelection != null) {
+			IListTypeInfo listType = singleSelection.getContainingListType();
+			if (!listType.canViewItemDetails()) {
+				singleSelection = null;
+			}
+		}
 		if ((detailsControlItemPosition == null) && (singleSelection == null)) {
 			return;
 		}
@@ -1609,7 +1617,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -3035,6 +3043,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		public DynamicActionHook(IDynamicListAction dynamicAction) {
 			this.dynamicAction = dynamicAction;
+		}
+
+		@Override
+		public Object getValue(String key) {
+			if (Action.LARGE_ICON_KEY.equals(key)) {
+				ResourcePath iconImagePath = dynamicAction.getIconImagePath();
+				if (iconImagePath == null) {
+					return null;
+				}
+				Image iconImage = SwingRendererUtils.loadImageThroughCache(iconImagePath,
+						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				if(iconImage == null) {
+					return null;
+				}
+				return SwingRendererUtils.getIcon(iconImage);
+			} else {
+				return super.getValue(key);
+			}
 		}
 
 		@Override

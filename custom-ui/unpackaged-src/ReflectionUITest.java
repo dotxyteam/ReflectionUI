@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,7 +38,10 @@ import xy.reflect.ui.util.SystemProperties;
 @SuppressWarnings("unused")
 public class ReflectionUITest {
 
-	public static class Test {
+	public static class Test implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
 		public Color thecolor = Color.BLUE;
 		public Object anyObject;
 		public Object anyObject2;
@@ -216,7 +220,9 @@ public class ReflectionUITest {
 
 	}
 
-	public static abstract class AbstrcatTestDescendant {
+	public static abstract class AbstrcatTestDescendant implements Serializable {
+		private static final long serialVersionUID = 1L;
+
 		public enum Day {
 			MONDAY, TUESDAY, WEDNESDAY
 		};
@@ -233,6 +239,8 @@ public class ReflectionUITest {
 	}
 
 	public static class Test2 extends AbstrcatTestDescendant {
+		private static final long serialVersionUID = 1L;
+		
 		public List<AbstrcatTestDescendant> theChildrenList = new ArrayList<ReflectionUITest.AbstrcatTestDescendant>();
 
 		public Test2() {
@@ -253,6 +261,8 @@ public class ReflectionUITest {
 	}
 
 	public static class Test3 extends AbstrcatTestDescendant {
+		private static final long serialVersionUID = 1L;
+		
 		public String reference;
 		public String transactionState;
 
@@ -280,7 +290,8 @@ public class ReflectionUITest {
 	}
 
 	public static class Test4 extends AbstrcatTestDescendant {
-
+		private static final long serialVersionUID = 1L;
+		
 		private int i = 0;
 
 		public void modify1() {

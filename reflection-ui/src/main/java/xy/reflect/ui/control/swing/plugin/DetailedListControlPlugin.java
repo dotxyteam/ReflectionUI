@@ -118,6 +118,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		public int gridDimension = 0;
 		public boolean stretchCellsVertically = true;
 		public boolean stretchCellsHorizontally = true;
+		public boolean selectionForbidden = false;
 
 		private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 			stretchCellsVertically = true;
@@ -267,6 +268,11 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		public void setSelection(List<BufferedItemPosition> toSelect) {
+			DetailedListConfiguration controlCustomization = (DetailedListConfiguration) loadControlCustomization(
+					input);
+			if (controlCustomization.selectionForbidden) {
+				toSelect = Collections.emptyList();
+			}
 			if (getSelection().equals(toSelect)) {
 				return;
 			}
