@@ -195,7 +195,8 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public Object invoke(InvocationData invocationData) {
-				return ReflectionUIUtils.invokeMethodThroughModificationStack(data, invocationData, modificationStack);
+				return ReflectionUIUtils.invokeMethodThroughModificationStack(data, invocationData, modificationStack,
+						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}
 
 		};

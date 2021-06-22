@@ -88,14 +88,9 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				return result;
 			}
 		};
-		this.data = retrieveData();
-
+		this.data = input.getControlData();
 		setLayout(new BorderLayout());
 		refreshUI(true);
-	}
-
-	protected IFieldControlData retrieveData() {
-		return input.getControlData();
 	}
 
 	public Form getSubForm() {
@@ -191,7 +186,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	public boolean refreshUI(boolean refreshStructure) {
 		if (refreshStructure) {
 			if (data.getCaption().length() > 0) {
-				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
 				if (data.getLabelForegroundColor() != null) {
 					((TitledBorder) getBorder())
 							.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));

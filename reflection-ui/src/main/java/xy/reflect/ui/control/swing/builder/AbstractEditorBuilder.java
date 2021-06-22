@@ -365,7 +365,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 				&& ((!isCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifFake = isParentModificationFake();
-		ReflectionUIUtils.finalizeModifications(parentObjectModifStack,
+		ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack,
 				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, valueTransaction, committingModif,
 				parentObjectModifTitle, parentObjectModifFake,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),

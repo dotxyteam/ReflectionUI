@@ -192,13 +192,13 @@ public class CustomizationTools {
 		final ITypeInfo customizedType = this.swingCustomizer.getReflectionUI()
 				.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 		final JButton result = makeButton();
-		result.setToolTipText(toolsRenderer.prepareStringToDisplay(getCustomizationTitle(customizedType.getName())));
+		result.setToolTipText(toolsRenderer.prepareMessageToDisplay(getCustomizationTitle(customizedType.getName())));
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
 				popupMenu.add(new AbstractAction(
-						CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Type Options (Shared)...")) {
+						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Type Options (Shared)...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -207,7 +207,7 @@ public class CustomizationTools {
 					}
 				});
 				popupMenu.add(new AbstractAction(
-						CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Add Virtual Text Field...")) {
+						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Add Virtual Text Field...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -259,7 +259,7 @@ public class CustomizationTools {
 					}
 				});
 				popupMenu.add(new AbstractAction(
-						CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Add Virtual Image Field...")) {
+						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Add Virtual Image Field...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -344,7 +344,7 @@ public class CustomizationTools {
 					}
 				});
 				popupMenu.add(
-						new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Refresh")) {
+						new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Refresh")) {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -483,25 +483,26 @@ public class CustomizationTools {
 	public Component makeButtonForField(final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = makeButton();
 		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
-				.prepareStringToDisplay(getCustomizationTitle(fieldControlPlaceHolder.getField().getName())));
+				.prepareMessageToDisplay(getCustomizationTitle(fieldControlPlaceHolder.getField().getName())));
 		result.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
-				popupMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Hide")) {
-					private static final long serialVersionUID = 1L;
+				popupMenu
+						.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Hide")) {
+							private static final long serialVersionUID = 1L;
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							hideField(result, getContainingObjectCustomizedType(fieldControlPlaceHolder),
-									fieldControlPlaceHolder.getField().getName());
-						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(result, t);
-						}
-					}
-				});
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								try {
+									hideField(result, getContainingObjectCustomizedType(fieldControlPlaceHolder),
+											fieldControlPlaceHolder.getField().getName());
+								} catch (Throwable t) {
+									toolsRenderer.handleObjectException(result, t);
+								}
+							}
+						});
 				for (JMenuItem menuItem : makeMenuItemsForFieldPosition(result, fieldControlPlaceHolder)) {
 					popupMenu.add(menuItem);
 				}
@@ -516,7 +517,7 @@ public class CustomizationTools {
 				}
 
 				popupMenu.add(new AbstractAction(
-						CustomizationTools.this.toolsRenderer.prepareStringToDisplay("More Options...")) {
+						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -535,9 +536,9 @@ public class CustomizationTools {
 
 	protected List<JMenuItem> makeMenuItemsForFieldPosition(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
-		final JMenu positionSubMenu = new JMenu(toolsRenderer.prepareStringToDisplay("Position"));
+		final JMenu positionSubMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Position"));
 		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Preceding")) {
+				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Preceding")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -551,7 +552,7 @@ public class CustomizationTools {
 					}
 				});
 		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Following")) {
+				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Following")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -564,7 +565,7 @@ public class CustomizationTools {
 						}
 					}
 				});
-		positionSubMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("First")) {
+		positionSubMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("First")) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -577,7 +578,7 @@ public class CustomizationTools {
 				}
 			}
 		});
-		positionSubMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Last")) {
+		positionSubMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Last")) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -595,9 +596,9 @@ public class CustomizationTools {
 
 	protected List<JMenuItem> makeMenuItemsForMethodPosition(final JButton customizerButton,
 			final MethodControlPlaceHolder methodControlPlaceHolder) {
-		final JMenu positionSubMenu = new JMenu(toolsRenderer.prepareStringToDisplay("Position"));
+		final JMenu positionSubMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Position"));
 		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Preceding")) {
+				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Preceding")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -611,7 +612,7 @@ public class CustomizationTools {
 					}
 				});
 		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Following")) {
+				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Following")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -752,7 +753,7 @@ public class CustomizationTools {
 			final ITypeInfo containingCustomizedType, final Listener<String> encapsulator,
 			final Runnable decapsulator) {
 		List<JMenuItem> result = new ArrayList<JMenuItem>();
-		final JMenu encapsulateSubMenu = new JMenu(toolsRenderer.prepareStringToDisplay("Move Into"));
+		final JMenu encapsulateSubMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Move Into"));
 		{
 			result.add(encapsulateSubMenu);
 			Set<String> capsuleNames = new TreeSet<String>();
@@ -797,12 +798,12 @@ public class CustomizationTools {
 					private static final long serialVersionUID = 1L;
 
 					{
-						setText(toolsRenderer.prepareStringToDisplay(capsuleName));
+						setText(toolsRenderer.prepareMessageToDisplay(capsuleName));
 					}
 				});
 			}
 			encapsulateSubMenu
-					.add(new JMenuItem(new AbstractAction(toolsRenderer.prepareStringToDisplay("New Field...")) {
+					.add(new JMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("New Field...")) {
 
 						private static final long serialVersionUID = 1L;
 
@@ -841,7 +842,7 @@ public class CustomizationTools {
 		final CapsuleFieldInfo containingCapsuleField = (CapsuleFieldInfo) member.getSpecificProperties()
 				.get(CapsuleFieldInfo.CONTAINING_CAPSULE_FIELD_PROPERTY_KEY);
 		if (containingCapsuleField != null) {
-			result.add(new JMenuItem(new AbstractAction(toolsRenderer.prepareStringToDisplay("Move Out")) {
+			result.add(new JMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Move Out")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -917,7 +918,7 @@ public class CustomizationTools {
 			final JButton customizerButton, final FieldControlPlaceHolder fieldControlPlaceHolder,
 			final InfoCustomizations infoCustomizations) {
 		return new JMenuItem(
-				new AbstractAction(toolsRenderer.prepareStringToDisplay(plugin.getControlTitle() + " Options...")) {
+				new AbstractAction(toolsRenderer.prepareMessageToDisplay(plugin.getControlTitle() + " Options...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -971,10 +972,10 @@ public class CustomizationTools {
 			}
 		}
 		if (potentialFieldControlPlugins.size() > 0) {
-			JMenu changeFieldControlPluginMenu = new JMenu(toolsRenderer.prepareStringToDisplay("Change Control"));
+			JMenu changeFieldControlPluginMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Change Control"));
 			result.add(changeFieldControlPluginMenu);
 			changeFieldControlPluginMenu.add(
-					new JCheckBoxMenuItem(new AbstractAction(toolsRenderer.prepareStringToDisplay("Default Control")) {
+					new JCheckBoxMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Default Control")) {
 
 						private static final long serialVersionUID = 1L;
 
@@ -996,7 +997,7 @@ public class CustomizationTools {
 					});
 			for (final IFieldControlPlugin plugin : potentialFieldControlPlugins) {
 				changeFieldControlPluginMenu.add(new JCheckBoxMenuItem(
-						new AbstractAction(toolsRenderer.prepareStringToDisplay(plugin.getControlTitle())) {
+						new AbstractAction(toolsRenderer.prepareMessageToDisplay(plugin.getControlTitle())) {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -1043,7 +1044,7 @@ public class CustomizationTools {
 		}
 
 		result.add(new JMenuItem(
-				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Type Options...")) {
+				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Type Options...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -1063,7 +1064,7 @@ public class CustomizationTools {
 		if (!infoCustomizationsShared) {
 			if (swingCustomizer.getCustomizationOptions().areFieldSharedTypeOptionsDisplayed()) {
 				final JMenu sharedTypeInfoSubMenu = new JMenu(
-						CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Shared"));
+						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Shared"));
 				result.add(sharedTypeInfoSubMenu);
 				for (JMenuItem menuItem : makeMenuItemsForFieldType(customizerButton, fieldControlPlaceHolder, true,
 						fieldType)) {
@@ -1086,9 +1087,9 @@ public class CustomizationTools {
 					swingCustomizer.getInfoCustomizations());
 			infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
 		}
-		JMenu result = new JMenu(this.toolsRenderer.prepareStringToDisplay("List"));
+		JMenu result = new JMenu(this.toolsRenderer.prepareMessageToDisplay("List"));
 		{
-			result.add(new AbstractAction(this.toolsRenderer.prepareStringToDisplay("Move Columns...")) {
+			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("Move Columns...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1102,7 +1103,7 @@ public class CustomizationTools {
 					openInfosOrderDialog(customizerButton, lc, "columnsCustomOrder", columns, "Columns Order");
 				}
 			});
-			result.add(new AbstractAction(this.swingCustomizer.prepareStringToDisplay("More Options...")) {
+			result.add(new AbstractAction(this.swingCustomizer.prepareMessageToDisplay("More Options...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1117,35 +1118,32 @@ public class CustomizationTools {
 					if (selected.getParentItemPosition() != null) {
 						if (!(selected.getContainingListFieldIfNotRoot() instanceof SubListGroupField)) {
 							JMenu listSelectionMenu = new JMenu(
-									this.toolsRenderer.prepareStringToDisplay("Selected Sub-list"));
-							listSelectionMenu.add(
-									new AbstractAction(this.swingCustomizer.prepareStringToDisplay("More Options...")) {
-										private static final long serialVersionUID = 1L;
+									this.toolsRenderer.prepareMessageToDisplay("Selected Sub-list"));
+							listSelectionMenu.add(new AbstractAction(
+									this.swingCustomizer.prepareMessageToDisplay("More Options...")) {
+								private static final long serialVersionUID = 1L;
 
-										@Override
-										public void actionPerformed(ActionEvent e) {
-											final InfoCustomizations infoCustomizations;
-											if (infoCustomizationsShared) {
-												infoCustomizations = swingCustomizer.getInfoCustomizations();
-											} else {
-												Object parentItem = selected.getParentItemPosition().getItem();
-												ITypeInfo parentItemType = swingCustomizer.getCustomizedUI()
-														.getTypeInfo(swingCustomizer.getCustomizedUI()
-																.getTypeInfoSource(parentItem));
-												FieldCustomization fieldCustomization = InfoCustomizations
-														.getFieldCustomization(
-																InfoCustomizations.getTypeCustomization(
-																		swingCustomizer.getInfoCustomizations(),
-																		parentItemType.getName()),
-																selected.getContainingListFieldIfNotRoot().getName(),
-																true);
-												infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
-											}
-											openListCutomizationDialog(customizerButton, infoCustomizations,
-													(IListTypeInfo) selected.getContainingListFieldIfNotRoot()
-															.getType());
-										}
-									});
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									final InfoCustomizations infoCustomizations;
+									if (infoCustomizationsShared) {
+										infoCustomizations = swingCustomizer.getInfoCustomizations();
+									} else {
+										Object parentItem = selected.getParentItemPosition().getItem();
+										ITypeInfo parentItemType = swingCustomizer.getCustomizedUI().getTypeInfo(
+												swingCustomizer.getCustomizedUI().getTypeInfoSource(parentItem));
+										FieldCustomization fieldCustomization = InfoCustomizations
+												.getFieldCustomization(
+														InfoCustomizations.getTypeCustomization(
+																swingCustomizer.getInfoCustomizations(),
+																parentItemType.getName()),
+														selected.getContainingListFieldIfNotRoot().getName(), true);
+										infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
+									}
+									openListCutomizationDialog(customizerButton, infoCustomizations,
+											(IListTypeInfo) selected.getContainingListFieldIfNotRoot().getType());
+								}
+							});
 							result.add(listSelectionMenu);
 						}
 					}
@@ -1157,9 +1155,9 @@ public class CustomizationTools {
 
 	protected JMenuItem makeMenuItemForEnumeration(final JButton customizerButton,
 			final InfoCustomizations infoCustomizations, final IEnumerationTypeInfo customizedEnumType) {
-		JMenu result = new JMenu(this.toolsRenderer.prepareStringToDisplay("Enumeration"));
+		JMenu result = new JMenu(this.toolsRenderer.prepareMessageToDisplay("Enumeration"));
 		{
-			result.add(new AbstractAction(this.toolsRenderer.prepareStringToDisplay("Move Items...")) {
+			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("Move Items...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1174,7 +1172,7 @@ public class CustomizationTools {
 							"Enumeration Items Order");
 				}
 			});
-			result.add(new AbstractAction(this.toolsRenderer.prepareStringToDisplay("More Options...")) {
+			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1210,7 +1208,8 @@ public class CustomizationTools {
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(customizationType.getFields(), fieldName);
 		DefaultFieldControlData controlData = new DefaultFieldControlData(toolsUI, customization, field);
 		ModificationStack modificationStack = swingCustomizer.getCustomizationController().getModificationStack();
-		ReflectionUIUtils.setFieldValueThroughModificationStack(controlData, fieldValue, modificationStack);
+		ReflectionUIUtils.setFieldValueThroughModificationStack(controlData, fieldValue, modificationStack,
+				ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
 	}
 
 	protected void removeCustomizationItem(AbstractCustomization container, String listFieldName,
@@ -1343,26 +1342,27 @@ public class CustomizationTools {
 	public Component makeButtonForMethod(final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = makeButton();
 		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
-				.prepareStringToDisplay(getCustomizationTitle(methodControlPlaceHolder.getMethod().getSignature())));
+				.prepareMessageToDisplay(getCustomizationTitle(methodControlPlaceHolder.getMethod().getSignature())));
 		result.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
 
-				popupMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareStringToDisplay("Hide")) {
-					private static final long serialVersionUID = 1L;
+				popupMenu
+						.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Hide")) {
+							private static final long serialVersionUID = 1L;
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							hideMethod(result, getContainingObjectCustomizedType(methodControlPlaceHolder),
-									methodControlPlaceHolder.getMethod().getSignature());
-						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(result, t);
-						}
-					}
-				});
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								try {
+									hideMethod(result, getContainingObjectCustomizedType(methodControlPlaceHolder),
+											methodControlPlaceHolder.getMethod().getSignature());
+								} catch (Throwable t) {
+									toolsRenderer.handleObjectException(result, t);
+								}
+							}
+						});
 
 				for (JMenuItem menuItem : makeMenuItemsForMethodPosition(result, methodControlPlaceHolder)) {
 					popupMenu.add(menuItem);
@@ -1373,7 +1373,7 @@ public class CustomizationTools {
 				}
 
 				popupMenu.add(new AbstractAction(
-						CustomizationTools.this.toolsRenderer.prepareStringToDisplay("More Options...")) {
+						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override

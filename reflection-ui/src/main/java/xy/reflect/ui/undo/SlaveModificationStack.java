@@ -123,7 +123,7 @@ public class SlaveModificationStack extends ModificationStack {
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean masterModificationFake = masterModificationFakeGetter.get();
 		try {
-			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+			ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
 					valueReturnMode, valueReplaced, valueTransaction, committingModif, modifTitle,
 					masterModificationFake, debugLogListener, errorLogListener);
 		} catch (Throwable t) {
@@ -153,7 +153,7 @@ public class SlaveModificationStack extends ModificationStack {
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean parentObjectModificationFake = masterModificationFakeGetter.get();
 		try {
-			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+			ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
 					valueReturnMode, valueReplaced, valueTransaction, committingModif, parentObjectModifTitle,
 					parentObjectModificationFake, debugLogListener, errorLogListener);
 		} catch (Throwable t) {

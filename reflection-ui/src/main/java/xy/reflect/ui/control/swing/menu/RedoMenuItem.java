@@ -54,7 +54,7 @@ public class RedoMenuItem extends AbstractStandardActionMenuItem {
 		super.initialize();
 		IModification nextRedoModification = form.getModificationStack().getNextRedoModification();
 		if (nextRedoModification != null) {
-			setToolTipText(swingRenderer.prepareStringToDisplay(nextRedoModification.getTitle()));
+			setToolTipText(swingRenderer.prepareMessageToDisplay(nextRedoModification.getTitle()));
 		} else {
 			setToolTipText(null);
 		}

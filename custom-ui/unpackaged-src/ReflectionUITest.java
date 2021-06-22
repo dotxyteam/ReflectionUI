@@ -61,6 +61,9 @@ public class ReflectionUITest {
 
 		private int theBoundedInt = 0;
 
+		public int getAThrownError() {
+			throw new RuntimeException();
+		}
 		public int getTheBoundedInt() {
 			return theBoundedInt;
 		}
@@ -99,6 +102,7 @@ public class ReflectionUITest {
 		}
 
 		public void setTheInt(int theInt) {
+			//throw new RuntimeException();
 			this.theInt = theInt;
 		}
 

@@ -1,3 +1,6 @@
+- create FaulTolerantControl that will allow to display and edit
+a default value when the field control initialization fails. 
+- allow to specify a static options values field
 - allow to specify via customizations how to undo a method call
 - some modifications references controls that may be destroyed when
 they are undone/redone. Ex: 

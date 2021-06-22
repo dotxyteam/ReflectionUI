@@ -353,7 +353,7 @@ public class WindowManager {
 	}
 
 	public void setTitle(String title) {
-		SwingRendererUtils.setTitle(window, swingRenderer.prepareStringToDisplay(title));
+		SwingRendererUtils.setTitle(window, swingRenderer.prepareMessageToDisplay(title));
 	}
 
 	@Override

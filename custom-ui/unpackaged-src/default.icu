@@ -7387,6 +7387,28 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter2</parameterName>
             </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>56fe01de:17a29dc25a7:-e38</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>56fe01de:17a29dc25a7:-e37</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>class</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>56fe01de:17a29dc25a7:-e36</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>56fe01de:17a29dc25a7:-e35</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -7413,6 +7435,17 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
             </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>56fe01de:17a29dc25a7:-e34</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>56fe01de:17a29dc25a7:-e33</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>enum</parameterName>
+            </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -7438,6 +7471,17 @@
                 <hidden>false</hidden>
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>parameter1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>56fe01de:17a29dc25a7:-e32</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>56fe01de:17a29dc25a7:-e31</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
             </parametersCustomizations>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
@@ -7519,7 +7563,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:774c</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62ca</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7550,7 +7594,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:774d</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c9</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7623,7 +7667,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:774e</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c8</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7649,6 +7693,21 @@
                 </appplicationCustomization>
                 <listCustomizations>
                     <uniqueIdentifier>1f78d90f:165043762d2:3c2</uniqueIdentifier>
+                    <allowedItemFieldShortcuts>
+                        <uniqueIdentifier>56fe01de:17a29dc25a7:-429d</uniqueIdentifier>
+                        <alwaysShown>true</alwaysShown>
+                        <customFieldCaption>The Day (customized)</customFieldCaption>
+                        <fieldName>theDay</fieldName>
+                    </allowedItemFieldShortcuts>
+                    <allowedItemMethodShortcuts>
+                        <uniqueIdentifier>56fe01de:17a29dc25a7:-7176</uniqueIdentifier>
+                        <alwaysShown>true</alwaysShown>
+                        <customIcomImagePath>
+                            <specification>/media/olitank/data/prog/git/ReflectionUI/custom-ui/tmp/obj16/Actor.gif</specification>
+                        </customIcomImagePath>
+                        <customMethodCaption>Verify (customized)</customMethodCaption>
+                        <methodSignature>void verify()</methodSignature>
+                    </allowedItemMethodShortcuts>
                     <embeddedDetailsAccessMode>
                         <defaultDetailsAreaOccupationRatio>0.66</defaultDetailsAreaOccupationRatio>
                         <detailsAreaPosition>RIGHT</detailsAreaPosition>
@@ -7683,7 +7742,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:774f</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c7</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7734,7 +7793,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7750</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c6</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7765,7 +7824,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7751</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c5</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7819,7 +7878,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7752</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c4</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7869,7 +7928,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7753</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c3</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8109,7 +8168,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7754</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c2</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -10374,7 +10433,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7755</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c1</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10425,7 +10484,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7756</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62c0</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11077,7 +11136,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7757</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62bf</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11128,7 +11187,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7758</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62be</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11159,7 +11218,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7759</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62bd</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11210,7 +11269,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:775a</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62bc</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11351,7 +11410,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:775b</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62bb</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11405,7 +11464,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:775c</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62ba</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -12588,7 +12647,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:775d</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b9</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13227,7 +13286,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:775e</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b8</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13278,7 +13337,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:775f</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b7</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -13309,7 +13368,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7760</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b6</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13386,7 +13445,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7761</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b5</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13465,7 +13524,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7762</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b4</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -15852,7 +15911,7 @@
             <uniqueIdentifier>2e34d93a:17970a4d5a7:-43a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7763</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b3</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -15910,7 +15969,7 @@
             <uniqueIdentifier>-7fd953ed:179723000f4:-2c20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7764</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b2</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16282,7 +16341,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7765</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b1</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16332,7 +16391,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7766</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62b0</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16378,7 +16437,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7767</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62af</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16424,7 +16483,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3d5b3acb:17a1a9241fb:7768</uniqueIdentifier>
+                <uniqueIdentifier>e3e3db0:17a29f36a80:-62ae</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16803,6 +16862,135 @@
                     <positionColumnAdded>false</positionColumnAdded>
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>56fe01de:17a29dc25a7:-e63</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>NULL_FIELD_INFO.theDay</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>false</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>56fe01de:17a29dc25a7:-e61</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <appplicationCustomization>
+                    <uniqueIdentifier>56fe01de:17a29dc25a7:-e62</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </appplicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>56fe01de:17a29dc25a7:-e60</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>56fe01de:17a29dc25a7:-e5f</uniqueIdentifier>
+                    </menuModel>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>56fe01de:17a29dc25a7:-e20</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>valueOf</methodName>
+                        <methodSignature>java.lang.Enum valueOf(java.lang.Class, java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>56fe01de:17a29dc25a7:-e1d</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>56fe01de:17a29dc25a7:-e1c</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>class</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>56fe01de:17a29dc25a7:-e1b</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>56fe01de:17a29dc25a7:-e1a</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>text</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>56fe01de:17a29dc25a7:-e1f</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>compareTo</methodName>
+                        <methodSignature>int compareTo(java.lang.Enum)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>56fe01de:17a29dc25a7:-e19</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>56fe01de:17a29dc25a7:-e18</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>enum</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>56fe01de:17a29dc25a7:-e1e</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>valueOf</methodName>
+                        <methodSignature>ReflectionUITest$AbstrcatTestDescendant$Day valueOf(java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>56fe01de:17a29dc25a7:-e17</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>56fe01de:17a29dc25a7:-e16</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>text</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <typeName>ReflectionUITest$AbstrcatTestDescendant$Day</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>

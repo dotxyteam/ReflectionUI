@@ -133,17 +133,12 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 		}
 
 		@Override
-		public boolean displayError(String msg) {
-			return false;
-		}
-
-		@Override
 		public boolean refreshUI(boolean refreshStructure) {
 			super.refreshUI(refreshStructure);
 			if (refreshStructure) {
 				if (data.getCaption().length() > 0) {
 					setBorder(
-							BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
 					if (data.getLabelForegroundColor() != null) {
 						((TitledBorder) getBorder())
 								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));

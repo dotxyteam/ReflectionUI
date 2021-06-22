@@ -547,7 +547,7 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static void finalizeModifications(final ModificationStack parentModificationStack,
+	public static void finalizeSubModifications(final ModificationStack parentModificationStack,
 			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
 			final ValueReturnMode valueReturnMode, final boolean valueReplaced, ITransactionInfo valueTransaction,
 			final IModification committingModification, String parentModificationTitle, boolean fakeParentModification,
@@ -579,6 +579,11 @@ public class ReflectionUIUtils {
 							public Boolean get() {
 								if (valueReturnMode != ValueReturnMode.CALCULATED) {
 									if (currentModificationsStack.wasInvalidated()) {
+										if (debugLogListener != null) {
+											debugLogListener.handle(
+													"Sub-modification stack invalidated => Invalidating parent modification stack: "
+															+ parentModificationStack);
+										}
 										parentModificationStack.invalidate();
 									} else {
 										parentModificationStack
@@ -620,7 +625,7 @@ public class ReflectionUIUtils {
 				} else {
 					if (!currentModificationsStack.wasInvalidated()) {
 						if (debugLogListener != null) {
-							debugLogListener.handle("Undoing " + currentModificationsStack);
+							debugLogListener.handle("Undoing sub-modification stack: " + currentModificationsStack);
 						}
 						currentModificationsStack.undoAll();
 					} else {
@@ -631,7 +636,8 @@ public class ReflectionUIUtils {
 						if (parentModificationStack != null) {
 							if (debugLogListener != null) {
 								debugLogListener.handle(
-										"=> Invalidating parent modification stack: " + parentModificationStack);
+										"Failed to undo sub-modification stack invalidated => Invalidating parent modification stack: "
+												+ parentModificationStack);
 							}
 							parentModificationStack.invalidate();
 						}
@@ -661,18 +667,27 @@ public class ReflectionUIUtils {
 	}
 
 	public static void setFieldValueThroughModificationStack(IFieldControlData data, Object newValue,
-			ModificationStack modifStack) {
+			ModificationStack modifStack, Listener<String> debugLogListener) {
 		if (data.isTransient()) {
 			try {
 				data.setValue(newValue);
 			} finally {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Sending fake modification to: " + modifStack);
+				}
 				modifStack.apply(IModification.FAKE_MODIFICATION);
 			}
 		} else {
 			FieldControlDataModification modif = new FieldControlDataModification(data, newValue);
 			try {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Executing " + modif);
+				}
 				modifStack.apply(modif);
 			} catch (Throwable t) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Invalidating modification stack: " + modifStack);
+				}
 				modifStack.invalidate();
 				throw new ReflectionUIError(t);
 			}
@@ -680,7 +695,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static Object invokeMethodThroughModificationStack(IMethodControlData data, InvocationData invocationData,
-			ModificationStack modifStack) {
+			ModificationStack modifStack, Listener<String> debugLogListener) {
 		if (data.isReadOnly()) {
 			return data.invoke(invocationData);
 		} else {
@@ -702,8 +717,14 @@ public class ReflectionUIUtils {
 
 				};
 				try {
+					if (debugLogListener != null) {
+						debugLogListener.handle("Executing " + modif);
+					}
 					modifStack.apply(modif);
 				} catch (Throwable t) {
+					if (debugLogListener != null) {
+						debugLogListener.handle("Invalidating modification stack: " + modifStack);
+					}
 					modifStack.invalidate();
 					throw new ReflectionUIError(t);
 				}
@@ -713,6 +734,9 @@ public class ReflectionUIUtils {
 					Object result = data.invoke(invocationData);
 					return result;
 				} finally {
+					if (debugLogListener != null) {
+						debugLogListener.handle("Invalidating modification stack: " + modifStack);
+					}
 					modifStack.invalidate();
 				}
 			}

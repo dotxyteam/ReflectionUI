@@ -843,7 +843,7 @@ public class SwingRendererUtils {
 		String newTooltipText = null;
 		{
 			if (msg != null) {
-				newTooltipText = swingRenderer.prepareStringToDisplay(msg);
+				newTooltipText = swingRenderer.prepareMessageToDisplay(msg);
 				if (newTooltipText.length() == 0) {
 					newTooltipText = null;
 				}
@@ -957,10 +957,14 @@ public class SwingRendererUtils {
 	}
 
 	public static void refreshAllDisplayedFormsAndMenus(SwingRenderer swingRenderer, boolean refreshStructure) {
-		for (Form form : excludeSubForms(swingRenderer.getAllDisplayedForms(), swingRenderer)) {
+		for (Form form : getAllRootForms(swingRenderer)) {
 			form.refresh(refreshStructure);
 			form.updateMenuBar();
 		}
+	}
+
+	public static List<Form> getAllRootForms(SwingRenderer swingRenderer) {
+		return excludeSubForms(swingRenderer.getAllDisplayedForms(), swingRenderer);
 	}
 
 	public static ModificationStack findParentFormModificationStack(Component component, SwingRenderer swingRenderer) {

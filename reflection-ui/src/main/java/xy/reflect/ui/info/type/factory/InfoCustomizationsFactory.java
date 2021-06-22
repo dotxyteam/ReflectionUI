@@ -498,12 +498,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					listModificationFactoryAccessor);
 			result = new ArrayList<IDynamicListProperty>(result);
 			for (final ListItemFieldShortcut shortcut : l.getAllowedItemFieldShortcuts()) {
-				final String fieldCaption;
-				if (shortcut.getCustomFieldCaption() != null) {
-					fieldCaption = shortcut.getCustomFieldCaption();
-				} else {
-					fieldCaption = ReflectionUIUtils.identifierToCaption(shortcut.getFieldName());
-				}
 				boolean fieldFound = false;
 				if (selection.size() == 1) {
 					final ItemPosition itemPosition = selection.get(0);
@@ -556,7 +550,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									@Override
 									public String getCaption() {
-										return fieldCaption;
+										if (shortcut.getCustomFieldCaption() != null) {
+											return shortcut.getCustomFieldCaption();
+										} else {
+											return delegate.getCaption();
+										}
 									}
 
 									public ITypeInfo getType() {
@@ -659,7 +657,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public String getCaption() {
-							return fieldCaption;
+							if (shortcut.getCustomFieldCaption() != null) {
+								return shortcut.getCustomFieldCaption();
+							} else {
+								return ReflectionUIUtils.identifierToCaption(shortcut.getFieldName());
+							}
 						}
 
 						@Override
@@ -720,12 +722,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			for (final ListItemMethodShortcut shortcut : l.getAllowedItemMethodShortcuts()) {
 				final String methodName = ReflectionUIUtils
 						.extractMethodNameFromSignature(shortcut.getMethodSignature());
-				final String methodCaption;
-				if (shortcut.getCustomMethodCaption() != null) {
-					methodCaption = shortcut.getCustomMethodCaption();
-				} else {
-					methodCaption = ReflectionUIUtils.identifierToCaption(methodName);
-				}
 				boolean methodFound = false;
 				if (selection.size() == 1) {
 					final ItemPosition itemPosition = selection.get(0);
@@ -775,13 +771,25 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									}
 
 									@Override
-									public String getCaption() {
-										return methodCaption;
+									public boolean isEnabled() {
+										return true;
 									}
 
 									@Override
-									public boolean isEnabled() {
-										return true;
+									public String getCaption() {
+										if (shortcut.getCustomMethodCaption() != null) {
+											return shortcut.getCustomMethodCaption();
+										} else {
+											return delegate.getCaption();
+										}
+									}
+
+									public ResourcePath getIconImagePath() {
+										if (shortcut.getCustomIcomImagePath() != null) {
+											return shortcut.getCustomIcomImagePath();
+										} else {
+											return delegate.getIconImagePath();
+										}
 									}
 
 									public ITypeInfo getReturnValueType() {
@@ -866,10 +874,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										return delegate.isReturnValueIgnored();
 									}
 
-									public ResourcePath getIconImagePath() {
-										return delegate.getIconImagePath();
-									}
-
 								};
 								result.add(action);
 								methodFound = true;
@@ -893,7 +897,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public String getCaption() {
-							return methodCaption;
+							if (shortcut.getCustomMethodCaption() != null) {
+								return shortcut.getCustomMethodCaption();
+							} else {
+								return ReflectionUIUtils.identifierToCaption(methodName);
+							}
 						}
 
 						@Override

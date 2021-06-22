@@ -720,7 +720,7 @@ public class Form extends ImagePanel {
 				ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 		ImageIcon icon = (iconImage != null) ? new ImageIcon(iconImage) : null;
 		int tabIndex = ((ListTabbedPane) categoriesControl).getTabCount();
-		((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareStringToDisplay(category.getCaption()), tab);
+		((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareMessageToDisplay(category.getCaption()), tab);
 		((ListTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
 	}
 
@@ -1671,7 +1671,7 @@ public class Form extends ImagePanel {
 
 	protected Component createSeparateFieldCaptionControl(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		IFieldControlData data = fieldControlPlaceHolder.getControlData();
-		JLabel result = new JLabel(swingRenderer.prepareStringToDisplay(data.getCaption() + ": "));
+		JLabel result = new JLabel(swingRenderer.prepareMessageToDisplay(data.getCaption() + ": "));
 		if (data.getLabelForegroundColor() != null) {
 			result.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 		}

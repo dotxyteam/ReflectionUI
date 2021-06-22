@@ -272,7 +272,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					data.setValue(newValue);
 					return;
 				}
-				ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, getModificationStack());
+				ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, getModificationStack(),
+						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}
 		};
 	}
@@ -438,7 +439,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			} catch (RejectedFieldControlInputException e) {
 			}
 		}
-		final Object value = controlInput.getControlData().getValue();
+		Object value = controlInput.getControlData().getValue();
 		controlInput = new FieldControlInputProxy(controlInput) {
 			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(super.getControlData(),
 					value);

@@ -122,7 +122,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.composeMessage(theField.getCaption(), theSubField.getCaption());
+		return theSubField.getCaption();
 	}
 
 	@Override

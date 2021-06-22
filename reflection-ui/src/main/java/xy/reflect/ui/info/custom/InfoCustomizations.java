@@ -2290,7 +2290,7 @@ public class InfoCustomizations implements Serializable {
 					throw new ReflectionUIError(e);
 				}
 				this.parameterCount = conversionMethodFinder.getParameterCount(method);
-				this.parameterPluralityResolvingRequired = parameterCount  > 1;
+				this.parameterPluralityResolvingRequired = parameterCount > 1;
 				this.otherParameterValueStorages = conversionMethodFinder.getOtherParameterValueStorages();
 				this.chosenParameterPosition = conversionMethodFinder.getChosenParameterPosition();
 			}
@@ -2406,7 +2406,7 @@ public class InfoCustomizations implements Serializable {
 					throw new ReflectionUIError(e);
 				}
 				this.parameterCount = conversionMethodFinder.getParameterCount(constrcutor);
-				this.parameterPluralityResolvingRequired = parameterCount  > 1;
+				this.parameterPluralityResolvingRequired = parameterCount > 1;
 				this.otherParameterValueStorages = conversionMethodFinder.getOtherParameterValueStorages();
 				this.chosenParameterPosition = conversionMethodFinder.getChosenParameterPosition();
 			}
@@ -3486,6 +3486,7 @@ public class InfoCustomizations implements Serializable {
 		protected String methodSignature;
 		protected boolean alwaysShown = true;
 		protected String customMethodCaption;
+		protected ResourcePath customIcomImagePath;
 
 		public String getMethodSignature() {
 			return methodSignature;
@@ -3509,6 +3510,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setCustomMethodCaption(String customMethodCaption) {
 			this.customMethodCaption = customMethodCaption;
+		}
+
+		public ResourcePath getCustomIcomImagePath() {
+			return customIcomImagePath;
+		}
+
+		public void setCustomIcomImagePath(ResourcePath customIcomImagePath) {
+			this.customIcomImagePath = customIcomImagePath;
 		}
 
 		public void validate() {

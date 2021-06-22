@@ -106,7 +106,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 					boolean cellHasFocus) {
 				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
 						cellHasFocus);
-				label.setText(swingRenderer.prepareStringToDisplay(getValueText(value)));
+				label.setText(getValueText(value));
 				label.setIcon(getValueIcon(value));
 				if ((possibleValues.size() > 0) && !possibleValues.contains(value)) {
 					SwingRendererUtils.setErrorBorder(label);

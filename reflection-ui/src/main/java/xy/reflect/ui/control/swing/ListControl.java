@@ -95,7 +95,6 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
-import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -746,7 +745,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			public String getColumnName(int column) {
-				return swingRenderer.prepareStringToDisplay(getColumnCaption(column));
+				return swingRenderer.prepareMessageToDisplay(getColumnCaption(column));
 			}
 
 		};
@@ -1627,7 +1626,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void refreshTreeTableScrollPaneBorder() {
 		treeTableComponentScrollPane.setBorder(
-				BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(listData.getCaption())));
+				BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(listData.getCaption())));
 		{
 			if (listData.getLabelForegroundColor() != null) {
 				((TitledBorder) treeTableComponentScrollPane.getBorder())
@@ -2029,8 +2028,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				label.setText(" ");
 				label.setToolTipText(null);
 			} else {
-				label.setText(swingRenderer.prepareStringToDisplay(text));
-				label.setToolTipText(swingRenderer.prepareStringToDisplay(text));
+				label.setText(text);
+				label.setToolTipText(text);
 			}
 
 			Image iconImage = getCellIconImage(node, columnIndex);
@@ -2114,11 +2113,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public Object getValue(String key) {
 			if (Action.NAME.equals(key)) {
-				return swingRenderer.prepareStringToDisplay(getActionTitle());
+				return swingRenderer.prepareMessageToDisplay(getActionTitle());
 			} else if (Action.SHORT_DESCRIPTION.equals(key)) {
 				String result = getActionDescription();
 				if (result != null) {
-					result = swingRenderer.prepareStringToDisplay(result);
+					result = swingRenderer.prepareMessageToDisplay(result);
 				}
 				return result;
 			} else {
@@ -3054,7 +3053,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				Image iconImage = SwingRendererUtils.loadImageThroughCache(iconImagePath,
 						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
-				if(iconImage == null) {
+				if (iconImage == null) {
 					return null;
 				}
 				return SwingRendererUtils.getIcon(iconImage);
@@ -3080,16 +3079,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public IMethodControlData getControlData() {
-					IMethodControlData data = new DefaultMethodControlData(swingRenderer.getReflectionUI(),
-							IDynamicListAction.NO_OWNER, dynamicAction);
-					data = new MethodControlDataProxy(data) {
-						@Override
-						public Object invoke(InvocationData invocationData) {
-							return ReflectionUIUtils.invokeMethodThroughModificationStack(base, invocationData,
-									ListControl.this.getModificationStack());
-						}
-					};
-					return data;
+					return new DefaultMethodControlData(swingRenderer.getReflectionUI(), IDynamicListAction.NO_OWNER,
+							dynamicAction);
 				}
 			});
 			invocationData = action.prepare(ListControl.this);

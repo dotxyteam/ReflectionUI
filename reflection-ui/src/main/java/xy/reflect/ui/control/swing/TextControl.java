@@ -159,7 +159,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 							private static final long serialVersionUID = 1L;
 
 							{
-								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Copy"));
+								putValue(Action.NAME, swingRenderer.prepareMessageToDisplay("Copy"));
 							}
 						}));
 					}
@@ -168,14 +168,14 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 							private static final long serialVersionUID = 1L;
 
 							{
-								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Cut"));
+								putValue(Action.NAME, swingRenderer.prepareMessageToDisplay("Cut"));
 							}
 						}));
 						popup.add(new JMenuItem(new DefaultEditorKit.PasteAction() {
 							private static final long serialVersionUID = 1L;
 
 							{
-								putValue(Action.NAME, swingRenderer.prepareStringToDisplay("Paste"));
+								putValue(Action.NAME, swingRenderer.prepareMessageToDisplay("Paste"));
 							}
 						}));
 					}

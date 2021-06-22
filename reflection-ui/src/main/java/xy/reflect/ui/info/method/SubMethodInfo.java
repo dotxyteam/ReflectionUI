@@ -130,7 +130,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getCaption() {
-		return ReflectionUIUtils.composeMessage(theField.getCaption(), theSubMethod.getCaption());
+		return theSubMethod.getCaption();
 	}
 
 	@Override

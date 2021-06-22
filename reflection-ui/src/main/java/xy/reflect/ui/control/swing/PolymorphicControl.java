@@ -119,7 +119,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	public boolean refreshUI(boolean refreshStructure) {
 		if (refreshStructure) {
 			if (data.getCaption().length() > 0) {
-				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
 				if (data.getLabelForegroundColor() != null) {
 					((TitledBorder) getBorder())
 							.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
@@ -154,7 +154,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 		currentInstance = instance;
 		refreshDynamicControl(false);
-		ReflectionUIUtils.setFieldValueThroughModificationStack(data, currentInstance, input.getModificationStack());
+		ReflectionUIUtils.setFieldValueThroughModificationStack(data, currentInstance, input.getModificationStack(),
+				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 	}
 
 	protected Form createTypeEnumerationControl() {

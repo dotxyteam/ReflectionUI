@@ -365,7 +365,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				imagePanelContainer.add(SwingRendererUtils.flowInLayout(zoomPanel, GridBagConstraints.CENTER),
 						BorderLayout.NORTH);
 				zoomPanel.setBorder(BorderFactory.createTitledBorder(null,
-						imageView.swingRenderer.prepareStringToDisplay("Zoom"), TitledBorder.CENTER, TitledBorder.TOP));
+						imageView.swingRenderer.prepareMessageToDisplay("Zoom"), TitledBorder.CENTER, TitledBorder.TOP));
 				if (imageView.data.getLabelForegroundColor() != null) {
 					((TitledBorder) zoomPanel.getBorder())
 							.setTitleColor(SwingRendererUtils.getColor(imageView.data.getLabelForegroundColor()));
@@ -516,7 +516,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			if (refreshStructure) {
 				if (data.getCaption().length() > 0) {
 					setBorder(
-							BorderFactory.createTitledBorder(swingRenderer.prepareStringToDisplay(data.getCaption())));
+							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
 					if (data.getLabelForegroundColor() != null) {
 						((TitledBorder) getBorder())
 								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));

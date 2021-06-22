@@ -96,9 +96,9 @@ public abstract class AbstractControlButton extends JButton {
 		toolTipText = retrieveToolTipText();
 		icon = retrieveIcon();
 
-		setText(getSwingRenderer().prepareStringToDisplay(caption));
+		setText(getSwingRenderer().prepareMessageToDisplay(caption));
 		if ((toolTipText != null) && (toolTipText.length() > 0)) {
-			SwingRendererUtils.setMultilineToolTipText(this, getSwingRenderer().prepareStringToDisplay(toolTipText));
+			SwingRendererUtils.setMultilineToolTipText(this, getSwingRenderer().prepareMessageToDisplay(toolTipText));
 		} else {
 			setToolTipText(null);
 		}

@@ -237,11 +237,13 @@ public class SwingRenderer {
 	}
 
 	/**
-	 * @param string The string to display.
+	 * @param string The string to display. Note that only label and messages are
+	 *               processed by this method. Field/parameter values and method
+	 *               return values of type 'String' are not processed.
 	 * @return an eventual adjustment/translation of the provided string before it
 	 *         gets displayed on the UI.
 	 */
-	public String prepareStringToDisplay(String string) {
+	public String prepareMessageToDisplay(String string) {
 		return string;
 	}
 

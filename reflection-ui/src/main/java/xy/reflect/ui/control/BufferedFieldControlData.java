@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import xy.reflect.ui.util.ReflectionUIError;
+
 /**
  * Control data proxy that stacks and returns the provided values before
  * returning the underlying control data values.
@@ -52,6 +54,9 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 	public Object getValue() {
 		if (buffer.size() > 0) {
 			Object nextValue = buffer.remove(0);
+			if (nextValue instanceof ErrorOccurence) {
+				throw new ReflectionUIError(((ErrorOccurence) nextValue).getError());
+			}
 			return nextValue;
 		}
 		return super.getValue();
@@ -65,6 +70,20 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 
 	public void addInBuffer(Object value) {
 		buffer.add(value);
+	}
+
+	public static class ErrorOccurence {
+
+		protected Throwable error;
+
+		public ErrorOccurence(Throwable error) {
+			this.error = error;
+		}
+
+		public Throwable getError() {
+			return error;
+		}
+
 	}
 
 }

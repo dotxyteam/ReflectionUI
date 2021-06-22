@@ -1287,7 +1287,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:718b</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a5d</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1320,7 +1320,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:718c</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a5e</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1353,7 +1353,7 @@
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:718d</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a5f</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1417,7 +1417,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:718e</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a60</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -1476,7 +1476,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:718f</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a61</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1508,7 +1508,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:7190</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a62</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2104,13 +2104,17 @@
                 <uniqueIdentifier>-79a87d74:166a1f900f4:-26db</uniqueIdentifier>
                 <conversionMethodFinder>
                     <uniqueIdentifier>-55735402:15bef3a82f2:13ef</uniqueIdentifier>
+                    <chosenParameterPosition>-1</chosenParameterPosition>
                     <conversionClassName>java.util.Date</conversionClassName>
                     <conversionMethodSignature>java.util.Date (long)</conversionMethodSignature>
+                    <otherParameterValueStorages/>
                 </conversionMethodFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-55735402:15bef3a82f2:14b6</uniqueIdentifier>
+                    <chosenParameterPosition>-1</chosenParameterPosition>
                     <conversionClassName>java.util.Date</conversionClassName>
                     <conversionMethodSignature>long getTime()</conversionMethodSignature>
+                    <otherParameterValueStorages/>
                 </reverseConversionMethodFinder>
                 <javaClassBasedTypeInfoFinder>
                     <uniqueIdentifier>-79a87d74:166a1f900f4:-264f</uniqueIdentifier>
@@ -2182,7 +2186,7 @@
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>true</itemDetailsViewDisabled>
+                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
                     <itemTypeName>java.io.File</itemTypeName>
@@ -2208,7 +2212,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:7191</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a63</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2371,7 +2375,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f69</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:7192</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a64</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2403,7 +2407,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f67</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:7193</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a65</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2539,7 +2543,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f61</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:7194</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a66</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3190,7 +3194,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-3000d7cd:1799f0186e9:7195</uniqueIdentifier>
+                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a67</uniqueIdentifier>
                 <caption>Actions</caption>
             </category>
             <categoryCaption>Actions</categoryCaption>
@@ -8035,13 +8039,17 @@ Do you really want to delete this resource ?  </confirmationMessage>
                 <uniqueIdentifier>-1931c17f:167ad32b22a:705f</uniqueIdentifier>
                 <conversionMethodFinder>
                     <uniqueIdentifier>-55735402:15bef3a82f2:13ef</uniqueIdentifier>
+                    <chosenParameterPosition>-1</chosenParameterPosition>
                     <conversionClassName>xy.reflect.ui.util.Functions</conversionClassName>
                     <conversionMethodSignature>boolean negate(boolean)</conversionMethodSignature>
+                    <otherParameterValueStorages/>
                 </conversionMethodFinder>
                 <reverseConversionMethodFinder>
                     <uniqueIdentifier>-55735402:15bef3a82f2:14b6</uniqueIdentifier>
+                    <chosenParameterPosition>-1</chosenParameterPosition>
                     <conversionClassName>xy.reflect.ui.util.Functions</conversionClassName>
                     <conversionMethodSignature>boolean negate(boolean)</conversionMethodSignature>
+                    <otherParameterValueStorages/>
                 </reverseConversionMethodFinder>
                 <javaClassBasedTypeInfoFinder>
                     <uniqueIdentifier>-1931c17f:167ad32b22a:7080</uniqueIdentifier>
