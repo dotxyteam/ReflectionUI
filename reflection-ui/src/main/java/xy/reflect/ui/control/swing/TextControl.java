@@ -88,7 +88,11 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					TextControl.this.commitChanges();
+					try {
+						TextControl.this.commitChanges();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(TextControl.this, t);
+					}
 				}
 			});
 		}
@@ -106,6 +110,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
+		input = adaptTextInput(input);
 		this.input = input;
 		this.data = input.getControlData();
 
@@ -122,18 +127,30 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		refreshUI(true);
 	}
 
+	protected IFieldControlInput adaptTextInput(IFieldControlInput input) {
+		return input;
+	}
+
 	protected void setupTextComponentEvents() {
 		textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
 			@Override
 			public void undoableEditHappened(UndoableEditEvent e) {
-				TextControl.this.textComponentEditHappened();
+				try {
+					TextControl.this.textComponentEditHappened();
+				} catch (Throwable t) {
+					swingRenderer.handleObjectException(TextControl.this, t);
+				}
 			}
 		});
 		textComponent.addFocusListener(new FocusListener() {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				TextControl.this.textComponentFocustLost();
+				try {
+					TextControl.this.textComponentFocustLost();
+				} catch (Throwable t) {
+					swingRenderer.handleObjectException(TextControl.this, t);
+				}
 			}
 
 			@Override
@@ -332,7 +349,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			if (newText == null) {
 				newText = "";
 			}
-			displayError(null);
 			if (!MiscUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 				int lastCaretPosition = textComponent.getCaretPosition();
 				textComponent.setText(newText);
@@ -368,12 +384,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void commitChanges() {
-		try {
-			data.setValue(textComponent.getText());
-		} catch (Throwable t) {
-			swingRenderer.getReflectionUI().logDebug(t);
-			displayError(MiscUtils.getPrettyErrorMessage(t));
-		}
+		data.setValue(textComponent.getText());
 	}
 
 	@Override

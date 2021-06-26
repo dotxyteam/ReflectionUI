@@ -28,9 +28,10 @@
  ******************************************************************************/
 package xy.reflect.ui.control.swing.util;
 
-import java.awt.Component;
-
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import javax.swing.border.CompoundBorder;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
@@ -48,7 +49,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 
 	protected SwingRenderer swingRenderer;
-	protected Component errorDialogOwner;
+	protected JComponent errorDialogOwner;
 
 	protected Object lastFieldValue;
 	protected boolean lastFieldValueInitialized = false;
@@ -56,7 +57,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	protected String currentlyDisplayedErrorId;
 
 	public ErrorHandlingFieldControlData(IFieldControlData data, SwingRenderer swingRenderer,
-			Component errorDialogOwner) {
+			JComponent errorDialogOwner) {
 		super(data);
 		this.swingRenderer = swingRenderer;
 		this.errorDialogOwner = errorDialogOwner;
@@ -105,12 +106,16 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 		}
 		currentlyDisplayedErrorId = newErrorId;
 		if (t != null) {
+			errorDialogOwner.setBorder(BorderFactory.createCompoundBorder(errorDialogOwner.getBorder(),
+					SwingRendererUtils.getErrorBorder()));
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					swingRenderer.handleObjectException(errorDialogOwner, t);
 				}
 			});
+		} else {
+			errorDialogOwner.setBorder(((CompoundBorder) errorDialogOwner.getBorder()).getOutsideBorder());
 		}
 	}
 

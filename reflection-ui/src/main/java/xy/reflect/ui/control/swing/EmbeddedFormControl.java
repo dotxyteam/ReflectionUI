@@ -80,14 +80,16 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = new FieldControlInputProxy(input) {
+		input = new FieldControlInputProxy(input) {
+			IFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(super.getControlData(), swingRenderer,
+					EmbeddedFormControl.this);
+
 			@Override
 			public IFieldControlData getControlData() {
-				IFieldControlData result = super.getControlData();
-				result = new ErrorHandlingFieldControlData(result, swingRenderer, EmbeddedFormControl.this);
-				return result;
+				return errorHandlingFieldControlData;
 			}
 		};
+		this.input = input;
 		this.data = input.getControlData();
 		setLayout(new BorderLayout());
 		refreshUI(true);

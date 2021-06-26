@@ -33,7 +33,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -66,8 +65,8 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.StrictDateFormat;
 
@@ -242,7 +241,11 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						DatePicker.this.commitTextEditorChanges();
+						try {
+							DatePicker.this.commitTextEditorChanges();
+						} catch (Throwable t) {
+							swingRenderer.handleObjectException(DatePicker.this, t);
+						}
 					}
 				});
 			}
@@ -258,6 +261,8 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			}
 		};
 		protected boolean initialized = false;
+		protected Throwable currentConversionError;
+		protected String currentDataErrorMessage;
 
 		public DatePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -292,11 +297,15 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					if (listenerDisabled) {
 						return;
 					}
-					Date value = getDate();
-					if (value.equals(data.getValue())) {
-						return;
+					try {
+						Date value = getDate();
+						if (value.equals(data.getValue())) {
+							return;
+						}
+						data.setValue(getDate());
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(DatePicker.this, t);
 					}
-					data.setValue(getDate());
 				}
 			});
 			final JFormattedTextField editor = DatePicker.this.getEditor();
@@ -306,15 +315,19 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					if (listenerDisabled) {
 						return;
 					}
-					textEditorChangesCommittingProcess.cancelSchedule();
-					Date value = getDateFromTextEditor();
-					if (value == null) {
-						return;
+					try {
+						textEditorChangesCommittingProcess.cancelSchedule();
+						Date value = getDateFromTextEditor();
+						if (value == null) {
+							return;
+						}
+						if (value.equals(data.getValue())) {
+							return;
+						}
+						textEditorChangesCommittingProcess.schedule();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(DatePicker.this, t);
 					}
-					if (value.equals(data.getValue())) {
-						return;
-					}
-					textEditorChangesCommittingProcess.schedule();
 				}
 
 				@Override
@@ -337,7 +350,11 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 				@Override
 				public void focusLost(FocusEvent e) {
-					onFocusLoss();
+					try {
+						onFocusLoss();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(DatePicker.this, t);
+					}
 				}
 
 				@Override
@@ -388,7 +405,11 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					}
 				}
 				Date date = (Date) data.getValue();
+				currentConversionError = null;
+				updateErrorDisplay();
 				setDate(date);
+				JFormattedTextField editor = this.getEditor();
+				editor.setValue(date);
 				return true;
 			} finally {
 				listenerDisabled = false;
@@ -423,15 +444,17 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			JFormattedTextField editor = this.getEditor();
 			String string = editor.getText();
 			AbstractFormatter formatter = editor.getFormatter();
+			Date result;
 			try {
-				Date result = (Date) formatter.stringToValue(string);
-				displayError(null);
-				return result;
-			} catch (ParseException e) {
-				swingRenderer.getReflectionUI().logDebug(e);
-				displayError(MiscUtils.getPrettyErrorMessage(e));
+				result = (Date) formatter.stringToValue(string);
+				currentConversionError = null;
+			} catch (Throwable t) {
+				currentConversionError = t;
 				return null;
+			} finally {
+				updateErrorDisplay();
 			}
+			return result;
 		}
 
 		protected void onFocusLoss() {
@@ -441,9 +464,23 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			}
 		}
 
+		protected void updateErrorDisplay() {
+			if (currentConversionError != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
+						MiscUtils.getPrettyErrorMessage(currentConversionError), swingRenderer);
+				return;
+			}
+			if (currentDataErrorMessage != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataErrorMessage, swingRenderer);
+				return;
+			}
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
+		}
+
 		@Override
 		public boolean displayError(String msg) {
-			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, msg, swingRenderer);
+			currentDataErrorMessage = msg;
+			updateErrorDisplay();
 			return true;
 		}
 

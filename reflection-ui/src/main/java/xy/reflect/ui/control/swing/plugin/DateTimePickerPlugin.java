@@ -74,9 +74,9 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.StrictDateFormat;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.MiscUtils;
 
 /**
  * Field control plugin that allows to display and update adequately
@@ -250,7 +250,11 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						DateTimePicker.this.commitTextEditorChanges();
+						try {
+							DateTimePicker.this.commitTextEditorChanges();
+						} catch (Throwable t) {
+							swingRenderer.handleObjectException(DateTimePicker.this, t);
+						}
 					}
 				});
 			}
@@ -266,6 +270,8 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			}
 		};
 		protected boolean initialized = false;
+		protected Throwable currentConversionError;
+		protected String currentDataErrorMessage;
 
 		public DateTimePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -367,11 +373,15 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					if (listenerDisabled) {
 						return;
 					}
-					Date value = getDate();
-					if (value.equals(data.getValue())) {
-						return;
+					try {
+						Date value = getDate();
+						if (value.equals(data.getValue())) {
+							return;
+						}
+						data.setValue(getDate());
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(DateTimePicker.this, t);
 					}
-					data.setValue(getDate());
 				}
 			});
 			final JFormattedTextField editor = DateTimePicker.this.getEditor();
@@ -381,15 +391,19 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					if (listenerDisabled) {
 						return;
 					}
-					textEditorChangesCommittingProcess.cancelSchedule();
-					Date value = getDateFromTextEditor();
-					if (value == null) {
-						return;
+					try {
+						textEditorChangesCommittingProcess.cancelSchedule();
+						Date value = getDateFromTextEditor();
+						if (value == null) {
+							return;
+						}
+						if (value.equals(data.getValue())) {
+							return;
+						}
+						textEditorChangesCommittingProcess.schedule();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(DateTimePicker.this, t);
 					}
-					if (value.equals(data.getValue())) {
-						return;
-					}
-					textEditorChangesCommittingProcess.schedule();
 				}
 
 				@Override
@@ -412,7 +426,11 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 				@Override
 				public void focusLost(FocusEvent e) {
-					onFocusLoss();
+					try {
+						onFocusLoss();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(DateTimePicker.this, t);
+					}
 				}
 
 				@Override
@@ -464,7 +482,11 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					}
 				}
 				Date date = (Date) data.getValue();
+				currentConversionError = null;
+				updateErrorDisplay();
 				setDate(date);
+				JFormattedTextField editor = this.getEditor();
+				editor.setValue(date);
 				return true;
 			} finally {
 				listenerDisabled = false;
@@ -496,18 +518,20 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		}
 
 		protected Date getDateFromTextEditor() {
-			JFormattedTextField editor = getEditor();
-			String string = editor.getText();
-			AbstractFormatter formatter = editor.getFormatter();
-			try {
-				Date result = (Date) formatter.stringToValue(string);
-				displayError(null);
+				JFormattedTextField editor = getEditor();
+				String string = editor.getText();
+				AbstractFormatter formatter = editor.getFormatter();
+				Date result;
+				try {
+					result = (Date) formatter.stringToValue(string);
+					currentConversionError = null;
+				} catch (Throwable t) {
+					currentConversionError = t;
+					return null;
+				} finally {
+					updateErrorDisplay();
+				}
 				return result;
-			} catch (ParseException e) {
-				swingRenderer.getReflectionUI().logDebug(e);
-				displayError(MiscUtils.getPrettyErrorMessage(e));
-				return null;
-			}
 		}
 
 		protected void onFocusLoss() {
@@ -517,11 +541,26 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			}
 		}
 
+		protected void updateErrorDisplay() {
+			if (currentConversionError != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
+						MiscUtils.getPrettyErrorMessage(currentConversionError), swingRenderer);
+				return;
+			}
+			if (currentDataErrorMessage != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataErrorMessage, swingRenderer);
+				return;
+			}
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
+		}
+
 		@Override
 		public boolean displayError(String msg) {
-			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, msg, swingRenderer);
+			currentDataErrorMessage = msg;
+			updateErrorDisplay();
 			return true;
 		}
+
 
 		@Override
 		public boolean showsCaption() {

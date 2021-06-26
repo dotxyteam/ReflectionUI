@@ -34,7 +34,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.ParseException;
 import java.util.concurrent.ExecutorService;
 
 import javax.swing.BorderFactory;
@@ -49,6 +48,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -139,7 +139,11 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						Spinner.this.commitChanges();
+						try {
+							Spinner.this.commitChanges();
+						} catch (Throwable t) {
+							swingRenderer.handleObjectException(Spinner.this, t);
+						}
 					}
 				});
 			}
@@ -154,6 +158,8 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				return Spinner.this.getCommitDelayMilliseconds();
 			}
 		};
+		protected Throwable currentConversionError;
+		protected String currentDataErrorMessage;
 
 		public Spinner(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -176,7 +182,11 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					onSpin();
+					try {
+						onSpin();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(Spinner.this, t);
+					}
 				}
 			});
 			addPropertyChangeListener(new PropertyChangeListener() {
@@ -196,23 +206,29 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 									return;
 								}
 								SwingUtilities.invokeLater(new Runnable() {
+
 									@Override
 									public void run() {
-										String string = textField.getText();
-										Object value;
-										DefaultFormatter formatter = ((DefaultFormatter) textField.getFormatter());
 										try {
-											value = formatter.stringToValue(string);
-										} catch (ParseException e) {
-											swingRenderer.getReflectionUI().logDebug(e);
-											displayError(MiscUtils.getPrettyErrorMessage(e));
-											return;
+											String string = textField.getText();
+											DefaultFormatter formatter = ((DefaultFormatter) textField.getFormatter());
+											Object value;
+											try {
+												value = formatter.stringToValue(string);
+												currentConversionError = null;
+											} catch (Throwable t) {
+												currentConversionError = t;
+												return;
+											} finally {
+												updateErrorDisplay();
+											}
+											int caretPosition = textField.getCaretPosition();
+											Spinner.this.setValue(value);
+											textField.setCaretPosition(
+													Math.min(caretPosition, textField.getText().length()));
+										} catch (Throwable t) {
+											swingRenderer.handleObjectException(Spinner.this, t);
 										}
-										int caretPosition = textField.getCaretPosition();
-										Spinner.this.setValue(value);
-										displayError(null);
-										textField.setCaretPosition(
-												Math.min(caretPosition, textField.getText().length()));
 									}
 								});
 
@@ -237,7 +253,11 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 
 							@Override
 							public void focusLost(FocusEvent e) {
-								onFocusLoss();
+								try {
+									onFocusLoss();
+								} catch (Throwable t) {
+									swingRenderer.handleObjectException(Spinner.this, t);
+								}
 							}
 
 							@Override
@@ -303,8 +323,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					throw new ReflectionUIError("The value is less than the minimum value: " + value + " < "
 							+ spinnerNumberModel.getMinimum());
 				}
+				currentConversionError = null;
+				updateErrorDisplay();
 				setValue(value);
-				displayError(null);
 				return true;
 			} finally {
 				listenerDisabled = false;
@@ -317,9 +338,23 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			return result;
 		}
 
+		protected void updateErrorDisplay() {
+			if (currentConversionError != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
+						MiscUtils.getPrettyErrorMessage(currentConversionError), swingRenderer);
+				return;
+			}
+			if (currentDataErrorMessage != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataErrorMessage, swingRenderer);
+				return;
+			}
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
+		}
+
 		@Override
 		public boolean displayError(String msg) {
-			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, msg, swingRenderer);
+			currentDataErrorMessage = msg;
+			updateErrorDisplay();
 			return true;
 		}
 

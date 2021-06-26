@@ -280,11 +280,16 @@ public class ModificationStack {
 	 * @param modification The modification that must be executed.
 	 */
 	public void apply(IModification modification) {
+		IModification undoModification;
 		try {
-			push(modification.applyAndGetOpposite());
+			undoModification = modification.applyAndGetOpposite();
 		} catch (IrreversibleModificationException e) {
 			invalidate();
+			return;
+		} catch (CancelledModificationException e) {
+			return;
 		}
+		push(undoModification);
 	}
 
 	/**
@@ -380,12 +385,16 @@ public class ModificationStack {
 			return;
 		}
 		IModification undoModif = undoStack.pop();
+		IModification redoModif;
 		try {
-			redoStack.push(undoModif.applyAndGetOpposite());
+			redoModif = undoModif.applyAndGetOpposite();
 		} catch (IrreversibleModificationException e) {
 			invalidate();
 			return;
+		} catch (CancelledModificationException e) {
+			return;
 		}
+		redoStack.push(redoModif);
 		allListenersProxy.afterUndo(undoModif);
 	}
 
@@ -403,12 +412,16 @@ public class ModificationStack {
 			return;
 		}
 		IModification redoModif = redoStack.pop();
+		IModification undoModif;
 		try {
-			undoStack.push(redoModif.applyAndGetOpposite());
+			undoModif = redoModif.applyAndGetOpposite();
 		} catch (IrreversibleModificationException e) {
 			invalidate();
 			return;
+		} catch (CancelledModificationException e) {
+			return;
 		}
+		undoStack.push(undoModif);
 		allListenersProxy.afterRedo(redoModif);
 	}
 
@@ -553,7 +566,10 @@ public class ModificationStack {
 				invalidate();
 			} catch (Throwable ignore) {
 			}
-			abortComposite();
+			try {
+				endComposite(title, order, fake);
+			} catch (Throwable ignore) {
+			}
 			throw new ReflectionUIError(t);
 		}
 		if (ok) {

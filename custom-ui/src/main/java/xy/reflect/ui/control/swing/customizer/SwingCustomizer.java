@@ -218,6 +218,10 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	}
 
 	protected CustomizationTools createCustomizationTools() {
+		if (!MoreSystemProperties.areCustomizationToolsDisabled()) {
+			System.out.println("Set the following system property to disable the design mode:\n-D"
+					+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
+		}
 		return new CustomizationTools(this);
 	}
 

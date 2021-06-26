@@ -462,6 +462,11 @@ public class Form extends ImagePanel {
 	protected IModificationListener createFieldsUpdateListener() {
 		return new AbstractSimpleModificationListener() {
 			@Override
+			public void afterClearInvalidation() {
+				// no event
+			}
+
+			@Override
 			protected void handleAnyEvent(IModification modification) {
 				if (isFieldsUpdateListenerDisabled()) {
 					return;

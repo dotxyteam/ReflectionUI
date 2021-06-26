@@ -1,3 +1,8 @@
+- errors may be generated multiple times by successive refresh
+requests. SwingRenderer.handleObjectException() should then be
+called only once. Must be sure. Think about it.
+- field appearance changes are detected is design mode but
+not sure that field behavioral changes are detected. Check. 
 - create FaulTolerantControl that will allow to display and edit
 a default value when the field control initialization fails. 
 - allow to specify a static options values field

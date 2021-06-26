@@ -688,7 +688,10 @@ public class ReflectionUIUtils {
 				if (debugLogListener != null) {
 					debugLogListener.handle("Invalidating modification stack: " + modifStack);
 				}
-				modifStack.invalidate();
+				try {
+					modifStack.invalidate();
+				} catch (Throwable ignore) {
+				}
 				throw new ReflectionUIError(t);
 			}
 		}

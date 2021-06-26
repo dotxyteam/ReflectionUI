@@ -207,6 +207,24 @@ public class SlaveModificationStack extends ModificationStack {
 	}
 
 	@Override
+	public void addListener(IModificationListener listener) {
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
+		parentObjectModifStack.addListener(listener);
+	}
+
+	@Override
+	public void removeListener(IModificationListener listener) {
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
+		parentObjectModifStack.removeListener(listener);
+	}
+
+	@Override
+	public IModificationListener[] getListeners() {
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
+		return parentObjectModifStack.getListeners();
+	}
+
+	@Override
 	public String toString() {
 		return "Slave" + super.toString();
 	}

@@ -139,7 +139,7 @@ public class ReflectionUI {
 	 * @return A formatted message.
 	 */
 	protected String formatLogMessage(String msg) {
-		msg = MiscUtils.truncateNicely(msg, 1000);
+		msg = MiscUtils.truncateNicely(msg, 10000);
 		return SimpleDateFormat.getDateTimeInstance().format(new Date()) + " [" + ReflectionUI.class.getSimpleName()
 				+ "] " + msg;
 	}

@@ -109,7 +109,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 				label.setText(getValueText(value));
 				label.setIcon(getValueIcon(value));
 				if ((possibleValues.size() > 0) && !possibleValues.contains(value)) {
-					SwingRendererUtils.setErrorBorder(label);
+					label.setBorder(SwingRendererUtils.getErrorBorder());
 				} else {
 					label.setBorder(null);
 				}
@@ -168,17 +168,6 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean displayError(String msg) {
-		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, comboBox, msg, swingRenderer);
-		return true;
-	}
-
-	@Override
-	public boolean showsCaption() {
-		return false;
-	}
-
-	@Override
 	public boolean refreshUI(boolean refreshStructure) {
 		if (enumType.isDynamicEnumeration() || refreshStructure) {
 			possibleValues = collectPossibleValues();
@@ -225,6 +214,17 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 
 	@Override
 	public boolean isAutoManaged() {
+		return false;
+	}
+
+	@Override
+	public boolean displayError(String msg) {
+		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, comboBox, msg, swingRenderer);
+		return true;
+	}
+
+	@Override
+	public boolean showsCaption() {
 		return false;
 	}
 

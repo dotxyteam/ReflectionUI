@@ -110,7 +110,11 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						Slider.this.commitChanges();
+						try {
+							Slider.this.commitChanges();
+						} catch (Throwable t) {
+							swingRenderer.handleObjectException(Slider.this, t);
+						}
 					}
 				});
 			}
@@ -142,14 +146,22 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					onSlide();
+					try {
+						onSlide();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(Slider.this, t);
+					}
 				}
 			});
 			addFocusListener(new FocusListener() {
 
 				@Override
 				public void focusLost(FocusEvent e) {
-					onFocusLoss();
+					try {
+						onFocusLoss();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(Slider.this, t);
+					}
 				}
 
 				@Override

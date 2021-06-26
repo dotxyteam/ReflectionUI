@@ -278,20 +278,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		};
 	}
 
-	protected boolean isFieldControlAutoManaged() {
-		Component c = fieldControl;
-		if (c == null) {
-			return true;
-		}
-		if ((c instanceof IAdvancedFieldControl)) {
-			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
-			if (fieldControl.isAutoManaged()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	protected IFieldControlData handleValueAccessIssues(final IFieldControlData data) {
 		return new ErrorHandlingFieldControlData(data, swingRenderer, FieldControlPlaceHolder.this) {
 
@@ -301,6 +287,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
 					return;
 				}
+				if (t != null) {
+					swingRenderer.getReflectionUI().logDebug(t);
+				}
 				currentlyDisplayedErrorId = newErrorId;
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -309,11 +298,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 								&& ((IAdvancedFieldControl) fieldControl)
 										.displayError((t == null) ? null : MiscUtils.getPrettyErrorMessage(t));
 						if (!done && (t != null)) {
-							SwingRendererUtils.setErrorBorder(FieldControlPlaceHolder.this);
-							swingRenderer.handleObjectException(fieldControl, t);
+							FieldControlPlaceHolder.this.setBorder(SwingRendererUtils.getErrorBorder());
+							swingRenderer.handleObjectException(FieldControlPlaceHolder.this, t);
 						} else {
-							currentlyDisplayedErrorId = null;
-							setBorder(null);
+							FieldControlPlaceHolder.this.setBorder(null);
 						}
 					}
 				});
@@ -337,6 +325,20 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			}
 
 		};
+	}
+
+	protected boolean isFieldControlAutoManaged() {
+		Component c = fieldControl;
+		if (c == null) {
+			return false;
+		}
+		if ((c instanceof IAdvancedFieldControl)) {
+			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
+			if (fieldControl.isAutoManaged()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public Component getFieldControl() {
@@ -590,7 +592,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				};
 			}
 		}), BorderLayout.CENTER);
-		SwingRendererUtils.setErrorBorder(result);
+		result.setBorder(SwingRendererUtils.getErrorBorder());
 		result.setName("errorFieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
 		return result;
 	}
@@ -598,6 +600,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected Map<String, Object> getFieldControlSelectionCriteria(IFieldControlData controlData) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("typeName", controlData.getType().getName());
+		result.put("polymorphic", ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType()));
 		result.put("fieldControlPluginIdentifier",
 				ReflectionUIUtils.getFieldControlPluginIdentifier(controlData.getType().getSpecificProperties()));
 		result.put("nullValueDistinct", controlData.isNullValueDistinct());

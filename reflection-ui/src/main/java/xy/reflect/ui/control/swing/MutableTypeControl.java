@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.control.CustomContext;
+import xy.reflect.ui.control.ErrorOccurence;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -39,6 +40,7 @@ import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
 
 /**
@@ -108,12 +110,19 @@ public class MutableTypeControl extends NullableControl {
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		Object value = data.getValue();
+		Object value = ErrorOccurence.tryCatch(new Accessor<Object>() {
+			@Override
+			public Object get() {
+				return data.getValue();
+			}
+		});
 		if (value == null) {
 			return false;
 		}
-		if (!data.getType().supports(value)) {
-			return false;
+		if (!(value instanceof ErrorOccurence)) {
+			if (!data.getType().supports(value)) {
+				return false;
+			}
 		}
 		data.addInBuffer(value);
 		boolean result = super.refreshUI(refreshStructure);

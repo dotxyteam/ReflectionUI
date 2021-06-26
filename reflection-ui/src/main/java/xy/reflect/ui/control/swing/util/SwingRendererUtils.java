@@ -87,6 +87,7 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultFormatter;
@@ -661,8 +662,8 @@ public class SwingRendererUtils {
 
 	}
 
-	public static void setErrorBorder(JComponent c) {
-		c.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+	public static Border getErrorBorder() {
+		return BorderFactory.createLineBorder(Color.RED, 2);
 
 	}
 
@@ -856,7 +857,7 @@ public class SwingRendererUtils {
 		if (newTooltipText == null) {
 			borderComponent.setBorder(null);
 		} else {
-			SwingRendererUtils.setErrorBorder(borderComponent);
+			borderComponent.setBorder(SwingRendererUtils.getErrorBorder());
 		}
 		SwingRendererUtils.setMultilineToolTipText(toolTipComponent, newTooltipText);
 		SwingRendererUtils.handleComponentSizeChange(borderComponent);

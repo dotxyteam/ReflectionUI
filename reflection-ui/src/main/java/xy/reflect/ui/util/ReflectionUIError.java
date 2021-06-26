@@ -38,7 +38,8 @@ public class ReflectionUIError extends RuntimeException {
 	protected static final long serialVersionUID = 1L;
 
 	public ReflectionUIError() {
-		super("ReflectionUI Internal Error. Check the logs for more information");
+		super("ReflectionUI Internal Error. Check the logs for more information (the debug mode may need be activated by setting this system property: -D"
+				+ SystemProperties.DEBUG + "=true)");
 	}
 
 	public ReflectionUIError(String message, Throwable cause) {

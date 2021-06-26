@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.ErrorOccurence;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -50,6 +51,7 @@ import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -175,11 +177,17 @@ public abstract class AbstractEditorFormBuilder {
 		}
 		encapsulatedObjectValueAccessor = new Accessor<Object>() {
 
-			Object object = initialObjectValue = loadValue();
+			Object object = ErrorOccurence.tryCatch(new Accessor<Object>() {
+				@Override
+				public Object get() {
+					initialObjectValue = null;
+					return initialObjectValue = loadValue();
+				}
+			});
 
 			@Override
 			public Object get() {
-				return object;
+				return ErrorOccurence.rethrow(object);
 			}
 
 			@Override
@@ -455,14 +463,24 @@ public abstract class AbstractEditorFormBuilder {
 			ensureIsInitialized();
 			editorForm.setObject(getCapsule());
 		} else {
-			Object oldValue = encapsulatedObjectValueAccessor.get();
-			Object newValue = loadValue();
+			Object oldValue = ErrorOccurence.tryCatch(new Accessor<Object>() {
+				@Override
+				public Object get() {
+					return encapsulatedObjectValueAccessor.get();
+				}
+			});
+			Object newValue = ErrorOccurence.tryCatch(new Accessor<Object>() {
+				@Override
+				public Object get() {
+					return loadValue();
+				}
+			});
 			if (oldValue != newValue) {
 				encapsulatedObjectValueAccessor.set(newValue);
 				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
-				ITypeInfo oldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
-				ITypeInfo newValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
-				if (!oldValueType.equals(newValueType)) {
+				ITypeInfo oldValueType = (oldValue==null) ? null : reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
+				ITypeInfo newValueType = (newValue==null) ? null : reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
+				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
 					editorForm.setObject(getCapsule());
 				}
 			}
@@ -607,9 +625,9 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		};
 		editorForm.setModificationStack(new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionGetter, committingModifGetter, masterModifTitleGetter,
-				masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
-				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
+				childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionGetter,
+				committingModifGetter, masterModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
+				exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener));
 	}

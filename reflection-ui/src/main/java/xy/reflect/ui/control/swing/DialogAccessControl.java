@@ -86,11 +86,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	public DialogAccessControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		input = new FieldControlInputProxy(input) {
+			ErrorHandlingFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(
+					super.getControlData(), swingRenderer, DialogAccessControl.this);
 			@Override
 			public IFieldControlData getControlData() {
-				IFieldControlData result = super.getControlData();
-				result = new ErrorHandlingFieldControlData(result, swingRenderer, DialogAccessControl.this);
-				return result;
+				return errorHandlingFieldControlData;
 			}
 		};
 		this.input = input;
@@ -239,11 +239,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void openDialog(Component owner) {
-		AbstractEditorBuilder subDialogBuilder = getSubDialogBuilder(owner);
+		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(owner);
 		subDialogBuilder.createAndShowDialog();
 	}
 
-	protected AbstractEditorBuilder getSubDialogBuilder(final Component owner) {
+	protected AbstractEditorBuilder createSubDialogBuilder(final Component owner) {
 		return new SubDialogBuilder(swingRenderer, owner, input);
 	}
 

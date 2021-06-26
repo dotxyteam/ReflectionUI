@@ -72,7 +72,12 @@ public abstract class AbstractModification implements IModification {
 			}
 		}
 		if (undoJob == null) {
-			undoJob = createUndoJob();
+			try {
+				undoJob = createUndoJob();
+			} catch (Throwable t) {
+				doJob.run();
+				throw new IrreversibleModificationException();
+			}
 			if (undoJob == null) {
 				throw new ReflectionUIError();
 			}

@@ -43,6 +43,7 @@ import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
+import xy.reflect.ui.control.ErrorOccurence;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -79,29 +80,33 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected static final long serialVersionUID = 1L;
 	protected BufferedFieldControlData data;
 	protected JCheckBox nullStatusControl;
-	protected Component subControl;
-	protected IFieldControlInput input;
+	protected Component currentSubControl;
+	protected NullControl nullControl;
+	protected Form subForm;
 	protected AbstractEditorFormBuilder subFormBuilder;
+	protected IFieldControlInput input;
 	protected Runnable nullControlActivationAction;
+	protected Throwable currentError;
 
 	public NullableControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		input = new FieldControlInputProxy(input) {
 
-			BufferedFieldControlData bufferedErrorHandlingFieldControlData = new BufferedFieldControlData(
-					new ErrorHandlingFieldControlData(super.getControlData(), swingRenderer, NullableControl.this) {
-						@Override
-						protected void handleError(Throwable t) {
-							if (t != null) {
-								throw new ReflectionUIError(t);
-							}
-						}
+			IFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(super.getControlData(),
+					swingRenderer, null) {
 
-					});
+				@Override
+				protected void handleError(Throwable t) {
+					currentError = t;
+				}
+			};
+
+			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(
+					errorHandlingFieldControlData);
 
 			@Override
 			public IFieldControlData getControlData() {
-				return bufferedErrorHandlingFieldControlData;
+				return bufferedFieldControlData;
 			}
 		};
 		this.input = input;
@@ -112,48 +117,52 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected void initialize() {
 		setLayout(new BorderLayout());
 		nullStatusControl = createNullStatusControl();
+		nullControlActivationAction = new Runnable() {
+			@Override
+			public void run() {
+				Object newValue = swingRenderer.onTypeInstanciationRequest(NullableControl.this, data.getType());
+				if (newValue == null) {
+					return;
+				}
+				ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, input.getModificationStack(),
+						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+			}
+		};
 		refreshUI(true);
 	}
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		Object value;
-		try {
-			value = data.getValue();
-		} catch (Throwable t) {
-			value = new BufferedFieldControlData.ErrorOccurence(t);
-		}
-		if (!(value instanceof BufferedFieldControlData.ErrorOccurence)) {
-			data.addInBuffer(value);
-			refreshNullStatusControl(refreshStructure);
-		}
+		Object value = data.getValue();
+		data.addInBuffer(value);
+		refreshNullStatusControl(refreshStructure);
 		data.addInBuffer(value);
 		refreshSubControl(refreshStructure);
-		if (!Arrays.asList(getComponents()).contains(subControl) || refreshStructure) {
+		if (!Arrays.asList(getComponents()).contains(currentSubControl) || refreshStructure) {
 			removeAll();
 			if (!isCaptionDisplayedOnNullStatusControl()) {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
-				add(subControl, BorderLayout.CENTER);
+				add(currentSubControl, BorderLayout.CENTER);
 				nullStatusControl.setText("");
-				((JComponent) subControl).setBorder(
+				((JComponent) currentSubControl).setBorder(
 						BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
 				{
 					if (data.getLabelForegroundColor() != null) {
-						((TitledBorder) ((JComponent) subControl).getBorder())
+						((TitledBorder) ((JComponent) currentSubControl).getBorder())
 								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 					}
 					if (data.getBorderColor() != null) {
-						((TitledBorder) ((JComponent) subControl).getBorder()).setBorder(
+						((TitledBorder) ((JComponent) currentSubControl).getBorder()).setBorder(
 								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 					}
 				}
 			} else {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
-				add(subControl, BorderLayout.CENTER);
+				add(currentSubControl, BorderLayout.CENTER);
 				nullStatusControl.setText(swingRenderer.prepareMessageToDisplay(data.getCaption()));
-				((JComponent) subControl).setBorder(BorderFactory.createTitledBorder(""));
+				((JComponent) currentSubControl).setBorder(BorderFactory.createTitledBorder(""));
 				if (data.getBorderColor() != null) {
-					((TitledBorder) ((JComponent) subControl).getBorder()).setBorder(
+					((TitledBorder) ((JComponent) currentSubControl).getBorder()).setBorder(
 							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 				}
 			}
@@ -163,15 +172,15 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	protected boolean isCaptionDisplayedOnNullStatusControl() {
-		return !(subControl instanceof NullControl) || !isSubControlDisplayed();
+		return !(currentSubControl instanceof NullControl) || !isSubControlDisplayed();
 	}
 
 	protected boolean isSubControlDisplayed() {
-		return !((subControl instanceof NullControl) && (data.getNullValueLabel() == null));
+		return !((currentSubControl instanceof NullControl) && (data.getNullValueLabel() == null));
 	}
 
 	public Component getSubControl() {
-		return subControl;
+		return currentSubControl;
 	}
 
 	protected void setNullStatusControlState(boolean b) {
@@ -200,7 +209,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 	@Override
 	public boolean requestCustomFocus() {
-		return SwingRendererUtils.requestAnyComponentFocus(subControl, swingRenderer);
+		return SwingRendererUtils.requestAnyComponentFocus(currentSubControl, swingRenderer);
 	}
 
 	protected void refreshNullStatusControl(boolean refreshStructure) {
@@ -212,26 +221,41 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	public void refreshSubControl(boolean refreshStructure) {
-		Object value;
-		try {
-			value = data.getValue();
-		} catch (Throwable t) {
-			value = new BufferedFieldControlData.ErrorOccurence(t);
+		if (refreshStructure) {
+			nullControl = null;
+			subForm = null;
 		}
+		Object value = data.getValue();
 		if (value != null) {
-			if (subControl instanceof Form) {
+			if (currentSubControl instanceof Form) {
 				data.addInBuffer(value);
-				subFormBuilder.refreshEditorForm((Form) subControl, refreshStructure);
+				subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
+				if (currentError != null) {
+					data.addInBuffer(new ErrorOccurence(currentError));
+					subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
+				}
 				return;
 			}
 		}
-		if (value == null) {
-			subControl = createNullControl();
+		if ((value == null) && (currentError == null)) {
+			if (nullControl == null) {
+				nullControl = createNullControl();
+			}
+			currentSubControl = nullControl;
 		} else {
 			data.addInBuffer(value);
-			subControl = createSubForm();
+			if (subForm == null) {
+				subForm = createSubForm();
+			} else {
+				subFormBuilder.refreshEditorForm(subForm, refreshStructure);
+			}
+			if (currentError != null) {
+				data.addInBuffer(new ErrorOccurence(currentError));
+				subFormBuilder.refreshEditorForm(subForm, refreshStructure);
+			}
+			currentSubControl = subForm;
 		}
-		subControl.setVisible(isSubControlDisplayed());
+		currentSubControl.setVisible(isSubControlDisplayed());
 	}
 
 	protected JCheckBox createNullStatusControl() {
@@ -250,7 +274,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		return result;
 	}
 
-	protected Component createNullControl() {
+	protected NullControl createNullControl() {
 		NullControl result = new NullControl(swingRenderer, new FieldControlInputProxy(input) {
 			@Override
 			public IFieldControlData getControlData() {
@@ -272,7 +296,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 		});
 		if (!data.isGetOnly()) {
-			nullControlActivationAction = result.getActivationAction();
 			result.setActivationAction(new Runnable() {
 				@Override
 				public void run() {
@@ -284,11 +307,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		return result;
 	}
 
-	protected Component createSubForm() {
+	protected Form createSubForm() {
 		subFormBuilder = createSubFormBuilder(swingRenderer, input, getSubContext(), new Listener<Throwable>() {
 			@Override
 			public void handle(Throwable t) {
-				swingRenderer.handleObjectException(NullableControl.this, t);
+				throw new ReflectionUIError(t);
 			}
 		});
 		Form result = subFormBuilder.createEditorForm(true, false);
@@ -321,15 +344,15 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 	@Override
 	public void validateSubForms() throws Exception {
-		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			((Form) subControl).validateForm();
+		if (currentSubControl instanceof Form) {
+			((Form) currentSubControl).validateForm();
 		}
 	}
 
 	@Override
 	public void addMenuContributions(MenuModel menuModel) {
-		if (SwingRendererUtils.isForm(subControl, swingRenderer)) {
-			((Form) subControl).addMenuContributionTo(menuModel);
+		if (currentSubControl instanceof Form) {
+			((Form) currentSubControl).addMenuContributionTo(menuModel);
 		}
 	}
 
@@ -345,6 +368,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		protected IFieldControlData data;
 		protected IContext subContext;
 		protected Listener<Throwable> commitExceptionHandler;
+		protected boolean errorsRethrown = false;
 
 		public SubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input, IContext subContext,
 				Listener<Throwable> commitExceptionHandler) {
@@ -431,7 +455,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 		@Override
 		protected Object loadValue() {
-			return data.getValue();
+			errorsRethrown = true;
+			try {
+				return data.getValue();
+			} finally {
+				errorsRethrown = false;
+			}
 		}
 	}
 

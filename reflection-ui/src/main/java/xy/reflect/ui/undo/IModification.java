@@ -111,8 +111,10 @@ public interface IModification {
 	 * @return the opposite modification.
 	 * @throws IrreversibleModificationException When it appears that the
 	 *                                           modification cannot be reverted.
+	 * @throws CancelledModificationException    When it appears that the
+	 *                                           modification has been aborted.
 	 */
-	IModification applyAndGetOpposite() throws IrreversibleModificationException;
+	IModification applyAndGetOpposite() throws IrreversibleModificationException, CancelledModificationException;
 
 	/**
 	 * @return true if and only if this modification should be considered as empty,

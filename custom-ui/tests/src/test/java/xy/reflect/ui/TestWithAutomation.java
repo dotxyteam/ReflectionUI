@@ -161,4 +161,11 @@ public class TestWithAutomation {
 						+ "test-specifications/testTransactions.stt"));
 	}
 
+	@Test
+	public void testErrorDisplay() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testErrorDisplay.stt"));
+	}
+
 }

@@ -176,6 +176,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected List<Listener<List<BufferedItemPosition>>> selectionListeners = new ArrayList<Listener<List<BufferedItemPosition>>>();
 	protected boolean selectionListenersEnabled = true;
 	protected IFieldControlInput input;
+	protected Listener<Throwable> refreshingErrorHandler;
 
 	protected static AbstractAction SEPARATOR_ACTION = new AbstractAction("") {
 		protected static final long serialVersionUID = 1L;
@@ -188,14 +189,25 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		this.input = new FieldControlInputProxy(input) {
+		input = new FieldControlInputProxy(input) {
+			ErrorHandlingFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(
+					super.getControlData(), swingRenderer, ListControl.this) {
+				{
+					refreshingErrorHandler = new Listener<Throwable>() {
+						@Override
+						public void handle(Throwable t) {
+							handleError(t);
+						}
+					};
+				}
+			};
+
 			@Override
 			public IFieldControlData getControlData() {
-				IFieldControlData result = super.getControlData();
-				result = new ErrorHandlingFieldControlData(result, swingRenderer, ListControl.this);
-				return result;
+				return errorHandlingFieldControlData;
 			}
 		};
+		this.input = input;
 		this.listData = input.getControlData();
 
 		initializeTreeTableModelAndControl();
@@ -565,8 +577,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean displayError(String msg) {
-		swingRenderer.handleObjectException(this, new ReflectionUIError(msg));
-		return true;
+		return false;
 	}
 
 	@Override
@@ -1822,7 +1833,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 			} catch (Throwable t) {
-				displayError(MiscUtils.getPrettyErrorMessage(t));
+				refreshingErrorHandler.handle(t);
 			}
 			return result;
 		}
@@ -2246,7 +2257,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void handleRealtimeLinkCommitException(Throwable t) {
-			displayError(MiscUtils.getPrettyErrorMessage(t));
+			swingRenderer.handleObjectException(ListControl.this, t);
 		}
 
 		@Override

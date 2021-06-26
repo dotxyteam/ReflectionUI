@@ -115,10 +115,6 @@ public class EncapsulatedObjectFactory {
 	}
 
 	public Object getInstance(Accessor<Object> fieldValueAccessor) {
-		Object value = fieldValueAccessor.get();
-		if ((value != null) && !fieldType.supports(value)) {
-			throw new ReflectionUIError();
-		}
 		return new PrecomputedTypeInstanceWrapper(new Instance(fieldValueAccessor), new TypeInfo());
 	}
 
@@ -725,11 +721,20 @@ public class EncapsulatedObjectFactory {
 			this.fieldValueAccessor = fieldValueAccessor;
 		}
 
+		protected void checkValue(Object value) {
+			if ((value != null) && !fieldType.supports(value)) {
+				throw new ReflectionUIError();
+			}
+		}
+
 		public Object getValue() {
-			return fieldValueAccessor.get();
+			Object value = fieldValueAccessor.get();
+			checkValue(value);
+			return value;
 		}
 
 		public void setValue(Object value) {
+			checkValue(value);
 			fieldValueAccessor.set(value);
 		}
 
@@ -767,10 +772,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			Object result = getValue();
-			return "Encapsulated [value="
-					+ ((result == null) ? "<null>" : (result.getClass().getName() + ": " + result.toString()))
-					+ ", factory=" + getOuterType() + "]";
+			return "Encapsulated [fieldValueAccessor=" + fieldValueAccessor + ", factory=" + getOuterType() + "]";
 		}
 
 	}
