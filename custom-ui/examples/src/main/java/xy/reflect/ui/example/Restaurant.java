@@ -10,7 +10,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
  * Restaurant management application GUI generated with the XML declarative
@@ -22,9 +21,6 @@ import xy.reflect.ui.util.MoreSystemProperties;
 public class Restaurant {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Set the following system property to disable the design mode:\n-D"
-				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
-
 		CustomizedUI reflectionUI = new CustomizedUI();
 		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "restaurant.icu");

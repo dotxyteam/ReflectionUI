@@ -20,7 +20,6 @@ import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.util.ImageIcon;
-import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
  * Fast Food Restaurant GUI generated using only the XML declarative
@@ -41,9 +40,6 @@ public class FastFood implements Serializable {
 		if (fastFoodFile.exists()) {
 			fastFood.load(fastFoodFile);
 		}
-
-		System.out.println("Set the following system property to disable the design mode:\n-D"
-				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
 
 		CustomizedUI reflectionUI = new CustomizedUI();
 		SwingCustomizer renderer = new SwingCustomizer(reflectionUI,

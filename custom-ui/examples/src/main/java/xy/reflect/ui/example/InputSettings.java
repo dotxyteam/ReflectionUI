@@ -4,7 +4,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
  * Input Settings GUI generated using only the XML declarative customizations.
@@ -15,9 +14,6 @@ import xy.reflect.ui.util.MoreSystemProperties;
 public class InputSettings {
 
 	public static void main(String[] args) {
-		System.out.println("Set the following system property to disable the design mode:\n-D"
-				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
-
 		CustomizedUI reflectionUI = new CustomizedUI();
 		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "inputSettings.icu");

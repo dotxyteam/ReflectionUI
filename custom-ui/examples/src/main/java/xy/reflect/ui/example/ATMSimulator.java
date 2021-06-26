@@ -7,7 +7,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
  * ATM simulator GUI generated using the declarative customizations. Inspired
@@ -27,9 +26,6 @@ public class ATMSimulator {
 	private static final String CARD_CODE = "1234";
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Set the following system property to disable the design mode:\n-D"
-				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
-
 		CustomizedUI reflectionUI = new CustomizedUI();
 		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "atmSimulator.icu");

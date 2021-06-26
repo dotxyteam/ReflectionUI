@@ -19,7 +19,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
  * Audio Player GUI generated using only the javax.sound.* API and the XML
@@ -31,11 +30,7 @@ import xy.reflect.ui.util.MoreSystemProperties;
 public class AudioPlayer {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Set the following system property to disable the design mode:\n-D"
-				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
-
 		AudioPlayer player = new AudioPlayer();
-
 		CustomizedUI reflectionUI = new CustomizedUI();
 		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "audioPlayer.icu");

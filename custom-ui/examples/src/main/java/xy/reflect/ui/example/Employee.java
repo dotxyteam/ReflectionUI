@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
-import xy.reflect.ui.util.MoreSystemProperties;
 
 /**
  * Employee form GUI generated with the XML declarative customizations.
@@ -19,9 +18,6 @@ import xy.reflect.ui.util.MoreSystemProperties;
 public class Employee {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Set the following system property to disable the design mode:\n-D"
-				+ MoreSystemProperties.HIDE_INFO_CUSTOMIZATIONS_TOOLS + "=true");
-
 		CustomizedUI reflectionUI = new CustomizedUI();
 		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
 				System.getProperty("custom-reflection-ui-examples.project.directory", "./") + "employee.icu");
