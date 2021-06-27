@@ -336,10 +336,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}
 
-		AbstractAction addChildAction = createAddChildAction();
-		AbstractAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
-		AbstractAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
-		AbstractAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
+		AbstractStandardListAction addChildAction = createAddChildAction();
+		AbstractStandardListAction insertAction = createInsertAction(InsertPosition.UNKNOWN);
+		AbstractStandardListAction insertActionBefore = createInsertAction(InsertPosition.BEFORE);
+		AbstractStandardListAction insertActionAfter = createInsertAction(InsertPosition.AFTER);
 		toolbar.add(createTool(null, SwingRendererUtils.ADD_ICON, false, false, addChildAction, insertAction,
 				insertActionBefore, insertActionAfter));
 		toolbar.add(createTool(null, SwingRendererUtils.REMOVE_ICON, false, false, createRemoveAction()));
@@ -362,13 +362,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				modificationFactoryAccessor);
 		if ((dynamicProperties.size() > 0) || (dynamicActions.size() > 0)) {
 			for (IDynamicListProperty listProperty : dynamicProperties) {
-				AbstractAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
-				toolbar.add(createTool((String) dynamicPropertyHook.getValue(AbstractAction.NAME), null, true, false,
+				AbstractStandardListAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
+				toolbar.add(createTool((String) dynamicPropertyHook.getActionTitle(), null, true, false,
 						dynamicPropertyHook));
 			}
 			for (IDynamicListAction listAction : dynamicActions) {
-				AbstractAction dynamicActionHook = createDynamicActionHook(listAction);
-				toolbar.add(createTool((String) dynamicActionHook.getValue(AbstractAction.NAME),
+				AbstractStandardListAction dynamicActionHook = createDynamicActionHook(listAction);
+				toolbar.add(createTool((String) dynamicActionHook.getActionTitle(),
 						(Icon) dynamicActionHook.getValue(AbstractAction.LARGE_ICON_KEY), true, false,
 						dynamicActionHook));
 			}
@@ -401,9 +401,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected JButton createTool(final String text, final Icon icon, boolean alwawsShowIcon,
-			final boolean alwawsShowMenu, AbstractAction... actions) {
-		final List<AbstractAction> actionsToPresent = new ArrayList<AbstractAction>();
-		for (final AbstractAction action : actions) {
+			final boolean alwawsShowMenu, AbstractStandardListAction... actions) {
+		final List<AbstractStandardListAction> actionsToPresent = new ArrayList<AbstractStandardListAction>();
+		for (final AbstractStandardListAction action : actions) {
 			if (action == null) {
 				continue;
 			}
@@ -471,21 +471,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			public String retrieveToolTipText() {
 				if (actionsToPresent.size() > 0) {
 					if (actionsToPresent.size() == 1) {
-						String tooltipText = (String) actionsToPresent.get(0).getValue(Action.SHORT_DESCRIPTION);
+						String tooltipText = (String) actionsToPresent.get(0).getActionDescription();
 						if (tooltipText == null) {
-							tooltipText = (String) actionsToPresent.get(0).getValue(Action.NAME);
+							tooltipText = (String) actionsToPresent.get(0).getActionTitle();
 						}
 						return tooltipText;
 					} else if (actionsToPresent.size() > 1) {
 						StringBuilder tooltipTextBuilder = new StringBuilder();
 						boolean firstAction = true;
-						for (AbstractAction action : actionsToPresent) {
+						for (AbstractStandardListAction action : actionsToPresent) {
 							if (!firstAction) {
 								tooltipTextBuilder.append("\nor\n");
 							}
-							String itemTooltipText = (String) action.getValue(Action.SHORT_DESCRIPTION);
+							String itemTooltipText = (String) action.getActionDescription();
 							if (itemTooltipText == null) {
-								itemTooltipText = (String) action.getValue(Action.NAME);
+								itemTooltipText = (String) action.getActionTitle();
 							}
 							tooltipTextBuilder.append(itemTooltipText);
 							firstAction = false;
@@ -1335,11 +1335,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return (IListTypeInfo) listData.getType();
 	}
 
-	protected AbstractAction createDynamicPropertyHook(final IDynamicListProperty dynamicProperty) {
+	protected AbstractStandardListAction createDynamicPropertyHook(final IDynamicListProperty dynamicProperty) {
 		return new DynamicPropertyHook(dynamicProperty);
 	}
 
-	protected AbstractAction createDynamicActionHook(final IDynamicListAction dynamicAction) {
+	protected AbstractStandardListAction createDynamicActionHook(final IDynamicListAction dynamicAction) {
 		return new DynamicActionHook(dynamicAction);
 	}
 
