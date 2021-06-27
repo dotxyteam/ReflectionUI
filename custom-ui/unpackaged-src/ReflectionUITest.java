@@ -61,7 +61,7 @@ public class ReflectionUITest {
 
 		private int theBoundedInt = 0;
 
-		public int getAThrownError() {
+		public Test3 getAThrownError() {
 			throw new RuntimeException();
 		}
 		public int getTheBoundedInt() {
@@ -148,7 +148,7 @@ public class ReflectionUITest {
 		public List<File> theNullList = null;
 
 		public Test2 test2 = new Test2();
-		public Test3 test3 = new Test3();
+		public Test3 test3 = null;
 		public Test4 test4 = new Test4();
 
 		public Date getTheDate() {

@@ -80,6 +80,7 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -299,7 +300,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 										.displayError((t == null) ? null : MiscUtils.getPrettyErrorMessage(t));
 						if (!done && (t != null)) {
 							FieldControlPlaceHolder.this.setBorder(SwingRendererUtils.getErrorBorder());
-							swingRenderer.handleObjectException(FieldControlPlaceHolder.this, t);
+							swingRenderer.handleObjectException(FieldControlPlaceHolder.this,
+									new ReflectionUIError(getCaption() + ": " + t.toString(), t));
 						} else {
 							FieldControlPlaceHolder.this.setBorder(null);
 						}

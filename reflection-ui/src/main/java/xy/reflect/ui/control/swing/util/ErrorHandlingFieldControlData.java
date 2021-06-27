@@ -36,8 +36,10 @@ import javax.swing.border.CompoundBorder;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control data that handle value access errors by notifying them and
@@ -74,10 +76,17 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 			handleError(null);
 		} catch (final Throwable t) {
 			if (!lastFieldValueInitialized) {
-				throw new ReflectionUIError(t);
-			} else {
-				handleError(t);
+				ITypeInfo type = getType();
+				if (!type.supports(null)) {
+					try {
+						lastFieldValue = ReflectionUIUtils.createDefaultInstance(type, true);
+					} catch (Throwable ignore) {
+						throw new ReflectionUIError(t);
+					}
+				}
+				lastFieldValueInitialized = true;
 			}
+			handleError(t);
 		}
 		return lastFieldValue;
 
@@ -111,7 +120,8 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					swingRenderer.handleObjectException(errorDialogOwner, t);
+					swingRenderer.handleObjectException(errorDialogOwner,
+							new ReflectionUIError(getCaption() + ": " + t.toString(), t));
 				}
 			});
 		} else {
