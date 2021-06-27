@@ -409,7 +409,7 @@ public class SwingRenderer {
 	 *         cancelled or the return type is "void".
 	 */
 	public Object onMethodInvocationRequest(final Component activatorComponent, final ITypeInfo objectType,
-			final Object object, final IMethodInfo method) {
+			final IMethodInfo method, final Object object) {
 		MethodAction methodAction = createMethodAction(new IMethodControlInput() {
 
 			ModificationStack dummyModificationStack = new ModificationStack(null);
@@ -506,7 +506,7 @@ public class SwingRenderer {
 							return null;
 						}
 					}
-					return onMethodInvocationRequest(activatorComponent, type, null, chosenConstructor);
+					return onMethodInvocationRequest(activatorComponent, type, chosenConstructor, null);
 				} else {
 					String typeCaption = type.getCaption();
 					String msg;
@@ -737,8 +737,8 @@ public class SwingRenderer {
 		final DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		dialogBuilder.setButtonBarControls(
 				new ArrayList<Component>(dialogBuilder.createStandardOKCancelDialogButtons(yesCaption, noCaption)));
-		dialogBuilder
-				.setContentComponent(SwingRendererUtils.getMessagePane(question, JOptionPane.QUESTION_MESSAGE, this));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(prepareMessageToDisplay(question),
+				JOptionPane.QUESTION_MESSAGE, this));
 		dialogBuilder.setTitle(title);
 		showDialog(dialogBuilder.createDialog(), true);
 		return dialogBuilder.getCreatedDialog().wasOkPressed();
@@ -761,8 +761,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder
-				.setContentComponent(SwingRendererUtils.getMessagePane(msg, JOptionPane.INFORMATION_MESSAGE, this));
+		dialogBuilder.setContentComponent(
+				SwingRendererUtils.getMessagePane(prepareMessageToDisplay(msg), JOptionPane.INFORMATION_MESSAGE, this));
 		dialogBuilder.setButtonBarControls(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -843,8 +843,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(
-				SwingRendererUtils.getMessagePane(formatErrorMessage(error) + "\n", JOptionPane.ERROR_MESSAGE, this));
+		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(
+				prepareMessageToDisplay(formatErrorMessage(error)) + "\n", JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setButtonBarControls(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -866,12 +866,12 @@ public class SwingRenderer {
 	 * @param error              The exception resulting from the error to display.
 	 */
 	public void openErrorDetailsDialog(Component activatorComponent, Throwable error) {
-		String statckTraceString = MiscUtils.getPrintedStackTrace(error);
+		String stackTraceString = MiscUtils.getPrintedStackTrace(error);
 		final DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 		dialogBuilder.setButtonBarControls(
 				Collections.<Component>singletonList(dialogBuilder.createDialogClosingButton("Close", null)));
 		dialogBuilder.setContentComponent(
-				SwingRendererUtils.getMessagePane(statckTraceString, JOptionPane.INFORMATION_MESSAGE, this));
+				SwingRendererUtils.getMessagePane(stackTraceString, JOptionPane.INFORMATION_MESSAGE, this));
 		dialogBuilder.setTitle("Error Details");
 		showDialog(dialogBuilder.createDialog(), true);
 	}
@@ -1119,7 +1119,7 @@ public class SwingRenderer {
 					busyLabel.setForeground(SwingRendererUtils.getColor(appInfo.getMainForegroundColor()));
 				}
 				busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				busyLabel.setText("Please wait...");
+				busyLabel.setText(prepareMessageToDisplay("Please wait..."));
 				busyLabel.setVerticalTextPosition(SwingConstants.TOP);
 				busyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 				busyLabel.setBusy(true);

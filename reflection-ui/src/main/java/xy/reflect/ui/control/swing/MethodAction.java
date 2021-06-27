@@ -127,13 +127,9 @@ public class MethodAction extends AbstractAction {
 			cancelled = true;
 			return;
 		}
-		try {
-			invokeAndSetReturnValue(invocationData, activatorComponent);
-			if (shouldDisplayReturnValue()) {
-				openMethodReturnValueWindow(activatorComponent);
-			}
-		} catch (final Throwable t) {
-			swingRenderer.handleObjectException(activatorComponent, t);
+		invokeAndSetReturnValue(invocationData, activatorComponent);
+		if (shouldDisplayReturnValue()) {
+			openMethodReturnValueWindow(activatorComponent);
 		}
 	}
 
