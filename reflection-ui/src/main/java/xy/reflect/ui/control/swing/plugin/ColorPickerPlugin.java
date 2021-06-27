@@ -215,6 +215,11 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
+		protected boolean isNullSupported() {
+			return true;
+		}
+
+		@Override
 		public boolean isAutoManaged() {
 			return false;
 		}

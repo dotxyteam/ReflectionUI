@@ -272,6 +272,11 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
+		protected boolean isNullSupported() {
+			return true;
+		}
+
+		@Override
 		protected Component createStatusControl(IFieldControlInput input) {
 			return new TextControl(swingRenderer, new FieldControlInputProxy(input) {
 

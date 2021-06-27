@@ -41,6 +41,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -76,7 +77,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
-	protected IFieldControlData data;
+	protected BufferedFieldControlData data;
 
 	protected Component statusControl;
 	protected Component iconControl;
@@ -88,13 +89,17 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		input = new FieldControlInputProxy(input) {
 			ErrorHandlingFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(
 					super.getControlData(), swingRenderer, DialogAccessControl.this);
+
+			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(
+					errorHandlingFieldControlData);
+
 			@Override
 			public IFieldControlData getControlData() {
-				return errorHandlingFieldControlData;
+				return bufferedFieldControlData;
 			}
 		};
 		this.input = input;
-		this.data = input.getControlData();
+		this.data = (BufferedFieldControlData) input.getControlData();
 
 		setLayout(new GridBagLayout());
 		statusControl = createStatusControl(input);
@@ -121,16 +126,26 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
+		Object value = data.getValue();
+		if ((value == null) && !isNullSupported()) {
+			return false;
+		}
 		if (statusControl != null) {
+			data.addInBuffer(value);
 			updateStatusControl(refreshStructure);
 		}
 		if (iconControl != null) {
+			data.addInBuffer(value);
 			updateIconControl(refreshStructure);
 		}
 		if (actionControl != null) {
 			updateActionControl();
 		}
 		return true;
+	}
+
+	protected boolean isNullSupported() {
+		return false;
 	}
 
 	protected Component createIconControl() {
