@@ -45,6 +45,7 @@ public class MethodActionMenuItem extends JMenuItem {
 				icon = SwingRendererUtils.getSmallIcon(icon);
 			}
 			setIcon(icon);
+			setEnabled(menuItemInfo.getMethod().isEnabled(form.getObject()));
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 			if (getText() == null) {

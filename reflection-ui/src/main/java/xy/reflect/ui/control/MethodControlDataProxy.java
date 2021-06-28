@@ -62,6 +62,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.createParametersObject(invocationData, contextId);
 	}
 
+	public boolean isEnabled() {
+		return base.isEnabled();
+	}
+
 	public String getParametersValidationCustomCaption() {
 		return base.getParametersValidationCustomCaption();
 	}

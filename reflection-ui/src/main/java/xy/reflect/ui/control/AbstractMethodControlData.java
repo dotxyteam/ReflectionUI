@@ -171,6 +171,11 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public boolean isEnabled() {
+		return getMethod().isEnabled(getObject());
+	}
+
+	@Override
 	public Object invoke(InvocationData invocationData) {
 		return getMethod().invoke(getObject(), invocationData);
 	}

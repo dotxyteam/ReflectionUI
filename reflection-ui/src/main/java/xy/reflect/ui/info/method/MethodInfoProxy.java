@@ -69,6 +69,10 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.isHidden();
 	}
 
+	public boolean isEnabled(Object object) {
+		return base.isEnabled(object);
+	}
+
 	public void onControlVisibilityChange(Object object, boolean visible) {
 		base.onControlVisibilityChange(object, visible);
 	}

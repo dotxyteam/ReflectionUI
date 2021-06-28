@@ -84,6 +84,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isEnabled(Object object) {
+		return true;
+	}
+
+	@Override
 	public InfoCategory getCategory() {
 		return null;
 	}

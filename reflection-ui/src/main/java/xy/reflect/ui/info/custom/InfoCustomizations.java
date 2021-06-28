@@ -3085,12 +3085,21 @@ public class InfoCustomizations implements Serializable {
 		protected String confirmationMessage;
 		protected String parametersValidationCustomCaption;
 		protected TransactionalRole transactionalRole;
+		protected String enablementStatusFieldName;
 
 		@Override
 		public boolean isInitial() {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
 			return InfoCustomizations.isSimilar(this, defaultMethodCustomization);
+		}
+
+		public String getEnablementStatusFieldName() {
+			return enablementStatusFieldName;
+		}
+
+		public void setEnablementStatusFieldName(String enablementStatusFieldName) {
+			this.enablementStatusFieldName = enablementStatusFieldName;
 		}
 
 		public TransactionalRole getTransactionalRole() {

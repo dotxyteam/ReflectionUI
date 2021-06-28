@@ -81,6 +81,11 @@ public interface IMethodControlData {
 	boolean isReadOnly();
 
 	/**
+	 * @return whether the underlying method execution is allowed or not.
+	 */
+	boolean isEnabled();
+
+	/**
 	 * @return a text that should be displayed by the method control to describe the
 	 *         null return value.
 	 */
@@ -204,4 +209,5 @@ public interface IMethodControlData {
 	 *         should be used.
 	 */
 	String getParametersValidationCustomCaption();
+
 }

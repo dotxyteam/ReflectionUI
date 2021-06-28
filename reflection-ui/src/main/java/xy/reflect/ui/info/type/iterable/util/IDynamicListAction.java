@@ -67,9 +67,4 @@ public interface IDynamicListAction extends IMethodInfo {
 	 */
 	List<ItemPosition> getPostSelection();
 
-	/**
-	 * @return whether the list action can be executed or not.
-	 */
-	boolean isEnabled();
-
 }

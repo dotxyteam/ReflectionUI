@@ -65,6 +65,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isEnabled(Object object) {
+			return true;
+		}
+
+		@Override
 		public void onControlVisibilityChange(Object object, boolean b) {
 		}
 
@@ -194,7 +199,7 @@ public interface IMethodInfo extends IInfo {
 	/**
 	 * 
 	 * @param object         The object offering this method or null (if the method
-	 *                       is static or a constructor).
+	 *                       is static or is a constructor).
 	 * @param invocationData The parameter values.
 	 * @return the result of this method execution.
 	 */
@@ -205,6 +210,13 @@ public interface IMethodInfo extends IInfo {
 	 *         object on which it is executed.
 	 */
 	boolean isReadOnly();
+
+	/**
+	 * @param object The object offering this method or null (if the method is
+	 *               static or is a constructor).
+	 * @return whether the method execution is allowed or not.
+	 */
+	boolean isEnabled(Object object);
 
 	/**
 	 * @return a text that should be displayed by the method control to describe the
@@ -219,7 +231,7 @@ public interface IMethodInfo extends IInfo {
 
 	/**
 	 * @param object         The object offering this method or null (if the method
-	 *                       is static or a constructor)
+	 *                       is static or is a constructor)
 	 * @param invocationData The parameter values.
 	 * @return a job that can revert the next invocation of this method or null if
 	 *         the method execution cannot be reverted.
@@ -231,7 +243,7 @@ public interface IMethodInfo extends IInfo {
 	 * parameter values are not valid. Otherwise the values are considered as valid.
 	 * 
 	 * @param object         The object offering this method or null (if the method
-	 *                       is static or a constructor)
+	 *                       is static or is a constructor)
 	 * @param invocationData The parameter values.
 	 * @throws Exception If the parameter values are not valid.
 	 */
@@ -271,7 +283,7 @@ public interface IMethodInfo extends IInfo {
 
 	/**
 	 * @param object         The object offering this method or null (if the method
-	 *                       is static or a constructor)
+	 *                       is static or is a constructor)
 	 * @param invocationData The parameter values.
 	 * @return a confirmation message to be displayed just before invoking this
 	 *         method so that the user will be able to cancel the execution or null
@@ -297,7 +309,7 @@ public interface IMethodInfo extends IInfo {
 	 * control changes for the given object in the generated UI.
 	 * 
 	 * @param object  The object offering this method or null (if the method is
-	 *                static or a constructor)
+	 *                static or is a constructor)
 	 * @param visible true when the method becomes visible, false when it becomes
 	 *                invisible.
 	 */

@@ -58,6 +58,11 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
+	public boolean isEnabled(Object object) {
+		return true;
+	}
+
+	@Override
 	public boolean isHidden() {
 		return false;
 	}

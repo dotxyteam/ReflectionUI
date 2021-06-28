@@ -3127,7 +3127,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected boolean isValid() {
-			return dynamicAction.isEnabled();
+			return dynamicAction.isEnabled(IDynamicListAction.NO_OWNER);
 		}
 
 		@Override

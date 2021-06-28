@@ -771,8 +771,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									}
 
 									@Override
-									public boolean isEnabled() {
-										return true;
+									public boolean isEnabled(Object object) {
+										return delegate.isEnabled(object);
 									}
 
 									@Override
@@ -905,7 +905,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						}
 
 						@Override
-						public boolean isEnabled() {
+						public boolean isEnabled(Object object) {
 							return false;
 						}
 
@@ -2195,6 +2195,26 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, final MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				method = new MethodInfoProxy(method) {
+
+					@Override
+					public boolean isEnabled(Object object) {
+						if (mc.getEnablementStatusFieldName() != null) {
+							IFieldInfo field = ReflectionUIUtils.findInfoByName(outputFields,
+									mc.getEnablementStatusFieldName());
+							if (field == null) {
+								throw new ReflectionUIError("Enablement status field not found: '"
+										+ mc.getEnablementStatusFieldName() + "'");
+							}
+							Object enablementStatus = field.getValue(object);
+							if (!(enablementStatus instanceof Boolean)) {
+								throw new ReflectionUIError(
+										"Invalid enablement status field value (boolean expected): '" + enablementStatus
+												+ "'");
+							}
+							return (boolean) enablementStatus;
+						}
+						return super.isEnabled(object);
+					}
 
 					@Override
 					public boolean isHidden() {

@@ -130,6 +130,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isEnabled(Object object) {
+		return true;
+	}
+
+	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {
 		return null;
 	}

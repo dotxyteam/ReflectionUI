@@ -98,6 +98,12 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isEnabled(Object object) {
+		Object fieldValue = expectTheFieldValue(object);
+		return theSubMethod.isEnabled(fieldValue);
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}

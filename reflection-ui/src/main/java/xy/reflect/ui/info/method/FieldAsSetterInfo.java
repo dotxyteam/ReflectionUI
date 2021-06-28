@@ -89,6 +89,11 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isEnabled(Object object) {
+		return true;
+	}
+
+	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
 	}
 

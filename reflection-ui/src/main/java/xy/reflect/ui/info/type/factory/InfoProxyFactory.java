@@ -484,6 +484,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		method.onControlVisibilityChange(object, visible);
 	}
 
+	protected boolean isEnabled(Object object, IMethodInfo method, ITypeInfo containingType) {
+		return method.isEnabled(object);
+	}
+
 	protected void onControlVisibilityChange(Object object, boolean visible, IFieldInfo field,
 			ITypeInfo containingType) {
 		field.onControlVisibilityChange(object, visible);
@@ -1746,6 +1750,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isHidden() {
 			return InfoProxyFactory.this.isHidden(base, containingType);
+		}
+
+		@Override
+		public boolean isEnabled(Object object) {
+			return InfoProxyFactory.this.isEnabled(object, base, containingType);
 		}
 
 		@Override

@@ -1111,15 +1111,13 @@ public class Form extends ImagePanel {
 					}
 				}
 			}
-			if (refreshStructure) {
-				for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-					List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-							.get(category);
-					for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
-						MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
-						methodControlPlaceHolder.refreshUI();
-						updateMethodControlLayoutInContainer(methodControlPlaceHolder);
-					}
+			for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+				List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
+						.get(category);
+				for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
+					MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
+					methodControlPlaceHolder.refreshUI();
+					updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 				}
 			}
 		}

@@ -80,10 +80,6 @@ public abstract class AbstractListAction extends AbstractInfo implements IDynami
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}
 
-	public boolean isEnabled() {
-		return true;
-	}
-
 	@Override
 	public InfoCategory getCategory() {
 		return null;
