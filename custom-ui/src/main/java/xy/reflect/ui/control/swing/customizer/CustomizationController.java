@@ -100,7 +100,8 @@ public class CustomizationController {
 		if (lastWindowBounds != null) {
 			window.setBounds(lastWindowBounds);
 		}
-		window.setVisible(true);
+		SwingRenderer customizationsToolsRenderer = swingCustomizer.getCustomizationTools().getToolsRenderer();
+		customizationsToolsRenderer.showFrame(window);
 	}
 
 	protected void closeWindow() {

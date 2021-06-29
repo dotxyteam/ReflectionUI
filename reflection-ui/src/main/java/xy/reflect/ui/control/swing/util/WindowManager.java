@@ -44,6 +44,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -55,6 +57,7 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.Form.IRefreshListener;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.app.IApplicationInfo;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -67,7 +70,7 @@ public class WindowManager {
 
 	protected static final Color DEFAULT_TITLE_BAR_COLOR = Color.BLUE;
 	protected static final Color DEFAULT_DECORATIONS_FOREROUND_COLOR = Color.WHITE;
-	
+
 	protected SwingRenderer swingRenderer;
 	protected Window window;
 	protected AlternativeWindowDecorationsPanel alternativeDecorationsPanel;
@@ -139,7 +142,8 @@ public class WindowManager {
 			titleBackgroundColor = DEFAULT_TITLE_BAR_COLOR;
 		}
 		Color averageBackgroundColor = new Color((mainBackgroundColor.getRed() + titleBackgroundColor.getRed()) / 2,
-				(mainBackgroundColor.getGreen() + titleBackgroundColor.getGreen()) / 2, (mainBackgroundColor.getBlue() + titleBackgroundColor.getBlue()) / 2);
+				(mainBackgroundColor.getGreen() + titleBackgroundColor.getGreen()) / 2,
+				(mainBackgroundColor.getBlue() + titleBackgroundColor.getBlue()) / 2);
 		return averageBackgroundColor;
 	}
 
@@ -211,14 +215,14 @@ public class WindowManager {
 		contentPane.add(buttonBar, BorderLayout.SOUTH);
 	}
 
+	public void adjustBounds() {
+		SwingRendererUtils.adjustWindowInitialBounds(window);
+	}
+
 	public void install(final Component content, List<Component> buttonBarControls, String title, Image iconImage) {
 		setTitle(title);
 		setIconImage(iconImage);
 		install(content, buttonBarControls);
-	}
-
-	public void adjustBounds() {
-		SwingRendererUtils.adjustWindowInitialBounds(window);
 	}
 
 	public void install(Component content, List<Component> buttonBarControls) {
@@ -244,11 +248,18 @@ public class WindowManager {
 		refreshWindowStructureAsMuchAsPossible();
 		adjustBounds();
 		window.addWindowListener(windowListener);
+		if (window instanceof JFrame) {
+			((JFrame) window).setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		} else if (window instanceof JDialog) {
+			((JDialog) window).setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		} else {
+			throw new ReflectionUIError();
+		}
 	}
 
 	public void uninstall() {
 		window.removeWindowListener(windowListener);
-		layoutRootPane(new ControlPanel());
+		SwingRendererUtils.setContentPane(window, new ControlPanel());
 		{
 			alternativeDecorationsPanel = null;
 			scrollPane = null;

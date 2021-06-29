@@ -33,6 +33,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Image;
 import java.awt.Window;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -104,16 +105,23 @@ public class CustomizationToolsRenderer extends SwingCustomizer {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void configureWindow(Window window) {
+					protected void configureWindow(Window window) {
 						super.configureWindow(window);
 						if (window instanceof JFrame) {
 							getCloseButton().setVisible(false);
 							getMaximizeButton().setVisible(false);
-							((JFrame) window).setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 						}
 					}
 
 				};
+			}
+
+			@Override
+			public void install(Component content, List<Component> buttonBarControls) {
+				super.install(content, buttonBarControls);
+				if (window instanceof JFrame) {
+					((JFrame) window).setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
 			}
 
 		};

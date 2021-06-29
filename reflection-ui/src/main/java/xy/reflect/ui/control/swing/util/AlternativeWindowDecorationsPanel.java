@@ -264,7 +264,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return button;
 	}
 
-	public void configureWindow(Window window) {
+	protected void configureWindow(Window window) {
 		if (window instanceof JFrame) {
 			((JFrame) window).setUndecorated(true);
 		} else if (window instanceof JDialog) {
@@ -276,19 +276,6 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		for (SideLabel l : Arrays.asList(left, right, top, bottom, topleft, topright, bottomleft, bottomright)) {
 			l.addMouseListener(rwl);
 			l.addMouseMotionListener(rwl);
-		}
-	}
-
-	public void setWindow(Window window) {
-		configureWindow(window);
-		installOnWindow(window);
-	}
-
-	public void installOnWindow(Window window) {
-		if (window instanceof JFrame) {
-			((JFrame) window).setContentPane(this);
-		} else if (window instanceof JDialog) {
-			((JDialog) window).setContentPane(this);
 		}
 	}
 
