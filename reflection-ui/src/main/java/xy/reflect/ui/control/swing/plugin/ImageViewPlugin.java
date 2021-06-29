@@ -535,7 +535,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			if (imagePanel == null) {
 				imagePanel = createImagePanel();
 				if (controlCustomization.sizeConstraint == null) {
-					configureWithoutSizeConstraint(this, imagePanelContainer, imagePanel);
+					configureWithoutSizeConstraint(this);
 					updateImagePanelWithoutSizeConstraint(this, imagePanel);
 				} else {
 					controlCustomization.sizeConstraint.configure(this, imagePanelContainer, imagePanel);
@@ -642,7 +642,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public boolean displayError(String msg) {
-			return false;
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(imagePanel, imagePanel, msg, swingRenderer);
+			return true;
 		}
 
 		@Override
@@ -664,8 +665,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 		}
 
-		protected void configureWithoutSizeConstraint(ImageView imageView, JPanel imagePanelContainer2,
-				ImagePanel imagePanel2) {
+		protected void configureWithoutSizeConstraint(ImageView imageView) {
 			imagePanel.setPreservingRatio(true);
 			imagePanel.setScalingQualitHigh(false);
 			imagePanelContainer.setLayout(new BorderLayout());
