@@ -68,6 +68,10 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 		}
 	}
 
+	public Object getRootObject() {
+		return rootObject;
+	}
+
 	@Override
 	protected IContext getContext() {
 		return null;

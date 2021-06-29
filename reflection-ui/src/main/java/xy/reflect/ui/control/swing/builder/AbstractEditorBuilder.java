@@ -33,6 +33,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -51,6 +52,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -61,6 +63,12 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  *
  */
 public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
+
+	/**
+	 * Map containing the the dialog builders created by each editor builder.
+	 */
+	public static Map<AbstractEditorBuilder, List<DialogBuilder>> DIALOG_BUILDERS = MiscUtils
+			.newWeakKeysIdentityBasedMap();
 
 	protected ModificationStack createdFormModificationStack;
 	protected EditorFrame createdFrame;
@@ -226,7 +234,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 */
 	public JFrame createFrame() {
 		createdFrame = new EditorFrame(this);
-		createdFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		return createdFrame;
 	}
 
@@ -268,6 +275,14 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		if (type.getFormButtonBackgroundImagePath() != null) {
 			dialogBuilder.setButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
 					type.getFormButtonBackgroundImagePath(), ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		}
+		List<DialogBuilder> dialogBuilders = DIALOG_BUILDERS.get(this);
+		{
+			if (dialogBuilders == null) {
+				dialogBuilders = new ArrayList<DialogBuilder>();
+				DIALOG_BUILDERS.put(this, dialogBuilders);
+			}
+			dialogBuilders.add(dialogBuilder);
 		}
 		return dialogBuilder;
 	}
@@ -335,7 +350,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		}
 		if (currentValueTransaction != null) {
 			currentValueTransaction.begin();
-			((Form)createdDialog.getDialogBuilder().getContentComponent()).refresh(false);
+			((Form) createdDialog.getDialogBuilder().getContentComponent()).refresh(false);
 		} else {
 			createdFormModificationStack.setMaximumSize(Integer.MAX_VALUE);
 		}
@@ -365,10 +380,9 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 				&& ((!isCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifFake = isParentModificationFake();
-		ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack,
-				valueModifStack, valueModifAccepted, valueReturnMode, valueReplaced, valueTransaction, committingModif,
-				parentObjectModifTitle, parentObjectModifFake,
-				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
+		ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+				valueReturnMode, valueReplaced, valueTransaction, committingModif, parentObjectModifTitle,
+				parentObjectModifFake, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()));
 		if (currentValueTransaction != null) {
 			currentValueTransaction = null;
@@ -436,6 +450,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 		protected void uninstallComponents() {
 			windowManager.uninstall();
+		}
+
+		public AbstractEditorBuilder getEditorBuilder() {
+			return editorBuilder;
 		}
 
 	}
