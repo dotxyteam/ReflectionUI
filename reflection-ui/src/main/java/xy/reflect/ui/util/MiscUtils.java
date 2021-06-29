@@ -240,7 +240,7 @@ public class MiscUtils {
 		return s.replaceAll("\\r\\n|\\n|\\r", " ");
 	}
 
-	public static <K, V> K getFirstKeyFromValue(Map<K, V> map, Object value) {
+	public static <K, V> K getFirstKeyFromValue(Map<K, V> map, V value) {
 		List<K> list = getKeysFromValue(map, value);
 		if (list.size() > 0) {
 			return list.get(0);
