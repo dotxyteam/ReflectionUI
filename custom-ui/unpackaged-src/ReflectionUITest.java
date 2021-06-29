@@ -175,11 +175,22 @@ public class ReflectionUITest {
 			theInt *= factor;
 		}
 
-		public void doLongTask() {
+		public void doInterruptibleLongTask() {
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			}
+		}
+		
+		public void doUninterruptibleLongTask() {
+			long startTime = System.currentTimeMillis();
+			while(((System.currentTimeMillis()-startTime) < 10000)){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 

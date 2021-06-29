@@ -1075,6 +1075,7 @@ public class SwingRenderer {
 					"Illegal: must not call showBusyDialogWhile() from the busyDialogJobExecutorThread");
 		}
 		final Throwable[] exceptionThrown = new Throwable[1];
+		final boolean[] reallyDone = new boolean[] { false };
 		final Future<?> busyDialogJob = busyDialogJobExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
@@ -1082,6 +1083,8 @@ public class SwingRenderer {
 					bakgroundTask.run();
 				} catch (Throwable t) {
 					exceptionThrown[0] = t;
+				}finally {
+					reallyDone[0] = true;
 				}
 			}
 		});
@@ -1096,8 +1099,14 @@ public class SwingRenderer {
 			busyDialogCloser.submit(new Runnable() {
 				@Override
 				public void run() {
-					while ((dialogBuilder.getCreatedDialog() == null) || (!dialogBuilder.getCreatedDialog().isVisible())
-							|| (!busyDialogJob.isDone())) {
+					while (true) {
+						if (dialogBuilder.getCreatedDialog() != null) {
+							if (dialogBuilder.getCreatedDialog().isVisible()) {
+								if (reallyDone[0]) {
+									break;
+								}
+							}
+						}
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -1134,7 +1143,8 @@ public class SwingRenderer {
 					dialog.removeWindowListener(this);
 				}
 			});
-			showDialog(dialog, true, false);
+			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			showDialog(dialog, true);
 		}
 		if (exceptionThrown[0] != null) {
 			throw new ReflectionUIError(exceptionThrown[0]);
@@ -1148,36 +1158,12 @@ public class SwingRenderer {
 	 * @param modal  Whether the dialog should be modal or not.
 	 */
 	public void showDialog(JDialog dialog, boolean modal) {
-		showDialog(dialog, modal, true);
-	}
-
-	/**
-	 * Displays a dialog.
-	 * 
-	 * @param dialog    The dialog to display.
-	 * @param modal     Whether the dialog should be modal or not.
-	 * @param closeable Whether the dialog should be closable or not.
-	 */
-	public void showDialog(JDialog dialog, boolean modal, boolean closeable) {
 		if (modal) {
 			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
-			if (closeable) {
-				dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-			} else {
-				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-			}
-			dialog.setVisible(true);
-			dialog.dispose();
 		} else {
 			dialog.setModalityType(ModalityType.MODELESS);
-			if (closeable) {
-				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			} else {
-				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-			}
-			dialog.setVisible(true);
 		}
-
+		dialog.setVisible(true);
 	}
 
 	/**
