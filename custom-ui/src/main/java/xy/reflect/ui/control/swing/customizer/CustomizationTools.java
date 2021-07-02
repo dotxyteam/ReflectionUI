@@ -651,6 +651,15 @@ public class CustomizationTools {
 								transferFieldCustomizationSettings(srcTc, dstTc, field.getName());
 								FieldCustomization srcFc = InfoCustomizations.getFieldCustomization(srcTc,
 										field.getName());
+								if (ReflectionUIUtils.findInfoByName(containingCustomizedType.getFields(),
+										capsuleFieldName) == null) {
+									if (field.getCategory() != null) {
+										FieldCustomization capsuleFc = InfoCustomizations.getFieldCustomization(srcTc,
+												capsuleFieldName, true);
+										changeCustomizationFieldValue(capsuleFc, "categoryCaption",
+												field.getCategory().getCaption());
+									}
+								}
 								changeCustomizationFieldValue(srcFc, "encapsulationFieldName", capsuleFieldName);
 								return true;
 							}
@@ -712,6 +721,15 @@ public class CustomizationTools {
 								transferMethodCustomizationSettings(srcTc, dstTc, method.getSignature());
 								MethodCustomization srcMc = InfoCustomizations.getMethodCustomization(srcTc,
 										method.getSignature());
+								if (ReflectionUIUtils.findInfoByName(containingCustomizedType.getFields(),
+										capsuleFieldName) == null) {
+									if (method.getCategory() != null) {
+										FieldCustomization capsuleFc = InfoCustomizations.getFieldCustomization(srcTc,
+												capsuleFieldName, true);
+										changeCustomizationFieldValue(capsuleFc, "categoryCaption",
+												method.getCategory().getCaption());
+									}
+								}
 								changeCustomizationFieldValue(srcMc, "encapsulationFieldName", capsuleFieldName);
 								return true;
 							}
@@ -1165,7 +1183,7 @@ public class CustomizationTools {
 					EnumerationCustomization ec = InfoCustomizations.getEnumerationCustomization(infoCustomizations,
 							customizedEnumType.getName(), true);
 					List<IInfo> valueInfos = new ArrayList<IInfo>();
-					for (Object value : customizedEnumType.getPossibleValues()) {
+					for (Object value : customizedEnumType.getValues()) {
 						valueInfos.add(customizedEnumType.getValueInfo(value));
 					}
 					openInfosOrderDialog(customizerButton, ec, "itemsCustomOrder", valueInfos,
@@ -1275,7 +1293,7 @@ public class CustomizationTools {
 	protected void updateEnumerationCustomization(EnumerationCustomization ec,
 			IEnumerationTypeInfo customizedEnumType) {
 		try {
-			for (Object item : customizedEnumType.getPossibleValues()) {
+			for (Object item : customizedEnumType.getValues()) {
 				IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
 				InfoCustomizations.getEnumerationItemCustomization(ec, itemInfo.getName(), true);
 			}
