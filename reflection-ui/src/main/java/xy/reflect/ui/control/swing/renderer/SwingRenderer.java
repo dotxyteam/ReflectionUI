@@ -593,7 +593,7 @@ public class SwingRenderer {
 	public Object openSelectionDialog(Component parentComponent, IEnumerationTypeInfo enumType, Object initialEnumItem,
 			String message, String title) {
 		if (initialEnumItem == null) {
-			initialEnumItem = enumType.getPossibleValues()[0];
+			initialEnumItem = enumType.getValues()[0];
 		}
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
 
@@ -1186,8 +1186,8 @@ public class SwingRenderer {
 		Graphics2D g = result.createGraphics();
 		g.drawImage(image, 0, 0, null);
 		g.dispose();
-		float scalefactor = 0.5f;
-		float offset = 64f;
+		float scalefactor = 0.25f;
+		float offset = 128f;
 		return new RescaleOp(new float[] { scalefactor, scalefactor, scalefactor, 1f },
 				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
 	}

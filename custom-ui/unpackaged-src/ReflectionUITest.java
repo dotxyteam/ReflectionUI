@@ -45,6 +45,7 @@ public class ReflectionUITest {
 		public Color thecolor = Color.BLUE;
 		public Object anyObject;
 		public Object anyObject2;
+		public Object anyObject3;
 		public Exception theException = new Exception();
 		public Exception theException2 = new ClassCastException();
 

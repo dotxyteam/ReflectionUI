@@ -127,6 +127,10 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		refreshUI(true);
 	}
 
+	public JTextComponent getTextComponent() {
+		return textComponent;
+	}
+
 	protected IFieldControlInput adaptTextInput(IFieldControlInput input) {
 		return input;
 	}

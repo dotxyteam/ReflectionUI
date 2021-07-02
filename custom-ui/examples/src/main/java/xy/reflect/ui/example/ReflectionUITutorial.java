@@ -603,7 +603,7 @@ public class ReflectionUITutorial {
 					 */
 					@Override
 					public FieldControlPlaceHolder createFieldControlPlaceHolder(final IFieldInfo field) {
-						return new FieldControlPlaceHolder(this.swingRenderer, this, field) {
+						return new FieldControlPlaceHolder(this, field) {
 
 							private static final long serialVersionUID = 1L;
 
@@ -633,7 +633,7 @@ public class ReflectionUITutorial {
 					 */
 					@Override
 					public MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
-						return new MethodControlPlaceHolder(this.swingRenderer, this, method) {
+						return new MethodControlPlaceHolder(this, method) {
 
 							private static final long serialVersionUID = 1L;
 
