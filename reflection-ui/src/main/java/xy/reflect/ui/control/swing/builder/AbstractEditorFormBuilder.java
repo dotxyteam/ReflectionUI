@@ -29,7 +29,6 @@
 package xy.reflect.ui.control.swing.builder;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
@@ -228,7 +227,7 @@ public abstract class AbstractEditorFormBuilder {
 	 */
 	public Object getCapsule() {
 		ensureIsInitialized();
-		return getEncapsulation().getInstance(encapsulatedObjectValueAccessor);
+		return createEncapsulation().getInstance(encapsulatedObjectValueAccessor);
 	}
 
 	/**
@@ -260,36 +259,8 @@ public abstract class AbstractEditorFormBuilder {
 	/**
 	 * @return the local value/object capsule factory.
 	 */
-	public EncapsulatedObjectFactory getEncapsulation() {
-		ITypeInfo fieldType = getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource());
-		EncapsulatedObjectFactory result = new EncapsulatedObjectFactory(getSwingRenderer().getReflectionUI(),
-				getCapsuleTypeName(), fieldType) {
-
-			@Override
-			protected boolean hasFieldValueOptions() {
-				return hasEncapsulatedFieldValueOptions();
-			}
-
-			@Override
-			protected Object[] getFieldValueOptions() {
-				return getEncapsulatedFieldValueOptions();
-			}
-
-		};
-		Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
-		{
-			result.setTypeSpecificProperties(typeSpecificProperties);
-		}
-		result.setFieldName(getEncapsulatedFieldName());
-		result.setFieldCaption(getEncapsulatedFieldCaption());
-		result.setFieldGetOnly(isEncapsulatedFieldGetOnly());
-		result.setFieldNullValueDistinct(isNullValueDistinct());
-		result.setFieldValueReturnMode(getEncapsulatedFieldValueReturnMode());
-		result.setFieldFormControlEmbedded(isEncapsulatedFormEmbedded());
-		result.setFieldFormControlFilter(getEncapsulatedFormFilter());
-		result.setFieldFormControlMandatory(isCustomEncapsulatedControlForbidden());
-		result.setFieldSpecificProperties(getEncapsulatedFieldSpecificProperties());
-		return result;
+	public EncapsulatedObjectFactory createEncapsulation() {
+		return new EditorEncapsulation();
 	}
 
 	/**
@@ -478,8 +449,10 @@ public abstract class AbstractEditorFormBuilder {
 			if (oldValue != newValue) {
 				encapsulatedObjectValueAccessor.set(newValue);
 				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
-				ITypeInfo oldValueType = (oldValue==null) ? null : reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
-				ITypeInfo newValueType = (newValue==null) ? null : reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
+				ITypeInfo oldValueType = (oldValue == null) ? null
+						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
+				ITypeInfo newValueType = (newValue == null) ? null
+						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
 				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
 					editorForm.setObject(getCapsule());
 				}
@@ -630,6 +603,44 @@ public abstract class AbstractEditorFormBuilder {
 				exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener));
+	}
+
+	/**
+	 * Factory used to encapsulate the local value/object for practical reasons.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public class EditorEncapsulation extends EncapsulatedObjectFactory {
+
+		public EditorEncapsulation() {
+			super(getSwingRenderer().getReflectionUI(), getCapsuleTypeName(),
+					getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()));
+			setFieldName(getEncapsulatedFieldName());
+			setFieldCaption(getEncapsulatedFieldCaption());
+			setFieldGetOnly(isEncapsulatedFieldGetOnly());
+			setFieldNullValueDistinct(isNullValueDistinct());
+			setFieldValueReturnMode(getEncapsulatedFieldValueReturnMode());
+			setFieldFormControlEmbedded(isEncapsulatedFormEmbedded());
+			setFieldFormControlFilter(getEncapsulatedFormFilter());
+			setFieldFormControlMandatory(isCustomEncapsulatedControlForbidden());
+			setFieldSpecificProperties(getEncapsulatedFieldSpecificProperties());
+		}
+
+		public AbstractEditorFormBuilder getBuilder() {
+			return AbstractEditorFormBuilder.this;
+		}
+
+		@Override
+		protected boolean hasFieldValueOptions() {
+			return hasEncapsulatedFieldValueOptions();
+		}
+
+		@Override
+		protected Object[] getFieldValueOptions() {
+			return getEncapsulatedFieldValueOptions();
+		}
+
 	}
 
 }
