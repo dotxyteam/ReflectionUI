@@ -41,9 +41,11 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public interface IEnumerationTypeInfo extends ITypeInfo {
 
 	/**
-	 * @return the list of possible values of this type.
+	 * @return the list of enumerated items. Note that there may be other values
+	 *         (not in this list) that are supported by this type
+	 *         ({@link #supports(Object)} returns true).
 	 */
-	Object[] getPossibleValues();
+	Object[] getValues();
 
 	/**
 	 * @param value A possible value of this type.

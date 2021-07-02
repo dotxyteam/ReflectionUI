@@ -66,7 +66,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 	}
 
 	@Override
-	public Object[] getPossibleValues() {
+	public Object[] getValues() {
 		return getJavaType().getEnumConstants();
 	}
 

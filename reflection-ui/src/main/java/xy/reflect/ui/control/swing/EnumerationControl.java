@@ -86,7 +86,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	protected List<Object> collectPossibleValues() {
-		List<Object> result = new ArrayList<Object>(Arrays.asList(enumType.getPossibleValues()));
+		List<Object> result = new ArrayList<Object>(Arrays.asList(enumType.getValues()));
 		if (data.isNullValueDistinct()) {
 			result.add(0, null);
 		}

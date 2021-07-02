@@ -497,8 +497,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return method.getSignature();
 	}
 
-	protected Object[] getPossibleValues(IEnumerationTypeInfo type) {
-		return type.getPossibleValues();
+	protected Object[] getValues(IEnumerationTypeInfo type) {
+		return type.getValues();
 	}
 
 	protected boolean isDynamicEnumeration(IEnumerationTypeInfo type) {
@@ -1016,7 +1016,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			}
 		}
 
-		private InfoProxyFactory getOuterType() {
+		private InfoProxyFactory getEnclosingInstance() {
 			return InfoProxyFactory.this;
 		}
 
@@ -1024,7 +1024,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			return result;
@@ -1039,7 +1039,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedApplicationInfoProxy other = (GeneratedApplicationInfoProxy) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (base == null) {
 				if (other.base != null)
@@ -1334,7 +1334,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			}
 		}
 
-		private InfoProxyFactory getOuterType() {
+		private InfoProxyFactory getEnclosingInstance() {
 			return InfoProxyFactory.this;
 		}
 
@@ -1342,7 +1342,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			return result;
@@ -1357,7 +1357,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedBasicTypeInfoProxy other = (GeneratedBasicTypeInfoProxy) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (base == null) {
 				if (other.base != null)
@@ -1494,8 +1494,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public Object[] getPossibleValues() {
-			return InfoProxyFactory.this.getPossibleValues((IEnumerationTypeInfo) base);
+		public Object[] getValues() {
+			return InfoProxyFactory.this.getValues((IEnumerationTypeInfo) base);
 		}
 
 		@Override
@@ -1678,7 +1678,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
-		private InfoProxyFactory getOuterType() {
+		private InfoProxyFactory getEnclosingInstance() {
 			return InfoProxyFactory.this;
 		}
 
@@ -1686,7 +1686,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
@@ -1702,7 +1702,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedFieldInfoProxy other = (GeneratedFieldInfoProxy) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (base == null) {
 				if (other.base != null)
@@ -1861,7 +1861,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getNextInvocationUndoJob(base, containingType, object, invocationData);
 		}
 
-		private InfoProxyFactory getOuterType() {
+		private InfoProxyFactory getEnclosingInstance() {
 			return InfoProxyFactory.this;
 		}
 
@@ -1869,7 +1869,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
@@ -1885,7 +1885,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedMethodInfoProxy other = (GeneratedMethodInfoProxy) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (base == null) {
 				if (other.base != null)
@@ -1990,7 +1990,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getSpecificProperties(base, method, containingType);
 		}
 
-		private InfoProxyFactory getOuterType() {
+		private InfoProxyFactory getEnclosingInstance() {
 			return InfoProxyFactory.this;
 		}
 
@@ -1998,7 +1998,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
@@ -2015,7 +2015,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedParameterInfoProxy other = (GeneratedParameterInfoProxy) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (base == null) {
 				if (other.base != null)
@@ -2090,7 +2090,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getIconImagePath(base, parentEnumType);
 		}
 
-		private InfoProxyFactory getOuterType() {
+		private InfoProxyFactory getEnclosingInstance() {
 			return InfoProxyFactory.this;
 		}
 
@@ -2098,7 +2098,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			result = prime * result + ((parentEnumType == null) ? 0 : parentEnumType.hashCode());
@@ -2114,7 +2114,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedEnumerationItemInfoProxy other = (GeneratedEnumerationItemInfoProxy) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (base == null) {
 				if (other.base != null)

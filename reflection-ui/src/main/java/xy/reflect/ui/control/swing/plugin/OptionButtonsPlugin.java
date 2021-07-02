@@ -166,7 +166,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				}
 			}
 			if (enumType.isDynamicEnumeration() || refreshStructure) {
-				possibleValues = Arrays.asList(enumType.getPossibleValues());
+				possibleValues = Arrays.asList(enumType.getValues());
 				while (buttonGroup.getButtonCount() > 0) {
 					AbstractButton button = buttonGroup.getElements().nextElement();
 					remove(button);
