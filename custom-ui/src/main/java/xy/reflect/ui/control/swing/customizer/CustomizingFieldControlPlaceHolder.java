@@ -32,7 +32,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
-import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.field.IFieldInfo;
 
@@ -48,8 +47,8 @@ public class CustomizingFieldControlPlaceHolder extends FieldControlPlaceHolder 
 	private static final long serialVersionUID = 1L;
 	protected Component infoCustomizationsComponent;
 
-	public CustomizingFieldControlPlaceHolder(SwingCustomizer swingCustomizer, Form form, IFieldInfo field) {
-		super(swingCustomizer, form, field);
+	public CustomizingFieldControlPlaceHolder(CustomizingForm form, IFieldInfo field) {
+		super(form, field);
 	}
 
 	@Override
@@ -59,8 +58,7 @@ public class CustomizingFieldControlPlaceHolder extends FieldControlPlaceHolder 
 	}
 
 	public void refreshInfoCustomizationsControl() {
-		if (((CustomizingForm) form)
-				.areCustomizationsEditable(getObject()) == (infoCustomizationsComponent != null)) {
+		if (((CustomizingForm) form).areCustomizationsEditable(getObject()) == (infoCustomizationsComponent != null)) {
 			return;
 		}
 		if (infoCustomizationsComponent == null) {

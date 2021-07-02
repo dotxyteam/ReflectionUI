@@ -48,15 +48,15 @@ public class CustomizingMethodControlPlaceHolder extends MethodControlPlaceHolde
 	private static final long serialVersionUID = 1L;
 	protected Component infoCustomizationsComponent;
 
-	public CustomizingMethodControlPlaceHolder(SwingCustomizer swingCustomizer, CustomizingForm form,
+	public CustomizingMethodControlPlaceHolder(CustomizingForm form,
 			IMethodInfo method) {
-		super(swingCustomizer, form, method);
+		super(form, method);
 	}
 
 	@Override
-	public void refreshUI() {
+	public void refreshUI(boolean refreshStructure) {
 		refreshInfoCustomizationsControl();
-		super.refreshUI();
+		super.refreshUI(refreshStructure);
 	}
 
 	public void refreshInfoCustomizationsControl() {

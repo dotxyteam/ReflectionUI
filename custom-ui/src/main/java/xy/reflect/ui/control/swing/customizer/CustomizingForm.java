@@ -150,12 +150,12 @@ public class CustomizingForm extends Form {
 
 	@Override
 	public CustomizingFieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
-		return new CustomizingFieldControlPlaceHolder((SwingCustomizer) swingRenderer, this, field);
+		return new CustomizingFieldControlPlaceHolder(this, field);
 	}
 
 	@Override
 	public CustomizingMethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
-		return new CustomizingMethodControlPlaceHolder((SwingCustomizer) swingRenderer, this, method);
+		return new CustomizingMethodControlPlaceHolder(this, method);
 	}
 
 }
