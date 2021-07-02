@@ -33,7 +33,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseAdapter;
@@ -185,39 +184,37 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		public void refreshTreeTableModelAndControl(boolean refreshStructure) {
-			int itemCount = itemPositionFactory.getRootItemPosition(-1).getContainingListSize();
+			int newItemCount = itemPositionFactory.getRootItemPosition(-1).getContainingListSize();
 			if (detailedCellControlList == null) {
 				detailedCellControlList = new ArrayList<DetailedCellControl>();
 			}
-			if (itemCount == detailedCellControlList.size()) {
-				for (int i = 0; i < itemCount; i++) {
-					DetailedCellControl detailedCellControl = detailedCellControlList.get(i);
-					detailedCellControl.refreshUI(refreshStructure);
-					if (refreshStructure) {
-						detailedCellsContainer.remove(detailedCellControl);
-						detailedCellsContainer.add(detailedCellControl, getDetailedCellLayoutConstraints(i));
-					}
-				}
-			} else {
-				for (DetailedCellControl c : detailedCellControlList) {
-					detailedCellsContainer.remove(c);
-				}
-				detailedCellControlList.clear();
-				for (int i = 0; i < itemCount; i++) {
-					BufferedItemPosition itemPosition = itemPositionFactory.getRootItemPosition(i);
-					DetailedCellControl detailedCellControl = new DetailedCellControl(itemPosition);
-					{
-						detailedCellControlList.add(detailedCellControl);
-						detailedCellsContainer.add(detailedCellControl, getDetailedCellLayoutConstraints(i));
-					}
+			int initialItemCount = detailedCellControlList.size();
+			for (int i = (initialItemCount - 1); i >= newItemCount; i--) {
+				detailedCellsContainer.remove(detailedCellControlList.get(i));
+				detailedCellControlList.remove(i);
+			}
+			for (int i = 0; i < detailedCellControlList.size(); i++) {
+				DetailedCellControl detailedCellControl = detailedCellControlList.get(i);
+				detailedCellControl.refreshUI(refreshStructure);
+				if (refreshStructure) {
+					((GridBagLayout) detailedCellsContainer.getLayout()).setConstraints(detailedCellControl,
+							getDetailedCellLayoutConstraints(i));
 				}
 			}
-			if (refreshStructure) {
+			for (int i = detailedCellControlList.size(); i < newItemCount; i++) {
+				BufferedItemPosition itemPosition = itemPositionFactory.getRootItemPosition(i);
+				DetailedCellControl detailedCellControl = new DetailedCellControl(itemPosition);
+				{
+					detailedCellControlList.add(detailedCellControl);
+					detailedCellsContainer.add(detailedCellControl, getDetailedCellLayoutConstraints(i));
+				}
+			}
+			if (refreshStructure || (newItemCount != initialItemCount)) {
 				SwingRendererUtils.handleComponentSizeChange(detailedCellsContainer);
 			}
 		}
 
-		protected Object getDetailedCellLayoutConstraints(int i) {
+		protected GridBagConstraints getDetailedCellLayoutConstraints(int i) {
 			DetailedListConfiguration controlCustomization = (DetailedListConfiguration) loadControlCustomization(
 					input);
 			GridBagConstraints result = new GridBagConstraints();
@@ -456,18 +453,11 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 			public DetailedCellControl(BufferedItemPosition itemPosition) {
 				this.itemPosition = itemPosition;
-				setLayout(new GridBagLayout());
+				setLayout(new BorderLayout());
 				formBuilder = new ItemUIBuilder(itemPosition);
 				form = formBuilder.createEditorForm(true, false);
 				{
-					GridBagConstraints formConstraints = new GridBagConstraints();
-					formConstraints.fill = GridBagConstraints.BOTH;
-					formConstraints.weightx = 1.0;
-					formConstraints.weighty = 1.0;
-					int insetsThickness = SwingRendererUtils.getStandardCharacterWidth(this) * 2;
-					formConstraints.insets = new Insets(insetsThickness, insetsThickness, insetsThickness,
-							insetsThickness);
-					add(form, formConstraints);
+					add(form, BorderLayout.CENTER);
 				}
 				enableSelection();
 				setupContexteMenu(this);
