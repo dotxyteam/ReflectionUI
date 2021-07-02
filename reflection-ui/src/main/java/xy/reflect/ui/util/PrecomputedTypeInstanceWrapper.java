@@ -308,6 +308,9 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 			if (object == null) {
 				return super.supports(type, null);
 			}
+			if (!(object instanceof PrecomputedTypeInstanceWrapper)) {
+				return false;
+			}
 			return super.supports(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
 		}
 
@@ -343,8 +346,8 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected Object[] getPossibleValues(IEnumerationTypeInfo type) {
-			Object[] result = super.getPossibleValues(type);
+		protected Object[] getValues(IEnumerationTypeInfo type) {
+			Object[] result = super.getValues(type);
 			Object[] newResult = new Object[result.length];
 			for (int i = 0; i < result.length; i++) {
 				newResult[i] = new PrecomputedTypeInstanceWrapper(result[i], type);
