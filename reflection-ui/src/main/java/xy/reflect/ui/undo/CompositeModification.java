@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -113,7 +112,17 @@ public class CompositeModification implements IModification {
 				}
 				result.add(modifTitle);
 			}
-			return MiscUtils.stringJoin(result, ", ");
+			if (result.size() == 0) {
+				return null;
+			} else if (result.size() == 1) {
+				return result.get(0);
+			} else {
+				if (result.get(0).endsWith(", ...")) {
+					return result.get(0);
+				} else {
+					return result.get(0) + ", ...";
+				}
+			}
 		}
 	}
 

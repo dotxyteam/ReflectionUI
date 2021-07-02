@@ -38,7 +38,6 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public abstract class AbstractModification implements IModification {
 
-	protected String title;
 	protected Runnable doJob;
 	protected Runnable undoJob;
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
