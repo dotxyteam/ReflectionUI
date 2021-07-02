@@ -125,17 +125,23 @@ public class GenericEnumerationFactory {
 
 	public Object getItemInstance(Object item) {
 		if (item == null) {
-			return null;
+			if (!getOrLoadItems().contains(null)) {
+				return null;
+			}
 		}
 		return new PrecomputedTypeInstanceWrapper(new Instance(item), new TypeInfo());
 	}
 
 	public Object getInstanceItem(Object object) {
 		if (object == null) {
+			if (getOrLoadItems().contains(null)) {
+				throw new ReflectionUIError(
+						"Raw null value not supported since null is a valid item (<null> item instance expected instead) !");
+			}
 			return null;
 		}
 		Instance instance = (Instance) ((PrecomputedTypeInstanceWrapper) object).unwrap();
-		if (!instance.getOuterType().equals(this)) {
+		if (!instance.getEnclosingInstance().equals(this)) {
 			throw new ReflectionUIError();
 		}
 		return instance.getArrayItem();
@@ -188,7 +194,6 @@ public class GenericEnumerationFactory {
 		protected Object item;
 
 		public Instance(Object item) {
-			super();
 			this.item = item;
 		}
 
@@ -196,7 +201,7 @@ public class GenericEnumerationFactory {
 			return item;
 		}
 
-		protected GenericEnumerationFactory getOuterType() {
+		public GenericEnumerationFactory getEnclosingInstance() {
 			return GenericEnumerationFactory.this;
 		}
 
@@ -204,7 +209,7 @@ public class GenericEnumerationFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((item == null) ? 0 : item.hashCode());
 			return result;
 		}
@@ -218,7 +223,7 @@ public class GenericEnumerationFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			Instance other = (Instance) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (item == null) {
 				if (other.item != null)
@@ -452,7 +457,7 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
-		public Object[] getPossibleValues() {
+		public Object[] getValues() {
 			List<Object> result = new ArrayList<Object>();
 			bufferedItems = null;
 			for (Object item : getOrLoadItems()) {
@@ -477,7 +482,7 @@ public class GenericEnumerationFactory {
 				return false;
 			}
 			Instance instance = (Instance) object;
-			if (!instance.getOuterType().equals(getOuterType())) {
+			if (!instance.getEnclosingInstance().equals(getEnclosingInstance())) {
 				return false;
 			}
 			return true;
@@ -506,13 +511,13 @@ public class GenericEnumerationFactory {
 			return ReflectionUIUtils.toString(reflectionUI, instance.getArrayItem());
 		}
 
-		protected GenericEnumerationFactory getOuterType() {
+		public GenericEnumerationFactory getEnclosingInstance() {
 			return GenericEnumerationFactory.this;
 		}
 
 		@Override
 		public int hashCode() {
-			return getOuterType().hashCode();
+			return getEnclosingInstance().hashCode();
 		}
 
 		@Override
@@ -523,7 +528,7 @@ public class GenericEnumerationFactory {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			if (!getOuterType().equals(((TypeInfo) obj).getOuterType())) {
+			if (!getEnclosingInstance().equals(((TypeInfo) obj).getEnclosingInstance())) {
 				return false;
 			}
 			return true;
@@ -531,7 +536,7 @@ public class GenericEnumerationFactory {
 
 		@Override
 		public String toString() {
-			return "TypeInfo [of=" + getOuterType() + "]";
+			return "TypeInfo [of=" + getEnclosingInstance() + "]";
 		}
 
 	}
@@ -573,13 +578,13 @@ public class GenericEnumerationFactory {
 			return getItemCaption(item);
 		}
 
-		GenericEnumerationFactory getOuterType() {
+		GenericEnumerationFactory getEnclosingInstance() {
 			return GenericEnumerationFactory.this;
 		}
 
 		@Override
 		public String toString() {
-			return "ItemInfo [of=" + getOuterType() + ", item=" + item + "]";
+			return "ItemInfo [of=" + getEnclosingInstance() + ", item=" + item + "]";
 		}
 
 	}

@@ -334,7 +334,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((object == null) ? 0 : object.hashCode());
 			return result;
 		}
@@ -348,7 +348,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			if (getClass() != obj.getClass())
 				return false;
 			Value other = (Value) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (object == null) {
 				if (other.object != null)
@@ -358,7 +358,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			return true;
 		}
 
-		private CapsuleFieldInfo getOuterType() {
+		private CapsuleFieldInfo getEnclosingInstance() {
 			return CapsuleFieldInfo.this;
 		}
 
@@ -535,7 +535,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public boolean supports(Object object) {
-			return object instanceof Value;
+			if(!( object instanceof Value)) {
+				return false;
+			}
+			if(!getEnclosingInstance().equals(((Value)object).getEnclosingInstance())){
+				return false;
+			}
+			return true;
 		}
 
 		@Override
@@ -635,13 +641,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			return new MenuModel();
 		}
 
-		protected CapsuleFieldInfo getOuterType() {
+		protected CapsuleFieldInfo getEnclosingInstance() {
 			return CapsuleFieldInfo.this;
 		}
 
 		@Override
 		public int hashCode() {
-			return getOuterType().hashCode();
+			return getEnclosingInstance().hashCode();
 		}
 
 		@Override
@@ -652,7 +658,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			if (!getOuterType().equals(((ValueTypeInfo) obj).getOuterType())) {
+			if (!getEnclosingInstance().equals(((ValueTypeInfo) obj).getEnclosingInstance())) {
 				return false;
 			}
 			return true;
@@ -660,7 +666,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return "ValueTypeInfo [of=" + getOuterType() + "]";
+			return "ValueTypeInfo [of=" + getEnclosingInstance() + "]";
 		}
 
 	}
@@ -673,7 +679,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			super(base);
 		}
 
-		public CapsuleFieldInfo getOuterType() {
+		public CapsuleFieldInfo getEnclosingInstance() {
 			return CapsuleFieldInfo.this;
 		}
 
@@ -759,7 +765,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			super(base);
 		}
 
-		public CapsuleFieldInfo getOuterType() {
+		public CapsuleFieldInfo getEnclosingInstance() {
 			return CapsuleFieldInfo.this;
 		}
 

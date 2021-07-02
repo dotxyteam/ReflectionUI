@@ -381,9 +381,17 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			return array;
 		}
 
+		public ImplicitListFieldInfo getEnclosingInstance() {
+			return ImplicitListFieldInfo.this;
+		}
+
 		@Override
 		public int hashCode() {
-			return Arrays.hashCode(getArray());
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getEnclosingInstance().hashCode();
+			result = prime * result + Arrays.deepHashCode(array);
+			return result;
 		}
 
 		@Override
@@ -395,9 +403,10 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			if (getClass() != obj.getClass())
 				return false;
 			ValueInstance other = (ValueInstance) obj;
-			if (!Arrays.equals(getArray(), other.getArray())) {
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
-			}
+			if (!Arrays.deepEquals(array, other.array))
+				return false;
 			return true;
 		}
 
@@ -575,7 +584,13 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public boolean supports(Object object) {
-			return object instanceof ValueInstance;
+			if (!(object instanceof ValueInstance)) {
+				return false;
+			}
+			if (!getEnclosingInstance().equals(((ValueInstance) object).getEnclosingInstance())) {
+				return false;
+			}
+			return true;
 		}
 
 		@Override
@@ -738,13 +753,13 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			return MiscUtils.stringJoin(result, ", ");
 		}
 
-		public ImplicitListFieldInfo getOuterType() {
+		public ImplicitListFieldInfo getEnclosingInstance() {
 			return ImplicitListFieldInfo.this;
 		}
 
 		@Override
 		public int hashCode() {
-			return getOuterType().hashCode();
+			return getEnclosingInstance().hashCode();
 		}
 
 		@Override
@@ -755,7 +770,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 			if (!getClass().equals(obj.getClass())) {
 				return false;
 			}
-			if (!getOuterType().equals(((ValueTypeInfo) obj).getOuterType())) {
+			if (!getEnclosingInstance().equals(((ValueTypeInfo) obj).getEnclosingInstance())) {
 				return false;
 			}
 			return true;
@@ -763,7 +778,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String toString() {
-			return "TypeInfo [of=" + getOuterType() + "]";
+			return "TypeInfo [of=" + getEnclosingInstance() + "]";
 		}
 
 	}

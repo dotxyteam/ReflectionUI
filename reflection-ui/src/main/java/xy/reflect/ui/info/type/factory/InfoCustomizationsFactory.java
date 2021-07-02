@@ -404,13 +404,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected Object[] getPossibleValues(IEnumerationTypeInfo enumType) {
+	protected Object[] getValues(IEnumerationTypeInfo enumType) {
 		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),
 				enumType.getName());
 		if (e != null) {
 			List<Object> result = new ArrayList<Object>();
 			List<IEnumerationItemInfo> valueInfos = new ArrayList<IEnumerationItemInfo>();
-			for (Object value : super.getPossibleValues(enumType)) {
+			for (Object value : super.getValues(enumType)) {
 				IEnumerationItemInfo valueInfo = getValueInfo(enumType, value);
 				valueInfos.add(valueInfo);
 				EnumerationItemCustomization i = InfoCustomizations.getEnumerationItemCustomization(e,
@@ -438,7 +438,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 			return result.toArray();
 		}
-		return super.getPossibleValues(enumType);
+		return super.getValues(enumType);
 	}
 
 	@Override

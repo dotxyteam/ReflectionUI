@@ -136,7 +136,7 @@ public class InvocationDataObjectFactory {
 			return invocationData;
 		}
 
-		private InvocationDataObjectFactory getOuterType() {
+		public InvocationDataObjectFactory getEnclosingInstance() {
 			return InvocationDataObjectFactory.this;
 		}
 
@@ -144,7 +144,7 @@ public class InvocationDataObjectFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((invocationData == null) ? 0 : invocationData.hashCode());
 			result = prime * result + ((object == null) ? 0 : object.hashCode());
 			return result;
@@ -159,7 +159,7 @@ public class InvocationDataObjectFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			Instance other = (Instance) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (invocationData == null) {
 				if (other.invocationData != null)
@@ -384,7 +384,13 @@ public class InvocationDataObjectFactory {
 
 		@Override
 		public boolean supports(Object object) {
-			return object instanceof Instance;
+			if (!(object instanceof Instance)) {
+				return false;
+			}
+			if (!getEnclosingInstance().equals(((Instance) object).getEnclosingInstance())) {
+				return false;
+			}
+			return true;
 		}
 
 		@Override
@@ -398,11 +404,15 @@ public class InvocationDataObjectFactory {
 			return Collections.emptyMap();
 		}
 
+		public InvocationDataObjectFactory getEnclosingInstance() {
+			return InvocationDataObjectFactory.this;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			return result;
 		}
 
@@ -415,18 +425,14 @@ public class InvocationDataObjectFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			TypeInfo other = (TypeInfo) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			return true;
 		}
 
-		private InvocationDataObjectFactory getOuterType() {
-			return InvocationDataObjectFactory.this;
-		}
-
 		@Override
 		public String toString() {
-			return "TypeInfo [of=" + getOuterType() + "]";
+			return "TypeInfo [of=" + getEnclosingInstance() + "]";
 		}
 
 	}
@@ -475,7 +481,7 @@ public class InvocationDataObjectFactory {
 			return param.isHidden();
 		}
 
-		private InvocationDataObjectFactory getOuterType() {
+		private InvocationDataObjectFactory getEnclosingInstance() {
 			return InvocationDataObjectFactory.this;
 		}
 
@@ -483,7 +489,7 @@ public class InvocationDataObjectFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((param == null) ? 0 : param.hashCode());
 			return result;
 		}
@@ -497,7 +503,7 @@ public class InvocationDataObjectFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			FieldInfo other = (FieldInfo) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (param == null) {
 				if (other.param != null)
@@ -509,7 +515,7 @@ public class InvocationDataObjectFactory {
 
 		@Override
 		public String toString() {
-			return "Field [of=TypeInfo [of=" + getOuterType() + "]]";
+			return "Field [of=TypeInfo [of=" + getEnclosingInstance() + "]]";
 		}
 	}
 
