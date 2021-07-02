@@ -60,7 +60,6 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 		this.input = input;
 		this.data = input.getControlData();
 		addActionListener(this);
-		setEnabled(data.isEnabled());
 	}
 
 	@Override

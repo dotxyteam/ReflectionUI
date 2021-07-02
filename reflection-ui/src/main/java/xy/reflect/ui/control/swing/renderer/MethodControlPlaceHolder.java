@@ -71,19 +71,19 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	protected IMethodInfo method;
 	protected IMethodControlData controlData;
 
-	public MethodControlPlaceHolder(SwingRenderer swingRenderer, Form form, IMethodInfo method) {
+	public MethodControlPlaceHolder(Form form, IMethodInfo method) {
 		super();
-		this.swingRenderer = swingRenderer;
+		this.swingRenderer = form.getSwingRenderer();
 		this.form = form;
 		this.method = method;
 		this.controlData = createControlData();
 		setName("methodControlPlaceHolder [method=" + method.getName() + ", parent=" + form.getName() + "]");
 		setLayout(new BorderLayout());
-		manageVisibiltyChanges();		
+		manageVisibiltyChanges();
 	}
 
 	public void initializeUI() {
-		refreshUI();
+		refreshUI(true);
 	};
 
 	protected void manageVisibiltyChanges() {
@@ -179,26 +179,21 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	public Component createMethodControl() {
-		Component result = createCustomMethodControl();
-		if (result != null) {
-			return result;
-		}
 		return new MethodControl(this.swingRenderer, this);
 	}
 
-	public Component createCustomMethodControl() {
-		return null;
-	}
-
-	public void refreshUI() {
-		if (methodControl != null) {
+	public void refreshUI(boolean refreshStructure) {
+		if (refreshStructure && (methodControl != null)) {
 			remove(methodControl);
 			methodControl = null;
 		}
-		methodControl = createMethodControl();
-		methodControl.setName("methodControl [method=" + method.getName() + ", parent=" + form.getName() + "]");
-		add(methodControl, BorderLayout.CENTER);
-		SwingRendererUtils.handleComponentSizeChange(this);
+		if (methodControl == null) {
+			methodControl = createMethodControl();
+			methodControl.setName("methodControl [method=" + method.getName() + ", parent=" + form.getName() + "]");
+			add(methodControl, BorderLayout.CENTER);
+			SwingRendererUtils.handleComponentSizeChange(this);
+		}
+		methodControl.setEnabled(controlData.isEnabled());
 	}
 
 	public IMethodControlData createControlData() {
@@ -230,7 +225,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			return finalMethod;
 		}
 
-		private Object getOuterType() {
+		private Object getEnclosingInstance() {
 			return MethodControlPlaceHolder.this;
 		}
 
@@ -238,7 +233,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + super.hashCode();
 			return result;
 		}
@@ -252,7 +247,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			if (getClass() != obj.getClass())
 				return false;
 			MethodControlData other = (MethodControlData) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (!super.equals(other))
 				return false;
