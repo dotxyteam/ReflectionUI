@@ -2039,8 +2039,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				label.setText(" ");
 				label.setToolTipText(null);
 			} else {
-				label.setText(text);
-				label.setToolTipText(text);
+				label.setText(text.replaceAll(MiscUtils.getNewLineRegex(), " "));
+				SwingRendererUtils.setMultilineToolTipText(label, text);
 			}
 
 			Image iconImage = getCellIconImage(node, columnIndex);
@@ -3318,7 +3318,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return listData.getCaption();
 		}
 
-		private ListControl getOuterType() {
+		private ListControl getEnclosingInstance() {
 			return ListControl.this;
 		}
 
@@ -3326,7 +3326,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			return result;
 		}
 
@@ -3339,7 +3339,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (getClass() != obj.getClass())
 				return false;
 			ItemPositionfactory other = (ItemPositionfactory) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			return true;
 		}
