@@ -103,4 +103,13 @@ public class ModificationStackShitf extends AbstractModification {
 		return title;
 	}
 
+	@Override
+	public String toString() {
+		return "ModificationStackShitf [modificationStack=" + modificationStack + ", offset=" + offset + ", title="
+				+ title + "]";
+	}
+	
+	
+	
+
 }
