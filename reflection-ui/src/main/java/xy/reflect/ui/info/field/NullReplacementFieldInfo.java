@@ -12,19 +12,17 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 public class NullReplacementFieldInfo extends FieldInfoProxy {
 
 	protected TextualStorage nullReplacementStorage;
-	protected Object nullReplacement;
-
+	
 	public NullReplacementFieldInfo(IFieldInfo base, TextualStorage nullReplacementStorage) {
 		super(base);
 		this.nullReplacementStorage = nullReplacementStorage;
-		this.nullReplacement = nullReplacementStorage.load();
 	}
 
 	@Override
 	public Object getValue(Object object) {
 		Object result = super.getValue(object);
 		if (result == null) {
-			result = nullReplacement;
+			result = nullReplacementStorage.load();
 		}
 		return result;
 	}
@@ -52,7 +50,7 @@ public class NullReplacementFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public String toString() {
-		return "NullReplacementFieldInfo [nullReplacement=" + nullReplacement + ", base=" + base + "]";
+		return "NullReplacementFieldInfo [nullReplacementStorage=" + nullReplacementStorage + ", base=" + base + "]";
 	}
 
 }

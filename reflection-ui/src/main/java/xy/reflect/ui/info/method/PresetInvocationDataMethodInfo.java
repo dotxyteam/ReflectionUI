@@ -50,12 +50,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	protected TextualStorage invocationDataStorage;
-	protected InvocationData presetInvocationData;
+	protected List<IParameterInfo> parameters;
 
 	public PresetInvocationDataMethodInfo(IMethodInfo base, TextualStorage invocationDataStorage) {
 		super(base);
 		this.invocationDataStorage = invocationDataStorage;
-		this.presetInvocationData = (InvocationData) invocationDataStorage.load();
 	}
 
 	public static String buildPresetMethodName(String baseMethodSignature, int index) {
@@ -79,16 +78,19 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		List<IParameterInfo> result = new ArrayList<IParameterInfo>(base.getParameters());
-		SortedSet<Integer> presetParameterPositions = new TreeSet<Integer>();
-		presetParameterPositions.addAll(presetInvocationData.getDefaultParameterValues().keySet());
-		presetParameterPositions.addAll(presetInvocationData.getProvidedParameterValues().keySet());
-		List<Integer> reversedPresetParameterPositions = new ArrayList<Integer>(presetParameterPositions);
-		Collections.reverse(reversedPresetParameterPositions);
-		for (int parameterPosition : reversedPresetParameterPositions) {
-			result.remove(parameterPosition);
+		if (parameters == null) {
+			parameters = new ArrayList<IParameterInfo>(base.getParameters());
+			SortedSet<Integer> presetParameterPositions = new TreeSet<Integer>();
+			InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load();
+			presetParameterPositions.addAll(presetInvocationData.getDefaultParameterValues().keySet());
+			presetParameterPositions.addAll(presetInvocationData.getProvidedParameterValues().keySet());
+			List<Integer> reversedPresetParameterPositions = new ArrayList<Integer>(presetParameterPositions);
+			Collections.reverse(reversedPresetParameterPositions);
+			for (int parameterPosition : reversedPresetParameterPositions) {
+				parameters.remove(parameterPosition);
+			}
 		}
-		return result;
+		return parameters;
 	}
 
 	@Override
@@ -97,6 +99,7 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	}
 
 	protected InvocationData buildFinalInvocationData(InvocationData invocationData) {
+		InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load();
 		InvocationData finalInvocationData = new InvocationData(presetInvocationData);
 		finalInvocationData.getProvidedParameterValues().clear();
 		finalInvocationData.getDefaultParameterValues().clear();
@@ -148,7 +151,7 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public String toString() {
-		return "PresetInvocationDataMethod [base=" + base + ", invocationData=" + presetInvocationData + "]";
+		return "PresetInvocationDataMethod [base=" + base + ", invocationDataStorage=" + invocationDataStorage + "]";
 	}
 
 }
