@@ -117,9 +117,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected Component siblingOnlineHelpControl;
 	protected Map<String, Object> lastFieldControlSelectionCriteria;
 
-	public FieldControlPlaceHolder(SwingRenderer swingRenderer, Form form, IFieldInfo field) {
+	public FieldControlPlaceHolder(Form form, IFieldInfo field) {
 		super();
-		this.swingRenderer = swingRenderer;
+		this.swingRenderer = form.getSwingRenderer();
 		this.form = form;
 		this.field = field;
 		this.controlData = createControlData();
@@ -649,7 +649,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			return finalField;
 		}
 
-		private FieldControlPlaceHolder getOuterType() {
+		private FieldControlPlaceHolder getEnclosingInstance() {
 			return FieldControlPlaceHolder.this;
 		}
 
@@ -657,7 +657,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getOuterType().hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + super.hashCode();
 			return result;
 		}
@@ -671,7 +671,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			if (getClass() != obj.getClass())
 				return false;
 			FieldControlData other = (FieldControlData) obj;
-			if (!getOuterType().equals(other.getOuterType()))
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 				return false;
 			if (!super.equals(other))
 				return false;
@@ -680,7 +680,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 		@Override
 		public String toString() {
-			return "InitialFieldControlData [of=" + getOuterType() + ", finalField=" + getField() + "]";
+			return "InitialFieldControlData [of=" + getEnclosingInstance() + ", finalField=" + getField() + "]";
 		}
 
 	}

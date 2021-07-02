@@ -1116,7 +1116,7 @@ public class Form extends ImagePanel {
 						.get(category);
 				for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
 					MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
-					methodControlPlaceHolder.refreshUI();
+					methodControlPlaceHolder.refreshUI(refreshStructure);
 					updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 				}
 			}
@@ -1341,7 +1341,7 @@ public class Form extends ImagePanel {
 	 * @return a new control place holder for the given field.
 	 */
 	public FieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
-		return new FieldControlPlaceHolder(swingRenderer, this, field);
+		return new FieldControlPlaceHolder(this, field);
 	}
 
 	/**
@@ -1349,7 +1349,7 @@ public class Form extends ImagePanel {
 	 * @return a new control place holder for the given method.
 	 */
 	public MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
-		return new MethodControlPlaceHolder(swingRenderer, this, method);
+		return new MethodControlPlaceHolder(this, method);
 	}
 
 	protected Container createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
