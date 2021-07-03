@@ -1,3 +1,5 @@
+- must allow to cast a generic collection, maybe a generic type 
+more generally.
 - errors may be generated multiple times by successive refresh
 requests. SwingRenderer.handleObjectException() should then be
 called only once. Must be sure. Think about it.

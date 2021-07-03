@@ -1016,15 +1016,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			}
 		}
 
-		private InfoProxyFactory getEnclosingInstance() {
-			return InfoProxyFactory.this;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			return result;
@@ -1039,8 +1034,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedApplicationInfoProxy other = (GeneratedApplicationInfoProxy) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
 			if (base == null) {
 				if (other.base != null)
 					return false;
@@ -1334,15 +1327,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			}
 		}
 
-		private InfoProxyFactory getEnclosingInstance() {
-			return InfoProxyFactory.this;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			return result;
@@ -1357,8 +1345,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedBasicTypeInfoProxy other = (GeneratedBasicTypeInfoProxy) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
 			if (base == null) {
 				if (other.base != null)
 					return false;
@@ -1678,15 +1664,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getSpecificProperties(base, containingType);
 		}
 
-		private InfoProxyFactory getEnclosingInstance() {
-			return InfoProxyFactory.this;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
@@ -1702,8 +1683,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedFieldInfoProxy other = (GeneratedFieldInfoProxy) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
 			if (base == null) {
 				if (other.base != null)
 					return false;
@@ -1861,15 +1840,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getNextInvocationUndoJob(base, containingType, object, invocationData);
 		}
 
-		private InfoProxyFactory getEnclosingInstance() {
-			return InfoProxyFactory.this;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
@@ -1885,8 +1859,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedMethodInfoProxy other = (GeneratedMethodInfoProxy) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
 			if (base == null) {
 				if (other.base != null)
 					return false;
@@ -1990,15 +1962,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getSpecificProperties(base, method, containingType);
 		}
 
-		private InfoProxyFactory getEnclosingInstance() {
-			return InfoProxyFactory.this;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
@@ -2015,8 +1982,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedParameterInfoProxy other = (GeneratedParameterInfoProxy) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
 			if (base == null) {
 				if (other.base != null)
 					return false;
@@ -2090,15 +2055,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return InfoProxyFactory.this.getIconImagePath(base, parentEnumType);
 		}
 
-		private InfoProxyFactory getEnclosingInstance() {
-			return InfoProxyFactory.this;
-		}
-
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = super.hashCode();
-			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			result = prime * result + ((parentEnumType == null) ? 0 : parentEnumType.hashCode());
@@ -2114,8 +2074,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			GeneratedEnumerationItemInfoProxy other = (GeneratedEnumerationItemInfoProxy) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
 			if (base == null) {
 				if (other.base != null)
 					return false;

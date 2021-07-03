@@ -284,7 +284,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 			return field;
 		}
 
-		public MultipleFieldsAsListFieldInfo getEnclosingInstance() {
+		public MultipleFieldsAsListFieldInfo getSourceField() {
 			return MultipleFieldsAsListFieldInfo.this;
 		}
 
@@ -292,7 +292,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
+			result = prime * result + getSourceField().hashCode();
 			result = prime * result + ((field == null) ? 0 : field.hashCode());
 			result = prime * result + ((object == null) ? 0 : object.hashCode());
 			return result;
@@ -307,7 +307,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 			if (getClass() != obj.getClass())
 				return false;
 			ValueListItem other = (ValueListItem) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+			if (!getSourceField().equals(other.getSourceField()))
 				return false;
 			if (field == null) {
 				if (other.field != null)
@@ -568,7 +568,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 			if (!(object instanceof ValueListItem)) {
 				return false;
 			}
-			if (!getEnclosingInstance().equals(((ValueListItem) object).getEnclosingInstance())) {
+			if (!getSourceField().equals(((ValueListItem) object).getSourceField())) {
 				return false;
 			}
 			return true;
@@ -607,7 +607,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
+			result = prime * result + getSourceField().hashCode();
 			result = prime * result + ((field == null) ? 0 : field.hashCode());
 			return result;
 		}
@@ -621,7 +621,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 			if (getClass() != obj.getClass())
 				return false;
 			ValueListItemTypeInfo other = (ValueListItemTypeInfo) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+			if (!getSourceField().equals(other.getSourceField()))
 				return false;
 			if (field == null) {
 				if (other.field != null)
@@ -631,7 +631,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 			return true;
 		}
 
-		private MultipleFieldsAsListFieldInfo getEnclosingInstance() {
+		public MultipleFieldsAsListFieldInfo getSourceField() {
 			return MultipleFieldsAsListFieldInfo.this;
 		}
 

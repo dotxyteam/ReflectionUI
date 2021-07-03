@@ -649,7 +649,7 @@ public class EncapsulatedObjectFactory {
 			if (!(object instanceof Instance)) {
 				return false;
 			}
-			if (!getEnclosingInstance().equals(((Instance) object).getEnclosingInstance())) {
+			if (!getFactory().equals(((Instance) object).getFactory())) {
 				return false;
 			}
 			return true;
@@ -677,7 +677,7 @@ public class EncapsulatedObjectFactory {
 		public void validate(Object object) throws Exception {
 		}
 
-		public EncapsulatedObjectFactory getEnclosingInstance() {
+		public EncapsulatedObjectFactory getFactory() {
 			return EncapsulatedObjectFactory.this;
 		}
 
@@ -691,7 +691,7 @@ public class EncapsulatedObjectFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
+			result = prime * result + getFactory().hashCode();
 			return result;
 		}
 
@@ -704,14 +704,14 @@ public class EncapsulatedObjectFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			TypeInfo other = (TypeInfo) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+			if (!getFactory().equals(other.getFactory()))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "TypeInfo [of=" + getEnclosingInstance() + "]";
+			return "TypeInfo [of=" + getFactory() + "]";
 		}
 
 	}
@@ -744,7 +744,7 @@ public class EncapsulatedObjectFactory {
 			fieldValueAccessor.set(value);
 		}
 
-		protected EncapsulatedObjectFactory getEnclosingInstance() {
+		public EncapsulatedObjectFactory getFactory() {
 			return EncapsulatedObjectFactory.this;
 		}
 
@@ -752,7 +752,7 @@ public class EncapsulatedObjectFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
+			result = prime * result + getFactory().hashCode();
 			result = prime * result + ((fieldValueAccessor == null) ? 0 : fieldValueAccessor.hashCode());
 			return result;
 		}
@@ -766,7 +766,7 @@ public class EncapsulatedObjectFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			Instance other = (Instance) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+			if (!getFactory().equals(other.getFactory()))
 				return false;
 			if (fieldValueAccessor == null) {
 				if (other.fieldValueAccessor != null)
@@ -778,7 +778,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "Encapsulated [fieldValueAccessor=" + fieldValueAccessor + ", factory=" + getEnclosingInstance()
+			return "Encapsulated [fieldValueAccessor=" + fieldValueAccessor + ", factory=" + getFactory()
 					+ "]";
 		}
 
@@ -929,13 +929,13 @@ public class EncapsulatedObjectFactory {
 			return fieldAutoUpdatePeriodMilliseconds;
 		}
 
-		protected EncapsulatedObjectFactory getEnclosingInstance() {
+		public EncapsulatedObjectFactory getFactory() {
 			return EncapsulatedObjectFactory.this;
 		}
 
 		@Override
 		public int hashCode() {
-			return getEnclosingInstance().hashCode();
+			return getFactory().hashCode();
 		}
 
 		@Override
@@ -944,7 +944,7 @@ public class EncapsulatedObjectFactory {
 				return false;
 			}
 			ValueFieldInfo other = (ValueFieldInfo) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance())) {
+			if (!getFactory().equals(other.getFactory())) {
 				return false;
 			}
 			return true;
@@ -952,7 +952,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "ValueField [of=" + getEnclosingInstance() + "]";
+			return "ValueField [of=" + getFactory() + "]";
 		}
 
 	}
