@@ -2,11 +2,14 @@ package xy.reflect.ui.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
@@ -28,7 +31,6 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 	protected ITypeInfo precomputedType;
 
 	public PrecomputedTypeInstanceWrapper(Object instance, ITypeInfo precomputedType) {
-		super();
 		this.instance = instance;
 		this.precomputedType = precomputedType;
 	}
@@ -206,20 +208,6 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field,
-				ITypeInfo containingType) {
-			return super.getAlternativeConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
-					containingType);
-		}
-
-		@Override
-		protected List<IMethodInfo> getAlternativeListItemConstructors(Object object, IFieldInfo field,
-				ITypeInfo containingType) {
-			return super.getAlternativeListItemConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
-					containingType);
-		}
-
-		@Override
 		protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
 			super.setValue(((PrecomputedTypeInstanceWrapper) object).unwrap(), value, field, containingType);
 		}
@@ -243,7 +231,88 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 
 		@Override
 		protected Object copy(ITypeInfo type, Object object) {
-			return super.copy(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			Object result = super.copy(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			if (result == null) {
+				return null;
+			}
+			result = new PrecomputedTypeInstanceWrapper(result, typeInfoSource.getPrecomputedType());
+			return result;
+		}
+
+		@Override
+		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			for (IMethodInfo ctor : super.getConstructors(type)) {
+				result.add(new MethodInfoProxy(ctor) {
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						Object newInstance = super.invoke(object, invocationData);
+						newInstance = new PrecomputedTypeInstanceWrapper(newInstance,
+								typeInfoSource.getPrecomputedType());
+						return newInstance;
+					}
+				});
+			}
+			return result;
+		}
+
+		@Override
+		protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field,
+				ITypeInfo containingType) {
+			List<IMethodInfo> baseResult = super.getAlternativeConstructors(
+					((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
+			if (baseResult == null) {
+				return null;
+			}
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			for (IMethodInfo ctor : baseResult) {
+				result.add(new MethodInfoProxy(ctor) {
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						Object newInstance = super.invoke(object, invocationData);
+						newInstance = new PrecomputedTypeInstanceWrapper(newInstance,
+								typeInfoSource.getPrecomputedType());
+						return newInstance;
+					}
+				});
+			}
+			return result;
+		}
+
+		@Override
+		protected List<IMethodInfo> getAlternativeListItemConstructors(Object object, IFieldInfo field,
+				ITypeInfo containingType) {
+			List<IMethodInfo> baseResult = super.getAlternativeListItemConstructors(
+					((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
+			if (baseResult == null) {
+				return null;
+			}
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			for (IMethodInfo ctor : baseResult) {
+				result.add(new MethodInfoProxy(ctor) {
+					@Override
+					public Object invoke(Object object, InvocationData invocationData) {
+						Object newInstance = super.invoke(object, invocationData);
+						newInstance = new PrecomputedTypeInstanceWrapper(newInstance,
+								typeInfoSource.getPrecomputedType());
+						return newInstance;
+					}
+				});
+			}
+			return result;
+		}
+
+		/**
+		 * {@link PrecomputedTypeInstanceWrapper} is used to associate object with
+		 * custom (usually not polymorphic) type information. Then by default an empty
+		 * list is returned by this method. If the custom type is still polymorphic then
+		 * this method must be overriden.
+		 * 
+		 * @return an empty list.
+		 */
+		@Override
+		protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
+			return Collections.emptyList();
 		}
 
 		@Override
