@@ -172,11 +172,6 @@ public class DialogBuilder {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
 			public Image retrieveBackgroundImage() {
 				return buttonBackgroundImage;
 			}
@@ -197,8 +192,8 @@ public class DialogBuilder {
 			}
 
 			@Override
-			public String retrieveCaption() {
-				return caption;
+			public String retrieveText() {
+				return swingRenderer.prepareMessageToDisplay(caption);
 			}
 
 		};

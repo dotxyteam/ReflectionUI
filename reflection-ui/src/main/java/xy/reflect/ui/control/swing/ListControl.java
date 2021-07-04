@@ -400,7 +400,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		toolbar.repaint();
 	}
 
-	protected JButton createTool(final String text, final Icon icon, boolean alwawsShowIcon,
+	protected JButton createTool(final String caption, final Icon icon, boolean alwawsShowIcon,
 			final boolean alwawsShowMenu, AbstractStandardListAction... actions) {
 		final List<AbstractStandardListAction> actionsToPresent = new ArrayList<AbstractStandardListAction>();
 		for (final AbstractStandardListAction action : actions) {
@@ -414,11 +414,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
 
 			@Override
 			public Image retrieveBackgroundImage() {
@@ -458,13 +453,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			public String retrieveCaption() {
-				return text;
+			public Icon retrieveIcon() {
+				return icon;
 			}
 
 			@Override
-			public Icon retrieveIcon() {
-				return icon;
+			public String retrieveText() {
+				return swingRenderer.prepareMessageToDisplay(caption);
 			}
 
 			@Override
@@ -475,7 +470,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						if (tooltipText == null) {
 							tooltipText = (String) actionsToPresent.get(0).getActionTitle();
 						}
-						return tooltipText;
+						return swingRenderer.prepareMessageToDisplay(tooltipText);
 					} else if (actionsToPresent.size() > 1) {
 						StringBuilder tooltipTextBuilder = new StringBuilder();
 						boolean firstAction = true;
@@ -490,7 +485,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							tooltipTextBuilder.append(itemTooltipText);
 							firstAction = false;
 						}
-						return tooltipTextBuilder.toString();
+						return swingRenderer.prepareMessageToDisplay(tooltipTextBuilder.toString());
 					} else {
 						return null;
 					}
@@ -1252,7 +1247,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			typeToInstanciate = swingRenderer.getReflectionUI()
 					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
-		boolean constructorSelectable = (listType
+		boolean constructorSelectable = (listType.getInitialItemValueCreationOption() == null) || (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
 		return constructorSelectable && (listType.isItemNullValueSupported()
 				|| swingRenderer.isDecisionRequiredOnTypeInstanciationRequest(typeToInstanciate));
@@ -1277,7 +1272,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}
 
-		boolean constructorSelectable = (listType
+		boolean constructorSelectable = (listType.getInitialItemValueCreationOption() == null) || (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
 
 		if (constructorSelectable) {

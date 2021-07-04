@@ -57,6 +57,7 @@ import java.awt.event.HierarchyListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -1125,6 +1126,39 @@ public class SwingRendererUtils {
 		if (!SwingUtilities.isEventDispatchThread()) {
 			throw new ReflectionUIError("The current thread must be the UI thread.");
 		}
+	}
+
+	/**
+	 * @param image The input image.
+	 * @return an image that simulates an activation effect when replacing the given
+	 *         image.
+	 */
+	public static BufferedImage addImageActivationEffect(Image image) {
+		BufferedImage result = new BufferedImage(image.getWidth(null), image.getHeight(null),
+				BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = result.createGraphics();
+		g.drawImage(image, 0, 0, null);
+		g.dispose();
+		float scalefactor = 0.25f;
+		float offset = 128f;
+		return new RescaleOp(new float[] { scalefactor, scalefactor, scalefactor, 1f },
+				new float[] { offset, offset, offset, 0f }, null).filter(result, null);
+	}
+
+	/**
+	 * @param color The input color.
+	 * @return A color that simulates an activation effect when replacing the given
+	 *         color.
+	 */
+	public static Color addColorActivationEffect(Color color) {
+		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+		if (hsb[2] > 0.5f) {
+			hsb[2] -= 0.25f;
+		} else {
+			hsb[2] += 0.25f;
+		}
+		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+		return new Color(rgb);
 	}
 
 }

@@ -684,7 +684,7 @@ public class Form extends ImagePanel {
 						getLayoutSpacing(), getLayoutSpacing()));
 				if (backgroundColor != null) {
 					selectedCellRenderer.setOpaque(true);
-					selectedCellRenderer.setBackground(swingRenderer.addColorActivationEffect(backgroundColor));
+					selectedCellRenderer.setBackground(SwingRendererUtils.addColorActivationEffect(backgroundColor));
 				} else {
 					selectedCellRenderer.setOpaque(false);
 					selectedCellRenderer.setBackground(null);
@@ -1509,11 +1509,6 @@ public class Form extends ImagePanel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
 			public Image retrieveBackgroundImage() {
 				if (data.getButtonBackgroundImagePath() == null) {
 					return null;
@@ -1551,13 +1546,13 @@ public class Form extends ImagePanel {
 			}
 
 			@Override
-			public String retrieveCaption() {
+			public String retrieveText() {
 				return "";
 			}
 
 			@Override
 			public String retrieveToolTipText() {
-				return onlineHelp;
+				return swingRenderer.prepareMessageToDisplay(onlineHelp);
 			}
 
 			@Override
@@ -1590,11 +1585,6 @@ public class Form extends ImagePanel {
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
 
 			@Override
 			public Image retrieveBackgroundImage() {
@@ -1646,13 +1636,13 @@ public class Form extends ImagePanel {
 			}
 
 			@Override
-			public String retrieveCaption() {
+			public String retrieveText() {
 				return "";
 			}
 
 			@Override
 			public String retrieveToolTipText() {
-				return onlineHelp;
+				return swingRenderer.prepareMessageToDisplay(onlineHelp);
 			}
 
 			@Override

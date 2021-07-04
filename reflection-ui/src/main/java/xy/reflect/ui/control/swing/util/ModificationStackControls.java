@@ -93,11 +93,6 @@ public class ModificationStackControls {
 			}
 
 			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
 			public Image retrieveBackgroundImage() {
 				if (type.getFormButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(type.getFormButtonBackgroundImagePath(),
@@ -147,13 +142,13 @@ public class ModificationStackControls {
 			}
 
 			@Override
-			public String retrieveCaption() {
-				return label;
+			public String retrieveText() {
+				return swingRenderer.prepareMessageToDisplay(label);
 			}
 
 			@Override
 			public String retrieveToolTipText() {
-				return tooltipText.get();
+				return swingRenderer.prepareMessageToDisplay(tooltipText.get());
 			}
 
 			@Override

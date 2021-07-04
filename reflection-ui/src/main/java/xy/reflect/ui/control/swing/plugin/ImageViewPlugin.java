@@ -425,13 +425,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public SwingRenderer getSwingRenderer() {
-					return imageView.swingRenderer;
-				}
-
-				@Override
-				public String retrieveCaption() {
-					return caption;
+				public String retrieveText() {
+					return imageView.swingRenderer.prepareMessageToDisplay(caption);
 				}
 
 				@Override

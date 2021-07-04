@@ -62,12 +62,6 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 		addActionListener(this);
 	}
 
-	@Override
-	public SwingRenderer getSwingRenderer() {
-		return swingRenderer;
-	}
-
-	@Override
 	public Color retrieveBackgroundColor() {
 		if (data.getBackgroundColor() == null) {
 			return null;
@@ -106,14 +100,15 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 	}
 
 	@Override
-	public String retrieveCaption() {
-		return ReflectionUIUtils.formatMethodControlCaption(data.getCaption(), data.getParameters());
+	public String retrieveText() {
+		return swingRenderer.prepareMessageToDisplay(
+				ReflectionUIUtils.formatMethodControlCaption(data.getCaption(), data.getParameters()));
 	}
 
 	@Override
 	public String retrieveToolTipText() {
-		return ReflectionUIUtils.formatMethodControlTooltipText(data.getCaption(), data.getOnlineHelp(),
-				data.getParameters());
+		return swingRenderer.prepareMessageToDisplay(ReflectionUIUtils.formatMethodControlTooltipText(data.getCaption(),
+				data.getOnlineHelp(), data.getParameters()));
 	}
 
 	@Override

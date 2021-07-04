@@ -195,13 +195,8 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			}
 
 			@Override
-			public String retrieveCaption() {
-				return "...";
-			}
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
+			public String retrieveText() {
+				return swingRenderer.prepareMessageToDisplay("...");
 			}
 
 			@Override
