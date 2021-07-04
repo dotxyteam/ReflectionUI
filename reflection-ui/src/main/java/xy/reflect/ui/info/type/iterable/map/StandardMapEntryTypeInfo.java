@@ -210,13 +210,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-		try {
-			result.add(new StandardMapEntryConstructorInfo());
-		} catch (Exception e) {
-			throw new ReflectionUIError(e);
-		}
-		return result;
+		return Collections.singletonList(new StandardMapEntryConstructorInfo());
 	}
 
 	protected Constructor<?> getStandardMapEntryJavaConstructor() {
