@@ -3950,6 +3950,7 @@ public class InfoCustomizations implements Serializable {
 		protected ListLenghtCustomization length = null;
 		protected boolean itemNullValueAllowed = false;
 		protected InitialItemValueCreationOption initialItemValueCreationOption;
+		protected ITypeInfoFinder customItemTypeFinder;
 
 		@Override
 		public boolean isInitial() {
@@ -3957,6 +3958,16 @@ public class InfoCustomizations implements Serializable {
 			defaultListCustomization.listTypeName = listTypeName;
 			defaultListCustomization.itemTypeName = itemTypeName;
 			return InfoCustomizations.isSimilar(this, defaultListCustomization);
+		}
+
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
+		public ITypeInfoFinder getCustomItemTypeFinder() {
+			return customItemTypeFinder;
+		}
+
+		public void setCustomItemTypeFinder(ITypeInfoFinder customItemTypeFinder) {
+			this.customItemTypeFinder = customItemTypeFinder;
 		}
 
 		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
@@ -3983,8 +3994,7 @@ public class InfoCustomizations implements Serializable {
 			if (itemContructorSelectableforced) {
 				initialItemValueCreationOption = InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
 			} else {
-				if ((initialItemValueCreationOption != InitialItemValueCreationOption.CREATE_INITIAL_VALUE_AUTOMATICALLY)
-						&& (initialItemValueCreationOption != InitialItemValueCreationOption.CREATE_INITIAL_NULL_VALUE)) {
+				if (initialItemValueCreationOption == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES) {
 					initialItemValueCreationOption = InitialItemValueCreationOption.CREATE_INITIAL_VALUE_AUTOMATICALLY;
 				}
 			}

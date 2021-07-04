@@ -89,6 +89,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo.SubListGroupField;
@@ -371,28 +372,8 @@ public class CustomizationTools {
 			ITypeInfo customizedType) {
 		TypeCustomization tc = InfoCustomizations.getTypeCustomization(infoCustomizations, customizedType.getName(),
 				true);
-		updateTypeCustomization(tc, customizedType);
+		fillTypeCustomization(tc, customizedType);
 		openCustomizationEditor(customizerButton, tc);
-	}
-
-	protected void updateTypeCustomization(TypeCustomization tc, ITypeInfo customizedType) {
-		try {
-			for (IFieldInfo field : customizedType.getFields()) {
-				InfoCustomizations.getFieldCustomization(tc, field.getName(), true);
-			}
-			for (IMethodInfo method : customizedType.getMethods()) {
-				InfoCustomizations.getMethodCustomization(tc, method.getSignature(), true);
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, method.getSignature(), true);
-				updateMethodCustomization(mc, method);
-			}
-			for (IMethodInfo ctor : customizedType.getConstructors()) {
-				InfoCustomizations.getMethodCustomization(tc, ctor.getSignature(), true);
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, ctor.getSignature(), true);
-				updateMethodCustomization(mc, ctor);
-			}
-		} catch (Throwable t) {
-			swingCustomizer.getReflectionUI().logDebug(t);
-		}
 	}
 
 	protected void openCustomizationEditor(final JButton customizerButton, final Object customization) {
@@ -1113,6 +1094,11 @@ public class CustomizationTools {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					ITypeInfo customizedItemType = customizedListType.getItemType();
+					if (InfoCustomizationsFactory.isItemTypeChanged(infoCustomizations,
+							customizedListType.getSpecificProperties())) {
+						customizedItemType = InfoCustomizationsFactory.getOriginalItemType(infoCustomizations,
+								customizedListType.getSpecificProperties());
+					}
 					String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
 					ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations,
 							customizedListType.getName(), itemTypeName, true);
@@ -1286,12 +1272,26 @@ public class CustomizationTools {
 			final IEnumerationTypeInfo customizedEnumType) {
 		EnumerationCustomization ec = InfoCustomizations.getEnumerationCustomization(infoCustomizations,
 				customizedEnumType.getName(), true);
-		updateEnumerationCustomization(ec, customizedEnumType);
+		fillEnumerationCustomization(ec, customizedEnumType);
 		openCustomizationEditor(customizerButton, ec);
 	}
 
-	protected void updateEnumerationCustomization(EnumerationCustomization ec,
-			IEnumerationTypeInfo customizedEnumType) {
+	protected void openListCutomizationDialog(JButton customizerButton, InfoCustomizations infoCustomizations,
+			final IListTypeInfo customizedListType) {
+		ITypeInfo customizedItemType = customizedListType.getItemType();
+		if (InfoCustomizationsFactory.isItemTypeChanged(infoCustomizations,
+				customizedListType.getSpecificProperties())) {
+			customizedItemType = InfoCustomizationsFactory.getOriginalItemType(infoCustomizations,
+					customizedListType.getSpecificProperties());
+		}
+		String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
+		ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations, customizedListType.getName(),
+				itemTypeName, true);
+		fillListCustomization(lc, customizedListType);
+		openCustomizationEditor(customizerButton, lc);
+	}
+
+	protected void fillEnumerationCustomization(EnumerationCustomization ec, IEnumerationTypeInfo customizedEnumType) {
 		try {
 			for (Object item : customizedEnumType.getValues()) {
 				IEnumerationItemInfo itemInfo = customizedEnumType.getValueInfo(item);
@@ -1302,26 +1302,40 @@ public class CustomizationTools {
 		}
 	}
 
-	protected void openListCutomizationDialog(JButton customizerButton, InfoCustomizations infoCustomizations,
-			final IListTypeInfo customizedListType) {
-		ITypeInfo customizedItemType = customizedListType.getItemType();
-		String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
-		ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations, customizedListType.getName(),
-				itemTypeName, true);
-		updateListCustomization(lc, customizedListType);
-		openCustomizationEditor(customizerButton, lc);
-	}
-
-	protected void updateListCustomization(ListCustomization lc, IListTypeInfo customizedListType) {
+	protected void fillListCustomization(ListCustomization lc, IListTypeInfo customizedListType) {
 		try {
 			for (IColumnInfo column : customizedListType.getStructuralInfo().getColumns()) {
 				InfoCustomizations.getColumnCustomization(lc, column.getName(), true);
 			}
-			ITypeInfo customizedItemType = customizedListType.getItemType();
-			if (customizedItemType != null) {
-				TypeCustomization t = InfoCustomizations.getTypeCustomization(swingCustomizer.getInfoCustomizations(),
-						customizedItemType.getName(), true);
-				updateTypeCustomization(t, customizedItemType);
+		} catch (Throwable t) {
+			swingCustomizer.getReflectionUI().logDebug(t);
+		}
+	}
+
+	protected void fillMethodCustomization(MethodCustomization mc, IMethodInfo customizedMethod) {
+		try {
+			for (IParameterInfo param : customizedMethod.getParameters()) {
+				InfoCustomizations.getParameterCustomization(mc, param.getName(), true);
+			}
+		} catch (Throwable t) {
+			swingCustomizer.getReflectionUI().logDebug(t);
+		}
+	}
+
+	protected void fillTypeCustomization(TypeCustomization tc, ITypeInfo customizedType) {
+		try {
+			for (IFieldInfo field : customizedType.getFields()) {
+				InfoCustomizations.getFieldCustomization(tc, field.getName(), true);
+			}
+			for (IMethodInfo method : customizedType.getMethods()) {
+				InfoCustomizations.getMethodCustomization(tc, method.getSignature(), true);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, method.getSignature(), true);
+				fillMethodCustomization(mc, method);
+			}
+			for (IMethodInfo ctor : customizedType.getConstructors()) {
+				InfoCustomizations.getMethodCustomization(tc, ctor.getSignature(), true);
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, ctor.getSignature(), true);
+				fillMethodCustomization(mc, ctor);
 			}
 		} catch (Throwable t) {
 			swingCustomizer.getReflectionUI().logDebug(t);
@@ -1343,18 +1357,8 @@ public class CustomizationTools {
 		MethodCustomization mc = InfoCustomizations.getMethodCustomization(tc, methodSignature, true);
 		IMethodInfo customizedMethod = ReflectionUIUtils.findMethodBySignature(customizedType.getMethods(),
 				methodSignature);
-		updateMethodCustomization(mc, customizedMethod);
+		fillMethodCustomization(mc, customizedMethod);
 		openCustomizationEditor(customizerButton, mc);
-	}
-
-	protected void updateMethodCustomization(MethodCustomization mc, IMethodInfo customizedMethod) {
-		try {
-			for (IParameterInfo param : customizedMethod.getParameters()) {
-				InfoCustomizations.getParameterCustomization(mc, param.getName(), true);
-			}
-		} catch (Throwable t) {
-			swingCustomizer.getReflectionUI().logDebug(t);
-		}
 	}
 
 	public Component makeButtonForMethod(final MethodControlPlaceHolder methodControlPlaceHolder) {

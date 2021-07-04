@@ -140,7 +140,8 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			if (nullValueLabel == null) {
 				return "";
 			} else {
-				return nullValueLabel;
+				return enumType.isDynamicEnumeration() ? nullValueLabel
+						: swingRenderer.prepareMessageToDisplay(nullValueLabel);
 			}
 		} else {
 			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
@@ -148,7 +149,8 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			if (itemInfo == null) {
 				s = "";
 			} else {
-				s = itemInfo.getCaption();
+				s = enumType.isDynamicEnumeration() ? itemInfo.getCaption()
+						: swingRenderer.prepareMessageToDisplay(itemInfo.getCaption());
 			}
 			return s;
 		}

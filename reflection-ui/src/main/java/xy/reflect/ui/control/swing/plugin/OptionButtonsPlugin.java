@@ -229,11 +229,6 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					}
 
 					@Override
-					public SwingRenderer getSwingRenderer() {
-						return OptionButtons.this.swingRenderer;
-					}
-
-					@Override
 					public Image retrieveBackgroundImage() {
 						if (data.getButtonBackgroundImagePath() == null) {
 							return null;
@@ -271,8 +266,9 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					}
 
 					@Override
-					public String retrieveCaption() {
-						return itemInfo.getCaption();
+					public String retrieveText() {
+						return enumType.isDynamicEnumeration() ? itemInfo.getCaption()
+								: swingRenderer.prepareMessageToDisplay(itemInfo.getCaption());
 					}
 
 					@Override

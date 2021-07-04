@@ -36,7 +36,6 @@ import java.util.List;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListLengthUnit;
@@ -112,10 +111,12 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 	protected ITypeInfo findRootItemType() {
 		TreeStructureDiscoverySettings treeStructure = listCustomization.getTreeStructureDiscoverySettings();
 		if (treeStructure != null) {
-			ITypeInfoFinder nodeTypeFinder = treeStructure.getCustomBaseNodeTypeFinder();
-			if (nodeTypeFinder != null) {
-				return nodeTypeFinder.find(reflectionUI, null);
+			if (treeStructure.getCustomBaseNodeTypeFinder() != null) {
+				return treeStructure.getCustomBaseNodeTypeFinder().find(reflectionUI, null);
 			}
+		}
+		if (listCustomization.getCustomItemTypeFinder() != null) {
+			return listCustomization.getCustomItemTypeFinder().find(reflectionUI, null);
 		}
 		return listType.getItemType();
 	}

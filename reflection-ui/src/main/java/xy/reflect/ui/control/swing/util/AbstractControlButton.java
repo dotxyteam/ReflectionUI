@@ -50,9 +50,7 @@ public abstract class AbstractControlButton extends JButton {
 
 	protected static final long serialVersionUID = 1L;
 
-	public abstract SwingRenderer getSwingRenderer();
-
-	public abstract String retrieveCaption();
+	public abstract String retrieveText();
 
 	public abstract Image retrieveBackgroundImage();
 
@@ -62,17 +60,16 @@ public abstract class AbstractControlButton extends JButton {
 
 	public abstract Color retrieveBorderColor();
 
-	private boolean initialized = false;
-	private SwingRenderer swingRenderer;
-	private Color backgroundColor;
-	private Color activatedBackgroundColor;
-	private Color foregroundColor;
-	private Color borderColor;
-	private Image backgroundImage;
-	private Image activatedBackgroundImage;
-	private String caption;
-	private String toolTipText;
-	private Icon icon;
+	protected boolean buttonInitialized = false;
+	protected Color buttonBackgroundColor;
+	protected Color buttonActivatedBackgroundColor;
+	protected Color buttonForegroundColor;
+	protected Color buttonBorderColor;
+	protected Image buttonBackgroundImage;
+	protected Image buttonActivatedBackgroundImage;
+	protected String buttonText;
+	protected String buttonToolTipText;
+	protected Icon buttonIcon;
 
 	public String retrieveToolTipText() {
 		return null;
@@ -83,48 +80,47 @@ public abstract class AbstractControlButton extends JButton {
 	}
 
 	public void updateStyle() {
-		swingRenderer = getSwingRenderer();
-		backgroundColor = retrieveBackgroundColor();
-		foregroundColor = retrieveForegroundColor();
-		borderColor = retrieveBorderColor();
-		backgroundImage = retrieveBackgroundImage();
-		activatedBackgroundColor = (backgroundColor == null) ? null
-				: swingRenderer.addColorActivationEffect(backgroundColor);
-		activatedBackgroundImage = (backgroundImage == null) ? null
-				: swingRenderer.addImageActivationEffect(backgroundImage);
-		caption = retrieveCaption();
-		toolTipText = retrieveToolTipText();
-		icon = retrieveIcon();
+		buttonBackgroundColor = retrieveBackgroundColor();
+		buttonForegroundColor = retrieveForegroundColor();
+		buttonBorderColor = retrieveBorderColor();
+		buttonBackgroundImage = retrieveBackgroundImage();
+		buttonActivatedBackgroundColor = (buttonBackgroundColor == null) ? null
+				: SwingRendererUtils.addColorActivationEffect(buttonBackgroundColor);
+		buttonActivatedBackgroundImage = (buttonBackgroundImage == null) ? null
+				: SwingRendererUtils.addImageActivationEffect(buttonBackgroundImage);
+		buttonText = retrieveText();
+		buttonToolTipText = retrieveToolTipText();
+		buttonIcon = retrieveIcon();
 
-		setText(getSwingRenderer().prepareMessageToDisplay(caption));
-		if ((toolTipText != null) && (toolTipText.length() > 0)) {
-			SwingRendererUtils.setMultilineToolTipText(this, getSwingRenderer().prepareMessageToDisplay(toolTipText));
+		setText(buttonText);
+		if ((buttonToolTipText != null) && (buttonToolTipText.length() > 0)) {
+			SwingRendererUtils.setMultilineToolTipText(this, buttonToolTipText);
 		} else {
 			setToolTipText(null);
 		}
-		setIcon(icon);
-		if (backgroundColor != null) {
-			setBackground(backgroundColor);
+		setIcon(buttonIcon);
+		if (buttonBackgroundColor != null) {
+			setBackground(buttonBackgroundColor);
 		} else {
 			setBackground(new JButton().getBackground());
 		}
-		if (foregroundColor != null) {
-			setForeground(foregroundColor);
+		if (buttonForegroundColor != null) {
+			setForeground(buttonForegroundColor);
 		} else {
 			setForeground(new JButton().getForeground());
 		}
-		if (borderColor != null) {
-			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(borderColor),
+		if (buttonBorderColor != null) {
+			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(buttonBorderColor),
 					new BasicBorders.MarginBorder()));
 		} else {
 			setBorder(new JButton().getBorder());
 		}
-		if ((backgroundImage != null) || (backgroundColor != null)) {
+		if ((buttonBackgroundImage != null) || (buttonBackgroundColor != null)) {
 			setContentAreaFilled(false);
 		} else {
 			setContentAreaFilled(true);
 		}
-		if (backgroundImage != null) {
+		if (buttonBackgroundImage != null) {
 			setBorderPainted(false);
 		} else {
 			setBorderPainted(true);
@@ -133,23 +129,23 @@ public abstract class AbstractControlButton extends JButton {
 
 	@Override
 	public void addNotify() {
-		if (!initialized) {
+		if (!buttonInitialized) {
 			updateStyle();
-			initialized = true;
+			buttonInitialized = true;
 		}
 		super.addNotify();
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		if (backgroundImage != null) {
+		if (buttonBackgroundImage != null) {
 			Runnable paintAction = new Runnable() {
 				@Override
 				public void run() {
 					if (getModel().isArmed()) {
-						g.drawImage(activatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
+						g.drawImage(buttonActivatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
 					} else {
-						g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+						g.drawImage(buttonBackgroundImage, 0, 0, getWidth(), getHeight(), null);
 					}
 				}
 			};
@@ -158,12 +154,12 @@ public abstract class AbstractControlButton extends JButton {
 			} else {
 				paintAction.run();
 			}
-		} else if (backgroundColor != null) {
+		} else if (buttonBackgroundColor != null) {
 			if (getModel().isArmed()) {
-				g.setColor(activatedBackgroundColor);
+				g.setColor(buttonActivatedBackgroundColor);
 				g.fillRect(0, 0, getWidth(), getHeight());
 			} else if (getModel().isEnabled()) {
-				g.setColor(backgroundColor);
+				g.setColor(buttonBackgroundColor);
 				g.fillRect(0, 0, getWidth(), getHeight());
 			}
 		}
