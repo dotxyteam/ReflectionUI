@@ -199,7 +199,8 @@ public interface IListTypeInfo extends ITypeInfo {
 		 */
 		CREATE_INITIAL_VALUE_AUTOMATICALLY,
 		/**
-		 * All item creation options are presented to the user who makes a choice.
+		 * All item creation options are presented to the user who makes a choice. This
+		 * is the default behavior.
 		 */
 		CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES
 	}
