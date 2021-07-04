@@ -60,7 +60,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		this.entryTypeSource = new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,
 				new Class[] { keyJavaType, valueJavaType }, null);
 		this.itemType = reflectionUI
-				.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(entryTypeSource.getTypeInfo()));
+				.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(entryTypeSource.getTypeInfo()));
 	}
 
 	public static boolean isCompatibleWith(Class<?> javaType) {

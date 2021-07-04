@@ -118,7 +118,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 				returnValueVoid = true;
 			} else {
 				returnValueType = reflectionUI
-						.getTypeInfo(new TypeInfoSourceProxy(theSubMethod.getReturnValueType().getSource()) {
+						.buildTypeInfo(new TypeInfoSourceProxy(theSubMethod.getReturnValueType().getSource()) {
 							@Override
 							public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 								return null;

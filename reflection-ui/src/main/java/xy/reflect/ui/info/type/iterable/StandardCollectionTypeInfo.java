@@ -196,7 +196,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 		if (canInstanciateFromArray()) {
 			boolean ok = true;
 			for (Object srcItem : srcArray) {
-				ITypeInfo itemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
+				ITypeInfo itemType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
 				if (!itemType.isImmutable()) {
 					if (!ReflectionUIUtils.canCopy(reflectionUI, srcItem)) {
 						ok = false;
@@ -222,7 +222,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 			Object[] dstArray = new Object[srcArray.length];
 			int i = 0;
 			for (Object srcItem : srcArray) {
-				ITypeInfo itemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
+				ITypeInfo itemType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
 				if (itemType.isImmutable()) {
 					dstArray[i] = srcItem;
 				} else {

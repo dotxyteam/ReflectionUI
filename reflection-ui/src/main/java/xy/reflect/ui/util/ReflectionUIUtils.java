@@ -484,7 +484,7 @@ public class ReflectionUIUtils {
 		if (object == null) {
 			return "";
 		}
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.toString(object);
 	}
 
@@ -492,7 +492,7 @@ public class ReflectionUIUtils {
 		if (object == null) {
 			return null;
 		}
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.getIconImagePath();
 	}
 
@@ -500,18 +500,18 @@ public class ReflectionUIUtils {
 		if (object == null) {
 			return false;
 		}
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.canCopy(object);
 	}
 
 	public static Object copy(ReflectionUI reflectionUI, Object object) {
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.copy(object);
 	}
 
 	public static void copyFieldValues(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply) {
-		ITypeInfo srcType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(src));
-		ITypeInfo dstType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(dst));
+		ITypeInfo srcType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(src));
+		ITypeInfo dstType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(dst));
 		for (IFieldInfo dstField : dstType.getFields()) {
 			if (dstField.isGetOnly()) {
 				continue;
@@ -524,7 +524,7 @@ public class ReflectionUIUtils {
 			if (srcFieldValue == null) {
 				dstField.setValue(dst, null);
 			} else {
-				ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
+				ITypeInfo fieldValueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
 				if (deeply && !fieldValueType.isImmutable()) {
 					Object dstFieldValue;
 					if (canCopy(reflectionUI, srcFieldValue)) {
@@ -662,7 +662,7 @@ public class ReflectionUIUtils {
 		if (value == null) {
 			return true;
 		}
-		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+		ITypeInfo valueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(value));
 		return valueType.isImmutable();
 	}
 
@@ -807,8 +807,8 @@ public class ReflectionUIUtils {
 		if (ClassUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())) {
 			return o1.equals(o2);
 		}
-		ITypeInfo type1 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o1));
-		ITypeInfo type2 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o2));
+		ITypeInfo type1 = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(o1));
+		ITypeInfo type2 = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(o2));
 		if (!type1.equals(type2)) {
 			return false;
 		}

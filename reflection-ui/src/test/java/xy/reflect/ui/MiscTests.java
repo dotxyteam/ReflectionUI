@@ -30,7 +30,7 @@ public class MiscTests {
 	public void testMethodSignature() throws Exception {
 		String signature = "void add(java.awt.Point)";
 		ReflectionUI reflectionUI = new ReflectionUI();
-		ITypeInfo rectangleTypeInfo = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(new Rectangle()));
+		ITypeInfo rectangleTypeInfo = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(new Rectangle()));
 		IMethodInfo addPointMethodInfo = ReflectionUIUtils.findMethodBySignature(rectangleTypeInfo.getMethods(),
 				signature);
 		Assert.assertNotNull(addPointMethodInfo);
@@ -40,7 +40,7 @@ public class MiscTests {
 	public void testDefaultPersistence() throws Exception {
 		Date objectToSave = new Date();
 		ReflectionUI reflectionUI = new ReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(objectToSave));
+		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(objectToSave));
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		type.save(objectToSave, out);
 		Date objectToLoad = new Date(0);

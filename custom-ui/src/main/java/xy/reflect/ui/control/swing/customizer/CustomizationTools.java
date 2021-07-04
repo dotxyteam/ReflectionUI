@@ -191,7 +191,7 @@ public class CustomizationTools {
 
 	public Component makeButtonForType(final Object object) {
 		final ITypeInfo customizedType = this.swingCustomizer.getReflectionUI()
-				.getTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
+				.buildTypeInfo(this.swingCustomizer.getReflectionUI().getTypeInfoSource(object));
 		final JButton result = makeButton();
 		result.setToolTipText(toolsRenderer.prepareMessageToDisplay(getCustomizationTitle(customizedType.getName())));
 		result.addActionListener(new ActionListener() {
@@ -396,13 +396,13 @@ public class CustomizationTools {
 
 	public ITypeInfo getContainingObjectCustomizedType(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		return CustomizationTools.this.swingCustomizer.getReflectionUI()
-				.getTypeInfo(CustomizationTools.this.swingCustomizer.getReflectionUI()
+				.buildTypeInfo(CustomizationTools.this.swingCustomizer.getReflectionUI()
 						.getTypeInfoSource(fieldControlPlaceHolder.getObject()));
 	}
 
 	public ITypeInfo getContainingObjectCustomizedType(MethodControlPlaceHolder methodControlPlaceHolder) {
 		return CustomizationTools.this.swingCustomizer.getReflectionUI()
-				.getTypeInfo(CustomizationTools.this.swingCustomizer.getReflectionUI()
+				.buildTypeInfo(CustomizationTools.this.swingCustomizer.getReflectionUI()
 						.getTypeInfoSource(methodControlPlaceHolder.getObject()));
 	}
 
@@ -1134,7 +1134,7 @@ public class CustomizationTools {
 										infoCustomizations = swingCustomizer.getInfoCustomizations();
 									} else {
 										Object parentItem = selected.getParentItemPosition().getItem();
-										ITypeInfo parentItemType = swingCustomizer.getCustomizedUI().getTypeInfo(
+										ITypeInfo parentItemType = swingCustomizer.getCustomizedUI().buildTypeInfo(
 												swingCustomizer.getCustomizedUI().getTypeInfoSource(parentItem));
 										FieldCustomization fieldCustomization = InfoCustomizations
 												.getFieldCustomization(
@@ -1208,7 +1208,7 @@ public class CustomizationTools {
 
 	public void changeCustomizationFieldValue(AbstractCustomization customization, String fieldName,
 			Object fieldValue) {
-		ITypeInfo customizationType = toolsUI.getTypeInfo(toolsUI.getTypeInfoSource(customization));
+		ITypeInfo customizationType = toolsUI.buildTypeInfo(toolsUI.getTypeInfoSource(customization));
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(customizationType.getFields(), fieldName);
 		DefaultFieldControlData controlData = new DefaultFieldControlData(toolsUI, customization, field);
 		ModificationStack modificationStack = swingCustomizer.getCustomizationController().getModificationStack();
@@ -1218,7 +1218,7 @@ public class CustomizationTools {
 
 	protected void removeCustomizationItem(AbstractCustomization container, String listFieldName,
 			AbstractCustomization item) {
-		ITypeInfo customizationType = toolsUI.getTypeInfo(toolsUI.getTypeInfoSource(container));
+		ITypeInfo customizationType = toolsUI.buildTypeInfo(toolsUI.getTypeInfoSource(container));
 		IFieldInfo listField = ReflectionUIUtils.findInfoByName(customizationType.getFields(), listFieldName);
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		List tmpList = new ArrayList((List) listField.getValue(container));

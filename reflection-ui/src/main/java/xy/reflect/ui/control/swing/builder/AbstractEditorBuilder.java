@@ -85,14 +85,14 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * @return the path to the icon image of the capsule type.
 	 */
 	protected ResourcePath getCapsuleTypeIconImagePath() {
-		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getIconImagePath();
+		return getSwingRenderer().getReflectionUI().buildTypeInfo(getEncapsulatedFieldTypeSource()).getIconImagePath();
 	}
 
 	/**
 	 * @return the online help of the capsule type.
 	 */
 	protected String getCapsuleTypeOnlineHelp() {
-		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getOnlineHelp();
+		return getSwingRenderer().getReflectionUI().buildTypeInfo(getEncapsulatedFieldTypeSource()).getOnlineHelp();
 	}
 
 	/**
@@ -103,7 +103,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		if (isInReadOnlyMode()) {
 			return false;
 		}
-		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource())
+		return getSwingRenderer().getReflectionUI().buildTypeInfo(getEncapsulatedFieldTypeSource())
 				.isModificationStackAccessible();
 	}
 
@@ -111,7 +111,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * @return the caption of the capsule type.
 	 */
 	protected String getCapsuleTypeCaption() {
-		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getCaption();
+		return getSwingRenderer().getReflectionUI().buildTypeInfo(getEncapsulatedFieldTypeSource()).getCaption();
 	}
 
 	/**
@@ -125,7 +125,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		}
 		Object capsule = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
-				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
+				.buildTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.isModificationStackAccessible();
 	}
 
@@ -135,7 +135,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	protected String getEditorWindowTitle() {
 		Object capsule = getCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
-				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
+				.buildTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
 	}
 
@@ -249,7 +249,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		DialogBuilder dialogBuilder = getSwingRenderer().createDialogBuilder(getOwnerComponent());
 		ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 		Object capsule = getCapsule();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(capsule));
+		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(capsule));
 
 		if (type.getFormButtonBackgroundColor() != null) {
 			dialogBuilder.setButtonBackgroundColor(SwingRendererUtils.getColor(type.getFormButtonBackgroundColor()));
@@ -327,7 +327,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			Object value = getCurrentValue();
 			if (value != null) {
 				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
-				ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
+				ITypeInfo valueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(value));
 				currentValueTransaction = valueType.getTransaction(value);
 			}
 		}

@@ -81,7 +81,7 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
+			type = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(containingType.getName(), getName());

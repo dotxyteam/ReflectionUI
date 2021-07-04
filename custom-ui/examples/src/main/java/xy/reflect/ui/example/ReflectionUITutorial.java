@@ -101,7 +101,7 @@ public class ReflectionUITutorial {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					/*
@@ -130,7 +130,7 @@ public class ReflectionUITutorial {
 						return super.getMethods(type);
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};
@@ -143,7 +143,7 @@ public class ReflectionUITutorial {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					/*
@@ -182,7 +182,7 @@ public class ReflectionUITutorial {
 						}
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};
@@ -195,7 +195,7 @@ public class ReflectionUITutorial {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					/*
@@ -216,7 +216,7 @@ public class ReflectionUITutorial {
 						return super.isHidden(method, containingType);
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};
@@ -229,7 +229,7 @@ public class ReflectionUITutorial {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					/*
@@ -289,7 +289,7 @@ public class ReflectionUITutorial {
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
 									HelloWorld newObject = new HelloWorld();
-									for (IFieldInfo field : ReflectionUI.getDefault().getTypeInfo(
+									for (IFieldInfo field : ReflectionUI.getDefault().buildTypeInfo(
 											new JavaTypeInfoSource(ReflectionUI.getDefault(), HelloWorld.class, null))
 											.getFields()) {
 										if (field.isGetOnly()) {
@@ -307,7 +307,7 @@ public class ReflectionUITutorial {
 						}
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};
@@ -320,7 +320,7 @@ public class ReflectionUITutorial {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					/*
@@ -352,7 +352,7 @@ public class ReflectionUITutorial {
 						return CategoriesStyle.MODERN;
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};
@@ -365,7 +365,7 @@ public class ReflectionUITutorial {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					/*
@@ -386,7 +386,7 @@ public class ReflectionUITutorial {
 						throw new AssertionError();
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};
@@ -460,7 +460,7 @@ public class ReflectionUITutorial {
 		ReflectionUI reflectionUI = new ReflectionUI() {
 
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					/*
@@ -523,7 +523,7 @@ public class ReflectionUITutorial {
 						}
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};
@@ -549,7 +549,7 @@ public class ReflectionUITutorial {
 			 * with the desired fields as follows:
 			 */
 			@Override
-			public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+			public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 				return new InfoProxyFactory() {
 
 					@Override
@@ -565,7 +565,7 @@ public class ReflectionUITutorial {
 						}
 					}
 
-				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
+				}.wrapTypeInfo(super.buildTypeInfo(typeInfoSource));
 			}
 
 		};

@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -80,20 +79,12 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	public ITypeInfo getReturnValueType() {
 		if (returnValueType == null) {
 			returnValueType = reflectionUI
-					.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaConstructor.getDeclaringClass(), null));
+					.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaConstructor.getDeclaringClass(), null));
 		}
 		return returnValueType;
 	}
 
-	@Override
-	public boolean isNullReturnValueDistinct() {
-		return false;
-	}
-
-	@Override
-	public boolean isReturnValueDetached() {
-		return false;
-	}
+	
 
 	@Override
 	public List<IParameterInfo> getParameters() {
@@ -129,44 +120,30 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 		}
 	}
 
-	@Override
-	public InfoCategory getCategory() {
-		return null;
-	}
-
-	@Override
-	public String getOnlineHelp() {
-		return null;
-	}
-
-	@Override
-	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
-		return null;
-	}
-
-	@Override
-	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-	}
+	
 
 	@Override
 	public int hashCode() {
-		return javaConstructor.hashCode();
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((javaConstructor == null) ? 0 : javaConstructor.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
+		if (this == obj)
 			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (!super.equals(obj))
 			return false;
-		}
-		if (!javaConstructor.equals(((DefaultConstructorInfo) obj).javaConstructor)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
+		DefaultConstructorInfo other = (DefaultConstructorInfo) obj;
+		if (javaConstructor == null) {
+			if (other.javaConstructor != null)
+				return false;
+		} else if (!javaConstructor.equals(other.javaConstructor))
+			return false;
 		return true;
 	}
 

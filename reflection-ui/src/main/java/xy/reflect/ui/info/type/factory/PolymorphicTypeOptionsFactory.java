@@ -125,7 +125,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			}
 
 		}.wrapTypeInfo(unwrappedType);
-		ITypeInfo result = reflectionUI.getTypeInfo(blockedRecursivityType[0].getSource());
+		ITypeInfo result = reflectionUI.buildTypeInfo(blockedRecursivityType[0].getSource());
 		return result;
 	}
 
@@ -177,7 +177,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			}
 		}
 		if (validSubType != null) {
-			ITypeInfo actualType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(instance));
+			ITypeInfo actualType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(instance));
 			if (actualType.getName().equals(polymorphicType.getName())) {
 				throw new ReflectionUIError(
 						"Polymorphism inconsistency detected: The base type instance is supported by a sub-type : "

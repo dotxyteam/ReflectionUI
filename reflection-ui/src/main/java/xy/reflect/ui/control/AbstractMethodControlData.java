@@ -80,7 +80,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	@Override
 	public ResourcePath getBackgroundImagePath() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonBackgroundImagePath() != null) {
 				return type.getFormButtonBackgroundImagePath();
 			}
@@ -91,7 +91,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	@Override
 	public ColorSpecification getBackgroundColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonBackgroundColor() != null) {
 				return type.getFormButtonBackgroundColor();
 			}
@@ -102,7 +102,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	@Override
 	public ColorSpecification getForegroundColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonForegroundColor() != null) {
 				return type.getFormButtonForegroundColor();
 			}
@@ -113,7 +113,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	@Override
 	public ColorSpecification getBorderColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonBorderColor() != null) {
 				return type.getFormButtonBorderColor();
 			}

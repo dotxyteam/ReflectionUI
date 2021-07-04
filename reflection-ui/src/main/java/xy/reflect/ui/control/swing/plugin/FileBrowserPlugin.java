@@ -158,7 +158,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		@Override
 		public ITypeInfo getReturnValueType() {
 			if (returnType == null) {
-				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+				returnType = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return null;

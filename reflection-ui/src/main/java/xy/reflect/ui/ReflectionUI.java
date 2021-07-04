@@ -109,13 +109,14 @@ public class ReflectionUI {
 	}
 
 	/**
-	 * @param typeInfoSource The data object needed to generate the UI-oriented type
-	 *                       information.
+	 * @param typeInfoSource The source object needed to generate the UI-oriented
+	 *                       type information.
 	 * @return an object containing the UI-oriented type information extracted from
-	 *         the given source. Note that calling {@link ITypeInfo#getSource()} on
-	 *         the result should return an object equals to the given source.
+	 *         the given source and maybe customized. Note that calling
+	 *         {@link ITypeInfo#getSource()} on the result returns an object equals
+	 *         to the given source.
 	 */
-	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+	public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
 		ITypeInfo result = typeInfoSource.getTypeInfo();
 		if (!result.getSource().equals(typeInfoSource)) {
 			throw new ReflectionUIError("Calling " + ITypeInfo.class.getSimpleName()
@@ -139,7 +140,7 @@ public class ReflectionUI {
 	 * @return A formatted message.
 	 */
 	protected String formatLogMessage(String msg) {
-		msg = MiscUtils.truncateNicely(msg, 10000);
+		msg = MiscUtils.truncateNicely(msg, 20000);
 		return SimpleDateFormat.getDateTimeInstance().format(new Date()) + " [" + ReflectionUI.class.getSimpleName()
 				+ "] " + msg;
 	}

@@ -140,7 +140,7 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, boolean.class,
+			type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, boolean.class,
 					new SpecificitiesIdentifier(containingType.getName(), ExportedNullStatusFieldInfo.this.getName())));
 		}
 		return type;

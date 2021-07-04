@@ -105,7 +105,7 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(theSubField.getType().getSource()) {
+			type = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(theSubField.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(containingType.getName(), SubFieldInfo.this.getName());

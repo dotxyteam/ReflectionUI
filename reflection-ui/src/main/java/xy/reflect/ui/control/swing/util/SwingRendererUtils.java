@@ -426,7 +426,7 @@ public class SwingRendererUtils {
 		List<Object> result = new ArrayList<Object>();
 		for (Object object : getAllDisplayedObjects(swingRenderer)) {
 			ITypeInfo objectType = swingRenderer.getReflectionUI()
-					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+					.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 			if (objectType.getName().equals(type.getName())) {
 				result.add(object);
 			}
@@ -755,7 +755,7 @@ public class SwingRendererUtils {
 
 					@Override
 					public ITypeInfo getType() {
-						return swingRenderer.getReflectionUI().getTypeInfo(
+						return swingRenderer.getReflectionUI().buildTypeInfo(
 								new JavaTypeInfoSource(swingRenderer.getReflectionUI(), String.class, null));
 					}
 

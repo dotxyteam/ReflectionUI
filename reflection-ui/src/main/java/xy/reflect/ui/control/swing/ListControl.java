@@ -1245,7 +1245,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		ITypeInfo typeToInstanciate = listType.getItemType();
 		if (typeToInstanciate == null) {
 			typeToInstanciate = swingRenderer.getReflectionUI()
-					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
+					.buildTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
 		boolean constructorSelectable = (listType.getInitialItemValueCreationOption() == null) || (listType
 				.getInitialItemValueCreationOption() == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES);
@@ -1258,7 +1258,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		ITypeInfo typeToInstanciate = listType.getItemType();
 		if (typeToInstanciate == null) {
 			typeToInstanciate = swingRenderer.getReflectionUI()
-					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
+					.buildTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
 
 		BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
@@ -1294,7 +1294,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}.getCapsule();
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(capsule));
+				.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
 	}
 
@@ -1408,9 +1408,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					Object currentItem = detailsControlBuilder.getCurrentValue();
 					if ((newItem != null) && (currentItem != null)) {
 						ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-						ITypeInfo newItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newItem));
+						ITypeInfo newItemType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(newItem));
 						ITypeInfo currentItemType = reflectionUI
-								.getTypeInfo(reflectionUI.getTypeInfoSource(currentItem));
+								.buildTypeInfo(reflectionUI.getTypeInfoSource(currentItem));
 						if (!newItemType.equals(currentItemType)) {
 							refreshStructure = true;
 						}

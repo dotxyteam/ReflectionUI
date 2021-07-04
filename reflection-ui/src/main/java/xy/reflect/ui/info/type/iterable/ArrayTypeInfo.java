@@ -49,7 +49,7 @@ import xy.reflect.ui.info.method.InvocationData;
 public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 
 	public ArrayTypeInfo(JavaTypeInfoSource source) {
-		super(source, source.getReflectionUI().getTypeInfo(
+		super(source, source.getReflectionUI().buildTypeInfo(
 				new JavaTypeInfoSource(source.getReflectionUI(), source.getJavaType().getComponentType(), null)));
 	}
 
@@ -86,7 +86,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 			@Override
 			public ITypeInfo getReturnValueType() {
 				if (returnValueType == null) {
-					returnValueType = reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this, null));
+					returnValueType = reflectionUI.buildTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this, null));
 				}
 				return returnValueType;
 			}

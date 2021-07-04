@@ -245,21 +245,22 @@ public interface IFieldInfo extends IInfo {
 	/**
 	 * @param object The object hosting the field value or null if the field is
 	 *               static.
-	 * @return a list of constructors that must be used instead of those returned by
-	 *         the call of {@linkplain ITypeInfo#getConstructors()} on the result of
-	 *         the call of {@link #getType()}.
+	 * @return a list of constructors that must be used (if non-null) to create a
+	 *         new item instead of those returned by the call of
+	 *         {@linkplain ITypeInfo#getConstructors()} on the result of the call of
+	 *         {@link #getType()}.
 	 */
 	List<IMethodInfo> getAlternativeConstructors(Object object);
 
 	/**
 	 * @param object The object hosting the field value or null if the field is
 	 *               static.
-	 * @return a list of constructors that must be used to create a new item when
-	 *         the current field is a list field ({@link #getType()} instanceof
-	 *         {@link IListTypeInfo}) instead of those returned by the call of
-	 *         {@linkplain ITypeInfo#getConstructors()} on the result of the call of
-	 *         {@link IListTypeInfo#getItemType()} on the result of the call of
-	 *         {@link #getType()}.
+	 * @return a list of constructors that must be used (if non-null) to create a
+	 *         new item when the current field is a list field ({@link #getType()}
+	 *         instanceof {@link IListTypeInfo}) instead of those returned by the
+	 *         call of {@linkplain ITypeInfo#getConstructors()} on the result of the
+	 *         call of {@link IListTypeInfo#getItemType()} on the result of the call
+	 *         of {@link #getType()}.
 	 */
 	List<IMethodInfo> getAlternativeListItemConstructors(Object object);
 

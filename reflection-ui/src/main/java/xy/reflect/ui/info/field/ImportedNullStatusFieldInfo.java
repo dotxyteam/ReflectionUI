@@ -87,7 +87,7 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
 			@Override
 			public ITypeInfo getReturnValueType() {
-				return type;
+				return ImportedNullStatusFieldInfo.this.getType();
 			}
 
 			@Override

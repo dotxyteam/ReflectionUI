@@ -100,7 +100,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(),
+			type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(),
 					javaParameter.getDeclaringInvokable(), javaParameter.getPosition(), null));
 		}
 		return type;

@@ -251,7 +251,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 					public ITypeInfo getReturnValueType() {
 						if (returnValueType == null) {
 							returnValueType = reflectionUI
-									.getTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this, null));
+									.buildTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this, null));
 						}
 						return returnValueType;
 					}

@@ -75,7 +75,7 @@ public class CustomizingForm extends Form {
 			return false;
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo objectType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (!InfoCustomizationsFactory.areCustomizationsActive(getSwingRenderer().getInfoCustomizations(),
 				objectType.getSpecificProperties())) {
 			return false;

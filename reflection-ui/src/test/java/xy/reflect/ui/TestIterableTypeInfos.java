@@ -56,7 +56,7 @@ public class TestIterableTypeInfos {
 	@Test
 	public void test() {
 		CustomizedUI customizedUI = new CustomizedUI();
-		ITypeInfo typeInfo = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(this));
+		ITypeInfo typeInfo = customizedUI.buildTypeInfo(customizedUI.getTypeInfoSource(this));
 
 		final IFieldInfo itemListFieldInfo = ReflectionUIUtils.findInfoByName(typeInfo.getFields(), "itemList");
 		IListTypeInfo itemListTypeInfo = (IListTypeInfo) itemListFieldInfo.getType();
@@ -110,7 +110,7 @@ public class TestIterableTypeInfos {
 				return itemListFieldInfo.getCaption();
 			}
 		}.getRootItemPosition(0);
-		ITypeInfo firstItemType = customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, itemList.get(0).getClass(), null));
+		ITypeInfo firstItemType = customizedUI.buildTypeInfo(new JavaTypeInfoSource(customizedUI, itemList.get(0).getClass(), null));
 		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),
 				firstItemType.getCaption());
 
@@ -130,7 +130,7 @@ public class TestIterableTypeInfos {
 
 		Object subListNameNodeList = subListField.getValue(firstItemPosition.getItem());
 		Object subListNameNode = ((IListTypeInfo) subListField.getType()).toArray(subListNameNodeList)[0];
-		ITypeInfo subListNameNodeType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(subListNameNode));
+		ITypeInfo subListNameNodeType = customizedUI.buildTypeInfo(customizedUI.getTypeInfoSource(subListNameNode));
 		IFieldInfo actualSubListField = subListNameNodeType.getFields().get(0);
 		Object subList = actualSubListField.getValue(subListNameNode);
 		Assert.assertTrue(subList == null);

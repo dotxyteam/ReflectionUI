@@ -173,7 +173,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 			if (javaMethod.getReturnType() == void.class) {
 				returnValueVoid = true;
 			} else {
-				returnValueType = reflectionUI.getTypeInfo(
+				returnValueType = reflectionUI.buildTypeInfo(
 						new JavaTypeInfoSource(reflectionUI, javaMethod.getReturnType(), javaMethod, -1, null));
 			}
 		}

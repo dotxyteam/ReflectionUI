@@ -438,7 +438,7 @@ public class GenericEnumerationFactory {
 					@Override
 					public ITypeInfo getReturnValueType() {
 						if (returnValueType == null) {
-							returnValueType = reflectionUI.getTypeInfo(TypeInfo.this.getSource());
+							returnValueType = reflectionUI.buildTypeInfo(TypeInfo.this.getSource());
 						}
 						return returnValueType;
 					}

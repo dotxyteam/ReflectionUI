@@ -93,8 +93,8 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	@Override
-	public final ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
-		ITypeInfo result = super.getTypeInfo(typeSource);
+	public final ITypeInfo buildTypeInfo(ITypeInfoSource typeSource) {
+		ITypeInfo result = super.buildTypeInfo(typeSource);
 		result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 		result = getTypeInfoBeforeCustomizations(result);
 		result = getInfoCustomizationsFactory().wrapTypeInfo(result);

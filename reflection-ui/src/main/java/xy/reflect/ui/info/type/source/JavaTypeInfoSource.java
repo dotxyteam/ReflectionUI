@@ -110,7 +110,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 					if (itemClass == null) {
 						itemType = null;
 					} else {
-						itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
+						itemType = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
 					}
 					result = new StandardCollectionTypeInfo(this, itemType);
 				} else if (StandardMapAsListTypeInfo.isCompatibleWith(getJavaType())) {

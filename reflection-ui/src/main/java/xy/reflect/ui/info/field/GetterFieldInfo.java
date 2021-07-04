@@ -234,11 +234,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI
-					.getTypeInfo(new TypeInfoSourceProxy(getGetterMethodInfo().getReturnValueType().getSource()) {
+					.buildTypeInfo(new TypeInfoSourceProxy(getGetterMethodInfo().getReturnValueType().getSource()) {
 						@Override
 						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 							return new SpecificitiesIdentifier(reflectionUI
-									.getTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null))
+									.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null))
 									.getName(), GetterFieldInfo.this.getName());
 						}
 					});

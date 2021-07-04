@@ -255,7 +255,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	@Override
 	public IContext getContext() {
 		ITypeInfo objectType = this.swingRenderer.reflectionUI
-				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
+				.buildTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
 		return new FieldContext(objectType, field);
 	}
 
@@ -462,7 +462,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		final SpecificitiesIdentifier specificitiesIdentifier = controlInput.getControlData().getType().getSource()
 				.getSpecificitiesIdentifier();
 		final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
-				.getTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
+				.buildTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return specificitiesIdentifier;

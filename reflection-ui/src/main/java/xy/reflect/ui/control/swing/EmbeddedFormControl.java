@@ -220,9 +220,9 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				subForm.refresh(refreshStructure);
 			} else {
 				final ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
+						.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
 				final ITypeInfo newSubFormObjectType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
+						.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
 				if (subFormObjectType.equals(newSubFormObjectType)) {
 					swingRenderer.showBusyDialogWhile(this, new Runnable() {
 						@Override

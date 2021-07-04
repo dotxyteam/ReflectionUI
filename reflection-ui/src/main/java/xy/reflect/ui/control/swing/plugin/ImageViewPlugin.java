@@ -176,7 +176,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		@Override
 		public ITypeInfo getReturnValueType() {
 			if (returnType == null) {
-				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+				returnType = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return null;
@@ -612,7 +612,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 									return result;
 								}
 
-							}.wrapTypeInfo(swingRenderer.getReflectionUI().getTypeInfo(
+							}.wrapTypeInfo(swingRenderer.getReflectionUI().buildTypeInfo(
 									new JavaTypeInfoSource(swingRenderer.getReflectionUI(), File.class, null)));
 						}
 

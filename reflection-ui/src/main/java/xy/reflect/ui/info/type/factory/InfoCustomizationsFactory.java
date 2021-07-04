@@ -533,7 +533,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem();
 					if (item != null) {
-						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = customizedUI.buildTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IFieldInfo itemField : actualItemType.getFields()) {
 							if (itemField.getName().equals(shortcut.getFieldName())) {
 								AbstractListProperty property = new AbstractListProperty() {
@@ -757,7 +757,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem();
 					if (item != null) {
-						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = customizedUI.buildTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
 							if (itemMethod.getSignature().equals(shortcut.getMethodSignature())) {
 								AbstractListAction action = new AbstractListAction() {
@@ -830,7 +830,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 											if (delegate.getReturnValueType() == null) {
 												returnValueVoid = true;
 											} else {
-												returnValueType = customizedUI.getTypeInfo(new TypeInfoSourceProxy(
+												returnValueType = customizedUI.buildTypeInfo(new TypeInfoSourceProxy(
 														delegate.getReturnValueType().getSource()) {
 													@Override
 													public SpecificitiesIdentifier getSpecificitiesIdentifier() {
@@ -1891,7 +1891,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 				@Override
 				public ITypeInfo getType() {
-					return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
+					return customizedUI.buildTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
 							new SpecificitiesIdentifier(containingType.getName(), "customizationError")));
 				}
 
@@ -2067,7 +2067,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 							@Override
 							public ITypeInfo getType() {
-								return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
+								return customizedUI.buildTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
 										new SpecificitiesIdentifier(containingType.getName(), getName())));
 							}
 
@@ -2897,7 +2897,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						@Override
 						public ITypeInfo getType() {
 							if (type == null) {
-								type = customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+								type = customizedUI.buildTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
 									@Override
 									public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 										return new SpecificitiesIdentifier(containingType.getName(), getName());

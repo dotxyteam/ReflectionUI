@@ -126,7 +126,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ColorSpecification getLabelForegroundColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormForegroundColor() != null) {
 				return type.getFormForegroundColor();
 			}
@@ -137,7 +137,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ColorSpecification getBorderColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormBorderColor() != null) {
 				return type.getFormBorderColor();
 			}
@@ -148,7 +148,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ColorSpecification getEditorForegroundColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormEditorsForegroundColor() != null) {
 				return type.getFormEditorsForegroundColor();
 			}
@@ -159,7 +159,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ColorSpecification getEditorBackgroundColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormEditorsBackgroundColor() != null) {
 				return type.getFormEditorsBackgroundColor();
 			}
@@ -170,7 +170,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ResourcePath getButtonBackgroundImagePath() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonBackgroundImagePath() != null) {
 				return type.getFormButtonBackgroundImagePath();
 			}
@@ -181,7 +181,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ColorSpecification getButtonBackgroundColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonBackgroundColor() != null) {
 				return type.getFormButtonBackgroundColor();
 			}
@@ -192,7 +192,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ColorSpecification getButtonForegroundColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonForegroundColor() != null) {
 				return type.getFormButtonForegroundColor();
 			}
@@ -203,7 +203,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public ColorSpecification getButtonBorderColor() {
 		if (getObject() != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 			if (type.getFormButtonBorderColor() != null) {
 				return type.getFormButtonBorderColor();
 			}
@@ -265,7 +265,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 
 		protected String getContainingTypeName() {
 			ITypeInfo containingType = (object == null) ? null
-					: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+					: reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 			return ((containingType == null) ? "<unknown>" : containingType.getName());
 		}
 
@@ -301,7 +301,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 
 		protected String getContainingTypeName() {
 			ITypeInfo containingType = (object == null) ? null
-					: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+					: reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 			return ((containingType == null) ? "<unknown>" : containingType.getName());
 		}
 
@@ -319,7 +319,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 		protected ITypeInfo getItemType(IListTypeInfo type) {
 			ITypeInfo result = super.getItemType(type);
 			if (result == null) {
-				result = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, null));
+				result = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, null));
 			}
 			result = new InfoProxyFactory() {
 

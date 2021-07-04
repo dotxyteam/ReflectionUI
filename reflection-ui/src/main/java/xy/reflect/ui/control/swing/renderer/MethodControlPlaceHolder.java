@@ -170,7 +170,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	@Override
 	public IContext getContext() {
 		ITypeInfo objectType = this.swingRenderer.reflectionUI
-				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
+				.buildTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
 		return new MethodContext(objectType, method);
 	}
 

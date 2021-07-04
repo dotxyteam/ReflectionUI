@@ -166,7 +166,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public IListTypeInfo getType() {
 		if (type == null) {
 			type = (IListTypeInfo) reflectionUI
-					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
+					.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 		}
 		return type;
 	}
@@ -182,7 +182,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 			@Override
 			public ITypeInfo getReturnValueType() {
-				return type;
+				return ImplicitListFieldInfo.this.getType();
 			}
 
 			@Override
