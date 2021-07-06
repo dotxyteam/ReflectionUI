@@ -32,13 +32,13 @@ import java.awt.Dimension;
 import java.io.Serializable;
 
 import javax.swing.BorderFactory;
-import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -118,7 +118,7 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 		}
 
 		@Override
-		protected Dimension getDynamicPreferredSize(JScrollPane scrollPane, Dimension defaultSize) {
+		protected Dimension getDynamicPreferredSize(ControlScrollPane scrollPane, Dimension defaultSize) {
 			Dimension result = super.getDynamicPreferredSize(scrollPane, defaultSize);
 			MultipleLinesTextConfiguration controlCustomization = (MultipleLinesTextConfiguration) loadControlCustomization(
 					input);

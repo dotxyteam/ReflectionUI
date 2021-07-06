@@ -59,7 +59,6 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
@@ -593,40 +592,7 @@ public class Form extends ImagePanel {
 
 			@Override
 			protected JScrollPane wrapListControl(@SuppressWarnings("rawtypes") JList listControl) {
-				JScrollPane result = new ControlScrollPane(listControl) {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Dimension getPreferredSize() {
-						Dimension result = super.getPreferredSize();
-						if (result == null) {
-							return null;
-						}
-						result = preventScrollBarsFromHidingContent(result);
-						return result;
-					}
-
-					Dimension preventScrollBarsFromHidingContent(Dimension size) {
-						Dimension result = new Dimension(size);
-						JScrollBar hSBar = getHorizontalScrollBar();
-						{
-							if (hSBar != null) {
-								if (hSBar.isVisible()) {
-									result.height += hSBar.getHeight();
-								}
-							}
-						}
-						JScrollBar vSBar = getVerticalScrollBar();
-						{
-							if (vSBar != null) {
-								if (vSBar.isVisible()) {
-									result.width += vSBar.getWidth();
-								}
-							}
-						}
-						return result;
-					}
-				};
+				JScrollPane result = new ControlScrollPane(listControl);
 				result.setBorder(null);
 				return result;
 			}
@@ -1027,41 +993,16 @@ public class Form extends ImagePanel {
 	}
 
 	protected Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
-		JPanel result = new ControlPanel();
+		JPanel panel = new ControlPanel();
 		for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
-			result.add(methodControlPlaceHolder);
+			panel.add(methodControlPlaceHolder);
 			updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 		}
-		result.setName("methodsPanel [parent=" + this.getName() + "]");
-		return new ControlScrollPane(SwingRendererUtils.flowInLayout(result, GridBagConstraints.CENTER)) {
-
-			private static final long serialVersionUID = 1L;
-
-			{
-				SwingRendererUtils.removeScrollPaneBorder(this);
-			}
-
-			@Override
-			public Dimension getPreferredSize() {
-				Dimension result = super.getPreferredSize();
-				if (result == null) {
-					return null;
-				}
-				if (getHorizontalScrollBar() != null) {
-					result.height += getHorizontalScrollBar().getHeight();
-				}
-				if (getVerticalScrollBar() != null) {
-					result.width += getVerticalScrollBar().getWidth();
-				}
-				return result;
-			}
-
-			@Override
-			public Dimension getMinimumSize() {
-				return getPreferredSize();
-			}
-
-		};
+		panel.setName("methodsPanel [parent=" + this.getName() + "]");
+		ControlScrollPane scrollPane = new ControlScrollPane(
+				SwingRendererUtils.flowInLayout(panel, GridBagConstraints.CENTER));
+		SwingRendererUtils.removeScrollPaneBorder(scrollPane);
+		return scrollPane;
 	}
 
 	/**

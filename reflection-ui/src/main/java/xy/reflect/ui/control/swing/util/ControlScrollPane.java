@@ -29,7 +29,9 @@
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.Component;
+import java.awt.Dimension;
 
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -55,4 +57,39 @@ public class ControlScrollPane extends JScrollPane {
 		getViewport().setOpaque(false);
 	}
 
+	@Override
+	public Dimension getMinimumSize() {
+		return getPreferredSize();
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension result = super.getPreferredSize();
+		if (result == null) {
+			return null;
+		}
+		result = preventScrollBarsFromHidingContent(result);
+		return result;
+	}
+
+	protected Dimension preventScrollBarsFromHidingContent(Dimension baseSize) {
+		Dimension result = new Dimension(baseSize);
+		JScrollBar hSBar = getHorizontalScrollBar();
+		{
+			if (hSBar != null) {
+				if (hSBar.isVisible()) {
+					result.height += hSBar.getHeight();
+				}
+			}
+		}
+		JScrollBar vSBar = getVerticalScrollBar();
+		{
+			if (vSBar != null) {
+				if (vSBar.isVisible()) {
+					result.width += vSBar.getWidth();
+				}
+			}
+		}
+		return result;
+	}
 }
