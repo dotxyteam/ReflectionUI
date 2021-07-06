@@ -65,10 +65,10 @@ public class DialogBuilder {
 	protected List<Component> buttonBarControls;
 	protected Runnable whenClosing;
 	protected RenderedDialog dialog;
-	protected Image buttonBackgroundImage;
-	protected Color buttonBackgroundColor;
-	protected Color buttonForegroundColor;
-	protected Color buttonBorderColor;
+	protected Image closingButtonBackgroundImage;
+	protected Color closingButtonBackgroundColor;
+	protected Color closingButtonForegroundColor;
+	protected Color closingButtonBorderColor;
 
 	public DialogBuilder(SwingRenderer swingRenderer, Component ownerComponent) {
 		super();
@@ -86,36 +86,36 @@ public class DialogBuilder {
 		return swingRenderer;
 	}
 
-	public Image getButtonBackgroundImage() {
-		return buttonBackgroundImage;
+	public Image getClosingButtonBackgroundImage() {
+		return closingButtonBackgroundImage;
 	}
 
-	public void setButtonBackgroundImage(Image buttonBackgroundImage) {
-		this.buttonBackgroundImage = buttonBackgroundImage;
+	public void setClosingButtonBackgroundImage(Image buttonBackgroundImage) {
+		this.closingButtonBackgroundImage = buttonBackgroundImage;
 	}
 
-	public Color getButtonBackgroundColor() {
-		return buttonBackgroundColor;
+	public Color getClosingButtonBackgroundColor() {
+		return closingButtonBackgroundColor;
 	}
 
-	public void setButtonBackgroundColor(Color buttonBackgroundColor) {
-		this.buttonBackgroundColor = buttonBackgroundColor;
+	public void setClosingButtonBackgroundColor(Color buttonBackgroundColor) {
+		this.closingButtonBackgroundColor = buttonBackgroundColor;
 	}
 
-	public Color getButtonForegroundColor() {
-		return buttonForegroundColor;
+	public Color getClosingButtonForegroundColor() {
+		return closingButtonForegroundColor;
 	}
 
-	public void setButtonForegroundColor(Color buttonForegroundColor) {
-		this.buttonForegroundColor = buttonForegroundColor;
+	public void setClosingButtonForegroundColor(Color buttonForegroundColor) {
+		this.closingButtonForegroundColor = buttonForegroundColor;
 	}
 
-	public Color getButtonBorderColor() {
-		return buttonBorderColor;
+	public Color getClosingButtonBorderColor() {
+		return closingButtonBorderColor;
 	}
 
-	public void setButtonBorderColor(Color buttonBorderColor) {
-		this.buttonBorderColor = buttonBorderColor;
+	public void setClosingButtonBorderColor(Color buttonBorderColor) {
+		this.closingButtonBorderColor = buttonBorderColor;
 	}
 
 	public RenderedDialog getCreatedDialog() {
@@ -173,22 +173,22 @@ public class DialogBuilder {
 
 			@Override
 			public Image retrieveBackgroundImage() {
-				return buttonBackgroundImage;
+				return DialogBuilder.this.getClosingButtonBackgroundImage();
 			}
 
 			@Override
 			public Color retrieveBackgroundColor() {
-				return buttonBackgroundColor;
+				return DialogBuilder.this.getClosingButtonBackgroundColor();
 			}
 
 			@Override
 			public Color retrieveForegroundColor() {
-				return buttonForegroundColor;
+				return DialogBuilder.this.getClosingButtonForegroundColor();
 			}
 
 			@Override
 			public Color retrieveBorderColor() {
-				return buttonBorderColor;
+				return DialogBuilder.this.getClosingButtonBorderColor();
 			}
 
 			@Override

@@ -252,19 +252,19 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(capsule));
 
 		if (type.getFormButtonBackgroundColor() != null) {
-			dialogBuilder.setButtonBackgroundColor(SwingRendererUtils.getColor(type.getFormButtonBackgroundColor()));
+			dialogBuilder.setClosingButtonBackgroundColor(SwingRendererUtils.getColor(type.getFormButtonBackgroundColor()));
 		}
 
 		if (type.getFormButtonForegroundColor() != null) {
-			dialogBuilder.setButtonForegroundColor(SwingRendererUtils.getColor(type.getFormButtonForegroundColor()));
+			dialogBuilder.setClosingButtonForegroundColor(SwingRendererUtils.getColor(type.getFormButtonForegroundColor()));
 		}
 
 		if (type.getFormButtonBorderColor() != null) {
-			dialogBuilder.setButtonBorderColor(SwingRendererUtils.getColor(type.getFormButtonBorderColor()));
+			dialogBuilder.setClosingButtonBorderColor(SwingRendererUtils.getColor(type.getFormButtonBorderColor()));
 		}
 
 		if (type.getFormButtonBackgroundImagePath() != null) {
-			dialogBuilder.setButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
+			dialogBuilder.setClosingButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
 					type.getFormButtonBackgroundImagePath(), ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 		}
 		return dialogBuilder;
