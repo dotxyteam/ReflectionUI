@@ -1181,22 +1181,22 @@ public class SwingRenderer {
 		public ApplicationDialogBuilder(Component ownerComponent) {
 			super(SwingRenderer.this, ownerComponent);
 			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
-				setButtonBackgroundColor(
+				setClosingButtonBackgroundColor(
 						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor()));
 			}
 
 			if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
-				setButtonForegroundColor(
+				setClosingButtonForegroundColor(
 						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor()));
 			}
 
 			if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
-				setButtonBorderColor(
+				setClosingButtonBorderColor(
 						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor()));
 			}
 
 			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
-				setButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
+				setClosingButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
 						reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
 						ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 			}

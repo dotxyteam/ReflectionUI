@@ -56,6 +56,7 @@ public abstract class ReschedulableTask {
 	protected Object executionMutex = new Object();
 	protected Future<?> taskStatus;
 	protected boolean executionScheduled = false;
+	protected long executionScheduledSince = -1;
 
 	public void schedule() {
 		synchronized (executionMutex) {
@@ -65,6 +66,7 @@ public abstract class ReschedulableTask {
 					@Override
 					public void run() {
 						executionScheduled = true;
+						executionScheduledSince = System.currentTimeMillis();
 						statusChanged[0] = true;
 						try {
 							try {
@@ -74,6 +76,7 @@ public abstract class ReschedulableTask {
 							}
 						} finally {
 							executionScheduled = false;
+							executionScheduledSince = -1;
 						}
 						execute();
 					}
@@ -115,6 +118,15 @@ public abstract class ReschedulableTask {
 			}
 			schedule();
 		}
+	}
+
+	public long getMillisecondsToExecution() {
+		long startTime = executionScheduledSince;
+		if (startTime == -1) {
+			return -1;
+		}
+		long elapsedTime = System.currentTimeMillis() - startTime;
+		return getExecutionDelayMilliseconds() - elapsedTime;
 	}
 
 }
