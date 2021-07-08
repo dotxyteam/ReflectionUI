@@ -893,7 +893,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		public GeneratedApplicationInfoProxy(IApplicationInfo appInfo) {
 			this.base = appInfo;
-			checkNewActiveFactoriesTrace();
+			checkActiveFactories();
 		}
 
 		public InfoProxyFactory getFactory() {
@@ -1006,7 +1006,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return result;
 		}
 
-		private void checkNewActiveFactoriesTrace() {
+		private void checkActiveFactories() {
 			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
 				return;
 			}
@@ -1078,7 +1078,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		public GeneratedBasicTypeInfoProxy(ITypeInfo type) {
 			this.base = type;
-			checkNewActiveFactoriesTrace();
+			checkActiveFactories();
 		}
 
 		public InfoProxyFactory getFactory() {
@@ -1327,7 +1327,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return result;
 		}
 
-		private void checkNewActiveFactoriesTrace() {
+		private void checkActiveFactories() {
 			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
 				return;
 			}
