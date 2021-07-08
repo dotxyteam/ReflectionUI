@@ -1107,7 +1107,7 @@ public class CustomizationTools {
 					openInfosOrderDialog(customizerButton, lc, "columnsCustomOrder", columns, "Columns Order");
 				}
 			});
-			result.add(new AbstractAction(this.swingCustomizer.prepareMessageToDisplay("More Options...")) {
+			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1124,7 +1124,7 @@ public class CustomizationTools {
 							JMenu listSelectionMenu = new JMenu(
 									this.toolsRenderer.prepareMessageToDisplay("Selected Sub-list"));
 							listSelectionMenu.add(new AbstractAction(
-									this.swingCustomizer.prepareMessageToDisplay("More Options...")) {
+									this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -1298,7 +1298,7 @@ public class CustomizationTools {
 				InfoCustomizations.getEnumerationItemCustomization(ec, itemInfo.getName(), true);
 			}
 		} catch (Throwable t) {
-			swingCustomizer.getReflectionUI().logDebug(t);
+			toolsUI.logDebug(t);
 		}
 	}
 
@@ -1308,7 +1308,7 @@ public class CustomizationTools {
 				InfoCustomizations.getColumnCustomization(lc, column.getName(), true);
 			}
 		} catch (Throwable t) {
-			swingCustomizer.getReflectionUI().logDebug(t);
+			toolsUI.logDebug(t);
 		}
 	}
 
@@ -1318,7 +1318,7 @@ public class CustomizationTools {
 				InfoCustomizations.getParameterCustomization(mc, param.getName(), true);
 			}
 		} catch (Throwable t) {
-			swingCustomizer.getReflectionUI().logDebug(t);
+			toolsUI.logDebug(t);
 		}
 	}
 
@@ -1338,7 +1338,7 @@ public class CustomizationTools {
 				fillMethodCustomization(mc, ctor);
 			}
 		} catch (Throwable t) {
-			swingCustomizer.getReflectionUI().logDebug(t);
+			toolsUI.logDebug(t);
 		}
 	}
 
