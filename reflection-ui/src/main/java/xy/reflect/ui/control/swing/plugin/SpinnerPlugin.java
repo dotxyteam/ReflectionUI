@@ -207,6 +207,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 								}
 								SwingUtilities.invokeLater(new Runnable() {
 
+									@SuppressWarnings({ "unchecked", "rawtypes" })
 									@Override
 									public void run() {
 										try {
@@ -215,6 +216,17 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 											Object value;
 											try {
 												value = formatter.stringToValue(string);
+												SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) getModel();
+												if (((Comparable) value)
+														.compareTo(spinnerNumberModel.getMaximum()) > 0) {
+													value = spinnerNumberModel.getMaximum();
+													textField.setText(formatter.valueToString(value));
+												}
+												if (((Comparable) value)
+														.compareTo(spinnerNumberModel.getMinimum()) < 0) {
+													value = spinnerNumberModel.getMinimum();
+													textField.setText(formatter.valueToString(value));
+												}
 												currentConversionError = null;
 											} catch (Throwable t) {
 												currentConversionError = t;
