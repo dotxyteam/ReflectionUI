@@ -333,7 +333,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		}
 		if (currentValueTransaction != null) {
 			currentValueTransaction.begin();
-			((Form) createdDialog.getDialogBuilder().getContentComponent()).refresh(false);
 		} else {
 			createdFormModificationStack.setMaximumSize(Integer.MAX_VALUE);
 		}
