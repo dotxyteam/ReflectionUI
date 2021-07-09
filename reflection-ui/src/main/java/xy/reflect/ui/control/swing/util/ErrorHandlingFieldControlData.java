@@ -121,7 +121,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 				@Override
 				public void run() {
 					swingRenderer.handleObjectException(errorDialogOwner,
-							new ReflectionUIError(getCaption() + ": " + t.toString(), t));
+							new ReflectionUIError("'" + getCaption() + "' error: " + t.toString(), t));
 				}
 			});
 		} else {

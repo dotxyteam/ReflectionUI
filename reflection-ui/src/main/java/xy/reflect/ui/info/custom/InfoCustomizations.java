@@ -3177,10 +3177,16 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public String getMethodName() {
+			if(methodSignature == null) {
+				return null;
+			}
 			return ReflectionUIUtils.extractMethodNameFromSignature(methodSignature);
 		}
 
 		public void setMethodName(String methodName) {
+			if(methodSignature == null) {
+				return;
+			}
 			String returnTypeName = ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(methodSignature);
 			String[] parameterTypeNames = ReflectionUIUtils
 					.extractMethodParameterTypeNamesFromSignature(methodSignature);
@@ -4625,7 +4631,7 @@ public class InfoCustomizations implements Serializable {
 						.equals(MethodReturnValueFieldInfo.buildLegacyReturnValueFieldName(mc.getMethodName()))) {
 					String oldFieldName = siblingFc.getFieldName();
 					siblingFc.setFieldName(
-							MethodReturnValueFieldInfo.buildReturnValueFieldName(mc.getMethodSignature()));
+							MethodReturnValueFieldInfo.buildMethodReturnValueFieldName(mc.getMethodSignature()));
 					if (containingTc.getCustomFieldsOrder() != null) {
 						MiscUtils.replaceItem(containingTc.getCustomFieldsOrder(), oldFieldName,
 								siblingFc.getFieldName());

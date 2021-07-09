@@ -301,7 +301,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 						if (!done && (t != null)) {
 							FieldControlPlaceHolder.this.setBorder(SwingRendererUtils.getErrorBorder());
 							swingRenderer.handleObjectException(FieldControlPlaceHolder.this,
-									new ReflectionUIError(getCaption() + ": " + t.toString(), t));
+									new ReflectionUIError("'" + getCaption() + "' error: " + t.toString(), t));
 						} else {
 							FieldControlPlaceHolder.this.setBorder(null);
 						}
