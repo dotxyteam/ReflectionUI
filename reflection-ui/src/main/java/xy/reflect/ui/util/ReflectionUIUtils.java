@@ -107,7 +107,7 @@ import xy.reflect.ui.undo.UndoOrder;
 public class ReflectionUIUtils {
 
 	public static final ReflectionUI STANDARD_REFLECTION = new ReflectionUI();
-	public static final String METHOD_SIGNATURE_REGEX = "(\\s*[^ ]+\\s*)(\\s+[^ ]+\\s*)?\\(([^\\)]*)\\)\\s*";
+	public static final String METHOD_SIGNATURE_REGEX = "([^ ].*) ([^ ]+)? ?\\(([^\\)]*)\\)";
 
 	public static String buildMethodSignature(String returnTypeName, String methodName,
 			List<String> parameterTypeNames) {
@@ -159,7 +159,9 @@ public class ReflectionUIUtils {
 		}
 		String result = matcher.group(1);
 		if (result != null) {
-			result = result.trim();
+			if (!result.equals(result.trim())) {
+				throw new ReflectionUIError();
+			}
 		}
 		return result;
 	}
@@ -173,8 +175,9 @@ public class ReflectionUIUtils {
 		String result = matcher.group(2);
 		if (result == null) {
 			result = "";
-		} else {
-			result = result.trim();
+		}
+		if (!result.equals(result.trim())) {
+			throw new ReflectionUIError();
 		}
 		return result;
 	}
@@ -186,9 +189,37 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		String paramListString = matcher.group(3);
-		paramListString = paramListString.trim();
-		List<String> result = new ArrayList<String>(Arrays.asList(paramListString.split("\\s*,\\s*")));
-		result.removeAll(Collections.singletonList(""));
+		if (!paramListString.equals(paramListString.trim())) {
+			throw new ReflectionUIError();
+		}
+		List<String> result = new ArrayList<String>();
+		if (paramListString.length() > 0) {
+			int openBracketCount = 0;
+			int parameterTypeNameStart = 0;
+			for (int i = 0; i < paramListString.length(); i++) {
+				if (paramListString.charAt(i) == '[') {
+					openBracketCount++;
+				} else if (paramListString.charAt(i) == ']') {
+					openBracketCount--;
+				} else if (paramListString.charAt(i) == ',') {
+					if (openBracketCount == 0) {
+						result.add(paramListString.substring(parameterTypeNameStart, i));
+						if ((i + 2) >= paramListString.length()) {
+							throw new ReflectionUIError();
+						}
+						if (paramListString.charAt(i + 1) != ' ') {
+							throw new ReflectionUIError();
+						}
+						parameterTypeNameStart = i + 2;
+						i++;
+					}
+				}
+			}
+			if (openBracketCount > 0) {
+				throw new ReflectionUIError();
+			}
+			result.add(paramListString.substring(parameterTypeNameStart));
+		}
 		return result.toArray(new String[result.size()]);
 	}
 
@@ -1005,9 +1036,12 @@ public class ReflectionUIUtils {
 		String baseMethodName = ReflectionUIUtils.extractMethodNameFromSignature(baseMethodSignature);
 		String[] baseMethodParameterTypeNames = ReflectionUIUtils
 				.extractMethodParameterTypeNamesFromSignature(baseMethodSignature);
-		return baseMethodReturnTypeName + "-" + ((baseMethodName.length() == 0) ? "<constructor>" : baseMethodName)
+		String result = baseMethodReturnTypeName + "-"
+				+ ((baseMethodName.length() == 0) ? "<constructor>" : baseMethodName)
 				+ ((baseMethodParameterTypeNames.length == 0) ? ""
 						: ("-" + MiscUtils.stringJoin(Arrays.asList(baseMethodParameterTypeNames), "-")));
+		result = result.replace(" ", "_");
+		return result;
 	}
 
 	public static DefaultMenuElementPosition getMenuElementPosition(MenuModelCustomization menuModelCustomization,

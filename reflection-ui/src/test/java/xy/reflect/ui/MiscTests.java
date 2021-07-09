@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -27,13 +28,47 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class MiscTests {
 
 	@Test
-	public void testMethodSignature() throws Exception {
+	public void testMethodSignatures() throws Exception {
 		String signature = "void add(java.awt.Point)";
 		ReflectionUI reflectionUI = new ReflectionUI();
 		ITypeInfo rectangleTypeInfo = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(new Rectangle()));
 		IMethodInfo addPointMethodInfo = ReflectionUIUtils.findMethodBySignature(rectangleTypeInfo.getMethods(),
 				signature);
 		Assert.assertNotNull(addPointMethodInfo);
+
+		{
+			String complexSignature = "CapsuleFieldType [context=EncapsulationContext [containingType=xy.phoyo.album.Configuration], fieldName=printerSupportedPapers]"
+					+ " " + "printerSupportedPapers.get()";
+			Assert.assertEquals(
+					"CapsuleFieldType [context=EncapsulationContext [containingType=xy.phoyo.album.Configuration], fieldName=printerSupportedPapers]",
+					ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(complexSignature));
+			Assert.assertEquals("printerSupportedPapers.get",
+					ReflectionUIUtils.extractMethodNameFromSignature(complexSignature));
+			Assert.assertArrayEquals(new String[] {},
+					ReflectionUIUtils.extractMethodParameterTypeNamesFromSignature(complexSignature));
+			Assert.assertEquals(complexSignature, ReflectionUIUtils.buildMethodSignature(
+					ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(complexSignature),
+					ReflectionUIUtils.extractMethodNameFromSignature(complexSignature),
+					Arrays.asList(ReflectionUIUtils.extractMethodParameterTypeNamesFromSignature(complexSignature))));
+		}
+
+		{
+			String complexSignature = "int" + " " + "test"
+					+ "(CapsuleFieldType [context=EncapsulationContext [containingType=xy.phoyo.album.Configuration], fieldName=printerSupportedPapers]"
+					+ ", " + "java.io.File" + ", "
+					+ "CapsuleFieldType [context=EncapsulationContext [containingType=xy.phoyo.album.Configuration], fieldName=printerSupportedPapers])";
+			Assert.assertEquals("int", ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(complexSignature));
+			Assert.assertEquals("test", ReflectionUIUtils.extractMethodNameFromSignature(complexSignature));
+			Assert.assertArrayEquals(new String[] {
+					"CapsuleFieldType [context=EncapsulationContext [containingType=xy.phoyo.album.Configuration], fieldName=printerSupportedPapers]",
+					"java.io.File",
+					"CapsuleFieldType [context=EncapsulationContext [containingType=xy.phoyo.album.Configuration], fieldName=printerSupportedPapers]" },
+					ReflectionUIUtils.extractMethodParameterTypeNamesFromSignature(complexSignature));
+			Assert.assertEquals(complexSignature, ReflectionUIUtils.buildMethodSignature(
+					ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(complexSignature),
+					ReflectionUIUtils.extractMethodNameFromSignature(complexSignature),
+					Arrays.asList(ReflectionUIUtils.extractMethodParameterTypeNamesFromSignature(complexSignature))));
+		}
 	}
 
 	@Test

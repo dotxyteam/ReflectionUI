@@ -73,10 +73,10 @@ public class MethodReturnValueFieldInfo extends AbstractInfo implements IFieldIn
 
 	@Override
 	public String getName() {
-		return buildReturnValueFieldName(method.getSignature());
+		return buildMethodReturnValueFieldName(method.getSignature());
 	}
 
-	public static String buildReturnValueFieldName(String baseMethodSignature) {
+	public static String buildMethodReturnValueFieldName(String baseMethodSignature) {
 		return "returnValueOf-" + ReflectionUIUtils.buildNameFromMethodSignature(baseMethodSignature);
 	}
 
