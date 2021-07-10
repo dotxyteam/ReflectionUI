@@ -43,6 +43,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -97,27 +98,14 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 		setLayout(new BorderLayout());
 		comboBox = new JComboBox();
 		add(comboBox, BorderLayout.CENTER);
-		comboBox.setRenderer(new BasicComboBoxRenderer() {
+		comboBox.setRenderer(createRenderer());
+		comboBox.addActionListener(createActionListener());
+		refreshUI(true);
 
-			protected static final long serialVersionUID = 1L;
+	}
 
-			@Override
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
-						cellHasFocus);
-				label.setText(getValueText(value));
-				label.setIcon(getValueIcon(value));
-				if (((possibleValues.size() == 0) && (value != null))
-						|| ((possibleValues.size() > 0) && !possibleValues.contains(value))) {
-					label.setBorder(SwingRendererUtils.getErrorBorder());
-				} else {
-					label.setBorder(null);
-				}
-				return label;
-			}
-		});
-		comboBox.addActionListener(new ActionListener() {
+	protected ActionListener createActionListener() {
+		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (listenerDisabled) {
@@ -130,9 +118,29 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 					swingRenderer.handleObjectException(EnumerationControl.this, t);
 				}
 			}
-		});
-		refreshUI(true);
+		};
+	}
 
+	protected ListCellRenderer createRenderer() {
+		return new BasicComboBoxRenderer() {
+
+			protected static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
+						cellHasFocus);
+				label.setText(getValueText(value));
+				label.setIcon(getValueIcon(value));
+				if ((value != null) && ((possibleValues.size() == 0) || !possibleValues.contains(value))) {
+					label.setBorder(SwingRendererUtils.getErrorBorder());
+				} else {
+					label.setBorder(null);
+				}
+				return label;
+			}
+		};
 	}
 
 	protected String getValueText(Object value) {

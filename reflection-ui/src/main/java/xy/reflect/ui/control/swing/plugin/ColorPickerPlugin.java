@@ -259,6 +259,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 					super.refreshUI(refreshStructure);
 					Color color = (Color) ColorControl.this.data.getValue();
 					textComponent.setBackground(color);
+					textComponent.setOpaque(color != null);
 					textComponent.setEditable(false);
 					setForeground(color);
 					return true;

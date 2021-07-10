@@ -168,4 +168,11 @@ public class TestWithAutomation {
 						+ "test-specifications/testErrorDisplay.stt"));
 	}
 
+	@Test
+	public void testNullDisplay() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testNullDisplay.stt"));
+	}
+
 }

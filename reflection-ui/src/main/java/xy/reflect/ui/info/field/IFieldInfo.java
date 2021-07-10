@@ -269,7 +269,7 @@ public interface IFieldInfo extends IInfo {
 	 *         allow to set the null value. This is usually needed if a null value
 	 *         has a special meaning different from "empty/default value" for the
 	 *         developer. Note that the null value may be returned by
-	 *         {@link #getValue(Object)} even if it should not be distinctly
+	 *         {@link #getValue(Object)} even if it is not required to be distinctly
 	 *         displayed (false returned by the current method).
 	 */
 	boolean isNullValueDistinct();
