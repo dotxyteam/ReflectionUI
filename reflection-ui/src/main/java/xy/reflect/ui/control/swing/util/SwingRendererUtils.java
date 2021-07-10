@@ -526,14 +526,15 @@ public class SwingRendererUtils {
 				if (window == null) {
 					return result;
 				} else {
+					Rectangle candidateMaximumBounds = getMaximumWindowBounds(candidateResult);
 					if ((window.getWidth() * window.getHeight()) == 0) {
-						if (getMaximumWindowBounds(candidateResult).contains(window.getLocation())) {
+						if (candidateMaximumBounds.contains(window.getLocation())) {
 							result = candidateResult;
 						}
 					} else {
-						Rectangle candidateResultIntersection = getMaximumWindowBounds(candidateResult)
-								.intersection(window.getBounds());
-						Rectangle resultIntersection = getMaximumWindowBounds(result).intersection(window.getBounds());
+						Rectangle candidateResultIntersection = candidateMaximumBounds.intersection(window.getBounds());
+						Rectangle resultMaximumBounds = getMaximumWindowBounds(result);
+						Rectangle resultIntersection = resultMaximumBounds.intersection(window.getBounds());
 						int candidateResultIntersectionArea = candidateResultIntersection.width
 								* candidateResultIntersection.height;
 						int resultIntersectionArea = resultIntersection.width * resultIntersection.height;

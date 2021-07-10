@@ -3,6 +3,7 @@ package xy.reflect.ui.util;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.ref.WeakReference;
@@ -24,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 
 /**
  * Various utilities.
@@ -231,9 +234,8 @@ public class MiscUtils {
 
 	public static Dimension getDefaultScreenSize() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		int width = gd.getDisplayMode().getWidth();
-		int height = gd.getDisplayMode().getHeight();
-		return new Dimension(width, height);
+		Rectangle maximumBounds = SwingRendererUtils.getMaximumWindowBounds(gd);
+		return maximumBounds.getSize();
 	}
 
 	public static String multiToSingleLine(String s) {
