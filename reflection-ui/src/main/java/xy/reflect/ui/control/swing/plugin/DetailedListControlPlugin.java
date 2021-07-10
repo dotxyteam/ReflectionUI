@@ -39,6 +39,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -134,6 +135,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 	public class DetailedListControl extends ListControl {
 		private static final long serialVersionUID = 1L;
 
+		protected JPanel scrolledContentPane;
 		protected JPanel detailedCellsContainer;
 		protected List<DetailedCellControl> detailedCellControlList;
 
@@ -144,11 +146,9 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		@Override
 		protected void initializeTreeTableModelAndControl() {
 			itemPositionFactory = createItemPositionfactory();
+			scrolledContentPane = new ControlPanel();
+			treeTableComponentScrollPane = createTreeTableScrollPane(scrolledContentPane);
 			detailedCellsContainer = new ControlPanel();
-			{
-				detailedCellsContainer.setLayout(new GridBagLayout());
-			}
-			treeTableComponentScrollPane = createTreeTableScrollPane(detailedCellsContainer);
 			clearSelectionWhenContainerClicked();
 			setupContexteMenu(detailedCellsContainer);
 		}
@@ -180,6 +180,31 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			setLayout(new BorderLayout());
 			add(treeTableComponentScrollPane, BorderLayout.CENTER);
 			add(toolbar, BorderLayout.EAST);
+			scrolledContentPane.setLayout(new GridBagLayout());
+			{
+				GridBagConstraints cellsContainerConstraint = new GridBagConstraints();
+				cellsContainerConstraint.gridx = 0;
+				cellsContainerConstraint.gridy = 0;
+				DetailedListConfiguration controlCustomization = (DetailedListConfiguration) loadControlCustomization(
+						input);
+				if (controlCustomization.stretchCellsHorizontally && controlCustomization.stretchCellsVertically) {
+					cellsContainerConstraint.fill = GridBagConstraints.BOTH;
+				} else if (controlCustomization.stretchCellsHorizontally) {
+					cellsContainerConstraint.fill = GridBagConstraints.HORIZONTAL;
+				} else if (controlCustomization.stretchCellsVertically) {
+					cellsContainerConstraint.fill = GridBagConstraints.VERTICAL;
+				} else {
+					cellsContainerConstraint.fill = GridBagConstraints.NONE;
+				}
+				cellsContainerConstraint.weightx = 1.0;
+				cellsContainerConstraint.weighty = 1.0;
+				cellsContainerConstraint.anchor = GridBagConstraints.NORTH;
+				if (Arrays.asList(scrolledContentPane.getComponents()).contains(detailedCellsContainer)) {
+					scrolledContentPane.remove(detailedCellsContainer);
+				}
+				scrolledContentPane.add(detailedCellsContainer, cellsContainerConstraint);
+			}
+			detailedCellsContainer.setLayout(new GridBagLayout());
 		}
 
 		@Override
@@ -235,15 +260,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			} else {
 				throw new ReflectionUIError();
 			}
-			if (controlCustomization.stretchCellsHorizontally && controlCustomization.stretchCellsVertically) {
-				result.fill = GridBagConstraints.BOTH;
-			} else if (controlCustomization.stretchCellsHorizontally) {
-				result.fill = GridBagConstraints.HORIZONTAL;
-			} else if (controlCustomization.stretchCellsVertically) {
-				result.fill = GridBagConstraints.VERTICAL;
-			} else {
-				result.fill = GridBagConstraints.NONE;
-			}
+			result.fill = GridBagConstraints.HORIZONTAL;
 			result.weightx = 1.0;
 			result.weighty = 1.0;
 			return result;
