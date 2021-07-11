@@ -90,10 +90,10 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 			BufferedImage result = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g = result.createGraphics();
 			g.setColor(color);
-			g.fillOval(0, 0, result.getWidth(), result.getHeight());
+			g.fillRect(0, 0, result.getWidth(), result.getHeight());
 			g.setColor(Color.BLACK);
 			g.setStroke(new BasicStroke(1f));
-			g.drawOval(1, 1, result.getWidth() - 2, result.getHeight() - 2);
+			g.drawRect(0, 0, result.getWidth(), result.getHeight());
 			g.dispose();
 			return new ImageIcon(result);
 		}
