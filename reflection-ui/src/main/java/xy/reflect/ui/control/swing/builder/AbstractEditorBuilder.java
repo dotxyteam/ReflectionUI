@@ -119,7 +119,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 *         will be displayed) or not. Note that it only makes sense if an editor
 	 *         dialog (not a frame) is created.
 	 */
-	protected boolean isCancellable() {
+	protected boolean isDialogCancellable() {
 		if (isInReadOnlyMode()) {
 			return false;
 		}
@@ -252,11 +252,13 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(capsule));
 
 		if (type.getFormButtonBackgroundColor() != null) {
-			dialogBuilder.setClosingButtonBackgroundColor(SwingRendererUtils.getColor(type.getFormButtonBackgroundColor()));
+			dialogBuilder
+					.setClosingButtonBackgroundColor(SwingRendererUtils.getColor(type.getFormButtonBackgroundColor()));
 		}
 
 		if (type.getFormButtonForegroundColor() != null) {
-			dialogBuilder.setClosingButtonForegroundColor(SwingRendererUtils.getColor(type.getFormButtonForegroundColor()));
+			dialogBuilder
+					.setClosingButtonForegroundColor(SwingRendererUtils.getColor(type.getFormButtonForegroundColor()));
 		}
 
 		if (type.getFormButtonBorderColor() != null) {
@@ -284,7 +286,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 		List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls(editorForm));
 		{
-			if (isCancellable()) {
+			if (isDialogCancellable()) {
 				List<JButton> okCancelButtons = dialogBuilder.createStandardOKCancelDialogButtons(getOKCaption(),
 						getCancelCaption());
 				buttonBarControls.addAll(okCancelButtons);
@@ -359,7 +361,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			committingModif = createCommittingModification(currentValue);
 		}
 		boolean valueModifAccepted = shouldIntegrateNewObjectValue(currentValue)
-				&& ((!isCancellable()) || !isCancelled());
+				&& ((!isDialogCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifFake = isParentModificationFake();
 		ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,

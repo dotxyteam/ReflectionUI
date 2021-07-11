@@ -381,7 +381,7 @@ public class CustomizationTools {
 				customization) {
 
 			@Override
-			protected boolean isCancellable() {
+			protected boolean isDialogCancellable() {
 				return true;
 			}
 

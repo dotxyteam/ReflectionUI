@@ -83,7 +83,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	protected boolean isCancellable() {
+	protected boolean isDialogCancellable() {
 		return false;
 	}
 

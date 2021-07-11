@@ -1232,7 +1232,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected boolean isCancellable() {
+			protected boolean isDialogCancellable() {
 				return true;
 			}
 		};

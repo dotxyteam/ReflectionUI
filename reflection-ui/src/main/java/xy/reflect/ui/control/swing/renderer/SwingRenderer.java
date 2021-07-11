@@ -964,17 +964,17 @@ public class SwingRenderer {
 	 *                           title.
 	 * @param iconImage          The dialog icon image or null to have the default
 	 *                           icon.
-	 * @param cancellable        Whether the object state changes may be cancelled
+	 * @param dialogCancellable        Whether the object state changes may be cancelled
 	 *                           or not.
 	 * @return an object allowing build a complete editor for the given object.
 	 */
 	public StandardEditorBuilder createEditorBuilder(Component activatorComponent, final Object object,
-			final String title, final Image iconImage, final boolean cancellable) {
+			final String title, final Image iconImage, final boolean dialogCancellable) {
 		return new StandardEditorBuilder(this, activatorComponent, object) {
 
 			@Override
-			protected boolean isCancellable() {
-				return cancellable;
+			protected boolean isDialogCancellable() {
+				return dialogCancellable;
 			}
 
 			@Override
