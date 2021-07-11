@@ -108,8 +108,10 @@ public class EncapsulatedObjectFactory {
 
 	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType, String typeCaption,
 			String fieldCaption) {
-		this(reflectionUI, "Encapsulation [typeCaption=" + typeCaption + ", fieldType=" + fieldType.getName()
-				+ ", fieldCaption=" + fieldCaption + "]", fieldType);
+		this(reflectionUI,
+				"Encapsulation [typeCaption=" + typeCaption.replaceAll("\\[|\\]", "_") + ", fieldType="
+						+ fieldType.getName() + ", fieldCaption=" + fieldCaption.replaceAll("\\[|\\]", "_") + "]",
+				fieldType);
 		this.fieldCaption = fieldCaption;
 		this.typeCaption = typeCaption;
 	}
@@ -778,8 +780,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public String toString() {
-			return "Encapsulated [fieldValueAccessor=" + fieldValueAccessor + ", factory=" + getFactory()
-					+ "]";
+			return "Encapsulated [fieldValueAccessor=" + fieldValueAccessor + ", factory=" + getFactory() + "]";
 		}
 
 	}
