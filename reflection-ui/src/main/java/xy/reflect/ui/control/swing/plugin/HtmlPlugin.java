@@ -32,6 +32,8 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.swing.JEditorPane;
@@ -45,6 +47,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlDimensionSpecification;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlSizeUnit;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.util.AlternativeDesktopApi;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -176,10 +179,35 @@ public class HtmlPlugin extends StyledTextPlugin {
 		}
 
 		protected void openWebPage(URL url) {
+			URI uri;
 			try {
-				Desktop.getDesktop().browse(url.toURI());
+				uri = url.toURI();
+			} catch (URISyntaxException e) {
+				throw new ReflectionUIError(e);
+			}
+			try {
+				Desktop.getDesktop().browse(uri);
 			} catch (Exception e) {
-				throw new ReflectionUIError("Failed to display the web page '" + url + "': " + e, e);
+				if (!new AlternativeDesktopApi() {
+
+					@Override
+					protected void logErr(String msg, Throwable t) {
+						swingRenderer.getReflectionUI().logError(new ReflectionUIError(msg, t));
+					}
+
+					@Override
+					protected void logErr(String msg) {
+						swingRenderer.getReflectionUI().logError(msg);
+					}
+
+					@Override
+					protected void logOut(String msg) {
+						swingRenderer.getReflectionUI().logDebug(msg);
+					}
+
+				}.browse(uri)) {
+					throw new ReflectionUIError("Failed to display the web page '" + url + "': " + e, e);
+				}
 			}
 		}
 
