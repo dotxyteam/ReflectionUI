@@ -594,8 +594,8 @@ public class SwingRenderer {
 		}
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
 
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType, "Selection",
-				message);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType,
+				"StandardSelection", "Selection", message);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
@@ -689,8 +689,8 @@ public class SwingRenderer {
 		final Object[] valueHolder = new Object[] { initialValue };
 		ITypeInfo initialValueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
 
-		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType, "Input",
-				valueCaption);
+		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType,
+				"StandardInput", "Input", valueCaption);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
@@ -964,7 +964,7 @@ public class SwingRenderer {
 	 *                           title.
 	 * @param iconImage          The dialog icon image or null to have the default
 	 *                           icon.
-	 * @param dialogCancellable        Whether the object state changes may be cancelled
+	 * @param dialogCancellable  Whether the object state changes may be cancelled
 	 *                           or not.
 	 * @return an object allowing build a complete editor for the given object.
 	 */

@@ -106,11 +106,9 @@ public class EncapsulatedObjectFactory {
 		this.fieldType = fieldType;
 	}
 
-	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType, String typeCaption,
-			String fieldCaption) {
-		this(reflectionUI,
-				"Encapsulation [typeCaption=" + typeCaption.replaceAll("\\[|\\]", "_") + ", fieldType="
-						+ fieldType.getName() + ", fieldCaption=" + fieldCaption.replaceAll("\\[|\\]", "_") + "]",
+	public EncapsulatedObjectFactory(ReflectionUI reflectionUI, ITypeInfo fieldType, String contextId,
+			String typeCaption, String fieldCaption) {
+		this(reflectionUI, "Encapsulation [context=" + contextId + ", fieldType=" + fieldType.getName() + "]",
 				fieldType);
 		this.fieldCaption = fieldCaption;
 		this.typeCaption = typeCaption;
