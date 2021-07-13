@@ -80,7 +80,6 @@ import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -300,8 +299,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 										.displayError((t == null) ? null : MiscUtils.getPrettyErrorMessage(t));
 						if (!done && (t != null)) {
 							FieldControlPlaceHolder.this.setBorder(SwingRendererUtils.getErrorBorder());
-							swingRenderer.handleObjectException(FieldControlPlaceHolder.this,
-									new ReflectionUIError("'" + getCaption() + "' error: " + t.toString(), t));
+							showErrorDialog(t);
 						} else {
 							FieldControlPlaceHolder.this.setBorder(null);
 						}
@@ -351,6 +349,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		if (fieldControl == null) {
 			try {
 				fieldControl = createFieldControl();
+				/*
+				 * Save the criteria in a field since the controlData internal structure may
+				 * change:
+				 */
 				lastFieldControlSelectionCriteria = getFieldControlSelectionCriteria(controlData);
 				fieldControl.setName("fieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
 			} catch (Throwable t) {

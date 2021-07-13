@@ -44,6 +44,7 @@ import javax.swing.border.TitledBorder;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorOccurence;
+import xy.reflect.ui.control.ErrorWithDefaultValue;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -85,7 +86,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected Form subForm;
 	protected AbstractEditorFormBuilder subFormBuilder;
 	protected IFieldControlInput input;
-	protected Runnable nullControlActivationAction;
 	protected Throwable currentError;
 
 	public NullableControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -117,17 +117,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected void initialize() {
 		setLayout(new BorderLayout());
 		nullStatusControl = createNullStatusControl();
-		nullControlActivationAction = new Runnable() {
-			@Override
-			public void run() {
-				Object newValue = swingRenderer.onTypeInstanciationRequest(NullableControl.this, data.getType());
-				if (newValue == null) {
-					return;
-				}
-				ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, input.getModificationStack(),
-						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
-			}
-		};
 		refreshUI(true);
 	}
 
@@ -195,16 +184,22 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if (getNullStatusControlState()) {
 			ReflectionUIUtils.setFieldValueThroughModificationStack(data, null, input.getModificationStack(),
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+			refreshUI(false);
 		} else {
-			nullControlActivationAction.run();
-		}
-		refreshUI(false);
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				requestCustomFocus();
+			Object newValue = swingRenderer.onTypeInstanciationRequest(NullableControl.this, data.getType());
+			if (newValue == null) {
+				return;
 			}
-		});
+			ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, input.getModificationStack(),
+					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+			refreshUI(false);
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					requestCustomFocus();
+				}
+			});
+		}
 	}
 
 	@Override
@@ -226,31 +221,44 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			subForm = null;
 		}
 		Object value = data.getValue();
+		// refresh the currently displayed sub-form if possible
 		if (value != null) {
 			if (currentSubControl instanceof Form) {
+				if (currentError != null) {
+					// display the current error (over the last valid value)
+					value = new ErrorOccurence(new ErrorWithDefaultValue(currentError, value));
+				}
 				data.addInBuffer(value);
 				subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
-				if (currentError != null) {
-					data.addInBuffer(new ErrorOccurence(currentError));
-					subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
-				}
 				return;
 			}
 		}
+		// change the displayed sub-control
 		if ((value == null) && (currentError == null)) {
+			if (currentSubControl instanceof Form) {
+				// clear the sub-form before hiding it
+				data.addInBuffer(null);
+				subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
+			}
 			if (nullControl == null) {
 				nullControl = createNullControl();
 			}
 			currentSubControl = nullControl;
 		} else {
-			data.addInBuffer(value);
 			if (subForm == null) {
+				data.addInBuffer(value);
 				subForm = createSubForm();
+				if (currentError != null) {
+					// display the current error (over the last valid value)
+					data.addInBuffer(new ErrorOccurence(currentError));
+					subFormBuilder.refreshEditorForm(subForm, refreshStructure);
+				}
 			} else {
-				subFormBuilder.refreshEditorForm(subForm, refreshStructure);
-			}
-			if (currentError != null) {
-				data.addInBuffer(new ErrorOccurence(currentError));
+				if (currentError != null) {
+					// display the current error (over the last valid value)
+					value = new ErrorOccurence(new ErrorWithDefaultValue(currentError, value));
+				}
+				data.addInBuffer(value);
 				subFormBuilder.refreshEditorForm(subForm, refreshStructure);
 			}
 			currentSubControl = subForm;
@@ -368,7 +376,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		protected IFieldControlData data;
 		protected IContext subContext;
 		protected Listener<Throwable> commitExceptionHandler;
-		protected boolean errorsRethrown = false;
 
 		public SubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input, IContext subContext,
 				Listener<Throwable> commitExceptionHandler) {
@@ -455,12 +462,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 		@Override
 		protected Object loadValue() {
-			errorsRethrown = true;
-			try {
-				return data.getValue();
-			} finally {
-				errorsRethrown = false;
-			}
+			return data.getValue();
 		}
 	}
 

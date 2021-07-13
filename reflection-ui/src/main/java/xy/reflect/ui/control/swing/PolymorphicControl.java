@@ -38,6 +38,7 @@ import javax.swing.border.TitledBorder;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorOccurence;
+import xy.reflect.ui.control.ErrorWithDefaultValue;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -229,20 +230,24 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		Object instance = data.getValue();
 		ITypeInfo instanceType = getSubType(instance);
 		if ((dynamicControlInstanceType == null) && (instanceType == null)) {
+			// no dynamic control
 			return;
 		} else if ((dynamicControlInstanceType != null) && (instanceType == null)) {
+			// hide dynamic control
 			remove(dynamicControl);
 			dynamicControl = null;
 			dynamicControlInstanceType = null;
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else if ((instanceType != null) && instanceType.equals(dynamicControlInstanceType)) {
+			// refresh dynamic control
+			if (currentError != null) {
+				// display the current error (over the last valid instance value)
+				instance = new ErrorOccurence(new ErrorWithDefaultValue(currentError, instance));
+			}
 			data.addInBuffer(instance);
 			dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
-			if (currentError != null) {
-				data.addInBuffer(new ErrorOccurence(currentError));
-				dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
-			}
 		} else {
+			// show/replace dynamic control
 			if (dynamicControlInstanceType != null) {
 				remove(dynamicControl);
 			}
@@ -250,18 +255,19 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			if (dynamicControlAndBuilder != null) {
 				dynamicControlBuilder = dynamicControlAndBuilder.getFirst();
 				dynamicControl = dynamicControlAndBuilder.getSecond();
+				if (currentError != null) {
+					// display the current error (over the last valid instance value)
+					instance = new ErrorOccurence(new ErrorWithDefaultValue(currentError, instance));
+				}
 				data.addInBuffer(instance);
 				dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
-				if (currentError != null) {
-					data.addInBuffer(new ErrorOccurence(currentError));
-					dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
-				}
 			} else {
 				data.addInBuffer(instance);
 				dynamicControl = createDynamicControl(instanceType);
 				dynamicControlCache.put(instanceType,
 						new Pair<AbstractEditorFormBuilder, Form>(dynamicControlBuilder, dynamicControl));
 				if (currentError != null) {
+					// display the current error (over the last valid instance value)
 					data.addInBuffer(new ErrorOccurence(currentError));
 					dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
 				}
@@ -328,8 +334,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected Listener<Object> instanceSelectionHandler;
 		protected Map<ITypeInfo, Object> subTypeInstanceCache;
 		protected Mapper<ITypeInfo, Object> instanciator;
-		protected boolean errorsRethrown = false;
-
+		
 		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 				PolymorphicTypeOptionsFactory typeOptionsFactory, Accessor<ITypeInfo> currentSubTypeAccessor,
 				Listener<Object> instanceSelectionHandler, Map<ITypeInfo, Object> subTypeInstanceCache,
@@ -406,12 +411,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 		@Override
 		protected Object loadValue() {
-			errorsRethrown = true;
-			try {
-				return data.getValue();
-			} finally {
-				errorsRethrown = false;
-			}
+			return data.getValue();
 		}
 
 		@Override

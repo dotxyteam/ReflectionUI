@@ -11,30 +11,48 @@ import xy.reflect.ui.util.ReflectionUIError;
  * @author olitank
  *
  */
-public class ErrorOccurence extends ReflectionUIError {
+public class ErrorOccurence {
 
-	private static final long serialVersionUID = 1L;
+	protected Throwable error;
 
 	public ErrorOccurence(Throwable error) {
-		super(error);
+		this.error = error;
+	}
+
+	public Throwable getError() {
+		return error;
 	}
 
 	public static Object tryCatch(Accessor<Object> accessor) {
 		try {
 			return accessor.get();
 		} catch (Throwable t) {
-			if (t instanceof ErrorOccurence) {
-				return t;
-			}
 			return new ErrorOccurence(t);
 		}
 	}
 
 	public static Object rethrow(Object object) {
 		if (object instanceof ErrorOccurence) {
-			throw (ErrorOccurence) object;
+			Throwable error = ((ErrorOccurence) object).getError();
+			if (error instanceof RuntimeException) {
+				throw (RuntimeException) error;
+			}
+			if (error instanceof Error) {
+				throw (Error) error;
+			}
+			throw new CheckExceptionWrapper(error);
 		}
 		return object;
+	}
+
+	public static class CheckExceptionWrapper extends ReflectionUIError {
+
+		private static final long serialVersionUID = 1L;
+
+		public CheckExceptionWrapper(Throwable cause) {
+			super(cause);
+		}
+
 	}
 
 }

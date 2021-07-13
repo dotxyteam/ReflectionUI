@@ -33,6 +33,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 
+import xy.reflect.ui.control.ErrorWithDefaultValue;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -71,9 +72,15 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 			if (lastValueUpdateError != null) {
 				throw lastValueUpdateError;
 			}
-			lastFieldValue = super.getValue();
-			lastFieldValueInitialized = true;
-			handleError(null);
+			try {
+				lastFieldValue = super.getValue();
+				lastFieldValueInitialized = true;
+				handleError(null);
+			} catch (ErrorWithDefaultValue e) {
+				lastFieldValue = e.getDefaultValue();
+				lastFieldValueInitialized = true;
+				throw e.getError();
+			}
 		} catch (final Throwable t) {
 			if (!lastFieldValueInitialized) {
 				ITypeInfo type = getType();
@@ -120,13 +127,17 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					swingRenderer.handleObjectException(errorDialogOwner,
-							new ReflectionUIError("'" + getCaption() + "' error: " + t.toString(), t));
+					showErrorDialog(t);
 				}
 			});
 		} else {
 			errorDialogOwner.setBorder(((CompoundBorder) errorDialogOwner.getBorder()).getOutsideBorder());
 		}
+	}
+
+	protected void showErrorDialog(Throwable t) {
+		swingRenderer.handleObjectException(errorDialogOwner, new ReflectionUIError(
+				((getCaption().length() > 0) ? ("'" + getCaption() + "' error: ") : "") + t.toString(), t));
 	}
 
 }
