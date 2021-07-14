@@ -1629,7 +1629,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected void validate(ITypeInfo type, Object object) throws Exception {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
-			for (IMethodInfo method : type.getMethods()) {
+			for (IMethodInfo method : getMethods(type)) {
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
 				if (m != null) {
 					if (m.isValidating()) {
@@ -1650,7 +1650,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		boolean formUpdateNeeded = false;
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
-			for (IMethodInfo method : type.getMethods()) {
+			for (IMethodInfo method : getMethods(type)) {
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
 				if (m != null) {
 					if ((m.isRunWhenObjectShown() && visible) || (m.isRunWhenObjectHidden() && !visible)) {
@@ -1676,7 +1676,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			transactionMethodsByRole.put(TransactionalRole.BEGIN, new ArrayList<IMethodInfo>());
 			transactionMethodsByRole.put(TransactionalRole.COMMIT, new ArrayList<IMethodInfo>());
 			transactionMethodsByRole.put(TransactionalRole.ROLLBACK, new ArrayList<IMethodInfo>());
-			for (IMethodInfo method : type.getMethods()) {
+			for (IMethodInfo method : getMethods(type)) {
 				MethodCustomization m = InfoCustomizations.getMethodCustomization(t, method.getSignature(), false);
 				if (m != null) {
 					if (m.getTransactionalRole() != null) {
@@ -2549,6 +2549,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields,
 							containingType) {
+						/*
+						 * The method signature is not modified since it identifies this customization.
+						 * Otherwise it will not be possible to disable the customization.
+						 */
 						@Override
 						public String getSignature() {
 							return base.getSignature();
@@ -3038,6 +3042,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		}
 
+		/**
+		 * Base class for factories that generate proxies or new members from field
+		 * information according to the specified {@link FieldCustomization}.
+		 * 
+		 * @author olitank
+		 *
+		 */
 		protected abstract class AbstractFieldTransformer {
 
 			/**
