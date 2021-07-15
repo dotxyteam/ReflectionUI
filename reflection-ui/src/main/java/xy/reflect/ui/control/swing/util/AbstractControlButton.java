@@ -66,7 +66,6 @@ public abstract class AbstractControlButton extends JButton {
 	protected Color buttonForegroundColor;
 	protected Color buttonBorderColor;
 	protected Image buttonBackgroundImage;
-	protected Image buttonActivatedBackgroundImage;
 	protected String buttonText;
 	protected String buttonToolTipText;
 	protected Icon buttonIcon;
@@ -86,8 +85,6 @@ public abstract class AbstractControlButton extends JButton {
 		buttonBackgroundImage = retrieveBackgroundImage();
 		buttonActivatedBackgroundColor = (buttonBackgroundColor == null) ? null
 				: SwingRendererUtils.addColorActivationEffect(buttonBackgroundColor);
-		buttonActivatedBackgroundImage = (buttonBackgroundImage == null) ? null
-				: SwingRendererUtils.addImageActivationEffect(buttonBackgroundImage);
 		buttonText = retrieveText();
 		buttonToolTipText = retrieveToolTipText();
 		buttonIcon = retrieveIcon();
@@ -143,7 +140,8 @@ public abstract class AbstractControlButton extends JButton {
 				@Override
 				public void run() {
 					if (getModel().isArmed()) {
-						g.drawImage(buttonActivatedBackgroundImage, 0, 0, getWidth(), getHeight(), null);
+						g.drawImage(SwingRendererUtils.addImageActivationEffect(buttonBackgroundImage), 0, 0,
+								getWidth(), getHeight(), null);
 					} else {
 						g.drawImage(buttonBackgroundImage, 0, 0, getWidth(), getHeight(), null);
 					}
