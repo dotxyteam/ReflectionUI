@@ -1858,7 +1858,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				transformMethods(inputMethods, outputMethods, newFields, newMethods);
 				transformMethods(inputConstructors, outputConstructors, newFields, newConstructors);
 			} catch (final Throwable t) {
-				customizedUI.logError(MiscUtils.getPrintedStackTrace(t));
+				customizedUI.logError(t);
 				outputFields.add(createErrorField(new ReflectionUIError(t)));
 				return;
 			}

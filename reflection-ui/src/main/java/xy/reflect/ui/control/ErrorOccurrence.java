@@ -11,11 +11,11 @@ import xy.reflect.ui.util.ReflectionUIError;
  * @author olitank
  *
  */
-public class ErrorOccurence {
+public class ErrorOccurrence {
 
 	protected Throwable error;
 
-	public ErrorOccurence(Throwable error) {
+	public ErrorOccurrence(Throwable error) {
 		this.error = error;
 	}
 
@@ -27,13 +27,13 @@ public class ErrorOccurence {
 		try {
 			return accessor.get();
 		} catch (Throwable t) {
-			return new ErrorOccurence(t);
+			return new ErrorOccurrence(t);
 		}
 	}
 
 	public static Object rethrow(Object object) {
-		if (object instanceof ErrorOccurence) {
-			Throwable error = ((ErrorOccurence) object).getError();
+		if (object instanceof ErrorOccurrence) {
+			Throwable error = ((ErrorOccurrence) object).getError();
 			if (error instanceof RuntimeException) {
 				throw (RuntimeException) error;
 			}

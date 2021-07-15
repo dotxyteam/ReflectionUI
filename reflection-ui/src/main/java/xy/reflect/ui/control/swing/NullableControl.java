@@ -43,7 +43,7 @@ import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
-import xy.reflect.ui.control.ErrorOccurence;
+import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.ErrorWithDefaultValue;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -226,7 +226,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			if (currentSubControl instanceof Form) {
 				if (currentError != null) {
 					// display the current error (over the last valid value)
-					value = new ErrorOccurence(new ErrorWithDefaultValue(currentError, value));
+					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
 				data.addInBuffer(value);
 				subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
@@ -250,13 +250,13 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				subForm = createSubForm();
 				if (currentError != null) {
 					// display the current error (over the last valid value)
-					data.addInBuffer(new ErrorOccurence(currentError));
+					data.addInBuffer(new ErrorOccurrence(currentError));
 					subFormBuilder.refreshEditorForm(subForm, refreshStructure);
 				}
 			} else {
 				if (currentError != null) {
 					// display the current error (over the last valid value)
-					value = new ErrorOccurence(new ErrorWithDefaultValue(currentError, value));
+					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
 				data.addInBuffer(value);
 				subFormBuilder.refreshEditorForm(subForm, refreshStructure);

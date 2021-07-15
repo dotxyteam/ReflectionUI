@@ -171,7 +171,12 @@ public class HtmlPlugin extends StyledTextPlugin {
 			((JTextPane) result).addHyperlinkListener(new HyperlinkListener() {
 				public void hyperlinkUpdate(HyperlinkEvent e) {
 					if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-						openWebPage(e.getURL());
+						try {
+							openWebPage(e.getURL());
+						} catch (Throwable t) {
+							swingRenderer.handleObjectException(HtmlControl.this, t);
+						}
+
 					}
 				}
 			});
@@ -192,12 +197,12 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 					@Override
 					protected void logErr(String msg, Throwable t) {
-						swingRenderer.getReflectionUI().logError(new ReflectionUIError(msg, t));
+						swingRenderer.getReflectionUI().logDebug(new ReflectionUIError(msg, t));
 					}
 
 					@Override
 					protected void logErr(String msg) {
-						swingRenderer.getReflectionUI().logError(msg);
+						swingRenderer.getReflectionUI().logDebug(msg);
 					}
 
 					@Override

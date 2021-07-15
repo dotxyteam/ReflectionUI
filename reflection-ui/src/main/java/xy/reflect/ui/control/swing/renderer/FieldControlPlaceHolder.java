@@ -370,7 +370,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					}
 				} catch (Throwable t) {
 					destroyFieldControl();
-					swingRenderer.getReflectionUI().logError(t);
 					fieldControl = createFieldErrorControl(t);
 					layoutFieldControl();
 				}

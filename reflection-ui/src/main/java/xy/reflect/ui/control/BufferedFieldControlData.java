@@ -52,7 +52,7 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 	public Object getValue() {
 		if (buffer.size() > 0) {
 			Object nextValue = buffer.remove(0);
-			return ErrorOccurence.rethrow(nextValue);
+			return ErrorOccurrence.rethrow(nextValue);
 		}
 		return super.getValue();
 	}

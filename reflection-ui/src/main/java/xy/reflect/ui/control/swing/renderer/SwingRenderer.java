@@ -390,7 +390,7 @@ public class SwingRenderer {
 	 */
 	public void handleObjectException(Component activatorComponent, final Throwable t) {
 		reflectionUI.logDebug(t);
-		openErrorDialog(activatorComponent, "An Error Occured", null, t);
+		openErrorDialog(activatorComponent, "An Error Occurred", null, t);
 	}
 
 	/**

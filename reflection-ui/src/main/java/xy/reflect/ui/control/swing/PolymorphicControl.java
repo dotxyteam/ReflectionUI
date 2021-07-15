@@ -37,7 +37,7 @@ import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
-import xy.reflect.ui.control.ErrorOccurence;
+import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.ErrorWithDefaultValue;
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -242,7 +242,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			// refresh dynamic control
 			if (currentError != null) {
 				// display the current error (over the last valid instance value)
-				instance = new ErrorOccurence(new ErrorWithDefaultValue(currentError, instance));
+				instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 			}
 			data.addInBuffer(instance);
 			dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
@@ -257,7 +257,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				dynamicControl = dynamicControlAndBuilder.getSecond();
 				if (currentError != null) {
 					// display the current error (over the last valid instance value)
-					instance = new ErrorOccurence(new ErrorWithDefaultValue(currentError, instance));
+					instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 				}
 				data.addInBuffer(instance);
 				dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
@@ -268,7 +268,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 						new Pair<AbstractEditorFormBuilder, Form>(dynamicControlBuilder, dynamicControl));
 				if (currentError != null) {
 					// display the current error (over the last valid instance value)
-					data.addInBuffer(new ErrorOccurence(currentError));
+					data.addInBuffer(new ErrorOccurrence(currentError));
 					dynamicControlBuilder.refreshEditorForm(dynamicControl, refreshStructure);
 				}
 			}

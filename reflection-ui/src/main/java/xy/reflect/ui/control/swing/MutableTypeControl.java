@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import xy.reflect.ui.control.CustomContext;
-import xy.reflect.ui.control.ErrorOccurence;
+import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -110,7 +110,7 @@ public class MutableTypeControl extends NullableControl {
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		Object value = ErrorOccurence.tryCatch(new Accessor<Object>() {
+		Object value = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 			@Override
 			public Object get() {
 				return data.getValue();
@@ -119,7 +119,7 @@ public class MutableTypeControl extends NullableControl {
 		if (value == null) {
 			return false;
 		}
-		if (!(value instanceof ErrorOccurence)) {
+		if (!(value instanceof ErrorOccurrence)) {
 			if (!data.getType().supports(value)) {
 				return false;
 			}

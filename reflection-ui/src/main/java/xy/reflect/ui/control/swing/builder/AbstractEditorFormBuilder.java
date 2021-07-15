@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.ErrorOccurence;
+import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -176,7 +176,7 @@ public abstract class AbstractEditorFormBuilder {
 		}
 		encapsulatedObjectValueAccessor = new Accessor<Object>() {
 
-			Object object = ErrorOccurence.tryCatch(new Accessor<Object>() {
+			Object object = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 				@Override
 				public Object get() {
 					initialObjectValue = null;
@@ -186,7 +186,7 @@ public abstract class AbstractEditorFormBuilder {
 
 			@Override
 			public Object get() {
-				return ErrorOccurence.rethrow(object);
+				return ErrorOccurrence.rethrow(object);
 			}
 
 			@Override
@@ -434,13 +434,13 @@ public abstract class AbstractEditorFormBuilder {
 			ensureIsInitialized();
 			editorForm.setObject(getCapsule());
 		} else {
-			Object oldValue = ErrorOccurence.tryCatch(new Accessor<Object>() {
+			Object oldValue = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 				@Override
 				public Object get() {
 					return encapsulatedObjectValueAccessor.get();
 				}
 			});
-			Object newValue = ErrorOccurence.tryCatch(new Accessor<Object>() {
+			Object newValue = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 				@Override
 				public Object get() {
 					return loadValue();
