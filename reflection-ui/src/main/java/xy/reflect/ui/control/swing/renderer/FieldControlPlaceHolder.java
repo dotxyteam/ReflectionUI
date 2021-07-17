@@ -375,7 +375,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 			} else {
 				destroyFieldControl();
-				controlData = createControlData();
+				if (refreshStructure) {
+					controlData = createControlData();
+				}
 				refreshUI(refreshStructure);
 			}
 		}
@@ -394,10 +396,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	protected void destroyFieldControl() {
-		if (fieldControl != null) {
-			remove(fieldControl);
-			fieldControl = null;
-		}
+		remove(fieldControl);
+		fieldControl = null;
 	}
 
 	public IFieldControlData createControlData() {

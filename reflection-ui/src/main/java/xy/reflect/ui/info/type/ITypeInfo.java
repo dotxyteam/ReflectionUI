@@ -142,8 +142,10 @@ public interface ITypeInfo extends IInfo {
 	String toString(Object object);
 
 	/**
-	 * Validates the state of the given object. An exception should be thrown if the
-	 * object state is not valid. Otherwise the object is considered as valid.
+	 * Validates the state of the given object. An exception is thrown if the object
+	 * state is not valid. Otherwise the object is considered as valid. Note that
+	 * this method is executed concurrently by a validation thread while the given
+	 * object is possibly accessed/modified by another thread.
 	 * 
 	 * @param object Any object of the current type.
 	 * @throws Exception If the state of the given object is not valid.

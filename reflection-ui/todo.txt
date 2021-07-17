@@ -1,3 +1,5 @@
+- form validation is not thread safe
+- allow to provide HTML online help
 - allow to multiple selection for list dynamic properties and actions
 - must allow to cast a generic collection, maybe a generic type 
 more generally.
