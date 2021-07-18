@@ -1242,4 +1242,8 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
+	public static String secureNameContent(String s) {
+		return s.replaceAll("[^a-zA-Z0-9 ]", "_");
+	}
+
 }

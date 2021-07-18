@@ -87,7 +87,6 @@ public class WindowManager {
 			if (form == null) {
 				return;
 			}
-			form.updateMenuBar();
 			form.validateFormInBackgroundAndReportOnStatusBar();
 			SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
 		}
@@ -217,6 +216,7 @@ public class WindowManager {
 
 	public void adjustBounds() {
 		SwingRendererUtils.adjustWindowInitialBounds(window);
+		SwingRendererUtils.handleComponentSizeChange(window);
 	}
 
 	public void install(final Component content, List<Component> buttonBarControls, String title, Image iconImage) {
@@ -236,6 +236,7 @@ public class WindowManager {
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, swingRenderer)) {
 				form = (Form) content;
+				form.updateMenuBar();
 				layoutMenuBar(form.getMenuBar());
 				layoutStatusBar(form.getStatusBar());
 				form.getRefreshListeners().add(formRefreshListener);

@@ -595,7 +595,7 @@ public class SwingRenderer {
 		final Object[] chosenItemHolder = new Object[] { initialEnumItem };
 
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, enumType,
-				"StandardSelection", "Selection", message);
+				"StandardSelection [title=" + ReflectionUIUtils.secureNameContent(title) + "]", "Selection", message);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedChosenItem = encapsulation.getInstance(chosenItemHolder);
@@ -626,7 +626,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI, choices.toArray(),
-				"SelectionDialogArrayAsEnumeration [title=" + title + "]", "") {
+				"SelectionDialogArrayAsEnumeration [title=" + ReflectionUIUtils.secureNameContent(title) + "]", "") {
 
 			Map<Object, String> captions = new HashMap<Object, String>();
 			Map<Object, Image> iconImages = new HashMap<Object, Image>();
@@ -690,7 +690,7 @@ public class SwingRenderer {
 		ITypeInfo initialValueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
 
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType,
-				"StandardInput", "Input", valueCaption);
+				"StandardInput [title=" + ReflectionUIUtils.secureNameContent(title) + "]", "Input", valueCaption);
 		encapsulation.setFieldGetOnly(false);
 		encapsulation.setFieldNullValueDistinct(false);
 		Object encapsulatedValue = encapsulation.getInstance(valueHolder);
