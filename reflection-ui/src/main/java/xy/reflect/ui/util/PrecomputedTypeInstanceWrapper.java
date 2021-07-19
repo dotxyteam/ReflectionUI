@@ -259,47 +259,15 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		@Override
 		protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field,
 				ITypeInfo containingType) {
-			List<IMethodInfo> baseResult = super.getAlternativeConstructors(
-					((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
-			if (baseResult == null) {
-				return null;
-			}
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo ctor : baseResult) {
-				result.add(new MethodInfoProxy(ctor) {
-					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						Object newInstance = super.invoke(object, invocationData);
-						newInstance = new PrecomputedTypeInstanceWrapper(newInstance,
-								typeInfoSource.getPrecomputedType());
-						return newInstance;
-					}
-				});
-			}
-			return result;
+			return super.getAlternativeConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
+					containingType);
 		}
 
 		@Override
 		protected List<IMethodInfo> getAlternativeListItemConstructors(Object object, IFieldInfo field,
 				ITypeInfo containingType) {
-			List<IMethodInfo> baseResult = super.getAlternativeListItemConstructors(
-					((PrecomputedTypeInstanceWrapper) object).unwrap(), field, containingType);
-			if (baseResult == null) {
-				return null;
-			}
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo ctor : baseResult) {
-				result.add(new MethodInfoProxy(ctor) {
-					@Override
-					public Object invoke(Object object, InvocationData invocationData) {
-						Object newInstance = super.invoke(object, invocationData);
-						newInstance = new PrecomputedTypeInstanceWrapper(newInstance,
-								typeInfoSource.getPrecomputedType());
-						return newInstance;
-					}
-				});
-			}
-			return result;
+			return super.getAlternativeListItemConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
+					containingType);
 		}
 
 		/**
