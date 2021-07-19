@@ -530,8 +530,7 @@ public class SwingRenderer {
 				}
 			}
 		} catch (Throwable t) {
-			throw new ReflectionUIError(
-					"Could not create an instance of type '" + type.getName() + "': " + t.toString(), t);
+			throw new ReflectionUIError("Could not create '" + type.getCaption() + "': " + t.toString(), t);
 		}
 	}
 
