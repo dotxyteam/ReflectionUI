@@ -1,7 +1,4 @@
-/*
- *	This programs uses the information found in the UIManager
- *  to create a table of key/value pairs for each Swing component.
- */
+
 
 import java.awt.*;
 import java.awt.event.*;

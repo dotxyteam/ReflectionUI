@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.event.ComponentEvent;

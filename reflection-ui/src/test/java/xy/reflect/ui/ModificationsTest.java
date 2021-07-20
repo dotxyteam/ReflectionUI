@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package xy.reflect.ui;
 
 import java.awt.Color;

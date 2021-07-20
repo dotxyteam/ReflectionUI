@@ -1,3 +1,4 @@
+
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;

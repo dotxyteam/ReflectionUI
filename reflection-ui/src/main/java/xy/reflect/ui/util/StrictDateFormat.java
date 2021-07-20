@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package xy.reflect.ui.util;
 
 import java.text.AttributedCharacterIterator;

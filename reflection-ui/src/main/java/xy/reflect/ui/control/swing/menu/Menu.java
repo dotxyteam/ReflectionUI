@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package xy.reflect.ui.control.swing.menu;
 
 import javax.swing.JMenu;
