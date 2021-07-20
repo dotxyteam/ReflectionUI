@@ -33,7 +33,7 @@ public class ReflectionUIError extends RuntimeException {
 	public String getMessage() {
 		String result = super.getMessage();
 		if (result == null) {
-			result = MiscUtils.getPrintedStackTrace(this);
+			result = "Error";
 		}
 		if (getCause() != null) {
 			String causeClassName = getCause().getClass().getName();
