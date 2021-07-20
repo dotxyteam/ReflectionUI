@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.util.ArrayList;
@@ -97,6 +95,13 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 							@Override
 							public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 								return null;
+							}
+
+							@Override
+							protected String getTypeInfoProxyFactoryIdentifier() {
+								return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
+										+ ", subMethod=" + theSubMethod.getSignature() + ", field=" + theField.getName()
+										+ ", containingType=" + containingType.getName() + "]";
 							}
 						});
 			}

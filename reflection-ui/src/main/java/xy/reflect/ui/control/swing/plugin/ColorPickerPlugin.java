@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Color;
@@ -124,6 +122,11 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return null;
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "ContructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
 					}
 				});
 			}

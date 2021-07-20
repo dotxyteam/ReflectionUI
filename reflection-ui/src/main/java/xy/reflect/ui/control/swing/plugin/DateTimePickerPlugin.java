@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.event.ActionEvent;
@@ -142,6 +140,11 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return null;
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
 					}
 				});
 			}
@@ -493,20 +496,20 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		}
 
 		protected Date getDateFromTextEditor() {
-				JFormattedTextField editor = getEditor();
-				String string = editor.getText();
-				AbstractFormatter formatter = editor.getFormatter();
-				Date result;
-				try {
-					result = (Date) formatter.stringToValue(string);
-					currentConversionError = null;
-				} catch (Throwable t) {
-					currentConversionError = t;
-					return null;
-				} finally {
-					updateErrorDisplay();
-				}
-				return result;
+			JFormattedTextField editor = getEditor();
+			String string = editor.getText();
+			AbstractFormatter formatter = editor.getFormatter();
+			Date result;
+			try {
+				result = (Date) formatter.stringToValue(string);
+				currentConversionError = null;
+			} catch (Throwable t) {
+				currentConversionError = t;
+				return null;
+			} finally {
+				updateErrorDisplay();
+			}
+			return result;
 		}
 
 		protected void onFocusLoss() {
@@ -535,7 +538,6 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			updateErrorDisplay();
 			return true;
 		}
-
 
 		@Override
 		public boolean showsCaption() {

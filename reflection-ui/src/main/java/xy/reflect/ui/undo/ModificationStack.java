@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.undo;
 
 import java.util.ArrayList;
@@ -133,7 +131,7 @@ public class ModificationStack {
 	};
 
 	/**
-	 * Constructs a modification stack having the specified name.
+	 * Constructs an empty modification stack having the specified name.
 	 * 
 	 * @param name The name.
 	 */

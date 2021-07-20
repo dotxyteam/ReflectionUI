@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
@@ -827,6 +825,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 													@Override
 													public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 														return null;
+													}
+
+													@Override
+													protected String getTypeInfoProxyFactoryIdentifier() {
+														return "DynamicActionReturnValueTypeInfoProxyFactory [of="
+																+ getClass().getName() + ", listType="
+																+ listType.getName() + ", method="
+																+ shortcut.getMethodSignature() + "]";
 													}
 												});
 											}
@@ -2856,7 +2862,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isSetterGenerated()) {
-					newMethods.add(new FieldAsSetterInfo(customizedUI, field) {
+					newMethods.add(new FieldAsSetterInfo(customizedUI, field, containingType) {
 
 						@Override
 						public boolean isHidden() {
@@ -2901,6 +2907,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									@Override
 									public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 										return new SpecificitiesIdentifier(containingType.getName(), getName());
+									}
+
+									@Override
+									protected String getTypeInfoProxyFactoryIdentifier() {
+										return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", field="
+												+ getName() + ", containingType=" + containingType.getName() + "]";
 									}
 								});
 							}

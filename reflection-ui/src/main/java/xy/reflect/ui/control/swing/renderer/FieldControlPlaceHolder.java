@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
@@ -442,6 +440,12 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return specificitiesIdentifier;
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "ActualFieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", form="
+								+ form.getName() + ", field=" + field.getName() + "]";
 					}
 				});
 		if (!controlInput.getControlData().getType().getName().equals(actualValueType.getName())) {

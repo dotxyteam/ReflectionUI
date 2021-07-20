@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.awt.Dimension;
@@ -668,6 +666,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 								EncapsulatedFieldInfoProxy.this.getName());
 					}
 
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
+								+ containingType.getName() + ", field=" + EncapsulatedFieldInfoProxy.this.getName()
+								+ "]";
+					}
+
 				});
 			}
 			return type;
@@ -757,6 +762,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 								@Override
 								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 									return null;
+								}
+
+								@Override
+								protected String getTypeInfoProxyFactoryIdentifier() {
+									return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
+											+ containingType.getName() + ", method="
+											+ EncapsulatedMethodInfoProxy.this.getSignature() + "]";
 								}
 							});
 				}

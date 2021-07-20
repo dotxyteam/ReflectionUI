@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.BorderLayout;
@@ -155,6 +153,11 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return null;
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
 					}
 				});
 			}
@@ -339,8 +342,9 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			{
 				imagePanelContainer.add(SwingRendererUtils.flowInLayout(zoomPanel, GridBagConstraints.CENTER),
 						BorderLayout.NORTH);
-				zoomPanel.setBorder(BorderFactory.createTitledBorder(null,
-						imageView.swingRenderer.prepareMessageToDisplay("Zoom"), TitledBorder.CENTER, TitledBorder.TOP));
+				zoomPanel.setBorder(
+						BorderFactory.createTitledBorder(null, imageView.swingRenderer.prepareMessageToDisplay("Zoom"),
+								TitledBorder.CENTER, TitledBorder.TOP));
 				if (imageView.data.getLabelForegroundColor() != null) {
 					((TitledBorder) zoomPanel.getBorder())
 							.setTitleColor(SwingRendererUtils.getColor(imageView.data.getLabelForegroundColor()));

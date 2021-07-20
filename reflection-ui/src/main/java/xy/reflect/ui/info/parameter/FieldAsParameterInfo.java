@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.parameter;
 
 import java.util.Map;
@@ -71,6 +69,12 @@ public class FieldAsParameterInfo implements IParameterInfo {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return null;
+				}
+
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "ParameterTypeInfoProxyFactory [of=" + getClass().getName() + ", baseField="
+							+ field.getName() + ", position=" + position + "]";
 				}
 			});
 		}

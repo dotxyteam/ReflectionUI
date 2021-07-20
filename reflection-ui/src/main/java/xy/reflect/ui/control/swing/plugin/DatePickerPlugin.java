@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.event.ActionEvent;
@@ -134,6 +132,11 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return null;
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
 					}
 				});
 			}

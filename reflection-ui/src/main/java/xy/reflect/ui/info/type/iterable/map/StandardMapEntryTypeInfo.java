@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.map;
 
 import java.lang.reflect.Constructor;
@@ -297,6 +295,13 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 										@Override
 										public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 											return null;
+										}
+
+										@Override
+										protected String getTypeInfoProxyFactoryIdentifier() {
+											return "ConstructorReturnValueTypeInfoProxyFactory [of="
+													+ getClass().getName() + ", keyJavaType=" + keyJavaType.getName()
+													+ ", valueJavaType=" + valueJavaType.getName() + "]";
 										}
 									});
 						}

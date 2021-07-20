@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
@@ -137,6 +135,11 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return null;
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
 					}
 				});
 			}

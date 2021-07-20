@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
@@ -852,6 +850,12 @@ public class EncapsulatedObjectFactory {
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return new SpecificitiesIdentifier(typeName, ValueFieldInfo.this.getName());
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
+								+ typeName + "]";
 					}
 				});
 			}

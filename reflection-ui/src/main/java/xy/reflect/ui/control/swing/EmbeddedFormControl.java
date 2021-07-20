@@ -140,7 +140,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					swingRenderer.handleObjectException(EmbeddedFormControl.this, t);
 				}
 			};
-			subForm.setModificationStack(new SlaveModificationStack(subForm.toString(), childModifAcceptedGetter,
+			subForm.setModificationStack(new SlaveModificationStack(subForm.getName(), childModifAcceptedGetter,
 					childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionGetter,
 					committingModifGetter, childModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
 					exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),

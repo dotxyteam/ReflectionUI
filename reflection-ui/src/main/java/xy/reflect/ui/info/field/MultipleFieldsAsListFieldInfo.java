@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.awt.Dimension;
@@ -74,7 +72,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
+			type = reflectionUI
+					.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
 		}
 		return type;
 	}
@@ -631,6 +630,13 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 					return new SpecificitiesIdentifier(
 							new ValueListItemTypeInfo(ValueListItemDetailsFieldInfo.this.base).getName(),
 							ValueListItemDetailsFieldInfo.this.getName());
+				}
+
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", parent="
+							+ MultipleFieldsAsListFieldInfo.this.getName() + ", containingType="
+							+ containingType.getName() + "]";
 				}
 			});
 		}

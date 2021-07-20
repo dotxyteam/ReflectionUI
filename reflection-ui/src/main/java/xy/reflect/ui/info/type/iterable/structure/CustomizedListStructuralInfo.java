@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.structure;
 
 import java.awt.Dimension;
@@ -460,6 +458,12 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 						return new SpecificitiesIdentifier(
 								new SubListGroupItemTypeInfo(SubListGroupItemDetailsFieldInfo.this.base).getName(),
 								SubListGroupItemDetailsFieldInfo.this.getName());
+					}
+
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", parent="
+								+ SubListGroupField.this.getName() + "]";
 					}
 				});
 			}

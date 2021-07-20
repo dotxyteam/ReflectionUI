@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.util.Collections;
@@ -29,12 +27,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;
+	protected ITypeInfo containingType;
 	protected IFieldInfo field;
 	protected IParameterInfo parameter;
 
-	public FieldAsSetterInfo(ReflectionUI reflectionUI, IFieldInfo field) {
+	public FieldAsSetterInfo(ReflectionUI reflectionUI, IFieldInfo field, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		this.field = field;
+		this.containingType = containingType;
 		this.parameter = createParameter();
 	}
 
@@ -171,6 +171,13 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 						@Override
 						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 							return null;
+						}
+
+						@Override
+						protected String getTypeInfoProxyFactoryIdentifier() {
+							return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
+									+ containingType.getName() + ", baseField="
+									+ field.getName() + "]";
 						}
 					});
 				}

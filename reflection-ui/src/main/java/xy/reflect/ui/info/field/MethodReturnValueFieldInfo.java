@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.List;
@@ -110,6 +108,12 @@ public class MethodReturnValueFieldInfo extends AbstractInfo implements IFieldIn
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(containingType.getName(), getName());
+				}
+
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", baseMethod="
+							+ method.getSignature() + ", containingType=" + containingType.getName() + "]";
 				}
 			});
 		}

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.lang.reflect.Field;
@@ -215,6 +213,12 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 							return new SpecificitiesIdentifier(reflectionUI
 									.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null))
 									.getName(), GetterFieldInfo.this.getName());
+						}
+
+						@Override
+						protected String getTypeInfoProxyFactoryIdentifier() {
+							return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", javaGetterMethod="
+									+ javaGetterMethod + ", containingJavaClass=" + containingJavaClass + "]";
 						}
 					});
 		}

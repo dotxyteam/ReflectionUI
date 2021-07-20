@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.List;
@@ -84,6 +82,13 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(containingType.getName(), SubFieldInfo.this.getName());
+				}
+
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", subField="
+							+ theSubField.getName() + ", field=" + theField.getName() + ", containingType="
+							+ containingType.getName() + "]";
 				}
 			});
 		}

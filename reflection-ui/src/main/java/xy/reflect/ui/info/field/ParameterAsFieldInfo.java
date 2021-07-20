@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.ReflectionUI;
@@ -60,6 +58,13 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(containingType.getName(), getName());
+				}
+
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", baseParameter="
+							+ param.getName() + ", method=" + method.getSignature() + ", containingType="
+							+ containingType.getName() + "]";
 				}
 			});
 		}

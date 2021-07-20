@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.util.Collections;
@@ -139,6 +137,12 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return null;
+				}
+
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
+							+ containingType.getName() + ", baseField=" + field.getName() + "]";
 				}
 			});
 		}
