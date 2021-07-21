@@ -6,6 +6,8 @@ package xy.reflect.ui.control.swing;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JComponent;
+
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.IContext;
@@ -101,6 +103,11 @@ public class MutableTypeControl extends NullableControl {
 		}
 		data.addInBuffer(value);
 		boolean result = super.refreshUI(refreshStructure);
+		if(refreshStructure) {
+			if(data.getCaption().length() == 0) {
+				 ((JComponent) currentSubControl).setBorder(null);
+			}
+		}
 		if (recreationNeeded) {
 			result = false;
 		}

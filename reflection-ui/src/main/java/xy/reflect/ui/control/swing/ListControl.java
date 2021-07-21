@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
@@ -1606,17 +1604,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void refreshTreeTableScrollPaneBorder() {
-		treeTableComponentScrollPane.setBorder(
-				BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(listData.getCaption())));
-		{
-			if (listData.getLabelForegroundColor() != null) {
-				((TitledBorder) treeTableComponentScrollPane.getBorder())
-						.setTitleColor(SwingRendererUtils.getColor(listData.getLabelForegroundColor()));
+		if (listData.getCaption().length() > 0) {
+			treeTableComponentScrollPane.setBorder(
+					BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(listData.getCaption())));
+			{
+				if (listData.getLabelForegroundColor() != null) {
+					((TitledBorder) treeTableComponentScrollPane.getBorder())
+							.setTitleColor(SwingRendererUtils.getColor(listData.getLabelForegroundColor()));
+				}
+				if (listData.getBorderColor() != null) {
+					((TitledBorder) treeTableComponentScrollPane.getBorder()).setBorder(
+							BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
+				}
 			}
-			if (listData.getBorderColor() != null) {
-				((TitledBorder) treeTableComponentScrollPane.getBorder()).setBorder(
-						BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
-			}
+		} else {
+			treeTableComponentScrollPane.setBorder(null);
 		}
 	}
 
