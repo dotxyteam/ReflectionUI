@@ -300,8 +300,10 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 										@Override
 										protected String getTypeInfoProxyFactoryIdentifier() {
 											return "ConstructorReturnValueTypeInfoProxyFactory [of="
-													+ getClass().getName() + ", keyJavaType=" + keyJavaType.getName()
-													+ ", valueJavaType=" + valueJavaType.getName() + "]";
+													+ getClass().getName() + ", keyJavaType="
+													+ ((keyJavaType == null) ? null : keyJavaType.getName())
+													+ ", valueJavaType="
+													+ ((valueJavaType == null) ? null : valueJavaType.getName()) + "]";
 										}
 									});
 						}
