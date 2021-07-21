@@ -512,7 +512,7 @@ public class SwingRenderer {
 	/**
 	 * @param type The type to instanciate.
 	 * @return whether dialogs would be displayed when calling
-	 *         {@link #onTypeInstanciationRequest(Component, ITypeInfo, Object)}
+	 *         {@link #onTypeInstanciationRequest(Component, ITypeInfo)}
 	 *         with the given type.
 	 */
 	public boolean isDecisionRequiredOnTypeInstanciationRequest(ITypeInfo type) {

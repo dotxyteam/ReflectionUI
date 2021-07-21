@@ -17,7 +17,7 @@ public enum UndoOrder {
 	LIFO,
 
 	/**
-	 * See {@link #getInverse()}.
+	 * See {@link #getAbnormal()}.
 	 */
 	FIFO;
 

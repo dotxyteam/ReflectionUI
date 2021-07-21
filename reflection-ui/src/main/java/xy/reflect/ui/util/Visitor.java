@@ -8,7 +8,7 @@ package xy.reflect.ui.util;
  * 
  * @author olitank
  *
- * @param <TE> The type of the visited elements.
+ * @param <T> The type of the visited elements.
  */
 public interface Visitor<T> {
 

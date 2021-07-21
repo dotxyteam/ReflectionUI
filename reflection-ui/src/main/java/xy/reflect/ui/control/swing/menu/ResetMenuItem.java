@@ -9,7 +9,7 @@ import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.undo.ModificationStack;
 
 /**
- * Menu item that allows to call {@link ModificationStack#reset()} on the
+ * Menu item that allows to call {@link ModificationStack#undoAll()} on the
  * current modification stack.
  * 
  * @author olitank

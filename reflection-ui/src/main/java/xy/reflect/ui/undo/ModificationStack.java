@@ -435,10 +435,10 @@ public class ModificationStack {
 	 * Begins the creation of a composite modification. Following this method call,
 	 * all the modifications that will be added to this stack will be packed into a
 	 * unique modification until the call of
-	 * {@link #endComposite(String, UndoOrder)} to finalize the composite
+	 * {@link #endComposite(String, UndoOrder, boolean)} to finalize the composite
 	 * modification creation or {@link #abortComposite()} to cancel it. Note that
 	 * calling this method multiple times before making the related calls to
-	 * {@link #endComposite(String, UndoOrder)} or {@link #abortComposite()} will
+	 * {@link #endComposite(String, UndoOrder, boolean)} or {@link #abortComposite()} will
 	 * result in the creation of inner composite modifications.
 	 */
 	public void beginComposite() {
@@ -450,7 +450,7 @@ public class ModificationStack {
 
 	/**
 	 * @return true if a call to {@link #beginComposite()} have been done but the
-	 *         call to the related {@link #endComposite(String, UndoOrder)} or
+	 *         call to the related {@link #endComposite(String, UndoOrder, boolean)} or
 	 *         {@link #abortComposite()} has not been done yet.
 	 */
 	public boolean isInComposite() {
@@ -515,7 +515,7 @@ public class ModificationStack {
 	/**
 	 * Convenient composite modification creation method that calls
 	 * {@link #beginComposite()}, performs the specified action and calls
-	 * {@link #endComposite(String, UndoOrder)} or {@link #abortComposite()}.
+	 * {@link #endComposite(String, UndoOrder, boolean)} or {@link #abortComposite()}.
 	 * 
 	 * @param title  The composite modification title.
 	 * @param order  The composite modification undo order.
