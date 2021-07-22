@@ -125,7 +125,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	}
 
 	@Override
-	protected void execute() {
+	public void execute() {
 		File file = retrieveFile();
 		if (file == null) {
 			return;

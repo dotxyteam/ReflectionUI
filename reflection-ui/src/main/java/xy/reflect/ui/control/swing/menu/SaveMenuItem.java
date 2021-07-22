@@ -32,7 +32,7 @@ public class SaveMenuItem extends AbstractSaveMenuItem {
 		return super.isActive();
 	}
 
-	protected boolean isFileSynchronized() {
+	public boolean isFileSynchronized() {
 		ModificationStack modifStack = form.getModificationStack();
 		Long lastSavedVersion = lastPersistedVersionByForm.get(form);
 		if (lastSavedVersion == null) {
