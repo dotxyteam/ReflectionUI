@@ -30,6 +30,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.util.MiscUtils;
 
 /**
  * Field control that displays a combo box. Compatible with
@@ -106,7 +107,14 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 					boolean cellHasFocus) {
 				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
 						cellHasFocus);
-				label.setText(getValueText(value));
+				String text = getValueText(value);
+				if ((text == null) || (text.length() == 0)) {
+					label.setText(" ");
+					label.setToolTipText(null);
+				} else {
+					label.setText(text.replaceAll(MiscUtils.getNewLineRegex(), " "));
+					SwingRendererUtils.setMultilineToolTipText(label, text);
+				}
 				label.setIcon(getValueIcon(value));
 				if ((value != null) && !possibleValues.contains(value)) {
 					label.setBorder(SwingRendererUtils.getErrorBorder());
@@ -167,6 +175,13 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 		listenerDisabled = true;
 		try {
 			comboBox.setSelectedItem(currentValue);
+			String text = getValueText(currentValue);
+			if ((text == null) || (text.length() == 0)) {
+				comboBox.setToolTipText(null);
+			} else {
+				SwingRendererUtils.setMultilineToolTipText(comboBox, text);
+			}
+			
 		} finally {
 			listenerDisabled = false;
 		}
