@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
@@ -1705,8 +1703,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public String toString() {
-			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base
-					+ ", containingType=" + containingType + "]";
+			return "GeneratedFieldInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base + "]";
 		}
 
 	}
@@ -1882,7 +1879,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String toString() {
 			return "GeneratedMethodInfoProxy [signature=" + getSignature() + ", factory=" + factory + ", base=" + base
-					+ ", containingType=" + containingType + "]";
+					+ "]";
 		}
 
 	}
@@ -2010,7 +2007,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String toString() {
 			return "GeneratedParameterInfoProxy [name=" + getName() + ", factory=" + factory + ", base=" + base
-					+ ", method=" + method + ", containingType=" + containingType + "]";
+					+ ", method=" + method + "]";
 		}
 
 	}
