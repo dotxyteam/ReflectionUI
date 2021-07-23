@@ -105,7 +105,7 @@ public class IOUtils {
 
 	}
 
-	public static void historicizeFile(String filePath, int historySize) throws Exception {
+	public static void historizeFile(String filePath, int historySize) throws Exception {
 		for (int i = (historySize - 1); i >= 0; i--) {
 			File file;
 			if (i == 0) {
