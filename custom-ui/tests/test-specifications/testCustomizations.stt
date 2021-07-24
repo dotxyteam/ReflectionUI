@@ -127,6 +127,8 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Runtime Exception</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -256,6 +258,8 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Class Cast Exception</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -596,6 +600,8 @@
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>y</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -665,8 +671,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
-      <firstItemToSelect>4</firstItemToSelect>
-      <lastItemToSelect>4</lastItemToSelect>
+      <firstItemToSelect>5</firstItemToSelect>
+      <lastItemToSelect>5</lastItemToSelect>
     </xy.ui.testing.action.component.specific.SelectTableRowAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
@@ -1023,6 +1029,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Embedded Item Details Access Mode</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -1119,7 +1127,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>An Error Occured</string>
+        <string>An Error Occurred</string>
       </visibleStrings>
       <windowIndex>1</windowIndex>
     </xy.ui.testing.action.window.CheckWindowVisibleStringsAction>

@@ -307,7 +307,8 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
-        <occurrencesToSkip>0</occurrencesToSkip>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>2</occurrencesToSkip>
         <visibleString>10</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
@@ -851,7 +852,8 @@
     </xy.ui.testing.action.component.ClickAction>
     <xy.ui.testing.action.component.SendKeysAction>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
-        <occurrencesToSkip>0</occurrencesToSkip>
+        <componentClassName>javax.swing.JTextArea</componentClassName>
+        <occurrencesToSkip>2</occurrencesToSkip>
         <visibleString>10</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>

@@ -271,6 +271,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Open File Menu Item</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -295,6 +297,8 @@
         <windowIndex>2</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>FILES_ONLY</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -474,6 +478,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Save Menu Item</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -498,6 +504,8 @@
         <windowIndex>2</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>FILES_ONLY</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -587,6 +595,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Save As Menu Item</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -611,6 +621,8 @@
         <windowIndex>2</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>FILES_ONLY</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -714,6 +726,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Undo Menu Item</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -758,6 +772,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Redo Menu Item</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -802,6 +818,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Reset Menu Item</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -928,6 +946,8 @@
         <windowIndex>1</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
+      <knownOptions class="empty-list"/>
+      <optionListChecked>false</optionListChecked>
       <optionToSelect>Help Menu Item</optionToSelect>
       <selectionMode>BY_LABEL_TEXT</selectionMode>
     </xy.ui.testing.action.component.specific.SelectComboBoxItemAction>
@@ -1447,8 +1467,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Online help not provided for the type &apos;xy.reflect.ui.MenuCreationTest&apos;
-</string>
+        <string>Online help not provided for the type &apos;xy.reflect.ui.MenuCreationTest&apos;</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.component.ClickAction>

@@ -653,8 +653,9 @@
         <string>Fields Displayed As Parameters</string>
         <string>Menu Location</string>
         <string>Null Return Value Label</string>
-        <string>Move Into Sub-Form</string>
+        <string>Encapsulate (Move Into A Sibling Sub-Form)</string>
         <string>Value Return Mode</string>
+        <string>Conditional Enablement</string>
         <string>Confirmation Message</string>
         <string>Parameters Validation Custom Caption</string>
         <string>Generate Return Value Field</string>

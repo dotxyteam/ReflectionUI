@@ -761,9 +761,11 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Stretch</string>
+        <string>&lt;HTML&gt;Stretch&lt;/HTML&gt;</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
         <string>PIXELS</string>
+        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -797,10 +799,12 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Scale</string>
+        <string>&lt;HTML&gt;Scale&lt;/HTML&gt;</string>
         <string>Area Filled</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
         <string>PIXELS</string>
+        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -834,9 +838,11 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Scroll</string>
+        <string>&lt;HTML&gt;Scroll&lt;/HTML&gt;</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
         <string>PIXELS</string>
+        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -870,9 +876,11 @@
       <visibleStrings>
         <string>Size Constraint</string>
         <string>Zoom</string>
+        <string>&lt;HTML&gt;Zoom&lt;/HTML&gt;</string>
         <string>Scaling Qualit High</string>
         <string>Unit: </string>
         <string>PIXELS</string>
+        <string>&lt;HTML&gt;PIXELS&lt;/HTML&gt;</string>
         <string>Canvas Width: </string>
         <string>100</string>
         <string>Canvas Height: </string>
@@ -1159,6 +1167,7 @@
         <string>Font</string>
         <string>Horizontal Alignment: </string>
         <string>LEFT</string>
+        <string>&lt;HTML&gt;LEFT&lt;/HTML&gt;</string>
         <string>Underlined</string>
         <string>Struck Through</string>
         <string>Set Length</string>
@@ -1401,6 +1410,7 @@
       <visibleStrings>
         <string>Load Resources From</string>
         <string>File-System Location</string>
+        <string>&lt;HTML&gt;File-System Location&lt;/HTML&gt;</string>
         <string>Directory: </string>
         <string>...</string>
         <string>.</string>
@@ -1646,6 +1656,7 @@
         <string>Length</string>
         <string>Unit: </string>
         <string>SCREEN_PERCENT</string>
+        <string>&lt;HTML&gt;SCREEN_PERCENT&lt;/HTML&gt;</string>
         <string>Value: </string>
         <string>40</string>
       </visibleStrings>

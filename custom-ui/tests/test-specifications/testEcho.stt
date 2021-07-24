@@ -353,6 +353,7 @@
         <string>Default Values</string>
         <string>0: the parameter default value</string>
         <string>&lt;HTML&gt;Open&lt;/HTML&gt;</string>
+        <string>&lt;HTML&gt;Remove&lt;/HTML&gt;</string>
         <string>Convert Before Storing...</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
