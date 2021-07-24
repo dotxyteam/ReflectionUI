@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
@@ -147,17 +145,25 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			public void handle(Object instance) {
 				data.addInBuffer(instance);
 				refreshDynamicControl(false);
+				data.setValue(instance);
 			}
 		};
 		Mapper<ITypeInfo, Object> instanciator = new Mapper<ITypeInfo, Object>() {
-
 			@Override
 			public Object get(ITypeInfo selectedSubType) {
 				return swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this, selectedSubType);
 			}
 		};
+		Listener<Throwable> commitExceptionHandler = new Listener<Throwable>() {
+			@Override
+			public void handle(Throwable t) {
+				swingRenderer.handleObjectException(PolymorphicControl.this, t);
+				refreshTypeEnumerationControl(false);
+			}
+		};
 		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,
-				currentSubTypeAccessor, instanceSelectionHandler, subTypeInstanceCache, instanciator);
+				currentSubTypeAccessor, instanceSelectionHandler, subTypeInstanceCache, instanciator,
+				commitExceptionHandler);
 		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
 
@@ -309,11 +315,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected Listener<Object> instanceSelectionHandler;
 		protected Map<ITypeInfo, Object> subTypeInstanceCache;
 		protected Mapper<ITypeInfo, Object> instanciator;
-		
+		protected Listener<Throwable> commitExceptionHandler;
+
 		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 				PolymorphicTypeOptionsFactory typeOptionsFactory, Accessor<ITypeInfo> currentSubTypeAccessor,
 				Listener<Object> instanceSelectionHandler, Map<ITypeInfo, Object> subTypeInstanceCache,
-				Mapper<ITypeInfo, Object> instanciator) {
+				Mapper<ITypeInfo, Object> instanciator, Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
 			input = new FieldControlInputProxy(input) {
 				IFieldControlData fieldControlDataProxy = new FieldControlDataProxy(super.getControlData()) {
@@ -339,8 +346,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 								}
 							}
 						}
-						super.setValue(instance);
-						instanceSelectionHandler.handle(instance);
+						try {
+							instanceSelectionHandler.handle(instance);
+						} catch (Throwable t) {
+							commitExceptionHandler.handle(t);							
+							throw new CancelledModificationException();
+						}
 					}
 
 					@Override
@@ -362,6 +373,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.instanceSelectionHandler = instanceSelectionHandler;
 			this.subTypeInstanceCache = subTypeInstanceCache;
 			this.instanciator = instanciator;
+			this.commitExceptionHandler = commitExceptionHandler;
 		}
 
 		@Override
