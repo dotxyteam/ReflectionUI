@@ -813,7 +813,7 @@ public class SwingRenderer {
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(
-				prepareMessageToDisplay(formatErrorMessage(error)) + "\n", JOptionPane.ERROR_MESSAGE, this));
+				prepareMessageToDisplay(formatErrorMessage(error)), JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setButtonBarControls(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);

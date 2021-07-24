@@ -109,7 +109,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 						cellHasFocus);
 				String text = getValueText(value);
 				if ((text == null) || (text.length() == 0)) {
-					label.setText(" ");
+					label.setText("");
 					label.setToolTipText(null);
 				} else {
 					label.setText(text.replaceAll(MiscUtils.getNewLineRegex(), " "));

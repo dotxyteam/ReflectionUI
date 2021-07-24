@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.builder;
 
 import java.util.Collections;
@@ -100,7 +98,7 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract IModification createCommittingModification(Object newObjectValue);
 
 	/**
-	 * Processes exceptions thrown when the local value/object to committed to the
+	 * Processes exceptions thrown when the local value/object is committed to the
 	 * parent object through a real-time link.
 	 * 
 	 * @param t The thrown exception.
