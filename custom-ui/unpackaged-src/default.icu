@@ -7704,9 +7704,9 @@
                     <allowedItemMethodShortcuts>
                         <uniqueIdentifier>56fe01de:17a29dc25a7:-7176</uniqueIdentifier>
                         <alwaysShown>true</alwaysShown>
-                        <customIcomImagePath>
+                        <customIconImagePath>
                             <specification>/media/olitank/data/prog/git/ReflectionUI/custom-ui/tmp/obj16/Actor.gif</specification>
-                        </customIcomImagePath>
+                        </customIconImagePath>
                         <customMethodCaption>Verify (customized)</customMethodCaption>
                         <methodSignature>void verify()</methodSignature>
                     </allowedItemMethodShortcuts>
