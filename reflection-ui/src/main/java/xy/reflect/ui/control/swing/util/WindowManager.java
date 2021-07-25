@@ -49,10 +49,10 @@ public class WindowManager {
 	protected SwingRenderer swingRenderer;
 	protected Window window;
 	protected AlternativeWindowDecorationsPanel alternativeDecorationsPanel;
-	protected ControlPanel rootPane;
+	protected JPanel rootPane;
 	protected ImagePanel backgroundPane;
-	protected ControlPanel contentPane;
-	protected ControlPanel topBarsContainer;
+	protected JPanel contentPane;
+	protected JPanel topBarsContainer;
 	protected JScrollPane scrollPane;
 	protected JPanel buttonBar;
 	protected Form form;
@@ -80,7 +80,7 @@ public class WindowManager {
 		this.window = window;
 	}
 
-	protected ControlPanel createRootPane() {
+	protected JPanel createRootPane() {
 		ControlPanel result = new ControlPanel();
 		result.setLayout(new StackLayout());
 		return result;
@@ -127,7 +127,7 @@ public class WindowManager {
 		return result;
 	}
 
-	protected ControlPanel createContentPane() {
+	protected JPanel createContentPane() {
 		ControlPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
 		topBarsContainer = new ControlPanel();
@@ -152,7 +152,7 @@ public class WindowManager {
 		return result;
 	}
 
-	protected void layoutRootPane(ControlPanel rootPane) {
+	protected void layoutRootPane(JPanel rootPane) {
 		SwingRendererUtils.setContentPane(window, rootPane);
 	}
 
