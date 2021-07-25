@@ -77,8 +77,6 @@ public class Menu extends JMenu {
 		Form contextForm = (Form) actionMenuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
 		if (actionMenuItemInfo.getType() == Type.OPEN) {
 			return new OpenMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.OPEN) {
-			return new OpenMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
 		} else if (actionMenuItemInfo.getType() == Type.SAVE) {
 			return new SaveMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
 		} else if (actionMenuItemInfo.getType() == Type.SAVE_AS) {
