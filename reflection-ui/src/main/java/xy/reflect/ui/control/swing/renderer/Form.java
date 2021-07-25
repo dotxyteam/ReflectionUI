@@ -1186,7 +1186,7 @@ public class Form extends ImagePanel {
 		addMenuContributionTo(globalMenuModel);
 		menuBar.removeAll();
 		for (MenuInfo menuInfo : globalMenuModel.getMenus()) {
-			menuBar.add(new Menu(swingRenderer, menuInfo));
+			menuBar.add(creatMenu(menuInfo));
 		}
 		SwingRendererUtils.handleComponentSizeChange(menuBar);
 		Color awtBackgroundColor = getControlsBackgroundColor();
@@ -1198,6 +1198,10 @@ public class Form extends ImagePanel {
 			menu.setForeground(awtForegroundColor);
 		}
 		menuBar.setVisible(menuBar.getComponentCount() > 0);
+	}
+
+	protected JMenu creatMenu(MenuInfo menuInfo) {
+		return new Menu(swingRenderer, menuInfo);
 	}
 
 	/**
