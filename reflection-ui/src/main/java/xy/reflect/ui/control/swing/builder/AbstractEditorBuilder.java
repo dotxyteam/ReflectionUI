@@ -270,8 +270,8 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			}
 			dialogBuilder.setButtonBarControls(buttonBarControls);
 		}
-		createdDialog = dialogBuilder.createDialog();
-		createdDialog.addWindowListener(new WindowAdapter() {
+		final RenderedDialog dialog = dialogBuilder.createDialog();
+		dialog.addWindowListener(new WindowAdapter() {
 
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -281,10 +281,12 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				finalizeDialogModifications();
+				dialog.removeWindowListener(this);
 			}
 
 		});
-		return createdDialog;
+		createdDialog = dialog;
+		return dialog;
 	}
 
 	/**
