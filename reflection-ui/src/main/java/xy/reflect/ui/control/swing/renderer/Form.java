@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
@@ -774,9 +772,14 @@ public class Form extends ImagePanel {
 	}
 
 	/**
-	 * Changes the currently displayed category.
+	 * Changes the currently displayed category. If the specified category is not
+	 * found then the displayed category is unchanged.
 	 * 
-	 * @param category The new category.
+	 * @param category A category object that will be used to find (by comparing
+	 *                 attributes) the category that must be displayed. Note that if
+	 *                 the given category position is -1 then this position
+	 *                 attribute will not be used to match the category that must be
+	 *                 displayed.
 	 */
 	public void setDisplayedCategory(InfoCategory category) {
 		String categoryCaption = category.getCaption();
