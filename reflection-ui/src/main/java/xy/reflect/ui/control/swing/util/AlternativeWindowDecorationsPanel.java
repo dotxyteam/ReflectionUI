@@ -40,7 +40,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 
 		@Override
 		public Color getForeground() {
-			return getDecorationsForegroundColor();
+			return getTitleBarForegroundColor();
 		}
 
 	};
@@ -54,20 +54,13 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 			Graphics2D g2 = (Graphics2D) g.create();
 			int w = getWidth();
 			int h = getHeight();
-			if (isTitleBarPainted()) {
-				g2.setPaint(getTitleBarColor());
+			if (isTitleBarBackgroundPainted()) {
+				g2.setPaint(getTitleBarBackgroundColor());
 				g2.fillRect(0, 0, w, top.getHeight() + titlePanel.getHeight());
 			}
 			if (isBorderPainted()) {
-				g2.setPaint(getDecorationsForegroundColor());
+				g2.setPaint(getBorderColor());
 				g2.drawRect(0, 0, w - 1, h - 1);
-
-				g2.drawLine(0, 2, 2, 0);
-				g2.drawLine(w - 3, 0, w - 1, 2);
-				g2.clearRect(0, 0, 2, 1);
-				g2.clearRect(0, 0, 1, 2);
-				g2.clearRect(w - 2, 0, 2, 1);
-				g2.clearRect(w - 1, 0, 1, 2);
 			}
 
 			g2.dispose();
@@ -104,20 +97,24 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return titleLabel;
 	}
 
-	protected Color getTitleBarColor() {
+	protected Color getTitleBarBackgroundColor() {
 		return Color.RED;
 	}
 
-	protected Color getDecorationsForegroundColor() {
+	protected Color getTitleBarForegroundColor() {
 		return Color.YELLOW;
 	}
 
-	protected boolean isTitleBarPainted() {
-		return false;
+	protected Color getBorderColor() {
+		return Color.CYAN;
+	}
+
+	protected boolean isTitleBarBackgroundPainted() {
+		return true;
 	}
 
 	protected boolean isBorderPainted() {
-		return false;
+		return true;
 	}
 
 	public void init(String title, Icon icon) {
@@ -398,7 +395,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		@Override
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			g.translate(x, y);
-			g.setColor(getDecorationsForegroundColor());
+			g.setColor(getTitleBarForegroundColor());
 			g.drawLine(4, 4, 11, 11);
 			g.drawLine(4, 5, 10, 11);
 			g.drawLine(5, 4, 11, 10);
@@ -423,7 +420,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		@Override
 		public void paintIcon(Component c, Graphics g, int x, int y) {
 			g.translate(x, y);
-			g.setColor(getDecorationsForegroundColor());
+			g.setColor(getTitleBarForegroundColor());
 			g.drawLine(4, 4, 11, 4);
 			g.drawLine(11, 4, 11, 11);
 			g.drawLine(11, 11, 4, 11);

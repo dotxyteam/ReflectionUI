@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.BorderLayout;
@@ -43,8 +41,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class WindowManager {
 
-	protected static final Color DEFAULT_TITLE_BAR_COLOR = Color.BLUE;
-	protected static final Color DEFAULT_DECORATIONS_FOREROUND_COLOR = Color.WHITE;
+	protected static final Color DEFAULT_TITLE_BAR_FOREROUND_COLOR = Color.BLACK;
 
 	protected SwingRenderer swingRenderer;
 	protected Window window;
@@ -111,9 +108,9 @@ public class WindowManager {
 		if (mainBackgroundColor == null) {
 			mainBackgroundColor = new JPanel().getBackground();
 		}
-		Color titleBackgroundColor = getTitleBackgroundColor();
+		Color titleBackgroundColor = getAlternativeDecorationsTitleBarBackgroundColor();
 		if (titleBackgroundColor == null) {
-			titleBackgroundColor = DEFAULT_TITLE_BAR_COLOR;
+			titleBackgroundColor = new JPanel().getBackground();
 		}
 		Color averageBackgroundColor = new Color((mainBackgroundColor.getRed() + titleBackgroundColor.getRed()) / 2,
 				(mainBackgroundColor.getGreen() + titleBackgroundColor.getGreen()) / 2,
@@ -258,8 +255,7 @@ public class WindowManager {
 		backgroundPane.setImage(backgroundImage);
 		backgroundPane.setOpaque((backgroundColor != null) && (backgroundImage == null));
 		if (alternativeDecorationsPanel != null) {
-			alternativeDecorationsPanel
-					.setBorder(BorderFactory.createLineBorder(getAlternativeDecorationsBorderColor(), 1));
+			alternativeDecorationsPanel.repaint();
 		}
 		Color borderColor = getMainBorderColor();
 		if (borderColor != null) {
@@ -311,7 +307,7 @@ public class WindowManager {
 		}
 	}
 
-	protected Color getTitleBackgroundColor() {
+	protected Color getAlternativeDecorationsTitleBarBackgroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getTitleBackgroundColor() != null) {
@@ -321,7 +317,7 @@ public class WindowManager {
 		}
 	}
 
-	protected Color getTitleForegroundColor() {
+	protected Color getAlternativeDecorationsTitleBarForegroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getTitleForegroundColor() != null) {
@@ -367,33 +363,37 @@ public class WindowManager {
 		}
 
 		@Override
-		public Color getTitleBarColor() {
+		protected boolean isTitleBarBackgroundPainted() {
+			return WindowManager.this.getAlternativeDecorationsTitleBarBackgroundColor() != null;
+		}
+
+		@Override
+		public Color getTitleBarBackgroundColor() {
+			return WindowManager.this.getAlternativeDecorationsTitleBarBackgroundColor();
+		}
+
+		@Override
+		public Color getTitleBarForegroundColor() {
 			Color result = null;
 			if (result == null) {
-				result = getTitleBackgroundColor();
+				result = WindowManager.this.getAlternativeDecorationsTitleBarForegroundColor();
 			}
 			if (result == null) {
-				result = DEFAULT_TITLE_BAR_COLOR;
+				result = DEFAULT_TITLE_BAR_FOREROUND_COLOR;
 			}
 			return result;
 		}
 
 		@Override
-		public Color getDecorationsForegroundColor() {
-			Color result = null;
-			if (result == null) {
-				result = getTitleForegroundColor();
-			}
-			if (result == null) {
-				result = DEFAULT_DECORATIONS_FOREROUND_COLOR;
-			}
-			return result;
+		protected boolean isBorderPainted() {
+			return true;
 		}
 
 		@Override
-		protected boolean isTitleBarPainted() {
-			return getTitleBackgroundColor() != null;
+		protected Color getBorderColor() {
+			return WindowManager.this.getAlternativeDecorationsBorderColor();
 		}
+
 	}
 
 }
