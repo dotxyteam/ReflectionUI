@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.BorderLayout;
@@ -78,6 +76,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
+import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
@@ -252,7 +251,10 @@ public class SwingRendererUtils {
 		if (toolTipText == null) {
 			c.setToolTipText(null);
 		} else {
-			c.setToolTipText("<HTML>" + MiscUtils.escapeHTML(toolTipText, true) + "</HTML>");
+			if (!MiscUtils.isHTMLText(toolTipText)) {
+				toolTipText = "<HTML>" + MiscUtils.escapeHTML(toolTipText, true) + "</HTML>";
+			}
+			c.setToolTipText(toolTipText);
 		}
 	}
 
@@ -649,7 +651,7 @@ public class SwingRendererUtils {
 		JPanel result = new ControlPanel();
 		result.setLayout(new BorderLayout());
 		{
-			TextControl textControl = new TextControl(swingRenderer, new IFieldControlInput() {
+			IFieldControlInput textControlInput = new IFieldControlInput() {
 
 				IFieldInfo field = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 					@Override
@@ -679,7 +681,10 @@ public class SwingRendererUtils {
 				public IContext getContext() {
 					return IContext.NULL_CONTEXT;
 				}
-			});
+			};
+			TextControl textControl = MiscUtils.isHTMLText(msg)
+					? new HtmlPlugin().new HtmlControl(swingRenderer, textControlInput)
+					: new TextControl(swingRenderer, textControlInput);
 			result.add(textControl, BorderLayout.CENTER);
 		}
 		{

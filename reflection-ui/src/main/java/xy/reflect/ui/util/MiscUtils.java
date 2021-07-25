@@ -25,6 +25,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -40,6 +41,11 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 public class MiscUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
+	public static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
+
+	public static String escapeRegex(String str) {
+		return SPECIAL_REGEX_CHARS.matcher(str).replaceAll("\\\\$0");
+	}
 
 	public static <BASE, C extends BASE> List<BASE> convertCollection(Collection<C> ts) {
 		List<BASE> result = new ArrayList<BASE>();
@@ -224,7 +230,7 @@ public class MiscUtils {
 
 	public static <T> boolean replaceItem(List<T> list, T t1, T t2) {
 		int index = list.indexOf(t1);
-		if(index == -1) {
+		if (index == -1) {
 			return false;
 		}
 		list.set(index, t2);
@@ -336,6 +342,11 @@ public class MiscUtils {
 			}
 		}.start();
 		return map;
+	}
+
+	public static boolean isHTMLText(String text) {
+		return Pattern.compile("\\s*<[hH][tT][mM][lL]>.*</[hH][tT][mM][lL]>\\s*", Pattern.DOTALL).matcher(text)
+				.matches();
 	}
 
 }

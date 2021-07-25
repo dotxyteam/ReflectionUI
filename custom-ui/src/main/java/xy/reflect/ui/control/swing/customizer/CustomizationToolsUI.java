@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 
@@ -18,6 +20,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMemberCustomization;
@@ -44,6 +47,7 @@ import xy.reflect.ui.info.menu.MenuElementKind;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
@@ -459,6 +463,50 @@ public class CustomizationToolsUI extends CustomizedUI {
 				return super.getFields(type);
 			}
 
+			@Override
+			protected String getOnlineHelp(IApplicationInfo appInfo) {
+				return fixOnlineHelp(super.getOnlineHelp(appInfo));
+			}
+
+			@Override
+			protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
+				return fixOnlineHelp(super.getOnlineHelp(field, containingType));
+			}
+
+			@Override
+			protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+				return fixOnlineHelp(super.getOnlineHelp(param, method, containingType));
+			}
+
+			@Override
+			protected String getOnlineHelp(ITypeInfo type) {
+				return fixOnlineHelp(super.getOnlineHelp(type));
+			}
+
+			@Override
+			protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
+				return fixOnlineHelp(super.getOnlineHelp(method, containingType));
+			}
+
+			@Override
+			protected String getOnlineHelp(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+				return fixOnlineHelp(super.getOnlineHelp(info, parentEnumType));
+			}
+
+			/**
+			 * @param onlineHelp Online help message.
+			 * @return an improved online help message (see the class OnlineHelpFi)x.
+			 */
+			protected String fixOnlineHelp(String onlineHelp) {
+				if (onlineHelp == null) {
+					return null;
+				}
+				if (MiscUtils.isHTMLText(onlineHelp)) {
+					return onlineHelp;
+				}
+				return "<HTML>" + OnlineHelpFix.adaptToHtml(onlineHelp) + "</HTML>";
+			}
+
 		}.wrapTypeInfo(type);
 		return type;
 	}
@@ -466,6 +514,92 @@ public class CustomizationToolsUI extends CustomizedUI {
 	@Override
 	public void logError(String msg) {
 		super.logError(msg);
+	}
+
+	/**
+	 * This class is used to improve online help messages of customization tools by
+	 * converting them to HTML. It is intended to be a temporary fix while updating
+	 * the help messages.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public static class OnlineHelpFix {
+
+		protected static final List<Character> ALL_LEGACY_BULLET_CHARACTERS = Arrays.asList('-', '.');
+
+		public static String adaptToHtml(String onlineHelp) {
+			String result = onlineHelp;
+			result = MiscUtils.escapeHTML(result, false);
+			result = result.replace("&nbsp;", "");
+			result = convertBullets(result, ALL_LEGACY_BULLET_CHARACTERS);
+			return result;
+		}
+
+		protected static String convertBullets(String onlineHelp, List<Character> bulletCharacters) {
+			String result = onlineHelp;
+			if (bulletCharacters.size() == 0) {
+				throw new ReflectionUIError();
+			}
+			Character bulletCharacter = bulletCharacters.get(0);
+			String escapedBulletCharacter = MiscUtils.escapeRegex(Character.toString(bulletCharacter));
+			boolean bulletFound = false;
+			for (Pattern bulletPattern : Arrays.asList(
+					Pattern.compile("\\n\\s+" + escapedBulletCharacter + "(.*?)(?=(\\n\\s+" + escapedBulletCharacter
+							+ "|\\n[A-Za-z0-9]|$))", Pattern.DOTALL),
+					Pattern.compile("\\n" + escapedBulletCharacter + "(.*?)(?=(\\n" + escapedBulletCharacter + "|$))",
+							Pattern.DOTALL))) {
+				Matcher matcher = bulletPattern.matcher(result);
+				if (matcher.find()) {
+					bulletFound = true;
+					StringBuffer replacementResult = new StringBuffer();
+					StringBuffer headReplacementResult = new StringBuffer();
+					{
+						matcher.appendReplacement(headReplacementResult, "");
+						matcher.find(matcher.start());
+					}
+					replacementResult.append(processParagraph(headReplacementResult.toString()) + "<UL>");
+					do {
+						if (bulletCharacters.size() == 1) {
+							StringBuffer subReplacementResult = new StringBuffer();
+							matcher.appendReplacement(subReplacementResult, "$1");
+							if (headReplacementResult != null) {
+								replacementResult.append("<LI>" + processParagraph(
+										subReplacementResult.toString().substring(headReplacementResult.length()))
+										+ "</LI>");
+							} else {
+								replacementResult
+										.append("<LI>" + processParagraph(subReplacementResult.toString()) + "</LI>");
+							}
+						} else {
+							StringBuffer subReplacementResult = new StringBuffer();
+							subReplacementResult.append(result.substring(matcher.start(1), matcher.end(1)));
+							replacementResult.append("<LI>" + convertBullets(subReplacementResult.toString(),
+									bulletCharacters.subList(1, bulletCharacters.size())) + "</LI>");
+							// to make matcher.appendTail(replacementResult) work
+							matcher.appendReplacement(new StringBuffer(), "");
+						}
+						headReplacementResult = null;
+					} while (matcher.find());
+					replacementResult.append("</UL>");
+					StringBuffer tailReplacementResult = new StringBuffer();
+					{
+						matcher.appendTail(tailReplacementResult);
+					}
+					replacementResult.append(processParagraph(tailReplacementResult.toString()));
+					result = replacementResult.toString();
+				}
+			}
+			result = result.replace("\n", " ");
+			if (!bulletFound) {
+				result = processParagraph(result);
+			}
+			return result;
+		}
+
+		protected static String processParagraph(String string) {
+			return "<P width=\"300\">" + string + "</P>";
+		}
 	}
 
 }

@@ -1,10 +1,10 @@
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-
 import xy.reflect.ui.control.swing.customizer.CustomizationTools;
 import xy.reflect.ui.control.swing.customizer.CustomizationToolsUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
+import xy.reflect.ui.control.swing.customizer.CustomizationToolsUI.OnlineHelpFix;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
@@ -14,10 +14,11 @@ import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 public class ExtractCustomizationsHelp {
+
+	private static boolean namesElseCaptions = true;
 
 	public static void main(String[] args) {
 		CustomizationTools tools = SwingCustomizer.getDefault().getCustomizationTools();
@@ -30,7 +31,11 @@ public class ExtractCustomizationsHelp {
 	}
 
 	private static void printTypeHelp(ITypeInfo typeCustomizationType) {
-		System.out.println("<H3>" + typeCustomizationType.getCaption() + "</H3>");
+		String title = (namesElseCaptions ? typeCustomizationType.getName() : typeCustomizationType.getCaption());
+		System.out.println("<H3>" + title + "</H3>");
+		if (typeCustomizationType.getOnlineHelp() != null) {
+			System.out.println(OnlineHelpFix.adaptToHtml(typeCustomizationType.getOnlineHelp()));
+		}
 		System.out.println("<UL>");
 		for (IFieldInfo field : typeCustomizationType.getFields()) {
 			printFieldHelp(field);
@@ -41,8 +46,9 @@ public class ExtractCustomizationsHelp {
 	private static void printFieldHelp(IFieldInfo field) {
 		if (field.getOnlineHelp() != null) {
 			if (field.getCaption().trim().length() > 0) {
-				System.out.println("<LI>" + "<B>" + field.getCaption() + ": " + "</B>" + MiscUtils
-						.escapeHTML(field.getOnlineHelp().replace("\n", " ").replace("  ", " "), true) + "</LI>");
+				String title = (namesElseCaptions ? field.getName() : field.getCaption());
+				System.out.println(
+						"<LI>" + "<B>" + title + ": " + "</B>" + OnlineHelpFix.adaptToHtml(field.getOnlineHelp()) + "</LI>");
 			}
 		} else {
 			CapsuleFieldInfo capsuleField = getCapsuleField(field);
