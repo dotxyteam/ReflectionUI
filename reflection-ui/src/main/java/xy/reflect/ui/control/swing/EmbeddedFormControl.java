@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
@@ -18,7 +16,6 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -56,8 +53,8 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		input = new FieldControlInputProxy(input) {
-			IFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(super.getControlData(), swingRenderer,
-					EmbeddedFormControl.this);
+			IFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(super.getControlData(),
+					swingRenderer, EmbeddedFormControl.this);
 
 			@Override
 			public IFieldControlData getControlData() {
@@ -104,7 +101,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				}
 			};
 			Accessor<Boolean> childValueReplacedGetter = Accessor.returning(Boolean.FALSE);
-			Accessor<ITransactionInfo> childValueTransactionGetter = Accessor.returning(null);
+			Accessor<Boolean> childValueTransactionExecutedGetter = Accessor.returning(false);
 			Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
 				@Override
 				public IModification get() {
@@ -141,7 +138,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				}
 			};
 			subForm.setModificationStack(new SlaveModificationStack(subForm.getName(), childModifAcceptedGetter,
-					childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionGetter,
+					childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionExecutedGetter,
 					committingModifGetter, childModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
 					exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),

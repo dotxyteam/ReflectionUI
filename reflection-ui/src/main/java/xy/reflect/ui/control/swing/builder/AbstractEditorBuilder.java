@@ -1,10 +1,10 @@
 
-
-
 package xy.reflect.ui.control.swing.builder;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -271,6 +271,19 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			dialogBuilder.setButtonBarControls(buttonBarControls);
 		}
 		createdDialog = dialogBuilder.createDialog();
+		createdDialog.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				initializeDialogModifications();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				finalizeDialogModifications();
+			}
+
+		});
 		return createdDialog;
 	}
 
@@ -286,9 +299,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 */
 	public void createAndShowDialog() {
 		createDialog();
-		initializeDialogModifications();
 		getSwingRenderer().showDialog(createdDialog, true);
-		finalizeDialogModifications();
 	}
 
 	/**
@@ -328,19 +339,29 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		ValueReturnMode valueReturnMode = getReturnModeFromParent();
 		Object currentValue = getCurrentValue();
 		boolean valueReplaced = isValueReplaced();
-		ITransactionInfo valueTransaction = currentValueTransaction;
+		boolean valueModifAccepted = shouldIntegrateNewObjectValue(currentValue)
+				&& ((!isDialogCancellable()) || !isCancelled());
+		boolean valueTransactionExecuted;
+		if (currentValueTransaction != null) {
+			if (valueModifAccepted) {
+				currentValueTransaction.commit();
+			} else {
+				currentValueTransaction.rollback();
+			}
+			valueTransactionExecuted = true;
+		} else {
+			valueTransactionExecuted = false;
+		}
 		IModification committingModif;
 		if (!canCommitToParent()) {
 			committingModif = null;
 		} else {
 			committingModif = createCommittingModification(currentValue);
 		}
-		boolean valueModifAccepted = shouldIntegrateNewObjectValue(currentValue)
-				&& ((!isDialogCancellable()) || !isCancelled());
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifFake = isParentModificationFake();
 		ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
-				valueReturnMode, valueReplaced, valueTransaction, committingModif, parentObjectModifTitle,
+				valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif, parentObjectModifTitle,
 				parentObjectModifFake, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()));
 		if (currentValueTransaction != null) {

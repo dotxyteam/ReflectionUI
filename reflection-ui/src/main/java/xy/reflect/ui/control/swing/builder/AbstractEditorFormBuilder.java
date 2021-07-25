@@ -9,7 +9,6 @@ import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -532,7 +531,7 @@ public abstract class AbstractEditorFormBuilder {
 				return isValueReplaced();
 			}
 		};
-		Accessor<ITransactionInfo> childValueTransactionGetter = Accessor.returning(null);
+		Accessor<Boolean> childValueTransactionExecutedGetter = Accessor.returning(false);
 		Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
 			@Override
 			public IModification get() {
@@ -571,7 +570,7 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		};
 		editorForm.setModificationStack(new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionGetter,
+				childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionExecutedGetter,
 				committingModifGetter, masterModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
 				exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),

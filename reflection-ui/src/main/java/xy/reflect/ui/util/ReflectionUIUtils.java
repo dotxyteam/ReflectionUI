@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.util;
 
 import java.io.Serializable;
@@ -27,7 +25,6 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -555,7 +552,7 @@ public class ReflectionUIUtils {
 
 	public static void finalizeSubModifications(final ModificationStack parentModificationStack,
 			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
-			final ValueReturnMode valueReturnMode, final boolean valueReplaced, ITransactionInfo valueTransaction,
+			final ValueReturnMode valueReturnMode, final boolean valueReplaced, boolean valueTransactionExecuted,
 			final IModification committingModification, String parentModificationTitle, boolean fakeParentModification,
 			final Listener<String> debugLogListener, Listener<String> errorLogListener) {
 
@@ -596,14 +593,6 @@ public class ReflectionUIUtils {
 												.push(currentModificationsStack.toCompositeUndoModification(null));
 									}
 								}
-								if (valueTransaction != null) {
-									valueTransaction.commit();
-									/*
-									 * Note that at this point we are sure that the parentModificationStack will
-									 * fire an event allowing the parent object UI to refresh and then take into
-									 * account the changes caused by the transaction.
-									 */
-								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
 									if (committingModification != null) {
 										if (debugLogListener != null) {
@@ -618,14 +607,17 @@ public class ReflectionUIUtils {
 			}
 		} else {
 			if (valueReturnMode != ValueReturnMode.CALCULATED) {
-				if (valueTransaction != null) {
-					valueTransaction.rollback();
+				if (valueTransactionExecuted) {
 					/*
-					 * We then need to make sure that the parentModificationStack will fire an event
-					 * allowing the parent object UI to refresh and then take into account the
-					 * changes caused by the transaction.
+					 * The transaction has been rolled back then the value has recovered its initial
+					 * state => no need to undo the value modifications anymore.
 					 */
 					if (parentModificationStack != null) {
+						/*
+						 * We then need to make sure that the parentModificationStack will fire an event
+						 * allowing the parent object UI to refresh and then take into account the
+						 * changes caused by the transaction.
+						 */
 						parentModificationStack.push(IModification.FAKE_MODIFICATION);
 					}
 				} else {

@@ -2766,14 +2766,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			BufferedItemPosition itemPosition = getSingleSelection();
 			dialogBuilder = new ItemUIBuilder(itemPosition);
 			JDialog dialog = dialogBuilder.createDialog();
-			dialogBuilder.initializeDialogModifications();
 			swingRenderer.showDialog(dialog, true);
 			return true;
 		}
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			dialogBuilder.finalizeDialogModifications();
 			toPostSelectHolder[0] = getSelection();
 		}
 
@@ -3212,7 +3210,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				protected void handleRealtimeLinkCommitException(Throwable t) {
-					throw new ReflectionUIError();
+					swingRenderer.handleObjectException(ListControl.this, t);
 				}
 
 				@Override
@@ -3221,14 +3219,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			};
 			JDialog dialog = subDialogBuilder.createDialog();
-			subDialogBuilder.initializeDialogModifications();
 			swingRenderer.showDialog(dialog, true);
 			return true;
 		}
 
 		@Override
 		protected void perform(List<BufferedItemPosition>[] toPostSelectHolder) {
-			subDialogBuilder.finalizeDialogModifications();
 			if (dynamicProperty.getPostSelection() != null) {
 				toPostSelectHolder[0] = MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(
 						dynamicProperty.getPostSelection());
