@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.custom;
 
 import java.awt.Image;
@@ -78,7 +76,296 @@ import xy.reflect.ui.util.SystemProperties;
 
 /**
  * This class allows to specify declarative customizations of abstract UI model
- * elements.
+ * elements. <BR>
+ * Online help extracted from the CustomUI sub-project:
+ * 
+ * <H3>xy.reflect.ui.info.custom.InfoCustomizations$TypeCustomization</H3>
+ * <UL>
+ * <LI><B>baseTypeName: </B>Allows to specify the name of a type from which the
+ * customizations will be inherited.</LI>
+ * <LI><B>categoriesStyle: </B>Specifies how categories are displayed.</LI>
+ * <LI><B>categoriesBackgroundColor: </B>Allows to specify the background color
+ * of the categories control of forms generated from this type.</LI>
+ * <LI><B>categoriesForegroundColor: </B>Allows to specify the text color of the
+ * categories control of forms generated from this type.</LI>
+ * <LI><B>undoManagementHidden: </B>If checked, undo/redo/reset/cancel actions
+ * will not be available for objects of this type.</LI>
+ * <LI><B>anyPersistenceMemberIncluded: </B>If chcecked, the current type
+ * persistence methods (save() and load()) will be available as method controls
+ * for objects of this type.</LI>
+ * <LI><B>anyDefaultObjectMemberIncluded: </B>If chcecked, default object fieds
+ * and methods (getClass(), toString(), ...) will be available.</LI>
+ * <LI><B>typeName: </B>The name of the current type.</LI>
+ * <LI><B>customTypeCaption: </B>Custom display name of this type. If not set, a
+ * default display name is provided.</LI>
+ * <LI><B>immutableForced: </B>If checked, objects of this type will be
+ * considered as immutable and then not editable.</LI>
+ * <LI><B>abstractForced: </B>If checked, objects of this type will be
+ * considered as abstract and then not instanciable.</LI>
+ * <LI><B>copyForbidden: </B>If checked, it will not be possible to copy objects
+ * of this type (typically from lists).</LI>
+ * <LI><B>fieldsLayout: </B>Allows to change the layout of this type field
+ * controls.</LI>
+ * <LI><B>methodsLayout: </B>Allows to change the layout of this type method
+ * controls.</LI>
+ * <LI><B>formWidth: </B>Allows to specify the default width of forms generated
+ * from this this type.</LI>
+ * <LI><B>formHeight: </B>Allows to specify the default height of forms
+ * generated from this this type.</LI>
+ * <LI><B>formSpacing: </B>Allows to specify the space (in pixels) between
+ * elements in forms generated from this this type.</LI>
+ * <LI><B>formBackgroundColor: </B>Allows to specify the background color of
+ * forms generated from this type.</LI>
+ * <LI><B>formForegroundColor: </B>Allows to specify the text color of forms
+ * generated from this type.</LI>
+ * <LI><B>formBorderColor: </B>Allows to specify the border color of forms
+ * generated from this type.</LI>
+ * <LI><B>formBackgroundImagePath: </B>Allows to specify the background image of
+ * forms generated from this type.</LI>
+ * <LI><B>formEditorsBackgroundColor: </B>Allows to specify the background color
+ * of the editable parts of forms generated from this type.</LI>
+ * <LI><B>formEditorsForegroundColor: </B>Allows to specify the text color of
+ * the editable parts of forms generated from this type.</LI>
+ * <LI><B>formButtonBackgroundColor: </B>Allows to specify the background color
+ * of buttons of forms generated from this type.</LI>
+ * <LI><B>formButtonForegroundColor: </B>Allows to specify the text color of
+ * buttons of forms generated from this type.</LI>
+ * <LI><B>formButtonBorderColor: </B>Allows to specify the border color of
+ * buttons of forms generated from this type.</LI>
+ * <LI><B>formButtonBackgroundImagePath: </B>Allows to specify the background
+ * image of buttons of forms generated from this type.</LI>
+ * <LI><B>savingMethodName: </B>The name of a method of the current type that
+ * will be used to save instances state. The method must have the following
+ * signature: void &lt;name&gt;(java.io.OutputStream). By default the instances
+ * will be saved by using standard serialization if available (the Java class
+ * must implement the java.io.Serializable interface).</LI>
+ * <LI><B>loadingMethodName: </B>The name of a method of the current type that
+ * will be used to load instances state. The method must have the following
+ * signature: void &lt;name&gt;(java.io.InputStream). By default the instances
+ * will be saved by using standard serialization if available (the Java class
+ * must implement the java.io.Serializable interface).</LI>
+ * <LI><B>onlineHelp: </B>Help message displayed for the type.</LI>
+ * <LI><B>iconImagePath: </B>Icon image displayed for this type.</LI>
+ * <LI><B>memberCategories: </B>List of categories in which field and method
+ * controls can be put in order to make the forms generated from this type more
+ * intuitive and usable.</LI>
+ * <LI><B>polymorphicSubTypeFinders: </B>List of declared sub-types of this
+ * type. They will be proposed during the creation of objects of this type.</LI>
+ * <LI><B>fieldsCustomizations: </B>List of discovered fields of this type.</LI>
+ * <LI><B>virtualFieldDeclarations: </B>List of virtual fields of this
+ * type.</LI>
+ * <LI><B>methodsCustomizations: </B>List of methods of this type.</LI>
+ * </UL>
+ * <H3>xy.reflect.ui.info.custom.InfoCustomizations$FieldCustomization</H3>
+ * <UL>
+ * <LI><B>nullValueDistinctForced: </B>Specifies that the field control should
+ * allows to set the null value.</LI>
+ * <LI><B>nullValueLabel: </B>Text to be displayed when this field value is
+ * null.</LI>
+ * <LI><B>nullReplacement: </B>If specified, this value will be displayed when
+ * this field value is null.</LI>
+ * <LI><B>nullStatusFieldExported: </B>Specifies that a new boolean field should
+ * be generated to reflect the null status of this field.</LI>
+ * <LI><B>importedNullStatusFieldName: </B>Specifies a boolean field that should
+ * be used to simulate a null value (when false) whether the actual value of the
+ * current field is null or not.</LI>
+ * <LI><B>getterGenerated: </B>Generates a method for which the return value
+ * will be the value of this field.</LI>
+ * <LI><B>setterGenerated: </B>Generates a method that will allow to set the
+ * value of this field.</LI>
+ * <LI><B>customSetterSignature: </B>Specifies a method that will be used to set
+ * this field value. Note that the field control will then consider that the
+ * field is not &quot;get-only&quot;.</LI>
+ * <LI><B>fieldName: </B>The name of the current field.</LI>
+ * <LI><B>customFieldCaption: </B>Allows to specify the display name of this
+ * field. If not set a default display name is provided.</LI>
+ * <LI><B>hidden: </B>Allows to hide this field.</LI>
+ * <LI><B>getOnlyForced: </B>Allows to specify that this field value (the
+ * reference or the primitive value) cannot be set. Note that it does not mean
+ * that the field is read-only unless its value is immutable.</LI>
+ * <LI><B>transientForced: </B>Allows to specify if this field update will
+ * affect the undo management (checked) or not (unchecked).</LI>
+ * <LI><B>onlineHelp: </B>Allows to specify a help message to be displayed for
+ * this field.</LI>
+ * <LI><B>category: </B>Allows to specify the category in which this field will
+ * be put. Note that the possible categories are declared at the type
+ * level.</LI>
+ * <LI><B>categoryCaption: </B>Allows to specify the category in which this
+ * field will be put. Note that the possible categories are declared at the type
+ * level.</LI>
+ * <LI><B>formControlCreationForced: </B>Forces this field to be displayed by a
+ * generic control (a form or a button that will open a child dialog containing
+ * the form).</LI>
+ * <LI><B>displayArea: </B>Allows to specify how to distribute extra space. If
+ * the layout is smaller than the area it needs to fill, the extra space is
+ * distributed to each field control in proportion to its specified
+ * vertical/horizontal weight. A control that has a weight of zero receives no
+ * extra space. If all the weights are zero, all the extra space appears between
+ * the grids of the cell and the edges. The default weight is 1. The value
+ * should be non-negative.</LI>
+ * <LI><B>encapsulationFieldName: </B>Specifies the name of the generated field
+ * that will encapsulate this field.</LI>
+ * <LI><B>typeConversion: </B>Specifies that this field value must be converted
+ * and how the conversion will be managed.</LI>
+ * <LI><B>displayedAsSingletonList: </B>Specifies that this field value must be
+ * converted to a list containing a single value. Note that he list will be
+ * empty if the value is null.</LI>
+ * <LI><B>valueOptionsFieldName: </B>Specifies that this field value will be
+ * chosen among enumerated values,</LI>
+ * <LI><B>customValueReturnMode: </B>Specifies how the value of this field is
+ * obtained. It will affect the way the field value is modified. Typically
+ * calculated values cannot really be modified and then are systematically reset
+ * (refreshed actually) after a modification.</LI>
+ * <LI><B>duplicateGenerated: </B>Allows to duplicate this field.</LI>
+ * <LI><B>autoUpdatePeriodMilliseconds: </B>Specifies a periodic delay after
+ * which this field value will be automatically refreshed.</LI>
+ * <LI><B>specificTypeCustomizations: </B>Customizations (list customization,
+ * enumeration customization, ...) that are exclusively bound to the current
+ * field (not globally bound to the type of the field).</LI>
+ * </UL>
+ * <H3>xy.reflect.ui.info.custom.InfoCustomizations$MethodCustomization</H3>
+ * <UL>
+ * <LI><B>customValueReturnMode: </B>Specifies how the return value of this
+ * method is obtained. It will affect the way this return value is modified.
+ * Typically calculated values cannot really be modified and then are
+ * systematically reset (actually refreshed) after a modification.</LI>
+ * <LI><B>confirmationMessage: </B>If provided, then a confirmation message will
+ * be displayed before performimg the method action.</LI>
+ * <LI><B>parametersValidationCustomCaption: </B>Allows to change the 'validate'
+ * button text of the parfameters dialog of this method.</LI>
+ * <LI><B>returnValueFieldGenerated: </B>Allows to generate a field that will
+ * reflect the return value of this method. Note that the method must not have
+ * any parameter.</LI>
+ * <LI><B>methodName: </B>The name of the current method.</LI>
+ * <LI><B>menuLocation: </B>Allows to choose a menu location for this method.
+ * Note that menu locations are declared at the type level.</LI>
+ * <LI><B>nullReturnValueLabel: </B>Allows to specify a text to be used when
+ * displaying null return values of this method.</LI>
+ * <LI><B>encapsulationFieldName: </B>Specifies the name of the generated field
+ * that will encapsulate this method.</LI>
+ * <LI><B>methodSignature: </B>The signature of the current method.</LI>
+ * <LI><B>customMethodCaption: </B>The display name of this method. If not set,
+ * a default display name is provided.</LI>
+ * <LI><B>hidden: </B>Allows to hide this method.</LI>
+ * <LI><B>readOnlyForced: </B>Allows to specify if this method is read-only or
+ * not. Read-only methods will not affect the undo management.</LI>
+ * <LI><B>invocationData: </B>Allows to generate zero-parameter methods that
+ * will use predefined parameter values to call the current method.</LI>
+ * <LI><B>parameterizedFieldsGroup: </B>Allows to specify a list of fields of
+ * the parent type that will be displayed as if they were parameters of the
+ * current method.</LI>
+ * <LI><B>onlineHelp: </B>Allows to display a help message for this method.</LI>
+ * <LI><B>iconImagePath: </B>Specifies an icon image to be used for the display
+ * of this method.</LI>
+ * <LI><B>category: </B>Allows to specify the category in which this method will
+ * be put. Note that the possible categories are declared at the type
+ * level.</LI>
+ * <LI><B>categoryCaption: </B>Allows to specify the category in which this
+ * method will be put. Note that the possible categories are declared at the
+ * type level.</LI>
+ * <LI><B>detachedReturnValueForced: </B>If checked, then the return value
+ * dialog will not be blocking.</LI>
+ * <LI><B>ignoredReturnValueForced: </B>If checked, then the return value dialog
+ * will not be displayed.</LI>
+ * <LI><B>validating: </B>If chcecked, then this method will be executed during
+ * the owner object validation. The method must throw an exception if the owner
+ * object state is not valid. Note that the method is executed concurrently by a
+ * validation thread while the owner object is possibly accessed/modified by
+ * another thread.</LI>
+ * <LI><B>duplicateGenerated: </B>Allows to duplicate this method.</LI>
+ * <LI><B>runWhenObjectShown: </B>If chcecked, then this method will be executed
+ * when the owner object form is shown.</LI>
+ * <LI><B>runWhenObjectHidden: </B>If chcecked, then this method will be
+ * executed when the owner object form is hidden.</LI>
+ * <LI><B>transactionalRole: </B>Specifies whether and how the current method
+ * must be used to realize transactions on host objects. Transactions are
+ * typically used to accept/reject object dialog modifications. Possible values:
+ * <UL>
+ * <LI>BEGIN: the method will be used to initialize the transactions (typically
+ * when opening an object dialog).</LI>
+ * <LI>COMMIT: the method will be used to complete the transactions (typically
+ * when click on an object dialog 'OK' button).</LI>
+ * <LI>ROLLBACK: the method will be used to abort the transactions (typically
+ * when click on an object dialog 'CANCEL' button).</LI>
+ * </UL>
+ * </LI>
+ * </UL>
+ * <H3>xy.reflect.ui.info.custom.InfoCustomizations$ListCustomization</H3>
+ * <UL>
+ * <LI><B>itemContructorSelectableforced: </B>Specifies that the item
+ * constructor should be asked when the user requests the instanciation of an
+ * item. Note that known sub-classes constructors will be proposed too.</LI>
+ * <LI><B>itemDetailsViewDisabled: </B>Allows to remove the ability to view item
+ * details.</LI>
+ * <LI><B>itemNullValueAllowed: </B>Whether null items can be inserted in the
+ * list or not.</LI>
+ * <LI><B>newItems: </B>Option describing how the UI reacts to item creation
+ * requests.</LI>
+ * <LI><B>allowedItemFieldShortcuts: </B>Allows to specify fields of the
+ * currently selected item that will be accessible from the toolbar.</LI>
+ * <LI><B>allowedItemMethodShortcuts: </B>Allows to specify methods of the
+ * currently selected item that will be accessible from the toolbar.</LI>
+ * <LI><B>fieldsExcludedFromItemDetails: </B>Allows to specify fields of the
+ * currently selected item that will be excluded from the details view. The
+ * exclusion is based on the field name.</LI>
+ * <LI><B>methodsExcludedFromItemDetails: </B>Allows to specify methods of the
+ * currently selected item that will be excluded from the details view. The
+ * exclusion is based on the method signature.</LI>
+ * <LI><B>customDetailsAccessMode: </B>Allows to choose how to display the item
+ * details view. Typically the item details view will be:
+ * <UL>
+ * <LI>embedded (in the same form as the list). or</LI>
+ * <LI>dertached (in a child dialog).</LI>
+ * </UL>
+ * </LI>
+ * <LI><B>customItemTypeFinder: </B>Specification of an item type that will
+ * replace the discovered item type. Note that it must be compatible with the
+ * initial item type (typically a sub-type).</LI>
+ * <LI><B>fieldColumnsAdded: </B>Allows to add columns corresponding the fields
+ * of the item type.</LI>
+ * <LI><B>itemTypeColumnAdded: </B>Allows to add a column displaying the name of
+ * the current item type. Useful typically when there are multiple item
+ * types.</LI>
+ * <LI><B>positionColumnAdded: </B>Allows to add a column displaying the item
+ * position.</LI>
+ * <LI><B>listTypeName: </B>The name of this list type.</LI>
+ * <LI><B>stringValueColumnAdded: </B>Allows to add a column displaying the item
+ * toString() return value.</LI>
+ * <LI><B>columnCustomizations: </B>The list of discovered customizable
+ * columns.</LI> debug
+ * <LI><B>treeStructureDiscoverySettings: </B>Allows to display the sub-list(s)
+ * of items contained in lists of this type. The value of an item field will be
+ * considered as a sub-list if:
+ * <UL>
+ * <LI>this value is a list,</LI>
+ * <LI>the &quot;Heterogeneous Sub-List(s)&quot; option is:
+ * <UL>
+ * <LI>checked or</LI>
+ * <LI>unchecked and the item type of this sub-list is the same as the current
+ * (root) list item type.</LI>
+ * </UL>
+ * </LI>
+ * </UL>
+ * If there is more than 1 discovered sub-list then an intermediary virtual
+ * sub-list displaying the source item fields (their captions actually) will be
+ * created.</LI>
+ * <LI><B>itemTypeName: </B>The name of the type of items.</LI>
+ * <LI><B>editOptions: </B>Specifies if lists of this type are editable and at
+ * what extent.</LI>
+ * <LI><B>length: </B>Specifies a custom length (vertical) of lists of this
+ * type.</LI>
+ * <LI><B>listSorted: </B>Specifies that items of lists of this type should be
+ * sorted. Note that these items must be comparable (implement the
+ * java.lang.Comparable interface).</LI>
+ * </UL>
+ * <H3>xy.reflect.ui.info.custom.InfoCustomizations$EnumerationCustomization</H3>
+ * <UL>
+ * <LI><B>enumerationTypeName: </B>The name of this enumeration type.</LI>
+ * <LI><B>dynamicEnumerationForced: </B>If chcecked, then the enumerated values
+ * will be regularly refreshed.</LI>
+ * <LI><B>itemCustomizations: </B>The list discovered customizable enumeration
+ * items.</LI>
+ * </UL>
  * 
  * @author olitank
  *
@@ -91,6 +378,10 @@ public class InfoCustomizations implements Serializable {
 	public static final Object INITIAL_STATE_FIELD_NAME = "initial";
 
 	public static InfoCustomizations defaultInstance;
+	/**
+	 * Spell error to be fixed: should be "application" not "appplication". The customizations
+	 * files should be migrated automatically.
+	 */
 	protected ApplicationCustomization appplicationCustomization = new ApplicationCustomization();
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
@@ -1841,11 +2132,6 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class MethodReturnValueTypeSpecificities extends InfoCustomizations {
-		private static final long serialVersionUID = 1L;
-
-	}
-
 	public static class ConversionMethodFinder extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
@@ -3152,14 +3438,14 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public String getMethodName() {
-			if(methodSignature == null) {
+			if (methodSignature == null) {
 				return null;
 			}
 			return ReflectionUIUtils.extractMethodNameFromSignature(methodSignature);
 		}
 
 		public void setMethodName(String methodName) {
-			if(methodSignature == null) {
+			if (methodSignature == null) {
 				return;
 			}
 			String returnTypeName = ReflectionUIUtils.extractMethodReturnTypeNameFromSignature(methodSignature);
@@ -3476,7 +3762,7 @@ public class InfoCustomizations implements Serializable {
 		protected String methodSignature;
 		protected boolean alwaysShown = true;
 		protected String customMethodCaption;
-		protected ResourcePath customIcomImagePath;
+		protected ResourcePath customIconImagePath;
 
 		public String getMethodSignature() {
 			return methodSignature;
@@ -3502,12 +3788,12 @@ public class InfoCustomizations implements Serializable {
 			this.customMethodCaption = customMethodCaption;
 		}
 
-		public ResourcePath getCustomIcomImagePath() {
-			return customIcomImagePath;
+		public ResourcePath getCustomIconImagePath() {
+			return customIconImagePath;
 		}
 
-		public void setCustomIcomImagePath(ResourcePath customIcomImagePath) {
-			this.customIcomImagePath = customIcomImagePath;
+		public void setCustomIconImagePath(ResourcePath customIconImagePath) {
+			this.customIconImagePath = customIconImagePath;
 		}
 
 		public void validate() {
@@ -3854,6 +4140,10 @@ public class InfoCustomizations implements Serializable {
 		PIXELS, SCREEN_PERCENT
 	}
 
+	/**
+	 * Spell error to be fixed: should be "Length" not "Lenght". The customizations
+	 * files should be migrated automatically.
+	 */
 	public static class ListLenghtCustomization extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 

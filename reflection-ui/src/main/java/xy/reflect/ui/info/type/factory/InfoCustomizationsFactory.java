@@ -805,8 +805,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									}
 
 									public ResourcePath getIconImagePath() {
-										if (shortcut.getCustomIcomImagePath() != null) {
-											return shortcut.getCustomIcomImagePath();
+										if (shortcut.getCustomIconImagePath() != null) {
+											return shortcut.getCustomIconImagePath();
 										} else {
 											return delegate.getIconImagePath();
 										}
