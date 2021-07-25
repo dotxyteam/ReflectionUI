@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!--Generated with Custom UI (http://otksoftware.com/custom-ui)-->
+<!--Generated with Custom UI (http://javacollection.net/reflectionui/)-->
 <infoCustomizations>
     <appplicationCustomization>
         <uniqueIdentifier>-313ea77:16ca45dfede:-8000</uniqueIdentifier>
@@ -30,12 +30,30 @@
             <green>173</green>
             <red>50</red>
         </mainBorderColor>
+        <mainButtonBackgroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>102</red>
+        </mainButtonBackgroundColor>
+        <mainButtonBackgroundImagePath>
+            <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen2-buttonBackground.png</specification>
+        </mainButtonBackgroundImagePath>
+        <mainButtonForegroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
         </mainForegroundColor>
         <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
+        <titleForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
+        </titleForegroundColor>
     </appplicationCustomization>
     <typeCustomizations>
         <uniqueIdentifier>-313ea77:16ca45dfede:785e</uniqueIdentifier>
@@ -43,6 +61,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-313ea77:16ca45dfede:7862</uniqueIdentifier>
             <specificProperties/>
@@ -68,6 +87,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-313ea77:16ca45dfede:7867</uniqueIdentifier>
@@ -94,6 +114,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-31a2f19:16ca474d797:795d</uniqueIdentifier>
@@ -120,6 +141,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-31a2f19:16ca474d797:796a</uniqueIdentifier>
@@ -146,6 +168,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-15184f4e:16ca47b1078:7a46</uniqueIdentifier>
@@ -187,6 +210,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-15184f4e:16ca47b1078:7a4b</uniqueIdentifier>
@@ -195,6 +219,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-15184f4e:16ca47b1078:7bb4</uniqueIdentifier>
@@ -236,6 +261,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-15184f4e:16ca47b1078:7bb9</uniqueIdentifier>
@@ -244,44 +270,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-15184f4e:16ca47b1078:7bbc</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>separator2</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-15184f4e:16ca47b1078:7bbe</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-15184f4e:16ca47b1078:7bbd</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-15184f4e:16ca47b1078:7bc0</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-15184f4e:16ca47b1078:7bc1</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-15184f4e:16ca47b1078:7bd2</uniqueIdentifier>
@@ -322,6 +311,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-15184f4e:16ca47b1078:7bd6</uniqueIdentifier>
@@ -330,6 +320,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -342,6 +333,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>main</methodName>
             <methodSignature>void main([Ljava.lang.String;)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-313ea77:16ca45dfede:7870</uniqueIdentifier>
@@ -358,13 +350,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-313ea77:16ca45dfede:786f</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
@@ -393,45 +378,8 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customTypeCaption></customTypeCaption>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-313ea77:16ca45dfede:7874</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName></fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-313ea77:16ca45dfede:7876</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-313ea77:16ca45dfede:7875</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-313ea77:16ca45dfede:7879</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-313ea77:16ca45dfede:787a</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>xy.reflect.ui.example.LoginScreen2</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-313ea77:16ca45dfede:7861</uniqueIdentifier>
@@ -445,44 +393,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-31a2f19:16ca474d797:7962</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>password</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-313ea77:16ca45dfede:7864</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-313ea77:16ca45dfede:7863</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-313ea77:16ca45dfede:787b</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-313ea77:16ca45dfede:787c</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-        </fieldsCustomizations>
+        <copyForbidden>false</copyForbidden>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -497,6 +408,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-31a2f19:16ca474d797:796f</uniqueIdentifier>
             <specificProperties/>
@@ -535,6 +447,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-313ea77:16ca45dfede:787e</uniqueIdentifier>
@@ -543,6 +456,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
         <immutableForced>false</immutableForced>

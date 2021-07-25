@@ -37,6 +37,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -970,19 +971,6 @@ public class Form extends ImagePanel {
 		layoutMembersPanels(membersPanel, fieldsPanel, methodsPanel);
 	}
 
-	protected Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
-		JPanel panel = new ControlPanel();
-		for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
-			panel.add(methodControlPlaceHolder);
-			updateMethodControlLayoutInContainer(methodControlPlaceHolder);
-		}
-		panel.setName("methodsPanel [parent=" + this.getName() + "]");
-		ControlScrollPane scrollPane = new ControlScrollPane(
-				SwingRendererUtils.flowInLayout(panel, GridBagConstraints.CENTER));
-		SwingRendererUtils.removeScrollPaneBorder(scrollPane);
-		return scrollPane;
-	}
-
 	/**
 	 * Updates the state of the current form controls.
 	 * 
@@ -1036,7 +1024,9 @@ public class Form extends ImagePanel {
 				for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
 					MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
 					methodControlPlaceHolder.refreshUI(refreshStructure);
-					updateMethodControlLayoutInContainer(methodControlPlaceHolder);
+					if (refreshStructure) {
+						updateMethodControlLayoutInContainer(methodControlPlaceHolder);
+					}
 				}
 			}
 		}
@@ -1278,6 +1268,7 @@ public class Form extends ImagePanel {
 	protected Container createFieldsPanel(List<FieldControlPlaceHolder> fielControlPlaceHolders) {
 		JPanel fieldsPanel = new ControlPanel();
 		fieldsPanel.setLayout(getFieldsPanelLayout());
+		fieldsPanel.setBorder(getFieldsPanelBorder());
 		for (int i = 0; i < fielControlPlaceHolders.size(); i++) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = fielControlPlaceHolders.get(i);
 			{
@@ -1289,6 +1280,50 @@ public class Form extends ImagePanel {
 		}
 		fieldsPanel.setName("fieldsPanel [parent=" + this.getName() + "]");
 		return fieldsPanel;
+	}
+
+	protected Container createMethodsPanel(final List<MethodControlPlaceHolder> methodControlPlaceHolders) {
+		JPanel methodsPanel = new ControlPanel();
+		methodsPanel.setLayout(getMethodsPanelLayout());
+		methodsPanel.setBorder(getMethodsPanelBorder());
+		for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
+			methodsPanel.add(methodControlPlaceHolder);
+			updateMethodControlLayoutInContainer(methodControlPlaceHolder);
+		}
+		methodsPanel.setName("methodsPanel [parent=" + this.getName() + "]");
+		ControlScrollPane scrollPane = new ControlScrollPane(
+				SwingRendererUtils.flowInLayout(methodsPanel, GridBagConstraints.CENTER));
+		SwingRendererUtils.removeScrollPaneBorder(scrollPane);
+		return scrollPane;
+	}
+
+	protected LayoutManager getFieldsPanelLayout() {
+		return new GridBagLayout();
+	}
+
+	protected LayoutManager getMethodsPanelLayout() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		MethodsLayout methodsOrientation = type.getMethodsLayout();
+		int spacing = getLayoutSpacing();
+		GridLayout newLayout;
+		if (methodsOrientation == MethodsLayout.HORIZONTAL_FLOW) {
+			newLayout = new GridLayout(1, 0, spacing, spacing);
+		} else if (methodsOrientation == MethodsLayout.VERTICAL_FLOW) {
+			newLayout = new GridLayout(0, 1, spacing, spacing);
+		} else {
+			throw new ReflectionUIError();
+		}
+		return newLayout;
+	}
+
+	protected Border getFieldsPanelBorder() {
+		return null;
+	}
+
+	protected Border getMethodsPanelBorder() {
+		int spacing = getLayoutSpacing();
+		return new EmptyBorder(spacing, spacing, spacing, spacing);
 	}
 
 	protected void updateFieldControlLayoutInContainer(FieldControlPlaceHolder fieldControlPlaceHolder) {
@@ -1394,29 +1429,24 @@ public class Form extends ImagePanel {
 	}
 
 	protected void updateMethodControlLayoutInContainer(MethodControlPlaceHolder methodControlPlaceHolder) {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
-		MethodsLayout methodsOrientation = type.getMethodsLayout();
+		boolean layoutUpdated = false;
 		JPanel methodsPanel = (JPanel) methodControlPlaceHolder.getParent();
-		int spacing = getLayoutSpacing();
-		methodsPanel.setBorder(BorderFactory.createEmptyBorder(spacing, spacing, spacing, spacing));
-		GridLayout newLayout;
-		if (methodsOrientation == MethodsLayout.HORIZONTAL_FLOW) {
-			newLayout = new GridLayout(1, 0, spacing, spacing);
-		} else if (methodsOrientation == MethodsLayout.VERTICAL_FLOW) {
-			newLayout = new GridLayout(0, 1, spacing, spacing);
-		} else {
-			throw new ReflectionUIError();
+		GridLayout newLayout = (GridLayout) getMethodsPanelLayout();
+		GridLayout oldLayout = (GridLayout) methodsPanel.getLayout();
+		if (!((oldLayout.getRows() == newLayout.getRows()) && (oldLayout.getColumns() == newLayout.getColumns())
+				&& (oldLayout.getHgap() == newLayout.getHgap()) && (oldLayout.getVgap() == newLayout.getVgap()))) {
+			methodsPanel.setLayout(newLayout);
+			layoutUpdated = true;
 		}
-		if (methodsPanel.getLayout() instanceof GridLayout) {
-			GridLayout oldLayout = (GridLayout) methodsPanel.getLayout();
-			if ((oldLayout.getRows() == newLayout.getRows()) && (oldLayout.getColumns() == newLayout.getColumns())
-					&& (oldLayout.getHgap() == newLayout.getHgap()) && (oldLayout.getVgap() == newLayout.getVgap())) {
-				return;
-			}
+		EmptyBorder newBorder = (EmptyBorder) getMethodsPanelBorder();
+		EmptyBorder oldBorder = (EmptyBorder) methodsPanel.getBorder();
+		if (!oldBorder.getBorderInsets().equals(newBorder.getBorderInsets())) {
+			layoutUpdated = true;
+			methodsPanel.setBorder(newBorder);
 		}
-		methodsPanel.setLayout(newLayout);
-		SwingRendererUtils.handleComponentSizeChange(methodsPanel);
+		if(layoutUpdated) {
+			SwingRendererUtils.handleComponentSizeChange(methodsPanel);
+		}
 	}
 
 	protected Component createFieldOnlineHelpControl(FieldControlPlaceHolder fieldControlPlaceHolder) {
@@ -1594,10 +1624,6 @@ public class Form extends ImagePanel {
 		result.setName("captionControl [field=" + fieldControlPlaceHolder.getField().getName() + ", parent="
 				+ this.getName() + "]");
 		return result;
-	}
-
-	protected LayoutManager getFieldsPanelLayout() {
-		return new GridBagLayout();
 	}
 
 	protected int getLayoutSpacing() {

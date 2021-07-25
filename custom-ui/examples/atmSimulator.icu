@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!--Generated with Custom UI (http://otksoftware.com/custom-ui)-->
+<!--Generated with Custom UI (http://javacollection.net/reflectionui/)-->
 <infoCustomizations>
     <appplicationCustomization>
         <uniqueIdentifier>-662e76dd:16d173727ed:-8000</uniqueIdentifier>
@@ -48,6 +48,11 @@
             <red>102</red>
         </mainForegroundColor>
         <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
+        <titleForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
+        </titleForegroundColor>
     </appplicationCustomization>
     <typeCustomizations>
         <uniqueIdentifier>-662e76dd:16d173746f1:-68e7</uniqueIdentifier>
@@ -55,6 +60,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customFieldsOrder>numericPadRow4</customFieldsOrder>
         <customFieldsOrder>numericPadRow3</customFieldsOrder>
         <customFieldsOrder>numericPadRow2</customFieldsOrder>
@@ -102,6 +108,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-68de</uniqueIdentifier>
@@ -128,6 +135,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-68db</uniqueIdentifier>
@@ -154,6 +162,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-68d8</uniqueIdentifier>
@@ -180,6 +189,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-68d5</uniqueIdentifier>
@@ -206,6 +216,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-68d2</uniqueIdentifier>
@@ -232,6 +243,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-68cf</uniqueIdentifier>
@@ -258,6 +270,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6857</uniqueIdentifier>
@@ -284,6 +297,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-671d</uniqueIdentifier>
@@ -310,6 +324,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-659e</uniqueIdentifier>
@@ -336,6 +351,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6581</uniqueIdentifier>
@@ -362,6 +378,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6444</uniqueIdentifier>
@@ -388,6 +405,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6431</uniqueIdentifier>
@@ -414,6 +432,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-641e</uniqueIdentifier>
@@ -440,6 +459,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-640b</uniqueIdentifier>
@@ -466,6 +486,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60fe</uniqueIdentifier>
@@ -492,6 +513,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60e7</uniqueIdentifier>
@@ -518,6 +540,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60d0</uniqueIdentifier>
@@ -544,6 +567,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60b9</uniqueIdentifier>
@@ -570,6 +594,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60ae</uniqueIdentifier>
@@ -596,6 +621,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-5e99</uniqueIdentifier>
@@ -622,6 +648,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-5e82</uniqueIdentifier>
@@ -648,6 +675,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-66de</uniqueIdentifier>
@@ -674,6 +702,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-66db</uniqueIdentifier>
@@ -700,6 +729,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-66d8</uniqueIdentifier>
@@ -726,6 +756,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-66d5</uniqueIdentifier>
@@ -752,11 +783,13 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
+        <formSpacing>0</formSpacing>
         <formWidth>
             <uniqueIdentifier>-fb2b69c:16d17ffca7e:-65a0</uniqueIdentifier>
-            <unit>PIXELS</unit>
-            <value>600</value>
+            <unit>SCREEN_PERCENT</unit>
+            <value>50</value>
         </formWidth>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -770,18 +803,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>card</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>insertCard</methodName>
             <methodSignature>void insertCard()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68cb</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -792,18 +819,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow4</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton0</methodName>
             <methodSignature>void pushButton0()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68c9</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -814,18 +835,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow1</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton1</methodName>
             <methodSignature>void pushButton1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68c7</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -836,18 +851,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow1</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton2</methodName>
             <methodSignature>void pushButton2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68c5</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -858,18 +867,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow1</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton3</methodName>
             <methodSignature>void pushButton3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68c3</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -880,18 +883,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow2</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton4</methodName>
             <methodSignature>void pushButton4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68c1</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -902,18 +899,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow2</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton5</methodName>
             <methodSignature>void pushButton5()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68bf</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -924,18 +915,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow2</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton6</methodName>
             <methodSignature>void pushButton6()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68bd</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -946,18 +931,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow3</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton7</methodName>
             <methodSignature>void pushButton7()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68bb</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -968,18 +947,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow3</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton8</methodName>
             <methodSignature>void pushButton8()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68b9</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -990,18 +963,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>numericPadRow3</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton9</methodName>
             <methodSignature>void pushButton9()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68b7</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1012,18 +979,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>actionButtons</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonCancel</methodName>
             <methodSignature>void pushButtonCancel()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68b5</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1034,18 +995,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>actionButtons</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonClear</methodName>
             <methodSignature>void pushButtonClear()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68b3</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1056,18 +1011,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>actionButtons</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonEnter</methodName>
             <methodSignature>void pushButtonEnter()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68b1</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1078,18 +1027,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenLeft</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide1</methodName>
             <methodSignature>void pushButtonScreenLeftSide1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68af</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1100,18 +1043,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenLeft</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide2</methodName>
             <methodSignature>void pushButtonScreenLeftSide2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68ad</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1122,18 +1059,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenLeft</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide3</methodName>
             <methodSignature>void pushButtonScreenLeftSide3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68ab</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1144,18 +1075,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenLeft</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide4</methodName>
             <methodSignature>void pushButtonScreenLeftSide4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68a9</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1166,18 +1091,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenRight</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide1</methodName>
             <methodSignature>void pushButtonScreenRightSide1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68a7</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1188,18 +1107,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenRight</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide2</methodName>
             <methodSignature>void pushButtonScreenRightSide2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68a5</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1210,18 +1123,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenRight</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide3</methodName>
             <methodSignature>void pushButtonScreenRightSide3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68a3</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1232,18 +1139,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>screenRight</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide4</methodName>
             <methodSignature>void pushButtonScreenRightSide4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-68a1</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1254,18 +1155,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>card</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>removeCard</methodName>
             <methodSignature>void removeCard()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-689f</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1276,18 +1171,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>money</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>takeMoney</methodName>
             <methodSignature>void takeMoney()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-689d</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1298,18 +1187,12 @@
             <duplicateGenerated>false</duplicateGenerated>
             <encapsulationFieldName>receipt</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>takeReceipt</methodName>
             <methodSignature>void takeReceipt()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-689b</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1319,6 +1202,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>main</methodName>
             <methodSignature>void main([Ljava.lang.String;)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-662e76dd:16d173746f1:-6898</uniqueIdentifier>
@@ -1335,13 +1219,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6899</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.example.ATMSimulator</typeName>
@@ -1353,44 +1230,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-662e76dd:16d173746f1:-6894</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName></fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-662e76dd:16d173746f1:-6892</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6893</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-688f</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-662e76dd:16d173746f1:-688e</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>xy.reflect.ui.example.ATMSimulator</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-        </fieldsCustomizations>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-68e4</uniqueIdentifier>
@@ -1404,6 +1244,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6846</uniqueIdentifier>
             <specificProperties/>
@@ -1429,6 +1270,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-683e</uniqueIdentifier>
@@ -1455,6 +1297,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6836</uniqueIdentifier>
@@ -1481,6 +1324,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-682e</uniqueIdentifier>
@@ -1507,6 +1351,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-66ba</uniqueIdentifier>
@@ -1533,6 +1378,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-66a6</uniqueIdentifier>
@@ -1559,6 +1405,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-669e</uniqueIdentifier>
@@ -1585,6 +1432,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6696</uniqueIdentifier>
@@ -1611,6 +1459,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-666a</uniqueIdentifier>
@@ -1637,6 +1486,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6645</uniqueIdentifier>
@@ -1663,6 +1513,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
         <formBackgroundColor>
@@ -1670,6 +1521,7 @@
             <green>25</green>
             <red>25</red>
         </formBackgroundColor>
+        <formSpacing>0</formSpacing>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6847</uniqueIdentifier>
@@ -1683,82 +1535,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-6624064e:16d1aed7789:-5353</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName> </fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-6624064e:16d1aed7789:-5351</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-6624064e:16d1aed7789:-5352</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-6624064e:16d1aed7789:-534f</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-6624064e:16d1aed7789:-534e</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-6624064e:16d1aed7789:-534b</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>space</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-6624064e:16d1aed7789:-5349</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-6624064e:16d1aed7789:-534a</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-6624064e:16d1aed7789:-5347</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-6624064e:16d1aed7789:-5346</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-        </fieldsCustomizations>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6719</uniqueIdentifier>
@@ -1771,18 +1548,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide1</methodName>
             <methodSignature>void pushButtonScreenLeftSide1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6710</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1793,18 +1564,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide2</methodName>
             <methodSignature>void pushButtonScreenLeftSide2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-670a</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1815,18 +1580,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide3</methodName>
             <methodSignature>void pushButtonScreenLeftSide3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6704</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1837,18 +1596,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenLeftSide4</methodName>
             <methodSignature>void pushButtonScreenLeftSide4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-66fe</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
@@ -1861,6 +1614,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-659a</uniqueIdentifier>
@@ -1873,18 +1627,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide1</methodName>
             <methodSignature>void pushButtonScreenRightSide1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6594</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1895,18 +1643,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide2</methodName>
             <methodSignature>void pushButtonScreenRightSide2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-658e</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1917,18 +1659,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide3</methodName>
             <methodSignature>void pushButtonScreenRightSide3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6588</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -1939,18 +1675,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonScreenRightSide4</methodName>
             <methodSignature>void pushButtonScreenRightSide4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6582</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
@@ -1963,6 +1693,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customFieldsOrder>screenLeftGroup</customFieldsOrder>
         <customFieldsOrder>screenLeft</customFieldsOrder>
         <customFieldsOrder>screen</customFieldsOrder>
@@ -1993,6 +1724,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6574</uniqueIdentifier>
@@ -2019,6 +1751,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-656c</uniqueIdentifier>
@@ -2045,6 +1778,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65f5</uniqueIdentifier>
@@ -2071,6 +1805,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65e8</uniqueIdentifier>
@@ -2097,8 +1832,10 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
+        <formSpacing>0</formSpacing>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-657d</uniqueIdentifier>
@@ -2112,6 +1849,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6439</uniqueIdentifier>
             <specificProperties/>
@@ -2136,20 +1874,8 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-688d</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-662e76dd:16d173746f1:-688c</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2165,6 +1891,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-642c</uniqueIdentifier>
             <specificProperties/>
@@ -2189,20 +1916,8 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-688b</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-662e76dd:16d173746f1:-688a</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2217,6 +1932,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6419</uniqueIdentifier>
             <specificProperties/>
@@ -2241,20 +1957,8 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6889</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-662e76dd:16d173746f1:-6888</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -2269,6 +1973,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customFieldsOrder>receipt</customFieldsOrder>
         <customFieldsOrder>money</customFieldsOrder>
         <customFieldsOrder>card</customFieldsOrder>
@@ -2297,6 +2002,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-63fe</uniqueIdentifier>
@@ -2323,6 +2029,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-63f6</uniqueIdentifier>
@@ -2349,6 +2056,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
         <immutableForced>false</immutableForced>
@@ -2364,6 +2072,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60fa</uniqueIdentifier>
@@ -2376,18 +2085,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton1</methodName>
             <methodSignature>void pushButton1()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60f4</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2398,18 +2101,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton2</methodName>
             <methodSignature>void pushButton2()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60ee</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2420,18 +2117,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton3</methodName>
             <methodSignature>void pushButton3()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60e8</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow1]</typeName>
@@ -2443,6 +2134,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60e3</uniqueIdentifier>
@@ -2455,18 +2147,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton4</methodName>
             <methodSignature>void pushButton4()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60dd</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2477,18 +2163,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton5</methodName>
             <methodSignature>void pushButton5()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60d7</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2499,18 +2179,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton6</methodName>
             <methodSignature>void pushButton6()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60d1</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow2]</typeName>
@@ -2522,6 +2196,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60cc</uniqueIdentifier>
@@ -2534,18 +2209,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton7</methodName>
             <methodSignature>void pushButton7()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60c6</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2556,18 +2225,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton8</methodName>
             <methodSignature>void pushButton8()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60c0</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2578,18 +2241,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton9</methodName>
             <methodSignature>void pushButton9()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60ba</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow3]</typeName>
@@ -2601,6 +2258,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60b5</uniqueIdentifier>
@@ -2613,18 +2271,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButton0</methodName>
             <methodSignature>void pushButton0()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-60af</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow4]</typeName>
@@ -2636,6 +2288,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customFieldsOrder>numericPadRow1</customFieldsOrder>
         <customFieldsOrder>numericPadRow2</customFieldsOrder>
         <customFieldsOrder>numericPadRow3</customFieldsOrder>
@@ -2665,6 +2318,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60a1</uniqueIdentifier>
@@ -2691,6 +2345,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6099</uniqueIdentifier>
@@ -2717,6 +2372,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6091</uniqueIdentifier>
@@ -2743,7 +2399,9 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
+        <formSpacing>0</formSpacing>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60aa</uniqueIdentifier>
@@ -2757,6 +2415,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customMethodsOrder>pushButtonEnter</customMethodsOrder>
         <customMethodsOrder>pushButtonCancel</customMethodsOrder>
         <customMethodsOrder>pushButtonClear</customMethodsOrder>
@@ -2772,18 +2431,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonCancel</methodName>
             <methodSignature>void pushButtonCancel()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-5e8f</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2794,18 +2447,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonClear</methodName>
             <methodSignature>void pushButtonClear()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-5e89</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2816,18 +2463,12 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>pushButtonEnter</methodName>
             <methodSignature>void pushButtonEnter()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-5e83</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
@@ -2840,6 +2481,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <customFieldsOrder>numericPad</customFieldsOrder>
         <customFieldsOrder>actionButtonsGroup</customFieldsOrder>
         <customFieldsOrder>actionButtons</customFieldsOrder>
@@ -2868,6 +2510,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-662e76dd:16d173746f1:-5e75</uniqueIdentifier>
@@ -2894,6 +2537,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-4d2a</uniqueIdentifier>
@@ -2920,6 +2564,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsLayout>HORIZONTAL_FLOW</fieldsLayout>
         <immutableForced>false</immutableForced>
@@ -2935,6 +2580,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6665</uniqueIdentifier>
             <specificProperties/>
@@ -2974,6 +2620,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-662e76dd:16d173746f1:-6886</uniqueIdentifier>
@@ -2982,6 +2629,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-665d</uniqueIdentifier>
@@ -3022,6 +2670,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-662e76dd:16d173746f1:-6884</uniqueIdentifier>
@@ -3030,6 +2679,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6655</uniqueIdentifier>
@@ -3070,6 +2720,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>-662e76dd:16d173746f1:-6882</uniqueIdentifier>
@@ -3078,6 +2729,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-664d</uniqueIdentifier>
@@ -3103,20 +2755,8 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-662e76dd:16d173746f1:-6881</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-662e76dd:16d173746f1:-6880</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3131,6 +2771,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6640</uniqueIdentifier>
             <specificProperties/>
@@ -3170,6 +2811,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>1d34e5ed:16d17c72c31:-66cd</uniqueIdentifier>
@@ -3178,6 +2820,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6638</uniqueIdentifier>
@@ -3218,6 +2861,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>1d34e5ed:16d17c72c31:-66cb</uniqueIdentifier>
@@ -3226,6 +2870,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6630</uniqueIdentifier>
@@ -3266,6 +2911,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>1d34e5ed:16d17c72c31:-66c9</uniqueIdentifier>
@@ -3274,6 +2920,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6628</uniqueIdentifier>
@@ -3314,6 +2961,7 @@
                     <abstractForced>false</abstractForced>
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>1d34e5ed:16d17c72c31:-66c7</uniqueIdentifier>
@@ -3322,6 +2970,7 @@
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
@@ -3336,6 +2985,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65f0</uniqueIdentifier>
             <specificProperties/>
@@ -3361,7 +3011,9 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
+        <formSpacing>0</formSpacing>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65f1</uniqueIdentifier>
@@ -3375,6 +3027,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65e3</uniqueIdentifier>
             <specificProperties/>
@@ -3400,7 +3053,9 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
+        <formSpacing>0</formSpacing>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65e4</uniqueIdentifier>
@@ -3414,6 +3069,7 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
         <fieldsCustomizations>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-4d25</uniqueIdentifier>
             <specificProperties/>
@@ -3439,6 +3095,7 @@
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
             </specificTypeCustomizations>
+            <transientForced>false</transientForced>
         </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>

@@ -17,7 +17,17 @@
             <green>255</green>
             <red>255</red>
         </mainForegroundColor>
-        <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+        <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
+        <titleBackgroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </titleBackgroundColor>
+        <titleForegroundColor>
+            <blue>234</blue>
+            <green>234</green>
+            <red>255</red>
+        </titleForegroundColor>
     </appplicationCustomization>
     <typeCustomizations>
         <uniqueIdentifier>-3fde177e:16ceef5ca0f:-68ec</uniqueIdentifier>

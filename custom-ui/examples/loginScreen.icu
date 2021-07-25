@@ -32,6 +32,11 @@
             <red>255</red>
         </mainForegroundColor>
         <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
+        <titleForegroundColor>
+            <blue>255</blue>
+            <green>255</green>
+            <red>255</red>
+        </titleForegroundColor>
     </appplicationCustomization>
     <typeCustomizations>
         <uniqueIdentifier>6d038a3c:166ee0be028:5810</uniqueIdentifier>
@@ -66,20 +71,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>6d038a3c:166ee0be028:582d</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>6d038a3c:166ee0be028:582e</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -107,20 +98,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>6d038a3c:166ee0be028:582f</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>6d038a3c:166ee0be028:5830</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -148,140 +125,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-2efc239c:166ee4b719b:59f8</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>-2efc239c:166ee4b719b:59fd</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>userName</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>-2efc239c:166ee4b719b:59ff</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>-2efc239c:166ee4b719b:59fe</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>-2efc239c:166ee4b719b:5a61</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>password</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>-2efc239c:166ee4b719b:5a63</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>-2efc239c:166ee4b719b:5a62</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:395</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>image</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>67acb11e:166ee5e9849:397</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>67acb11e:166ee5e9849:396</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-2efc239c:166ee4b719b:59f9</uniqueIdentifier>
-                    </menuModel>
-                    <methodsCustomizations>
-                        <uniqueIdentifier>-2efc239c:166ee4b719b:5aa9</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <detachedReturnValueForced>false</detachedReturnValueForced>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
-                        <methodSignature>void signIn()</methodSignature>
-                        <readOnlyForced>false</readOnlyForced>
-                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
-                        <runWhenObjectHidden>false</runWhenObjectHidden>
-                        <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>-2efc239c:166ee4b719b:5aaa</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
-                        <validating>false</validating>
-                    </methodsCustomizations>
-                    <methodsCustomizations>
-                        <uniqueIdentifier>-2efc239c:166ee4b719b:5af6</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <detachedReturnValueForced>false</detachedReturnValueForced>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
-                        <methodSignature>void signUp()</methodSignature>
-                        <readOnlyForced>false</readOnlyForced>
-                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
-                        <runWhenObjectHidden>false</runWhenObjectHidden>
-                        <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>-2efc239c:166ee4b719b:5af7</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
-                        <validating>false</validating>
-                    </methodsCustomizations>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen], fieldName=center]</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -304,13 +147,17 @@
                     <uniqueIdentifier>67acb11e:166ee5e9849:-1f4</uniqueIdentifier>
                     <conversionMethodFinder>
                         <uniqueIdentifier>-47b58aa6:15bf32f494f:-1225</uniqueIdentifier>
+                        <chosenParameterPosition>-1</chosenParameterPosition>
                         <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>xy.reflect.ui.util.ImageIcon (java.awt.Image)</conversionMethodSignature>
+                        <otherParameterValueStorages/>
                     </conversionMethodFinder>
                     <reverseConversionMethodFinder>
                         <uniqueIdentifier>-47b58aa6:15bf32f494f:-1128</uniqueIdentifier>
+                        <chosenParameterPosition>-1</chosenParameterPosition>
                         <conversionClassName>xy.reflect.ui.util.ImageIcon</conversionClassName>
                         <conversionMethodSignature>java.awt.Image getImage()</conversionMethodSignature>
+                        <otherParameterValueStorages/>
                     </reverseConversionMethodFinder>
                 </preConversion>
             </nullReplacement>
@@ -339,265 +186,10 @@
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <copyForbidden>false</copyForbidden>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41e9</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>accelerationPriority</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41e7</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41e8</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41e6</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_AREA_AVERAGING</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41e4</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41e5</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41e3</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_DEFAULT</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41e1</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41e2</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41e0</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_FAST</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41de</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41df</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41dd</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_REPLICATE</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41db</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41dc</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41da</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_SMOOTH</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41d8</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41d9</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41d7</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>graphics</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41d5</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41d6</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41d4</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>source</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41d2</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41d3</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41d1</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>UndefinedProperty</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-41cf</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41d0</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>67acb11e:166ee5e9849:-2e0</uniqueIdentifier>
                     </menuModel>
-                    <methodsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41ce</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <detachedReturnValueForced>false</detachedReturnValueForced>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
-                        <methodSignature>void flush()</methodSignature>
-                        <readOnlyForced>false</readOnlyForced>
-                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
-                        <runWhenObjectHidden>false</runWhenObjectHidden>
-                        <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41cd</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
-                        <validating>false</validating>
-                    </methodsCustomizations>
                     <methodsCustomizations>
                         <uniqueIdentifier>691076fa:179330cdacf:-41cc</uniqueIdentifier>
                         <specificProperties/>
@@ -605,6 +197,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getScaledInstance</methodName>
                         <methodSignature>java.awt.Image getScaledInstance(int, int, int)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-41c2</uniqueIdentifier>
@@ -643,13 +236,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41cb</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -659,6 +245,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getCapabilities</methodName>
                         <methodSignature>java.awt.ImageCapabilities getCapabilities(java.awt.GraphicsConfiguration)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-41bc</uniqueIdentifier>
@@ -675,13 +262,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41c9</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -691,6 +271,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getHeight</methodName>
                         <methodSignature>int getHeight(java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-41ba</uniqueIdentifier>
@@ -707,13 +288,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41c7</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -723,6 +297,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getWidth</methodName>
                         <methodSignature>int getWidth(java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-41b8</uniqueIdentifier>
@@ -739,13 +314,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41c5</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -755,6 +323,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getProperty</methodName>
                         <methodSignature>java.lang.Object getProperty(java.lang.String, java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-41b6</uniqueIdentifier>
@@ -782,34 +351,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41c3</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
-                        <validating>false</validating>
-                    </methodsCustomizations>
-                    <methodsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-41b2</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <detachedReturnValueForced>false</detachedReturnValueForced>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
-                        <methodSignature>java.awt.Image ()</methodSignature>
-                        <readOnlyForced>false</readOnlyForced>
-                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
-                        <runWhenObjectHidden>false</runWhenObjectHidden>
-                        <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-41b1</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <typeName>java.awt.Image</typeName>
@@ -831,421 +372,10 @@
                     <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
                     <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
                     <copyForbidden>false</copyForbidden>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42ba</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>error</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42b8</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42b9</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42b7</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>accelerationPriority</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42b5</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42b6</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42b4</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_AREA_AVERAGING</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42b2</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42b3</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42b1</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_DEFAULT</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42af</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42b0</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42ae</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_FAST</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42ac</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42ad</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42ab</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_REPLICATE</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42a9</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42aa</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42a8</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>SCALE_SMOOTH</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42a6</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42a7</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42a5</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>height</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42a3</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42a4</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-42a2</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>width</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-42a0</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-42a1</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-429f</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>graphics</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-429d</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-429e</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-429c</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>bufferedImage</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-429a</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-429b</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-4299</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>colorModel</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-4297</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4298</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-4296</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>source</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-4294</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4295</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-4293</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>UndefinedProperty</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-4291</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4292</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-4290</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>imageRep</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>691076fa:179330cdacf:-428e</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-428f</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
                     <immutableForced>false</immutableForced>
                     <menuModel>
                         <uniqueIdentifier>67acb11e:166ee5e9849:-54</uniqueIdentifier>
                     </menuModel>
-                    <methodsCustomizations>
-                        <uniqueIdentifier>691076fa:179330cdacf:-428d</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <detachedReturnValueForced>false</detachedReturnValueForced>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
-                        <methodSignature>void flush()</methodSignature>
-                        <readOnlyForced>false</readOnlyForced>
-                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
-                        <runWhenObjectHidden>false</runWhenObjectHidden>
-                        <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-428c</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
-                        <validating>false</validating>
-                    </methodsCustomizations>
                     <methodsCustomizations>
                         <uniqueIdentifier>691076fa:179330cdacf:-428b</uniqueIdentifier>
                         <specificProperties/>
@@ -1253,6 +383,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getScaledInstance</methodName>
                         <methodSignature>java.awt.Image getScaledInstance(int, int, int)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-427d</uniqueIdentifier>
@@ -1291,13 +422,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-428a</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -1307,6 +431,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getCapabilities</methodName>
                         <methodSignature>java.awt.ImageCapabilities getCapabilities(java.awt.GraphicsConfiguration)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-4277</uniqueIdentifier>
@@ -1323,13 +448,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4288</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -1339,6 +457,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>preload</methodName>
                         <methodSignature>void preload(java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-4275</uniqueIdentifier>
@@ -1355,13 +474,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4286</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -1371,6 +483,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>check</methodName>
                         <methodSignature>int check(java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-4273</uniqueIdentifier>
@@ -1387,13 +500,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4284</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -1403,6 +509,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getHeight</methodName>
                         <methodSignature>int getHeight(java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-4271</uniqueIdentifier>
@@ -1419,13 +526,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4282</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -1435,6 +535,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getWidth</methodName>
                         <methodSignature>int getWidth(java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-426f</uniqueIdentifier>
@@ -1451,13 +552,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4280</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -1467,6 +561,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getProperty</methodName>
                         <methodSignature>java.lang.Object getProperty(java.lang.String, java.awt.image.ImageObserver)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-426d</uniqueIdentifier>
@@ -1494,13 +589,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-427e</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <methodsCustomizations>
@@ -1510,6 +598,7 @@
                         <detachedReturnValueForced>false</detachedReturnValueForced>
                         <duplicateGenerated>false</duplicateGenerated>
                         <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName></methodName>
                         <methodSignature>sun.awt.image.ToolkitImage (java.awt.image.ImageProducer)</methodSignature>
                         <parametersCustomizations>
                             <uniqueIdentifier>691076fa:179330cdacf:-4267</uniqueIdentifier>
@@ -1526,13 +615,6 @@
                         <returnValueFieldGenerated>false</returnValueFieldGenerated>
                         <runWhenObjectHidden>false</runWhenObjectHidden>
                         <runWhenObjectShown>false</runWhenObjectShown>
-                        <specificReturnValueTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>691076fa:179330cdacf:-4268</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
                     <typeName>sun.awt.image.ToolkitImage</typeName>
@@ -1565,34 +647,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:60a</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:60b</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:81d</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:81e</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.awt.Image</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -1620,100 +674,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:60c</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:60d</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:81f</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:820</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.awt.Image</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>67acb11e:166ee5e9849:899</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>layout</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>67acb11e:166ee5e9849:89b</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:89a</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:90a</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:90f</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>leftSpace</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>67acb11e:166ee5e9849:911</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>67acb11e:166ee5e9849:910</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:90b</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen], fieldName=layout]</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -1741,98 +701,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:9fa</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:9ff</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>leftSpace</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>67acb11e:166ee5e9849:a01</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>67acb11e:166ee5e9849:a00</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:a77</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>rightSpace</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>67acb11e:166ee5e9849:a79</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>67acb11e:166ee5e9849:a78</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <fieldsCustomizations>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:b20</uniqueIdentifier>
-                        <specificProperties/>
-                        <hidden>false</hidden>
-                        <displayedAsSingletonList>false</displayedAsSingletonList>
-                        <duplicateGenerated>false</duplicateGenerated>
-                        <fieldName>center</fieldName>
-                        <formControlCreationForced>false</formControlCreationForced>
-                        <formControlEmbeddingForced>false</formControlEmbeddingForced>
-                        <getOnlyForced>false</getOnlyForced>
-                        <getterGenerated>false</getterGenerated>
-                        <nullReplacement>
-                            <uniqueIdentifier>67acb11e:166ee5e9849:b22</uniqueIdentifier>
-                        </nullReplacement>
-                        <nullStatusFieldExported>false</nullStatusFieldExported>
-                        <nullValueDistinctForced>false</nullValueDistinctForced>
-                        <setterGenerated>false</setterGenerated>
-                        <specificTypeCustomizations>
-                            <appplicationCustomization>
-<uniqueIdentifier>67acb11e:166ee5e9849:b21</uniqueIdentifier>
-<specificProperties/>
-<systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                            </appplicationCustomization>
-                        </specificTypeCustomizations>
-                        <transientForced>false</transientForced>
-                    </fieldsCustomizations>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:9fb</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen], fieldName=horizontalLayout]</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -1907,6 +775,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>main</methodName>
             <methodSignature>void main([Ljava.lang.String;)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>6d038a3c:166ee0be028:5822</uniqueIdentifier>
@@ -1934,13 +803,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>6d038a3c:166ee0be028:5821</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>xy.reflect.ui.example.LoginScreen</typeName>
@@ -1977,46 +839,6 @@
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>6d038a3c:166ee0be028:5826</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName></fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>6d038a3c:166ee0be028:5828</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>6d038a3c:166ee0be028:5827</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>6d038a3c:166ee0be028:582b</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>6d038a3c:166ee0be028:582c</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>xy.reflect.ui.example.LoginScreen</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>6d038a3c:166ee0be028:5813</uniqueIdentifier>
@@ -2033,46 +855,6 @@
         <copyForbidden>false</copyForbidden>
         <customFieldsOrder>userName</customFieldsOrder>
         <customFieldsOrder>password</customFieldsOrder>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-2efc239c:166ee4b719b:59fa</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>userName</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-2efc239c:166ee4b719b:59fc</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-2efc239c:166ee4b719b:59fb</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>-2efc239c:166ee4b719b:5a09</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>-2efc239c:166ee4b719b:5a0a</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.lang.String</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
         <fieldsCustomizations>
             <uniqueIdentifier>-2efc239c:166ee4b719b:5a5e</uniqueIdentifier>
             <specificProperties/>
@@ -2146,20 +928,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:39e</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:39f</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.awt.Image</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -2168,60 +936,6 @@
             <uniqueIdentifier>-2efc239c:166ee4b719b:59f7</uniqueIdentifier>
         </menuModel>
         <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen], fieldName=center]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>67acb11e:166ee5e9849:908</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>67acb11e:166ee5e9849:90c</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>leftSpace</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>67acb11e:166ee5e9849:90e</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:90d</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>67acb11e:166ee5e9849:92a</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>67acb11e:166ee5e9849:92b</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>java.awt.Image</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>67acb11e:166ee5e9849:909</uniqueIdentifier>
-        </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen], fieldName=layout]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2387,6 +1101,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getScaledInstance</methodName>
             <methodSignature>java.awt.Image getScaledInstance(int, int, int)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-41fb</uniqueIdentifier>
@@ -2425,13 +1140,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-4204</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2441,6 +1149,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getCapabilities</methodName>
             <methodSignature>java.awt.ImageCapabilities getCapabilities(java.awt.GraphicsConfiguration)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-41f5</uniqueIdentifier>
@@ -2457,13 +1166,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-4202</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2473,6 +1175,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getHeight</methodName>
             <methodSignature>int getHeight(java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-41f3</uniqueIdentifier>
@@ -2489,13 +1192,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-4200</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2505,6 +1201,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getWidth</methodName>
             <methodSignature>int getWidth(java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-41f1</uniqueIdentifier>
@@ -2521,13 +1218,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-41fe</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2537,6 +1227,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getProperty</methodName>
             <methodSignature>java.lang.Object getProperty(java.lang.String, java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-41ef</uniqueIdentifier>
@@ -2564,13 +1255,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-41fc</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.awt.Image</typeName>
@@ -2594,6 +1278,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getScaledInstance</methodName>
             <methodSignature>java.awt.Image getScaledInstance(int, int, int)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42d2</uniqueIdentifier>
@@ -2632,13 +1317,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42df</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2648,6 +1326,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getCapabilities</methodName>
             <methodSignature>java.awt.ImageCapabilities getCapabilities(java.awt.GraphicsConfiguration)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42cc</uniqueIdentifier>
@@ -2664,13 +1343,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42dd</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2680,6 +1352,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>preload</methodName>
             <methodSignature>void preload(java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42ca</uniqueIdentifier>
@@ -2696,13 +1369,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42db</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2712,6 +1378,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>check</methodName>
             <methodSignature>int check(java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42c8</uniqueIdentifier>
@@ -2728,13 +1395,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42d9</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2744,6 +1404,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getHeight</methodName>
             <methodSignature>int getHeight(java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42c6</uniqueIdentifier>
@@ -2760,13 +1421,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42d7</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2776,6 +1430,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getWidth</methodName>
             <methodSignature>int getWidth(java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42c4</uniqueIdentifier>
@@ -2792,13 +1447,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42d5</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2808,6 +1456,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getProperty</methodName>
             <methodSignature>java.lang.Object getProperty(java.lang.String, java.awt.image.ImageObserver)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42c2</uniqueIdentifier>
@@ -2835,13 +1484,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42d3</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <methodsCustomizations>
@@ -2851,6 +1493,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>sun.awt.image.ToolkitImage (java.awt.image.ImageProducer)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-42bc</uniqueIdentifier>
@@ -2867,13 +1510,6 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-42bd</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>sun.awt.image.ToolkitImage</typeName>
@@ -2886,46 +1522,6 @@
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>691076fa:179330cdacf:-4265</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName></fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>691076fa:179330cdacf:-4263</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-4264</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <typeCustomizations>
-                    <uniqueIdentifier>691076fa:179330cdacf:-425d</uniqueIdentifier>
-                    <specificProperties/>
-                    <abstractForced>false</abstractForced>
-                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-                    <copyForbidden>false</copyForbidden>
-                    <immutableForced>false</immutableForced>
-                    <menuModel>
-                        <uniqueIdentifier>691076fa:179330cdacf:-425c</uniqueIdentifier>
-                    </menuModel>
-                    <typeName>sun.awt.image.ToolkitImage</typeName>
-                    <undoManagementHidden>false</undoManagementHidden>
-                </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>691076fa:179330cdacf:-4331</uniqueIdentifier>
@@ -2937,6 +1533,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=image, containingType=xy.reflect.ui.example.LoginScreen], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage] (java.awt.image.ImageProducer)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-4260</uniqueIdentifier>
@@ -2953,16 +1550,9 @@
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
             <runWhenObjectShown>false</runWhenObjectShown>
-            <specificReturnValueTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>691076fa:179330cdacf:-4261</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-            </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=image, containingType=xy.reflect.ui.example.LoginScreen], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=image, containingType=xy.reflect.ui.example.LoginScreen], subContext=MutableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>
