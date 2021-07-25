@@ -28,8 +28,8 @@ public class TestToolsMessages {
 
 	@BeforeClass
 	public static void beforeAllTests() throws Exception {
-		englishWords = IOUtils.read(TestToolsMessages.class.getResourceAsStream("words.en")).toLowerCase()
-				.split("[\\n\\r]+");
+		englishWords = new String(IOUtils.readBinary(TestToolsMessages.class.getResourceAsStream("words.en")), "UTF-8")
+				.toLowerCase().split("[\\n\\r]+");
 	}
 
 	private boolean checkSpell(String sentence, String typeName, String memberName) {
