@@ -140,12 +140,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				return getSubType(data.getValue());
 			}
 		};
-		Listener<Object> instanceSelectionHandler = new Listener<Object>() {
+		Listener<Object> dynamicControlUpdater = new Listener<Object>() {
 			@Override
 			public void handle(Object instance) {
 				data.addInBuffer(instance);
 				refreshDynamicControl(false);
-				data.setValue(instance);
 			}
 		};
 		Mapper<ITypeInfo, Object> instanciator = new Mapper<ITypeInfo, Object>() {
@@ -162,7 +161,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 		};
 		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,
-				currentSubTypeAccessor, instanceSelectionHandler, subTypeInstanceCache, instanciator,
+				currentSubTypeAccessor, dynamicControlUpdater, subTypeInstanceCache, instanciator,
 				commitExceptionHandler);
 		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
@@ -312,14 +311,14 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected PolymorphicTypeOptionsFactory typeOptionsFactory;
-		protected Listener<Object> instanceSelectionHandler;
+		protected Listener<Object> dynamicControlUpdater;
 		protected Map<ITypeInfo, Object> subTypeInstanceCache;
 		protected Mapper<ITypeInfo, Object> instanciator;
 		protected Listener<Throwable> commitExceptionHandler;
 
 		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 				PolymorphicTypeOptionsFactory typeOptionsFactory, Accessor<ITypeInfo> currentSubTypeAccessor,
-				Listener<Object> instanceSelectionHandler, Map<ITypeInfo, Object> subTypeInstanceCache,
+				Listener<Object> dynamicControlUpdater, Map<ITypeInfo, Object> subTypeInstanceCache,
 				Mapper<ITypeInfo, Object> instanciator, Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
 			input = new FieldControlInputProxy(input) {
@@ -347,11 +346,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 							}
 						}
 						try {
-							instanceSelectionHandler.handle(instance);
+							dynamicControlUpdater.handle(instance);
 						} catch (Throwable t) {
-							commitExceptionHandler.handle(t);							
+							commitExceptionHandler.handle(t);
 							throw new CancelledModificationException();
 						}
+						super.setValue(instance);
 					}
 
 					@Override
@@ -370,7 +370,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.input = input;
 			this.data = input.getControlData();
 			this.typeOptionsFactory = typeOptionsFactory;
-			this.instanceSelectionHandler = instanceSelectionHandler;
+			this.dynamicControlUpdater = dynamicControlUpdater;
 			this.subTypeInstanceCache = subTypeInstanceCache;
 			this.instanciator = instanciator;
 			this.commitExceptionHandler = commitExceptionHandler;
@@ -426,9 +426,13 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			return new FieldControlDataModification(data, value);
 		}
 
+		/**
+		 * Should never be called since the {@link FieldControlInputProxy} above catches
+		 * the exceptions.
+		 */
 		@Override
 		protected void handleRealtimeLinkCommitException(Throwable t) {
-			throw new ReflectionUIError();
+			commitExceptionHandler.handle(new ReflectionUIError("Unexpected: " + t, t));
 		}
 
 		@Override
