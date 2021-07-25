@@ -66,12 +66,12 @@ public class SlaveModificationStack extends ModificationStack {
 
 			@Override
 			protected void shiftBackward() {
-				SlaveModificationStack.this.super_undo();
+				SlaveModificationStack.this.slaveUndo();
 			}
 
 			@Override
 			protected void shiftForeward() {
-				SlaveModificationStack.this.super_redo();
+				SlaveModificationStack.this.slaveRedo();
 			}
 
 			@Override
@@ -146,23 +146,23 @@ public class SlaveModificationStack extends ModificationStack {
 
 	@Override
 	public void undo() {
-		super_undo();
+		slaveUndo();
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		parentObjectModifStack.invalidate();
 	}
 
 	@Override
 	public void redo() {
-		super_redo();
+		slaveRedo();
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		parentObjectModifStack.invalidate();
 	}
 
-	protected void super_undo() {
+	protected void slaveUndo() {
 		super.undo();
 	}
 
-	protected void super_redo() {
+	protected void slaveRedo() {
 		super.redo();
 	}
 
@@ -194,6 +194,37 @@ public class SlaveModificationStack extends ModificationStack {
 	public IModificationListener[] getListeners() {
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		return parentObjectModifStack.getListeners();
+	}
+
+	/**
+	 * Allows to access the local listeners of this slave modification stack that
+	 * are normally unused since the parent modification stack listeners are used
+	 * instead when calling {@link #addListener(IModificationListener)}.
+	 * 
+	 * @param listener The listener.
+	 */
+	public void addSlaveListener(IModificationListener listener) {
+		super.addListener(listener);
+	}
+
+	/**
+	 * Allows to access the local listeners of this slave modification stack that
+	 * are normally unused since the parent modification stack listeners are used
+	 * instead when calling {@link #removeListener(IModificationListener)}.
+	 * 
+	 * @param listener The listener.
+	 */
+	public void removeSlaveListener(IModificationListener listener) {
+		super.removeListener(listener);
+	}
+
+	/**
+	 * @return the local listeners of this slave modification stack that are
+	 *         normally unused since the parent modification stack listeners are
+	 *         used instead when calling {@link #getListeners()}.
+	 */
+	public IModificationListener[] getSlaveListeners() {
+		return super.getListeners();
 	}
 
 	@Override
