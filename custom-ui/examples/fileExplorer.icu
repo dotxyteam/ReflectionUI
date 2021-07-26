@@ -1058,6 +1058,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>new+paramjava.lang.String+paramjava.lang.String</methodName>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.lang.String+paramjava.lang.String(java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f90</uniqueIdentifier>
@@ -1094,6 +1095,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>new+paramjava.lang.String</methodName>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.lang.String(java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f8d</uniqueIdentifier>
@@ -1119,6 +1121,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>new+paramjava.io.File+paramjava.lang.String</methodName>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.io.File+paramjava.lang.String(java.io.File, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f8b</uniqueIdentifier>
@@ -1155,6 +1158,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>new+paramjava.net.URI</methodName>
             <methodSignature>Encapsulation [encapsulatedObjectType=java.io.File] new+paramjava.net.URI(java.net.URI)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f88</uniqueIdentifier>
@@ -1287,7 +1291,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a5d</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57a3</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1320,7 +1324,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a5e</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57a4</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1353,7 +1357,7 @@
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a5f</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57a5</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1417,7 +1421,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a60</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57a6</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -1476,7 +1480,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a61</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57a7</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1508,7 +1512,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a62</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57a8</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2212,7 +2216,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a63</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57a9</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2375,7 +2379,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f69</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a64</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57aa</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2407,7 +2411,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f67</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a65</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57ab</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2543,7 +2547,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f61</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a66</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57ac</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3194,7 +3198,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-5ee3f2ee:17a26d02c7b:5a67</uniqueIdentifier>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:57ad</uniqueIdentifier>
                 <caption>Actions</caption>
             </category>
             <categoryCaption>Actions</categoryCaption>
@@ -5467,6 +5471,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-47abbd6b:179268d8702:6651</uniqueIdentifier>
@@ -5503,6 +5508,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-47abbd6b:179268d8702:6657</uniqueIdentifier>
@@ -5528,6 +5534,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.io.File, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-47abbd6b:179268d8702:665b</uniqueIdentifier>
@@ -5564,6 +5571,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.net.URI)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-47abbd6b:179268d8702:6661</uniqueIdentifier>
@@ -5712,16 +5720,16 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <dynamicEnumerationForced>false</dynamicEnumerationForced>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=renameTo, listContext=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
-                        <uniqueIdentifier>-3f2ce655:179331b20c7:-1c75</uniqueIdentifier>
-                        <customCaption>The operation failed!</customCaption>
+                        <uniqueIdentifier>69c08c19:17ae393fa1b:4859</uniqueIdentifier>
+                        <customCaption>The operation succeeded !</customCaption>
                         <hidden>false</hidden>
-                        <itemName>Item [value=false]</itemName>
+                        <itemName>Option [index=0]</itemName>
                     </itemCustomizations>
                     <itemCustomizations>
-                        <uniqueIdentifier>-3f2ce655:179331b20c7:-1c76</uniqueIdentifier>
-                        <customCaption>The operation succeeded!</customCaption>
+                        <uniqueIdentifier>69c08c19:17ae393fa1b:485a</uniqueIdentifier>
+                        <customCaption>The operation failed !</customCaption>
                         <hidden>false</hidden>
-                        <itemName>Item [value=true]</itemName>
+                        <itemName>Option [index=1]</itemName>
                     </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
@@ -7892,16 +7900,16 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <dynamicEnumerationForced>false</dynamicEnumerationForced>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=delete, listContext=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
-                        <uniqueIdentifier>-3f2ce655:179331b20c7:-6a1e</uniqueIdentifier>
-                        <customCaption>The operation failed!</customCaption>
-                        <hidden>false</hidden>
-                        <itemName>Item [value=false]</itemName>
-                    </itemCustomizations>
-                    <itemCustomizations>
-                        <uniqueIdentifier>-3f2ce655:179331b20c7:-6a1f</uniqueIdentifier>
+                        <uniqueIdentifier>69c08c19:17ae393fa1b:4c1c</uniqueIdentifier>
                         <customCaption>The operation succeeded!</customCaption>
                         <hidden>false</hidden>
-                        <itemName>Item [value=true]</itemName>
+                        <itemName>Option [index=0]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>69c08c19:17ae393fa1b:4c1d</uniqueIdentifier>
+                        <customCaption>The operation failed!</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>Option [index=1]</itemName>
                     </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
@@ -9018,6 +9026,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=listFiles.result, containingType=SubListGroupItemTypeInfo [of=subListGroup [containingItemType=java.io.File], itemField=listFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>667331c:179332ba50f:-48c2</uniqueIdentifier>
@@ -9054,6 +9063,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=listFiles.result, containingType=SubListGroupItemTypeInfo [of=subListGroup [containingItemType=java.io.File], itemField=listFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>667331c:179332ba50f:-48bc</uniqueIdentifier>
@@ -9079,6 +9089,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=listFiles.result, containingType=SubListGroupItemTypeInfo [of=subListGroup [containingItemType=java.io.File], itemField=listFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.io.File, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>667331c:179332ba50f:-48b8</uniqueIdentifier>
@@ -9115,6 +9126,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=listFiles.result, containingType=SubListGroupItemTypeInfo [of=subListGroup [containingItemType=java.io.File], itemField=listFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.net.URI)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>667331c:179332ba50f:-48b2</uniqueIdentifier>
@@ -9154,6 +9166,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=returnValueOf-[Ljava.io.File;-listFiles, containingType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-3000d7cd:1799f015e11:-1ea2</uniqueIdentifier>
@@ -9190,6 +9203,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=returnValueOf-[Ljava.io.File;-listFiles, containingType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-3000d7cd:1799f015e11:-1e9d</uniqueIdentifier>
@@ -9215,6 +9229,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=returnValueOf-[Ljava.io.File;-listFiles, containingType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.io.File, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-3000d7cd:1799f015e11:-1e9a</uniqueIdentifier>
@@ -9251,6 +9266,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName></methodName>
             <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=returnValueOf-[Ljava.io.File;-listFiles, containingType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File] (java.net.URI)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-3000d7cd:1799f015e11:-1e95</uniqueIdentifier>
@@ -9270,6 +9286,350 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=returnValueOf-[Ljava.io.File;-listFiles, containingType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>69c08c19:17ae393fa1b:4844</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4845</uniqueIdentifier>
+        </menuModel>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:486d</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>hashCode</methodName>
+            <methodSignature>int hashCode(boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4878</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4879</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:486e</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>valueOf</methodName>
+            <methodSignature>java.lang.Boolean valueOf(boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:487a</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:487b</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:486f</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>toString</methodName>
+            <methodSignature>java.lang.String toString(boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:487c</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:487d</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4870</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>logicalAnd</methodName>
+            <methodSignature>boolean logicalAnd(boolean, boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:487e</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:487f</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4880</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4881</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4871</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>logicalOr</methodName>
+            <methodSignature>boolean logicalOr(boolean, boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4882</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4883</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4884</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4885</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4872</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>logicalXor</methodName>
+            <methodSignature>boolean logicalXor(boolean, boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4886</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4887</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4888</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4889</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4873</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>compare</methodName>
+            <methodSignature>int compare(boolean, boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:488a</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:488b</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean1</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:488c</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:488d</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean2</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4874</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>compareTo</methodName>
+            <methodSignature>int compareTo(java.lang.Boolean)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:488e</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:488f</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>boolean</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4875</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getBoolean</methodName>
+            <methodSignature>boolean getBoolean(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4890</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4891</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4876</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>parseBoolean</methodName>
+            <methodSignature>boolean parseBoolean(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4892</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4893</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>69c08c19:17ae393fa1b:4877</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>valueOf</methodName>
+            <methodSignature>java.lang.Boolean valueOf(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>69c08c19:17ae393fa1b:4894</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>69c08c19:17ae393fa1b:4895</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>java.lang.Boolean</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>
