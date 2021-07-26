@@ -1422,7 +1422,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				public IModification get(IModification undoModif) {
 					Object oldItem = detailsControlItemPosition.getItem();
 					Object newItem = detailsControlBuilder.getCurrentValue();
-					IModification preSelection = new PreSelection(detailsControlItemPosition, newItem, oldItem);
+					IModification preSelection = new PreSelection(detailsControlItemPosition, newItem, oldItem,
+							detailsControlBuilder, detailsControl);
 					return new CompositeModification(undoModif.getTitle(), UndoOrder.FIFO, preSelection, undoModif);
 				}
 			});
@@ -1954,11 +1955,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected BufferedItemPosition currentPosition;
 		protected Object doItem;
 		protected Object undoItem;
+		protected ItemUIBuilder detailsControlBuilder;
+		protected Form detailsControl;
 
-		public PreSelection(BufferedItemPosition currentPosition, Object doItem, Object undoItem) {
+		public PreSelection(BufferedItemPosition currentPosition, Object doItem, Object undoItem,
+				ItemUIBuilder detailsControlBuilder, Form detailsControl) {
 			this.currentPosition = currentPosition;
 			this.doItem = doItem;
 			this.undoItem = undoItem;
+			this.detailsControlBuilder = detailsControlBuilder;
+			this.detailsControl = detailsControl;
 		}
 
 		@Override
@@ -1976,13 +1982,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return createAnyJob(undoItem);
 		}
 
-		Runnable createAnyJob(final Object currentItem) {
+		protected Runnable createAnyJob(final Object currentItem) {
 			return new Runnable() {
 				@Override
 				public void run() {
+					Object[] containingListRawValue = currentPosition.retrieveContainingListRawValue();
 					if (!currentPosition.getContainingListType().isOrdered()) {
-						int indexToSelect = Arrays.asList(currentPosition.retrieveContainingListRawValue())
-								.indexOf(currentItem);
+						int indexToSelect = Arrays.asList(containingListRawValue).indexOf(currentItem);
 						if (indexToSelect == -1) {
 							throw new ReflectionUIError("Cannot find item equals to: '" + currentItem + "'");
 						}
@@ -1991,6 +1997,20 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					setSelection(Collections.singletonList(currentPosition));
 					if (!currentPosition.equals(detailsControlItemPosition)) {
 						updateDetailsArea(false);
+					}
+					/*
+					 * Now we are sure that the item that must be modified is selected. But it may
+					 * be a copy that is just equal. To ensure that the item that will be committed
+					 * (currentItem) is the one that is referenced by the details modification
+					 * object, we must update its reference in the detailsControl. PROBLEM: the
+					 * details modification object may reference a "dead" detailsControl (rebuilt at
+					 * some time) preventing from updating this reference. That is why the right
+					 * detailsControlBuilder and its detailsControl are stored in this class.
+					 */
+					if (detailsControlBuilder.getCurrentValue() != currentItem) {
+						containingListRawValue[currentPosition.getIndex()] = currentItem;
+						currentPosition.changeContainingListBuffer(containingListRawValue);
+						detailsControlBuilder.refreshEditorForm(detailsControl, false);
 					}
 				}
 			};

@@ -175,4 +175,11 @@ public class TestWithAutomation {
 						+ "test-specifications/testNullDisplay.stt"));
 	}
 
+	@Test
+	public void testMap() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testMap.stt"));
+	}
+
 }

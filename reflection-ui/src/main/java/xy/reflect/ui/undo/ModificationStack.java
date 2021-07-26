@@ -292,12 +292,12 @@ public class ModificationStack {
 		if (undoModification.isNull()) {
 			return false;
 		}
-		if (pushFilter != null) {
-			undoModification = pushFilter.get(undoModification);
-		}
 		if (isInComposite()) {
 			compositeStack.peek().push(undoModification);
 			return true;
+		}
+		if (pushFilter != null) {
+			undoModification = pushFilter.get(undoModification);
 		}
 		validate();
 		if (undoModification.isFake()) {

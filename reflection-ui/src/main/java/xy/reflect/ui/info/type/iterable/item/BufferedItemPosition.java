@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.ArrayList;
@@ -16,16 +14,17 @@ import xy.reflect.ui.info.field.IFieldInfo;
  * optimize the access to the list/tree item. The main buffer is actually a copy
  * of the containing list stored either in the parent
  * {@link BufferedItemPosition} or in the associated factory
- * ({@link AbstractBufferedItemPositionFactory}) when the current item position
- * is root. Additionally a fake item value that overrides the actual item value
+ * ({@link AbstractBufferedItemPositionFactory}) (when the current item position
+ * is root). Additionally a fake item value that overrides the actual item value
  * can be set.
  * 
  * Note that there cannot be 2 similar instances (created from the same factory,
- * at the same depth and index) unless the containing list is refreshed.
+ * at the same depth and the same index) unless the containing list is
+ * refreshed.
  * 
  * Note also that calling {@link #updateContainingList(Object[])} will replace
- * the buffered items by those passed as parameter that may differ from the
- * actual new items.
+ * the buffered items by those passed as parameter (they may differ from the
+ * actual new items that would be retrieved from the underlying object(s)).
  * 
  * @author olitank
  *
@@ -188,6 +187,18 @@ public class BufferedItemPosition extends ItemPosition {
 	@Override
 	public void updateContainingList(Object[] newContainingListRawValue) {
 		super.updateContainingList(newContainingListRawValue);
+		changeContainingListBuffer(newContainingListRawValue);
+	}
+
+	/**
+	 * Updates the buffer of the containing list (or the factory if the current item
+	 * position is root). Note that this method is not recursive.
+	 * 
+	 * @param newContainingListRawValue The array that contains the items that
+	 *                                  should replace all the containing list
+	 *                                  items.
+	 */
+	public void changeContainingListBuffer(Object[] newContainingListRawValue) {
 		if (isRoot()) {
 			getFactory().bufferedRootListRawValue = Arrays.copyOf(newContainingListRawValue,
 					newContainingListRawValue.length);
