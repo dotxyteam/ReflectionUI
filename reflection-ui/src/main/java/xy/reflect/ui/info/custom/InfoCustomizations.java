@@ -4411,7 +4411,7 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class EnumerationItemCustomization extends AbstractCustomization
+	public static class EnumerationItemCustomization extends AbstractInfoCustomization
 			implements Comparable<EnumerationItemCustomization> {
 
 		private static final long serialVersionUID = 1L;

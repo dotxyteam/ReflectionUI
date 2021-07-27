@@ -1152,7 +1152,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getSpecificProperties() != null) {
-				if (t.getSpecificProperties().entrySet().size() > 0) {
+				if (t.getSpecificProperties().size() > 0) {
 					result.putAll(t.getSpecificProperties());
 				}
 			}
@@ -1175,6 +1175,34 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected Map<String, Object> getSpecificProperties(IApplicationInfo appInfo) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(appInfo));
 		traceActiveCustomizations(result);
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization != null) {
+			if (appCustomization.getSpecificProperties() != null) {
+				if (appCustomization.getSpecificProperties().size() > 0) {
+					result.putAll(appCustomization.getSpecificProperties());
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(info, parentEnumType));
+		traceActiveCustomizations(result);
+		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),
+				parentEnumType.getName());
+		if (e != null) {
+			final EnumerationItemCustomization i = InfoCustomizations.getEnumerationItemCustomization(e,
+					info.getName());
+			if (i != null) {
+				if (i.getSpecificProperties() != null) {
+					if (i.getSpecificProperties().size() > 0) {
+						result.putAll(i.getSpecificProperties());
+					}
+				}
+			}
+		}
 		return result;
 	}
 
@@ -1197,13 +1225,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(method, containingType));
-		traceActiveCustomizations(result);
-		return result;
-	}
-
-	@Override
-	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
-		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(info, parentEnumType));
 		traceActiveCustomizations(result);
 		return result;
 	}
