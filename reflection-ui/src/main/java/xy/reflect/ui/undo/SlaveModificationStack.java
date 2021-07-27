@@ -4,6 +4,7 @@ package xy.reflect.ui.undo;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -38,6 +39,7 @@ public class SlaveModificationStack extends ModificationStack {
 			Listener<String> debugLogListener, Listener<String> errorLogListener,
 			Listener<Throwable> masterModificationExceptionListener) {
 		super(name);
+		this.maximumSize = Integer.MAX_VALUE;
 		this.valueModifAcceptedGetter = valueModifAcceptedGetter;
 		this.valueReturnModeGetter = valueReturnModeGetter;
 		this.valueReplacedGetter = valueReplacedGetter;
@@ -50,6 +52,11 @@ public class SlaveModificationStack extends ModificationStack {
 		this.debugLogListener = debugLogListener;
 		this.errorLogListener = errorLogListener;
 		this.masterModificationExceptionListener = masterModificationExceptionListener;
+	}
+
+	@Override
+	public void setMaximumSize(int maximumSize) {
+		throw new ReflectionUIError();
 	}
 
 	@Override
