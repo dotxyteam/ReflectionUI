@@ -1206,28 +1206,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		return result;
 	}
 
-	@Override
-	protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
-		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(field, containingType));
-		traceActiveCustomizations(result);
-		return result;
-	}
+	
 
-	@Override
-	protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
-		Map<String, Object> result = new HashMap<String, Object>(
-				super.getSpecificProperties(param, method, containingType));
-		traceActiveCustomizations(result);
-		return result;
-	}
-
-	@Override
-	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
-		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(method, containingType));
-		traceActiveCustomizations(result);
-		return result;
-	}
+	
 
 	@Override
 	protected List<IMethodInfo> getConstructors(ITypeInfo containingType) {
@@ -2211,6 +2192,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									public Map<String, Object> getSpecificProperties() {
 										Map<String, Object> result = new HashMap<String, Object>(
 												super.getSpecificProperties());
+										traceActiveCustomizations(result);
 										result.putAll(pc.getSpecificProperties());
 										return result;
 									}
@@ -2394,6 +2376,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					@Override
 					public Map<String, Object> getSpecificProperties() {
 						Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+						traceActiveCustomizations(result);
 						result.putAll(mc.getSpecificProperties());
 						return result;
 					}
@@ -2767,6 +2750,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					@Override
 					public Map<String, Object> getSpecificProperties() {
 						Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+						traceActiveCustomizations(result);
 						result.putAll(fc.getSpecificProperties());
 						return result;
 					}
