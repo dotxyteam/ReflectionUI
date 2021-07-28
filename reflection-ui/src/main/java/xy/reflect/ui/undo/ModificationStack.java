@@ -438,8 +438,9 @@ public class ModificationStack {
 	 * {@link #endComposite(String, UndoOrder, boolean)} to finalize the composite
 	 * modification creation or {@link #abortComposite()} to cancel it. Note that
 	 * calling this method multiple times before making the related calls to
-	 * {@link #endComposite(String, UndoOrder, boolean)} or {@link #abortComposite()} will
-	 * result in the creation of inner composite modifications.
+	 * {@link #endComposite(String, UndoOrder, boolean)} or
+	 * {@link #abortComposite()} will result in the creation of inner composite
+	 * modifications.
 	 */
 	public void beginComposite() {
 		if (!isInComposite()) {
@@ -450,11 +451,23 @@ public class ModificationStack {
 
 	/**
 	 * @return true if a call to {@link #beginComposite()} have been done but the
-	 *         call to the related {@link #endComposite(String, UndoOrder, boolean)} or
-	 *         {@link #abortComposite()} has not been done yet.
+	 *         call to the related {@link #endComposite(String, UndoOrder, boolean)}
+	 *         or {@link #abortComposite()} has not been done yet.
 	 */
 	public boolean isInComposite() {
 		return compositeStack.size() > 0;
+	}
+
+	/**
+	 * @return the current composite modification stack (also the last). If
+	 *         {@link #isInComposite()} returns false then null is returned.
+	 */
+	public ModificationStack getCurrentComposite() {
+		if (isInComposite()) {
+			return compositeStack.peek();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -515,7 +528,8 @@ public class ModificationStack {
 	/**
 	 * Convenient composite modification creation method that calls
 	 * {@link #beginComposite()}, performs the specified action and calls
-	 * {@link #endComposite(String, UndoOrder, boolean)} or {@link #abortComposite()}.
+	 * {@link #endComposite(String, UndoOrder, boolean)} or
+	 * {@link #abortComposite()}.
 	 * 
 	 * @param title  The composite modification title.
 	 * @param order  The composite modification undo order.
