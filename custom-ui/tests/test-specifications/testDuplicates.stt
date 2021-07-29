@@ -65,7 +65,7 @@
       <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.ClassBasedComponentFinder">
         <componentClassName>javax.swing.JTextArea</componentClassName>
-        <occurrencesToSkip>3</occurrencesToSkip>
+        <occurrencesToSkip>2</occurrencesToSkip>
         <windowIndex>0</windowIndex>
       </componentFinder>
       <disabled>false</disabled>
