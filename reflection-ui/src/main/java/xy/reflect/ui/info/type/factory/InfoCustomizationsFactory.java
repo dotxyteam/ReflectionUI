@@ -932,6 +932,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							}
 						}
 
+						public ResourcePath getIconImagePath() {
+							if (shortcut.getCustomIconImagePath() != null) {
+								return shortcut.getCustomIconImagePath();
+							} else {
+								return null;
+							}
+						}
+
 						@Override
 						public boolean isEnabled(Object object) {
 							return false;
@@ -1205,10 +1213,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		}
 		return result;
 	}
-
-	
-
-	
 
 	@Override
 	protected List<IMethodInfo> getConstructors(ITypeInfo containingType) {
