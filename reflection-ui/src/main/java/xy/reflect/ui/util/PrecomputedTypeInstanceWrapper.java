@@ -104,7 +104,7 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 
 	@Override
 	public String toString() {
-		return "PrecomputedTypeInfoWrapper [instance=" + instance + ", precomputedType=" + precomputedType + "]";
+		return "PrecomputedTypeInstanceWrapper [instance=" + instance + ", precomputedType=" + precomputedType + "]";
 	}
 
 	public static class TypeInfoSource implements ITypeInfoSource {
