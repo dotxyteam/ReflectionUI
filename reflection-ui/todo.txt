@@ -1,22 +1,18 @@
+- vertical slider ???
+- allow to specify via customizations a list backed by
+a db table (should be supported by implicit list customization).
+Typically the Spring CrudRepository interface should be handled.
+- allow to specify via customizations method successful execution 
+(no exception thrown) information dialog
+- alternative decorations: "maximize" square not well drawn
 - form validation is not thread safe
-- allow to provide HTML online help
-- allow to multiple selection for list dynamic properties and actions
+- allow multiple selection for list dynamic properties and actions
 - must allow to cast a generic collection, maybe a generic type 
 more generally.
-- errors may be generated multiple times by successive refresh
-requests. SwingRenderer.handleObjectException() should then be
-called only once. Must be sure. Think about it.
 - field appearance changes are detected is design mode but
 not sure that field behavioral changes are detected. Check. 
-- create FaulTolerantControl that will allow to display and edit
-a default value when the field control initialization fails. 
 - allow to specify a static options values field
 - allow to specify via customizations how to undo a method call
-- some modifications references controls that may be destroyed when
-they are undone/redone. Ex: 
-	. ListControl.SelectModification: difficult to avoid this
-	. MethodControlDataModification.busyDialogOwner: solved by
-	finding dynamically a new owner component
 - actually in applications modifications are not replayed: the
 object states are rather saved and restored. Then undo/redo should
 be fast and never display a busy indicator. The current design of
