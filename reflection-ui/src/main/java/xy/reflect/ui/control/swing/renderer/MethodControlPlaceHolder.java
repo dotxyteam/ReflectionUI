@@ -1,13 +1,10 @@
 
-
-
 package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
-import java.util.SortedMap;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -19,7 +16,6 @@ import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.swing.MethodControl;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
@@ -106,17 +102,19 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 			return null;
 		}
 		int maxMethodControlWidth = 0;
-		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = form
-				.getMethodControlPlaceHoldersByCategory();
-		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
-					.get(category)) {
-				Component methodControl = methodControlPlaceHolder.getMethodControl();
-				maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
+		if (method.getCategory() != null) {
+			List<MethodControlPlaceHolder> siblingMethodControlPlaceHolders = form
+					.getMethodControlPlaceHoldersByCategory().get(method.getCategory());
+			if (siblingMethodControlPlaceHolders != null) {
+				for (MethodControlPlaceHolder methodControlPlaceHolder : siblingMethodControlPlaceHolders) {
+					Component methodControl = methodControlPlaceHolder.getMethodControl();
+					maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
+				}
+				maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % getIndentWidth())
+						+ getIndentWidth();
+				result.width = maxMethodControlWidth;
 			}
 		}
-		maxMethodControlWidth = maxMethodControlWidth - (maxMethodControlWidth % getIndentWidth()) + getIndentWidth();
-		result.width = maxMethodControlWidth;
 		return result;
 	}
 

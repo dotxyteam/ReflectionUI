@@ -1,7 +1,7 @@
 
-
-
 package xy.reflect.ui.info;
+
+import java.util.Comparator;
 
 /**
  * This class is used to categorize fields and methods of an abstract UI model.
@@ -37,11 +37,12 @@ public class InfoCategory implements Comparable<InfoCategory> {
 
 	@Override
 	public int compareTo(InfoCategory o) {
-		int result = new Integer(position).compareTo(o.position);
-		if (result == 0) {
-			result = caption.compareTo(o.caption);
-		}
-		return result;
+		return Comparator.comparing(InfoCategory::getPosition)
+				.thenComparing(InfoCategory::getCaption, Comparator.nullsFirst(String::compareTo))
+				.thenComparing(InfoCategory::getIconImagePath,
+						Comparator.nullsFirst(
+								Comparator.comparing(ResourcePath::getPath, Comparator.nullsFirst(String::compareTo))))
+				.compare(this, o);
 	}
 
 	@Override

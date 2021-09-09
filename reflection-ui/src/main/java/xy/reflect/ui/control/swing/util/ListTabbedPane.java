@@ -1,10 +1,9 @@
 
-
-
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -15,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
@@ -93,14 +91,15 @@ public class ListTabbedPane extends JPanel {
 
 	public ListTabbedPane(int placement) {
 		this.placement = placement;
+
 		listControl = createListControl();
+		listControl.setModel(listModel = createListModel());
 
 		currentComponentContainer = createCurrentComponentContainer();
 		currentComponentContainer.add(createNullTabComponent(), getCardName(null));
 
 		layoutComponents(currentComponentContainer);
 
-		listModel = new DefaultListModel();
 		refresh();
 	}
 
@@ -144,6 +143,21 @@ public class ListTabbedPane extends JPanel {
 		JList result = new JList() {
 			private static final long serialVersionUID = 1L;
 
+			{
+				setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			}
+
+			@Override
+			public void setSelectionInterval(int anchor, int lead) {
+				if (anchor >= 0) {
+					Object item = listControl.getModel().getElementAt(anchor);
+					if (disabledListElements.contains(item)) {
+						return;
+					}
+				}
+				super.setSelectionInterval(anchor, lead);
+			}
+
 			private boolean isNotOnEmptySpaceAfterItems(MouseEvent e) {
 				int index = locationToIndex(e.getPoint());
 				return index > -1 && getCellBounds(index, index).contains(e.getPoint());
@@ -162,8 +176,8 @@ public class ListTabbedPane extends JPanel {
 					super.processMouseMotionEvent(e);
 				}
 			}
+
 		};
-		result.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		result.setCellRenderer(new ListCellRenderer() {
 
 			JButton button = createNonSelectedTabHeaderCellRendererComponent();
@@ -187,10 +201,12 @@ public class ListTabbedPane extends JPanel {
 				if (isSelected) {
 					label.setText(text);
 					label.setIcon(icon);
+					label.setEnabled(!disabledListElements.contains(value));
 					return label;
 				} else {
 					button.setText(text);
 					button.setIcon(icon);
+					button.setEnabled(!disabledListElements.contains(value));
 					return button;
 				}
 
@@ -284,7 +300,21 @@ public class ListTabbedPane extends JPanel {
 	}
 
 	protected JLabel createSelectedTabHeaderCellRendererComponent() {
-		JLabel result = new JLabel();
+		JLabel result = new JLabel() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Color getForeground() {
+				if(!isEnabled()) {
+					JButton colorSource = createNonSelectedTabHeaderCellRendererComponent();
+					colorSource.setEnabled(false);
+					return colorSource.getForeground();
+				}
+				return super.getForeground();
+			}
+			
+		};
 		result.setHorizontalAlignment(SwingConstants.CENTER);
 		result.setOpaque(true);
 		result.setBorder(BorderFactory.createTitledBorder(""));
@@ -306,34 +336,8 @@ public class ListTabbedPane extends JPanel {
 		return result;
 	}
 
-	protected AbstractListModel createFilteredListModel() {
-		return new AbstractListModel() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public int getSize() {
-				return getFilteredElementList().size();
-			}
-
-			@Override
-			public Object getElementAt(int index) {
-				return getFilteredElementList().get(index);
-			}
-
-			private List<Object> getFilteredElementList() {
-				List<Object> result = new ArrayList<Object>();
-				for (int i = 0; i < listModel.size(); i++) {
-					Object element = listModel.getElementAt(i);
-					if (disabledListElements.contains(element)) {
-						continue;
-					}
-					result.add(element);
-				}
-				return result;
-			}
-
-		};
+	protected DefaultListModel createListModel() {
+		return new DefaultListModel();
 	}
 
 	protected Component createNullTabComponent() {
@@ -449,23 +453,23 @@ public class ListTabbedPane extends JPanel {
 		} else {
 			disabledListElements.add(listModel.getElementAt(tabIndex));
 		}
-		refresh();
+		listControl.repaint();
+	}
+
+	public boolean isEnabledAt(int tabIndex) {
+		return !disabledListElements.contains(listModel.getElementAt(tabIndex));
 	}
 
 	public void refresh() {
 		listSelectionHandlingEnabled = false;
 		try {
 			int initialSelectedIndex = getSelectedIndex();
-			listControl.setModel(createFilteredListModel());
+			listControl.setModel(listModel);
 			initialSelectedIndex = Math.min(initialSelectedIndex, listControl.getModel().getSize() - 1);
 			setSelectedIndex(initialSelectedIndex);
 		} finally {
 			listSelectionHandlingEnabled = true;
 		}
-	}
-
-	public boolean isEnabledAt(int tabIndex) {
-		return !disabledListElements.contains(listModel.getElementAt(tabIndex));
 	}
 
 	public void setIconAt(int tabIndex, ImageIcon imageIcon) {

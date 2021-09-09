@@ -23,6 +23,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -472,18 +473,16 @@ public class Form extends ImagePanel {
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
-		SortedSet<InfoCategory> allCategories = new TreeSet<InfoCategory>();
-		allCategories.addAll(fieldControlPlaceHoldersByCategory.keySet());
-		allCategories.addAll(methodControlPlaceHoldersByCategory.keySet());
-		if ((allCategories.size() == 1)
-				&& (swingRenderer.getNullInfoCategory().equals(allCategories.iterator().next()))) {
+		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
+				methodControlPlaceHoldersByCategory);
+		if ((allCategories.size() == 1) && (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-					.get(allCategories.first());
+					.get(allCategories.get(0));
 			if (fieldControlPlaceHolders == null) {
 				fieldControlPlaceHolders = Collections.emptyList();
 			}
 			List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-					.get(allCategories.first());
+					.get(allCategories.get(0));
 			if (methodControlPlaceHolders == null) {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
@@ -523,6 +522,15 @@ public class Form extends ImagePanel {
 				throw new ReflectionUIError();
 			}
 		}
+	}
+
+	protected List<InfoCategory> collectCategories(
+			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
+			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
+		SortedSet<InfoCategory> result = new TreeSet<InfoCategory>();
+		result.addAll(fieldControlPlaceHoldersByCategory.keySet());
+		result.addAll(methodControlPlaceHoldersByCategory.keySet());
+		return new ArrayList<InfoCategory>(result);
 	}
 
 	protected JLabel createStatusBar() {
@@ -757,51 +765,59 @@ public class Form extends ImagePanel {
 	}
 
 	/**
-	 * @return the currently displayed category.
+	 * @return the position of the currently selected category (-1 if there is no
+	 *         selected category) among all displayed categories
+	 *         ({@link #getDisplayedCategories()}).
 	 */
-	public InfoCategory getDisplayedCategory() {
+	public int getSelectedCategoryIndex() {
 		if (categoriesControl != null) {
-			int currentCategoryIndex;
-			currentCategoryIndex = ((ListTabbedPane) categoriesControl).getSelectedIndex();
-			if (currentCategoryIndex != -1) {
-				String currentCategoryCaption;
-				currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(currentCategoryIndex);
-				return new InfoCategory(currentCategoryCaption, currentCategoryIndex, null);
+			return ((ListTabbedPane) categoriesControl).getSelectedIndex();
+		}
+		return -1;
+	}
+
+	/**
+	 * Changes the currently selected category. If the specified category position
+	 * is -1 then the category selection is cleared.
+	 * 
+	 * @param index The position among all displayed categories
+	 *              ({@link #getDisplayedCategories()}) of the category that must be
+	 *              selected (-1 if the category selection must be cleared).
+	 */
+	public void setSelectedCategoryIndex(int index) {
+		if (categoriesControl != null) {
+			((ListTabbedPane) categoriesControl).setSelectedIndex(index);
+		}
+	}
+
+	/**
+	 * @return all displayed categories.
+	 */
+	public List<InfoCategory> getDisplayedCategories() {
+		return collectCategories(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory);
+	}
+
+	/**
+	 * @param category A category among the displayed categories
+	 *                 ({@link #getDisplayedCategories()}).
+	 * @return the component that contains the controls of the specified category.
+	 *         If there is not any displayed category then null is returned.
+	 */
+	public Component getCategoryComponent(InfoCategory category) {
+		if (categoriesControl != null) {
+			int categoryIndex = getDisplayedCategories().indexOf(category);
+			if (categoryIndex != -1) {
+				return ((ListTabbedPane) categoriesControl).getComponentAt(categoryIndex);
 			}
 		}
 		return null;
 	}
 
 	/**
-	 * Changes the currently displayed category. If the specified category is not
-	 * found then the displayed category is unchanged.
-	 * 
-	 * @param category A category object that will be used to find (by comparing
-	 *                 attributes) the category that must be displayed. Note that if
-	 *                 the given category position is -1 then this position
-	 *                 attribute will not be used to match the category that must be
-	 *                 displayed.
+	 * @return the control used to categorize the form controls.
 	 */
-	public void setDisplayedCategory(InfoCategory category) {
-		String categoryCaption = category.getCaption();
-		int categoryPosition = category.getPosition();
-		if (categoriesControl != null) {
-			int tabCount;
-			tabCount = ((ListTabbedPane) categoriesControl).getTabCount();
-			for (int i = 0; i < tabCount; i++) {
-				String currentCategoryCaption;
-				currentCategoryCaption = ((ListTabbedPane) categoriesControl).getTitleAt(i);
-				if (categoryCaption.equals(currentCategoryCaption)) {
-					if (categoryPosition != -1) {
-						if (categoryPosition != i) {
-							continue;
-						}
-					}
-					((ListTabbedPane) categoriesControl).setSelectedIndex(i);
-					return;
-				}
-			}
-		}
+	public Container getCategoriesControl() {
+		return categoriesControl;
 	}
 
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> createMethodControlPlaceHoldersByCategory(
@@ -981,7 +997,12 @@ public class Form extends ImagePanel {
 	 */
 	public void refresh(boolean refreshStructure) {
 		if (refreshStructure && detectStructureChange()) {
-			InfoCategory displayedCategory = getDisplayedCategory();
+			InfoCategory initiallySelectedCategory = null;
+			{
+				if (getSelectedCategoryIndex() != -1) {
+					initiallySelectedCategory = getDisplayedCategories().get(getSelectedCategoryIndex());
+				}
+			}
 			try {
 				removeAll();
 				fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(objectType.getFields());
@@ -1002,8 +1023,11 @@ public class Form extends ImagePanel {
 				layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
-				if (displayedCategory != null) {
-					setDisplayedCategory(displayedCategory);
+				if (initiallySelectedCategory != null) {
+					int newIndex = getDisplayedCategories().indexOf(initiallySelectedCategory);
+					if (newIndex != -1) {
+						setSelectedCategoryIndex(newIndex);
+					}
 				}
 			}
 		} else {
@@ -1444,7 +1468,7 @@ public class Form extends ImagePanel {
 			layoutUpdated = true;
 			methodsPanel.setBorder(newBorder);
 		}
-		if(layoutUpdated) {
+		if (layoutUpdated) {
 			SwingRendererUtils.handleComponentSizeChange(methodsPanel);
 		}
 	}
