@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>swing-testing-toolkit</artifactId>
-			<version>1.8.2</version>
+			<version>1.8.5</version>
 		</dependency>
 	</dependencies>
 
