@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control;
 
 import java.util.List;
@@ -184,5 +182,11 @@ public interface IMethodControlData {
 	 *         should be used.
 	 */
 	String getParametersValidationCustomCaption();
+
+	/**
+	 * @return the text displayed when the method execution was successful (no
+	 *         exception thrown).
+	 */
+	String getExecutionSuccessMessage();
 
 }

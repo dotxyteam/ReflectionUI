@@ -67,6 +67,11 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
+	public String getExecutionSuccessMessage() {
+		return null;
+	}
+
+	@Override
 	public ResourcePath getIconImagePath() {
 		return null;
 	}

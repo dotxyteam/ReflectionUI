@@ -47,6 +47,11 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getExecutionSuccessMessage() {
+		return null;
+	}
+
+	@Override
 	public String getName() {
 		return field.getName() + ".get";
 	}

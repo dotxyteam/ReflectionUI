@@ -45,6 +45,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getParametersValidationCustomCaption();
 	}
 
+	public String getExecutionSuccessMessage() {
+		return base.getExecutionSuccessMessage();
+	}
+
 	public ResourcePath getBackgroundImagePath() {
 		return base.getBackgroundImagePath();
 	}

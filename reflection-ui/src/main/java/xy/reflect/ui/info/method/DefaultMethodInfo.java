@@ -120,6 +120,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getExecutionSuccessMessage() {
+		return null;
+	}
+
+	@Override
 	public ResourcePath getIconImagePath() {
 		return null;
 	}

@@ -102,6 +102,11 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public String getExecutionSuccessMessage() {
+		return getMethod().getExecutionSuccessMessage();
+	}
+
+	@Override
 	public String getConfirmationMessage(InvocationData invocationData) {
 		return getMethod().getConfirmationMessage(getObject(), invocationData);
 	}

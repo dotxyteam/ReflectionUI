@@ -51,6 +51,11 @@ public abstract class AbstractListAction extends AbstractInfo implements IDynami
 	}
 
 	@Override
+	public String getExecutionSuccessMessage() {
+		return null;
+	}
+
+	@Override
 	public String getSignature() {
 		return ReflectionUIUtils.buildMethodSignature(this);
 	}

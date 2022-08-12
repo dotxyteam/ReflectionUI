@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.io.File;
@@ -114,6 +112,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 
 	@Override
 	public String getParametersValidationCustomCaption() {
+		return null;
+	}
+
+	@Override
+	public String getExecutionSuccessMessage() {
 		return null;
 	}
 

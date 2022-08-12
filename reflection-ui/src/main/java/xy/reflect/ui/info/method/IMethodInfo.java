@@ -64,6 +64,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public String getExecutionSuccessMessage() {
+			return null;
+		}
+
+		@Override
 		public ResourcePath getIconImagePath() {
 			return null;
 		}
@@ -289,5 +294,11 @@ public interface IMethodInfo extends IInfo {
 	 *                invisible.
 	 */
 	void onControlVisibilityChange(Object object, boolean visible);
+
+	/**
+	 * @return the text displayed when the method execution was successful (no
+	 *         exception thrown).
+	 */
+	String getExecutionSuccessMessage();
 
 }

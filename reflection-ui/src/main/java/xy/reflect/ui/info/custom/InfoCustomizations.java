@@ -3796,12 +3796,21 @@ public class InfoCustomizations implements Serializable {
 		protected String parametersValidationCustomCaption;
 		protected TransactionalRole transactionalRole;
 		protected String enablementStatusFieldName;
+		protected String executionSuccessMessage;
 
 		@Override
 		public boolean isInitial() {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
 			return InfoCustomizations.isSimilar(this, defaultMethodCustomization);
+		}
+
+		public String getExecutionSuccessMessage() {
+			return executionSuccessMessage;
+		}
+
+		public void setExecutionSuccessMessage(String executionSuccessMessage) {
+			this.executionSuccessMessage = executionSuccessMessage;
 		}
 
 		public String getEnablementStatusFieldName() {

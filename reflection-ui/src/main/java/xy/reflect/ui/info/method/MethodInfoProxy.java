@@ -134,6 +134,10 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.getParametersValidationCustomCaption();
 	}
 
+	public String getExecutionSuccessMessage() {
+		return base.getExecutionSuccessMessage();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

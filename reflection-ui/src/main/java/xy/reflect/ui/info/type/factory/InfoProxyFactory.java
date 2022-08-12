@@ -443,6 +443,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return method.getParametersValidationCustomCaption();
 	}
 
+	protected String getExecutionSuccessMessage(IMethodInfo method, ITypeInfo containingType) {
+		return method.getExecutionSuccessMessage();
+	}
+
 	protected String getName(IMethodInfo method, ITypeInfo containingType) {
 		return method.getName();
 	}
@@ -1753,6 +1757,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getParametersValidationCustomCaption() {
 			return InfoProxyFactory.this.getParametersValidationCustomCaption(base, containingType);
+		}
+
+		@Override
+		public String getExecutionSuccessMessage() {
+			return InfoProxyFactory.this.getExecutionSuccessMessage(base, containingType);
 		}
 
 		@Override

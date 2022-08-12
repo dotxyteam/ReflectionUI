@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.Component;
@@ -103,9 +101,17 @@ public class MethodAction extends AbstractAction {
 			return;
 		}
 		invokeAndSetReturnValue(invocationData, activatorComponent);
+		if (data.getExecutionSuccessMessage() != null) {
+			openExecutionSuccessMessageDialog(activatorComponent);
+		}
 		if (shouldDisplayReturnValue()) {
 			openMethodReturnValueWindow(activatorComponent);
 		}
+	}
+
+	protected void openExecutionSuccessMessageDialog(Component activatorComponent) {
+		swingRenderer.openInformationDialog(activatorComponent, data.getExecutionSuccessMessage(),
+				ReflectionUIUtils.composeMessage(getTitle(), "Success"), null);
 	}
 
 	public InvocationData prepare(Component activatorComponent) {
@@ -251,7 +257,8 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected boolean shouldDisplayReturnValue() {
-		return returnValueSet && shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
+		return returnValueSet && shouldDisplayReturnValueIfAny
+				&& (data.getReturnValueType() != null);
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {

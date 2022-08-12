@@ -44,6 +44,11 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public String getExecutionSuccessMessage() {
+		return null;
+	}
+
+	@Override
 	public String getParametersValidationCustomCaption() {
 		return null;
 	}
@@ -175,9 +180,9 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 						@Override
 						protected String getTypeInfoProxyFactoryIdentifier() {
-							return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
-									+ containingType.getName() + ", baseField="
-									+ field.getName() + "]";
+							return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
+									+ ", containingType=" + containingType.getName() + ", baseField=" + field.getName()
+									+ "]";
 						}
 					});
 				}

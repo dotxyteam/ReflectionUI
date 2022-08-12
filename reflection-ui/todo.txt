@@ -1,15 +1,17 @@
+- add customization option for list method shortcut icon
+- add "virtual composed list field" customization option that would use 
+ImplicitListFieldInfo.
+- undo/redo title often empty. See Calculator example.
 - vertical slider ???
 - allow to specify via customizations a list backed by
 a db table (should be supported by implicit list customization).
 Typically the Spring CrudRepository interface should be handled.
-- allow to specify via customizations method successful execution 
-(no exception thrown) information dialog
 - alternative decorations: "maximize" square not well drawn
 - form validation is not thread safe
 - allow multiple selection for list dynamic properties and actions
 - must allow to cast a generic collection, maybe a generic type 
 more generally.
-- field appearance changes are detected is design mode but
+- field appearance changes are detected in design mode but
 not sure that field behavioral changes are detected. Check. 
 - allow to specify a static options values field
 - allow to specify via customizations how to undo a method call
@@ -33,7 +35,6 @@ It must be possible to use a pool of windows.
 - AbstractEditorFormBuilder.refreshEditorFormOnModification(Form) may
 be obsolete since all fields (sub-forms, ..) are refreshed on any
 modification. Check and correct.
-- undo/redo title often empty. See Calculator example.
 - add a customization option for type icon based of field value.
 - IMethodInfo.validateParameters() never overriden on proxies. Check.
 - check that (may be automitically and constantly) that
@@ -52,8 +53,6 @@ Hints:
 - ParameterizedFieldsMethodInfo undoJob is always created even if it cannot
 be executed mostly because the method cannot. Find a way to enable the undo
 button since it will not work.
-- add "virtual composed list field" customization option that would use 
-ImplicitListFieldInfo.
 - it may be better to not have dependencies at all typically for
 swing-testing-toolkit that would be more compatible with projects 
 - lastFilePath should be saved by file type or ...
@@ -110,7 +109,6 @@ since they may be dismissed.
 - ReflectionUIUtils.setValueThroughModificationStack() and SwingRendererUtils.handleErrors()
 are directly called by controls though they should only be called by FieldControlPlaceHolders. 
 Check...
-- add customization option for list method shortcut icon
 or reuse the icon specified for the related method and eventually allow to override it
 - add an option to allow a method to reset the modification stack (forget()).
 Useful for methods like "loadFile()", "newProject()", etc.
@@ -169,17 +167,12 @@ triggered the form refresh.
 - add to ITypeInfo:
 	- IFieldControlPlugin getControlPlugin();	
 	- Object getControlPluginConfiguration();
-- cannot specify null param default value
-- undo/redo/etc menu tooltips absent
 - optimize data update delay: not needed systematically
 - improve delayed update process: extend the sleep duration on alreadly delaying schedule 
 - add a proxy factory to check type specifities identifiers
 - alternate (with checkbox above) nullable control plugin 
 or change the nullable control depending on sub control showsCaptions() 
 - StandardMapAsList: pass key and value types as typeInfos not java classes????
-- IModification.getTarget() is useless. It was only for getting modification
-title. I think it was created for list dynamic actions. It seems obsolete now.
-May need to remove.
 - list control does not handle null values. then it does not allow
 to edit sub lists when they are null => NORMAL. But it is difficult
 as a developer to understand that the sub list is sometimes editable
@@ -193,7 +186,7 @@ sometimes not. Find a solution.
 - allow to specify form background color
 - allow to disable the window scroll pane ??? 
 - geometric attributes are merged with behavioral attributes 
-- refresh recreates many many controls for uselessly: fix it ???
+- refresh recreates many many controls uselessly: fix it ???
  may not be serious since it happens only when refreshStructure=true
 - SlaveModifStack.exclusiveLinkWithParent: there must be a better way to design it 
 - ModifStack.forget() should not forward an invalidation. It is not a reflection of

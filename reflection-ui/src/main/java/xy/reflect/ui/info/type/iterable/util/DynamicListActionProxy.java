@@ -44,6 +44,10 @@ public class DynamicListActionProxy implements IDynamicListAction {
 		return base.getParametersValidationCustomCaption();
 	}
 
+	public String getExecutionSuccessMessage() {
+		return base.getExecutionSuccessMessage();
+	}
+
 	@Override
 	public String getOnlineHelp() {
 		return base.getOnlineHelp();

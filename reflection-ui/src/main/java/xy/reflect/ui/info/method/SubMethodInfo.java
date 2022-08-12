@@ -124,6 +124,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 		return theSubMethod.getParametersValidationCustomCaption();
 	}
 
+	@Override
+	public String getExecutionSuccessMessage() {
+		return theSubMethod.getExecutionSuccessMessage();
+	}
+
 	protected Object expectTheFieldValue(Object object) {
 		Object result = theField.getValue(object);
 		if (result == null) {

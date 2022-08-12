@@ -2327,6 +2327,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
+					public String getExecutionSuccessMessage() {
+						if (mc.getExecutionSuccessMessage() != null) {
+							return mc.getExecutionSuccessMessage();
+						}
+						return super.getExecutionSuccessMessage();
+					}
+
+					@Override
 					public String getParametersValidationCustomCaption() {
 						if (mc.getParametersValidationCustomCaption() != null) {
 							return mc.getParametersValidationCustomCaption();

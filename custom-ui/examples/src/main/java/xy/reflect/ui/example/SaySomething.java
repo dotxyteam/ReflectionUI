@@ -55,8 +55,8 @@ public class SaySomething {
 		this.message = message;
 	}
 
-	public void send() {
-		throw new UnsupportedOperationException();
+	public String send() {
+		return "You will get an answer as soon as possible.";
 	}
 
 }
