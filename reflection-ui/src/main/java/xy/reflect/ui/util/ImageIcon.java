@@ -109,7 +109,7 @@ public class ImageIcon implements Icon, Serializable, Accessible {
                 } catch (Throwable e) {
                     // We don't care about component.
                     // So don't prevent class initialisation.
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     return null;
                 }
             }

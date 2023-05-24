@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.lang.reflect.Field;
@@ -49,7 +47,11 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	protected void resolveJavaReflectionModelAccessProblems() {
-		javaField.setAccessible(true);
+		try {
+			javaField.setAccessible(true);
+		} catch (Throwable t) {
+			reflectionUI.logDebug(t);
+		}
 	}
 
 	public Field getJavaField() {

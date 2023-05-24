@@ -123,7 +123,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	protected void resolveJavaReflectionModelAccessProblems() {
-		javaGetterMethod.setAccessible(true);
+		try {
+			javaGetterMethod.setAccessible(true);
+		} catch (Throwable t) {
+			reflectionUI.logDebug(t);
+		}
 	}
 
 	public IMethodInfo getGetterMethodInfo() {

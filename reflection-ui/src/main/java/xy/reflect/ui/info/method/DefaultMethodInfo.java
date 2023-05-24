@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +51,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	protected void resolveJavaReflectionModelAccessProblems() {
-		javaMethod.setAccessible(true);
+		try {
+			javaMethod.setAccessible(true);
+		} catch (Throwable t) {
+			reflectionUI.logDebug(t);
+		}
 	}
 
 	@Override

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.lang.reflect.Constructor;
@@ -47,7 +45,11 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	}
 
 	protected void resolveJavaReflectionModelAccessProblems() {
-		javaConstructor.setAccessible(true);
+		try {
+			javaConstructor.setAccessible(true);
+		} catch (Throwable t) {
+			reflectionUI.logDebug(t);
+		}
 	}
 
 	@Override
@@ -58,8 +60,6 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 		}
 		return returnValueType;
 	}
-
-	
 
 	@Override
 	public List<IParameterInfo> getParameters() {
@@ -94,8 +94,6 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 			throw new ReflectionUIError(e);
 		}
 	}
-
-	
 
 	@Override
 	public int hashCode() {

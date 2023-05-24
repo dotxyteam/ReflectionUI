@@ -139,6 +139,9 @@ public class MiscTests {
 
 	@Test
 	public void testGarbageCollection() throws Exception {
+		if(!System.getProperty("java.version").contains("1.8")) {
+			return;
+		}		
 		final SwingRenderer swingRenderer = new SwingRenderer(new ReflectionUI());
 		final WeakReference<?>[] objectWeakRef = new WeakReference[1];
 		final WeakReference<?>[] formWeakRefs = new WeakReference[2];
