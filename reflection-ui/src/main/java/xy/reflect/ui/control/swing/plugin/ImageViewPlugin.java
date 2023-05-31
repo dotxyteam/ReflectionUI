@@ -3,15 +3,12 @@ package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -462,8 +459,10 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected Class<?> numberClass;
-		protected ImagePanel imagePanel;
+		protected ControlPanel contentPane;
 		protected JPanel imagePanelContainer;
+		protected ImagePanel imagePanel;
+		protected JButton browseButton;
 
 		public ImageView(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -478,9 +477,22 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				throw new ReflectionUIError(e1);
 			}
 			setLayout(new BorderLayout());
+			contentPane = new ControlPanel();
+			add(contentPane, BorderLayout.CENTER);
 			imagePanelContainer = new ControlPanel();
-			add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER), BorderLayout.CENTER);
-			browseOnMousePressed(this);
+			contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER), BorderLayout.CENTER);
+			browseButton = new JButton(swingRenderer.prepareMessageToDisplay("Load..."));
+			browseButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						onBrowseImage();
+					} catch (Throwable t) {
+						ImageView.this.swingRenderer.handleObjectException(ImageView.this, t);
+					}
+				}
+			});
+			contentPane.add(SwingRendererUtils.flowInLayout(browseButton, GridBagConstraints.CENTER), BorderLayout.SOUTH);
 			refreshUI(true);
 		}
 
@@ -488,6 +500,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public boolean refreshUI(boolean refreshStructure) {
 			ImageViewConfiguration controlCustomization = (ImageViewConfiguration) loadControlCustomization(input);
 			if (refreshStructure) {
+				browseButton.setVisible(!data.isGetOnly());
 				if (data.getCaption().length() > 0) {
 					setBorder(
 							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
@@ -527,28 +540,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			return true;
 		}
 
-		protected void browseOnMousePressed(Component c) {
-			c.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mousePressed(MouseEvent e) {
-					if (data.isGetOnly()) {
-						return;
-					}
-					try {
-						onBrowseImage();
-					} catch (Throwable t) {
-						ImageView.this.swingRenderer.handleObjectException(ImageView.this, t);
-					}
-				}
-			});
-		}
-
 		protected ImagePanel createImagePanel() {
-			ImagePanel result = new ImagePanel();
-			if (!data.isGetOnly()) {
-				browseOnMousePressed(result);
-			}
-			return result;
+			return new ImagePanel();
 		}
 
 		protected void onBrowseImage() {
@@ -616,7 +609,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public boolean displayError(String msg) {
-			SwingRendererUtils.displayErrorOnBorderAndTooltip(imagePanel, imagePanel, msg, swingRenderer);
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(contentPane, contentPane, msg, swingRenderer);
 			return true;
 		}
 
