@@ -96,6 +96,22 @@ public class TestWithAutomation {
 	}
 
 	@Test
+	public void testTextualStorageDataFieldControlMutation() throws Exception {
+		File virtualImageFile = new File("virtualImage.jpg");
+		if (virtualImageFile.exists()) {
+			Files.delete(virtualImageFile.toPath());
+		}
+		Files.copy(getClass().getResourceAsStream("virtualImage.jpg"), virtualImageFile.toPath());
+		try {
+			TestingUtils.assertSuccessfulReplay(tester,
+					new File(System.getProperty("custom-ui-tests.project.directory", "./")
+							+ "test-specifications/testTextualStorageDataFieldControlMutation.stt"));
+		} finally {
+			Files.delete(virtualImageFile.toPath());
+		}
+	}
+
+	@Test
 	public void testEmptyObject() throws Exception {
 		File virtualImageFile = new File("virtualImage.jpg");
 		if (virtualImageFile.exists()) {
@@ -177,9 +193,8 @@ public class TestWithAutomation {
 
 	@Test
 	public void testMap() throws Exception {
-		TestingUtils.assertSuccessfulReplay(tester,
-				new File(System.getProperty("custom-ui-tests.project.directory", "./")
-						+ "test-specifications/testMap.stt"));
+		TestingUtils.assertSuccessfulReplay(tester, new File(
+				System.getProperty("custom-ui-tests.project.directory", "./") + "test-specifications/testMap.stt"));
 	}
 
 }

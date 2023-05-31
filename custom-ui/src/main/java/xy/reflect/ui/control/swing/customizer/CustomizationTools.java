@@ -488,6 +488,39 @@ public class CustomizationTools {
 		return result;
 	}
 
+	public Component makeButtonForTextualStorageDataField(
+			final FieldControlPlaceHolder textualStorageDatafieldControlPlaceHolder) {
+		final JButton result = makeButton();
+		result.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final JPopupMenu popupMenu = new JPopupMenu();
+
+				List<Form> descendantForms = SwingRendererUtils
+						.findDescendantForms(textualStorageDatafieldControlPlaceHolder, swingCustomizer);
+				if (descendantForms.size() >= 2) {
+					FieldControlPlaceHolder changeableFieldControlPlaceHolder = descendantForms.get(1)
+							.getFieldControlPlaceHolder("");
+
+					FieldCustomization fieldCustomization = getFieldCustomization(changeableFieldControlPlaceHolder,
+							swingCustomizer.getInfoCustomizations());
+					FieldTypeSpecificities infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
+
+					for (JMenuItem menuItem : makeMenuItemsForFieldControlPlugins(result,
+							changeableFieldControlPlaceHolder, infoCustomizations)) {
+						popupMenu.add(menuItem);
+					}
+
+					showMenu(popupMenu, result);
+				}
+
+			}
+
+		});
+		return result;
+	}
+
 	protected List<JMenuItem> makeMenuItemsForFieldPosition(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JMenu positionSubMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Position"));
@@ -1096,31 +1129,34 @@ public class CustomizationTools {
 						if (!(selected.getContainingListFieldIfNotRoot() instanceof SubListGroupField)) {
 							JMenu listSelectionMenu = new JMenu(
 									this.toolsRenderer.prepareMessageToDisplay("Selected Sub-list"));
-							listSelectionMenu.add(new AbstractAction(
-									this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
-								private static final long serialVersionUID = 1L;
+							listSelectionMenu.add(
+									new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
+										private static final long serialVersionUID = 1L;
 
-								@Override
-								public void actionPerformed(ActionEvent e) {
-									final InfoCustomizations infoCustomizations;
-									if (infoCustomizationsShared) {
-										infoCustomizations = swingCustomizer.getInfoCustomizations();
-									} else {
-										Object parentItem = selected.getParentItemPosition().getItem();
-										ITypeInfo parentItemType = swingCustomizer.getCustomizedUI().buildTypeInfo(
-												swingCustomizer.getCustomizedUI().getTypeInfoSource(parentItem));
-										FieldCustomization fieldCustomization = InfoCustomizations
-												.getFieldCustomization(
-														InfoCustomizations.getTypeCustomization(
-																swingCustomizer.getInfoCustomizations(),
-																parentItemType.getName()),
-														selected.getContainingListFieldIfNotRoot().getName(), true);
-										infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
-									}
-									openListCutomizationDialog(customizerButton, infoCustomizations,
-											(IListTypeInfo) selected.getContainingListFieldIfNotRoot().getType());
-								}
-							});
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											final InfoCustomizations infoCustomizations;
+											if (infoCustomizationsShared) {
+												infoCustomizations = swingCustomizer.getInfoCustomizations();
+											} else {
+												Object parentItem = selected.getParentItemPosition().getItem();
+												ITypeInfo parentItemType = swingCustomizer.getCustomizedUI()
+														.buildTypeInfo(swingCustomizer.getCustomizedUI()
+																.getTypeInfoSource(parentItem));
+												FieldCustomization fieldCustomization = InfoCustomizations
+														.getFieldCustomization(
+																InfoCustomizations.getTypeCustomization(
+																		swingCustomizer.getInfoCustomizations(),
+																		parentItemType.getName()),
+																selected.getContainingListFieldIfNotRoot().getName(),
+																true);
+												infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
+											}
+											openListCutomizationDialog(customizerButton, infoCustomizations,
+													(IListTypeInfo) selected.getContainingListFieldIfNotRoot()
+															.getType());
+										}
+									});
 							result.add(listSelectionMenu);
 						}
 					}
