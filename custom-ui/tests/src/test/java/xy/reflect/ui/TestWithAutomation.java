@@ -197,4 +197,11 @@ public class TestWithAutomation {
 				System.getProperty("custom-ui-tests.project.directory", "./") + "test-specifications/testMap.stt"));
 	}
 
+	@Test
+	public void testListEmbeddedDetails() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testListEmbeddedDetails.stt"));
+	}
+
 }

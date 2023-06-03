@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -56,7 +57,6 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
@@ -190,7 +190,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		openDetailsDialogOnItemDoubleClick();
 		updateDetailsAreaOnSelection();
 		updateToolbarOnSelection();
-		setupContexteMenu();
+		handleMouseRightButton();
 		updateToolbar();
 		initializeSelectionListening();
 		refreshUI(true);
@@ -493,24 +493,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return result;
 	}
 
-	protected void setupContexteMenu() {
+	protected void handleMouseRightButton() {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				adjustSelection(e);
-				popupMenu(e);
-			}
-
-			void popupMenu(MouseEvent e) {
 				if (e.getButton() != MouseEvent.BUTTON3) {
 					return;
 				}
-				if (e.getComponent() == treeTableComponent) {
-					JPopupMenu popup = createPopupMenu();
-					popup.show(e.getComponent(), e.getX(), e.getY());
-					return;
-				}
+				adjustSelection(e);
+				popupMenu(e);
 			}
 
 			void adjustSelection(MouseEvent e) {
@@ -519,14 +511,20 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return;
 				}
 				if ((row < 0) || (row >= treeTableComponent.getRowCount())) {
-					treeTableComponent.clearSelection();
 					return;
 				}
-				if (e.getButton() == MouseEvent.BUTTON3) {
-					treeTableComponent.setRowSelectionInterval(row, row);
+				treeTableComponent.setRowSelectionInterval(row, row);
+				return;
+			}
+
+			void popupMenu(MouseEvent e) {
+				if (e.getComponent() == treeTableComponent) {
+					JPopupMenu popup = createPopupMenu();
+					popup.show(e.getComponent(), e.getX(), e.getY());
 					return;
 				}
 			}
+
 		});
 	}
 
@@ -1366,33 +1364,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if ((detailsControlItemPosition != null) && (singleSelection != null)) {
-			/*
-			 * Here we will try to perform an optimization by reusing the same
-			 * detailsControlBuilder to display another item. Therefore we must request the
-			 * details control structure refreshing if we detect that the type of the item
-			 * changes.
-			 */
-			{
-				if (!MiscUtils.equalsOrBothNull(detailsControlItemPosition.getContainingListType().getItemType(),
-						singleSelection.getContainingListType().getItemType())) {
-					refreshStructure = true;
-				} else {
-					Object newItem = singleSelection.getItem();
-					Object currentItem = detailsControlBuilder.getCurrentValue();
-					if ((newItem != null) && (currentItem != null)) {
-						ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-						ITypeInfo newItemType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(newItem));
-						ITypeInfo currentItemType = reflectionUI
-								.buildTypeInfo(reflectionUI.getTypeInfoSource(currentItem));
-						if (!newItemType.equals(currentItemType)) {
-							refreshStructure = true;
-						}
-					}
-				}
+			if (refreshStructure || !detailsControlItemPosition.equals(singleSelection)) {
+				detailsControlItemPosition = singleSelection;
+				detailsControlBuilder.setPosition(detailsControlItemPosition);
+				detailsControlBuilder.refreshEditorForm(detailsControl, true);
 			}
-			detailsControlItemPosition = singleSelection;
-			detailsControlBuilder.setPosition(detailsControlItemPosition);
-			detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
 			return;
 		}
 		if ((detailsControlItemPosition != null) && (singleSelection == null)) {

@@ -296,7 +296,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		protected void setupContexteMenu() {
+		protected void handleMouseRightButton() {
 		}
 
 		@Override
