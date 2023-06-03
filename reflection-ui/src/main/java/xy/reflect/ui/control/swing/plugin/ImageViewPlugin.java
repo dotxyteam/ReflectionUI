@@ -478,6 +478,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 			setLayout(new BorderLayout());
 			contentPane = new ControlPanel();
+			contentPane.setLayout(new BorderLayout());
 			add(contentPane, BorderLayout.CENTER);
 			imagePanelContainer = new ControlPanel();
 			contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER), BorderLayout.CENTER);
