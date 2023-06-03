@@ -1364,7 +1364,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return;
 		}
 		if ((detailsControlItemPosition != null) && (singleSelection != null)) {
-			if (refreshStructure || !detailsControlItemPosition.equals(singleSelection)) {
+			if (detailsControlItemPosition.equals(singleSelection)) {
+				detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
+			} else {
 				detailsControlItemPosition = singleSelection;
 				detailsControlBuilder.setPosition(detailsControlItemPosition);
 				detailsControlBuilder.refreshEditorForm(detailsControl, true);
