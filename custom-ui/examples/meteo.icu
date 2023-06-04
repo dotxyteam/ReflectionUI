@@ -5359,7 +5359,7 @@
             <fieldName>humidityIcon</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
+            <getOnlyForced>true</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
                 <uniqueIdentifier>-59799252:16d54bf0411:-6564</uniqueIdentifier>
@@ -5622,7 +5622,7 @@
             <fieldName>pressureIcon</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
+            <getOnlyForced>true</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
                 <uniqueIdentifier>-59799252:16d54bf0411:-655c</uniqueIdentifier>
@@ -5708,7 +5708,7 @@
             <fieldName>windIcon</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
+            <getOnlyForced>true</getOnlyForced>
             <getterGenerated>false</getterGenerated>
             <nullReplacement>
                 <uniqueIdentifier>-59799252:16d54bf0411:-6554</uniqueIdentifier>
