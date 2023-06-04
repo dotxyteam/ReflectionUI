@@ -128,7 +128,7 @@ public class ReflectionUITest2 {
 		return new File(".");
 	};
 
-	public String htmlTest = "customizations icon: <img src=\"resource/custom.png\">";
+	public String htmlTest = "customizations icon: <img src=\"resource/details.png\">";
 
 	public String getHtmlGetOnlyTest() {
 		return "google: <img src=\"https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png\">";

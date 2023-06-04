@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Desktop;
@@ -109,18 +107,16 @@ public class HtmlPlugin extends StyledTextPlugin {
 			@Override
 			public URL getURL() throws Exception {
 				Class<?> theClass = Class.forName(sourceClassName);
-				String path = "/";
-				{
-					/*
-					 * build the absolute path because the relative path (".") does not work in some
-					 * situations
-					 */
-					Package thePackage = theClass.getPackage();
-					if (thePackage != null) {
-						path += thePackage.getName().replace(".", "/") + "/";
-					}
-				}
-				URL result = theClass.getResource(path);
+				/*
+				 * theClass.getResource(".") returns an URL that may point to a wrong existing
+				 * path to a folder in the wrong jar or disk directory. To solve this issue, we
+				 * need to force this URL to be the parent of the theClass URL.
+				 */
+				URL theClassURL = theClass.getResource(theClass.getSimpleName() + ".class");
+				String theClassURLSpecification = theClassURL.toString();
+				String theClassParentUrlSpecification = theClassURLSpecification.substring(0,
+						theClassURLSpecification.length() - (theClass.getSimpleName() + ".class").length());
+				URL result = new URL(theClassParentUrlSpecification);
 				return result;
 			}
 
