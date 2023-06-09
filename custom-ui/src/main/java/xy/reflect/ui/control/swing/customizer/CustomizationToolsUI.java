@@ -357,7 +357,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 					}
 					return result;
 				} else if (object instanceof Mapping) {
-					String result = "Map";
+					String result = "Convert";
 					ConversionMethodFinder reverseConversion = ((Mapping) object).getReverseConversionMethodFinder();
 					if (reverseConversion != null) {
 						if (reverseConversion.getConversionMethodSignature() != null) {
