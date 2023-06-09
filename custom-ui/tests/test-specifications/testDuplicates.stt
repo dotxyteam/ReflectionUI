@@ -270,6 +270,10 @@
       </keyboardInteractions>
       <requestToFocusOnTheComponent>true</requestToFocusOnTheComponent>
     </xy.ui.testing.action.component.SendKeysAction>
+    <xy.ui.testing.action.WaitAction>
+      <disabled>false</disabled>
+      <secondsToWait>2</secondsToWait>
+    </xy.ui.testing.action.WaitAction>
     <xy.ui.testing.action.component.ClickAction>
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
