@@ -483,8 +483,60 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			imagePanelContainer = new ControlPanel();
 			contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER),
 					BorderLayout.CENTER);
-			browseButton = new JButton(swingRenderer.prepareMessageToDisplay("Load..."));
-			browseButton.addActionListener(new ActionListener() {
+			browseButton = createBrowseButton();
+			contentPane.add(SwingRendererUtils.flowInLayout(browseButton, GridBagConstraints.CENTER),
+					BorderLayout.SOUTH);
+			refreshUI(true);
+		}
+
+		protected JButton createBrowseButton() {
+			final JButton result = new AbstractControlButton() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public Image retrieveBackgroundImage() {
+					if (data.getButtonBackgroundImagePath() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+					}
+				}
+
+				@Override
+				public Color retrieveBackgroundColor() {
+					if (data.getButtonBackgroundColor() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.getColor(data.getButtonBackgroundColor());
+					}
+				}
+
+				@Override
+				public Color retrieveForegroundColor() {
+					if (data.getButtonForegroundColor() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.getColor(data.getButtonForegroundColor());
+					}
+				}
+
+				@Override
+				public Color retrieveBorderColor() {
+					if (data.getButtonBorderColor() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.getColor(data.getButtonBorderColor());
+					}
+				}
+
+				@Override
+				public String retrieveText() {
+					return swingRenderer.prepareMessageToDisplay("Load...");
+				}
+			};
+			result.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
@@ -494,9 +546,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					}
 				}
 			});
-			contentPane.add(SwingRendererUtils.flowInLayout(browseButton, GridBagConstraints.CENTER),
-					BorderLayout.SOUTH);
-			refreshUI(true);
+			return result;
 		}
 
 		@Override
