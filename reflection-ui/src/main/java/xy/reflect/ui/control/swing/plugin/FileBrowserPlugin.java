@@ -58,7 +58,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 	@Override
 	protected boolean handles(Class<?> javaType) {
-		return File.class.isAssignableFrom(javaType);
+		return javaType.equals(File.class);
 	}
 
 	@Override

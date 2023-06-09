@@ -74,7 +74,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 	@Override
 	protected boolean handles(Class<?> javaType) {
-		return Image.class.isAssignableFrom(javaType);
+		return javaType.equals(Image.class) || javaType.equals(BufferedImage.class);
 	}
 
 	@Override
@@ -481,7 +481,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			contentPane.setLayout(new BorderLayout());
 			add(contentPane, BorderLayout.CENTER);
 			imagePanelContainer = new ControlPanel();
-			contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER), BorderLayout.CENTER);
+			contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER),
+					BorderLayout.CENTER);
 			browseButton = new JButton(swingRenderer.prepareMessageToDisplay("Load..."));
 			browseButton.addActionListener(new ActionListener() {
 				@Override
@@ -493,7 +494,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					}
 				}
 			});
-			contentPane.add(SwingRendererUtils.flowInLayout(browseButton, GridBagConstraints.CENTER), BorderLayout.SOUTH);
+			contentPane.add(SwingRendererUtils.flowInLayout(browseButton, GridBagConstraints.CENTER),
+					BorderLayout.SOUTH);
 			refreshUI(true);
 		}
 

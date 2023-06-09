@@ -68,7 +68,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 	@Override
 	protected boolean handles(Class<?> javaType) {
-		return Date.class.isAssignableFrom(javaType);
+		return javaType.equals(Date.class);
 	}
 
 	@Override
