@@ -18,8 +18,6 @@ import java.util.Map;
 import javax.accessibility.*;
 import javax.swing.Icon;
 
-import com.sun.imageio.plugins.common.ImageUtil;
-
 import xy.reflect.ui.info.custom.InfoCustomizations;
 
 import java.lang.reflect.Field;
