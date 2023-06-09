@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dotxyteam</groupId>
 	<artifactId>reflection-ui</artifactId>
-	<version>5.2.5</version>
+	<version>5.2.8</version>
 	<name>Reflection UI</name>
 	<description>Java reflection-based GUI generator</description>
 	<url>http://javacollection.net/reflectionui/</url>
