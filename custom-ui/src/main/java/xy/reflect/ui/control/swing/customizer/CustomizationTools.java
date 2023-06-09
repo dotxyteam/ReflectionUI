@@ -491,6 +491,8 @@ public class CustomizationTools {
 	public Component makeButtonForTextualStorageDataField(
 			final FieldControlPlaceHolder textualStorageDatafieldControlPlaceHolder) {
 		final JButton result = makeButton();
+		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
+				.prepareMessageToDisplay("Editing Options"));
 		result.addActionListener(new ActionListener() {
 
 			@Override
