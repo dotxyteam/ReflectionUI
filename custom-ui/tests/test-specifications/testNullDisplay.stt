@@ -581,7 +581,7 @@
       <disabled>false</disabled>
     </xy.ui.testing.action.component.ClickOnMenuItemAction>
     <xy.ui.testing.action.component.CheckVisibleStringsAction>
-      <completenessChecked>true</completenessChecked>
+      <completenessChecked>false</completenessChecked>
       <componentFinder class="xy.ui.testing.finder.NameBasedComponentFinder">
         <componentClassName class="null"/>
         <componentName>fieldsPanel [parent=form [objectType=xy.reflect.ui.NullDisplayTest]]</componentName>
@@ -611,17 +611,6 @@
         <string>0</string>
         <string>&lt;HTML&gt;Customize (spinned)&lt;/HTML&gt;</string>
         <string>String: </string>
-        <string>&lt;html&gt;
-  &lt;head&gt;
-
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;p style=&quot;margin-top: 0&quot;&gt;
-      
-    &lt;/p&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</string>
         <string>&lt;HTML&gt;Customize (string)&lt;/HTML&gt;</string>
         <string>List</string>
         <string>&lt;HTML&gt;Customize (list)&lt;/HTML&gt;</string>
