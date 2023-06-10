@@ -42,6 +42,7 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control that can display values of different types. It uses 2
@@ -119,6 +120,17 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					((TitledBorder) getBorder()).setBorder(
 							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 				}
+				if (data.getLabelCustomFontResourcePath() != null) {
+					((TitledBorder) getBorder())
+							.setTitleFont(
+									SwingRendererUtils
+											.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+													ReflectionUIUtils
+															.getErrorLogListener(swingRenderer.getReflectionUI()))
+											.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
+													((TitledBorder) getBorder()).getTitleFont().getSize()));
+				}
+
 			} else {
 				setBorder(null);
 			}

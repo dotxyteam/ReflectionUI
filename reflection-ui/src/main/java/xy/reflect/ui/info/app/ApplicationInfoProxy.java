@@ -63,6 +63,18 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getMainBackgroundImagePath();
 	}
 
+	public ResourcePath getLabelCustomFontResourcePath() {
+		return base.getLabelCustomFontResourcePath();
+	}
+
+	public ResourcePath getEditorCustomFontResourcePath() {
+		return base.getEditorCustomFontResourcePath();
+	}
+
+	public ResourcePath getButtonCustomFontResourcePath() {
+		return base.getButtonCustomFontResourcePath();
+	}
+
 	public ColorSpecification getMainButtonBackgroundColor() {
 		return base.getMainButtonBackgroundColor();
 	}
@@ -81,6 +93,10 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 
 	public ColorSpecification getTitleForegroundColor() {
 		return base.getTitleForegroundColor();
+	}
+
+	public ResourcePath getTitleCustomFontResourcePath() {
+		return base.getTitleCustomFontResourcePath();
 	}
 
 	public ResourcePath getMainButtonBackgroundImagePath() {

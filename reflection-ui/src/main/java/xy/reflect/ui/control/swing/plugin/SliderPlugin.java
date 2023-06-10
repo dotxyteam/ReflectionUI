@@ -21,9 +21,10 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ConversionUtils;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ReschedulableTask;
 
 /**
  * Field control plugin that allows to use sliders.
@@ -161,6 +162,15 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 					setMajorTickSpacing(controlCustomization.majorTickSpacing);
 					setEnabled(!data.isGetOnly());
 					setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+					if (data.getLabelCustomFontResourcePath() != null) {
+						setFont(SwingRendererUtils
+								.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								.deriveFont(getFont().getStyle(), getFont().getSize()));
+					} else {
+						setFont(new JSlider().getFont());
+						updateUI();
+					}
 					SwingRendererUtils.handleComponentSizeChange(this);
 				}
 				Object value = data.getValue();

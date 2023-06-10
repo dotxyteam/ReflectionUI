@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -46,6 +47,7 @@ import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -394,6 +396,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return null;
 				} else {
 					return SwingRendererUtils.loadImageThroughCache(listData.getButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+
+			@Override
+			public Font retrieveCustomFont() {
+				if (listData.getButtonCustomFontResourcePath() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.loadFontThroughCache(listData.getButtonCustomFontResourcePath(),
 							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 				}
 			}
@@ -1528,7 +1540,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			structuralInfo = null;
 			layoutControls();
 			refreshTreeTableScrollPaneBorder();
-			refreshTreeTableComponentBackground();
+			refreshTreeTableComponentContent();
 			refreshTreeTableComponentHeader();
 			refreshRendrers();
 			restoringSelectionAsMuchAsPossible(new Runnable() {
@@ -1595,6 +1607,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					((TitledBorder) treeTableComponentScrollPane.getBorder()).setBorder(
 							BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
 				}
+				if (listData.getLabelCustomFontResourcePath() != null) {
+					((TitledBorder) treeTableComponentScrollPane.getBorder())
+							.setTitleFont(
+									SwingRendererUtils
+											.loadFontThroughCache(listData.getLabelCustomFontResourcePath(),
+													ReflectionUIUtils
+															.getErrorLogListener(swingRenderer.getReflectionUI()))
+											.deriveFont(
+													((TitledBorder) treeTableComponentScrollPane.getBorder())
+															.getTitleFont().getStyle(),
+													((TitledBorder) treeTableComponentScrollPane.getBorder())
+															.getTitleFont().getSize()));
+				}
 			}
 		} else {
 			treeTableComponentScrollPane.setBorder(null);
@@ -1606,11 +1631,22 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.setTreeCellRenderer(createTreeCellRenderer());
 	}
 
-	protected void refreshTreeTableComponentBackground() {
+	protected void refreshTreeTableComponentContent() {
 		if (listData.getEditorBackgroundColor() != null) {
 			treeTableComponent.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
 		} else {
 			treeTableComponent.setBackground(new JXTreeTable().getBackground());
+		}
+		if (listData.getEditorCustomFontResourcePath() != null) {
+			treeTableComponent
+					.setFont(SwingRendererUtils
+							.loadFontThroughCache(listData.getEditorCustomFontResourcePath(),
+									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+							.deriveFont(treeTableComponent.getFont().getStyle(),
+									treeTableComponent.getFont().getSize()));
+		} else {
+			treeTableComponent.setFont(new JXTreeTable().getFont());
+			treeTableComponent.updateUI();
 		}
 	}
 
@@ -1626,6 +1662,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					.setForeground(SwingRendererUtils.getColor(listData.getEditorForegroundColor()));
 		} else {
 			treeTableComponent.getTableHeader().setForeground(new JXTreeTable().getTableHeader().getForeground());
+		}
+		if (listData.getLabelCustomFontResourcePath() != null) {
+			treeTableComponent.getTableHeader()
+					.setFont(SwingRendererUtils
+							.loadFontThroughCache(listData.getLabelCustomFontResourcePath(),
+									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+							.deriveFont(treeTableComponent.getTableHeader().getFont().getStyle(),
+									treeTableComponent.getTableHeader().getFont().getSize()));
+		} else {
+			treeTableComponent.getTableHeader().setFont(new JTableHeader().getFont());
+			treeTableComponent.getTableHeader().updateUI();
 		}
 	}
 
@@ -2070,6 +2117,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					expanded, isLeaf, row, focused);
 			component.setForeground(defaultComponent.getForeground());
 			component.setBackground(defaultComponent.getBackground());
+			if (listData.getEditorCustomFontResourcePath() != null) {
+				component.setFont(SwingRendererUtils
+						.loadFontThroughCache(listData.getEditorCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+						.deriveFont(component.getFont().getStyle(), component.getFont().getSize()));
+			} 
 			customizeCellRendererComponent(component, (ItemNode) value, row, 0, selected, focused);
 			component.setOpaque(false);
 			return component;

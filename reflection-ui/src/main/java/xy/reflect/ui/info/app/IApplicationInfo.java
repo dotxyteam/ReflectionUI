@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.app;
 
 import xy.reflect.ui.info.ColorSpecification;
@@ -26,6 +24,12 @@ public interface IApplicationInfo extends IInfo {
 	ColorSpecification getMainForegroundColor();
 
 	/**
+	 * @return the resource location of a custom font object that must be used by
+	 *         generated labels to display text or null.
+	 */
+	ResourcePath getLabelCustomFontResourcePath();
+
+	/**
 	 * @return the custom border color of generated controls or null.
 	 */
 	ColorSpecification getMainBorderColor();
@@ -45,6 +49,12 @@ public interface IApplicationInfo extends IInfo {
 	 * @return the custom background color of generated editor controls or null.
 	 */
 	ColorSpecification getMainEditorBackgroundColor();
+
+	/**
+	 * @return the resource location of a custom font object that must be used by
+	 *         generated editor controls to display text or null.
+	 */
+	ResourcePath getEditorCustomFontResourcePath();
 
 	/**
 	 * @return the custom background color of generated buttons or null.
@@ -68,6 +78,12 @@ public interface IApplicationInfo extends IInfo {
 	ResourcePath getMainButtonBackgroundImagePath();
 
 	/**
+	 * @return the resource location of a font object used to display text on
+	 *         generated buttons or null.
+	 */
+	ResourcePath getButtonCustomFontResourcePath();
+
+	/**
 	 * @return whether the generated windows use the cross-platform system
 	 *         integration (title bar) or the native one.
 	 */
@@ -86,6 +102,13 @@ public interface IApplicationInfo extends IInfo {
 	 *         {@link #isSystemIntegrationCrossPlatform()} returns true.
 	 */
 	ColorSpecification getTitleForegroundColor();
+
+	/**
+	 * @return the custom title bar font used by generated windows or null. Note
+	 *         that it is taken into account only if
+	 *         {@link #isSystemIntegrationCrossPlatform()} returns true.
+	 */
+	ResourcePath getTitleCustomFontResourcePath();
 
 	/**
 	 * @return the resource location of a background image used as the system icon

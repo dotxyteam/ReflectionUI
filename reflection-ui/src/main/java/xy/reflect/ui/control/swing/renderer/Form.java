@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -623,6 +624,17 @@ public class Form extends ImagePanel {
 					nonSelectedCellRenderer.setContentAreaFilled(false);
 					nonSelectedCellRenderer.setBackground(null);
 				}
+				Font labelCustomFont = getLabelCustomFont();
+				{
+					if (labelCustomFont != null) {
+						nonSelectedCellRenderer
+								.setFont(labelCustomFont.deriveFont(nonSelectedCellRenderer.getFont().getStyle(),
+										nonSelectedCellRenderer.getFont().getSize()));
+					} else {
+						nonSelectedCellRenderer.setFont(new JButton().getFont());
+						nonSelectedCellRenderer.updateUI();
+					}
+				}
 			}
 
 			protected void refreshSelectedCellRenderer() {
@@ -640,6 +652,16 @@ public class Form extends ImagePanel {
 							.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
 									BorderFactory.createEmptyBorder(getLayoutSpacing() - 2, getLayoutSpacing() - 2,
 											getLayoutSpacing() - 2, getLayoutSpacing() - 2)));
+				}
+				Font labelCustomFont = getLabelCustomFont();
+				{
+					if (labelCustomFont != null) {
+						selectedCellRenderer.setFont(labelCustomFont.deriveFont(
+								selectedCellRenderer.getFont().getStyle(), selectedCellRenderer.getFont().getSize()));
+					} else {
+						selectedCellRenderer.setFont(new JLabel().getFont());
+						selectedCellRenderer.updateUI();
+					}
 				}
 			}
 
@@ -698,6 +720,17 @@ public class Form extends ImagePanel {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		if (reflectionUI.getApplicationInfo().getMainBorderColor() != null) {
 			return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainBorderColor());
+		} else {
+			return null;
+		}
+	}
+
+	protected Font getLabelCustomFont() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		if (reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath() != null) {
+			return SwingRendererUtils.loadFontThroughCache(
+					reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
 		} else {
 			return null;
 		}
@@ -1093,6 +1126,16 @@ public class Form extends ImagePanel {
 					statusBar.setBorder(BorderFactory.createRaisedBevelBorder());
 				}
 			}
+			Font labelCustomFont = getLabelCustomFont();
+			{
+				if (labelCustomFont != null) {
+					statusBar.setFont(
+							labelCustomFont.deriveFont(statusBar.getFont().getStyle(), statusBar.getFont().getSize()));
+				} else {
+					statusBar.setFont(new JLabel().getFont());
+					statusBar.updateUI();
+				}
+			}
 		}
 		for (IRefreshListener l : refreshListeners) {
 			l.onRefresh(refreshStructure);
@@ -1208,11 +1251,18 @@ public class Form extends ImagePanel {
 		SwingRendererUtils.handleComponentSizeChange(menuBar);
 		Color awtBackgroundColor = getControlsBackgroundColor();
 		Color awtForegroundColor = getControlsForegroundColor();
+		Font labelCustomFont = getLabelCustomFont();
 		for (int i = 0; i < menuBar.getMenuCount(); i++) {
 			JMenu menu = menuBar.getMenu(i);
 			menu.setBackground(awtBackgroundColor);
 			menu.setOpaque(awtBackgroundColor != null);
 			menu.setForeground(awtForegroundColor);
+			if (labelCustomFont != null) {
+				menu.setFont(labelCustomFont.deriveFont(menu.getFont().getStyle(), menu.getFont().getSize()));
+			} else {
+				menu.setFont(new JMenu().getFont());
+				menu.updateUI();
+			}
 		}
 		menuBar.setVisible(menuBar.getComponentCount() > 0);
 	}
@@ -1496,6 +1546,16 @@ public class Form extends ImagePanel {
 			}
 
 			@Override
+			public Font retrieveCustomFont() {
+				if (data.getButtonCustomFontResourcePath() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+
+			@Override
 			public Color retrieveBackgroundColor() {
 				if (data.getButtonBackgroundColor() == null) {
 					return null;
@@ -1578,6 +1638,17 @@ public class Form extends ImagePanel {
 			}
 
 			@Override
+			public Font retrieveCustomFont() {
+				if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.loadFontThroughCache(
+							reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+
+			@Override
 			public Color retrieveBackgroundColor() {
 				if (type.getFormButtonBackgroundColor() != null) {
 					return SwingRendererUtils.getColor(type.getFormButtonBackgroundColor());
@@ -1644,6 +1715,12 @@ public class Form extends ImagePanel {
 		JLabel result = new JLabel(swingRenderer.prepareMessageToDisplay(data.getCaption() + ": "));
 		if (data.getLabelForegroundColor() != null) {
 			result.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+		}
+		if (data.getLabelCustomFontResourcePath() != null) {
+			result.setFont(SwingRendererUtils
+					.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+					.deriveFont(result.getFont().getStyle(), result.getFont().getSize()));
 		}
 		result.setName("captionControl [field=" + fieldControlPlaceHolder.getField().getName() + ", parent="
 				+ this.getName() + "]");

@@ -124,6 +124,18 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.getButtonBorderColor();
 	}
 
+	public ResourcePath getLabelCustomFontResourcePath() {
+		return base.getLabelCustomFontResourcePath();
+	}
+
+	public ResourcePath getEditorCustomFontResourcePath() {
+		return base.getEditorCustomFontResourcePath();
+	}
+
+	public ResourcePath getButtonCustomFontResourcePath() {
+		return base.getButtonCustomFontResourcePath();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

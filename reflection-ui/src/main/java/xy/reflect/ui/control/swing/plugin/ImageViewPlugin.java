@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -416,6 +417,16 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				}
 
 				@Override
+				public Font retrieveCustomFont() {
+					if (imageView.data.getButtonCustomFontResourcePath() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.loadFontThroughCache(imageView.data.getButtonCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(imageView.swingRenderer.getReflectionUI()));
+					}
+				}
+
+				@Override
 				public Color retrieveBackgroundColor() {
 					if (imageView.data.getButtonBackgroundColor() == null) {
 						return null;
@@ -480,13 +491,73 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			contentPane = new ControlPanel();
 			contentPane.setLayout(new BorderLayout());
 			add(contentPane, BorderLayout.CENTER);
-			imagePanelContainer = new ControlPanel();
-			contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER),
-					BorderLayout.CENTER);
-			browseButton = createBrowseButton();
-			contentPane.add(SwingRendererUtils.flowInLayout(browseButton, GridBagConstraints.CENTER),
-					BorderLayout.SOUTH);
 			refreshUI(true);
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			ImageViewConfiguration controlCustomization = (ImageViewConfiguration) loadControlCustomization(input);
+			if (refreshStructure) {
+				contentPane.removeAll();
+				browseButton = null;
+				imagePanelContainer = null;
+				imagePanel = null;
+				if (data.getCaption().length() > 0) {
+					setBorder(
+							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
+					if (data.getLabelForegroundColor() != null) {
+						((TitledBorder) getBorder())
+								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+					}
+					if (data.getBorderColor() != null) {
+						((TitledBorder) getBorder()).setBorder(
+								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+					}
+					if (data.getLabelCustomFontResourcePath() != null) {
+						((TitledBorder) getBorder())
+								.setTitleFont(
+										SwingRendererUtils
+												.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+														ReflectionUIUtils
+																.getErrorLogListener(swingRenderer.getReflectionUI()))
+												.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
+														((TitledBorder) getBorder()).getTitleFont().getSize()));
+					}
+				} else {
+					setBorder(BorderFactory.createEmptyBorder());
+				}
+				setOpaque(false);
+			}
+			if (browseButton == null) {
+				browseButton = createBrowseButton();
+				contentPane.add(SwingRendererUtils.flowInLayout(browseButton, GridBagConstraints.CENTER),
+						BorderLayout.SOUTH);
+				browseButton.setVisible(!data.isGetOnly());
+			}
+			if (imagePanelContainer == null) {
+				imagePanelContainer = new ControlPanel();
+				contentPane.add(SwingRendererUtils.flowInLayout(imagePanelContainer, GridBagConstraints.CENTER),
+						BorderLayout.CENTER);
+			}
+			if (imagePanel == null) {
+				imagePanel = createImagePanel();
+				if (controlCustomization.sizeConstraint == null) {
+					configureWithoutSizeConstraint(this);
+					updateImagePanelWithoutSizeConstraint(this, imagePanel);
+				} else {
+					controlCustomization.sizeConstraint.configure(this, imagePanelContainer, imagePanel);
+					controlCustomization.sizeConstraint.updateImagePanel(this, imagePanel);
+				}
+			} else {
+				if (controlCustomization.sizeConstraint == null) {
+					updateImagePanelWithoutSizeConstraint(this, imagePanel);
+				} else {
+					controlCustomization.sizeConstraint.updateImagePanel(this, imagePanel);
+				}
+			}
+			imagePanel.getParent().invalidate();
+			SwingRendererUtils.handleComponentSizeChange(this);
+			return true;
 		}
 
 		protected JButton createBrowseButton() {
@@ -500,6 +571,16 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						return null;
 					} else {
 						return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+					}
+				}
+
+				@Override
+				public Font retrieveCustomFont() {
+					if (data.getButtonCustomFontResourcePath() == null) {
+						return null;
+					} else {
+						return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
 								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 					}
 				}
@@ -547,50 +628,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				}
 			});
 			return result;
-		}
-
-		@Override
-		public boolean refreshUI(boolean refreshStructure) {
-			ImageViewConfiguration controlCustomization = (ImageViewConfiguration) loadControlCustomization(input);
-			if (refreshStructure) {
-				browseButton.setVisible(!data.isGetOnly());
-				if (data.getCaption().length() > 0) {
-					setBorder(
-							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
-					if (data.getLabelForegroundColor() != null) {
-						((TitledBorder) getBorder())
-								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-					}
-					if (data.getBorderColor() != null) {
-						((TitledBorder) getBorder()).setBorder(
-								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-					}
-				} else {
-					setBorder(BorderFactory.createEmptyBorder());
-				}
-				setOpaque(false);
-				imagePanelContainer.removeAll();
-				imagePanel = null;
-			}
-			if (imagePanel == null) {
-				imagePanel = createImagePanel();
-				if (controlCustomization.sizeConstraint == null) {
-					configureWithoutSizeConstraint(this);
-					updateImagePanelWithoutSizeConstraint(this, imagePanel);
-				} else {
-					controlCustomization.sizeConstraint.configure(this, imagePanelContainer, imagePanel);
-					controlCustomization.sizeConstraint.updateImagePanel(this, imagePanel);
-				}
-			} else {
-				if (controlCustomization.sizeConstraint == null) {
-					updateImagePanelWithoutSizeConstraint(this, imagePanel);
-				} else {
-					controlCustomization.sizeConstraint.updateImagePanel(this, imagePanel);
-				}
-			}
-			imagePanel.getParent().invalidate();
-			SwingRendererUtils.handleComponentSizeChange(this);
-			return true;
 		}
 
 		protected ImagePanel createImagePanel() {

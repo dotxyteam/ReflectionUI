@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
@@ -119,6 +117,19 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 						((TitledBorder) ((JComponent) currentSubControl).getBorder()).setBorder(
 								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 					}
+					if (data.getLabelCustomFontResourcePath() != null) {
+						((TitledBorder) ((JComponent) currentSubControl).getBorder())
+								.setTitleFont(
+										SwingRendererUtils
+												.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+														ReflectionUIUtils
+																.getErrorLogListener(swingRenderer.getReflectionUI()))
+												.deriveFont(
+														((TitledBorder) ((JComponent) currentSubControl).getBorder())
+																.getTitleFont().getStyle(),
+														((TitledBorder) ((JComponent) currentSubControl).getBorder())
+																.getTitleFont().getSize()));
+					}
 				}
 			} else {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
@@ -186,6 +197,14 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		setNullStatusControlState(data.getValue() == null);
 		if (refreshStructure) {
 			nullStatusControl.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+			if (data.getLabelCustomFontResourcePath() != null) {
+				nullStatusControl.setFont(SwingRendererUtils.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+						.deriveFont(nullStatusControl.getFont().getStyle(), nullStatusControl.getFont().getSize()));
+			} else {
+				nullStatusControl.setFont(new JCheckBox().getFont());
+				nullStatusControl.updateUI();
+			}
 			nullStatusControl.setEnabled(!data.isGetOnly());
 		}
 	}

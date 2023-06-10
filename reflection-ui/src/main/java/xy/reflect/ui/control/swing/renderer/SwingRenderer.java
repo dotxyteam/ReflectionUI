@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Dialog.ModalityType;
 import java.awt.Image;
 import java.awt.Window;
@@ -776,6 +777,16 @@ public class SwingRenderer {
 			}
 
 			@Override
+			public Font retrieveCustomFont() {
+				if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() != null) {
+					return SwingRendererUtils.loadFontThroughCache(
+							reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				return null;
+			}
+
+			@Override
 			public Color retrieveBackgroundColor() {
 				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
 					return SwingRendererUtils
@@ -812,8 +823,8 @@ public class SwingRenderer {
 
 		dialogBuilder.setTitle(title);
 		dialogBuilder.setIconImage(iconImage);
-		dialogBuilder.setContentComponent(SwingRendererUtils.getMessagePane(
-				prepareMessageToDisplay(formatErrorMessage(error)), JOptionPane.ERROR_MESSAGE, this));
+		dialogBuilder.setContentComponent(SwingRendererUtils
+				.getMessagePane(prepareMessageToDisplay(formatErrorMessage(error)), JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setButtonBarControls(buttons);
 
 		showDialog(dialogBuilder.createDialog(), true);
@@ -1096,6 +1107,12 @@ public class SwingRenderer {
 				if (appInfo.getMainForegroundColor() != null) {
 					busyLabel.setForeground(SwingRendererUtils.getColor(appInfo.getMainForegroundColor()));
 				}
+				if (appInfo.getLabelCustomFontResourcePath() != null) {
+					busyLabel.setFont(SwingRendererUtils
+							.loadFontThroughCache(appInfo.getLabelCustomFontResourcePath(),
+									ReflectionUIUtils.getErrorLogListener(reflectionUI))
+							.deriveFont(busyLabel.getFont().getStyle(), busyLabel.getFont().getSize()));
+				}
 				busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 				busyLabel.setText(prepareMessageToDisplay("Please wait..."));
 				busyLabel.setVerticalTextPosition(SwingConstants.TOP);
@@ -1175,6 +1192,12 @@ public class SwingRenderer {
 			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
 				setClosingButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
 						reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+						ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+			}
+
+			if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() != null) {
+				setClosingButtonCustomFont(SwingRendererUtils.loadFontThroughCache(
+						reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
 						ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 			}
 		}

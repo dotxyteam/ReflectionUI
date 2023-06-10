@@ -64,6 +64,11 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public ResourcePath getCustomFontResourcePath() {
+		return reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath();
+	}
+
+	@Override
 	public ColorSpecification getBackgroundColor() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));

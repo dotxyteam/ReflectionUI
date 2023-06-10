@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.util;
 
 import java.io.ByteArrayInputStream;
@@ -235,6 +233,10 @@ public class IOUtils {
 		}
 	}
 
+	public static boolean absolutelyEquals(File file1, File file2) {
+		return file1.getAbsoluteFile().equals(file2.getAbsoluteFile());
+	}
+
 	public static void delete(File file) throws Exception {
 		delete(file, null, null);
 	}
@@ -281,24 +283,16 @@ public class IOUtils {
 		}
 	}
 
-	public static File getCanonicalParent(File file) {
-		try {
-			return file.getCanonicalFile().getParentFile();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	public static boolean isAncestor(File ancestor, File file) {
-		File mayBeAncestor = getCanonicalParent(file);
+		File mayBeAncestor = file.getAbsoluteFile().getParentFile();
 		while (true) {
 			if (mayBeAncestor == null) {
 				return false;
 			}
-			if (canonicallyEquals(mayBeAncestor, ancestor)) {
+			if (absolutelyEquals(mayBeAncestor, ancestor)) {
 				return true;
 			}
-			mayBeAncestor = getCanonicalParent(mayBeAncestor);
+			mayBeAncestor = mayBeAncestor.getParentFile();
 		}
 	}
 

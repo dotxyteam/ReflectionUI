@@ -1802,6 +1802,7 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification mainEditorBackgroundColor;
 		protected ColorSpecification mainEditorForegroundColor;
 		protected ResourcePath mainButtonBackgroundImagePath;
+		protected ResourcePath customFontResourcePath;
 		protected ColorSpecification mainButtonForegroundColor;
 		protected ColorSpecification mainButtonBackgroundColor;
 		protected ColorSpecification mainButtonBorderColor;
@@ -1916,6 +1917,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setMainButtonBackgroundImagePath(ResourcePath mainButtonBackgroundImagePath) {
 			this.mainButtonBackgroundImagePath = mainButtonBackgroundImagePath;
+		}
+
+		public ResourcePath getCustomFontResourcePath() {
+			return customFontResourcePath;
+		}
+
+		public void setCustomFontResourcePath(ResourcePath customFontResourcePath) {
+			this.customFontResourcePath = customFontResourcePath;
 		}
 
 		// for backward compatibility

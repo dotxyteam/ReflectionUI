@@ -53,6 +53,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getBackgroundImagePath();
 	}
 
+	public ResourcePath getCustomFontResourcePath() {
+		return base.getCustomFontResourcePath();
+	}
+
 	public ColorSpecification getBackgroundColor() {
 		return base.getBackgroundColor();
 	}

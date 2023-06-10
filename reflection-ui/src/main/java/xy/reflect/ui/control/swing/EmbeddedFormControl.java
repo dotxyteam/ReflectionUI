@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
@@ -22,9 +23,9 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
+import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
@@ -168,6 +169,16 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				if (data.getBorderColor() != null) {
 					((TitledBorder) getBorder()).setBorder(
 							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+				}
+				if (data.getLabelCustomFontResourcePath() != null) {
+					((TitledBorder) getBorder())
+							.setTitleFont(
+									SwingRendererUtils
+											.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+													ReflectionUIUtils
+															.getErrorLogListener(swingRenderer.getReflectionUI()))
+											.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
+													((TitledBorder) getBorder()).getTitleFont().getSize()));
 				}
 			} else {
 				setBorder(null);

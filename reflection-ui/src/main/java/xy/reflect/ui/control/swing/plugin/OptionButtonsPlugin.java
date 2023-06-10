@@ -1,9 +1,8 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -129,6 +128,16 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 						((TitledBorder) getBorder()).setBorder(
 								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 					}
+					if (data.getLabelCustomFontResourcePath() != null) {
+						((TitledBorder) getBorder())
+								.setTitleFont(
+										SwingRendererUtils
+												.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+														ReflectionUIUtils
+																.getErrorLogListener(swingRenderer.getReflectionUI()))
+												.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
+														((TitledBorder) getBorder()).getTitleFont().getSize()));
+					}
 				} else {
 					setBorder(null);
 				}
@@ -185,6 +194,15 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				result = new JRadioButton(swingRenderer.prepareMessageToDisplay(itemInfo.getCaption()));
 				result.setOpaque(false);
 				result.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+				if (data.getLabelCustomFontResourcePath() != null) {
+					result.setFont(SwingRendererUtils
+							.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+							.deriveFont(result.getFont().getStyle(), result.getFont().getSize()));
+				} else {
+					result.setFont(new JRadioButton().getFont());
+					result.updateUI();
+				}				
 			} else if (controlCustomization.buttonType == OptionButtonType.TOGGLE) {
 				result = new AbstractControlButton() {
 
@@ -209,6 +227,16 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 							return null;
 						} else {
 							return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
+									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+						}
+					}
+
+					@Override
+					public Font retrieveCustomFont() {
+						if (data.getButtonCustomFontResourcePath() == null) {
+							return null;
+						} else {
+							return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
 									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 						}
 					}

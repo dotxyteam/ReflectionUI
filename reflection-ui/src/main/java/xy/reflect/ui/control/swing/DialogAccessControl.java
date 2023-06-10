@@ -6,6 +6,7 @@ package xy.reflect.ui.control.swing;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -138,6 +139,16 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 					return null;
 				} else {
 					return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+
+			@Override
+			public Font retrieveCustomFont() {
+				if (data.getButtonCustomFontResourcePath() == null) {
+					return null;
+				} else {
+					return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
 							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 				}
 			}

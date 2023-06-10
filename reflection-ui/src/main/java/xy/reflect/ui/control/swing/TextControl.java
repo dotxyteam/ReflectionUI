@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
@@ -36,8 +34,9 @@ import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ReschedulableTask;
 
 /**
  * Field control that displays String values in a text box.
@@ -320,6 +319,20 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 						textComponent.setBorder(new JTextField().getBorder());
 					}
 				}
+				if (data.getEditorCustomFontResourcePath() != null) {
+					textComponent
+							.setFont(
+									SwingRendererUtils
+											.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
+													ReflectionUIUtils
+															.getErrorLogListener(swingRenderer.getReflectionUI()))
+											.deriveFont(textComponent.getFont().getStyle(),
+													textComponent.getFont().getSize()));
+				} else {
+					textComponent.setFont(new JTextField().getFont());
+					textComponent.updateUI();
+				}
+
 			}
 			String newText = (String) data.getValue();
 			if (newText == null) {

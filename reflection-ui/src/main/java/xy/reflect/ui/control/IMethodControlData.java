@@ -142,6 +142,12 @@ public interface IMethodControlData {
 	ResourcePath getBackgroundImagePath();
 
 	/**
+	 * @return the resource location of the font object that must be used to display
+	 *         text on the method control or null.
+	 */
+	ResourcePath getCustomFontResourcePath();
+
+	/**
 	 * @return the background color of the method control or null if the default
 	 *         background color should be used.
 	 */

@@ -327,6 +327,17 @@ public class WindowManager {
 		}
 	}
 
+	protected Font getAlternativeDecorationsTitleBarCustomFont() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
+		if (appInfo.getTitleCustomFontResourcePath() != null) {
+			return SwingRendererUtils.loadFontThroughCache(appInfo.getTitleCustomFontResourcePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		} else {
+			return null;
+		}
+	}
+
 	public void setIconImage(Image iconImage) {
 		if (iconImage == null) {
 			window.setIconImage(SwingRendererUtils.NULL_IMAGE);
@@ -357,7 +368,12 @@ public class WindowManager {
 			getTitleLabel().setHorizontalAlignment(JLabel.LEFT);
 			Font font = getTitleLabel().getFont();
 			{
-				font = new Font(font.getName(), Font.BOLD, font.getSize());
+				Font titleCustomFont = WindowManager.this.getAlternativeDecorationsTitleBarCustomFont();
+				if (titleCustomFont != null) {
+					font = titleCustomFont.deriveFont(font.getStyle(), font.getSize());
+				} else {
+					font = new Font(font.getName(), Font.BOLD, font.getSize());
+				}
 				getTitleLabel().setFont(font);
 			}
 		}

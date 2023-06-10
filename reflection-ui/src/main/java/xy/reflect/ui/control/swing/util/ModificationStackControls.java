@@ -1,10 +1,9 @@
 
-
-
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -76,6 +75,16 @@ public class ModificationStackControls {
 				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(
 							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				}
+				return null;
+			}
+
+			@Override
+			public Font retrieveCustomFont() {
+				if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() != null) {
+					return SwingRendererUtils.loadFontThroughCache(
+							reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
 							ReflectionUIUtils.getErrorLogListener(reflectionUI));
 				}
 				return null;

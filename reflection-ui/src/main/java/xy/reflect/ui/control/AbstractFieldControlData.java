@@ -138,6 +138,11 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public ResourcePath getLabelCustomFontResourcePath() {
+		return reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath();
+	}
+
+	@Override
 	public ColorSpecification getBorderColor() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
@@ -171,6 +176,11 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public ResourcePath getEditorCustomFontResourcePath() {
+		return reflectionUI.getApplicationInfo().getEditorCustomFontResourcePath();
+	}
+
+	@Override
 	public ResourcePath getButtonBackgroundImagePath() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
@@ -179,6 +189,11 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 			}
 		}
 		return reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath();
+	}
+
+	@Override
+	public ResourcePath getButtonCustomFontResourcePath() {
+		return reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath();
 	}
 
 	@Override

@@ -312,7 +312,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		protected void refreshTreeTableComponentBackground() {
+		protected void refreshTreeTableComponentContent() {
 		}
 
 		@Override

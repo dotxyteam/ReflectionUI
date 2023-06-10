@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
@@ -25,6 +23,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Empty field control that allows to represent the null value.
@@ -55,6 +54,16 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 			if (data.getBorderColor() != null) {
 				((TitledBorder) getBorder())
 						.setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+			}
+			if (data.getLabelCustomFontResourcePath() != null) {
+				((TitledBorder) getBorder())
+						.setTitleFont(
+								SwingRendererUtils
+										.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+												ReflectionUIUtils
+														.getErrorLogListener(swingRenderer.getReflectionUI()))
+										.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
+												((TitledBorder) getBorder()).getTitleFont().getSize()));
 			}
 		}
 		setupActivationAction();

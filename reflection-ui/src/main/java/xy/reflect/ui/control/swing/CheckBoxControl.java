@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.Component;
@@ -15,6 +13,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control that displays a check box. Compatible with booleans.
@@ -63,6 +62,15 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 			setText(swingRenderer.prepareMessageToDisplay(data.getCaption()));
 			setOpaque(false);
 			setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+			if (data.getLabelCustomFontResourcePath() != null) {
+				setFont(SwingRendererUtils
+						.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+						.deriveFont(getFont().getStyle(), getFont().getSize()));
+			} else {
+				setFont(new JCheckBox().getFont());
+				updateUI();
+			}
 			setEnabled(!data.isGetOnly());
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}

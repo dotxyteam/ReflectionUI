@@ -4,6 +4,7 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,6 +62,16 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 			return null;
 		} else {
 			return SwingRendererUtils.loadImageThroughCache(data.getBackgroundImagePath(),
+					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+		}
+	}
+
+	@Override
+	public Font retrieveCustomFont() {
+		if (data.getCustomFontResourcePath() == null) {
+			return null;
+		} else {
+			return SwingRendererUtils.loadFontThroughCache(data.getCustomFontResourcePath(),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
 		}
 	}

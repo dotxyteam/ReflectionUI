@@ -98,12 +98,32 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 	}
 
 	@Override
+	public ResourcePath getButtonCustomFontResourcePath() {
+		return null;
+	}
+
+	@Override
+	public ResourcePath getLabelCustomFontResourcePath() {
+		return null;
+	}
+
+	@Override
+	public ResourcePath getEditorCustomFontResourcePath() {
+		return null;
+	}
+
+	@Override
 	public ColorSpecification getTitleBackgroundColor() {
 		return null;
 	}
 
 	@Override
 	public ColorSpecification getTitleForegroundColor() {
+		return null;
+	}
+
+	@Override
+	public ResourcePath getTitleCustomFontResourcePath() {
 		return null;
 	}
 

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
@@ -31,6 +29,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control that displays a combo box. Compatible with
@@ -181,7 +180,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			} else {
 				SwingRendererUtils.setMultilineToolTipText(comboBox, text);
 			}
-			
+
 		} finally {
 			listenerDisabled = false;
 		}
@@ -208,6 +207,15 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 				} else {
 					comboBox.setForeground(new JComboBox().getForeground());
 				}
+			}
+			if (data.getEditorCustomFontResourcePath() != null) {
+				comboBox.setFont(SwingRendererUtils
+						.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+						.deriveFont(comboBox.getFont().getStyle(), comboBox.getFont().getSize()));
+			} else {
+				comboBox.setFont(new JComboBox().getFont());
+				comboBox.updateUI();
 			}
 		}
 		return true;

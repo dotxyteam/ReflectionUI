@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -102,6 +103,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class SwingRendererUtils {
 
 	public static final BufferedImage NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+	public static final Font NULL_FONT = new Font(Font.SERIF, Font.PLAIN, 1);
 	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
 	public static final ImageIcon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	public static final ImageIcon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
@@ -113,6 +115,7 @@ public class SwingRendererUtils {
 			ReflectionUI.class.getResource("resource/save-all.png"));
 
 	public static Map<String, Image> IMAGE_CACHE = new HashMap<String, Image>();
+	public static Map<String, Font> FONT_CACHE = new HashMap<String, Font>();
 
 	private static final Map<GraphicsDevice, Rectangle> MAXIMUM_BOUNDS_BY_GRAPHIC_DEVICE_CACHE = new HashMap<GraphicsDevice, Rectangle>();
 
@@ -590,6 +593,49 @@ public class SwingRendererUtils {
 		}
 		return result;
 	}
+	
+	
+	public static Font loadFontThroughCache(ResourcePath fontPath, Listener<String> errorMessageListener) {
+		if (fontPath == null) {
+			return null;
+		}
+		if (fontPath.getPathKind() == PathKind.MEMORY_OBJECT) {
+			return SwingRendererUtils.FONT_CACHE.get(fontPath.getSpecification());
+		}
+		Font result = SwingRendererUtils.FONT_CACHE.get(fontPath.getSpecification());
+		if (result == null) {
+			try {
+				URL imageUrl;
+				if (fontPath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
+					String classPathResourceLocation = ResourcePath
+							.extractClassPathResourceLocation(fontPath.getSpecification());
+					imageUrl = SwingRendererUtils.class.getClassLoader().getResource(classPathResourceLocation);
+					if (imageUrl == null) {
+						throw new ReflectionUIError(
+								"Class path resource not found: '" + classPathResourceLocation + "'");
+					}
+				} else {
+					try {
+						imageUrl = new File(fontPath.getSpecification()).toURI().toURL();
+					} catch (MalformedURLException e) {
+						throw new ReflectionUIError(e);
+					}
+				}
+				result = Font.createFont(Font.TRUETYPE_FONT, imageUrl.openStream());
+			} catch (IOException | FontFormatException e) {
+				if (errorMessageListener != null) {
+					errorMessageListener.handle("Failed to load font from '" + fontPath + "': " + e.toString());
+				}
+				result = NULL_FONT;
+			}
+			SwingRendererUtils.FONT_CACHE.put(fontPath.getSpecification(), result);
+		}
+		if (result == NULL_FONT) {
+			return null;
+		}
+		return result;
+	}
+
 
 	public static ImageIcon getIcon(Image iconImage) {
 		if (iconImage != null) {

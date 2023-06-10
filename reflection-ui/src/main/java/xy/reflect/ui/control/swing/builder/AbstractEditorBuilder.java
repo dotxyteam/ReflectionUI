@@ -244,6 +244,17 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			dialogBuilder.setClosingButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
 					type.getFormButtonBackgroundImagePath(), ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 		}
+
+		if (type.getFormButtonBackgroundImagePath() != null) {
+			dialogBuilder.setClosingButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
+					type.getFormButtonBackgroundImagePath(), ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		}
+
+		if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() != null) {
+			dialogBuilder.setClosingButtonCustomFont(SwingRendererUtils.loadFontThroughCache(
+					reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
+					ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		}
 		return dialogBuilder;
 	}
 

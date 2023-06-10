@@ -1,9 +1,8 @@
 
-
-
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -35,6 +34,8 @@ public abstract class AbstractControlButton extends JButton {
 
 	public abstract Color retrieveBorderColor();
 
+	public abstract Font retrieveCustomFont();
+
 	protected boolean buttonInitialized = false;
 	protected Color buttonBackgroundColor;
 	protected Color buttonActivatedBackgroundColor;
@@ -44,6 +45,7 @@ public abstract class AbstractControlButton extends JButton {
 	protected String buttonText;
 	protected String buttonToolTipText;
 	protected Icon buttonIcon;
+	protected Font buttonCustomFont;
 
 	public String retrieveToolTipText() {
 		return null;
@@ -63,6 +65,7 @@ public abstract class AbstractControlButton extends JButton {
 		buttonText = retrieveText();
 		buttonToolTipText = retrieveToolTipText();
 		buttonIcon = retrieveIcon();
+		buttonCustomFont = retrieveCustomFont();
 
 		setText(buttonText);
 		if ((buttonToolTipText != null) && (buttonToolTipText.length() > 0)) {
@@ -96,6 +99,9 @@ public abstract class AbstractControlButton extends JButton {
 			setBorderPainted(false);
 		} else {
 			setBorderPainted(true);
+		}
+		if (buttonCustomFont != null) {
+			setFont(buttonCustomFont.deriveFont(getFont().getStyle(), getFont().getSize()));
 		}
 	}
 

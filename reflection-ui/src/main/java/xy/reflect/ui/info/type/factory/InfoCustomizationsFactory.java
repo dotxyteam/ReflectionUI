@@ -1538,6 +1538,42 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected ResourcePath getButtonCustomFontResourcePath(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getCustomFontResourcePath() != null) {
+			return appCustomization.getCustomFontResourcePath();
+		}
+		return super.getButtonCustomFontResourcePath(appInfo);
+	}
+
+	@Override
+	protected ResourcePath getLabelCustomFontResourcePath(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getCustomFontResourcePath() != null) {
+			return appCustomization.getCustomFontResourcePath();
+		}
+		return super.getLabelCustomFontResourcePath(appInfo);
+	}
+
+	@Override
+	protected ResourcePath getEditorCustomFontResourcePath(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getCustomFontResourcePath() != null) {
+			return appCustomization.getCustomFontResourcePath();
+		}
+		return super.getEditorCustomFontResourcePath(appInfo);
+	}
+
+	@Override
+	protected ResourcePath getTitleCustomFontResourcePath(IApplicationInfo appInfo) {
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		if (appCustomization.getCustomFontResourcePath() != null) {
+			return appCustomization.getCustomFontResourcePath();
+		}
+		return super.getEditorCustomFontResourcePath(appInfo);
+	}
+
+	@Override
 	protected ColorSpecification getMainButtonForegroundColor(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
 		if (appCustomization.getMainButtonForegroundColor() != null) {

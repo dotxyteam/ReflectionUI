@@ -664,6 +664,18 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return appInfo.getMainButtonBackgroundImagePath();
 	}
 
+	protected ResourcePath getButtonCustomFontResourcePath(IApplicationInfo appInfo) {
+		return appInfo.getButtonCustomFontResourcePath();
+	}
+
+	protected ResourcePath getLabelCustomFontResourcePath(IApplicationInfo appInfo) {
+		return appInfo.getLabelCustomFontResourcePath();
+	}
+
+	protected ResourcePath getEditorCustomFontResourcePath(IApplicationInfo appInfo) {
+		return appInfo.getEditorCustomFontResourcePath();
+	}
+
 	protected ColorSpecification getMainButtonForegroundColor(IApplicationInfo appInfo) {
 		return appInfo.getMainButtonForegroundColor();
 	}
@@ -678,6 +690,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected ColorSpecification getTitleForegroundColor(IApplicationInfo appInfo) {
 		return appInfo.getTitleForegroundColor();
+	}
+
+	protected ResourcePath getTitleCustomFontResourcePath(IApplicationInfo appInfo) {
+		return appInfo.getTitleCustomFontResourcePath();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IApplicationInfo appInfo) {
@@ -958,8 +974,28 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public ResourcePath getTitleCustomFontResourcePath() {
+			return InfoProxyFactory.this.getTitleCustomFontResourcePath(base);
+		}
+
+		@Override
 		public ResourcePath getMainButtonBackgroundImagePath() {
 			return InfoProxyFactory.this.getMainButtonBackgroundImagePath(base);
+		}
+
+		@Override
+		public ResourcePath getButtonCustomFontResourcePath() {
+			return InfoProxyFactory.this.getButtonCustomFontResourcePath(base);
+		}
+
+		@Override
+		public ResourcePath getLabelCustomFontResourcePath() {
+			return InfoProxyFactory.this.getLabelCustomFontResourcePath(base);
+		}
+
+		@Override
+		public ResourcePath getEditorCustomFontResourcePath() {
+			return InfoProxyFactory.this.getEditorCustomFontResourcePath(base);
 		}
 
 		@Override

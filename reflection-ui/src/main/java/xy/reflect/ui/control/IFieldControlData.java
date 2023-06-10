@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control;
 
 import java.util.Map;
@@ -158,6 +156,13 @@ public interface IFieldControlData {
 	ColorSpecification getLabelForegroundColor();
 
 	/**
+	 * @return the resource location of a font object that the control must use on
+	 *         its non-editable parts to display text or null if the default font
+	 *         should be used.
+	 */
+	ResourcePath getLabelCustomFontResourcePath();
+
+	/**
 	 * @return the border color that the control must use or null if the default
 	 *         border should be used.
 	 */
@@ -180,11 +185,25 @@ public interface IFieldControlData {
 	ColorSpecification getEditorForegroundColor();
 
 	/**
+	 * @return the resource location of a font object that the control must use on
+	 *         its editable parts to display text or null if the default font should
+	 *         be used.
+	 */
+	ResourcePath getEditorCustomFontResourcePath();
+
+	/**
 	 * @return the resource location of an image that the buttons of the control
 	 *         must use as their background image or null if the control buttons
 	 *         must have their default background.
 	 */
 	ResourcePath getButtonBackgroundImagePath();
+
+	/**
+	 * @return the resource location of a font object that the buttons of the
+	 *         control must use to display text or null if the control buttons must
+	 *         use their default font.
+	 */
+	ResourcePath getButtonCustomFontResourcePath();
 
 	/**
 	 * @return the background color that the buttons of the control must use as

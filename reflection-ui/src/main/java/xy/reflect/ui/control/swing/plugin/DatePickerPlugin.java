@@ -40,6 +40,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.StrictDateFormat;
 
@@ -380,6 +381,15 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 						} else {
 							getEditor().setForeground(new JXDatePicker().getForeground());
 						}
+					}
+					if (data.getEditorCustomFontResourcePath() != null) {
+						getEditor().setFont(SwingRendererUtils
+								.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
+										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								.deriveFont(getEditor().getFont().getStyle(), getEditor().getFont().getSize()));
+					} else {
+						getEditor().setFont(new JFormattedTextField().getFont());
+						getEditor().updateUI();
 					}
 				}
 				Date date = (Date) data.getValue();

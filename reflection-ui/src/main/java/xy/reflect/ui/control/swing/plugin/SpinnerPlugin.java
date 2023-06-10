@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
@@ -32,11 +30,11 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.ConversionUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ReschedulableTask;
 
 /**
  * Field control plugin that allows to use spinners.
@@ -295,6 +293,19 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 							getEditor().getComponent(0)
 									.setForeground(new JSpinner().getEditor().getComponent(0).getForeground());
 						}
+					}
+					if (data.getEditorCustomFontResourcePath() != null) {
+						getEditor().getComponent(0)
+								.setFont(
+										SwingRendererUtils
+												.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
+														ReflectionUIUtils
+																.getErrorLogListener(swingRenderer.getReflectionUI()))
+												.deriveFont(getEditor().getComponent(0).getFont().getStyle(),
+														getEditor().getComponent(0).getFont().getSize()));
+					} else {
+						getEditor().getComponent(0).setFont(new JFormattedTextField().getFont());
+						((JFormattedTextField)getEditor().getComponent(0)).updateUI();
 					}
 				}
 				SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) getModel();

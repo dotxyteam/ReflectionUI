@@ -1,10 +1,9 @@
 
-
-
 package xy.reflect.ui.control.swing.builder;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -41,6 +40,7 @@ public class DialogBuilder {
 	protected Runnable whenClosing;
 	protected RenderedDialog dialog;
 	protected Image closingButtonBackgroundImage;
+	protected Font closingButtonCustomFont;
 	protected Color closingButtonBackgroundColor;
 	protected Color closingButtonForegroundColor;
 	protected Color closingButtonBorderColor;
@@ -67,6 +67,14 @@ public class DialogBuilder {
 
 	public void setClosingButtonBackgroundImage(Image buttonBackgroundImage) {
 		this.closingButtonBackgroundImage = buttonBackgroundImage;
+	}
+
+	public Font getClosingButtonCustomFont() {
+		return closingButtonCustomFont;
+	}
+
+	public void setClosingButtonCustomFont(Font closingButtonCustomFont) {
+		this.closingButtonCustomFont = closingButtonCustomFont;
 	}
 
 	public Color getClosingButtonBackgroundColor() {
@@ -149,6 +157,11 @@ public class DialogBuilder {
 			@Override
 			public Image retrieveBackgroundImage() {
 				return DialogBuilder.this.getClosingButtonBackgroundImage();
+			}
+
+			@Override
+			public Font retrieveCustomFont() {
+				return DialogBuilder.this.getClosingButtonCustomFont();
 			}
 
 			@Override
