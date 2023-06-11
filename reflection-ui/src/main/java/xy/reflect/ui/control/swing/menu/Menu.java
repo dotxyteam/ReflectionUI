@@ -3,11 +3,15 @@
  */
 package xy.reflect.ui.control.swing.menu;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
 import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
@@ -15,6 +19,7 @@ import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Menu item container class.
@@ -37,6 +42,7 @@ public class Menu extends JMenu {
 	}
 
 	protected void initialize() {
+		customizeUI();		
 		for (int i = 0; i < menuInfo.getItemCategories().size(); i++) {
 			if (i > 0) {
 				addSeparator();
@@ -53,6 +59,38 @@ public class Menu extends JMenu {
 			for (AbstractMenuItemInfo item : menuInfo.getItems()) {
 				add(createMenuItem(item));
 			}
+		}
+	}
+
+	protected void customizeUI() {
+		Color awtBackgroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
+				.getMainBackgroundColor() != null)
+						? SwingRendererUtils
+								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor())
+						: null;
+		Color awtForegroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
+				.getMainForegroundColor() != null)
+						? SwingRendererUtils
+								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor())
+						: null;
+		Font labelCustomFont = (swingRenderer.getReflectionUI().getApplicationInfo()
+				.getLabelCustomFontResourcePath() != null)
+						? SwingRendererUtils
+								.loadFontThroughCache(
+										swingRenderer.getReflectionUI().getApplicationInfo()
+												.getLabelCustomFontResourcePath(),
+										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								.deriveFont(getFont().getStyle(), getFont().getSize())
+						: null;
+		if (awtBackgroundColor != null) {
+			setBackground(awtBackgroundColor);
+		}
+		setOpaque(awtBackgroundColor != null);
+		if (awtForegroundColor != null) {
+			setForeground(awtForegroundColor);
+		}
+		if (labelCustomFont != null) {
+			setFont(labelCustomFont);
 		}
 	}
 

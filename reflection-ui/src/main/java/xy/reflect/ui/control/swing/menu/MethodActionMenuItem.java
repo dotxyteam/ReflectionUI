@@ -3,6 +3,8 @@
  */
 package xy.reflect.ui.control.swing.menu;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -17,6 +19,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Menu item that allows to invoke a method.
@@ -40,6 +43,7 @@ public class MethodActionMenuItem extends JMenuItem {
 	}
 
 	protected void initialize() {
+		customizeUI();
 		setAction(createAction());
 		try {
 			setText(menuItemInfo.getCaption());
@@ -58,6 +62,38 @@ public class MethodActionMenuItem extends JMenuItem {
 			}
 			setEnabled(false);
 		}
+	}
+
+	protected void customizeUI() {
+		Color awtBackgroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
+				.getMainBackgroundColor() != null)
+						? SwingRendererUtils
+								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor())
+						: null;
+		Color awtForegroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
+				.getMainForegroundColor() != null)
+						? SwingRendererUtils
+								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor())
+						: null;
+		Font labelCustomFont = (swingRenderer.getReflectionUI().getApplicationInfo()
+				.getLabelCustomFontResourcePath() != null)
+						? SwingRendererUtils
+								.loadFontThroughCache(
+										swingRenderer.getReflectionUI().getApplicationInfo()
+												.getLabelCustomFontResourcePath(),
+										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								.deriveFont(getFont().getStyle(), getFont().getSize())
+						: null;
+		if (awtBackgroundColor != null) {
+			setBackground(awtBackgroundColor);
+		}
+		if (awtForegroundColor != null) {
+			setForeground(awtForegroundColor);
+		}
+		if (labelCustomFont != null) {
+			setFont(labelCustomFont);
+		}
+
 	}
 
 	protected Action createAction() {

@@ -1249,21 +1249,6 @@ public class Form extends ImagePanel {
 			menuBar.add(creatMenu(menuInfo));
 		}
 		SwingRendererUtils.handleComponentSizeChange(menuBar);
-		Color awtBackgroundColor = getControlsBackgroundColor();
-		Color awtForegroundColor = getControlsForegroundColor();
-		Font labelCustomFont = getLabelCustomFont();
-		for (int i = 0; i < menuBar.getMenuCount(); i++) {
-			JMenu menu = menuBar.getMenu(i);
-			menu.setBackground(awtBackgroundColor);
-			menu.setOpaque(awtBackgroundColor != null);
-			menu.setForeground(awtForegroundColor);
-			if (labelCustomFont != null) {
-				menu.setFont(labelCustomFont.deriveFont(menu.getFont().getStyle(), menu.getFont().getSize()));
-			} else {
-				menu.setFont(new JMenu().getFont());
-				menu.updateUI();
-			}
-		}
 		menuBar.setVisible(menuBar.getComponentCount() > 0);
 	}
 

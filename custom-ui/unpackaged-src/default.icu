@@ -14,14 +14,20 @@
             <green>153</green>
             <red>255</red>
         </buttonBorderColor>
+        <buttonCustomFontResourcePath>
+            <specification>&lt;class-path-resource&gt; fontSmooth.ttf</specification>
+        </buttonCustomFontResourcePath>
         <buttonForegroundColor>
             <blue>204</blue>
             <green>0</green>
             <red>51</red>
         </buttonForegroundColor>
-        <customFontResourcePath>
-            <specification>&lt;class-path-resource&gt; fontCalligraphic.ttf</specification>
-        </customFontResourcePath>
+        <editorCustomFontResourcePath>
+            <specification>&lt;class-path-resource&gt; fontReadable.ttf</specification>
+        </editorCustomFontResourcePath>
+        <labelCustomFontResourcePath>
+            <specification>&lt;class-path-resource&gt; baseFont.ttf</specification>
+        </labelCustomFontResourcePath>
         <mainBackgroundColor>
             <blue>255</blue>
             <green>204</green>
@@ -62,7 +68,15 @@
             <green>51</green>
             <red>255</red>
         </mainForegroundColor>
-        <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+        <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
+        <titleBackgroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </titleBackgroundColor>
+        <titleCustomFontResourcePath>
+            <specification>&lt;class-path-resource&gt; fontCalligraphic.ttf</specification>
+        </titleCustomFontResourcePath>
         <titleForegroundColor>
             <blue>51</blue>
             <green>255</green>
@@ -7584,7 +7598,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-368d</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b36</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7615,7 +7629,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-368c</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b37</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7688,7 +7702,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-368b</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b38</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7763,7 +7777,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-368a</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b39</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7814,7 +7828,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3689</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b3a</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7845,7 +7859,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3688</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b3b</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7899,7 +7913,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3687</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b3c</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7949,7 +7963,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3686</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b3d</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8195,7 +8209,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3685</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b3e</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -10460,7 +10474,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3684</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b3f</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10511,7 +10525,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3683</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b40</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11163,7 +11177,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3682</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b41</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11214,7 +11228,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3681</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b42</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11245,7 +11259,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3680</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b43</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11296,7 +11310,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-367f</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b44</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11437,7 +11451,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-367e</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b45</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11491,7 +11505,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-367d</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b46</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -12674,7 +12688,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-367c</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b47</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13313,7 +13327,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-367b</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b48</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13364,7 +13378,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-367a</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b49</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -13395,7 +13409,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3679</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b4a</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13472,7 +13486,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3678</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b4b</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13551,7 +13565,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3677</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b4c</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -15938,7 +15952,7 @@
             <uniqueIdentifier>2e34d93a:17970a4d5a7:-43a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3676</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b4d</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -15996,7 +16010,7 @@
             <uniqueIdentifier>-7fd953ed:179723000f4:-2c20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3675</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b4e</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16368,7 +16382,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3674</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b4f</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16419,7 +16433,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3673</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b50</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16465,7 +16479,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3672</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b51</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16511,7 +16525,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-63b1be85:188a68eabf5:-3671</uniqueIdentifier>
+                <uniqueIdentifier>17a529c8:188a9f0f486:3b52</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>

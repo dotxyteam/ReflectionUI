@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -87,7 +88,6 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MiscUtils;
@@ -593,8 +593,7 @@ public class SwingRendererUtils {
 		}
 		return result;
 	}
-	
-	
+
 	public static Font loadFontThroughCache(ResourcePath fontPath, Listener<String> errorMessageListener) {
 		if (fontPath == null) {
 			return null;
@@ -635,7 +634,6 @@ public class SwingRendererUtils {
 		}
 		return result;
 	}
-
 
 	public static ImageIcon getIcon(Image iconImage) {
 		if (iconImage != null) {
@@ -720,6 +718,10 @@ public class SwingRendererUtils {
 							return swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor();
 						}
 
+						@Override
+						public ResourcePath getEditorCustomFontResourcePath() {
+							return reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath();
+						}
 					};
 				}
 
@@ -750,84 +752,6 @@ public class SwingRendererUtils {
 			}
 			JLabel iconControl = new JLabel(icon);
 			result.add(SwingRendererUtils.flowInLayout(iconControl, GridBagConstraints.NORTH), BorderLayout.WEST);
-		}
-		return result;
-	}
-
-	public static Component getInputPane(final String[] inputValue, final String caption,
-			final SwingRenderer swingRenderer) {
-		JPanel result = new ControlPanel();
-		result.setLayout(new BorderLayout());
-		{
-			JLabel captionControl = new JLabel(caption);
-			if (swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor() != null) {
-				captionControl.setForeground(SwingRendererUtils
-						.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor()));
-			}
-			result.add(captionControl, BorderLayout.WEST);
-		}
-		{
-			TextControl textControl = new TextControl(swingRenderer, new IFieldControlInput() {
-
-				IFieldInfo field = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
-					@Override
-					public Object getValue(Object object) {
-						return inputValue[0];
-					}
-
-					@Override
-					public void setValue(Object object, Object value) {
-						inputValue[0] = (String) value;
-					}
-
-					@Override
-					public ITypeInfo getType() {
-						return swingRenderer.getReflectionUI().buildTypeInfo(
-								new JavaTypeInfoSource(swingRenderer.getReflectionUI(), String.class, null));
-					}
-
-					@Override
-					public boolean isGetOnly() {
-						return false;
-					}
-				};
-
-				@Override
-				public ModificationStack getModificationStack() {
-					return new ModificationStack(null);
-				}
-
-				@Override
-				public IFieldControlData getControlData() {
-					return new DefaultFieldControlData(swingRenderer.getReflectionUI(), null, field) {
-
-						@Override
-						public ColorSpecification getBorderColor() {
-							return swingRenderer.getReflectionUI().getApplicationInfo().getMainBorderColor();
-
-						}
-
-						@Override
-						public ColorSpecification getEditorForegroundColor() {
-							return swingRenderer.getReflectionUI().getApplicationInfo().getMainEditorForegroundColor();
-
-						}
-
-						@Override
-						public ColorSpecification getEditorBackgroundColor() {
-							return swingRenderer.getReflectionUI().getApplicationInfo().getMainEditorBackgroundColor();
-
-						}
-
-					};
-				}
-
-				@Override
-				public IContext getContext() {
-					return IContext.NULL_CONTEXT;
-				}
-			});
-			result.add(textControl, BorderLayout.CENTER);
 		}
 		return result;
 	}

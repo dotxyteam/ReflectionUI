@@ -1540,8 +1540,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ResourcePath getButtonCustomFontResourcePath(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getCustomFontResourcePath() != null) {
-			return appCustomization.getCustomFontResourcePath();
+		if (appCustomization.getButtonCustomFontResourcePath() != null) {
+			return appCustomization.getButtonCustomFontResourcePath();
 		}
 		return super.getButtonCustomFontResourcePath(appInfo);
 	}
@@ -1549,8 +1549,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ResourcePath getLabelCustomFontResourcePath(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getCustomFontResourcePath() != null) {
-			return appCustomization.getCustomFontResourcePath();
+		if (appCustomization.getLabelCustomFontResourcePath() != null) {
+			return appCustomization.getLabelCustomFontResourcePath();
 		}
 		return super.getLabelCustomFontResourcePath(appInfo);
 	}
@@ -1558,8 +1558,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ResourcePath getEditorCustomFontResourcePath(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getCustomFontResourcePath() != null) {
-			return appCustomization.getCustomFontResourcePath();
+		if (appCustomization.getEditorCustomFontResourcePath() != null) {
+			return appCustomization.getEditorCustomFontResourcePath();
 		}
 		return super.getEditorCustomFontResourcePath(appInfo);
 	}
@@ -1567,8 +1567,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	@Override
 	protected ResourcePath getTitleCustomFontResourcePath(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getCustomFontResourcePath() != null) {
-			return appCustomization.getCustomFontResourcePath();
+		if (appCustomization.getTitleCustomFontResourcePath() != null) {
+			return appCustomization.getTitleCustomFontResourcePath();
 		}
 		return super.getEditorCustomFontResourcePath(appInfo);
 	}

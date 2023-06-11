@@ -1,8 +1,10 @@
 
 package xy.reflect.ui.control.swing.customizer;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +21,7 @@ import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -171,7 +174,7 @@ public class CustomizationTools {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
-				popupMenu.add(new AbstractAction(
+				popupMenu.add(createMenuItem(new AbstractAction(
 						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Type Options (Shared)...")) {
 					private static final long serialVersionUID = 1L;
 
@@ -179,8 +182,8 @@ public class CustomizationTools {
 					public void actionPerformed(ActionEvent e) {
 						openTypeCustomizationDialog(result, swingCustomizer.getInfoCustomizations(), customizedType);
 					}
-				});
-				popupMenu.add(new AbstractAction(
+				}));
+				popupMenu.add(createMenuItem(new AbstractAction(
 						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Add Virtual Text Field...")) {
 					private static final long serialVersionUID = 1L;
 
@@ -231,8 +234,8 @@ public class CustomizationTools {
 							toolsRenderer.handleObjectException(result, t);
 						}
 					}
-				});
-				popupMenu.add(new AbstractAction(
+				}));
+				popupMenu.add(createMenuItem(new AbstractAction(
 						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Add Virtual Image Field...")) {
 					private static final long serialVersionUID = 1L;
 
@@ -316,8 +319,8 @@ public class CustomizationTools {
 							toolsRenderer.handleObjectException(result, t);
 						}
 					}
-				});
-				popupMenu.add(
+				}));
+				popupMenu.add(createMenuItem(
 						new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Refresh")) {
 							private static final long serialVersionUID = 1L;
 
@@ -333,7 +336,7 @@ public class CustomizationTools {
 									swingCustomizer.handleObjectException(form, t);
 								}
 							}
-						});
+						}));
 
 				showMenu(popupMenu, result);
 			}
@@ -443,8 +446,8 @@ public class CustomizationTools {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
-				popupMenu
-						.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Hide")) {
+				popupMenu.add(createMenuItem(
+						new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Hide")) {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -456,7 +459,7 @@ public class CustomizationTools {
 									toolsRenderer.handleObjectException(result, t);
 								}
 							}
-						});
+						}));
 				for (JMenuItem menuItem : makeMenuItemsForFieldPosition(result, fieldControlPlaceHolder)) {
 					popupMenu.add(menuItem);
 				}
@@ -470,7 +473,7 @@ public class CustomizationTools {
 					popupMenu.add(menuItem);
 				}
 
-				popupMenu.add(new AbstractAction(
+				popupMenu.add(createMenuItem(new AbstractAction(
 						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 					private static final long serialVersionUID = 1L;
 
@@ -480,7 +483,7 @@ public class CustomizationTools {
 								getContainingObjectCustomizedType(fieldControlPlaceHolder),
 								fieldControlPlaceHolder.getField().getName());
 					}
-				});
+				}));
 				showMenu(popupMenu, result);
 			}
 
@@ -491,8 +494,7 @@ public class CustomizationTools {
 	public Component makeButtonForTextualStorageDataField(
 			final FieldControlPlaceHolder textualStorageDatafieldControlPlaceHolder) {
 		final JButton result = makeButton();
-		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
-				.prepareMessageToDisplay("Editing Options"));
+		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer.prepareMessageToDisplay("Editing Options"));
 		result.addActionListener(new ActionListener() {
 
 			@Override
@@ -525,9 +527,9 @@ public class CustomizationTools {
 
 	protected List<JMenuItem> makeMenuItemsForFieldPosition(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
-		final JMenu positionSubMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Position"));
-		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Preceding")) {
+		final JMenu positionSubMenu = createMenu(toolsRenderer.prepareMessageToDisplay("Position"));
+		positionSubMenu.add(createMenuItem(
+				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Preceding")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -539,9 +541,9 @@ public class CustomizationTools {
 							toolsRenderer.handleObjectException(customizerButton, t);
 						}
 					}
-				});
-		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Following")) {
+				}));
+		positionSubMenu.add(createMenuItem(
+				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Following")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -553,41 +555,43 @@ public class CustomizationTools {
 							toolsRenderer.handleObjectException(customizerButton, t);
 						}
 					}
-				});
-		positionSubMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("First")) {
-			private static final long serialVersionUID = 1L;
+				}));
+		positionSubMenu.add(createMenuItem(
+				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("First")) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
-							fieldControlPlaceHolder.getField().getName(), Short.MIN_VALUE);
-				} catch (Throwable t) {
-					toolsRenderer.handleObjectException(customizerButton, t);
-				}
-			}
-		});
-		positionSubMenu.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Last")) {
-			private static final long serialVersionUID = 1L;
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
+									fieldControlPlaceHolder.getField().getName(), Short.MIN_VALUE);
+						} catch (Throwable t) {
+							toolsRenderer.handleObjectException(customizerButton, t);
+						}
+					}
+				}));
+		positionSubMenu.add(createMenuItem(
+				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Last")) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
-							fieldControlPlaceHolder.getField().getName(), Short.MAX_VALUE);
-				} catch (Throwable t) {
-					toolsRenderer.handleObjectException(customizerButton, t);
-				}
-			}
-		});
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
+									fieldControlPlaceHolder.getField().getName(), Short.MAX_VALUE);
+						} catch (Throwable t) {
+							toolsRenderer.handleObjectException(customizerButton, t);
+						}
+					}
+				}));
 		return Collections.<JMenuItem>singletonList(positionSubMenu);
 	}
 
 	protected List<JMenuItem> makeMenuItemsForMethodPosition(final JButton customizerButton,
 			final MethodControlPlaceHolder methodControlPlaceHolder) {
-		final JMenu positionSubMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Position"));
-		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Preceding")) {
+		final JMenu positionSubMenu = createMenu(toolsRenderer.prepareMessageToDisplay("Position"));
+		positionSubMenu.add(createMenuItem(
+				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Preceding")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -599,9 +603,9 @@ public class CustomizationTools {
 							toolsRenderer.handleObjectException(customizerButton, t);
 						}
 					}
-				});
-		positionSubMenu
-				.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Following")) {
+				}));
+		positionSubMenu.add(createMenuItem(
+				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Following")) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -613,7 +617,7 @@ public class CustomizationTools {
 							toolsRenderer.handleObjectException(customizerButton, t);
 						}
 					}
-				});
+				}));
 		return Collections.<JMenuItem>singletonList(positionSubMenu);
 	}
 
@@ -760,7 +764,7 @@ public class CustomizationTools {
 			final ITypeInfo containingCustomizedType, final Listener<String> encapsulator,
 			final Runnable decapsulator) {
 		List<JMenuItem> result = new ArrayList<JMenuItem>();
-		final JMenu encapsulateSubMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Move Into"));
+		final JMenu encapsulateSubMenu = createMenu(toolsRenderer.prepareMessageToDisplay("Move Into"));
 		{
 			result.add(encapsulateSubMenu);
 			Set<String> capsuleNames = new TreeSet<String>();
@@ -794,23 +798,18 @@ public class CustomizationTools {
 				}
 			}
 			for (final String capsuleName : capsuleNames) {
-				encapsulateSubMenu.add(new JMenuItem(new AbstractAction(capsuleName) {
-					private static final long serialVersionUID = 1L;
+				encapsulateSubMenu
+						.add(createMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay(capsuleName)) {
+							private static final long serialVersionUID = 1L;
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						encapsulator.handle(capsuleName);
-					}
-				}) {
-					private static final long serialVersionUID = 1L;
-
-					{
-						setText(toolsRenderer.prepareMessageToDisplay(capsuleName));
-					}
-				});
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								encapsulator.handle(capsuleName);
+							}
+						}));
 			}
 			encapsulateSubMenu
-					.add(new JMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("New Field...")) {
+					.add(createMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("New Field...")) {
 
 						private static final long serialVersionUID = 1L;
 
@@ -849,7 +848,7 @@ public class CustomizationTools {
 		final CapsuleFieldInfo containingCapsuleField = (CapsuleFieldInfo) member.getSpecificProperties()
 				.get(CapsuleFieldInfo.CONTAINING_CAPSULE_FIELD_PROPERTY_KEY);
 		if (containingCapsuleField != null) {
-			result.add(new JMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Move Out")) {
+			result.add(createMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Move Out")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -924,7 +923,7 @@ public class CustomizationTools {
 	protected JMenuItem makeCustomizableFieldControlPluginMenuItem(ICustomizableFieldControlPlugin plugin,
 			final JButton customizerButton, final FieldControlPlaceHolder fieldControlPlaceHolder,
 			final InfoCustomizations infoCustomizations) {
-		return new JMenuItem(
+		return createMenuItem(
 				new AbstractAction(toolsRenderer.prepareMessageToDisplay(plugin.getControlTitle() + " Options...")) {
 					private static final long serialVersionUID = 1L;
 
@@ -979,10 +978,10 @@ public class CustomizationTools {
 			}
 		}
 		if (potentialFieldControlPlugins.size() > 0) {
-			JMenu changeFieldControlPluginMenu = new JMenu(toolsRenderer.prepareMessageToDisplay("Change Control"));
+			JMenu changeFieldControlPluginMenu = createMenu(toolsRenderer.prepareMessageToDisplay("Change Control"));
 			result.add(changeFieldControlPluginMenu);
-			changeFieldControlPluginMenu.add(
-					new JCheckBoxMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Default Control")) {
+			changeFieldControlPluginMenu.add(createCheckBoxMenuItem(
+					new AbstractAction(toolsRenderer.prepareMessageToDisplay("Default Control")) {
 
 						private static final long serialVersionUID = 1L;
 
@@ -993,17 +992,9 @@ public class CustomizationTools {
 							SwingRendererUtils.setCurrentFieldControlPlugin(swingCustomizer, specificProperties, null);
 							changeCustomizationFieldValue(typeCustomization, "specificProperties", specificProperties);
 						}
-					}) {
-
-						private static final long serialVersionUID = 1L;
-						{
-							if (currentPlugin == null) {
-								setSelected(true);
-							}
-						}
-					});
+					}, currentPlugin == null));
 			for (final IFieldControlPlugin plugin : potentialFieldControlPlugins) {
-				changeFieldControlPluginMenu.add(new JCheckBoxMenuItem(
+				changeFieldControlPluginMenu.add(createCheckBoxMenuItem(
 						new AbstractAction(toolsRenderer.prepareMessageToDisplay(plugin.getControlTitle())) {
 							private static final long serialVersionUID = 1L;
 
@@ -1016,19 +1007,11 @@ public class CustomizationTools {
 								changeCustomizationFieldValue(typeCustomization, "specificProperties",
 										specificProperties);
 							}
-						}) {
-					private static final long serialVersionUID = 1L;
-					{
-						if (currentPlugin != null) {
-							if (currentPlugin.getIdentifier().equals(plugin.getIdentifier())) {
-								setSelected(true);
-							}
-						}
-					}
-				});
+						}, (currentPlugin != null) && currentPlugin.getIdentifier().equals(plugin.getIdentifier())));
 			}
 		}
 		return result;
+
 	}
 
 	protected List<JMenuItem> makeMenuItemsForFieldType(final JButton customizerButton,
@@ -1050,7 +1033,7 @@ public class CustomizationTools {
 			result.add(menuItem);
 		}
 
-		result.add(new JMenuItem(
+		result.add(createMenuItem(
 				new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Type Options...")) {
 					private static final long serialVersionUID = 1L;
 
@@ -1070,7 +1053,7 @@ public class CustomizationTools {
 
 		if (!infoCustomizationsShared) {
 			if (swingCustomizer.getCustomizationOptions().areFieldSharedTypeOptionsDisplayed()) {
-				final JMenu sharedTypeInfoSubMenu = new JMenu(
+				final JMenu sharedTypeInfoSubMenu = createMenu(
 						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Shared"));
 				result.add(sharedTypeInfoSubMenu);
 				for (JMenuItem menuItem : makeMenuItemsForFieldType(customizerButton, fieldControlPlaceHolder, true,
@@ -1094,44 +1077,46 @@ public class CustomizationTools {
 					swingCustomizer.getInfoCustomizations());
 			infoCustomizations = fieldCustomization.getSpecificTypeCustomizations();
 		}
-		JMenu result = new JMenu(this.toolsRenderer.prepareMessageToDisplay("List"));
+		JMenu result = createMenu(this.toolsRenderer.prepareMessageToDisplay("List"));
 		{
-			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("Move Columns...")) {
-				private static final long serialVersionUID = 1L;
+			result.add(
+					createMenuItem(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("Move Columns...")) {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ITypeInfo customizedItemType = customizedListType.getItemType();
-					if (InfoCustomizationsFactory.isItemTypeChanged(infoCustomizations,
-							customizedListType.getSpecificProperties())) {
-						customizedItemType = InfoCustomizationsFactory.getOriginalItemType(infoCustomizations,
-								customizedListType.getSpecificProperties());
-					}
-					String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
-					ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations,
-							customizedListType.getName(), itemTypeName, true);
-					IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
-					List<IInfo> columns = MiscUtils.convertCollection(customizedListStructure.getColumns());
-					openInfosOrderDialog(customizerButton, lc, "columnsCustomOrder", columns, "Columns Order");
-				}
-			});
-			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
-				private static final long serialVersionUID = 1L;
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							ITypeInfo customizedItemType = customizedListType.getItemType();
+							if (InfoCustomizationsFactory.isItemTypeChanged(infoCustomizations,
+									customizedListType.getSpecificProperties())) {
+								customizedItemType = InfoCustomizationsFactory.getOriginalItemType(infoCustomizations,
+										customizedListType.getSpecificProperties());
+							}
+							String itemTypeName = (customizedItemType == null) ? null : customizedItemType.getName();
+							ListCustomization lc = InfoCustomizations.getListCustomization(infoCustomizations,
+									customizedListType.getName(), itemTypeName, true);
+							IListStructuralInfo customizedListStructure = customizedListType.getStructuralInfo();
+							List<IInfo> columns = MiscUtils.convertCollection(customizedListStructure.getColumns());
+							openInfosOrderDialog(customizerButton, lc, "columnsCustomOrder", columns, "Columns Order");
+						}
+					}));
+			result.add(
+					createMenuItem(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					openListCutomizationDialog(customizerButton, infoCustomizations, customizedListType);
-				}
-			});
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							openListCutomizationDialog(customizerButton, infoCustomizations, customizedListType);
+						}
+					}));
 			Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 			if (fieldControl instanceof ListControl) {
 				ItemPosition selected = ((ListControl) fieldControl).getSingleSelection();
 				if (selected != null) {
 					if (selected.getParentItemPosition() != null) {
 						if (!(selected.getContainingListFieldIfNotRoot() instanceof SubListGroupField)) {
-							JMenu listSelectionMenu = new JMenu(
+							JMenu listSelectionMenu = createMenu(
 									this.toolsRenderer.prepareMessageToDisplay("Selected Sub-list"));
-							listSelectionMenu.add(
+							listSelectionMenu.add(createMenuItem(
 									new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 										private static final long serialVersionUID = 1L;
 
@@ -1158,7 +1143,7 @@ public class CustomizationTools {
 													(IListTypeInfo) selected.getContainingListFieldIfNotRoot()
 															.getType());
 										}
-									});
+									}));
 							result.add(listSelectionMenu);
 						}
 					}
@@ -1170,9 +1155,9 @@ public class CustomizationTools {
 
 	protected JMenuItem makeMenuItemForEnumeration(final JButton customizerButton,
 			final InfoCustomizations infoCustomizations, final IEnumerationTypeInfo customizedEnumType) {
-		JMenu result = new JMenu(this.toolsRenderer.prepareMessageToDisplay("Enumeration"));
+		JMenu result = createMenu(this.toolsRenderer.prepareMessageToDisplay("Enumeration"));
 		{
-			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("Move Items...")) {
+			result.add(createMenuItem(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("Move Items...")) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1186,15 +1171,96 @@ public class CustomizationTools {
 					openInfosOrderDialog(customizerButton, ec, "itemsCustomOrder", valueInfos,
 							"Enumeration Items Order");
 				}
-			});
-			result.add(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
-				private static final long serialVersionUID = 1L;
+			}));
+			result.add(
+					createMenuItem(new AbstractAction(this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					openEnumerationCutomizationDialog(customizerButton, infoCustomizations, customizedEnumType);
-				}
-			});
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							openEnumerationCutomizationDialog(customizerButton, infoCustomizations, customizedEnumType);
+						}
+					}));
+		}
+		return result;
+	}
+
+	protected JMenu createMenu(String text) {
+		JMenu result = new JMenu(text);
+		Color awtBackgroundColor = (toolsUI.getApplicationInfo().getMainBackgroundColor() != null)
+				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainBackgroundColor())
+				: null;
+		Color awtForegroundColor = (toolsUI.getApplicationInfo().getMainForegroundColor() != null)
+				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainForegroundColor())
+				: null;
+		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
+				? SwingRendererUtils
+						.loadFontThroughCache(toolsUI.getApplicationInfo().getLabelCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(toolsUI))
+						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
+				: null;
+		if (awtBackgroundColor != null) {
+			result.setBackground(awtBackgroundColor);
+		}
+		result.setOpaque(awtBackgroundColor != null);
+		if (awtForegroundColor != null) {
+			result.setForeground(awtForegroundColor);
+		}
+		if (labelCustomFont != null) {
+			result.setFont(labelCustomFont);
+		}
+		return result;
+	}
+
+	protected JMenuItem createMenuItem(Action action) {
+		JMenuItem result = new JMenuItem(action);
+		Color awtBackgroundColor = (toolsUI.getApplicationInfo().getMainBackgroundColor() != null)
+				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainBackgroundColor())
+				: null;
+		Color awtForegroundColor = (toolsUI.getApplicationInfo().getMainForegroundColor() != null)
+				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainForegroundColor())
+				: null;
+		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
+				? SwingRendererUtils
+						.loadFontThroughCache(toolsUI.getApplicationInfo().getLabelCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(toolsUI))
+						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
+				: null;
+		if (awtBackgroundColor != null) {
+			result.setBackground(awtBackgroundColor);
+		}
+		if (awtForegroundColor != null) {
+			result.setForeground(awtForegroundColor);
+		}
+		if (labelCustomFont != null) {
+			result.setFont(labelCustomFont);
+		}
+		return result;
+	}
+
+	protected JCheckBoxMenuItem createCheckBoxMenuItem(Action action, boolean selected) {
+		JCheckBoxMenuItem result = new JCheckBoxMenuItem(action);
+		result.setSelected(selected);
+		Color awtBackgroundColor = (toolsUI.getApplicationInfo().getMainBackgroundColor() != null)
+				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainBackgroundColor())
+				: null;
+		Color awtForegroundColor = (toolsUI.getApplicationInfo().getMainForegroundColor() != null)
+				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainForegroundColor())
+				: null;
+		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
+				? SwingRendererUtils
+						.loadFontThroughCache(toolsUI.getApplicationInfo().getLabelCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(toolsUI))
+						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
+				: null;
+		if (awtBackgroundColor != null) {
+			result.setBackground(awtBackgroundColor);
+		}
+		if (awtForegroundColor != null) {
+			result.setForeground(awtForegroundColor);
+		}
+		if (labelCustomFont != null) {
+			result.setFont(labelCustomFont);
 		}
 		return result;
 	}
@@ -1382,8 +1448,8 @@ public class CustomizationTools {
 			public void actionPerformed(ActionEvent e) {
 				final JPopupMenu popupMenu = new JPopupMenu();
 
-				popupMenu
-						.add(new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Hide")) {
+				popupMenu.add(createMenuItem(
+						new AbstractAction(CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("Hide")) {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -1395,7 +1461,7 @@ public class CustomizationTools {
 									toolsRenderer.handleObjectException(result, t);
 								}
 							}
-						});
+						}));
 
 				for (JMenuItem menuItem : makeMenuItemsForMethodPosition(result, methodControlPlaceHolder)) {
 					popupMenu.add(menuItem);
@@ -1405,7 +1471,7 @@ public class CustomizationTools {
 					popupMenu.add(menuItem);
 				}
 
-				popupMenu.add(new AbstractAction(
+				popupMenu.add(createMenuItem(new AbstractAction(
 						CustomizationTools.this.toolsRenderer.prepareMessageToDisplay("More Options...")) {
 					private static final long serialVersionUID = 1L;
 
@@ -1415,7 +1481,7 @@ public class CustomizationTools {
 								getContainingObjectCustomizedType(methodControlPlaceHolder),
 								methodControlPlaceHolder.getMethod().getSignature());
 					}
-				});
+				}));
 				showMenu(popupMenu, result);
 			}
 		});

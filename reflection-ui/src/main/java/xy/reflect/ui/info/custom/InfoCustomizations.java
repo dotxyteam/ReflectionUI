@@ -1802,7 +1802,6 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification mainEditorBackgroundColor;
 		protected ColorSpecification mainEditorForegroundColor;
 		protected ResourcePath mainButtonBackgroundImagePath;
-		protected ResourcePath customFontResourcePath;
 		protected ColorSpecification mainButtonForegroundColor;
 		protected ColorSpecification mainButtonBackgroundColor;
 		protected ColorSpecification mainButtonBorderColor;
@@ -1810,7 +1809,11 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification titleBackgroundColor;
 		protected ResourcePath iconImagePath;
 		protected boolean systemIntegrationCrossPlatform;
-
+		protected ResourcePath titleCustomFontResourcePath;
+		protected ResourcePath labelCustomFontResourcePath;
+		protected ResourcePath editorCustomFontResourcePath;
+		protected ResourcePath buttonCustomFontResourcePath;
+		
 		public String getApplicationName() {
 			return applicationName;
 		}
@@ -1919,14 +1922,6 @@ public class InfoCustomizations implements Serializable {
 			this.mainButtonBackgroundImagePath = mainButtonBackgroundImagePath;
 		}
 
-		public ResourcePath getCustomFontResourcePath() {
-			return customFontResourcePath;
-		}
-
-		public void setCustomFontResourcePath(ResourcePath customFontResourcePath) {
-			this.customFontResourcePath = customFontResourcePath;
-		}
-
 		// for backward compatibility
 		@Deprecated
 		public ColorSpecification getButtonForegroundColor() {
@@ -2001,6 +1996,38 @@ public class InfoCustomizations implements Serializable {
 
 		public void setTitleBackgroundColor(ColorSpecification titleBackgroundColor) {
 			this.titleBackgroundColor = titleBackgroundColor;
+		}
+
+		public ResourcePath getTitleCustomFontResourcePath() {
+			return titleCustomFontResourcePath;
+		}
+
+		public void setTitleCustomFontResourcePath(ResourcePath titleCustomFontResourcePath) {
+			this.titleCustomFontResourcePath = titleCustomFontResourcePath;
+		}
+
+		public ResourcePath getLabelCustomFontResourcePath() {
+			return labelCustomFontResourcePath;
+		}
+
+		public void setLabelCustomFontResourcePath(ResourcePath labelCustomFontResourcePath) {
+			this.labelCustomFontResourcePath = labelCustomFontResourcePath;
+		}
+
+		public ResourcePath getEditorCustomFontResourcePath() {
+			return editorCustomFontResourcePath;
+		}
+
+		public void setEditorCustomFontResourcePath(ResourcePath editorCustomFontResourcePath) {
+			this.editorCustomFontResourcePath = editorCustomFontResourcePath;
+		}
+
+		public ResourcePath getButtonCustomFontResourcePath() {
+			return buttonCustomFontResourcePath;
+		}
+
+		public void setButtonCustomFontResourcePath(ResourcePath buttonCustomFontResourcePath) {
+			this.buttonCustomFontResourcePath = buttonCustomFontResourcePath;
 		}
 
 		@Override
