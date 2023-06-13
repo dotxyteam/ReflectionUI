@@ -1646,7 +1646,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 									treeTableComponent.getFont().getSize()));
 		} else {
 			treeTableComponent.setFont(new JXTreeTable().getFont());
-			treeTableComponent.updateUI();
 		}
 	}
 
@@ -1672,7 +1671,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 									treeTableComponent.getTableHeader().getFont().getSize()));
 		} else {
 			treeTableComponent.getTableHeader().setFont(new JTableHeader().getFont());
-			treeTableComponent.getTableHeader().updateUI();
 		}
 	}
 

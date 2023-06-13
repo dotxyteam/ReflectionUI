@@ -69,7 +69,6 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 						.deriveFont(getFont().getStyle(), getFont().getSize()));
 			} else {
 				setFont(new JCheckBox().getFont());
-				updateUI();
 			}
 			setEnabled(!data.isGetOnly());
 			SwingRendererUtils.handleComponentSizeChange(this);

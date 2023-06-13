@@ -330,7 +330,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 													textComponent.getFont().getSize()));
 				} else {
 					textComponent.setFont(new JTextField().getFont());
-					textComponent.updateUI();
 				}
 
 			}

@@ -389,7 +389,6 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 								.deriveFont(getEditor().getFont().getStyle(), getEditor().getFont().getSize()));
 					} else {
 						getEditor().setFont(new JFormattedTextField().getFont());
-						getEditor().updateUI();
 					}
 				}
 				Date date = (Date) data.getValue();

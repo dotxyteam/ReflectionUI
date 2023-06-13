@@ -169,7 +169,6 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 								.deriveFont(getFont().getStyle(), getFont().getSize()));
 					} else {
 						setFont(new JSlider().getFont());
-						updateUI();
 					}
 					SwingRendererUtils.handleComponentSizeChange(this);
 				}

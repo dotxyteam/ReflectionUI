@@ -215,7 +215,6 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 						.deriveFont(comboBox.getFont().getStyle(), comboBox.getFont().getSize()));
 			} else {
 				comboBox.setFont(new JComboBox().getFont());
-				comboBox.updateUI();
 			}
 		}
 		return true;

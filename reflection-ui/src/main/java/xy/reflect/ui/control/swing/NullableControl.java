@@ -203,7 +203,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 						.deriveFont(nullStatusControl.getFont().getStyle(), nullStatusControl.getFont().getSize()));
 			} else {
 				nullStatusControl.setFont(new JCheckBox().getFont());
-				nullStatusControl.updateUI();
 			}
 			nullStatusControl.setEnabled(!data.isGetOnly());
 		}

@@ -632,7 +632,6 @@ public class Form extends ImagePanel {
 										nonSelectedCellRenderer.getFont().getSize()));
 					} else {
 						nonSelectedCellRenderer.setFont(new JButton().getFont());
-						nonSelectedCellRenderer.updateUI();
 					}
 				}
 			}
@@ -660,7 +659,6 @@ public class Form extends ImagePanel {
 								selectedCellRenderer.getFont().getStyle(), selectedCellRenderer.getFont().getSize()));
 					} else {
 						selectedCellRenderer.setFont(new JLabel().getFont());
-						selectedCellRenderer.updateUI();
 					}
 				}
 			}
@@ -1133,7 +1131,6 @@ public class Form extends ImagePanel {
 							labelCustomFont.deriveFont(statusBar.getFont().getStyle(), statusBar.getFont().getSize()));
 				} else {
 					statusBar.setFont(new JLabel().getFont());
-					statusBar.updateUI();
 				}
 			}
 		}

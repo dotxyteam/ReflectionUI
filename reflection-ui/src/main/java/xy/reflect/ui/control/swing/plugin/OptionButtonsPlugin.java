@@ -201,7 +201,6 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 							.deriveFont(result.getFont().getStyle(), result.getFont().getSize()));
 				} else {
 					result.setFont(new JRadioButton().getFont());
-					result.updateUI();
 				}				
 			} else if (controlCustomization.buttonType == OptionButtonType.TOGGLE) {
 				result = new AbstractControlButton() {
