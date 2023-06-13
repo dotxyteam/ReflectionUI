@@ -1,7 +1,7 @@
 <xy.ui.testing.Tester>
   <editingOptions>
     <analyticsEnabled>true</analyticsEnabled>
-    <controlsTheme>classic</controlsTheme>
+    <controlsTheme>cloudy</controlsTheme>
     <testableModalWindowsForcedToDocumentModality>true</testableModalWindowsForcedToDocumentModality>
     <testableWindowsAlwaysOnTopFeatureDisabled>true</testableWindowsAlwaysOnTopFeatureDisabled>
   </editingOptions>
@@ -655,7 +655,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Load...</visibleString>
+        <visibleString>...</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>2</windowIndex>
       </componentFinder>
@@ -783,7 +783,7 @@
       <negated>false</negated>
       <orderChecked>false</orderChecked>
       <visibleStrings>
-        <string>Load...</string>
+        <string>...</string>
       </visibleStrings>
     </xy.ui.testing.action.component.CheckVisibleStringsAction>
     <xy.ui.testing.action.window.CloseWindowAction>

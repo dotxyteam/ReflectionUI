@@ -976,8 +976,8 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
-        <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>Load...</visibleString>
+        <occurrencesToSkip>1</occurrencesToSkip>
+        <visibleString>...</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>0</windowIndex>
       </componentFinder>
@@ -1066,7 +1066,7 @@
       <button>LEFT_BUTTON</button>
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
-        <occurrencesToSkip>1</occurrencesToSkip>
+        <occurrencesToSkip>2</occurrencesToSkip>
         <visibleString>...</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>0</windowIndex>
