@@ -42,7 +42,7 @@ public class Menu extends JMenu {
 	}
 
 	protected void initialize() {
-		customizeUI();		
+		customizeUI();
 		for (int i = 0; i < menuInfo.getItemCategories().size(); i++) {
 			if (i > 0) {
 				addSeparator();
@@ -63,11 +63,6 @@ public class Menu extends JMenu {
 	}
 
 	protected void customizeUI() {
-		Color awtBackgroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getMainBackgroundColor() != null)
-						? SwingRendererUtils
-								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor())
-						: null;
 		Color awtForegroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
 				.getMainForegroundColor() != null)
 						? SwingRendererUtils
@@ -82,10 +77,12 @@ public class Menu extends JMenu {
 										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
 								.deriveFont(getFont().getStyle(), getFont().getSize())
 						: null;
-		if (awtBackgroundColor != null) {
-			setBackground(awtBackgroundColor);
-		}
-		setOpaque(awtBackgroundColor != null);
+		/*
+		 * Windows menus must be transparent (no background color) so that an eventual
+		 * background image would be visible through them. Note that the menu bar is
+		 * also transparent.
+		 */
+		setOpaque(false);
 		if (awtForegroundColor != null) {
 			setForeground(awtForegroundColor);
 		}
