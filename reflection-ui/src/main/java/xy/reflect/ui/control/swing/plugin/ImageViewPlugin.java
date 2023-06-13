@@ -614,7 +614,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 				@Override
 				public String retrieveText() {
-					return swingRenderer.prepareMessageToDisplay("Load...");
+					return swingRenderer.prepareMessageToDisplay("...");
 				}
 			};
 			result.addActionListener(new ActionListener() {
