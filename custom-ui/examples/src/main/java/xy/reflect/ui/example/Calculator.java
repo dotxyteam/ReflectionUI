@@ -19,6 +19,10 @@ import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 public class Calculator {
 
 	public static void main(String[] args) throws IOException {
+		if(!System.getProperty("java.version").contains("1.8")) {
+			System.out.println("Only compatible with Java 1.8");
+			return;
+		}		
 		ScriptEngineManager factory = new ScriptEngineManager();
 		ScriptEngine engine = factory.getEngineByName("JavaScript");
 

@@ -4,6 +4,11 @@
     <appplicationCustomization>
         <uniqueIdentifier>-3fde177e:16ceef5c3ce:-8000</uniqueIdentifier>
         <specificProperties/>
+        <mainBackgroundColor>
+            <blue>0</blue>
+            <green>0</green>
+            <red>0</red>
+        </mainBackgroundColor>
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/textEditor-background.jpg</specification>
         </mainBackgroundImagePath>
