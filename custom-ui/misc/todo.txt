@@ -1,9 +1,6 @@
 - remove the textual storage data field control change button when it is useless
 - remove the ability to null and convertBeforeStoring a method preset just because
 it is a textual storage
-- remove fieldCustomization.specificities view since it allows to view
-type specification that is accessible through the field button/type options
-menu
 - replace "field.isFormControlMandatory() by a GenericControlPlugin???
 - seems cannot generate ctors presets
 - allow to clear type/field customizations???
