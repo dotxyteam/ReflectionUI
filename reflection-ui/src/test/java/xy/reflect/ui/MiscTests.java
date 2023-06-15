@@ -22,6 +22,7 @@ import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
@@ -139,9 +140,9 @@ public class MiscTests {
 
 	@Test
 	public void testGarbageCollection() throws Exception {
-		if(!System.getProperty("java.version").contains("1.8")) {
+		if (!System.getProperty("java.version").contains("1.8")) {
 			return;
-		}		
+		}
 		final SwingRenderer swingRenderer = new SwingRenderer(new ReflectionUI());
 		final WeakReference<?>[] objectWeakRef = new WeakReference[1];
 		final WeakReference<?>[] formWeakRefs = new WeakReference[2];
@@ -195,7 +196,35 @@ public class MiscTests {
 		System.gc();
 	}
 
+	@Test
+	public void testObjectCycle() throws Exception {
+		TestObject cycle = new TestObject(null);
+		cycle.setOther(new TestObject(cycle));
+		TestObject cycle2 = new TestObject(null);
+		cycle2.setOther(new TestObject(cycle2));
+		ReflectionUIUtils.copyFieldValuesAccordingInfos(ReflectionUIUtils.STANDARD_REFLECTION, cycle, cycle2, true);
+		Assert.assertTrue(cycle.getOther().getOther() == cycle);
+		Assert.assertTrue(cycle2.getOther().getOther() == cycle2);
+		Assert.assertTrue(ReflectionUIUtils.equalsAccordingInfos(cycle, cycle2, ReflectionUIUtils.STANDARD_REFLECTION,
+				IInfoFilter.DEFAULT));
+	}
+
 	public static class TestObject {
+		TestObject other;
+
+		public TestObject(TestObject other) {
+			this.other = other;
+		}
+		public TestObject() {
+			this(null);
+		}
+		public TestObject getOther() {
+			return other;
+		}
+
+		public void setOther(TestObject other) {
+			this.other = other;
+		}
 
 	}
 

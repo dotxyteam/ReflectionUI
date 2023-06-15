@@ -51,8 +51,8 @@ import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
 import xy.reflect.ui.info.menu.DefaultMenuElementPosition;
 import xy.reflect.ui.info.menu.IMenuElementInfo;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
-import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuElementKind;
+import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
@@ -512,7 +512,13 @@ public class ReflectionUIUtils {
 		return type.copy(object);
 	}
 
-	public static void copyFieldValues(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply) {
+	public static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply) {
+		copyFieldValuesAccordingInfos(reflectionUI, src, dst, deeply, new ArrayList<Pair<Object, Object>>());
+	}
+
+	protected static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply,
+			List<Pair<Object, Object>> alreadyCopied) {
+		alreadyCopied.add(new Pair<Object, Object>(src, dst));
 		ITypeInfo srcType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(src));
 		ITypeInfo dstType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(dst));
 		for (IFieldInfo dstField : dstType.getFields()) {
@@ -529,12 +535,20 @@ public class ReflectionUIUtils {
 			} else {
 				ITypeInfo fieldValueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
 				if (deeply && !fieldValueType.isImmutable()) {
-					Object dstFieldValue;
-					if (canCopy(reflectionUI, srcFieldValue)) {
-						dstFieldValue = copy(reflectionUI, srcFieldValue);
-					} else {
-						dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
-						copyFieldValues(reflectionUI, srcFieldValue, dstFieldValue, true);
+					Object dstFieldValue = null;
+					for (Pair<Object, Object> pair : alreadyCopied) {
+						if (pair.getFirst() == srcFieldValue) {
+							dstFieldValue = pair.getSecond();
+							break;
+						}
+					}
+					if (dstFieldValue == null) {
+						if (canCopy(reflectionUI, srcFieldValue)) {
+							dstFieldValue = copy(reflectionUI, srcFieldValue);
+						} else {
+							dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
+							copyFieldValuesAccordingInfos(reflectionUI, srcFieldValue, dstFieldValue, true, alreadyCopied);
+						}
 					}
 					dstField.setValue(dst, dstFieldValue);
 				} else {
@@ -796,6 +810,11 @@ public class ReflectionUIUtils {
 
 	public static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI,
 			IInfoFilter infoFilter) {
+		return equalsAccordingInfos(o1, o2, reflectionUI, infoFilter, new ArrayList<Pair<Object, Object>>());
+	}
+
+	protected static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI,
+			IInfoFilter infoFilter, List<Pair<Object, Object>> alreadyCompared) {
 		if (o1 == o2) {
 			return true;
 		}
@@ -805,6 +824,12 @@ public class ReflectionUIUtils {
 		if (ClassUtils.isPrimitiveClassOrWrapperOrString(o1.getClass())) {
 			return o1.equals(o2);
 		}
+		for (Pair<Object, Object> pair : alreadyCompared) {
+			if ((pair.getFirst() == o1) && (pair.getSecond() == o2)) {
+				return true;
+			}
+		}
+		alreadyCompared.add(new Pair<Object, Object>(o1, o2));
 		ITypeInfo type1 = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(o1));
 		ITypeInfo type2 = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(o2));
 		if (!type1.equals(type2)) {
@@ -819,7 +844,7 @@ public class ReflectionUIUtils {
 			}
 			Object value1 = field.getValue(o1);
 			Object value2 = field.getValue(o2);
-			if (!equalsAccordingInfos(value1, value2, reflectionUI, infoFilter)) {
+			if (!equalsAccordingInfos(value1, value2, reflectionUI, infoFilter, alreadyCompared)) {
 				return false;
 			}
 		}
@@ -833,7 +858,7 @@ public class ReflectionUIUtils {
 			for (int i = 0; i < rawList1.length; i++) {
 				Object item1 = rawList1[i];
 				Object item2 = rawList2[i];
-				if (!equalsAccordingInfos(item1, item2, reflectionUI, infoFilter)) {
+				if (!equalsAccordingInfos(item1, item2, reflectionUI, infoFilter, alreadyCompared)) {
 					return false;
 				}
 			}
