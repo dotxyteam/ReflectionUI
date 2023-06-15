@@ -76,7 +76,7 @@ public class ResourcePath implements Serializable {
 	 * @param resourceName           The name of the resource.
 	 */
 	public ResourcePath(Class<?> classInResourcePackage, String resourceName) {
-		this(ResourcePath.specifyClassPathResourceSpecification(
+		this(ResourcePath.specifyClassPathResourceLocation(
 				classInResourcePackage.getPackage().getName().replace(".", "/") + "/" + resourceName));
 	}
 
@@ -96,23 +96,23 @@ public class ResourcePath implements Serializable {
 	 * @return a class-path resource location specification string that can be
 	 *         passed to the {@link #setSpecification(String)} method.
 	 */
-	public static String specifyClassPathResourceSpecification(String path) {
+	public static String specifyClassPathResourceLocation(String path) {
 		return ResourcePath.CLASSPATH_RESOURCE_PREFIX + path;
 	}
 
 	/**
-	 * @param path A arbitrary path that will uniquely identify a heap object.
+	 * @param path An arbitrary path that will uniquely identify a heap object.
 	 * @return a heap resource location specification string that can be passed to
 	 *         the {@link #setSpecification(String)} method.
 	 */
-	public static String specifyMemoryObjectSpecification(String path) {
+	public static String specifyMemoryObjectLocation(String path) {
 		return ResourcePath.MEMORY_OBJECT_PREFIX + path;
 	}
 
 	/**
 	 * @param specification The full resource location specification string.
 	 * @return the path that was passed to the
-	 *         {@link #specifyClassPathResourceSpecification(String)} method in
+	 *         {@link #specifyClassPathResourceLocation(String)} method in
 	 *         order to create the given resource location specification.
 	 */
 	public static String extractClassPathResourceLocation(String specification) {
@@ -122,7 +122,7 @@ public class ResourcePath implements Serializable {
 	/**
 	 * @param specification The full resource location specification string.
 	 * @return the path that was passed to the
-	 *         {@link #specifyMemoryObjectSpecification(String)} method in order to
+	 *         {@link #specifyMemoryObjectLocation(String)} method in order to
 	 *         create the given resource location specification.
 	 */
 	public static String extractMemoryObjectLocation(String specification) {
@@ -153,9 +153,9 @@ public class ResourcePath implements Serializable {
 	 */
 	public String getDefaultSpecification() {
 		if (pathKind == PathKind.CLASS_PATH_RESOURCE) {
-			return ResourcePath.specifyClassPathResourceSpecification(path);
+			return ResourcePath.specifyClassPathResourceLocation(path);
 		} else if (pathKind == PathKind.MEMORY_OBJECT) {
-			return ResourcePath.specifyMemoryObjectSpecification(path);
+			return ResourcePath.specifyMemoryObjectLocation(path);
 		} else {
 			return path;
 		}
@@ -280,7 +280,7 @@ public class ResourcePath implements Serializable {
 			String candidateResourcePath = candidateResourceFile.getPath().replaceAll("\\\\", "/");
 			URL resourceURL = ResourcePath.class.getClassLoader().getResource(candidateResourcePath);
 			if (resourceURL != null) {
-				result.add(new ResourcePath(specifyClassPathResourceSpecification(candidateResourcePath)));
+				result.add(new ResourcePath(specifyClassPathResourceLocation(candidateResourcePath)));
 			}
 		}
 		return result;

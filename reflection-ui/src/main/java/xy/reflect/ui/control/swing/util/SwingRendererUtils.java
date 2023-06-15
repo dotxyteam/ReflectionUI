@@ -547,7 +547,7 @@ public class SwingRendererUtils {
 	}
 
 	public static ResourcePath putImageInCache(Image image) {
-		String imagePathSpecification = ResourcePath.specifyMemoryObjectSpecification(
+		String imagePathSpecification = ResourcePath.specifyMemoryObjectLocation(
 				image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
 		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);
 		return new ResourcePath(imagePathSpecification);
