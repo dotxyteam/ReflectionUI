@@ -602,12 +602,7 @@ public class Form extends ImagePanel {
 				if (tabBorderColor != null) {
 					currentComponentContainer.setBorder(BorderFactory.createLineBorder(tabBorderColor));
 				} else {
-					tabBorderColor = getMainBorderColor();
-					if (tabBorderColor != null) {
-						currentComponentContainer.setBorder(BorderFactory.createLineBorder(tabBorderColor));
-					} else {
-						currentComponentContainer.setBorder(BorderFactory.createTitledBorder(""));
-					}
+					currentComponentContainer.setBorder(BorderFactory.createTitledBorder(""));
 				}
 			}
 
@@ -748,6 +743,11 @@ public class Form extends ImagePanel {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBackgroundColor() == null) {
+			/*
+			 * Note that we do not return the main background color because we want the form
+			 * to be transparent so that a window background image would be visible through
+			 * the controls.
+			 */
 			return null;
 		} else {
 			return SwingRendererUtils.getColor(type.getFormBackgroundColor());
@@ -758,7 +758,7 @@ public class Form extends ImagePanel {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBorderColor() == null) {
-			return null;
+			return getMainBorderColor();
 		} else {
 			return SwingRendererUtils.getColor(type.getFormBorderColor());
 		}
@@ -781,7 +781,7 @@ public class Form extends ImagePanel {
 		if (type.getCategoriesBackgroundColor() != null) {
 			return SwingRendererUtils.getColor(type.getCategoriesBackgroundColor());
 		} else {
-			return null;
+			return getControlsBackgroundColor();
 		}
 	}
 
