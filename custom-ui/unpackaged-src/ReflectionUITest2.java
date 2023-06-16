@@ -19,7 +19,7 @@ public class ReflectionUITest2 {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations);
 		final SwingCustomizer renderer = new SwingCustomizer(reflectionUI,
-				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/default.icu");
+				System.getProperty("custom-ui.project.directory", "./") + "unpackaged-src/default2.icu");
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

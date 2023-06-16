@@ -1186,16 +1186,6 @@
         <abstractForced>false</abstractForced>
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <categoriesBackgroundColor>
-            <blue>255</blue>
-            <green>255</green>
-            <red>255</red>
-        </categoriesBackgroundColor>
-        <categoriesForegroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>0</red>
-        </categoriesForegroundColor>
         <copyForbidden>true</copyForbidden>
         <customFieldsOrder>absolute</customFieldsOrder>
         <customFieldsOrder>file</customFieldsOrder>
@@ -1291,7 +1281,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57a3</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:5694</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1324,7 +1314,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57a4</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:5695</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1357,7 +1347,7 @@
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57a5</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:5696</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1421,7 +1411,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57a6</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:5697</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -1480,7 +1470,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57a7</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:5698</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1512,7 +1502,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57a8</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:5699</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2216,7 +2206,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57a9</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:569a</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2379,7 +2369,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f69</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57aa</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:569b</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2411,7 +2401,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f67</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57ab</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:569c</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2547,7 +2537,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f61</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57ac</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:569d</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -3198,7 +3188,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>69c08c19:17ae393fa1b:57ad</uniqueIdentifier>
+                <uniqueIdentifier>145fc7a:188c556c4b4:569e</uniqueIdentifier>
                 <caption>Actions</caption>
             </category>
             <categoryCaption>Actions</categoryCaption>
@@ -5721,12 +5711,14 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=renameTo, listContext=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
                         <uniqueIdentifier>69c08c19:17ae393fa1b:4859</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation succeeded !</customCaption>
                         <hidden>false</hidden>
                         <itemName>Option [index=0]</itemName>
                     </itemCustomizations>
                     <itemCustomizations>
                         <uniqueIdentifier>69c08c19:17ae393fa1b:485a</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation failed !</customCaption>
                         <hidden>false</hidden>
                         <itemName>Option [index=1]</itemName>
@@ -7528,12 +7520,14 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=delete, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
                         <uniqueIdentifier>-69897352:16677e7887d:-429e</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation failed!</customCaption>
                         <hidden>false</hidden>
                         <itemName>Item [value=false]</itemName>
                     </itemCustomizations>
                     <itemCustomizations>
                         <uniqueIdentifier>-69897352:16677e7887d:-429f</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation succeded!</customCaption>
                         <hidden>false</hidden>
                         <itemName>Item [value=true]</itemName>
@@ -7642,12 +7636,14 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], containingType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], containingType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [containingTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
                         <uniqueIdentifier>-69897352:16677e7887d:-1b4b</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation failed!</customCaption>
                         <hidden>false</hidden>
                         <itemName>Item [value=false]</itemName>
                     </itemCustomizations>
                     <itemCustomizations>
                         <uniqueIdentifier>-69897352:16677e7887d:-1b4c</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation succeded!</customCaption>
                         <hidden>false</hidden>
                         <itemName>Item [value=true]</itemName>
@@ -7901,12 +7897,14 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=listDynamicAction [name=delete, listContext=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
                         <uniqueIdentifier>69c08c19:17ae393fa1b:4c1c</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation succeeded!</customCaption>
                         <hidden>false</hidden>
                         <itemName>Option [index=0]</itemName>
                     </itemCustomizations>
                     <itemCustomizations>
                         <uniqueIdentifier>69c08c19:17ae393fa1b:4c1d</uniqueIdentifier>
+                        <specificProperties/>
                         <customCaption>The operation failed!</customCaption>
                         <hidden>false</hidden>
                         <itemName>Option [index=1]</itemName>
