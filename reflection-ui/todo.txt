@@ -1,3 +1,4 @@
+- handle bigdecimal, biginteger, ...
 - add customization option for list method shortcut icon
 - add "virtual composed list field" customization option that would use 
 ImplicitListFieldInfo.
