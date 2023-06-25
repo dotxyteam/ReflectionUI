@@ -1,8 +1,7 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.structure;
 
+import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -17,6 +16,38 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
  *
  */
 public interface IListStructuralInfo {
+
+	/**
+	 * Dummy instance of this class made for utilitarian purposes.
+	 */
+	IListStructuralInfo NULL_LIST_STRUCTURAL_INFO = new IListStructuralInfo() {
+
+		@Override
+		public String toString() {
+			return "NULL_LIST_STRUCTURAL_INFO";
+		}
+
+		@Override
+		public int getLength() {
+			return -1;
+		}
+
+		@Override
+		public List<IColumnInfo> getColumns() {
+			return Collections.singletonList(IColumnInfo.NULL_COLUMN_INFO);
+		}
+
+		@Override
+		public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
+			return null;
+		}
+
+		@Override
+		public IInfoFilter getItemInfoFilter(ItemPosition itemPosition) {
+			return IInfoFilter.DEFAULT;
+		}
+
+	};
 
 	/**
 	 * @return the list of columns. Note that when the list is actually a tree then
@@ -44,5 +75,4 @@ public interface IListStructuralInfo {
 	 */
 	int getLength();
 
-	
 }

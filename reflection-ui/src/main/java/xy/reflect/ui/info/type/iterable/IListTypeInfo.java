@@ -1,19 +1,31 @@
 
-
-
 package xy.reflect.ui.info.type.iterable;
 
+import java.awt.Dimension;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import xy.reflect.ui.info.ColorSpecification;
+import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.util.Mapper;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * This interface allows to specify UI-oriented properties of list types.
@@ -32,6 +44,313 @@ import xy.reflect.ui.util.Mapper;
  *
  */
 public interface IListTypeInfo extends ITypeInfo {
+
+	/**
+	 * Dummy instance of this class made for utilitarian purposes.
+	 */
+	public static IListTypeInfo NULL_LIST_TYPE_INFO = new IListTypeInfo() {
+
+		@Override
+		public String toString() {
+			return "NULL_LIST_TYPE_INFO";
+		}
+
+		@Override
+		public String getName() {
+			return "NULL_LIST_TYPE_INFO";
+		}
+
+		@Override
+		public ITypeInfo getItemType() {
+			return null;
+		}
+
+		@Override
+		public Object[] toArray(Object listValue) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean canInstanciateFromArray() {
+			return false;
+		}
+
+		@Override
+		public Object fromArray(Object[] array) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean canReplaceContent() {
+			return false;
+		}
+
+		@Override
+		public void replaceContent(Object listValue, Object[] array) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public IListStructuralInfo getStructuralInfo() {
+			return IListStructuralInfo.NULL_LIST_STRUCTURAL_INFO;
+		}
+
+		@Override
+		public IListItemDetailsAccessMode getDetailsAccessMode() {
+			return new DetachedItemDetailsAccessMode();
+		}
+
+		@Override
+		public boolean isOrdered() {
+			return false;
+		}
+
+		@Override
+		public boolean isInsertionAllowed() {
+			return false;
+		}
+
+		@Override
+		public boolean isRemovalAllowed() {
+			return false;
+		}
+
+		@Override
+		public boolean canViewItemDetails() {
+			return true;
+		}
+
+		@Override
+		public List<IDynamicListAction> getDynamicActions(List<? extends ItemPosition> selection,
+				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public List<IDynamicListProperty> getDynamicProperties(List<? extends ItemPosition> selection,
+				Mapper<ItemPosition, ListModificationFactory> listModificationFactoryAccessor) {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public boolean isItemNullValueSupported() {
+			return false;
+		}
+
+		@Override
+		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
+			return InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
+		}
+
+		@Override
+		public ValueReturnMode getItemReturnMode() {
+			return ValueReturnMode.INDETERMINATE;
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return Collections.emptyMap();
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return null;
+		}
+
+		@Override
+		public String getCaption() {
+			return ReflectionUIUtils.identifierToCaption(getName());
+		}
+
+		@Override
+		public void validate(Object object) throws Exception {
+		}
+
+		@Override
+		public String toString(Object object) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean supports(Object localObject) {
+			return false;
+		}
+
+		@Override
+		public void save(Object object, OutputStream out) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean onFormVisibilityChange(Object object, boolean visible) {
+			return false;
+		}
+
+		@Override
+		public void load(Object object, InputStream in) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isPrimitive() {
+			return false;
+		}
+
+		@Override
+		public boolean isModificationStackAccessible() {
+			return true;
+		}
+
+		@Override
+		public boolean isImmutable() {
+			return false;
+		}
+
+		@Override
+		public boolean isConcrete() {
+			return false;
+		}
+
+		@Override
+		public ITransactionInfo getTransaction(Object object) {
+			return null;
+		}
+
+		@Override
+		public ITypeInfoSource getSource() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public List<ITypeInfo> getPolymorphicInstanceSubTypes() {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public MethodsLayout getMethodsLayout() {
+			return MethodsLayout.HORIZONTAL_FLOW;
+		}
+
+		@Override
+		public List<IMethodInfo> getMethods() {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public MenuModel getMenuModel() {
+			return new MenuModel();
+		}
+
+		@Override
+		public ResourcePath getIconImagePath() {
+			return null;
+		}
+
+		@Override
+		public int getFormSpacing() {
+			return ITypeInfo.DEFAULT_FORM_SPACING;
+		}
+
+		@Override
+		public Dimension getFormPreferredSize() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormForegroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormEditorsForegroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormEditorsBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonForegroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBorderColor() {
+			return null;
+		}
+
+		@Override
+		public ResourcePath getFormButtonBackgroundImagePath() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormButtonBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormBorderColor() {
+			return null;
+		}
+
+		@Override
+		public ResourcePath getFormBackgroundImagePath() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getFormBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public FieldsLayout getFieldsLayout() {
+			return FieldsLayout.VERTICAL_FLOW;
+		}
+
+		@Override
+		public List<IFieldInfo> getFields() {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public List<IMethodInfo> getConstructors() {
+			return Collections.emptyList();
+		}
+
+		@Override
+		public CategoriesStyle getCategoriesStyle() {
+			return CategoriesStyle.getDefault();
+		}
+
+		@Override
+		public ColorSpecification getCategoriesForegroundColor() {
+			return null;
+		}
+
+		@Override
+		public ColorSpecification getCategoriesBackgroundColor() {
+			return null;
+		}
+
+		@Override
+		public Object copy(Object object) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean canPersist() {
+			return false;
+		}
+
+		@Override
+		public boolean canCopy(Object object) {
+			return false;
+		}
+	};
 
 	/**
 	 * @return the type of items supported by the lists of this type or null if this
