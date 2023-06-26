@@ -1059,6 +1059,44 @@ public class JDBCInfoFactory {
 		 * (modified).
 		 */
 
+		public void setRows(List<Row> newRows) throws SQLException {
+			List<Row> oldRows = getRows();
+			List<Row> oldRowsToDelete = new ArrayList<Row>();
+			for (Row oldRow : oldRows) {
+				boolean oldRowFoundInNewRows = false;
+				for (Row newRow : newRows) {
+					if (oldRow.getIndex() == newRow.getIndex()) {
+						oldRowFoundInNewRows = true;
+						break;
+					}
+				}
+				if (!oldRowFoundInNewRows) {
+					oldRowsToDelete.add(oldRow);
+				}
+			}
+			List<Row> newRowsToInsert = new ArrayList<Row>();
+			for (Row newRow : newRows) {
+				boolean newRowFoundInOldRows = false;
+				for (Row oldRow : oldRows) {
+					if (newRow.getIndex() == oldRow.getIndex()) {
+						newRowFoundInOldRows = true;
+						break;
+					}
+				}
+				if (!newRowFoundInOldRows) {
+					newRowsToInsert.add(newRow);
+				}
+			}
+			List<Row> rowsToUpdate = new ArrayList<Row>();
+			for (Row newRow : newRows) {
+				for (Cell cell : newRow.getCells()) {
+					if (cell.isModified()) {
+						rowsToUpdate.add(newRow);
+					}
+				}
+			}
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -1291,6 +1329,7 @@ public class JDBCInfoFactory {
 		protected Column column;
 		protected Row row;
 		protected Object value;
+		protected boolean modified = false;
 
 		public Cell(Row row, Column column, Object value) {
 			this.column = column;
@@ -1308,6 +1347,15 @@ public class JDBCInfoFactory {
 
 		public Object getValue() {
 			return value;
+		}
+
+		public void setValue(Object value) {
+			this.value = value;
+			this.modified = true;
+		}
+
+		public boolean isModified() {
+			return modified;
 		}
 
 		@Override
