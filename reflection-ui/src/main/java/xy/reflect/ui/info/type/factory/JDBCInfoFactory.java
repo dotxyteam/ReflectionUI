@@ -31,7 +31,6 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -887,13 +886,10 @@ public class JDBCInfoFactory {
 				result.add(nullSchema);
 			}
 			DatabaseMetaData metadata = databaseManagedSystem.connection.getMetaData();
-			ResultSet rs = metadata.getSchemas();
+			ResultSet rs = metadata.getSchemas(name, "%");
 			while (rs.next()) {
 				String schemaName = rs.getString("TABLE_SCHEM");
-				String catalogName = rs.getString("TABLE_CATALOG");
-				if (MiscUtils.equalsOrBothNull(catalogName, name)) {
-					result.add(new Schema(this, schemaName));
-				}
+				result.add(new Schema(this, schemaName));
 			}
 			return result;
 		}
@@ -953,13 +949,16 @@ public class JDBCInfoFactory {
 		public List<Table> getTables() throws SQLException {
 			List<Table> result = new ArrayList<Table>();
 			DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
-			ResultSet rs = metadata.getTables(null, null, "%", null);
+			ResultSet rs = metadata.getTables(catalog.getName(), name, "%", null);
 			while (rs.next()) {
-				String tableName = rs.getString("TABLE_NAME");
-				String schemaName = rs.getString("TABLE_SCHEM");
-				if (MiscUtils.equalsOrBothNull(schemaName, name)) {
-					result.add(new Table(this, tableName));
+				if (name == null) {
+					String schemaName = rs.getString("TABLE_SCHEM");
+					if (schemaName != null) {
+						continue;
+					}
 				}
+				String tableName = rs.getString("TABLE_NAME");
+				result.add(new Table(this, tableName));
 			}
 			return result;
 		}
