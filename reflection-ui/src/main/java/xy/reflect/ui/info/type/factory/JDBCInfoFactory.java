@@ -633,8 +633,8 @@ public class JDBCInfoFactory {
 		@Override
 		public Object fromArray(Object[] array) {
 			List<Row> result = new ArrayList<Row>();
-			for(Object object: array) {
-				result.add((Row)object);
+			for (Object object : array) {
+				result.add((Row) object);
 			}
 			return result;
 		}
@@ -927,6 +927,12 @@ public class JDBCInfoFactory {
 			DatabaseMetaData metadata = databaseManagedSystem.connection.getMetaData();
 			ResultSet rs = metadata.getSchemas(name, "%");
 			while (rs.next()) {
+				if (name == null) {
+					String catalogName = rs.getString("TABLE_CATALOG");
+					if (catalogName != null) {
+						continue;
+					}
+				}
 				String schemaName = rs.getString("TABLE_SCHEM");
 				result.add(new Schema(this, schemaName));
 			}
@@ -990,6 +996,12 @@ public class JDBCInfoFactory {
 			DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
 			ResultSet rs = metadata.getTables(catalog.getName(), name, "%", null);
 			while (rs.next()) {
+				if (catalog.getName() == null) {
+					String catalogName = rs.getString("TABLE_CAT");
+					if (catalogName != null) {
+						continue;
+					}
+				}
 				if (name == null) {
 					String schemaName = rs.getString("TABLE_SCHEM");
 					if (schemaName != null) {
@@ -1111,6 +1123,18 @@ public class JDBCInfoFactory {
 		 */
 
 		public void setRows(List<Row> newRows) throws SQLException {
+			boolean hasPrimaryKey = false;
+			{
+				for (Column column : getColumns()) {
+					if (column.isPrimaryKey()) {
+						hasPrimaryKey = true;
+						break;
+					}
+				}
+				if (!hasPrimaryKey) {
+					return;
+				}
+			}
 			List<Row> oldRows = getRows();
 			List<Row> oldRowsToDelete = new ArrayList<Row>();
 			for (Row oldRow : oldRows) {
@@ -1139,18 +1163,18 @@ public class JDBCInfoFactory {
 				}
 			}
 			List<Row> rowsToUpdate = new ArrayList<Row>();
-			for (Row oldRow : oldRows) {
-				boolean oldRowFoundInNewRows = false;
-				for (Row newRow : newRows) {
-					if (oldRow.getIndex() == newRow.getIndex()) {
-						oldRowFoundInNewRows = true;
+			for (Row newRow : newRows) {
+				boolean newRowFoundInOldRows = false;
+				for (Row oldRow : oldRows) {
+					if (newRow.getIndex() == oldRow.getIndex()) {
+						newRowFoundInOldRows = true;
 						break;
 					}
 				}
-				if (oldRowFoundInNewRows) {
-					for (Cell cell : oldRow.getCells()) {
+				if (newRowFoundInOldRows) {
+					for (Cell cell : newRow.getCells()) {
 						if (cell.isModified()) {
-							rowsToUpdate.add(oldRow);
+							rowsToUpdate.add(newRow);
 						}
 					}
 				}
@@ -1158,16 +1182,22 @@ public class JDBCInfoFactory {
 			Statement statement = schema.catalog.databaseManagedSystem.connection.createStatement();
 			for (Row row : rowsToUpdate) {
 				String updateQueryString = "update " + getNamePrefix() + name;
+				int iModified = 0;
 				for (int i = 0; i < row.getCells().size(); i++) {
 					Cell cell = row.getCells().get(i);
-					updateQueryString += ((i == 0) ? " set " : ", ") + cell.getColumn().getName() + "="
-							+ cell.getValue();
+					if (cell.isModified()) {
+						updateQueryString += ((iModified == 0) ? " set " : ", ") + cell.getColumn().getName() + "="
+								+ cell.getValue();
+						iModified++;
+					}
 				}
+				int iPrimaryKey = 0;
 				for (int i = 0; i < row.getCells().size(); i++) {
 					Cell cell = row.getCells().get(i);
 					if (cell.getColumn().isPrimaryKey()) {
-						updateQueryString += ((i == 0) ? " where " : " and ") + cell.getColumn().getName() + "="
-								+ cell.getValue();
+						updateQueryString += ((iPrimaryKey == 0) ? " where " : " and ") + cell.getColumn().getName()
+								+ "=" + cell.getValue();
+						iPrimaryKey++;
 					}
 				}
 				statement.executeUpdate(updateQueryString);
@@ -1433,6 +1463,9 @@ public class JDBCInfoFactory {
 		}
 
 		public void setValue(Object value) {
+			if(column.isPrimaryKey()) {
+				throw new UnsupportedOperationException("Cannot modify a primary key value !");
+			}
 			this.value = value;
 			this.modified = true;
 		}
