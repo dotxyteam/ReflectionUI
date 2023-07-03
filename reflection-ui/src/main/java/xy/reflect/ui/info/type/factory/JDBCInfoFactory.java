@@ -38,6 +38,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -254,7 +255,9 @@ public class JDBCInfoFactory {
 
 		@Override
 		public ITypeInfo getType() {
-			return reflectionUI.buildTypeInfo(new ColumnFieldTypeInfoSource(column));
+			return reflectionUI.buildTypeInfo(
+					new JavaTypeInfoSource(reflectionUI, column.getJavaType(), new SpecificitiesIdentifier(
+							new RowTypeInfo(column.table).getName(), ColumnFieldInfo.this.getName())));
 		}
 
 		@Override
@@ -285,132 +288,6 @@ public class JDBCInfoFactory {
 		@Override
 		public String toString() {
 			return "ColumnFieldInfo [column=" + column + "]";
-		}
-
-	}
-
-	public class ColumnFieldTypeInfo extends BasicTypeInfoProxy {
-
-		private Column column;
-
-		public ColumnFieldTypeInfo(Column column) {
-			super(ITypeInfo.NULL_BASIC_TYPE_INFO);
-			this.column = column;
-		}
-
-		@Override
-		public String getName() {
-			return column.getJavaType().getName();
-			// return "ColumnFieldTypeInfo [column=" + column.getName() + ", table=" +
-			// column.table.getName() + ", schema="
-			// + column.table.schema.getName() + ", catalog=" +
-			// column.table.schema.catalog.getName() + "]";
-		}
-
-		@Override
-		public String getCaption() {
-			return column.getName();
-		}
-
-		@Override
-		public String toString(Object object) {
-			return (object == null) ? "" : object.toString();
-		}
-
-		@Override
-		public boolean supports(Object object) {
-			return column.getJavaType().isInstance(object);
-		}
-
-		@Override
-		public ITypeInfoSource getSource() {
-			return new ColumnFieldTypeInfoSource(column);
-		}
-
-		@Override
-		public List<IFieldInfo> getFields() {
-			return Collections.emptyList();
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = super.hashCode();
-			result = prime * result + ((column == null) ? 0 : column.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ColumnFieldTypeInfo other = (ColumnFieldTypeInfo) obj;
-			if (column == null) {
-				if (other.column != null)
-					return false;
-			} else if (!column.equals(other.column))
-				return false;
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return "ColumnFieldTypeInfo [column=" + column + "]";
-		}
-
-	}
-
-	public class ColumnFieldTypeInfoSource implements ITypeInfoSource {
-
-		private Column column;
-
-		public ColumnFieldTypeInfoSource(Column column) {
-			this.column = column;
-		}
-
-		@Override
-		public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-			return new SpecificitiesIdentifier(new RowTypeInfo(column.table).getName(),
-					new ColumnFieldInfo(column).getName());
-		}
-
-		@Override
-		public ITypeInfo getTypeInfo() {
-			return new ColumnFieldTypeInfo(column);
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((column == null) ? 0 : column.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ColumnFieldTypeInfoSource other = (ColumnFieldTypeInfoSource) obj;
-			if (column == null) {
-				if (other.column != null)
-					return false;
-			} else if (!column.equals(other.column))
-				return false;
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return "ColumnFieldTypeInfoSource [column=" + column + "]";
 		}
 
 	}
@@ -944,6 +821,7 @@ public class JDBCInfoFactory {
 	public static class DatabaseManagedSystem {
 
 		protected Connection connection;
+		protected Object connectionMutex = new Object();
 
 		public DatabaseManagedSystem(String connectionURL) throws SQLException {
 			connection = DriverManager.getConnection(connectionURL);
@@ -954,22 +832,26 @@ public class JDBCInfoFactory {
 		}
 
 		public void executeSQL(String sql) throws SQLException {
-			connection.createStatement().execute(sql);
+			synchronized (connectionMutex) {
+				connection.createStatement().execute(sql);
+			}
 		}
 
 		public List<Catalog> getCatalogs() throws SQLException {
-			List<Catalog> result = new ArrayList<Catalog>();
-			Catalog nullCatalog = new Catalog(this, null);
-			if (nullCatalog.getSchemas().size() > 0) {
-				result.add(nullCatalog);
+			synchronized (connectionMutex) {
+				List<Catalog> result = new ArrayList<Catalog>();
+				Catalog nullCatalog = new Catalog(this, null);
+				if (nullCatalog.getSchemas().size() > 0) {
+					result.add(nullCatalog);
+				}
+				DatabaseMetaData metadata = connection.getMetaData();
+				ResultSet rs = metadata.getCatalogs();
+				while (rs.next()) {
+					String catalogName = rs.getString("TABLE_CAT");
+					result.add(new Catalog(this, catalogName));
+				}
+				return result;
 			}
-			DatabaseMetaData metadata = connection.getMetaData();
-			ResultSet rs = metadata.getCatalogs();
-			while (rs.next()) {
-				String catalogName = rs.getString("TABLE_CAT");
-				result.add(new Catalog(this, catalogName));
-			}
-			return result;
 		}
 
 		@Override
@@ -994,24 +876,26 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Schema> getSchemas() throws SQLException {
-			List<Schema> result = new ArrayList<Schema>();
-			Schema nullSchema = new Schema(this, null);
-			if (nullSchema.getTables().size() > 0) {
-				result.add(nullSchema);
-			}
-			DatabaseMetaData metadata = databaseManagedSystem.connection.getMetaData();
-			ResultSet rs = metadata.getSchemas(name, "%");
-			while (rs.next()) {
-				if (name == null) {
-					String catalogName = rs.getString("TABLE_CATALOG");
-					if (catalogName != null) {
-						continue;
-					}
+			synchronized (databaseManagedSystem.connectionMutex) {
+				List<Schema> result = new ArrayList<Schema>();
+				Schema nullSchema = new Schema(this, null);
+				if (nullSchema.getTables().size() > 0) {
+					result.add(nullSchema);
 				}
-				String schemaName = rs.getString("TABLE_SCHEM");
-				result.add(new Schema(this, schemaName));
+				DatabaseMetaData metadata = databaseManagedSystem.connection.getMetaData();
+				ResultSet rs = metadata.getSchemas(name, "%");
+				while (rs.next()) {
+					if (name == null) {
+						String catalogName = rs.getString("TABLE_CATALOG");
+						if (catalogName != null) {
+							continue;
+						}
+					}
+					String schemaName = rs.getString("TABLE_SCHEM");
+					result.add(new Schema(this, schemaName));
+				}
+				return result;
 			}
-			return result;
 		}
 
 		@Override
@@ -1067,50 +951,54 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Table> getTables() throws SQLException {
-			List<Table> result = new ArrayList<Table>();
-			DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
-			ResultSet rs = metadata.getTables(catalog.getName(), name, "%", null);
-			while (rs.next()) {
-				if (catalog.getName() == null) {
-					String catalogName = rs.getString("TABLE_CAT");
-					if (catalogName != null) {
-						continue;
+			synchronized (catalog.databaseManagedSystem.connectionMutex) {
+				List<Table> result = new ArrayList<Table>();
+				DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
+				ResultSet rs = metadata.getTables(catalog.getName(), name, "%", null);
+				while (rs.next()) {
+					if (catalog.getName() == null) {
+						String catalogName = rs.getString("TABLE_CAT");
+						if (catalogName != null) {
+							continue;
+						}
 					}
-				}
-				if (name == null) {
-					String schemaName = rs.getString("TABLE_SCHEM");
-					if (schemaName != null) {
-						continue;
+					if (name == null) {
+						String schemaName = rs.getString("TABLE_SCHEM");
+						if (schemaName != null) {
+							continue;
+						}
 					}
+					String tableName = rs.getString("TABLE_NAME");
+					result.add(new Table(this, tableName));
 				}
-				String tableName = rs.getString("TABLE_NAME");
-				result.add(new Table(this, tableName));
+				return result;
 			}
-			return result;
 		}
 
 		public List<Procedure> getProcedures() throws SQLException {
-			List<Procedure> result = new ArrayList<Procedure>();
-			DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
-			ResultSet rs = metadata.getProcedures(catalog.getName(), name, "%");
-			while (rs.next()) {
-				if (catalog.getName() == null) {
-					String catalogName = rs.getString("PROCEDURE_CAT");
-					if (catalogName != null) {
-						continue;
+			synchronized (catalog.databaseManagedSystem.connectionMutex) {
+				List<Procedure> result = new ArrayList<Procedure>();
+				DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
+				ResultSet rs = metadata.getProcedures(catalog.getName(), name, "%");
+				while (rs.next()) {
+					if (catalog.getName() == null) {
+						String catalogName = rs.getString("PROCEDURE_CAT");
+						if (catalogName != null) {
+							continue;
+						}
 					}
-				}
-				if (name == null) {
-					String schemaName = rs.getString("PROCEDURE_SCHEM");
-					if (schemaName != null) {
-						continue;
+					if (name == null) {
+						String schemaName = rs.getString("PROCEDURE_SCHEM");
+						if (schemaName != null) {
+							continue;
+						}
 					}
+					String procedureName = rs.getString("PROCEDURE_NAME");
+					String procedureSpecificName = rs.getString("SPECIFIC_NAME");
+					result.add(new Procedure(this, procedureName, procedureSpecificName));
 				}
-				String procedureName = rs.getString("PROCEDURE_NAME");
-				String procedureSpecificName = rs.getString("SPECIFIC_NAME");
-				result.add(new Procedure(this, procedureName, procedureSpecificName));
+				return result;
 			}
-			return result;
 		}
 
 		@Override
@@ -1171,18 +1059,20 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Parameter> getParameters() throws SQLException {
-			List<Parameter> result = new ArrayList<Parameter>();
-			DatabaseMetaData metadata = schema.catalog.databaseManagedSystem.connection.getMetaData();
-			ResultSet rs = metadata.getProcedureColumns(schema.catalog.name, schema.name, name, "%");
-			while (rs.next()) {
-				String columnName = rs.getString("COLUMN_NAME");
-				int columnPosition = rs.getInt("ORDINAL_POSITION");
-				int sqlType = rs.getInt("DATA_TYPE");
-				int parameterKind = rs.getInt("COLUMN_TYPE");
-				result.add(new Parameter(this, columnName, columnPosition, sqlType,
-						Parameter.Kind.fromInt(parameterKind)));
+			synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+				List<Parameter> result = new ArrayList<Parameter>();
+				DatabaseMetaData metadata = schema.catalog.databaseManagedSystem.connection.getMetaData();
+				ResultSet rs = metadata.getProcedureColumns(schema.catalog.name, schema.name, name, "%");
+				while (rs.next()) {
+					String columnName = rs.getString("COLUMN_NAME");
+					int columnPosition = rs.getInt("ORDINAL_POSITION");
+					int sqlType = rs.getInt("DATA_TYPE");
+					int parameterKind = rs.getInt("COLUMN_TYPE");
+					result.add(new Parameter(this, columnName, columnPosition, sqlType,
+							Parameter.Kind.fromInt(parameterKind)));
+				}
+				return result;
 			}
-			return result;
 		}
 
 		protected String getNamePrefix() throws SQLException {
@@ -1198,34 +1088,37 @@ public class JDBCInfoFactory {
 		}
 
 		public Map<String, Object> call(Map<String, Object> valueByInputParameter) throws SQLException {
-			String callString = "{call ";
-			callString += getNamePrefix() + name + "(";
-			for (int i = 0; i < getParameters().size(); i++) {
-				if (i > 0) {
-					callString += ", ";
+			synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+				String callString = "{call ";
+				callString += getNamePrefix() + name + "(";
+				for (int i = 0; i < getParameters().size(); i++) {
+					if (i > 0) {
+						callString += ", ";
+					}
+					callString += "?";
+					i++;
 				}
-				callString += "?";
-				i++;
+				callString += ")}";
+				CallableStatement callableStatement = schema.catalog.databaseManagedSystem.connection
+						.prepareCall(callString);
+				for (Parameter parameter : getParameters()) {
+					if ((parameter.getKind() == Kind.IN) || (parameter.getKind() == Kind.INOUT)) {
+						callableStatement.setObject(parameter.getName(),
+								valueByInputParameter.get(parameter.getName()));
+					}
+					if ((parameter.getKind() == Kind.OUT) || (parameter.getKind() == Kind.INOUT)) {
+						callableStatement.registerOutParameter(parameter.getName(), parameter.getSqlType());
+					}
+				}
+				callableStatement.execute();
+				Map<String, Object> result = new HashMap<String, Object>();
+				for (Parameter parameter : getParameters()) {
+					if ((parameter.getKind() == Kind.OUT) || (parameter.getKind() == Kind.INOUT)) {
+						result.put(parameter.getName(), callableStatement.getObject(parameter.getName()));
+					}
+				}
+				return result;
 			}
-			callString += ")}";
-			CallableStatement callableStatement = schema.catalog.databaseManagedSystem.connection
-					.prepareCall(callString);
-			for (Parameter parameter : getParameters()) {
-				if ((parameter.getKind() == Kind.IN) || (parameter.getKind() == Kind.INOUT)) {
-					callableStatement.setObject(parameter.getName(), valueByInputParameter.get(parameter.getName()));
-				}
-				if ((parameter.getKind() == Kind.OUT) || (parameter.getKind() == Kind.INOUT)) {
-					callableStatement.registerOutParameter(parameter.getName(), parameter.getSqlType());
-				}
-			}
-			callableStatement.execute();
-			Map<String, Object> result = new HashMap<String, Object>();
-			for (Parameter parameter : getParameters()) {
-				if ((parameter.getKind() == Kind.OUT) || (parameter.getKind() == Kind.INOUT)) {
-					result.put(parameter.getName(), callableStatement.getObject(parameter.getName()));
-				}
-			}
-			return result;
 		}
 
 		@Override
@@ -1438,24 +1331,26 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Column> getColumns() throws SQLException {
-			List<Column> result = new ArrayList<Column>();
-			DatabaseMetaData metadata = schema.catalog.databaseManagedSystem.connection.getMetaData();
-			List<String> primaryKeyColumnNames = new ArrayList<String>();
-			{
-				ResultSet rs = metadata.getPrimaryKeys(schema.catalog.getName(), schema.getName(), name);
-				while (rs.next()) {
-					primaryKeyColumnNames.add(rs.getString("COLUMN_NAME"));
+			synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+				List<Column> result = new ArrayList<Column>();
+				DatabaseMetaData metadata = schema.catalog.databaseManagedSystem.connection.getMetaData();
+				List<String> primaryKeyColumnNames = new ArrayList<String>();
+				{
+					ResultSet rs = metadata.getPrimaryKeys(schema.catalog.getName(), schema.getName(), name);
+					while (rs.next()) {
+						primaryKeyColumnNames.add(rs.getString("COLUMN_NAME"));
+					}
 				}
+				ResultSet rs = metadata.getColumns(schema.catalog.name, schema.name, name, "%");
+				while (rs.next()) {
+					String columnName = rs.getString("COLUMN_NAME");
+					int columnPosition = rs.getInt("ORDINAL_POSITION");
+					int sqlType = rs.getInt("DATA_TYPE");
+					boolean primaryKey = primaryKeyColumnNames.contains(columnName);
+					result.add(new Column(this, columnName, columnPosition, sqlType, primaryKey));
+				}
+				return result;
 			}
-			ResultSet rs = metadata.getColumns(schema.catalog.name, schema.name, name, "%");
-			while (rs.next()) {
-				String columnName = rs.getString("COLUMN_NAME");
-				int columnPosition = rs.getInt("ORDINAL_POSITION");
-				int sqlType = rs.getInt("DATA_TYPE");
-				boolean primaryKey = primaryKeyColumnNames.contains(columnName);
-				result.add(new Column(this, columnName, columnPosition, sqlType, primaryKey));
-			}
-			return result;
 		}
 
 		public Column getColumn(String columnName) throws SQLException {
@@ -1469,29 +1364,35 @@ public class JDBCInfoFactory {
 
 		public List<Row> getRows() throws SQLException {
 			if (rows == null) {
-				statement = schema.catalog.databaseManagedSystem.connection
-						.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-				refresh();
-				rows = new AbstractList<Row>() {
+				synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+					statement = schema.catalog.databaseManagedSystem.connection
+							.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+					refresh();
+					rows = new AbstractList<Row>() {
 
-					@Override
-					public Row get(int index) {
-						int rowNumber = index + 1;
-						return new Row(Table.this, rowNumber);
-					}
-
-					@Override
-					public int size() {
-						try {
-							ResultSet countResultSet = statement
-									.executeQuery("select count(*) from " + getNamePrefix() + name);
-							countResultSet.first();
-							return countResultSet.getInt(1);
-						} catch (SQLException e) {
-							throw new ReflectionUIError(e);
+						@Override
+						public Row get(int index) {
+							int rowNumber = index + 1;
+							return new Row(Table.this, rowNumber);
 						}
-					}
-				};
+
+						@Override
+						public int size() {
+							synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+								try {
+									ResultSet countResultSet = statement
+											.executeQuery("select count(*) from " + getNamePrefix() + name);
+									countResultSet.first();
+									int result = countResultSet.getInt(1);
+									refresh();
+									return result;
+								} catch (SQLException e) {
+									throw new ReflectionUIError(e);
+								}
+							}
+						}
+					};
+				}
 			}
 			return rows;
 		}
