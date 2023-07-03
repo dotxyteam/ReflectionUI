@@ -1326,6 +1326,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected String getItemModificationTitle() {
+		if (getRootListTitle().length() == 0) {
+			return "Edit item";
+		}
 		return "Edit '" + getRootListTitle() + "' item";
 	}
 
@@ -2120,7 +2123,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						.loadFontThroughCache(listData.getEditorCustomFontResourcePath(),
 								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
 						.deriveFont(component.getFont().getStyle(), component.getFont().getSize()));
-			} 
+			}
 			customizeCellRendererComponent(component, (ItemNode) value, row, 0, selected, focused);
 			component.setOpaque(false);
 			return component;
@@ -2460,6 +2463,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
+			if (getRootListTitle().length() == 0) {
+				return "Add item";
+			}
 			return "Add item into '" + getRootListTitle() + "'";
 		}
 
@@ -2584,6 +2590,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
+			if (getRootListTitle().length() == 0) {
+				return "Cut item(s)";
+			}
 			return "Cut '" + getRootListTitle() + "' item(s)";
 		}
 
@@ -2785,6 +2794,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
+			if (getRootListTitle().length() == 0) {
+				return "Move item(s)";
+			}
 			return "Move '" + getRootListTitle() + "' item(s)";
 		}
 
@@ -2987,6 +2999,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
+			if (getRootListTitle().length() == 0) {
+				return "Paste item(s)";
+			}
 			return "Paste item(s) into '" + getRootListTitle() + "'";
 		}
 
@@ -3040,6 +3055,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getCompositeModificationTitle() {
+			if (getRootListTitle().length() == 0) {
+				return "Remove item(s)";
+			}
 			return "Remove '" + getRootListTitle() + "' item(s)";
 		}
 
