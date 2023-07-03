@@ -1,3 +1,8 @@
+- JDBCInfoFactory:
+	. undo/redo title for table modifications are not good. 
+	The caption is an empty string.
+	. new row field values are innitialized in the GUI but not in
+	the underlying newRowValueMap
 - handle bigdecimal, biginteger, ...
 - add customization option for list method shortcut icon
 - add "virtual composed list field" customization option that would use 
