@@ -2873,6 +2873,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							return false;
 						}
 					});
+					field = new FieldInfoProxy(field) {
+
+						@Override
+						public boolean isNullValueDistinct() {
+							return false;
+						}
+						
+					};
 				}
 				return field;
 			}
