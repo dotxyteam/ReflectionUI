@@ -278,10 +278,10 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					}
 					try {
 						Date value = getDate();
-						if (value.equals(data.getValue())) {
+						if (MiscUtils.equalsOrBothNull(value, data.getValue())) {
 							return;
 						}
-						data.setValue(getDate());
+						data.setValue(value);
 					} catch (Throwable t) {
 						swingRenderer.handleObjectException(DatePicker.this, t);
 					}
@@ -383,10 +383,14 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 						}
 					}
 					if (data.getEditorCustomFontResourcePath() != null) {
-						getEditor().setFont(SwingRendererUtils
-								.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
-										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
-								.deriveFont(getEditor().getFont().getStyle(), getEditor().getFont().getSize()));
+						getEditor()
+								.setFont(
+										SwingRendererUtils
+												.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
+														ReflectionUIUtils
+																.getErrorLogListener(swingRenderer.getReflectionUI()))
+												.deriveFont(getEditor().getFont().getStyle(),
+														getEditor().getFont().getSize()));
 					} else {
 						getEditor().setFont(new JFormattedTextField().getFont());
 					}

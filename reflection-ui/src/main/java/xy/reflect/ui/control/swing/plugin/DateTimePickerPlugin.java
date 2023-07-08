@@ -354,10 +354,10 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					}
 					try {
 						Date value = getDate();
-						if (value.equals(data.getValue())) {
+						if (MiscUtils.equalsOrBothNull(value, data.getValue())) {
 							return;
 						}
-						data.setValue(getDate());
+						data.setValue(value);
 					} catch (Throwable t) {
 						swingRenderer.handleObjectException(DateTimePicker.this, t);
 					}
