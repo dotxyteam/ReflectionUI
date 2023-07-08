@@ -1,3 +1,9 @@
+- when a plugin control cannot display null values, then the plugin is selectable
+but the plugin control does not appear inside the nullableControl
+- when a field conversion is badly specified, then the field is not customizable
+anymore so that it is not possible to revert the field conversion specification
+- field conversion "pre mappings" is redundant with conversion (Mapping type) 
+pre-conversion field.
 - remove the textual storage data field control change button when it is useless
 - remove the ability to null and convertBeforeStoring a method preset just because
 it is a textual storage
