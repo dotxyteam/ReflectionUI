@@ -236,15 +236,40 @@ public class JDBCInfoFactory {
 
 		@Override
 		public Object getValue(Object object) {
+			Object result;
 			try {
-				return ((Row) object).getCell(column.getName()).getValue();
+				result = ((Row) object).getCell(column.getName()).getValue();
 			} catch (SQLException e) {
 				throw new ReflectionUIError(e);
 			}
+			if (result == null) {
+				return null;
+			}
+			if (column.getJavaType() == java.sql.Date.class) {
+				result = new java.util.Date(((java.sql.Date) result).getTime());
+			}
+			if (column.getJavaType() == java.sql.Time.class) {
+				result = new java.util.Date(((java.sql.Time) result).getTime());
+			}
+			if (column.getJavaType() == java.sql.Timestamp.class) {
+				result = new java.util.Date(((java.sql.Timestamp) result).getTime());
+			}
+			return result;
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
+			if (value != null) {
+				if (column.getJavaType() == java.sql.Date.class) {
+					value = new java.sql.Date(((java.util.Date) value).getTime());
+				}
+				if (column.getJavaType() == java.sql.Time.class) {
+					value = new java.sql.Time(((java.util.Date) value).getTime());
+				}
+				if (column.getJavaType() == java.sql.Timestamp.class) {
+					value = new java.sql.Timestamp(((java.util.Date) value).getTime());
+				}
+			}
 			try {
 				((Row) object).getCell(column.getName()).setValue(value);
 			} catch (SQLException e) {
@@ -253,15 +278,30 @@ public class JDBCInfoFactory {
 		}
 
 		@Override
+		public ITypeInfo getType() {
+			Class<?> javaType = column.getJavaType();
+			if (javaType == java.sql.Date.class) {
+				javaType = java.util.Date.class;
+			}
+			if (javaType == java.sql.Time.class) {
+				javaType = java.util.Date.class;
+			}
+			if (javaType == java.sql.Timestamp.class) {
+				javaType = java.util.Date.class;
+			}
+			return reflectionUI
+					.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaType, new SpecificitiesIdentifier(
+							new RowTypeInfo(column.table).getName(), ColumnFieldInfo.this.getName())));
+		}
+
+		@Override
 		public boolean isGetOnly() {
 			return false;
 		}
 
 		@Override
-		public ITypeInfo getType() {
-			return reflectionUI.buildTypeInfo(
-					new JavaTypeInfoSource(reflectionUI, column.getJavaType(), new SpecificitiesIdentifier(
-							new RowTypeInfo(column.table).getName(), ColumnFieldInfo.this.getName())));
+		public boolean isNullValueDistinct() {
+			return column.isNullable();
 		}
 
 		@Override
@@ -1350,8 +1390,9 @@ public class JDBCInfoFactory {
 					String columnName = rs.getString("COLUMN_NAME");
 					int columnPosition = rs.getInt("ORDINAL_POSITION");
 					int sqlType = rs.getInt("DATA_TYPE");
+					boolean nullable = rs.getInt("NULLABLE") == DatabaseMetaData.columnNullable;
 					boolean primaryKey = primaryKeyColumnNames.contains(columnName);
-					result.add(new Column(this, columnName, columnPosition, sqlType, primaryKey));
+					result.add(new Column(this, columnName, columnPosition, sqlType, primaryKey, nullable));
 				}
 				return result;
 			}
@@ -1466,13 +1507,15 @@ public class JDBCInfoFactory {
 		protected int position;
 		protected int sqlType;
 		protected boolean primaryKey;
+		protected boolean nullable;
 
-		public Column(Table table, String name, int position, int sqlType, boolean primaryKey) {
+		public Column(Table table, String name, int position, int sqlType, boolean primaryKey, boolean nullable) {
 			this.table = table;
 			this.name = name;
 			this.position = position;
 			this.sqlType = sqlType;
 			this.primaryKey = primaryKey;
+			this.nullable = nullable;
 		}
 
 		public Object extractCellValue(ResultSet rs) throws SQLException {
@@ -1551,6 +1594,10 @@ public class JDBCInfoFactory {
 
 		public boolean isPrimaryKey() {
 			return primaryKey;
+		}
+
+		public boolean isNullable() {
+			return nullable;
 		}
 
 		@Override
