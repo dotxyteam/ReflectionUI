@@ -29,6 +29,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.BasicTypeInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.JDBCInfoFactory.Parameter.Kind;
@@ -52,7 +53,13 @@ public class JDBCInfoFactory {
 	}
 
 	public ITypeInfoSource getTypeInfoSource(final Object object) {
-		if (object instanceof Table) {
+		if (object instanceof Database) {
+			return new DatabaseTypeInfoSource((Database) object);
+		} else if (object instanceof Catalog) {
+			return new DatabaseCatalogTypeInfoSource((Catalog) object);
+		} else if (object instanceof Schema) {
+			return new CatalogSchemaTypeInfoSource((Schema) object);
+		} else if (object instanceof Table) {
 			return new TableTypeInfoSource((Table) object);
 		} else if (object instanceof Row) {
 			return new RowTypeInfoSource(((Row) object).table);
@@ -215,6 +222,276 @@ public class JDBCInfoFactory {
 
 	}
 
+	public class CatalogSchemaFieldInfo extends FieldInfoProxy {
+
+		protected Schema schema;
+
+		public CatalogSchemaFieldInfo(Schema schema) {
+			super(IFieldInfo.NULL_FIELD_INFO);
+			this.schema = schema;
+		}
+
+		@Override
+		public String getCaption() {
+			if (schema.getName() == null) {
+				return "";
+			} else {
+				return schema.getName();
+			}
+		}
+
+		@Override
+		public String getName() {
+			if (schema.getName() == null) {
+				return "<null>";
+			} else {
+				return schema.getName();
+			}
+		}
+
+		@Override
+		public Object getValue(Object object) {
+			return schema;
+		}
+
+		@Override
+		public ITypeInfo getType() {
+			return reflectionUI.buildTypeInfo(new CatalogSchemaTypeInfoSource(schema));
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((schema == null) ? 0 : schema.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CatalogSchemaFieldInfo other = (CatalogSchemaFieldInfo) obj;
+			if (schema == null) {
+				if (other.schema != null)
+					return false;
+			} else if (!schema.equals(other.schema))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "CatalogSchemaFieldInfo [schema=" + schema + "]";
+		}
+
+	}
+
+	public class SchemaTableMethodInfo extends MethodInfoProxy {
+
+		protected Table table;
+
+		public SchemaTableMethodInfo(Table table) {
+			super(IMethodInfo.NULL_METHOD_INFO);
+			this.table = table;
+		}
+
+		@Override
+		public String getName() {
+			return table.getName();
+		}
+
+		@Override
+		public String getSignature() {
+			return ReflectionUIUtils.buildMethodSignature(this);
+		}
+
+		@Override
+		public String getCaption() {
+			return "Table " + table.getName();
+		}
+
+		@Override
+		public ITypeInfo getReturnValueType() {
+			return reflectionUI.buildTypeInfo(new TableTypeInfoSource(table));
+		}
+
+		@Override
+		public Object invoke(Object object, InvocationData invocationData) {
+			return table;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((table == null) ? 0 : table.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SchemaTableMethodInfo other = (SchemaTableMethodInfo) obj;
+			if (table == null) {
+				if (other.table != null)
+					return false;
+			} else if (!table.equals(other.table))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "SchemaTableMethodInfo [table=" + table + "]";
+		}
+
+	}
+
+	public class SchemaProcedureMethodInfo extends MethodInfoProxy {
+
+		protected Procedure procedure;
+
+		public SchemaProcedureMethodInfo(Procedure procedure) {
+			super(IMethodInfo.NULL_METHOD_INFO);
+			this.procedure = procedure;
+		}
+
+		@Override
+		public String getName() {
+			return procedure.getSpecificName();
+		}
+
+		@Override
+		public String getSignature() {
+			return ReflectionUIUtils.buildMethodSignature(this);
+		}
+
+		@Override
+		public String getCaption() {
+			return "Procedure " + procedure.getName();
+		}
+
+		@Override
+		public ITypeInfo getReturnValueType() {
+			return reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, Procedure.class, null));
+		}
+
+		@Override
+		public Object invoke(Object object, InvocationData invocationData) {
+			return procedure;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((procedure == null) ? 0 : procedure.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SchemaProcedureMethodInfo other = (SchemaProcedureMethodInfo) obj;
+			if (procedure == null) {
+				if (other.procedure != null)
+					return false;
+			} else if (!procedure.equals(other.procedure))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "SchemaProcedureMethodInfo [procedure=" + procedure + "]";
+		}
+
+	}
+
+	public class DatabaseCatalogFieldInfo extends FieldInfoProxy {
+
+		protected Catalog catalog;
+
+		public DatabaseCatalogFieldInfo(Catalog catalog) {
+			super(IFieldInfo.NULL_FIELD_INFO);
+			this.catalog = catalog;
+		}
+
+		@Override
+		public String getCaption() {
+			if (catalog.getName() == null) {
+				return "";
+			} else {
+				return catalog.getName();
+			}
+		}
+
+		@Override
+		public String getName() {
+			if (catalog.getName() == null) {
+				return "<null>";
+			} else {
+				return catalog.getName();
+			}
+		}
+
+		@Override
+		public Object getValue(Object object) {
+			return catalog;
+		}
+
+		@Override
+		public ITypeInfo getType() {
+			return reflectionUI.buildTypeInfo(new DatabaseCatalogTypeInfoSource(catalog));
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((catalog == null) ? 0 : catalog.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			DatabaseCatalogFieldInfo other = (DatabaseCatalogFieldInfo) obj;
+			if (catalog == null) {
+				if (other.catalog != null)
+					return false;
+			} else if (!catalog.equals(other.catalog))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "DatabaseCatalogFieldInfo [catalog=" + catalog + "]";
+		}
+
+	}
+
 	public class ColumnFieldInfo extends FieldInfoProxy {
 
 		protected Column column;
@@ -336,6 +613,158 @@ public class JDBCInfoFactory {
 
 	}
 
+	public class CatalogSchemaTypeInfoSource implements ITypeInfoSource {
+
+		protected Schema schema;
+
+		public CatalogSchemaTypeInfoSource(Schema schema) {
+			this.schema = schema;
+		}
+
+		@Override
+		public ITypeInfo getTypeInfo() {
+			return new CatalogSchemaTypeInfo(schema);
+		}
+
+		@Override
+		public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+			return new SpecificitiesIdentifier(new DatabaseCatalogTypeInfo(schema.catalog).getName(),
+					new CatalogSchemaFieldInfo(schema).getName());
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((schema == null) ? 0 : schema.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CatalogSchemaTypeInfoSource other = (CatalogSchemaTypeInfoSource) obj;
+			if (schema == null) {
+				if (other.schema != null)
+					return false;
+			} else if (!schema.equals(other.schema))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "CatalogSchemaTypeInfoSource [schema=" + schema + "]";
+		}
+
+	}
+
+	public class DatabaseCatalogTypeInfoSource implements ITypeInfoSource {
+
+		protected Catalog catalog;
+
+		public DatabaseCatalogTypeInfoSource(Catalog catalog) {
+			this.catalog = catalog;
+		}
+
+		@Override
+		public ITypeInfo getTypeInfo() {
+			return new DatabaseCatalogTypeInfo(catalog);
+		}
+
+		@Override
+		public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+			return new SpecificitiesIdentifier(new DatabaseTypeInfo(catalog.database).getName(),
+					new DatabaseCatalogFieldInfo(catalog).getName());
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((catalog == null) ? 0 : catalog.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			DatabaseCatalogTypeInfoSource other = (DatabaseCatalogTypeInfoSource) obj;
+			if (catalog == null) {
+				if (other.catalog != null)
+					return false;
+			} else if (!catalog.equals(other.catalog))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "DatabaseCatalogTypeInfoSource [catalog=" + catalog + "]";
+		}
+
+	}
+
+	public class DatabaseTypeInfoSource implements ITypeInfoSource {
+
+		protected Database database;
+
+		public DatabaseTypeInfoSource(Database database) {
+			this.database = database;
+		}
+
+		@Override
+		public ITypeInfo getTypeInfo() {
+			return new DatabaseTypeInfo(database);
+		}
+
+		@Override
+		public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+			return null;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((database == null) ? 0 : database.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			DatabaseTypeInfoSource other = (DatabaseTypeInfoSource) obj;
+			if (database == null) {
+				if (other.database != null)
+					return false;
+			} else if (!database.equals(other.database))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "DatabaseTypeInfoSource [database=" + database + "]";
+		}
+
+	}
+
 	public class TableTypeInfoSource implements ITypeInfoSource {
 
 		protected Table table;
@@ -383,6 +812,248 @@ public class JDBCInfoFactory {
 		public String toString() {
 			return "TableTypeInfoSource [table=" + table + "]";
 		}
+	}
+
+	public class CatalogSchemaTypeInfo extends BasicTypeInfoProxy {
+
+		protected Schema schema;
+
+		public CatalogSchemaTypeInfo(Schema schema) {
+			super(ITypeInfo.NULL_BASIC_TYPE_INFO);
+			this.schema = schema;
+		}
+
+		@Override
+		public String getName() {
+			return "CatalogSchemaTypeInfo [schema=" + schema.getName() + ", catalog=" + schema.catalog.getName()
+					+ ", databaseConnectionURL=" + schema.catalog.database.getConnectionURL() + "]";
+		}
+
+		@Override
+		public String getCaption() {
+			return schema.getName();
+		}
+
+		@Override
+		public boolean supports(Object object) {
+			return schema.equals(object);
+		}
+
+		@Override
+		public ITypeInfoSource getSource() {
+			return new CatalogSchemaTypeInfoSource(schema);
+		}
+
+		@Override
+		public List<IMethodInfo> getMethods() {
+			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
+			try {
+				for (Table table : schema.getTables()) {
+					result.add(new SchemaTableMethodInfo(table));
+				}
+				for (Procedure procedure : schema.getProcedures()) {
+					result.add(new SchemaProcedureMethodInfo(procedure));
+				}
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
+			return result;
+		}
+
+		@Override
+		public String toString(Object object) {
+			return schema.toString();
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((schema == null) ? 0 : schema.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CatalogSchemaTypeInfo other = (CatalogSchemaTypeInfo) obj;
+			if (schema == null) {
+				if (other.schema != null)
+					return false;
+			} else if (!schema.equals(other.schema))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "CatalogSchemaTypeInfo [schema=" + schema + "]";
+		}
+
+	}
+
+	public class DatabaseCatalogTypeInfo extends BasicTypeInfoProxy {
+
+		protected Catalog catalog;
+
+		public DatabaseCatalogTypeInfo(Catalog catalog) {
+			super(ITypeInfo.NULL_BASIC_TYPE_INFO);
+			this.catalog = catalog;
+		}
+
+		@Override
+		public String getName() {
+			return "DatabaseCatalogTypeInfo [catalog=" + catalog.getName() + ", databaseConnectionURL="
+					+ catalog.database.getConnectionURL() + "]";
+		}
+
+		@Override
+		public String getCaption() {
+			return catalog.getName();
+		}
+
+		@Override
+		public boolean supports(Object object) {
+			return catalog.equals(object);
+		}
+
+		@Override
+		public ITypeInfoSource getSource() {
+			return new DatabaseCatalogTypeInfoSource(catalog);
+		}
+
+		@Override
+		public List<IFieldInfo> getFields() {
+			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+			try {
+				for (Schema schema : catalog.getSchemas()) {
+					result.add(new CatalogSchemaFieldInfo(schema));
+				}
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
+			return result;
+		}
+
+		@Override
+		public String toString(Object object) {
+			return catalog.toString();
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((catalog == null) ? 0 : catalog.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			DatabaseCatalogTypeInfo other = (DatabaseCatalogTypeInfo) obj;
+			if (catalog == null) {
+				if (other.catalog != null)
+					return false;
+			} else if (!catalog.equals(other.catalog))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "DatabaseCatalogTypeInfo [catalog=" + catalog + "]";
+		}
+
+	}
+
+	public class DatabaseTypeInfo extends BasicTypeInfoProxy {
+
+		protected Database database;
+
+		public DatabaseTypeInfo(Database database) {
+			super(ITypeInfo.NULL_BASIC_TYPE_INFO);
+			this.database = database;
+		}
+
+		@Override
+		public String getName() {
+			return "DatabaseTypeInfo [connectionURL=" + database.getConnectionURL() + "]";
+		}
+
+		@Override
+		public String getCaption() {
+			return database.toString();
+		}
+
+		@Override
+		public boolean supports(Object object) {
+			return database.equals(object);
+		}
+
+		@Override
+		public ITypeInfoSource getSource() {
+			return new DatabaseTypeInfoSource(database);
+		}
+
+		@Override
+		public List<IFieldInfo> getFields() {
+			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+			try {
+				for (Catalog catalog : database.getCatalogs()) {
+					result.add(new DatabaseCatalogFieldInfo(catalog));
+				}
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
+			return result;
+		}
+
+		@Override
+		public String toString(Object object) {
+			return database.toString();
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((database == null) ? 0 : database.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			DatabaseTypeInfo other = (DatabaseTypeInfo) obj;
+			if (database == null) {
+				if (other.database != null)
+					return false;
+			} else if (!database.equals(other.database))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "DatabaseTypeInfo [database=" + database + "]";
+		}
+
 	}
 
 	public class TableTypeInfo extends BasicTypeInfoProxy {
@@ -862,17 +1533,24 @@ public class JDBCInfoFactory {
 	 * --------------------------------------------------------
 	 */
 
-	public static class DatabaseManagedSystem {
+	public static class Database {
 
+		protected String connectionURL;
 		protected Connection connection;
 		protected Object connectionMutex = new Object();
 
-		public DatabaseManagedSystem(String connectionURL) throws SQLException {
+		public Database(String connectionURL) throws SQLException {
+			this.connectionURL = connectionURL;
 			connection = DriverManager.getConnection(connectionURL);
 		}
 
-		public DatabaseManagedSystem(String connectionURL, String user, String password) throws SQLException {
+		public Database(String connectionURL, String user, String password) throws SQLException {
+			this.connectionURL = connectionURL;
 			connection = DriverManager.getConnection(connectionURL, user, password);
+		}
+
+		public String getConnectionURL() {
+			return connectionURL;
 		}
 
 		public void executeSQL(String sql) throws SQLException {
@@ -899,19 +1577,44 @@ public class JDBCInfoFactory {
 		}
 
 		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((connectionURL == null) ? 0 : connectionURL.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Database other = (Database) obj;
+			if (connectionURL == null) {
+				if (other.connectionURL != null)
+					return false;
+			} else if (!connectionURL.equals(other.connectionURL))
+				return false;
+			return true;
+		}
+
+		@Override
 		public String toString() {
-			return "DatabaseManagedSystem [connection=" + connection + "]";
+			return "DatabaseManagedSystem [connectionURL=" + connectionURL + "]";
 		}
 
 	}
 
 	public static class Catalog {
 
-		protected DatabaseManagedSystem databaseManagedSystem;
+		protected Database database;
 		protected String name;
 
-		public Catalog(DatabaseManagedSystem databaseManagedSystem, String name) {
-			this.databaseManagedSystem = databaseManagedSystem;
+		public Catalog(Database databaseManagedSystem, String name) {
+			this.database = databaseManagedSystem;
 			this.name = name;
 		}
 
@@ -920,13 +1623,13 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Schema> getSchemas() throws SQLException {
-			synchronized (databaseManagedSystem.connectionMutex) {
+			synchronized (database.connectionMutex) {
 				List<Schema> result = new ArrayList<Schema>();
 				Schema nullSchema = new Schema(this, null);
 				if (nullSchema.getTables().size() > 0) {
 					result.add(nullSchema);
 				}
-				DatabaseMetaData metadata = databaseManagedSystem.connection.getMetaData();
+				DatabaseMetaData metadata = database.connection.getMetaData();
 				ResultSet rs = metadata.getSchemas(name, "%");
 				while (rs.next()) {
 					if (name == null) {
@@ -946,7 +1649,7 @@ public class JDBCInfoFactory {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((databaseManagedSystem == null) ? 0 : databaseManagedSystem.hashCode());
+			result = prime * result + ((database == null) ? 0 : database.hashCode());
 			result = prime * result + ((name == null) ? 0 : name.hashCode());
 			return result;
 		}
@@ -960,10 +1663,10 @@ public class JDBCInfoFactory {
 			if (getClass() != obj.getClass())
 				return false;
 			Catalog other = (Catalog) obj;
-			if (databaseManagedSystem == null) {
-				if (other.databaseManagedSystem != null)
+			if (database == null) {
+				if (other.database != null)
 					return false;
-			} else if (!databaseManagedSystem.equals(other.databaseManagedSystem))
+			} else if (!database.equals(other.database))
 				return false;
 			if (name == null) {
 				if (other.name != null)
@@ -975,7 +1678,7 @@ public class JDBCInfoFactory {
 
 		@Override
 		public String toString() {
-			return "Catalog [name=" + name + ", databaseManagedSystem=" + databaseManagedSystem + "]";
+			return "Catalog [name=" + name + ", databaseManagedSystem=" + database + "]";
 		}
 
 	}
@@ -995,9 +1698,9 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Table> getTables() throws SQLException {
-			synchronized (catalog.databaseManagedSystem.connectionMutex) {
+			synchronized (catalog.database.connectionMutex) {
 				List<Table> result = new ArrayList<Table>();
-				DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
+				DatabaseMetaData metadata = catalog.database.connection.getMetaData();
 				ResultSet rs = metadata.getTables(catalog.getName(), name, "%", null);
 				while (rs.next()) {
 					if (catalog.getName() == null) {
@@ -1020,9 +1723,9 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Procedure> getProcedures() throws SQLException {
-			synchronized (catalog.databaseManagedSystem.connectionMutex) {
+			synchronized (catalog.database.connectionMutex) {
 				List<Procedure> result = new ArrayList<Procedure>();
-				DatabaseMetaData metadata = catalog.databaseManagedSystem.connection.getMetaData();
+				DatabaseMetaData metadata = catalog.database.connection.getMetaData();
 				ResultSet rs = metadata.getProcedures(catalog.getName(), name, "%");
 				while (rs.next()) {
 					if (catalog.getName() == null) {
@@ -1103,9 +1806,9 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Parameter> getParameters() throws SQLException {
-			synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+			synchronized (schema.catalog.database.connectionMutex) {
 				List<Parameter> result = new ArrayList<Parameter>();
-				DatabaseMetaData metadata = schema.catalog.databaseManagedSystem.connection.getMetaData();
+				DatabaseMetaData metadata = schema.catalog.database.connection.getMetaData();
 				ResultSet rs = metadata.getProcedureColumns(schema.catalog.name, schema.name, name, "%");
 				while (rs.next()) {
 					String columnName = rs.getString("COLUMN_NAME");
@@ -1123,7 +1826,7 @@ public class JDBCInfoFactory {
 			String result = "";
 			if (schema.catalog.getName() != null) {
 				result += schema.catalog.getName()
-						+ schema.catalog.databaseManagedSystem.connection.getMetaData().getCatalogSeparator();
+						+ schema.catalog.database.connection.getMetaData().getCatalogSeparator();
 			}
 			if (schema.getName() != null) {
 				result += schema.getName() + ".";
@@ -1132,7 +1835,7 @@ public class JDBCInfoFactory {
 		}
 
 		public Map<String, Object> call(Map<String, Object> valueByInputParameter) throws SQLException {
-			synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+			synchronized (schema.catalog.database.connectionMutex) {
 				String callString = "{call ";
 				callString += getNamePrefix() + name + "(";
 				for (int i = 0; i < getParameters().size(); i++) {
@@ -1143,8 +1846,7 @@ public class JDBCInfoFactory {
 					i++;
 				}
 				callString += ")}";
-				CallableStatement callableStatement = schema.catalog.databaseManagedSystem.connection
-						.prepareCall(callString);
+				CallableStatement callableStatement = schema.catalog.database.connection.prepareCall(callString);
 				for (Parameter parameter : getParameters()) {
 					if ((parameter.getKind() == Kind.IN) || (parameter.getKind() == Kind.INOUT)) {
 						callableStatement.setObject(parameter.getName(),
@@ -1375,9 +2077,9 @@ public class JDBCInfoFactory {
 		}
 
 		public List<Column> getColumns() throws SQLException {
-			synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+			synchronized (schema.catalog.database.connectionMutex) {
 				List<Column> result = new ArrayList<Column>();
-				DatabaseMetaData metadata = schema.catalog.databaseManagedSystem.connection.getMetaData();
+				DatabaseMetaData metadata = schema.catalog.database.connection.getMetaData();
 				List<String> primaryKeyColumnNames = new ArrayList<String>();
 				{
 					ResultSet rs = metadata.getPrimaryKeys(schema.catalog.getName(), schema.getName(), name);
@@ -1409,9 +2111,9 @@ public class JDBCInfoFactory {
 
 		public List<Row> getRows() throws SQLException {
 			if (rows == null) {
-				synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
-					statement = schema.catalog.databaseManagedSystem.connection
-							.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+				synchronized (schema.catalog.database.connectionMutex) {
+					statement = schema.catalog.database.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+							ResultSet.CONCUR_UPDATABLE);
 					refresh();
 					rows = new AbstractList<Row>() {
 
@@ -1427,7 +2129,7 @@ public class JDBCInfoFactory {
 
 						@Override
 						public int size() {
-							synchronized (schema.catalog.databaseManagedSystem.connectionMutex) {
+							synchronized (schema.catalog.database.connectionMutex) {
 								try {
 									ResultSet countResultSet = statement
 											.executeQuery("select count(*) from " + getNamePrefix() + name);
@@ -1454,7 +2156,7 @@ public class JDBCInfoFactory {
 			String result = "";
 			if (schema.catalog.getName() != null) {
 				result += schema.catalog.getName()
-						+ schema.catalog.databaseManagedSystem.connection.getMetaData().getCatalogSeparator();
+						+ schema.catalog.database.connection.getMetaData().getCatalogSeparator();
 			}
 			if (schema.getName() != null) {
 				result += schema.getName() + ".";
