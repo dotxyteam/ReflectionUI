@@ -41,6 +41,7 @@ import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -368,12 +369,12 @@ public class JDBCInfoFactory {
 
 		@Override
 		public String getName() {
-			return procedure.getSpecificName();
+			return procedure.getName();
 		}
 
 		@Override
 		public String getSignature() {
-			return ReflectionUIUtils.buildMethodSignature(this);
+			return procedure.getSignature();
 		}
 
 		@Override
@@ -573,7 +574,7 @@ public class JDBCInfoFactory {
 
 		@Override
 		public boolean isGetOnly() {
-			return false;
+			return column.isAutoIncrement();
 		}
 
 		@Override
@@ -1269,22 +1270,24 @@ public class JDBCInfoFactory {
 					Row row = (Row) object;
 					replacingRows.add(row);
 				}
+
 				List<Row> rowsToDelete = new ArrayList<Row>(table.getRows());
 				rowsToDelete.removeAll(replacingRows);
 				Collections.reverse(rowsToDelete);
+
+				List<Row> rowsToInsert = new ArrayList<Row>(replacingRows);
+				rowsToInsert.removeAll(table.getRows());
+
 				for (Row row : rowsToDelete) {
 					table.resultSet.absolute(row.getNumber());
 					table.resultSet.deleteRow();
 				}
-				for (Row replacingRow : replacingRows) {
-					if (replacingRow.getNumber() == Row.NEW_ROW_NUMBER) {
-						table.resultSet.moveToInsertRow();
-						for (Column column : table.getColumns()) {
-							table.resultSet.updateObject(column.getName(),
-									replacingRow.getCell(column.getName()).getValue());
-						}
-						table.resultSet.insertRow();
+				for (Row row : rowsToInsert) {
+					table.resultSet.moveToInsertRow();
+					for (Column column : table.getColumns()) {
+						table.resultSet.updateObject(column.getName(), row.getCell(column.getName()).getValue());
 					}
+					table.resultSet.insertRow();
 				}
 				table.refresh();
 			} catch (SQLException e) {
@@ -1538,6 +1541,7 @@ public class JDBCInfoFactory {
 		protected String connectionURL;
 		protected Connection connection;
 		protected Object connectionMutex = new Object();
+		protected List<Catalog> catalogs;
 
 		public Database(String connectionURL) throws SQLException {
 			this.connectionURL = connectionURL;
@@ -1561,19 +1565,34 @@ public class JDBCInfoFactory {
 
 		public List<Catalog> getCatalogs() throws SQLException {
 			synchronized (connectionMutex) {
-				List<Catalog> result = new ArrayList<Catalog>();
-				Catalog nullCatalog = new Catalog(this, null);
-				if (nullCatalog.getSchemas().size() > 0) {
-					result.add(nullCatalog);
+				if (catalogs == null) {
+					List<Catalog> result = new ArrayList<Catalog>();
+					Catalog nullCatalog = new Catalog(this, null);
+					if (!nullCatalog.isEmpty()) {
+						result.add(nullCatalog);
+					}
+					DatabaseMetaData metadata = connection.getMetaData();
+					ResultSet rs = metadata.getCatalogs();
+					while (rs.next()) {
+						String catalogName = rs.getString("TABLE_CAT");
+						Catalog newCatalog = new Catalog(this, catalogName);
+						if (!newCatalog.isEmpty()) {
+							result.add(newCatalog);
+						}
+					}
+					catalogs = result;
 				}
-				DatabaseMetaData metadata = connection.getMetaData();
-				ResultSet rs = metadata.getCatalogs();
-				while (rs.next()) {
-					String catalogName = rs.getString("TABLE_CAT");
-					result.add(new Catalog(this, catalogName));
-				}
-				return result;
+				return catalogs;
 			}
+		}
+
+		public Catalog getCatalog(String name) throws SQLException {
+			for (Catalog candidate : getCatalogs()) {
+				if (MiscUtils.equalsOrBothNull(name, candidate.getName())) {
+					return candidate;
+				}
+			}
+			return null;
 		}
 
 		@Override
@@ -1612,10 +1631,15 @@ public class JDBCInfoFactory {
 
 		protected Database database;
 		protected String name;
+		protected List<Schema> schemas;
 
 		public Catalog(Database databaseManagedSystem, String name) {
 			this.database = databaseManagedSystem;
 			this.name = name;
+		}
+
+		public boolean isEmpty() throws SQLException {
+			return getSchemas().size() == 0;
 		}
 
 		public String getName() {
@@ -1624,25 +1648,40 @@ public class JDBCInfoFactory {
 
 		public List<Schema> getSchemas() throws SQLException {
 			synchronized (database.connectionMutex) {
-				List<Schema> result = new ArrayList<Schema>();
-				Schema nullSchema = new Schema(this, null);
-				if (nullSchema.getTables().size() > 0) {
-					result.add(nullSchema);
-				}
-				DatabaseMetaData metadata = database.connection.getMetaData();
-				ResultSet rs = metadata.getSchemas(name, "%");
-				while (rs.next()) {
-					if (name == null) {
-						String catalogName = rs.getString("TABLE_CATALOG");
-						if (catalogName != null) {
-							continue;
+				if (schemas == null) {
+					List<Schema> result = new ArrayList<Schema>();
+					Schema nullSchema = new Schema(this, null);
+					if (!nullSchema.isEmpty()) {
+						result.add(nullSchema);
+					}
+					DatabaseMetaData metadata = database.connection.getMetaData();
+					ResultSet rs = metadata.getSchemas(name, "%");
+					while (rs.next()) {
+						if (name == null) {
+							String catalogName = rs.getString("TABLE_CATALOG");
+							if (catalogName != null) {
+								continue;
+							}
+						}
+						String schemaName = rs.getString("TABLE_SCHEM");
+						Schema newSchema = new Schema(this, schemaName);
+						if (!newSchema.isEmpty()) {
+							result.add(newSchema);
 						}
 					}
-					String schemaName = rs.getString("TABLE_SCHEM");
-					result.add(new Schema(this, schemaName));
+					schemas = result;
 				}
-				return result;
+				return schemas;
 			}
+		}
+
+		public Schema getSchema(String name) throws SQLException {
+			for (Schema candidate : getSchemas()) {
+				if (MiscUtils.equalsOrBothNull(name, candidate.getName())) {
+					return candidate;
+				}
+			}
+			return null;
 		}
 
 		@Override
@@ -1687,10 +1726,16 @@ public class JDBCInfoFactory {
 
 		protected Catalog catalog;
 		protected String name;
+		protected List<Table> tables;
+		protected List<Procedure> procedures;
 
 		public Schema(Catalog catalog, String name) {
 			this.catalog = catalog;
 			this.name = name;
+		}
+
+		public boolean isEmpty() throws SQLException {
+			return (getTables().size() == 0) && (getProcedures().size() == 0);
 		}
 
 		public String getName() {
@@ -1699,53 +1744,76 @@ public class JDBCInfoFactory {
 
 		public List<Table> getTables() throws SQLException {
 			synchronized (catalog.database.connectionMutex) {
-				List<Table> result = new ArrayList<Table>();
-				DatabaseMetaData metadata = catalog.database.connection.getMetaData();
-				ResultSet rs = metadata.getTables(catalog.getName(), name, "%", null);
-				while (rs.next()) {
-					if (catalog.getName() == null) {
-						String catalogName = rs.getString("TABLE_CAT");
-						if (catalogName != null) {
-							continue;
+				if (tables == null) {
+					List<Table> result = new ArrayList<Table>();
+					DatabaseMetaData metadata = catalog.database.connection.getMetaData();
+					ResultSet rs = metadata.getTables(catalog.getName(), name, "%", null);
+					while (rs.next()) {
+						if (catalog.getName() == null) {
+							String catalogName = rs.getString("TABLE_CAT");
+							if (catalogName != null) {
+								continue;
+							}
 						}
-					}
-					if (name == null) {
-						String schemaName = rs.getString("TABLE_SCHEM");
-						if (schemaName != null) {
-							continue;
+						if (name == null) {
+							String schemaName = rs.getString("TABLE_SCHEM");
+							if (schemaName != null) {
+								continue;
+							}
 						}
+						String tableName = rs.getString("TABLE_NAME");
+						result.add(new Table(this, tableName));
 					}
-					String tableName = rs.getString("TABLE_NAME");
-					result.add(new Table(this, tableName));
+					tables = result;
 				}
-				return result;
+				return tables;
 			}
+		}
+
+		public Table getTable(String name) throws SQLException {
+			for (Table candidate : getTables()) {
+				if (MiscUtils.equalsOrBothNull(name, candidate.getName())) {
+					return candidate;
+				}
+			}
+			return null;
 		}
 
 		public List<Procedure> getProcedures() throws SQLException {
 			synchronized (catalog.database.connectionMutex) {
-				List<Procedure> result = new ArrayList<Procedure>();
-				DatabaseMetaData metadata = catalog.database.connection.getMetaData();
-				ResultSet rs = metadata.getProcedures(catalog.getName(), name, "%");
-				while (rs.next()) {
-					if (catalog.getName() == null) {
-						String catalogName = rs.getString("PROCEDURE_CAT");
-						if (catalogName != null) {
-							continue;
+				if (procedures == null) {
+					List<Procedure> result = new ArrayList<Procedure>();
+					DatabaseMetaData metadata = catalog.database.connection.getMetaData();
+					ResultSet rs = metadata.getProcedures(catalog.getName(), name, "%");
+					while (rs.next()) {
+						if (catalog.getName() == null) {
+							String catalogName = rs.getString("PROCEDURE_CAT");
+							if (catalogName != null) {
+								continue;
+							}
 						}
-					}
-					if (name == null) {
-						String schemaName = rs.getString("PROCEDURE_SCHEM");
-						if (schemaName != null) {
-							continue;
+						if (name == null) {
+							String schemaName = rs.getString("PROCEDURE_SCHEM");
+							if (schemaName != null) {
+								continue;
+							}
 						}
+						String procedureName = rs.getString("PROCEDURE_NAME");
+						result.add(new Procedure(this, procedureName));
 					}
-					String procedureName = rs.getString("PROCEDURE_NAME");
-					String procedureSpecificName = rs.getString("SPECIFIC_NAME");
-					result.add(new Procedure(this, procedureName, procedureSpecificName));
+					procedures = result;
 				}
-				return result;
+				return procedures;
 			}
+		}
+
+		public Procedure getProcedure(String signature) throws SQLException {
+			for (Procedure candidate : getProcedures()) {
+				if (MiscUtils.equalsOrBothNull(signature, candidate.getSignature())) {
+					return candidate;
+				}
+			}
+			return null;
 		}
 
 		@Override
@@ -1789,36 +1857,58 @@ public class JDBCInfoFactory {
 	public static class Procedure {
 		protected Schema schema;
 		protected String name;
-		protected String specificName;
+		protected List<Parameter> parameters;
 
-		public Procedure(Schema schema, String name, String specificName) {
+		public Procedure(Schema schema, String name) {
 			this.schema = schema;
 			this.name = name;
-			this.specificName = specificName;
 		}
 
 		public String getName() {
 			return name;
 		}
 
-		public String getSpecificName() {
-			return specificName;
+		public String getSignature() {
+			String result = name;
+			result += "(";
+			int iParameter = 0;
+			try {
+				for (Parameter parameter : getParameters()) {
+					if (iParameter > 0) {
+						result += ", ";
+					}
+					result += parameter.getSignature();
+					iParameter++;
+				}
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
+			result += ")";
+			return result;
+
 		}
 
 		public List<Parameter> getParameters() throws SQLException {
 			synchronized (schema.catalog.database.connectionMutex) {
-				List<Parameter> result = new ArrayList<Parameter>();
-				DatabaseMetaData metadata = schema.catalog.database.connection.getMetaData();
-				ResultSet rs = metadata.getProcedureColumns(schema.catalog.name, schema.name, name, "%");
-				while (rs.next()) {
-					String columnName = rs.getString("COLUMN_NAME");
-					int columnPosition = rs.getInt("ORDINAL_POSITION");
-					int sqlType = rs.getInt("DATA_TYPE");
-					int parameterKind = rs.getInt("COLUMN_TYPE");
-					result.add(new Parameter(this, columnName, columnPosition, sqlType,
-							Parameter.Kind.fromInt(parameterKind)));
+				if (parameters == null) {
+					List<Parameter> result = new ArrayList<Parameter>();
+					DatabaseMetaData metadata = schema.catalog.database.connection.getMetaData();
+					/*
+					 * Potential issue: there may be many procedures that have the same name but a
+					 * different signature. This case is not handled below.
+					 */
+					ResultSet rs = metadata.getProcedureColumns(schema.catalog.name, schema.name, name, "%");
+					while (rs.next()) {
+						String columnName = rs.getString("COLUMN_NAME");
+						int columnPosition = rs.getInt("ORDINAL_POSITION");
+						int sqlType = rs.getInt("DATA_TYPE");
+						int parameterKind = rs.getInt("COLUMN_TYPE");
+						result.add(new Parameter(this, columnName, columnPosition, sqlType,
+								Parameter.Kind.fromInt(parameterKind)));
+					}
+					parameters = result;
 				}
-				return result;
+				return parameters;
 			}
 		}
 
@@ -1872,7 +1962,7 @@ public class JDBCInfoFactory {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((schema == null) ? 0 : schema.hashCode());
-			result = prime * result + ((specificName == null) ? 0 : specificName.hashCode());
+			result = prime * result + ((getSignature() == null) ? 0 : getSignature().hashCode());
 			return result;
 		}
 
@@ -1890,17 +1980,17 @@ public class JDBCInfoFactory {
 					return false;
 			} else if (!schema.equals(other.schema))
 				return false;
-			if (specificName == null) {
-				if (other.specificName != null)
+			if (getSignature() == null) {
+				if (other.getSignature() != null)
 					return false;
-			} else if (!specificName.equals(other.specificName))
+			} else if (!getSignature().equals(other.getSignature()))
 				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "Procedure [name=" + name + ", specificName=" + specificName + ", schema=" + schema + "]";
+			return "Procedure [name=" + name + ", signature=" + getSignature() + ", schema=" + schema + "]";
 		}
 
 	}
@@ -1940,6 +2030,10 @@ public class JDBCInfoFactory {
 			this.position = position;
 			this.sqlType = sqlType;
 			this.kind = kind;
+		}
+
+		public String getSignature() {
+			return kind + " SQLTYpe" + sqlType + " " + name;
 		}
 
 		public String getName() {
@@ -2080,21 +2174,14 @@ public class JDBCInfoFactory {
 			synchronized (schema.catalog.database.connectionMutex) {
 				List<Column> result = new ArrayList<Column>();
 				DatabaseMetaData metadata = schema.catalog.database.connection.getMetaData();
-				List<String> primaryKeyColumnNames = new ArrayList<String>();
-				{
-					ResultSet rs = metadata.getPrimaryKeys(schema.catalog.getName(), schema.getName(), name);
-					while (rs.next()) {
-						primaryKeyColumnNames.add(rs.getString("COLUMN_NAME"));
-					}
-				}
 				ResultSet rs = metadata.getColumns(schema.catalog.name, schema.name, name, "%");
 				while (rs.next()) {
 					String columnName = rs.getString("COLUMN_NAME");
 					int columnPosition = rs.getInt("ORDINAL_POSITION");
 					int sqlType = rs.getInt("DATA_TYPE");
 					boolean nullable = rs.getInt("NULLABLE") == DatabaseMetaData.columnNullable;
-					boolean primaryKey = primaryKeyColumnNames.contains(columnName);
-					result.add(new Column(this, columnName, columnPosition, sqlType, primaryKey, nullable));
+					boolean autoIncrement = rs.getString("IS_AUTOINCREMENT").equals("YES");
+					result.add(new Column(this, columnName, columnPosition, sqlType, nullable, autoIncrement));
 				}
 				return result;
 			}
@@ -2208,16 +2295,16 @@ public class JDBCInfoFactory {
 		protected String name;
 		protected int position;
 		protected int sqlType;
-		protected boolean primaryKey;
 		protected boolean nullable;
+		protected boolean autoIncrement;
 
-		public Column(Table table, String name, int position, int sqlType, boolean primaryKey, boolean nullable) {
+		public Column(Table table, String name, int position, int sqlType, boolean nullable, boolean autoIncrement) {
 			this.table = table;
 			this.name = name;
 			this.position = position;
 			this.sqlType = sqlType;
-			this.primaryKey = primaryKey;
 			this.nullable = nullable;
+			this.autoIncrement = autoIncrement;
 		}
 
 		public Object extractCellValue(ResultSet rs) throws SQLException {
@@ -2294,8 +2381,38 @@ public class JDBCInfoFactory {
 			}
 		}
 
-		public boolean isPrimaryKey() {
-			return primaryKey;
+		public boolean isAutoIncrement() {
+			return autoIncrement;
+		}
+
+		public boolean isPrimaryKey() throws SQLException {
+			synchronized (table.schema.catalog.database.connectionMutex) {
+				DatabaseMetaData metadata = table.schema.catalog.database.connection.getMetaData();
+				ResultSet rs = metadata.getPrimaryKeys(table.schema.catalog.getName(), table.schema.getName(),
+						table.getName());
+				while (rs.next()) {
+					if (name.equals(rs.getString("COLUMN_NAME"))) {
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
+		public Column getForeignKeyOriginColumn() throws SQLException {
+			synchronized (table.schema.catalog.database.connectionMutex) {
+				DatabaseMetaData metadata = table.schema.catalog.database.connection.getMetaData();
+				ResultSet rs = metadata.getImportedKeys(table.schema.catalog.getName(), table.schema.getName(),
+						table.getName());
+				while (rs.next()) {
+					if (name.equals(rs.getString("FKCOLUMN_NAME"))) {
+						return table.schema.catalog.database.getCatalog(rs.getString("PKTABLE_CAT"))
+								.getSchema(rs.getString("PKTABLE_SCHEM")).getTable(rs.getString("PKTABLE_NAME"))
+								.getColumn(rs.getString("PKCOLUMN_NAME"));
+					}
+				}
+				return null;
+			}
 		}
 
 		public boolean isNullable() {
@@ -2345,14 +2462,19 @@ public class JDBCInfoFactory {
 		protected static final int NEW_ROW_NUMBER = -1;
 		protected Table table;
 		protected int number;
-		protected Map<String, Object> newRowValueMap;
+		protected Map<String, Object> newRowValueMap = new HashMap<String, Object>();
 
 		public Row(Table table, int number) throws SQLException {
 			this.table = table;
 			this.number = number;
 			if (number == NEW_ROW_NUMBER) {
-				newRowValueMap = new HashMap<String, Object>();
 				for (Column column : table.getColumns()) {
+					if (column.isAutoIncrement()) {
+						continue;
+					}
+					if (column.isNullable()) {
+						continue;
+					}
 					try {
 						newRowValueMap.put(column.getName(),
 								ReflectionUIUtils.createDefaultInstance(
@@ -2441,12 +2563,17 @@ public class JDBCInfoFactory {
 			if (row.getNumber() == Row.NEW_ROW_NUMBER) {
 				return row.newRowValueMap.get(column.getName());
 			} else {
-				try {
-					column.table.resultSet.absolute(row.getNumber());
-					return column.table.resultSet.getObject(column.getName());
-				} catch (SQLException e) {
-					throw new ReflectionUIError(e);
+				if (!row.newRowValueMap.containsKey(column.getName())) {
+					Object value;
+					try {
+						column.table.resultSet.absolute(row.getNumber());
+						value = column.table.resultSet.getObject(column.getName());
+					} catch (SQLException e) {
+						throw new ReflectionUIError(e);
+					}
+					row.newRowValueMap.put(column.getName(), value);
 				}
+				return row.newRowValueMap.get(column.getName());
 			}
 		}
 
@@ -2459,10 +2586,10 @@ public class JDBCInfoFactory {
 					column.table.resultSet.updateObject(column.getName(), value);
 					column.table.resultSet.updateRow();
 					column.table.refresh();
-
 				} catch (SQLException e) {
 					throw new ReflectionUIError(e);
 				}
+				row.newRowValueMap.put(column.getName(), value);
 			}
 		}
 
