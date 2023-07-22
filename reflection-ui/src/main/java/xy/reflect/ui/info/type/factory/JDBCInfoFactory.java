@@ -30,6 +30,8 @@ import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
+import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.BasicTypeInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.JDBCInfoFactory.Parameter.Kind;
@@ -288,6 +290,69 @@ public class JDBCInfoFactory {
 		@Override
 		public String toString() {
 			return "CatalogSchemaFieldInfo [schema=" + schema + "]";
+		}
+
+	}
+
+	public class DatabaseSQLExecutionMethodInfo extends MethodInfoProxy {
+
+		protected Database database;
+
+		public DatabaseSQLExecutionMethodInfo(Database database) {
+			super(IMethodInfo.NULL_METHOD_INFO);
+			this.database = database;
+		}
+
+		@Override
+		public String getName() {
+			return "executeSQL";
+		}
+
+		@Override
+		public List<IParameterInfo> getParameters() {
+			return Collections.singletonList(new ParameterInfoProxy(IParameterInfo.NULL_PARAMETER_INFO) {
+
+				@Override
+				public String getName() {
+					return "sql";
+				}
+
+				@Override
+				public String getCaption() {
+					return "SQL";
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, String.class, null));
+				}
+
+			});
+		}
+
+		@Override
+		public String getSignature() {
+			return ReflectionUIUtils.buildMethodSignature(this);
+		}
+
+		@Override
+		public String getCaption() {
+			return "Execute SQL";
+		}
+
+		@Override
+		public ITypeInfo getReturnValueType() {
+			return null;
+		}
+
+		@Override
+		public Object invoke(Object object, InvocationData invocationData) {
+			try {
+				database.executeSQL((String) invocationData.getParameterValue(0));
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
+			return null;
 		}
 
 	}
@@ -580,6 +645,29 @@ public class JDBCInfoFactory {
 		@Override
 		public boolean isNullValueDistinct() {
 			return column.isNullable();
+		}
+
+		@Override
+		public boolean hasValueOptions(Object object) {
+			try {
+				return column.getForeignKeyOriginColumn() != null;
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+
+		@Override
+		public Object[] getValueOptions(Object object) {
+			try {
+				Column foreignColumn = column.getForeignKeyOriginColumn();
+				List<Object> result = new ArrayList<Object>();
+				for (Row row : foreignColumn.table.getRows()) {
+					result.add(row.getCell(foreignColumn.getName()).getValue());
+				}
+				return result.toArray();
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
 		}
 
 		@Override
@@ -1018,6 +1106,11 @@ public class JDBCInfoFactory {
 				throw new ReflectionUIError(e);
 			}
 			return result;
+		}
+
+		@Override
+		public List<IMethodInfo> getMethods() {
+			return Collections.singletonList(new DatabaseSQLExecutionMethodInfo(database));
 		}
 
 		@Override
