@@ -1445,13 +1445,7 @@ public class InfoCustomizations implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-	}
-
-	public static class VirtualFieldDeclaration extends AbstractVirtualFieldDeclaration {
-		private static final long serialVersionUID = 1L;
-
 		protected String fieldName;
-		protected ITypeInfoFinder fieldTypeFinder;
 
 		public String getFieldName() {
 			return fieldName;
@@ -1460,6 +1454,19 @@ public class InfoCustomizations implements Serializable {
 		public void setFieldName(String fieldName) {
 			this.fieldName = fieldName;
 		}
+		
+		public void validate() throws Exception {
+			if ((fieldName == null) || (fieldName.length() == 0)) {
+				throw new IllegalStateException("Field name not provided");
+			}
+		}
+
+	}
+
+	public static class VirtualFieldDeclaration extends AbstractVirtualFieldDeclaration {
+		private static final long serialVersionUID = 1L;
+
+		protected ITypeInfoFinder fieldTypeFinder;
 
 		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
 				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
@@ -1472,17 +1479,10 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void validate() throws Exception {
-			if ((fieldName == null) || (fieldName.length() == 0)) {
-				throw new IllegalStateException("Field name not provided");
-			}
+			super.validate();
 			if (fieldTypeFinder == null) {
 				throw new IllegalStateException("Field type not provided");
 			}
-		}
-
-		@Override
-		public String toString() {
-			return fieldName;
 		}
 
 	}
@@ -1490,21 +1490,12 @@ public class InfoCustomizations implements Serializable {
 	public static class ImplicitListFieldDeclaration extends AbstractVirtualFieldDeclaration {
 		private static final long serialVersionUID = 1L;
 
-		protected String fieldName;
 		protected ITypeInfoFinder itemTypeFinder;
 		protected String createMethodName;
 		protected String getMethodName;
 		protected String addMethodName;
 		protected String removeMethodName;
 		protected String sizeFieldName;
-
-		public String getFieldName() {
-			return fieldName;
-		}
-
-		public void setFieldName(String fieldName) {
-			this.fieldName = fieldName;
-		}
 
 		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
 				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
@@ -1557,9 +1548,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void validate() throws Exception {
-			if ((fieldName == null) || (fieldName.length() == 0)) {
-				throw new IllegalStateException("Field name not provided");
-			}
+			super.validate();
 			if (itemTypeFinder == null) {
 				throw new IllegalStateException("Item type not provided");
 			}
@@ -1569,11 +1558,6 @@ public class InfoCustomizations implements Serializable {
 			if ((sizeFieldName == null) || (sizeFieldName.length() == 0)) {
 				throw new IllegalStateException("Size field name not provided");
 			}
-		}
-
-		@Override
-		public String toString() {
-			return fieldName;
 		}
 
 	}
