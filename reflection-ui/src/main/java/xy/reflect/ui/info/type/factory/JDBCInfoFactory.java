@@ -914,8 +914,7 @@ public class JDBCInfoFactory {
 
 		@Override
 		public String getName() {
-			return "CatalogSchemaTypeInfo [schema=" + schema.getName() + ", catalog=" + schema.catalog.getName()
-					+ ", databaseConnectionURL=" + schema.catalog.database.getConnectionURL() + "]";
+			return "CatalogSchemaTypeInfo [schema=" + schema.getName() + ", catalog=" + schema.catalog.getName() + "]";
 		}
 
 		@Override
@@ -997,8 +996,7 @@ public class JDBCInfoFactory {
 
 		@Override
 		public String getName() {
-			return "DatabaseCatalogTypeInfo [catalog=" + catalog.getName() + ", databaseConnectionURL="
-					+ catalog.database.getConnectionURL() + "]";
+			return "DatabaseCatalogTypeInfo [catalog=" + catalog.getName() + "]";
 		}
 
 		@Override
@@ -1077,7 +1075,7 @@ public class JDBCInfoFactory {
 
 		@Override
 		public String getName() {
-			return "DatabaseTypeInfo [connectionURL=" + database.getConnectionURL() + "]";
+			return "DatabaseTypeInfo []";
 		}
 
 		@Override
