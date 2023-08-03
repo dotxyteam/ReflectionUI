@@ -62,11 +62,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected String getMethodName;
 	protected String addMethodName;
 	protected String removeMethodName;
-	protected String sizeMethodName;
+	protected String sizeFieldName;
 
 	public ImplicitListFieldInfo(ReflectionUI reflectionUI, String fieldName, ITypeInfo parentType, ITypeInfo itemType,
 			String createMethodName, String getMethodName, String addMethodName, String removeMethodName,
-			String sizeMethodName) {
+			String sizeFieldName) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
 		this.parentType = parentType;
@@ -74,7 +74,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		this.getMethodName = getMethodName;
 		this.addMethodName = addMethodName;
 		this.removeMethodName = removeMethodName;
-		this.sizeMethodName = sizeMethodName;
+		this.sizeFieldName = sizeFieldName;
 		this.itemType = itemType;
 	}
 
@@ -95,7 +95,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	protected IFieldInfo getSizeField() {
-		return ReflectionUIUtils.findInfoByName(parentType.getFields(), sizeMethodName);
+		return ReflectionUIUtils.findInfoByName(parentType.getFields(), sizeFieldName);
 	}
 
 	@Override
@@ -271,7 +271,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		result = prime * result + ((getMethodName == null) ? 0 : getMethodName.hashCode());
 		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
 		result = prime * result + ((removeMethodName == null) ? 0 : removeMethodName.hashCode());
-		result = prime * result + ((sizeMethodName == null) ? 0 : sizeMethodName.hashCode());
+		result = prime * result + ((sizeFieldName == null) ? 0 : sizeFieldName.hashCode());
 		return result;
 	}
 
@@ -314,10 +314,10 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 				return false;
 		} else if (!removeMethodName.equals(other.removeMethodName))
 			return false;
-		if (sizeMethodName == null) {
-			if (other.sizeMethodName != null)
+		if (sizeFieldName == null) {
+			if (other.sizeFieldName != null)
 				return false;
-		} else if (!sizeMethodName.equals(other.sizeMethodName))
+		} else if (!sizeFieldName.equals(other.sizeFieldName))
 			return false;
 		return true;
 	}

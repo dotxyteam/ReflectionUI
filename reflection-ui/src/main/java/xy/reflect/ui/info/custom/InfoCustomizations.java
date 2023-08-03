@@ -1441,7 +1441,13 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class VirtualFieldDeclaration extends AbstractCustomization {
+	public static abstract class AbstractVirtualFieldDeclaration extends AbstractCustomization {
+
+		private static final long serialVersionUID = 1L;
+
+	}
+
+	public static class VirtualFieldDeclaration extends AbstractVirtualFieldDeclaration {
 		private static final long serialVersionUID = 1L;
 
 		protected String fieldName;
@@ -1472,6 +1478,102 @@ public class InfoCustomizations implements Serializable {
 			if (fieldTypeFinder == null) {
 				throw new IllegalStateException("Field type not provided");
 			}
+		}
+
+		@Override
+		public String toString() {
+			return fieldName;
+		}
+
+	}
+
+	public static class ImplicitListFieldDeclaration extends AbstractVirtualFieldDeclaration {
+		private static final long serialVersionUID = 1L;
+
+		protected String fieldName;
+		protected ITypeInfoFinder itemTypeFinder;
+		protected String createMethodName;
+		protected String getMethodName;
+		protected String addMethodName;
+		protected String removeMethodName;
+		protected String sizeFieldName;
+
+		public String getFieldName() {
+			return fieldName;
+		}
+
+		public void setFieldName(String fieldName) {
+			this.fieldName = fieldName;
+		}
+
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
+		public ITypeInfoFinder getItemTypeFinder() {
+			return itemTypeFinder;
+		}
+
+		public void setItemTypeFinder(ITypeInfoFinder itemTypeFinder) {
+			this.itemTypeFinder = itemTypeFinder;
+		}
+
+		public String getCreateMethodName() {
+			return createMethodName;
+		}
+
+		public void setCreateMethodName(String createMethodName) {
+			this.createMethodName = createMethodName;
+		}
+
+		public String getGetMethodName() {
+			return getMethodName;
+		}
+
+		public void setGetMethodName(String getMethodName) {
+			this.getMethodName = getMethodName;
+		}
+
+		public String getAddMethodName() {
+			return addMethodName;
+		}
+
+		public void setAddMethodName(String addMethodName) {
+			this.addMethodName = addMethodName;
+		}
+
+		public String getRemoveMethodName() {
+			return removeMethodName;
+		}
+
+		public void setRemoveMethodName(String removeMethodName) {
+			this.removeMethodName = removeMethodName;
+		}
+
+		public String getSizeFieldName() {
+			return sizeFieldName;
+		}
+
+		public void setSizeFieldName(String sizeFieldName) {
+			this.sizeFieldName = sizeFieldName;
+		}
+
+		public void validate() throws Exception {
+			if ((fieldName == null) || (fieldName.length() == 0)) {
+				throw new IllegalStateException("Field name not provided");
+			}
+			if (itemTypeFinder == null) {
+				throw new IllegalStateException("Item type not provided");
+			}
+			if ((getMethodName == null) || (getMethodName.length() == 0)) {
+				throw new IllegalStateException("'Get' method name not provided");
+			}
+			if ((sizeFieldName == null) || (sizeFieldName.length() == 0)) {
+				throw new IllegalStateException("Size field name not provided");
+			}
+		}
+
+		@Override
+		public String toString() {
+			return fieldName;
 		}
 
 	}
@@ -1813,7 +1915,7 @@ public class InfoCustomizations implements Serializable {
 		protected ResourcePath labelCustomFontResourcePath;
 		protected ResourcePath editorCustomFontResourcePath;
 		protected ResourcePath buttonCustomFontResourcePath;
-		
+
 		public String getApplicationName() {
 			return applicationName;
 		}
@@ -2060,7 +2162,7 @@ public class InfoCustomizations implements Serializable {
 		protected MenuModelCustomization menuModelCustomization = new MenuModelCustomization();
 		protected boolean anyDefaultObjectMemberIncluded = false;
 		protected boolean anyPersistenceMemberIncluded = false;
-		protected List<VirtualFieldDeclaration> virtualFieldDeclarations = new ArrayList<VirtualFieldDeclaration>();
+		protected List<AbstractVirtualFieldDeclaration> virtualFieldDeclarations = new ArrayList<AbstractVirtualFieldDeclaration>();
 		protected FormSizeCustomization formWidth;
 		protected FormSizeCustomization formHeight;
 		protected ResourcePath formBackgroundImagePath;
@@ -2313,11 +2415,13 @@ public class InfoCustomizations implements Serializable {
 			this.formHeight = formHeight;
 		}
 
-		public List<VirtualFieldDeclaration> getVirtualFieldDeclarations() {
+		@XmlElements({ @XmlElement(name = "virtualFieldDeclarations", type = VirtualFieldDeclaration.class),
+				@XmlElement(name = "implicitListFieldDeclarations", type = ImplicitListFieldDeclaration.class) })
+		public List<AbstractVirtualFieldDeclaration> getVirtualFieldDeclarations() {
 			return virtualFieldDeclarations;
 		}
 
-		public void setVirtualFieldDeclarations(List<VirtualFieldDeclaration> virtualFieldDeclarations) {
+		public void setVirtualFieldDeclarations(List<AbstractVirtualFieldDeclaration> virtualFieldDeclarations) {
 			this.virtualFieldDeclarations = virtualFieldDeclarations;
 		}
 

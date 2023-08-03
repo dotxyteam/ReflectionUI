@@ -44,6 +44,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.AbstractVirtualFieldDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ConversionMethodFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
@@ -211,7 +212,7 @@ public class CustomizationTools {
 							final TypeCustomization tc = InfoCustomizations.getTypeCustomization(
 									swingCustomizer.getInfoCustomizations(), customizedType.getName(), true);
 
-							final List<VirtualFieldDeclaration> fieldDeclarations = new ArrayList<InfoCustomizations.VirtualFieldDeclaration>(
+							final List<AbstractVirtualFieldDeclaration> fieldDeclarations = new ArrayList<AbstractVirtualFieldDeclaration>(
 									tc.getVirtualFieldDeclarations());
 							fieldDeclarations.add(fieldDeclaration);
 
@@ -264,7 +265,7 @@ public class CustomizationTools {
 							final TypeCustomization tc = InfoCustomizations.getTypeCustomization(
 									swingCustomizer.getInfoCustomizations(), customizedType.getName(), true);
 
-							final List<VirtualFieldDeclaration> fieldDeclarations = new ArrayList<InfoCustomizations.VirtualFieldDeclaration>(
+							final List<AbstractVirtualFieldDeclaration> fieldDeclarations = new ArrayList<AbstractVirtualFieldDeclaration>(
 									tc.getVirtualFieldDeclarations());
 							fieldDeclarations.add(fieldDeclaration);
 

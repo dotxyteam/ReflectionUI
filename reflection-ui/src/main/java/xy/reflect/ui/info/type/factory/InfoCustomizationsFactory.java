@@ -23,6 +23,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
+import xy.reflect.ui.info.custom.InfoCustomizations.AbstractVirtualFieldDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ApplicationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
@@ -31,6 +32,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
+import xy.reflect.ui.info.custom.InfoCustomizations.ImplicitListFieldDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemFieldShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
@@ -48,6 +50,7 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.field.ImplicitListFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.MethodReturnValueFieldInfo;
 import xy.reflect.ui.info.field.NullReplacementFieldInfo;
@@ -1807,7 +1810,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (containingTypeCustomization.isAnyPersistenceMemberIncluded()) {
 				addPersistenceMembers(inputFields, inputMethods, inputConstructors);
 			}
-			for (VirtualFieldDeclaration virtualFieldDeclaration : containingTypeCustomization
+			for (AbstractVirtualFieldDeclaration virtualFieldDeclaration : containingTypeCustomization
 					.getVirtualFieldDeclarations()) {
 				IFieldInfo newField = createVirtualField(virtualFieldDeclaration);
 				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, containingType);
@@ -1817,14 +1820,40 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					ReflectionUIUtils.createMenuModel(containingTypeCustomization.getMenuModelCustomization()));
 		}
 
-		protected IFieldInfo createVirtualField(VirtualFieldDeclaration virtualFieldDeclaration) {
-			try {
-				ITypeInfo fieldType = virtualFieldDeclaration.getFieldTypeFinder().find(customizedUI,
-						new SpecificitiesIdentifier(containingType.getName(), virtualFieldDeclaration.getFieldName()));
-				return new VirtualFieldInfo(virtualFieldDeclaration.getFieldName(), fieldType);
-			} catch (Throwable t) {
-				throw new ReflectionUIError("Type '" + containingType.getName() + "': Failed to create virtual field '"
-						+ virtualFieldDeclaration.getFieldName() + "': " + t.toString(), t);
+		protected IFieldInfo createVirtualField(AbstractVirtualFieldDeclaration virtualFieldDeclaration) {
+			if (virtualFieldDeclaration instanceof VirtualFieldDeclaration) {
+				VirtualFieldDeclaration basicVirtualFieldDeclaration = (VirtualFieldDeclaration) virtualFieldDeclaration;
+				try {
+					ITypeInfo fieldType = basicVirtualFieldDeclaration.getFieldTypeFinder().find(customizedUI,
+							new SpecificitiesIdentifier(containingType.getName(),
+									basicVirtualFieldDeclaration.getFieldName()));
+					return new VirtualFieldInfo(basicVirtualFieldDeclaration.getFieldName(), fieldType);
+				} catch (Throwable t) {
+					throw new ReflectionUIError(
+							"Type '" + containingType.getName() + "': Failed to create virtual field '"
+									+ basicVirtualFieldDeclaration.getFieldName() + "': " + t.toString(),
+							t);
+				}
+			} else if (virtualFieldDeclaration instanceof ImplicitListFieldDeclaration) {
+				ImplicitListFieldDeclaration implicitListFieldDeclaration = (ImplicitListFieldDeclaration) virtualFieldDeclaration;
+				try {
+					ITypeInfo itemType = implicitListFieldDeclaration.getItemTypeFinder().find(customizedUI,
+							new SpecificitiesIdentifier(containingType.getName(),
+									implicitListFieldDeclaration.getFieldName()));
+					return new ImplicitListFieldInfo(customizedUI, implicitListFieldDeclaration.getFieldName(), containingType,
+							itemType, implicitListFieldDeclaration.getCreateMethodName(),
+							implicitListFieldDeclaration.getGetMethodName(),
+							implicitListFieldDeclaration.getAddMethodName(),
+							implicitListFieldDeclaration.getRemoveMethodName(),
+							implicitListFieldDeclaration.getSizeFieldName());
+				} catch (Throwable t) {
+					throw new ReflectionUIError(
+							"Type '" + containingType.getName() + "': Failed to create implicit list field '"
+									+ implicitListFieldDeclaration.getFieldName() + "': " + t.toString(),
+							t);
+				}
+			} else {
+				throw new ReflectionUIError();
 			}
 		}
 
@@ -2879,7 +2908,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						public boolean isNullValueDistinct() {
 							return false;
 						}
-						
+
 					};
 				}
 				return field;
