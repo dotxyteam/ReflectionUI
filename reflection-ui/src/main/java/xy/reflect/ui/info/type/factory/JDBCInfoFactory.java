@@ -2251,6 +2251,7 @@ public class JDBCInfoFactory {
 		protected Statement statement;
 		protected ResultSet resultSet;
 		protected List<Row> rows;
+		protected List<Column> columns;
 
 		public Table(Schema schema, String name) {
 			this.schema = schema;
@@ -2263,18 +2264,21 @@ public class JDBCInfoFactory {
 
 		public List<Column> getColumns() throws SQLException {
 			synchronized (schema.catalog.database.connectionMutex) {
-				List<Column> result = new ArrayList<Column>();
-				DatabaseMetaData metadata = schema.catalog.database.connection.getMetaData();
-				ResultSet rs = metadata.getColumns(schema.catalog.name, schema.name, name, "%");
-				while (rs.next()) {
-					String columnName = rs.getString("COLUMN_NAME");
-					int columnPosition = rs.getInt("ORDINAL_POSITION");
-					int sqlType = rs.getInt("DATA_TYPE");
-					boolean nullable = rs.getInt("NULLABLE") == DatabaseMetaData.columnNullable;
-					boolean autoIncrement = rs.getString("IS_AUTOINCREMENT").equals("YES");
-					result.add(new Column(this, columnName, columnPosition, sqlType, nullable, autoIncrement));
+				if (columns == null) {
+					List<Column> result = new ArrayList<Column>();
+					DatabaseMetaData metadata = schema.catalog.database.connection.getMetaData();
+					ResultSet rs = metadata.getColumns(schema.catalog.name, schema.name, name, "%");
+					while (rs.next()) {
+						String columnName = rs.getString("COLUMN_NAME");
+						int columnPosition = rs.getInt("ORDINAL_POSITION");
+						int sqlType = rs.getInt("DATA_TYPE");
+						boolean nullable = rs.getInt("NULLABLE") == DatabaseMetaData.columnNullable;
+						boolean autoIncrement = rs.getString("IS_AUTOINCREMENT").equals("YES");
+						result.add(new Column(this, columnName, columnPosition, sqlType, nullable, autoIncrement));
+					}
+					columns = result;
 				}
-				return result;
+				return columns;
 			}
 		}
 

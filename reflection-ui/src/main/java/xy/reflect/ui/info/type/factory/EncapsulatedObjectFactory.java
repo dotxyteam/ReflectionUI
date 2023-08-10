@@ -702,7 +702,8 @@ public class EncapsulatedObjectFactory {
 
 		protected void checkValue(Object value) {
 			if ((value != null) && !fieldType.supports(value)) {
-				throw new ReflectionUIError();
+				throw new ReflectionUIError("Type '" + fieldType.getName() + "' does not support ("
+						+ value.getClass().getName() + ") value '" + value + "'");
 			}
 		}
 
