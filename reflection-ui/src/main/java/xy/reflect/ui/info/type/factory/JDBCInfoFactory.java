@@ -1254,6 +1254,11 @@ public class JDBCInfoFactory {
 		}
 
 		@Override
+		public boolean isTransient() {
+			return true;
+		}
+
+		@Override
 		public ValueReturnMode getValueReturnMode() {
 			return ValueReturnMode.DIRECT_OR_PROXY;
 		}
@@ -1370,17 +1375,15 @@ public class JDBCInfoFactory {
 				rowsToInsert.removeAll(table.getRows());
 
 				for (Row row : rowsToDelete) {
-					table.resultSet.absolute(row.getNumber());
-					table.resultSet.deleteRow();
+					table.deleteRow(row.getNumber());
 				}
 				for (Row row : rowsToInsert) {
-					table.resultSet.moveToInsertRow();
+					Map<String, Object> newCellValues = new HashMap<String, Object>();
 					for (Column column : table.getColumns()) {
-						table.resultSet.updateObject(column.getName(), row.getCell(column.getName()).getValue());
+						newCellValues.put(column.getName(), row.getCell(column.getName()).getValue());
 					}
-					table.resultSet.insertRow();
+					table.insertRow(newCellValues);
 				}
-				table.refresh();
 			} catch (SQLException e) {
 				throw new ReflectionUIError(e);
 			}
@@ -2248,8 +2251,8 @@ public class JDBCInfoFactory {
 
 		protected Schema schema;
 		protected String name;
-		protected Statement statement;
-		protected ResultSet resultSet;
+		protected Statement rowListStatement;
+		protected ResultSet rowListResultSet;
 		protected List<Row> rows;
 		protected List<Column> columns;
 
@@ -2294,10 +2297,10 @@ public class JDBCInfoFactory {
 		public List<Row> getRows() throws SQLException {
 			if (rows == null) {
 				synchronized (schema.catalog.database.connectionMutex) {
-					statement = schema.catalog.database.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-							ResultSet.CONCUR_UPDATABLE);
-					refresh();
 					rows = new AbstractList<Row>() {
+						{
+							refresh();
+						}
 
 						@Override
 						public Row get(int index) {
@@ -2313,11 +2316,12 @@ public class JDBCInfoFactory {
 						public int size() {
 							synchronized (schema.catalog.database.connectionMutex) {
 								try {
-									ResultSet countResultSet = statement
+									Statement rowCountStatement = schema.catalog.database.connection.createStatement(
+											ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+									ResultSet countResultSet = rowCountStatement
 											.executeQuery("select count(*) from " + getNamePrefix() + name);
 									countResultSet.first();
 									int result = countResultSet.getInt(1);
-									refresh();
 									return result;
 								} catch (SQLException e) {
 									throw new ReflectionUIError(e);
@@ -2330,8 +2334,14 @@ public class JDBCInfoFactory {
 			return rows;
 		}
 
-		public void refresh() throws SQLException {
-			resultSet = statement.executeQuery("select * from " + getNamePrefix() + name);
+		protected void refresh() {
+			try {
+				rowListStatement = schema.catalog.database.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+						ResultSet.CONCUR_UPDATABLE);
+				rowListResultSet = rowListStatement.executeQuery("select * from " + getNamePrefix() + name);
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
 		}
 
 		protected String getNamePrefix() throws SQLException {
@@ -2344,6 +2354,52 @@ public class JDBCInfoFactory {
 				result += schema.getName() + ".";
 			}
 			return result;
+		}
+
+		public Object getCellValue(int rowNumber, String columnName) {
+			try {
+				rowListResultSet.absolute(rowNumber);
+				return rowListResultSet.getObject(columnName);
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
+
+		public void setCellValue(int rowNumber, String columnName, Object value) {
+			try {
+				rowListResultSet.absolute(rowNumber);
+				rowListResultSet.updateObject(columnName, value);
+				rowListResultSet.updateRow();
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			} finally {
+				refresh();
+			}
+		}
+
+		public void insertRow(Map<String, Object> newCellValues) {
+			try {
+				rowListResultSet.moveToInsertRow();
+				for (Column column : getColumns()) {
+					rowListResultSet.updateObject(column.getName(), newCellValues.get(column.getName()));
+				}
+				rowListResultSet.insertRow();
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			} finally {
+				refresh();
+			}
+		}
+
+		public void deleteRow(int rowNumber) {
+			try {
+				rowListResultSet.absolute(rowNumber);
+				rowListResultSet.deleteRow();
+			} catch (SQLException e) {
+				throw new ReflectionUIError(e);
+			} finally {
+				refresh();
+			}
 		}
 
 		@Override
@@ -2659,13 +2715,7 @@ public class JDBCInfoFactory {
 				return row.newRowValueMap.get(column.getName());
 			} else {
 				if (!row.newRowValueMap.containsKey(column.getName())) {
-					Object value;
-					try {
-						column.table.resultSet.absolute(row.getNumber());
-						value = column.table.resultSet.getObject(column.getName());
-					} catch (SQLException e) {
-						throw new ReflectionUIError(e);
-					}
+					Object value = column.table.getCellValue(row.getNumber(), column.getName());
 					row.newRowValueMap.put(column.getName(), value);
 				}
 				return row.newRowValueMap.get(column.getName());
@@ -2676,14 +2726,7 @@ public class JDBCInfoFactory {
 			if (row.getNumber() == Row.NEW_ROW_NUMBER) {
 				row.newRowValueMap.put(column.getName(), value);
 			} else {
-				try {
-					column.table.resultSet.absolute(row.getNumber());
-					column.table.resultSet.updateObject(column.getName(), value);
-					column.table.resultSet.updateRow();
-					column.table.refresh();
-				} catch (SQLException e) {
-					throw new ReflectionUIError(e);
-				}
+				column.table.setCellValue(row.getNumber(), column.getName(), value);
 				row.newRowValueMap.put(column.getName(), value);
 			}
 		}
