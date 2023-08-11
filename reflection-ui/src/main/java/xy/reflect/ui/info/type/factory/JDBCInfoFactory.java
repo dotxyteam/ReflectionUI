@@ -2603,7 +2603,7 @@ public class JDBCInfoFactory {
 		protected static final int NEW_ROW_NUMBER = -1;
 		protected Table table;
 		protected int number;
-		protected Map<String, Object> newRowValueMap = new HashMap<String, Object>();
+		protected Map<String, Object> cache = new HashMap<String, Object>();
 
 		public Row(Table table, int number) {
 			this.table = table;
@@ -2617,7 +2617,7 @@ public class JDBCInfoFactory {
 						continue;
 					}
 					try {
-						newRowValueMap.put(column.getName(),
+						cache.put(column.getName(),
 								ReflectionUIUtils.createDefaultInstance(
 										ReflectionUIUtils.STANDARD_REFLECTION.buildTypeInfo(new JavaTypeInfoSource(
 												ReflectionUIUtils.STANDARD_REFLECTION, column.getJavaType(), null))));
@@ -2645,6 +2645,27 @@ public class JDBCInfoFactory {
 				return null;
 			}
 			return new Cell(this, column);
+		}
+
+		public Object getCellValue(String columnName) {
+			if (number == Row.NEW_ROW_NUMBER) {
+				return cache.get(columnName);
+			} else {
+				if (!cache.containsKey(columnName)) {
+					Object value = table.getCellValue(number, columnName);
+					cache.put(columnName, value);
+				}
+				return cache.get(columnName);
+			}
+		}
+
+		public void setCellValue(String columnName, Object value) {
+			if (number == Row.NEW_ROW_NUMBER) {
+				cache.put(columnName, value);
+			} else {
+				table.setCellValue(number, columnName, value);
+				cache.put(columnName, value);
+			}
 		}
 
 		@Override
@@ -2701,24 +2722,11 @@ public class JDBCInfoFactory {
 		}
 
 		public Object getValue() {
-			if (row.getNumber() == Row.NEW_ROW_NUMBER) {
-				return row.newRowValueMap.get(column.getName());
-			} else {
-				if (!row.newRowValueMap.containsKey(column.getName())) {
-					Object value = column.table.getCellValue(row.getNumber(), column.getName());
-					row.newRowValueMap.put(column.getName(), value);
-				}
-				return row.newRowValueMap.get(column.getName());
-			}
+			return row.getCellValue(column.getName());
 		}
 
 		public void setValue(Object value) {
-			if (row.getNumber() == Row.NEW_ROW_NUMBER) {
-				row.newRowValueMap.put(column.getName(), value);
-			} else {
-				column.table.setCellValue(row.getNumber(), column.getName(), value);
-				row.newRowValueMap.put(column.getName(), value);
-			}
+			row.setCellValue(column.getName(), value);
 		}
 
 		@Override
