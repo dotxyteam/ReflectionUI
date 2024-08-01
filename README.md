@@ -151,6 +151,15 @@ CustomUI provides the customizations editor by  using the following classes:
 - CustomizedUI: ReflectionUI subclass compatible with InfoCustomizationsFactory
 - SwingCustomizer: subclass of SwingRenderer compatible with CustomizedUI
 
+|       | (CustomizedUI) |           | (InfoCustomizationsFactory) |                   | (SwingCustomizer) |     |
+|:-----:|:--------------:|:---------:|:---------------------------:|:-----------------:|:-----------------:|-----|
+|       |       \|       |           |              \|             |                   |         \|        |     |
+|       |        ∇       |           |              ∇              |                   |         ∇         |     |
+|       | (ReflectionUI) |           |      (InfoProxyFactory)     |                   |  (SwingRenderer)  |     |
+| Class |    ——————–>    | ITypeInfo |           ——————–>          | ITypeInfo (proxy) |      ——————–>     | GUI |
+|       |                |           |              ^              |                   |                   |     |
+|       |                |           |                 \|_______   |       ____\|      |                   |     |
+
 ## The GUI builder Online Documenation
 
 Note that since the version 4.6.0 the GUI builder has an online documentation. To view it click on the question mark buttons available on any customization editor window. 
