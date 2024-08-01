@@ -103,7 +103,7 @@ Class	----------(ReflectionUI)---------->	ITypeInfo	-----------(SwingRenderer)--
 
 Note that the SwingRenderer creates Swing-based GUIs. This is the default renderer but other renderers (JavaFX-based, SWT-based, ...) could be developed and plugged.
 
-IMPORTANT: Swing is not (and will not be) obsolete even if JavaFX seems to be its replacement. Since 2020 we know that Swing might even survive longer than JavaFX. From the official Oracle Java Client Roadmap:
+IMPORTANT: Swing is not (and will not be) obsolete even if JavaFX seems to be its replacement. Since 2020 we know that Swing might even survive longer than JavaFX. From the official [Oracle Java Client Roadmap](https://www.oracle.com/technetwork/java/javase/javaclientroadmapupdatev2020may-6548840.pdf):
 
     Oracle will continue developing Swing and AWT across all supported releases as a core Java SE technology.
 
@@ -113,14 +113,104 @@ IMPORTANT: Swing is not (and will not be) obsolete even if JavaFX seems to be it
 
 The ReflectionUI interpretation algorithm is based on the Java language coding standards (ex: getter/setter interpreted as a unique property, ...).
 
-Unfortunately, even when these standards are respected, there might not be enough information in every class definition to provide a GUI that looks and behaves exactly as expected. This is why the ReflectionUI interpretation process will often need to be customized. This is where the InfoProxyFactory comes into play. It is not essential to the ReflectionUI customization, but it makes it easier by allowing to specify conveniently a proxy for each ITypeInfo object.
+Unfortunately, even when these standards are respected, there might not be enough information in every class definition to provide a GUI that looks and behaves exactly as expected. This is why the ReflectionUI interpretation process will often need to be customized. This is where the **InfoProxyFactory** comes into play. It is not essential to the ReflectionUI customization, but it makes it easier by allowing to specify conveniently a proxy for each ITypeInfo object.
 
 CustomUI provides the customizations editor by  using the following classes:
 
-    InfoCustomizations: declarative customizations persisted in XML.
-    InfoCustomizationsFactory: subclass of InfoProxyFactory generating proxies according to its InfoCustomizations instance.
-    CustomizedUI: ReflectionUI subclass compatible with InfoCustomizationsFactory
-    SwingCustomizer: subclass of SwingRenderer compatible with CustomizedUI
+- InfoCustomizations: declarative customizations persisted in XML.
+- InfoCustomizationsFactory: subclass of InfoProxyFactory generating proxies according to its InfoCustomizations instance.
+- CustomizedUI: ReflectionUI subclass compatible with InfoCustomizationsFactory
+- SwingCustomizer: subclass of SwingRenderer compatible with CustomizedUI
+
+## The GUI builder Online Documenation
+
+Note that since the version 4.6.0 the GUI builder has an online documentation. To view it click on the question mark buttons available on any customization tools user interface. 
+
+## Demonstration Videos (and covered subjects)
+
+https://youtu.be/E5gHqU6LRPQ
+- Virtual fields
+- Windows background image
+- Buttons background image
+- Title bar removal
+
+https://youtu.be/y4hb8Zkql_A
+- Enumeration
+- Side menu
+- Method presets
+- Converting fields to method parameters
+
+https://youtu.be/36E7k8vAgeY
+- Menus
+- Windows background image
+
+https://youtu.be/db6iGuYqzto
+- Styled texts
+- Windows background image
+- Buttons background image
+
+https://youtu.be/5EAa0Q09KV0
+- Toggle buttons
+- Form background
+- Button icon
+
+https://youtu.be/x17wshiS1Wg
+- Side menus
+- Type conversion
+- List columns
+
+https://youtu.be/o1VHdLp12eg
+- Form background image
+- Styled texts
+- Windows background color
+- Buttons background color
+
+https://youtu.be/qNI_fJkF6oY
+- List colums
+- Image banner
+- Button icon
+
+https://youtu.be/BZnHu_Y-mg4
+- Field periodic auto-update
+- Styled texts
+- Windows background image
+
+https://youtu.be/7bXQGf1EkS8
+- Getting started
+- Windows colors
+- Buttons colors
+
+https://youtu.be/TK1iH_IXtYo
+- Windows background image
+- Undo management
+- Custom checkbox
+- Shared customizations
+
+https://youtu.be/Pqf_bAEDFYw
+- Multiple lines text
+- Image banner
+- Buttons colors
+
+https://youtu.be/xG4G_n4wFGk
+- Banner
+- Button icon
+- Styled texts
+
+https://youtu.be/HCaohJ7PMlM
+- List details view
+- Side menu
+- Image banner
+
+https://youtu.be/EQvnWX_pTko
+- Design mode deactivation
+
+https://youtu.be/edsESH7Zh8w
+- Design mode deactivation
+
+https://youtu.be/J-SLg0Wf-GI
+- Design mode deactivation
+
+
 
 # Licensing
 
