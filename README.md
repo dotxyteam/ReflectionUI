@@ -67,6 +67,24 @@ The generation of the GUI (graphical user interface) requires no other informati
 *   Use maven (see below)
 *   Or [Get the source code and the binaries↓](https://github.com/dotxyteam/ReflectionUI/releases)
 
+# Maven Dependencies
+
+ReflectionUI:
+
+    <dependency>
+    <groupId>com.github.dotxyteam</groupId>
+    <artifactId>reflection-ui</artifactId>
+    <version>5.2.10</version>
+    </dependency>
+
+CustomUI:
+
+    <dependency>
+    <groupId>com.github.dotxyteam</groupId>
+    <artifactId>custom-ui</artifactId>
+    <version>5.2.10</version>
+    </dependency>
+
 # Documentation
 
 *   Read the user guide (below)
