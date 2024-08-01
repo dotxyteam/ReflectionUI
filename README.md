@@ -69,10 +69,14 @@ The generation of the GUI (graphical user interface) requires no other informati
 
 # Documentation
 
-*   Read the [user guide](below)
+*   Read the user guide (below)
 *   Explore the examples ('examples' directory in the distribution folder)
 
-Support
-=======
+# Licensing
+
+ReflectionUI and CustomUI libraries are distributed under this
+[license](https://raw.githubusercontent.com/dotxyteam/ReflectionUI/master/reflection-ui/LICENSE).
+
+# Support
 
 The support page is hosted [here on GitHub](https://github.com/dotxyteam/ReflectionUI/issues). You can also contact us by email: [dotxyteam@yahoo.fr](mailto:dotxyteam@yahoo.fr).
