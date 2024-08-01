@@ -63,9 +63,17 @@ The generation of the GUI (graphical user interface) requires no other informati
 | GUI maintenance                                                    | optional                                      | mandatory                          |
 | GUI re-usability                                                   | reusable plugins can be developed             | reusable controls can be developed |
 
+# Requirements
+
+Tested on Java 8 and 17.
+
+# Licensing
+
+ReflectionUI and CustomUI libraries are distributed under this
+[license](https://github.com/dotxyteam/ReflectionUI/blob/master/reflection-ui/LICENSE).
+
 # Getting started
 
-*   Requirements: Tested on Java 8 and 17.
 *   Use Maven (see below)
 *   Or Get the archive (zip) file from the [download area](https://github.com/dotxyteam/ReflectionUI/releases)
     *   Extract it
@@ -74,7 +82,6 @@ The generation of the GUI (graphical user interface) requires no other informati
 
 # Download
 
-*   License: open source: MIT (see below).
 *   Use maven (see below)
 *   Or [Get the source code and the binaries↓](https://github.com/dotxyteam/ReflectionUI/releases)
 
@@ -264,11 +271,6 @@ https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/mai
 CustomUI tutorial: <DISTRIBUTION_DIRECTORY>/examples/src/main/java/xy/reflect/ui/example/CustomUITutorial.java
 
 https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/main/java/xy/reflect/ui/example/CustomUITutorial.java
-
-# Licensing
-
-ReflectionUI and CustomUI libraries are distributed under this
-[license](https://github.com/dotxyteam/ReflectionUI/blob/master/reflection-ui/LICENSE).
 
 # Support
 
