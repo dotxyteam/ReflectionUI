@@ -12,3 +12,43 @@ The generation of the GUI (graphical user interface) requires no other informati
 
 [Demonstration Video](https://www.youtube.com/watch?v=E5gHqU6LRPQ)
 (More videos below)
+
+# Use Cases
+
+- Developing a project GUI by generating and customizing it
+- Prototyping a GUI
+- Exploring a library capabilities quickly through a generated GUI
+- …
+
+# Advantages
+
+- Instant prototyping
+- Reduced cost of user interface development and testing
+- Code injection simplified for cross-cutting concerns (logs, usage statistics, etc.)
+
+# Features
+
+(ReflectionUI)
+
+- On the fly GUI generation
+- Controls generated for public fields, methods, get/set properties, …
+- Automatic undo/redo management
+- Automatic copy/cut/paste management
+- Dynamic menus
+- Field validation
+- On-line help management
+- Elegant display for exceptions
+- Non-intrusive customizations
+- Generator pluggable to any meta-data model
+
+(CustomUI)
+
+- WYSIWYG GUI customization
+- Various configurable controls (forms, sliders, spinners, tables, trees, html panes, …)
+- Grouping and categorizing controls
+- Flexible layout management
+- Skinning
+- Icons
+- Menus (standard and custom items)
+- Extensible (control plugins)
+
