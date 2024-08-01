@@ -52,3 +52,27 @@ The generation of the GUI (graphical user interface) requires no other informati
 - Menus (standard and custom items)
 - Extensible (control plugins)
 
+# Getting started
+
+*   Requirements: Tested on Java 8 and 17.
+*   Use Maven (see below)
+*   Or Get the archive (zip) file from the [download area](https://github.com/dotxyteam/ReflectionUI/releases)
+    *   Extract it
+    *   Add the jars from the 'bin' directory to your classpath
+*   Run the class: `xy.reflect.ui.control.swing.customizer.SwingCustomizer`
+
+# Download
+
+*   License: open source: MIT (see below).
+*   Use maven (see below)
+*   Or [Get the source code and the binaries↓](https://github.com/dotxyteam/ReflectionUI/releases)
+
+# Documentation
+
+*   Read the [user guide](below)
+*   Explore the examples ('examples' directory in the distribution folder)
+
+Support
+=======
+
+The support page is hosted [here on GitHub](https://github.com/dotxyteam/ReflectionUI/issues). You can also contact us by email: [dotxyteam@yahoo.fr](mailto:dotxyteam@yahoo.fr).
