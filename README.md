@@ -210,12 +210,27 @@ https://youtu.be/edsESH7Zh8w
 https://youtu.be/J-SLg0Wf-GI
 - Design mode deactivation
 
+## HelloWorld example
 
+https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/main/java/xy/reflect/ui/example/HelloWorld.java
+
+## Tutorials
+
+Tutorials have been written as class methods in the examples sub-project. You should read the comments first.
+
+
+ReflectionUI tutorial: <DISTRIBUTION_DIRECTORY>/examples/src/main/java/xy/reflect/ui/example/ReflectionUITutorial.java
+    
+https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/main/java/xy/reflect/ui/example/ReflectionUITutorial.java
+
+CustomUI tutorial: <DISTRIBUTION_DIRECTORY>/examples/src/main/java/xy/reflect/ui/example/CustomUITutorial.java
+
+https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/main/java/xy/reflect/ui/example/CustomUITutorial.java
 
 # Licensing
 
 ReflectionUI and CustomUI libraries are distributed under this
-[license](https://raw.githubusercontent.com/dotxyteam/ReflectionUI/master/reflection-ui/LICENSE).
+[license](https://github.com/dotxyteam/ReflectionUI/blob/master/reflection-ui/LICENSE).
 
 # Support
 
