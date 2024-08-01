@@ -72,6 +72,56 @@ The generation of the GUI (graphical user interface) requires no other informati
 *   Read the user guide (below)
 *   Explore the examples ('examples' directory in the distribution folder)
 
+# User guide
+
+## Basic Usage
+
+    SwingCustomizer.getDefault().openObjectFrame(myObject);
+
+Disable the design mode by setting this system property:
+
+    -Dxy.reflect.ui.infoCustomizationsToolsHidden=true
+
+## Default Operation
+
+- Only public fields and methods are considered.
+- A public getter (public <Type> (get|is|has)Something()) and its eventual associated public setter (public void setSomething(<Type> object)) are considered as a unique public field (public <Type> something).
+- A final field or a getter without an associated setter are considered as a "get-only" field that may not be editable (depends on the field type).
+- A field control (text component, list view, combo-box, ...) is generated for each field.
+- A button is generated for each method.
+- Field changes can be undone.
+- Method calls invalidate the modification stack and cannot be undone. Note that IMethodInfo.getNextInvocationUndoJob(...) or IMethodInfo.isReadOnly() can be overridden in order to make a method call undoable or harmless for the modification stack.
+
+## Architecture
+
+The GUI is generated in 2 steps:
+
+The class information of each object is read and interpreted by the ReflectionUI object. The result is an abstract GUI model: ITypeInfo.
+Then this abstract GUI model is passed to the engine that will create the various GUI controls displaying the object values: the SwingRenderer.
+
+Class	----------(ReflectionUI)---------->	ITypeInfo	-----------(SwingRenderer)--------->	GUI
+
+Note that the SwingRenderer creates Swing-based GUIs. This is the default renderer but other renderers (JavaFX-based, SWT-based, ...) could be developed and plugged.
+
+IMPORTANT: Swing is not (and will not be) obsolete even if JavaFX seems to be its replacement. Since 2020 we know that Swing might even survive longer than JavaFX. From the official Oracle Java Client Roadmap:
+
+    Oracle will continue developing Swing and AWT across all supported releases as a core Java SE technology.
+
+    ...
+
+    Oracle will continue to support JavaFX with new fixes for Java SE 8 until at least March 2025.
+
+The ReflectionUI interpretation algorithm is based on the Java language coding standards (ex: getter/setter interpreted as a unique property, ...).
+
+Unfortunately, even when these standards are respected, there might not be enough information in every class definition to provide a GUI that looks and behaves exactly as expected. This is why the ReflectionUI interpretation process will often need to be customized. This is where the InfoProxyFactory comes into play. It is not essential to the ReflectionUI customization, but it makes it easier by allowing to specify conveniently a proxy for each ITypeInfo object.
+
+CustomUI provides the customizations editor by  using the following classes:
+
+    InfoCustomizations: declarative customizations persisted in XML.
+    InfoCustomizationsFactory: subclass of InfoProxyFactory generating proxies according to its InfoCustomizations instance.
+    CustomizedUI: ReflectionUI subclass compatible with InfoCustomizationsFactory
+    SwingCustomizer: subclass of SwingRenderer compatible with CustomizedUI
+
 # Licensing
 
 ReflectionUI and CustomUI libraries are distributed under this
