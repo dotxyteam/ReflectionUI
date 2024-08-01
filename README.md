@@ -52,6 +52,17 @@ The generation of the GUI (graphical user interface) requires no other informati
 - Menus (standard and custom items)
 - Extensible (control plugins)
 
+# Differences compared to classic GUI builders
+
+|                                                                    | CustomUI (ReflectionUI)                       | Classical GUI builder              |
+|--------------------------------------------------------------------|-----------------------------------------------|------------------------------------|
+| GUI structure                                                      |   generated, customized                       |   designed, connected to the data  |
+| GUI code                                                           | mostly interpreted (XML-based customizations) | generated and/or interpreted       |
+| Standard features (copy/cut/paste, undo/redo, open/save file, ...) | enabled/disabled                              | developed                          |
+| GUI update                                                         | automatic                                     | manual                             |
+| GUI maintenance                                                    | optional                                      | mandatory                          |
+| GUI re-usability                                                   | reusable plugins can be developed             | reusable controls can be developed |
+
 # Getting started
 
 *   Requirements: Tested on Java 8 and 17.
@@ -142,7 +153,7 @@ CustomUI provides the customizations editor by  using the following classes:
 
 ## The GUI builder Online Documenation
 
-Note that since the version 4.6.0 the GUI builder has an online documentation. To view it click on the question mark buttons available on any customization tools user interface. 
+Note that since the version 4.6.0 the GUI builder has an online documentation. To view it click on the question mark buttons available on any customization editor window. 
 
 ## Demonstration Videos (and covered subjects)
 
