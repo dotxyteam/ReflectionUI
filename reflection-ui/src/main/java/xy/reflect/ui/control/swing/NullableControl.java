@@ -174,6 +174,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		} else {
 			Object newValue = swingRenderer.onTypeInstanciationRequest(NullableControl.this, data.getType());
 			if (newValue == null) {
+				refreshUI(false);
 				return;
 			}
 			ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, input.getModificationStack(),
