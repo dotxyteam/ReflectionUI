@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.parameter;
 
 import java.util.Collections;
@@ -29,13 +27,17 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	protected ITypeInfo type;
 	protected String name;
 
-	public static boolean isCompatibleWith(Parameter javaParameter) {
-		return true;
-	}
-
 	public DefaultParameterInfo(ReflectionUI reflectionUI, Parameter javaParameter) {
 		this.reflectionUI = reflectionUI;
 		this.javaParameter = javaParameter;
+	}
+
+	public Parameter getJavaParameter() {
+		return javaParameter;
+	}
+
+	public static boolean isCompatibleWith(Parameter javaParameter) {
+		return true;
 	}
 
 	@Override

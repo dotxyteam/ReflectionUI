@@ -50,6 +50,10 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		resolveJavaReflectionModelAccessProblems();
 	}
 
+	public Method getJavaMethod() {
+		return javaMethod;
+	}
+
 	protected void resolveJavaReflectionModelAccessProblems() {
 		try {
 			javaMethod.setAccessible(true);

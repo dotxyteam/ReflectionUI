@@ -43,6 +43,14 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		this.valueJavaType = valueJavaType;
 	}
 
+	public Class<?> getKeyJavaType() {
+		return keyJavaType;
+	}
+
+	public Class<?> getValueJavaType() {
+		return valueJavaType;
+	}
+
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return javaType.equals(StandardMapEntry.class);
 	}

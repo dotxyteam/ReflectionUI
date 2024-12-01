@@ -34,6 +34,10 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 		resolveJavaReflectionModelAccessProblems();
 	}
 
+	public Constructor<?> getJavaConstructor() {
+		return javaConstructor;
+	}
+
 	public static boolean isCompatibleWith(Constructor<?> constructor) {
 		Class<?> declaringClass = constructor.getDeclaringClass();
 		if (declaringClass.getEnclosingClass() != null) {

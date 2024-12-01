@@ -38,6 +38,14 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 				.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(entryTypeSource.getTypeInfo()));
 	}
 
+	public Class<?> getKeyJavaType() {
+		return keyJavaType;
+	}
+
+	public Class<?> getValueJavaType() {
+		return valueJavaType;
+	}
+
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		if (Map.class.isAssignableFrom(javaType)) {
 			return true;
