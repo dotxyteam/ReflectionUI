@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.ArrayList;
@@ -132,11 +130,13 @@ public class ItemPosition implements Cloneable {
 		} else {
 			containingListRawValue = parentItemPosition.retrieveSubListRawValue();
 		}
-		if ((index >= 0) && (index < containingListRawValue.length)) {
-			return containingListRawValue[index];
-		} else {
+		if (containingListRawValue == null) {
 			return null;
 		}
+		if ((index < 0) || (index >= containingListRawValue.length)) {
+			return null;
+		}
+		return containingListRawValue[index];
 	}
 
 	/**
@@ -199,9 +199,9 @@ public class ItemPosition implements Cloneable {
 	 *         given index.
 	 */
 	public ItemPosition getSibling(int index) {
-		if(isRoot()) {
+		if (isRoot()) {
 			return factory.getRootItemPosition(index);
-		}else {
+		} else {
 			return parentItemPosition.getSubItemPosition(index);
 		}
 	}
