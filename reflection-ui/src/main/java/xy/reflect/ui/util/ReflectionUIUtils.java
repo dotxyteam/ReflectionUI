@@ -64,6 +64,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
@@ -512,12 +513,13 @@ public class ReflectionUIUtils {
 		return type.copy(object);
 	}
 
-	public static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply) {
+	public static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst,
+			boolean deeply) {
 		copyFieldValuesAccordingInfos(reflectionUI, src, dst, deeply, new ArrayList<Pair<Object, Object>>());
 	}
 
-	protected static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply,
-			List<Pair<Object, Object>> alreadyCopied) {
+	protected static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst,
+			boolean deeply, List<Pair<Object, Object>> alreadyCopied) {
 		alreadyCopied.add(new Pair<Object, Object>(src, dst));
 		ITypeInfo srcType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(src));
 		ITypeInfo dstType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(dst));
@@ -547,7 +549,8 @@ public class ReflectionUIUtils {
 							dstFieldValue = copy(reflectionUI, srcFieldValue);
 						} else {
 							dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
-							copyFieldValuesAccordingInfos(reflectionUI, srcFieldValue, dstFieldValue, true, alreadyCopied);
+							copyFieldValuesAccordingInfos(reflectionUI, srcFieldValue, dstFieldValue, true,
+									alreadyCopied);
 						}
 					}
 					dstField.setValue(dst, dstFieldValue);
@@ -1236,6 +1239,15 @@ public class ReflectionUIUtils {
 
 	public static String secureNameContent(String s) {
 		return s.replaceAll("[^a-zA-Z0-9 ]", "_");
+	}
+
+	public static ITypeInfo getStandardTypeInfo(String className) {
+		try {
+			return STANDARD_REFLECTION
+					.buildTypeInfo(new JavaTypeInfoSource(STANDARD_REFLECTION, Class.forName(className), null));
+		} catch (ClassNotFoundException e) {
+			throw new ReflectionUIError(e);
+		}
 	}
 
 }
