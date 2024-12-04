@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.info.parameter;
 
+import java.lang.reflect.Parameter;
 import java.util.Collections;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -25,11 +25,13 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	protected ReflectionUI reflectionUI;
 	protected Parameter javaParameter;
 	protected ITypeInfo type;
+	private int position;
 	protected String name;
 
-	public DefaultParameterInfo(ReflectionUI reflectionUI, Parameter javaParameter) {
+	public DefaultParameterInfo(ReflectionUI reflectionUI, Parameter javaParameter, int position) {
 		this.reflectionUI = reflectionUI;
 		this.javaParameter = javaParameter;
+		this.position = position;
 	}
 
 	public Parameter getJavaParameter() {
@@ -42,31 +44,33 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	@Override
 	public String getName() {
-		if (name == null) {
-			name = javaParameter.getName();
-			if (name == Parameter.NO_NAME) {
-				name = new DefaultTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(), null))
-						.getCaption();
-				int sameNameCount = 0;
-				int sameNamePosition = 0;
-				int parameterposition = 0;
-				for (Class<?> c : javaParameter.getDeclaringInvokableParameterTypes()) {
-					if (name.equals(new DefaultTypeInfo(new JavaTypeInfoSource(reflectionUI, c, null)).getCaption())) {
-						sameNameCount++;
-						if (parameterposition < javaParameter.getPosition()) {
-							sameNamePosition++;
-						}
+		if (javaParameter.isNamePresent()) {
+			return javaParameter.getName();
+		} else {
+			name = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(), null))
+					.getCaption();
+			int sameNameCount = 0;
+			int sameNamePosition = 0;
+			int parameterPosition = 0;
+			for (Class<?> c : javaParameter.getDeclaringExecutable().getParameterTypes()) {
+				if (name.equals(new DefaultTypeInfo(new JavaTypeInfoSource(reflectionUI, c, null)).getCaption())) {
+					sameNameCount++;
+					if (parameterPosition < position) {
+						sameNamePosition++;
 					}
-					parameterposition++;
 				}
-				if (sameNameCount > 1) {
-					name += (sameNamePosition + 1);
-				}
-				name = name.replace(" ", "");
-				name = name.substring(0, 1).toLowerCase() + name.substring(1);
+				parameterPosition++;
 			}
+			if (sameNameCount > 1) {
+				name += (sameNamePosition + 1);
+			}
+			name = name.replace(" ", "");
+			name = name.substring(0, 1).toLowerCase() + name.substring(1);
+			if(name.equals("tree[]")) {
+				System.out.println("debug");
+			}
+			return name;
 		}
-		return name;
 	}
 
 	@Override
@@ -78,7 +82,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(),
-					javaParameter.getDeclaringInvokable(), javaParameter.getPosition(), null));
+					javaParameter.getDeclaringExecutable(), position, null));
 		}
 		return type;
 	}
@@ -114,7 +118,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	@Override
 	public int getPosition() {
-		return javaParameter.getPosition();
+		return position;
 	}
 
 	@Override

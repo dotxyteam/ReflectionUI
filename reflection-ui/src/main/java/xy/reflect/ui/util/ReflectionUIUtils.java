@@ -763,7 +763,7 @@ public class ReflectionUIUtils {
 		if (itemType == null) {
 			return "List";
 		} else {
-			return "List of " + itemType.getCaption() + " elements";
+			return "List Of " + itemType.getCaption() + " Elements";
 		}
 	}
 

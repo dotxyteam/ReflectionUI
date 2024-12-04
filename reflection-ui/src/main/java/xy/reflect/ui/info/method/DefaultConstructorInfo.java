@@ -4,6 +4,7 @@ package xy.reflect.ui.info.method;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -69,12 +69,12 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	public List<IParameterInfo> getParameters() {
 		if (parameters == null) {
 			parameters = new ArrayList<IParameterInfo>();
-			Class<?>[] parameterTypes = javaConstructor.getParameterTypes();
-			for (int i = 0; i < parameterTypes.length; i++) {
-				if (!DefaultParameterInfo.isCompatibleWith(new Parameter(javaConstructor, i))) {
+			Parameter[] javaParameters = javaConstructor.getParameters();
+			for (int i = 0; i < javaParameters.length; i++) {
+				if (!DefaultParameterInfo.isCompatibleWith(javaParameters[i])) {
 					continue;
 				}
-				parameters.add(new DefaultParameterInfo(reflectionUI, new Parameter(javaConstructor, i)));
+				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameters[i], i));
 			}
 		}
 		return parameters;

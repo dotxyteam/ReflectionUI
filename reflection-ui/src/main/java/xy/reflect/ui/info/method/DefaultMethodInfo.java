@@ -3,6 +3,7 @@ package xy.reflect.ui.info.method;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,6 @@ import xy.reflect.ui.info.parameter.DefaultParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.Parameter;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ClassUtils;
@@ -170,13 +170,13 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	public List<IParameterInfo> getParameters() {
 		if (parameters == null) {
 			parameters = new ArrayList<IParameterInfo>();
-			Class<?>[] parameterTypes = javaMethod.getParameterTypes();
-			for (int i = 0; i < parameterTypes.length; i++) {
-				Parameter javaParameter = new Parameter(javaMethod, i);
+			Parameter[] javaParameters = javaMethod.getParameters();
+			for (int i = 0; i < javaParameters.length; i++) {
+				Parameter javaParameter = javaParameters[i];
 				if (!DefaultParameterInfo.isCompatibleWith(javaParameter)) {
 					continue;
 				}
-				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameter));
+				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameter, i));
 			}
 		}
 		return parameters;

@@ -1,12 +1,11 @@
 
-
-
 package xy.reflect.ui.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -199,16 +198,16 @@ public class ClassUtils {
 
 	public static List<Parameter> getJavaParameters(Method javaMethod) {
 		List<Parameter> result = new ArrayList<Parameter>();
-		for (int i = 0; i < javaMethod.getParameterTypes().length; i++) {
-			result.add(new Parameter(javaMethod, i));
+		for (Parameter parameter : javaMethod.getParameters()) {
+			result.add(parameter);
 		}
-		return result;
+		return Arrays.asList(javaMethod.getParameters());
 	}
 
 	public static List<Parameter> getJavaParameters(Constructor<?> ctor) {
 		List<Parameter> result = new ArrayList<Parameter>();
-		for (int i = 0; i < ctor.getParameterTypes().length; i++) {
-			result.add(new Parameter(ctor, i));
+		for (Parameter parameter : ctor.getParameters()) {
+			result.add(parameter);
 		}
 		return result;
 	}
