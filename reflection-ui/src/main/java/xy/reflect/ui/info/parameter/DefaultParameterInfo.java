@@ -44,33 +44,32 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	@Override
 	public String getName() {
-		if (javaParameter.isNamePresent()) {
-			return javaParameter.getName();
-		} else {
-			name = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(), null))
-					.getCaption();
-			int sameNameCount = 0;
-			int sameNamePosition = 0;
-			int parameterPosition = 0;
-			for (Class<?> c : javaParameter.getDeclaringExecutable().getParameterTypes()) {
-				if (name.equals(new DefaultTypeInfo(new JavaTypeInfoSource(reflectionUI, c, null)).getCaption())) {
-					sameNameCount++;
-					if (parameterPosition < position) {
-						sameNamePosition++;
+		if (name == null) {
+			if (javaParameter.isNamePresent()) {
+				name = javaParameter.getName();
+			} else {
+				name = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(), null))
+						.getCaption();
+				int sameNameCount = 0;
+				int sameNamePosition = 0;
+				int parameterPosition = 0;
+				for (Class<?> c : javaParameter.getDeclaringExecutable().getParameterTypes()) {
+					if (name.equals(new DefaultTypeInfo(new JavaTypeInfoSource(reflectionUI, c, null)).getCaption())) {
+						sameNameCount++;
+						if (parameterPosition < position) {
+							sameNamePosition++;
+						}
 					}
+					parameterPosition++;
 				}
-				parameterPosition++;
+				if (sameNameCount > 1) {
+					name += (sameNamePosition + 1);
+				}
+				name = name.replace(" ", "");
+				name = name.substring(0, 1).toLowerCase() + name.substring(1);
 			}
-			if (sameNameCount > 1) {
-				name += (sameNamePosition + 1);
-			}
-			name = name.replace(" ", "");
-			name = name.substring(0, 1).toLowerCase() + name.substring(1);
-			if(name.equals("tree[]")) {
-				System.out.println("debug");
-			}
-			return name;
 		}
+		return name;
 	}
 
 	@Override
