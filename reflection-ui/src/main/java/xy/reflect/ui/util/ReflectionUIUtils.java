@@ -1240,7 +1240,7 @@ public class ReflectionUIUtils {
 		return s.replaceAll("[^a-zA-Z0-9 ]", "_");
 	}
 
-	public static ITypeInfo getStandardTypeInfo(String className) {
+	public static ITypeInfo buildTypeInfo(String className) {
 		try {
 			return ReflectionUI.getDefault()
 					.buildTypeInfo(new JavaTypeInfoSource(ReflectionUI.getDefault(), Class.forName(className), null));
