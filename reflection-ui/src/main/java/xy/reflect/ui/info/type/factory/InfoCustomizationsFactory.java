@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.CustomizedUI;
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ITransactionInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -2669,7 +2670,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 					final int finalI = i;
 					newMethods.add(new PresetInvocationDataMethodInfo(method, (TextualStorage) ReflectionUIUtils
-							.copy(ReflectionUIUtils.STANDARD_REFLECTION, invocationDataStorage)) {
+							.copy(ReflectionUI.getDefault(), invocationDataStorage)) {
 
 						@Override
 						public String getName() {
@@ -3112,7 +3113,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (fc.getNullReplacement().getData() != null) {
 					field = new NullReplacementFieldInfo(field, (TextualStorage) ReflectionUIUtils
-							.copy(ReflectionUIUtils.STANDARD_REFLECTION, fc.getNullReplacement()));
+							.copy(ReflectionUI.getDefault(), fc.getNullReplacement()));
 				}
 				return field;
 			}

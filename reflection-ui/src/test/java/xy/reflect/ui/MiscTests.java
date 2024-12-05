@@ -202,10 +202,10 @@ public class MiscTests {
 		cycle.setOther(new TestObject(cycle));
 		TestObject cycle2 = new TestObject(null);
 		cycle2.setOther(new TestObject(cycle2));
-		ReflectionUIUtils.copyFieldValuesAccordingInfos(ReflectionUIUtils.STANDARD_REFLECTION, cycle, cycle2, true);
+		ReflectionUIUtils.copyFieldValuesAccordingInfos(ReflectionUI.getDefault(), cycle, cycle2, true);
 		Assert.assertTrue(cycle.getOther().getOther() == cycle);
 		Assert.assertTrue(cycle2.getOther().getOther() == cycle2);
-		Assert.assertTrue(ReflectionUIUtils.equalsAccordingInfos(cycle, cycle2, ReflectionUIUtils.STANDARD_REFLECTION,
+		Assert.assertTrue(ReflectionUIUtils.equalsAccordingInfos(cycle, cycle2, ReflectionUI.getDefault(),
 				IInfoFilter.DEFAULT));
 	}
 

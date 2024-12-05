@@ -278,7 +278,7 @@ public class CustomizationTools {
 									conversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
 									conversionMethodFinder
 											.setConversionMethodSignature(ReflectionUIUtils.buildMethodSignature(
-													new DefaultConstructorInfo(ReflectionUIUtils.STANDARD_REFLECTION,
+													new DefaultConstructorInfo(ReflectionUI.getDefault(),
 															ImageIcon.class.getConstructor(Image.class))));
 									storageMapping.setConversionMethodFinder(conversionMethodFinder);
 								}
@@ -287,7 +287,7 @@ public class CustomizationTools {
 									reverseConversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
 									reverseConversionMethodFinder
 											.setConversionMethodSignature(ReflectionUIUtils.buildMethodSignature(
-													new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION,
+													new DefaultMethodInfo(ReflectionUI.getDefault(),
 															ImageIcon.class.getMethod("getImage"))));
 									storageMapping.setReverseConversionMethodFinder(reverseConversionMethodFinder);
 								}

@@ -1074,7 +1074,7 @@ public class InfoCustomizations implements Serializable {
 
 	public static boolean isSimilar(final AbstractCustomization c1, final AbstractCustomization c2,
 			final String... excludedFieldNames) {
-		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, ReflectionUIUtils.STANDARD_REFLECTION, new IInfoFilter() {
+		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, ReflectionUI.getDefault(), new IInfoFilter() {
 
 			@Override
 			public boolean excludeMethod(IMethodInfo method) {
@@ -2758,7 +2758,7 @@ public class InfoCustomizations implements Serializable {
 			for (Constructor<?> ctor : conversionClass.getConstructors()) {
 				if (ctor.getParameterTypes().length >= 1) {
 					result.add(ReflectionUIUtils.buildMethodSignature(
-							new DefaultConstructorInfo(ReflectionUIUtils.STANDARD_REFLECTION, ctor)));
+							new DefaultConstructorInfo(ReflectionUI.getDefault(), ctor)));
 				}
 			}
 			for (Method method : conversionClass.getMethods()) {
@@ -2766,14 +2766,14 @@ public class InfoCustomizations implements Serializable {
 					if (method.getParameterTypes().length >= 1) {
 						if (!method.getReturnType().equals(void.class)) {
 							result.add(ReflectionUIUtils.buildMethodSignature(
-									new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION, method)));
+									new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
 						}
 					}
 				} else {
 					if (method.getParameterTypes().length >= 0) {
 						if (!method.getReturnType().equals(void.class)) {
 							result.add(ReflectionUIUtils.buildMethodSignature(
-									new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION, method)));
+									new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
 						}
 					}
 				}
@@ -2827,7 +2827,7 @@ public class InfoCustomizations implements Serializable {
 		protected String getParameterName(Executable executable, int parameterPosition) {
 			if (executable instanceof Constructor) {
 				DefaultConstructorInfo constructorInfo = new DefaultConstructorInfo(
-						ReflectionUIUtils.STANDARD_REFLECTION, (Constructor<?>) executable);
+						ReflectionUI.getDefault(), (Constructor<?>) executable);
 				List<IParameterInfo> paramInfos = constructorInfo.getParameters();
 				if (parameterPosition >= paramInfos.size()) {
 					return null;
@@ -2836,7 +2836,7 @@ public class InfoCustomizations implements Serializable {
 				return paramInfo.getName();
 			} else if (executable instanceof Method) {
 				Method method = (Method) executable;
-				DefaultMethodInfo methodInfo = new DefaultMethodInfo(ReflectionUIUtils.STANDARD_REFLECTION, method);
+				DefaultMethodInfo methodInfo = new DefaultMethodInfo(ReflectionUI.getDefault(), method);
 				List<IParameterInfo> paramInfos = methodInfo.getParameters();
 				if (Modifier.isStatic(method.getModifiers())) {
 					if (parameterPosition >= paramInfos.size()) {

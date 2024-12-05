@@ -79,7 +79,6 @@ import xy.reflect.ui.undo.UndoOrder;
  */
 public class ReflectionUIUtils {
 
-	public static final ReflectionUI STANDARD_REFLECTION = new ReflectionUI();
 	public static final String METHOD_SIGNATURE_REGEX = "([^ ].*) ([^ ]+)? ?\\(([^\\)]*)\\)";
 
 	public static String buildMethodSignature(String returnTypeName, String methodName,
@@ -1243,8 +1242,8 @@ public class ReflectionUIUtils {
 
 	public static ITypeInfo getStandardTypeInfo(String className) {
 		try {
-			return STANDARD_REFLECTION
-					.buildTypeInfo(new JavaTypeInfoSource(STANDARD_REFLECTION, Class.forName(className), null));
+			return ReflectionUI.getDefault()
+					.buildTypeInfo(new JavaTypeInfoSource(ReflectionUI.getDefault(), Class.forName(className), null));
 		} catch (ClassNotFoundException e) {
 			throw new ReflectionUIError(e);
 		}

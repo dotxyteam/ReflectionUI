@@ -6,11 +6,11 @@ package xy.reflect.ui.info.parameter;
 import java.util.Collections;
 import java.util.Map;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * This interface allows to specify UI-oriented properties of method parameters.
@@ -26,7 +26,7 @@ public interface IParameterInfo extends IInfo {
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
 		ITypeInfo type = new DefaultTypeInfo(
-				new JavaTypeInfoSource(ReflectionUIUtils.STANDARD_REFLECTION, Object.class, null));
+				new JavaTypeInfoSource(ReflectionUI.getDefault(), Object.class, null));
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
