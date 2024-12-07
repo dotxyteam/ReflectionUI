@@ -10,15 +10,13 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -53,18 +51,6 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	public static boolean isCompatibleWith(Class<?> javaType) {
 		return javaType.equals(StandardMapEntry.class);
-	}
-
-	@Override
-	public String getName() {
-		String keyTypeName = (keyJavaType == null) ? Object.class.getName() : keyJavaType.getName();
-		String valueTypeName = (valueJavaType == null) ? Object.class.getName() : valueJavaType.getName();
-		return StandardMapEntry.class.getName() + "<" + keyTypeName + "," + valueTypeName + ">";
-	}
-
-	@Override
-	public ITypeInfoSource getSource() {
-		return new PrecomputedTypeInfoSource(this, super.getSource().getSpecificitiesIdentifier());
 	}
 
 	@Override
@@ -110,11 +96,11 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	public Object copy(Object object) {
 		Object keyCopy = getKeyField().getType().copy(getKeyField().getValue(object));
 		Object valueCopy = getValueField().getType().copy(getValueField().getValue(object));
-		return new StandardMapEntry(keyCopy, valueCopy);
+		return new StandardMapEntry(keyCopy, valueCopy, new Class[] { keyJavaType, valueJavaType });
 	}
 
 	@Override
-	public IFieldInfo getKeyField() {
+	public GetterFieldInfo getKeyField() {
 		if (keyField == null) {
 			try {
 				keyField = new GetterFieldInfo(reflectionUI,
@@ -126,16 +112,22 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						if (type == null) {
 							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
-							if (keyJavaType == null) {
-								type = reflectionUI.buildTypeInfo(
-										new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
-							} else {
-								type = reflectionUI.buildTypeInfo(
-										new JavaTypeInfoSource(reflectionUI, keyJavaType, specificitiesIdentifier));
-							}
+							type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI,
+									(keyJavaType == null) ? Object.class : keyJavaType, specificitiesIdentifier));
 						}
 						return type;
 					}
+
+					@Override
+					public String getName() {
+						return ((keyJavaType == null) ? Object.class : keyJavaType).getName() + "Key";
+					}
+
+					@Override
+					public String getCaption() {
+						return "Key";
+					}
+
 				};
 			} catch (SecurityException e) {
 				throw new ReflectionUIError(e);
@@ -147,7 +139,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	}
 
 	@Override
-	public IFieldInfo getValueField() {
+	public GetterFieldInfo getValueField() {
 		if (valueField == null) {
 			try {
 				valueField = new GetterFieldInfo(reflectionUI,
@@ -160,17 +152,21 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						if (type == null) {
 							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
-							if (valueJavaType == null) {
-								type = reflectionUI.buildTypeInfo(
-										new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
-							} else {
-								type = reflectionUI.buildTypeInfo(
-										new JavaTypeInfoSource(reflectionUI, valueJavaType, specificitiesIdentifier));
-							}
+							type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI,
+									(valueJavaType == null) ? Object.class : valueJavaType, specificitiesIdentifier));
 						}
 						return type;
 					}
 
+					@Override
+					public String getName() {
+						return ((valueJavaType == null) ? Object.class : valueJavaType).getName() + "Value";
+					}
+
+					@Override
+					public String getCaption() {
+						return "Value";
+					}
 				};
 			} catch (SecurityException e) {
 				throw new ReflectionUIError(e);
@@ -201,7 +197,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	protected Constructor<?> getStandardMapEntryJavaConstructor() {
 		try {
-			return StandardMapEntry.class.getConstructor(Object.class, Object.class);
+			return StandardMapEntry.class.getConstructor(Object.class, Object.class, Class[].class);
 		} catch (Exception e) {
 			throw new ReflectionUIError(e);
 		}
@@ -270,9 +266,12 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
 			for (IParameterInfo param : super.getParameters()) {
+				if (param.getPosition() == 2) {
+					continue;
+				}
 				result.add(new ParameterInfoProxy(param) {
 
-					IFieldInfo relatedField;
+					GetterFieldInfo relatedField;
 					{
 						if (getPosition() == 0) {
 							relatedField = getKeyField();
@@ -287,7 +286,13 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 					@Override
 					public String getName() {
-						return relatedField.getName();
+						if (getPosition() == 0) {
+							return "key";
+						} else if (getPosition() == 1) {
+							return "value";
+						} else {
+							throw new ReflectionUIError();
+						}
 					}
 
 					@Override
@@ -298,22 +303,15 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 					@Override
 					public ITypeInfo getType() {
 						if (type == null) {
-							type = reflectionUI
-									.buildTypeInfo(new TypeInfoSourceProxy(relatedField.getType().getSource()) {
-										@Override
-										public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-											return null;
-										}
-
-										@Override
-										protected String getTypeInfoProxyFactoryIdentifier() {
-											return "ConstructorReturnValueTypeInfoProxyFactory [of="
-													+ getClass().getName() + ", keyJavaType="
-													+ ((keyJavaType == null) ? null : keyJavaType.getName())
-													+ ", valueJavaType="
-													+ ((valueJavaType == null) ? null : valueJavaType.getName()) + "]";
-										}
-									});
+							if (getPosition() == 0) {
+								type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI,
+										(keyJavaType != null) ? keyJavaType : Object.class, null));
+							} else if (getPosition() == 1) {
+								type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI,
+										(valueJavaType != null) ? valueJavaType : Object.class, null));
+							} else {
+								throw new ReflectionUIError();
+							}
 						}
 						return type;
 					}
@@ -335,6 +333,19 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 			}
 			return result;
 		}
+
+		@Override
+		public Object invoke(Object ignore, InvocationData invocationData) {
+			invocationData.getProvidedParameterValues().put(2, new Class[] { keyJavaType, valueJavaType });
+			return super.invoke(ignore, invocationData);
+		}
+
+		@Override
+		public String toString() {
+			return "StandardMapEntryConstructorInfo [keyJavaType=" + keyJavaType + ", valueJavaType=" + valueJavaType
+					+ "]";
+		}
+
 	}
 
 }

@@ -175,7 +175,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> imageClass;
 			try {
-				imageClass = ClassUtils.getCachedClassforName(type.getName());
+				imageClass = ClassUtils.getCachedClassForName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}
@@ -480,7 +480,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			this.input = input;
 			this.data = input.getControlData();
 			try {
-				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}

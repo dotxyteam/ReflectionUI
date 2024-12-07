@@ -59,7 +59,7 @@ public class ClassUtils {
 			CLASS_BY_NAME.put(c.getName(), c);
 	}
 
-	public static Class<?> getCachedClassforName(String name) throws ClassNotFoundException {
+	public static Class<?> getCachedClassForName(String name) throws ClassNotFoundException {
 		synchronized (CLASS_BY_NAME) {
 			Class<?> c = CLASS_BY_NAME.get(name);
 			if (c == null) {

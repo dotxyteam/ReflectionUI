@@ -506,7 +506,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 				final Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(fieldType.getName());
+					javaType = ClassUtils.getCachedClassForName(fieldType.getName());
 				} catch (ClassNotFoundException e) {
 					return null;
 				}

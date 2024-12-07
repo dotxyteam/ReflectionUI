@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.map;
 
 import java.util.ArrayList;
@@ -10,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -26,16 +23,12 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	protected JavaTypeInfoSource entryTypeSource;
-
 	public StandardMapAsListTypeInfo(JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
 		super(source, null);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
-		this.entryTypeSource = new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,
-				new Class[] { keyJavaType, valueJavaType }, null);
-		this.itemType = reflectionUI
-				.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(entryTypeSource.getTypeInfo()));
+		this.itemType = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,
+				new Class[] { keyJavaType, valueJavaType }, null));
 	}
 
 	public Class<?> getKeyJavaType() {
@@ -68,7 +61,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	public void replaceContent(Object listValue, Object[] array) {
 		Map tmpMap = new LinkedHashMap();
 		for (Object item : array) {
-			StandardMapEntry entry = (StandardMapEntry) ((PrecomputedTypeInstanceWrapper) item).unwrap();
+			StandardMapEntry entry = (StandardMapEntry) item;
 			if (tmpMap.containsKey(entry.getKey())) {
 				throw new ReflectionUIError(
 						"Duplicate key: '" + ReflectionUIUtils.toString(reflectionUI, entry.getKey()) + "'");
@@ -86,8 +79,9 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		List<Object> result = new ArrayList<Object>();
 		for (Object obj : ((Map) listValue).entrySet()) {
 			Map.Entry entry = (Entry) obj;
-			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue());
-			result.add(new PrecomputedTypeInstanceWrapper(standardMapEntry, entryTypeSource.getTypeInfo()));
+			StandardMapEntry standardMapEntry = new StandardMapEntry(entry.getKey(), entry.getValue(),
+					new Class[] { keyJavaType, valueJavaType });
+			result.add(standardMapEntry);
 		}
 		return result.toArray();
 	}

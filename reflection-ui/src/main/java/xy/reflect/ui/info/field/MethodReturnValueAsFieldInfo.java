@@ -23,14 +23,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * @author olitank
  *
  */
-public class MethodReturnValueFieldInfo extends AbstractInfo implements IFieldInfo {
+public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo containingType;
 	protected ITypeInfo type;
 
-	public MethodReturnValueFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
+	public MethodReturnValueAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
 		this.reflectionUI = reflectionUI;
 		if (ReflectionUIUtils.requiresParameterValue(method)) {
 			throw new ReflectionUIError(
@@ -210,7 +210,7 @@ public class MethodReturnValueFieldInfo extends AbstractInfo implements IFieldIn
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MethodReturnValueFieldInfo other = (MethodReturnValueFieldInfo) obj;
+		MethodReturnValueAsFieldInfo other = (MethodReturnValueAsFieldInfo) obj;
 		if (method == null) {
 			if (other.method != null)
 				return false;

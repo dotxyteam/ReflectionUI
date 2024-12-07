@@ -1,9 +1,10 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.map;
 
+import java.util.Arrays;
 import java.util.Map;
+
+import xy.reflect.ui.util.ReflectionUIError;
 
 /**
  * This class allows to hold temporarily key-value pairs of standard maps
@@ -15,10 +16,26 @@ import java.util.Map;
 public class StandardMapEntry implements Comparable<StandardMapEntry> {
 	protected Object key;
 	protected Object value;
+	protected Class<?>[] genericTypeParameters;
 
-	public StandardMapEntry(Object key, Object value) {
+	public StandardMapEntry(Object key, Object value, Class<?>[] genericTypeParameters) {
 		this.key = key;
 		this.value = value;
+		if (genericTypeParameters != null) {
+			if (genericTypeParameters.length != 2) {
+				throw new ReflectionUIError("Invalid generic type parameter array (expected 2 items) for "
+						+ StandardMapEntry.class.getName() + " constructor: " + genericTypeParameters);
+			}
+			if (!genericTypeParameters[0].isInstance(key)) {
+				throw new ReflectionUIError("Invalid key provided to " + StandardMapEntry.class.getName()
+						+ " constructor (is not an instance of " + genericTypeParameters[0] + "): '" + key + "'");
+			}
+			if (!genericTypeParameters[1].isInstance(value)) {
+				throw new ReflectionUIError("Invalid value provided to " + StandardMapEntry.class.getName()
+						+ " constructor (is not an instance of " + genericTypeParameters[1] + "): '" + value + "'");
+			}
+		}
+		this.genericTypeParameters = genericTypeParameters;
 	}
 
 	@Override
@@ -44,6 +61,10 @@ public class StandardMapEntry implements Comparable<StandardMapEntry> {
 		return oldValue;
 	}
 
+	public Class<?>[] getGenericTypeParameters() {
+		return genericTypeParameters;
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public int compareTo(StandardMapEntry that) {
@@ -66,6 +87,7 @@ public class StandardMapEntry implements Comparable<StandardMapEntry> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + Arrays.hashCode(genericTypeParameters);
 		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
@@ -80,6 +102,8 @@ public class StandardMapEntry implements Comparable<StandardMapEntry> {
 		if (getClass() != obj.getClass())
 			return false;
 		StandardMapEntry other = (StandardMapEntry) obj;
+		if (!Arrays.equals(genericTypeParameters, other.genericTypeParameters))
+			return false;
 		if (key == null) {
 			if (other.key != null)
 				return false;

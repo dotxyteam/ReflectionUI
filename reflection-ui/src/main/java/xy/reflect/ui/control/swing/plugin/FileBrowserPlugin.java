@@ -159,7 +159,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> fileClass;
 			try {
-				fileClass = ClassUtils.getCachedClassforName(type.getName());
+				fileClass = ClassUtils.getCachedClassForName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

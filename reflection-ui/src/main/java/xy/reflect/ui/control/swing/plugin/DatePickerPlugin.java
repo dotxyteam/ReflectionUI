@@ -157,7 +157,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> dateClass;
 			try {
-				dateClass = ClassUtils.getCachedClassforName(type.getName());
+				dateClass = ClassUtils.getCachedClassForName(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

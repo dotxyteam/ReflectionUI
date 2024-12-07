@@ -21,11 +21,10 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
-import xy.reflect.ui.util.ClassUtils;
 
 /**
  * Field generated from a '(get|is|has)Something()' Java method. If the
@@ -134,7 +133,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 	}
 
-	public IMethodInfo getGetterMethodInfo() {
+	public DefaultMethodInfo getGetterMethodInfo() {
 		return new DefaultMethodInfo(reflectionUI, javaGetterMethod);
 	}
 
@@ -214,21 +213,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI
-					.buildTypeInfo(new TypeInfoSourceProxy(getGetterMethodInfo().getReturnValueType().getSource()) {
-						@Override
-						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-							return new SpecificitiesIdentifier(reflectionUI
-									.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null))
-									.getName(), GetterFieldInfo.this.getName());
-						}
-
-						@Override
-						protected String getTypeInfoProxyFactoryIdentifier() {
-							return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", javaGetterMethod="
-									+ javaGetterMethod + ", containingJavaClass=" + containingJavaClass + "]";
-						}
-					});
+			type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaGetterMethod.getReturnType(),
+					javaGetterMethod, -1,
+					new SpecificitiesIdentifier(reflectionUI
+							.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null)).getName(),
+							GetterFieldInfo.this.getName())));
 		}
 		return type;
 	}

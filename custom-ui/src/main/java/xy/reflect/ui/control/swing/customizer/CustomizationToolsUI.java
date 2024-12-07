@@ -89,7 +89,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			protected boolean isDerivedTypeInfo(ITypeInfo type, Class<?> baseClass) {
 				Class<?> clazz;
 				try {
-					clazz = ClassUtils.getCachedClassforName(type.getName());
+					clazz = ClassUtils.getCachedClassForName(type.getName());
 				} catch (ClassNotFoundException e) {
 					return false;
 				}

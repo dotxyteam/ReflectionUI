@@ -139,7 +139,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			this.input = input;
 			this.data = input.getControlData();
 			try {
-				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}

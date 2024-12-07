@@ -30,7 +30,7 @@ public abstract class AbstractSimpleFieldControlPlugin implements IFieldControlP
 	public boolean handles(IFieldControlInput input) {
 		final Class<?> javaType;
 		try {
-			javaType = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
+			javaType = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
 		} catch (ClassNotFoundException e) {
 			return false;
 		}

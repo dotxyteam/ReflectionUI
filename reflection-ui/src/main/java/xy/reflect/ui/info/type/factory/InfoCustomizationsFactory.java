@@ -53,7 +53,7 @@ import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ImplicitListFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
-import xy.reflect.ui.info.field.MethodReturnValueFieldInfo;
+import xy.reflect.ui.info.field.MethodReturnValueAsFieldInfo;
 import xy.reflect.ui.info.field.NullReplacementFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.field.SubFieldInfo;
@@ -305,7 +305,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getSavingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(type.getName());
+					javaType = ClassUtils.getCachedClassForName(type.getName());
 					Method method = javaType.getMethod(t.getSavingMethodName(), OutputStream.class);
 					method.invoke(object, out);
 					return;
@@ -325,7 +325,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (t.getLoadingMethodName() != null) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(type.getName());
+					javaType = ClassUtils.getCachedClassForName(type.getName());
 					Method method = javaType.getMethod(t.getLoadingMethodName(), InputStream.class);
 					method.invoke(object, in);
 					return;
@@ -352,7 +352,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(type.getName());
+					javaType = ClassUtils.getCachedClassForName(type.getName());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -381,7 +381,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((t.getSavingMethodName() != null) && (t.getLoadingMethodName() != null)) {
 				Class<?> javaType;
 				try {
-					javaType = ClassUtils.getCachedClassforName(type.getName());
+					javaType = ClassUtils.getCachedClassForName(type.getName());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -2570,7 +2570,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
-					newFields.add(new MethodReturnValueFieldInfo(customizedUI, method, containingType) {
+					newFields.add(new MethodReturnValueAsFieldInfo(customizedUI, method, containingType) {
 
 						@Override
 						public boolean isHidden() {

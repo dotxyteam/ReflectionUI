@@ -47,7 +47,7 @@ public class PrimitiveValueControl extends TextControl {
 	protected IFieldControlData handleValueConversions(IFieldControlData data) {
 		final Class<?> dataClass;
 		try {
-			dataClass = ClassUtils.getCachedClassforName(data.getType().getName());
+			dataClass = ClassUtils.getCachedClassForName(data.getType().getName());
 		} catch (ClassNotFoundException e1) {
 			throw new ReflectionUIError(e1);
 		}

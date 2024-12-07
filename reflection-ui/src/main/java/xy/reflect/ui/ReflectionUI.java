@@ -1,5 +1,4 @@
 
-
 package xy.reflect.ui;
 
 import java.awt.Color;
@@ -11,6 +10,7 @@ import xy.reflect.ui.info.app.ApplicationInfoProxy;
 import xy.reflect.ui.info.app.DefaultApplicationInfo;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.iterable.map.StandardMapEntry;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.MiscUtils;
@@ -78,6 +78,10 @@ public class ReflectionUI {
 	public ITypeInfoSource getTypeInfoSource(Object object) {
 		if (object instanceof PrecomputedTypeInstanceWrapper) {
 			return ((PrecomputedTypeInstanceWrapper) object).getTypeInfoSource();
+		}
+		if (object instanceof StandardMapEntry) {
+			return new JavaTypeInfoSource(this, object.getClass(), ((StandardMapEntry) object).getGenericTypeParameters(),
+					null);
 		}
 		return new JavaTypeInfoSource(this, object.getClass(), null);
 	}

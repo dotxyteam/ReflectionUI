@@ -112,7 +112,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			this.data = input.getControlData();
 			setOpaque(false);
 			try {
-				this.numberClass = ClassUtils.getCachedClassforName(input.getControlData().getType().getName());
+				this.numberClass = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}

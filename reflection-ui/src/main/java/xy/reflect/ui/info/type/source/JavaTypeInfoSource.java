@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.source;
 
 import java.lang.reflect.Constructor;
@@ -13,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.ResolvedTypeWithMembers;
@@ -20,6 +19,7 @@ import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.classmate.members.ResolvedConstructor;
 import com.fasterxml.classmate.members.ResolvedField;
 import com.fasterxml.classmate.members.ResolvedMethod;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -96,6 +96,10 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 					Class<?> keyClass = null;
 					Class<?> valueClass = null;
 					Class<?>[] genericParams = getGenericTypeParameters();
+					if ((genericParams != null) && (genericParams.length != 2)) {
+						throw new ReflectionUIError("Invalid generic type parameter array (expected 2 items) for "
+								+ StandardMapEntryTypeInfo.class.getName() + ": " + genericTypeParameters);
+					}
 					if (genericParams != null) {
 						keyClass = genericParams[0];
 						valueClass = genericParams[1];
