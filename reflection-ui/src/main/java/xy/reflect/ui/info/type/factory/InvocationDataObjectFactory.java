@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
@@ -161,6 +159,11 @@ public class InvocationDataObjectFactory {
 		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(this, null);
+		}
+
+		@Override
+		public boolean isValidationRequired() {
+			return false;
 		}
 
 		@Override

@@ -13,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ import javax.swing.event.AncestorListener;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
+import xy.reflect.ui.control.swing.builder.DialogBuilder;
+import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.menu.Menu;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -158,7 +161,7 @@ public class Form extends ImagePanel {
 		});
 		menuBar = createMenuBar();
 		statusBar = createStatusBar();
-		setStatusBarErrorMessage(null);
+		showErrorOnStatusBar(null);
 		refresh(true);
 	}
 
@@ -338,48 +341,71 @@ public class Form extends ImagePanel {
 		swingRenderer.getFormValidator().submit(new Runnable() {
 			@Override
 			public void run() {
+				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+				final ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
 				try {
 					validateForm();
-					if (getStatusBarMessage() != null) {
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								setStatusBarErrorMessage(null);
-							}
-						});
-					}
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							showErrorOnStatusBar(null);
+							setStandardOKButtonEnabled(true);
+						}
+
+					});
 				} catch (Exception e) {
-					final String errorMsg = MiscUtils.getPrettyErrorMessage(e);
-					if (!errorMsg.equals(getStatusBarMessage())) {
-						swingRenderer.getReflectionUI().logDebug(e);
-						SwingUtilities.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								setStatusBarErrorMessage(errorMsg);
-							}
-						});
-					}
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							showErrorOnStatusBar(e);
+							setStandardOKButtonEnabled(!type.isValidationRequired());
+						}
+					});
 				}
 			}
 		});
 	}
 
-	protected void setStatusBarErrorMessage(String errorMsg) {
-		if (errorMsg == null) {
-			((JLabel) statusBar).setIcon(null);
-			((JLabel) statusBar).setText(null);
-			statusBar.setVisible(false);
-		} else {
-			((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
-			((JLabel) statusBar).setText(MiscUtils.multiToSingleLine(errorMsg));
-			SwingRendererUtils.setMultilineToolTipText(((JLabel) statusBar), errorMsg);
-			statusBar.setVisible(true);
+	protected void setStandardOKButtonEnabled(boolean b) {
+		if (SwingRendererUtils.findAncestorForms(this, swingRenderer).size() > 0) {
+			return;
 		}
-		SwingRendererUtils.handleComponentSizeChange(statusBar);
+		Window window = SwingRendererUtils.getWindowAncestorOrSelf(this);
+		if (!(window instanceof RenderedDialog)) {
+			return;
+		}
+		DialogBuilder dialogBuilder = ((RenderedDialog) window).getDialogBuilder();
+		JButton button = dialogBuilder.getStandardOKButton();
+		if (button == null) {
+			return;
+		}
+		button.setEnabled(b);
 	}
 
-	protected String getStatusBarMessage() {
-		return ((JLabel) statusBar).getText();
+	protected void showErrorOnStatusBar(Exception e) {
+		String errorMsg;
+		if (e == null) {
+			errorMsg = null;
+		} else {
+			errorMsg = MiscUtils.getPrettyErrorMessage(e);
+			errorMsg = MiscUtils.multiToSingleLine(errorMsg);
+			errorMsg = "<HTML>" + MiscUtils.escapeHTML(errorMsg, true) + "</HTML>";
+		}
+		if (!MiscUtils.equalsOrBothNull(errorMsg, ((JLabel) statusBar).getText())) {
+			if (e != null) {
+				swingRenderer.getReflectionUI().logDebug(e);
+			}
+			if (errorMsg == null) {
+				((JLabel) statusBar).setIcon(null);
+				((JLabel) statusBar).setText(null);
+				statusBar.setVisible(false);
+			} else {
+				((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
+				((JLabel) statusBar).setText(errorMsg);
+				statusBar.setVisible(true);
+			}
+			SwingRendererUtils.handleComponentSizeChange(statusBar);
+		}
 	}
 
 	protected void formShown() {

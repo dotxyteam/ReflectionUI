@@ -211,6 +211,10 @@ public class EnumerationTypeInfoProxy extends AbstractInfoProxy implements IEnum
 		return base.getFormButtonBorderColor();
 	}
 
+	public boolean isValidationRequired() {
+		return base.isValidationRequired();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

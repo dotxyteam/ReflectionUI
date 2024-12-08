@@ -2165,12 +2165,21 @@ public class InfoCustomizations implements Serializable {
 		protected String loadingMethodName;
 		protected boolean copyForbidden = false;
 		protected Integer formSpacing;
-
+		protected boolean validationRequirementForced = false;
+		
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public boolean isValidationRequirementForced() {
+			return validationRequirementForced;
+		}
+
+		public void setValidationRequirementForced(boolean validationRequirementForced) {
+			this.validationRequirementForced = validationRequirementForced;
 		}
 
 		public Integer getFormSpacing() {

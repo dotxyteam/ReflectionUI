@@ -370,6 +370,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
+	public boolean isValidationRequired() {
+		return false;
+	}
+
+	@Override
 	public void save(Object object, OutputStream output) {
 		IOUtils.serialize(object, output);
 	}

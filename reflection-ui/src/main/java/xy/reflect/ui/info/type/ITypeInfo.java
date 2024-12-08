@@ -245,9 +245,21 @@ public interface ITypeInfo extends IInfo {
 		public boolean canCopy(Object object) {
 			return false;
 		}
+
+		@Override
+		public boolean isValidationRequired() {
+			return false;
+		}
+
 	};
 
 	public int DEFAULT_FORM_SPACING = 10;
+
+	/**
+	 * @return true if and only if successful validation is required to authorize
+	 *         the agreement of modifications for objects of this type.
+	 */
+	boolean isValidationRequired();
 
 	/**
 	 * @param object Any object of the current type.

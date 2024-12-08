@@ -119,7 +119,7 @@ public class MethodAction extends AbstractAction {
 		if (!ReflectionUIUtils.requiresParameterValue(data.getParameters())) {
 			result = data.createInvocationData();
 		} else {
-			result = openMethoExecutionSettingDialog(activatorComponent);
+			result = openMethoExecutionSettingsDialog(activatorComponent);
 		}
 		if (result == null) {
 			return null;
@@ -130,7 +130,7 @@ public class MethodAction extends AbstractAction {
 		return result;
 	}
 
-	public InvocationData openMethoExecutionSettingDialog(final Component activatorComponent) {
+	public InvocationData openMethoExecutionSettingsDialog(final Component activatorComponent) {
 		final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(activatorComponent);
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {

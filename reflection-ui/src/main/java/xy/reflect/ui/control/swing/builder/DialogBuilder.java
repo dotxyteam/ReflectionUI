@@ -37,16 +37,16 @@ public class DialogBuilder {
 	protected Component ownerComponent;
 	protected Component contentComponent;
 	protected List<Component> buttonBarControls;
-	protected Runnable whenClosing;
 	protected RenderedDialog dialog;
 	protected Image closingButtonBackgroundImage;
 	protected Font closingButtonCustomFont;
 	protected Color closingButtonBackgroundColor;
 	protected Color closingButtonForegroundColor;
 	protected Color closingButtonBorderColor;
+	protected JButton standardOKButton;
+	protected JButton standardCancelButton;
 
 	public DialogBuilder(SwingRenderer swingRenderer, Component ownerComponent) {
-		super();
 		this.ownerComponent = ownerComponent;
 		this.swingRenderer = swingRenderer;
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
@@ -141,12 +141,12 @@ public class DialogBuilder {
 		this.buttonBarControls = buttonBarControls;
 	}
 
-	public Runnable getWhenClosing() {
-		return whenClosing;
+	public JButton getStandardOKButton() {
+		return standardOKButton;
 	}
 
-	public void setWhenClosing(Runnable whenClosing) {
-		this.whenClosing = whenClosing;
+	public JButton getStandardCancelButton() {
+		return standardCancelButton;
 	}
 
 	public JButton createDialogClosingButton(final String caption, final Runnable beforeClosingAction) {
@@ -204,13 +204,13 @@ public class DialogBuilder {
 
 	public List<JButton> createStandardOKCancelDialogButtons(String customOKCaption, String customCancelCaption) {
 		List<JButton> result = new ArrayList<JButton>();
-		result.add(createDialogClosingButton((customOKCaption == null) ? "OK" : customOKCaption, new Runnable() {
+		result.add(standardOKButton = createDialogClosingButton((customOKCaption == null) ? "OK" : customOKCaption, new Runnable() {
 			@Override
 			public void run() {
 				dialog.setOkPressed();
 			}
 		}));
-		result.add(createDialogClosingButton((customCancelCaption == null) ? "Cancel" : customCancelCaption, null));
+		result.add(standardCancelButton = createDialogClosingButton((customCancelCaption == null) ? "Cancel" : customCancelCaption, null));
 		return result;
 	}
 
@@ -233,7 +233,6 @@ public class DialogBuilder {
 
 		protected DialogBuilder dialogBuilder;
 		protected WindowManager windowManager;
-		protected Runnable whenClosing;
 		protected boolean disposed = false;
 		protected boolean okPressed = false;
 
@@ -241,7 +240,6 @@ public class DialogBuilder {
 			super(owner);
 			this.dialogBuilder = dialogBuilder;
 			this.windowManager = dialogBuilder.getSwingRenderer().createWindowManager(this);
-			this.whenClosing = dialogBuilder.getWhenClosing();
 			installComponents();
 		}
 
@@ -255,7 +253,6 @@ public class DialogBuilder {
 			this.windowManager = null;
 			this.dialogBuilder = null;
 			super.dispose();
-			executeClosingTask();
 		}
 
 		public DialogBuilder getDialogBuilder() {
@@ -281,18 +278,6 @@ public class DialogBuilder {
 
 		protected void uninstallComponents() {
 			windowManager.uninstall();
-		}
-
-		protected void executeClosingTask() {
-			if (whenClosing != null) {
-				try {
-					whenClosing.run();
-				} catch (Throwable t) {
-					dialogBuilder.getSwingRenderer().handleObjectException(this, t);
-				} finally {
-					whenClosing = null;
-				}
-			}
 		}
 
 	}

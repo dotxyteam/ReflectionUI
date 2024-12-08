@@ -594,6 +594,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public boolean isValidationRequired() {
+			return false;
+		}
+
+		@Override
 		public ResourcePath getIconImagePath() {
 			return null;
 		}

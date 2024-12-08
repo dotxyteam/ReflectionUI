@@ -10,7 +10,7 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 
 /**
- * Virtual parameter allowing to view/update the underlying field value.
+ * Virtual parameter allowing to view the underlying field value.
  * 
  * @author olitank
  *

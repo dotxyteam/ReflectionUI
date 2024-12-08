@@ -277,6 +277,10 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.getFormButtonBorderColor();
 	}
 
+	public boolean isValidationRequired() {
+		return base.isValidationRequired();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

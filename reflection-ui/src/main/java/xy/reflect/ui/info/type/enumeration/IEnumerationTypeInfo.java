@@ -261,6 +261,11 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 		public boolean canCopy(Object object) {
 			return false;
 		}
+
+		@Override
+		public boolean isValidationRequired() {
+			return false;
+		}
 	};
 
 	/**

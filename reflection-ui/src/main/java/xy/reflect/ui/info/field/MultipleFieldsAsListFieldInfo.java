@@ -365,6 +365,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public boolean isValidationRequired() {
+			return false;
+		}
+
+		@Override
 		public ITransactionInfo getTransaction(Object object) {
 			return null;
 		}

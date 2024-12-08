@@ -596,6 +596,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.isModificationStackAccessible();
 	}
 
+	protected boolean isValidationRequired(ITypeInfo type) {
+		return type.isValidationRequired();
+	}
+
 	protected boolean supports(ITypeInfo type, Object object) {
 		return type.supports(object);
 	}
@@ -1236,6 +1240,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isModificationStackAccessible() {
 			return InfoProxyFactory.this.isModificationStackAccessible(base);
+		}
+
+		@Override
+		public boolean isValidationRequired() {
+			return InfoProxyFactory.this.isValidationRequired(base);
 		}
 
 		@Override

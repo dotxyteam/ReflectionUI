@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
@@ -220,6 +218,11 @@ public class GenericEnumerationFactory {
 		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(TypeInfo.this, null);
+		}
+
+		@Override
+		public boolean isValidationRequired() {
+			return false;
 		}
 
 		@Override

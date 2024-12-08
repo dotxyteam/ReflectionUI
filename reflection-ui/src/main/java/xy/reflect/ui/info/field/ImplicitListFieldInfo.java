@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.awt.Dimension;
@@ -398,6 +396,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(this,
 					new SpecificitiesIdentifier(parentType.getName(), ImplicitListFieldInfo.this.getName()));
+		}
+
+		@Override
+		public boolean isValidationRequired() {
+			return false;
 		}
 
 		@Override

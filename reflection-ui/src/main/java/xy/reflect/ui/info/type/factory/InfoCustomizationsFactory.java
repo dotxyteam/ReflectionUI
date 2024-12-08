@@ -286,6 +286,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected boolean isValidationRequired(ITypeInfo type) {
+		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
+				type.getName());
+		if (t != null) {
+			if (t.isValidationRequirementForced()) {
+				return true;
+			}
+		}
+		return super.isValidationRequired(type);
+	}
+
+	@Override
 	protected boolean canPersist(ITypeInfo type) {
 		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
 				type.getName());

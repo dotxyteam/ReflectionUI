@@ -16,14 +16,14 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 /**
- * Basic type information proxy class. The methods in this class should be overriden
- * to provide custom information.
+ * Basic type information proxy class. The methods in this class should be
+ * overriden to provide custom information.
  * 
  * @author olitank
  *
  */
-public class BasicTypeInfoProxy  extends AbstractInfoProxy implements ITypeInfo {
-	
+public class BasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
+
 	protected ITypeInfo base;
 
 	public BasicTypeInfoProxy(ITypeInfo base) {
@@ -193,7 +193,10 @@ public class BasicTypeInfoProxy  extends AbstractInfoProxy implements ITypeInfo 
 	public ColorSpecification getFormButtonBorderColor() {
 		return base.getFormButtonBorderColor();
 	}
-	
+
+	public boolean isValidationRequired() {
+		return base.isValidationRequired();
+	}
 
 	public String toString(Object object) {
 		return base.toString(object);
