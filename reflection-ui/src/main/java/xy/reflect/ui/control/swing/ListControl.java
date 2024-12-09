@@ -132,6 +132,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected SwingRenderer swingRenderer;
 	protected IFieldControlData listData;
+	protected IFieldControlData selectionAccessData;
 
 	protected JXTreeTable treeTableComponent;
 	protected JScrollPane treeTableComponentScrollPane;
@@ -192,6 +193,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		openDetailsDialogOnItemDoubleClick();
 		updateDetailsAreaOnSelection();
 		updateToolbarOnSelection();
+		feedAutomaticallySelectionAccessData();
 		handleMouseRightButton();
 		updateToolbar();
 		initializeSelectionListening();
@@ -210,6 +212,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	public IFieldControlData getSelectionAccessData() {
+		return selectionAccessData;
+	}
+
+	public void setSelectionAccessData(IFieldControlData externalSelectionData) {
+		this.selectionAccessData = externalSelectionData;
+	}
+
 	public Object getRootListValue() {
 		return itemPositionFactory.getRootListValue();
 	}
@@ -225,7 +235,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				updateToolbar();
 			}
 		});
-
 	}
 
 	protected void updateDetailsAreaOnSelection() {
@@ -1559,6 +1568,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					});
 				}
 			});
+			complyWithSelectionAccessData();
 			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
@@ -1578,11 +1588,44 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 			});
+			complyWithSelectionAccessData();
 			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 				updateDetailsArea(false);
 			}
 		}
 		return true;
+	}
+
+	protected void complyWithSelectionAccessData() {
+		if (selectionAccessData != null) {
+			Object itemToSelect = selectionAccessData.getValue();
+			if (itemToSelect == null) {
+				setSelection(Collections.emptyList());
+			} else {
+				BufferedItemPosition itemPosition = findItemPositionByReference(itemToSelect);
+				setSingleSelection(itemPosition);
+			}
+		}
+	}
+
+	protected void feedAutomaticallySelectionAccessData() {
+		selectionListeners.add(new Listener<List<BufferedItemPosition>>() {
+			@Override
+			public void handle(List<BufferedItemPosition> event) {
+				if (selectionAccessData != null) {
+					BufferedItemPosition selectedItemPosition = getSingleSelection();
+					Object selectedItem;
+					if (selectedItemPosition == null) {
+						selectedItem = null;
+					} else {
+						selectedItem = selectedItemPosition.getItem();
+					}
+					ReflectionUIUtils.setFieldValueThroughModificationStack(selectionAccessData, selectedItem,
+							getModificationStack(),
+							ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
+				}
+			}
+		});
 	}
 
 	protected boolean isSelectionUseful() {

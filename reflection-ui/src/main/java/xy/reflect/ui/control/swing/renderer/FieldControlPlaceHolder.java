@@ -356,7 +356,31 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		if (refreshStructure) {
 			updateAutoRefeshState();
+			if (updateListSelectionAccessData()) {
+				refreshUI(false);
+			}
 		}
+	}
+
+	protected boolean updateListSelectionAccessData() {
+		if (fieldControl instanceof ListControl) {
+			ITypeInfo containingType = swingRenderer.getReflectionUI()
+					.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(form.getObject()));
+			IFieldInfo selectionAccessField = ((IListTypeInfo) controlData.getType())
+					.getSelectionAccessField(containingType);
+			FieldControlData selectionAccessData;
+			if (selectionAccessField != null) {
+				selectionAccessData = new FieldControlData(selectionAccessField);
+			} else {
+				selectionAccessData = null;
+			}
+			if (!MiscUtils.equalsOrBothNull(selectionAccessData,
+					((ListControl) fieldControl).getSelectionAccessData())) {
+				((ListControl) fieldControl).setSelectionAccessData(selectionAccessData);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected void layoutFieldControl() {
@@ -500,7 +524,15 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				ITypeInfo fieldType = controlInput.getControlData().getType();
 				if (fieldType instanceof IListTypeInfo) {
 					try {
-						return new ListControl(swingRenderer, controlInput);
+						ListControl result = new ListControl(swingRenderer, controlInput);
+						ITypeInfo containingType = swingRenderer.getReflectionUI()
+								.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(form.getObject()));
+						IFieldInfo selectionControlField = ((IListTypeInfo) fieldType)
+								.getSelectionAccessField(containingType);
+						if (selectionControlField != null) {
+							result.setSelectionAccessData(new FieldControlData(selectionControlField));
+						}
+						return result;
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}

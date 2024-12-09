@@ -552,6 +552,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.toArray(listValue);
 	}
 
+	protected IFieldInfo getSelectionAccessField(IListTypeInfo type, ITypeInfo containingType) {
+		return type.getSelectionAccessField(containingType);
+	}
+
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 		return type.getConstructors();
 	}
@@ -1418,6 +1422,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
+		}
+
+		@Override
+		public IFieldInfo getSelectionAccessField(ITypeInfo containingType) {
+			return InfoProxyFactory.this.getSelectionAccessField((IListTypeInfo) base, containingType);
 		}
 
 		@Override

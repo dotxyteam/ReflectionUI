@@ -1,5 +1,4 @@
 
-
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -66,6 +65,7 @@ public class ReflectionUITest {
 		public Test3 getAThrownError() {
 			throw new RuntimeException();
 		}
+
 		public int getTheBoundedInt() {
 			return theBoundedInt;
 		}
@@ -104,7 +104,7 @@ public class ReflectionUITest {
 		}
 
 		public void setTheInt(int theInt) {
-			//throw new RuntimeException();
+			// throw new RuntimeException();
 			this.theInt = theInt;
 		}
 
@@ -153,6 +153,10 @@ public class ReflectionUITest {
 		public Test3 test3 = null;
 		public Test4 test4 = new Test4();
 
+		public List<AbstrcatTestDescendant> theTestDescendantList = new ArrayList<AbstrcatTestDescendant>(
+				Arrays.asList(new Test2(), new Test2(), new Test3()));
+		public AbstrcatTestDescendant selectedItemInTestDescendantList;
+		
 		public Date getTheDate() {
 			return theDate;
 		}
@@ -184,10 +188,10 @@ public class ReflectionUITest {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public void doUninterruptibleLongTask() {
 			long startTime = System.currentTimeMillis();
-			while(((System.currentTimeMillis()-startTime) < 10000)){
+			while (((System.currentTimeMillis() - startTime) < 10000)) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -257,7 +261,7 @@ public class ReflectionUITest {
 
 	public static class Test2 extends AbstrcatTestDescendant {
 		private static final long serialVersionUID = 1L;
-		
+
 		public List<AbstrcatTestDescendant> theChildrenList = new ArrayList<ReflectionUITest.AbstrcatTestDescendant>();
 
 		public Test2() {
@@ -279,7 +283,7 @@ public class ReflectionUITest {
 
 	public static class Test3 extends AbstrcatTestDescendant {
 		private static final long serialVersionUID = 1L;
-		
+
 		public String reference;
 		public String transactionState;
 
@@ -308,7 +312,7 @@ public class ReflectionUITest {
 
 	public static class Test4 extends AbstrcatTestDescendant {
 		private static final long serialVersionUID = 1L;
-		
+
 		private int i = 0;
 
 		public void modify1() {
