@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.AWTEvent;
@@ -304,7 +302,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		protected void updateDetailsAreaOnSelection() {
+		protected void updateDetailsArea(boolean refreshStructure) {
 		}
 
 		@Override
@@ -325,7 +323,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		public boolean requestCustomFocus() {
-			if (getRootListSize() > 0) {
+			if (getSelection().isEmpty() && (getRootListSize() > 0)) {
 				setSingleSelection(getRootListItemPosition(0));
 			}
 			if (SwingRendererUtils.requestAnyComponentFocus(detailedCellsContainer, swingRenderer)) {
@@ -335,17 +333,12 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		protected void restoringExpandedPathsAsMuchAsPossible(Runnable runnable) {
+		protected void restoringExpandedPathsDespiteDataAlteration(Runnable runnable) {
 			runnable.run();
 		}
 
 		@Override
 		protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {
-			throw new ReflectionUIError();
-		}
-
-		@Override
-		protected void updateDetailsArea(boolean refreshStructure) {
 			throw new ReflectionUIError();
 		}
 

@@ -1,5 +1,12 @@
-- List control external selection not working:
-	. infinite selection and modification loop
+- List selection access data issues:
+	. to make it work list selection must be managed correctly:
+		* useless selection events must not be triggered
+		* item position selection change is not necessarily item 
+		selection change and vice-versa
+		* only item selection change events must be triggered
+		* restoringSelectionDespiteDataAlteration manages sets
+		but does not manage lists that can have an item position 
+		pointing to a different item after the model alteration
 - handle bigdecimal, biginteger, ...
 - add customization option for list method shortcut icon
 - add "virtual composed list field" customization option that would use 
