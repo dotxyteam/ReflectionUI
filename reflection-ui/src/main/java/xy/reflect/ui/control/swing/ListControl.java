@@ -1599,11 +1599,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected void complyWithSelectionAccessData() {
 		if (selectionAccessData != null) {
 			Object itemToSelect = selectionAccessData.getValue();
-			if (itemToSelect == null) {
-				setSelection(Collections.emptyList());
-			} else {
-				BufferedItemPosition itemPosition = findItemPositionByReference(itemToSelect);
-				setSingleSelection(itemPosition);
+			selectionListenersEnabled = false;
+			try {
+				if (itemToSelect == null) {
+					setSelection(Collections.emptyList());
+				} else {
+					BufferedItemPosition itemPosition = findItemPositionByReference(itemToSelect);
+					setSingleSelection(itemPosition);
+				}
+			} finally {
+				selectionListenersEnabled = true;
 			}
 		}
 	}

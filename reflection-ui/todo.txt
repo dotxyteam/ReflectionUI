@@ -1,8 +1,5 @@
 - List control external selection not working:
-	. need to restart the application after enabling the feature
-	. no undo management for the selection change
-	. the external field is not refreshed
-	. DetailedListControl does not receive the externalSelectionData
+	. infinite selection and modification loop
 - handle bigdecimal, biginteger, ...
 - add customization option for list method shortcut icon
 - add "virtual composed list field" customization option that would use 
