@@ -237,6 +237,25 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected IFieldInfo getSelectionAccessField(IListTypeInfo listType, ITypeInfo containingType) {
+		ITypeInfo itemType = listType.getItemType();
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
+		if (l != null) {
+			if (l.getSelectionAccessFieldName() != null) {
+				IFieldInfo result = ReflectionUIUtils.findInfoByName(containingType.getFields(),
+						l.getSelectionAccessFieldName());
+				if (result == null) {
+					throw new ReflectionUIError("List selection control field not found in type "
+							+ containingType.getName() + ": '" + l.getSelectionAccessFieldName() + "'");
+				}
+				return result;
+			}
+		}
+		return super.getSelectionAccessField(listType, containingType);
+	}
+
+	@Override
 	protected boolean isItemNullValueSupported(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
@@ -1853,8 +1872,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					ITypeInfo itemType = implicitListFieldDeclaration.getItemTypeFinder().find(customizedUI,
 							new SpecificitiesIdentifier(containingType.getName(),
 									implicitListFieldDeclaration.getFieldName()));
-					return new ImplicitListFieldInfo(customizedUI, implicitListFieldDeclaration.getFieldName(), containingType,
-							itemType, implicitListFieldDeclaration.getCreateMethodName(),
+					return new ImplicitListFieldInfo(customizedUI, implicitListFieldDeclaration.getFieldName(),
+							containingType, itemType, implicitListFieldDeclaration.getCreateMethodName(),
 							implicitListFieldDeclaration.getGetMethodName(),
 							implicitListFieldDeclaration.getAddMethodName(),
 							implicitListFieldDeclaration.getRemoveMethodName(),
@@ -2681,8 +2700,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				for (int i = 0; i < mc.getSerializedInvocationDatas().size(); i++) {
 					final TextualStorage invocationDataStorage = mc.getSerializedInvocationDatas().get(i);
 					final int finalI = i;
-					newMethods.add(new PresetInvocationDataMethodInfo(method, (TextualStorage) ReflectionUIUtils
-							.copy(ReflectionUI.getDefault(), invocationDataStorage)) {
+					newMethods.add(new PresetInvocationDataMethodInfo(method,
+							(TextualStorage) ReflectionUIUtils.copy(ReflectionUI.getDefault(), invocationDataStorage)) {
 
 						@Override
 						public String getName() {

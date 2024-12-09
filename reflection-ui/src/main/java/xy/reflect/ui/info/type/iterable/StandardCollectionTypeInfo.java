@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable;
 
 import java.util.ArrayList;
@@ -10,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import xy.reflect.ui.info.ValueReturnMode;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
@@ -50,6 +49,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public String getCaption() {
 		return ReflectionUIUtils.getDefaultListTypeCaption(this);
+	}
+
+	@Override
+	public IFieldInfo getSelectionAccessField(ITypeInfo containingType) {
+		return null;
 	}
 
 	@Override

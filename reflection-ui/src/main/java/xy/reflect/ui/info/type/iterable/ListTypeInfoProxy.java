@@ -281,6 +281,10 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.isValidationRequired();
 	}
 
+	public IFieldInfo getSelectionAccessField(ITypeInfo containingType) {
+		return base.getSelectionAccessField(containingType);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

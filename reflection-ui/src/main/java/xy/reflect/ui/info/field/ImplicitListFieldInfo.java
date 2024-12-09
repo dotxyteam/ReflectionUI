@@ -404,6 +404,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public IFieldInfo getSelectionAccessField(ITypeInfo containingType) {
+			return null;
+		}
+
+		@Override
 		public ITransactionInfo getTransaction(Object object) {
 			return null;
 		}

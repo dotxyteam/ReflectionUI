@@ -1454,7 +1454,7 @@ public class InfoCustomizations implements Serializable {
 		public void setFieldName(String fieldName) {
 			this.fieldName = fieldName;
 		}
-		
+
 		public void validate() throws Exception {
 			if ((fieldName == null) || (fieldName.length() == 0)) {
 				throw new IllegalStateException("Field name not provided");
@@ -2166,7 +2166,7 @@ public class InfoCustomizations implements Serializable {
 		protected boolean copyForbidden = false;
 		protected Integer formSpacing;
 		protected boolean validationRequirementForced = false;
-		
+
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
@@ -2766,23 +2766,23 @@ public class InfoCustomizations implements Serializable {
 			List<String> result = new ArrayList<String>();
 			for (Constructor<?> ctor : conversionClass.getConstructors()) {
 				if (ctor.getParameterTypes().length >= 1) {
-					result.add(ReflectionUIUtils.buildMethodSignature(
-							new DefaultConstructorInfo(ReflectionUI.getDefault(), ctor)));
+					result.add(ReflectionUIUtils
+							.buildMethodSignature(new DefaultConstructorInfo(ReflectionUI.getDefault(), ctor)));
 				}
 			}
 			for (Method method : conversionClass.getMethods()) {
 				if (Modifier.isStatic(method.getModifiers())) {
 					if (method.getParameterTypes().length >= 1) {
 						if (!method.getReturnType().equals(void.class)) {
-							result.add(ReflectionUIUtils.buildMethodSignature(
-									new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
+							result.add(ReflectionUIUtils
+									.buildMethodSignature(new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
 						}
 					}
 				} else {
 					if (method.getParameterTypes().length >= 0) {
 						if (!method.getReturnType().equals(void.class)) {
-							result.add(ReflectionUIUtils.buildMethodSignature(
-									new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
+							result.add(ReflectionUIUtils
+									.buildMethodSignature(new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
 						}
 					}
 				}
@@ -2835,8 +2835,8 @@ public class InfoCustomizations implements Serializable {
 
 		protected String getParameterName(Executable executable, int parameterPosition) {
 			if (executable instanceof Constructor) {
-				DefaultConstructorInfo constructorInfo = new DefaultConstructorInfo(
-						ReflectionUI.getDefault(), (Constructor<?>) executable);
+				DefaultConstructorInfo constructorInfo = new DefaultConstructorInfo(ReflectionUI.getDefault(),
+						(Constructor<?>) executable);
 				List<IParameterInfo> paramInfos = constructorInfo.getParameters();
 				if (parameterPosition >= paramInfos.size()) {
 					return null;
@@ -4813,6 +4813,7 @@ public class InfoCustomizations implements Serializable {
 		protected boolean itemNullValueAllowed = false;
 		protected InitialItemValueCreationOption initialItemValueCreationOption;
 		protected ITypeInfoFinder customItemTypeFinder;
+		protected String selectionAccessFieldName;
 
 		@Override
 		public boolean isInitial() {
@@ -4838,6 +4839,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setInitialItemValueCreationOption(InitialItemValueCreationOption initialItemValueCreationOption) {
 			this.initialItemValueCreationOption = initialItemValueCreationOption;
+		}
+
+		public String getSelectionAccessFieldName() {
+			return selectionAccessFieldName;
+		}
+
+		public void setSelectionAccessFieldName(String selectionAccessFieldName) {
+			this.selectionAccessFieldName = selectionAccessFieldName;
 		}
 
 		public boolean isItemNullValueAllowed() {

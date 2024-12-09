@@ -1,5 +1,8 @@
-- use java.lang.reflect.Parameter. Check that the real name of the parameter
-will be available. 
+- List control external selection not working:
+	. need to restart the application after enabling the feature
+	. no undo management for the selection change
+	. the external field is not refreshed
+	. DetailedListControl does not receive the externalSelectionData
 - handle bigdecimal, biginteger, ...
 - add customization option for list method shortcut icon
 - add "virtual composed list field" customization option that would use 
