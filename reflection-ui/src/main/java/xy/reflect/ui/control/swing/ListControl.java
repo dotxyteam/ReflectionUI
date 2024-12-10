@@ -59,6 +59,8 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import com.google.common.collect.HashMultiset;
+
 import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
@@ -1543,20 +1545,31 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			refreshTreeTableComponentContent();
 			refreshTreeTableComponentHeader();
 			refreshRendrers();
-			restoringSelectionDespiteDataAlteration(new Runnable() {
-				@Override
-				public void run() {
-					restoringExpandedPathsDespiteDataAlteration(new Runnable() {
-						@Override
-						public void run() {
-							refreshItemPositionBuffers();
-							refreshTreeTableModelAndControl(refreshStructure);
-						}
+			if (selectionAccessData != null) {
+				restoringExpandedPathsDespiteDataAlteration(new Runnable() {
+					@Override
+					public void run() {
+						refreshItemPositionBuffers();
+						refreshTreeTableModelAndControl(refreshStructure);
+					}
 
-					});
-				}
-			});
-			complyWithSelectionAccessData();
+				});
+				complyWithSelectionAccessData();
+			} else {
+				restoringSelectionDespiteDataAlteration(new Runnable() {
+					@Override
+					public void run() {
+						restoringExpandedPathsDespiteDataAlteration(new Runnable() {
+							@Override
+							public void run() {
+								refreshItemPositionBuffers();
+								refreshTreeTableModelAndControl(refreshStructure);
+							}
+
+						});
+					}
+				});
+			}
 			if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 				updateDetailsArea(true);
 			}
@@ -1809,6 +1822,46 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (willBeSelectedPositions.size() > 0) {
 			scrollTo(willBeSelectedPositions.get(0));
 		}
+	}
+
+	protected void groupingSelectionEvents(Runnable runnable) {
+		List<BufferedItemPosition> oldSelection = null;
+		List<Object> oldSelectedItems = null;
+		if (areItemPositionsStable()) {
+			oldSelection = getSelection();
+		} else {
+			oldSelectedItems = new ArrayList<Object>();
+			for (BufferedItemPosition itemPosition : getSelection()) {
+				oldSelectedItems.add(itemPosition.getItem());
+			}
+		}
+		boolean oldSelectionListenersEnabled = selectionListenersEnabled;
+		selectionListenersEnabled = false;
+		try {
+			runnable.run();
+		} finally {
+			selectionListenersEnabled = oldSelectionListenersEnabled;
+		}
+		List<BufferedItemPosition> newSelection = null;
+		List<Object> newSelectedItems = null;
+		if (areItemPositionsStable()) {
+			newSelection = getSelection();
+			if (!oldSelection.equals(newSelection)) {
+				fireSelectionEvent();
+			}
+		} else {
+			newSelectedItems = new ArrayList<Object>();
+			for (BufferedItemPosition itemPosition : getSelection()) {
+				newSelectedItems.add(itemPosition.getItem());
+			}
+			if (!HashMultiset.create(oldSelectedItems).equals(HashMultiset.create(newSelectedItems))) {
+				fireSelectionEvent();
+			}
+		}
+	}
+
+	protected boolean areItemPositionsStable() {
+		return false;
 	}
 
 	protected void restoringSelectionDespiteDataAlteration(Runnable runnable) {
