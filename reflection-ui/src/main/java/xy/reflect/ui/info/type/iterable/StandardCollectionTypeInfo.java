@@ -6,7 +6,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.SortedSet;
+
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -39,6 +42,13 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	public StandardCollectionTypeInfo(JavaTypeInfoSource source, ITypeInfo itemType) {
 		super(source);
 		this.itemType = itemType;
+	}
+
+	public static boolean isCompatibleWith(Class<?> javaType) {
+		if (Collection.class.isAssignableFrom(javaType)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -122,11 +132,31 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean isOrdered() {
+	public boolean isManuallyOrdered() {
 		if (List.class.isAssignableFrom(getJavaType())) {
 			return true;
 		}
+		if (Queue.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
 		if (LinkedHashSet.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isItemPositionStable() {
+		if (List.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
+		if (Queue.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
+		if (LinkedHashSet.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
+		if (SortedSet.class.isAssignableFrom(getJavaType())) {
 			return true;
 		}
 		return false;
@@ -145,13 +175,6 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public boolean canViewItemDetails() {
 		return true;
-	}
-
-	public static boolean isCompatibleWith(Class<?> javaType) {
-		if (Collection.class.isAssignableFrom(javaType)) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override

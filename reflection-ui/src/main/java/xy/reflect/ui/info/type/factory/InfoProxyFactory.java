@@ -520,12 +520,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getDetailsAccessMode();
 	}
 
-	protected boolean isOrdered(IListTypeInfo type) {
-		return type.isOrdered();
+	protected boolean isManuallyOrdered(IListTypeInfo type) {
+		return type.isManuallyOrdered();
 	}
 
 	protected boolean isItemNullValueSupported(IListTypeInfo type) {
 		return type.isItemNullValueSupported();
+	}
+
+	protected boolean isItemPositionStable(IListTypeInfo type) {
+		return type.isItemPositionStable();
 	}
 
 	protected InitialItemValueCreationOption getInitialItemValueCreationOption(IListTypeInfo type) {
@@ -1440,6 +1444,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public boolean isItemPositionStable() {
+			return InfoProxyFactory.this.isItemPositionStable((IListTypeInfo) base);
+		}
+
+		@Override
 		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
 			return InfoProxyFactory.this.getInitialItemValueCreationOption((IListTypeInfo) base);
 		}
@@ -1450,8 +1459,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isOrdered() {
-			return InfoProxyFactory.this.isOrdered((IListTypeInfo) base);
+		public boolean isManuallyOrdered() {
+			return InfoProxyFactory.this.isManuallyOrdered((IListTypeInfo) base);
 		}
 
 		@Override

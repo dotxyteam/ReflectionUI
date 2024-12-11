@@ -26,7 +26,7 @@ import xy.reflect.ui.util.ReflectionUIError;
  * @author olitank
  *
  */
-public class ItemPosition implements Cloneable {
+public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 
 	protected AbstractItemPositionFactory factory;
 	protected ItemPosition parentItemPosition;
@@ -387,6 +387,21 @@ public class ItemPosition implements Cloneable {
 	}
 
 	/**
+	 * @return whether the underlying item have a predictable position (or not) in
+	 *         the table/tree.
+	 */
+	public boolean isStable() {
+		if (!isRoot()) {
+			ItemPosition parentItemPosition = getParentItemPosition();
+			if (!parentItemPosition.isStable()) {
+				return false;
+			}
+		}
+		IListTypeInfo listType = getContainingListType();
+		return listType.isItemPositionStable();
+	}
+
+	/**
 	 * Updates the containing list so that it will only contain the given items. If
 	 * the containing list has a parent item then the parent item field that hosts
 	 * the containing list value will be updated and the current method will be
@@ -502,6 +517,21 @@ public class ItemPosition implements Cloneable {
 			current = current.getParentItemPosition();
 		}
 		return result.toString();
+	}
+
+	@Override
+	public int compareTo(ItemPosition o2) {
+		ItemPosition o1 = this;
+		if (o1.getDepth() < o2.getDepth()) {
+			return o1.compareTo(o2.getParentItemPosition());
+		}
+		if (o1.getDepth() > o2.getDepth()) {
+			return o1.getParentItemPosition().compareTo(o2);
+		}
+		if (o1.getParentItemPosition().equals(o2.getParentItemPosition())) {
+			return new Integer(o1.getIndex()).compareTo(new Integer(o2.getIndex()));
+		}
+		return o1.getParentItemPosition().compareTo(o2.getParentItemPosition());
 	}
 
 	@Override

@@ -50,6 +50,33 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		resolveJavaReflectionModelAccessProblems();
 	}
 
+	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
+		if (javaMethod.isSynthetic()) {
+			return false;
+		}
+		if (javaMethod.isBridge()) {
+			return false;
+		}
+		if (GetterFieldInfo.isCompatibleWith(javaMethod, containingJavaClass)) {
+			return false;
+		}
+		for (Method otherJavaMethod : containingJavaClass.getMethods()) {
+			if (!otherJavaMethod.equals(javaMethod)) {
+				if (GetterFieldInfo.isCompatibleWith(otherJavaMethod, containingJavaClass)) {
+					if (javaMethod.equals(GetterFieldInfo.getValidSetterMethod(otherJavaMethod, containingJavaClass))) {
+						return false;
+					}
+				}
+			}
+		}
+		for (Method commonMethod : Object.class.getMethods()) {
+			if (ClassUtils.isOverridenBy(commonMethod, javaMethod)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public Method getJavaMethod() {
 		return javaMethod;
 	}
@@ -185,8 +212,8 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
 		Object[] args = new Object[javaMethod.getParameterTypes().length];
-		for (IParameterInfo param : getParameters()) {
-			args[param.getPosition()] = invocationData.getParameterValue(param.getPosition());
+		for (int i = 0; i < args.length; i++) {
+			args[i] = invocationData.getParameterValue(i);
 		}
 		try {
 			return javaMethod.invoke(object, args);
@@ -224,33 +251,6 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return ValueReturnMode.INDETERMINATE;
-	}
-
-	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
-		if (javaMethod.isSynthetic()) {
-			return false;
-		}
-		if (javaMethod.isBridge()) {
-			return false;
-		}
-		if (GetterFieldInfo.isCompatibleWith(javaMethod, containingJavaClass)) {
-			return false;
-		}
-		for (Method otherJavaMethod : containingJavaClass.getMethods()) {
-			if (!otherJavaMethod.equals(javaMethod)) {
-				if (GetterFieldInfo.isCompatibleWith(otherJavaMethod, containingJavaClass)) {
-					if (javaMethod.equals(GetterFieldInfo.getValidSetterMethod(otherJavaMethod, containingJavaClass))) {
-						return false;
-					}
-				}
-			}
-		}
-		for (Method commonMethod : Object.class.getMethods()) {
-			if (ClassUtils.isOverridenBy(commonMethod, javaMethod)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	@Override

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable;
 
 import java.lang.reflect.Array;
@@ -61,7 +59,8 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 			@Override
 			public ITypeInfo getReturnValueType() {
 				if (returnValueType == null) {
-					returnValueType = reflectionUI.buildTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this, null));
+					returnValueType = reflectionUI
+							.buildTypeInfo(new PrecomputedTypeInfoSource(ArrayTypeInfo.this, null));
 				}
 				return returnValueType;
 			}
@@ -114,7 +113,12 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean isOrdered() {
+	public boolean isManuallyOrdered() {
+		return true;
+	}
+
+	@Override
+	public boolean isItemPositionStable() {
 		return true;
 	}
 

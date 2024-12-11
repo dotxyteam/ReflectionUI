@@ -1094,7 +1094,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isOrdered(IListTypeInfo listType) {
+	protected boolean isManuallyOrdered(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
 				(itemType == null) ? null : itemType.getName());
@@ -1106,7 +1106,23 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				return false;
 			}
 		}
-		return super.isOrdered(listType);
+		return super.isManuallyOrdered(listType);
+	}
+
+	@Override
+	protected boolean isItemPositionStable(IListTypeInfo listType) {
+		ITypeInfo itemType = listType.getItemType();
+		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
+				(itemType == null) ? null : itemType.getName());
+		if (l != null) {
+			if (l.isItemPositionInstabilityForced()) {
+				return false;
+			}
+			if (l.isListSorted()) {
+				return true;
+			}
+		}
+		return super.isItemPositionStable(listType);
 	}
 
 	@Override

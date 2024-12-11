@@ -71,6 +71,11 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
+		public boolean isItemPositionStable() {
+			return true;
+		}
+
+		@Override
 		public boolean canInstanciateFromArray() {
 			return false;
 		}
@@ -101,7 +106,7 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean isOrdered() {
+		public boolean isManuallyOrdered() {
 			return false;
 		}
 
@@ -421,7 +426,13 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * @return whether the items in this list type instances are ordered (can be
 	 *         moved to specific positions) or not.
 	 */
-	boolean isOrdered();
+	boolean isManuallyOrdered();
+
+	/**
+	 * @return whether each item in this list type instances have a predictable
+	 *         position or not.
+	 */
+	boolean isItemPositionStable();
 
 	/**
 	 * @return whether item addition should be allowed on instances of this list

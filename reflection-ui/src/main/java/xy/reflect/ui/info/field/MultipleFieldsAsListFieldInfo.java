@@ -335,7 +335,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public boolean isOrdered() {
+		public boolean isManuallyOrdered() {
 			return false;
 		}
 

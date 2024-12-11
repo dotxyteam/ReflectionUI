@@ -183,8 +183,8 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.getFormPreferredSize();
 	}
 
-	public boolean isOrdered() {
-		return base.isOrdered();
+	public boolean isManuallyOrdered() {
+		return base.isManuallyOrdered();
 	}
 
 	public int getFormSpacing() {
@@ -283,6 +283,10 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 
 	public IFieldInfo getSelectionAccessField(ITypeInfo containingType) {
 		return base.getSelectionAccessField(containingType);
+	}
+
+	public boolean isItemPositionStable() {
+		return base.isItemPositionStable();
 	}
 
 	@Override

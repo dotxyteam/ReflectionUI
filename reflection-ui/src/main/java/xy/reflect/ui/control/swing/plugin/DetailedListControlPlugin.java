@@ -310,7 +310,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		protected void refreshTreeTableComponentContent() {
+		protected void refreshTreeTableComponentStyle() {
 		}
 
 		@Override

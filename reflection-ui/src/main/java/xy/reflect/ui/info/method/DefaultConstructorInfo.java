@@ -83,8 +83,8 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	@Override
 	public Object invoke(Object ignore, InvocationData invocationData) {
 		Object[] args = new Object[javaConstructor.getParameterTypes().length];
-		for (IParameterInfo param : getParameters()) {
-			args[param.getPosition()] = invocationData.getParameterValue(param.getPosition());
+		for (int i = 0; i < args.length; i++) {
+			args[i] = invocationData.getParameterValue(i);
 		}
 		try {
 			return javaConstructor.newInstance(args);

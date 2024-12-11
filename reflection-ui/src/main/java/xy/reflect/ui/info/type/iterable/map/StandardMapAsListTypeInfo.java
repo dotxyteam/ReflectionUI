@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
+
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -87,8 +89,19 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean isOrdered() {
+	public boolean isManuallyOrdered() {
 		if (LinkedHashMap.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isItemPositionStable() {
+		if (LinkedHashMap.class.isAssignableFrom(getJavaType())) {
+			return true;
+		}
+		if (SortedMap.class.isAssignableFrom(getJavaType())) {
 			return true;
 		}
 		return false;
