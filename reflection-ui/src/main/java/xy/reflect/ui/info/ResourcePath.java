@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info;
 
 import java.io.File;
@@ -40,6 +38,7 @@ public class ResourcePath implements Serializable {
 	protected String path;
 	protected PathKind pathKind;
 	protected int chosenAlternativeIndex;
+	protected List<ResourcePath> additionalAlternativeOptions;
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		in.defaultReadObject();
@@ -112,8 +111,8 @@ public class ResourcePath implements Serializable {
 	/**
 	 * @param specification The full resource location specification string.
 	 * @return the path that was passed to the
-	 *         {@link #specifyClassPathResourceLocation(String)} method in
-	 *         order to create the given resource location specification.
+	 *         {@link #specifyClassPathResourceLocation(String)} method in order to
+	 *         create the given resource location specification.
 	 */
 	public static String extractClassPathResourceLocation(String specification) {
 		return specification.substring(ResourcePath.CLASSPATH_RESOURCE_PREFIX.length());
@@ -262,7 +261,20 @@ public class ResourcePath implements Serializable {
 			}
 		}
 		result.add(SELF_ALTERNATIVE_INDEX, this);
+		if (additionalAlternativeOptions != null) {
+			result.addAll(additionalAlternativeOptions);
+		}
 		return result;
+	}
+
+	/**
+	 * Allows to specify additional alternative options that will be include in the
+	 * result of {@link #getAlternativeOptions()}.
+	 * 
+	 * @param additionalAlternativeOptions The additional alternative options.
+	 */
+	public void setAdditionalAlternativeOptions(List<ResourcePath> additionalAlternativeOptions) {
+		this.additionalAlternativeOptions = additionalAlternativeOptions;
 	}
 
 	protected Collection<? extends ResourcePath> findMatchingClassPathResources(File file) {

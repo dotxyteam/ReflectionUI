@@ -1,6 +1,8 @@
 
 package xy.reflect.ui.info.custom;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -42,6 +44,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -1878,6 +1881,15 @@ public class InfoCustomizations implements Serializable {
 	public static class ApplicationCustomization extends AbstractInfoCustomization {
 		private static final long serialVersionUID = 1L;
 
+		private static final List<ResourcePath> SYSTEM_FONT_PATHS = new ArrayList<ResourcePath>();
+		static {
+			for (Font font : GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()) {
+				ResourcePath fontPath = new ResourcePath(ResourcePath.specifyMemoryObjectLocation(font.getName()));
+				SwingRendererUtils.FONT_CACHE.put(fontPath.getSpecification(), font);
+				SYSTEM_FONT_PATHS.add(fontPath);
+			}
+		}
+		
 		protected String applicationName;
 		protected String customApplicationCaption;
 		protected String onlineHelp;
@@ -2089,6 +2101,9 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void setTitleCustomFontResourcePath(ResourcePath titleCustomFontResourcePath) {
+			if (titleCustomFontResourcePath != null) {
+				titleCustomFontResourcePath.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
+			}
 			this.titleCustomFontResourcePath = titleCustomFontResourcePath;
 		}
 
@@ -2097,6 +2112,9 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void setLabelCustomFontResourcePath(ResourcePath labelCustomFontResourcePath) {
+			if (labelCustomFontResourcePath != null) {
+				labelCustomFontResourcePath.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
+			}
 			this.labelCustomFontResourcePath = labelCustomFontResourcePath;
 		}
 
@@ -2105,6 +2123,9 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void setEditorCustomFontResourcePath(ResourcePath editorCustomFontResourcePath) {
+			if (editorCustomFontResourcePath != null) {
+				editorCustomFontResourcePath.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
+			}
 			this.editorCustomFontResourcePath = editorCustomFontResourcePath;
 		}
 
@@ -2113,6 +2134,9 @@ public class InfoCustomizations implements Serializable {
 		}
 
 		public void setButtonCustomFontResourcePath(ResourcePath buttonCustomFontResourcePath) {
+			if (buttonCustomFontResourcePath != null) {
+				buttonCustomFontResourcePath.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
+			}
 			this.buttonCustomFontResourcePath = buttonCustomFontResourcePath;
 		}
 
