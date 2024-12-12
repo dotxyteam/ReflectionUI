@@ -414,7 +414,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public IFieldInfo getSelectionAccessField(ITypeInfo containingType) {
+		public IFieldInfo getSelectionTargetField(ITypeInfo containingType) {
 			return null;
 		}
 

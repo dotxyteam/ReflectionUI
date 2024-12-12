@@ -1459,6 +1459,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -5692,6 +5693,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -5753,6 +5755,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -5814,6 +5817,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -5875,6 +5879,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -5936,6 +5941,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -5997,6 +6003,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -7656,7 +7663,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a02</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230c</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7687,7 +7694,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a03</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230d</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7761,7 +7768,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a04</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230e</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7814,6 +7821,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>true</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -7836,7 +7844,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a05</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230f</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7870,6 +7878,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -7887,7 +7896,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a06</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2310</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7918,7 +7927,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a07</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2311</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7973,7 +7982,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a08</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2312</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8024,7 +8033,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a09</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2313</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8200,6 +8209,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -8271,7 +8281,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a0a</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2314</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -10542,7 +10552,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a0b</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2315</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10576,6 +10586,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -10593,7 +10604,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a0c</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2316</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10627,6 +10638,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -11246,7 +11258,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a0d</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2317</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11280,6 +11292,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>true</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -11297,7 +11310,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a0e</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2318</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11328,7 +11341,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a0f</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2319</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11362,6 +11375,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -11379,7 +11393,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a10</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231a</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11413,6 +11427,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_NULL_VALUE</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>true</itemNullValueAllowed>
@@ -11522,7 +11537,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a11</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231b</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11577,7 +11592,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a12</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231c</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -12761,7 +12776,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a13</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231d</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -12795,6 +12810,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>true</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -13401,7 +13417,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a14</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231e</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13435,6 +13451,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -13452,7 +13469,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a15</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231f</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -13483,7 +13500,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a16</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2320</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13517,6 +13534,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -13560,7 +13578,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a17</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2321</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13594,6 +13612,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -13640,7 +13659,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a18</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2322</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13674,6 +13693,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -16033,7 +16053,7 @@
             <uniqueIdentifier>2e34d93a:17970a4d5a7:-43a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a19</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2323</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16074,6 +16094,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -16091,7 +16112,7 @@
             <uniqueIdentifier>-7fd953ed:179723000f4:-2c20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a1a</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2324</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16122,7 +16143,7 @@
             <uniqueIdentifier>-715a7328:193a808180d:-5df5</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a1b</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2325</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16155,6 +16176,7 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -16163,7 +16185,7 @@
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.List</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
-                    <selectionAccessFieldName>selectedItemInTestDescendantList</selectionAccessFieldName>
+                    <selectionTargetFieldName>selectedItemInTestDescendantList</selectionTargetFieldName>
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>
             </specificTypeCustomizations>
@@ -16173,7 +16195,7 @@
             <uniqueIdentifier>-715a7328:193a808180d:-5dee</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a1c</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2326</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16545,7 +16567,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a1d</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2327</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16596,7 +16618,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a1e</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2328</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16642,7 +16664,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a1f</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2329</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16688,7 +16710,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>54d9575b:193a918c58c:1a20</uniqueIdentifier>
+                <uniqueIdentifier>-6e1471dc:193bcc25ab6:232a</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16812,6 +16834,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -16993,6 +17016,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17013,6 +17037,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17059,6 +17084,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17331,6 +17357,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17377,6 +17404,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17397,6 +17425,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17443,6 +17472,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17600,6 +17630,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -17924,6 +17955,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -18420,6 +18452,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -18688,6 +18721,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -25455,6 +25489,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -25501,6 +25536,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -25747,6 +25783,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -25793,6 +25830,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -28181,6 +28219,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -35226,6 +35265,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
@@ -35287,6 +35327,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
                     <itemContructorSelectableforced>false</itemContructorSelectableforced>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>

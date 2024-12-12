@@ -356,26 +356,25 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		}
 		if (refreshStructure) {
 			updateAutoRefeshState();
-			updateListSelectionAccessData();
+			updateListSelectionTargetData();
 		}
 	}
 
-	protected void updateListSelectionAccessData() {
+	protected void updateListSelectionTargetData() {
 		if (fieldControl instanceof ListControl) {
 			ITypeInfo containingType = swingRenderer.getReflectionUI()
 					.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(form.getObject()));
-			IFieldInfo selectionAccessField = ((IListTypeInfo) controlData.getType())
-					.getSelectionAccessField(containingType);
-			FieldControlData selectionAccessData;
-			if (selectionAccessField != null) {
-				selectionAccessData = new FieldControlData(selectionAccessField);
+			IFieldInfo selectionTargetField = ((IListTypeInfo) controlData.getType())
+					.getSelectionTargetField(containingType);
+			FieldControlData selectionTargetData;
+			if (selectionTargetField != null) {
+				selectionTargetData = new FieldControlData(selectionTargetField);
 			} else {
-				selectionAccessData = null;
+				selectionTargetData = null;
 			}
-			if (!MiscUtils.equalsOrBothNull(selectionAccessData,
-					((ListControl) fieldControl).getSelectionAccessData())) {
-				((ListControl) fieldControl).setSelectionAccessData(selectionAccessData);
-				((ListControl) fieldControl).refreshUI(false);
+			if (!MiscUtils.equalsOrBothNull(selectionTargetData,
+					((ListControl) fieldControl).getSelectionTargetData())) {
+				((ListControl) fieldControl).setSelectionTargetData(selectionTargetData);
 			}
 		}
 	}

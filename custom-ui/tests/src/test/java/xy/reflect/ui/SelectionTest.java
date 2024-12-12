@@ -60,6 +60,7 @@ public class SelectionTest {
 	}
 
 	private Node rootNode = new Node();
+	private Node selectedNode;
 
 	public Node getRootNode() {
 		return rootNode;
@@ -67,6 +68,14 @@ public class SelectionTest {
 
 	public void setRootNode(Node rootNode) {
 		this.rootNode = rootNode;
+	}
+
+	public Node getSelectedNode() {
+		return selectedNode;
+	}
+
+	public void setSelectedNode(Node selectedNode) {
+		this.selectedNode = selectedNode;
 	}
 
 	public static class Node {

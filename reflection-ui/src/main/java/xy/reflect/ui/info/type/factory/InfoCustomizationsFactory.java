@@ -237,22 +237,22 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected IFieldInfo getSelectionAccessField(IListTypeInfo listType, ITypeInfo containingType) {
+	protected IFieldInfo getSelectionTargetField(IListTypeInfo listType, ITypeInfo containingType) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			if (l.getSelectionAccessFieldName() != null) {
+			if (l.getSelectionTargetFieldName() != null) {
 				IFieldInfo result = ReflectionUIUtils.findInfoByName(containingType.getFields(),
-						l.getSelectionAccessFieldName());
+						l.getSelectionTargetFieldName());
 				if (result == null) {
-					throw new ReflectionUIError("List selection control field not found in type "
-							+ containingType.getName() + ": '" + l.getSelectionAccessFieldName() + "'");
+					throw new ReflectionUIError("List selection target field not found in type "
+							+ containingType.getName() + ": '" + l.getSelectionTargetFieldName() + "'");
 				}
 				return result;
 			}
 		}
-		return super.getSelectionAccessField(listType, containingType);
+		return super.getSelectionTargetField(listType, containingType);
 	}
 
 	@Override

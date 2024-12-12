@@ -4813,7 +4813,7 @@ public class InfoCustomizations implements Serializable {
 		protected boolean itemNullValueAllowed = false;
 		protected InitialItemValueCreationOption initialItemValueCreationOption;
 		protected ITypeInfoFinder customItemTypeFinder;
-		protected String selectionAccessFieldName;
+		protected String selectionTargetFieldName;
 		private boolean itemAutomaticPositioningManagementForced = false;
 
 		@Override
@@ -4850,12 +4850,12 @@ public class InfoCustomizations implements Serializable {
 			this.itemAutomaticPositioningManagementForced = itemAutomaticPositioningManagementForced;
 		}
 
-		public String getSelectionAccessFieldName() {
-			return selectionAccessFieldName;
+		public String getSelectionTargetFieldName() {
+			return selectionTargetFieldName;
 		}
 
-		public void setSelectionAccessFieldName(String selectionAccessFieldName) {
-			this.selectionAccessFieldName = selectionAccessFieldName;
+		public void setSelectionTargetFieldName(String selectionTargetFieldName) {
+			this.selectionTargetFieldName = selectionTargetFieldName;
 		}
 
 		public boolean isItemNullValueAllowed() {
