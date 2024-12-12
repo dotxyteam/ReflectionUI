@@ -1,3 +1,4 @@
+- add ILIstTypeInfo. canMoveItems()
 - List selection access data issues:
 	. to make it work list selection must be managed correctly:
 		* useless selection events must not be triggered

@@ -399,8 +399,13 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public boolean isItemPositionStable() {
-			return true;
+		public boolean areItemsAutomaticallyPositioned() {
+			return false;
+		}
+
+		@Override
+		public boolean isMoveAllowed() {
+			return !areItemsAutomaticallyPositioned();
 		}
 
 		@Override
@@ -648,11 +653,6 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public boolean canInstanciateFromArray() {
-			return true;
-		}
-
-		@Override
-		public boolean isManuallyOrdered() {
 			return true;
 		}
 

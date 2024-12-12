@@ -1094,35 +1094,22 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isManuallyOrdered(IListTypeInfo listType) {
+	protected boolean areItemsAutomaticallyPositioned(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
 				(itemType == null) ? null : itemType.getName());
 		if (l != null) {
+			if (l.isItemAutomaticPositioningManagementForced()) {
+				return true;
+			}
 			if ((l.getEditOptions() == null) || !l.getEditOptions().isItemMoveEnabled()) {
-				return false;
-			}
-			if (l.isListSorted()) {
-				return false;
-			}
-		}
-		return super.isManuallyOrdered(listType);
-	}
-
-	@Override
-	protected boolean isItemPositionStable(IListTypeInfo listType) {
-		ITypeInfo itemType = listType.getItemType();
-		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
-				(itemType == null) ? null : itemType.getName());
-		if (l != null) {
-			if (l.isItemPositionInstabilityForced()) {
-				return false;
+				return true;
 			}
 			if (l.isListSorted()) {
 				return true;
 			}
 		}
-		return super.isItemPositionStable(listType);
+		return super.areItemsAutomaticallyPositioned(listType);
 	}
 
 	@Override

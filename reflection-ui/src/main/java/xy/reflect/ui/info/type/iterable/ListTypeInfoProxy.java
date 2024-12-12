@@ -183,16 +183,16 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.getFormPreferredSize();
 	}
 
-	public boolean isManuallyOrdered() {
-		return base.isManuallyOrdered();
-	}
-
 	public int getFormSpacing() {
 		return base.getFormSpacing();
 	}
 
 	public boolean isInsertionAllowed() {
 		return base.isInsertionAllowed();
+	}
+
+	public boolean isMoveAllowed() {
+		return base.isMoveAllowed();
 	}
 
 	public ColorSpecification getFormBackgroundColor() {
@@ -285,8 +285,8 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.getSelectionAccessField(containingType);
 	}
 
-	public boolean isItemPositionStable() {
-		return base.isItemPositionStable();
+	public boolean areItemsAutomaticallyPositioned() {
+		return base.areItemsAutomaticallyPositioned();
 	}
 
 	@Override

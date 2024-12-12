@@ -8,8 +8,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-import java.util.SortedSet;
-
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -132,34 +130,17 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean isManuallyOrdered() {
+	public boolean areItemsAutomaticallyPositioned() {
 		if (List.class.isAssignableFrom(getJavaType())) {
-			return true;
+			return false;
 		}
 		if (Queue.class.isAssignableFrom(getJavaType())) {
-			return true;
+			return false;
 		}
 		if (LinkedHashSet.class.isAssignableFrom(getJavaType())) {
-			return true;
+			return false;
 		}
-		return false;
-	}
-
-	@Override
-	public boolean isItemPositionStable() {
-		if (List.class.isAssignableFrom(getJavaType())) {
-			return true;
-		}
-		if (Queue.class.isAssignableFrom(getJavaType())) {
-			return true;
-		}
-		if (LinkedHashSet.class.isAssignableFrom(getJavaType())) {
-			return true;
-		}
-		if (SortedSet.class.isAssignableFrom(getJavaType())) {
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -170,6 +151,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	@Override
 	public boolean isRemovalAllowed() {
 		return true;
+	}
+
+	@Override
+	public boolean isMoveAllowed() {
+		return !areItemsAutomaticallyPositioned();
 	}
 
 	@Override

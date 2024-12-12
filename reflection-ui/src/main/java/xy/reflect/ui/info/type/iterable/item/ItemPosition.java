@@ -10,6 +10,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -124,12 +125,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	 * @return the item at this position.
 	 */
 	public Object getItem() {
-		Object[] containingListRawValue;
-		if (isRoot()) {
-			containingListRawValue = factory.getRootListRawValue();
-		} else {
-			containingListRawValue = parentItemPosition.retrieveSubListRawValue();
-		}
+		Object[] containingListRawValue = retrieveContainingListRawValue();
 		if (containingListRawValue == null) {
 			return null;
 		}
@@ -137,6 +133,20 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 			return null;
 		}
 		return containingListRawValue[index];
+	}
+
+	/**
+	 * @return whether an item can be actually retrieved from this position.
+	 */
+	public boolean isValid() {
+		Object[] containingListRawValue = retrieveContainingListRawValue();
+		if (containingListRawValue == null) {
+			return false;
+		}
+		if ((index < 0) || (index >= containingListRawValue.length)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -387,8 +397,8 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	}
 
 	/**
-	 * @return whether the underlying item have a predictable position (or not) in
-	 *         the table/tree.
+	 * @return false if the underlying item or one of its ancestors is positioned
+	 *         automatically. Otherwise true is returned.
 	 */
 	public boolean isStable() {
 		if (!isRoot()) {
@@ -398,7 +408,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 			}
 		}
 		IListTypeInfo listType = getContainingListType();
-		return listType.isItemPositionStable();
+		return !listType.areItemsAutomaticallyPositioned();
 	}
 
 	/**
@@ -528,7 +538,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 		if (o1.getDepth() > o2.getDepth()) {
 			return o1.getParentItemPosition().compareTo(o2);
 		}
-		if (o1.getParentItemPosition().equals(o2.getParentItemPosition())) {
+		if (MiscUtils.equalsOrBothNull(o1.getParentItemPosition(), o2.getParentItemPosition())) {
 			return new Integer(o1.getIndex()).compareTo(new Integer(o2.getIndex()));
 		}
 		return o1.getParentItemPosition().compareTo(o2.getParentItemPosition());

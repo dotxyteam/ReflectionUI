@@ -1,12 +1,11 @@
 
-
-
 package xy.reflect.ui.undo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
@@ -169,6 +168,10 @@ public class ListModificationFactory {
 	 *         or not.
 	 */
 	public boolean canMove(int index, int offset) {
+		IListTypeInfo listType = anyItemPosition.getContainingListType();
+		if (listType.areItemsAutomaticallyPositioned() || !listType.isMoveAllowed()) {
+			return false;
+		}
 		if ((index < 0) || (index >= anyItemPosition.getContainingListSize())) {
 			return false;
 		}

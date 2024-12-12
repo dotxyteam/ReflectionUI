@@ -71,8 +71,8 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean isItemPositionStable() {
-			return true;
+		public boolean areItemsAutomaticallyPositioned() {
+			return false;
 		}
 
 		@Override
@@ -106,17 +106,17 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean isManuallyOrdered() {
-			return false;
-		}
-
-		@Override
 		public boolean isInsertionAllowed() {
 			return false;
 		}
 
 		@Override
 		public boolean isRemovalAllowed() {
+			return false;
+		}
+
+		@Override
+		public boolean isMoveAllowed() {
 			return false;
 		}
 
@@ -423,16 +423,10 @@ public interface IListTypeInfo extends ITypeInfo {
 	IListItemDetailsAccessMode getDetailsAccessMode();
 
 	/**
-	 * @return whether the items in this list type instances are ordered (can be
-	 *         moved to specific positions) or not.
+	 * @return whether the position of each item in this list type instances is
+	 *         automatically determined or not (manually).
 	 */
-	boolean isManuallyOrdered();
-
-	/**
-	 * @return whether each item in this list type instances have a predictable
-	 *         position or not.
-	 */
-	boolean isItemPositionStable();
+	boolean areItemsAutomaticallyPositioned();
 
 	/**
 	 * @return whether item addition should be allowed on instances of this list
@@ -445,6 +439,12 @@ public interface IListTypeInfo extends ITypeInfo {
 	 *         type.
 	 */
 	boolean isRemovalAllowed();
+
+	/**
+	 * @return whether item position change should be allowed on instances of this
+	 *         list type.
+	 */
+	boolean isMoveAllowed();
 
 	/**
 	 * @return whether item details display should be allowed on instances of this

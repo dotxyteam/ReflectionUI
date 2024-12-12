@@ -113,13 +113,8 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean isManuallyOrdered() {
-		return true;
-	}
-
-	@Override
-	public boolean isItemPositionStable() {
-		return true;
+	public boolean areItemsAutomaticallyPositioned() {
+		return false;
 	}
 
 	@Override
