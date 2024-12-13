@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type;
 
 import java.awt.Dimension;
@@ -25,7 +23,6 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.PublicFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -33,7 +30,6 @@ import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -204,38 +200,43 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IMethodInfo> getConstructors() {
 		if (constructors == null) {
 			constructors = new ArrayList<IMethodInfo>();
-			if (ClassUtils.isPrimitiveClassOrWrapperOrString(getJavaType())) {
-				constructors.add(new AbstractConstructorInfo() {
-
-					ITypeInfo returnValueType;
-
-					@Override
-					public Object invoke(Object ignore, InvocationData invocationData) {
-						if (String.class.equals(getJavaType())) {
-							return "";
-						} else {
-							Class<?> primitiveType = getJavaType();
-							if (ClassUtils.isPrimitiveWrapperClass(primitiveType)) {
-								primitiveType = ClassUtils.wrapperToPrimitiveClass(getJavaType());
-							}
-							return ClassUtils.getDefaultPrimitiveValue(primitiveType);
-						}
-					}
-
-					@Override
-					public ITypeInfo getReturnValueType() {
-						if (returnValueType == null) {
-							returnValueType = reflectionUI
-									.buildTypeInfo(new PrecomputedTypeInfoSource(DefaultTypeInfo.this, null));
-						}
-						return returnValueType;
-					}
+			if (ClassUtils.isPrimitiveClassOrWrapper(getJavaType())) {
+				final Class<?> primitiveClass;
+				final Class<?> wrapperClass;
+				if (ClassUtils.isPrimitiveClass(getJavaType())) {
+					primitiveClass = getJavaType();
+					wrapperClass = ClassUtils.primitiveToWrapperClass(primitiveClass);
+				} else {
+					wrapperClass = getJavaType();
+					primitiveClass = ClassUtils.wrapperToPrimitiveClass(wrapperClass);
+				}
+				Constructor<?> primitiveParamWrapperCtor;
+				try {
+					primitiveParamWrapperCtor = wrapperClass.getConstructor(primitiveClass);
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+				constructors.add(new DefaultConstructorInfo(reflectionUI, primitiveParamWrapperCtor) {
 
 					@Override
 					public List<IParameterInfo> getParameters() {
 						return Collections.emptyList();
 					}
+
+					@Override
+					public Object invoke(Object ignore, InvocationData invocationData) {
+						invocationData.getProvidedParameterValues().put(0,
+								ClassUtils.getDefaultPrimitiveValue(primitiveClass));
+						return super.invoke(ignore, invocationData);
+					}
+
 				});
+			} else if (String.class == getJavaType()) {
+				try {
+					constructors.add(new DefaultConstructorInfo(reflectionUI, String.class.getConstructor()));
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
 			} else {
 				for (Constructor<?> javaConstructor : getJavaType().getConstructors()) {
 					if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {

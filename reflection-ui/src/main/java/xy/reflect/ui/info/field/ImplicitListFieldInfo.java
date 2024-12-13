@@ -542,8 +542,8 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
-			return InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
+		public ItemCreationMode getItemCreationMode() {
+			return ItemCreationMode.DEFAULT;
 		}
 
 		@Override

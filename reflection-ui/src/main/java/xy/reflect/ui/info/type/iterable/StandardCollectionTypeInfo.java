@@ -70,8 +70,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public InitialItemValueCreationOption getInitialItemValueCreationOption() {
-		return InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
+	public ItemCreationMode getItemCreationMode() {
+		return ItemCreationMode.DEFAULT;
 	}
 
 	@Override

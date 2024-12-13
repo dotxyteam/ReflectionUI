@@ -10,7 +10,7 @@
 		<dependency>
 			<groupId>com.github.dotxyteam</groupId>
 			<artifactId>custom-ui</artifactId>
-			<version>5.2.10</version>
+			<version>5.2.15</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.soundlibs</groupId>

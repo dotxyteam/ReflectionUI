@@ -30,7 +30,7 @@ import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
@@ -532,8 +532,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.isMoveAllowed();
 	}
 
-	protected InitialItemValueCreationOption getInitialItemValueCreationOption(IListTypeInfo type) {
-		return type.getInitialItemValueCreationOption();
+	protected ItemCreationMode getItemCreationMode(IListTypeInfo type) {
+		return type.getItemCreationMode();
 	}
 
 	protected ValueReturnMode getItemReturnMode(IListTypeInfo type) {
@@ -1454,8 +1454,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
-			return InfoProxyFactory.this.getInitialItemValueCreationOption((IListTypeInfo) base);
+		public ItemCreationMode getItemCreationMode() {
+			return InfoProxyFactory.this.getItemCreationMode((IListTypeInfo) base);
 		}
 
 		@Override

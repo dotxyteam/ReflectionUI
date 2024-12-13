@@ -62,7 +62,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.PresetInvocationDataMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -1889,7 +1889,7 @@ public class InfoCustomizations implements Serializable {
 				SYSTEM_FONT_PATHS.add(fontPath);
 			}
 		}
-		
+
 		protected String applicationName;
 		protected String customApplicationCaption;
 		protected String onlineHelp;
@@ -4835,7 +4835,7 @@ public class InfoCustomizations implements Serializable {
 		protected IListItemDetailsAccessMode customDetailsAccessMode;
 		protected ListLenghtCustomization length = null;
 		protected boolean itemNullValueAllowed = false;
-		protected InitialItemValueCreationOption initialItemValueCreationOption;
+		protected ItemCreationMode itemCreationMode = ItemCreationMode.DEFAULT;
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
 		private boolean itemAutomaticPositioningManagementForced = false;
@@ -4858,12 +4858,12 @@ public class InfoCustomizations implements Serializable {
 			this.customItemTypeFinder = customItemTypeFinder;
 		}
 
-		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
-			return initialItemValueCreationOption;
+		public ItemCreationMode getItemCreationMode() {
+			return itemCreationMode;
 		}
 
-		public void setInitialItemValueCreationOption(InitialItemValueCreationOption initialItemValueCreationOption) {
-			this.initialItemValueCreationOption = initialItemValueCreationOption;
+		public void setItemCreationMode(ItemCreationMode itemCreationMode) {
+			this.itemCreationMode = itemCreationMode;
 		}
 
 		public boolean isItemAutomaticPositioningManagementForced() {
@@ -4888,20 +4888,6 @@ public class InfoCustomizations implements Serializable {
 
 		public void setItemNullValueAllowed(boolean itemNullValueAllowed) {
 			this.itemNullValueAllowed = itemNullValueAllowed;
-		}
-
-		public boolean isItemContructorSelectableforced() {
-			return initialItemValueCreationOption == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
-		}
-
-		public void setItemContructorSelectableforced(boolean itemContructorSelectableforced) {
-			if (itemContructorSelectableforced) {
-				initialItemValueCreationOption = InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
-			} else {
-				if (initialItemValueCreationOption == InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES) {
-					initialItemValueCreationOption = InitialItemValueCreationOption.CREATE_INITIAL_VALUE_AUTOMATICALLY;
-				}
-			}
 		}
 
 		public ListLenghtCustomization getLength() {

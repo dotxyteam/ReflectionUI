@@ -86,7 +86,7 @@ import xy.reflect.ui.info.type.enumeration.EnumerationItemInfoProxy;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.IListTypeInfo.InitialItemValueCreationOption;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo;
@@ -269,16 +269,16 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected InitialItemValueCreationOption getInitialItemValueCreationOption(IListTypeInfo listType) {
+	protected ItemCreationMode getItemCreationMode(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			if (l.getInitialItemValueCreationOption() != null) {
-				return l.getInitialItemValueCreationOption();
+			if (l.getItemCreationMode() != null) {
+				return l.getItemCreationMode();
 			}
 		}
-		return super.getInitialItemValueCreationOption(listType);
+		return super.getItemCreationMode(listType);
 	}
 
 	@Override

@@ -1,21 +1,6 @@
-- add ILIstTypeInfo. canMoveItems()
-- List selection access data issues:
-	. to make it work list selection must be managed correctly:
-		* useless selection events must not be triggered
-		* item position selection change is not necessarily item 
-		selection change and vice-versa
-		* only item selection change events must be triggered
-		* restoringSelectionDespiteDataAlteration manages sets
-		but does not manage lists that can have an item position 
-		pointing to a different item after the model alteration
-		* restoringSelectionDespiteDataAlteration does not manage
-		trees where an item parent changes its position after the
-		model refreshing. A recursive method may be necessary
-		* groupingSelectionEvents does not manage lists where
-		items order changes after refreshing. Bags may be
-		necessary. They seem to not be enough but they are since 
-		they allow to check that parent-child relationships between 
-		items are preserved by checking references of branches equality 
+- when a dialog is closed too quickly after a field update then
+the new field value is not taken into account. Maybe the problem
+can be solved by using the SwingRenderer.delayedUpdateExecutor 
 - handle bigdecimal, biginteger, ...
 - add customization option for list method shortcut icon
 - add "virtual composed list field" customization option that would use 

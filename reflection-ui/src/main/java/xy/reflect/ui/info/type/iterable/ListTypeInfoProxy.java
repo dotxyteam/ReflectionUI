@@ -261,8 +261,8 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.getFormButtonForegroundColor();
 	}
 
-	public InitialItemValueCreationOption getInitialItemValueCreationOption() {
-		return base.getInitialItemValueCreationOption();
+	public ItemCreationMode getItemCreationMode() {
+		return base.getItemCreationMode();
 	}
 
 	public ResourcePath getFormButtonBackgroundImagePath() {

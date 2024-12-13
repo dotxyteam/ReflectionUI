@@ -204,4 +204,11 @@ public class TestWithAutomation {
 						+ "test-specifications/testListEmbeddedDetails.stt"));
 	}
 
+	@Test
+	public void testSelection() throws Exception {
+		TestingUtils.assertSuccessfulReplay(tester,
+				new File(System.getProperty("custom-ui-tests.project.directory", "./")
+						+ "test-specifications/testSelection.stt"));
+	}
+
 }

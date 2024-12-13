@@ -143,8 +143,8 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public InitialItemValueCreationOption getInitialItemValueCreationOption() {
-			return InitialItemValueCreationOption.CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES;
+		public ItemCreationMode getItemCreationMode() {
+			return ItemCreationMode.DEFAULT;
 		}
 
 		@Override
@@ -486,7 +486,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	/**
 	 * @return an option describing how the UI reacts to item creation requests.
 	 */
-	InitialItemValueCreationOption getInitialItemValueCreationOption();
+	ItemCreationMode getItemCreationMode();
 
 	/**
 	 * @return the value return mode of the items. It may impact the behavior of the
@@ -496,8 +496,11 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	/**
 	 * @param containingType The parent object type.
-	 * @return a field information that will be used to provide the reference of the
-	 *         selected item to the parent object.
+	 * @return a field information that will be used to provide the reference/value
+	 *         of the selected item to the parent object. Note that if the selected
+	 *         item type is not compatible with the target field, then null or a
+	 *         default value (when null is not supported) will be provided to the
+	 *         parent object.
 	 */
 	IFieldInfo getSelectionTargetField(ITypeInfo containingType);
 
@@ -509,22 +512,30 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * @author olitank
 	 *
 	 */
-	public enum InitialItemValueCreationOption {
+	public enum ItemCreationMode {
 		/**
-		 * Null items are created by default.
+		 * A null value is directly inserted in the list.
 		 */
-		CREATE_INITIAL_NULL_VALUE,
+		UNVERIFIED_NULL,
 		/**
-		 * Items are created by using using default constructors or other constructors
-		 * with default parameter values, etc, without requiring any information from
-		 * the user.
+		 * The item type is instanciated and the result is directly inserted in the
+		 * list.
 		 */
-		CREATE_INITIAL_VALUE_AUTOMATICALLY,
+		UNVERIFIED_INSTANCE,
 		/**
-		 * All item creation options are presented to the user who makes a choice. This
-		 * is the default behavior.
+		 * A null value is presented to the user for modification/validation before
+		 * inserting it in the list.
 		 */
-		CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES
+		VERIFIED_NULL,
+		/**
+		 * The item type is instanciated and the result presented to the user for
+		 * modification/validation before inserting it in the list.
+		 */
+		VERIFIED_INSTANCE,
+		/**
+		 * A default strategy is used.
+		 */
+		DEFAULT
 	}
 
 }
