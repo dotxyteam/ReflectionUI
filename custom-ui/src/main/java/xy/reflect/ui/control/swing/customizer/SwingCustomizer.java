@@ -99,6 +99,33 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	 */
 	public SwingCustomizer(CustomizedUI customizedUI, String infoCustomizationsOutputFilePath) {
 		super(customizedUI);
+		setInfoCustomizationsOutputFilePath(infoCustomizationsOutputFilePath);
+	}
+
+	/**
+	 * A constructor allowing to specify only the {@link CustomizedUI} instance.
+	 * 
+	 * @param customizedUI The {@link CustomizedUI} instance to use.
+	 */
+	public SwingCustomizer(CustomizedUI customizedUI) {
+		this(customizedUI, null);
+	}
+
+	/**
+	 * @return the path of the customizations file.
+	 */
+	public String getInfoCustomizationsOutputFilePath() {
+		return infoCustomizationsOutputFilePath;
+	}
+
+	/**
+	 * Updates the path of the customizations file. If the new path indicates an
+	 * existing file, then the customizations are loaded from this file. If the file
+	 * does not exist then it is created and initialized.
+	 * 
+	 * @param infoCustomizationsOutputFilePath The path of the customizations file.
+	 */
+	public void setInfoCustomizationsOutputFilePath(String infoCustomizationsOutputFilePath) {
 		if (infoCustomizationsOutputFilePath != null) {
 			File file = new File(infoCustomizationsOutputFilePath);
 			if (file.exists()) {
@@ -117,22 +144,6 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			}
 		}
 		this.infoCustomizationsOutputFilePath = infoCustomizationsOutputFilePath;
-	}
-
-	/**
-	 * A constructor allowing to specify only the {@link CustomizedUI} instance.
-	 * 
-	 * @param customizedUI The {@link CustomizedUI} instance to use.
-	 */
-	public SwingCustomizer(CustomizedUI customizedUI) {
-		this(customizedUI, null);
-	}
-
-	/**
-	 * @return the path of the customizations file.
-	 */
-	public String getInfoCustomizationsOutputFilePath() {
-		return infoCustomizationsOutputFilePath;
 	}
 
 	/**

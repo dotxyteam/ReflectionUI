@@ -1,12 +1,11 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Dimension;
 import java.io.Serializable;
 
 import javax.swing.BorderFactory;
+import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.IFieldControlInput;
@@ -57,6 +56,7 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 		private static final long serialVersionUID = 1L;
 
 		public ControlDimensionSpecification length = new ControlDimensionSpecification();
+		public boolean lineWrappingEnabled = false;
 
 		public int getLenghthInPixels() {
 			if (length.unit == ControlSizeUnit.PIXELS) {
@@ -126,6 +126,9 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 					setBorder(BorderFactory.createEmptyBorder());
 				}
 				textComponent.setBorder(BorderFactory.createEmptyBorder());
+				MultipleLinesTextConfiguration controlCustomization = (MultipleLinesTextConfiguration) loadControlCustomization(
+						input);
+				((JTextArea) textComponent).setLineWrap(controlCustomization.lineWrappingEnabled);
 			}
 			return true;
 		}

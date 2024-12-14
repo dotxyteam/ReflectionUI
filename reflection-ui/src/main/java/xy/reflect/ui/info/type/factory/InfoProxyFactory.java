@@ -124,23 +124,23 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 	}
 
-	public ITypeInfo wrapSubTypeInfo(ITypeInfo type) {
+	protected ITypeInfo wrapSubTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapItemTypeInfo(ITypeInfo type) {
+	protected ITypeInfo wrapItemTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapMethodReturnValueTypeInfo(ITypeInfo type) {
+	protected ITypeInfo wrapMethodReturnValueTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapParameterTypeInfo(ITypeInfo type) {
+	protected ITypeInfo wrapParameterTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
-	public ITypeInfo wrapFieldTypeInfo(ITypeInfo type) {
+	protected ITypeInfo wrapFieldTypeInfo(ITypeInfo type) {
 		return type;
 	}
 
