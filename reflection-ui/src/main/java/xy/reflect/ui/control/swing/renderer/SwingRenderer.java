@@ -91,7 +91,7 @@ public class SwingRenderer {
 
 	public static void main(String[] args) throws Exception {
 		String usageText = "Expected arguments: [ <className> | --help ]"
-				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
+				+ "\n  => <className>: Fully qualified name of a class to instantiate and display in a window"
 				+ "\n  => --help: Displays this help message" + "\n"
 				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + SystemProperties.describe();
 		final Class<?> clazz;
@@ -111,7 +111,7 @@ public class SwingRenderer {
 			@Override
 			public void run() {
 				ReflectionUI reflectionUI = SwingRenderer.getDefault().getReflectionUI();
-				Object object = SwingRenderer.getDefault().onTypeInstanciationRequest(null,
+				Object object = SwingRenderer.getDefault().onTypeInstantiationRequest(null,
 						reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)));
 				if (object == null) {
 					return;
@@ -415,7 +415,7 @@ public class SwingRenderer {
 	 * @param type               An abstract UI type information object.
 	 * @return an object created using the given type information.
 	 */
-	public Object onTypeInstanciationRequest(final Component activatorComponent, ITypeInfo type) {
+	public Object onTypeInstantiationRequest(final Component activatorComponent, ITypeInfo type) {
 		try {
 			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 
@@ -423,7 +423,7 @@ public class SwingRenderer {
 				List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
 
 				if (polyTypes.size() == 1) {
-					return onTypeInstanciationRequest(activatorComponent, polyTypes.get(0));
+					return onTypeInstantiationRequest(activatorComponent, polyTypes.get(0));
 				} else {
 					IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
 							.buildTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
@@ -432,7 +432,7 @@ public class SwingRenderer {
 					if (resultEnumItem == null) {
 						return null;
 					}
-					return onTypeInstanciationRequest(activatorComponent,
+					return onTypeInstantiationRequest(activatorComponent,
 							(ITypeInfo) enumFactory.getInstanceItem(resultEnumItem));
 				}
 			} else {
@@ -499,7 +499,7 @@ public class SwingRenderer {
 					if (type == null) {
 						return null;
 					} else {
-						return onTypeInstanciationRequest(activatorComponent, type);
+						return onTypeInstantiationRequest(activatorComponent, type);
 					}
 				}
 			}
@@ -509,17 +509,17 @@ public class SwingRenderer {
 	}
 
 	/**
-	 * @param type The type to instanciate.
+	 * @param type The type to instantiate.
 	 * @return whether dialogs would be displayed when calling
-	 *         {@link #onTypeInstanciationRequest(Component, ITypeInfo)} with the
+	 *         {@link #onTypeInstantiationRequest(Component, ITypeInfo)} with the
 	 *         given type.
 	 */
-	public boolean isDecisionRequiredOnTypeInstanciationRequest(ITypeInfo type) {
+	public boolean isDecisionRequiredOnTypeInstantiationRequest(ITypeInfo type) {
 		if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(type)) {
 			final PolymorphicTypeOptionsFactory enumFactory = new PolymorphicTypeOptionsFactory(reflectionUI, type);
 			List<ITypeInfo> polyTypes = enumFactory.getTypeOptions();
 			if (polyTypes.size() == 1) {
-				return isDecisionRequiredOnTypeInstanciationRequest(polyTypes.get(0));
+				return isDecisionRequiredOnTypeInstantiationRequest(polyTypes.get(0));
 			} else {
 				return true;
 			}

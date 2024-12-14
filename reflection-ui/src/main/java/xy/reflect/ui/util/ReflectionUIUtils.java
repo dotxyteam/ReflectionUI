@@ -64,7 +64,6 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
-import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
@@ -405,7 +404,7 @@ public class ReflectionUIUtils {
 					}
 				}
 				throw new ReflectionUIError(
-						"Cannot instanciate abstract (or " + Object.class.getSimpleName() + ") type");
+						"Cannot instantiate abstract (or " + Object.class.getSimpleName() + ") type");
 
 			}
 
@@ -1251,10 +1250,61 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static List<Object> collectItemAncestors(BufferedItemPosition itemPosition) {
+	public static List<Object> collectItemAncestors(ItemPosition itemPosition) {
 		List<Object> result = new ArrayList<Object>();
 		for (ItemPosition ancestorPosition : itemPosition.getAncestors()) {
 			result.add(ancestorPosition.getItem());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends ItemPosition> List<T> actualizeItemPositions(List<T> oldItemPositions,
+			List<Object> items, List<List<Object>> itemAncestorLists) {
+		if (oldItemPositions.size() != items.size()) {
+			throw new ReflectionUIError();
+		}
+		if (items.size() != itemAncestorLists.size()) {
+			throw new ReflectionUIError();
+		}
+		List<T> result = new ArrayList<T>();
+		for (int i = 0; i < oldItemPositions.size(); i++) {
+			T itemPosition = oldItemPositions.get(i);
+			if (itemPosition.isStable()) {
+				if (itemPosition.isValid()) {
+					result.add(itemPosition);
+				}
+			} else {
+				Object[] containingListRawValue;
+				if (itemPosition.isRoot()) {
+					containingListRawValue = itemPosition.retrieveContainingListRawValue();
+				} else {
+					List<T> list = actualizeItemPositions(
+							Collections.singletonList((T)itemPosition.getParentItemPosition()),
+							Collections.singletonList(itemAncestorLists.get(i).get(0)),
+							Collections.singletonList(itemAncestorLists.get(i).subList(1, itemAncestorLists.get(i).size())));
+					if (list.isEmpty()) {
+						containingListRawValue = null;
+					} else {
+						T parentItemPosition = list.get(0);
+						itemPosition = (T) parentItemPosition.getSubItemPosition(itemPosition.getIndex());
+						containingListRawValue = parentItemPosition.retrieveSubListRawValue();
+					}
+				}
+				if (containingListRawValue != null) {
+					if (itemPosition.getContainingListType().areItemsAutomaticallyPositioned()) {
+						int index = Arrays.asList(containingListRawValue).indexOf(items.get(i));
+						if (index != -1) {
+							itemPosition = (T) itemPosition.getSibling(index);
+							result.add(itemPosition);
+						}
+					} else {
+						if (itemPosition.isValid()) {
+							result.add(itemPosition);
+						}
+					}
+				}
+			}
 		}
 		return result;
 	}

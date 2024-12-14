@@ -76,7 +76,7 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean canInstanciateFromArray() {
+		public boolean canInstantiateFromArray() {
 			return false;
 		}
 
@@ -144,7 +144,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		@Override
 		public ItemCreationMode getItemCreationMode() {
-			return ItemCreationMode.DEFAULT;
+			return ItemCreationMode.UNDEFINED;
 		}
 
 		@Override
@@ -384,7 +384,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	 *         generic arrays. Otherwise {@link #fromArray(Object[])} should not be
 	 *         called.
 	 */
-	boolean canInstanciateFromArray();
+	boolean canInstantiateFromArray();
 
 	/**
 	 * @param array A generic array containing items supported by this list type.
@@ -518,24 +518,36 @@ public interface IListTypeInfo extends ITypeInfo {
 		 */
 		UNVERIFIED_NULL,
 		/**
-		 * The item type is instanciated and the result is directly inserted in the
-		 * list.
+		 * The item type is instantiated without requiring user input and the result is
+		 * directly inserted in the list.
 		 */
-		UNVERIFIED_INSTANCE,
+		DEFAULT_UNVERIFIED_INSTANCE,
+		/**
+		 * The item type is instantiated according user preferences and the result is
+		 * directly inserted in the list.
+		 */
+		CUSTOM_UNVERIFIED_INSTANCE,
 		/**
 		 * A null value is presented to the user for modification/validation before
 		 * inserting it in the list.
 		 */
 		VERIFIED_NULL,
 		/**
-		 * The item type is instanciated and the result presented to the user for
-		 * modification/validation before inserting it in the list.
+		 * The item type is instantiated without requiring user input and the result
+		 * presented to the user for modification/validation before inserting it in the
+		 * list.
 		 */
-		VERIFIED_INSTANCE,
+		DEFAULT_VERIFIED_INSTANCE,
 		/**
-		 * A default strategy is used.
+		 * The item type is instantiated according user preferences and the result
+		 * presented to the user for modification/validation before inserting it in the
+		 * list.
 		 */
-		DEFAULT
+		CUSTOM_VERIFIED_INSTANCE,
+		/**
+		 * A relevant mode is used.
+		 */
+		UNDEFINED
 	}
 
 }

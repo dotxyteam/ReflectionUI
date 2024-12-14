@@ -159,10 +159,10 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				refreshDynamicControl(false);
 			}
 		};
-		Mapper<ITypeInfo, Object> instanciator = new Mapper<ITypeInfo, Object>() {
+		Mapper<ITypeInfo, Object> instantiator = new Mapper<ITypeInfo, Object>() {
 			@Override
 			public Object get(ITypeInfo selectedSubType) {
-				return swingRenderer.onTypeInstanciationRequest(PolymorphicControl.this, selectedSubType);
+				return swingRenderer.onTypeInstantiationRequest(PolymorphicControl.this, selectedSubType);
 			}
 		};
 		Listener<Throwable> commitExceptionHandler = new Listener<Throwable>() {
@@ -173,7 +173,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			}
 		};
 		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,
-				currentSubTypeAccessor, dynamicControlUpdater, subTypeInstanceCache, instanciator,
+				currentSubTypeAccessor, dynamicControlUpdater, subTypeInstanceCache, instantiator,
 				commitExceptionHandler);
 		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
@@ -325,13 +325,13 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected PolymorphicTypeOptionsFactory typeOptionsFactory;
 		protected Listener<Object> dynamicControlUpdater;
 		protected Map<ITypeInfo, Object> subTypeInstanceCache;
-		protected Mapper<ITypeInfo, Object> instanciator;
+		protected Mapper<ITypeInfo, Object> instantiator;
 		protected Listener<Throwable> commitExceptionHandler;
 
 		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 				PolymorphicTypeOptionsFactory typeOptionsFactory, Accessor<ITypeInfo> currentSubTypeAccessor,
 				Listener<Object> dynamicControlUpdater, Map<ITypeInfo, Object> subTypeInstanceCache,
-				Mapper<ITypeInfo, Object> instanciator, Listener<Throwable> commitExceptionHandler) {
+				Mapper<ITypeInfo, Object> instantiator, Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
 			input = new FieldControlInputProxy(input) {
 				IFieldControlData fieldControlDataProxy = new FieldControlDataProxy(super.getControlData()) {
@@ -351,7 +351,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 						} else {
 							instance = subTypeInstanceCache.get(selectedSubType);
 							if (instance == null) {
-								instance = instanciator.get(selectedSubType);
+								instance = instantiator.get(selectedSubType);
 								if (instance == null) {
 									throw new CancelledModificationException();
 								}
@@ -384,7 +384,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.typeOptionsFactory = typeOptionsFactory;
 			this.dynamicControlUpdater = dynamicControlUpdater;
 			this.subTypeInstanceCache = subTypeInstanceCache;
-			this.instanciator = instanciator;
+			this.instantiator = instantiator;
 			this.commitExceptionHandler = commitExceptionHandler;
 		}
 

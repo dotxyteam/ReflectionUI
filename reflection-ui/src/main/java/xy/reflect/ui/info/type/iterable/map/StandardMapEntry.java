@@ -4,6 +4,7 @@ package xy.reflect.ui.info.type.iterable.map;
 import java.util.Arrays;
 import java.util.Map;
 
+import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -26,13 +27,33 @@ public class StandardMapEntry implements Comparable<StandardMapEntry> {
 				throw new ReflectionUIError("Invalid generic type parameter array (expected 2 items) for "
 						+ StandardMapEntry.class.getName() + " constructor: " + genericTypeParameters);
 			}
-			if (!genericTypeParameters[0].isInstance(key)) {
-				throw new ReflectionUIError("Invalid key provided to " + StandardMapEntry.class.getName()
-						+ " constructor (is not an instance of " + genericTypeParameters[0] + "): '" + key + "'");
+			{
+				Class<?> keyType = genericTypeParameters[0];
+				if (ClassUtils.isPrimitiveClass(keyType) && (key == null)) {
+					throw new ReflectionUIError(
+							"Invalid entry key provided: null (is not a valid for the primitive type "
+									+ keyType.getName() + ")");
+				}
+				if ((key != null) && !((ClassUtils.isPrimitiveClass(keyType)
+						&& ClassUtils.primitiveToWrapperClass(keyType).isInstance(key))
+						|| (!ClassUtils.isPrimitiveClass(keyType) && keyType.isInstance(key)))) {
+					throw new ReflectionUIError(
+							"Invalid entry key provided (is not an instance of " + keyType + "): '" + key + "'");
+				}
 			}
-			if (!genericTypeParameters[1].isInstance(value)) {
-				throw new ReflectionUIError("Invalid value provided to " + StandardMapEntry.class.getName()
-						+ " constructor (is not an instance of " + genericTypeParameters[1] + "): '" + value + "'");
+			{
+				Class<?> valueType = genericTypeParameters[1];
+				if (ClassUtils.isPrimitiveClass(valueType) && (value == null)) {
+					throw new ReflectionUIError(
+							"Invalid entry value provided: null (is not a valid for the primitive type "
+									+ valueType.getName() + ")");
+				}
+				if ((value != null) && !((ClassUtils.isPrimitiveClass(valueType)
+						&& ClassUtils.primitiveToWrapperClass(valueType).isInstance(value))
+						|| (!ClassUtils.isPrimitiveClass(valueType) && valueType.isInstance(value)))) {
+					throw new ReflectionUIError(
+							"Invalid entry value provided (is not an instance of " + valueType + "): '" + value + "'");
+				}
 			}
 		}
 		this.genericTypeParameters = genericTypeParameters;

@@ -135,8 +135,8 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.isModificationStackAccessible();
 	}
 
-	public boolean canInstanciateFromArray() {
-		return base.canInstanciateFromArray();
+	public boolean canInstantiateFromArray() {
+		return base.canInstantiateFromArray();
 	}
 
 	public ResourcePath getIconImagePath() {

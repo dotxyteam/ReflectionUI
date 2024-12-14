@@ -388,7 +388,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 				}
 			}
 		}
-		if (listType.canInstanciateFromArray()) {
+		if (listType.canInstantiateFromArray()) {
 			if (!isContainingListGetOnly()) {
 				return true;
 			}
@@ -456,7 +456,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 			}
 		}
 		if (!done) {
-			if (listType.canInstanciateFromArray()) {
+			if (listType.canInstantiateFromArray()) {
 				if (!isContainingListGetOnly()) {
 					Object containingListValue = listType.fromArray(newContainingListRawValue);
 					if (isRoot()) {

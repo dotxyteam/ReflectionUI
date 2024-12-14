@@ -71,7 +71,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	@Override
 	public ItemCreationMode getItemCreationMode() {
-		return ItemCreationMode.DEFAULT;
+		return ItemCreationMode.UNDEFINED;
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean canInstanciateFromArray() {
+	public boolean canInstantiateFromArray() {
 		return ReflectionUIUtils.canCreateDefaultInstance(this, false) && canReplaceContent();
 	}
 
@@ -181,7 +181,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 			return true;
 		}
 		Object[] srcArray = toArray(object);
-		if (canInstanciateFromArray()) {
+		if (canInstantiateFromArray()) {
 			boolean ok = true;
 			for (Object srcItem : srcArray) {
 				ITypeInfo itemType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(srcItem));
@@ -206,7 +206,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 			return super.copy(object);
 		}
 		Object[] srcArray = toArray(object);
-		if (canInstanciateFromArray()) {
+		if (canInstantiateFromArray()) {
 			Object[] dstArray = new Object[srcArray.length];
 			int i = 0;
 			for (Object srcItem : srcArray) {

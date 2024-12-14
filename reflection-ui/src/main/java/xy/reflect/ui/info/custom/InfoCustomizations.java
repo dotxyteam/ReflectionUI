@@ -638,7 +638,7 @@ import xy.reflect.ui.util.SystemProperties;
  * <LI><B>itemContructorSelectableforced: </B><HTML>
  * <P width="300">
  * Specifies that the item constructor should be asked when the user requests
- * the instanciation of an item. Note that known sub-classes constructors will
+ * the instantiation of an item. Note that known sub-classes constructors will
  * be proposed too.
  * </P>
  * </HTML></LI>
@@ -4518,7 +4518,7 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class ListInstanciationOption extends AbstractCustomization {
+	public static class ListInstantiationOption extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
 		protected ITypeInfoFinder customInstanceTypeFinder;
@@ -4541,14 +4541,14 @@ public class InfoCustomizations implements Serializable {
 		protected boolean itemCreationEnabled = true;
 		protected boolean itemDeletionEnabled = true;
 		protected boolean itemMoveEnabled = true;
-		protected ListInstanciationOption listInstanciationOption;
+		protected ListInstantiationOption listInstantiationOption;
 
-		public ListInstanciationOption getListInstanciationOption() {
-			return listInstanciationOption;
+		public ListInstantiationOption getListInstantiationOption() {
+			return listInstantiationOption;
 		}
 
-		public void setListInstanciationOption(ListInstanciationOption listInstanciationOption) {
-			this.listInstanciationOption = listInstanciationOption;
+		public void setListInstantiationOption(ListInstantiationOption listInstantiationOption) {
+			this.listInstantiationOption = listInstantiationOption;
 		}
 
 		public boolean isItemCreationEnabled() {
@@ -4835,7 +4835,7 @@ public class InfoCustomizations implements Serializable {
 		protected IListItemDetailsAccessMode customDetailsAccessMode;
 		protected ListLenghtCustomization length = null;
 		protected boolean itemNullValueAllowed = false;
-		protected ItemCreationMode itemCreationMode = ItemCreationMode.DEFAULT;
+		protected ItemCreationMode itemCreationMode = ItemCreationMode.UNDEFINED;
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
 		private boolean itemAutomaticPositioningManagementForced = false;
@@ -5309,7 +5309,16 @@ public class InfoCustomizations implements Serializable {
 			if ((implementationClassName == null) || (implementationClassName.length() == 0)) {
 				throw new ReflectionUIError("Implementation class name not specified !");
 			}
-			ClassUtils.getCachedClassForName(implementationClassName);
+			Class<?> implementationClass = ClassUtils.getCachedClassForName(implementationClassName);
+			if (!ITypeInfo.class.isAssignableFrom(implementationClass)) {
+				throw new ReflectionUIError("Class not implementing " + ITypeInfo.class.getName() + " !");
+			}
+			try {
+				implementationClass.getConstructor();
+			} catch (Exception e) {
+				throw new ReflectionUIError(
+						"Could not find a default constructor for the implementation class: " + e.toString(), e);
+			}
 		}
 
 		@Override
@@ -5318,7 +5327,7 @@ public class InfoCustomizations implements Serializable {
 				Class<?> implementationClass = ClassUtils.getCachedClassForName(implementationClassName);
 				return (ITypeInfo) implementationClass.newInstance();
 			} catch (Exception e) {
-				throw new ReflectionUIError("Failed to instanciate class implenation class: " + e.toString(), e);
+				throw new ReflectionUIError("Failed to instantiate the implementation class: " + e.toString(), e);
 			}
 		}
 

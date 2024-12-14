@@ -16084,13 +16084,13 @@
                         <itemCreationEnabled>true</itemCreationEnabled>
                         <itemDeletionEnabled>true</itemDeletionEnabled>
                         <itemMoveEnabled>true</itemMoveEnabled>
-                        <listInstanciationOption>
+                        <listInstantiationOption>
                             <uniqueIdentifier>2e34d93a:17970a52189:-19cc</uniqueIdentifier>
                             <javaClassBasedTypeInfoFinder>
 <uniqueIdentifier>2e34d93a:17970a52189:-1973</uniqueIdentifier>
 <className>java.util.ArrayList</className>
                             </javaClassBasedTypeInfoFinder>
-                        </listInstanciationOption>
+                        </listInstantiationOption>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
@@ -17620,13 +17620,13 @@
                         <itemCreationEnabled>true</itemCreationEnabled>
                         <itemDeletionEnabled>true</itemDeletionEnabled>
                         <itemMoveEnabled>true</itemMoveEnabled>
-                        <listInstanciationOption>
+                        <listInstantiationOption>
                             <uniqueIdentifier>-22f519cc:178cc464eb0:5af5</uniqueIdentifier>
                             <javaClassBasedTypeInfoFinder>
 <uniqueIdentifier>-22f519cc:178cc464eb0:5b91</uniqueIdentifier>
 <className>java.util.ArrayList</className>
                             </javaClassBasedTypeInfoFinder>
-                        </listInstanciationOption>
+                        </listInstantiationOption>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
@@ -17945,13 +17945,13 @@
                         <itemCreationEnabled>true</itemCreationEnabled>
                         <itemDeletionEnabled>true</itemDeletionEnabled>
                         <itemMoveEnabled>true</itemMoveEnabled>
-                        <listInstanciationOption>
+                        <listInstantiationOption>
                             <uniqueIdentifier>-2a7b0568:178cc455b7e:-7c8a</uniqueIdentifier>
                             <javaClassBasedTypeInfoFinder>
 <uniqueIdentifier>-2a7b0568:178cc455b7e:-7c08</uniqueIdentifier>
 <className>java.util.ArrayList</className>
                             </javaClassBasedTypeInfoFinder>
-                        </listInstanciationOption>
+                        </listInstantiationOption>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>

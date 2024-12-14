@@ -489,8 +489,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.fromArray(array);
 	}
 
-	protected boolean canInstanciateFromArray(IListTypeInfo type) {
-		return type.canInstanciateFromArray();
+	protected boolean canInstantiateFromArray(IListTypeInfo type) {
+		return type.canInstantiateFromArray();
 	}
 
 	protected boolean canReplaceContent(IListTypeInfo type) {
@@ -1504,8 +1504,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean canInstanciateFromArray() {
-			return InfoProxyFactory.this.canInstanciateFromArray((IListTypeInfo) base);
+		public boolean canInstantiateFromArray() {
+			return InfoProxyFactory.this.canInstantiateFromArray((IListTypeInfo) base);
 		}
 
 		@Override

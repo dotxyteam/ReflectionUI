@@ -1018,10 +1018,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				(itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getEditOptions() != null) {
-				if (l.getEditOptions().getListInstanciationOption() != null) {
+				if (l.getEditOptions().getListInstantiationOption() != null) {
 					Object newListInstance;
-					if (l.getEditOptions().getListInstanciationOption().getCustomInstanceTypeFinder() != null) {
-						ITypeInfo customInstanceType = l.getEditOptions().getListInstanciationOption()
+					if (l.getEditOptions().getListInstantiationOption().getCustomInstanceTypeFinder() != null) {
+						ITypeInfo customInstanceType = l.getEditOptions().getListInstantiationOption()
 								.getCustomInstanceTypeFinder().find(customizedUI, null);
 						newListInstance = ReflectionUIUtils.createDefaultInstance(customInstanceType);
 					} else {
@@ -1036,7 +1036,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean canInstanciateFromArray(IListTypeInfo listType) {
+	protected boolean canInstantiateFromArray(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
 				(itemType == null) ? null : itemType.getName());
@@ -1044,11 +1044,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (l.getEditOptions() == null) {
 				return false;
 			}
-			if (l.getEditOptions().getListInstanciationOption() != null) {
+			if (l.getEditOptions().getListInstantiationOption() != null) {
 				return true;
 			}
 		}
-		return super.canInstanciateFromArray(listType);
+		return super.canInstantiateFromArray(listType);
 	}
 
 	@Override
@@ -1060,7 +1060,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (l.getEditOptions() == null) {
 				return false;
 			}
-			if (l.getEditOptions().getListInstanciationOption() != null) {
+			if (l.getEditOptions().getListInstantiationOption() != null) {
 				return false;
 			}
 		}

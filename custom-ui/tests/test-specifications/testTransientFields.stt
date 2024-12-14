@@ -145,7 +145,7 @@
       <componentFinder class="xy.ui.testing.finder.DisplayedStringComponentFinder">
         <componentClassName class="null"/>
         <occurrencesToSkip>0</occurrencesToSkip>
-        <visibleString>&lt;HTML&gt;Add IType Info Finder...&lt;/HTML&gt;</visibleString>
+        <visibleString>&lt;HTML&gt;Add Type Finder...&lt;/HTML&gt;</visibleString>
         <visibleStringInTree>false</visibleStringInTree>
         <windowIndex>1</windowIndex>
       </componentFinder>

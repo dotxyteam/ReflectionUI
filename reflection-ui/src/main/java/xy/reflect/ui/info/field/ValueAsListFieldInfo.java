@@ -59,7 +59,7 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 				}
 
 				@Override
-				public boolean canInstanciateFromArray() {
+				public boolean canInstantiateFromArray() {
 					return true;
 				}
 

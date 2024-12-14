@@ -80,7 +80,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 			setActivationAction(new Runnable() {
 				@Override
 				public void run() {
-					Object newValue = swingRenderer.onTypeInstanciationRequest(NullControl.this, data.getType());
+					Object newValue = swingRenderer.onTypeInstantiationRequest(NullControl.this, data.getType());
 					if (newValue == null) {
 						return;
 					}

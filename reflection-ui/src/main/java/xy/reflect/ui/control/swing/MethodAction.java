@@ -48,7 +48,7 @@ public class MethodAction extends AbstractAction {
 	protected ModificationStack modificationStack;
 
 	protected Object returnValue;
-	protected boolean returnValueSet = false;
+	protected boolean returnValueObtained = false;
 	protected boolean cancelled = false;
 
 	public MethodAction(SwingRenderer swingRenderer, IMethodControlInput input) {
@@ -67,8 +67,8 @@ public class MethodAction extends AbstractAction {
 		return returnValue;
 	}
 
-	public boolean isReturnValueSet() {
-		return returnValueSet;
+	public boolean wasReturnValueObtained() {
+		return returnValueObtained;
 	}
 
 	public boolean wasCancelled() {
@@ -100,7 +100,7 @@ public class MethodAction extends AbstractAction {
 			cancelled = true;
 			return;
 		}
-		invokeAndSetReturnValue(invocationData, activatorComponent);
+		invokeAndObtainReturnValue(invocationData, activatorComponent);
 		if (data.getExecutionSuccessMessage() != null) {
 			openExecutionSuccessMessageDialog(activatorComponent);
 		}
@@ -234,15 +234,14 @@ public class MethodAction extends AbstractAction {
 		};
 	}
 
-	public void invokeAndSetReturnValue(InvocationData invocationData, Component activatorComponent) {
+	public void invokeAndObtainReturnValue(InvocationData invocationData, Component activatorComponent) {
 		if (data.getParameters().size() > 0) {
 			swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
 		}
-		returnValueSet = false;
+		returnValueObtained = false;
 		returnValue = makeMethodModificationsUndoable(indicateWhenBusy(data, activatorComponent))
 				.invoke(invocationData);
-		returnValueSet = true;
-
+		returnValueObtained = true;
 	}
 
 	public boolean askConfirmation(InvocationData invocationData, Component activatorComponent) {
@@ -257,7 +256,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected boolean shouldDisplayReturnValue() {
-		return returnValueSet && shouldDisplayReturnValueIfAny
+		return returnValueObtained && shouldDisplayReturnValueIfAny
 				&& (data.getReturnValueType() != null);
 	}
 

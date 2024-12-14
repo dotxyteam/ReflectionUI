@@ -385,6 +385,8 @@
         <string>Default Values</string>
         <string>0: the parameter default value</string>
         <string>&lt;HTML&gt;Open&lt;/HTML&gt;</string>
+        <string>&lt;HTML&gt;Add Entry...&lt;/HTML&gt;</string>
+        <string>&lt;HTML&gt;Insert Entry ...&lt;/HTML&gt;</string>
         <string>&lt;HTML&gt;Remove&lt;/HTML&gt;</string>
         <string>&lt;HTML&gt;Editing Options&lt;/HTML&gt;</string>
         <string>Convert Before Storing...</string>

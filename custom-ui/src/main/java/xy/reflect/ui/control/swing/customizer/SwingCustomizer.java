@@ -33,7 +33,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 
 	public static void main(String[] args) throws Exception {
 		String usageText = "Expected arguments: [ <className> | --help ]"
-				+ "\n  => <className>: Fully qualified name of a class to instanciate and display in a window"
+				+ "\n  => <className>: Fully qualified name of a class to instantiate and display in a window"
 				+ "\n  => --help: Displays this help message" + "\n"
 				+ "\nAdditionally, the following JVM properties can be set:" + "\n" + MoreSystemProperties.describe();
 		final Class<?> clazz;
@@ -53,7 +53,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			@Override
 			public void run() {
 				ReflectionUI reflectionUI = SwingCustomizer.getDefault().getReflectionUI();
-				Object object = SwingCustomizer.getDefault().onTypeInstanciationRequest(null,
+				Object object = SwingCustomizer.getDefault().onTypeInstantiationRequest(null,
 						reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)));
 				if (object == null) {
 					return;

@@ -172,7 +172,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			refreshUI(false);
 		} else {
-			Object newValue = swingRenderer.onTypeInstanciationRequest(NullableControl.this, data.getType());
+			Object newValue = swingRenderer.onTypeInstantiationRequest(NullableControl.this, data.getType());
 			if (newValue == null) {
 				refreshUI(false);
 				return;

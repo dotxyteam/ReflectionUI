@@ -99,7 +99,7 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 	}
 
 	@Override
-	public boolean canInstanciateFromArray() {
+	public boolean canInstantiateFromArray() {
 		return true;
 	}
 
