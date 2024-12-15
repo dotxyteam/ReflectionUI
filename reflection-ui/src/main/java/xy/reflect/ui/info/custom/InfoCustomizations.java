@@ -3416,7 +3416,7 @@ public class InfoCustomizations implements Serializable {
 				return newTypeFinder.find(reflectionUI, specificitiesIdentifier);
 			} else {
 				return reflectionUI
-						.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
+						.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, specificitiesIdentifier));
 			}
 		}
 
@@ -5252,7 +5252,7 @@ public class InfoCustomizations implements Serializable {
 			} catch (ClassNotFoundException e) {
 				throw new ReflectionUIError(e);
 			}
-			return reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, javaType, specificitiesIdentifier));
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaType, specificitiesIdentifier));
 		}
 
 		@Override

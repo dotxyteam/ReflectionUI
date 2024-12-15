@@ -92,10 +92,10 @@ public class ReflectionUI {
 	 * @return an object containing the UI-oriented type information extracted from
 	 *         the given source and maybe customized. Note that calling
 	 *         {@link ITypeInfo#getSource()} on the result returns an object equals
-	 *         to the given source.
+	 *         to the given typeInfoSource parameter.
 	 */
-	public ITypeInfo buildTypeInfo(ITypeInfoSource typeInfoSource) {
-		ITypeInfo result = typeInfoSource.getTypeInfo();
+	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
+		ITypeInfo result = typeInfoSource.buildTypeInfo();
 		if (!result.getSource().equals(typeInfoSource)) {
 			throw new ReflectionUIError("Calling " + ITypeInfo.class.getSimpleName()
 					+ "#getSource() on the following instance does not return an object equals to the source object: "

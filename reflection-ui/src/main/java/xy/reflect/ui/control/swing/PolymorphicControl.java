@@ -369,7 +369,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					@Override
 					public ITypeInfo getType() {
 						return swingRenderer.getReflectionUI()
-								.buildTypeInfo(typeOptionsFactory.getInstanceTypeInfoSource(null));
+								.getTypeInfo(typeOptionsFactory.getInstanceTypeInfoSource(null));
 					}
 
 				};

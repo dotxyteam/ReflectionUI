@@ -141,7 +141,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
+			type = reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 		}
 		return type;
 	}
@@ -523,7 +523,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String toString(Object object) {
-			ITypeInfo valueType = reflectionUI.buildTypeInfo(getSource());
+			ITypeInfo valueType = reflectionUI.getTypeInfo(getSource());
 			StringBuilder result = new StringBuilder();
 			for (IFieldInfo field : valueType.getFields()) {
 				if (field.isHidden()) {
@@ -541,7 +541,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 								fieldValueString = "<blank>";
 							} else {
 								ITypeInfo actualFieldValueType = reflectionUI
-										.buildTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
+										.getTypeInfo(reflectionUI.getTypeInfoSource(fieldValue));
 								if (actualFieldValueType instanceof IListTypeInfo) {
 									fieldValueString = "<empty>";
 								} else {
@@ -663,7 +663,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public ITypeInfo getType() {
 			if (type == null) {
-				type = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+				type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
 
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
@@ -763,7 +763,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 					returnValueVoid = true;
 				} else {
 					returnValueType = reflectionUI
-							.buildTypeInfo(new TypeInfoSourceProxy(super.getReturnValueType().getSource()) {
+							.getTypeInfo(new TypeInfoSourceProxy(super.getReturnValueType().getSource()) {
 								@Override
 								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 									return null;

@@ -112,7 +112,7 @@ public class SwingRenderer {
 			public void run() {
 				ReflectionUI reflectionUI = SwingRenderer.getDefault().getReflectionUI();
 				Object object = SwingRenderer.getDefault().onTypeInstantiationRequest(null,
-						reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)));
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)));
 				if (object == null) {
 					return;
 				}
@@ -284,7 +284,7 @@ public class SwingRenderer {
 		if (object == null) {
 			return "<Missing Value>";
 		}
-		return reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
+		return reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object)).getCaption();
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class SwingRenderer {
 	 */
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
-			ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 			ResourcePath imagePath = type.getIconImagePath();
 			if (imagePath == null) {
 				return null;
@@ -426,7 +426,7 @@ public class SwingRenderer {
 					return onTypeInstantiationRequest(activatorComponent, polyTypes.get(0));
 				} else {
 					IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-							.buildTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
+							.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 					Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null, "Choose a type",
 							"New '" + type.getCaption() + "'");
 					if (resultEnumItem == null) {
@@ -466,7 +466,7 @@ public class SwingRenderer {
 							}
 						};
 						IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-								.buildTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
+								.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 						Object resultEnumItem = openSelectionDialog(activatorComponent, enumType, null,
 								"Choose an option", "Create " + type.getCaption());
 						if (resultEnumItem == null) {
@@ -491,7 +491,7 @@ public class SwingRenderer {
 						return null;
 					}
 					try {
-						type = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI,
+						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
 								ClassUtils.getCachedClassForName(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
@@ -636,7 +636,7 @@ public class SwingRenderer {
 
 		};
 		IEnumerationTypeInfo enumType = (IEnumerationTypeInfo) reflectionUI
-				.buildTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
+				.getTypeInfo(enumFactory.getInstanceTypeInfoSource(null));
 		Object resultEnumItem = openSelectionDialog(parentComponent, enumType,
 				enumFactory.getItemInstance(initialSelection), message, title);
 		if (resultEnumItem == null) {
@@ -664,7 +664,7 @@ public class SwingRenderer {
 			throw new ReflectionUIError();
 		}
 		final Object[] valueHolder = new Object[] { initialValue };
-		ITypeInfo initialValueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
+		ITypeInfo initialValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(initialValue));
 
 		EncapsulatedObjectFactory encapsulation = new EncapsulatedObjectFactory(reflectionUI, initialValueType,
 				"StandardInput [title=" + ((title == null) ? null : ReflectionUIUtils.secureNameContent(title)) + "]",

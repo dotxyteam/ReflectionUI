@@ -23,7 +23,7 @@ public abstract class TypeInfoSourceProxy implements ITypeInfoSource {
 	}
 
 	@Override
-	public ITypeInfo getTypeInfo() {
+	public ITypeInfo buildTypeInfo() {
 		return new InfoProxyFactory() {
 
 			@Override
@@ -36,7 +36,7 @@ public abstract class TypeInfoSourceProxy implements ITypeInfoSource {
 				return TypeInfoSourceProxy.this.getTypeInfoProxyFactoryIdentifier();
 			}
 
-		}.wrapTypeInfo(base.getTypeInfo());
+		}.wrapTypeInfo(base.buildTypeInfo());
 	}
 
 	@Override

@@ -76,7 +76,7 @@ public class CustomizingForm extends Form {
 			return false;
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo objectType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (!InfoCustomizationsFactory.areCustomizationsActive(getSwingRenderer().getInfoCustomizations(),
 				objectType.getSpecificProperties())) {
 			return false;
@@ -92,12 +92,12 @@ public class CustomizingForm extends Form {
 	 * @return whether customization tools are currently installed on the form or
 	 *         not.
 	 */
-	public boolean isToolsAdded() {
+	public boolean areToolsAdded() {
 		return toolsAdded;
 	}
 
 	@Override
-	public void layoutMembersControls(
+	protected void layoutMembersControls(
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
@@ -150,12 +150,12 @@ public class CustomizingForm extends Form {
 	}
 
 	@Override
-	public CustomizingFieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
+	protected CustomizingFieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
 		return new CustomizingFieldControlPlaceHolder(this, field);
 	}
 
 	@Override
-	public CustomizingMethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
+	protected CustomizingMethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
 		return new CustomizingMethodControlPlaceHolder(this, method);
 	}
 

@@ -639,7 +639,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return new ItemTreeCellRenderer();
 	}
 
-	protected ControlScrollPane createScrollPane(Component view) {
+	protected ControlScrollPane createTreeTableScrollPane(Component view) {
 		return new ControlScrollPane(view) {
 			private static final long serialVersionUID = 1L;
 
@@ -658,7 +658,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			public Dimension getMinimumSize() {
-				Dimension result = super.getMinimumSize();
+				return new Dimension(0, 0);
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+			}
+
+		};
+	}
+
+	protected ControlScrollPane createTreeTableAndToolBarScrollPane(Component view) {
+		return new ControlScrollPane(new ScrollPaneOptions(view, true, false)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
 				if (result == null) {
 					return null;
 				}
@@ -670,8 +687,27 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
+			public Dimension getMinimumSize() {
+				return new Dimension(0, 0);
+			}
+
+			@Override
 			public Dimension getMaximumSize() {
-				Dimension result = super.getMaximumSize();
+				return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+			}
+		};
+	}
+
+	protected ControlScrollPane createDetailsAreaScrollPane(Component view) {
+		return new ControlScrollPane(new ScrollPaneOptions(view, true, false)) {
+			private static final long serialVersionUID = 1L;
+			{
+				SwingRendererUtils.removeScrollPaneBorder(this);
+			}
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
 				if (result == null) {
 					return null;
 				}
@@ -681,22 +717,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				return result;
 			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				return new Dimension(0, 0);
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+			}
 		};
-	}
-
-	protected ControlScrollPane createTreeTableScrollPane(Component view) {
-		return createScrollPane(view);
-	}
-
-	protected ControlScrollPane createTreeTableAndToolBarScrollPane(Component view) {
-		ControlScrollPane result = createScrollPane(new ScrollPaneOptions(view, true, false));
-		return result;
-	}
-
-	protected ControlScrollPane createDetailsAreaScrollPane(Component view) {
-		ControlScrollPane result = createScrollPane(new ScrollPaneOptions(view, true, false));
-		SwingRendererUtils.removeScrollPaneBorder(result);
-		return result;
 	}
 
 	protected AbstractBufferedItemPositionFactory createItemPositionfactory() {
@@ -1259,7 +1290,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		ITypeInfo typeToInstantiate = listType.getItemType();
 		if (typeToInstantiate == null) {
 			typeToInstantiate = swingRenderer.getReflectionUI()
-					.buildTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
+					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 		}
 
 		BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
@@ -1294,7 +1325,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			ITypeInfo typeToInstantiate = listType.getItemType();
 			if (typeToInstantiate == null) {
 				typeToInstantiate = swingRenderer.getReflectionUI()
-						.buildTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
+						.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
 			}
 			if (swingRenderer.isDecisionRequiredOnTypeInstantiationRequest(typeToInstantiate)) {
 				return true;
@@ -1335,7 +1366,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}.getCapsule();
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
-				.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(capsule));
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
 	}
 
@@ -2211,7 +2242,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 					@Override
 					public List<BufferedItemPosition> get() {
-						return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems, oldItemAncestorLists);
+						return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems,
+								oldItemAncestorLists);
 					}
 				};
 
@@ -3248,7 +3280,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				public IContext getContext() {
-					return new CustomContext("listDynamicAction [name=" + dynamicAction.getName() + ", listContext="
+					return new CustomContext("ListDynamicAction [name=" + dynamicAction.getName() + ", listContext="
 							+ input.getContext().getIdentifier() + "]");
 				}
 

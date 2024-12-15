@@ -385,7 +385,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 					String result = ReflectionUIUtils.toString(CustomizationToolsUI.this, stored);
 					if (stored != null) {
 						ITypeInfo storedType = CustomizationToolsUI.this
-								.buildTypeInfo(CustomizationToolsUI.this.getTypeInfoSource(stored));
+								.getTypeInfo(CustomizationToolsUI.this.getTypeInfoSource(stored));
 						result = "(" + storedType.getCaption() + ") " + result;
 					}
 					return result;
@@ -399,7 +399,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			@Override
 			protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
-					return buildTypeInfo(new JavaTypeInfoSource(CustomizationToolsUI.this, Color.class,
+					return getTypeInfo(new JavaTypeInfoSource(CustomizationToolsUI.this, Color.class,
 							new SpecificitiesIdentifier(containingType.getName(), field.getName())));
 				}
 				return super.getType(field, containingType);

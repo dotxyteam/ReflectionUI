@@ -24,7 +24,7 @@ public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 	}
 
 	@Override
-	public ITypeInfo getTypeInfo() {
+	public ITypeInfo buildTypeInfo() {
 		return new InfoProxyFactory() {
 
 			@Override

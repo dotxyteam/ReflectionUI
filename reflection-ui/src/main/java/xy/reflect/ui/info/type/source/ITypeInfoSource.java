@@ -28,6 +28,6 @@ public interface ITypeInfoSource {
 	/**
 	 * @return the type information generated from the current source object.
 	 */
-	ITypeInfo getTypeInfo();
+	ITypeInfo buildTypeInfo();
 
 }

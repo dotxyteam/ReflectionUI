@@ -19,7 +19,7 @@ public class ModificationsTest {
 
 	private boolean mayModify(String fieldName) {
 		ReflectionUI reflectionUI = new ReflectionUI();
-		ITypeInfo thisType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(this));
+		ITypeInfo thisType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(this));
 		IFieldInfo field = ReflectionUIUtils.findInfoByName(thisType.getFields(), fieldName);
 		boolean canCommit = !field.isGetOnly();
 		ValueReturnMode childValueReturnMode = field.getValueReturnMode();

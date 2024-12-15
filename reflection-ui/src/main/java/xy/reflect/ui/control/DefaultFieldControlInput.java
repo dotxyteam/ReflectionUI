@@ -16,9 +16,9 @@ import xy.reflect.ui.undo.ModificationStack;
  */
 public class DefaultFieldControlInput implements IFieldControlInput {
 
-	private ReflectionUI reflectionUI;
-	private Object object;
-	private IFieldInfo field;
+	protected ReflectionUI reflectionUI;
+	protected Object object;
+	protected IFieldInfo field;
 
 	public DefaultFieldControlInput(ReflectionUI reflectionUI, Object object, IFieldInfo field) {
 		this.reflectionUI = reflectionUI;

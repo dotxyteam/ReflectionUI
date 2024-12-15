@@ -225,7 +225,7 @@ public abstract class AbstractEditorFormBuilder {
 			}
 		}
 		return "Encapsulation [" + contextDeclaraion + subContextDeclaraion + "encapsulatedObjectType="
-				+ getSwingRenderer().getReflectionUI().buildTypeInfo(getEncapsulatedFieldTypeSource()).getName() + "]";
+				+ getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getName() + "]";
 	}
 
 	/**
@@ -358,7 +358,7 @@ public abstract class AbstractEditorFormBuilder {
 	public boolean isFormEmpty() {
 		Object capsule = getCapsule();
 		ITypeInfo capsuleType = getSwingRenderer().getReflectionUI()
-				.buildTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		IFieldInfo encapsulatedField = capsuleType.getFields().get(0);
 		if (encapsulatedField.isNullValueDistinct()) {
 			return false;
@@ -368,7 +368,7 @@ public abstract class AbstractEditorFormBuilder {
 			return false;
 		}
 		ITypeInfo actualObjectType = getSwingRenderer().getReflectionUI()
-				.buildTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(object));
+				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(object));
 		if (!ReflectionUIUtils.isTypeEmpty(actualObjectType, getEncapsulatedFormFilter())) {
 			return false;
 		}
@@ -422,9 +422,9 @@ public abstract class AbstractEditorFormBuilder {
 				encapsulatedObjectValueAccessor.set(newValue);
 				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 				ITypeInfo oldValueType = (oldValue == null) ? null
-						: reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
+						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
 				ITypeInfo newValueType = (newValue == null) ? null
-						: reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(newValue));
+						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
 				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
 					editorForm.setObject(getCapsule());
 				}
@@ -587,7 +587,7 @@ public abstract class AbstractEditorFormBuilder {
 
 		public EditorEncapsulation() {
 			super(getSwingRenderer().getReflectionUI(), getCapsuleTypeName(),
-					getSwingRenderer().getReflectionUI().buildTypeInfo(getEncapsulatedFieldTypeSource()));
+					getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()));
 			setFieldName(getEncapsulatedFieldName());
 			setFieldCaption(getEncapsulatedFieldCaption());
 			setFieldGetOnly(isEncapsulatedFieldGetOnly());

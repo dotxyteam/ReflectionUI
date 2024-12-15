@@ -46,7 +46,7 @@ public class ModificationStackControls {
 			final Accessor<Boolean> enabled, final Accessor<String> tooltipText) {
 		final ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		final Object object = form.getObject();
-		final ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final JButton result = new AbstractControlButton() {
 
 			protected static final long serialVersionUID = 1L;

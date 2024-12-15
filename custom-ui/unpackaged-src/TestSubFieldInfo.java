@@ -20,7 +20,7 @@ public class TestSubFieldInfo {
 				new SwingRenderer(new ReflectionUI() {
 
 					@Override
-					public ITypeInfo buildTypeInfo(ITypeInfoSource typeSource) {
+					public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 						return new InfoProxyFactory() {
 
 							@Override
@@ -33,7 +33,7 @@ public class TestSubFieldInfo {
 									return super.getFields(type);
 								}
 							}
-						}.wrapTypeInfo(super.buildTypeInfo(typeSource));
+						}.wrapTypeInfo(super.getTypeInfo(typeSource));
 					}
 				}).openObjectFrame(new A());
 			}

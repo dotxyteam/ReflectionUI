@@ -27,7 +27,7 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 		super(source, null);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
-		this.itemType = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,
+		this.itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,
 				new Class[] { keyJavaType, valueJavaType }, null));
 	}
 

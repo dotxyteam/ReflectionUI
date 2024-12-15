@@ -55,7 +55,7 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 			public ITypeInfo getReturnValueType() {
 				if (returnValueType == null) {
 					returnValueType = reflectionUI
-							.buildTypeInfo(new PrecomputedTypeInfoSource(StandardEnumerationTypeInfo.this, null));
+							.getTypeInfo(new PrecomputedTypeInfoSource(StandardEnumerationTypeInfo.this, null));
 				}
 				return returnValueType;
 			}

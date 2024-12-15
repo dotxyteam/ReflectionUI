@@ -593,7 +593,7 @@ public class EncapsulatedObjectFactory {
 						@Override
 						public ITypeInfo getReturnValueType() {
 							if (returnValueType == null) {
-								returnValueType = reflectionUI.buildTypeInfo(TypeInfo.this.getSource());
+								returnValueType = reflectionUI.getTypeInfo(TypeInfo.this.getSource());
 							}
 							return returnValueType;
 						}
@@ -852,7 +852,7 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public ITypeInfo getType() {
 			if (type == null) {
-				type = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(fieldType.getSource()) {
+				type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(fieldType.getSource()) {
 					@Override
 					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 						return new SpecificitiesIdentifier(typeName, ValueFieldInfo.this.getName());

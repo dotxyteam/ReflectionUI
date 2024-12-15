@@ -136,7 +136,7 @@ public class CustomizationToolsRenderer extends SwingCustomizer {
 									@Override
 									public void changeCustomizationFieldValue(AbstractCustomization customization,
 											String fieldName, Object fieldValue) {
-										ITypeInfo customizationType = ReflectionUI.getDefault().buildTypeInfo(
+										ITypeInfo customizationType = ReflectionUI.getDefault().getTypeInfo(
 												ReflectionUI.getDefault().getTypeInfoSource(customization));
 										IFieldInfo customizationField = ReflectionUIUtils
 												.findInfoByName(customizationType.getFields(), fieldName);

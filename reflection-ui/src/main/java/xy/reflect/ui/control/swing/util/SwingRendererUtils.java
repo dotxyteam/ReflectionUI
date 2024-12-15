@@ -406,7 +406,7 @@ public class SwingRendererUtils {
 		List<Object> result = new ArrayList<Object>();
 		for (Object object : getAllDisplayedObjects(swingRenderer)) {
 			ITypeInfo objectType = swingRenderer.getReflectionUI()
-					.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 			if (objectType.getName().equals(type.getName())) {
 				result.add(object);
 			}

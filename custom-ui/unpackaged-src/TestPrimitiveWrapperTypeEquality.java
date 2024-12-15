@@ -16,9 +16,9 @@ public class TestPrimitiveWrapperTypeEquality {
 		Method pointMoveMethod = Point.class.getMethod("move", int.class, int.class);
 		ReflectionUI reflectionUI = new ReflectionUI();
 		ITypeInfo type = reflectionUI
-				.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, Integer.class, pointMoveMethod, 1, null));
+				.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Integer.class, pointMoveMethod, 1, null));
 		System.out.println(type);
-		type = reflectionUI.buildTypeInfo(
+		type = reflectionUI.getTypeInfo(
 				new JavaTypeInfoSource(reflectionUI, pointMoveMethod.getParameterTypes()[1], pointMoveMethod, 1, null));
 		System.out.println(type);
 	}

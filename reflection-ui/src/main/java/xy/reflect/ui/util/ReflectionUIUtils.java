@@ -488,7 +488,7 @@ public class ReflectionUIUtils {
 		if (object == null) {
 			return "";
 		}
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.toString(object);
 	}
 
@@ -496,7 +496,7 @@ public class ReflectionUIUtils {
 		if (object == null) {
 			return null;
 		}
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.getIconImagePath();
 	}
 
@@ -504,12 +504,12 @@ public class ReflectionUIUtils {
 		if (object == null) {
 			return false;
 		}
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.canCopy(object);
 	}
 
 	public static Object copy(ReflectionUI reflectionUI, Object object) {
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		return type.copy(object);
 	}
 
@@ -521,8 +521,8 @@ public class ReflectionUIUtils {
 	protected static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst,
 			boolean deeply, List<Pair<Object, Object>> alreadyCopied) {
 		alreadyCopied.add(new Pair<Object, Object>(src, dst));
-		ITypeInfo srcType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(src));
-		ITypeInfo dstType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(dst));
+		ITypeInfo srcType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(src));
+		ITypeInfo dstType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(dst));
 		for (IFieldInfo dstField : dstType.getFields()) {
 			if (dstField.isGetOnly()) {
 				continue;
@@ -535,7 +535,7 @@ public class ReflectionUIUtils {
 			if (srcFieldValue == null) {
 				dstField.setValue(dst, null);
 			} else {
-				ITypeInfo fieldValueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
+				ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
 				if (deeply && !fieldValueType.isImmutable()) {
 					Object dstFieldValue = null;
 					for (Pair<Object, Object> pair : alreadyCopied) {
@@ -677,7 +677,7 @@ public class ReflectionUIUtils {
 		if (value == null) {
 			return true;
 		}
-		ITypeInfo valueType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(value));
+		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
 		return valueType.isImmutable();
 	}
 
@@ -833,8 +833,8 @@ public class ReflectionUIUtils {
 			}
 		}
 		alreadyCompared.add(new Pair<Object, Object>(o1, o2));
-		ITypeInfo type1 = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(o1));
-		ITypeInfo type2 = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(o2));
+		ITypeInfo type1 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o1));
+		ITypeInfo type2 = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(o2));
 		if (!type1.equals(type2)) {
 			return false;
 		}
@@ -1244,7 +1244,7 @@ public class ReflectionUIUtils {
 	public static ITypeInfo buildTypeInfo(String className) {
 		try {
 			return ReflectionUI.getDefault()
-					.buildTypeInfo(new JavaTypeInfoSource(ReflectionUI.getDefault(), Class.forName(className), null));
+					.getTypeInfo(new JavaTypeInfoSource(ReflectionUI.getDefault(), Class.forName(className), null));
 		} catch (ClassNotFoundException e) {
 			throw new ReflectionUIError(e);
 		}

@@ -12,13 +12,18 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
+import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.control.IContext;
+import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.swing.MethodAction;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
-import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -103,9 +108,26 @@ public class MethodActionMenuItem extends JMenuItem {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					IMethodInfo method = menuItemInfo.getMethod();
-					IMethodControlInput input = form.createMethodControlPlaceHolder(method);
-					MethodAction methodAction = swingRenderer.createMethodAction(input);
+					MethodAction methodAction = swingRenderer.createMethodAction(new IMethodControlInput() {
+
+						@Override
+						public ModificationStack getModificationStack() {
+							return form.getModificationStack();
+						}
+
+						@Override
+						public IContext getContext() {
+							ITypeInfo objectType = swingRenderer.getReflectionUI()
+									.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(form.getObject()));
+							return new MethodContext(objectType, menuItemInfo.getMethod());
+						}
+
+						@Override
+						public IMethodControlData getControlData() {
+							return new DefaultMethodControlData(swingRenderer.getReflectionUI(), form.getObject(),
+									menuItemInfo.getMethod());
+						}
+					});
 					methodAction.onInvocationRequest((Form) form);
 				} catch (Throwable t) {
 					swingRenderer.handleObjectException(form, t);

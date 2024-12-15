@@ -309,7 +309,7 @@ public class Form extends ImagePanel {
 	 */
 	public void validateForm() throws Exception {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		type.validate(object);
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
@@ -342,7 +342,7 @@ public class Form extends ImagePanel {
 			@Override
 			public void run() {
 				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-				final ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+				final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 				try {
 					validateForm();
 					SwingUtilities.invokeLater(new Runnable() {
@@ -414,7 +414,7 @@ public class Form extends ImagePanel {
 			modificationStack.addListener(fieldsUpdateListener);
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		final ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final boolean[] formUpdateNeeded = new boolean[] { false };
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
@@ -437,7 +437,7 @@ public class Form extends ImagePanel {
 			modificationStack.removeListener(fieldsUpdateListener);
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		final ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final boolean[] formUpdateNeeded = new boolean[] { false };
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
@@ -577,7 +577,7 @@ public class Form extends ImagePanel {
 
 	protected int getCategoriesControlPlacement() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN) {
 			return JTabbedPane.TOP;
 		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL) {
@@ -757,7 +757,7 @@ public class Form extends ImagePanel {
 
 	protected Color getControlsForegroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormForegroundColor() == null) {
 			return getMainForeroundColor();
 		} else {
@@ -767,7 +767,7 @@ public class Form extends ImagePanel {
 
 	protected Color getControlsBackgroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBackgroundColor() == null) {
 			/*
 			 * Note that we do not return the main background color because we want the form
@@ -782,7 +782,7 @@ public class Form extends ImagePanel {
 
 	protected Color getControlsBorderColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBorderColor() == null) {
 			return getMainBorderColor();
 		} else {
@@ -792,7 +792,7 @@ public class Form extends ImagePanel {
 
 	protected Image getControlsBackgroundImage() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBackgroundImagePath() == null) {
 			return null;
 		} else {
@@ -803,7 +803,7 @@ public class Form extends ImagePanel {
 
 	protected Color getCategoriesCellBackgroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getCategoriesBackgroundColor() != null) {
 			return SwingRendererUtils.getColor(type.getCategoriesBackgroundColor());
 		} else {
@@ -813,7 +813,7 @@ public class Form extends ImagePanel {
 
 	protected Color getCategoriesCellForegroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getCategoriesForegroundColor() != null) {
 			return SwingRendererUtils.getColor(type.getCategoriesForegroundColor());
 		} else {
@@ -925,7 +925,7 @@ public class Form extends ImagePanel {
 			infoFilter = IInfoFilter.DEFAULT;
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		final ITypeInfo rawType = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final ITypeInfo rawType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		infoFilter = new InfoFilterProxy(infoFilter) {
 
 			@Override
@@ -1062,21 +1062,7 @@ public class Form extends ImagePanel {
 			}
 			try {
 				removeAll();
-				fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(objectType.getFields());
-				methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
-						objectType.getMethods());
-				for (List<FieldControlPlaceHolder> fieldControlPlaceHolders : fieldControlPlaceHoldersByCategory
-						.values()) {
-					for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
-						fieldControlPlaceHolder.initializeUI();
-					}
-				}
-				for (List<MethodControlPlaceHolder> methodControlPlaceHolders : methodControlPlaceHoldersByCategory
-						.values()) {
-					for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
-						methodControlPlaceHolder.initializeUI();
-					}
-				}
+				createMembersControls();
 				layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
@@ -1163,6 +1149,24 @@ public class Form extends ImagePanel {
 		for (IRefreshListener l : refreshListeners) {
 			l.onRefresh(refreshStructure);
 		}
+	}
+
+	protected void createMembersControls() {
+		fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(objectType.getFields());
+		methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
+				objectType.getMethods());
+		for (List<FieldControlPlaceHolder> fieldControlPlaceHolders : fieldControlPlaceHoldersByCategory
+				.values()) {
+			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
+				fieldControlPlaceHolder.initializeUI();
+			}
+		}
+		for (List<MethodControlPlaceHolder> methodControlPlaceHolders : methodControlPlaceHoldersByCategory
+				.values()) {
+			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
+				methodControlPlaceHolder.initializeUI();
+			}
+		}		
 	}
 
 	protected boolean detectStructureChange() {
@@ -1287,7 +1291,7 @@ public class Form extends ImagePanel {
 	 */
 	public void addMenuContributionTo(MenuModel menuModel) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		MenuModel formMenuModel = type.getMenuModel();
 		menuModel.importContributions(formMenuModel, new Filter<IMenuElementInfo>() {
 			@Override
@@ -1335,7 +1339,7 @@ public class Form extends ImagePanel {
 	 * @param field The field for which the control place holder must be created.
 	 * @return a new control place holder for the given field.
 	 */
-	public FieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
+	protected FieldControlPlaceHolder createFieldControlPlaceHolder(IFieldInfo field) {
 		return new FieldControlPlaceHolder(this, field);
 	}
 
@@ -1343,7 +1347,7 @@ public class Form extends ImagePanel {
 	 * @param method The method for which the control place holder must be created.
 	 * @return a new control place holder for the given method.
 	 */
-	public MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
+	protected MethodControlPlaceHolder createMethodControlPlaceHolder(IMethodInfo method) {
 		return new MethodControlPlaceHolder(this, method);
 	}
 
@@ -1385,7 +1389,7 @@ public class Form extends ImagePanel {
 
 	protected LayoutManager getMethodsPanelLayout() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		MethodsLayout methodsOrientation = type.getMethodsLayout();
 		int spacing = getLayoutSpacing();
 		GridLayout newLayout;
@@ -1410,7 +1414,7 @@ public class Form extends ImagePanel {
 
 	protected void updateFieldControlLayoutInContainer(FieldControlPlaceHolder fieldControlPlaceHolder) {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		IFieldInfo field = fieldControlPlaceHolder.getField();
 		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
 		JPanel fieldsPanel = (JPanel) fieldControlPlaceHolder.getParent();
@@ -1620,7 +1624,7 @@ public class Form extends ImagePanel {
 
 	protected Component createButtonBarOnlineHelpControl() {
 		final ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		final ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final String onlineHelp = type.getOnlineHelp();
 		if ((onlineHelp == null) || (onlineHelp.length() == 0)) {
 			return null;
@@ -1753,7 +1757,7 @@ public class Form extends ImagePanel {
 			result.add(onlineHelpControl);
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.buildTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.isModificationStackAccessible()) {
 			if (modificationStack != null) {
 				result.addAll(new ModificationStackControls(this).create(swingRenderer));

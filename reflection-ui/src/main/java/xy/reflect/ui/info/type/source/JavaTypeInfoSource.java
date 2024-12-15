@@ -75,7 +75,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	}
 
 	@Override
-	public DefaultTypeInfo getTypeInfo() {
+	public DefaultTypeInfo buildTypeInfo() {
 		synchronized (CACHE_MUTEX) {
 			DefaultTypeInfo result = CACHE.get(this);
 			if (result == null) {
@@ -85,7 +85,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 					if (itemClass == null) {
 						itemType = null;
 					} else {
-						itemType = reflectionUI.buildTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
+						itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
 					}
 					result = new StandardCollectionTypeInfo(this, itemType);
 				} else if (StandardMapAsListTypeInfo.isCompatibleWith(getJavaType())) {

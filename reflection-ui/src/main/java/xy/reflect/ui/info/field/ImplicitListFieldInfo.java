@@ -139,7 +139,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public IListTypeInfo getType() {
 		if (type == null) {
 			type = (IListTypeInfo) reflectionUI
-					.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
+					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 		}
 		return type;
 	}

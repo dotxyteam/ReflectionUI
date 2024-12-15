@@ -73,7 +73,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI
-					.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
+					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
 		}
 		return type;
 	}
@@ -308,7 +308,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		public ValueListTypeInfo() {
 			super(new JavaTypeInfoSource(MultipleFieldsAsListFieldInfo.this.reflectionUI, ArrayList.class, null),
 					MultipleFieldsAsListFieldInfo.this.reflectionUI
-							.buildTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new DefaultTypeInfo(
+							.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new DefaultTypeInfo(
 									new JavaTypeInfoSource(MultipleFieldsAsListFieldInfo.this.reflectionUI,
 											ValueListItem.class, null)))));
 		}
@@ -629,7 +629,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public ITypeInfo getType() {
-			return reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(base.getType().getSource()) {
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(base.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(

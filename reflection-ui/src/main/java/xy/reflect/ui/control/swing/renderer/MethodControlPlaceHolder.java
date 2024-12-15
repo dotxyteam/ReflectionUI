@@ -142,8 +142,8 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 	@Override
 	public IContext getContext() {
-		ITypeInfo objectType = this.swingRenderer.reflectionUI
-				.buildTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
+		ITypeInfo objectType = this.swingRenderer.getReflectionUI()
+				.getTypeInfo(this.swingRenderer.getReflectionUI().getTypeInfoSource(getObject()));
 		return new MethodContext(objectType, method);
 	}
 

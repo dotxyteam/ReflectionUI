@@ -72,7 +72,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	protected boolean isActive() {
 		Object object = form.getObject();
 		ITypeInfo type = swingRenderer.getReflectionUI()
-				.buildTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 		if (!type.canPersist()) {
 			throw new ReflectionUIError("Type '" + type.getName() + "' cannot persist its instances state");
 		}
@@ -110,7 +110,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 								return result;
 							}
 
-						}.wrapTypeInfo(swingRenderer.getReflectionUI().buildTypeInfo(
+						}.wrapTypeInfo(swingRenderer.getReflectionUI().getTypeInfo(
 								new JavaTypeInfoSource(swingRenderer.getReflectionUI(), File.class, null)));
 					}
 

@@ -65,7 +65,7 @@ public class FieldAsParameterInfo implements IParameterInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
+			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return null;

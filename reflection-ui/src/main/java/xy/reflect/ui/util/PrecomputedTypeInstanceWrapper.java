@@ -116,7 +116,7 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		public ITypeInfo getTypeInfo() {
+		public ITypeInfo buildTypeInfo() {
 			return new InfoFactory(this).wrapTypeInfo(precomputedType);
 		}
 

@@ -138,7 +138,7 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public ITypeInfo getReturnValueType() {
 		if (returnValueType == null) {
-			returnValueType = reflectionUI.buildTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
+			returnValueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return null;
