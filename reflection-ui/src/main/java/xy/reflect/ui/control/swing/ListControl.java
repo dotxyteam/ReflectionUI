@@ -1861,17 +1861,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected void restoringSelectionDespiteDataAlteration(Runnable runnable) {
 		final List<BufferedItemPosition> wereSelectedPositions = getSelection();
 		final List<Object> wereSelected = new ArrayList<Object>();
-		final List<List<Object>> wereSelectedAncestors = new ArrayList<List<Object>>();
+		final List<List<Object>> wereSelectedAncestorLists = new ArrayList<List<Object>>();
 		for (int i = 0; i < wereSelectedPositions.size(); i++) {
 			BufferedItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
 			wereSelected.add(wasSelectedPosition.getItem());
-			wereSelectedAncestors.add(ReflectionUIUtils.collectItemAncestors(wasSelectedPosition));
+			wereSelectedAncestorLists.add(ReflectionUIUtils.collectItemAncestors(wasSelectedPosition));
 		}
 		preventingIntermediarySelectionEvents(new Runnable() {
 			public void run() {
 				runnable.run();
 				List<BufferedItemPosition> willBeSelectedPositions = ReflectionUIUtils
-						.actualizeItemPositions(wereSelectedPositions, wereSelected, wereSelectedAncestors);
+						.actualizeItemPositions(wereSelectedPositions, wereSelected, wereSelectedAncestorLists);
 				setSelection(willBeSelectedPositions);
 			}
 		});
@@ -1880,16 +1880,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected void restoringExpandedPathsDespiteDataAlteration(Runnable runnable) {
 		List<BufferedItemPosition> wereExpandedPositions = getExpandedItemPositions(null);
 		List<Object> wereExpanded = new ArrayList<Object>();
-		List<List<Object>> wereExpandedAncestors = new ArrayList<List<Object>>();
+		List<List<Object>> wereExpandedAncestorLists = new ArrayList<List<Object>>();
 		for (int i = 0; i < wereExpandedPositions.size(); i++) {
 			BufferedItemPosition wasExpandedPosition = wereExpandedPositions.get(i);
 			wereExpanded.add(wasExpandedPosition.getItem());
-			wereExpandedAncestors.add(ReflectionUIUtils.collectItemAncestors(wasExpandedPosition));
+			wereExpandedAncestorLists.add(ReflectionUIUtils.collectItemAncestors(wasExpandedPosition));
 		}
 		runnable.run();
 		collapseAllItemPositions();
 		List<BufferedItemPosition> willBeExpandedPositions = ReflectionUIUtils
-				.actualizeItemPositions(wereExpandedPositions, wereExpanded, wereExpandedAncestors);
+				.actualizeItemPositions(wereExpandedPositions, wereExpanded, wereExpandedAncestorLists);
 		for (BufferedItemPosition itemPosition : willBeExpandedPositions) {
 			expandItemPosition(itemPosition);
 		}
@@ -2201,17 +2201,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = new Accessor<List<BufferedItemPosition>>() {
 					List<BufferedItemPosition> oldItemPositions = getSelection();
 					List<Object> oldItems = new ArrayList<Object>();
-					List<List<Object>> oldItemAncestors = new ArrayList<List<Object>>();
+					List<List<Object>> oldItemAncestorLists = new ArrayList<List<Object>>();
 					{
 						for (BufferedItemPosition itemPosition : oldItemPositions) {
 							oldItems.add(itemPosition.getItem());
-							oldItemAncestors.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
+							oldItemAncestorLists.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
 						}
 					}
 
 					@Override
 					public List<BufferedItemPosition> get() {
-						return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems, oldItemAncestors);
+						return ReflectionUIUtils.actualizeItemPositions(oldItemPositions, oldItems, oldItemAncestorLists);
 					}
 				};
 
@@ -2640,10 +2640,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				purgePositionsAfterItemRemoval(postSelection, itemPosition);
 			}
 			List<Object> postSelectionItems = new ArrayList<Object>();
-			List<List<Object>> postSelectionItemAncestors = new ArrayList<List<Object>>();
+			List<List<Object>> postSelectionItemAncestorLists = new ArrayList<List<Object>>();
 			for (BufferedItemPosition itemPosition : postSelection) {
 				postSelectionItems.add(itemPosition.getItem());
-				postSelectionItemAncestors.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
+				postSelectionItemAncestorLists.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
 			}
 			for (BufferedItemPosition itemPosition : selection) {
 				shiftPositionsAfterItemRemoval(postSelection, itemPosition);
@@ -2660,7 +2660,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public List<BufferedItemPosition> get() {
 					return ReflectionUIUtils.actualizeItemPositions(postSelection, postSelectionItems,
-							postSelectionItemAncestors);
+							postSelectionItemAncestorLists);
 				}
 			};
 		}
@@ -2873,20 +2873,20 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			List<BufferedItemPosition> newSelection = new ArrayList<BufferedItemPosition>();
 			List<Object> newSelectionItems = new ArrayList<Object>();
-			List<List<Object>> newSelectionItemAncestors = new ArrayList<List<Object>>();
+			List<List<Object>> newSelectionItemAncestorLists = new ArrayList<List<Object>>();
 			for (BufferedItemPosition itemPosition : selection) {
 				int index = itemPosition.getIndex();
 				getModificationStack().apply(createListModificationFactory(itemPosition).move(index, offset));
 				newSelection.add(itemPosition.getSibling(index + offset));
 				newSelectionItems.add(itemPosition.getSibling(index + offset).getItem());
-				newSelectionItemAncestors
+				newSelectionItemAncestorLists
 						.add(ReflectionUIUtils.collectItemAncestors(itemPosition.getSibling(index + offset)));
 			}
 			postSelectionGetterHolder[0] = new Accessor<List<BufferedItemPosition>>() {
 				@Override
 				public List<BufferedItemPosition> get() {
 					return ReflectionUIUtils.actualizeItemPositions(newSelection, newSelectionItems,
-							newSelectionItemAncestors);
+							newSelectionItemAncestorLists);
 				}
 			};
 		}
@@ -3068,14 +3068,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			subItemPosition = subItemPosition.getSibling(newSubListItemIndex);
 			final List<BufferedItemPosition> postSelection = new ArrayList<BufferedItemPosition>();
 			final List<Object> postSelectionItems = new ArrayList<Object>();
-			final List<List<Object>> postSelectionItemAncestors = new ArrayList<List<Object>>();
+			final List<List<Object>> postSelectionItemAncestorLists = new ArrayList<List<Object>>();
 			for (Object clipboardItem : clipboard) {
 				Object clipboardItemCopy = ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), clipboardItem);
 				getModificationStack().apply(
 						createListModificationFactory(subItemPosition).add(newSubListItemIndex, clipboardItemCopy));
 				postSelection.add(subItemPosition.getSibling(newSubListItemInitialIndex));
 				postSelectionItems.add(clipboardItemCopy);
-				postSelectionItemAncestors.add(
+				postSelectionItemAncestorLists.add(
 						ReflectionUIUtils.collectItemAncestors(subItemPosition.getSibling(newSubListItemInitialIndex)));
 				newSubListItemIndex++;
 			}
@@ -3083,7 +3083,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public List<BufferedItemPosition> get() {
 					return ReflectionUIUtils.actualizeItemPositions(postSelection, postSelectionItems,
-							postSelectionItemAncestors);
+							postSelectionItemAncestorLists);
 				}
 			};
 		}
@@ -3151,10 +3151,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				purgePositionsAfterItemRemoval(postSelection, itemPosition);
 			}
 			List<Object> postSelectionItems = new ArrayList<Object>();
-			List<List<Object>> postSelectionItemAncestors = new ArrayList<List<Object>>();
+			List<List<Object>> postSelectionItemAncestorLists = new ArrayList<List<Object>>();
 			for (BufferedItemPosition itemPosition : postSelection) {
 				postSelectionItems.add(itemPosition.getItem());
-				postSelectionItemAncestors.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
+				postSelectionItemAncestorLists.add(ReflectionUIUtils.collectItemAncestors(itemPosition));
 			}
 			for (BufferedItemPosition itemPosition : selection) {
 				shiftPositionsAfterItemRemoval(postSelection, itemPosition);
@@ -3170,7 +3170,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public List<BufferedItemPosition> get() {
 					return ReflectionUIUtils.actualizeItemPositions(postSelection, postSelectionItems,
-							postSelectionItemAncestors);
+							postSelectionItemAncestorLists);
 				}
 			};
 		}
@@ -3264,22 +3264,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder) {
-			final List<BufferedItemPosition> wereSelectedPositions = getSelection();
-			final List<Object> wereSelected = new ArrayList<Object>();
-			final List<List<Object>> wereSelectedAncestors = new ArrayList<List<Object>>();
-			for (int i = 0; i < wereSelectedPositions.size(); i++) {
-				BufferedItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
-				wereSelected.add(wasSelectedPosition.getItem());
-				wereSelectedAncestors.add(ReflectionUIUtils.collectItemAncestors(wasSelectedPosition));
-			}
+			final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = postSelectionGetterHolder[0];
 			action.invokeAndObtainReturnValue(invocationData, ListControl.this);
 			postSelectionGetterHolder[0] = new Accessor<List<BufferedItemPosition>>() {
 				@Override
 				public List<BufferedItemPosition> get() {
 					List<ItemPosition> result = dynamicAction.getPostSelection();
 					if (result == null) {
-						return ReflectionUIUtils.actualizeItemPositions(wereSelectedPositions, wereSelected,
-								wereSelectedAncestors);
+						return defaultPostSelectionGetter.get();
 					}
 					return MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(result);
 				}
@@ -3434,21 +3426,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder) {
-			final List<BufferedItemPosition> wereSelectedPositions = getSelection();
-			final List<Object> wereSelected = new ArrayList<Object>();
-			final List<List<Object>> wereSelectedAncestors = new ArrayList<List<Object>>();
-			for (int i = 0; i < wereSelectedPositions.size(); i++) {
-				BufferedItemPosition wasSelectedPosition = wereSelectedPositions.get(i);
-				wereSelected.add(wasSelectedPosition.getItem());
-				wereSelectedAncestors.add(ReflectionUIUtils.collectItemAncestors(wasSelectedPosition));
-			}
+			final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = postSelectionGetterHolder[0];
 			postSelectionGetterHolder[0] = new Accessor<List<BufferedItemPosition>>() {
 				@Override
 				public List<BufferedItemPosition> get() {
 					List<ItemPosition> result = dynamicProperty.getPostSelection();
 					if (result == null) {
-						return ReflectionUIUtils.actualizeItemPositions(wereSelectedPositions, wereSelected,
-								wereSelectedAncestors);
+						return defaultPostSelectionGetter.get();
 					}
 					return MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(result);
 				}
