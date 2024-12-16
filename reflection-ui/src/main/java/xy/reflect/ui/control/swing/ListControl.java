@@ -95,8 +95,6 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
 import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
-import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
-import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -1342,12 +1340,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected ItemCreationMode getRelevantItemCreationMode(BufferedItemPosition newItemPosition) {
 		if ((newItemPosition.getContainingListType().getItemType() != null) && ReflectionUIUtils
 				.canCreateDefaultInstance(newItemPosition.getContainingListType().getItemType(), true)) {
-			if (getDetailsAccessMode() instanceof DetachedItemDetailsAccessMode) {
+			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				return ItemCreationMode.DEFAULT_VERIFIED_INSTANCE;
-			} else if (getDetailsAccessMode() instanceof EmbeddedItemDetailsAccessMode) {
-				return ItemCreationMode.DEFAULT_UNVERIFIED_INSTANCE;
 			} else {
-				throw new ReflectionUIError();
+				return ItemCreationMode.DEFAULT_UNVERIFIED_INSTANCE;
 			}
 		} else {
 			return ItemCreationMode.CUSTOM_UNVERIFIED_INSTANCE;
@@ -2225,10 +2221,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				if (!prepare()) {
-					return;
-				}
-				final String modifTitle = getCompositeModificationTitle();
 				final Accessor<List<BufferedItemPosition>> defaultPostSelectionGetter = new Accessor<List<BufferedItemPosition>>() {
 					List<BufferedItemPosition> oldItemPositions = getSelection();
 					List<Object> oldItems = new ArrayList<Object>();
@@ -2246,7 +2238,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								oldItemAncestorLists);
 					}
 				};
-
+				if (!prepare()) {
+					return;
+				}
+				final String modifTitle = getCompositeModificationTitle();
 				@SuppressWarnings("unchecked")
 				final Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder = new Accessor[] {
 						defaultPostSelectionGetter };

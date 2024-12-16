@@ -2,6 +2,8 @@
 package xy.reflect.ui.control.swing.customizer;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,6 +26,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractMemberCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ApplicationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ConversionMethodFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomTypeInfoFinder;
@@ -69,6 +72,14 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 	protected static final String IS_FIELD_TYPE_SPECIFICITIES_TYPE = CustomizationToolsUI.class.getName() + ".is"
 			+ FieldTypeSpecificities.class.getSimpleName();
+	protected static final List<ResourcePath> SYSTEM_FONT_PATHS = new ArrayList<ResourcePath>();
+	static {
+		for (Font font : GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()) {
+			ResourcePath fontPath = new ResourcePath(ResourcePath.specifyMemoryObjectLocation(font.getName()));
+			SwingRendererUtils.FONT_CACHE.put(fontPath.getSpecification(), font);
+			SYSTEM_FONT_PATHS.add(fontPath);
+		}
+	}
 
 	protected final SwingCustomizer swingCustomizer;
 
@@ -413,6 +424,11 @@ public class CustomizationToolsUI extends CustomizedUI {
 						return null;
 					}
 					return SwingRendererUtils.getColor(colorSpec);
+				} else if ((object instanceof ApplicationCustomization)
+						&& field.getName().endsWith("CustomFontResourcePath")) {
+					ResourcePath result = (ResourcePath) super.getValue(object, field, containingType);
+					result.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
+					return result;
 				} else {
 					return super.getValue(object, field, containingType);
 				}
