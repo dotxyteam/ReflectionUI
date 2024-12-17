@@ -399,7 +399,7 @@
         <menuModel>
             <uniqueIdentifier>-31a2f19:16ca474d797:7961</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen2], fieldName=1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen2], fieldName=1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -463,7 +463,7 @@
         <menuModel>
             <uniqueIdentifier>-31a2f19:16ca474d797:796e</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen2], fieldName=2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen2], fieldName=2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

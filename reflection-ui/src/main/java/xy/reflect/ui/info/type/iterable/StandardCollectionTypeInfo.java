@@ -60,7 +60,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public IFieldInfo getSelectionTargetField(ITypeInfo containingType) {
+	public IFieldInfo getSelectionTargetField(ITypeInfo objectType) {
 		return null;
 	}
 

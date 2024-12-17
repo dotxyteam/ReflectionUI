@@ -51,31 +51,31 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected List<IMethodInfo> encapsulatedMethods;
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
 	public CapsuleFieldInfo(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
-			List<IMethodInfo> encapsulatedMethods, ITypeInfo containingType) {
+			List<IMethodInfo> encapsulatedMethods, ITypeInfo objectType) {
 		this.reflectionUI = reflectionUI;
 		this.fieldName = fieldName;
 		this.encapsulatedFields = encapsulatedFields;
 		this.encapsulatedMethods = encapsulatedMethods;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
 	}
 
-	public static String buildTypeName(String fieldName, String containingTypeName) {
+	public static String buildTypeName(String fieldName, String objectTypeName) {
 		return MessageFormat.format(
-				"CapsuleFieldType [context=EncapsulationContext [containingType={0}], fieldName={1}]",
-				containingTypeName, fieldName);
+				"CapsuleFieldType [context=EncapsulationContext [objectType={0}], fieldName={1}]",
+				objectTypeName, fieldName);
 	}
 
-	public static String extractContainingTypeName(String typeName) {
+	public static String extractobjectTypeName(String typeName) {
 		Pattern p = Pattern.compile(
-				"CapsuleFieldType \\[context=EncapsulationContext \\[containingType=(.+)\\], fieldName=(.+)\\]");
+				"CapsuleFieldType \\[context=EncapsulationContext \\[objectType=(.+)\\], fieldName=(.+)\\]");
 		Matcher m = p.matcher(typeName);
 		if (!m.matches()) {
 			return null;
@@ -85,7 +85,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public static String extractFieldName(String typeName) {
 		Pattern p = Pattern.compile(
-				"CapsuleFieldType \\[context=EncapsulationContext \\[containingType=(.+)\\], fieldName=(.+)\\]");
+				"CapsuleFieldType \\[context=EncapsulationContext \\[objectType=(.+)\\], fieldName=(.+)\\]");
 		Matcher m = p.matcher(typeName);
 		if (!m.matches()) {
 			return null;
@@ -101,8 +101,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		return new EncapsulatedMethodInfoProxy(method);
 	}
 
-	public ITypeInfo getContainingType() {
-		return containingType;
+	public ITypeInfo getobjectType() {
+		return objectType;
 	}
 
 	public List<IFieldInfo> getEncapsulatedFields() {
@@ -245,7 +245,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
 		result = prime * result + ((encapsulatedFields == null) ? 0 : encapsulatedFields.hashCode());
 		result = prime * result + ((encapsulatedMethods == null) ? 0 : encapsulatedMethods.hashCode());
@@ -261,10 +261,10 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		CapsuleFieldInfo other = (CapsuleFieldInfo) obj;
-		if (containingType == null) {
-			if (other.containingType != null)
+		if (objectType == null) {
+			if (other.objectType != null)
 				return false;
-		} else if (!containingType.equals(other.containingType))
+		} else if (!objectType.equals(other.objectType))
 			return false;
 		if (fieldName == null) {
 			if (other.fieldName != null)
@@ -286,7 +286,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return "CapsuleField [fieldName=" + fieldName + ", containingType=" + containingType + ", fields="
+		return "CapsuleField [fieldName=" + fieldName + ", objectType=" + objectType + ", fields="
 				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
@@ -346,7 +346,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(this,
-					new SpecificitiesIdentifier(containingType.getName(), fieldName));
+					new SpecificitiesIdentifier(objectType.getName(), fieldName));
 		}
 
 		@Override
@@ -449,7 +449,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public String getName() {
-			return buildTypeName(fieldName, containingType.getName());
+			return buildTypeName(fieldName, objectType.getName());
 		}
 
 		@Override
@@ -673,8 +673,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 					@Override
 					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
-								+ containingType.getName() + ", field=" + EncapsulatedFieldInfoProxy.this.getName()
+						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
+								+ objectType.getName() + ", field=" + EncapsulatedFieldInfoProxy.this.getName()
 								+ "]";
 					}
 
@@ -771,8 +771,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 								@Override
 								protected String getTypeInfoProxyFactoryIdentifier() {
-									return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
-											+ containingType.getName() + ", method="
+									return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
+											+ objectType.getName() + ", method="
 											+ EncapsulatedMethodInfoProxy.this.getSignature() + "]";
 								}
 							});

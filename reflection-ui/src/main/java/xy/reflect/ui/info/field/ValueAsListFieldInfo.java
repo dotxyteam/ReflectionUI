@@ -28,13 +28,13 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
-	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containingType) {
+	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo objectType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 				@Override
 				public ITypeInfoSource getSource() {
 					return new PrecomputedTypeInfoSource(this,
-							new SpecificitiesIdentifier(containingType.getName(), ValueAsListFieldInfo.this.getName()));
+							new SpecificitiesIdentifier(objectType.getName(), ValueAsListFieldInfo.this.getName()));
 				}
 
 			}.getSource());

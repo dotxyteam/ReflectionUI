@@ -30,16 +30,16 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
 	protected FututreActionBuilder undoJobBuilder;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
 	public SubFieldInfo(ReflectionUI reflectionUI, IFieldInfo theField, IFieldInfo theSubField,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.theField = theField;
 		this.theSubField = theSubField;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	public SubFieldInfo(ITypeInfo type, String fieldName, String subFieldName) {
@@ -81,14 +81,14 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(theSubField.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return new SpecificitiesIdentifier(containingType.getName(), SubFieldInfo.this.getName());
+					return new SpecificitiesIdentifier(objectType.getName(), SubFieldInfo.this.getName());
 				}
 
 				@Override
 				protected String getTypeInfoProxyFactoryIdentifier() {
 					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", subField="
-							+ theSubField.getName() + ", field=" + theField.getName() + ", containingType="
-							+ containingType.getName() + "]";
+							+ theSubField.getName() + ", field=" + theField.getName() + ", objectType="
+							+ objectType.getName() + "]";
 				}
 			});
 		}

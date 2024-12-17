@@ -20,15 +20,15 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected IParameterInfo param;
 	protected IMethodInfo method;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 
 	protected ITypeInfo type;
 
 	public ParameterAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, IParameterInfo param,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		super(param.getName(), param.getType());
 		this.reflectionUI = reflectionUI;
-		this.containingType = containingType;
+		this.objectType = objectType;
 		this.method = method;
 		this.param = param;
 	}
@@ -57,14 +57,14 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return new SpecificitiesIdentifier(containingType.getName(), getName());
+					return new SpecificitiesIdentifier(objectType.getName(), getName());
 				}
 
 				@Override
 				protected String getTypeInfoProxyFactoryIdentifier() {
 					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", baseParameter="
-							+ param.getName() + ", method=" + method.getSignature() + ", containingType="
-							+ containingType.getName() + "]";
+							+ param.getName() + ", method=" + method.getSignature() + ", objectType="
+							+ objectType.getName() + "]";
 				}
 			});
 		}

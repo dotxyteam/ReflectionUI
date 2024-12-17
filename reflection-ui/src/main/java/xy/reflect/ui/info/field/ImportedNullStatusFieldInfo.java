@@ -27,15 +27,15 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo nullStatusField;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
 	public ImportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, IFieldInfo nullStatusField,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.nullStatusField = nullStatusField;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	protected boolean getNullStatus(Object object) {
@@ -138,7 +138,7 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 		result = prime * result + ((nullStatusField == null) ? 0 : nullStatusField.hashCode());
 		return result;
 	}
@@ -152,10 +152,10 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		ImportedNullStatusFieldInfo other = (ImportedNullStatusFieldInfo) obj;
-		if (containingType == null) {
-			if (other.containingType != null)
+		if (objectType == null) {
+			if (other.objectType != null)
 				return false;
-		} else if (!containingType.equals(other.containingType))
+		} else if (!objectType.equals(other.objectType))
 			return false;
 		if (nullStatusField == null) {
 			if (other.nullStatusField != null)

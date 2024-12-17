@@ -106,7 +106,7 @@ public class CustomizedUI extends ReflectionUI {
 			@Override
 			public InfoCustomizations getInfoCustomizations() {
 				TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
-						specificitiesIdentifier.getContainingTypeName());
+						specificitiesIdentifier.getobjectTypeName());
 				FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
 						specificitiesIdentifier.getFieldName());
 				FieldTypeSpecificities result = fieldCustomization.getSpecificTypeCustomizations();
@@ -152,34 +152,34 @@ public class CustomizedUI extends ReflectionUI {
 			}
 
 			@Override
-			protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-				ITypeInfo result = super.getType(param, method, containingType);
+			protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
+				ITypeInfo result = super.getType(param, method, objectType);
 				ITypeInfoSource source = result.getSource();
 				if (source.getSpecificitiesIdentifier() != null) {
 					throw new ReflectionUIError(
 							"Invalid parameter type info: specificities identifier of type info source not null, null value expected."
 									+ "\n" + "parameter=" + param.getName() + ", method=" + method.getName()
-									+ ", containingType=" + containingType.getName() + ", typeInfoSource=" + source);
+									+ ", objectType=" + objectType.getName() + ", typeInfoSource=" + source);
 				}
 				return result;
 			}
 
 			@Override
-			protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
-				ITypeInfo result = super.getType(field, containingType);
+			protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
+				ITypeInfo result = super.getType(field, objectType);
 				ITypeInfoSource source = result.getSource();
 				if (source.getSpecificitiesIdentifier() == null) {
 					throw new ReflectionUIError(
 							"Invalid field type info: specificities identifier of type info source is null, non-null value expected."
-									+ "\n" + "field=" + field.getName() + ", containingType=" + containingType.getName()
+									+ "\n" + "field=" + field.getName() + ", objectType=" + objectType.getName()
 									+ ", typeInfoSource=" + source);
 				}
 				return result;
 			}
 
 			@Override
-			protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
-				ITypeInfo result = super.getReturnValueType(method, containingType);
+			protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo objectType) {
+				ITypeInfo result = super.getReturnValueType(method, objectType);
 				if (result == null) {
 					return null;
 				}
@@ -187,8 +187,8 @@ public class CustomizedUI extends ReflectionUI {
 				if (source.getSpecificitiesIdentifier() != null) {
 					throw new ReflectionUIError(
 							"Invalid method type info: specificities identifier of type info source is not null, null value expected."
-									+ "\n" + "method=" + method.getName() + ", containingType="
-									+ containingType.getName() + ", typeInfoSource=" + source);
+									+ "\n" + "method=" + method.getName() + ", objectType="
+									+ objectType.getName() + ", typeInfoSource=" + source);
 				}
 				return result;
 			}

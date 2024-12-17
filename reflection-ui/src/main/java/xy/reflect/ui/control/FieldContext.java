@@ -16,23 +16,23 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public class FieldContext implements IContext {
 
 	protected IFieldInfo field;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 
-	public FieldContext(ITypeInfo containingType, IFieldInfo field) {
-		this.containingType = containingType;
+	public FieldContext(ITypeInfo objectType, IFieldInfo field) {
+		this.objectType = objectType;
 		this.field = field;
 	}
 
 	@Override
 	public String getIdentifier() {
-		return "FieldContext [fieldName=" + field.getName() + ", containingType=" + containingType.getName() + "]";
+		return "FieldContext [fieldName=" + field.getName() + ", objectType=" + objectType.getName() + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 		result = prime * result + ((field == null) ? 0 : field.hashCode());
 		return result;
 	}
@@ -46,10 +46,10 @@ public class FieldContext implements IContext {
 		if (getClass() != obj.getClass())
 			return false;
 		FieldContext other = (FieldContext) obj;
-		if (containingType == null) {
-			if (other.containingType != null)
+		if (objectType == null) {
+			if (other.objectType != null)
 				return false;
-		} else if (!containingType.equals(other.containingType))
+		} else if (!objectType.equals(other.objectType))
 			return false;
 		if (field == null) {
 			if (other.field != null)
@@ -61,7 +61,7 @@ public class FieldContext implements IContext {
 
 	@Override
 	public String toString() {
-		return "FieldContext [field=" + field + ", containingType=" + containingType + "]";
+		return "FieldContext [field=" + field + ", objectType=" + objectType + "]";
 	}
 
 }

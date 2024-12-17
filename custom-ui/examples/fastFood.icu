@@ -4252,7 +4252,7 @@
         <menuModel>
             <uniqueIdentifier>135de557:16d3eee12df:-65b2</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$Product]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$Product]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4928,7 +4928,7 @@
         <menuModel>
             <uniqueIdentifier>135de557:16d3eee12df:-6586</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions(xy.reflect.ui.example.FastFood$ProductCategory), containingType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions(xy.reflect.ui.example.FastFood$ProductCategory), objectType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4968,7 +4968,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions(xy.reflect.ui.example.FastFood$ProductCategory), containingType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions(xy.reflect.ui.example.FastFood$ProductCategory), objectType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5028,7 +5028,7 @@
         <menuModel>
             <uniqueIdentifier>135de557:16d3eee12df:-5f96</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions.savedInvocation0(), containingType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions.savedInvocation0(), objectType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5068,7 +5068,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions.savedInvocation0(), containingType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=MethodContext [methodSignature=java.util.List getProductSuggestions.savedInvocation0(), objectType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=java.util.List]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5157,7 +5157,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation1.result, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation1.result, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>6fa40d80:1792d7dc1de:-4178</uniqueIdentifier>
                 <specificProperties/>
@@ -5186,7 +5186,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation1.result, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation1.result, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5275,7 +5275,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation0.result, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation0.result, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>6fa40d80:1792d7dc1de:-418b</uniqueIdentifier>
                 <specificProperties/>
@@ -5304,7 +5304,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation0.result, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation0.result, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5521,7 +5521,7 @@
         <menuModel>
             <uniqueIdentifier>-175413b7:16d3f0cbc0d:-63af</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=entries, containingType=xy.reflect.ui.example.FastFood$Cart], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$CartEntry]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=entries, objectType=xy.reflect.ui.example.FastFood$Cart], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$CartEntry]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5584,7 +5584,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation2.result, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation2.result, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>6fa40d80:1792d7dc1de:-4168</uniqueIdentifier>
                 <specificProperties/>
@@ -5613,7 +5613,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation2.result, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=getProductSuggestions.savedInvocation2.result, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5627,7 +5627,7 @@
         <menuModel>
             <uniqueIdentifier>4a104f9:16d417ad39e:-6282</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.example.FastFood$CartEntry addToCart(), containingType=xy.reflect.ui.example.FastFood$ProductSuggestion], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.example.FastFood$CartEntry]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.example.FastFood$CartEntry addToCart(), objectType=xy.reflect.ui.example.FastFood$ProductSuggestion], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.example.FastFood$CartEntry]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5933,7 +5933,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=sales, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$Sale] (xy.reflect.ui.example.FastFood$Cart, java.util.Date, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=sales, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$Sale] (xy.reflect.ui.example.FastFood$Cart, java.util.Date, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>334325b2:17933109d3a:-6602</uniqueIdentifier>
                 <specificProperties/>
@@ -5973,7 +5973,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=sales, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$Sale]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=sales, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$Sale]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6014,7 +6014,7 @@
         <menuModel>
             <uniqueIdentifier>-77362f3f:16d448ce922:-6200</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void checkOut(xy.reflect.ui.example.FastFood$CrediCardData), containingType=xy.reflect.ui.example.FastFood]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void checkOut(xy.reflect.ui.example.FastFood$CrediCardData), objectType=xy.reflect.ui.example.FastFood]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6055,7 +6055,7 @@
         <menuModel>
             <uniqueIdentifier>60b18a4f:16d448f81fc:-617e</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void checkOut(xy.reflect.ui.example.FastFood$CreditCardData), containingType=xy.reflect.ui.example.FastFood]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void checkOut(xy.reflect.ui.example.FastFood$CreditCardData), objectType=xy.reflect.ui.example.FastFood]]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6130,7 +6130,7 @@
         <menuModel>
             <uniqueIdentifier>532a84dd:16d449f66cf:-5f1a</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=int checkOut(xy.reflect.ui.example.FastFood$CreditCardData), containingType=xy.reflect.ui.example.FastFood]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=int checkOut(xy.reflect.ui.example.FastFood$CreditCardData), objectType=xy.reflect.ui.example.FastFood]]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6260,7 +6260,7 @@
         <menuModel>
             <uniqueIdentifier>68181c89:16d450963a2:-6125</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=int checkOut(xy.reflect.ui.example.FastFood$CreditCardData), containingType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=int]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=int checkOut(xy.reflect.ui.example.FastFood$CreditCardData), objectType=xy.reflect.ui.example.FastFood], subContext=MethodResult, encapsulatedObjectType=int]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>68181c89:16d450963a2:-60e5</uniqueIdentifier>
@@ -6544,7 +6544,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=image, containingType=xy.reflect.ui.example.FastFood$ProductSuggestion], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage] (java.awt.image.ImageProducer)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=image, objectType=xy.reflect.ui.example.FastFood$ProductSuggestion], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage] (java.awt.image.ImageProducer)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>1859434:179330dd679:-3b59</uniqueIdentifier>
                 <specificProperties/>
@@ -6562,7 +6562,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=image, containingType=xy.reflect.ui.example.FastFood$ProductSuggestion], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=image, objectType=xy.reflect.ui.example.FastFood$ProductSuggestion], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6583,7 +6583,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset01Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset01Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>1e06b404:1799f09ad2a:-21bf</uniqueIdentifier>
                 <specificProperties/>
@@ -6612,7 +6612,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset01Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset01Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6633,7 +6633,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset02Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset02Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>1e06b404:1799f09ad2a:-21af</uniqueIdentifier>
                 <specificProperties/>
@@ -6662,7 +6662,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset02Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset02Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6683,7 +6683,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset03Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset03Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion] (xy.reflect.ui.example.FastFood, xy.reflect.ui.example.FastFood$Product)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>1e06b404:1799f09ad2a:-219f</uniqueIdentifier>
                 <specificProperties/>
@@ -6712,7 +6712,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset03Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, containingType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=returnValueOf-java.util.List-preset03Of-java.util.List-getProductSuggestions-xy.reflect.ui.example.FastFood$ProductCategory, objectType=xy.reflect.ui.example.FastFood], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.FastFood$ProductSuggestion]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

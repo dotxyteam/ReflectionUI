@@ -90,19 +90,19 @@ public class TestToolsMessages {
 		return correctSpells;
 	}
 
-	private boolean testSpells(IFieldInfo field, ITypeInfo containingType) {
+	private boolean testSpells(IFieldInfo field, ITypeInfo objectType) {
 		if (field.isHidden()) {
 			return true;
 		}
 		boolean correctSpells = true;
-		correctSpells = checkSpell(field.getCaption(), containingType.getName(), field.getName() + ".<caption>")
+		correctSpells = checkSpell(field.getCaption(), objectType.getName(), field.getName() + ".<caption>")
 				&& correctSpells;
 		if (field.getOnlineHelp() != null) {
-			correctSpells = checkSpell(field.getOnlineHelp(), containingType.getName(),
+			correctSpells = checkSpell(field.getOnlineHelp(), objectType.getName(),
 					field.getName() + ".<onlineHelp>") && correctSpells;
 		}
 		if (field.getCategory() != null) {
-			correctSpells = checkSpell(field.getCategory().getCaption(), containingType.getName(),
+			correctSpells = checkSpell(field.getCategory().getCaption(), objectType.getName(),
 					field.getName() + ".<category>") && correctSpells;
 		}
 		CapsuleFieldInfo capsuleField = getCapsuleField(field);
@@ -114,7 +114,7 @@ public class TestToolsMessages {
 		return correctSpells;
 	}
 
-	private boolean testSpells(IMethodInfo method, ITypeInfo containingType) {
+	private boolean testSpells(IMethodInfo method, ITypeInfo objectType) {
 		if (method.isHidden()) {
 			return true;
 		}
@@ -122,11 +122,11 @@ public class TestToolsMessages {
 		String methodDescription = ReflectionUIUtils.formatMethodControlTooltipText(method.getCaption(),
 				method.getOnlineHelp(), method.getParameters());
 		if (methodDescription != null) {
-			correctSpells = checkSpell(methodDescription, containingType.getName(), method.getSignature())
+			correctSpells = checkSpell(methodDescription, objectType.getName(), method.getSignature())
 					&& correctSpells;
 		}
 		if (method.getCategory() != null) {
-			correctSpells = checkSpell(method.getCategory().getCaption(), containingType.getName(),
+			correctSpells = checkSpell(method.getCategory().getCaption(), objectType.getName(),
 					method.getSignature() + ".<category>") && correctSpells;
 		}
 		return correctSpells;

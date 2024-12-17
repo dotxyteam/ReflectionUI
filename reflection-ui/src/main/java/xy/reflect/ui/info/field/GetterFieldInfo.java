@@ -44,17 +44,17 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaGetterMethod;
-	protected Class<?> containingJavaClass;
+	protected Class<?> objectJavaClass;
 	protected ITypeInfo type;
 	protected IMethodInfo setterMethodInfo;
 	protected int duplicateNameIndex = -1;
 	protected String name;
 	protected String caption;
 
-	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod, Class<?> containingJavaClass) {
+	public GetterFieldInfo(ReflectionUI reflectionUI, Method javaGetterMethod, Class<?> objectJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaGetterMethod = javaGetterMethod;
-		this.containingJavaClass = containingJavaClass;
+		this.objectJavaClass = objectJavaClass;
 		resolveJavaReflectionModelAccessProblems();
 	}
 
@@ -74,11 +74,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		return result;
 	}
 
-	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> containingJavaClass) {
+	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> objectJavaClass) {
 		String fieldName = getterToFieldName(javaGetterMethod.getName());
 		String setterMethodName = "set" + MiscUtils.changeCase(fieldName, true, 0, 1);
 		try {
-			for (Method otherMethod : containingJavaClass.getMethods()) {
+			for (Method otherMethod : objectJavaClass.getMethods()) {
 				if (otherMethod.getName().equals(setterMethodName)) {
 					if (otherMethod.getParameterTypes().length == 1) {
 						if (otherMethod.getParameterTypes()[0].equals(javaGetterMethod.getReturnType())) {
@@ -96,7 +96,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 	}
 
-	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
+	public static boolean isCompatibleWith(Method javaMethod, Class<?> objectJavaClass) {
 		if (javaMethod.isSynthetic()) {
 			return false;
 		}
@@ -107,7 +107,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (fieldName == null) {
 			return false;
 		}
-		for (Field siblingField : containingJavaClass.getFields()) {
+		for (Field siblingField : objectJavaClass.getFields()) {
 			if (PublicFieldInfo.isCompatibleWith(siblingField)) {
 				if (siblingField.getName().equals(fieldName)) {
 					return false;
@@ -139,7 +139,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected IMethodInfo getSetterMethodInfo() {
 		if (setterMethodInfo == null) {
-			Method javaSetterMethod = GetterFieldInfo.getValidSetterMethod(javaGetterMethod, containingJavaClass);
+			Method javaSetterMethod = GetterFieldInfo.getValidSetterMethod(javaGetterMethod, objectJavaClass);
 			if (javaSetterMethod == null) {
 				setterMethodInfo = IMethodInfo.NULL_METHOD_INFO;
 			} else {
@@ -216,7 +216,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaGetterMethod.getReturnType(),
 					javaGetterMethod, -1,
 					new SpecificitiesIdentifier(reflectionUI
-							.getTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null)).getName(),
+							.getTypeInfo(new JavaTypeInfoSource(reflectionUI, objectJavaClass, null)).getName(),
 							GetterFieldInfo.this.getName())));
 		}
 		return type;

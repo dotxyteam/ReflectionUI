@@ -41,13 +41,13 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	protected List<IFieldInfo> fields;
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
-	public MultipleFieldsAsListFieldInfo(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo containingType) {
+	public MultipleFieldsAsListFieldInfo(ReflectionUI reflectionUI, List<IFieldInfo> fields, ITypeInfo objectType) {
 		this.reflectionUI = reflectionUI;
 		this.fields = fields;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	public String getItemTitle(IFieldInfo field) {
@@ -320,7 +320,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public ITypeInfoSource getSource() {
-			return new PrecomputedTypeInfoSource(this, new SpecificitiesIdentifier(containingType.getName(),
+			return new PrecomputedTypeInfoSource(this, new SpecificitiesIdentifier(objectType.getName(),
 					MultipleFieldsAsListFieldInfo.this.getName()));
 		}
 
@@ -640,8 +640,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 				@Override
 				protected String getTypeInfoProxyFactoryIdentifier() {
 					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", parent="
-							+ MultipleFieldsAsListFieldInfo.this.getName() + ", containingType="
-							+ containingType.getName() + "]";
+							+ MultipleFieldsAsListFieldInfo.this.getName() + ", objectType="
+							+ objectType.getName() + "]";
 				}
 			});
 		}

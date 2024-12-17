@@ -3591,7 +3591,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=orders, containingType=xy.reflect.ui.example.Restaurant], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Restaurant$Order]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=ordersobjectTypepe=xy.reflect.ui.example.Restaurant], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Restaurant$Order]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3642,7 +3642,7 @@
         <menuModel>
             <uniqueIdentifier>1004bd79:16cd36ec92d:-76aa</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=java.util.List getFilteredOrders(java.lang.String), containingType=xy.reflect.ui.example.Restaurant]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=java.util.List getFilteredOrders(java.lang.String)objectTypepe=xy.reflect.ui.example.Restaurant]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3973,7 +3973,7 @@
         <menuModel>
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-79af</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Restaurant], fieldName=topRow]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContextobjectTypepe=xy.reflect.ui.example.Restaurant], fieldName=topRow]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4077,7 +4077,7 @@
         <menuModel>
             <uniqueIdentifier>-1e4c22fb:16cd41cdfe2:-745f</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Restaurant], fieldName=titleRow]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContextobjectTypepe=xy.reflect.ui.example.Restaurant], fieldName=titleRow]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4204,7 +4204,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=getFilteredOrders.result, containingType=xy.reflect.ui.example.Restaurant], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Restaurant$Order]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=getFilteredOrders.resultobjectTypepe=xy.reflect.ui.example.Restaurant], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Restaurant$Order]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

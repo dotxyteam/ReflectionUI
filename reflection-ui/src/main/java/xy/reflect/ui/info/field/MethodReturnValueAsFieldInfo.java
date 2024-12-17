@@ -27,10 +27,10 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 
 	protected IMethodInfo method;
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
-	public MethodReturnValueAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo containingType) {
+	public MethodReturnValueAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, ITypeInfo objectType) {
 		this.reflectionUI = reflectionUI;
 		if (ReflectionUIUtils.requiresParameterValue(method)) {
 			throw new ReflectionUIError(
@@ -41,7 +41,7 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 					"Cannot create field from method: The return type is void: " + method.getSignature());
 		}
 		this.method = method;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	@Override
@@ -107,13 +107,13 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(method.getReturnValueType().getSource()) {
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return new SpecificitiesIdentifier(containingType.getName(), getName());
+					return new SpecificitiesIdentifier(objectType.getName(), getName());
 				}
 
 				@Override
 				protected String getTypeInfoProxyFactoryIdentifier() {
 					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", baseMethod="
-							+ method.getSignature() + ", containingType=" + containingType.getName() + "]";
+							+ method.getSignature() + ", objectType=" + objectType.getName() + "]";
 				}
 			});
 		}

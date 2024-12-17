@@ -423,18 +423,18 @@ public class CustomizationTools {
 
 	public TypeCustomization getContaingTypeCustomization(FieldControlPlaceHolder fieldControlPlaceHolder,
 			InfoCustomizations infoCustomizations) {
-		String containingTypeName = getContainingObjectCustomizedType(fieldControlPlaceHolder).getName();
-		return getTypeCustomization(containingTypeName, infoCustomizations);
+		String objectTypeName = getContainingObjectCustomizedType(fieldControlPlaceHolder).getName();
+		return getTypeCustomization(objectTypeName, infoCustomizations);
 	}
 
 	public TypeCustomization getContaingTypeCustomization(MethodControlPlaceHolder methodControlPlaceHolder,
 			InfoCustomizations infoCustomizations) {
-		String containingTypeName = getContainingObjectCustomizedType(methodControlPlaceHolder).getName();
-		return getTypeCustomization(containingTypeName, infoCustomizations);
+		String objectTypeName = getContainingObjectCustomizedType(methodControlPlaceHolder).getName();
+		return getTypeCustomization(objectTypeName, infoCustomizations);
 	}
 
-	public TypeCustomization getTypeCustomization(String containingTypeName, InfoCustomizations infoCustomizations) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations, containingTypeName, true);
+	public TypeCustomization getTypeCustomization(String objectTypeName, InfoCustomizations infoCustomizations) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(infoCustomizations, objectTypeName, true);
 		return t;
 	}
 
@@ -624,7 +624,7 @@ public class CustomizationTools {
 
 	protected List<JMenuItem> makeMenuItemsForFieldEncapsulation(final JButton customizerButton,
 			final FieldControlPlaceHolder fieldControlPlaceHolder) {
-		final ITypeInfo containingCustomizedType = getContainingObjectCustomizedType(fieldControlPlaceHolder);
+		final ITypeInfo objectCustomizedType = getContainingObjectCustomizedType(fieldControlPlaceHolder);
 		final IFieldInfo field = fieldControlPlaceHolder.getField();
 		Listener<String> encapsulator = new Listener<String>() {
 
@@ -636,16 +636,16 @@ public class CustomizationTools {
 							@Override
 							public Boolean get() {
 								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
-										containingCustomizedType.getName());
+										objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), containingCustomizedType.getName(),
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
 										true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleTypeName, true);
 								transferFieldCustomizationSettings(srcTc, dstTc, field.getName());
 								FieldCustomization srcFc = InfoCustomizations.getFieldCustomization(srcTc,
 										field.getName());
-								if (ReflectionUIUtils.findInfoByName(containingCustomizedType.getFields(),
+								if (ReflectionUIUtils.findInfoByName(objectCustomizedType.getFields(),
 										capsuleFieldName) == null) {
 									if (field.getCategory() != null) {
 										FieldCustomization capsuleFc = InfoCustomizations.getFieldCustomization(srcTc,
@@ -670,9 +670,9 @@ public class CustomizationTools {
 							@Override
 							public Boolean get() {
 								String capsuleContainerTypeName = CapsuleFieldInfo
-										.extractContainingTypeName(containingCustomizedType.getName());
+										.extractobjectTypeName(objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), containingCustomizedType.getName(),
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
 										true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleContainerTypeName, true);
@@ -687,14 +687,14 @@ public class CustomizationTools {
 						}, false);
 			}
 		};
-		return makeMenuItemsForMemberEncapsulation(customizerButton, field, containingCustomizedType, encapsulator,
+		return makeMenuItemsForMemberEncapsulation(customizerButton, field, objectCustomizedType, encapsulator,
 				decapsulator);
 
 	}
 
 	protected List<JMenuItem> makeMenuItemsForMethodEncapsulation(final JButton customizerButton,
 			final MethodControlPlaceHolder methodControlPlaceHolder) {
-		final ITypeInfo containingCustomizedType = getContainingObjectCustomizedType(methodControlPlaceHolder);
+		final ITypeInfo objectCustomizedType = getContainingObjectCustomizedType(methodControlPlaceHolder);
 		final IMethodInfo method = methodControlPlaceHolder.getMethod();
 		Listener<String> encapsulator = new Listener<String>() {
 
@@ -706,16 +706,16 @@ public class CustomizationTools {
 							@Override
 							public Boolean get() {
 								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
-										containingCustomizedType.getName());
+										objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), containingCustomizedType.getName(),
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
 										true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleTypeName, true);
 								transferMethodCustomizationSettings(srcTc, dstTc, method.getSignature());
 								MethodCustomization srcMc = InfoCustomizations.getMethodCustomization(srcTc,
 										method.getSignature());
-								if (ReflectionUIUtils.findInfoByName(containingCustomizedType.getFields(),
+								if (ReflectionUIUtils.findInfoByName(objectCustomizedType.getFields(),
 										capsuleFieldName) == null) {
 									if (method.getCategory() != null) {
 										FieldCustomization capsuleFc = InfoCustomizations.getFieldCustomization(srcTc,
@@ -740,9 +740,9 @@ public class CustomizationTools {
 							@Override
 							public Boolean get() {
 								String capsuleContainerTypeName = CapsuleFieldInfo
-										.extractContainingTypeName(containingCustomizedType.getName());
+										.extractobjectTypeName(objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), containingCustomizedType.getName(),
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
 										true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleContainerTypeName, true);
@@ -757,12 +757,12 @@ public class CustomizationTools {
 						}, false);
 			}
 		};
-		return makeMenuItemsForMemberEncapsulation(customizerButton, method, containingCustomizedType, encapsulator,
+		return makeMenuItemsForMemberEncapsulation(customizerButton, method, objectCustomizedType, encapsulator,
 				decapsulator);
 	}
 
 	protected List<JMenuItem> makeMenuItemsForMemberEncapsulation(final JButton customizerButton, final IInfo member,
-			final ITypeInfo containingCustomizedType, final Listener<String> encapsulator,
+			final ITypeInfo objectCustomizedType, final Listener<String> encapsulator,
 			final Runnable decapsulator) {
 		List<JMenuItem> result = new ArrayList<JMenuItem>();
 		final JMenu encapsulateSubMenu = createMenu(toolsRenderer.prepareMessageToDisplay("Move Into"));
@@ -770,8 +770,8 @@ public class CustomizationTools {
 			result.add(encapsulateSubMenu);
 			Set<String> capsuleNames = new TreeSet<String>();
 			{
-				for (IFieldInfo customizedField : containingCustomizedType.getFields()) {
-					FieldCustomization fieldCustomization = getFieldCustomization(containingCustomizedType.getName(),
+				for (IFieldInfo customizedField : objectCustomizedType.getFields()) {
+					FieldCustomization fieldCustomization = getFieldCustomization(objectCustomizedType.getName(),
 							customizedField.getName(), swingCustomizer.getInfoCustomizations());
 					if (fieldCustomization == null) {
 						continue;
@@ -786,8 +786,8 @@ public class CustomizationTools {
 					}
 					capsuleNames.add(fieldCustomization.getEncapsulationFieldName());
 				}
-				for (IMethodInfo customizedMethod : containingCustomizedType.getMethods()) {
-					MethodCustomization methodCustomization = getMethodCustomization(containingCustomizedType.getName(),
+				for (IMethodInfo customizedMethod : objectCustomizedType.getMethods()) {
+					MethodCustomization methodCustomization = getMethodCustomization(objectCustomizedType.getName(),
 							customizedMethod.getSignature(), swingCustomizer.getInfoCustomizations());
 					if (methodCustomization == null) {
 						continue;
@@ -822,13 +822,13 @@ public class CustomizationTools {
 								return;
 							}
 							try {
-								checkNewFieldNameAvailability(newFieldName, containingCustomizedType);
+								checkNewFieldNameAvailability(newFieldName, objectCustomizedType);
 							} catch (IllegalArgumentException e) {
 								toolsRenderer.handleObjectException(customizerButton, e);
 								return;
 							}
 							final TypeCustomization typeCustomization = getTypeCustomization(
-									containingCustomizedType.getName(), swingCustomizer.getInfoCustomizations());
+									objectCustomizedType.getName(), swingCustomizer.getInfoCustomizations());
 							final FieldCustomization capsuleFieldCustomization = InfoCustomizations
 									.getFieldCustomization(typeCustomization, newFieldName, true);
 							swingCustomizer.getCustomizationController().getModificationStack().insideComposite(
@@ -912,9 +912,9 @@ public class CustomizationTools {
 		}
 	}
 
-	protected void checkNewFieldNameAvailability(String newFieldName, ITypeInfo containingCustomizedType)
+	protected void checkNewFieldNameAvailability(String newFieldName, ITypeInfo objectCustomizedType)
 			throws IllegalArgumentException {
-		for (IFieldInfo field : containingCustomizedType.getFields()) {
+		for (IFieldInfo field : objectCustomizedType.getFields()) {
 			if (newFieldName.equals(field.getName())) {
 				throw new IllegalArgumentException("Field name already used: '" + newFieldName + "'");
 			}

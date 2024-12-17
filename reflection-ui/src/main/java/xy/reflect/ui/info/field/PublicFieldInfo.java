@@ -34,15 +34,15 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected Field javaField;
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo type;
-	protected Class<?> containingJavaClass;
+	protected Class<?> objectJavaClass;
 	protected int duplicateNameIndex = -1;
 	protected String name;
 	protected String caption;
 
-	public PublicFieldInfo(ReflectionUI reflectionUI, Field field, Class<?> containingJavaClass) {
+	public PublicFieldInfo(ReflectionUI reflectionUI, Field field, Class<?> objectJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaField = field;
-		this.containingJavaClass = containingJavaClass;
+		this.objectJavaClass = objectJavaClass;
 		resolveJavaReflectionModelAccessProblems();
 	}
 
@@ -158,7 +158,7 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaField.getType(), javaField, -1,
 					new SpecificitiesIdentifier(reflectionUI
-							.getTypeInfo(new JavaTypeInfoSource(reflectionUI, containingJavaClass, null)).getName(),
+							.getTypeInfo(new JavaTypeInfoSource(reflectionUI, objectJavaClass, null)).getName(),
 							javaField.getName())));
 		}
 		return type;

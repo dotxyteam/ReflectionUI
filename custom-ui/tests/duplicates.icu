@@ -5732,7 +5732,7 @@
                     <menuModel>
                         <uniqueIdentifier>1e52f559:17972d420b8:-2c70</uniqueIdentifier>
                     </menuModel>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -5803,7 +5803,7 @@
                     <menuModel>
                         <uniqueIdentifier>1e52f559:17972d420b8:-2c11</uniqueIdentifier>
                     </menuModel>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=right]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=right]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -6082,7 +6082,7 @@
         <menuModel>
             <uniqueIdentifier>-38ae6a78:179156e4646:-48b0</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6161,7 +6161,7 @@
         <menuModel>
             <uniqueIdentifier>-1994051c:179193525d6:5937</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=[C toCharArray(), containingType=java.lang.String], subContext=MethodResult, encapsulatedObjectType=[C]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=[C toCharArray(), objectType=java.lang.String], subContext=MethodResult, encapsulatedObjectType=[C]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9139,7 +9139,7 @@
         <menuModel>
             <uniqueIdentifier>-1994051c:179193525d6:6124</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.String .get(), containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=MethodResult, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.String .get(), objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=MethodResult, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9315,7 +9315,7 @@
         <menuModel>
             <uniqueIdentifier>-1994051c:179193525d6:612e</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void .set(java.lang.String), containingType=Encapsulation [encapsulatedObjectType=java.lang.String]]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void .set(java.lang.String), objectType=Encapsulation [encapsulatedObjectType=java.lang.String]]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9397,7 +9397,7 @@
         <menuModel>
             <uniqueIdentifier>-1994051c:1791946f75b:-70a3</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=NullableInstance, encapsulatedObjectType=java.lang.Object]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=NullableInstance, encapsulatedObjectType=java.lang.Object]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -10857,7 +10857,7 @@
         <menuModel>
             <uniqueIdentifier>-1994051c:1791946f75b:-67d4</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=NullableInstance, encapsulatedObjectType=java.lang.Integer]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], subContext=NullableInstance, encapsulatedObjectType=java.lang.Integer]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11662,7 +11662,7 @@
         <menuModel>
             <uniqueIdentifier>-62cd417:17919ad71e4:68b8</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=CASE_INSENSITIVE_ORDER, containingType=java.lang.String], encapsulatedObjectType=java.lang.String$CaseInsensitiveComparator]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=CASE_INSENSITIVE_ORDER, objectType=java.lang.String], encapsulatedObjectType=java.lang.String$CaseInsensitiveComparator]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -13284,7 +13284,7 @@
         <menuModel>
             <uniqueIdentifier>-62cd417:17919ad71e4:6927</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.stream.IntStream codePoints(), containingType=java.lang.String], subContext=MethodResult, encapsulatedObjectType=java.util.stream.IntStream]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.stream.IntStream codePoints(), objectType=java.lang.String], subContext=MethodResult, encapsulatedObjectType=java.util.stream.IntStream]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -13380,7 +13380,7 @@
         <menuModel>
             <uniqueIdentifier>4c37577c:17928dbbd3a:-542f</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void .set(java.lang.String, java.lang.String), containingType=Encapsulation [encapsulatedObjectType=java.lang.String]]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void .set(java.lang.String, java.lang.String), objectType=Encapsulation [encapsulatedObjectType=java.lang.String]]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -17798,7 +17798,7 @@
                 <enumerationCustomizations>
                     <uniqueIdentifier>7dfed26c:17929ff9526:-70ad</uniqueIdentifier>
                     <dynamicEnumerationForced>true</dynamicEnumerationForced>
-                    <enumerationTypeName>ValueOptions [ownerType=CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left], field=.duplicate.duplicate]</enumerationTypeName>
+                    <enumerationTypeName>ValueOptions [ownerType=CapsuleFieldType [context=EncapsulationContext [objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left], field=.duplicate.duplicate]</enumerationTypeName>
                     <itemCustomizations>
                         <uniqueIdentifier>7dfed26c:17929ff9526:-70aa</uniqueIdentifier>
                         <hidden>false</hidden>
@@ -17924,7 +17924,7 @@
                     <menuModel>
                         <uniqueIdentifier>7dfed26c:17929ff9526:-70ae</uniqueIdentifier>
                     </menuModel>
-                    <typeName>ValueOptions [ownerType=CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left], field=.duplicate.duplicate]</typeName>
+                    <typeName>ValueOptions [ownerType=CapsuleFieldType [context=EncapsulationContext [objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left], field=.duplicate.duplicate]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -20485,7 +20485,7 @@
         <menuModel>
             <uniqueIdentifier>7ec1a68b:17928e97d75:7919</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -22249,7 +22249,7 @@
         <menuModel>
             <uniqueIdentifier>7ec1a68b:17928e97d75:7afc</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=CapsuleFieldType [context=EncapsulationContext [objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=left]], subContext=NullableInstance, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -22309,7 +22309,7 @@
         <menuModel>
             <uniqueIdentifier>-3a3ec566:179292ee8c5:798a</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=right]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=Encapsulation [encapsulatedObjectType=java.lang.String]], fieldName=right]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -22428,7 +22428,7 @@
         <menuModel>
             <uniqueIdentifier>53a45ab3:1792a1d4fe2:-7a8f</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=int length(), containingType=java.lang.String], subContext=MethodResult, encapsulatedObjectType=int]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=int length(), objectType=java.lang.String], subContext=MethodResult, encapsulatedObjectType=int]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -22482,7 +22482,7 @@
         <menuModel>
             <uniqueIdentifier>-3c802cd:17933bdc1b3:-6c8b</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=CASE_INSENSITIVE_ORDER, containingType=java.lang.String], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.String$CaseInsensitiveComparator]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=CASE_INSENSITIVE_ORDER, objectType=java.lang.String], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.String$CaseInsensitiveComparator]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

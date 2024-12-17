@@ -860,7 +860,7 @@ public class EncapsulatedObjectFactory {
 
 					@Override
 					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", containingType="
+						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
 								+ typeName + "]";
 					}
 				});

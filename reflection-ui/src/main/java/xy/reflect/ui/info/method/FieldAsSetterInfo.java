@@ -27,14 +27,14 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected IFieldInfo field;
 	protected IParameterInfo parameter;
 
-	public FieldAsSetterInfo(ReflectionUI reflectionUI, IFieldInfo field, ITypeInfo containingType) {
+	public FieldAsSetterInfo(ReflectionUI reflectionUI, IFieldInfo field, ITypeInfo objectType) {
 		this.reflectionUI = reflectionUI;
 		this.field = field;
-		this.containingType = containingType;
+		this.objectType = objectType;
 		this.parameter = createParameter();
 	}
 
@@ -181,7 +181,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 						@Override
 						protected String getTypeInfoProxyFactoryIdentifier() {
 							return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
-									+ ", containingType=" + containingType.getName() + ", baseField=" + field.getName()
+									+ ", objectType=" + objectType.getName() + ", baseField=" + field.getName()
 									+ "]";
 						}
 					});

@@ -14,17 +14,17 @@ package xy.reflect.ui.info.type.source;
  */
 public class SpecificitiesIdentifier {
 
-	protected String containingTypeName;
+	protected String objectTypeName;
 	protected String fieldName;
 
-	public SpecificitiesIdentifier(String containingTypeName, String fieldName) {
+	public SpecificitiesIdentifier(String objectTypeName, String fieldName) {
 		super();
-		this.containingTypeName = containingTypeName;
+		this.objectTypeName = objectTypeName;
 		this.fieldName = fieldName;
 	}
 
-	public String getContainingTypeName() {
-		return containingTypeName;
+	public String getobjectTypeName() {
+		return objectTypeName;
 	}
 
 	public String getFieldName() {
@@ -35,7 +35,7 @@ public class SpecificitiesIdentifier {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((containingTypeName == null) ? 0 : containingTypeName.hashCode());
+		result = prime * result + ((objectTypeName == null) ? 0 : objectTypeName.hashCode());
 		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
 		return result;
 	}
@@ -49,10 +49,10 @@ public class SpecificitiesIdentifier {
 		if (getClass() != obj.getClass())
 			return false;
 		SpecificitiesIdentifier other = (SpecificitiesIdentifier) obj;
-		if (containingTypeName == null) {
-			if (other.containingTypeName != null)
+		if (objectTypeName == null) {
+			if (other.objectTypeName != null)
 				return false;
-		} else if (!containingTypeName.equals(other.containingTypeName))
+		} else if (!objectTypeName.equals(other.objectTypeName))
 			return false;
 		if (fieldName == null) {
 			if (other.fieldName != null)
@@ -64,7 +64,7 @@ public class SpecificitiesIdentifier {
 
 	@Override
 	public String toString() {
-		return "SpecificitiesIdentifier [containingTypeName=" + containingTypeName + ", fieldName=" + fieldName + "]";
+		return "SpecificitiesIdentifier [objectTypeName=" + objectTypeName + ", fieldName=" + fieldName + "]";
 	}
 
 }

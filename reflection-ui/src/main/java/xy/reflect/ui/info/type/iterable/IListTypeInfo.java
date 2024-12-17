@@ -362,7 +362,7 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public IFieldInfo getSelectionTargetField(ITypeInfo containingType) {
+		public IFieldInfo getSelectionTargetField(ITypeInfo objectType) {
 			return null;
 		}
 	};
@@ -495,14 +495,14 @@ public interface IListTypeInfo extends ITypeInfo {
 	ValueReturnMode getItemReturnMode();
 
 	/**
-	 * @param containingType The parent object type.
+	 * @param objectType The parent object type.
 	 * @return a field information that will be used to provide the reference/value
 	 *         of the selected item to the parent object. Note that if the selected
 	 *         item type is not compatible with the target field, then null or a
 	 *         default value (when null is not supported) will be provided to the
 	 *         parent object.
 	 */
-	IFieldInfo getSelectionTargetField(ITypeInfo containingType);
+	IFieldInfo getSelectionTargetField(ITypeInfo objectType);
 
 	/**
 	 * Allows to choose how the UI behaves when creating items. Typically it answers

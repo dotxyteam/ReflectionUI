@@ -237,22 +237,22 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected IFieldInfo getSelectionTargetField(IListTypeInfo listType, ITypeInfo containingType) {
+	protected IFieldInfo getSelectionTargetField(IListTypeInfo listType, ITypeInfo objectType) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
 			if (l.getSelectionTargetFieldName() != null) {
-				IFieldInfo result = ReflectionUIUtils.findInfoByName(containingType.getFields(),
+				IFieldInfo result = ReflectionUIUtils.findInfoByName(objectType.getFields(),
 						l.getSelectionTargetFieldName());
 				if (result == null) {
 					throw new ReflectionUIError("List selection target field not found in type "
-							+ containingType.getName() + ": '" + l.getSelectionTargetFieldName() + "'");
+							+ objectType.getName() + ": '" + l.getSelectionTargetFieldName() + "'");
 				}
 				return result;
 			}
 		}
-		return super.getSelectionTargetField(listType, containingType);
+		return super.getSelectionTargetField(listType, objectType);
 	}
 
 	@Override
@@ -1253,23 +1253,23 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected List<IMethodInfo> getConstructors(ITypeInfo containingType) {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>(getMembers(containingType).getOutputConstructors());
-		result = sortMethods(result, containingType);
+	protected List<IMethodInfo> getConstructors(ITypeInfo objectType) {
+		List<IMethodInfo> result = new ArrayList<IMethodInfo>(getMembers(objectType).getOutputConstructors());
+		result = sortMethods(result, objectType);
 		return result;
 	}
 
 	@Override
-	protected List<IFieldInfo> getFields(final ITypeInfo containingType) {
-		List<IFieldInfo> result = new ArrayList<IFieldInfo>(getMembers(containingType).getOutputFields());
-		result = sortFields(result, containingType);
+	protected List<IFieldInfo> getFields(final ITypeInfo objectType) {
+		List<IFieldInfo> result = new ArrayList<IFieldInfo>(getMembers(objectType).getOutputFields());
+		result = sortFields(result, objectType);
 		return result;
 	}
 
 	@Override
-	protected List<IMethodInfo> getMethods(ITypeInfo containingType) {
-		List<IMethodInfo> result = new ArrayList<IMethodInfo>(getMembers(containingType).getOutputMethods());
-		result = sortMethods(result, containingType);
+	protected List<IMethodInfo> getMethods(ITypeInfo objectType) {
+		List<IMethodInfo> result = new ArrayList<IMethodInfo>(getMembers(objectType).getOutputMethods());
+		result = sortMethods(result, objectType);
 		return result;
 	}
 
@@ -1278,9 +1278,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		return getMembers(type).getMenuModel();
 	}
 
-	protected List<IFieldInfo> sortFields(List<IFieldInfo> fields, ITypeInfo containingType) {
+	protected List<IFieldInfo> sortFields(List<IFieldInfo> fields, ITypeInfo objectType) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
-				containingType.getName());
+				objectType.getName());
 		if (t != null) {
 			if (t != null) {
 				List<IFieldInfo> result = new ArrayList<IFieldInfo>(fields);
@@ -1293,9 +1293,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		return fields;
 	}
 
-	protected List<IMethodInfo> sortMethods(List<IMethodInfo> methods, ITypeInfo containingType) {
+	protected List<IMethodInfo> sortMethods(List<IMethodInfo> methods, ITypeInfo objectType) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
-				containingType.getName());
+				objectType.getName());
 		if (t != null) {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>(methods);
 			if (t.getCustomMethodsOrder() != null) {
@@ -1819,16 +1819,16 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected List<IMethodInfo> outputMethods = new ArrayList<IMethodInfo>();
 		protected List<IMethodInfo> outputConstructors = new ArrayList<IMethodInfo>();
 		protected MenuModel menuModel = new MenuModel();
-		protected ITypeInfo containingType;
-		protected TypeCustomization containingTypeCustomization;
+		protected ITypeInfo objectType;
+		protected TypeCustomization objectTypeCustomization;
 
 		protected Map<Pair<MethodCustomization, ParameterCustomization>, ParameterAsFieldInfo> methodParameterAsFields = new HashMap<Pair<MethodCustomization, ParameterCustomization>, ParameterAsFieldInfo>();
 
-		public MembersCustomizationsFactory(ITypeInfo containingType) {
-			this.containingType = containingType;
-			this.containingTypeCustomization = InfoCustomizations.getTypeCustomization(getInfoCustomizations(),
-					containingType.getName());
-			if (containingTypeCustomization != null) {
+		public MembersCustomizationsFactory(ITypeInfo objectType) {
+			this.objectType = objectType;
+			this.objectTypeCustomization = InfoCustomizations.getTypeCustomization(getInfoCustomizations(),
+					objectType.getName());
+			if (objectTypeCustomization != null) {
 				inheritMembers(inputFields, inputMethods, inputConstructors, menuModel);
 				addDeclaredMembers(inputFields, inputMethods, inputConstructors, menuModel);
 				evolveMembers();
@@ -1839,20 +1839,20 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected void addDeclaredMembers(List<IFieldInfo> inputFields, List<IMethodInfo> inputMethods,
 				List<IMethodInfo> inputConstructors, MenuModel menuModel) {
-			if (containingTypeCustomization.isAnyDefaultObjectMemberIncluded()) {
+			if (objectTypeCustomization.isAnyDefaultObjectMemberIncluded()) {
 				addDefaultObjectMembers(inputFields, inputMethods, inputConstructors);
 			}
-			if (containingTypeCustomization.isAnyPersistenceMemberIncluded()) {
+			if (objectTypeCustomization.isAnyPersistenceMemberIncluded()) {
 				addPersistenceMembers(inputFields, inputMethods, inputConstructors);
 			}
-			for (AbstractVirtualFieldDeclaration virtualFieldDeclaration : containingTypeCustomization
+			for (AbstractVirtualFieldDeclaration virtualFieldDeclaration : objectTypeCustomization
 					.getVirtualFieldDeclarations()) {
 				IFieldInfo newField = createVirtualField(virtualFieldDeclaration);
-				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, containingType);
+				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
 				inputFields.add(newField);
 			}
 			menuModel.importContributions(
-					ReflectionUIUtils.createMenuModel(containingTypeCustomization.getMenuModelCustomization()));
+					ReflectionUIUtils.createMenuModel(objectTypeCustomization.getMenuModelCustomization()));
 		}
 
 		protected IFieldInfo createVirtualField(AbstractVirtualFieldDeclaration virtualFieldDeclaration) {
@@ -1860,12 +1860,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				VirtualFieldDeclaration basicVirtualFieldDeclaration = (VirtualFieldDeclaration) virtualFieldDeclaration;
 				try {
 					ITypeInfo fieldType = basicVirtualFieldDeclaration.getFieldTypeFinder().find(customizedUI,
-							new SpecificitiesIdentifier(containingType.getName(),
+							new SpecificitiesIdentifier(objectType.getName(),
 									basicVirtualFieldDeclaration.getFieldName()));
 					return new VirtualFieldInfo(basicVirtualFieldDeclaration.getFieldName(), fieldType);
 				} catch (Throwable t) {
 					throw new ReflectionUIError(
-							"Type '" + containingType.getName() + "': Failed to create virtual field '"
+							"Type '" + objectType.getName() + "': Failed to create virtual field '"
 									+ basicVirtualFieldDeclaration.getFieldName() + "': " + t.toString(),
 							t);
 				}
@@ -1873,17 +1873,17 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				ImplicitListFieldDeclaration implicitListFieldDeclaration = (ImplicitListFieldDeclaration) virtualFieldDeclaration;
 				try {
 					ITypeInfo itemType = implicitListFieldDeclaration.getItemTypeFinder().find(customizedUI,
-							new SpecificitiesIdentifier(containingType.getName(),
+							new SpecificitiesIdentifier(objectType.getName(),
 									implicitListFieldDeclaration.getFieldName()));
 					return new ImplicitListFieldInfo(customizedUI, implicitListFieldDeclaration.getFieldName(),
-							containingType, itemType, implicitListFieldDeclaration.getCreateMethodName(),
+							objectType, itemType, implicitListFieldDeclaration.getCreateMethodName(),
 							implicitListFieldDeclaration.getGetMethodName(),
 							implicitListFieldDeclaration.getAddMethodName(),
 							implicitListFieldDeclaration.getRemoveMethodName(),
 							implicitListFieldDeclaration.getSizeFieldName());
 				} catch (Throwable t) {
 					throw new ReflectionUIError(
-							"Type '" + containingType.getName() + "': Failed to create implicit list field '"
+							"Type '" + objectType.getName() + "': Failed to create implicit list field '"
 									+ implicitListFieldDeclaration.getFieldName() + "': " + t.toString(),
 							t);
 				}
@@ -1894,10 +1894,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected void inheritMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
 				List<IMethodInfo> constructors, MenuModel menuModel) {
-			fields.addAll(InfoCustomizationsFactory.super.getFields(containingType));
-			methods.addAll(InfoCustomizationsFactory.super.getMethods(containingType));
-			constructors.addAll(InfoCustomizationsFactory.super.getConstructors(containingType));
-			menuModel.importContributions(InfoCustomizationsFactory.super.getMenuModel(containingType));
+			fields.addAll(InfoCustomizationsFactory.super.getFields(objectType));
+			methods.addAll(InfoCustomizationsFactory.super.getMethods(objectType));
+			constructors.addAll(InfoCustomizationsFactory.super.getConstructors(objectType));
+			menuModel.importContributions(InfoCustomizationsFactory.super.getMenuModel(objectType));
 		}
 
 		protected void addDefaultObjectMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
@@ -1905,7 +1905,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			for (Method objectMethod : Object.class.getMethods()) {
 				if (GetterFieldInfo.GETTER_PATTERN.matcher(objectMethod.getName()).matches()) {
 					IFieldInfo newField = new GetterFieldInfo(customizedUI, objectMethod, Object.class);
-					newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, containingType);
+					newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
 					fields.add(newField);
 				} else {
 					IMethodInfo newMethod = new DefaultMethodInfo(customizedUI, objectMethod);
@@ -1918,7 +1918,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						};
 					}
 					newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod,
-							containingType);
+							objectType);
 					methods.add(newMethod);
 				}
 			}
@@ -1926,8 +1926,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected void addPersistenceMembers(List<IFieldInfo> fields, List<IMethodInfo> methods,
 				List<IMethodInfo> constructors) {
-			methods.add(new SaveToFileMethod(customizedUI, containingType));
-			methods.add(new LoadFromFileMethod(customizedUI, containingType));
+			methods.add(new SaveToFileMethod(customizedUI, objectType));
+			methods.add(new LoadFromFileMethod(customizedUI, objectType));
 		}
 
 		protected void evolveMembers() {
@@ -1954,15 +1954,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 			for (int i = 0; i < newFields.size(); i++) {
 				newFields.set(i, customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newFields.get(i),
-						containingType));
+						objectType));
 			}
 			for (int i = 0; i < newMethods.size(); i++) {
 				newMethods.set(i, customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethods.get(i),
-						containingType));
+						objectType));
 			}
 			for (int i = 0; i < newConstructors.size(); i++) {
 				newConstructors.set(i, customizedUI.getInfoCustomizationsSetupFactory()
-						.wrapMethodInfo(newConstructors.get(i), containingType));
+						.wrapMethodInfo(newConstructors.get(i), objectType));
 			}
 
 			inputFields = newFields;
@@ -1996,7 +1996,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				@Override
 				public ITypeInfo getType() {
 					return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
-							new SpecificitiesIdentifier(containingType.getName(), "customizationError")));
+							new SpecificitiesIdentifier(objectType.getName(), "customizationError")));
 				}
 
 			};
@@ -2006,7 +2006,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				List<IFieldInfo> newFields, List<IMethodInfo> newMethods) {
 			for (IFieldInfo field : new ArrayList<IFieldInfo>(baseFields)) {
 				try {
-					FieldCustomization f = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
+					FieldCustomization f = InfoCustomizations.getFieldCustomization(objectTypeCustomization,
 							field.getName());
 					if (f != null) {
 						for (AbstractFieldTransformer transformer : getFieldTransformers()) {
@@ -2014,7 +2014,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						}
 					}
 				} catch (Throwable t) {
-					throw new ReflectionUIError("Type '" + containingType.getName() + "': Field '" + field.getName()
+					throw new ReflectionUIError("Type '" + objectType.getName() + "': Field '" + field.getName()
 							+ "' customization error: " + t.toString(), t);
 				}
 				modifiedFields.add(field);
@@ -2025,7 +2025,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				List<IFieldInfo> newFields, List<IMethodInfo> newMethods) {
 			for (IMethodInfo method : new ArrayList<IMethodInfo>(baseMethods)) {
 				try {
-					MethodCustomization mc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
+					MethodCustomization mc = InfoCustomizations.getMethodCustomization(objectTypeCustomization,
 							method.getSignature());
 					if (mc != null) {
 						for (AbstractMethodTransformer transformer : getMethodTransformers()) {
@@ -2033,7 +2033,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						}
 					}
 				} catch (Throwable t) {
-					throw new ReflectionUIError("Type '" + containingType.getName() + "': Method '"
+					throw new ReflectionUIError("Type '" + objectType.getName() + "': Method '"
 							+ method.getSignature() + "' customization error: " + t.toString(), t);
 				}
 				modifiedMethods.add(method);
@@ -2073,7 +2073,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
 			for (IFieldInfo field : new ArrayList<IFieldInfo>(fields)) {
 				if (!field.isHidden()) {
-					FieldCustomization fc = InfoCustomizations.getFieldCustomization(containingTypeCustomization,
+					FieldCustomization fc = InfoCustomizations.getFieldCustomization(objectTypeCustomization,
 							field.getName());
 					if (fc != null) {
 						if (!fc.isHidden()) {
@@ -2095,7 +2095,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 
 			for (IMethodInfo method : new ArrayList<IMethodInfo>(methods)) {
-				MethodCustomization mc = InfoCustomizations.getMethodCustomization(containingTypeCustomization,
+				MethodCustomization mc = InfoCustomizations.getMethodCustomization(objectTypeCustomization,
 						method.getSignature());
 				if (!method.isHidden()) {
 					if (mc != null) {
@@ -2126,7 +2126,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
 				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
 				CapsuleFieldInfo capsuleField = new CapsuleFieldInfo(customizedUI, capsuleFieldName, encapsulatedFields,
-						encapsulatedMethods, containingType);
+						encapsulatedMethods, objectType);
 				result.add(capsuleField);
 			}
 			return result;
@@ -2164,7 +2164,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							@Override
 							public Object getValue(Object object) {
 								throw new ReflectionUIError("Duplicate field name detected: '" + super.getName()
-										+ "' in type '" + containingType.getName() + "'");
+										+ "' in type '" + objectType.getName() + "'");
 
 							}
 
@@ -2176,7 +2176,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							@Override
 							public ITypeInfo getType() {
 								return customizedUI.getTypeInfo(new JavaTypeInfoSource(customizedUI, Object.class,
-										new SpecificitiesIdentifier(containingType.getName(), getName())));
+										new SpecificitiesIdentifier(objectType.getName(), getName())));
 							}
 
 						};
@@ -2199,7 +2199,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							@Override
 							public Object invoke(Object object, InvocationData invocationData) {
 								throw new ReflectionUIError("Duplicate method name detected: '" + super.getName()
-										+ "' in type '" + containingType.getName() + "'");
+										+ "' in type '" + objectType.getName() + "'");
 							}
 
 							@Override
@@ -2232,7 +2232,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							@Override
 							public Object invoke(Object object, InvocationData invocationData) {
 								throw new ReflectionUIError("Duplicate constructor name detected: '" + super.getName()
-										+ "' in type '" + containingType.getName() + "'");
+										+ "' in type '" + objectType.getName() + "'");
 							}
 
 							@Override
@@ -2512,7 +2512,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					@Override
 					public InfoCategory getCategory() {
 						String categoryName = mc.getCategoryCaption();
-						List<CustomizationCategory> categories = containingTypeCustomization.getMemberCategories();
+						List<CustomizationCategory> categories = objectTypeCustomization.getMemberCategories();
 						int categoryPosition = -1;
 						int i = 0;
 						for (CustomizationCategory c : categories) {
@@ -2552,10 +2552,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (mc.getMenuLocation() != null) {
 					IMenuElementPosition menuItemContainerPosition = ReflectionUIUtils.getMenuElementPosition(
-							containingTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
+							objectTypeCustomization.getMenuModelCustomization(), mc.getMenuLocation());
 					if (menuItemContainerPosition != null) {
 						IMenuElementInfo actionMenuItem = new MethodActionMenuItemInfo(customizedUI,
-								wrapMethodInfo(method, containingType));
+								wrapMethodInfo(method, objectType));
 						menuModel.importContribution(menuItemContainerPosition, actionMenuItem);
 					}
 				}
@@ -2604,7 +2604,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IMethodInfo process(IMethodInfo method, MethodCustomization mc, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (mc.isReturnValueFieldGenerated()) {
-					newFields.add(new MethodReturnValueAsFieldInfo(customizedUI, method, containingType) {
+					newFields.add(new MethodReturnValueAsFieldInfo(customizedUI, method, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -2645,7 +2645,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						parameterizedFields.add(field);
 					}
 					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields,
-							containingType) {
+							objectType) {
 						/*
 						 * The method signature is not modified since it identifies this customization.
 						 * Otherwise it will not be possible to disable the customization.
@@ -2671,7 +2671,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					if (pc != null) {
 						if (pc.isDisplayedAsField()) {
 							ParameterAsFieldInfo methodParameterAsField = new ParameterAsFieldInfo(customizedUI, method,
-									param, containingType) {
+									param, objectType) {
 
 								@Override
 								public String getCaption() {
@@ -2878,7 +2878,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					@Override
 					public InfoCategory getCategory() {
 						String categoryName = fc.getCategoryCaption();
-						List<CustomizationCategory> categories = containingTypeCustomization.getMemberCategories();
+						List<CustomizationCategory> categories = objectTypeCustomization.getMemberCategories();
 						int categoryPosition = -1;
 						int i = 0;
 						for (CustomizationCategory c : categories) {
@@ -2917,7 +2917,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isDisplayedAsSingletonList()) {
-					field = new ValueAsListFieldInfo(customizedUI, field, containingType);
+					field = new ValueAsListFieldInfo(customizedUI, field, objectType);
 				}
 				return field;
 			}
@@ -2930,7 +2930,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isNullStatusFieldExported()) {
-					newFields.add(new ExportedNullStatusFieldInfo(customizedUI, field, containingType) {
+					newFields.add(new ExportedNullStatusFieldInfo(customizedUI, field, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -2974,7 +2974,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							return f.getImportedNullStatusFieldName();
 						}
 					};
-					field = new ImportedNullStatusFieldInfo(customizedUI, field, nullStatusField, containingType);
+					field = new ImportedNullStatusFieldInfo(customizedUI, field, nullStatusField, objectType);
 				}
 				return field;
 			}
@@ -2987,7 +2987,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isSetterGenerated()) {
-					newMethods.add(new FieldAsSetterInfo(customizedUI, field, containingType) {
+					newMethods.add(new FieldAsSetterInfo(customizedUI, field, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -3031,13 +3031,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 								type = customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
 									@Override
 									public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-										return new SpecificitiesIdentifier(containingType.getName(), getName());
+										return new SpecificitiesIdentifier(objectType.getName(), getName());
 									}
 
 									@Override
 									protected String getTypeInfoProxyFactoryIdentifier() {
 										return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", field="
-												+ getName() + ", containingType=" + containingType.getName() + "]";
+												+ getName() + ", objectType=" + objectType.getName() + "]";
 									}
 								});
 							}
@@ -3100,7 +3100,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			public IFieldInfo process(IFieldInfo field, FieldCustomization f, List<IFieldInfo> newFields,
 					List<IMethodInfo> newMethods) {
 				if (f.isGetterGenerated()) {
-					newMethods.add(new FieldAsGetterInfo(customizedUI, field, containingType) {
+					newMethods.add(new FieldAsGetterInfo(customizedUI, field, objectType) {
 
 						@Override
 						public boolean isHidden() {
@@ -3120,7 +3120,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					List<IMethodInfo> newMethods) {
 				if (f.getTypeConversion() != null) {
 					ITypeInfo newType = f.getTypeConversion().findNewType(customizedUI,
-							new SpecificitiesIdentifier(containingType.getName(), field.getName()));
+							new SpecificitiesIdentifier(objectType.getName(), field.getName()));
 					Filter<Object> conversionMethod = f.getTypeConversion().buildOverallConversionMethod();
 					Filter<Object> reverseConversionMethod = f.getTypeConversion()
 							.buildOverallReverseConversionMethod();

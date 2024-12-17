@@ -281,8 +281,8 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.isValidationRequired();
 	}
 
-	public IFieldInfo getSelectionTargetField(ITypeInfo containingType) {
-		return base.getSelectionTargetField(containingType);
+	public IFieldInfo getSelectionTargetField(ITypeInfo objectType) {
+		return base.getSelectionTargetField(objectType);
 	}
 
 	public boolean areItemsAutomaticallyPositioned() {

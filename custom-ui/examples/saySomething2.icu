@@ -542,7 +542,7 @@
         <menuModel>
             <uniqueIdentifier>-36b36743:16d6d6d2e99:-6104</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.SaySomething2], fieldName=topBox]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.SaySomething2], fieldName=topBox]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -628,7 +628,7 @@
         <menuModel>
             <uniqueIdentifier>4f5e9623:16d6db0c967:-6576</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.SaySomething2], fieldName=messageBox]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.SaySomething2], fieldName=messageBox]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -690,7 +690,7 @@
         <menuModel>
             <uniqueIdentifier>3edee6c4:16d75061223:-6542</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.SaySomething2], fieldName=amilAddressBox]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.SaySomething2], fieldName=amilAddressBox]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -753,7 +753,7 @@
         <menuModel>
             <uniqueIdentifier>3edee6c4:16d75061223:-641f</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.SaySomething2], fieldName=subjectBox]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.SaySomething2], fieldName=subjectBox]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

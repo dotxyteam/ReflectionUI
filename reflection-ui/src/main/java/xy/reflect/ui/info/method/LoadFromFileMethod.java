@@ -22,8 +22,8 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class LoadFromFileMethod extends AbstractPersistenceMethod {
 
-	public LoadFromFileMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
-		super(reflectionUI, containingType);
+	public LoadFromFileMethod(ReflectionUI reflectionUI, ITypeInfo objectType) {
+		super(reflectionUI, objectType);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class LoadFromFileMethod extends AbstractPersistenceMethod {
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
-			containingType.load(object, in);
+			objectType.load(object, in);
 		} catch (FileNotFoundException e) {
 			throw new ReflectionUIError(e);
 		} finally {
@@ -68,7 +68,7 @@ public class LoadFromFileMethod extends AbstractPersistenceMethod {
 
 	@Override
 	public String toString() {
-		return "LoadFromFileMethod [containingType=" + containingType + "]";
+		return "LoadFromFileMethod [objectType=" + objectType + "]";
 	}
 
 }

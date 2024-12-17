@@ -417,8 +417,8 @@ public class InvocationDataObjectFactory {
 
 	public class FieldInfo extends ParameterAsFieldInfo {
 
-		public FieldInfo(ReflectionUI reflectionUI, IParameterInfo param, ITypeInfo containingType) {
-			super(reflectionUI, InvocationDataObjectFactory.this.method, param, containingType);
+		public FieldInfo(ReflectionUI reflectionUI, IParameterInfo param, ITypeInfo objectType) {
+			super(reflectionUI, InvocationDataObjectFactory.this.method, param, objectType);
 		}
 
 		@Override

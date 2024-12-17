@@ -935,7 +935,7 @@
         <menuModel>
             <uniqueIdentifier>-2efc239c:166ee4b719b:59f7</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen], fieldName=center]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen], fieldName=center]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1080,7 +1080,7 @@
         <menuModel>
             <uniqueIdentifier>67acb11e:166ee5e9849:9f9</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen], fieldName=horizontalLayout]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen], fieldName=horizontalLayout]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1534,7 +1534,7 @@
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName></methodName>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=image, containingType=xy.reflect.ui.example.LoginScreen], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage] (java.awt.image.ImageProducer)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=image, objectType=xy.reflect.ui.example.LoginScreen], subContext=NonNullableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage] (java.awt.image.ImageProducer)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>691076fa:179330cdacf:-4260</uniqueIdentifier>
                 <specificProperties/>
@@ -1552,7 +1552,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=image, containingType=xy.reflect.ui.example.LoginScreen], subContext=MutableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=image, objectType=xy.reflect.ui.example.LoginScreen], subContext=MutableInstance, encapsulatedObjectType=sun.awt.image.ToolkitImage]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

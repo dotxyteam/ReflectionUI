@@ -559,7 +559,7 @@
                     <menuModel>
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-2789</uniqueIdentifier>
                     </menuModel>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=jdk.nashorn.api.scripting.NashornScriptEngine], fieldName=resultGroup]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=jdk.nashorn.api.scripting.NashornScriptEngine], fieldName=resultGroup]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -2690,7 +2690,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row1]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row1]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -2815,7 +2815,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row2]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row2]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -2940,7 +2940,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row3]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row3]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -3065,7 +3065,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                         </specificReturnValueTypeCustomizations>
                         <validating>false</validating>
                     </methodsCustomizations>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row0]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row0]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -3132,7 +3132,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
                     <menuModel>
                         <uniqueIdentifier>58d1b151:166a1a0bfe8:-39b3</uniqueIdentifier>
                     </menuModel>
-                    <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=inputGroup]</typeName>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=inputGroup]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
             </specificTypeCustomizations>
@@ -6173,7 +6173,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6297,7 +6297,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6421,7 +6421,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row3]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6526,7 +6526,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=row0]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=row0]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -6591,7 +6591,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <menuModel>
             <uniqueIdentifier>58d1b151:166a1a0bfe8:-39b5</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=java.lang.StringBuilder], fieldName=inputGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.lang.StringBuilder], fieldName=inputGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8368,7 +8368,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <menuModel>
             <uniqueIdentifier>58d1b151:166a1a0bfe8:-278b</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=jdk.nashorn.api.scripting.NashornScriptEngine], fieldName=resultGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=jdk.nashorn.api.scripting.NashornScriptEngine], fieldName=resultGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9828,7 +9828,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <menuModel>
             <uniqueIdentifier>-252626be:179322b0f98:-3e18</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=eval.result, containingType=CapsuleFieldType [context=EncapsulationContext [containingType=jdk.nashorn.api.scripting.NashornScriptEngine], fieldName=resultGroup]], subContext=NullableInstance, encapsulatedObjectType=java.lang.Integer]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=eval.result, objectType=CapsuleFieldType [context=EncapsulationContext [objectType=jdk.nashorn.api.scripting.NashornScriptEngine], fieldName=resultGroup]], subContext=NullableInstance, encapsulatedObjectType=java.lang.Integer]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9922,7 +9922,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
         <menuModel>
             <uniqueIdentifier>-6b36ff2a:17933398cb2:-36d9</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), containingType=java.lang.StringBuilder]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), objectType=java.lang.StringBuilder]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9983,7 +9983,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), containingType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder] (java.lang.CharSequence)</methodSignature>
+            <methodSignature>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), objectType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder] (java.lang.CharSequence)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-6b36ff2a:17933398cb2:-36c3</uniqueIdentifier>
                 <specificProperties/>
@@ -10015,7 +10015,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), containingType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder] (java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), objectType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-6b36ff2a:17933398cb2:-36bf</uniqueIdentifier>
                 <specificProperties/>
@@ -10047,7 +10047,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), containingType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder] (int)</methodSignature>
+            <methodSignature>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), objectType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder] (int)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>-6b36ff2a:17933398cb2:-36bb</uniqueIdentifier>
                 <specificProperties/>
@@ -10072,7 +10072,7 @@ Built with ReflectionUI (http://javacollection.net/reflectionui/).</onlineHelp>
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), containingType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.StringBuilder delete(int, int), objectType=java.lang.StringBuilder], subContext=MethodResult, encapsulatedObjectType=java.lang.StringBuilder]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

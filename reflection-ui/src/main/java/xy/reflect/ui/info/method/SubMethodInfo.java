@@ -33,17 +33,17 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
 	protected FututreActionBuilder undoJobBuilder;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo returnValueType;
 	protected boolean returnValueVoid = false;
 
 	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		super();
 		this.reflectionUI = reflectionUI;
 		this.theField = theField;
 		this.theSubMethod = theSubMethod;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	public SubMethodInfo(ITypeInfo type, String fieldName, String subMethodSignature) {
@@ -101,7 +101,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 							protected String getTypeInfoProxyFactoryIdentifier() {
 								return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
 										+ ", subMethod=" + theSubMethod.getSignature() + ", field=" + theField.getName()
-										+ ", containingType=" + containingType.getName() + "]";
+										+ ", objectType=" + objectType.getName() + "]";
 							}
 						});
 			}

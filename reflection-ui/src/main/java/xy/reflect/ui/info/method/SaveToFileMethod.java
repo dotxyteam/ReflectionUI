@@ -22,8 +22,8 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class SaveToFileMethod extends AbstractPersistenceMethod {
 
-	public SaveToFileMethod(ReflectionUI reflectionUI, ITypeInfo containingType) {
-		super(reflectionUI, containingType);
+	public SaveToFileMethod(ReflectionUI reflectionUI, ITypeInfo objectType) {
+		super(reflectionUI, objectType);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class SaveToFileMethod extends AbstractPersistenceMethod {
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream(file);
-			containingType.save(object, out);
+			objectType.save(object, out);
 		} catch (FileNotFoundException e) {
 			throw new ReflectionUIError(e);
 		} finally {
@@ -68,7 +68,7 @@ public class SaveToFileMethod extends AbstractPersistenceMethod {
 
 	@Override
 	public String toString() {
-		return "SaveToFileMethod [containingType=" + containingType + "]";
+		return "SaveToFileMethod [objectType=" + objectType + "]";
 	}
 
 }

@@ -449,7 +449,7 @@
         <menuModel>
             <uniqueIdentifier>3fab0e94:16ce3770727:-68cc</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen5], fieldName=row1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen5], fieldName=row1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -513,7 +513,7 @@
         <menuModel>
             <uniqueIdentifier>3fab0e94:16ce3770727:-68bf</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen5], fieldName=row2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen5], fieldName=row2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

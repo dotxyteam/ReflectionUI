@@ -457,7 +457,7 @@
         <menuModel>
             <uniqueIdentifier>630efa3c:16cde85a367:-6af8</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen4], fieldName=left]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen4], fieldName=left]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -975,7 +975,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen4], fieldName=right]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen4], fieldName=right]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>630efa3c:16cde85a367:-694d</uniqueIdentifier>
@@ -1054,7 +1054,7 @@
         <menuModel>
             <uniqueIdentifier>630efa3c:16cde85a367:-698e</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen4], fieldName=right]], fieldName=row1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen4], fieldName=right]], fieldName=row1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1109,7 +1109,7 @@
         <menuModel>
             <uniqueIdentifier>630efa3c:16cde85a367:-6979</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen4], fieldName=right]], fieldName=row2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen4], fieldName=right]], fieldName=row2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1145,7 +1145,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen4], fieldName=right]], fieldName=row3]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen4], fieldName=right]], fieldName=row3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

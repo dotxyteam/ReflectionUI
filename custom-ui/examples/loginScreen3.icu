@@ -496,7 +496,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen3], fieldName=right]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen3], fieldName=right]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -669,7 +669,7 @@
         <menuModel>
             <uniqueIdentifier>-19ea1d76:16ca9ca3daa:7941</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen3], fieldName=left]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen3], fieldName=left]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-19ea1d76:16ca9ca3daa:7ebc</uniqueIdentifier>
@@ -769,7 +769,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen3], fieldName=right]], fieldName=signInContainer]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen3], fieldName=right]], fieldName=signInContainer]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-19ea1d76:16caa2df3e8:-7f39</uniqueIdentifier>
@@ -861,7 +861,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen3], fieldName=right]], fieldName=signUpContainer]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen3], fieldName=right]], fieldName=signUpContainer]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-19ea1d76:16caa2df3e8:-7f31</uniqueIdentifier>

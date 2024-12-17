@@ -15,21 +15,21 @@ import xy.reflect.ui.info.type.ITypeInfo;
  */
 public class MethodContext implements IContext {
 
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected IMethodInfo method;
 
-	public MethodContext(ITypeInfo containingType, IMethodInfo method) {
-		this.containingType = containingType;
+	public MethodContext(ITypeInfo objectType, IMethodInfo method) {
+		this.objectType = objectType;
 		this.method = method;
 	}
 
 	@Override
 	public String getIdentifier() {
 		if (method.getName().length() == 0) {
-			return "ContructorContext [type=" + containingType.getName() + ", signature=" + method.getSignature() + "]";
+			return "ContructorContext [type=" + objectType.getName() + ", signature=" + method.getSignature() + "]";
 		} else {
-			return "MethodContext [methodSignature=" + method.getSignature() + ", containingType="
-					+ containingType.getName() + "]";
+			return "MethodContext [methodSignature=" + method.getSignature() + ", objectType="
+					+ objectType.getName() + "]";
 		}
 	}
 
@@ -37,7 +37,7 @@ public class MethodContext implements IContext {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 		result = prime * result + ((method == null) ? 0 : method.hashCode());
 		return result;
 	}
@@ -51,10 +51,10 @@ public class MethodContext implements IContext {
 		if (getClass() != obj.getClass())
 			return false;
 		MethodContext other = (MethodContext) obj;
-		if (containingType == null) {
-			if (other.containingType != null)
+		if (objectType == null) {
+			if (other.objectType != null)
 				return false;
-		} else if (!containingType.equals(other.containingType))
+		} else if (!objectType.equals(other.objectType))
 			return false;
 		if (method == null) {
 			if (other.method != null)
@@ -66,7 +66,7 @@ public class MethodContext implements IContext {
 
 	@Override
 	public String toString() {
-		return "MethodContext [containingType=" + containingType + ", method=" + method + "]";
+		return "MethodContext [objectType=" + objectType + ", method=" + method + "]";
 	}
 
 }

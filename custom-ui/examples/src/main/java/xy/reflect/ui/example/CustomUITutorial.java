@@ -83,8 +83,8 @@ public class CustomUITutorial {
 				return new InfoProxyFactory() {
 
 					@Override
-					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
-						return "(added before customizations) " + super.getCaption(field, containingType);
+					protected String getCaption(IFieldInfo field, ITypeInfo objectType) {
+						return "(added before customizations) " + super.getCaption(field, objectType);
 					}
 
 				}.wrapTypeInfo(super.getTypeInfoBeforeCustomizations(type));
@@ -95,8 +95,8 @@ public class CustomUITutorial {
 				return new InfoProxyFactory() {
 
 					@Override
-					protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
-						return super.getCaption(field, containingType) + " (added after customizations)";
+					protected String getCaption(IFieldInfo field, ITypeInfo objectType) {
+						return super.getCaption(field, objectType) + " (added after customizations)";
 					}
 
 				}.wrapTypeInfo(super.getTypeInfoAfterCustomizations(type));

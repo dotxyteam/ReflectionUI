@@ -2251,7 +2251,7 @@
         <menuModel>
             <uniqueIdentifier>628a9c10:182914a573c:-7347</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.String send(), containingType=xy.reflect.ui.example.SaySomething], subContext=MethodResult, encapsulatedObjectType=java.lang.String]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.lang.String send(), objectType=xy.reflect.ui.example.SaySomething], subContext=MethodResult, encapsulatedObjectType=java.lang.String]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

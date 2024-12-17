@@ -342,7 +342,7 @@
         <menuModel>
             <uniqueIdentifier>-439e7ba1:16ceef980e9:-667b</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void save(java.io.File), containingType=xy.reflect.ui.example.TextEditor]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void save(java.io.File), objectType=xy.reflect.ui.example.TextEditor]]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -454,7 +454,7 @@
         <menuModel>
             <uniqueIdentifier>-439e7ba1:16ceef980e9:-6672</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void load(java.io.File), containingType=xy.reflect.ui.example.TextEditor]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void load(java.io.File), objectType=xy.reflect.ui.example.TextEditor]]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

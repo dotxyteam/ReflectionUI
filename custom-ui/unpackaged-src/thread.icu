@@ -4276,7 +4276,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.Runnable)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.Runnable)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:5886</uniqueIdentifier>
                 <specificProperties/>
@@ -4301,7 +4301,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.Runnable, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.Runnable, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:588c</uniqueIdentifier>
                 <specificProperties/>
@@ -4348,7 +4348,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.Runnable, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.Runnable, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:5894</uniqueIdentifier>
                 <specificProperties/>
@@ -4384,7 +4384,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:589a</uniqueIdentifier>
                 <specificProperties/>
@@ -4420,7 +4420,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:58a0</uniqueIdentifier>
                 <specificProperties/>
@@ -4445,7 +4445,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.Runnable)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.Runnable)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:58a4</uniqueIdentifier>
                 <specificProperties/>
@@ -4481,7 +4481,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.Runnable, java.lang.String, long)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread] (java.lang.ThreadGroup, java.lang.Runnable, java.lang.String, long)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:58aa</uniqueIdentifier>
                 <specificProperties/>
@@ -4532,7 +4532,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Thread]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4945,7 +4945,7 @@
         <menuModel>
             <uniqueIdentifier>2b4eed94:17924f40d32:5db0</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5016,7 +5016,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=allStackTraces, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=allStackTraces, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:5dfb</uniqueIdentifier>
                 <specificProperties/>
@@ -5045,7 +5045,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=allStackTraces, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=allStackTraces, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5120,7 +5120,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:5e39</uniqueIdentifier>
                 <specificProperties/>
@@ -5149,7 +5149,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5289,7 +5289,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement] (java.lang.String, java.lang.String, java.lang.String, int)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement] (java.lang.String, java.lang.String, java.lang.String, int)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:68f9</uniqueIdentifier>
                 <specificProperties/>
@@ -5340,7 +5340,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5361,7 +5361,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=value, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Thread, valueJavaType=class [Ljava.lang.StackTraceElement;]]]]]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement] (java.lang.String, java.lang.String, java.lang.String, int)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=value, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Thread, valueJavaType=class [Ljava.lang.StackTraceElement;]]]]]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement] (java.lang.String, java.lang.String, java.lang.String, int)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>2b4eed94:17924f40d32:69e1</uniqueIdentifier>
                 <specificProperties/>
@@ -5412,7 +5412,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=value, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Thread, valueJavaType=class [Ljava.lang.StackTraceElement;]]]]]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=value, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Thread, valueJavaType=class [Ljava.lang.StackTraceElement;]]]]]], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7853,7 +7853,7 @@
         <menuModel>
             <uniqueIdentifier>5456387f:1792508a9d6:60bf</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Object]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.Object]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -8843,7 +8843,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String, java.net.URLStreamHandler)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String, java.net.URLStreamHandler)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:66ce</uniqueIdentifier>
                 <specificProperties/>
@@ -8890,7 +8890,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:66d6</uniqueIdentifier>
                 <specificProperties/>
@@ -8926,7 +8926,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:66dc</uniqueIdentifier>
                 <specificProperties/>
@@ -8951,7 +8951,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:66e0</uniqueIdentifier>
                 <specificProperties/>
@@ -9009,7 +9009,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:66ea</uniqueIdentifier>
                 <specificProperties/>
@@ -9056,7 +9056,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String, java.net.URLStreamHandler)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String, java.net.URLStreamHandler)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:66f2</uniqueIdentifier>
                 <specificProperties/>
@@ -9118,7 +9118,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.net.URL]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9139,7 +9139,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String, java.net.URLStreamHandler)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String, java.net.URLStreamHandler)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:6973</uniqueIdentifier>
                 <specificProperties/>
@@ -9186,7 +9186,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.net.URL, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:697b</uniqueIdentifier>
                 <specificProperties/>
@@ -9222,7 +9222,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:6981</uniqueIdentifier>
                 <specificProperties/>
@@ -9247,7 +9247,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:6985</uniqueIdentifier>
                 <specificProperties/>
@@ -9305,7 +9305,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:698f</uniqueIdentifier>
                 <specificProperties/>
@@ -9352,7 +9352,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String, java.net.URLStreamHandler)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uRLs, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL] (java.lang.String, java.lang.String, int, java.lang.String, java.net.URLStreamHandler)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:6997</uniqueIdentifier>
                 <specificProperties/>
@@ -9414,7 +9414,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=uRLs, containingType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=uRLs, objectType=FieldAsListItemTypeInfo [index=0, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=sun.misc.Launcher$AppClassLoader, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class sun.misc.Launcher$AppClassLoader, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=java.net.URL]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9435,7 +9435,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=value, containingType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement] (java.lang.String, java.lang.String, java.lang.String, int)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=value, objectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement] (java.lang.String, java.lang.String, java.lang.String, int)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:7e46</uniqueIdentifier>
                 <specificProperties/>
@@ -9486,7 +9486,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=value, containingType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=value, objectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Thread,[Ljava.lang.StackTraceElement;&gt;], subContext=ListItem, encapsulatedObjectType=java.lang.StackTraceElement]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9507,7 +9507,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=allStackTraces, containingType=FieldAsListItemTypeInfo [index=1, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=allStackTraces, objectType=FieldAsListItemTypeInfo [index=1, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>5456387f:1792508a9d6:7310</uniqueIdentifier>
                 <specificProperties/>
@@ -9536,7 +9536,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=allStackTraces, containingType=FieldAsListItemTypeInfo [index=1, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=allStackTraces, objectType=FieldAsListItemTypeInfo [index=1, containingList=subListGroup [containingItemType=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=CustomizedUI.DEFAULT]], base=GeneratedBasicTypeInfoProxy [name=java.lang.Thread, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=CustomizedUI.DEFAULT]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.lang.Thread, specificitiesIdentifier=null]]]]]]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -9880,7 +9880,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uncaughtExceptionHandler, containingType=java.lang.Thread], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.ThreadGroup] (java.lang.ThreadGroup, java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uncaughtExceptionHandler, objectType=java.lang.Thread], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.ThreadGroup] (java.lang.ThreadGroup, java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>60b523a7:1798bb37a43:-6886</uniqueIdentifier>
                 <specificProperties/>
@@ -9916,7 +9916,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=uncaughtExceptionHandler, containingType=java.lang.Thread], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.ThreadGroup] (java.lang.String)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=uncaughtExceptionHandler, objectType=java.lang.Thread], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.ThreadGroup] (java.lang.String)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>60b523a7:1798bb37a43:-6881</uniqueIdentifier>
                 <specificProperties/>
@@ -9934,7 +9934,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=uncaughtExceptionHandler, containingType=java.lang.Thread], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.ThreadGroup]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=uncaughtExceptionHandler, objectType=java.lang.Thread], subContext=NonNullableInstance, encapsulatedObjectType=java.lang.ThreadGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -10846,7 +10846,7 @@
         <menuModel>
             <uniqueIdentifier>60b523a7:1798bb38559:-56c2</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.ClassLoader]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.ClassLoader]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -10900,7 +10900,7 @@
         <menuModel>
             <uniqueIdentifier>60b523a7:1798bb38559:-56b7</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.ClassLoader]], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$AppClassLoader]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=java.lang.ClassLoader]], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$AppClassLoader]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11408,7 +11408,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=parent, containingType=sun.misc.Launcher$AppClassLoader], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$ExtClassLoader] ([Ljava.io.File;)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=parent, objectType=sun.misc.Launcher$AppClassLoader], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$ExtClassLoader] ([Ljava.io.File;)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>60b523a7:1798bb38559:-55cc</uniqueIdentifier>
                 <specificProperties/>
@@ -11426,7 +11426,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=parent, containingType=sun.misc.Launcher$AppClassLoader], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$ExtClassLoader]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=parent, objectType=sun.misc.Launcher$AppClassLoader], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$ExtClassLoader]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -11480,7 +11480,7 @@
         <menuModel>
             <uniqueIdentifier>60b523a7:1798bb38559:-55c2</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=systemClassLoader, containingType=sun.misc.Launcher$AppClassLoader], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$AppClassLoader]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=systemClassLoader, objectType=sun.misc.Launcher$AppClassLoader], subContext=NonNullableInstance, encapsulatedObjectType=sun.misc.Launcher$AppClassLoader]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

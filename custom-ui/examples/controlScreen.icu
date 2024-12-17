@@ -861,7 +861,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -924,7 +924,7 @@
         <menuModel>
             <uniqueIdentifier>35502b2d:16c5cebc683:7296</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=middle]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=middle]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1118,7 +1118,7 @@
         <menuModel>
             <uniqueIdentifier>35502b2d:16c5cebc683:72a3</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=top]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=top]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1263,7 +1263,7 @@
         <menuModel>
             <uniqueIdentifier>35502b2d:16c5cebc683:73f0</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=top]], fieldName=left]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=top]], fieldName=left]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1314,7 +1314,7 @@
         <menuModel>
             <uniqueIdentifier>35502b2d:16c5cebc683:76cd</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.example.ControlScreen$Execution execution.get(), containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.example.ControlScreen$Execution]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.example.ControlScreen$Execution execution.get(), objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.example.ControlScreen$Execution]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1450,7 +1450,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>35502b2d:16c5cebc683:7ae2</uniqueIdentifier>
@@ -1602,7 +1602,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>35502b2d:16c5cebc683:7aea</uniqueIdentifier>
@@ -1754,7 +1754,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option3]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>35502b2d:16c5cebc683:796c</uniqueIdentifier>
@@ -1906,7 +1906,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option4]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option4]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>35502b2d:16c5cebc683:7ada</uniqueIdentifier>
@@ -1973,7 +1973,7 @@
         <menuModel>
             <uniqueIdentifier>35502b2d:16c5cebc683:7b88</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.example.ControlScreen$Configuration configuration.get(), containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option2]], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.example.ControlScreen$Configuration]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=xy.reflect.ui.example.ControlScreen$Configuration configuration.get(), objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ControlScreen], fieldName=bottom]], fieldName=option2]], subContext=MethodResult, encapsulatedObjectType=xy.reflect.ui.example.ControlScreen$Configuration]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

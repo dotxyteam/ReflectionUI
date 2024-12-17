@@ -1517,7 +1517,7 @@
         <menuModel>
             <uniqueIdentifier>-7b515a29:16d20ceb851:-685f</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=row1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=row1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1791,7 +1791,7 @@
         <menuModel>
             <uniqueIdentifier>-7b515a29:16d20ceb851:-67b2</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=row2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=row2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2291,7 +2291,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2370,7 +2370,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2449,7 +2449,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2528,7 +2528,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row3]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2632,7 +2632,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row4]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row4]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2702,7 +2702,7 @@
         <menuModel>
             <uniqueIdentifier>7fd2158b:16d20dec1b2:-6646</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=currencies]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=currencies]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2883,7 +2883,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3136,7 +3136,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3218,7 +3218,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row5]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPad]], fieldName=row5]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3258,7 +3258,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushPlusGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushPlusGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3298,7 +3298,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushStarGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushStarGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3338,7 +3338,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushMinusGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushMinusGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3378,7 +3378,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushDivGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushDivGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3418,7 +3418,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushEqualGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=numericPadGroup]], fieldName=column4]], fieldName=pushEqualGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4633,7 +4633,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.Date now(), containingType=xy.reflect.ui.example.CurrencyConverter], subContext=MethodResult, encapsulatedObjectType=java.util.Date]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.Date now(), objectType=xy.reflect.ui.example.CurrencyConverter], subContext=MethodResult, encapsulatedObjectType=java.util.Date]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4775,7 +4775,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=nowGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=nowGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4817,7 +4817,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CurrencyConverter], fieldName=nowGroup]], fieldName=rotateCurrenciesGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CurrencyConverter], fieldName=nowGroup]], fieldName=rotateCurrenciesGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

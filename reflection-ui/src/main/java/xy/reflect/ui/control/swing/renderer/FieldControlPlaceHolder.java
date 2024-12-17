@@ -362,10 +362,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	protected void updateListSelectionTargetData() {
 		if (fieldControl instanceof ListControl) {
-			ITypeInfo containingType = swingRenderer.getReflectionUI()
+			ITypeInfo objectType = swingRenderer.getReflectionUI()
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(form.getObject()));
 			IFieldInfo selectionTargetField = ((IListTypeInfo) controlData.getType())
-					.getSelectionTargetField(containingType);
+					.getSelectionTargetField(objectType);
 			FieldControlData selectionTargetData;
 			if (selectionTargetField != null) {
 				selectionTargetData = new FieldControlData(selectionTargetField);

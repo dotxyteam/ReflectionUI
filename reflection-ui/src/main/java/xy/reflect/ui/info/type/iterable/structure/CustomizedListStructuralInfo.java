@@ -370,7 +370,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		}
 
 		public ITypeInfo getContainingItemType() {
-			return containingType;
+			return objectType;
 		}
 
 		@Override

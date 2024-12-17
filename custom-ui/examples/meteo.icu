@@ -874,7 +874,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1196,7 +1196,7 @@
         <menuModel>
             <uniqueIdentifier>-5950f14b:16d53bee1ba:-6469</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=bottom]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=bottom]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-349ba701:16d5416e4b1:-59cb</uniqueIdentifier>
@@ -1818,7 +1818,7 @@
         <menuModel>
             <uniqueIdentifier>-349ba701:16d5416e4b1:-678a</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-59799252:16d54bf0411:-66a9</uniqueIdentifier>
@@ -1927,7 +1927,7 @@
         <menuModel>
             <uniqueIdentifier>-349ba701:16d5416e4b1:-677d</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topRight]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topRight]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2112,7 +2112,7 @@
         <menuModel>
             <uniqueIdentifier>-349ba701:16d5416e4b1:-6770</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topMiddle]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topMiddle]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-11f70302:16d543347e9:-5a34</uniqueIdentifier>
@@ -2329,7 +2329,7 @@
         <menuModel>
             <uniqueIdentifier>-11f70302:16d543347e9:-6422</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=bottom]], fieldName=bottomLeft]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=bottom]], fieldName=bottomLeft]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-11f70302:16d543347e9:-3fed</uniqueIdentifier>
@@ -2558,7 +2558,7 @@
         <menuModel>
             <uniqueIdentifier>-11f70302:16d543347e9:-6375</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=bottom]], fieldName=bottomRight]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=bottom]], fieldName=bottomRight]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4946,7 +4946,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:5a7a</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=humidityGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=humidityGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5114,7 +5114,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:5a8d</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=pressureGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=pressureGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5282,7 +5282,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:5aa0</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=windGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=windGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5301,7 +5301,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:5b14</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=humidityGroup]], fieldName=valueGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=humidityGroup]], fieldName=valueGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5320,7 +5320,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:5b27</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=pressureGroup]], fieldName=valueGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=pressureGroup]], fieldName=valueGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5339,7 +5339,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:5b3a</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=windGroup]], fieldName=valueGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=windGroup]], fieldName=valueGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5602,7 +5602,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:6a68</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=humidityGroup]], fieldName=iconGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=humidityGroup]], fieldName=iconGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5688,7 +5688,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:6a7c</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=pressureGroup]], fieldName=iconGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=pressureGroup]], fieldName=iconGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5774,7 +5774,7 @@
         <menuModel>
             <uniqueIdentifier>-78bc5380:17aea22adaa:6ad1</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=windGroup]], fieldName=iconGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Meteo], fieldName=top]], fieldName=topLeft]], fieldName=windGroup]], fieldName=iconGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

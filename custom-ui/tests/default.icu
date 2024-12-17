@@ -3291,7 +3291,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c94</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Book]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Book]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3345,7 +3345,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c90</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$CompactDisc]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$CompactDisc]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3399,7 +3399,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c8c</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Loaning]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Loaning]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3453,7 +3453,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c88</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Package]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Package]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3493,7 +3493,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c84</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Shoes]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], subContext=PolymorphicInstance, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Shoes]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3547,7 +3547,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c80</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3655,7 +3655,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c74</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3739,7 +3739,7 @@
         <menuModel>
             <uniqueIdentifier>-10c49653:163be5e816a:-5c52</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, containingType=Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.TableTreeModelExample$Product]]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.TableTreeModelExample$Product]], encapsulatedObjectType=SubTypesEnumeration [polymorphicType=xy.reflect.ui.TableTreeModelExample$Product]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4249,7 +4249,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
-            <methodSignature>Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
+            <methodSignature>Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;] (java.lang.Object, java.lang.Object)</methodSignature>
             <parametersCustomizations>
                 <uniqueIdentifier>7a487c07:17925222748:64a5</uniqueIdentifier>
                 <specificProperties/>
@@ -4285,7 +4285,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=products, containingType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=products, objectType=xy.reflect.ui.TableTreeModelExample$Catalog], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -4325,12 +4325,12 @@
                     <itemCustomizations>
                         <uniqueIdentifier>-1597c6a8:1668dd634f5:435a</uniqueIdentifier>
                         <hidden>false</hidden>
-                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (), factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=MethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (), base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (), factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultConstructorInfo [javaConstructor=public xy.reflect.ui.info.type.iterable.map.StandardMapEntry(java.lang.Object,java.lang.Object)], containingType=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]], containingType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]]]</itemName>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (), factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=MethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (), base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (), factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultConstructorInfo [javaConstructor=public xy.reflect.ui.info.type.iterable.map.StandardMapEntry(java.lang.Object,java.lang.Object)], objectType=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]], objectType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]]]</itemName>
                     </itemCustomizations>
                     <itemCustomizations>
                         <uniqueIdentifier>-1597c6a8:1668dd634f5:435b</uniqueIdentifier>
                         <hidden>false</hidden>
-                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=MethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), base=MethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultConstructorInfo [javaConstructor=public xy.reflect.ui.info.type.iterable.map.StandardMapEntry(java.lang.Object,java.lang.Object)], containingType=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]]], containingType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]]]</itemName>
+                        <itemName>Item [value=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=MethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), base=MethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), base=GeneratedMethodInfoProxy [signature=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt; (java.lang.Integer, [Lxy.reflect.ui.TableTreeModelExample$Product;), factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultConstructorInfo [javaConstructor=public xy.reflect.ui.info.type.iterable.map.StandardMapEntry(java.lang.Object,java.lang.Object)], objectType=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]]], objectType=GeneratedMapEntryTypeInfoProxy [name=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,[Lxy.reflect.ui.TableTreeModelExample$Product;&gt;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=StandardMapEntryTypeInfo [keyJavaType=class java.lang.Integer, valueJavaType=class [Lxy.reflect.ui.TableTreeModelExample$Product;]]]]</itemName>
                     </itemCustomizations>
                 </enumerationCustomizations>
                 <typeCustomizations>
@@ -4519,7 +4519,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=productsByDuration, containingType=xy.reflect.ui.TableTreeModelExample$Loaning], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=productsByDuration, objectType=xy.reflect.ui.TableTreeModelExample$Loaning], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Object,java.lang.Object&gt;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>

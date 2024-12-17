@@ -50,20 +50,20 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		resolveJavaReflectionModelAccessProblems();
 	}
 
-	public static boolean isCompatibleWith(Method javaMethod, Class<?> containingJavaClass) {
+	public static boolean isCompatibleWith(Method javaMethod, Class<?> objectJavaClass) {
 		if (javaMethod.isSynthetic()) {
 			return false;
 		}
 		if (javaMethod.isBridge()) {
 			return false;
 		}
-		if (GetterFieldInfo.isCompatibleWith(javaMethod, containingJavaClass)) {
+		if (GetterFieldInfo.isCompatibleWith(javaMethod, objectJavaClass)) {
 			return false;
 		}
-		for (Method otherJavaMethod : containingJavaClass.getMethods()) {
+		for (Method otherJavaMethod : objectJavaClass.getMethods()) {
 			if (!otherJavaMethod.equals(javaMethod)) {
-				if (GetterFieldInfo.isCompatibleWith(otherJavaMethod, containingJavaClass)) {
-					if (javaMethod.equals(GetterFieldInfo.getValidSetterMethod(otherJavaMethod, containingJavaClass))) {
+				if (GetterFieldInfo.isCompatibleWith(otherJavaMethod, objectJavaClass)) {
+					if (javaMethod.equals(GetterFieldInfo.getValidSetterMethod(otherJavaMethod, objectJavaClass))) {
 						return false;
 					}
 				}

@@ -4089,7 +4089,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=inbox, containingType=xy.reflect.ui.example.MailClient], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.MailClient$Message]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=inbox, objectType=xy.reflect.ui.example.MailClient], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.MailClient$Message]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -5304,7 +5304,7 @@
             </specificReturnValueTypeCustomizations>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=date, containingType=xy.reflect.ui.example.MailClient$Message], encapsulatedObjectType=java.util.Date]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=date, objectType=xy.reflect.ui.example.MailClient$Message], encapsulatedObjectType=java.util.Date]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

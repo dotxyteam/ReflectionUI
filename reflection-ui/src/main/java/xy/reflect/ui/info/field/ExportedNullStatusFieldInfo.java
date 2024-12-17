@@ -26,13 +26,13 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
-	public ExportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo containingType) {
+	public ExportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo objectType) {
 		super(base);
 		this.reflectionUI = reflectionUI;
-		this.containingType = containingType;
+		this.objectType = objectType;
 	}
 
 	protected Object valueToBoolean(Object value) {
@@ -116,7 +116,7 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, boolean.class,
-					new SpecificitiesIdentifier(containingType.getName(), ExportedNullStatusFieldInfo.this.getName())));
+					new SpecificitiesIdentifier(objectType.getName(), ExportedNullStatusFieldInfo.this.getName())));
 		}
 		return type;
 	}
@@ -160,7 +160,7 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 		return result;
 	}
 
@@ -173,10 +173,10 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		ExportedNullStatusFieldInfo other = (ExportedNullStatusFieldInfo) obj;
-		if (containingType == null) {
-			if (other.containingType != null)
+		if (objectType == null) {
+			if (other.objectType != null)
 				return false;
-		} else if (!containingType.equals(other.containingType))
+		} else if (!objectType.equals(other.objectType))
 			return false;
 		return true;
 	}

@@ -27,16 +27,16 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected List<IFieldInfo> parameterizedFields;
-	protected ITypeInfo containingType;
+	protected ITypeInfo objectType;
 	protected FututreActionBuilder undoJobBuilder;
 	protected List<FieldAsParameterInfo> generatedParameters;
 
 	public ParameterizedFieldsMethodInfo(ReflectionUI reflectionUI, IMethodInfo method,
-			List<IFieldInfo> parameterizedFields, ITypeInfo containingType) {
+			List<IFieldInfo> parameterizedFields, ITypeInfo objectType) {
 		super(method);
 		this.reflectionUI = reflectionUI;
 		this.parameterizedFields = parameterizedFields;
-		this.containingType = containingType;
+		this.objectType = objectType;
 		this.generatedParameters = generateParameters();
 	}
 
@@ -123,7 +123,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 		result = prime * result + ((parameterizedFields == null) ? 0 : parameterizedFields.hashCode());
 		return result;
 	}
@@ -137,10 +137,10 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 		if (getClass() != obj.getClass())
 			return false;
 		ParameterizedFieldsMethodInfo other = (ParameterizedFieldsMethodInfo) obj;
-		if (containingType == null) {
-			if (other.containingType != null)
+		if (objectType == null) {
+			if (other.objectType != null)
 				return false;
-		} else if (!containingType.equals(other.containingType))
+		} else if (!objectType.equals(other.objectType))
 			return false;
 		if (parameterizedFields == null) {
 			if (other.parameterizedFields != null)
@@ -152,8 +152,8 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public String toString() {
-		return "ParameterizedFieldsMethodInfo [parameterizedFields=" + parameterizedFields + ", containingType="
-				+ containingType + ", base=" + base + "]";
+		return "ParameterizedFieldsMethodInfo [parameterizedFields=" + parameterizedFields + ", objectType="
+				+ objectType + ", base=" + base + "]";
 	}
 
 }

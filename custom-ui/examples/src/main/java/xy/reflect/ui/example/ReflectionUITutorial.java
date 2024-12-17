@@ -109,15 +109,15 @@ public class ReflectionUITutorial {
 					 * following method:
 					 */
 					@Override
-					protected List<IFieldInfo> getFields(ITypeInfo containingType) {
-						if (containingType.getName().equals(HelloWorld.class.getName())) {
-							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(containingType));
+					protected List<IFieldInfo> getFields(ITypeInfo objectType) {
+						if (objectType.getName().equals(HelloWorld.class.getName())) {
+							List<IFieldInfo> result = new ArrayList<IFieldInfo>(super.getFields(objectType));
 							IFieldInfo nameField = ReflectionUIUtils.findInfoByName(result, "name");
 							result.remove(nameField);
 							result.add(0, nameField);
 							return result;
 						} else {
-							return super.getFields(containingType);
+							return super.getFields(objectType);
 						}
 					}
 
@@ -156,29 +156,29 @@ public class ReflectionUITutorial {
 
 					@Override
 					protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method,
-							ITypeInfo containingType) {
-						if (containingType.getName().equals(HelloWorld.class.getName())) {
+							ITypeInfo objectType) {
+						if (objectType.getName().equals(HelloWorld.class.getName())) {
 							return !param.getType().isPrimitive();
 						} else {
-							return super.isNullValueDistinct(param, method, containingType);
+							return super.isNullValueDistinct(param, method, objectType);
 						}
 					}
 
 					@Override
-					protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo containingType) {
-						if (containingType.getName().equals(HelloWorld.class.getName())) {
+					protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo objectType) {
+						if (objectType.getName().equals(HelloWorld.class.getName())) {
 							return !field.getType().isPrimitive();
 						} else {
-							return super.isNullValueDistinct(field, containingType);
+							return super.isNullValueDistinct(field, objectType);
 						}
 					}
 
 					@Override
-					protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo containingType) {
-						if (containingType.getName().equals(HelloWorld.class.getName())) {
+					protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo objectType) {
+						if (objectType.getName().equals(HelloWorld.class.getName())) {
 							return !method.getReturnValueType().isPrimitive();
 						} else {
-							return super.isNullReturnValueDistinct(method, containingType);
+							return super.isNullReturnValueDistinct(method, objectType);
 						}
 					}
 
@@ -203,17 +203,17 @@ public class ReflectionUITutorial {
 					 */
 
 					@Override
-					protected boolean isHidden(IFieldInfo field, ITypeInfo containingType) {
+					protected boolean isHidden(IFieldInfo field, ITypeInfo objectType) {
 						if (field.getType() instanceof IListTypeInfo) {
 							return true;
 						} else {
-							return super.isHidden(field, containingType);
+							return super.isHidden(field, objectType);
 						}
 					}
 
 					@Override
-					protected boolean isHidden(IMethodInfo method, ITypeInfo containingType) {
-						return super.isHidden(method, containingType);
+					protected boolean isHidden(IMethodInfo method, ITypeInfo objectType) {
+						return super.isHidden(method, objectType);
 					}
 
 				}.wrapTypeInfo(super.getTypeInfo(typeInfoSource));
@@ -329,18 +329,18 @@ public class ReflectionUITutorial {
 					 */
 
 					@Override
-					protected InfoCategory getCategory(IFieldInfo field, ITypeInfo containingType) {
-						if (containingType.getName().equals(HelloWorld.class.getName())) {
+					protected InfoCategory getCategory(IFieldInfo field, ITypeInfo objectType) {
+						if (objectType.getName().equals(HelloWorld.class.getName())) {
 							if (!field.getName().equals("name")) {
 								return new InfoCategory("Advanced", 1, null);
 							}
 						}
-						return super.getCategory(field, containingType);
+						return super.getCategory(field, objectType);
 					}
 
 					@Override
-					protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
-						return super.getCategory(method, containingType);
+					protected InfoCategory getCategory(IMethodInfo method, ITypeInfo objectType) {
+						return super.getCategory(method, objectType);
 					}
 
 					/*
@@ -553,15 +553,15 @@ public class ReflectionUITutorial {
 				return new InfoProxyFactory() {
 
 					@Override
-					protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
-						if (containingType.getName().equals(HelloWorld.class.getName())
+					protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
+						if (objectType.getName().equals(HelloWorld.class.getName())
 								&& field.getName().equals("language")) {
-							ITypeInfo result = super.getType(field, containingType);
+							ITypeInfo result = super.getType(field, objectType);
 							result = new ControlPluginActivationFactory(radioButtonsPlugin.getIdentifier(),
 									radioButtonsConfiguration).wrapTypeInfo(result);
 							return result;
 						} else {
-							return super.getType(field, containingType);
+							return super.getType(field, objectType);
 						}
 					}
 

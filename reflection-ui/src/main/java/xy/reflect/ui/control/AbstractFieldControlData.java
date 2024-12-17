@@ -281,10 +281,10 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 			this.field = field;
 		}
 
-		protected String getContainingTypeName() {
-			ITypeInfo containingType = (object == null) ? null
+		protected String getobjectTypeName() {
+			ITypeInfo objectType = (object == null) ? null
 					: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			return ((containingType == null) ? "<unknown>" : containingType.getName());
+			return ((objectType == null) ? "<unknown>" : objectType.getName());
 		}
 
 		protected String getFieldName() {
@@ -293,8 +293,8 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 
 		@Override
 		public String getIdentifier() {
-			return "FieldAlternativeConstructorsInstaller [field=" + getFieldName() + ", containingType="
-					+ getContainingTypeName() + "]";
+			return "FieldAlternativeConstructorsInstaller [field=" + getFieldName() + ", objectType="
+					+ getobjectTypeName() + "]";
 		}
 
 		@Override
@@ -317,10 +317,10 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 			this.field = field;
 		}
 
-		protected String getContainingTypeName() {
-			ITypeInfo containingType = (object == null) ? null
+		protected String getobjectTypeName() {
+			ITypeInfo objectType = (object == null) ? null
 					: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			return ((containingType == null) ? "<unknown>" : containingType.getName());
+			return ((objectType == null) ? "<unknown>" : objectType.getName());
 		}
 
 		protected String getFieldName() {
@@ -329,8 +329,8 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 
 		@Override
 		public String getIdentifier() {
-			return "FieldAlternativeListItemConstructorsInstaller [field=" + getFieldName() + ", containingType="
-					+ getContainingTypeName() + "]";
+			return "FieldAlternativeListItemConstructorsInstaller [field=" + getFieldName() + ", objectType="
+					+ getobjectTypeName() + "]";
 		}
 
 		@Override
@@ -344,7 +344,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 				@Override
 				public String getIdentifier() {
 					return "ItemConstructorsInstaller [parent=FieldAlternativeListItemConstructorsInstaller [field="
-							+ getFieldName() + ", containingType=" + getContainingTypeName() + "]]";
+							+ getFieldName() + ", objectType=" + getobjectTypeName() + "]]";
 				}
 
 				@Override

@@ -141,18 +141,18 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+			protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
 				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
 					return true;
 				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
 					return true;
 				} else {
-					return super.hasValueOptions(object, field, containingType);
+					return super.hasValueOptions(object, field, objectType);
 				}
 			}
 
 			@Override
-			protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+			protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
 				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
 					List<String> result = InfoCustomizations.getMemberCategoryCaptionOptions(
 							swingCustomizer.getInfoCustomizations(), (AbstractMemberCustomization) object);
@@ -164,7 +164,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 							.getAllMenuItemContainerCustomizations(tc);
 					return result.toArray();
 				} else {
-					return super.getValueOptions(object, field, containingType);
+					return super.getValueOptions(object, field, objectType);
 				}
 			}
 
@@ -408,43 +408,43 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
+			protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
 					return getTypeInfo(new JavaTypeInfoSource(CustomizationToolsUI.this, Color.class,
-							new SpecificitiesIdentifier(containingType.getName(), field.getName())));
+							new SpecificitiesIdentifier(objectType.getName(), field.getName())));
 				}
-				return super.getType(field, containingType);
+				return super.getType(field, objectType);
 			}
 
 			@Override
-			protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
+			protected Object getValue(Object object, IFieldInfo field, ITypeInfo objectType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
-					ColorSpecification colorSpec = (ColorSpecification) super.getValue(object, field, containingType);
+					ColorSpecification colorSpec = (ColorSpecification) super.getValue(object, field, objectType);
 					if (colorSpec == null) {
 						return null;
 					}
 					return SwingRendererUtils.getColor(colorSpec);
 				} else if ((object instanceof ApplicationCustomization)
 						&& field.getName().endsWith("CustomFontResourcePath")) {
-					ResourcePath result = (ResourcePath) super.getValue(object, field, containingType);
+					ResourcePath result = (ResourcePath) super.getValue(object, field, objectType);
 					result.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
 					return result;
 				} else {
-					return super.getValue(object, field, containingType);
+					return super.getValue(object, field, objectType);
 				}
 			}
 
 			@Override
-			protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+			protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo objectType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
 					Color color = (Color) value;
 					ColorSpecification colorSpec = null;
 					if (color != null) {
 						colorSpec = SwingRendererUtils.getColorSpecification(color);
 					}
-					super.setValue(object, colorSpec, field, containingType);
+					super.setValue(object, colorSpec, field, objectType);
 				} else {
-					super.setValue(object, value, field, containingType);
+					super.setValue(object, value, field, objectType);
 				}
 			}
 
@@ -485,13 +485,13 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
-				return fixOnlineHelp(super.getOnlineHelp(field, containingType));
+			protected String getOnlineHelp(IFieldInfo field, ITypeInfo objectType) {
+				return fixOnlineHelp(super.getOnlineHelp(field, objectType));
 			}
 
 			@Override
-			protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-				return fixOnlineHelp(super.getOnlineHelp(param, method, containingType));
+			protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
+				return fixOnlineHelp(super.getOnlineHelp(param, method, objectType));
 			}
 
 			@Override
@@ -500,8 +500,8 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
-				return fixOnlineHelp(super.getOnlineHelp(method, containingType));
+			protected String getOnlineHelp(IMethodInfo method, ITypeInfo objectType) {
+				return fixOnlineHelp(super.getOnlineHelp(method, objectType));
 			}
 
 			@Override

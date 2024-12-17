@@ -553,7 +553,7 @@
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-672d</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen6], fieldName=row1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=row1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -568,7 +568,7 @@
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-6720</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen6], fieldName=row2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=row2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -632,7 +632,7 @@
         <menuModel>
             <uniqueIdentifier>838c312:16ce72ce13e:-670b</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen6], fieldName=row3]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=row3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -932,7 +932,7 @@
         <menuModel>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-684a</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen6], fieldName=right]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=right]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>26b27e69:16ce7682650:-6821</uniqueIdentifier>
@@ -1195,7 +1195,7 @@
         <menuModel>
             <uniqueIdentifier>41ba5ca0:16ce7318b22:-6803</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.LoginScreen6], fieldName=left]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.LoginScreen6], fieldName=left]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <virtualFieldDeclarations>
             <uniqueIdentifier>26b27e69:16ce7682650:-6670</uniqueIdentifier>

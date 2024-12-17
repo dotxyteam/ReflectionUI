@@ -1532,7 +1532,7 @@
         <menuModel>
             <uniqueIdentifier>-3353a0cc:16d01ba0c1a:-66ce</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Library], fieldName=block1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Library], fieldName=block1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1557,7 +1557,7 @@
         <menuModel>
             <uniqueIdentifier>-3353a0cc:16d01ba0c1a:-66b0</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Library], fieldName=block2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Library], fieldName=block2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1582,7 +1582,7 @@
         <menuModel>
             <uniqueIdentifier>-3353a0cc:16d01ba0c1a:-66a3</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Library], fieldName=block3]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Library], fieldName=block3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1607,7 +1607,7 @@
         <menuModel>
             <uniqueIdentifier>-3353a0cc:16d01ba0c1a:-6696</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Library], fieldName=block4]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Library], fieldName=block4]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1734,7 +1734,7 @@
         <menuModel>
             <uniqueIdentifier>-3353a0cc:16d01ba0c1a:-6689</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.Library], fieldName=top]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.Library], fieldName=top]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2480,7 +2480,7 @@
         <menuModel>
             <uniqueIdentifier>496b311e:16d01cb7de6:-646c</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.List getNMostPopularBooks(int), containingType=xy.reflect.ui.example.Library], subContext=MethodResult, encapsulatedObjectType=java.util.List]</typeName>
+        <typeName>Encapsulation [context=MethodContext [methodSignature=java.util.List getNMostPopularBooks(int), objectType=xy.reflect.ui.example.Library], subContext=MethodResult, encapsulatedObjectType=java.util.List]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2970,7 +2970,7 @@
         <menuModel>
             <uniqueIdentifier>496b311e:16d01cb7de6:-602a</uniqueIdentifier>
         </menuModel>
-        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void newIssue(xy.reflect.ui.example.Library$Student, xy.reflect.ui.example.Library$Book), containingType=xy.reflect.ui.example.Library]]</typeName>
+        <typeName>MethodSetupObject [context=MethodContext [methodSignature=void newIssue(xy.reflect.ui.example.Library$Student, xy.reflect.ui.example.Library$Book), objectType=xy.reflect.ui.example.Library]]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2984,7 +2984,7 @@
         <menuModel>
             <uniqueIdentifier>-5cfe7648:16d01da3021:-667e</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=books, containingType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Book]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=books, objectType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Book]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2998,7 +2998,7 @@
         <menuModel>
             <uniqueIdentifier>-2b290683:16d01e1b390:-6666</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=students, containingType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Student]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=students, objectType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Student]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3488,7 +3488,7 @@
         <menuModel>
             <uniqueIdentifier>-53da53e2:16d01ebd36b:-6648</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=issues, containingType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Issue]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=issues, objectType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Issue]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3803,7 +3803,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>Encapsulation [context=FieldContext [fieldName=returnedDate, containingType=xy.reflect.ui.example.Library$Issue], subContext=NullableInstance, encapsulatedObjectType=java.util.Date]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=returnedDate, objectType=xy.reflect.ui.example.Library$Issue], subContext=NullableInstance, encapsulatedObjectType=java.util.Date]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3817,7 +3817,7 @@
         <menuModel>
             <uniqueIdentifier>-7811b56:16d01f3fa5e:-644b</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=getNMostPopularBooks.savedInvocation0.result, containingType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Book]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=getNMostPopularBooks.savedInvocation0.result, objectType=xy.reflect.ui.example.Library], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.example.Library$Book]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

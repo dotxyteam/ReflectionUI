@@ -577,7 +577,7 @@
         <menuModel>
             <uniqueIdentifier>62be42e1:16d63007964:-6861</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CreditCardPayment], fieldName=expiration]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CreditCardPayment], fieldName=expiration]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -718,7 +718,7 @@
         <menuModel>
             <uniqueIdentifier>62be42e1:16d63007964:-6513</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CreditCardPayment], fieldName=codes]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CreditCardPayment], fieldName=codes]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -795,7 +795,7 @@
         <menuModel>
             <uniqueIdentifier>16046b01:16d631ea54f:-6206</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CreditCardPayment], fieldName=Owner]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CreditCardPayment], fieldName=Owner]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -909,7 +909,7 @@
         <menuModel>
             <uniqueIdentifier>16e49888:16d632829a9:-652d</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.CreditCardPayment], fieldName=typeGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.CreditCardPayment], fieldName=typeGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>

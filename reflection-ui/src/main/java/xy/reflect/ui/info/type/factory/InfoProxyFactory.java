@@ -144,24 +144,24 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type;
 	}
 
-	public IFieldInfo wrapFieldInfo(IFieldInfo field, ITypeInfo containingType) {
-		return new GeneratedFieldInfoProxy(field, containingType);
+	public IFieldInfo wrapFieldInfo(IFieldInfo field, ITypeInfo objectType) {
+		return new GeneratedFieldInfoProxy(field, objectType);
 	}
 
-	public IParameterInfo wrapParameterInfo(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
-		return new GeneratedParameterInfoProxy(param, method, containingType);
+	public IParameterInfo wrapParameterInfo(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
+		return new GeneratedParameterInfoProxy(param, method, objectType);
 	}
 
 	public IEnumerationItemInfo wrapEnumerationItemInfo(IEnumerationItemInfo itemInfo, ITypeInfo parentEnumType) {
 		return new GeneratedEnumerationItemInfoProxy(itemInfo, parentEnumType);
 	}
 
-	public IMethodInfo wrapConstructorInfo(IMethodInfo constructor, ITypeInfo containingType) {
-		return new GeneratedConstructorInfoProxy(constructor, containingType);
+	public IMethodInfo wrapConstructorInfo(IMethodInfo constructor, ITypeInfo objectType) {
+		return new GeneratedConstructorInfoProxy(constructor, objectType);
 	}
 
-	public IMethodInfo wrapMethodInfo(IMethodInfo method, ITypeInfo containingType) {
-		return new GeneratedMethodInfoProxy(method, containingType);
+	public IMethodInfo wrapMethodInfo(IMethodInfo method, ITypeInfo objectType) {
+		return new GeneratedMethodInfoProxy(method, objectType);
 	}
 
 	public ITypeInfo unwrapTypeInfo(final ITypeInfo type) {
@@ -244,100 +244,100 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return getClass().getEnclosingMethod();
 	}
 
-	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+	protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo objectType,
 			Object object) {
 		return param.getDefaultValue(object);
 	}
 
-	protected boolean hasValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+	protected boolean hasValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo objectType,
 			Object object) {
 		return param.hasValueOptions(object);
 	}
 
-	protected Object[] getValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo containingType,
+	protected Object[] getValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo objectType,
 			Object object) {
 		return param.getValueOptions(object);
 	}
 
-	protected int getPosition(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected int getPosition(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 		return param.getPosition();
 	}
 
-	protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 		return wrapParameterTypeInfo(param.getType());
 	}
 
-	protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isNullValueDistinct(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 		return param.isNullValueDistinct();
 	}
 
-	protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected String getCaption(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 		return param.getCaption();
 	}
 
-	protected boolean isHidden(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isHidden(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 		return param.isHidden();
 	}
 
-	protected String getName(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected String getName(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 		return param.getName();
 	}
 
-	protected InfoCategory getCategory(IFieldInfo field, ITypeInfo containingType) {
+	protected InfoCategory getCategory(IFieldInfo field, ITypeInfo objectType) {
 		return field.getCategory();
 	}
 
-	protected ITypeInfo getType(IFieldInfo field, ITypeInfo containingType) {
+	protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
 		return wrapFieldTypeInfo(field.getType());
 	}
 
-	protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field, ITypeInfo containingType) {
+	protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field, ITypeInfo objectType) {
 		return field.getAlternativeConstructors(object);
 	}
 
 	protected List<IMethodInfo> getAlternativeListItemConstructors(Object object, IFieldInfo field,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		return field.getAlternativeListItemConstructors(object);
 	}
 
-	protected Object getValue(Object object, IFieldInfo field, ITypeInfo containingType) {
+	protected Object getValue(Object object, IFieldInfo field, ITypeInfo objectType) {
 		return field.getValue(object);
 	}
 
-	protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+	protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
 		return field.hasValueOptions(object);
 	}
 
-	protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo containingType) {
+	protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
 		return field.getValueOptions(object);
 	}
 
-	protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isNullValueDistinct(IFieldInfo field, ITypeInfo objectType) {
 		return field.isNullValueDistinct();
 	}
 
-	protected String getNullValueLabel(IFieldInfo field, ITypeInfo containingType) {
+	protected String getNullValueLabel(IFieldInfo field, ITypeInfo objectType) {
 		return field.getNullValueLabel();
 	}
 
-	protected boolean isTransient(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isTransient(IFieldInfo field, ITypeInfo objectType) {
 		return field.isTransient();
 	}
 
-	protected boolean isGetOnly(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isGetOnly(IFieldInfo field, ITypeInfo objectType) {
 		return field.isGetOnly();
 	}
 
-	protected ValueReturnMode getValueReturnMode(IFieldInfo field, ITypeInfo containingType) {
+	protected ValueReturnMode getValueReturnMode(IFieldInfo field, ITypeInfo objectType) {
 		return field.getValueReturnMode();
 	}
 
-	protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo containingType) {
+	protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo objectType) {
 		field.setValue(object, value);
 	}
 
 	protected Runnable getNextUpdateCustomUndoJob(Object object, Object value, IFieldInfo field,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		return field.getNextUpdateCustomUndoJob(object, value);
 	}
 
@@ -369,107 +369,107 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getMenuModel();
 	}
 
-	protected String getCaption(IFieldInfo field, ITypeInfo containingType) {
+	protected String getCaption(IFieldInfo field, ITypeInfo objectType) {
 		return field.getCaption();
 	}
 
-	protected String getName(IFieldInfo field, ITypeInfo containingType) {
+	protected String getName(IFieldInfo field, ITypeInfo objectType) {
 		return field.getName();
 	}
 
-	protected boolean isHidden(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isHidden(IFieldInfo field, ITypeInfo objectType) {
 		return field.isHidden();
 	}
 
-	protected double getDisplayAreaHorizontalWeight(IFieldInfo field, ITypeInfo containingType) {
+	protected double getDisplayAreaHorizontalWeight(IFieldInfo field, ITypeInfo objectType) {
 		return field.getDisplayAreaHorizontalWeight();
 	}
 
-	protected double getDisplayAreaVerticalWeight(IFieldInfo field, ITypeInfo containingType) {
+	protected double getDisplayAreaVerticalWeight(IFieldInfo field, ITypeInfo objectType) {
 		return field.getDisplayAreaVerticalWeight();
 	}
 
-	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo containingType) {
+	protected InfoCategory getCategory(IMethodInfo method, ITypeInfo objectType) {
 		return method.getCategory();
 	}
 
-	protected boolean isReadOnly(IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isReadOnly(IMethodInfo method, ITypeInfo objectType) {
 		return method.isReadOnly();
 	}
 
-	protected String getNullReturnValueLabel(IMethodInfo method, ITypeInfo containingType) {
+	protected String getNullReturnValueLabel(IMethodInfo method, ITypeInfo objectType) {
 		return method.getNullReturnValueLabel();
 	}
 
-	protected ValueReturnMode getValueReturnMode(IMethodInfo method, ITypeInfo containingType) {
+	protected ValueReturnMode getValueReturnMode(IMethodInfo method, ITypeInfo objectType) {
 		return method.getValueReturnMode();
 	}
 
 	protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		return method.invoke(object, invocationData);
 	}
 
 	protected String getConfirmationMessage(Object object, InvocationData invocationData, IMethodInfo method,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		return method.getConfirmationMessage(object, invocationData);
 	}
 
-	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo containingType) {
+	protected List<IParameterInfo> getParameters(IMethodInfo method, ITypeInfo objectType) {
 		return method.getParameters();
 	}
 
-	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo containingType) {
+	protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo objectType) {
 		return wrapMethodReturnValueTypeInfo(method.getReturnValueType());
 	}
 
-	protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isNullReturnValueDistinct(IMethodInfo method, ITypeInfo objectType) {
 		return method.isNullReturnValueDistinct();
 	}
 
-	protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isReturnValueDetached(IMethodInfo method, ITypeInfo objectType) {
 		return method.isReturnValueDetached();
 	}
 
-	protected boolean isReturnValueIgnored(IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isReturnValueIgnored(IMethodInfo method, ITypeInfo objectType) {
 		return method.isReturnValueIgnored();
 	}
 
-	protected String getCaption(IMethodInfo method, ITypeInfo containingType) {
+	protected String getCaption(IMethodInfo method, ITypeInfo objectType) {
 		return method.getCaption();
 	}
 
-	protected String getParametersValidationCustomCaption(IMethodInfo method, ITypeInfo containingType) {
+	protected String getParametersValidationCustomCaption(IMethodInfo method, ITypeInfo objectType) {
 		return method.getParametersValidationCustomCaption();
 	}
 
-	protected String getExecutionSuccessMessage(IMethodInfo method, ITypeInfo containingType) {
+	protected String getExecutionSuccessMessage(IMethodInfo method, ITypeInfo objectType) {
 		return method.getExecutionSuccessMessage();
 	}
 
-	protected String getName(IMethodInfo method, ITypeInfo containingType) {
+	protected String getName(IMethodInfo method, ITypeInfo objectType) {
 		return method.getName();
 	}
 
-	protected boolean isHidden(IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isHidden(IMethodInfo method, ITypeInfo objectType) {
 		return method.isHidden();
 	}
 
 	protected void onControlVisibilityChange(Object object, boolean visible, IMethodInfo method,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		method.onControlVisibilityChange(object, visible);
 	}
 
-	protected boolean isEnabled(Object object, IMethodInfo method, ITypeInfo containingType) {
+	protected boolean isEnabled(Object object, IMethodInfo method, ITypeInfo objectType) {
 		return method.isEnabled(object);
 	}
 
 	protected void onControlVisibilityChange(Object object, boolean visible, IFieldInfo field,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		field.onControlVisibilityChange(object, visible);
 	}
 
-	protected String getSignature(IMethodInfo method, ITypeInfo containingType) {
+	protected String getSignature(IMethodInfo method, ITypeInfo objectType) {
 		return method.getSignature();
 	}
 
@@ -556,8 +556,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.toArray(listValue);
 	}
 
-	protected IFieldInfo getSelectionTargetField(IListTypeInfo type, ITypeInfo containingType) {
-		return type.getSelectionTargetField(containingType);
+	protected IFieldInfo getSelectionTargetField(IListTypeInfo type, ITypeInfo objectType) {
+		return type.getSelectionTargetField(objectType);
 	}
 
 	protected List<IMethodInfo> getConstructors(ITypeInfo type) {
@@ -788,36 +788,36 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return wrapFieldInfo(type.getValueField(), type);
 	}
 
-	protected boolean isFormControlMandatory(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isFormControlMandatory(IFieldInfo field, ITypeInfo objectType) {
 		return field.isFormControlMandatory();
 	}
 
-	protected boolean isFormControlEmbedded(IFieldInfo field, ITypeInfo containingType) {
+	protected boolean isFormControlEmbedded(IFieldInfo field, ITypeInfo objectType) {
 		return field.isFormControlEmbedded();
 	}
 
-	protected IInfoFilter getFormControlFilter(IFieldInfo field, ITypeInfo containingType) {
+	protected IInfoFilter getFormControlFilter(IFieldInfo field, ITypeInfo objectType) {
 		return field.getFormControlFilter();
 	}
 
-	protected long getAutoUpdatePeriodMilliseconds(IFieldInfo field, ITypeInfo containingType) {
+	protected long getAutoUpdatePeriodMilliseconds(IFieldInfo field, ITypeInfo objectType) {
 		return field.getAutoUpdatePeriodMilliseconds();
 	}
 
-	protected String getOnlineHelp(IFieldInfo field, ITypeInfo containingType) {
+	protected String getOnlineHelp(IFieldInfo field, ITypeInfo objectType) {
 		return field.getOnlineHelp();
 	}
 
-	protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo containingType) {
+	protected Map<String, Object> getSpecificProperties(IFieldInfo field, ITypeInfo objectType) {
 		return field.getSpecificProperties();
 	}
 
-	protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+	protected String getOnlineHelp(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 		return param.getOnlineHelp();
 	}
 
 	protected Map<String, Object> getSpecificProperties(IParameterInfo param, IMethodInfo method,
-			ITypeInfo containingType) {
+			ITypeInfo objectType) {
 		return param.getSpecificProperties();
 	}
 
@@ -833,24 +833,24 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		return type.getSpecificProperties();
 	}
 
-	protected String getOnlineHelp(IMethodInfo method, ITypeInfo containingType) {
+	protected String getOnlineHelp(IMethodInfo method, ITypeInfo objectType) {
 		return method.getOnlineHelp();
 	}
 
-	protected ResourcePath getIconImagePath(IMethodInfo method, ITypeInfo containingType) {
+	protected ResourcePath getIconImagePath(IMethodInfo method, ITypeInfo objectType) {
 		return method.getIconImagePath();
 	}
 
-	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo containingType) {
+	protected Map<String, Object> getSpecificProperties(IMethodInfo method, ITypeInfo objectType) {
 		return method.getSpecificProperties();
 	}
 
-	protected void validateParameters(IMethodInfo method, ITypeInfo containingType, Object object,
+	protected void validateParameters(IMethodInfo method, ITypeInfo objectType, Object object,
 			InvocationData invocationData) throws Exception {
 		method.validateParameters(object, invocationData);
 	}
 
-	protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo containingType, Object object,
+	protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo objectType, Object object,
 			InvocationData invocationData) {
 		return method.getNextInvocationUndoJob(object, invocationData);
 	}
@@ -1429,8 +1429,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public IFieldInfo getSelectionTargetField(ITypeInfo containingType) {
-			return InfoProxyFactory.this.getSelectionTargetField((IListTypeInfo) base, containingType);
+		public IFieldInfo getSelectionTargetField(ITypeInfo objectType) {
+			return InfoProxyFactory.this.getSelectionTargetField((IListTypeInfo) base, objectType);
 		}
 
 		@Override
@@ -1594,141 +1594,141 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		protected InfoProxyFactory factory = InfoProxyFactory.this;
 
 		protected IFieldInfo base;
-		protected ITypeInfo containingType;
+		protected ITypeInfo objectType;
 
-		public GeneratedFieldInfoProxy(IFieldInfo field, ITypeInfo containingType) {
+		public GeneratedFieldInfoProxy(IFieldInfo field, ITypeInfo objectType) {
 			this.base = field;
-			this.containingType = containingType;
+			this.objectType = objectType;
 		}
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base, containingType);
+			return InfoProxyFactory.this.getName(base, objectType);
 		}
 
 		@Override
 		public boolean isHidden() {
-			return InfoProxyFactory.this.isHidden(base, containingType);
+			return InfoProxyFactory.this.isHidden(base, objectType);
 		}
 
 		@Override
 		public List<IMethodInfo> getAlternativeConstructors(Object object) {
-			return InfoProxyFactory.this.getAlternativeConstructors(object, base, containingType);
+			return InfoProxyFactory.this.getAlternativeConstructors(object, base, objectType);
 		}
 
 		@Override
 		public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
-			return InfoProxyFactory.this.getAlternativeListItemConstructors(object, base, containingType);
+			return InfoProxyFactory.this.getAlternativeListItemConstructors(object, base, objectType);
 		}
 
 		@Override
 		public double getDisplayAreaHorizontalWeight() {
-			return InfoProxyFactory.this.getDisplayAreaHorizontalWeight(base, containingType);
+			return InfoProxyFactory.this.getDisplayAreaHorizontalWeight(base, objectType);
 		}
 
 		@Override
 		public double getDisplayAreaVerticalWeight() {
-			return InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, containingType);
+			return InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, objectType);
 		}
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, containingType);
+			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, objectType);
 		}
 
 		@Override
 		public String getCaption() {
-			return InfoProxyFactory.this.getCaption(base, containingType);
+			return InfoProxyFactory.this.getCaption(base, objectType);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			InfoProxyFactory.this.setValue(object, value, base, containingType);
+			InfoProxyFactory.this.setValue(object, value, base, objectType);
 		}
 
 		@Override
 		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-			return InfoProxyFactory.this.getNextUpdateCustomUndoJob(object, value, base, containingType);
+			return InfoProxyFactory.this.getNextUpdateCustomUndoJob(object, value, base, objectType);
 		}
 
 		@Override
 		public boolean isGetOnly() {
-			return InfoProxyFactory.this.isGetOnly(base, containingType);
+			return InfoProxyFactory.this.isGetOnly(base, objectType);
 		}
 
 		@Override
 		public boolean isTransient() {
-			return InfoProxyFactory.this.isTransient(base, containingType);
+			return InfoProxyFactory.this.isTransient(base, objectType);
 		}
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return InfoProxyFactory.this.getValueReturnMode(base, containingType);
+			return InfoProxyFactory.this.getValueReturnMode(base, objectType);
 		}
 
 		@Override
 		public boolean isNullValueDistinct() {
-			return InfoProxyFactory.this.isNullValueDistinct(base, containingType);
+			return InfoProxyFactory.this.isNullValueDistinct(base, objectType);
 		}
 
 		@Override
 		public String getNullValueLabel() {
-			return InfoProxyFactory.this.getNullValueLabel(base, containingType);
+			return InfoProxyFactory.this.getNullValueLabel(base, objectType);
 
 		}
 
 		@Override
 		public Object getValue(Object object) {
-			return InfoProxyFactory.this.getValue(object, base, containingType);
+			return InfoProxyFactory.this.getValue(object, base, objectType);
 		}
 
 		@Override
 		public boolean hasValueOptions(Object object) {
-			return InfoProxyFactory.this.hasValueOptions(object, base, containingType);
+			return InfoProxyFactory.this.hasValueOptions(object, base, objectType);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			return InfoProxyFactory.this.getValueOptions(object, base, containingType);
+			return InfoProxyFactory.this.getValueOptions(object, base, objectType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return InfoProxyFactory.this.getType(base, containingType);
+			return InfoProxyFactory.this.getType(base, objectType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return InfoProxyFactory.this.getCategory(base, containingType);
+			return InfoProxyFactory.this.getCategory(base, objectType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return InfoProxyFactory.this.getOnlineHelp(base, containingType);
+			return InfoProxyFactory.this.getOnlineHelp(base, objectType);
 		}
 
 		@Override
 		public boolean isFormControlMandatory() {
-			return InfoProxyFactory.this.isFormControlMandatory(base, containingType);
+			return InfoProxyFactory.this.isFormControlMandatory(base, objectType);
 		}
 
 		@Override
 		public boolean isFormControlEmbedded() {
-			return InfoProxyFactory.this.isFormControlEmbedded(base, containingType);
+			return InfoProxyFactory.this.isFormControlEmbedded(base, objectType);
 		}
 
 		@Override
 		public IInfoFilter getFormControlFilter() {
-			return InfoProxyFactory.this.getFormControlFilter(base, containingType);
+			return InfoProxyFactory.this.getFormControlFilter(base, objectType);
 		}
 
 		public long getAutoUpdatePeriodMilliseconds() {
-			return InfoProxyFactory.this.getAutoUpdatePeriodMilliseconds(base, containingType);
+			return InfoProxyFactory.this.getAutoUpdatePeriodMilliseconds(base, objectType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return InfoProxyFactory.this.getSpecificProperties(base, containingType);
+			return InfoProxyFactory.this.getSpecificProperties(base, objectType);
 		}
 
 		@Override
@@ -1736,7 +1736,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			final int prime = 31;
 			int result = super.hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
-			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+			result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			return result;
 		}
@@ -1755,10 +1755,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 					return false;
 			} else if (!base.equals(other.base))
 				return false;
-			if (containingType == null) {
-				if (other.containingType != null)
+			if (objectType == null) {
+				if (other.objectType != null)
 					return false;
-			} else if (!containingType.equals(other.containingType))
+			} else if (!objectType.equals(other.objectType))
 				return false;
 			if (factory == null) {
 				if (other.factory != null)
@@ -1780,135 +1780,135 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		protected InfoProxyFactory factory = InfoProxyFactory.this;
 
 		protected IMethodInfo base;
-		protected ITypeInfo containingType;
+		protected ITypeInfo objectType;
 
-		public GeneratedMethodInfoProxy(IMethodInfo method, ITypeInfo containingType) {
+		public GeneratedMethodInfoProxy(IMethodInfo method, ITypeInfo objectType) {
 			this.base = method;
-			this.containingType = containingType;
+			this.objectType = objectType;
 		}
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base, containingType);
+			return InfoProxyFactory.this.getName(base, objectType);
 		}
 
 		@Override
 		public boolean isHidden() {
-			return InfoProxyFactory.this.isHidden(base, containingType);
+			return InfoProxyFactory.this.isHidden(base, objectType);
 		}
 
 		@Override
 		public boolean isEnabled(Object object) {
-			return InfoProxyFactory.this.isEnabled(object, base, containingType);
+			return InfoProxyFactory.this.isEnabled(object, base, objectType);
 		}
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, containingType);
+			InfoProxyFactory.this.onControlVisibilityChange(object, visible, base, objectType);
 		}
 
 		@Override
 		public String getSignature() {
-			return InfoProxyFactory.this.getSignature(base, containingType);
+			return InfoProxyFactory.this.getSignature(base, objectType);
 		}
 
 		@Override
 		public String getCaption() {
-			return InfoProxyFactory.this.getCaption(base, containingType);
+			return InfoProxyFactory.this.getCaption(base, objectType);
 		}
 
 		@Override
 		public String getParametersValidationCustomCaption() {
-			return InfoProxyFactory.this.getParametersValidationCustomCaption(base, containingType);
+			return InfoProxyFactory.this.getParametersValidationCustomCaption(base, objectType);
 		}
 
 		@Override
 		public String getExecutionSuccessMessage() {
-			return InfoProxyFactory.this.getExecutionSuccessMessage(base, containingType);
+			return InfoProxyFactory.this.getExecutionSuccessMessage(base, objectType);
 		}
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return InfoProxyFactory.this.getReturnValueType(base, containingType);
+			return InfoProxyFactory.this.getReturnValueType(base, objectType);
 		}
 
 		@Override
 		public boolean isNullReturnValueDistinct() {
-			return InfoProxyFactory.this.isNullReturnValueDistinct(base, containingType);
+			return InfoProxyFactory.this.isNullReturnValueDistinct(base, objectType);
 		}
 
 		@Override
 		public boolean isReturnValueDetached() {
-			return InfoProxyFactory.this.isReturnValueDetached(base, containingType);
+			return InfoProxyFactory.this.isReturnValueDetached(base, objectType);
 		}
 
 		@Override
 		public boolean isReturnValueIgnored() {
-			return InfoProxyFactory.this.isReturnValueIgnored(base, containingType);
+			return InfoProxyFactory.this.isReturnValueIgnored(base, objectType);
 		}
 
 		@Override
 		public List<IParameterInfo> getParameters() {
 			List<IParameterInfo> result = new ArrayList<IParameterInfo>();
-			for (IParameterInfo param : InfoProxyFactory.this.getParameters(base, containingType)) {
-				result.add(wrapParameterInfo(param, base, containingType));
+			for (IParameterInfo param : InfoProxyFactory.this.getParameters(base, objectType)) {
+				result.add(wrapParameterInfo(param, base, objectType));
 			}
 			return result;
 		}
 
 		@Override
 		public Object invoke(Object object, InvocationData invocationData) {
-			return InfoProxyFactory.this.invoke(object, invocationData, base, containingType);
+			return InfoProxyFactory.this.invoke(object, invocationData, base, objectType);
 		}
 
 		@Override
 		public String getConfirmationMessage(Object object, InvocationData invocationData) {
-			return InfoProxyFactory.this.getConfirmationMessage(object, invocationData, base, containingType);
+			return InfoProxyFactory.this.getConfirmationMessage(object, invocationData, base, objectType);
 		}
 
 		@Override
 		public boolean isReadOnly() {
-			return InfoProxyFactory.this.isReadOnly(base, containingType);
+			return InfoProxyFactory.this.isReadOnly(base, objectType);
 		}
 
 		@Override
 		public String getNullReturnValueLabel() {
-			return InfoProxyFactory.this.getNullReturnValueLabel(base, containingType);
+			return InfoProxyFactory.this.getNullReturnValueLabel(base, objectType);
 		}
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return InfoProxyFactory.this.getValueReturnMode(base, containingType);
+			return InfoProxyFactory.this.getValueReturnMode(base, objectType);
 		}
 
 		@Override
 		public InfoCategory getCategory() {
-			return InfoProxyFactory.this.getCategory(base, containingType);
+			return InfoProxyFactory.this.getCategory(base, objectType);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return InfoProxyFactory.this.getOnlineHelp(base, containingType);
+			return InfoProxyFactory.this.getOnlineHelp(base, objectType);
 		}
 
 		@Override
 		public ResourcePath getIconImagePath() {
-			return InfoProxyFactory.this.getIconImagePath(base, containingType);
+			return InfoProxyFactory.this.getIconImagePath(base, objectType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return InfoProxyFactory.this.getSpecificProperties(base, containingType);
+			return InfoProxyFactory.this.getSpecificProperties(base, objectType);
 		}
 
 		@Override
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
-			InfoProxyFactory.this.validateParameters(base, containingType, object, invocationData);
+			InfoProxyFactory.this.validateParameters(base, objectType, object, invocationData);
 		}
 
 		@Override
 		public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
-			return InfoProxyFactory.this.getNextInvocationUndoJob(base, containingType, object, invocationData);
+			return InfoProxyFactory.this.getNextInvocationUndoJob(base, objectType, object, invocationData);
 		}
 
 		@Override
@@ -1916,7 +1916,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			final int prime = 31;
 			int result = super.hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
-			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+			result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			return result;
 		}
@@ -1935,10 +1935,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 					return false;
 			} else if (!base.equals(other.base))
 				return false;
-			if (containingType == null) {
-				if (other.containingType != null)
+			if (objectType == null) {
+				if (other.objectType != null)
 					return false;
-			} else if (!containingType.equals(other.containingType))
+			} else if (!objectType.equals(other.objectType))
 				return false;
 			if (factory == null) {
 				if (other.factory != null)
@@ -1958,8 +1958,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	public class GeneratedConstructorInfoProxy extends GeneratedMethodInfoProxy {
 
-		public GeneratedConstructorInfoProxy(IMethodInfo ctor, ITypeInfo containingType) {
-			super(ctor, containingType);
+		public GeneratedConstructorInfoProxy(IMethodInfo ctor, ITypeInfo objectType) {
+			super(ctor, objectType);
 		}
 
 	}
@@ -1970,67 +1970,67 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		protected IParameterInfo base;
 		protected IMethodInfo method;
-		protected ITypeInfo containingType;
+		protected ITypeInfo objectType;
 
-		public GeneratedParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo containingType) {
+		public GeneratedParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 			this.base = param;
 			this.method = method;
-			this.containingType = containingType;
+			this.objectType = objectType;
 		}
 
 		@Override
 		public String getName() {
-			return InfoProxyFactory.this.getName(base, method, containingType);
+			return InfoProxyFactory.this.getName(base, method, objectType);
 		}
 
 		@Override
 		public String getCaption() {
-			return InfoProxyFactory.this.getCaption(base, method, containingType);
+			return InfoProxyFactory.this.getCaption(base, method, objectType);
 		}
 
 		@Override
 		public boolean isHidden() {
-			return InfoProxyFactory.this.isHidden(base, method, containingType);
+			return InfoProxyFactory.this.isHidden(base, method, objectType);
 		}
 
 		@Override
 		public boolean isNullValueDistinct() {
-			return InfoProxyFactory.this.isNullValueDistinct(base, method, containingType);
+			return InfoProxyFactory.this.isNullValueDistinct(base, method, objectType);
 		}
 
 		@Override
 		public ITypeInfo getType() {
-			return InfoProxyFactory.this.getType(base, method, containingType);
+			return InfoProxyFactory.this.getType(base, method, objectType);
 		}
 
 		@Override
 		public int getPosition() {
-			return InfoProxyFactory.this.getPosition(base, method, containingType);
+			return InfoProxyFactory.this.getPosition(base, method, objectType);
 		}
 
 		@Override
 		public Object getDefaultValue(Object object) {
-			return InfoProxyFactory.this.getDefaultValue(base, method, containingType, object);
+			return InfoProxyFactory.this.getDefaultValue(base, method, objectType, object);
 		}
 
 		@Override
 		public boolean hasValueOptions(Object object) {
-			return InfoProxyFactory.this.hasValueOptions(base, method, containingType, object);
+			return InfoProxyFactory.this.hasValueOptions(base, method, objectType, object);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			return InfoProxyFactory.this.getValueOptions(base, method, containingType, object);
+			return InfoProxyFactory.this.getValueOptions(base, method, objectType, object);
 		}
 
 		@Override
 		public String getOnlineHelp() {
-			return InfoProxyFactory.this.getOnlineHelp(base, method, containingType);
+			return InfoProxyFactory.this.getOnlineHelp(base, method, objectType);
 		}
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {
-			return InfoProxyFactory.this.getSpecificProperties(base, method, containingType);
+			return InfoProxyFactory.this.getSpecificProperties(base, method, objectType);
 		}
 
 		@Override
@@ -2038,7 +2038,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			final int prime = 31;
 			int result = super.hashCode();
 			result = prime * result + ((base == null) ? 0 : base.hashCode());
-			result = prime * result + ((containingType == null) ? 0 : containingType.hashCode());
+			result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
 			result = prime * result + ((factory == null) ? 0 : factory.hashCode());
 			result = prime * result + ((method == null) ? 0 : method.hashCode());
 			return result;
@@ -2058,10 +2058,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 					return false;
 			} else if (!base.equals(other.base))
 				return false;
-			if (containingType == null) {
-				if (other.containingType != null)
+			if (objectType == null) {
+				if (other.objectType != null)
 					return false;
-			} else if (!containingType.equals(other.containingType))
+			} else if (!objectType.equals(other.objectType))
 				return false;
 			if (factory == null) {
 				if (other.factory != null)

@@ -1526,7 +1526,7 @@
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6847</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screen]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screen]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1605,7 +1605,7 @@
             <validating>false</validating>
         </methodsCustomizations>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screenLeft]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screenLeft]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1684,7 +1684,7 @@
             <validating>false</validating>
         </methodsCustomizations>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screenRight]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screenRight]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1840,7 +1840,7 @@
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-657d</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screenAndItsButtons]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screenAndItsButtons]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1882,7 +1882,7 @@
             <uniqueIdentifier>-662e76dd:16d173746f1:-6440</uniqueIdentifier>
         </menuModel>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=card]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=card]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1923,7 +1923,7 @@
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-642d</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=money]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=money]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -1964,7 +1964,7 @@
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-641a</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=receipt]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=receipt]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2063,7 +2063,7 @@
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-6407</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=statuses]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=statuses]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2125,7 +2125,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow1]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow1]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2187,7 +2187,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow2]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow2]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2249,7 +2249,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow3]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow3]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2279,7 +2279,7 @@
             <runWhenObjectShown>false</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow4]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadRow4]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2406,7 +2406,7 @@
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-60aa</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPad]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPad]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2472,7 +2472,7 @@
             <validating>false</validating>
         </methodsCustomizations>
         <methodsLayout>VERTICAL_FLOW</methodsLayout>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=actionButtons]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=actionButtons]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2571,7 +2571,7 @@
         <menuModel>
             <uniqueIdentifier>-662e76dd:16d173746f1:-5e7e</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadAndActionButtons]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadAndActionButtons]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2762,7 +2762,7 @@
         <menuModel>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6666</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screen]], fieldName=screenColumnLeft]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screen]], fieldName=screenColumnLeft]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -2976,7 +2976,7 @@
         <menuModel>
             <uniqueIdentifier>1d34e5ed:16d17c72c31:-6641</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screen]], fieldName=screenColumnRight]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screen]], fieldName=screenColumnRight]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3018,7 +3018,7 @@
         <menuModel>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65f1</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screenAndItsButtons]], fieldName=screenLeftGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screenAndItsButtons]], fieldName=screenLeftGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3060,7 +3060,7 @@
         <menuModel>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-65e4</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=screenAndItsButtons]], fieldName=screenRightGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=screenAndItsButtons]], fieldName=screenRightGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -3101,7 +3101,7 @@
         <menuModel>
             <uniqueIdentifier>-3d97c3d6:16d1b5fef73:-4d26</uniqueIdentifier>
         </menuModel>
-        <typeName>CapsuleFieldType [context=EncapsulationContext [containingType=CapsuleFieldType [context=EncapsulationContext [containingType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadAndActionButtons]], fieldName=actionButtonsGroup]</typeName>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=CapsuleFieldType [context=EncapsulationContext [objectType=xy.reflect.ui.example.ATMSimulator], fieldName=numericPadAndActionButtons]], fieldName=actionButtonsGroup]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
 </infoCustomizations>
