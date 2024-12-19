@@ -29,21 +29,21 @@
             <green>204</green>
             <red>255</red>
         </mainBorderColor>
-        <mainButtonBackgroundColor>
+        <buttonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>204</red>
-        </mainButtonBackgroundColor>
-        <mainButtonBorderColor>
+        </buttonBackgroundColor>
+        <buttonBorderColor>
             <blue>0</blue>
             <green>0</green>
             <red>204</red>
-        </mainButtonBorderColor>
-        <mainButtonForegroundColor>
+        </buttonBorderColor>
+        <buttonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </mainButtonForegroundColor>
+        </buttonForegroundColor>
         <mainForegroundColor>
             <blue>0</blue>
             <green>0</green>

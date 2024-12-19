@@ -392,7 +392,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 					@Override
 					public IFieldInfo getItemSubListField(ItemPosition itemPosition) {
 						PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) itemPosition.getItem();
-						SubListGroupItem subListGroupItem = (SubListGroupItem) (item).unwrap();
+						SubListGroupItem subListGroupItem = (SubListGroupItem) (item).getInstance();
 						return new PrecomputedTypeInstanceWrapper.TypeInfoSource(
 								new SubListGroupItemTypeInfo(subListGroupItem.getField())).buildTypeInfo().getFields()
 										.get(0);

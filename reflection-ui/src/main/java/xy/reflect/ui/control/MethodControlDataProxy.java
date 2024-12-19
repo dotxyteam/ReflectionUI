@@ -14,7 +14,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Method control data proxy class. The methods in this class should be overriden to provide a
+ * Method control data proxy class. The methods in this class should be overridden to provide a
  * custom behavior.
  * 
  * @author olitank

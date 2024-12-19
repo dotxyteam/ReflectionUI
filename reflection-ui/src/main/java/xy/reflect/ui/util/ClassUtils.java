@@ -252,7 +252,7 @@ public class ClassUtils {
 				+ MiscUtils.stringJoin(gatClassNames(constructor.getParameterTypes()), ",") + ")";
 	}
 
-	public static boolean isOverridenBy(Method baseMethod, Method overridingMethod) {
+	public static boolean isOverriddenBy(Method baseMethod, Method overridingMethod) {
 		if (!baseMethod.getDeclaringClass().isAssignableFrom(overridingMethod.getDeclaringClass())) {
 			return false;
 		}

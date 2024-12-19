@@ -70,7 +70,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 			}
 		}
 		for (Method commonMethod : Object.class.getMethods()) {
-			if (ClassUtils.isOverridenBy(commonMethod, javaMethod)) {
+			if (ClassUtils.isOverriddenBy(commonMethod, javaMethod)) {
 				return false;
 			}
 		}

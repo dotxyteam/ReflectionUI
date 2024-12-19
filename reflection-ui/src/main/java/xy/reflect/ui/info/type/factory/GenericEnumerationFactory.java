@@ -113,7 +113,7 @@ public class GenericEnumerationFactory {
 			}
 			return null;
 		}
-		Instance instance = (Instance) ((PrecomputedTypeInstanceWrapper) object).unwrap();
+		Instance instance = (Instance) ((PrecomputedTypeInstanceWrapper) object).getInstance();
 		if (!instance.getFactory().equals(this)) {
 			throw new ReflectionUIError();
 		}

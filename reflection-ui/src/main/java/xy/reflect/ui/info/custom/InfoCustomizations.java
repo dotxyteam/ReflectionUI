@@ -1878,7 +1878,6 @@ public class InfoCustomizations implements Serializable {
 	public static class ApplicationCustomization extends AbstractInfoCustomization {
 		private static final long serialVersionUID = 1L;
 
-		
 		protected String applicationName;
 		protected String customApplicationCaption;
 		protected String onlineHelp;
@@ -1886,12 +1885,12 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification mainForegroundColor;
 		protected ColorSpecification mainBackgroundColor;
 		protected ColorSpecification mainBorderColor;
-		protected ColorSpecification mainEditorBackgroundColor;
-		protected ColorSpecification mainEditorForegroundColor;
-		protected ResourcePath mainButtonBackgroundImagePath;
-		protected ColorSpecification mainButtonForegroundColor;
-		protected ColorSpecification mainButtonBackgroundColor;
-		protected ColorSpecification mainButtonBorderColor;
+		protected ColorSpecification editorBackgroundColor;
+		protected ColorSpecification editorForegroundColor;
+		protected ResourcePath buttonBackgroundImagePath;
+		protected ColorSpecification buttonForegroundColor;
+		protected ColorSpecification buttonBackgroundColor;
+		protected ColorSpecification buttonBorderColor;
 		protected ColorSpecification titleForegroundColor;
 		protected ColorSpecification titleBackgroundColor;
 		protected ResourcePath iconImagePath;
@@ -1965,20 +1964,20 @@ public class InfoCustomizations implements Serializable {
 			this.mainBackgroundColor = mainBackgroundColor;
 		}
 
-		public ColorSpecification getMainEditorBackgroundColor() {
-			return mainEditorBackgroundColor;
+		public ColorSpecification getEditorBackgroundColor() {
+			return editorBackgroundColor;
 		}
 
-		public void setMainEditorBackgroundColor(ColorSpecification mainEditorBackgroundColor) {
-			this.mainEditorBackgroundColor = mainEditorBackgroundColor;
+		public void setEditorBackgroundColor(ColorSpecification editorBackgroundColor) {
+			this.editorBackgroundColor = editorBackgroundColor;
 		}
 
-		public ColorSpecification getMainEditorForegroundColor() {
-			return mainEditorForegroundColor;
+		public ColorSpecification getEditorForegroundColor() {
+			return editorForegroundColor;
 		}
 
-		public void setMainEditorForegroundColor(ColorSpecification mainEditorForegroundColor) {
-			this.mainEditorForegroundColor = mainEditorForegroundColor;
+		public void setEditorForegroundColor(ColorSpecification editorForegroundColor) {
+			this.editorForegroundColor = editorForegroundColor;
 		}
 
 		public ColorSpecification getMainBorderColor() {
@@ -1987,86 +1986,6 @@ public class InfoCustomizations implements Serializable {
 
 		public void setMainBorderColor(ColorSpecification mainBorderColor) {
 			this.mainBorderColor = mainBorderColor;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public ResourcePath getButtonBackgroundImagePath() {
-			return mainButtonBackgroundImagePath;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public void setButtonBackgroundImagePath(ResourcePath mainButtonBackgroundImagePath) {
-			this.mainButtonBackgroundImagePath = mainButtonBackgroundImagePath;
-		}
-
-		public ResourcePath getMainButtonBackgroundImagePath() {
-			return mainButtonBackgroundImagePath;
-		}
-
-		public void setMainButtonBackgroundImagePath(ResourcePath mainButtonBackgroundImagePath) {
-			this.mainButtonBackgroundImagePath = mainButtonBackgroundImagePath;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public ColorSpecification getButtonForegroundColor() {
-			return mainButtonForegroundColor;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public void setButtonForegroundColor(ColorSpecification mainButtonForegroundColor) {
-			this.mainButtonForegroundColor = mainButtonForegroundColor;
-		}
-
-		public ColorSpecification getMainButtonForegroundColor() {
-			return mainButtonForegroundColor;
-		}
-
-		public void setMainButtonForegroundColor(ColorSpecification mainButtonForegroundColor) {
-			this.mainButtonForegroundColor = mainButtonForegroundColor;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public ColorSpecification getButtonBackgroundColor() {
-			return mainButtonBackgroundColor;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public void setButtonBackgroundColor(ColorSpecification mainButtonBackgroundColor) {
-			this.mainButtonBackgroundColor = mainButtonBackgroundColor;
-		}
-
-		public ColorSpecification getMainButtonBackgroundColor() {
-			return mainButtonBackgroundColor;
-		}
-
-		public void setMainButtonBackgroundColor(ColorSpecification mainButtonBackgroundColor) {
-			this.mainButtonBackgroundColor = mainButtonBackgroundColor;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public ColorSpecification getButtonBorderColor() {
-			return mainButtonBorderColor;
-		}
-
-		// for backward compatibility
-		@Deprecated
-		public void setButtonBorderColor(ColorSpecification mainButtonBorderColor) {
-			this.mainButtonBorderColor = mainButtonBorderColor;
-		}
-
-		public ColorSpecification getMainButtonBorderColor() {
-			return mainButtonBorderColor;
-		}
-
-		public void setMainButtonBorderColor(ColorSpecification mainButtonBorderColor) {
-			this.mainButtonBorderColor = mainButtonBorderColor;
 		}
 
 		public ColorSpecification getTitleForegroundColor() {
@@ -2083,6 +2002,38 @@ public class InfoCustomizations implements Serializable {
 
 		public void setTitleBackgroundColor(ColorSpecification titleBackgroundColor) {
 			this.titleBackgroundColor = titleBackgroundColor;
+		}
+
+		public ResourcePath getButtonBackgroundImagePath() {
+			return buttonBackgroundImagePath;
+		}
+
+		public void setButtonBackgroundImagePath(ResourcePath buttonBackgroundImagePath) {
+			this.buttonBackgroundImagePath = buttonBackgroundImagePath;
+		}
+
+		public ColorSpecification getButtonForegroundColor() {
+			return buttonForegroundColor;
+		}
+
+		public void setButtonForegroundColor(ColorSpecification buttonForegroundColor) {
+			this.buttonForegroundColor = buttonForegroundColor;
+		}
+
+		public ColorSpecification getButtonBackgroundColor() {
+			return buttonBackgroundColor;
+		}
+
+		public void setButtonBackgroundColor(ColorSpecification buttonBackgroundColor) {
+			this.buttonBackgroundColor = buttonBackgroundColor;
+		}
+
+		public ColorSpecification getButtonBorderColor() {
+			return buttonBorderColor;
+		}
+
+		public void setButtonBorderColor(ColorSpecification buttonBorderColor) {
+			this.buttonBorderColor = buttonBorderColor;
 		}
 
 		public ResourcePath getTitleCustomFontResourcePath() {

@@ -6,7 +6,7 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 
 /**
  * Dynamic type information source proxy class. The methods in this class should
- * be overriden to provide a custom behavior.
+ * be overridden to provide a custom behavior.
  * 
  * @author olitank
  *

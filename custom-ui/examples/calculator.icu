@@ -19,16 +19,16 @@
             <green>12</green>
             <red>0</red>
         </mainBackgroundColor>
-        <mainButtonBackgroundColor>
+        <buttonBackgroundColor>
             <blue>204</blue>
             <green>165</green>
             <red>60</red>
-        </mainButtonBackgroundColor>
-        <mainButtonForegroundColor>
+        </buttonBackgroundColor>
+        <buttonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </mainButtonForegroundColor>
+        </buttonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

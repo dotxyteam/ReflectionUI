@@ -141,18 +141,18 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
+			protected boolean hasValueOptions(IFieldInfo field, Object object, ITypeInfo objectType) {
 				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
 					return true;
 				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
 					return true;
 				} else {
-					return super.hasValueOptions(object, field, objectType);
+					return super.hasValueOptions(field, object, objectType);
 				}
 			}
 
 			@Override
-			protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
+			protected Object[] getValueOptions(IFieldInfo field, Object object, ITypeInfo objectType) {
 				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
 					List<String> result = InfoCustomizations.getMemberCategoryCaptionOptions(
 							swingCustomizer.getInfoCustomizations(), (AbstractMemberCustomization) object);
@@ -164,7 +164,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 							.getAllMenuItemContainerCustomizations(tc);
 					return result.toArray();
 				} else {
-					return super.getValueOptions(object, field, objectType);
+					return super.getValueOptions(field, object, objectType);
 				}
 			}
 
@@ -417,34 +417,34 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected Object getValue(Object object, IFieldInfo field, ITypeInfo objectType) {
+			protected Object getValue(IFieldInfo field, Object object, ITypeInfo objectType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
-					ColorSpecification colorSpec = (ColorSpecification) super.getValue(object, field, objectType);
+					ColorSpecification colorSpec = (ColorSpecification) super.getValue(field, object, objectType);
 					if (colorSpec == null) {
 						return null;
 					}
 					return SwingRendererUtils.getColor(colorSpec);
 				} else if ((object instanceof ApplicationCustomization)
 						&& field.getName().endsWith("CustomFontResourcePath")) {
-					ResourcePath result = (ResourcePath) super.getValue(object, field, objectType);
+					ResourcePath result = (ResourcePath) super.getValue(field, object, objectType);
 					result.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
 					return result;
 				} else {
-					return super.getValue(object, field, objectType);
+					return super.getValue(field, object, objectType);
 				}
 			}
 
 			@Override
-			protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo objectType) {
+			protected void setValue(IFieldInfo field, Object object, Object value, ITypeInfo objectType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
 					Color color = (Color) value;
 					ColorSpecification colorSpec = null;
 					if (color != null) {
 						colorSpec = SwingRendererUtils.getColorSpecification(color);
 					}
-					super.setValue(object, colorSpec, field, objectType);
+					super.setValue(field, object, colorSpec, objectType);
 				} else {
-					super.setValue(object, value, field, objectType);
+					super.setValue(field, object, value, objectType);
 				}
 			}
 

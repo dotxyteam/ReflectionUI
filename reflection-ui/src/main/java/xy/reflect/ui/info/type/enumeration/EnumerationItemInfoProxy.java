@@ -9,7 +9,7 @@ import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ResourcePath;
 
 /**
- * Enumeration item information proxy class. The methods in this class should be overriden to
+ * Enumeration item information proxy class. The methods in this class should be overridden to
  * provide custom information.
  * 
  * @author olitank

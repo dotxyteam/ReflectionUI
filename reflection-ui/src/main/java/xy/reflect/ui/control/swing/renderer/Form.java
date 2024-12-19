@@ -1641,9 +1641,9 @@ public class Form extends ImagePanel {
 					return SwingRendererUtils.loadImageThroughCache(type.getFormButtonBackgroundImagePath(),
 							ReflectionUIUtils.getErrorLogListener(reflectionUI));
 				}
-				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+				if (reflectionUI.getApplicationInfo().getButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(
-							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+							reflectionUI.getApplicationInfo().getButtonBackgroundImagePath(),
 							ReflectionUIUtils.getErrorLogListener(reflectionUI));
 				}
 				return null;
@@ -1665,9 +1665,9 @@ public class Form extends ImagePanel {
 				if (type.getFormButtonBackgroundColor() != null) {
 					return SwingRendererUtils.getColor(type.getFormButtonBackgroundColor());
 				}
-				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+				if (reflectionUI.getApplicationInfo().getButtonBackgroundColor() != null) {
 					return SwingRendererUtils
-							.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
+							.getColor(reflectionUI.getApplicationInfo().getButtonBackgroundColor());
 				}
 				return null;
 			}
@@ -1677,9 +1677,9 @@ public class Form extends ImagePanel {
 				if (type.getFormButtonForegroundColor() != null) {
 					return SwingRendererUtils.getColor(type.getFormButtonForegroundColor());
 				}
-				if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+				if (reflectionUI.getApplicationInfo().getButtonForegroundColor() != null) {
 					return SwingRendererUtils
-							.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
+							.getColor(reflectionUI.getApplicationInfo().getButtonForegroundColor());
 				}
 				return null;
 			}
@@ -1689,8 +1689,8 @@ public class Form extends ImagePanel {
 				if (type.getFormButtonBorderColor() != null) {
 					return SwingRendererUtils.getColor(type.getFormButtonBorderColor());
 				}
-				if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
-					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor());
+				if (reflectionUI.getApplicationInfo().getButtonBorderColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getButtonBorderColor());
 				}
 				return null;
 			}

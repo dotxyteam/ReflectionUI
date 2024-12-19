@@ -27,21 +27,21 @@
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/atmSimulator.jpg</specification>
         </mainBackgroundImagePath>
-        <mainButtonBackgroundColor>
+        <buttonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </mainButtonBackgroundColor>
-        <mainButtonBorderColor>
+        </buttonBackgroundColor>
+        <buttonBorderColor>
             <blue>255</blue>
             <green>153</green>
             <red>102</red>
-        </mainButtonBorderColor>
-        <mainButtonForegroundColor>
+        </buttonBorderColor>
+        <buttonForegroundColor>
             <blue>255</blue>
             <green>153</green>
             <red>102</red>
-        </mainButtonForegroundColor>
+        </buttonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>153</green>

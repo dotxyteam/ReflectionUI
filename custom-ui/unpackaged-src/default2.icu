@@ -19,26 +19,26 @@
             <green>54</green>
             <red>47</red>
         </mainBackgroundColor>
-        <mainButtonBackgroundColor>
+        <buttonBackgroundColor>
             <blue>127</blue>
             <green>107</green>
             <red>86</red>
-        </mainButtonBackgroundColor>
-        <mainButtonForegroundColor>
+        </buttonBackgroundColor>
+        <buttonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </mainButtonForegroundColor>
-        <mainEditorBackgroundColor>
+        </buttonForegroundColor>
+        <editorBackgroundColor>
             <blue>38</blue>
             <green>33</green>
             <red>28</red>
-        </mainEditorBackgroundColor>
-        <mainEditorForegroundColor>
+        </editorBackgroundColor>
+        <editorForegroundColor>
             <blue>255</blue>
             <green>233</green>
             <red>219</red>
-        </mainEditorForegroundColor>
+        </editorForegroundColor>
         <mainForegroundColor>
             <blue>201</blue>
             <green>189</green>

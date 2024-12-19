@@ -58,12 +58,12 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 	}
 
 	@Override
-	public ColorSpecification getMainEditorForegroundColor() {
+	public ColorSpecification getEditorForegroundColor() {
 		return null;
 	}
 
 	@Override
-	public ColorSpecification getMainEditorBackgroundColor() {
+	public ColorSpecification getEditorBackgroundColor() {
 		return null;
 	}
 
@@ -78,22 +78,22 @@ public class DefaultApplicationInfo implements IApplicationInfo {
 	}
 
 	@Override
-	public ColorSpecification getMainButtonBackgroundColor() {
+	public ColorSpecification getButtonBackgroundColor() {
 		return null;
 	}
 
 	@Override
-	public ColorSpecification getMainButtonForegroundColor() {
+	public ColorSpecification getButtonForegroundColor() {
 		return null;
 	}
 
 	@Override
-	public ColorSpecification getMainButtonBorderColor() {
+	public ColorSpecification getButtonBorderColor() {
 		return null;
 	}
 
 	@Override
-	public ResourcePath getMainButtonBackgroundImagePath() {
+	public ResourcePath getButtonBackgroundImagePath() {
 		return null;
 	}
 

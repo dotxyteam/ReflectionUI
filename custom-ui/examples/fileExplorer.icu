@@ -17,26 +17,26 @@
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/fileExplorer-background.png</specification>
         </mainBackgroundImagePath>
-        <mainButtonBackgroundColor>
+        <buttonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>255</red>
-        </mainButtonBackgroundColor>
-        <mainButtonForegroundColor>
+        </buttonBackgroundColor>
+        <buttonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </mainButtonForegroundColor>
-        <mainEditorBackgroundColor>
+        </buttonForegroundColor>
+        <editorBackgroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </mainEditorBackgroundColor>
-        <mainEditorForegroundColor>
+        </editorBackgroundColor>
+        <editorForegroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </mainEditorForegroundColor>
+        </editorForegroundColor>
         <mainForegroundColor>
             <blue>0</blue>
             <green>0</green>

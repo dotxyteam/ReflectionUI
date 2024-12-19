@@ -43,12 +43,12 @@ public interface IApplicationInfo extends IInfo {
 	/**
 	 * @return the custom text color of generated editor controls or null.
 	 */
-	ColorSpecification getMainEditorForegroundColor();
+	ColorSpecification getEditorForegroundColor();
 
 	/**
 	 * @return the custom background color of generated editor controls or null.
 	 */
-	ColorSpecification getMainEditorBackgroundColor();
+	ColorSpecification getEditorBackgroundColor();
 
 	/**
 	 * @return the resource location of a custom font object that must be used by
@@ -59,23 +59,23 @@ public interface IApplicationInfo extends IInfo {
 	/**
 	 * @return the custom background color of generated buttons or null.
 	 */
-	ColorSpecification getMainButtonBackgroundColor();
+	ColorSpecification getButtonBackgroundColor();
 
 	/**
 	 * @return the custom text color of generated buttons or null.
 	 */
-	ColorSpecification getMainButtonForegroundColor();
+	ColorSpecification getButtonForegroundColor();
 
 	/**
 	 * @return the custom border color of generated buttons or null.
 	 */
-	ColorSpecification getMainButtonBorderColor();
+	ColorSpecification getButtonBorderColor();
 
 	/**
 	 * @return the resource location of a background image displayed on generated
 	 *         buttons or null.
 	 */
-	ResourcePath getMainButtonBackgroundImagePath();
+	ResourcePath getButtonBackgroundImagePath();
 
 	/**
 	 * @return the resource location of a font object used to display text on

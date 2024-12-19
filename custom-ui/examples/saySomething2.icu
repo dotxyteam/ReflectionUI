@@ -29,31 +29,31 @@
             <green>255</green>
             <red>0</red>
         </mainBorderColor>
-        <mainButtonBackgroundColor>
+        <buttonBackgroundColor>
             <blue>51</blue>
             <green>51</green>
             <red>51</red>
-        </mainButtonBackgroundColor>
-        <mainButtonBorderColor>
+        </buttonBackgroundColor>
+        <buttonBorderColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </mainButtonBorderColor>
-        <mainButtonForegroundColor>
+        </buttonBorderColor>
+        <buttonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>0</red>
-        </mainButtonForegroundColor>
-        <mainEditorBackgroundColor>
+        </buttonForegroundColor>
+        <editorBackgroundColor>
             <blue>51</blue>
             <green>51</green>
             <red>51</red>
-        </mainEditorBackgroundColor>
-        <mainEditorForegroundColor>
+        </editorBackgroundColor>
+        <editorForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>0</red>
-        </mainEditorForegroundColor>
+        </editorForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

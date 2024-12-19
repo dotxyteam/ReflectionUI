@@ -9,7 +9,7 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
 
 /**
- * Application information proxy class. The methods in this class should be overriden to
+ * Application information proxy class. The methods in this class should be overridden to
  * provide custom information.
  * 
  * @author olitank
@@ -51,12 +51,12 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getMainBorderColor();
 	}
 
-	public ColorSpecification getMainEditorForegroundColor() {
-		return base.getMainEditorForegroundColor();
+	public ColorSpecification getEditorForegroundColor() {
+		return base.getEditorForegroundColor();
 	}
 
-	public ColorSpecification getMainEditorBackgroundColor() {
-		return base.getMainEditorBackgroundColor();
+	public ColorSpecification getEditorBackgroundColor() {
+		return base.getEditorBackgroundColor();
 	}
 
 	public ResourcePath getMainBackgroundImagePath() {
@@ -75,16 +75,16 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getButtonCustomFontResourcePath();
 	}
 
-	public ColorSpecification getMainButtonBackgroundColor() {
-		return base.getMainButtonBackgroundColor();
+	public ColorSpecification getButtonBackgroundColor() {
+		return base.getButtonBackgroundColor();
 	}
 
-	public ColorSpecification getMainButtonForegroundColor() {
-		return base.getMainButtonForegroundColor();
+	public ColorSpecification getButtonForegroundColor() {
+		return base.getButtonForegroundColor();
 	}
 
-	public ColorSpecification getMainButtonBorderColor() {
-		return base.getMainButtonBorderColor();
+	public ColorSpecification getButtonBorderColor() {
+		return base.getButtonBorderColor();
 	}
 
 	public ColorSpecification getTitleBackgroundColor() {
@@ -99,8 +99,8 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getTitleCustomFontResourcePath();
 	}
 
-	public ResourcePath getMainButtonBackgroundImagePath() {
-		return base.getMainButtonBackgroundImagePath();
+	public ResourcePath getButtonBackgroundImagePath() {
+		return base.getButtonBackgroundImagePath();
 	}
 
 	public ResourcePath getIconImagePath() {

@@ -13,7 +13,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
  * Dynamic list property proxy class. The methods in this class should be
- * overriden to provide custom information.
+ * overridden to provide custom information.
  * 
  * @author olitank
  *

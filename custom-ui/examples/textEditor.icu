@@ -12,11 +12,11 @@
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/textEditor-background.jpg</specification>
         </mainBackgroundImagePath>
-        <mainEditorBackgroundColor>
+        <editorBackgroundColor>
             <blue>234</blue>
             <green>234</green>
             <red>255</red>
-        </mainEditorBackgroundColor>
+        </editorBackgroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

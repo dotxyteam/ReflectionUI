@@ -768,9 +768,9 @@ public class SwingRenderer {
 
 			@Override
 			public Image retrieveBackgroundImage() {
-				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+				if (reflectionUI.getApplicationInfo().getButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(
-							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+							reflectionUI.getApplicationInfo().getButtonBackgroundImagePath(),
 							ReflectionUIUtils.getErrorLogListener(reflectionUI));
 				}
 				return null;
@@ -788,26 +788,26 @@ public class SwingRenderer {
 
 			@Override
 			public Color retrieveBackgroundColor() {
-				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+				if (reflectionUI.getApplicationInfo().getButtonBackgroundColor() != null) {
 					return SwingRendererUtils
-							.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor());
+							.getColor(reflectionUI.getApplicationInfo().getButtonBackgroundColor());
 				}
 				return null;
 			}
 
 			@Override
 			public Color retrieveForegroundColor() {
-				if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+				if (reflectionUI.getApplicationInfo().getButtonForegroundColor() != null) {
 					return SwingRendererUtils
-							.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor());
+							.getColor(reflectionUI.getApplicationInfo().getButtonForegroundColor());
 				}
 				return null;
 			}
 
 			@Override
 			public Color retrieveBorderColor() {
-				if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
-					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor());
+				if (reflectionUI.getApplicationInfo().getButtonBorderColor() != null) {
+					return SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getButtonBorderColor());
 				}
 				return null;
 			}
@@ -1174,24 +1174,24 @@ public class SwingRenderer {
 
 		public ApplicationDialogBuilder(Component ownerComponent) {
 			super(SwingRenderer.this, ownerComponent);
-			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
+			if (reflectionUI.getApplicationInfo().getButtonBackgroundColor() != null) {
 				setClosingButtonBackgroundColor(
-						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor()));
+						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getButtonBackgroundColor()));
 			}
 
-			if (reflectionUI.getApplicationInfo().getMainButtonForegroundColor() != null) {
+			if (reflectionUI.getApplicationInfo().getButtonForegroundColor() != null) {
 				setClosingButtonForegroundColor(
-						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonForegroundColor()));
+						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getButtonForegroundColor()));
 			}
 
-			if (reflectionUI.getApplicationInfo().getMainButtonBorderColor() != null) {
+			if (reflectionUI.getApplicationInfo().getButtonBorderColor() != null) {
 				setClosingButtonBorderColor(
-						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBorderColor()));
+						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getButtonBorderColor()));
 			}
 
-			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
+			if (reflectionUI.getApplicationInfo().getButtonBackgroundImagePath() != null) {
 				setClosingButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
-						reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
+						reflectionUI.getApplicationInfo().getButtonBackgroundImagePath(),
 						ReflectionUIUtils.getErrorLogListener(reflectionUI)));
 			}
 

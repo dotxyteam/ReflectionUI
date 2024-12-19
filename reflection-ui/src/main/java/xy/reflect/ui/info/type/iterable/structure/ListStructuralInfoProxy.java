@@ -11,7 +11,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
 /**
- * List structural information proxy class. The methods in this class should be overriden to
+ * List structural information proxy class. The methods in this class should be overridden to
  * provide custom information.
  * 
  * @author olitank

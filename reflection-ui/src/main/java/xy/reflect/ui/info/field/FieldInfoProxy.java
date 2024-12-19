@@ -14,7 +14,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Field information proxy class. The methods in this class should be overriden
+ * Field information proxy class. The methods in this class should be overridden
  * to provide custom information.
  * 
  * @author olitank

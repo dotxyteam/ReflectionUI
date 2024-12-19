@@ -118,7 +118,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 			return false;
 		}
 		for (Method commonMethod : Object.class.getMethods()) {
-			if (ClassUtils.isOverridenBy(commonMethod, javaMethod)) {
+			if (ClassUtils.isOverriddenBy(commonMethod, javaMethod)) {
 				return false;
 			}
 		}

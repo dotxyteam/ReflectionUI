@@ -37,8 +37,8 @@ public class CustomizingForm extends Form {
 
 	protected boolean toolsAdded;
 
-	public CustomizingForm(SwingCustomizer swingRenderer, Object object, IInfoFilter infoFilter) {
-		super(swingRenderer, object, infoFilter);
+	public CustomizingForm(SwingCustomizer swingCustomizer, Object object, IInfoFilter infoFilter) {
+		super(swingCustomizer, object, infoFilter);
 		if (getSwingRenderer().isCustomizationsEditorEnabled()) {
 			addAncestorListener(new AncestorListener() {
 

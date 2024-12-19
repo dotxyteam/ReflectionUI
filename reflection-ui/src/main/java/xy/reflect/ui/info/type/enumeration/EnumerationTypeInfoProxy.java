@@ -18,7 +18,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 
 /**
  * Enumeration type information proxy class. The methods in this class should be
- * overriden to provide custom information.
+ * overridden to provide custom information.
  * 
  * @author olitank
  *

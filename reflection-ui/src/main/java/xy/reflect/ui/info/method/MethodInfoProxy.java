@@ -14,7 +14,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Method information proxy class. The methods in this class should be overriden
+ * Method information proxy class. The methods in this class should be overridden
  * to provide custom information.
  * 
  * Note that if the name, the return type or the parameters are modified then

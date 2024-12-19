@@ -12,7 +12,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Field control data proxy class. The methods in this class should be overriden to provide a
+ * Field control data proxy class. The methods in this class should be overridden to provide a
  * custom behavior.
  * 
  * @author olitank

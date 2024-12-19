@@ -33,6 +33,10 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 	protected Object instance;
 	protected ITypeInfo precomputedType;
 
+	/**
+	 * @param instance        The wrapped object.
+	 * @param precomputedType The predefined {@link ITypeInfo}.
+	 */
 	public PrecomputedTypeInstanceWrapper(Object instance, ITypeInfo precomputedType) {
 		this.instance = instance;
 		this.precomputedType = precomputedType;
@@ -41,8 +45,15 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 	/**
 	 * @return the wrapped object.
 	 */
-	public Object unwrap() {
+	public Object getInstance() {
 		return instance;
+	}
+
+	/**
+	 * @return the predefined {@link ITypeInfo}.
+	 */
+	public ITypeInfo getPrecomputedType() {
+		return precomputedType;
 	}
 
 	/**
@@ -175,66 +186,66 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected Object getDefaultValue(IParameterInfo param, IMethodInfo method, ITypeInfo objectType,
-				Object object) {
-			return super.getDefaultValue(param, method, objectType, ReflectionUIUtils.isConstructor(method) ? object
-					: ((PrecomputedTypeInstanceWrapper) object).unwrap());
-		}
-
-		@Override
-		protected boolean hasValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo objectType,
-				Object object) {
-			return super.hasValueOptions(param, method, objectType, ReflectionUIUtils.isConstructor(method) ? object
-					: ((PrecomputedTypeInstanceWrapper) object).unwrap());
-		}
-
-		@Override
-		protected Object[] getValueOptions(IParameterInfo param, IMethodInfo method, ITypeInfo objectType,
-				Object object) {
-			return super.getValueOptions(param, method, objectType, ReflectionUIUtils.isConstructor(method) ? object
-					: ((PrecomputedTypeInstanceWrapper) object).unwrap());
-		}
-
-		@Override
-		protected Object getValue(Object object, IFieldInfo field, ITypeInfo objectType) {
-			return super.getValue(((PrecomputedTypeInstanceWrapper) object).unwrap(), field, objectType);
-		}
-
-		@Override
-		protected boolean hasValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
-			return super.hasValueOptions(((PrecomputedTypeInstanceWrapper) object).unwrap(), field, objectType);
-		}
-
-		@Override
-		protected Object[] getValueOptions(Object object, IFieldInfo field, ITypeInfo objectType) {
-			return super.getValueOptions(((PrecomputedTypeInstanceWrapper) object).unwrap(), field, objectType);
-		}
-
-		@Override
-		protected void setValue(Object object, Object value, IFieldInfo field, ITypeInfo objectType) {
-			super.setValue(((PrecomputedTypeInstanceWrapper) object).unwrap(), value, field, objectType);
-		}
-
-		@Override
-		protected Runnable getNextUpdateCustomUndoJob(Object object, Object value, IFieldInfo field,
+		protected Object getDefaultValue(IParameterInfo param, Object object, IMethodInfo method,
 				ITypeInfo objectType) {
-			return super.getNextUpdateCustomUndoJob(((PrecomputedTypeInstanceWrapper) object).unwrap(), value, field,
-					objectType);
+			return super.getDefaultValue(param, ReflectionUIUtils.isConstructor(method) ? object
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), method, objectType);
+		}
+
+		@Override
+		protected boolean hasValueOptions(IParameterInfo param, Object object, IMethodInfo method,
+				ITypeInfo objectType) {
+			return super.hasValueOptions(param, ReflectionUIUtils.isConstructor(method) ? object
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), method, objectType);
+		}
+
+		@Override
+		protected Object[] getValueOptions(IParameterInfo param, Object object, IMethodInfo method,
+				ITypeInfo objectType) {
+			return super.getValueOptions(param, ReflectionUIUtils.isConstructor(method) ? object
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), method, objectType);
+		}
+
+		@Override
+		protected Object getValue(IFieldInfo field, Object object, ITypeInfo objectType) {
+			return super.getValue(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
+		}
+
+		@Override
+		protected boolean hasValueOptions(IFieldInfo field, Object object, ITypeInfo objectType) {
+			return super.hasValueOptions(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
+		}
+
+		@Override
+		protected Object[] getValueOptions(IFieldInfo field, Object object, ITypeInfo objectType) {
+			return super.getValueOptions(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
+		}
+
+		@Override
+		protected void setValue(IFieldInfo field, Object object, Object value, ITypeInfo objectType) {
+			super.setValue(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(), value, objectType);
+		}
+
+		@Override
+		protected Runnable getNextUpdateCustomUndoJob(IFieldInfo field, Object object, Object value,
+				ITypeInfo objectType) {
+			return super.getNextUpdateCustomUndoJob(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(),
+					value, objectType);
 		}
 
 		@Override
 		protected String toString(ITypeInfo type, Object object) {
-			return super.toString(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			return super.toString(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 		@Override
 		protected boolean canCopy(ITypeInfo type, Object object) {
-			return super.canCopy(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			return super.canCopy(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 		@Override
 		protected Object copy(ITypeInfo type, Object object) {
-			Object result = super.copy(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			Object result = super.copy(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 			if (result == null) {
 				return null;
 			}
@@ -260,24 +271,23 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected List<IMethodInfo> getAlternativeConstructors(Object object, IFieldInfo field,
-				ITypeInfo objectType) {
-			return super.getAlternativeConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
+		protected List<IMethodInfo> getAlternativeConstructors(IFieldInfo field, Object object, ITypeInfo objectType) {
+			return super.getAlternativeConstructors(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(),
 					objectType);
 		}
 
 		@Override
-		protected List<IMethodInfo> getAlternativeListItemConstructors(Object object, IFieldInfo field,
+		protected List<IMethodInfo> getAlternativeListItemConstructors(IFieldInfo field, Object object,
 				ITypeInfo objectType) {
-			return super.getAlternativeListItemConstructors(((PrecomputedTypeInstanceWrapper) object).unwrap(), field,
-					objectType);
+			return super.getAlternativeListItemConstructors(field,
+					((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
 		}
 
 		/**
 		 * {@link PrecomputedTypeInstanceWrapper} is used to associate object with
 		 * custom (usually not polymorphic) type information. Then by default an empty
 		 * list is returned by this method. If the custom type is still polymorphic then
-		 * this method must be overriden.
+		 * this method must be overridden.
 		 * 
 		 * @return an empty list.
 		 */
@@ -287,40 +297,36 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected Object invoke(Object object, InvocationData invocationData, IMethodInfo method,
+		protected Object invoke(IMethodInfo method, Object object, InvocationData invocationData,
 				ITypeInfo objectType) {
-			return super.invoke(
-					ReflectionUIUtils.isConstructor(method) ? object
-							: ((PrecomputedTypeInstanceWrapper) object).unwrap(),
-					invocationData, method, objectType);
+			return super.invoke(method, ReflectionUIUtils.isConstructor(method) ? object
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), invocationData, objectType);
 		}
 
 		@Override
-		protected String getConfirmationMessage(Object object, InvocationData invocationData, IMethodInfo method,
+		protected String getConfirmationMessage(IMethodInfo method, Object object, InvocationData invocationData,
 				ITypeInfo objectType) {
-			return super.getConfirmationMessage(
-					ReflectionUIUtils.isConstructor(method) ? object
-							: ((PrecomputedTypeInstanceWrapper) object).unwrap(),
-					invocationData, method, objectType);
+			return super.getConfirmationMessage(method, ReflectionUIUtils.isConstructor(method) ? object
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), invocationData, objectType);
 		}
 
 		@Override
-		protected void onControlVisibilityChange(Object object, boolean visible, IMethodInfo method,
+		protected void onControlVisibilityChange(IMethodInfo method, Object object, boolean visible,
 				ITypeInfo objectType) {
-			super.onControlVisibilityChange(ReflectionUIUtils.isConstructor(method) ? object
-					: ((PrecomputedTypeInstanceWrapper) object).unwrap(), visible, method, objectType);
+			super.onControlVisibilityChange(method, ReflectionUIUtils.isConstructor(method) ? object
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), visible, objectType);
 		}
 
 		@Override
-		protected void onControlVisibilityChange(Object object, boolean visible, IFieldInfo field,
+		protected void onControlVisibilityChange(IFieldInfo field, Object object, boolean visible,
 				ITypeInfo objectType) {
-			super.onControlVisibilityChange(((PrecomputedTypeInstanceWrapper) object).unwrap(), visible, field,
+			super.onControlVisibilityChange(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(), visible,
 					objectType);
 		}
 
 		@Override
 		protected void replaceContent(IListTypeInfo type, Object listValue, Object[] array) {
-			super.replaceContent(type, ((PrecomputedTypeInstanceWrapper) listValue).unwrap(), array);
+			super.replaceContent(type, ((PrecomputedTypeInstanceWrapper) listValue).getInstance(), array);
 		}
 
 		@Override
@@ -330,17 +336,17 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 
 		@Override
 		protected Object[] toArray(IListTypeInfo type, Object listValue) {
-			return super.toArray(type, ((PrecomputedTypeInstanceWrapper) listValue).unwrap());
+			return super.toArray(type, ((PrecomputedTypeInstanceWrapper) listValue).getInstance());
 		}
 
 		@Override
 		protected void save(ITypeInfo type, Object object, OutputStream out) {
-			super.save(type, ((PrecomputedTypeInstanceWrapper) object).unwrap(), out);
+			super.save(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), out);
 		}
 
 		@Override
 		protected void load(ITypeInfo type, Object object, InputStream in) {
-			super.load(type, ((PrecomputedTypeInstanceWrapper) object).unwrap(), in);
+			super.load(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), in);
 		}
 
 		@Override
@@ -351,12 +357,12 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 			if (!(object instanceof PrecomputedTypeInstanceWrapper)) {
 				return false;
 			}
-			return super.supports(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			return super.supports(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 		@Override
 		protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
-			return super.onFormVisibilityChange(type, ((PrecomputedTypeInstanceWrapper) object).unwrap(), visible);
+			return super.onFormVisibilityChange(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), visible);
 		}
 
 		@Override
@@ -366,23 +372,21 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 
 		@Override
 		protected void validate(ITypeInfo type, Object object) throws Exception {
-			super.validate(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			super.validate(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 		@Override
 		protected void validateParameters(IMethodInfo method, ITypeInfo objectType, Object object,
 				InvocationData invocationData) throws Exception {
 			super.validateParameters(method, objectType, ReflectionUIUtils.isConstructor(method) ? object
-					: ((PrecomputedTypeInstanceWrapper) object).unwrap(), invocationData);
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), invocationData);
 		}
 
 		@Override
 		protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo objectType, Object object,
 				InvocationData invocationData) {
-			return super.getNextInvocationUndoJob(method, objectType,
-					ReflectionUIUtils.isConstructor(method) ? object
-							: ((PrecomputedTypeInstanceWrapper) object).unwrap(),
-					invocationData);
+			return super.getNextInvocationUndoJob(method, objectType, ReflectionUIUtils.isConstructor(method) ? object
+					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), invocationData);
 		}
 
 		@Override
@@ -397,7 +401,7 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 
 		@Override
 		protected IEnumerationItemInfo getValueInfo(IEnumerationTypeInfo type, Object object) {
-			return super.getValueInfo(type, ((PrecomputedTypeInstanceWrapper) object).unwrap());
+			return super.getValueInfo(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 	}

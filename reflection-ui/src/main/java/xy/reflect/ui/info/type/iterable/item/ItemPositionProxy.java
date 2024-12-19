@@ -10,7 +10,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
 /**
- * Item position proxy class. The methods in this class should be overriden to
+ * Item position proxy class. The methods in this class should be overridden to
  * provide custom information.
  * 
  * @author olitank

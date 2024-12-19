@@ -35,34 +35,34 @@
             <green>204</green>
             <red>204</red>
         </mainBorderColor>
-        <mainButtonBackgroundColor>
+        <buttonBackgroundColor>
             <blue>102</blue>
             <green>102</green>
             <red>102</red>
-        </mainButtonBackgroundColor>
-        <mainButtonBackgroundImagePath>
+        </buttonBackgroundColor>
+        <buttonBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen5-buttonBackground.png</specification>
-        </mainButtonBackgroundImagePath>
-        <mainButtonBorderColor>
+        </buttonBackgroundImagePath>
+        <buttonBorderColor>
             <blue>204</blue>
             <green>255</green>
             <red>255</red>
-        </mainButtonBorderColor>
-        <mainButtonForegroundColor>
+        </buttonBorderColor>
+        <buttonForegroundColor>
             <blue>204</blue>
             <green>255</green>
             <red>255</red>
-        </mainButtonForegroundColor>
-        <mainEditorBackgroundColor>
+        </buttonForegroundColor>
+        <editorBackgroundColor>
             <blue>102</blue>
             <green>102</green>
             <red>102</red>
-        </mainEditorBackgroundColor>
-        <mainEditorForegroundColor>
+        </editorBackgroundColor>
+        <editorForegroundColor>
             <blue>204</blue>
             <green>204</green>
             <red>204</red>
-        </mainEditorForegroundColor>
+        </editorForegroundColor>
         <mainForegroundColor>
             <blue>204</blue>
             <green>204</green>
