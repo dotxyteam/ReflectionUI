@@ -4,41 +4,41 @@
     <appplicationCustomization>
         <uniqueIdentifier>79d22363:1658efee432:1ac9</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>127</blue>
             <green>107</green>
             <red>86</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundColor>
             <blue>63</blue>
             <green>54</green>
             <red>47</red>
         </mainBackgroundColor>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>127</blue>
             <green>107</green>
             <red>86</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
-        <editorBackgroundColor>
+        </mainButtonForegroundColor>
+        <mainEditorBackgroundColor>
             <blue>38</blue>
             <green>33</green>
             <red>28</red>
-        </editorBackgroundColor>
-        <editorForegroundColor>
+        </mainEditorBackgroundColor>
+        <mainEditorForegroundColor>
             <blue>255</blue>
             <green>233</green>
             <red>219</red>
-        </editorForegroundColor>
+        </mainEditorForegroundColor>
         <mainForegroundColor>
             <blue>201</blue>
             <green>189</green>

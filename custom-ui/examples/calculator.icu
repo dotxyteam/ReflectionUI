@@ -4,31 +4,31 @@
     <appplicationCustomization>
         <uniqueIdentifier>113a54e0:16655c46814:1f4b</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>204</blue>
             <green>165</green>
             <red>60</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundColor>
             <blue>60</blue>
             <green>12</green>
             <red>0</red>
         </mainBackgroundColor>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>204</blue>
             <green>165</green>
             <red>60</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

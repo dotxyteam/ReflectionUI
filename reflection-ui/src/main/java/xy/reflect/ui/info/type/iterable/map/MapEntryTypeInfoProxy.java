@@ -184,12 +184,12 @@ public class MapEntryTypeInfoProxy extends AbstractInfoProxy implements IMapEntr
 		return base.getCategoriesForegroundColor();
 	}
 
-	public ColorSpecification getFormEditorsForegroundColor() {
-		return base.getFormEditorsForegroundColor();
+	public ColorSpecification getFormEditorForegroundColor() {
+		return base.getFormEditorForegroundColor();
 	}
 
-	public ColorSpecification getFormEditorsBackgroundColor() {
-		return base.getFormEditorsBackgroundColor();
+	public ColorSpecification getFormEditorBackgroundColor() {
+		return base.getFormEditorBackgroundColor();
 	}
 
 	public ColorSpecification getFormButtonBackgroundColor() {

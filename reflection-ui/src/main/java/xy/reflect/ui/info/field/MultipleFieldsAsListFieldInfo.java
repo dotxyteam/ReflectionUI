@@ -400,12 +400,12 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsForegroundColor() {
+		public ColorSpecification getFormEditorForegroundColor() {
 			return null;
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsBackgroundColor() {
+		public ColorSpecification getFormEditorBackgroundColor() {
 			return null;
 		}
 

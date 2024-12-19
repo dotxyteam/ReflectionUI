@@ -4,29 +4,29 @@
     <appplicationCustomization>
         <uniqueIdentifier>359dbbf4:16d53bdebb8:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>153</blue>
             <green>51</green>
             <red>0</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/meteo-background.jpg</specification>
         </mainBackgroundImagePath>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>153</blue>
             <green>51</green>
             <red>0</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

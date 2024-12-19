@@ -4,21 +4,21 @@
     <appplicationCustomization>
         <uniqueIdentifier>-662e76dd:16d173727ed:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonBackgroundColor>
-        <buttonBorderColor>
+        </mainButtonBackgroundColor>
+        <mainButtonBorderColor>
             <blue>255</blue>
             <green>153</green>
             <red>102</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>153</green>
             <red>102</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundColor>
             <blue>0</blue>
             <green>0</green>
@@ -27,21 +27,21 @@
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/atmSimulator.jpg</specification>
         </mainBackgroundImagePath>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonBackgroundColor>
-        <buttonBorderColor>
+        </mainButtonBackgroundColor>
+        <mainButtonBorderColor>
             <blue>255</blue>
             <green>153</green>
             <red>102</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>153</green>
             <red>102</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>153</green>

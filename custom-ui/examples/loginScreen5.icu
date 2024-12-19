@@ -4,24 +4,24 @@
     <appplicationCustomization>
         <uniqueIdentifier>3fab0e94:16ce3770151:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>102</blue>
             <green>102</green>
             <red>102</red>
-        </buttonBackgroundColor>
-        <buttonBackgroundImagePath>
+        </mainButtonBackgroundColor>
+        <mainButtonBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen5-buttonBackground.png</specification>
-        </buttonBackgroundImagePath>
-        <buttonBorderColor>
+        </mainButtonBackgroundImagePath>
+        <mainButtonBorderColor>
             <blue>204</blue>
             <green>255</green>
             <red>255</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>204</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <iconImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen-icon.png</specification>
         </iconImagePath>
@@ -35,34 +35,34 @@
             <green>204</green>
             <red>204</red>
         </mainBorderColor>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>102</blue>
             <green>102</green>
             <red>102</red>
-        </buttonBackgroundColor>
-        <buttonBackgroundImagePath>
+        </mainButtonBackgroundColor>
+        <mainButtonBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen5-buttonBackground.png</specification>
-        </buttonBackgroundImagePath>
-        <buttonBorderColor>
+        </mainButtonBackgroundImagePath>
+        <mainButtonBorderColor>
             <blue>204</blue>
             <green>255</green>
             <red>255</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>204</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
-        <editorBackgroundColor>
+        </mainButtonForegroundColor>
+        <mainEditorBackgroundColor>
             <blue>102</blue>
             <green>102</green>
             <red>102</red>
-        </editorBackgroundColor>
-        <editorForegroundColor>
+        </mainEditorBackgroundColor>
+        <mainEditorForegroundColor>
             <blue>204</blue>
             <green>204</green>
             <red>204</red>
-        </editorForegroundColor>
+        </mainEditorForegroundColor>
         <mainForegroundColor>
             <blue>204</blue>
             <green>204</green>

@@ -4,29 +4,29 @@
     <appplicationCustomization>
         <uniqueIdentifier>25142eef:16d5a355507:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/inputSettings-background.jpg</specification>
         </mainBackgroundImagePath>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

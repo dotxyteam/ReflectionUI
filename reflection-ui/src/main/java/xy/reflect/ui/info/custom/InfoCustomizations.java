@@ -197,13 +197,13 @@ import xy.reflect.ui.util.SystemProperties;
  * Allows to specify the background image of forms generated from this type.
  * </P>
  * </HTML></LI>
- * <LI><B>formEditorsBackgroundColor: </B><HTML>
+ * <LI><B>formEditorBackgroundColor: </B><HTML>
  * <P width="300">
  * Allows to specify the background color of the editable parts of forms
  * generated from this type.
  * </P>
  * </HTML></LI>
- * <LI><B>formEditorsForegroundColor: </B><HTML>
+ * <LI><B>formEditorForegroundColor: </B><HTML>
  * <P width="300">
  * Allows to specify the text color of the editable parts of forms generated
  * from this type.
@@ -1885,12 +1885,12 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification mainForegroundColor;
 		protected ColorSpecification mainBackgroundColor;
 		protected ColorSpecification mainBorderColor;
-		protected ColorSpecification editorBackgroundColor;
-		protected ColorSpecification editorForegroundColor;
-		protected ResourcePath buttonBackgroundImagePath;
-		protected ColorSpecification buttonForegroundColor;
-		protected ColorSpecification buttonBackgroundColor;
-		protected ColorSpecification buttonBorderColor;
+		protected ColorSpecification mainEditorBackgroundColor;
+		protected ColorSpecification mainEditorForegroundColor;
+		protected ResourcePath mainButtonBackgroundImagePath;
+		protected ColorSpecification mainButtonForegroundColor;
+		protected ColorSpecification mainButtonBackgroundColor;
+		protected ColorSpecification mainButtonBorderColor;
 		protected ColorSpecification titleForegroundColor;
 		protected ColorSpecification titleBackgroundColor;
 		protected ResourcePath iconImagePath;
@@ -1964,20 +1964,20 @@ public class InfoCustomizations implements Serializable {
 			this.mainBackgroundColor = mainBackgroundColor;
 		}
 
-		public ColorSpecification getEditorBackgroundColor() {
-			return editorBackgroundColor;
+		public ColorSpecification getMainEditorBackgroundColor() {
+			return mainEditorBackgroundColor;
 		}
 
-		public void setEditorBackgroundColor(ColorSpecification editorBackgroundColor) {
-			this.editorBackgroundColor = editorBackgroundColor;
+		public void setMainEditorBackgroundColor(ColorSpecification mainEditorBackgroundColor) {
+			this.mainEditorBackgroundColor = mainEditorBackgroundColor;
 		}
 
-		public ColorSpecification getEditorForegroundColor() {
-			return editorForegroundColor;
+		public ColorSpecification getMainEditorForegroundColor() {
+			return mainEditorForegroundColor;
 		}
 
-		public void setEditorForegroundColor(ColorSpecification editorForegroundColor) {
-			this.editorForegroundColor = editorForegroundColor;
+		public void setMainEditorForegroundColor(ColorSpecification mainEditorForegroundColor) {
+			this.mainEditorForegroundColor = mainEditorForegroundColor;
 		}
 
 		public ColorSpecification getMainBorderColor() {
@@ -2004,36 +2004,36 @@ public class InfoCustomizations implements Serializable {
 			this.titleBackgroundColor = titleBackgroundColor;
 		}
 
-		public ResourcePath getButtonBackgroundImagePath() {
-			return buttonBackgroundImagePath;
+		public ResourcePath getMainButtonBackgroundImagePath() {
+			return mainButtonBackgroundImagePath;
 		}
 
-		public void setButtonBackgroundImagePath(ResourcePath buttonBackgroundImagePath) {
-			this.buttonBackgroundImagePath = buttonBackgroundImagePath;
+		public void setMainButtonBackgroundImagePath(ResourcePath mainButtonBackgroundImagePath) {
+			this.mainButtonBackgroundImagePath = mainButtonBackgroundImagePath;
 		}
 
-		public ColorSpecification getButtonForegroundColor() {
-			return buttonForegroundColor;
+		public ColorSpecification getMainButtonForegroundColor() {
+			return mainButtonForegroundColor;
 		}
 
-		public void setButtonForegroundColor(ColorSpecification buttonForegroundColor) {
-			this.buttonForegroundColor = buttonForegroundColor;
+		public void setMainButtonForegroundColor(ColorSpecification mainButtonForegroundColor) {
+			this.mainButtonForegroundColor = mainButtonForegroundColor;
 		}
 
-		public ColorSpecification getButtonBackgroundColor() {
-			return buttonBackgroundColor;
+		public ColorSpecification getMainButtonBackgroundColor() {
+			return mainButtonBackgroundColor;
 		}
 
-		public void setButtonBackgroundColor(ColorSpecification buttonBackgroundColor) {
-			this.buttonBackgroundColor = buttonBackgroundColor;
+		public void setMainButtonBackgroundColor(ColorSpecification mainButtonBackgroundColor) {
+			this.mainButtonBackgroundColor = mainButtonBackgroundColor;
 		}
 
-		public ColorSpecification getButtonBorderColor() {
-			return buttonBorderColor;
+		public ColorSpecification getMainButtonBorderColor() {
+			return mainButtonBorderColor;
 		}
 
-		public void setButtonBorderColor(ColorSpecification buttonBorderColor) {
-			this.buttonBorderColor = buttonBorderColor;
+		public void setMainButtonBorderColor(ColorSpecification mainButtonBorderColor) {
+			this.mainButtonBorderColor = mainButtonBorderColor;
 		}
 
 		public ResourcePath getTitleCustomFontResourcePath() {
@@ -2105,8 +2105,8 @@ public class InfoCustomizations implements Serializable {
 		protected ColorSpecification formForegroundColor;
 		protected ColorSpecification formBackgroundColor;
 		protected ColorSpecification formBorderColor;
-		protected ColorSpecification formEditorsForegroundColor;
-		protected ColorSpecification formEditorsBackgroundColor;
+		protected ColorSpecification formEditorForegroundColor;
+		protected ColorSpecification formEditorBackgroundColor;
 		protected ColorSpecification categoriesForegroundColor;
 		protected ColorSpecification categoriesBackgroundColor;
 		protected ColorSpecification formButtonBackgroundColor;
@@ -2280,20 +2280,20 @@ public class InfoCustomizations implements Serializable {
 			this.formBorderColor = formBorderColor;
 		}
 
-		public ColorSpecification getFormEditorsForegroundColor() {
-			return formEditorsForegroundColor;
+		public ColorSpecification getFormEditorForegroundColor() {
+			return formEditorForegroundColor;
 		}
 
-		public void setFormEditorsForegroundColor(ColorSpecification formEditorsForegroundColor) {
-			this.formEditorsForegroundColor = formEditorsForegroundColor;
+		public void setFormEditorForegroundColor(ColorSpecification formEditorForegroundColor) {
+			this.formEditorForegroundColor = formEditorForegroundColor;
 		}
 
-		public ColorSpecification getFormEditorsBackgroundColor() {
-			return formEditorsBackgroundColor;
+		public ColorSpecification getFormEditorBackgroundColor() {
+			return formEditorBackgroundColor;
 		}
 
-		public void setFormEditorsBackgroundColor(ColorSpecification formEditorsBackgroundColor) {
-			this.formEditorsBackgroundColor = formEditorsBackgroundColor;
+		public void setFormEditorBackgroundColor(ColorSpecification formEditorBackgroundColor) {
+			this.formEditorBackgroundColor = formEditorBackgroundColor;
 		}
 
 		public ColorSpecification getFormButtonBackgroundColor() {

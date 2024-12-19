@@ -9,11 +9,11 @@
             <green>255</green>
             <red>255</red>
         </mainBackgroundColor>
-        <editorBackgroundColor>
+        <mainEditorBackgroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </editorBackgroundColor>
+        </mainEditorBackgroundColor>
         <systemIntegrationCrossPlatform>true</systemIntegrationCrossPlatform>
         <titleBackgroundColor>
             <blue>76</blue>

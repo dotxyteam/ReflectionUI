@@ -81,24 +81,24 @@ public class DialogBuilder {
 		return closingButtonBackgroundColor;
 	}
 
-	public void setClosingButtonBackgroundColor(Color buttonBackgroundColor) {
-		this.closingButtonBackgroundColor = buttonBackgroundColor;
+	public void setClosingButtonBackgroundColor(Color mainButtonBackgroundColor) {
+		this.closingButtonBackgroundColor = mainButtonBackgroundColor;
 	}
 
 	public Color getClosingButtonForegroundColor() {
 		return closingButtonForegroundColor;
 	}
 
-	public void setClosingButtonForegroundColor(Color buttonForegroundColor) {
-		this.closingButtonForegroundColor = buttonForegroundColor;
+	public void setClosingButtonForegroundColor(Color mainButtonForegroundColor) {
+		this.closingButtonForegroundColor = mainButtonForegroundColor;
 	}
 
 	public Color getClosingButtonBorderColor() {
 		return closingButtonBorderColor;
 	}
 
-	public void setClosingButtonBorderColor(Color buttonBorderColor) {
-		this.closingButtonBorderColor = buttonBorderColor;
+	public void setClosingButtonBorderColor(Color mainButtonBorderColor) {
+		this.closingButtonBorderColor = mainButtonBorderColor;
 	}
 
 	public RenderedDialog getCreatedDialog() {

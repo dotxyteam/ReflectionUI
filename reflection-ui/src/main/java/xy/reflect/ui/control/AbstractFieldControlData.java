@@ -157,22 +157,22 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	public ColorSpecification getEditorForegroundColor() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
-			if (type.getFormEditorsForegroundColor() != null) {
-				return type.getFormEditorsForegroundColor();
+			if (type.getFormEditorForegroundColor() != null) {
+				return type.getFormEditorForegroundColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getEditorForegroundColor();
+		return reflectionUI.getApplicationInfo().getMainEditorForegroundColor();
 	}
 
 	@Override
 	public ColorSpecification getEditorBackgroundColor() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
-			if (type.getFormEditorsBackgroundColor() != null) {
-				return type.getFormEditorsBackgroundColor();
+			if (type.getFormEditorBackgroundColor() != null) {
+				return type.getFormEditorBackgroundColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getEditorBackgroundColor();
+		return reflectionUI.getApplicationInfo().getMainEditorBackgroundColor();
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 				return type.getFormButtonBackgroundImagePath();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonBackgroundImagePath();
+		return reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath();
 	}
 
 	@Override
@@ -204,7 +204,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 				return type.getFormButtonBackgroundColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonBackgroundColor();
+		return reflectionUI.getApplicationInfo().getMainButtonBackgroundColor();
 	}
 
 	@Override
@@ -215,7 +215,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 				return type.getFormButtonForegroundColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonForegroundColor();
+		return reflectionUI.getApplicationInfo().getMainButtonForegroundColor();
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 				return type.getFormButtonBorderColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonBorderColor();
+		return reflectionUI.getApplicationInfo().getMainButtonBorderColor();
 	}
 
 	@Override

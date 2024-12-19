@@ -157,12 +157,12 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsForegroundColor() {
+		public ColorSpecification getFormEditorForegroundColor() {
 			return null;
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsBackgroundColor() {
+		public ColorSpecification getFormEditorBackgroundColor() {
 			return null;
 		}
 
@@ -474,13 +474,13 @@ public interface ITypeInfo extends IInfo {
 	 * @return the editable text color of controls generated from this type or null
 	 *         if the default text color should be used.
 	 */
-	ColorSpecification getFormEditorsForegroundColor();
+	ColorSpecification getFormEditorForegroundColor();
 
 	/**
 	 * @return the editable background color of controls generated from this type or
 	 *         null if the default background color should be used.
 	 */
-	ColorSpecification getFormEditorsBackgroundColor();
+	ColorSpecification getFormEditorBackgroundColor();
 
 	/**
 	 * @return the background color of the buttons generated from this type or null

@@ -4,21 +4,21 @@
     <appplicationCustomization>
         <uniqueIdentifier>1f4860a5:16d6d69f79a:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>51</blue>
             <green>51</green>
             <red>51</red>
-        </buttonBackgroundColor>
-        <buttonBorderColor>
+        </mainButtonBackgroundColor>
+        <mainButtonBorderColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>0</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundColor>
             <blue>0</blue>
             <green>0</green>
@@ -29,31 +29,31 @@
             <green>255</green>
             <red>0</red>
         </mainBorderColor>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>51</blue>
             <green>51</green>
             <red>51</red>
-        </buttonBackgroundColor>
-        <buttonBorderColor>
+        </mainButtonBackgroundColor>
+        <mainButtonBorderColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>0</red>
-        </buttonForegroundColor>
-        <editorBackgroundColor>
+        </mainButtonForegroundColor>
+        <mainEditorBackgroundColor>
             <blue>51</blue>
             <green>51</green>
             <red>51</red>
-        </editorBackgroundColor>
-        <editorForegroundColor>
+        </mainEditorBackgroundColor>
+        <mainEditorForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>0</red>
-        </editorForegroundColor>
+        </mainEditorForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

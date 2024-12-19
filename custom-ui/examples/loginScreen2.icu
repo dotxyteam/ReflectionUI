@@ -4,19 +4,19 @@
     <appplicationCustomization>
         <uniqueIdentifier>-313ea77:16ca45dfede:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>102</red>
-        </buttonBackgroundColor>
-        <buttonBackgroundImagePath>
+        </mainButtonBackgroundColor>
+        <mainButtonBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen2-buttonBackground.png</specification>
-        </buttonBackgroundImagePath>
-        <buttonForegroundColor>
+        </mainButtonBackgroundImagePath>
+        <mainButtonForegroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundColor>
             <blue>33</blue>
             <green>23</green>
@@ -30,19 +30,19 @@
             <green>173</green>
             <red>50</red>
         </mainBorderColor>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>102</red>
-        </buttonBackgroundColor>
-        <buttonBackgroundImagePath>
+        </mainButtonBackgroundColor>
+        <mainButtonBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen2-buttonBackground.png</specification>
-        </buttonBackgroundImagePath>
-        <buttonForegroundColor>
+        </mainButtonBackgroundImagePath>
+        <mainButtonForegroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>255</blue>
             <green>255</green>

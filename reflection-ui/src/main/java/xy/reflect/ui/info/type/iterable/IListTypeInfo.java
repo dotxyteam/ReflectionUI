@@ -267,12 +267,12 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsForegroundColor() {
+		public ColorSpecification getFormEditorForegroundColor() {
 			return null;
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsBackgroundColor() {
+		public ColorSpecification getFormEditorBackgroundColor() {
 			return null;
 		}
 

@@ -60,7 +60,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 				return type.getFormButtonBackgroundImagePath();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonBackgroundImagePath();
+		return reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 				return type.getFormButtonBackgroundColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonBackgroundColor();
+		return reflectionUI.getApplicationInfo().getMainButtonBackgroundColor();
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 				return type.getFormButtonForegroundColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonForegroundColor();
+		return reflectionUI.getApplicationInfo().getMainButtonForegroundColor();
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 				return type.getFormButtonBorderColor();
 			}
 		}
-		return reflectionUI.getApplicationInfo().getButtonBorderColor();
+		return reflectionUI.getApplicationInfo().getMainButtonBorderColor();
 	}
 
 	@Override

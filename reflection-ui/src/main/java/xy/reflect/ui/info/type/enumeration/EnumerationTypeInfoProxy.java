@@ -187,12 +187,12 @@ public class EnumerationTypeInfoProxy extends AbstractInfoProxy implements IEnum
 		return base.getCategoriesForegroundColor();
 	}
 
-	public ColorSpecification getFormEditorsForegroundColor() {
-		return base.getFormEditorsForegroundColor();
+	public ColorSpecification getFormEditorForegroundColor() {
+		return base.getFormEditorForegroundColor();
 	}
 
-	public ColorSpecification getFormEditorsBackgroundColor() {
-		return base.getFormEditorsBackgroundColor();
+	public ColorSpecification getFormEditorBackgroundColor() {
+		return base.getFormEditorBackgroundColor();
 	}
 
 	public ColorSpecification getFormButtonBackgroundColor() {

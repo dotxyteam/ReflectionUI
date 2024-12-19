@@ -4,39 +4,39 @@
     <appplicationCustomization>
         <uniqueIdentifier>68c6f25e:16676f539bf:-2d6d</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>255</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/fileExplorer-background.png</specification>
         </mainBackgroundImagePath>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>255</red>
-        </buttonBackgroundColor>
-        <buttonForegroundColor>
+        </mainButtonBackgroundColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
-        <editorBackgroundColor>
+        </mainButtonForegroundColor>
+        <mainEditorBackgroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </editorBackgroundColor>
-        <editorForegroundColor>
+        </mainEditorBackgroundColor>
+        <mainEditorForegroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>0</red>
-        </editorForegroundColor>
+        </mainEditorForegroundColor>
         <mainForegroundColor>
             <blue>0</blue>
             <green>0</green>

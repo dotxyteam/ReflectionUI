@@ -4,21 +4,21 @@
     <appplicationCustomization>
         <uniqueIdentifier>53b6f0bc:16c56b0e01f:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>204</red>
-        </buttonBackgroundColor>
-        <buttonBorderColor>
+        </mainButtonBackgroundColor>
+        <mainButtonBorderColor>
             <blue>0</blue>
             <green>0</green>
             <red>204</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainBackgroundColor>
             <blue>255</blue>
             <green>255</green>
@@ -29,21 +29,21 @@
             <green>204</green>
             <red>255</red>
         </mainBorderColor>
-        <buttonBackgroundColor>
+        <mainButtonBackgroundColor>
             <blue>0</blue>
             <green>0</green>
             <red>204</red>
-        </buttonBackgroundColor>
-        <buttonBorderColor>
+        </mainButtonBackgroundColor>
+        <mainButtonBorderColor>
             <blue>0</blue>
             <green>0</green>
             <red>204</red>
-        </buttonBorderColor>
-        <buttonForegroundColor>
+        </mainButtonBorderColor>
+        <mainButtonForegroundColor>
             <blue>255</blue>
             <green>255</green>
             <red>255</red>
-        </buttonForegroundColor>
+        </mainButtonForegroundColor>
         <mainForegroundColor>
             <blue>0</blue>
             <green>0</green>

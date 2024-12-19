@@ -1362,25 +1362,25 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected ColorSpecification getFormEditorsForegroundColor(ITypeInfo type) {
+	protected ColorSpecification getFormEditorForegroundColor(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
-			if (t.getFormEditorsForegroundColor() != null) {
-				return t.getFormEditorsForegroundColor();
+			if (t.getFormEditorForegroundColor() != null) {
+				return t.getFormEditorForegroundColor();
 			}
 		}
-		return super.getFormEditorsForegroundColor(type);
+		return super.getFormEditorForegroundColor(type);
 	}
 
 	@Override
-	protected ColorSpecification getFormEditorsBackgroundColor(ITypeInfo type) {
+	protected ColorSpecification getFormEditorBackgroundColor(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
-			if (t.getFormEditorsBackgroundColor() != null) {
-				return t.getFormEditorsBackgroundColor();
+			if (t.getFormEditorBackgroundColor() != null) {
+				return t.getFormEditorBackgroundColor();
 			}
 		}
-		return super.getFormEditorsBackgroundColor(type);
+		return super.getFormEditorBackgroundColor(type);
 	}
 
 	@Override
@@ -1522,21 +1522,21 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected ColorSpecification getEditorBackgroundColor(IApplicationInfo appInfo) {
+	protected ColorSpecification getMainEditorBackgroundColor(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getEditorBackgroundColor() != null) {
-			return appCustomization.getEditorBackgroundColor();
+		if (appCustomization.getMainEditorBackgroundColor() != null) {
+			return appCustomization.getMainEditorBackgroundColor();
 		}
-		return super.getEditorBackgroundColor(appInfo);
+		return super.getMainEditorBackgroundColor(appInfo);
 	}
 
 	@Override
-	protected ColorSpecification getEditorForegroundColor(IApplicationInfo appInfo) {
+	protected ColorSpecification getMainEditorForegroundColor(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getEditorForegroundColor() != null) {
-			return appCustomization.getEditorForegroundColor();
+		if (appCustomization.getMainEditorForegroundColor() != null) {
+			return appCustomization.getMainEditorForegroundColor();
 		}
-		return super.getEditorForegroundColor(appInfo);
+		return super.getMainEditorForegroundColor(appInfo);
 	}
 
 	@Override
@@ -1549,30 +1549,30 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected ColorSpecification getButtonBackgroundColor(IApplicationInfo appInfo) {
+	protected ColorSpecification getMainButtonBackgroundColor(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getButtonBackgroundColor() != null) {
-			return appCustomization.getButtonBackgroundColor();
+		if (appCustomization.getMainButtonBackgroundColor() != null) {
+			return appCustomization.getMainButtonBackgroundColor();
 		}
-		return super.getButtonBackgroundColor(appInfo);
+		return super.getMainButtonBackgroundColor(appInfo);
 	}
 
 	@Override
-	protected ColorSpecification getButtonBorderColor(IApplicationInfo appInfo) {
+	protected ColorSpecification getMainButtonBorderColor(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getButtonBorderColor() != null) {
-			return appCustomization.getButtonBorderColor();
+		if (appCustomization.getMainButtonBorderColor() != null) {
+			return appCustomization.getMainButtonBorderColor();
 		}
-		return super.getButtonBorderColor(appInfo);
+		return super.getMainButtonBorderColor(appInfo);
 	}
 
 	@Override
-	protected ResourcePath getButtonBackgroundImagePath(IApplicationInfo appInfo) {
+	protected ResourcePath getMainButtonBackgroundImagePath(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getButtonBackgroundImagePath() != null) {
-			return appCustomization.getButtonBackgroundImagePath();
+		if (appCustomization.getMainButtonBackgroundImagePath() != null) {
+			return appCustomization.getMainButtonBackgroundImagePath();
 		}
-		return super.getButtonBackgroundImagePath(appInfo);
+		return super.getMainButtonBackgroundImagePath(appInfo);
 	}
 
 	@Override
@@ -1612,12 +1612,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected ColorSpecification getButtonForegroundColor(IApplicationInfo appInfo) {
+	protected ColorSpecification getMainButtonForegroundColor(IApplicationInfo appInfo) {
 		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
-		if (appCustomization.getButtonForegroundColor() != null) {
-			return appCustomization.getButtonForegroundColor();
+		if (appCustomization.getMainButtonForegroundColor() != null) {
+			return appCustomization.getMainButtonForegroundColor();
 		}
-		return super.getButtonForegroundColor(appInfo);
+		return super.getMainButtonForegroundColor(appInfo);
 	}
 
 	@Override

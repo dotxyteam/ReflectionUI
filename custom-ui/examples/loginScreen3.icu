@@ -4,9 +4,9 @@
     <appplicationCustomization>
         <uniqueIdentifier>-19ea1d76:16ca9ca3daa:-8000</uniqueIdentifier>
         <specificProperties/>
-        <buttonBackgroundImagePath>
+        <mainButtonBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen3-buttonBackground.png</specification>
-        </buttonBackgroundImagePath>
+        </mainButtonBackgroundImagePath>
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/loginScreen3-background.jpg</specification>
         </mainBackgroundImagePath>

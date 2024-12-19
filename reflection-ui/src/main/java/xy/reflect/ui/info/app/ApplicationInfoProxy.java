@@ -51,12 +51,12 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getMainBorderColor();
 	}
 
-	public ColorSpecification getEditorForegroundColor() {
-		return base.getEditorForegroundColor();
+	public ColorSpecification getMainEditorForegroundColor() {
+		return base.getMainEditorForegroundColor();
 	}
 
-	public ColorSpecification getEditorBackgroundColor() {
-		return base.getEditorBackgroundColor();
+	public ColorSpecification getMainEditorBackgroundColor() {
+		return base.getMainEditorBackgroundColor();
 	}
 
 	public ResourcePath getMainBackgroundImagePath() {
@@ -75,16 +75,16 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getButtonCustomFontResourcePath();
 	}
 
-	public ColorSpecification getButtonBackgroundColor() {
-		return base.getButtonBackgroundColor();
+	public ColorSpecification getMainButtonBackgroundColor() {
+		return base.getMainButtonBackgroundColor();
 	}
 
-	public ColorSpecification getButtonForegroundColor() {
-		return base.getButtonForegroundColor();
+	public ColorSpecification getMainButtonForegroundColor() {
+		return base.getMainButtonForegroundColor();
 	}
 
-	public ColorSpecification getButtonBorderColor() {
-		return base.getButtonBorderColor();
+	public ColorSpecification getMainButtonBorderColor() {
+		return base.getMainButtonBorderColor();
 	}
 
 	public ColorSpecification getTitleBackgroundColor() {
@@ -99,8 +99,8 @@ public class ApplicationInfoProxy implements IApplicationInfo {
 		return base.getTitleCustomFontResourcePath();
 	}
 
-	public ResourcePath getButtonBackgroundImagePath() {
-		return base.getButtonBackgroundImagePath();
+	public ResourcePath getMainButtonBackgroundImagePath() {
+		return base.getMainButtonBackgroundImagePath();
 	}
 
 	public ResourcePath getIconImagePath() {

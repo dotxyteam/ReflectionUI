@@ -1332,20 +1332,20 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getEditorBackgroundColor()}
+	 * @return the result of {@link IApplicationInfo#getMainEditorBackgroundColor()}
 	 *         unless overridden.
 	 */
-	protected ColorSpecification getEditorBackgroundColor(IApplicationInfo appInfo) {
-		return appInfo.getEditorBackgroundColor();
+	protected ColorSpecification getMainEditorBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainEditorBackgroundColor();
 	}
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getEditorForegroundColor()}
+	 * @return the result of {@link IApplicationInfo#getMainEditorForegroundColor()}
 	 *         unless overridden.
 	 */
-	protected ColorSpecification getEditorForegroundColor(IApplicationInfo appInfo) {
-		return appInfo.getEditorForegroundColor();
+	protected ColorSpecification getMainEditorForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainEditorForegroundColor();
 	}
 
 	/**
@@ -1359,20 +1359,20 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getButtonBackgroundColor()}
+	 * @return the result of {@link IApplicationInfo#getMainButtonBackgroundColor()}
 	 *         unless overridden.
 	 */
-	protected ColorSpecification getButtonBackgroundColor(IApplicationInfo appInfo) {
-		return appInfo.getButtonBackgroundColor();
+	protected ColorSpecification getMainButtonBackgroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonBackgroundColor();
 	}
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getButtonBackgroundImagePath()}
+	 * @return the result of {@link IApplicationInfo#getMainButtonBackgroundImagePath()}
 	 *         unless overridden.
 	 */
-	protected ResourcePath getButtonBackgroundImagePath(IApplicationInfo appInfo) {
-		return appInfo.getButtonBackgroundImagePath();
+	protected ResourcePath getMainButtonBackgroundImagePath(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonBackgroundImagePath();
 	}
 
 	/**
@@ -1407,20 +1407,20 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getButtonForegroundColor()}
+	 * @return the result of {@link IApplicationInfo#getMainButtonForegroundColor()}
 	 *         unless overridden.
 	 */
-	protected ColorSpecification getButtonForegroundColor(IApplicationInfo appInfo) {
-		return appInfo.getButtonForegroundColor();
+	protected ColorSpecification getMainButtonForegroundColor(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonForegroundColor();
 	}
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getButtonBorderColor()} unless
+	 * @return the result of {@link IApplicationInfo#getMainButtonBorderColor()} unless
 	 *         overridden.
 	 */
-	protected ColorSpecification getButtonBorderColor(IApplicationInfo appInfo) {
-		return appInfo.getButtonBorderColor();
+	protected ColorSpecification getMainButtonBorderColor(IApplicationInfo appInfo) {
+		return appInfo.getMainButtonBorderColor();
 	}
 
 	/**
@@ -1579,20 +1579,20 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type The type information.
-	 * @return the result of {@link ITypeInfo#getFormEditorsBackgroundColor()}
+	 * @return the result of {@link ITypeInfo#getFormEditorBackgroundColor()}
 	 *         unless overridden.
 	 */
-	protected ColorSpecification getFormEditorsBackgroundColor(ITypeInfo type) {
-		return type.getFormEditorsBackgroundColor();
+	protected ColorSpecification getFormEditorBackgroundColor(ITypeInfo type) {
+		return type.getFormEditorBackgroundColor();
 	}
 
 	/**
 	 * @param type The type information.
-	 * @return the result of {@link ITypeInfo#getFormEditorsForegroundColor()}
+	 * @return the result of {@link ITypeInfo#getFormEditorForegroundColor()}
 	 *         unless overridden.
 	 */
-	protected ColorSpecification getFormEditorsForegroundColor(ITypeInfo type) {
-		return type.getFormEditorsForegroundColor();
+	protected ColorSpecification getFormEditorForegroundColor(ITypeInfo type) {
+		return type.getFormEditorForegroundColor();
 	}
 
 	/**
@@ -1938,28 +1938,28 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ColorSpecification getEditorForegroundColor() {
-			return InfoProxyFactory.this.getEditorForegroundColor(base);
+		public ColorSpecification getMainEditorForegroundColor() {
+			return InfoProxyFactory.this.getMainEditorForegroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getEditorBackgroundColor() {
-			return InfoProxyFactory.this.getEditorBackgroundColor(base);
+		public ColorSpecification getMainEditorBackgroundColor() {
+			return InfoProxyFactory.this.getMainEditorBackgroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getButtonBackgroundColor() {
-			return InfoProxyFactory.this.getButtonBackgroundColor(base);
+		public ColorSpecification getMainButtonBackgroundColor() {
+			return InfoProxyFactory.this.getMainButtonBackgroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getButtonForegroundColor() {
-			return InfoProxyFactory.this.getButtonForegroundColor(base);
+		public ColorSpecification getMainButtonForegroundColor() {
+			return InfoProxyFactory.this.getMainButtonForegroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getButtonBorderColor() {
-			return InfoProxyFactory.this.getButtonBorderColor(base);
+		public ColorSpecification getMainButtonBorderColor() {
+			return InfoProxyFactory.this.getMainButtonBorderColor(base);
 		}
 
 		@Override
@@ -1978,8 +1978,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ResourcePath getButtonBackgroundImagePath() {
-			return InfoProxyFactory.this.getButtonBackgroundImagePath(base);
+		public ResourcePath getMainButtonBackgroundImagePath() {
+			return InfoProxyFactory.this.getMainButtonBackgroundImagePath(base);
 		}
 
 		@Override
@@ -2168,13 +2168,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsForegroundColor() {
-			return InfoProxyFactory.this.getFormEditorsForegroundColor(base);
+		public ColorSpecification getFormEditorForegroundColor() {
+			return InfoProxyFactory.this.getFormEditorForegroundColor(base);
 		}
 
 		@Override
-		public ColorSpecification getFormEditorsBackgroundColor() {
-			return InfoProxyFactory.this.getFormEditorsBackgroundColor(base);
+		public ColorSpecification getFormEditorBackgroundColor() {
+			return InfoProxyFactory.this.getFormEditorBackgroundColor(base);
 		}
 
 		@Override
