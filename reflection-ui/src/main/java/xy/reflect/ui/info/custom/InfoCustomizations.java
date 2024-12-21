@@ -63,6 +63,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
+import xy.reflect.ui.info.type.iterable.util.IDynamicListFeauture.DisplayMode;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ClassUtils;
@@ -4242,6 +4243,7 @@ public class InfoCustomizations implements Serializable {
 		protected String fieldName;
 		protected boolean alwaysShown = true;
 		protected String customFieldCaption;
+		protected DisplayMode displayMode;
 
 		public String getFieldName() {
 			return fieldName;
@@ -4265,6 +4267,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setCustomFieldCaption(String customFieldCaption) {
 			this.customFieldCaption = customFieldCaption;
+		}
+
+		public DisplayMode getDisplayMode() {
+			return displayMode;
+		}
+
+		public void setDisplayMode(DisplayMode displayMode) {
+			this.displayMode = displayMode;
 		}
 
 		@Override
@@ -4306,6 +4316,7 @@ public class InfoCustomizations implements Serializable {
 		protected boolean alwaysShown = true;
 		protected String customMethodCaption;
 		protected ResourcePath customIconImagePath;
+		protected DisplayMode displayMode;
 
 		public String getMethodSignature() {
 			return methodSignature;
@@ -4337,6 +4348,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setCustomIconImagePath(ResourcePath customIconImagePath) {
 			this.customIconImagePath = customIconImagePath;
+		}
+
+		public DisplayMode getDisplayMode() {
+			return displayMode;
+		}
+
+		public void setDisplayMode(DisplayMode displayMode) {
+			this.displayMode = displayMode;
 		}
 
 		public void validate() {

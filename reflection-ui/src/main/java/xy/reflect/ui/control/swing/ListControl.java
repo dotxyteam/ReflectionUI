@@ -101,6 +101,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
+import xy.reflect.ui.info.type.iterable.util.IDynamicListFeauture.DisplayMode;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -334,15 +335,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				modificationFactoryAccessor);
 		if ((dynamicProperties.size() > 0) || (dynamicActions.size() > 0)) {
 			for (IDynamicListProperty listProperty : dynamicProperties) {
-				AbstractStandardListAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
-				toolbar.add(createTool((String) dynamicPropertyHook.getActionTitle(), null, true, false,
-						dynamicPropertyHook));
+				if ((listProperty.getDisplayMode() == DisplayMode.TOOLBAR)
+						|| (listProperty.getDisplayMode() == DisplayMode.TOOLBAR_AND_CONTEXT_MENU)) {
+					AbstractStandardListAction dynamicPropertyHook = createDynamicPropertyHook(listProperty);
+					toolbar.add(createTool((String) dynamicPropertyHook.getActionTitle(), null, true, false,
+							dynamicPropertyHook));
+				}
 			}
 			for (IDynamicListAction listAction : dynamicActions) {
-				AbstractStandardListAction dynamicActionHook = createDynamicActionHook(listAction);
-				toolbar.add(createTool((String) dynamicActionHook.getActionTitle(),
-						(Icon) dynamicActionHook.getValue(AbstractAction.LARGE_ICON_KEY), true, false,
-						dynamicActionHook));
+				if ((listAction.getDisplayMode() == DisplayMode.TOOLBAR)
+						|| (listAction.getDisplayMode() == DisplayMode.TOOLBAR_AND_CONTEXT_MENU)) {
+					AbstractStandardListAction dynamicActionHook = createDynamicActionHook(listAction);
+					toolbar.add(createTool((String) dynamicActionHook.getActionTitle(),
+							(Icon) dynamicActionHook.getValue(AbstractAction.LARGE_ICON_KEY), true, false,
+							dynamicActionHook));
+				}
 			}
 		}
 
@@ -944,11 +951,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		for (IDynamicListProperty listProperty : getRootListType().getDynamicProperties(selection,
 				modificationFactoryAccessor)) {
-			result.add(createDynamicPropertyHook(listProperty));
+			if ((listProperty.getDisplayMode() == DisplayMode.CONTEXT_MENU)
+					|| (listProperty.getDisplayMode() == DisplayMode.TOOLBAR_AND_CONTEXT_MENU)) {
+				result.add(createDynamicPropertyHook(listProperty));
+			}
 		}
 		for (IDynamicListAction listAction : getRootListType().getDynamicActions(selection,
 				modificationFactoryAccessor)) {
-			result.add(createDynamicActionHook(listAction));
+			if ((listAction.getDisplayMode() == DisplayMode.CONTEXT_MENU)
+					|| (listAction.getDisplayMode() == DisplayMode.TOOLBAR_AND_CONTEXT_MENU)) {
+				result.add(createDynamicActionHook(listAction));
+			}
 		}
 
 		result = removeSeparatorsInExcess(result);

@@ -10,7 +10,7 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
- * This class allows to specify an action that can be performed on a list
+ * This interface allows to specify an action that can be performed on a list
  * instance according to the current selection of items. Such an action will
  * typically be available on the list control tool bar.
  * 
@@ -24,7 +24,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
  * @author olitank
  *
  */
-public interface IDynamicListAction extends IMethodInfo {
+public interface IDynamicListAction extends IDynamicListFeauture, IMethodInfo {
 
 	public static final Object NO_OWNER = new Object() {
 

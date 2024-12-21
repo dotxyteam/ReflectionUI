@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.util;
 
 import java.util.List;
@@ -10,9 +8,9 @@ import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
- * This class allows to specify a list instance property that can be accessed
- * according to the current selection of items. Such a property will typically
- * be available on the list control tool bar.
+ * This interface allows to specify a list instance property that can be
+ * accessed according to the current selection of items. Such a property will
+ * typically be available on the list control tool bar.
  * 
  * The current selection is provided as the 1st parameter of
  * {@link IListTypeInfo#getDynamicProperties(List, xy.reflect.ui.util.Mapper)}.
@@ -23,7 +21,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
  * @author olitank
  *
  */
-public interface IDynamicListProperty extends IFieldInfo {
+public interface IDynamicListProperty extends IDynamicListFeauture, IFieldInfo {
 
 	public static final Object NO_OWNER = new Object() {
 

@@ -246,8 +246,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				IFieldInfo result = ReflectionUIUtils.findInfoByName(objectType.getFields(),
 						l.getSelectionTargetFieldName());
 				if (result == null) {
-					throw new ReflectionUIError("List selection target field not found in type "
-							+ objectType.getName() + ": '" + l.getSelectionTargetFieldName() + "'");
+					throw new ReflectionUIError("List selection target field not found in type " + objectType.getName()
+							+ ": '" + l.getSelectionTargetFieldName() + "'");
 				}
 				return result;
 			}
@@ -556,8 +556,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem();
 					if (item != null) {
-						final ITypeInfo actualItemType = customizedUI
-								.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IFieldInfo itemField : actualItemType.getFields()) {
 							if (itemField.getName().equals(shortcut.getFieldName())) {
 								AbstractListProperty property = new AbstractListProperty() {
@@ -600,6 +599,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									@Override
 									public String getName() {
 										return shortcut.getFieldName();
+									}
+
+									@Override
+									public DisplayMode getDisplayMode() {
+										if(shortcut.getDisplayMode() != null) {
+										return shortcut.getDisplayMode();
+										}else {
+											return DisplayMode.getDefault();
+										}
 									}
 
 									@Override
@@ -752,6 +760,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						public ITypeInfo getType() {
 							throw new UnsupportedOperationException();
 						}
+
+						@Override
+						public DisplayMode getDisplayMode() {
+							if(shortcut.getDisplayMode() != null) {
+							return shortcut.getDisplayMode();
+							}else {
+								return DisplayMode.getDefault();
+							}
+						}
 					};
 					result.add(property);
 
@@ -781,8 +798,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					final ItemPosition itemPosition = selection.get(0);
 					final Object item = itemPosition.getItem();
 					if (item != null) {
-						final ITypeInfo actualItemType = customizedUI
-								.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
 							if (itemMethod.getSignature().equals(shortcut.getMethodSignature())) {
 								AbstractListAction action = new AbstractListAction() {
@@ -828,6 +844,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									@Override
 									public boolean isEnabled(Object object) {
 										return delegate.isEnabled(object);
+									}
+
+									@Override
+									public DisplayMode getDisplayMode() {
+										if(shortcut.getDisplayMode() != null) {
+										return shortcut.getDisplayMode();
+										}else {
+											return DisplayMode.getDefault();
+										}
 									}
 
 									@Override
@@ -988,6 +1013,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						@Override
 						public ValueReturnMode getValueReturnMode() {
 							throw new UnsupportedOperationException();
+						}
+
+						@Override
+						public DisplayMode getDisplayMode() {
+							if(shortcut.getDisplayMode() != null) {
+							return shortcut.getDisplayMode();
+							}else {
+								return DisplayMode.getDefault();
+							}
 						}
 
 					});
@@ -1864,10 +1898,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									basicVirtualFieldDeclaration.getFieldName()));
 					return new VirtualFieldInfo(basicVirtualFieldDeclaration.getFieldName(), fieldType);
 				} catch (Throwable t) {
-					throw new ReflectionUIError(
-							"Type '" + objectType.getName() + "': Failed to create virtual field '"
-									+ basicVirtualFieldDeclaration.getFieldName() + "': " + t.toString(),
-							t);
+					throw new ReflectionUIError("Type '" + objectType.getName() + "': Failed to create virtual field '"
+							+ basicVirtualFieldDeclaration.getFieldName() + "': " + t.toString(), t);
 				}
 			} else if (virtualFieldDeclaration instanceof ImplicitListFieldDeclaration) {
 				ImplicitListFieldDeclaration implicitListFieldDeclaration = (ImplicitListFieldDeclaration) virtualFieldDeclaration;
@@ -1917,8 +1949,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							}
 						};
 					}
-					newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod,
-							objectType);
+					newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod, objectType);
 					methods.add(newMethod);
 				}
 			}
@@ -1953,12 +1984,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			checkDuplicates(outputFields, outputMethods, outputConstructors);
 
 			for (int i = 0; i < newFields.size(); i++) {
-				newFields.set(i, customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newFields.get(i),
-						objectType));
+				newFields.set(i,
+						customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newFields.get(i), objectType));
 			}
 			for (int i = 0; i < newMethods.size(); i++) {
-				newMethods.set(i, customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethods.get(i),
-						objectType));
+				newMethods.set(i,
+						customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethods.get(i), objectType));
 			}
 			for (int i = 0; i < newConstructors.size(); i++) {
 				newConstructors.set(i, customizedUI.getInfoCustomizationsSetupFactory()
@@ -2033,8 +2064,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						}
 					}
 				} catch (Throwable t) {
-					throw new ReflectionUIError("Type '" + objectType.getName() + "': Method '"
-							+ method.getSignature() + "' customization error: " + t.toString(), t);
+					throw new ReflectionUIError("Type '" + objectType.getName() + "': Method '" + method.getSignature()
+							+ "' customization error: " + t.toString(), t);
 				}
 				modifiedMethods.add(method);
 			}
@@ -2644,8 +2675,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						};
 						parameterizedFields.add(field);
 					}
-					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields,
-							objectType) {
+					method = new ParameterizedFieldsMethodInfo(customizedUI, method, parameterizedFields, objectType) {
 						/*
 						 * The method signature is not modified since it identifies this customization.
 						 * Otherwise it will not be possible to disable the customization.

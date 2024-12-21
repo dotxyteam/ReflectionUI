@@ -362,6 +362,7 @@ public class Form extends ImagePanel {
 						}
 					});
 				}
+
 			}
 		});
 	}
@@ -738,7 +739,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected boolean refreshCategoriesControlStructure() {
+	protected void refreshCategoriesControlStructure() {
 		if (categoriesControl != null) {
 			if (categoriesControl instanceof ListTabbedPane) {
 				((ListTabbedPane) categoriesControl).refresh();
@@ -754,7 +755,6 @@ public class Form extends ImagePanel {
 				throw new ReflectionUIError();
 			}
 		}
-		return true;
 	}
 
 	protected void addCategoryTab(InfoCategory category, JPanel tab) {
@@ -1167,12 +1167,7 @@ public class Form extends ImagePanel {
 		}
 		finalizeFormUpdate();
 		if (refreshStructure) {
-			if (!refreshCategoriesControlStructure()) {
-				fieldControlPlaceHoldersByCategory.clear();
-				methodControlPlaceHoldersByCategory.clear();
-				refresh(true);
-				return;
-			}
+			refreshCategoriesControlStructure();
 			setPreservingRatio(true);
 			setFillingAreaWhenPreservingRatio(true);
 			Color awtBackgroundColor = getControlsBackgroundColor();
@@ -1319,9 +1314,18 @@ public class Form extends ImagePanel {
 		}
 
 		if (!modificationsDetected) {
-			if (categoriesControl == null) {
-				modificationsDetected = true;
-			} else {
+			List<InfoCategory> allCategories = collectCategories(newFieldControlPlaceHoldersByCategory,
+					newMethodControlPlaceHoldersByCategory);
+			if ((allCategories.size() == 1) && (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) {
+				if(categoriesControl != null) {
+					modificationsDetected = true;
+				}
+			} else if (allCategories.size() > 0) {
+				if(categoriesControl == null) {
+					modificationsDetected = true;
+				}
+			}			
+			if (categoriesControl != null) {
 				Container newCategoriesControl = createCategoriesControl();
 				if (newCategoriesControl instanceof ListTabbedPane) {
 					if (!(categoriesControl instanceof ListTabbedPane)) {

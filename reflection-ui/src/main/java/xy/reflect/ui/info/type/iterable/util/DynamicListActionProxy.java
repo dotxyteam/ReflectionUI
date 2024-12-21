@@ -153,6 +153,10 @@ public class DynamicListActionProxy implements IDynamicListAction {
 		base.onControlVisibilityChange(object, b);
 	}
 
+	public DisplayMode getDisplayMode() {
+		return base.getDisplayMode();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
