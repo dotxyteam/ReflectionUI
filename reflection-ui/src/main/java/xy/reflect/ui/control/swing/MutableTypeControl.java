@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.util.HashMap;
@@ -23,20 +21,12 @@ import xy.reflect.ui.util.Listener;
 /**
  * Field control that detects and rejects ({@link #refreshUI(boolean)} will
  * return false) null and unsupported values (type not compatible). A sub-form
- * is used to display the non-null supported value. It fails to refresh if it
- * detects that a similar control that have the same role is being created
- * inside its sub-form probably because the value type has evolved.
+ * is used to display the non-null supported value.
  * 
  * Note that this control is used when
  * {@link IFieldControlData#isNullValueDistinct()} returns false. Which means
- * that it prevents its sub-control from encountering null and then displaying a
- * default value. It seems that it is not the expected behavior but fortunately
- * it only happens when the field declared value type is different from the
- * actual value type. The null value in this case allows to destroy the current
- * control, pick a more suitable one and change both the actual type and the
- * control later. Anyway in order to display the default value when null is
- * returned it is still possible to alter the field declared type typically by
- * using a proxy, some customizations, etc.
+ * that it prevents its sub-control from encountering null value. The null value
+ * allows to destroy the current control and pick a more suitable one.
  * 
  * 
  * @author olitank
@@ -103,9 +93,9 @@ public class MutableTypeControl extends NullableControl {
 		}
 		data.addInBuffer(value);
 		boolean result = super.refreshUI(refreshStructure);
-		if(refreshStructure) {
-			if(data.getCaption().length() == 0) {
-				 ((JComponent) currentSubControl).setBorder(null);
+		if (refreshStructure) {
+			if (data.getCaption().length() == 0) {
+				((JComponent) currentSubControl).setBorder(null);
 			}
 		}
 		if (recreationNeeded) {

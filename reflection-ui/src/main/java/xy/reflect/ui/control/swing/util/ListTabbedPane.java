@@ -103,7 +103,7 @@ public class ListTabbedPane extends JPanel {
 		refresh();
 	}
 
-	public int getPlacement() {
+	public int getTabPlacement() {
 		return placement;
 	}
 

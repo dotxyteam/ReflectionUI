@@ -172,7 +172,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			refreshUI(false);
 		} else {
-			Object newValue = swingRenderer.onTypeInstantiationRequest(NullableControl.this, data.getType());
+			Object newValue = getNewValue();
 			if (newValue == null) {
 				refreshUI(false);
 				return;
@@ -187,6 +187,10 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				}
 			});
 		}
+	}
+
+	protected Object getNewValue() {
+		return swingRenderer.onTypeInstantiationRequest(NullableControl.this, data.getType());
 	}
 
 	@Override

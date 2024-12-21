@@ -534,7 +534,7 @@ public interface ITypeInfo extends IInfo {
 	 *
 	 */
 	public enum CategoriesStyle {
-		MODERN, MODERN_VERTICAL;
+		CLASSIC, CLASSIC_VERTICAL, MODERN, MODERN_VERTICAL;
 
 		public static CategoriesStyle getDefault() {
 			return MODERN;

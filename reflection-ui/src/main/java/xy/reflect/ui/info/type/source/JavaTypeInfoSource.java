@@ -197,7 +197,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 				throw new ReflectionUIError();
 			}
 			if (resolvedType == null) {
-				throw new ReflectionUIError();
+				return null;
 			}
 		}
 		List<Class<?>> result = new ArrayList<Class<?>>();

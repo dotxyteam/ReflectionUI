@@ -346,27 +346,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}
 
-		toolbar.add(new JSeparator(JSeparator.VERTICAL));
-
 		for (int i = 0; i < toolbar.getComponentCount(); i++) {
 			Component c = toolbar.getComponent(i);
 			GridBagConstraints constraints = new GridBagConstraints();
 			constraints.gridx = 0;
-			if (c instanceof JSeparator) {
-				JSeparator separator = (JSeparator) c;
-				if (separator.getOrientation() == JSeparator.HORIZONTAL) {
-					constraints.insets = new Insets(10, 0, 10, 0);
-				} else if (separator.getOrientation() == JSeparator.VERTICAL) {
-					constraints.weighty = 1;
-				} else {
-					throw new ReflectionUIError();
-				}
-			} else {
-				constraints.fill = GridBagConstraints.HORIZONTAL;
-				constraints.insets = new Insets(1, 5, 1, 5);
-			}
+			constraints.fill = GridBagConstraints.HORIZONTAL;
+			constraints.insets = new Insets(1, 5, 1, 5);
 			layout.setConstraints(c, constraints);
 		}
+
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.weighty = 1;
+		toolbar.add(new JSeparator(JSeparator.VERTICAL), constraints);
 
 		SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 		toolbar.repaint();

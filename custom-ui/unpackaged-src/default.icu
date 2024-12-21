@@ -4,24 +4,9 @@
     <appplicationCustomization>
         <uniqueIdentifier>79d22363:1658efee432:1ac9</uniqueIdentifier>
         <specificProperties/>
-        <mainButtonBackgroundColor>
-            <blue>51</blue>
-            <green>255</green>
-            <red>255</red>
-        </mainButtonBackgroundColor>
-        <mainButtonBorderColor>
-            <blue>0</blue>
-            <green>153</green>
-            <red>255</red>
-        </mainButtonBorderColor>
         <buttonCustomFontResourcePath>
             <specification>&lt;class-path-resource&gt; fontSmooth.ttf</specification>
         </buttonCustomFontResourcePath>
-        <mainButtonForegroundColor>
-            <blue>204</blue>
-            <green>0</green>
-            <red>51</red>
-        </mainButtonForegroundColor>
         <editorCustomFontResourcePath>
             <specification>&lt;class-path-resource&gt; fontReadable.ttf</specification>
         </editorCustomFontResourcePath>
@@ -1449,27 +1434,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-47b6dd04:178cc2056ae:5e3f</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-47b6dd04:178cc2056ae:5e40</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -5654,378 +5618,6 @@
         <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
-        <uniqueIdentifier>-97b9588:16634cf2d6f:4b90</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:4b92</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>bytes</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-97b9588:16634cf2d6f:4b94</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:4b93</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:4bff</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-97b9588:16634cf2d6f:4c00</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>byte</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[B</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:4b91</uniqueIdentifier>
-        </menuModel>
-        <typeName>FieldAsListItemTypeInfo [index=0, containingList=listFromBytes]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-97b9588:16634cf2d6f:3ade</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:3ae4</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>theChildrenList</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-97b9588:16634cf2d6f:3ae6</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:3ae5</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:3ae9</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-97b9588:16634cf2d6f:3aea</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:3adf</uniqueIdentifier>
-        </menuModel>
-        <typeName>FieldAsListItemTypeInfo [index=0, containingList=listFromTheChildrenList]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-97b9588:16634cf2d6f:3ae0</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:3af0</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>validReferences</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-97b9588:16634cf2d6f:3af2</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:3af1</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:3af5</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-97b9588:16634cf2d6f:3af6</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.String</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:3ae1</uniqueIdentifier>
-        </menuModel>
-        <typeName>FieldAsListItemTypeInfo [index=0, containingList=listFromValidReferences]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-97b9588:16634cf2d6f:3ac1</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:3ac3</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>theChildrenList</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-97b9588:16634cf2d6f:3ac5</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:3ac4</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:3ad9</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-97b9588:16634cf2d6f:3ada</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:3ac2</uniqueIdentifier>
-        </menuModel>
-        <typeName>FieldAsListItemTypeInfo [index=0, containingList=listFromtheChildrenList]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-86a97c2:16634b4fad3:451e</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-86a97c2:16634b4fad3:4520</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>theChildrenList</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-86a97c2:16634b4fad3:4522</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-86a97c2:16634b4fad3:4521</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-86a97c2:16634b4fad3:4536</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-86a97c2:16634b4fad3:4537</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-86a97c2:16634b4fad3:451f</uniqueIdentifier>
-        </menuModel>
-        <typeName>ListItemTypeInfo [index=0, of=theChildrenList]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-86a97c2:16634b4fad3:4519</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-86a97c2:16634b4fad3:451b</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>validReferences</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-86a97c2:16634b4fad3:451d</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-86a97c2:16634b4fad3:451c</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-86a97c2:16634b4fad3:6115</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-86a97c2:16634b4fad3:6116</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.String</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-86a97c2:16634b4fad3:451a</uniqueIdentifier>
-        </menuModel>
-        <typeName>ListItemTypeInfo [index=0, of=validReferences]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
         <uniqueIdentifier>-5d41831c:1654b5418e2:-6ed4</uniqueIdentifier>
         <specificProperties/>
         <abstractForced>false</abstractForced>
@@ -7597,8 +7189,8 @@
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>true</anyPersistenceMemberIncluded>
         <categoriesBackgroundColor>
-            <blue>0</blue>
-            <green>0</green>
+            <blue>51</blue>
+            <green>51</green>
             <red>255</red>
         </categoriesBackgroundColor>
         <categoriesForegroundColor>
@@ -7606,7 +7198,7 @@
             <green>255</green>
             <red>255</red>
         </categoriesForegroundColor>
-        <categoriesStyle>MODERN_VERTICAL</categoriesStyle>
+        <categoriesStyle>CLASSIC</categoriesStyle>
         <copyForbidden>false</copyForbidden>
         <customFieldsOrder>aThrownError</customFieldsOrder>
         <customFieldsOrder>test4</customFieldsOrder>
@@ -7663,7 +7255,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230c</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-891</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7694,7 +7286,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230d</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-890</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7768,7 +7360,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230e</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-88f</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7820,9 +7412,8 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES</initialItemValueCreationOption>
                     <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>true</itemContructorSelectableforced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -7844,7 +7435,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:230f</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-88e</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -7868,27 +7459,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:a9</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:aa</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Boolean</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -7896,7 +7466,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2310</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-88d</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7927,7 +7497,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2311</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-88c</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -7982,7 +7552,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2312</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-88b</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8033,7 +7603,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2313</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-88a</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8199,27 +7769,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:3b6</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:3b7</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.String</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.lang.String;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -8281,7 +7830,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2314</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-889</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -10552,7 +10101,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2315</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-888</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10576,27 +10125,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:e4</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:e5</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Exception</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -10604,7 +10132,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2316</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-887</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -10628,27 +10156,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:2a3</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:2a4</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.io.FileNotFoundException,java.lang.ArrayIndexOutOfBoundsException&gt;</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.Map</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -11258,7 +10765,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2317</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-886</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11282,27 +10789,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:112</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:113</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>true</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.io.File</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -11310,7 +10796,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2318</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-885</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11341,7 +10827,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2319</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-884</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11365,27 +10851,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:3a7</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:3a8</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>float</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[F</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -11393,7 +10858,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231a</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-883</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11426,9 +10891,8 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_NULL_VALUE</initialItemValueCreationOption>
                     <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>true</itemNullValueAllowed>
                     <itemTypeColumnAdded>true</itemTypeColumnAdded>
@@ -11537,7 +11001,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231b</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-882</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11592,7 +11056,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231c</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-881</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -12776,7 +12240,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231d</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-880</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -12800,27 +12264,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:2b8</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:2b9</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_ACCORDING_USER_PREFERENCES</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>true</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,java.lang.String&gt;</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.Map</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
                 <typeCustomizations>
                     <uniqueIdentifier>1f78d90f:165043762d2:2b6</uniqueIdentifier>
                     <specificProperties/>
@@ -13417,7 +12860,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231e</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-87f</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13441,27 +12884,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:2e4</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:2e5</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Integer</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.Set</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -13469,7 +12891,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:231f</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-87e</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -13500,7 +12922,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2320</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-87d</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13524,27 +12946,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:395</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:396</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Integer</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.Stack</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -13578,7 +12979,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2321</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-87c</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13611,9 +13012,8 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -13659,7 +13059,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2322</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-87b</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -13683,27 +13083,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>1f78d90f:165043762d2:2cd</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>1f78d90f:165043762d2:2ce</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.type.iterable.map.StandardMapEntry&lt;java.lang.Integer,ReflectionUITest$Test2&gt;</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.Map</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -16053,7 +15432,7 @@
             <uniqueIdentifier>2e34d93a:17970a4d5a7:-43a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2323</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-87a</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16093,9 +15472,8 @@
                         </listInstantiationOption>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -16112,7 +15490,7 @@
             <uniqueIdentifier>-7fd953ed:179723000f4:-2c20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2324</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-879</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16143,7 +15521,7 @@
             <uniqueIdentifier>-715a7328:193a808180d:-5df5</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2325</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-878</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16177,7 +15555,7 @@
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
                     <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -16195,7 +15573,7 @@
             <uniqueIdentifier>-715a7328:193a808180d:-5dee</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2326</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-877</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16222,6 +15600,9 @@
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
+        <formBackgroundImagePath>
+            <specification>&lt;class-path-resource&gt; minimalistic multicolor lame gaussian blur simple background white background 1920x1200 wallpaper_www.artwallpaperhi.com_25.jpg</specification>
+        </formBackgroundImagePath>
         <iconImagePath>
             <specification>tmp/obj16/ActionExecutionSpecification.gif</specification>
         </iconImagePath>
@@ -16567,7 +15948,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2327</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-876</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16618,7 +15999,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2328</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-875</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16664,7 +16045,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:2329</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-874</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -16710,7 +16091,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-6e1471dc:193bcc25ab6:232a</uniqueIdentifier>
+                <uniqueIdentifier>-5a787016:193e8817d1a:-873</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16824,27 +16205,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>26056baa:1650439eb88:99e</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>26056baa:1650439eb88:99f</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -16980,121 +16340,6 @@
                     <undoManagementHidden>false</undoManagementHidden>
                     <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-149d4e2:166704b6596:-12eb</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>listFromTheChildrenList</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-149d4e2:166704b6596:-12e9</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-149d4e2:166704b6596:-12ea</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-149d4e2:166704b6596:-12e6</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-149d4e2:166704b6596:-12e5</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-                <listCustomizations>
-                    <uniqueIdentifier>733751a4:166aab2b342:-2395</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>733751a4:166aab2b342:-2394</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>4d97c127:17925c4d630:-7da4</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>subListGroup [containingItemType=ReflectionUITest$Test2]</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>4d97c127:17925c4d630:-7da2</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>4d97c127:17925c4d630:-7da3</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>4d97c127:17925c4d630:-7da1</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>4d97c127:17925c4d630:-7da0</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>ValueListTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test2]]</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -17347,142 +16592,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>4e83da18:1651daf46ca:1170</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>4e83da18:1651daf46ca:1171</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.String</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-149d4e2:166704b6596:-12e0</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>listFromValidReferences</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-149d4e2:166704b6596:-12de</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-149d4e2:166704b6596:-12df</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-149d4e2:166704b6596:-12dd</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-149d4e2:166704b6596:-12dc</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-                <listCustomizations>
-                    <uniqueIdentifier>733751a4:166aab2b342:-238f</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>733751a4:166aab2b342:-238e</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>4d97c127:17925c4d630:-7d93</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>subListGroup [containingItemType=ReflectionUITest$Test3]</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>4d97c127:17925c4d630:-7d91</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>4d97c127:17925c4d630:-7d92</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>4d97c127:17925c4d630:-7d90</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>4d97c127:17925c4d630:-7d8f</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>ValueListTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test3]]</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -17629,9 +16738,8 @@
                         </listInstantiationOption>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -17954,9 +17062,8 @@
                         </listInstantiationOption>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
                     <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -18420,53 +17527,6 @@
             <transientForced>false</transientForced>
         </fieldsCustomizations>
         <fieldsCustomizations>
-            <uniqueIdentifier>-2f3ca046:16cc5472b42:-5f83</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>listControlTestGetOnlyTest</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-2f3ca046:16cc5472b42:-5f81</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-2f3ca046:16cc5472b42:-5f82</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-2f3ca046:16cc5472b42:-5ecf</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-2f3ca046:16cc5472b42:-5ece</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.String</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
             <uniqueIdentifier>-2f3ca046:16cc5472b42:-5f7d</uniqueIdentifier>
             <specificProperties/>
             <hidden>false</hidden>
@@ -18711,27 +17771,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-2f3ca046:16cc5472b42:-5edb</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-2f3ca046:16cc5472b42:-5eda</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.String</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
                 <typeCustomizations>
                     <uniqueIdentifier>-2f3ca046:16cc5472b42:-5edd</uniqueIdentifier>
                     <specificProperties>
@@ -25456,100 +24495,6 @@
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-22a8d81a:165297bbbe5:22f1</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>stackTrace</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-22a8d81a:165297bbbe5:22f2</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>79d22363:1658efee432:2464</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-22a8d81a:165297bbbe5:231b</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-22a8d81a:165297bbbe5:231c</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.StackTraceElement</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.lang.StackTraceElement;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-22a8d81a:165297bbbe5:22f3</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>suppressed</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-22a8d81a:165297bbbe5:22f4</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>79d22363:1658efee432:2470</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-22a8d81a:165297bbbe5:233c</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-22a8d81a:165297bbbe5:233d</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Throwable</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.lang.Throwable;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>-22a8d81a:165297bbbe5:21c6</uniqueIdentifier>
@@ -25750,100 +24695,6 @@
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-77c74d2f:16532d48669:5456</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>stackTrace</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-77c74d2f:16532d48669:5457</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>79d22363:1658efee432:201e</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-77c74d2f:16532d48669:559c</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-77c74d2f:16532d48669:559d</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.StackTraceElement</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.lang.StackTraceElement;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-77c74d2f:16532d48669:5458</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>suppressed</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-77c74d2f:16532d48669:5459</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>79d22363:1658efee432:202a</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-77c74d2f:16532d48669:55b2</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-77c74d2f:16532d48669:55b3</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Throwable</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.lang.Throwable;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
         <iconImagePath>
             <specification>tmp/icons/migrate72.gif</specification>
         </iconImagePath>
@@ -28186,53 +27037,6 @@
         <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
         <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
         <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-97b9588:16634cf2d6f:36bb</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>bytes</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-97b9588:16634cf2d6f:36bd</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:36bc</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-97b9588:16634cf2d6f:4c01</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-97b9588:16634cf2d6f:4c02</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>byte</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[B</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
         <immutableForced>false</immutableForced>
         <menuModel>
             <uniqueIdentifier>1f78d90f:165043762d2:8e</uniqueIdentifier>
@@ -35222,130 +34026,6 @@
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=theException, objectType=ReflectionUITest$Test], subContext=PolymorphicInstance, encapsulatedObjectType=java.io.FileNotFoundException]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-46a3766b:17949125d53:42cd</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-46a3766b:17949125d53:42cf</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>theChildrenList</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-46a3766b:17949125d53:42d1</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-46a3766b:17949125d53:42d0</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-46a3766b:17949125d53:42d2</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-46a3766b:17949125d53:42d3</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>ReflectionUITest$AbstrcatTestDescendant</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-46a3766b:17949125d53:42ce</uniqueIdentifier>
-        </menuModel>
-        <typeName>SubListGroupItemTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test2], itemField=theChildrenList]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-        <validationRequirementForced>false</validationRequirementForced>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-46a3766b:17949125d53:42d9</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-46a3766b:17949125d53:42db</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>validReferences</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-46a3766b:17949125d53:42dd</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-46a3766b:17949125d53:42dc</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-46a3766b:17949125d53:42de</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-46a3766b:17949125d53:42df</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.String</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-46a3766b:17949125d53:42da</uniqueIdentifier>
-        </menuModel>
-        <typeName>SubListGroupItemTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test3], itemField=validReferences]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
