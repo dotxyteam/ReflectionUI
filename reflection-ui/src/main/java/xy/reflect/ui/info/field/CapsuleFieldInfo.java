@@ -601,7 +601,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public ResourcePath getIconImagePath() {
+		public ResourcePath getIconImagePath(Object object) {
 			return null;
 		}
 

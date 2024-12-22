@@ -611,11 +611,12 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
-	 * @param type The type information.
-	 * @return the result of {@link ITypeInfo#getIconImagePath()} unless overridden.
+	 * @param type   The type information.
+	 * @param object Parameter of {@link ITypeInfo#getIconImagePath(Object)}.
+	 * @return the result of {@link ITypeInfo#getIconImagePath(Object)} unless overridden.
 	 */
-	protected ResourcePath getIconImagePath(ITypeInfo type) {
-		return type.getIconImagePath();
+	protected ResourcePath getIconImagePath(ITypeInfo type, Object object) {
+		return type.getIconImagePath(object);
 	}
 
 	/**
@@ -2308,8 +2309,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ResourcePath getIconImagePath() {
-			return InfoProxyFactory.this.getIconImagePath(base);
+		public ResourcePath getIconImagePath(Object object) {
+			return InfoProxyFactory.this.getIconImagePath(base, object);
 		}
 
 		@Override

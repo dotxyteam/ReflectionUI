@@ -472,7 +472,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public ResourcePath getIconImagePath() {
+		public ResourcePath getIconImagePath(Object object) {
 			return null;
 		}
 

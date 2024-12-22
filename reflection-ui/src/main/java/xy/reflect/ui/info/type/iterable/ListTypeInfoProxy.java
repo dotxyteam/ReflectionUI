@@ -138,8 +138,8 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.canInstantiateFromArray();
 	}
 
-	public ResourcePath getIconImagePath() {
-		return base.getIconImagePath();
+	public ResourcePath getIconImagePath(Object object) {
+		return base.getIconImagePath(object);
 	}
 
 	public Object fromArray(Object[] array) {

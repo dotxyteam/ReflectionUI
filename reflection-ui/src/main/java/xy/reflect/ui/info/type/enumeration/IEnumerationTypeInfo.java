@@ -152,7 +152,7 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public ResourcePath getIconImagePath() {
+		public ResourcePath getIconImagePath(Object object) {
 			return null;
 		}
 

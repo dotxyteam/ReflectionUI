@@ -130,8 +130,8 @@ public class EnumerationTypeInfoProxy extends AbstractInfoProxy implements IEnum
 		return base.isModificationStackAccessible();
 	}
 
-	public ResourcePath getIconImagePath() {
-		return base.getIconImagePath();
+	public ResourcePath getIconImagePath(Object object) {
+		return base.getIconImagePath(object);
 	}
 
 	public FieldsLayout getFieldsLayout() {

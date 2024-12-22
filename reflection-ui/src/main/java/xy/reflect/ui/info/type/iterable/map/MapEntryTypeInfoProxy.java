@@ -127,8 +127,8 @@ public class MapEntryTypeInfoProxy extends AbstractInfoProxy implements IMapEntr
 		return base.isModificationStackAccessible();
 	}
 
-	public ResourcePath getIconImagePath() {
-		return base.getIconImagePath();
+	public ResourcePath getIconImagePath(Object object) {
+		return base.getIconImagePath(object);
 	}
 
 	public FieldsLayout getFieldsLayout() {

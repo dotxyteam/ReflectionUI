@@ -294,7 +294,7 @@ public class SwingRenderer {
 	public Image getObjectIconImage(Object object) {
 		if (object != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			ResourcePath imagePath = type.getIconImagePath();
+			ResourcePath imagePath = type.getIconImagePath(object);
 			if (imagePath == null) {
 				return null;
 			}

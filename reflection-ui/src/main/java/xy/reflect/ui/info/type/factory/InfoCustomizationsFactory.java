@@ -1212,7 +1212,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected ResourcePath getIconImagePath(ITypeInfo type) {
+	protected ResourcePath getIconImagePath(ITypeInfo type, Object object) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
 			ResourcePath result = t.getIconImagePath();
@@ -1222,7 +1222,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 			}
 		}
-		return super.getIconImagePath(type);
+		return super.getIconImagePath(type, object);
 	}
 
 	@Override

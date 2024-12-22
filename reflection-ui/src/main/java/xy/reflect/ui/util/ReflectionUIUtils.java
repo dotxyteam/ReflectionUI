@@ -497,7 +497,7 @@ public class ReflectionUIUtils {
 			return null;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		return type.getIconImagePath();
+		return type.getIconImagePath(object);
 	}
 
 	public static boolean canCopy(ReflectionUI reflectionUI, Object object) {

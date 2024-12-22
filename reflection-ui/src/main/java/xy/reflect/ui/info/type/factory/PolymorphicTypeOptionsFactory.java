@@ -170,7 +170,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	@Override
 	protected ResourcePath getItemIconImagePath(Object arrayItem) {
 		ITypeInfo polyTypesItem = (ITypeInfo) arrayItem;
-		return polyTypesItem.getIconImagePath();
+		return polyTypesItem.getIconImagePath(null);
 	}
 
 	@Override

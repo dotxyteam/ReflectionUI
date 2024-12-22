@@ -18,7 +18,6 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
 import xy.reflect.ui.info.ITransactionInfo;
-import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -50,17 +49,9 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	public EncapsulatedObjectFactory createEncapsulation() {
 		EncapsulatedObjectFactory result = super.createEncapsulation();
 		result.setTypeCaption(getCapsuleTypeCaption());
-		result.setTypeIconImagePath(getCapsuleTypeIconImagePath());
 		result.setTypeOnlineHelp(getCapsuleTypeOnlineHelp());
 		result.setTypeModificationStackAccessible(isCapsuleTypeModificationStackAccessible());
 		return result;
-	}
-
-	/**
-	 * @return the path to the icon image of the capsule type.
-	 */
-	protected ResourcePath getCapsuleTypeIconImagePath() {
-		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).getIconImagePath();
 	}
 
 	/**

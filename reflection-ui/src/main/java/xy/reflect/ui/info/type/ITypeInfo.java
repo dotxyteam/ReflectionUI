@@ -136,7 +136,7 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public ResourcePath getIconImagePath() {
+		public ResourcePath getIconImagePath(Object object) {
 			return null;
 		}
 
@@ -385,10 +385,12 @@ public interface ITypeInfo extends IInfo {
 	boolean isModificationStackAccessible();
 
 	/**
-	 * @return the location of an icon image resource that should represent objects
-	 *         of the current type or null.
+	 * @param object Any object of the current type or null.
+	 * @return null or the location of an icon image resource that represents
+	 *         specifically the object passed as parameter, or all objects of the
+	 *         current type when null is passed as parameter.
 	 */
-	ResourcePath getIconImagePath();
+	ResourcePath getIconImagePath(Object object);
 
 	/**
 	 * @return the layout strategy to be used when displaying the fields of objects
@@ -422,12 +424,14 @@ public interface ITypeInfo extends IInfo {
 	boolean onFormVisibilityChange(Object object, boolean visible);
 
 	/**
-	 * @return the preferred width (in pixels) of forms generated from this type.
+	 * @return the preferred width (in pixels) of forms generated from this type or
+	 *         -1 if a default width should be used.
 	 */
 	int getFormPreferredWidth();
 
 	/**
-	 * @return the preferred height (in pixels) of forms generated from this type.
+	 * @return the preferred height (in pixels) of forms generated from this type or
+	 *         -1 if a default height should be used.
 	 */
 	int getFormPreferredHeight();
 
