@@ -1,7 +1,6 @@
 
 package xy.reflect.ui.info.type;
 
-import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collections;
@@ -147,8 +146,13 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public Dimension getFormPreferredSize() {
-			return null;
+		public int getFormPreferredWidth() {
+			return -1;
+		}
+
+		@Override
+		public int getFormPreferredHeight() {
+			return -1;
 		}
 
 		@Override
@@ -418,9 +422,14 @@ public interface ITypeInfo extends IInfo {
 	boolean onFormVisibilityChange(Object object, boolean visible);
 
 	/**
-	 * @return the preferred size (in pixels) of forms generated from this type.
+	 * @return the preferred width (in pixels) of forms generated from this type.
 	 */
-	Dimension getFormPreferredSize();
+	int getFormPreferredWidth();
+
+	/**
+	 * @return the preferred height (in pixels) of forms generated from this type.
+	 */
+	int getFormPreferredHeight();
 
 	/**
 	 * @return the space (in pixels) between elements in forms generated from this

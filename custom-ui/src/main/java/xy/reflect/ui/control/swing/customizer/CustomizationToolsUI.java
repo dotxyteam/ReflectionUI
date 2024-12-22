@@ -427,7 +427,9 @@ public class CustomizationToolsUI extends CustomizedUI {
 				} else if ((object instanceof ApplicationCustomization)
 						&& field.getName().endsWith("CustomFontResourcePath")) {
 					ResourcePath result = (ResourcePath) super.getValue(field, object, objectType);
-					result.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
+					if (result != null) {
+						result.setAdditionalAlternativeOptions(SYSTEM_FONT_PATHS);
+					}
 					return result;
 				} else {
 					return super.getValue(field, object, objectType);

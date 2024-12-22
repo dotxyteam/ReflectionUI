@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.iterable.map;
 
-import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -148,8 +147,12 @@ public class MapEntryTypeInfoProxy extends AbstractInfoProxy implements IMapEntr
 		return base.onFormVisibilityChange(object, visible);
 	}
 
-	public Dimension getFormPreferredSize() {
-		return base.getFormPreferredSize();
+	public int getFormPreferredWidth() {
+		return base.getFormPreferredWidth();
+	}
+
+	public int getFormPreferredHeight() {
+		return base.getFormPreferredHeight();
 	}
 
 	public int getFormSpacing() {

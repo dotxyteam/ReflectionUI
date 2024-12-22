@@ -1,7 +1,6 @@
 
 package xy.reflect.ui.info.field;
 
-import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
@@ -68,14 +67,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public static String buildTypeName(String fieldName, String objectTypeName) {
-		return MessageFormat.format(
-				"CapsuleFieldType [context=EncapsulationContext [objectType={0}], fieldName={1}]",
+		return MessageFormat.format("CapsuleFieldType [context=EncapsulationContext [objectType={0}], fieldName={1}]",
 				objectTypeName, fieldName);
 	}
 
 	public static String extractobjectTypeName(String typeName) {
-		Pattern p = Pattern.compile(
-				"CapsuleFieldType \\[context=EncapsulationContext \\[objectType=(.+)\\], fieldName=(.+)\\]");
+		Pattern p = Pattern
+				.compile("CapsuleFieldType \\[context=EncapsulationContext \\[objectType=(.+)\\], fieldName=(.+)\\]");
 		Matcher m = p.matcher(typeName);
 		if (!m.matches()) {
 			return null;
@@ -84,8 +82,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public static String extractFieldName(String typeName) {
-		Pattern p = Pattern.compile(
-				"CapsuleFieldType \\[context=EncapsulationContext \\[objectType=(.+)\\], fieldName=(.+)\\]");
+		Pattern p = Pattern
+				.compile("CapsuleFieldType \\[context=EncapsulationContext \\[objectType=(.+)\\], fieldName=(.+)\\]");
 		Matcher m = p.matcher(typeName);
 		if (!m.matches()) {
 			return null;
@@ -286,8 +284,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public String toString() {
-		return "CapsuleField [fieldName=" + fieldName + ", objectType=" + objectType + ", fields="
-				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
+		return "CapsuleField [fieldName=" + fieldName + ", objectType=" + objectType + ", fields=" + encapsulatedFields
+				+ ", methods=" + encapsulatedMethods + "]";
 	}
 
 	public class Value {
@@ -345,8 +343,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public ITypeInfoSource getSource() {
-			return new PrecomputedTypeInfoSource(this,
-					new SpecificitiesIdentifier(objectType.getName(), fieldName));
+			return new PrecomputedTypeInfoSource(this, new SpecificitiesIdentifier(objectType.getName(), fieldName));
 		}
 
 		@Override
@@ -410,8 +407,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
-		public Dimension getFormPreferredSize() {
-			return null;
+		public int getFormPreferredWidth() {
+			return -1;
+		}
+
+		@Override
+		public int getFormPreferredHeight() {
+			return -1;
 		}
 
 		@Override
@@ -674,8 +676,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 					@Override
 					protected String getTypeInfoProxyFactoryIdentifier() {
 						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
-								+ objectType.getName() + ", field=" + EncapsulatedFieldInfoProxy.this.getName()
-								+ "]";
+								+ objectType.getName() + ", field=" + EncapsulatedFieldInfoProxy.this.getName() + "]";
 					}
 
 				});
@@ -771,8 +772,8 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 								@Override
 								protected String getTypeInfoProxyFactoryIdentifier() {
-									return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
-											+ objectType.getName() + ", method="
+									return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
+											+ ", objectType=" + objectType.getName() + ", method="
 											+ EncapsulatedMethodInfoProxy.this.getSignature() + "]";
 								}
 							});

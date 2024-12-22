@@ -283,14 +283,13 @@ public class Form extends ImagePanel {
 			}
 		}
 		if (objectType != null) {
-			Dimension configuredSize = objectType.getFormPreferredSize();
-			if (configuredSize != null) {
-				if (configuredSize.width > 0) {
-					result.width = configuredSize.width;
-				}
-				if (configuredSize.height > 0) {
-					result.height = configuredSize.height;
-				}
+			Dimension configuredSize = new Dimension(objectType.getFormPreferredWidth(),
+					objectType.getFormPreferredHeight());
+			if (configuredSize.width > 0) {
+				result.width = configuredSize.width;
+			}
+			if (configuredSize.height > 0) {
+				result.height = configuredSize.height;
 			}
 		}
 		return result;
@@ -1317,14 +1316,14 @@ public class Form extends ImagePanel {
 			List<InfoCategory> allCategories = collectCategories(newFieldControlPlaceHoldersByCategory,
 					newMethodControlPlaceHoldersByCategory);
 			if ((allCategories.size() == 1) && (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) {
-				if(categoriesControl != null) {
+				if (categoriesControl != null) {
 					modificationsDetected = true;
 				}
 			} else if (allCategories.size() > 0) {
-				if(categoriesControl == null) {
+				if (categoriesControl == null) {
 					modificationsDetected = true;
 				}
-			}			
+			}
 			if (categoriesControl != null) {
 				Container newCategoriesControl = createCategoriesControl();
 				if (newCategoriesControl instanceof ListTabbedPane) {

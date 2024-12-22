@@ -603,9 +603,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									@Override
 									public DisplayMode getDisplayMode() {
-										if(shortcut.getDisplayMode() != null) {
-										return shortcut.getDisplayMode();
-										}else {
+										if (shortcut.getDisplayMode() != null) {
+											return shortcut.getDisplayMode();
+										} else {
 											return DisplayMode.getDefault();
 										}
 									}
@@ -763,9 +763,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public DisplayMode getDisplayMode() {
-							if(shortcut.getDisplayMode() != null) {
-							return shortcut.getDisplayMode();
-							}else {
+							if (shortcut.getDisplayMode() != null) {
+								return shortcut.getDisplayMode();
+							} else {
 								return DisplayMode.getDefault();
 							}
 						}
@@ -848,9 +848,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 									@Override
 									public DisplayMode getDisplayMode() {
-										if(shortcut.getDisplayMode() != null) {
-										return shortcut.getDisplayMode();
-										}else {
+										if (shortcut.getDisplayMode() != null) {
+											return shortcut.getDisplayMode();
+										} else {
 											return DisplayMode.getDefault();
 										}
 									}
@@ -1017,9 +1017,9 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public DisplayMode getDisplayMode() {
-							if(shortcut.getDisplayMode() != null) {
-							return shortcut.getDisplayMode();
-							}else {
+							if (shortcut.getDisplayMode() != null) {
+								return shortcut.getDisplayMode();
+							} else {
 								return DisplayMode.getDefault();
 							}
 						}
@@ -1673,40 +1673,41 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected Dimension getFormPreferredSize(ITypeInfo type) {
+	protected int getFormPreferredWidth(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
-			if ((t.getFormWidth() != null) || (t.getFormHeight() != null)) {
-				Dimension result = super.getFormPreferredSize(type);
-				if (result == null) {
-					result = new Dimension(-1, -1);
+			FormSizeCustomization size = t.getFormWidth();
+			if (size != null) {
+				if (size.getUnit() == FormSizeUnit.PIXELS) {
+					return size.getValue();
+				} else if (size.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
+					Dimension screenSize = MiscUtils.getDefaultScreenSize();
+					return Math.round((size.getValue() / 100f) * screenSize.width);
+				} else {
+					throw new ReflectionUIError();
 				}
-				FormSizeCustomization width = t.getFormWidth();
-				if (width != null) {
-					if (width.getUnit() == FormSizeUnit.PIXELS) {
-						result.width = width.getValue();
-					} else if (width.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
-						Dimension screenSize = MiscUtils.getDefaultScreenSize();
-						result.width = Math.round((width.getValue() / 100f) * screenSize.width);
-					} else {
-						throw new ReflectionUIError();
-					}
-				}
-				FormSizeCustomization height = t.getFormHeight();
-				if (height != null) {
-					if (height.getUnit() == FormSizeUnit.PIXELS) {
-						result.height = height.getValue();
-					} else if (height.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
-						Dimension screenSize = MiscUtils.getDefaultScreenSize();
-						result.height = Math.round((height.getValue() / 100f) * screenSize.height);
-					} else {
-						throw new ReflectionUIError();
-					}
-				}
-				return result;
 			}
 		}
-		return super.getFormPreferredSize(type);
+		return super.getFormPreferredWidth(type);
+	}
+
+	@Override
+	protected int getFormPreferredHeight(ITypeInfo type) {
+		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
+		if (t != null) {
+			FormSizeCustomization size = t.getFormHeight();
+			if (size != null) {
+				if (size.getUnit() == FormSizeUnit.PIXELS) {
+					return size.getValue();
+				} else if (size.getUnit() == FormSizeUnit.SCREEN_PERCENT) {
+					Dimension screenSize = MiscUtils.getDefaultScreenSize();
+					return Math.round((size.getValue() / 100f) * screenSize.height);
+				} else {
+					throw new ReflectionUIError();
+				}
+			}
+		}
+		return super.getFormPreferredHeight(type);
 	}
 
 	@Override

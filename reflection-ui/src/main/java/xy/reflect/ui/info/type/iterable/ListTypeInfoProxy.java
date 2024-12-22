@@ -1,6 +1,5 @@
 package xy.reflect.ui.info.type.iterable;
 
-import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -179,8 +178,12 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.getDetailsAccessMode();
 	}
 
-	public Dimension getFormPreferredSize() {
-		return base.getFormPreferredSize();
+	public int getFormPreferredWidth() {
+		return base.getFormPreferredWidth();
+	}
+
+	public int getFormPreferredHeight() {
+		return base.getFormPreferredHeight();
 	}
 
 	public int getFormSpacing() {

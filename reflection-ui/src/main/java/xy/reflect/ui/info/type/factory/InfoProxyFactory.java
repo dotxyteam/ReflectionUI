@@ -1,7 +1,6 @@
 
 package xy.reflect.ui.info.type.factory;
 
-import java.awt.Dimension;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -1368,8 +1367,9 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getMainButtonBackgroundImagePath()}
-	 *         unless overridden.
+	 * @return the result of
+	 *         {@link IApplicationInfo#getMainButtonBackgroundImagePath()} unless
+	 *         overridden.
 	 */
 	protected ResourcePath getMainButtonBackgroundImagePath(IApplicationInfo appInfo) {
 		return appInfo.getMainButtonBackgroundImagePath();
@@ -1416,8 +1416,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param appInfo The application information.
-	 * @return the result of {@link IApplicationInfo#getMainButtonBorderColor()} unless
-	 *         overridden.
+	 * @return the result of {@link IApplicationInfo#getMainButtonBorderColor()}
+	 *         unless overridden.
 	 */
 	protected ColorSpecification getMainButtonBorderColor(IApplicationInfo appInfo) {
 		return appInfo.getMainButtonBorderColor();
@@ -1579,8 +1579,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type The type information.
-	 * @return the result of {@link ITypeInfo#getFormEditorBackgroundColor()}
-	 *         unless overridden.
+	 * @return the result of {@link ITypeInfo#getFormEditorBackgroundColor()} unless
+	 *         overridden.
 	 */
 	protected ColorSpecification getFormEditorBackgroundColor(ITypeInfo type) {
 		return type.getFormEditorBackgroundColor();
@@ -1588,8 +1588,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type The type information.
-	 * @return the result of {@link ITypeInfo#getFormEditorForegroundColor()}
-	 *         unless overridden.
+	 * @return the result of {@link ITypeInfo#getFormEditorForegroundColor()} unless
+	 *         overridden.
 	 */
 	protected ColorSpecification getFormEditorForegroundColor(ITypeInfo type) {
 		return type.getFormEditorForegroundColor();
@@ -1597,11 +1597,20 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type The type information.
-	 * @return the result of {@link ITypeInfo#getFormPreferredSize()} unless
+	 * @return the result of {@link ITypeInfo#getFormPreferredWidth()} unless
 	 *         overridden.
 	 */
-	protected Dimension getFormPreferredSize(ITypeInfo type) {
-		return type.getFormPreferredSize();
+	protected int getFormPreferredWidth(ITypeInfo type) {
+		return type.getFormPreferredWidth();
+	}
+
+	/**
+	 * @param type The type information.
+	 * @return the result of {@link ITypeInfo#getFormPreferredHeight()} unless
+	 *         overridden.
+	 */
+	protected int getFormPreferredHeight(ITypeInfo type) {
+		return type.getFormPreferredHeight();
 	}
 
 	/**
@@ -2178,8 +2187,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public Dimension getFormPreferredSize() {
-			return InfoProxyFactory.this.getFormPreferredSize(base);
+		public int getFormPreferredWidth() {
+			return InfoProxyFactory.this.getFormPreferredWidth(base);
+		}
+
+		@Override
+		public int getFormPreferredHeight() {
+			return InfoProxyFactory.this.getFormPreferredHeight(base);
 		}
 
 		@Override
