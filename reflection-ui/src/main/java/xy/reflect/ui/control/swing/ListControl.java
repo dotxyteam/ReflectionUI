@@ -257,8 +257,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			ControlScrollPane listAndToolbarScrollPane = createTreeTableAndToolBarScrollPane(listAndToolbarPanel);
 			SwingRendererUtils.removeScrollPaneBorder(listAndToolbarScrollPane);
 			ControlScrollPane detailsAreaScrollPane = createDetailsAreaScrollPane(detailsArea);
-			final JSplitPane splitPane = new ControlSplitPane();
+			JSplitPane splitPane = new ControlSplitPane();
 			add(splitPane, BorderLayout.CENTER);
+			if (listData.getBorderColor() != null) {
+				splitPane.setBorder(
+						BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
+			}
 			final double dividerLocation;
 			if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);

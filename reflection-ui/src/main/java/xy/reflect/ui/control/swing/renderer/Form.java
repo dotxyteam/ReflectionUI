@@ -636,7 +636,7 @@ public class Form extends ImagePanel {
 					if (tabBorderColor != null) {
 						currentComponentContainer.setBorder(BorderFactory.createLineBorder(tabBorderColor));
 					} else {
-						currentComponentContainer.setBorder(BorderFactory.createTitledBorder(""));
+						currentComponentContainer.setBorder(BorderFactory.createRaisedBevelBorder());
 					}
 				}
 

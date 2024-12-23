@@ -18,6 +18,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
@@ -569,12 +570,18 @@ public abstract class AbstractEditorFormBuilder {
 				handleRealtimeLinkCommitException(t);
 			}
 		};
-		editorForm.setModificationStack(new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
+		SlaveModificationStack slaveModificationStack = new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
 				childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionExecutedGetter,
 				committingModifGetter, masterModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
 				exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
-				masterModificationExceptionListener));
+				masterModificationExceptionListener);
+		if(editorForm.getModificationStack() != null) {
+			for(IModificationListener listener:  editorForm.getModificationStack().getListeners()) {
+				slaveModificationStack.addListener(listener);
+			}
+		}
+		editorForm.setModificationStack(slaveModificationStack);
 	}
 
 	/**

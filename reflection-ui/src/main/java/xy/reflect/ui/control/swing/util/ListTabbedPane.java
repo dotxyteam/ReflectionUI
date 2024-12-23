@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -317,7 +316,6 @@ public class ListTabbedPane extends JPanel {
 		};
 		result.setHorizontalAlignment(SwingConstants.CENTER);
 		result.setOpaque(true);
-		result.setBorder(BorderFactory.createTitledBorder(""));
 		return result;
 	}
 
@@ -332,7 +330,6 @@ public class ListTabbedPane extends JPanel {
 	protected JPanel createCurrentComponentContainer() {
 		JPanel result = new JPanel();
 		result.setLayout(cardLayout = createCardLayout());
-		result.setBorder(BorderFactory.createTitledBorder(""));
 		return result;
 	}
 

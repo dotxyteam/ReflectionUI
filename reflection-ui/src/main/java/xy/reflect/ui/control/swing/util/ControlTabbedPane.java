@@ -112,7 +112,7 @@ public class ControlTabbedPane extends JTabbedPane {
 					if (getTabBorderColor() != null) {
 						return getTabBorderColor();
 					}
-					return UIManager.getColor("TabbedPane.shadow");
+					return UIManager.getColor("TabbedPane.darkShadow");
 				}
 
 				protected Color getShadowColor() {
@@ -126,7 +126,7 @@ public class ControlTabbedPane extends JTabbedPane {
 					if (getTabBorderColor() != null) {
 						return getTabBorderColor();
 					}
-					return UIManager.getColor("TabbedPane.shadow");
+					return UIManager.getColor("TabbedPane.highlight");
 				}
 
 			};

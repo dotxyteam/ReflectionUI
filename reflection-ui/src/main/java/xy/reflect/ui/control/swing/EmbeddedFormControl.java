@@ -25,6 +25,7 @@ import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
@@ -138,12 +139,18 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					swingRenderer.handleObjectException(EmbeddedFormControl.this, t);
 				}
 			};
-			subForm.setModificationStack(new SlaveModificationStack(subForm.getName(), childModifAcceptedGetter,
+			SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(), childModifAcceptedGetter,
 					childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionExecutedGetter,
 					committingModifGetter, childModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
 					exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
-					masterModificationExceptionListener));
+					masterModificationExceptionListener);
+			if(subForm.getModificationStack() != null) {
+				for(IModificationListener listener:  subForm.getModificationStack().getListeners()) {
+					slaveModficationStack.addListener(listener);
+				}
+			}
+			subForm.setModificationStack(slaveModficationStack);
 		}
 	}
 
