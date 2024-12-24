@@ -547,8 +547,8 @@ public class SwingRendererUtils {
 	}
 
 	public static ResourcePath putImageInCache(Image image) {
-		String imagePathSpecification = ResourcePath.specifyMemoryObjectLocation(
-				image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
+		String imagePathSpecification = ResourcePath
+				.specifyMemoryObjectLocation(image.getClass().getName() + "-" + Integer.toString(image.hashCode()));
 		SwingRendererUtils.IMAGE_CACHE.put(imagePathSpecification, image);
 		return new ResourcePath(imagePathSpecification);
 	}
@@ -889,12 +889,16 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static void updateWindowMenu(Form form, SwingRenderer swingRenderer) {
-		Form topForm = SwingRendererUtils.findMostAncestorForm(form, swingRenderer);
+	public static void updateWindowMenu(Component c, SwingRenderer swingRenderer) {
+		Form topForm = SwingRendererUtils.findMostAncestorForm(c, swingRenderer);
 		if (topForm == null) {
-			topForm = form;
+			if (c instanceof Form) {
+				topForm = (Form) c;
+			}
 		}
-		topForm.updateMenuBar();
+		if (topForm != null) {
+			topForm.updateMenuBar();
+		}
 	}
 
 	public static Color fixSeveralColorRenderingIssues(Color color) {
@@ -909,10 +913,9 @@ public class SwingRendererUtils {
 		return fixSeveralColorRenderingIssues(UIManager.getColor("Tree.selectionForeground"));
 	}
 
-	public static void refreshAllDisplayedFormsAndMenus(SwingRenderer swingRenderer, boolean refreshStructure) {
+	public static void refreshAllDisplayedForms(SwingRenderer swingRenderer, boolean refreshStructure) {
 		for (Form form : getAllRootForms(swingRenderer)) {
 			form.refresh(refreshStructure);
-			form.updateMenuBar();
 		}
 	}
 

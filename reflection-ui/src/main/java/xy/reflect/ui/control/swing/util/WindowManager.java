@@ -208,8 +208,8 @@ public class WindowManager {
 		if (content != null) {
 			if (SwingRendererUtils.isForm(content, swingRenderer)) {
 				form = (Form) content;
-				form.updateMenuBar();
 				layoutMenuBar(form.getMenuBar());
+				form.updateMenuBar();
 				layoutStatusBar(form.getStatusBar());
 				form.getRefreshListeners().add(formRefreshListener);
 			}

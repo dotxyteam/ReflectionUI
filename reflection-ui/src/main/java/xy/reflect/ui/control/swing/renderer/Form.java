@@ -332,11 +332,15 @@ public class Form extends ImagePanel {
 	}
 
 	/**
-	 * Runs {@link #validate()} asynchronously and updates the status bar
+	 * Runs {@link #validateForm()} asynchronously and updates the status bar
 	 * accordingly (displays the validation error message if the object state is not
-	 * valid).
+	 * valid). If the status bar does not have a parent component (probably because
+	 * the current form is not a root form) then nothing is done.
 	 */
 	public void validateFormInBackgroundAndReportOnStatusBar() {
+		if (statusBar.getParent() == null) {
+			return;
+		}
 		swingRenderer.getFormValidator().submit(new Runnable() {
 			@Override
 			public void run() {
@@ -1353,18 +1357,18 @@ public class Form extends ImagePanel {
 	}
 
 	protected void finalizeFormUpdate() {
-		if (menuBar.getParent() != null) {
-			updateMenuBar();
-		}
-		if (statusBar.getParent() != null) {
-			validateFormInBackgroundAndReportOnStatusBar();
-		}
+		updateMenuBar();
+		validateFormInBackgroundAndReportOnStatusBar();
 	}
 
 	/**
-	 * Updates this form menu bar component.
+	 * Updates this form menu bar. If the menu bar does not have a parent component
+	 * (probably because the current form is not a root form) then nothing is done.
 	 */
 	public void updateMenuBar() {
+		if (menuBar.getParent() == null) {
+			return;
+		}
 		MenuModel globalMenuModel = new MenuModel();
 		addMenuContributionTo(globalMenuModel);
 		menuBar.removeAll();

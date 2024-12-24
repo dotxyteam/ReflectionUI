@@ -96,7 +96,7 @@ public class CustomizationController {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						SwingRendererUtils.refreshAllDisplayedFormsAndMenus(swingCustomizer, true);
+						SwingRendererUtils.refreshAllDisplayedForms(swingCustomizer, true);
 					}
 				});
 

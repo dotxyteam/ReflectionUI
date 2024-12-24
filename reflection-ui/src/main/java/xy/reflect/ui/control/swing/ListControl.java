@@ -1472,65 +1472,69 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if ((detailsControlItemPosition == null) && (singleSelection == null)) {
 			return;
 		}
-		if ((detailsControlItemPosition != null) && (singleSelection != null)) {
-			if (detailsControlItemPosition.equals(singleSelection)) {
-				detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
-			} else {
-				detailsControlItemPosition = singleSelection;
-				detailsControlBuilder.setPosition(detailsControlItemPosition);
-				detailsControlBuilder.refreshEditorForm(detailsControl, true);
+		try {
+			if ((detailsControlItemPosition != null) && (singleSelection != null)) {
+				if (detailsControlItemPosition.equals(singleSelection)) {
+					detailsControlBuilder.refreshEditorForm(detailsControl, refreshStructure);
+				} else {
+					detailsControlItemPosition = singleSelection;
+					detailsControlBuilder.setPosition(detailsControlItemPosition);
+					detailsControlBuilder.refreshEditorForm(detailsControl, true);
+				}
+				return;
 			}
-			return;
-		}
-		if ((detailsControlItemPosition != null) && (singleSelection == null)) {
-			detailsControlItemPosition = null;
-			detailsArea.removeAll();
-			detailsControlBuilder = null;
-			detailsControl = null;
-			SwingRendererUtils.handleComponentSizeChange(detailsArea);
-			return;
-		}
+			if ((detailsControlItemPosition != null) && (singleSelection == null)) {
+				detailsControlItemPosition = null;
+				detailsArea.removeAll();
+				detailsControlBuilder = null;
+				detailsControl = null;
+				SwingRendererUtils.handleComponentSizeChange(detailsArea);
+				return;
+			}
 
-		if ((detailsControlItemPosition == null) && (singleSelection != null)) {
-			detailsControlItemPosition = singleSelection;
-			detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
-			detailsControl = detailsControlBuilder.createEditorForm(true, false);
-			/*
-			 * A pre-selection must be done before each undo/redo modification to ensure
-			 * that the replayed modification will affect the right item. Otherwise it may
-			 * not be the case when the same detailsControlBuilder is reused to display
-			 * multiple items (optimization): the modification would then affect the
-			 * currently selected item instead of the one that was initially modified since
-			 * the modification references the modified item through the current
-			 * detailsControl.
-			 */
-			detailsControl.getModificationStack().setPushFilter(new Filter<IModification>() {
-				@Override
-				public IModification get(IModification undoModif) {
-					Object oldItem = detailsControlItemPosition.getItem();
-					Object newItem = detailsControlBuilder.getCurrentValue();
-					IModification preSelection = new SelectItemModification(detailsControlItemPosition, newItem,
-							oldItem, detailsControlBuilder, detailsControl);
-					return new CompositeModification(undoModif.getTitle(), UndoOrder.FIFO, preSelection, undoModif);
-				}
-			});
-			detailsArea.setLayout(new BorderLayout());
-			Component statusBar = detailsControl.getStatusBar();
-			{
-				detailsArea.add(statusBar, BorderLayout.NORTH);
-			}
-			detailsArea.add(detailsControl, BorderLayout.CENTER);
-			detailsControl.validateFormInBackgroundAndReportOnStatusBar();
-			SwingRendererUtils.handleComponentSizeChange(detailsArea);
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					if (detailsControlItemPosition != null) {
-						scrollTo(detailsControlItemPosition);
+			if ((detailsControlItemPosition == null) && (singleSelection != null)) {
+				detailsControlItemPosition = singleSelection;
+				detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
+				detailsControl = detailsControlBuilder.createEditorForm(true, false);
+				/*
+				 * A pre-selection must be done before each undo/redo modification to ensure
+				 * that the replayed modification will affect the right item. Otherwise it may
+				 * not be the case when the same detailsControlBuilder is reused to display
+				 * multiple items (optimization): the modification would then affect the
+				 * currently selected item instead of the one that was initially modified since
+				 * the modification references the modified item through the current
+				 * detailsControl.
+				 */
+				detailsControl.getModificationStack().setPushFilter(new Filter<IModification>() {
+					@Override
+					public IModification get(IModification undoModif) {
+						Object oldItem = detailsControlItemPosition.getItem();
+						Object newItem = detailsControlBuilder.getCurrentValue();
+						IModification preSelection = new SelectItemModification(detailsControlItemPosition, newItem,
+								oldItem, detailsControlBuilder, detailsControl);
+						return new CompositeModification(undoModif.getTitle(), UndoOrder.FIFO, preSelection, undoModif);
 					}
+				});
+				detailsArea.setLayout(new BorderLayout());
+				Component statusBar = detailsControl.getStatusBar();
+				{
+					detailsArea.add(statusBar, BorderLayout.NORTH);
 				}
-			});
-			return;
+				detailsArea.add(detailsControl, BorderLayout.CENTER);
+				detailsControl.validateFormInBackgroundAndReportOnStatusBar();
+				SwingRendererUtils.handleComponentSizeChange(detailsArea);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						if (detailsControlItemPosition != null) {
+							scrollTo(detailsControlItemPosition);
+						}
+					}
+				});
+				return;
+			}
+		} finally {
+			SwingRendererUtils.updateWindowMenu(this, swingRenderer);
 		}
 		throw new ReflectionUIError();
 	}
@@ -1833,6 +1837,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void addMenuContributions(MenuModel menuModel) {
+		if (detailsControl != null) {
+			detailsControl.addMenuContributionTo(menuModel);
+		}
 	}
 
 	protected void restoringColumnWidthsAsMuchAsPossible(Runnable runnable) {
