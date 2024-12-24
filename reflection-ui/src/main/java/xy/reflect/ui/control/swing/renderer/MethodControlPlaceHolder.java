@@ -43,7 +43,6 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	protected IMethodControlData controlData;
 
 	public MethodControlPlaceHolder(Form form, IMethodInfo method) {
-		super();
 		this.swingRenderer = form.getSwingRenderer();
 		this.form = form;
 		this.method = method;
@@ -152,7 +151,9 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	public Component createMethodControl() {
-		return new MethodControl(this.swingRenderer, this);
+		MethodControl result = new MethodControl(this.swingRenderer, this);
+		result.updateStyle();
+		return result;
 	}
 
 	public void refreshUI(boolean refreshStructure) {

@@ -34,7 +34,12 @@ public class ControlScrollPane extends JScrollPane {
 
 	@Override
 	public Dimension getMinimumSize() {
-		return getPreferredSize();
+		Dimension result = super.getMinimumSize();
+		if (result == null) {
+			return null;
+		}
+		result = preventScrollBarsFromHidingContent(result);
+		return result;
 	}
 
 	@Override

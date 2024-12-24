@@ -376,11 +376,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public Dimension getMinimumSize() {
-		return super.getPreferredSize();
-	}
-
-	@Override
 	public boolean displayError(String msg) {
 		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textComponent, msg, swingRenderer);
 		return true;

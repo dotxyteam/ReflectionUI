@@ -295,11 +295,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	@Override
-	public Dimension getMinimumSize() {
-		return getPreferredSize();
-	}
-
 	protected void updateToolbar() {
 		toolbar.removeAll();
 
@@ -657,16 +652,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return result;
 			}
 
-			@Override
-			public Dimension getMinimumSize() {
-				return new Dimension(0, 0);
-			}
-
-			@Override
-			public Dimension getMaximumSize() {
-				return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
-			}
-
 		};
 	}
 
@@ -687,15 +672,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return result;
 			}
 
-			@Override
-			public Dimension getMinimumSize() {
-				return new Dimension(0, 0);
-			}
-
-			@Override
-			public Dimension getMaximumSize() {
-				return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
-			}
 		};
 	}
 
@@ -717,16 +693,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					result.height = structure.getLength();
 				}
 				return result;
-			}
-
-			@Override
-			public Dimension getMinimumSize() {
-				return new Dimension(0, 0);
-			}
-
-			@Override
-			public Dimension getMaximumSize() {
-				return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
 			}
 		};
 	}

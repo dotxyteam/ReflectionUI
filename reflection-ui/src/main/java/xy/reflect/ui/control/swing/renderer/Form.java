@@ -295,11 +295,6 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
-	@Override
-	public Dimension getMinimumSize() {
-		return getPreferredSize();
-	}
-
 	/**
 	 * Uses type information to check that the state of the underlying object is
 	 * valid.
@@ -640,7 +635,7 @@ public class Form extends ImagePanel {
 					if (tabBorderColor != null) {
 						currentComponentContainer.setBorder(BorderFactory.createLineBorder(tabBorderColor));
 					} else {
-						currentComponentContainer.setBorder(BorderFactory.createRaisedBevelBorder());
+						currentComponentContainer.setBorder(BorderFactory.createEtchedBorder());
 					}
 				}
 

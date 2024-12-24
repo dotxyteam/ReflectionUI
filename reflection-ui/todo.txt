@@ -1,3 +1,5 @@
+- getMinimumSize() is overridden in some components and it prevents split panes from
+working well. Check.
 - check the use of xy.reflect.ui.info.type.factory.InfoProxyFactory.isFactoryTracedFor(ITypeInfo)
 - java.awt.Dimension is in the abstract ui model. Remove ???
 - when a dialog is closed too quickly after a field update then

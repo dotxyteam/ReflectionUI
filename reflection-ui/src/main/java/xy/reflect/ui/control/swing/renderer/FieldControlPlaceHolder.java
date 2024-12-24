@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -118,6 +119,19 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	public void setSiblingOnlineHelpControl(Component siblingOnlineHelpControl) {
 		this.siblingOnlineHelpControl = siblingOnlineHelpControl;
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		/*
+		 * This method is overridden to avoid issues with the default parent form
+		 * GridBagLayout. If another layout is used then this method may need to be
+		 * overridden again. The minimum size must be equal to the preferred size (that
+		 * may be dynamic in our case because of scroll bars that may appear) since when
+		 * there is not enough space, the GridBagLayout sets its components to their
+		 * minimum size, causing a brutal ugly effect.
+		 */
+		return super.getPreferredSize();
 	}
 
 	protected void manageVisibiltyChanges() {
