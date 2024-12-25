@@ -261,7 +261,7 @@ public class SwingRendererUtils {
 		}
 	}
 
-	public static void setSafelyDividerLocation(final JSplitPane splitPane, final double proportionalLocation) {
+	public static void ensureDividerLocation(final JSplitPane splitPane, final double proportionalLocation) {
 		if (splitPane.isShowing()) {
 			if ((splitPane.getWidth() > 0) && (splitPane.getHeight() > 0)
 					&& (splitPane.getMinimumDividerLocation() < splitPane.getMaximumDividerLocation())) {
@@ -271,7 +271,7 @@ public class SwingRendererUtils {
 					@Override
 					public void componentResized(ComponentEvent ce) {
 						splitPane.removeComponentListener(this);
-						setSafelyDividerLocation(splitPane, proportionalLocation);
+						ensureDividerLocation(splitPane, proportionalLocation);
 					}
 				});
 			}
@@ -281,7 +281,7 @@ public class SwingRendererUtils {
 				public void hierarchyChanged(HierarchyEvent e) {
 					if (((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) && splitPane.isShowing()) {
 						splitPane.removeHierarchyListener(this);
-						setSafelyDividerLocation(splitPane, proportionalLocation);
+						ensureDividerLocation(splitPane, proportionalLocation);
 					}
 				}
 			});

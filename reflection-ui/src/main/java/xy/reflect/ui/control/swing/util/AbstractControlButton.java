@@ -36,7 +36,7 @@ public abstract class AbstractControlButton extends JButton {
 
 	public abstract Font retrieveCustomFont();
 
-	protected boolean buttonInitialized = false;
+	protected boolean styleUpdated = false;
 	protected Color mainButtonBackgroundColor;
 	protected Color buttonActivatedBackgroundColor;
 	protected Color mainButtonForegroundColor;
@@ -103,13 +103,13 @@ public abstract class AbstractControlButton extends JButton {
 		if (buttonCustomFont != null) {
 			setFont(buttonCustomFont.deriveFont(getFont().getStyle(), getFont().getSize()));
 		}
+		styleUpdated = true;
 	}
 
 	@Override
 	public void addNotify() {
-		if (!buttonInitialized) {
+		if (!styleUpdated) {
 			updateStyle();
-			buttonInitialized = true;
 		}
 		super.addNotify();
 	}

@@ -98,6 +98,7 @@ import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.BufferedItemPositionFactory;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
@@ -287,7 +288,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			} else {
 				throw new ReflectionUIError();
 			}
-			SwingRendererUtils.setSafelyDividerLocation(splitPane, dividerLocation);
+			SwingRendererUtils.ensureDividerLocation(splitPane, dividerLocation);
 			splitPane.setResizeWeight(dividerLocation);
 		} else {
 			add(treeTableComponentScrollPane, BorderLayout.CENTER);
@@ -698,7 +699,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractBufferedItemPositionFactory createItemPositionfactory() {
-		return new ItemPositionfactory();
+		return new BufferedItemPositionFactory(listData);
 	}
 
 	protected TreeTableModel createTreeTableModel() {
@@ -3467,66 +3468,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		protected String getActionDescription() {
 			return dynamicProperty.getOnlineHelp();
-		}
-
-	}
-
-	protected class ItemPositionfactory extends AbstractBufferedItemPositionFactory {
-
-		@Override
-		public Object getNonBufferedRootListValue() {
-			return listData.getValue();
-		}
-
-		@Override
-		protected void setNonBufferedRootListValue(Object rootListValue) {
-			listData.setValue(rootListValue);
-		}
-
-		@Override
-		public IListTypeInfo getRootListType() {
-			return (IListTypeInfo) listData.getType();
-		}
-
-		@Override
-		public ValueReturnMode getRootListValueReturnMode() {
-			return listData.getValueReturnMode();
-		}
-
-		@Override
-		public boolean isRootListGetOnly() {
-			return listData.isGetOnly();
-		}
-
-		@Override
-		public String getRootListTitle() {
-			return listData.getCaption();
-		}
-
-		private ListControl getEnclosingInstance() {
-			return ListControl.this;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ItemPositionfactory other = (ItemPositionfactory) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
-			return true;
 		}
 
 	}

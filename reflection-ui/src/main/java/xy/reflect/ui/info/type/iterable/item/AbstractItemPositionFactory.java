@@ -1,13 +1,11 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.item;
 
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
 /**
- * Base class of factories that create directly or indirectly all
+ * Base class of factories that create directly or indirectly
  * {@link ItemPosition} instances. Actually these factories only create root
  * item positions that will generate children or sibling item positions.
  * 

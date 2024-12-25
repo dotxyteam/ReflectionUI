@@ -578,7 +578,7 @@ public abstract class AbstractEditorFormBuilder {
 				masterModificationExceptionListener);
 		if(editorForm.getModificationStack() != null) {
 			for(IModificationListener listener:  editorForm.getModificationStack().getListeners()) {
-				slaveModificationStack.addListener(listener);
+				slaveModificationStack.addSlaveListener(listener);
 			}
 		}
 		editorForm.setModificationStack(slaveModificationStack);

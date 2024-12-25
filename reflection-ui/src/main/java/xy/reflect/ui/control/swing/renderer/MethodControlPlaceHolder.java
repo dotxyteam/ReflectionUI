@@ -170,7 +170,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 		methodControl.setEnabled(controlData.isEnabled());
 	}
 
-	public IMethodControlData createControlData() {
+	protected IMethodControlData createControlData() {
 		IMethodControlData result = new MethodControlData(method);
 		return result;
 	}

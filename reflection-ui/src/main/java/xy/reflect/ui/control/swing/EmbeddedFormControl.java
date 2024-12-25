@@ -147,7 +147,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					masterModificationExceptionListener);
 			if(subForm.getModificationStack() != null) {
 				for(IModificationListener listener:  subForm.getModificationStack().getListeners()) {
-					slaveModficationStack.addListener(listener);
+					slaveModficationStack.addSlaveListener(listener);
 				}
 			}
 			subForm.setModificationStack(slaveModficationStack);
