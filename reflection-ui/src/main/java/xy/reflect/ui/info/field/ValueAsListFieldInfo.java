@@ -1,11 +1,8 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
@@ -16,6 +13,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.util.ReflectionUIError;
 
 /**
  * Field proxy allowing to view/edit the base field value as a singleton list.
@@ -64,6 +62,11 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 				}
 
 				@Override
+				public boolean isItemNullValueSupported() {
+					return base.getType().supports(null);
+				}
+
+				@Override
 				public ITypeInfoSource getSource() {
 					return new PrecomputedTypeInfoSource(this,
 							new SpecificitiesIdentifier(objectType.getName(), ValueAsListFieldInfo.this.getName()));
@@ -78,17 +81,25 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 	@Override
 	public Object getValue(Object object) {
 		Object singleItem = super.getValue(object);
-		if (singleItem == null) {
-			return Collections.emptyList();
-		} else {
-			return new ArrayList(Arrays.asList(singleItem));
-		}
+		return new ArrayList(Arrays.asList(singleItem));
 	}
 
 	@Override
 	public void setValue(Object object, Object value) {
-		value = ((List<?>) value).get(0);
+		if (value == null) {
+			throw new ReflectionUIError("<null> list value not supported");
+		}
+		ArrayList<?> list = (ArrayList<?>) value;
+		if (list.size() != 1) {
+			throw new ReflectionUIError("The list size must be equal to 1");
+		}
+		value = list.get(0);
 		super.setValue(object, value);
+	}
+
+	@Override
+	public boolean isNullValueDistinct() {
+		return false;
 	}
 
 	@Override

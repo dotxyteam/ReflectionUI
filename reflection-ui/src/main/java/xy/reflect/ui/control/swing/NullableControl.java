@@ -135,10 +135,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
 				add(currentSubControl, BorderLayout.CENTER);
 				nullStatusControl.setText(swingRenderer.prepareMessageToDisplay(data.getCaption()));
-				((JComponent) currentSubControl).setBorder(BorderFactory.createEtchedBorder());
 				if (data.getBorderColor() != null) {
-					((TitledBorder) ((JComponent) currentSubControl).getBorder()).setBorder(
+					((JComponent) currentSubControl).setBorder(
 							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+				} else {
+					((JComponent) currentSubControl).setBorder(BorderFactory.createEtchedBorder());
 				}
 			}
 			SwingRendererUtils.handleComponentSizeChange(this);

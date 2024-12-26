@@ -695,6 +695,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				return result;
 			}
+
 		};
 	}
 
