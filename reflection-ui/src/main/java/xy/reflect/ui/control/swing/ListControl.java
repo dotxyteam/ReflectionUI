@@ -99,6 +99,7 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPositionFactory;
+import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
@@ -669,6 +670,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				IListStructuralInfo structure = getRootStructuralInfo();
 				if (structure.getLength() != -1) {
 					result.height = structure.getLength();
+					if (getDetailsAccessMode() instanceof EmbeddedItemDetailsAccessMode) {
+						EmbeddedItemDetailsAccessMode embeddedItemDetailsAccessMode = (EmbeddedItemDetailsAccessMode) getDetailsAccessMode();
+						if ((embeddedItemDetailsAccessMode
+								.getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.TOP)
+								|| (embeddedItemDetailsAccessMode
+										.getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM)) {
+							result.height = Math.round(result.height / 2f);
+						}
+					}
 				}
 				return result;
 			}
@@ -692,6 +702,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				IListStructuralInfo structure = getRootStructuralInfo();
 				if (structure.getLength() != -1) {
 					result.height = structure.getLength();
+					if (getDetailsAccessMode() instanceof EmbeddedItemDetailsAccessMode) {
+						EmbeddedItemDetailsAccessMode embeddedItemDetailsAccessMode = (EmbeddedItemDetailsAccessMode) getDetailsAccessMode();
+						if ((embeddedItemDetailsAccessMode
+								.getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.TOP)
+								|| (embeddedItemDetailsAccessMode
+										.getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM)) {
+							result.height = Math.round(result.height / 2f);
+						}
+					}
 				}
 				return result;
 			}
