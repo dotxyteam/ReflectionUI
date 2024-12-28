@@ -25,8 +25,7 @@ import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
- * Field control plugin that allows to display/update text formatted using the
- * HTML.
+ * Field control plugin that allows to display/update text formatted using HTML.
  * 
  * @author olitank
  *

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Color;
@@ -157,23 +155,23 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 	public class StyledTextControl extends TextControl {
 
 		private static final long serialVersionUID = 1L;
-		
-		protected StyledTextConfiguration controlCustomization;
+
+		protected AbstractConfiguration controlCustomization;
 
 		public StyledTextControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
 		}
 
-		protected StyledTextConfiguration getOrLoadControlCustomization() {
+		protected AbstractConfiguration getOrLoadControlCustomization() {
 			if (controlCustomization == null) {
-				controlCustomization = (StyledTextConfiguration) loadControlCustomization(input);
+				controlCustomization = loadControlCustomization(input);
 			}
 			return controlCustomization;
 		}
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			if(refreshStructure) {
+			if (refreshStructure) {
 				controlCustomization = null;
 			}
 			return super.refreshUI(refreshStructure);
@@ -214,7 +212,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected void updateTextComponentStyle(boolean refreshStructure) {
-			StyledTextConfiguration controlCustomization = getOrLoadControlCustomization();
+			StyledTextConfiguration controlCustomization = (StyledTextConfiguration) getOrLoadControlCustomization();
 			StyledDocument document = (StyledDocument) textComponent.getDocument();
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setBold(attributes, controlCustomization.fontBold);
@@ -254,7 +252,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		protected int getConfiguredScrollPaneHeight() {
-			return getOrLoadControlCustomization().getLenghthInPixels();
+			return ((StyledTextConfiguration) getOrLoadControlCustomization()).getLenghthInPixels();
 		}
 
 		@Override

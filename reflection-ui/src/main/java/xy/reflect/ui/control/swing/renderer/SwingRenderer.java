@@ -47,6 +47,7 @@ import xy.reflect.ui.control.swing.plugin.CustomCheckBoxPlugin;
 import xy.reflect.ui.control.swing.plugin.DatePickerPlugin;
 import xy.reflect.ui.control.swing.plugin.DateTimePickerPlugin;
 import xy.reflect.ui.control.swing.plugin.DetailedListControlPlugin;
+import xy.reflect.ui.control.swing.plugin.EditorPlugin;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
@@ -261,6 +262,7 @@ public class SwingRenderer {
 		result.add(new StyledTextPlugin());
 		result.add(new PasswordFieldPlugin());
 		result.add(new HtmlPlugin());
+		result.add(new EditorPlugin());
 		result.add(new DatePickerPlugin());
 		result.add(new DateTimePickerPlugin());
 		result.add(new SingleLineTextPlugin());

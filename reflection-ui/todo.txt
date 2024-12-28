@@ -1,3 +1,6 @@
+- every plugin configuration is serialized as a swing renderer class instance,
+yet it should be usable by JavaFX renderer for instance. Not also that every
+plugin identifier refers to a swing renderer class and is store as a customization info.
 - getMinimumSize() is overridden in some components and it prevents split panes from
 working well. Check.
 - check the use of xy.reflect.ui.info.type.factory.InfoProxyFactory.isFactoryTracedFor(ITypeInfo)
