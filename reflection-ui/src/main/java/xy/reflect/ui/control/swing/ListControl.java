@@ -83,7 +83,6 @@ import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.DelegatingInfoFilter;
@@ -3252,12 +3251,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public Object getValue(String key) {
 			if (Action.LARGE_ICON_KEY.equals(key)) {
-				ResourcePath iconImagePath = dynamicAction.getIconImagePath();
-				if (iconImagePath == null) {
-					return null;
-				}
-				Image iconImage = SwingRendererUtils.loadImageThroughCache(iconImagePath,
-						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+				Image iconImage = swingRenderer.getMethodIconImage(new DefaultMethodControlData(
+						swingRenderer.getReflectionUI(), IDynamicListAction.NO_OWNER, dynamicAction));
 				if (iconImage == null) {
 					return null;
 				}

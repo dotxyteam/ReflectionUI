@@ -275,7 +275,11 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 					@Override
 					public Icon retrieveIcon() {
-						return swingRenderer.getEnumerationItemIcon(itemInfo);
+						Image image = swingRenderer.getEnumerationItemIconImage(itemInfo);
+						if(image == null) {
+							return null;
+						}
+						return SwingRendererUtils.getIcon(image);
 					}
 
 				};

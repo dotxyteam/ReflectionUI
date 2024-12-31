@@ -22,7 +22,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -294,66 +293,75 @@ public class SwingRenderer {
 	 * @return an icon image describing the given object type.
 	 */
 	public Image getObjectIconImage(Object object) {
-		if (object != null) {
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			ResourcePath imagePath = type.getIconImagePath(object);
-			if (imagePath == null) {
-				return null;
-			}
-			Image result = SwingRendererUtils.loadImageThroughCache(imagePath,
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
-			if (result != null) {
-				return result;
-			}
+		if (object == null) {
+			return null;
 		}
-		return null;
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ResourcePath imagePath = type.getIconImagePath(object);
+		if (imagePath == null) {
+			return null;
+		}
+		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
 	/**
-	 * @param object The object to describe.
-	 * @return an icon describing the given object type.
+	 * @param appInfo The application to describe.
+	 * @return an icon image describing the given application.
 	 */
-	public ImageIcon getObjectIcon(Object object) {
-		return SwingRendererUtils.getIcon(getObjectIconImage(object));
+	public Image getApplicationIconImage(IApplicationInfo appInfo) {
+		if (appInfo.getIconImagePath() == null) {
+			return null;
+		}
+		return SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
+				ReflectionUIUtils.getErrorLogListener(reflectionUI));
+	}
+
+	/**
+	 * @param category The category to describe.
+	 * @return an icon image describing the given category.
+	 */
+	public Image getCategoryIconImage(InfoCategory category) {
+		if (category.getIconImagePath() == null) {
+			return null;
+		}
+		return SwingRendererUtils.loadImageThroughCache(category.getIconImagePath(),
+				ReflectionUIUtils.getErrorLogListener(getReflectionUI()));
 	}
 
 	/**
 	 * @param data The object describing the method.
-	 * @return an icon representing the method described by the given object.
+	 * @return an icon image representing the method described by the given object.
 	 */
-	public ImageIcon getMethodIcon(IMethodControlData data) {
+	public Image getMethodIconImage(IMethodControlData data) {
 		ResourcePath imagePath = data.getIconImagePath();
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughCache(imagePath,
-				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
 	/**
-	 * @param itemInfo The enumeration item to be described.
-	 * @return an icon describing the given enumeration item.
+	 * @param itemInfo The enumeration item to describe.
+	 * @return an icon image describing the given enumeration item.
 	 */
-	public ImageIcon getEnumerationItemIcon(IEnumerationItemInfo itemInfo) {
+	public Image getEnumerationItemIconImage(IEnumerationItemInfo itemInfo) {
 		ResourcePath imagePath = itemInfo.getIconImagePath();
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughCache(imagePath,
-				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
 	/**
-	 * @param menuItem The menu item
-	 * @return an icon that must be associated with the given menu item.
+	 * @param menuItem The menu item to be described.
+	 * @return an icon image that must be associated with the given menu item.
 	 */
-	public ImageIcon getMenuItemIcon(AbstractActionMenuItemInfo menuItem) {
+	public Image getMenuItemIconImage(AbstractActionMenuItemInfo menuItem) {
 		ResourcePath imagePath = menuItem.getIconImagePath();
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.getIcon(SwingRendererUtils.loadImageThroughCache(imagePath,
-				ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
 	/**
@@ -366,7 +374,7 @@ public class SwingRenderer {
 	 */
 	public void handleObjectException(Component activatorComponent, final Throwable t) {
 		reflectionUI.logDebug(t);
-		openErrorDialog(activatorComponent, "An Error Occurred", null, t);
+		openErrorDialog(activatorComponent, "An Error Occurred", t);
 	}
 
 	/**
@@ -730,14 +738,13 @@ public class SwingRenderer {
 	 *                           the default title.
 	 * @param iconImage          The icon image of the displayed window.
 	 */
-	public void openInformationDialog(Component activatorComponent, String msg, String title, Image iconImage) {
+	public void openInformationDialog(Component activatorComponent, String msg, String title) {
 		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
-		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(
 				SwingRendererUtils.getMessagePane(prepareMessageToDisplay(msg), JOptionPane.INFORMATION_MESSAGE, this));
 		dialogBuilder.setButtonBarControls(buttons);
@@ -755,7 +762,7 @@ public class SwingRenderer {
 	 * @param error              The exception corresponding to the error to
 	 *                           display.
 	 */
-	public void openErrorDialog(Component activatorComponent, String title, Image iconImage, final Throwable error) {
+	public void openErrorDialog(Component activatorComponent, String title, final Throwable error) {
 		DialogBuilder dialogBuilder = createDialogBuilder(activatorComponent);
 
 		List<Component> buttons = new ArrayList<Component>();
@@ -824,7 +831,6 @@ public class SwingRenderer {
 		buttons.add(dialogBuilder.createDialogClosingButton("Close", null));
 
 		dialogBuilder.setTitle(title);
-		dialogBuilder.setIconImage(iconImage);
 		dialogBuilder.setContentComponent(SwingRendererUtils
 				.getMessagePane(prepareMessageToDisplay(formatErrorMessage(error)), JOptionPane.ERROR_MESSAGE, this));
 		dialogBuilder.setButtonBarControls(buttons);
@@ -976,11 +982,11 @@ public class SwingRenderer {
 			}
 
 			@Override
-			protected Image getEditorWindowIconImage() {
+			protected Image getCustomEditorWindowIconImage() {
 				if (iconImage != null) {
 					return iconImage;
 				} else {
-					return super.getEditorWindowIconImage();
+					return super.getCustomEditorWindowIconImage();
 				}
 			}
 
@@ -1176,6 +1182,7 @@ public class SwingRenderer {
 
 		public ApplicationDialogBuilder(Component ownerComponent) {
 			super(SwingRenderer.this, ownerComponent);
+			this.iconImage = swingRenderer.getApplicationIconImage(reflectionUI.getApplicationInfo());
 			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundColor() != null) {
 				setClosingButtonBackgroundColor(
 						SwingRendererUtils.getColor(reflectionUI.getApplicationInfo().getMainButtonBackgroundColor()));

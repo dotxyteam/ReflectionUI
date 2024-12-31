@@ -3,8 +3,6 @@
 
 package xy.reflect.ui.control.swing.menu;
 
-import java.awt.Image;
-
 import javax.swing.JPanel;
 
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -39,8 +37,7 @@ public class HelpMenuItem extends AbstractStandardActionMenuItem {
 		}
 		String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object),
 				menuItemInfo.getCaption());
-		Image iconImage = swingRenderer.getObjectIconImage(object);
-		swingRenderer.openInformationDialog((JPanel) form, onlineHelp, title, iconImage);
+		swingRenderer.openInformationDialog((JPanel) form, onlineHelp, title);
 	}
 
 	@Override

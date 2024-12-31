@@ -5,6 +5,7 @@ package xy.reflect.ui.control.swing.menu;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -51,10 +52,13 @@ public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 			setText(menuItemInfo.getCaption());
 			if (!isActive()) {
 				setEnabled(false);
-			}
-			ImageIcon icon = swingRenderer.getMenuItemIcon(menuItemInfo);
-			if (icon != null) {
-				icon = SwingRendererUtils.getSmallIcon(icon);
+			}			
+			Image image = swingRenderer.getMenuItemIconImage(menuItemInfo);
+			ImageIcon icon;
+			if (image != null) {
+				icon = SwingRendererUtils.getSmallIcon(SwingRendererUtils.getIcon(image));
+			}else {
+				icon = null;
 			}
 			setIcon(icon);
 		} catch (Throwable t) {

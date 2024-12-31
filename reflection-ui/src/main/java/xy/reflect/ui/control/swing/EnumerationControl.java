@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -155,7 +156,11 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			if (itemInfo == null) {
 				return null;
 			} else {
-				return swingRenderer.getEnumerationItemIcon(itemInfo);
+				Image image = swingRenderer.getEnumerationItemIconImage(itemInfo);
+				if (image == null) {
+					return null;
+				}
+				return SwingRendererUtils.getIcon(image);
 			}
 		}
 	}

@@ -111,7 +111,7 @@ public class MethodAction extends AbstractAction {
 
 	protected void openExecutionSuccessMessageDialog(Component activatorComponent) {
 		swingRenderer.openInformationDialog(activatorComponent, data.getExecutionSuccessMessage(),
-				ReflectionUIUtils.composeMessage(getTitle(), "Success"), null);
+				ReflectionUIUtils.composeMessage(getTitle(), "Success"));
 	}
 
 	public InvocationData prepare(Component activatorComponent) {

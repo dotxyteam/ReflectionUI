@@ -14,13 +14,10 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
-import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
-import xy.reflect.ui.info.app.IApplicationInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Dialog factory.
@@ -49,12 +46,6 @@ public class DialogBuilder {
 	public DialogBuilder(SwingRenderer swingRenderer, Component ownerComponent) {
 		this.ownerComponent = ownerComponent;
 		this.swingRenderer = swingRenderer;
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-		if (appInfo.getIconImagePath() != null) {
-			this.iconImage = SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
-		}
 	}
 
 	public SwingRenderer getSwingRenderer() {

@@ -50,6 +50,7 @@ public class EncapsulatedObjectFactory {
 
 	protected String typeName;
 	protected String typeCaption = "";
+	protected ResourcePath typeIconImagePath;
 	protected Map<String, Object> typeSpecificProperties = new HashMap<String, Object>();
 	protected boolean typeModificationStackAccessible = true;
 	protected String typeOnlineHelp;
@@ -107,6 +108,14 @@ public class EncapsulatedObjectFactory {
 
 	public void setTypeCaption(String typeCaption) {
 		this.typeCaption = typeCaption;
+	}
+
+	public ResourcePath getTypeIconImagePath() {
+		return typeIconImagePath;
+	}
+
+	public void setTypeIconImagePath(ResourcePath typeIconImagePath) {
+		this.typeIconImagePath = typeIconImagePath;
 	}
 
 	public boolean isTypeModificationStackAccessible() {
@@ -538,7 +547,7 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public ResourcePath getIconImagePath(Object object) {
-			return null;
+			return typeIconImagePath;
 		}
 
 		@Override
@@ -855,8 +864,8 @@ public class EncapsulatedObjectFactory {
 
 					@Override
 					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType=" + typeName
-								+ "]";
+						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
+								+ typeName + "]";
 					}
 				});
 			}

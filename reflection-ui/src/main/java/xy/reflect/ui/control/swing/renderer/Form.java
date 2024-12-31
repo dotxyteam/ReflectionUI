@@ -756,8 +756,7 @@ public class Form extends ImagePanel {
 	}
 
 	protected void addCategoryTab(InfoCategory category, JPanel tab) {
-		Image iconImage = SwingRendererUtils.loadImageThroughCache(category.getIconImagePath(),
-				ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+		Image iconImage = swingRenderer.getCategoryIconImage(category);
 		ImageIcon icon = (iconImage != null) ? new ImageIcon(iconImage) : null;
 		if (categoriesControl instanceof ListTabbedPane) {
 			int tabIndex = ((ListTabbedPane) categoriesControl).getTabCount();
@@ -1637,7 +1636,6 @@ public class Form extends ImagePanel {
 			return null;
 		}
 		final String title = ReflectionUIUtils.composeMessage(data.getCaption(), "Help");
-		final Image iconImage = swingRenderer.getObjectIconImage(object);
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
@@ -1709,7 +1707,7 @@ public class Form extends ImagePanel {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
+				swingRenderer.openInformationDialog(result, onlineHelp, title);
 			}
 		});
 		result.setName("fieldOnlineHelpControl [field=" + fieldControlPlaceHolder.getField().getName() + ", parent="
@@ -1725,7 +1723,6 @@ public class Form extends ImagePanel {
 			return null;
 		}
 		final String title = ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Help");
-		final Image iconImage = swingRenderer.getObjectIconImage(object);
 		final JButton result = new AbstractControlButton() {
 
 			private static final long serialVersionUID = 1L;
@@ -1810,7 +1807,7 @@ public class Form extends ImagePanel {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				swingRenderer.openInformationDialog(result, onlineHelp, title, iconImage);
+				swingRenderer.openInformationDialog(result, onlineHelp, title);
 			}
 		});
 		result.setName("buttonBarOnlineHelpControl [parent=" + this.getName() + "]");

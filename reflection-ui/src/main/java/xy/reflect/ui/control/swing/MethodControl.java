@@ -99,7 +99,11 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 
 	@Override
 	public Icon retrieveIcon() {
-		return swingRenderer.getMethodIcon(data);
+		Image image = swingRenderer.getMethodIconImage(data);
+		if(image == null) {
+			return null;
+		}
+		return SwingRendererUtils.getIcon(image);
 	}
 
 	@Override

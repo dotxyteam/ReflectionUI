@@ -18,8 +18,8 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
 import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.undo.IModification;
@@ -49,9 +49,18 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	public EncapsulatedObjectFactory createEncapsulation() {
 		EncapsulatedObjectFactory result = super.createEncapsulation();
 		result.setTypeCaption(getCapsuleTypeCaption());
+		result.setTypeIconImagePath(getCapsuleTypeIconImagePath());
 		result.setTypeOnlineHelp(getCapsuleTypeOnlineHelp());
 		result.setTypeModificationStackAccessible(isCapsuleTypeModificationStackAccessible());
 		return result;
+	}
+
+	/**
+	 * @return the path to the icon image of the capsule type.
+	 */
+	protected ResourcePath getCapsuleTypeIconImagePath() {
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource())
+				.getIconImagePath(null);
 	}
 
 	/**
@@ -106,21 +115,11 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the icon image of the editor window.
+	 * @return an icon image for the editor window that will replace the application
+	 *         icon image.
 	 */
-	protected Image getEditorWindowIconImage() {
-		ensureIsInitialized();
-		Object capsule = getCapsule();
-		Image result = getSwingRenderer().getObjectIconImage(capsule);
-		if (result == null) {
-			ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
-			IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
-			if (appInfo.getIconImagePath() != null) {
-				result = SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
-						ReflectionUIUtils.getErrorLogListener(reflectionUI));
-			}
-		}
-		return result;
+	protected Image getCustomEditorWindowIconImage() {
+		return null;
 	}
 
 	/**
@@ -259,7 +258,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		DialogBuilder dialogBuilder = createDelegateDialogBuilder();
 		dialogBuilder.setContentComponent(editorForm);
 		dialogBuilder.setTitle(getEditorWindowTitle());
-		dialogBuilder.setIconImage(getEditorWindowIconImage());
+		Image customEditorWindowIconImage = getCustomEditorWindowIconImage();
+		if (customEditorWindowIconImage != null) {
+			dialogBuilder.setIconImage(customEditorWindowIconImage);
+		}
 
 		List<Component> buttonBarControls = new ArrayList<Component>(createMostButtonBarControls(editorForm));
 		{
@@ -427,9 +429,15 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 
 		protected void installComponents() {
 			Form editorForm = editorBuilder.createEditorForm(false, false);
+			Image iconImage = editorBuilder.getSwingRenderer()
+					.getApplicationIconImage(editorBuilder.getSwingRenderer().getReflectionUI().getApplicationInfo());
+			Image customEditorWindowIconImage = editorBuilder.getCustomEditorWindowIconImage();
+			if (customEditorWindowIconImage != null) {
+				iconImage = customEditorWindowIconImage;
+			}
 			windowManager.install(editorForm,
 					new ArrayList<Component>(editorBuilder.createMostButtonBarControls(editorForm)),
-					editorBuilder.getEditorWindowTitle(), editorBuilder.getEditorWindowIconImage());
+					editorBuilder.getEditorWindowTitle(), iconImage);
 		}
 
 		protected void uninstallComponents() {

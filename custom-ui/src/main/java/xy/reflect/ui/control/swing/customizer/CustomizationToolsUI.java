@@ -321,7 +321,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 										SwingRenderer renderer = swingCustomizer.getCustomizationTools()
 												.getToolsRenderer();
 										renderer.openInformationDialog(null, "The item type is not defined",
-												renderer.getObjectTitle(lc), renderer.getObjectIconImage(lc));
+												renderer.getObjectTitle(lc));
 									} else {
 										TypeCustomization t = InfoCustomizations.getTypeCustomization(
 												swingCustomizer.getInfoCustomizations(), lc.getItemTypeName());
