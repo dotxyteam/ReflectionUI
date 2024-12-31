@@ -221,6 +221,17 @@ public class SwingRendererUtils {
 		return result;
 	}
 
+	public static Form findAncestorFormOfType(Component component, String typeName, SwingRenderer swingRenderer) {
+		for (Form form : findAncestorForms(component, swingRenderer)) {
+			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(form.getObject()));
+			if(objectType.getName().equals(typeName)) {
+				return form;
+			}
+		}
+		return null;
+	}
+
 	public static Form findMostAncestorForm(Component component, SwingRenderer swingRenderer) {
 		List<Form> ancestors = findAncestorForms(component, swingRenderer);
 		if (ancestors.size() == 0) {
@@ -237,6 +248,18 @@ public class SwingRendererUtils {
 			}
 			if (childComponent instanceof Container) {
 				result.addAll(findDescendantForms((Container) childComponent, swingRenderer));
+			}
+		}
+		return result;
+	}
+	
+	public static List<Form> findDescendantFormsOfType(Container container, String typeName, SwingRenderer swingRenderer) {
+		List<Form> result = new ArrayList<Form>();
+		for (Form form : findDescendantForms(container, swingRenderer)) {
+			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(form.getObject()));
+			if(objectType.getName().equals(typeName)) {
+				result.add(form);
 			}
 		}
 		return result;

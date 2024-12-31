@@ -1982,6 +1982,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					restoringExpandedPathsDespiteDataAlteration(new Runnable() {
 						@Override
 						public void run() {
+							refreshItemPositionBuffers();
 							refreshTreeTableModelAndControl(false);
 						}
 					});

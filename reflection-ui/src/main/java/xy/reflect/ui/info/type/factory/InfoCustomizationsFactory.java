@@ -572,8 +572,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										}
 
 										@Override
+										public String getName() {
+											return "currentItem";
+										}
+
+										@Override
 										public String getCaption() {
-											return itemPosition.getContainingListTitle();
+											return "Current Item";
 										}
 
 										@Override
@@ -814,8 +819,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										}
 
 										@Override
+										public String getName() {
+											return "currentItem";
+										}
+
+										@Override
 										public String getCaption() {
-											return itemPosition.getContainingListTitle();
+											return "Current Item";
 										}
 
 										@Override
