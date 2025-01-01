@@ -223,7 +223,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 						}
 					}, "Refreshing " + swingRenderer.getObjectTitle(newSubFormObject) + "...");
 					subFormObject = newSubFormObject;
-					subForm.refresh(refreshStructure);
+					subForm.refresh(true);
 				} else {
 					return false;
 				}

@@ -3,11 +3,11 @@ package xy.reflect.ui.info.type.iterable.item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.WeakHashMap;
 
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.util.MiscUtils;
 
 /**
  * This class is a sub-class of {@link ItemPosition} that uses buffers to
@@ -19,8 +19,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
  * can be set.
  * 
  * Note that there cannot be 2 similar instances (created from the same factory,
- * at the same depth and the same index) unless the containing list is
- * refreshed.
+ * at the same depth and the same index).
  * 
  * Note also that calling {@link #updateContainingList(Object[])} will replace
  * the buffered items by those passed as parameter (they may differ from the
@@ -41,7 +40,7 @@ public class BufferedItemPosition extends ItemPosition {
 	protected Object fakeItem;
 	protected Object[] bufferedSubListRawValue;
 	protected IFieldInfo bufferedSubListField;
-	protected Map<Integer, BufferedItemPosition> bufferedSubItemPositionByIndex = new HashMap<Integer, BufferedItemPosition>();
+	protected WeakHashMap<BufferedItemPosition, Integer> indexByBufferedSubItemPosition = new WeakHashMap<BufferedItemPosition, Integer>();
 
 	protected BufferedItemPosition() {
 		super();
@@ -80,7 +79,6 @@ public class BufferedItemPosition extends ItemPosition {
 		} else {
 			((BufferedItemPosition) parentItemPosition).bufferedSubListRawValue = null;
 			((BufferedItemPosition) parentItemPosition).bufferedSubListField = null;
-			((BufferedItemPosition) parentItemPosition).bufferedSubItemPositionByIndex.clear();
 		}
 	}
 
@@ -103,17 +101,16 @@ public class BufferedItemPosition extends ItemPosition {
 	 * item positions will be up-to-date after this operation.
 	 */
 	public void refreshBranch() {
-		for (int index : bufferedSubItemPositionByIndex.keySet()) {
-			BufferedItemPosition bufferedSubItemPosition = bufferedSubItemPositionByIndex.get(index);
-			if (bufferedSubItemPosition == null) {
-				continue;
+		for (int index : indexByBufferedSubItemPosition.values()) {
+			for (BufferedItemPosition bufferedSubItemPosition : MiscUtils
+					.getKeysFromValue(indexByBufferedSubItemPosition, index)) {
+				if (bufferedSubItemPosition != null) {
+					bufferedSubItemPosition.refreshBranch();
+				}
 			}
-			bufferedSubItemPosition.refreshBranch();
 		}
 		bufferedSubListRawValue = null;
 		bufferedSubListField = null;
-		bufferedSubItemPositionByIndex.clear();
-
 	}
 
 	@Override
@@ -210,17 +207,22 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public BufferedItemPosition getSubItemPosition(int index) {
-		if (bufferedSubItemPositionByIndex.containsKey(index)) {
-			return bufferedSubItemPositionByIndex.get(index);
+	public synchronized BufferedItemPosition getSubItemPosition(int index) {
+		if (indexByBufferedSubItemPosition.containsValue(index)) {
+			for (BufferedItemPosition itemPosition : MiscUtils.getKeysFromValue(indexByBufferedSubItemPosition,
+					index)) {
+				if (itemPosition != null) {
+					return itemPosition;
+				}
+			}
 		}
 		BufferedItemPosition result = (BufferedItemPosition) super.getSubItemPosition(index);
 		if (result != null) {
 			result.bufferedSubListField = null;
 			result.bufferedSubListRawValue = null;
-			result.bufferedSubItemPositionByIndex = new HashMap<Integer, BufferedItemPosition>();
+			result.indexByBufferedSubItemPosition = new WeakHashMap<BufferedItemPosition, Integer>();
 		}
-		bufferedSubItemPositionByIndex.put(index, result);
+		indexByBufferedSubItemPosition.put(result, index);
 		return result;
 	}
 

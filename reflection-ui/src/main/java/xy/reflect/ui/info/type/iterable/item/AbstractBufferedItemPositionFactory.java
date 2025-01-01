@@ -1,10 +1,9 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.item;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.WeakHashMap;
+
+import xy.reflect.ui.util.MiscUtils;
 
 /**
  * This class is a sub-class of {@link AbstractItemPositionFactory} that only
@@ -17,19 +16,24 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 
 	protected Object[] bufferedRootListRawValue;
 	protected Object bufferedRootListValue;
-	protected Map<Integer, BufferedItemPosition> bufferedRootItemPositionByIndex = new HashMap<Integer, BufferedItemPosition>();
+	protected WeakHashMap<BufferedItemPosition, Integer> indexByBufferedRootItemPosition = new WeakHashMap<BufferedItemPosition, Integer>();
 
 	protected abstract Object getNonBufferedRootListValue();
 
 	protected abstract void setNonBufferedRootListValue(Object rootListValue);
 
 	@Override
-	public BufferedItemPosition getRootItemPosition(int index) {
-		if (bufferedRootItemPositionByIndex.containsKey(index)) {
-			return bufferedRootItemPositionByIndex.get(index);
+	public synchronized BufferedItemPosition getRootItemPosition(int index) {
+		if (indexByBufferedRootItemPosition.containsValue(index)) {
+			for (BufferedItemPosition itemPosition : MiscUtils.getKeysFromValue(indexByBufferedRootItemPosition,
+					index)) {
+				if (itemPosition != null) {
+					return itemPosition;
+				}
+			}
 		}
 		BufferedItemPosition result = (BufferedItemPosition) super.getRootItemPosition(index);
-		bufferedRootItemPositionByIndex.put(index, result);
+		indexByBufferedRootItemPosition.put(result, index);
 		return result;
 	}
 
@@ -67,7 +71,6 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 	public void refresh() {
 		bufferedRootListValue = null;
 		bufferedRootListRawValue = null;
-		bufferedRootItemPositionByIndex.clear();
 	}
 
 	/**
@@ -75,12 +78,13 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 	 * indirectly) by this factory so that all items will have up-to-date values.
 	 */
 	public void refreshAll() {
-		for (int index : bufferedRootItemPositionByIndex.keySet()) {
-			BufferedItemPosition bufferedRootItemPosition = bufferedRootItemPositionByIndex.get(index);
-			if (bufferedRootItemPosition == null) {
-				continue;
+		for (int index : indexByBufferedRootItemPosition.values()) {
+			for (BufferedItemPosition bufferedRootItemPosition : MiscUtils
+					.getKeysFromValue(indexByBufferedRootItemPosition, index)) {
+				if (bufferedRootItemPosition != null) {
+					bufferedRootItemPosition.refreshBranch();
+				}
 			}
-			bufferedRootItemPosition.refreshBranch();
 		}
 		refresh();
 	}

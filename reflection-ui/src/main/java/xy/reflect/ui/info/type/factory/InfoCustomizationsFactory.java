@@ -34,6 +34,8 @@ import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ImplicitListFieldDeclaration;
+import xy.reflect.ui.info.custom.InfoCustomizations.ImportedFieldDeclaration;
+import xy.reflect.ui.info.custom.InfoCustomizations.ImportedMethodDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemFieldShortcut;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListItemMethodShortcut;
@@ -52,6 +54,7 @@ import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.HiddenFieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ImplicitListFieldInfo;
+import xy.reflect.ui.info.field.ImportedFieldInfo;
 import xy.reflect.ui.info.field.ImportedNullStatusFieldInfo;
 import xy.reflect.ui.info.field.MethodReturnValueAsFieldInfo;
 import xy.reflect.ui.info.field.NullReplacementFieldInfo;
@@ -69,6 +72,7 @@ import xy.reflect.ui.info.method.FieldAsGetterInfo;
 import xy.reflect.ui.info.method.FieldAsSetterInfo;
 import xy.reflect.ui.info.method.HiddenMethodInfoProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.method.ImportedMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.LoadFromFileMethod;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -1896,6 +1900,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
 				inputFields.add(newField);
 			}
+			for (ImportedFieldDeclaration importedFieldDeclaration : objectTypeCustomization
+					.getImportedFieldDeclarations()) {
+				IFieldInfo newField = getImportedField(importedFieldDeclaration);
+				newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
+				inputFields.add(newField);
+			}
+			for (ImportedMethodDeclaration importedMethodDeclaration : objectTypeCustomization
+					.getImportedMethodDeclarations()) {
+				IMethodInfo newMethod = getImportedMethod(importedMethodDeclaration);
+				newMethod = customizedUI.getInfoCustomizationsSetupFactory().wrapMethodInfo(newMethod, objectType);
+				inputMethods.add(newMethod);
+			}
 			menuModel.importContributions(
 					ReflectionUIUtils.createMenuModel(objectTypeCustomization.getMenuModelCustomization()));
 		}
@@ -1932,6 +1948,27 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 			} else {
 				throw new ReflectionUIError();
+			}
+		}
+
+		protected IFieldInfo getImportedField(ImportedFieldDeclaration importedFieldDeclaration) {
+			try {
+				ITypeInfo sourceType = importedFieldDeclaration.getSourceTypeFinder().find(customizedUI, null);
+				return new ImportedFieldInfo(sourceType, importedFieldDeclaration.getSourceFieldName(), importedFieldDeclaration.getTargetFieldName());
+			} catch (Throwable t) {
+				throw new ReflectionUIError(
+						"Type '" + objectType.getName() + "': Failed to import field: " + t.toString(), t);
+			}
+		}
+
+		protected IMethodInfo getImportedMethod(ImportedMethodDeclaration importedMethodDeclaration) {
+			try {
+				ITypeInfo sourceType = importedMethodDeclaration.getSourceTypeFinder().find(customizedUI, null);
+				return new ImportedMethodInfo(sourceType, importedMethodDeclaration.getSourceMethodSignature(),
+						importedMethodDeclaration.getTargetMethodName());
+			} catch (Throwable t) {
+				throw new ReflectionUIError(
+						"Type '" + objectType.getName() + "': Failed to import method: " + t.toString(), t);
 			}
 		}
 

@@ -1563,6 +1563,94 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public static class ImportedFieldDeclaration extends AbstractCustomization {
+
+		private static final long serialVersionUID = 1L;
+
+		protected ITypeInfoFinder sourceTypeFinder;
+		protected String sourceFieldName;
+		protected String targetFieldName;
+
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
+		public ITypeInfoFinder getSourceTypeFinder() {
+			return sourceTypeFinder;
+		}
+
+		public void setSourceTypeFinder(ITypeInfoFinder sourceTypeFinder) {
+			this.sourceTypeFinder = sourceTypeFinder;
+		}
+
+		public String getTargetFieldName() {
+			return targetFieldName;
+		}
+
+		public void setTargetFieldName(String targetFieldName) {
+			this.targetFieldName = targetFieldName;
+		}
+
+		public String getSourceFieldName() {
+			return sourceFieldName;
+		}
+
+		public void setSourceFieldName(String sourceFieldName) {
+			this.sourceFieldName = sourceFieldName;
+		}
+
+		public void validate() throws Exception {
+			if (sourceTypeFinder == null) {
+				throw new IllegalStateException("Source type not provided");
+			}
+			if ((sourceFieldName == null) || (sourceFieldName.length() == 0)) {
+				throw new IllegalStateException("Source field name not provided");
+			}
+		}
+	}
+
+	public static class ImportedMethodDeclaration extends AbstractCustomization {
+
+		private static final long serialVersionUID = 1L;
+
+		protected ITypeInfoFinder sourceTypeFinder;
+		protected String sourceMethodSignature;
+		protected String targetMethodName;
+
+		@XmlElements({ @XmlElement(name = "javaClassBasedTypeInfoFinder", type = JavaClassBasedTypeInfoFinder.class),
+				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
+		public ITypeInfoFinder getSourceTypeFinder() {
+			return sourceTypeFinder;
+		}
+
+		public void setSourceTypeFinder(ITypeInfoFinder sourceTypeFinder) {
+			this.sourceTypeFinder = sourceTypeFinder;
+		}
+
+		public String getTargetMethodName() {
+			return targetMethodName;
+		}
+
+		public void setTargetMethodName(String targetMethodName) {
+			this.targetMethodName = targetMethodName;
+		}
+
+		public String getSourceMethodSignature() {
+			return sourceMethodSignature;
+		}
+
+		public void setSourceMethodSignature(String sourceMethodSignature) {
+			this.sourceMethodSignature = sourceMethodSignature;
+		}
+
+		public void validate() throws Exception {
+			if (sourceTypeFinder == null) {
+				throw new IllegalStateException("Source type not provided");
+			}
+			if ((sourceMethodSignature == null) || (sourceMethodSignature.length() == 0)) {
+				throw new IllegalStateException("Source method signature not provided");
+			}
+		}
+	}
+
 	public static interface IMenuElementCustomization {
 
 		public String getName();
@@ -2119,12 +2207,30 @@ public class InfoCustomizations implements Serializable {
 		protected boolean copyForbidden = false;
 		protected Integer formSpacing;
 		protected boolean validationRequirementForced = false;
+		protected List<ImportedFieldDeclaration> importedFieldDeclarations = new ArrayList<ImportedFieldDeclaration>();
+		protected List<ImportedMethodDeclaration> importedMethodDeclarations = new ArrayList<ImportedMethodDeclaration>();
 
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public List<ImportedFieldDeclaration> getImportedFieldDeclarations() {
+			return importedFieldDeclarations;
+		}
+
+		public void setImportedFieldDeclarations(List<ImportedFieldDeclaration> importedFieldDeclarations) {
+			this.importedFieldDeclarations = importedFieldDeclarations;
+		}
+
+		public List<ImportedMethodDeclaration> getImportedMethodDeclarations() {
+			return importedMethodDeclarations;
+		}
+
+		public void setImportedMethodDeclarations(List<ImportedMethodDeclaration> importedMethodDeclarations) {
+			this.importedMethodDeclarations = importedMethodDeclarations;
 		}
 
 		public boolean isValidationRequirementForced() {

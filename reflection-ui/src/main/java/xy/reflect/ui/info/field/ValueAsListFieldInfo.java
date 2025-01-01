@@ -18,8 +18,6 @@ import xy.reflect.ui.util.ReflectionUIError;
 /**
  * Field proxy allowing to view/edit the base field value as a singleton list.
  * 
- * Note that the returned list is empty when the base field value is null.
- * 
  * @author olitank
  *
  */

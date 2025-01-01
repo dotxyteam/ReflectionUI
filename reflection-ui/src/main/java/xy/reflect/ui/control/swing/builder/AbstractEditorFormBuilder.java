@@ -406,6 +406,7 @@ public abstract class AbstractEditorFormBuilder {
 			initialized = false;
 			ensureIsInitialized();
 			editorForm.setObject(getCapsule());
+			refreshStructure = true;
 		} else {
 			Object oldValue = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 				@Override
@@ -427,8 +428,9 @@ public abstract class AbstractEditorFormBuilder {
 				ITypeInfo newValueType = (newValue == null) ? null
 						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
 				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
-					editorForm.setObject(getCapsule());
+					editorForm.setObject(getCapsule());					
 				}
+				refreshStructure = true;
 			}
 		}
 		editorForm.refresh(refreshStructure);

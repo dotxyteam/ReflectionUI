@@ -62,7 +62,11 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	 * @return the size of the containing list.
 	 */
 	public int getContainingListSize() {
-		return retrieveContainingListRawValue().length;
+		Object[] containingListRawValue = retrieveContainingListRawValue();
+		if(containingListRawValue == null) {
+			return 0;
+		}
+		return containingListRawValue.length;
 	}
 
 	/**
