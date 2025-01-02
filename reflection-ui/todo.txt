@@ -1,3 +1,6 @@
+- check primitive control number formatting
+- xy.reflect.ui.util.ReflectionUIUtils.formatMethodControlTooltipText(String, String, List<IParameterInfo>)
+may not be optimal
 - every plugin configuration is serialized as a swing renderer class instance,
 yet it should be usable by JavaFX renderer for instance. Not also that every
 plugin identifier refers to a swing renderer class and is store as a customization info.

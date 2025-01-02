@@ -2,8 +2,11 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Dimension;
-
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.JEditorPane;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.text.EditorKit;
 import javax.swing.text.JTextComponent;
 
@@ -105,6 +108,25 @@ public class EditorPlugin extends StyledTextPlugin {
 		}
 
 		@Override
+		protected void setupTextComponentEvents() {
+			textComponent.addFocusListener(new FocusListener() {
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					try {
+						EditorControl.this.textComponentFocustLost();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(EditorControl.this, t);
+					}
+				}
+
+				@Override
+				public void focusGained(FocusEvent e) {
+				}
+			});
+		}
+
+		@Override
 		protected void updateTextComponentStyle(boolean refreshStructure) {
 			if (refreshStructure) {
 				String textToRestore = textComponent.getText();
@@ -123,6 +145,17 @@ public class EditorPlugin extends StyledTextPlugin {
 				} finally {
 					textComponent.setText(textToRestore);
 				}
+				textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
+					@Override
+					public void undoableEditHappened(UndoableEditEvent e) {
+						try {
+							EditorControl.this.textComponentEditHappened();
+						} catch (Throwable t) {
+							swingRenderer.handleObjectException(EditorControl.this, t);
+						}
+					}
+				});
+
 			}
 		}
 

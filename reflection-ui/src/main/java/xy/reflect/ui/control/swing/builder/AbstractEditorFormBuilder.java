@@ -406,7 +406,6 @@ public abstract class AbstractEditorFormBuilder {
 			initialized = false;
 			ensureIsInitialized();
 			editorForm.setObject(getCapsule());
-			refreshStructure = true;
 		} else {
 			Object oldValue = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 				@Override
@@ -430,7 +429,6 @@ public abstract class AbstractEditorFormBuilder {
 				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
 					editorForm.setObject(getCapsule());					
 				}
-				refreshStructure = true;
 			}
 		}
 		editorForm.refresh(refreshStructure);
