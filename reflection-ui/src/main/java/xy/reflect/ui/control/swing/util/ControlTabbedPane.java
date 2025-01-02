@@ -3,6 +3,8 @@ package xy.reflect.ui.control.swing.util;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.awt.LayoutManager;
+
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.TabbedPaneUI;
@@ -30,6 +32,21 @@ public class ControlTabbedPane extends JTabbedPane {
 	public void setUI(TabbedPaneUI newUI) {
 		if (newUI instanceof BasicTabbedPaneUI) {
 			newUI = new BasicTabbedPaneUI() {
+				
+				@Override
+				protected LayoutManager createLayoutManager() {
+					if (tabPane.getTabLayoutPolicy() == JTabbedPane.SCROLL_TAB_LAYOUT) {
+						return super.createLayoutManager();
+					} else { /* WRAP_TAB_LAYOUT */
+						return new TabbedPaneLayout() {
+
+							@Override
+							protected void padSelectedTab(int tabPlacement, int selectedIndex) {
+							}
+
+						};
+					}
+				}
 
 				protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
 					if (!isOpaque()) {
