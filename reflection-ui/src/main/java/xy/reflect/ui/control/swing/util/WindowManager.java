@@ -5,10 +5,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -30,6 +33,7 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.Form.IRefreshListener;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.app.IApplicationInfo;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -186,9 +190,34 @@ public class WindowManager {
 		contentPane.add(buttonBar, BorderLayout.SOUTH);
 	}
 
-	public void adjustBounds() {
+	protected void adjustBounds() {
 		SwingRendererUtils.adjustWindowInitialBounds(window);
 		SwingRendererUtils.handleComponentSizeChange(window);
+	}
+
+	protected void limitSize() {
+		window.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Dimension maximumSize = MiscUtils.getDefaultScreenSize();
+				if (window.getWidth() > maximumSize.width) {
+					if (window instanceof JFrame) {
+						if ((((JFrame) window).getExtendedState() & JFrame.MAXIMIZED_HORIZ) != 0) {
+							((JFrame) window).setExtendedState(JFrame.NORMAL);
+						}
+					}
+					window.setSize(maximumSize.width, window.getHeight());
+				}
+				if (window.getHeight() > maximumSize.height) {
+					if (window instanceof JFrame) {
+						if ((((JFrame) window).getExtendedState() & JFrame.MAXIMIZED_VERT) != 0) {
+							((JFrame) window).setExtendedState(JFrame.NORMAL);
+						}
+					}
+					window.setSize(window.getWidth(), maximumSize.height);
+				}
+			}
+		});
 	}
 
 	public void install(final Component content, List<Component> buttonBarControls, String title, Image iconImage) {
@@ -220,6 +249,7 @@ public class WindowManager {
 		layoutButtonBar(buttonBar);
 		refreshWindowStructureAsMuchAsPossible();
 		adjustBounds();
+		limitSize();
 		window.addWindowListener(windowListener);
 		if (window instanceof JFrame) {
 			((JFrame) window).setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
