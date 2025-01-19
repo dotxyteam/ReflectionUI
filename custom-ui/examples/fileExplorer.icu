@@ -4,16 +4,6 @@
     <appplicationCustomization>
         <uniqueIdentifier>68c6f25e:16676f539bf:-2d6d</uniqueIdentifier>
         <specificProperties/>
-        <mainButtonBackgroundColor>
-            <blue>0</blue>
-            <green>0</green>
-            <red>255</red>
-        </mainButtonBackgroundColor>
-        <mainButtonForegroundColor>
-            <blue>255</blue>
-            <green>255</green>
-            <red>255</red>
-        </mainButtonForegroundColor>
         <mainBackgroundImagePath>
             <specification>&lt;class-path-resource&gt; xy/reflect/ui/example/fileExplorer-background.png</specification>
         </mainBackgroundImagePath>
@@ -63,8 +53,8 @@
             <itemMoveEnabled>true</itemMoveEnabled>
         </editOptions>
         <fieldColumnsAdded>false</fieldColumnsAdded>
-        <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-        <itemContructorSelectableforced>false</itemContructorSelectableforced>
+        <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
+        <itemCreationMode>UNDEFINED</itemCreationMode>
         <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
         <itemNullValueAllowed>false</itemNullValueAllowed>
         <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -284,8 +274,8 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>true</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -986,6 +976,7 @@
                     </methodsCustomizations>
                     <typeName>java.util.ArrayList</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
@@ -1179,6 +1170,7 @@
         </methodsCustomizations>
         <typeName>Encapsulation [encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f86</uniqueIdentifier>
@@ -1281,7 +1273,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:5694</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:630e</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1314,7 +1306,7 @@
             <uniqueIdentifier>-2ba792b3:15bc5094452:-70a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:5695</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:630f</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1347,7 +1339,7 @@
             <uniqueIdentifier>5235a7a6:15bc52889e3:-70aa</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:5696</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6310</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1411,7 +1403,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:5697</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6311</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -1470,7 +1462,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:5698</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6312</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -1502,7 +1494,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f7a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:5699</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6313</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2091,6 +2083,7 @@
                     </methodsCustomizations>
                     <typeName>java.util.Date</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
@@ -2178,8 +2171,8 @@
                         <itemMoveEnabled>true</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -2206,7 +2199,7 @@
                 </entry>
             </specificProperties>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:569a</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6314</uniqueIdentifier>
                 <caption>Attributes</caption>
             </category>
             <categoryCaption>Attributes</categoryCaption>
@@ -2369,7 +2362,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f69</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:569b</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6315</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2401,7 +2394,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f67</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:569c</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6316</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2537,7 +2530,7 @@
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f61</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:569d</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6317</uniqueIdentifier>
                 <caption>Permissions</caption>
             </category>
             <categoryCaption>Permissions</categoryCaption>
@@ -2562,72 +2555,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-33a69670:16676fb1536:-18a9</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>listFromListFiles.result</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-33a69670:16676fb1536:-18a7</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-33a69670:16676fb1536:-18a8</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-33a69670:16676fb1536:-18a4</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-33a69670:16676fb1536:-18a3</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-                <listCustomizations>
-                    <uniqueIdentifier>5184ae94:166a1e223a4:-2fdf</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>5184ae94:166a1e223a4:-2fde</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -2680,52 +2607,6 @@
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <fieldsCustomizations>
-            <uniqueIdentifier>667331c:179332ba50f:-49f4</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>subListGroup [containingItemType=java.io.File]</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>667331c:179332ba50f:-49f2</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>667331c:179332ba50f:-49f3</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>667331c:179332ba50f:-49f1</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>667331c:179332ba50f:-49f0</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>ValueListTypeInfo [of=subListGroup [containingItemType=java.io.File]]</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -3188,7 +3069,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
             <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f1d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>145fc7a:188c556c4b4:569e</uniqueIdentifier>
+                <uniqueIdentifier>-15cb827e:1947be6f979:6318</uniqueIdentifier>
                 <caption>Actions</caption>
             </category>
             <categoryCaption>Actions</categoryCaption>
@@ -3980,6 +3861,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>java.io.File</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f10</uniqueIdentifier>
@@ -4025,6 +3907,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.io.File]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f0e</uniqueIdentifier>
@@ -4066,6 +3949,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>MethodSetupObject [context=MethodContext [methodSignature=boolean renameTo(java.io.File), objectType=java.io.File]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f0a</uniqueIdentifier>
@@ -4107,6 +3991,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=MethodContext [methodSignature=boolean renameTo(java.io.File), objectType=java.io.File], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f08</uniqueIdentifier>
@@ -4148,6 +4033,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>MethodSetupObject [context=ListDynamicAction [name=null, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.io.File]]]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f06</uniqueIdentifier>
@@ -4189,6 +4075,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=ListDynamicAction [name=null, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.io.File]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f04</uniqueIdentifier>
@@ -4230,6 +4117,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=ListDynamicAction [name=delete, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.io.File]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f02</uniqueIdentifier>
@@ -4260,6 +4148,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>EncapsulatedMethodFieldType [method=createNewFile, fieldName=createNewFileCall]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-7f00</uniqueIdentifier>
@@ -4290,6 +4179,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>EncapsulatedMethodFieldType [method=mkdir, fieldName=mkdirCall]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-375eebb8:15bc505bf0f:-70da</uniqueIdentifier>
@@ -4527,8 +4417,8 @@ Do you really want to delete this resource ?  </confirmationMessage>
                         <itemMoveEnabled>false</itemMoveEnabled>
                     </editOptions>
                     <fieldColumnsAdded>true</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -4567,6 +4457,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [encapsulatedObjectType=[Ljava.io.File;]</typeName>
         <undoManagementHidden>true</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-2ba792b3:15bc5094452:-70d5</uniqueIdentifier>
@@ -4608,6 +4499,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.io.File], fieldName=createNewFileCall]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-2ba792b3:15bc5094452:-70d3</uniqueIdentifier>
@@ -4649,6 +4541,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=java.io.File], fieldName=mkdirCall]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-2ba792b3:15bc5094452:-70b7</uniqueIdentifier>
@@ -5254,6 +5147,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     </methodsCustomizations>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
@@ -5582,6 +5476,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>50906691:15bcfb7f69d:1590</uniqueIdentifier>
@@ -5662,6 +5557,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     </menuModel>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
@@ -5672,6 +5568,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>MethodSetupObject [context=ListDynamicAction [name=renameTo, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-6abca5be:15be62933a1:-2767</uniqueIdentifier>
@@ -5710,18 +5607,18 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <dynamicEnumerationForced>false</dynamicEnumerationForced>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=ListDynamicAction [name=renameTo, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
-                        <uniqueIdentifier>69c08c19:17ae393fa1b:4859</uniqueIdentifier>
-                        <specificProperties/>
-                        <customCaption>The operation succeeded !</customCaption>
-                        <hidden>false</hidden>
-                        <itemName>Option [index=0]</itemName>
-                    </itemCustomizations>
-                    <itemCustomizations>
-                        <uniqueIdentifier>69c08c19:17ae393fa1b:485a</uniqueIdentifier>
+                        <uniqueIdentifier>-15cb827e:1947be6f979:5785</uniqueIdentifier>
                         <specificProperties/>
                         <customCaption>The operation failed !</customCaption>
                         <hidden>false</hidden>
-                        <itemName>Option [index=1]</itemName>
+                        <itemName>Item [value=false]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-15cb827e:1947be6f979:5784</uniqueIdentifier>
+                        <specificProperties/>
+                        <customCaption>The operation succeeded !</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=true]</itemName>
                     </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
@@ -5752,26 +5649,6 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-3f2ce655:179331b20c7:-2cc1</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-3f2ce655:179331b20c7:-2cc0</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -5781,6 +5658,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=ListDynamicAction [name=renameTo, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-3f2ce655:179331b20c7:-76c2</uniqueIdentifier>
             <fieldName>statusOptions</fieldName>
@@ -5830,6 +5708,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>MethodSetupObject [context=ListDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=ArrayTypeInfo [javaType=class [Ljava.io.File;]]], fieldCaption=]], objectType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=ArrayTypeInfo [javaType=class [Ljava.io.File;]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=ArrayTypeInfo [javaType=class [Ljava.io.File;]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=ArrayTypeInfo [javaType=class [Ljava.io.File;]]], fieldCaption=]]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$1], base=ArrayTypeInfo [javaType=class [Ljava.io.File;]]], fieldCaption=]]]]]]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-33a69670:16676fb1536:-236c</uniqueIdentifier>
@@ -5865,8 +5744,8 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <uniqueIdentifier>-33a69670:16676fb1536:-2361</uniqueIdentifier>
                     <editOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
                     <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
+                    <itemAutomaticPositioningManagementForced>false</itemAutomaticPositioningManagementForced>
+                    <itemCreationMode>UNDEFINED</itemCreationMode>
                     <itemDetailsViewDisabled>true</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
@@ -5885,66 +5764,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=FieldContext [fieldName=listFiles.result, objectType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>-33a69670:16676fb1536:-16fc</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>-33a69670:16676fb1536:-16fa</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName></fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>-33a69670:16676fb1536:-16f8</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>-33a69670:16676fb1536:-16f9</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-33a69670:16676fb1536:-16f1</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-33a69670:16676fb1536:-16f0</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.io.File</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.io.File;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>-33a69670:16676fb1536:-16fb</uniqueIdentifier>
-        </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=listFiles.result, objectType=FieldAsListItemTypeInfo [index=0, containingList=listFromListFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-33a69670:16676fb1536:-16ee</uniqueIdentifier>
@@ -6545,6 +6365,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     </methodsCustomizations>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
@@ -6681,6 +6502,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=listFiles.result, objectType=FieldAsListItemTypeInfo [index=0, containingList=listFromListFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-33a69670:16676fb1536:-160b</uniqueIdentifier>
@@ -7286,6 +7108,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     </methodsCustomizations>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
@@ -7422,6 +7245,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=listFiles.result, objectType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-69897352:16677bd23a4:75a4</uniqueIdentifier>
@@ -7472,6 +7296,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     </menuModel>
                     <typeName>java.io.File</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
@@ -7482,6 +7307,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>MethodSetupObject [context=ListDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], objectType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]]]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-69897352:16677e7887d:-78fa</uniqueIdentifier>
@@ -7561,26 +7387,6 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-69897352:16677e7887d:-4c40</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-69897352:16677e7887d:-4c3f</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -7590,6 +7396,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=ListDynamicAction [name=delete, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], objectType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-69897352:16677e7887d:-78a5</uniqueIdentifier>
             <fieldName>options</fieldName>
@@ -7677,26 +7484,6 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-69897352:16677e7887d:-2c59</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-69897352:16677e7887d:-2c58</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.List</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -7706,6 +7493,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=ListDynamicAction [name=renameTo, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]], objectType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=SpecificitiesIdentifier [objectTypeName=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], fieldName=]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=InfoCustomizations.DEFAULT], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File]]]], factory=TypeInfoProxyFactory [id=xy.reflect.ui.CustomizedUI$2], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;]]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-69897352:16677e7887d:-78a5</uniqueIdentifier>
             <fieldName>options</fieldName>
@@ -7854,6 +7642,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=listFiles.result, objectType=java.io.File], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-7953f187:167ad09bd37:6dfd</uniqueIdentifier>
@@ -7896,18 +7685,18 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <dynamicEnumerationForced>false</dynamicEnumerationForced>
                     <enumerationTypeName>ValueOptions [ownerType=Encapsulation [context=ListDynamicAction [name=delete, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean], field=]</enumerationTypeName>
                     <itemCustomizations>
-                        <uniqueIdentifier>69c08c19:17ae393fa1b:4c1c</uniqueIdentifier>
-                        <specificProperties/>
-                        <customCaption>The operation succeeded!</customCaption>
-                        <hidden>false</hidden>
-                        <itemName>Option [index=0]</itemName>
-                    </itemCustomizations>
-                    <itemCustomizations>
-                        <uniqueIdentifier>69c08c19:17ae393fa1b:4c1d</uniqueIdentifier>
+                        <uniqueIdentifier>-15cb827e:1947be6f979:56a3</uniqueIdentifier>
                         <specificProperties/>
                         <customCaption>The operation failed!</customCaption>
                         <hidden>false</hidden>
-                        <itemName>Option [index=1]</itemName>
+                        <itemName>Item [value=false]</itemName>
+                    </itemCustomizations>
+                    <itemCustomizations>
+                        <uniqueIdentifier>-15cb827e:1947be6f979:56a2</uniqueIdentifier>
+                        <specificProperties/>
+                        <customCaption>The operation succeeded!</customCaption>
+                        <hidden>false</hidden>
+                        <itemName>Item [value=true]</itemName>
                     </itemCustomizations>
                 </enumerationCustomizations>
             </specificTypeCustomizations>
@@ -7938,26 +7727,6 @@ Do you really want to delete this resource ?  </confirmationMessage>
                     <specificProperties/>
                     <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
                 </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>-3f2ce655:179331b20c7:-74be</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>-3f2ce655:179331b20c7:-74bd</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.lang.Object</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>java.util.ArrayList</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
             </specificTypeCustomizations>
             <transientForced>false</transientForced>
         </fieldsCustomizations>
@@ -7967,6 +7736,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=ListDynamicAction [name=delete, listContext=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=[Ljava.io.File;]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-3f2ce655:179331b20c7:-76c2</uniqueIdentifier>
             <fieldName>statusOptions</fieldName>
@@ -8128,6 +7898,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </menuModel>
         <typeName>Encapsulation [context=ListDynamicAction [name=delete, listContext=FieldContext [field=GeneratedFieldInfoProxy [name=, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=FieldInfoProxy [name=, base=GeneratedFieldInfoProxy [name=, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=ValueField [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;, specificitiesIdentifier=null]]]], fieldCaption=]], objectType=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;, specificitiesIdentifier=null]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;, specificitiesIdentifier=null]]]], fieldCaption=]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;, specificitiesIdentifier=null]]]], fieldCaption=]]]]], objectType=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=Encapsulation [encapsulatedObjectType=[Ljava.io.File;], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Array Of File, fieldType=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedListTypeInfoProxy [name=[Ljava.io.File;, itemType=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=GeneratedBasicTypeInfoProxy [name=java.io.File, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class java.io.File, specificitiesIdentifier=null]]]], factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=xy.reflect.ui.CustomizedUI@46fb96]], base=ArrayTypeInfo [source=JavaTypeInfoSource [javaType=class [Ljava.io.File;, specificitiesIdentifier=null]]]], fieldCaption=]]]]]], subContext=MethodResult, encapsulatedObjectType=boolean]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
         <virtualFieldDeclarations>
             <uniqueIdentifier>-1931c17f:167ad32b22a:6e9e</uniqueIdentifier>
             <fieldName>successText</fieldName>
@@ -8620,6 +8391,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>java.util.Date</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-1dc75d70:16d8d726776:-4177</uniqueIdentifier>
@@ -8885,126 +8657,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=lastModified.result, objectType=java.io.File], encapsulatedObjectType=java.util.Date]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>667331c:179332ba50f:-49d2</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>667331c:179332ba50f:-49d0</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>listFiles.result</fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>667331c:179332ba50f:-49ce</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>667331c:179332ba50f:-49cf</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>667331c:179332ba50f:-49cd</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>667331c:179332ba50f:-49cc</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.io.File</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.io.File;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>667331c:179332ba50f:-49d1</uniqueIdentifier>
-        </menuModel>
-        <typeName>SubListGroupItemTypeInfo [of=subListGroup [containingItemType=java.io.File], itemField=listFiles.result]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
-    </typeCustomizations>
-    <typeCustomizations>
-        <uniqueIdentifier>667331c:179332ba50f:-4933</uniqueIdentifier>
-        <specificProperties/>
-        <abstractForced>false</abstractForced>
-        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
-        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
-        <copyForbidden>false</copyForbidden>
-        <fieldsCustomizations>
-            <uniqueIdentifier>667331c:179332ba50f:-492f</uniqueIdentifier>
-            <specificProperties/>
-            <hidden>false</hidden>
-            <displayedAsSingletonList>false</displayedAsSingletonList>
-            <duplicateGenerated>false</duplicateGenerated>
-            <fieldName></fieldName>
-            <formControlCreationForced>false</formControlCreationForced>
-            <formControlEmbeddingForced>false</formControlEmbeddingForced>
-            <getOnlyForced>false</getOnlyForced>
-            <getterGenerated>false</getterGenerated>
-            <nullReplacement>
-                <uniqueIdentifier>667331c:179332ba50f:-492d</uniqueIdentifier>
-            </nullReplacement>
-            <nullStatusFieldExported>false</nullStatusFieldExported>
-            <nullValueDistinctForced>false</nullValueDistinctForced>
-            <setterGenerated>false</setterGenerated>
-            <specificTypeCustomizations>
-                <appplicationCustomization>
-                    <uniqueIdentifier>667331c:179332ba50f:-492e</uniqueIdentifier>
-                    <specificProperties/>
-                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
-                </appplicationCustomization>
-                <listCustomizations>
-                    <uniqueIdentifier>667331c:179332ba50f:-4927</uniqueIdentifier>
-                    <editOptions>
-                        <uniqueIdentifier>667331c:179332ba50f:-4926</uniqueIdentifier>
-                        <itemCreationEnabled>true</itemCreationEnabled>
-                        <itemDeletionEnabled>true</itemDeletionEnabled>
-                        <itemMoveEnabled>true</itemMoveEnabled>
-                    </editOptions>
-                    <fieldColumnsAdded>false</fieldColumnsAdded>
-                    <initialItemValueCreationOption>CREATE_INITIAL_VALUE_AUTOMATICALLY</initialItemValueCreationOption>
-                    <itemContructorSelectableforced>false</itemContructorSelectableforced>
-                    <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
-                    <itemNullValueAllowed>false</itemNullValueAllowed>
-                    <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>java.io.File</itemTypeName>
-                    <listSorted>false</listSorted>
-                    <listTypeName>[Ljava.io.File;</listTypeName>
-                    <positionColumnAdded>false</positionColumnAdded>
-                    <stringValueColumnAdded>false</stringValueColumnAdded>
-                </listCustomizations>
-            </specificTypeCustomizations>
-            <transientForced>false</transientForced>
-        </fieldsCustomizations>
-        <immutableForced>false</immutableForced>
-        <menuModel>
-            <uniqueIdentifier>667331c:179332ba50f:-4932</uniqueIdentifier>
-        </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=listFiles.result, objectType=SubListGroupItemTypeInfo [of=subListGroup [containingItemType=java.io.File], itemField=listFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]</typeName>
-        <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>667331c:179332ba50f:-48ca</uniqueIdentifier>
@@ -9145,6 +8798,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=listFiles.result, objectType=SubListGroupItemTypeInfo [of=subListGroup [containingItemType=java.io.File], itemField=listFiles.result]], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>-3000d7cd:1799f015e11:-1ea9</uniqueIdentifier>
@@ -9285,6 +8939,7 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [context=FieldContext [fieldName=returnValueOf-[Ljava.io.File;-listFiles, objectType=java.io.File], subContext=NullableInstance, encapsulatedObjectType=[Ljava.io.File;]], subContext=ListItem, encapsulatedObjectType=java.io.File]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
     <typeCustomizations>
         <uniqueIdentifier>69c08c19:17ae393fa1b:4844</uniqueIdentifier>
@@ -9629,5 +9284,6 @@ Do you really want to delete this resource ?  </confirmationMessage>
         </methodsCustomizations>
         <typeName>java.lang.Boolean</typeName>
         <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>
 </infoCustomizations>

@@ -73,7 +73,7 @@ public class GenericEnumerationFactory {
 	}
 
 	protected String getItemName(Object item) {
-		return "Item [value=" + item + "]";
+		return "Item [value=" + ReflectionUIUtils.toString(reflectionUI, item) + "]";
 	}
 
 	protected String getItemCaption(Object item) {

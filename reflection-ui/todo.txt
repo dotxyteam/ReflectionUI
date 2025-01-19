@@ -1,3 +1,4 @@
+- allow to save unsaved modifications when exit menu item is activated
 - size in percentage of default screen size should be 
 size in percentage of container size.
 - check primitive control number formatting

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.Arrays;
@@ -48,12 +46,7 @@ public abstract class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy 
 			}
 		};
 		return new GenericEnumerationFactory(reflectionUI, iterable, enumTypeName, "", false,
-				base.getType().supports(null)) {
-			@Override
-			protected String getItemName(Object item) {
-				return "Option [index=" + getOrLoadItems().indexOf(item) + "]";
-			}
-		};
+				base.getType().supports(null));
 	}
 
 	protected ITypeInfo getObjectType() {
