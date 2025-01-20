@@ -76,11 +76,15 @@ public class WindowManager {
 		}
 
 		void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {
-			new Thread() {
+			new Thread(WindowManager.class.getName() + ".workerAroundOpeningWindowFocusRequestBug") {
+				long MAXIMUM_RETRY_DURATION_MILLISECONDS = 1000;
+
 				@Override
 				public void run() {
 					boolean[] retry = new boolean[] { true };
-					while (retry[0]) {
+					final long startTime = System.currentTimeMillis();
+					while (retry[0]
+							&& ((System.currentTimeMillis() - startTime <= MAXIMUM_RETRY_DURATION_MILLISECONDS))) {
 						try {
 							SwingUtilities.invokeAndWait(new Runnable() {
 								@Override
