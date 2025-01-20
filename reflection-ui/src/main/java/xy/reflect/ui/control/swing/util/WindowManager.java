@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -26,6 +27,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+
 import org.jdesktop.swingx.StackLayout;
 
 import xy.reflect.ui.ReflectionUI;
@@ -64,7 +67,41 @@ public class WindowManager {
 				return;
 			}
 			form.validateFormInBackgroundAndReportOnStatusBar();
-			SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
+			workAroundOpeningWindowFocusRequestBug(new Callable<Boolean>() {
+				@Override
+				public Boolean call() throws Exception {
+					return SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
+				}
+			});
+		}
+
+		void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {
+			new Thread() {
+				@Override
+				public void run() {
+					boolean[] retry = new boolean[] { true };
+					while (retry[0]) {
+						try {
+							SwingUtilities.invokeAndWait(new Runnable() {
+								@Override
+								public void run() {
+									if (form == null) {
+										retry[0] = false;
+									} else {
+										try {
+											retry[0] = !callable.call();
+										} catch (Exception e) {
+											throw new ReflectionUIError(e);
+										}
+									}
+								}
+							});
+						} catch (Exception e) {
+							throw new ReflectionUIError(e);
+						}
+					}
+				}
+			}.start();
 		}
 	};
 	protected IRefreshListener formRefreshListener = new Form.IRefreshListener() {
