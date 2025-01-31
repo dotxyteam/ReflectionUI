@@ -144,7 +144,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected AbstractBufferedItemPositionFactory itemPositionFactory;
 	protected static List<Object> clipboard = new ArrayList<Object>();
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
-	protected IListStructuralInfo structuralInfo;
 
 	protected JPanel detailsArea;
 	protected Form detailsControl;
@@ -564,15 +563,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	public IListStructuralInfo getStructuralInfo(BufferedItemPosition itemPosition) {
-		if (structuralInfo == null) {
-			IListTypeInfo listType = itemPosition.getContainingListType();
-			structuralInfo = listType.getStructuralInfo();
-			if (structuralInfo == null) {
-				throw new ReflectionUIError("No " + IListStructuralInfo.class.getSimpleName() + " found on the type '"
-						+ listType.getName() + "'");
-			}
+		IListTypeInfo listType = itemPosition.getContainingListType();
+		IListStructuralInfo result = listType.getStructuralInfo();
+		if (result == null) {
+			throw new ReflectionUIError("No " + IListStructuralInfo.class.getSimpleName() + " found on the type '"
+					+ listType.getName() + "'");
 		}
-		return structuralInfo;
+		return result;
 	}
 
 	public IListItemDetailsAccessMode getDetailsAccessMode() {
@@ -1624,7 +1621,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (refreshStructure) {
 			removeAll();
 			detailsMode = null;
-			structuralInfo = null;
 			layoutControls();
 			refreshTreeTableScrollPaneBorder();
 			refreshTreeTableComponentStyle();
@@ -2617,8 +2613,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void perform(Accessor<List<BufferedItemPosition>>[] postSelectionGetterHolder) {
-			clipboard.clear();
 			List<BufferedItemPosition> selection = getSelection();
+			clipboard.clear();
 			for (BufferedItemPosition itemPosition : selection) {
 				clipboard.add(ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 			}
@@ -2681,6 +2677,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			selection = new ArrayList<BufferedItemPosition>(selection);
 			Collections.sort(selection);
 			Collections.reverse(selection);
+			clipboard.clear();
 			for (BufferedItemPosition itemPosition : selection) {
 				clipboard.add(0, ReflectionUIUtils.copy(swingRenderer.getReflectionUI(), itemPosition.getItem()));
 				getModificationStack()
