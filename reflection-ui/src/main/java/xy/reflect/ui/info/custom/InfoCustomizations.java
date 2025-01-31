@@ -37,9 +37,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
-
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
 import xy.reflect.ui.info.ColorSpecification;
@@ -218,12 +215,8 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public void saveToFile(File output, Listener<String> debugLogListener) throws IOException {
-		saveToFile(output, debugLogListener, null);
-	}
-
-	public void saveToFile(File output, Listener<String> debugLogListener, final String comment) throws IOException {
 		ByteArrayOutputStream memoryStream = new ByteArrayOutputStream();
-		saveToStream(memoryStream, debugLogListener, comment);
+		saveToStream(memoryStream, debugLogListener);
 		FileOutputStream stream = new FileOutputStream(output);
 		try {
 			stream.write(memoryStream.toByteArray());
@@ -235,13 +228,8 @@ public class InfoCustomizations implements Serializable {
 		}
 	}
 
-	public void saveToStream(OutputStream output, Listener<String> debugLogListener) throws IOException {
-		saveToStream(output, debugLogListener, null);
-	}
-
 	@SuppressWarnings("unchecked")
-	public void saveToStream(OutputStream output, Listener<String> debugLogListener, final String comment)
-			throws IOException {
+	public void saveToStream(OutputStream output, Listener<String> debugLogListener) throws IOException {
 		InfoCustomizations toSave = new InfoCustomizations();
 		toSave.appplicationCustomization = (ApplicationCustomization) IOUtils
 				.copyThroughSerialization((Serializable) appplicationCustomization);
@@ -255,15 +243,6 @@ public class InfoCustomizations implements Serializable {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			javax.xml.bind.Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-			XMLStreamWriter jaxbXmlWriter = XMLOutputFactory.newFactory().createXMLStreamWriter(output);
-			jaxbXmlWriter.writeStartDocument();
-			if (comment != null) {
-				jaxbXmlWriter.writeCharacters("\n");
-				jaxbXmlWriter.writeComment(comment);
-			}
-			jaxbXmlWriter.close();
-
 			jaxbMarshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
 			jaxbMarshaller.marshal(toSave, output);
@@ -4153,7 +4132,7 @@ public class InfoCustomizations implements Serializable {
 		protected ItemCreationMode itemCreationMode = ItemCreationMode.UNDEFINED;
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
-		private boolean itemAutomaticPositioningManagementForced = false;
+		protected boolean itemAutomaticPositioningManagementForced = false;
 
 		@Override
 		public boolean isInitial() {

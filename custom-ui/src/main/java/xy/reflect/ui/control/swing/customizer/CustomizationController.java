@@ -119,8 +119,7 @@ public class CustomizationController {
 		File file = new File(swingCustomizer.getInfoCustomizationsOutputFilePath());
 		try {
 			swingCustomizer.getInfoCustomizations().saveToFile(file,
-					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()),
-					"Generated with Custom UI (http://javacollection.net/reflectionui/)");
+					ReflectionUIUtils.getDebugLogListener(swingCustomizer.getReflectionUI()));
 		} catch (IOException e) {
 			throw new ReflectionUIError(e);
 		}
