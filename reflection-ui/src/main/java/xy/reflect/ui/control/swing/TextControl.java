@@ -276,7 +276,11 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				} finally {
 					listenerDisabled = listenerWasDisabled;
 				}
-				textComponentEditHappened();
+				try {
+					TextControl.this.textComponentEditHappened();
+				} catch (Throwable t) {
+					swingRenderer.handleObjectException(TextControl.this, t);
+				}
 			}
 
 			@Override

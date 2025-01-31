@@ -192,7 +192,11 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					} finally {
 						listenerDisabled = listenerWasDisabled;
 					}
-					textComponentEditHappened();
+					try {
+						StyledTextControl.this.textComponentEditHappened();
+					} catch (Throwable t) {
+						swingRenderer.handleObjectException(StyledTextControl.this, t);
+					}
 				}
 
 				@Override
