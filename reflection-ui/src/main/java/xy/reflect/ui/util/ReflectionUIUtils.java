@@ -111,7 +111,7 @@ public class ReflectionUIUtils {
 		return buildMethodSignature(returnTypeName, methodName, parameterTypeNames);
 	}
 
-	public static Object buildMethodSignature(Method method) {
+	public static String buildMethodSignature(Method method) {
 		Class<?> returnType = method.getReturnType();
 		String returnTypeName = returnType.getName();
 		String methodName = method.getName();
