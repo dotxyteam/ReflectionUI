@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
@@ -65,7 +63,9 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		List<ITypeInfo> subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
 		if (subTypes != null) {
 			for (ITypeInfo subType : subTypes) {
-				result.add(subType);
+				if (subType.isConcrete()) {
+					result.add(subType);
+				}
 				result.addAll(listDescendantTypes(subType));
 			}
 		}
