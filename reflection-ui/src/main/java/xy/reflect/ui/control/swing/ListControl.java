@@ -65,6 +65,7 @@ import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
+import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
@@ -80,7 +81,6 @@ import xy.reflect.ui.control.swing.util.AbstractLazyTreeNode;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
-import xy.reflect.ui.control.swing.util.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -1173,6 +1173,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		TreePath treePath = new TreePath(node.getPath());
 		treeTableComponent.collapsePath(treePath);
+	}
+
+	public void expandAllItemPositions() {
+		treeTableComponent.expandAll();
 	}
 
 	public void collapseAllItemPositions() {

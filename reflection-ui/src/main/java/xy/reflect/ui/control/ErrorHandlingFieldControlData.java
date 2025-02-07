@@ -1,25 +1,32 @@
 
-
-
-package xy.reflect.ui.control.swing.util;
+package xy.reflect.ui.control;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 
-import xy.reflect.ui.control.ErrorWithDefaultValue;
-import xy.reflect.ui.control.FieldControlDataProxy;
-import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Field control data that handle value access errors by notifying them and
+ * Field control data that handles value access errors by notifying them and
  * returning the last valid value.
+ * 
+ * When an update of a field value fails, the error is caught and thrown when
+ * the the current control (normally) tries to refresh its state because of this
+ * update that it initiated itself. With most controls it allows the user to
+ * continue modifying the erroneous value until it becomes correct, while
+ * viewing the error message. Otherwise, control would likely revert to the
+ * state corresponding to the last valid value, preventing the user from
+ * completing its correction. Note that the update value error is only thrown
+ * once and discarded so that the current control updates its state and drops
+ * the error message if another control performs an action that triggers current
+ * form refreshment.
  * 
  * @author olitank
  *
@@ -45,7 +52,9 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	public Object getValue() {
 		try {
 			if (lastValueUpdateError != null) {
-				throw lastValueUpdateError;
+				Throwable toThrow = lastValueUpdateError;
+				lastValueUpdateError = null;
+				throw toThrow;
 			}
 			try {
 				lastFieldValue = super.getValue();
