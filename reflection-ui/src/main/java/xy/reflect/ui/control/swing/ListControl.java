@@ -19,8 +19,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -1175,6 +1177,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		treeTableComponent.collapsePath(treePath);
 	}
 
+	public void expandItemPositions(int maximumDepth) {
+		visitItemsInBreadthFirstSearchMode(new IItemsVisitor() {
+			@Override
+			public boolean visitItem(BufferedItemPosition itemPosition) {
+				if (itemPosition.getDepth() >= maximumDepth) {
+					return false;
+				}
+				expandItemPosition(itemPosition);
+				return true;
+			}
+		});
+	}
+
 	public void expandAllItemPositions() {
 		treeTableComponent.expandAll();
 	}
@@ -1614,6 +1629,31 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		for (int i = 0; i < currentNode.getChildCount(); i++) {
 			ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
 			if (!visitItems(iItemsVisitor, childNode)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void visitItemsInBreadthFirstSearchMode(IItemsVisitor iItemsVisitor) {
+		visitItemsInBreadthFirstSearchMode(iItemsVisitor, rootNode, new LinkedList<ListControl.ItemNode>());
+	}
+
+	protected boolean visitItemsInBreadthFirstSearchMode(IItemsVisitor iItemsVisitor, ItemNode currentNode,
+			Queue<ItemNode> queue) {
+		BufferedItemPosition currentListItemPosition = getItemPositionByNode(currentNode);
+		if (currentListItemPosition != null) {
+			if (!iItemsVisitor.visitItem(currentListItemPosition)) {
+				return false;
+			}
+		}
+		for (int i = 0; i < currentNode.getChildCount(); i++) {
+			ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
+			queue.add(childNode);
+		}
+		while (!queue.isEmpty()) {
+			ItemNode nextNode = queue.poll();
+			if (!visitItemsInBreadthFirstSearchMode(iItemsVisitor, nextNode, queue)) {
 				return false;
 			}
 		}
