@@ -95,8 +95,8 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
-import xy.reflect.ui.info.type.iterable.util.AbstractListAction;
-import xy.reflect.ui.info.type.iterable.util.AbstractListProperty;
+import xy.reflect.ui.info.type.iterable.util.AbstractDynamicListAction;
+import xy.reflect.ui.info.type.iterable.util.AbstractDynamicListProperty;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListAction;
 import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -563,7 +563,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IFieldInfo itemField : actualItemType.getFields()) {
 							if (itemField.getName().equals(shortcut.getFieldName())) {
-								AbstractListProperty property = new AbstractListProperty() {
+								AbstractDynamicListProperty property = new AbstractDynamicListProperty() {
 
 									IFieldInfo itemPositionAsField = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
@@ -714,7 +714,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 				}
 				if ((!fieldFound) && shortcut.isAlwaysShown()) {
-					AbstractListProperty property = new AbstractListProperty() {
+					AbstractDynamicListProperty property = new AbstractDynamicListProperty() {
 
 						@Override
 						public boolean isEnabled() {
@@ -810,7 +810,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						final ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 						for (final IMethodInfo itemMethod : actualItemType.getMethods()) {
 							if (itemMethod.getSignature().equals(shortcut.getMethodSignature())) {
-								AbstractListAction action = new AbstractListAction() {
+								AbstractDynamicListAction action = new AbstractDynamicListAction() {
 
 									IFieldInfo itemPositionAsField = new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
 
@@ -985,7 +985,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 				}
 				if ((!methodFound) && shortcut.isAlwaysShown()) {
-					result.add(new AbstractListAction() {
+					result.add(new AbstractDynamicListAction() {
 
 						@Override
 						public boolean isNullReturnValueDistinct() {

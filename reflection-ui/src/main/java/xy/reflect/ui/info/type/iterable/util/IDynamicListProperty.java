@@ -27,7 +27,7 @@ public interface IDynamicListProperty extends IDynamicListFeauture, IFieldInfo {
 
 		@Override
 		public String toString() {
-			return AbstractListProperty.class.getName() + ".NO_OWNER";
+			return AbstractDynamicListProperty.class.getName() + ".NO_OWNER";
 		}
 
 	};

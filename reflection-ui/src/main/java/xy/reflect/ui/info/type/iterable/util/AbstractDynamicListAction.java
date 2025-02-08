@@ -24,7 +24,22 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * @author olitank
  *
  */
-public abstract class AbstractListAction extends AbstractInfo implements IDynamicListAction {
+public abstract class AbstractDynamicListAction extends AbstractInfo implements IDynamicListAction {
+
+	@Override
+	public boolean isEnabled(Object object) {
+		return true;
+	}
+
+	@Override
+	public boolean isNullReturnValueDistinct() {
+		return false;
+	}
+
+	@Override
+	public DisplayMode getDisplayMode() {
+		return DisplayMode.TOOLBAR_AND_CONTEXT_MENU;
+	}
 
 	@Override
 	public List<ItemPosition> getPostSelection() {
@@ -137,7 +152,7 @@ public abstract class AbstractListAction extends AbstractInfo implements IDynami
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		if (!getSignature().equals(((AbstractListAction) obj).getSignature())) {
+		if (!getSignature().equals(((AbstractDynamicListAction) obj).getSignature())) {
 			return false;
 		}
 		return true;

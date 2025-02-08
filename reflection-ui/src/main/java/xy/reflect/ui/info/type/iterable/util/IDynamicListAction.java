@@ -30,7 +30,7 @@ public interface IDynamicListAction extends IDynamicListFeauture, IMethodInfo {
 
 		@Override
 		public String toString() {
-			return AbstractListProperty.class.getName() + ".NO_OWNER";
+			return AbstractDynamicListProperty.class.getName() + ".NO_OWNER";
 		}
 
 	};

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.util;
 
 import java.util.Collections;
@@ -9,6 +7,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -20,7 +19,27 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
  * @author olitank
  *
  */
-public abstract class AbstractListProperty extends AbstractInfo implements IDynamicListProperty {
+public abstract class AbstractDynamicListProperty extends AbstractInfo implements IDynamicListProperty {
+
+	@Override
+	public boolean isNullValueDistinct() {
+		return false;
+	}
+
+	@Override
+	public boolean isTransient() {
+		return false;
+	}
+
+	@Override
+	public ValueReturnMode getValueReturnMode() {
+		return ValueReturnMode.INDETERMINATE;
+	}
+
+	@Override
+	public DisplayMode getDisplayMode() {
+		return DisplayMode.TOOLBAR_AND_CONTEXT_MENU;
+	}
 
 	@Override
 	public List<ItemPosition> getPostSelection() {
@@ -127,7 +146,7 @@ public abstract class AbstractListProperty extends AbstractInfo implements IDyna
 		if (!getClass().equals(obj.getClass())) {
 			return false;
 		}
-		if (!getName().equals(((AbstractListProperty) obj).getName())) {
+		if (!getName().equals(((AbstractDynamicListProperty) obj).getName())) {
 			return false;
 		}
 		return true;
