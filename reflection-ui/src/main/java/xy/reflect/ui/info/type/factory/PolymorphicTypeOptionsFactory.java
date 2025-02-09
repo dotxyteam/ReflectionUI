@@ -50,7 +50,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 				if (polymorphicType.isConcrete()) {
 					result.add(0, detectRecursivity(reflectionUI, polymorphicType));
 				}
-				result.addAll(listDescendantTypes(polymorphicType));
+				result.addAll(listConcreteDescendantTypes(polymorphicType));
 				return result.iterator();
 			}
 
@@ -58,16 +58,14 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	}
 
-	protected static List<ITypeInfo> listDescendantTypes(ITypeInfo polymorphicType) {
+	protected static List<ITypeInfo> listConcreteDescendantTypes(ITypeInfo polymorphicType) {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 		List<ITypeInfo> subTypes = polymorphicType.getPolymorphicInstanceSubTypes();
-		if (subTypes != null) {
-			for (ITypeInfo subType : subTypes) {
-				if (subType.isConcrete()) {
-					result.add(subType);
-				}
-				result.addAll(listDescendantTypes(subType));
+		for (ITypeInfo subType : subTypes) {
+			if (subType.isConcrete()) {
+				result.add(subType);
 			}
+			result.addAll(listConcreteDescendantTypes(subType));
 		}
 		return result;
 	}
@@ -138,11 +136,11 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 						validSubType = type;
 						continue;
 					}
-					if (listDescendantTypes(validSubType).contains(type)) {
+					if (listConcreteDescendantTypes(validSubType).contains(type)) {
 						validSubType = type;
 						continue;
 					}
-					if (listDescendantTypes(type).contains(validSubType)) {
+					if (listConcreteDescendantTypes(type).contains(validSubType)) {
 						continue;
 					}
 					throw new ReflectionUIError(
