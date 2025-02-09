@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.customizer.CustomizationController;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.Wildcard;
 
 public class SelectionTest {
@@ -66,12 +68,24 @@ public class SelectionTest {
 	private Node selectedNode;
 	private String nodeNameFilter;
 
+	private static Predicate<Node> getNodeNameFilterFunction(String nodeNameFilter) {
+		return new Predicate<SelectionTest.Node>() {
+			@Override
+			public boolean test(Node node) {
+				return (nodeNameFilter == null) || (nodeNameFilter.length() == 0)
+						|| Wildcard.match(node.getName(), "*" + nodeNameFilter + "*")
+						|| (node.getChildren().size() > 0);
+			}
+		};
+	}
+
 	public SortedSet<Node> getRootNodes() {
-		return getFilteredNodes(rootNodes, nodeNameFilter);
+		return new TreeSet<SelectionTest.Node>(MiscUtils.getFilteredSet(rootNodes, getNodeNameFilterFunction(nodeNameFilter)));
 	}
 
 	public void setRootNodes(SortedSet<Node> rootNodes) {
-		this.rootNodes = inferNewNonFilteredNodes(this.rootNodes, nodeNameFilter, rootNodes);
+		this.rootNodes = new TreeSet<SelectionTest.Node>(
+				MiscUtils.inferNewNonFilteredSet(this.rootNodes, getNodeNameFilterFunction(nodeNameFilter), rootNodes));
 	}
 
 	public Node getSelectedNode() {
@@ -93,39 +107,6 @@ public class SelectionTest {
 				node.setNodeNameFilter(nodeNameFilter);
 			}
 		}
-	}
-
-	private static SortedSet<Node> getFilteredNodes(Set<Node> nodes, String nodeNameFilter) {
-		if (nodes == null) {
-			return null;
-		}
-		SortedSet<Node> result = new TreeSet<SelectionTest.Node>();
-		for (Node node : nodes) {
-			if ((nodeNameFilter == null) || (nodeNameFilter.length() == 0)
-					|| Wildcard.match(node.getName(), "*" + nodeNameFilter + "*") || (node.getChildren().size() > 0)) {
-				result.add(node);
-			}
-		}
-		return result;
-	}
-
-	private static SortedSet<Node> inferNewNonFilteredNodes(SortedSet<Node> oldNodes, String nodeNameFilter,
-			SortedSet<Node> newFilteredNodes) {
-		if (newFilteredNodes == null) {
-			return null;
-		}
-		SortedSet<Node> oldFilteredNodes = getFilteredNodes(oldNodes, nodeNameFilter);
-		SortedSet<Node> result = new TreeSet<SelectionTest.Node>();
-		if (oldNodes != null) {
-			result.addAll(oldNodes);
-		}
-		SortedSet<Node> addedNodes = new TreeSet<SelectionTest.Node>(newFilteredNodes);
-		addedNodes.removeAll(oldFilteredNodes);
-		result.addAll(addedNodes);
-		SortedSet<Node> removedNodes = new TreeSet<SelectionTest.Node>(oldFilteredNodes);
-		removedNodes.removeAll(newFilteredNodes);
-		result.removeAll(removedNodes);
-		return result;
 	}
 
 	public static class Node implements Comparable<Node> {
@@ -173,11 +154,13 @@ public class SelectionTest {
 		}
 
 		public SortedSet<Node> getChildren() {
-			return getFilteredNodes(children, nodeNameFilter);
+			return new TreeSet<SelectionTest.Node>(
+					MiscUtils.getFilteredSet(children, getNodeNameFilterFunction(nodeNameFilter)));
 		}
 
 		public void setChildren(SortedSet<Node> children) {
-			this.children = inferNewNonFilteredNodes(this.children, nodeNameFilter, children);
+			this.children = new TreeSet<SelectionTest.Node>(
+					MiscUtils.inferNewNonFilteredSet(this.children, getNodeNameFilterFunction(nodeNameFilter), children));
 		}
 
 		public String getNodeNameFilter() {

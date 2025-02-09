@@ -23,9 +23,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +41,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.util.StreamReaderDelegate;
+import javax.xml.transform.stream.StreamSource;
+
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
 import xy.reflect.ui.info.ColorSpecification;
@@ -71,6 +80,7 @@ import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.SystemProperties;
+import xy.reflect.ui.util.Wildcard;
 
 /**
  * This class allows to specify declarative customizations of abstract UI model
@@ -87,14 +97,14 @@ public class InfoCustomizations implements Serializable {
 	public static final Object INITIAL_STATE_FIELD_NAME = "initial";
 
 	public static InfoCustomizations defaultInstance;
-	/**
-	 * Spell error to be fixed: should be "application" not "appplication". The
-	 * customizations files should be migrated automatically.
-	 */
-	protected ApplicationCustomization appplicationCustomization = new ApplicationCustomization();
+
+	protected ApplicationCustomization applicationCustomization = new ApplicationCustomization();
 	protected List<TypeCustomization> typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>();
 	protected List<ListCustomization> listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>();
 	protected List<EnumerationCustomization> enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>();
+	protected String typeCustomizationsFilterPattern;
+	protected String listCustomizationsFilterPattern;
+	protected String enumerationCustomizationsFilterPattern;
 
 	protected transient Migrator migrator = new Migrator();
 
@@ -136,12 +146,12 @@ public class InfoCustomizations implements Serializable {
 	public InfoCustomizations() {
 	}
 
-	public ApplicationCustomization getAppplicationCustomization() {
-		return appplicationCustomization;
+	public ApplicationCustomization getApplicationCustomization() {
+		return applicationCustomization;
 	}
 
-	public void setAppplicationCustomization(ApplicationCustomization appplicationCustomization) {
-		this.appplicationCustomization = appplicationCustomization;
+	public void setApplicationCustomization(ApplicationCustomization applicationCustomization) {
+		this.applicationCustomization = applicationCustomization;
 	}
 
 	public List<TypeCustomization> getTypeCustomizations() {
@@ -168,6 +178,96 @@ public class InfoCustomizations implements Serializable {
 		this.enumerationCustomizations = enumerationCustomizations;
 	}
 
+	@XmlTransient
+	public String getTypeCustomizationsFilterPattern() {
+		return typeCustomizationsFilterPattern;
+	}
+
+	public void setTypeCustomizationsFilterPattern(String typeCustomizationsFilterPattern) {
+		this.typeCustomizationsFilterPattern = typeCustomizationsFilterPattern;
+	}
+
+	@XmlTransient
+	public String getEnumerationCustomizationsFilterPattern() {
+		return enumerationCustomizationsFilterPattern;
+	}
+
+	public void setEnumerationCustomizationsFilterPattern(String enumerationCustomizationsFilterPattern) {
+		this.enumerationCustomizationsFilterPattern = enumerationCustomizationsFilterPattern;
+	}
+
+	@XmlTransient
+	public String getListCustomizationsFilterPattern() {
+		return listCustomizationsFilterPattern;
+	}
+
+	public void setListCustomizationsFilterPattern(String listCustomizationsFilterPattern) {
+		this.listCustomizationsFilterPattern = listCustomizationsFilterPattern;
+	}
+
+	protected Predicate<TypeCustomization> getTypeCustomizationsFilter() {
+		return new Predicate<InfoCustomizations.TypeCustomization>() {
+			@Override
+			public boolean test(TypeCustomization tc) {
+				return (typeCustomizationsFilterPattern == null) || (typeCustomizationsFilterPattern.length() == 0)
+						|| Wildcard.match(tc.getTypeName(), "*" + typeCustomizationsFilterPattern + "*");
+			}
+		};
+	}
+
+	public SortedSet<TypeCustomization> getFilteredTypeCustomizations() {
+		return new TreeSet<InfoCustomizations.TypeCustomization>(MiscUtils
+				.getFilteredSet(new HashSet<TypeCustomization>(typeCustomizations), getTypeCustomizationsFilter()));
+	}
+
+	public void setFilteredTypeCustomizations(SortedSet<TypeCustomization> typeCustomizations) {
+		this.typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>(MiscUtils.inferNewNonFilteredSet(
+				new HashSet<TypeCustomization>(this.typeCustomizations), getTypeCustomizationsFilter(), typeCustomizations));
+	}
+
+	protected Predicate<EnumerationCustomization> getEnumerationCustomizationsFilter() {
+		return new Predicate<InfoCustomizations.EnumerationCustomization>() {
+			@Override
+			public boolean test(EnumerationCustomization ec) {
+				return (enumerationCustomizationsFilterPattern == null)
+						|| (enumerationCustomizationsFilterPattern.length() == 0) || Wildcard
+								.match(ec.getEnumerationTypeName(), "*" + enumerationCustomizationsFilterPattern + "*");
+			}
+		};
+	}
+
+	public SortedSet<EnumerationCustomization> getFilteredEnumerationCustomizations() {
+		return new TreeSet<InfoCustomizations.EnumerationCustomization>(
+				MiscUtils.getFilteredSet(new HashSet<EnumerationCustomization>(enumerationCustomizations),
+						getEnumerationCustomizationsFilter()));
+	}
+
+	public void setFilteredEnumerationCustomizations(SortedSet<EnumerationCustomization> enumerationCustomizations) {
+		this.enumerationCustomizations = new ArrayList<InfoCustomizations.EnumerationCustomization>(
+				MiscUtils.inferNewNonFilteredSet(new HashSet<EnumerationCustomization>(this.enumerationCustomizations),
+						getEnumerationCustomizationsFilter(), enumerationCustomizations));
+	}
+
+	protected Predicate<ListCustomization> getListCustomizationsFilter() {
+		return new Predicate<InfoCustomizations.ListCustomization>() {
+			@Override
+			public boolean test(ListCustomization lc) {
+				return (listCustomizationsFilterPattern == null) || (listCustomizationsFilterPattern.length() == 0)
+						|| Wildcard.match(lc.getListTypeName(), "*" + listCustomizationsFilterPattern + "*");
+			}
+		};
+	}
+
+	public SortedSet<ListCustomization> getFilteredListCustomizations() {
+		return new TreeSet<InfoCustomizations.ListCustomization>(MiscUtils
+				.getFilteredSet(new HashSet<ListCustomization>(listCustomizations), getListCustomizationsFilter()));
+	}
+
+	public void setFilteredListCustomizations(SortedSet<ListCustomization> listCustomizations) {
+		this.listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>(MiscUtils.inferNewNonFilteredSet(
+				new HashSet<ListCustomization>(this.listCustomizations), getListCustomizationsFilter(), listCustomizations));
+	}
+
 	public void loadFromFile(File input, Listener<String> debugLogListener) throws IOException {
 		FileInputStream stream = new FileInputStream(input);
 		try {
@@ -185,11 +285,20 @@ public class InfoCustomizations implements Serializable {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(InfoCustomizations.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			loaded = (InfoCustomizations) jaxbUnmarshaller.unmarshal(input);
+			XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
+			XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(new StreamSource(input));
+			xmlStreamReader = new StreamReaderDelegate(xmlStreamReader) {
+				@Override
+				public String getLocalName() {
+					String localName = super.getLocalName();
+					return migrator.migrateXMLLocalName(localName);
+				}
+			};
+			loaded = (InfoCustomizations) jaxbUnmarshaller.unmarshal(xmlStreamReader);
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
-		appplicationCustomization = loaded.appplicationCustomization;
+		applicationCustomization = loaded.applicationCustomization;
 		typeCustomizations = loaded.typeCustomizations;
 		listCustomizations = loaded.listCustomizations;
 		enumerationCustomizations = loaded.enumerationCustomizations;
@@ -231,8 +340,8 @@ public class InfoCustomizations implements Serializable {
 	@SuppressWarnings("unchecked")
 	public void saveToStream(OutputStream output, Listener<String> debugLogListener) throws IOException {
 		InfoCustomizations toSave = new InfoCustomizations();
-		toSave.appplicationCustomization = (ApplicationCustomization) IOUtils
-				.copyThroughSerialization((Serializable) appplicationCustomization);
+		toSave.applicationCustomization = (ApplicationCustomization) IOUtils
+				.copyThroughSerialization((Serializable) applicationCustomization);
 		toSave.typeCustomizations = (List<TypeCustomization>) IOUtils
 				.copyThroughSerialization((Serializable) typeCustomizations);
 		toSave.listCustomizations = (List<ListCustomization>) IOUtils
@@ -4887,6 +4996,14 @@ public class InfoCustomizations implements Serializable {
 				}
 			}
 			return false;
+		}
+
+		public String migrateXMLLocalName(String localName) {
+			if ("appplicationCustomization".equals(localName)) {
+				return "applicationCustomization";
+			} else {
+				return localName;
+			}
 		}
 
 	}

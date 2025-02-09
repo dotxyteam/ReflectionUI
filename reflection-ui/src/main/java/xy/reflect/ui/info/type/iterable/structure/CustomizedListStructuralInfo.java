@@ -170,6 +170,11 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		if (rootItemType.getName().equals(itemType.getName())) {
 			return true;
 		}
+		for (ITypeInfo rootTypeDescendant : ReflectionUIUtils.listDescendantTypes(rootItemType)) {
+			if (rootTypeDescendant.getName().equals(itemType.getName())) {
+				return true;
+			}
+		}
 		return false;
 	}
 

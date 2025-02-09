@@ -481,7 +481,7 @@ public class ReflectionUIUtils {
 			return false;
 		}
 		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
-		return (polyTypes != null) && (polyTypes.size() > 0);
+		return polyTypes.size() > 0;
 	}
 
 	public static String toString(ReflectionUI reflectionUI, Object object) {
@@ -1305,6 +1305,16 @@ public class ReflectionUIUtils {
 					}
 				}
 			}
+		}
+		return result;
+	}
+	
+	public static List<ITypeInfo> listDescendantTypes(ITypeInfo type) {
+		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+		List<ITypeInfo> subTypes = type.getPolymorphicInstanceSubTypes();
+		for (ITypeInfo subType : subTypes) {
+			result.add(subType);
+			result.addAll(listDescendantTypes(subType));
 		}
 		return result;
 	}

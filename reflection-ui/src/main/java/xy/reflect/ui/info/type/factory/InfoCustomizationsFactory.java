@@ -1269,7 +1269,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	protected Map<String, Object> getSpecificProperties(IApplicationInfo appInfo) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(appInfo));
 		traceActiveCustomizations(result);
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization != null) {
 			if (appCustomization.getSpecificProperties() != null) {
 				if (appCustomization.getSpecificProperties().size() > 0) {
@@ -1499,7 +1499,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getName(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getApplicationName() != null) {
 			return appCustomization.getApplicationName();
 		}
@@ -1508,7 +1508,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getCaption(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getCustomApplicationCaption() != null) {
 			return appCustomization.getCustomApplicationCaption();
 		}
@@ -1517,7 +1517,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getIconImagePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getIconImagePath() != null) {
 			return appCustomization.getIconImagePath();
 		}
@@ -1526,7 +1526,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected String getOnlineHelp(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getOnlineHelp() != null) {
 			return appCustomization.getOnlineHelp();
 		}
@@ -1535,7 +1535,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected boolean isSystemIntegrationCrossPlatform(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.isSystemIntegrationCrossPlatform()) {
 			return true;
 		}
@@ -1544,7 +1544,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainBackgroundColor() != null) {
 			return appCustomization.getMainBackgroundColor();
 		}
@@ -1553,7 +1553,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainForegroundColor() != null) {
 			return appCustomization.getMainForegroundColor();
 		}
@@ -1562,7 +1562,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainBorderColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainBorderColor() != null) {
 			return appCustomization.getMainBorderColor();
 		}
@@ -1571,7 +1571,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainEditorBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainEditorBackgroundColor() != null) {
 			return appCustomization.getMainEditorBackgroundColor();
 		}
@@ -1580,7 +1580,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainEditorForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainEditorForegroundColor() != null) {
 			return appCustomization.getMainEditorForegroundColor();
 		}
@@ -1589,7 +1589,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getMainBackgroundImagePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainBackgroundImagePath() != null) {
 			return appCustomization.getMainBackgroundImagePath();
 		}
@@ -1598,7 +1598,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainButtonBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonBackgroundColor() != null) {
 			return appCustomization.getMainButtonBackgroundColor();
 		}
@@ -1607,7 +1607,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainButtonBorderColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonBorderColor() != null) {
 			return appCustomization.getMainButtonBorderColor();
 		}
@@ -1616,7 +1616,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getMainButtonBackgroundImagePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonBackgroundImagePath() != null) {
 			return appCustomization.getMainButtonBackgroundImagePath();
 		}
@@ -1625,7 +1625,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getButtonCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getButtonCustomFontResourcePath() != null) {
 			return appCustomization.getButtonCustomFontResourcePath();
 		}
@@ -1634,7 +1634,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getLabelCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getLabelCustomFontResourcePath() != null) {
 			return appCustomization.getLabelCustomFontResourcePath();
 		}
@@ -1643,7 +1643,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getEditorCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getEditorCustomFontResourcePath() != null) {
 			return appCustomization.getEditorCustomFontResourcePath();
 		}
@@ -1652,7 +1652,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ResourcePath getTitleCustomFontResourcePath(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getTitleCustomFontResourcePath() != null) {
 			return appCustomization.getTitleCustomFontResourcePath();
 		}
@@ -1661,7 +1661,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getMainButtonForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getMainButtonForegroundColor() != null) {
 			return appCustomization.getMainButtonForegroundColor();
 		}
@@ -1670,7 +1670,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getTitleBackgroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getTitleBackgroundColor() != null) {
 			return appCustomization.getTitleBackgroundColor();
 		}
@@ -1679,7 +1679,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	protected ColorSpecification getTitleForegroundColor(IApplicationInfo appInfo) {
-		ApplicationCustomization appCustomization = this.getInfoCustomizations().getAppplicationCustomization();
+		ApplicationCustomization appCustomization = this.getInfoCustomizations().getApplicationCustomization();
 		if (appCustomization.getTitleForegroundColor() != null) {
 			return appCustomization.getTitleForegroundColor();
 		}

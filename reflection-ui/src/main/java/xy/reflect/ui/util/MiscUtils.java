@@ -25,6 +25,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import com.google.common.cache.Cache;
@@ -347,6 +348,37 @@ public class MiscUtils {
 	public static boolean isHTMLText(String text) {
 		return Pattern.compile("\\s*<[hH][tT][mM][lL]>.*</[hH][tT][mM][lL]>\\s*", Pattern.DOTALL).matcher(text)
 				.matches();
+	}
+
+	public static <T> Set<T> getFilteredSet(Set<T> set, Predicate<T> filter) {
+		if (set == null) {
+			return null;
+		}
+		Set<T> result = new HashSet<T>();
+		for (T node : set) {
+			if (filter.test(node)) {
+				result.add(node);
+			}
+		}
+		return result;
+	}
+
+	public static <T> Set<T> inferNewNonFilteredSet(Set<T> oldSet, Predicate<T> filter, Set<T> newFilteredSet) {
+		if (newFilteredSet == null) {
+			return null;
+		}
+		Set<T> oldFilteredNodes = getFilteredSet(oldSet, filter);
+		Set<T> result = new HashSet<T>();
+		if (oldSet != null) {
+			result.addAll(oldSet);
+		}
+		Set<T> addedNodes = new HashSet<T>(newFilteredSet);
+		addedNodes.removeAll(oldFilteredNodes);
+		result.addAll(addedNodes);
+		Set<T> removedNodes = new HashSet<T>(oldFilteredNodes);
+		removedNodes.removeAll(newFilteredSet);
+		result.removeAll(removedNodes);
+		return result;
 	}
 
 }
