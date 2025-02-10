@@ -1150,9 +1150,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (l.isItemAutomaticPositioningManagementForced()) {
 				return true;
 			}
-			if ((l.getEditOptions() == null) || !l.getEditOptions().isItemMoveEnabled()) {
-				return true;
-			}
 			if (l.isListSorted()) {
 				return true;
 			}

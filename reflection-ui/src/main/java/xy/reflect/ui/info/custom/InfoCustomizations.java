@@ -215,6 +215,7 @@ public class InfoCustomizations implements Serializable {
 		};
 	}
 
+	@XmlTransient
 	public SortedSet<TypeCustomization> getFilteredTypeCustomizations() {
 		return new TreeSet<InfoCustomizations.TypeCustomization>(MiscUtils
 				.getFilteredSet(new HashSet<TypeCustomization>(typeCustomizations), getTypeCustomizationsFilter()));
@@ -236,6 +237,7 @@ public class InfoCustomizations implements Serializable {
 		};
 	}
 
+	@XmlTransient
 	public SortedSet<EnumerationCustomization> getFilteredEnumerationCustomizations() {
 		return new TreeSet<InfoCustomizations.EnumerationCustomization>(
 				MiscUtils.getFilteredSet(new HashSet<EnumerationCustomization>(enumerationCustomizations),
@@ -258,6 +260,7 @@ public class InfoCustomizations implements Serializable {
 		};
 	}
 
+	@XmlTransient
 	public SortedSet<ListCustomization> getFilteredListCustomizations() {
 		return new TreeSet<InfoCustomizations.ListCustomization>(MiscUtils
 				.getFilteredSet(new HashSet<ListCustomization>(listCustomizations), getListCustomizationsFilter()));
