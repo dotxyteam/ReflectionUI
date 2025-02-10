@@ -54,8 +54,6 @@ public abstract class AbstractItemPositionFactory {
 	public ItemPosition getRootItemPosition(int index) {
 		ItemPosition result = createItemPosition();
 		result.factory = this;
-		result.parentItemPosition = null;
-		result.containingListFieldIfNotRoot = null;
 		result.index = index;
 		return result;
 	}

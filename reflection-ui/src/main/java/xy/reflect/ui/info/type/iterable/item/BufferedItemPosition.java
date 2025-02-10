@@ -212,6 +212,7 @@ public class BufferedItemPosition extends ItemPosition {
 			for (BufferedItemPosition itemPosition : MiscUtils.getKeysFromValue(indexByBufferedSubItemPosition,
 					index)) {
 				if (itemPosition != null) {
+					itemPosition.containingListFieldIfNotRoot = getSubListField();
 					return itemPosition;
 				}
 			}
