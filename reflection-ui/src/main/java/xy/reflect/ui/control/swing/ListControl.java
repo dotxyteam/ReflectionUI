@@ -63,7 +63,6 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
-import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
@@ -92,6 +91,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.FieldAlternativeListItemConstructorsInstaller;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
 import xy.reflect.ui.info.type.iterable.item.AbstractBufferedItemPositionFactory;
@@ -1307,7 +1307,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			Object parentItem = parentItemPosition.getItem();
 			IFieldInfo containingListField = itemPosition.getContainingListFieldIfNotRoot();
 			if (containingListField.getAlternativeListItemConstructors(parentItem) != null) {
-				typeToInstantiate = new AbstractFieldControlData.FieldAlternativeListItemConstructorsInstaller(
+				typeToInstantiate = new FieldAlternativeListItemConstructorsInstaller(
 						swingRenderer.getReflectionUI(), parentItem, containingListField)
 								.wrapTypeInfo(typeToInstantiate);
 			}

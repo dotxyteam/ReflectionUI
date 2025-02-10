@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.Collections;
@@ -31,8 +29,7 @@ public interface IFieldInfo extends IInfo {
 	 */
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
-		ITypeInfo type = new DefaultTypeInfo(
-				new JavaTypeInfoSource(ReflectionUI.getDefault(), Object.class, null));
+		ITypeInfo type = new DefaultTypeInfo(new JavaTypeInfoSource(ReflectionUI.getDefault(), Object.class, null));
 
 		@Override
 		public String getName() {
@@ -221,9 +218,8 @@ public interface IFieldInfo extends IInfo {
 	 * @param object The object hosting the field value or null if the field is
 	 *               static.
 	 * @return a list of constructors that must be used (if non-null) to create a
-	 *         new item instead of those returned by the call of
-	 *         {@linkplain ITypeInfo#getConstructors()} on the result of the call of
-	 *         {@link #getType()}.
+	 *         new instance of the field value instead of those returned by the call
+	 *         of {@link #getType()} -> {@linkplain ITypeInfo#getConstructors()}.
 	 */
 	List<IMethodInfo> getAlternativeConstructors(Object object);
 
@@ -233,9 +229,8 @@ public interface IFieldInfo extends IInfo {
 	 * @return a list of constructors that must be used (if non-null) to create a
 	 *         new item when the current field is a list field ({@link #getType()}
 	 *         instanceof {@link IListTypeInfo}) instead of those returned by the
-	 *         call of {@linkplain ITypeInfo#getConstructors()} on the result of the
-	 *         call of {@link IListTypeInfo#getItemType()} on the result of the call
-	 *         of {@link #getType()}.
+	 *         call of {@link #getType()} -> {@link IListTypeInfo#getItemType()} ->
+	 *         {@link ITypeInfo#getConstructors()} .
 	 */
 	List<IMethodInfo> getAlternativeListItemConstructors(Object object);
 

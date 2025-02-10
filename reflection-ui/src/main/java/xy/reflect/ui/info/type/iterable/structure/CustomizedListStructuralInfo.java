@@ -13,6 +13,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListLengthUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -20,6 +21,7 @@ import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.FieldAlternativeListItemConstructorsInstaller;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPositionProxy;
@@ -62,7 +64,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		this.listCustomization = listCustomization;
 		this.reflectionUI = reflectionUI;
 		this.rootItemType = findRootItemType();
-		this.columnFields = collectFields();
+		this.columnFields = collectColumnFields();
 		this.columns = getColumns();
 	}
 
@@ -132,11 +134,11 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	protected List<IFieldInfo> getItemSubListCandidateFields(ItemPosition itemPosition) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-		Object item = itemPosition.getItem();
+		final Object item = itemPosition.getItem();
 		if (item != null) {
 			ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 			List<IFieldInfo> itemFields = actualItemType.getFields();
-			for (IFieldInfo field : itemFields) {
+			for (final IFieldInfo field : itemFields) {
 				boolean excluded = false;
 				for (InfoFilter excludedField : listCustomization.getTreeStructureDiscoverySettings()
 						.getExcludedSubListFields()) {
@@ -152,7 +154,19 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 				if (fieldType instanceof IListTypeInfo) {
 					ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
 					if (isValidSubListItemType(subListItemType)) {
-						result.add(field);
+						final List<IMethodInfo> alternativeListItemConstructors = field
+								.getAlternativeListItemConstructors(item);
+						if (alternativeListItemConstructors != null) {
+							result.add(new FieldInfoProxy(field) {
+								@Override
+								public ITypeInfo getType() {
+									return new FieldAlternativeListItemConstructorsInstaller(reflectionUI, item, field)
+											.wrapTypeInfo(super.getType());
+								}
+							});
+						} else {
+							result.add(field);
+						}
 					}
 				}
 			}
@@ -205,7 +219,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		};
 	}
 
-	protected List<IFieldInfo> collectFields() {
+	protected List<IFieldInfo> collectColumnFields() {
 		if (rootItemType == null) {
 			return Collections.emptyList();
 		}
