@@ -1142,6 +1142,19 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected boolean isMoveAllowed(IListTypeInfo listType) {
+		ITypeInfo itemType = listType.getItemType();
+		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
+				(itemType == null) ? null : itemType.getName());
+		if (l != null) {
+			if ((l.getEditOptions() == null) || !l.getEditOptions().isItemMoveEnabled()) {
+				return false;
+			}
+		}
+		return super.isMoveAllowed(listType);
+	}
+
+	@Override
 	protected boolean areItemsAutomaticallyPositioned(IListTypeInfo listType) {
 		ITypeInfo itemType = listType.getItemType();
 		ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(), listType.getName(),
