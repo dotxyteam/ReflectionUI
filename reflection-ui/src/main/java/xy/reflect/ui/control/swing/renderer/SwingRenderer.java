@@ -597,7 +597,7 @@ public class SwingRenderer {
 	 * Displays a dialog allowing to select a value from a list of items.
 	 * 
 	 * @param parentComponent  A component belonging to the parent window or null.
-	 * @param choices          The array holding the list of selectable items.
+	 * @param options          The array holding the list of selectable items.
 	 * @param initialSelection The initially selected item.
 	 * @param message          A displayed description.
 	 * @param title            The title of the displayed window or null to have the
@@ -605,12 +605,12 @@ public class SwingRenderer {
 	 * @return the selected item or null if the selection was cancelled.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T openSelectionDialog(Component parentComponent, final List<T> choices, T initialSelection,
+	public <T> T openSelectionDialog(Component parentComponent, final List<T> options, T initialSelection,
 			String message, String title) {
-		if (choices.size() == 0) {
+		if (options.size() == 0) {
 			throw new ReflectionUIError();
 		}
-		final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI, choices.toArray(),
+		final GenericEnumerationFactory enumFactory = new GenericEnumerationFactory(reflectionUI, options.toArray(),
 				"SelectionDialogArrayAsEnumeration [title="
 						+ ((title == null) ? null : ReflectionUIUtils.secureNameContent(title)) + "]",
 				"") {
@@ -619,7 +619,7 @@ public class SwingRenderer {
 			Map<Object, Image> iconImages = new HashMap<Object, Image>();
 
 			{
-				for (Object choice : choices) {
+				for (Object choice : options) {
 					captions.put(choice, ReflectionUIUtils.toString(SwingRenderer.this.reflectionUI, choice));
 					iconImages.put(choice, getObjectIconImage(choice));
 				}
