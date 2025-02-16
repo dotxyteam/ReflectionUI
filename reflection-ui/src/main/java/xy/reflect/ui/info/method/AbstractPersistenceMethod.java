@@ -72,6 +72,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 	}
 
 	@Override
+	public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
+		return null;
+	}
+
+	@Override
 	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 	}
 

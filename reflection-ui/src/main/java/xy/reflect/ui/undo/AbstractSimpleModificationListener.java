@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.undo;
 
 /**
@@ -18,6 +16,11 @@ public abstract class AbstractSimpleModificationListener implements IModificatio
 	 * @param modification The modification related to the event.
 	 */
 	protected abstract void handleAnyEvent(IModification modification);
+
+	@Override
+	public void beforeModification() {
+		handleAnyEvent(null);
+	}
 
 	@Override
 	public void afterPush(IModification modification) {

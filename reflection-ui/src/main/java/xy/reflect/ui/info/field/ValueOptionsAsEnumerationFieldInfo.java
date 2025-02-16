@@ -82,6 +82,12 @@ public abstract class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy 
 	}
 
 	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
+		value = enumFactory.getInstanceItem(value);
+		return super.getPreviousUpdateCustomRedoJob(object, value);
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		return enumType;
 	}

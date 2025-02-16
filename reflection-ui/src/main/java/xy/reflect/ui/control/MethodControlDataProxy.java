@@ -110,6 +110,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getNextInvocationUndoJob(invocationData);
 	}
 
+	public Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData) {
+		return base.getPreviousInvocationCustomRedoJob(invocationData);
+	}
+
 	public void validateParameters(InvocationData invocationData) throws Exception {
 		base.validateParameters(invocationData);
 	}

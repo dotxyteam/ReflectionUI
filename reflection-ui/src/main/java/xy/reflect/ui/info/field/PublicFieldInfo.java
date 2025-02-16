@@ -133,6 +133,11 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
+		return null;
+	}
+
+	@Override
 	public Object getValue(Object object) {
 		try {
 			return javaField.get(object);

@@ -234,6 +234,13 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
+		protected Runnable getPreviousUpdateCustomRedoJob(IFieldInfo field, Object object, Object value,
+				ITypeInfo objectType) {
+			return super.getPreviousUpdateCustomRedoJob(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(),
+					value, objectType);
+		}
+
+		@Override
 		protected String toString(ITypeInfo type, Object object) {
 			return super.toString(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
@@ -387,6 +394,15 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 				InvocationData invocationData) {
 			return super.getNextInvocationUndoJob(method, objectType, ReflectionUIUtils.isConstructor(method) ? object
 					: ((PrecomputedTypeInstanceWrapper) object).getInstance(), invocationData);
+		}
+
+		@Override
+		protected Runnable getPreviousInvocationCustomRedoJob(IMethodInfo method, ITypeInfo objectType, Object object,
+				InvocationData invocationData) {
+			return super.getPreviousInvocationCustomRedoJob(method, objectType,
+					ReflectionUIUtils.isConstructor(method) ? object
+							: ((PrecomputedTypeInstanceWrapper) object).getInstance(),
+					invocationData);
 		}
 
 		@Override

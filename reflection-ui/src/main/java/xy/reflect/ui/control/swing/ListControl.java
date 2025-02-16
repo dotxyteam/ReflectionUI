@@ -110,7 +110,6 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.BufferedListModificationFactory;
-import xy.reflect.ui.undo.CompositeModification;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ListModificationFactory;
@@ -1307,9 +1306,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			Object parentItem = parentItemPosition.getItem();
 			IFieldInfo containingListField = itemPosition.getContainingListFieldIfNotRoot();
 			if (containingListField.getAlternativeListItemConstructors(parentItem) != null) {
-				typeToInstantiate = new FieldAlternativeListItemConstructorsInstaller(
-						swingRenderer.getReflectionUI(), parentItem, containingListField)
-								.wrapTypeInfo(typeToInstantiate);
+				typeToInstantiate = new FieldAlternativeListItemConstructorsInstaller(swingRenderer.getReflectionUI(),
+						parentItem, containingListField).wrapTypeInfo(typeToInstantiate);
 			}
 		}
 
@@ -1514,7 +1512,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						Object newItem = detailsControlBuilder.getCurrentValue();
 						IModification preSelection = new SelectItemModification(detailsControlItemPosition, newItem,
 								oldItem, detailsControlBuilder, detailsControl);
-						return new CompositeModification(undoModif.getTitle(), UndoOrder.FIFO, preSelection, undoModif);
+						return detailsControl.getModificationStack().createCompositeModification(undoModif.getTitle(),
+								UndoOrder.FIFO, preSelection, undoModif);
 					}
 				});
 				detailsArea.setLayout(new BorderLayout());
@@ -2054,7 +2053,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public boolean isFake() {
-			return false;
+			return true;
 		}
 
 	}
@@ -2090,6 +2089,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		public boolean isFake() {
+			return true;
+		}
+
+		@Override
 		public String getTitle() {
 			return "Item Selection";
 		}
@@ -2102,6 +2106,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		protected Runnable createUndoJob() {
 			return createAnyJob(undoItem);
+		}
+
+		@Override
+		protected Runnable createRedoJob() {
+			return createAnyJob(doItem);
 		}
 
 		protected Runnable createAnyJob(final Object currentItem) {
@@ -2394,7 +2403,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 											ReflectionUIUtils.collectItemAncestors(bufferedItemPosition)));
 						}
 					});
-			return new CompositeModification(update.getTitle(), UndoOrder.FIFO, update, structureRefreshing);
+			return ListControl.this.getModificationStack().createCompositeModification(update.getTitle(),
+					UndoOrder.FIFO, update, structureRefreshing);
 		}
 
 		@Override

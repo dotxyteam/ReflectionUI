@@ -203,6 +203,13 @@ public class SlaveModificationStack extends ModificationStack {
 		return parentObjectModifStack.getListeners();
 	}
 
+	@Override
+	protected void beforeModification() {
+		super.beforeModification();
+		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
+		parentObjectModifStack.beforeModification();
+	}
+
 	/**
 	 * Allows to access the local listeners of this slave modification stack that
 	 * are normally unused since the parent modification stack listeners are used

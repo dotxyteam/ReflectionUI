@@ -26,6 +26,7 @@ import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
+import xy.reflect.ui.undo.ModificationBatch;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -172,6 +173,7 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public Object invoke(InvocationData invocationData) {
+				ModificationBatch.start();				
 				return ReflectionUIUtils.invokeMethodThroughModificationStack(data, invocationData, modificationStack,
 						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}

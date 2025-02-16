@@ -9,7 +9,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -106,8 +106,12 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public ITransactionInfo getTransaction(Object object) {
+		public ITransaction createTransaction(Object object) {
 			return null;
+		}
+
+		@Override
+		public void beforeModification(Object object) {
 		}
 
 		@Override
@@ -269,7 +273,16 @@ public interface ITypeInfo extends IInfo {
 	 * @param object Any object of the current type.
 	 * @return a transaction manager for the given instance.
 	 */
-	ITransactionInfo getTransaction(Object object);
+	ITransaction createTransaction(Object object);
+
+	/**
+	 * This method is called before the given object or one of its sub-objects is
+	 * modified. Note that this method is called only for objects represented by a
+	 * form.
+	 * 
+	 * @param object Any object of the current type.
+	 */
+	void beforeModification(Object object);
 
 	/**
 	 * @return the source object from which this type information was created.
@@ -553,5 +566,4 @@ public interface ITypeInfo extends IInfo {
 			return MODERN;
 		}
 	}
-
 }

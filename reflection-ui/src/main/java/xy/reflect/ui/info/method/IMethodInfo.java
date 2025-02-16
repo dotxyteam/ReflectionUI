@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.util.Collections;
@@ -139,6 +137,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
+			return null;
+		}
+
+		@Override
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 		}
 
@@ -217,6 +220,15 @@ public interface IMethodInfo extends IInfo {
 	 *         the method execution cannot be reverted.
 	 */
 	Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData);
+
+	/**
+	 * @param object         The object offering this method or null (if the method
+	 *                       is static or is a constructor)
+	 * @param invocationData The parameter values.
+	 * @return a job that can replay the previous invocation of this method or null if
+	 *         the default redo job should be used.
+	 */
+	Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData);
 
 	/**
 	 * Validates the values of the parameters. An exception is thrown if the

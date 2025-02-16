@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.text.DecimalFormat;
@@ -92,6 +90,11 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	@Override
 	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 		return super.getNextInvocationUndoJob(object, buildFinalInvocationData(invocationData));
+	}
+
+	@Override
+	public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
+		return super.getPreviousInvocationCustomRedoJob(object, buildFinalInvocationData(invocationData));
 	}
 
 	@Override

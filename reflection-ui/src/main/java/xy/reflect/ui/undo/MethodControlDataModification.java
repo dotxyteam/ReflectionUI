@@ -1,11 +1,9 @@
 
-
-
 package xy.reflect.ui.undo;
 
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Modification that invokes a method.
@@ -25,21 +23,17 @@ public class MethodControlDataModification extends AbstractModification {
 
 	@Override
 	protected Runnable createDoJob() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				data.invoke(invocationData);
-			}
-		};
+		return ReflectionUIUtils.createInvocationJob(data, invocationData);
 	}
 
 	@Override
 	protected Runnable createUndoJob() {
-		Runnable result = data.getNextInvocationUndoJob(invocationData);
-		if (result == null) {
-			throw new ReflectionUIError();
-		}
-		return result;
+		return data.getNextInvocationUndoJob(invocationData);
+	}
+
+	@Override
+	protected Runnable createRedoJob() {
+		return ReflectionUIUtils.getPreviousInvocationCustomOrDefaultRedoJob(data, invocationData);
 	}
 
 	@Override

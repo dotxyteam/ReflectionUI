@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.List;
@@ -83,6 +81,11 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object newValue) {
 		return getDelegate().getNextUpdateCustomUndoJob(object, newValue);
+	}
+
+	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
+		return getDelegate().getPreviousUpdateCustomRedoJob(object, newValue);
 	}
 
 	public boolean isNullValueDistinct() {

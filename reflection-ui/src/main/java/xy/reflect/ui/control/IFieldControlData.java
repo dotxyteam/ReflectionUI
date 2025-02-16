@@ -70,6 +70,13 @@ public interface IFieldControlData {
 	Runnable getNextUpdateCustomUndoJob(Object newValue);
 
 	/**
+	 * @param newValue The new value.
+	 * @return a job that can replay the previous value update or null if the default
+	 *         redo job should be used.
+	 */
+	Runnable getPreviousUpdateCustomRedoJob(Object newValue);
+
+	/**
 	 * @return the name that the field control must display.
 	 */
 	String getCaption();

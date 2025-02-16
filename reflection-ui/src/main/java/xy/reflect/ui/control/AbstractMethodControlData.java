@@ -181,6 +181,11 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData) {
+		return getMethod().getPreviousInvocationCustomRedoJob(getObject(), invocationData);
+	}
+
+	@Override
 	public void validateParameters(InvocationData invocationData) throws Exception {
 		getMethod().validateParameters(getObject(), invocationData);
 	}

@@ -11,7 +11,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -71,8 +71,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI
-					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
+			type = reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
 		}
 		return type;
 	}
@@ -93,6 +92,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+		return null;
+	}
+
+	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
 		return null;
 	}
 
@@ -319,8 +323,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public ITypeInfoSource getSource() {
-			return new PrecomputedTypeInfoSource(this, new SpecificitiesIdentifier(objectType.getName(),
-					MultipleFieldsAsListFieldInfo.this.getName()));
+			return new PrecomputedTypeInfoSource(this,
+					new SpecificitiesIdentifier(objectType.getName(), MultipleFieldsAsListFieldInfo.this.getName()));
 		}
 
 		@Override
@@ -369,8 +373,12 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public ITransactionInfo getTransaction(Object object) {
+		public ITransaction createTransaction(Object object) {
 			return null;
+		}
+
+		@Override
+		public void beforeModification(Object object) {
 		}
 
 		@Override
@@ -644,8 +652,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 				@Override
 				protected String getTypeInfoProxyFactoryIdentifier() {
 					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", parent="
-							+ MultipleFieldsAsListFieldInfo.this.getName() + ", objectType="
-							+ objectType.getName() + "]";
+							+ MultipleFieldsAsListFieldInfo.this.getName() + ", objectType=" + objectType.getName()
+							+ "]";
 				}
 			});
 		}
@@ -674,6 +682,13 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 			ValueListItem valueListItem = (ValueListItem) object;
 			object = valueListItem.getObject();
 			return super.getNextUpdateCustomUndoJob(object, value);
+		}
+
+		@Override
+		public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
+			ValueListItem valueListItem = (ValueListItem) object;
+			object = valueListItem.getObject();
+			return super.getPreviousUpdateCustomRedoJob(object, value);
 		}
 
 		@Override

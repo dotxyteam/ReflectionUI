@@ -213,11 +213,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaGetterMethod.getReturnType(),
-					javaGetterMethod, -1,
-					new SpecificitiesIdentifier(reflectionUI
-							.getTypeInfo(new JavaTypeInfoSource(reflectionUI, objectJavaClass, null)).getName(),
-							GetterFieldInfo.this.getName())));
+			type = reflectionUI.getTypeInfo(
+					new JavaTypeInfoSource(reflectionUI, javaGetterMethod.getReturnType(), javaGetterMethod, -1,
+							new SpecificitiesIdentifier(reflectionUI
+									.getTypeInfo(new JavaTypeInfoSource(reflectionUI, objectJavaClass, null)).getName(),
+									GetterFieldInfo.this.getName())));
 		}
 		return type;
 	}
@@ -240,6 +240,11 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+		return null;
+	}
+
+	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
 		return null;
 	}
 

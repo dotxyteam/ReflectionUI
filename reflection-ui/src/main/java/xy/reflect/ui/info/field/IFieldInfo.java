@@ -105,6 +105,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
+			return null;
+		}
+
+		@Override
 		public boolean hasValueOptions(Object object) {
 			return false;
 		}
@@ -213,6 +218,15 @@ public interface IFieldInfo extends IInfo {
 	 *         default undo job should be used.
 	 */
 	Runnable getNextUpdateCustomUndoJob(Object object, Object newValue);
+
+	/**
+	 * @param object   The object hosting the field value or null if the field is
+	 *                 static.
+	 * @param newValue The new field value.
+	 * @return a job that can replay the previous field value update or null if the
+	 *         default redo job should be used.
+	 */
+	Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue);
 
 	/**
 	 * @param object The object hosting the field value or null if the field is

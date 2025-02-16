@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -122,8 +122,12 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public ITransactionInfo getTransaction(Object object) {
+		public ITransaction createTransaction(Object object) {
 			return null;
+		}
+
+		@Override
+		public void beforeModification(Object object) {
 		}
 
 		@Override

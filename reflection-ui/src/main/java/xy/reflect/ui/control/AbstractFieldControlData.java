@@ -67,6 +67,11 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object newValue) {
+		return getField().getPreviousUpdateCustomRedoJob(getObject(), newValue);
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		final IFieldInfo field = getField();
 		final Object object = getObject();

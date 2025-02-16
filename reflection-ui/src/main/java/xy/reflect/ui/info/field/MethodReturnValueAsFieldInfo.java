@@ -141,7 +141,12 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-		return method.getNextInvocationUndoJob(object, new InvocationData(object, method));
+		return null;
+	}
+
+	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
+		return null;
 	}
 
 	@Override

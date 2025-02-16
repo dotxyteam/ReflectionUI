@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.undo;
 
 import xy.reflect.ui.control.IFieldControlData;
@@ -60,7 +58,12 @@ public class FieldControlDataModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
-		return ReflectionUIUtils.getNextUpdateUndoJob(data, newValue);
+		return ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(data, newValue);
+	}
+
+	@Override
+	protected Runnable createRedoJob() {
+		return ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(data, newValue);
 	}
 
 	@Override

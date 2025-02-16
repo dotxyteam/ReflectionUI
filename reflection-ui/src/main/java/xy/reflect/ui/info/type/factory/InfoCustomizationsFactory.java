@@ -18,7 +18,7 @@ import java.util.Map;
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -205,6 +205,66 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 		return super.unwrapTypeInfo(type);
+	}
+
+	@Override
+	protected void beforeModification(ITypeInfo objectType, Object object) {
+		ITransaction transaction = createTransaction(objectType, object);
+		if (transaction != null) {
+			transaction.begin();
+			customizedUI.setLastActiveTransaction(object, transaction);
+		}
+	}
+
+	@Override
+	protected Runnable getNextUpdateCustomUndoJob(IFieldInfo field, Object object, Object value, ITypeInfo objectType) {
+		Runnable result = super.getNextUpdateCustomUndoJob(field, object, value, objectType);
+		if (result == null) {
+			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
+			if (transaction != null) {
+				return ReflectionUIUtils.createRollbackJob(transaction);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	protected Runnable getPreviousUpdateCustomRedoJob(IFieldInfo field, Object object, Object value,
+			ITypeInfo objectType) {
+		Runnable result = super.getPreviousUpdateCustomRedoJob(field, object, value, objectType);
+		if (result == null) {
+			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
+			if (transaction != null) {
+				return ReflectionUIUtils.createRollbackJob(transaction);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo objectType, Object object,
+			InvocationData invocationData) {
+		Runnable result = super.getNextInvocationUndoJob(method, objectType, object, invocationData);
+		if (result == null) {
+			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
+			if (transaction != null) {
+				return ReflectionUIUtils.createRollbackJob(transaction);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	protected Runnable getPreviousInvocationCustomRedoJob(IMethodInfo method, ITypeInfo objectType, Object object,
+			InvocationData invocationData) {
+		Runnable result = super.getPreviousInvocationCustomRedoJob(method, objectType, object, invocationData);
+		if (result == null) {
+			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
+			if (transaction != null) {
+				return ReflectionUIUtils.createRollbackJob(transaction);
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -669,6 +729,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										return delegate.getNextUpdateCustomUndoJob(object, value);
 									}
 
+									public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
+										return delegate.getPreviousUpdateCustomRedoJob(object, value);
+									}
+
 									public boolean isNullValueDistinct() {
 										return delegate.isNullValueDistinct();
 									}
@@ -925,6 +989,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									public Runnable getNextInvocationUndoJob(Object object,
 											InvocationData invocationData) {
 										return delegate.getNextInvocationUndoJob(object, invocationData);
+									}
+
+									public Runnable getPreviousInvocationCustomRedoJob(Object object,
+											InvocationData invocationData) {
+										return delegate.getPreviousInvocationCustomRedoJob(object, invocationData);
 									}
 
 									public boolean isNullReturnValueDistinct() {
@@ -1789,7 +1858,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected ITransactionInfo getTransaction(ITypeInfo type, final Object object) {
+	protected ITransaction createTransaction(ITypeInfo type, final Object object) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
 			final Map<TransactionalRole, List<IMethodInfo>> transactionMethodsByRole = new HashMap<InfoCustomizations.TransactionalRole, List<IMethodInfo>>();
@@ -1811,7 +1880,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if ((transactionMethodsByRole.get(TransactionalRole.BEGIN).size() > 0)
 					|| (transactionMethodsByRole.get(TransactionalRole.COMMIT).size() > 0)
 					|| (transactionMethodsByRole.get(TransactionalRole.ROLLBACK).size() > 0)) {
-				return new ITransactionInfo() {
+				return new ITransaction() {
 
 					@Override
 					public void rollback() {
@@ -1836,7 +1905,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				};
 			}
 		}
-		return super.getTransaction(type, object);
+		return super.createTransaction(type, object);
 	}
 
 	@Override
@@ -1964,7 +2033,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected IFieldInfo getImportedField(ImportedFieldDeclaration importedFieldDeclaration) {
 			try {
 				ITypeInfo sourceType = importedFieldDeclaration.getSourceTypeFinder().find(customizedUI, null);
-				return new ImportedFieldInfo(sourceType, importedFieldDeclaration.getSourceFieldName(), importedFieldDeclaration.getTargetFieldName());
+				return new ImportedFieldInfo(sourceType, importedFieldDeclaration.getSourceFieldName(),
+						importedFieldDeclaration.getTargetFieldName());
 			} catch (Throwable t) {
 				throw new ReflectionUIError(
 						"Type '" + objectType.getName() + "': Failed to import field: " + t.toString(), t);
@@ -3175,6 +3245,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									new InvocationData(object, customSetter, value));
 						}
 
+						@Override
+						public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
+							IMethodInfo customSetter = getCustomSetter();
+							return customSetter.getPreviousInvocationCustomRedoJob(object,
+									new InvocationData(object, customSetter, value));
+						}
 					};
 				}
 				return field;

@@ -51,6 +51,10 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.getNextUpdateCustomUndoJob(newValue);
 	}
 
+	public Runnable getPreviousUpdateCustomRedoJob(Object newValue) {
+		return base.getPreviousUpdateCustomRedoJob(newValue);
+	}
+
 	public boolean isGetOnly() {
 		return base.isGetOnly();
 	}

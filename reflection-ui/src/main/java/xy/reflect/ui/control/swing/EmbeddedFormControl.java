@@ -85,6 +85,10 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			ModificationStack childModifStack = subForm.getModificationStack();
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
+				public void beforeModification() {
+				}
+
+				@Override
 				protected void handleAnyEvent(IModification modification) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
@@ -139,14 +143,15 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					swingRenderer.handleObjectException(EmbeddedFormControl.this, t);
 				}
 			};
-			SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(), childModifAcceptedGetter,
-					childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionExecutedGetter,
-					committingModifGetter, childModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
-					exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
+			SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(),
+					childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
+					childValueTransactionExecutedGetter, committingModifGetter, childModifTitleGetter,
+					masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
+					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
 					masterModificationExceptionListener);
-			if(subForm.getModificationStack() != null) {
-				for(IModificationListener listener:  subForm.getModificationStack().getListeners()) {
+			if (subForm.getModificationStack() != null) {
+				for (IModificationListener listener : subForm.getModificationStack().getListeners()) {
 					slaveModficationStack.addSlaveListener(listener);
 				}
 			}

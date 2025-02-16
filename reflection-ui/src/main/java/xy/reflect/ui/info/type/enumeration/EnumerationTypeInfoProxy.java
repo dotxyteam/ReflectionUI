@@ -7,7 +7,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -46,8 +46,12 @@ public class EnumerationTypeInfoProxy extends AbstractInfoProxy implements IEnum
 		return base.getSpecificProperties();
 	}
 
-	public ITransactionInfo getTransaction(Object object) {
-		return base.getTransaction(object);
+	public ITransaction createTransaction(Object object) {
+		return base.createTransaction(object);
+	}
+
+	public void beforeModification(Object object) {
+		base.beforeModification(object);
 	}
 
 	public ITypeInfoSource getSource() {

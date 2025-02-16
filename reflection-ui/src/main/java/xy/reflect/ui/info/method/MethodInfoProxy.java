@@ -112,6 +112,10 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.getNextInvocationUndoJob(object, invocationData);
 	}
 
+	public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
+		return base.getPreviousInvocationCustomRedoJob(object, invocationData);
+	}
+
 	@Override
 	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 		base.validateParameters(object, invocationData);

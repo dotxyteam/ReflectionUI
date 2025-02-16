@@ -17,7 +17,7 @@ import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -38,7 +38,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	protected ModificationStack createdFormModificationStack;
 	protected EditorFrame createdFrame;
 	protected RenderedDialog createdDialog;
-	protected ITransactionInfo currentValueTransaction;
+	protected ITransaction currentValueTransaction;
 
 	/**
 	 * @return the owner component of the editor window or null.
@@ -322,7 +322,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 			if (value != null) {
 				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 				ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(value));
-				currentValueTransaction = valueType.getTransaction(value);
+				currentValueTransaction = valueType.createTransaction(value);
 			}
 		}
 		if (currentValueTransaction != null) {

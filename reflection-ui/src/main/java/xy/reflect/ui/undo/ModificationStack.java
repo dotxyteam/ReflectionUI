@@ -2,6 +2,7 @@
 package xy.reflect.ui.undo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -42,6 +43,10 @@ public class ModificationStack {
 	protected IModificationListener internalListener = new IModificationListener() {
 
 		@Override
+		public void beforeModification() {
+		}
+
+		@Override
 		public void afterUndo(IModification undoModification) {
 			stateVersion--;
 		}
@@ -67,6 +72,18 @@ public class ModificationStack {
 
 	};
 	protected IModificationListener allListenersProxy = new IModificationListener() {
+
+		@Override
+		public void beforeModification() {
+			internalListener.beforeModification();
+			if (!eventFiringEnabled) {
+				return;
+			}
+			for (IModificationListener listener : new ArrayList<IModificationListener>(
+					ModificationStack.this.listeners)) {
+				listener.beforeModification();
+			}
+		}
 
 		@Override
 		public void afterPush(IModification undoModification) {
@@ -247,25 +264,6 @@ public class ModificationStack {
 	}
 
 	/**
-	 * Executes the specified modification and pushes its opposite modification on
-	 * the undo stack (calls {@link #push(IModification)}).
-	 * 
-	 * @param modification The modification that must be executed.
-	 */
-	public void apply(IModification modification) {
-		IModification undoModification;
-		try {
-			undoModification = modification.applyAndGetOpposite();
-		} catch (IrreversibleModificationException e) {
-			invalidate();
-			return;
-		} catch (CancelledModificationException e) {
-			return;
-		}
-		push(undoModification);
-	}
-
-	/**
 	 * Normally stores the specified undo modification on the undo stack and clears
 	 * redo stack.
 	 * 
@@ -316,6 +314,100 @@ public class ModificationStack {
 		return true;
 	}
 
+	protected IModification applySafelyAndGetOpposite(IModification modification) {
+		if (ModificationBatch.getCurrent() != null) {
+			if (!modification.isFake()) {
+				if (ModificationBatch.getCurrent().size() == 0) {
+					if (!(modification instanceof ModificationStackShitf)
+							&& !(modification instanceof CompositeModification)) {
+						beforeModification();
+					}
+				}
+			}
+		}
+		try {
+			return modification.applyAndGetOpposite();
+		} catch (IrreversibleModificationException e) {
+			invalidate();
+			return null;
+		} catch (CancelledModificationException e) {
+			return null;
+		} finally {
+			if (ModificationBatch.getCurrent() != null) {
+				if (!modification.isFake()) {
+					ModificationBatch.getCurrent().add(modification);
+				}
+			}
+		}
+	}
+
+	protected void beforeModification() {
+		allListenersProxy.beforeModification();
+	}
+
+	/**
+	 * Executes the specified modification and pushes its opposite modification on
+	 * the undo stack (calls {@link #push(IModification)}).
+	 * 
+	 * @param modification The modification that must be executed.
+	 */
+	public void apply(IModification modification) {
+		if (modification instanceof CompositeModification) {
+			if (((CompositeModification) modification).getModificationStack() != this) {
+				throw new ReflectionUIError();
+			}
+		}
+		IModification undoModification = applySafelyAndGetOpposite(modification);
+		if (undoModification == null) {
+			return;
+		}
+		push(undoModification);
+	}
+
+	/**
+	 * Executes the next undo modification (modification on the top of the undo
+	 * stack) if found.
+	 * 
+	 * @throws ReflectionUIError If a composite modification is being created.
+	 */
+	public void undo() {
+		if (isInComposite()) {
+			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
+		}
+		if (undoStack.size() == 0) {
+			return;
+		}
+		IModification undoModif = undoStack.pop();
+		IModification redoModif = applySafelyAndGetOpposite(undoModif);
+		if (redoModif == null) {
+			return;
+		}
+		redoStack.push(redoModif);
+		allListenersProxy.afterUndo(undoModif);
+	}
+
+	/**
+	 * Executes the next redo modification (modification on the top of the redo
+	 * stack) if found.
+	 * 
+	 * @throws ReflectionUIError If a composite modification is being created.
+	 */
+	public void redo() {
+		if (isInComposite()) {
+			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
+		}
+		if (redoStack.size() == 0) {
+			return;
+		}
+		IModification redoModif = redoStack.pop();
+		IModification undoModif = applySafelyAndGetOpposite(redoModif);
+		if (undoModif == null) {
+			return;
+		}
+		undoStack.push(undoModif);
+		allListenersProxy.afterRedo(redoModif);
+	}
+
 	/**
 	 * @return the next modification that will be executed when calling
 	 *         {@link ModificationStack#undo()}.
@@ -342,60 +434,6 @@ public class ModificationStack {
 			return null;
 		}
 		return redoStack.peek();
-	}
-
-	/**
-	 * Executes the next undo modification (modification on the top of the undo
-	 * stack) if found.
-	 * 
-	 * @throws ReflectionUIError If a composite modification is being created.
-	 */
-	public void undo() {
-		if (isInComposite()) {
-			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
-		}
-		if (undoStack.size() == 0) {
-			return;
-		}
-		IModification undoModif = undoStack.pop();
-		IModification redoModif;
-		try {
-			redoModif = undoModif.applyAndGetOpposite();
-		} catch (IrreversibleModificationException e) {
-			invalidate();
-			return;
-		} catch (CancelledModificationException e) {
-			return;
-		}
-		redoStack.push(redoModif);
-		allListenersProxy.afterUndo(undoModif);
-	}
-
-	/**
-	 * Executes the next redo modification (modification on the top of the redo
-	 * stack) if found.
-	 * 
-	 * @throws ReflectionUIError If a composite modification is being created.
-	 */
-	public void redo() {
-		if (isInComposite()) {
-			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
-		}
-		if (redoStack.size() == 0) {
-			return;
-		}
-		IModification redoModif = redoStack.pop();
-		IModification undoModif;
-		try {
-			undoModif = redoModif.applyAndGetOpposite();
-		} catch (IrreversibleModificationException e) {
-			invalidate();
-			return;
-		} catch (CancelledModificationException e) {
-			return;
-		}
-		undoStack.push(undoModif);
-		allListenersProxy.afterRedo(redoModif);
 	}
 
 	/**
@@ -662,13 +700,17 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @param title The title of the new composite modification.
-	 * @return a composite modification containing the current undo modification
-	 *         stack elements.
+	 * @return the current undo modification stack elements.
 	 */
-	public CompositeModification toCompositeUndoModification(String title) {
-		return new CompositeModification(title, UndoOrder.getNormal(),
-				undoStack.toArray(new IModification[undoStack.size()]));
+	public IModification[] getUndoModifications() {
+		return undoStack.toArray(new IModification[undoStack.size()]);
+	}
+
+	/**
+	 * @return the current redo modification stack elements.
+	 */
+	public IModification[] getRedoModifications() {
+		return redoStack.toArray(new IModification[redoStack.size()]);
 	}
 
 	/**
@@ -681,9 +723,170 @@ public class ModificationStack {
 		return stateVersion;
 	}
 
+	/**
+	 * @param title         The title of the modification.
+	 * @param undoOrder     The undo order.
+	 * @param modifications The sub-modifications.
+	 * @return A modification composed of sub-modifications that are applied in the
+	 *         specified order.
+	 */
+	public IModification createCompositeModification(String title, UndoOrder undoOrder,
+			IModification... modifications) {
+		return new CompositeModification(title, undoOrder, modifications);
+	}
+
 	@Override
 	public String toString() {
 		return ModificationStack.class.getSimpleName() + "[" + name + "]";
+	}
+
+	protected class CompositeModification implements IModification {
+
+		protected IModification[] modifications;
+		protected String title;
+		protected UndoOrder undoOrder;
+
+		public CompositeModification(String title, UndoOrder undoOrder, IModification... modifications) {
+			this.title = title;
+			this.undoOrder = undoOrder;
+			this.modifications = modifications;
+		}
+
+		public CompositeModification(String title, UndoOrder undoOrder, List<IModification> modifications) {
+			this(title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
+		}
+
+		public ModificationStack getModificationStack() {
+			return ModificationStack.this;
+		}
+
+		@Override
+		public boolean isNull() {
+			for (IModification modif : modifications) {
+				if (!modif.isNull()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@Override
+		public boolean isFake() {
+			if (modifications.length == 0) {
+				return false;
+			}
+			for (IModification modif : modifications) {
+				if (!modif.isFake()) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@Override
+		public IModification applyAndGetOpposite() {
+			List<IModification> oppositeModifications = new ArrayList<IModification>();
+			for (IModification modif : modifications) {
+				IModification undoModif = applySafelyAndGetOpposite(modif);
+				if (undoModif == null) {
+					return null;
+				}
+				if (undoOrder == UndoOrder.getNormal()) {
+					oppositeModifications.add(0, undoModif);
+				} else if (undoOrder == UndoOrder.getAbnormal()) {
+					oppositeModifications.add(undoModif);
+				} else {
+					throw new ReflectionUIError();
+				}
+			}
+			return new CompositeModification(AbstractModification.getUndoTitle(title), undoOrder,
+					oppositeModifications);
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		@Override
+		public String getTitle() {
+			if (title != null) {
+				return title;
+			} else {
+				List<String> result = new ArrayList<String>();
+				for (IModification modif : modifications) {
+					String modifTitle = modif.getTitle();
+					if (modifTitle == null) {
+						return null;
+					}
+					result.add(modifTitle);
+				}
+				if (result.size() == 0) {
+					return null;
+				} else if (result.size() == 1) {
+					return result.get(0);
+				} else {
+					if (result.get(0).endsWith(", ...")) {
+						return result.get(0);
+					} else {
+						return result.get(0) + ", ...";
+					}
+				}
+			}
+		}
+
+		public IModification[] getModifications() {
+			return modifications;
+		}
+
+		public void setModifications(IModification[] modifications) {
+			this.modifications = modifications;
+		}
+
+		public UndoOrder getUndoOrder() {
+			return undoOrder;
+		}
+
+		public void setUndoOrder(UndoOrder undoOrder) {
+			this.undoOrder = undoOrder;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + Arrays.hashCode(modifications);
+			result = prime * result + ((title == null) ? 0 : title.hashCode());
+			result = prime * result + ((undoOrder == null) ? 0 : undoOrder.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CompositeModification other = (CompositeModification) obj;
+			if (!Arrays.equals(modifications, other.modifications))
+				return false;
+			if (title == null) {
+				if (other.title != null)
+					return false;
+			} else if (!title.equals(other.title))
+				return false;
+			if (undoOrder != other.undoOrder)
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "CompositeModification [title=" + title + ", undoOrder=" + undoOrder + ", modifications="
+					+ Arrays.toString(modifications) + "]";
+		}
+
 	}
 
 }

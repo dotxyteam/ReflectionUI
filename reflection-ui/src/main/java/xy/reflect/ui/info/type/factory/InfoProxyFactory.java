@@ -11,7 +11,7 @@ import java.util.Map;
 
 import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -584,6 +584,22 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
+	 * @param field      The field information.
+	 * @param object     Parameter of
+	 *                   {@link IFieldInfo#getPreviousUpdateCustomRedoJob(Object, Object)}.
+	 * @param value      Parameter of
+	 *                   {@link IFieldInfo#getPreviousUpdateCustomRedoJob(Object, Object)}.
+	 * @param objectType The parent type information.
+	 * @return the result of
+	 *         {@link IFieldInfo#getPreviousUpdateCustomRedoJob(Object, Object)}
+	 *         unless overridden.
+	 */
+	protected Runnable getPreviousUpdateCustomRedoJob(IFieldInfo field, Object object, Object value,
+			ITypeInfo objectType) {
+		return field.getPreviousUpdateCustomRedoJob(object, value);
+	}
+
+	/**
 	 * @param type   The type information.
 	 * @param object Parameter of {@link ITypeInfo#toString(Object)}.
 	 * @return the result of {@link ITypeInfo#toString(Object)} unless overridden.
@@ -613,7 +629,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	/**
 	 * @param type   The type information.
 	 * @param object Parameter of {@link ITypeInfo#getIconImagePath(Object)}.
-	 * @return the result of {@link ITypeInfo#getIconImagePath(Object)} unless overridden.
+	 * @return the result of {@link ITypeInfo#getIconImagePath(Object)} unless
+	 *         overridden.
 	 */
 	protected ResourcePath getIconImagePath(ITypeInfo type, Object object) {
 		return type.getIconImagePath(object);
@@ -1480,12 +1497,22 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type   The type information.
-	 * @param object Parameter of {@link ITypeInfo#getTransaction(Object)}.
-	 * @return the result of {@link ITypeInfo#getTransaction(Object)} unless
+	 * @param object Parameter of {@link ITypeInfo#createTransaction(Object)}.
+	 * @return the result of {@link ITypeInfo#createTransaction(Object)} unless
 	 *         overridden.
 	 */
-	protected ITransactionInfo getTransaction(ITypeInfo type, Object object) {
-		return type.getTransaction(object);
+	protected ITransaction createTransaction(ITypeInfo type, Object object) {
+		return type.createTransaction(object);
+	}
+
+	/**
+	 * Executes {@link ITypeInfo#beforeModification(Object)} unless overridden.
+	 * 
+	 * @param type   The type information.
+	 * @param object Parameter of {@link ITypeInfo#beforeModification(Object)}.
+	 */
+	protected void beforeModification(ITypeInfo type, Object object) {
+		type.beforeModification(object);
 	}
 
 	/**
@@ -1811,6 +1838,22 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
+	 * @param method         The method information.
+	 * @param objectType     The parent type information.
+	 * @param object         Parameter of
+	 *                       {@link IMethodInfo#getPreviousInvocationCustomRedoJob(Object, InvocationData)}.
+	 * @param invocationData Parameter of
+	 *                       {@link IMethodInfo#getPreviousInvocationCustomRedoJob(Object, InvocationData)}.
+	 * @return the result of
+	 *         {@link IMethodInfo#getPreviousInvocationCustomRedoJob(Object, InvocationData)}
+	 *         unless overridden.
+	 */
+	protected Runnable getPreviousInvocationCustomRedoJob(IMethodInfo method, ITypeInfo objectType, Object object,
+			InvocationData invocationData) {
+		return method.getPreviousInvocationCustomRedoJob(object, invocationData);
+	}
+
+	/**
 	 * @param type   The type information.
 	 * @param object Parameter of {@link IEnumerationTypeInfo#getValueInfo(Object)}.
 	 * @return the result of {@link IEnumerationTypeInfo#getValueInfo(Object)}
@@ -2118,8 +2161,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public ITransactionInfo getTransaction(Object object) {
-			return InfoProxyFactory.this.getTransaction(base, object);
+		public ITransaction createTransaction(Object object) {
+			return InfoProxyFactory.this.createTransaction(base, object);
+		}
+
+		@Override
+		public void beforeModification(Object object) {
+			InfoProxyFactory.this.beforeModification(base, object);
 		}
 
 		@Override
@@ -2654,6 +2702,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
+			return InfoProxyFactory.this.getPreviousUpdateCustomRedoJob(base, object, value, objectType);
+		}
+
+		@Override
 		public boolean isGetOnly() {
 			return InfoProxyFactory.this.isGetOnly(base, objectType);
 		}
@@ -2911,6 +2964,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 			return InfoProxyFactory.this.getNextInvocationUndoJob(base, objectType, object, invocationData);
+		}
+
+		@Override
+		public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
+			return InfoProxyFactory.this.getPreviousInvocationCustomRedoJob(base, objectType, object, invocationData);
 		}
 
 		@Override

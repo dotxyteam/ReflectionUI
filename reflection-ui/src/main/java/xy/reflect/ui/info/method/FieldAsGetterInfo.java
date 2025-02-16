@@ -136,6 +136,11 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
+		return null;
+	}
+
+	@Override
 	public ITypeInfo getReturnValueType() {
 		if (returnValueType == null) {
 			returnValueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {

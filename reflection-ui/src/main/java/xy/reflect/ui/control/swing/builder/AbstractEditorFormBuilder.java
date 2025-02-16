@@ -427,7 +427,7 @@ public abstract class AbstractEditorFormBuilder {
 				ITypeInfo newValueType = (newValue == null) ? null
 						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
 				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
-					editorForm.setObject(getCapsule());					
+					editorForm.setObject(getCapsule());
 				}
 			}
 		}
@@ -487,6 +487,10 @@ public abstract class AbstractEditorFormBuilder {
 	protected void refreshEditorFormOnModification(final Form editorForm) {
 		ModificationStack childModificationStack = editorForm.getModificationStack();
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
+			@Override
+			public void beforeModification() {
+			}
+
 			@Override
 			protected void handleAnyEvent(IModification modification) {
 				refreshEditorForm(editorForm, false);
@@ -570,14 +574,15 @@ public abstract class AbstractEditorFormBuilder {
 				handleRealtimeLinkCommitException(t);
 			}
 		};
-		SlaveModificationStack slaveModificationStack = new SlaveModificationStack(editorForm.toString(), childModifAcceptedGetter,
-				childValueReturnModeGetter, childValueReplacedGetter, childValueTransactionExecutedGetter,
-				committingModifGetter, masterModifTitleGetter, masterModifStackGetter, masterModifFakeGetter,
-				exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
+		SlaveModificationStack slaveModificationStack = new SlaveModificationStack(editorForm.toString(),
+				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
+				childValueTransactionExecutedGetter, committingModifGetter, masterModifTitleGetter,
+				masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
+				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener);
-		if(editorForm.getModificationStack() != null) {
-			for(IModificationListener listener:  editorForm.getModificationStack().getListeners()) {
+		if (editorForm.getModificationStack() != null) {
+			for (IModificationListener listener : editorForm.getModificationStack().getListeners()) {
 				slaveModificationStack.addSlaveListener(listener);
 			}
 		}

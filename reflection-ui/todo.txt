@@ -1,3 +1,29 @@
+- ListControl must call ModoficationBatch.start()
+- remove ModificationStack.exhaustive
+- reflectionUI is used one time too many in
+reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, X.class, null))
+- add IFieldInfo.getNextUpdateCustomRedoJob(newValue)
+- add IMethodInfo.getInvocationCustomRedoJob(invocationData)
+- The implemented undo management works undo jobs that cancel previous actions,
+not with undo jobs that restore previous states. Typically sub-modifications
+have commit actions that are executed after sub-actions even in undo mode.
+This FIFO undo order works well when cancelling actions but introduces
+incoherence when restoring states. 
+Also state restoration tend to invalidate undo/redo modifications
+that would hold references to detached objects since the restoration creates
+new object copies. Yet state backup/restoration should be usable to implement
+probably more easily the undo management when possible. One solution would be
+to use transactions: by default undo/redo modifications would be created using 
+transactions when they are available. Child dialogs would start and end 
+transactions (note that currently dialogs can start and end transactions 
+but on the current object, not on the parent object, this may need to be
+changed). One problem with this solution is that undo/redo will work well
+with the transactioned object but not with its embedded sub-objects, since
+sub-modifications always end with a commit in normal mode and with the
+opposite commit in undo mode. This is not compatible with transactions.
+Transactions should always be started before each modification, not before
+the commit following each modification. But where to start them in case of
+sub-modifications performed from embedded forms ?   
 - IFieldInfo.alternativeListItemContructors should be taken into account
 in ItemPosition.getSubListField() method used by all tree controls, not 
 in only some IListStructuralInfo.getSubListField(ItemPosition) method implementations

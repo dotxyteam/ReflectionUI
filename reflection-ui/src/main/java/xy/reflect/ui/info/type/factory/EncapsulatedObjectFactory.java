@@ -12,7 +12,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -418,8 +418,12 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public ITransactionInfo getTransaction(Object object) {
+		public ITransaction createTransaction(Object object) {
 			return null;
+		}
+
+		@Override
+		public void beforeModification(Object object) {
 		}
 
 		@Override
@@ -864,8 +868,8 @@ public class EncapsulatedObjectFactory {
 
 					@Override
 					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
-								+ typeName + "]";
+						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType=" + typeName
+								+ "]";
 					}
 				});
 			}
@@ -899,6 +903,11 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
+			return null;
+		}
+
+		@Override
+		public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
 			return null;
 		}
 

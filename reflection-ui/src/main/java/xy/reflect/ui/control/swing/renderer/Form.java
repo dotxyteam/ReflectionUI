@@ -110,6 +110,7 @@ public class Form extends ImagePanel {
 
 	protected Container categoriesControl;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
+	protected IModificationListener beforeModificationNotificationListener = createBeforeModificationNotificationListener();
 	protected boolean visibilityEventsDisabled = false;
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
 	protected JLabel statusBar;
@@ -409,8 +410,11 @@ public class Form extends ImagePanel {
 
 	protected void formShown() {
 		swingRenderer.getAllDisplayedForms().add(this);
-		if (!isModificationStackSlave()) {
+		if (isModificationStackSlave()) {
+			((SlaveModificationStack) modificationStack).addSlaveListener(beforeModificationNotificationListener);
+		} else {
 			modificationStack.addListener(fieldsUpdateListener);
+			modificationStack.addListener(beforeModificationNotificationListener);
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -432,8 +436,11 @@ public class Form extends ImagePanel {
 	}
 
 	protected void formHidden() {
-		if (!isModificationStackSlave()) {
+		if (isModificationStackSlave()) {
+			((SlaveModificationStack) modificationStack).removeSlaveListener(beforeModificationNotificationListener);
+		} else {
 			modificationStack.removeListener(fieldsUpdateListener);
+			modificationStack.removeListener(beforeModificationNotificationListener);
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
@@ -472,6 +479,24 @@ public class Form extends ImagePanel {
 					return;
 				}
 				onFieldsUpdate();
+			}
+
+			@Override
+			public void beforeModification() {
+				objectType.beforeModification(object);
+			}
+		};
+	}
+
+	protected IModificationListener createBeforeModificationNotificationListener() {
+		return new AbstractSimpleModificationListener() {
+			@Override
+			protected void handleAnyEvent(IModification modification) {
+			}
+
+			@Override
+			public void beforeModification() {
+				objectType.beforeModification(object);
 			}
 		};
 	}

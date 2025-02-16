@@ -25,6 +25,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.info.IInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -606,8 +607,9 @@ public class ReflectionUIUtils {
 										}
 										parentModificationStack.invalidate();
 									} else {
-										parentModificationStack
-												.push(currentModificationsStack.toCompositeUndoModification(null));
+										parentModificationStack.push(parentModificationStack
+												.createCompositeModification(null, UndoOrder.getNormal(),
+														currentModificationsStack.getUndoModifications()));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
@@ -913,7 +915,7 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Runnable getNextUpdateUndoJob(final IFieldControlData data, Object newValue) {
+	public static Runnable getNextUpdateCustomOrDefaultUndoJob(final IFieldControlData data, Object newValue) {
 		Runnable result = data.getNextUpdateCustomUndoJob(newValue);
 		if (result == null) {
 			result = createNextUpdateDefaultUndoJob(data);
@@ -921,7 +923,7 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
-	public static Runnable getNextUpdateUndoJob(Object object, IFieldInfo field, Object newValue) {
+	public static Runnable getNextUpdateCustomOrDefaultUndoJob(Object object, IFieldInfo field, Object newValue) {
 		Runnable result = field.getNextUpdateCustomUndoJob(object, newValue);
 		if (result == null) {
 			result = createNextUpdateDefaultUndoJob(object, field);
@@ -945,6 +947,89 @@ public class ReflectionUIUtils {
 			@Override
 			public void run() {
 				field.setValue(object, oldValue);
+			}
+		};
+	}
+
+	public static Runnable getPreviousUpdateCustomOrDefaultRedoJob(final IFieldControlData data, Object newValue) {
+		Runnable result = data.getPreviousUpdateCustomRedoJob(newValue);
+		if (result == null) {
+			result = createUpdateJob(data, newValue);
+		}
+		return result;
+	}
+
+	public static Runnable getPreviousUpdateCustomOrDefaultRedoJob(Object object, IFieldInfo field, Object newValue) {
+		Runnable result = field.getPreviousUpdateCustomRedoJob(object, newValue);
+		if (result == null) {
+			result = createUpdateJob(object, field, newValue);
+		}
+		return result;
+	}
+
+	public static Runnable createUpdateJob(final IFieldControlData data, final Object newValue) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				data.setValue(newValue);
+			}
+		};
+	}
+
+	public static Runnable createUpdateJob(final Object object, final IFieldInfo field, final Object newValue) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				field.setValue(object, newValue);
+			}
+		};
+	}
+
+	public static Runnable getPreviousInvocationCustomOrDefaultRedoJob(final IMethodControlData data,
+			InvocationData invocationData) {
+		Runnable result = data.getPreviousInvocationCustomRedoJob(invocationData);
+		if (result == null) {
+			result = createInvocationJob(data, invocationData);
+		}
+		return result;
+	}
+
+	public static Runnable getPreviousInvocationCustomOrDefaultRedoJob(final Object object, final IMethodInfo method,
+			InvocationData invocationData) {
+		Runnable result = method.getPreviousInvocationCustomRedoJob(object, invocationData);
+		if (result == null) {
+			result = createInvocationJob(object, method, invocationData);
+		}
+		return result;
+	}
+
+	public static Runnable createInvocationJob(final IMethodControlData data, final InvocationData invocationData) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				data.invoke(invocationData);
+			}
+		};
+	}
+
+	public static Runnable createInvocationJob(final Object object, final IMethodInfo method,
+			final InvocationData invocationData) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				method.invoke(object, invocationData);
+			}
+		};
+	}
+
+	public static Runnable createRollbackJob(ITransaction transaction) {
+		if (transaction == null) {
+			throw new AssertionError();
+		}
+		return new Runnable() {
+			@Override
+			public void run() {
+				transaction.rollback();
 			}
 		};
 	}
@@ -1259,8 +1344,8 @@ public class ReflectionUIUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends ItemPosition> List<T> actualizeItemPositions(List<T> oldItemPositions,
-			List<Object> items, List<List<Object>> itemAncestorLists) {
+	public static <T extends ItemPosition> List<T> actualizeItemPositions(List<T> oldItemPositions, List<Object> items,
+			List<List<Object>> itemAncestorLists) {
 		if (oldItemPositions.size() != items.size()) {
 			throw new ReflectionUIError();
 		}
@@ -1280,9 +1365,9 @@ public class ReflectionUIUtils {
 					containingListRawValue = itemPosition.retrieveContainingListRawValue();
 				} else {
 					List<T> list = actualizeItemPositions(
-							Collections.singletonList((T)itemPosition.getParentItemPosition()),
-							Collections.singletonList(itemAncestorLists.get(i).get(0)),
-							Collections.singletonList(itemAncestorLists.get(i).subList(1, itemAncestorLists.get(i).size())));
+							Collections.singletonList((T) itemPosition.getParentItemPosition()),
+							Collections.singletonList(itemAncestorLists.get(i).get(0)), Collections.singletonList(
+									itemAncestorLists.get(i).subList(1, itemAncestorLists.get(i).size())));
 					if (list.isEmpty()) {
 						containingListRawValue = null;
 					} else {
@@ -1308,7 +1393,7 @@ public class ReflectionUIUtils {
 		}
 		return result;
 	}
-	
+
 	public static List<ITypeInfo> listDescendantTypes(ITypeInfo type) {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 		List<ITypeInfo> subTypes = type.getPolymorphicInstanceSubTypes();

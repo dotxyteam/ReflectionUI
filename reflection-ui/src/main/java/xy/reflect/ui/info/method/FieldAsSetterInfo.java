@@ -132,7 +132,13 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public Runnable getNextInvocationUndoJob(final Object object, InvocationData invocationData) {
 		Object value = invocationData.getParameterValue(parameter.getPosition());
-		return ReflectionUIUtils.getNextUpdateUndoJob(object, field, value);
+		return ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(object, field, value);
+	}
+
+	@Override
+	public Runnable getPreviousInvocationCustomRedoJob(final Object object, InvocationData invocationData) {
+		Object value = invocationData.getParameterValue(parameter.getPosition());
+		return ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(object, field, value);
 	}
 
 	@Override
@@ -180,9 +186,8 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 						@Override
 						protected String getTypeInfoProxyFactoryIdentifier() {
-							return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
-									+ ", objectType=" + objectType.getName() + ", baseField=" + field.getName()
-									+ "]";
+							return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
+									+ objectType.getName() + ", baseField=" + field.getName() + "]";
 						}
 					});
 				}

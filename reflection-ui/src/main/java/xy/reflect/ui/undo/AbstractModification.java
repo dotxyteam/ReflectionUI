@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.undo;
 
 import xy.reflect.ui.util.ReflectionUIError;
@@ -15,10 +13,12 @@ public abstract class AbstractModification implements IModification {
 
 	protected Runnable doJob;
 	protected Runnable undoJob;
+	protected Runnable redoJob;
 	protected static final String UNDO_TITLE_PREFIX = "(Revert) ";
 
 	/**
-	 * @return The task that performs the modification. Must not be null.
+	 * @return The task that performs the modification for the first time. Must not
+	 *         be null.
 	 */
 	protected abstract Runnable createDoJob();
 
@@ -26,6 +26,11 @@ public abstract class AbstractModification implements IModification {
 	 * @return The task that reverts the modification. Must not be null.
 	 */
 	protected abstract Runnable createUndoJob();
+
+	/**
+	 * @return The task that performs again the modification. Must not be null.
+	 */
+	protected abstract Runnable createRedoJob();
 
 	@Override
 	public boolean isNull() {
@@ -45,20 +50,20 @@ public abstract class AbstractModification implements IModification {
 				throw new ReflectionUIError();
 			}
 		}
-		if (undoJob == null) {
-			try {
-				undoJob = createUndoJob();
-			} catch (Throwable t) {
-				doJob.run();
-				throw new IrreversibleModificationException();
-			}
+		try {
 			if (undoJob == null) {
-				throw new ReflectionUIError();
+				undoJob = createUndoJob();
+				if (undoJob == null) {
+					throw new IrreversibleModificationException();
+				}
+			}
+		} finally {
+			if (redoJob != null) {
+				redoJob.run();
+			} else {
+				doJob.run();
 			}
 		}
-
-		doJob.run();
-
 		return new OppositeModification();
 	}
 
@@ -83,12 +88,12 @@ public abstract class AbstractModification implements IModification {
 
 		@Override
 		public boolean isNull() {
-			return false;
+			return getSourceModification().isNull();
 		}
 
 		@Override
 		public boolean isFake() {
-			return false;
+			return getSourceModification().isFake();
 		}
 
 		@Override
@@ -102,6 +107,16 @@ public abstract class AbstractModification implements IModification {
 
 		@Override
 		public IModification applyAndGetOpposite() {
+			if (getSourceModification().toString().equals(
+					"FieldControlDataModification [data=FieldControlDataProxy [base=InitialFieldControlData [of=FieldControlPlaceHolder [field=GeneratedFieldInfoProxy [name=fieldValueMode, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$2], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=SpecificitiesFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e, specificitiesIdentifier=SpecificitiesIdentifier [objectTypeName=com.otk.jesb.instantiation.FieldInitializerFacade, fieldName=valueGroup]]], base=FieldInfoProxy [name=fieldValueMode, base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=FieldInfoProxy [name=fieldValueMode, base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$1], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=PrecomputedTypeInstanceWrapping [type=CapsuleFieldType [context=EncapsulationContext [objectType=com.otk.jesb.instantiation.FieldInitializerFacade], fieldName=valueGroup]]], base=FieldInfoProxy [name=fieldValueMode, base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$1], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=GetterFieldInfo [javaGetterMethod=public com.otk.jesb.instantiation.ValueMode com.otk.jesb.instantiation.FieldInitializerFacade.getFieldValueMode()]]]]]]]]]]]]], form=Form [id=839950301, object=PrecomputedTypeInstanceWrapper [instance=CapsuleFieldFieldInstance [object=stringValue], precomputedType=ValueTypeInfo [of=CapsuleField [fieldName=valueGroup, objectType=GeneratedBasicTypeInfoProxy [name=com.otk.jesb.instantiation.FieldInitializerFacade, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$1], base=GeneratedBasicTypeInfoProxy [name=com.otk.jesb.instantiation.FieldInitializerFacade, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class com.otk.jesb.instantiation.FieldInitializerFacade, declaringMember=null, declaringInvokableParameterPosition=0, genericTypeParameters=null, specificitiesIdentifier=null]]]], fields=[GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$1], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=GetterFieldInfo [javaGetterMethod=public com.otk.jesb.instantiation.ValueMode com.otk.jesb.instantiation.FieldInitializerFacade.getFieldValueMode()]]], GeneratedFieldInfoProxy [name=fieldValue, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$1], base=GeneratedFieldInfoProxy [name=fieldValue, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=GetterFieldInfo [javaGetterMethod=public java.lang.Object com.otk.jesb.instantiation.FieldInitializerFacade.getFieldValue()]]]], methods=[]]]]]], finalField=GeneratedFieldInfoProxy [name=fieldValueMode, factory=FilteredTypeFactory [infoFilter=InfoFilterProxy [base=xy.reflect.ui.info.filter.IInfoFilter.DEFAULT]], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$2], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=SpecificitiesFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e, specificitiesIdentifier=SpecificitiesIdentifier [objectTypeName=com.otk.jesb.instantiation.FieldInitializerFacade, fieldName=valueGroup]]], base=FieldInfoProxy [name=fieldValueMode, base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=FieldInfoProxy [name=fieldValueMode, base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$1], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=PrecomputedTypeInstanceWrapping [type=CapsuleFieldType [context=EncapsulationContext [objectType=com.otk.jesb.instantiation.FieldInitializerFacade], fieldName=valueGroup]]], base=FieldInfoProxy [name=fieldValueMode, base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=com.otk.jesb.GUI$JESBReflectionUI$1], base=GeneratedFieldInfoProxy [name=fieldValueMode, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.GUI$JESBReflectionUI@456d6c1e]], base=GetterFieldInfo [javaGetterMethod=public com.otk.jesb.instantiation.ValueMode com.otk.jesb.instantiation.FieldInitializerFacade.getFieldValueMode()]]]]]]]]]]]]]]], newValue=PLAIN]")) {
+				System.out.println("debug");
+			}
+			if (redoJob == null) {
+				redoJob = createRedoJob();
+				if (redoJob == null) {
+					throw new ReflectionUIError();
+				}
+			}
 			undoJob.run();
 			return getSourceModification();
 		}

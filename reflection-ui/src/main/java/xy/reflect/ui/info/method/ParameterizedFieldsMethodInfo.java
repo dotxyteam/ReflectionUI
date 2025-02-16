@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.util.ArrayList;
@@ -29,6 +27,7 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	protected List<IFieldInfo> parameterizedFields;
 	protected ITypeInfo objectType;
 	protected FututreActionBuilder undoJobBuilder;
+	protected FututreActionBuilder redoJobBuilder;
 	protected List<FieldAsParameterInfo> generatedParameters;
 
 	public ParameterizedFieldsMethodInfo(ReflectionUI reflectionUI, IMethodInfo method,
@@ -70,13 +69,24 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
+	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
+		undoJobBuilder = new FututreActionBuilder();
+		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+			@Override
+			public void perform(Map<String, Object> options) {
+				undoInvocation(object, invocationData, options);
+			}
+		});
+	}
+
+	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
 		InvocationData newInvocationData = new InvocationData(invocationData);
 		for (FieldAsParameterInfo generatedParameter : generatedParameters) {
 			Object value = invocationData.getParameterValue(generatedParameter.getPosition());
 			if (undoJobBuilder != null) {
-				undoJobBuilder.setOption(getUndoJobName(generatedParameter),
-						ReflectionUIUtils.getNextUpdateUndoJob(object, generatedParameter.getSourceField(), value));
+				undoJobBuilder.setOption(getUndoJobName(generatedParameter), ReflectionUIUtils
+						.getNextUpdateCustomOrDefaultUndoJob(object, generatedParameter.getSourceField(), value));
 			}
 			generatedParameter.getSourceField().setValue(object, value);
 			newInvocationData.getProvidedParameterValues().remove(generatedParameter.getPosition());
@@ -92,31 +102,68 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
-	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
-		undoJobBuilder = new FututreActionBuilder();
-		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+	public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
+		redoJobBuilder = new FututreActionBuilder();
+		return redoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
-				Runnable baseMethodUndoJob = (Runnable) options.get(getBaseMethodUndoJobName());
-				if (baseMethodUndoJob == null) {
-					throw new IrreversibleModificationException();
-				}
-				baseMethodUndoJob.run();
-				for (int i = generatedParameters.size() - 1; i >= 0; i--) {
-					FieldAsParameterInfo generatedParameter = generatedParameters.get(i);
-					Runnable fieldUndoJob = (Runnable) options.get(getUndoJobName(generatedParameter));
-					fieldUndoJob.run();
-				}
+				redoInvocation(options);
 			}
 		});
+	}
+
+	protected void undoInvocation(Object object, InvocationData invocationData,
+			Map<String, Object> undoJobBuilderOptions) {
+		Runnable baseMethodUndoJob = (Runnable) undoJobBuilderOptions.get(getBaseMethodUndoJobName());
+		if (baseMethodUndoJob == null) {
+			throw new IrreversibleModificationException();
+		}
+		baseMethodUndoJob.run();
+		for (int i = generatedParameters.size() - 1; i >= 0; i--) {
+			FieldAsParameterInfo generatedParameter = generatedParameters.get(i);
+			Runnable fieldUndoJob = (Runnable) undoJobBuilderOptions.get(getUndoJobName(generatedParameter));
+			Object value = invocationData.getParameterValue(generatedParameter.getPosition());
+			if (redoJobBuilder != null) {
+				redoJobBuilder.setOption(getRedoJobName(generatedParameter), ReflectionUIUtils
+						.getPreviousUpdateCustomOrDefaultRedoJob(object, generatedParameter.getSourceField(), value));
+			}
+			fieldUndoJob.run();
+		}
+		if (redoJobBuilder != null) {
+			redoJobBuilder.setOption(getBaseMethodRedoJobName(),
+					super.getNextInvocationUndoJob(object, invocationData));
+			redoJobBuilder.build();
+			redoJobBuilder = null;
+		}
+	}
+
+	protected void redoInvocation(Map<String, Object> redoJobBuilderOptions) {
+		Runnable baseMethodRedoJob = (Runnable) redoJobBuilderOptions.get(getBaseMethodRedoJobName());
+		if (baseMethodRedoJob == null) {
+			throw new IrreversibleModificationException();
+		}
+		for (int i = generatedParameters.size() - 1; i >= 0; i--) {
+			FieldAsParameterInfo generatedParameter = generatedParameters.get(i);
+			Runnable fieldRedoJob = (Runnable) redoJobBuilderOptions.get(getRedoJobName(generatedParameter));
+			fieldRedoJob.run();
+		}
+		baseMethodRedoJob.run();
 	}
 
 	protected String getBaseMethodUndoJobName() {
 		return "baseMethodUndoJob";
 	}
 
+	protected String getBaseMethodRedoJobName() {
+		return "baseMethodRedoJob";
+	}
+
 	protected String getUndoJobName(FieldAsParameterInfo generatedParameter) {
 		return "field" + generatedParameter.getPosition() + "UndoJob";
+	}
+
+	protected String getRedoJobName(FieldAsParameterInfo generatedParameter) {
+		return "field" + generatedParameter.getPosition() + "RedoJob";
 	}
 
 	@Override

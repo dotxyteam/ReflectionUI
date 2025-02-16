@@ -33,6 +33,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
 	protected FututreActionBuilder undoJobBuilder;
+	protected FututreActionBuilder redoJobBuilder;
 	protected ITypeInfo objectType;
 	protected ITypeInfo returnValueType;
 	protected boolean returnValueVoid = false;
@@ -144,12 +145,30 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public Runnable getNextInvocationUndoJob(Object object, final InvocationData invocationData) {
+		Object fieldValue = expectTheFieldValue(object);
+		final Runnable theSubMethodUndoJob = theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData);
+		if (theSubMethodUndoJob == null) {
+			undoJobBuilder = null;
+			return null;
+		}
+		undoJobBuilder = new FututreActionBuilder();
+		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+			@Override
+			public void perform(Map<String, Object> options) {
+				undoInvocation(object, theSubMethodUndoJob, fieldValue, options);
+			}
+		});
+	}
+
+	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
 		Object fieldValue = expectTheFieldValue(object);
 		Object result = theSubMethod.invoke(fieldValue, invocationData);
-		if (isTheFieldUpdatePerformedAfterInvocation()) {
+		if (isTheFieldUpdatePerformedAfterTheSubMethodInvocation()) {
 			if (undoJobBuilder != null) {
-				Runnable theFieldUndoJob = ReflectionUIUtils.getNextUpdateUndoJob(object, theField, fieldValue);
+				Runnable theFieldUndoJob = ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(object, theField,
+						fieldValue);
 				undoJobBuilder.setOption("theFieldUndoJob", theFieldUndoJob);
 			}
 			theField.setValue(object, fieldValue);
@@ -163,27 +182,46 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public Runnable getNextInvocationUndoJob(Object object, final InvocationData invocationData) {
+	public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
 		Object fieldValue = expectTheFieldValue(object);
-		final Runnable theSubMethodUndoJob = theSubMethod.getNextInvocationUndoJob(fieldValue, invocationData);
-		if (theSubMethodUndoJob == null) {
-			undoJobBuilder = null;
-			return null;
-		}
-		undoJobBuilder = new FututreActionBuilder();
-		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+		final Runnable theSubMethodRedoJob = ReflectionUIUtils.getPreviousInvocationCustomOrDefaultRedoJob(fieldValue,
+				theSubMethod, invocationData);
+		redoJobBuilder = new FututreActionBuilder();
+		return redoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
-				theSubMethodUndoJob.run();
-				if (isTheFieldUpdatePerformedAfterInvocation()) {
-					Runnable theFieldUndoJob = (Runnable) options.get("theFieldUndoJob");
-					theFieldUndoJob.run();
-				}
+				redoInvocation(theSubMethodRedoJob, options);
 			}
 		});
 	}
 
-	protected boolean isTheFieldUpdatePerformedAfterInvocation() {
+	protected void undoInvocation(Object object, Runnable theSubMethodUndoJob, Object fieldValue,
+			Map<String, Object> undoJobBuilderOptions) {
+		theSubMethodUndoJob.run();
+		if (isTheFieldUpdatePerformedAfterTheSubMethodInvocation()) {
+			if (redoJobBuilder != null) {
+				Runnable theFieldRedoJob = ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(object, theField,
+						fieldValue);
+				undoJobBuilder.setOption("theFieldRedoJob", theFieldRedoJob);
+			}
+			Runnable theFieldUndoJob = (Runnable) undoJobBuilderOptions.get("theFieldUndoJob");
+			theFieldUndoJob.run();
+		}
+		if (redoJobBuilder != null) {
+			redoJobBuilder.build();
+			redoJobBuilder = null;
+		}
+	}
+
+	protected void redoInvocation(Runnable theSubMethodRedoJob, Map<String, Object> redoJobBuilderOptions) {
+		theSubMethodRedoJob.run();
+		if (isTheFieldUpdatePerformedAfterTheSubMethodInvocation()) {
+			Runnable theFieldRedoJob = (Runnable) redoJobBuilderOptions.get("theFieldRedoJob");
+			theFieldRedoJob.run();
+		}
+	}
+
+	protected boolean isTheFieldUpdatePerformedAfterTheSubMethodInvocation() {
 		if (isReadOnly()) {
 			return false;
 		}

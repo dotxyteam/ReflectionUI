@@ -88,6 +88,10 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.getNextUpdateCustomUndoJob(object, newValue);
 	}
 
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
+		return base.getPreviousUpdateCustomRedoJob(object, newValue);
+	}
+
 	public boolean isNullValueDistinct() {
 		return base.isNullValueDistinct();
 	}

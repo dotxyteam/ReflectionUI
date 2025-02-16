@@ -11,7 +11,7 @@ import java.util.Map;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
-import xy.reflect.ui.info.ITransactionInfo;
+import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
@@ -166,8 +166,12 @@ public class InvocationDataObjectFactory {
 		}
 
 		@Override
-		public ITransactionInfo getTransaction(Object object) {
+		public ITransaction createTransaction(Object object) {
 			return null;
+		}
+
+		@Override
+		public void beforeModification(Object object) {
 		}
 
 		@Override

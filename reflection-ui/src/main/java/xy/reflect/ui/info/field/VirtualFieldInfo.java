@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.Collections;
@@ -128,6 +126,11 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object newValue) {
+		return null;
+	}
+
+	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
 		return null;
 	}
 

@@ -61,6 +61,10 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base.getNextUpdateCustomUndoJob(object, value);
 	}
 
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
+		return base.getPreviousUpdateCustomRedoJob(object, newValue);
+	}
+
 	@Override
 	public boolean hasValueOptions(Object object) {
 		return base.hasValueOptions(object);

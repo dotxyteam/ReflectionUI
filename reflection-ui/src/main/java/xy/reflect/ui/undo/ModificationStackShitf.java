@@ -60,6 +60,11 @@ public class ModificationStackShitf extends AbstractModification {
 		};
 	}
 
+	@Override
+	protected Runnable createRedoJob() {
+		return createDoJob();
+	}
+
 	protected void shiftBackward() {
 		modificationStack.undo();
 	}
@@ -70,7 +75,7 @@ public class ModificationStackShitf extends AbstractModification {
 
 	@Override
 	public boolean isNull() {
-		return false;
+		return offset == 0;
 	}
 
 	@Override

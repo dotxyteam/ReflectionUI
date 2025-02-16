@@ -48,6 +48,13 @@ public interface IMethodControlData {
 	Runnable getNextInvocationUndoJob(InvocationData invocationData);
 
 	/**
+	 * @param invocationData The parameter values.
+	 * @return a job that can replay the previous invocation of the underlying method or
+	 *         null if the default redo job should be used.
+	 */
+	Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData);
+
+	/**
 	 * @return true if and only if the execution of the underlying method does not
 	 *         affect the object on which it is executed.
 	 */

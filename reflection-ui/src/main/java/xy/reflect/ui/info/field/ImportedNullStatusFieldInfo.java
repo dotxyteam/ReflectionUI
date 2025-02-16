@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.Collections;
@@ -119,9 +117,30 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 		if (newValue == null) {
 			return nullStatusField.getNextUpdateCustomUndoJob(object, Boolean.FALSE);
 		} else {
-			final Runnable nullStatusFieldUndoJob = ReflectionUIUtils.getNextUpdateUndoJob(object, nullStatusField,
-					Boolean.TRUE);
-			final Runnable baseUndoJob = ReflectionUIUtils.getNextUpdateUndoJob(object, base, newValue);
+			final Runnable nullStatusFieldUndoJob = ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(object,
+					nullStatusField, Boolean.TRUE);
+			final Runnable baseUndoJob = ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(object, base, newValue);
+			return new Runnable() {
+				@Override
+				public void run() {
+					if (!ImportedNullStatusFieldInfo.super.isGetOnly()) {
+						baseUndoJob.run();
+					}
+					nullStatusFieldUndoJob.run();
+				}
+			};
+		}
+	}
+
+	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(final Object object, final Object newValue) {
+		if (newValue == null) {
+			return nullStatusField.getPreviousUpdateCustomRedoJob(object, Boolean.FALSE);
+		} else {
+			final Runnable nullStatusFieldUndoJob = ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(object,
+					nullStatusField, Boolean.TRUE);
+			final Runnable baseUndoJob = ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(object, base,
+					newValue);
 			return new Runnable() {
 				@Override
 				public void run() {

@@ -92,6 +92,10 @@ public class CustomizationController {
 	protected void refreshCustomizedControlsOnModification() {
 		getModificationStack().addListener(new AbstractSimpleModificationListener() {
 			@Override
+			public void beforeModification() {
+			}
+
+			@Override
 			protected void handleAnyEvent(IModification modification) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override

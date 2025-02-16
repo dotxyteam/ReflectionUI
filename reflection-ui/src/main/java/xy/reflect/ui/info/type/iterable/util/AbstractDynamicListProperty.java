@@ -115,6 +115,11 @@ public abstract class AbstractDynamicListProperty extends AbstractInfo implement
 	}
 
 	@Override
+	public Runnable getPreviousUpdateCustomRedoJob(Object object, Object newValue) {
+		return null;
+	}
+
+	@Override
 	public boolean isFormControlMandatory() {
 		return false;
 	}
