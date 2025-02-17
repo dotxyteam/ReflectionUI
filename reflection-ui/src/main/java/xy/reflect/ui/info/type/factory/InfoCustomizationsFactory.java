@@ -103,6 +103,7 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ListModificationFactory;
+import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Mapper;
@@ -648,7 +649,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										@Override
 										public void setValue(Object object, Object value) {
 											listModificationFactory.set(itemPosition.getIndex(), item)
-													.applyAndGetOpposite();
+													.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
 										}
 
 										@Override
@@ -899,7 +900,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 										@Override
 										public void setValue(Object object, Object value) {
 											listModificationFactory.set(itemPosition.getIndex(), item)
-													.applyAndGetOpposite();
+													.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
 										}
 
 										@Override

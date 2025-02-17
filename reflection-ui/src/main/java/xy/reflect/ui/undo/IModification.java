@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.undo;
 
 /**
@@ -21,7 +19,7 @@ public interface IModification {
 	 */
 	IModification NULL_MODIFICATION = new IModification() {
 		@Override
-		public IModification applyAndGetOpposite() {
+		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
 			return NULL_MODIFICATION;
 		}
 
@@ -54,7 +52,7 @@ public interface IModification {
 	 */
 	IModification FAKE_MODIFICATION = new IModification() {
 		@Override
-		public IModification applyAndGetOpposite() {
+		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
 			return FAKE_MODIFICATION;
 		}
 
@@ -83,13 +81,15 @@ public interface IModification {
 	/**
 	 * Applies the current modification.
 	 * 
+	 * @param modificationStack The contextual modification stack.
 	 * @return the opposite modification.
 	 * @throws IrreversibleModificationException When it appears that the
 	 *                                           modification cannot be reverted.
 	 * @throws CancelledModificationException    When it appears that the
 	 *                                           modification has been aborted.
 	 */
-	IModification applyAndGetOpposite() throws IrreversibleModificationException, CancelledModificationException;
+	IModification applyAndGetOpposite(ModificationStack modificationStack)
+			throws IrreversibleModificationException, CancelledModificationException;
 
 	/**
 	 * @return true if and only if this modification should be considered as empty,

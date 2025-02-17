@@ -236,7 +236,7 @@ public class ListModificationFactory {
 		}
 
 		@Override
-		public IModification applyAndGetOpposite() {
+		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
 			itemPosition.updateContainingList(newListRawValue);
 			return new ListModification(itemPosition, oldListRawValue, newListRawValue);
 		}

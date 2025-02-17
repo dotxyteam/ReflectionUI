@@ -42,8 +42,8 @@ public class BufferedListModificationFactory extends ListModificationFactory {
 		}
 
 		@Override
-		public IModification applyAndGetOpposite() {
-			ListModification opposite = (ListModification) super.applyAndGetOpposite();
+		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
+			ListModification opposite = (ListModification) super.applyAndGetOpposite(modificationStack);
 			return new BufferedListModification((BufferedItemPosition) opposite.itemPosition, opposite.newListRawValue,
 					opposite.oldListRawValue);
 		}

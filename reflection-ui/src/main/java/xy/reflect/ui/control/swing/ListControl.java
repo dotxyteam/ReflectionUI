@@ -1512,8 +1512,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						Object newItem = detailsControlBuilder.getCurrentValue();
 						IModification preSelection = new SelectItemModification(detailsControlItemPosition, newItem,
 								oldItem, detailsControlBuilder, detailsControl);
-						return detailsControl.getModificationStack().createCompositeModification(undoModif.getTitle(),
-								UndoOrder.FIFO, preSelection, undoModif);
+						return ModificationStack.createCompositeModification(undoModif.getTitle(), UndoOrder.FIFO,
+								preSelection, undoModif);
 					}
 				});
 				detailsArea.setLayout(new BorderLayout());
@@ -2014,7 +2014,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public IModification applyAndGetOpposite() {
+		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
 			preventingIntermediarySelectionEvents(new Runnable() {
 				@Override
 				public void run() {
@@ -2299,7 +2299,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						defaultPostSelectionGetter };
 				if (modifTitle == null) {
 					perform(postSelectionGetterHolder);
-					new RefreshStructureModification(postSelectionGetterHolder[0], null).applyAndGetOpposite();
+					new RefreshStructureModification(postSelectionGetterHolder[0], null)
+							.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
 				} else {
 					final ModificationStack modifStack = getModificationStack();
 					modifStack.insideComposite(modifTitle, UndoOrder.FIFO, new Accessor<Boolean>() {
@@ -2318,7 +2319,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								return true;
 							} else {
 								new RefreshStructureModification(postSelectionGetterHolder[0], null)
-										.applyAndGetOpposite();
+										.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
 								return modifStack.wasInvalidated();
 							}
 						}
@@ -2403,8 +2404,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 											ReflectionUIUtils.collectItemAncestors(bufferedItemPosition)));
 						}
 					});
-			return ListControl.this.getModificationStack().createCompositeModification(update.getTitle(),
-					UndoOrder.FIFO, update, structureRefreshing);
+			return ModificationStack.createCompositeModification(update.getTitle(), UndoOrder.FIFO, update,
+					structureRefreshing);
 		}
 
 		@Override

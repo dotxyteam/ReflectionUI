@@ -607,9 +607,9 @@ public class ReflectionUIUtils {
 										}
 										parentModificationStack.invalidate();
 									} else {
-										parentModificationStack.push(parentModificationStack
-												.createCompositeModification(null, UndoOrder.getNormal(),
-														currentModificationsStack.getUndoModifications()));
+										parentModificationStack.push(ModificationStack.createCompositeModification(null,
+												UndoOrder.getNormal(),
+												currentModificationsStack.getUndoModifications()));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {

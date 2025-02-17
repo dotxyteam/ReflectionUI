@@ -27,6 +27,20 @@ public class ModificationStack {
 
 	public static final String DEFAULT_CAPACITY_PROPERTY_KEY = ModificationStack.class.getName() + ".defaultCapacity";
 
+	public static final ModificationStack DUMMY_MODIFICATION_STACK = new ModificationStack("DUMMY_MODIFICATION_STACK") {
+
+		@Override
+		public void addListener(IModificationListener listener) {
+			throw new ReflectionUIError();
+		}
+
+		@Override
+		public void apply(IModification modification) {
+			throw new ReflectionUIError();
+		}
+		
+	};
+
 	protected Stack<IModification> undoStack = new Stack<IModification>();
 	protected Stack<IModification> redoStack = new Stack<IModification>();
 	protected String name;
@@ -315,6 +329,17 @@ public class ModificationStack {
 	}
 
 	protected IModification applySafelyAndGetOpposite(IModification modification) {
+		try {
+			return applyAndGetOpposite(modification);
+		} catch (IrreversibleModificationException e) {
+			invalidate();
+			return null;
+		} catch (CancelledModificationException e) {
+			return null;
+		}
+	}
+
+	protected IModification applyAndGetOpposite(IModification modification) {
 		if (ModificationBatch.getCurrent() != null) {
 			if (!modification.isFake()) {
 				if (ModificationBatch.getCurrent().size() == 0) {
@@ -326,12 +351,7 @@ public class ModificationStack {
 			}
 		}
 		try {
-			return modification.applyAndGetOpposite();
-		} catch (IrreversibleModificationException e) {
-			invalidate();
-			return null;
-		} catch (CancelledModificationException e) {
-			return null;
+			return modification.applyAndGetOpposite(this);
 		} finally {
 			if (ModificationBatch.getCurrent() != null) {
 				if (!modification.isFake()) {
@@ -352,11 +372,6 @@ public class ModificationStack {
 	 * @param modification The modification that must be executed.
 	 */
 	public void apply(IModification modification) {
-		if (modification instanceof CompositeModification) {
-			if (((CompositeModification) modification).getModificationStack() != this) {
-				throw new ReflectionUIError();
-			}
-		}
 		IModification undoModification = applySafelyAndGetOpposite(modification);
 		if (undoModification == null) {
 			return;
@@ -730,7 +745,7 @@ public class ModificationStack {
 	 * @return A modification composed of sub-modifications that are applied in the
 	 *         specified order.
 	 */
-	public IModification createCompositeModification(String title, UndoOrder undoOrder,
+	public static IModification createCompositeModification(String title, UndoOrder undoOrder,
 			IModification... modifications) {
 		return new CompositeModification(title, undoOrder, modifications);
 	}
@@ -740,7 +755,7 @@ public class ModificationStack {
 		return ModificationStack.class.getSimpleName() + "[" + name + "]";
 	}
 
-	protected class CompositeModification implements IModification {
+	protected static class CompositeModification implements IModification {
 
 		protected IModification[] modifications;
 		protected String title;
@@ -754,10 +769,6 @@ public class ModificationStack {
 
 		public CompositeModification(String title, UndoOrder undoOrder, List<IModification> modifications) {
 			this(title, undoOrder, modifications.toArray(new IModification[modifications.size()]));
-		}
-
-		public ModificationStack getModificationStack() {
-			return ModificationStack.this;
 		}
 
 		@Override
@@ -784,10 +795,10 @@ public class ModificationStack {
 		}
 
 		@Override
-		public IModification applyAndGetOpposite() {
+		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
 			List<IModification> oppositeModifications = new ArrayList<IModification>();
 			for (IModification modif : modifications) {
-				IModification undoModif = applySafelyAndGetOpposite(modif);
+				IModification undoModif = modificationStack.applyAndGetOpposite(modif);
 				if (undoModif == null) {
 					return null;
 				}
