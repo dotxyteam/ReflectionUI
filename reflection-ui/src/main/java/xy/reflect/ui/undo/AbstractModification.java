@@ -43,6 +43,11 @@ public abstract class AbstractModification implements IModification {
 	}
 
 	@Override
+	public boolean isComposite() {
+		return false;
+	}
+
+	@Override
 	public IModification applyAndGetOpposite(ModificationStack modificationStack) {
 		if (doJob == null) {
 			doJob = createDoJob();
@@ -94,6 +99,11 @@ public abstract class AbstractModification implements IModification {
 		@Override
 		public boolean isFake() {
 			return getSourceModification().isFake();
+		}
+
+		@Override
+		public boolean isComposite() {
+			return getSourceModification().isComposite();
 		}
 
 		@Override

@@ -11,7 +11,7 @@ public interface IModificationListener {
 
 	/**
 	 * Called before the execution of modifications represented by the current
-	 * {@link ModificationBatch}.
+	 * {@link ModificationScheme}.
 	 */
 	void beforeModification();
 

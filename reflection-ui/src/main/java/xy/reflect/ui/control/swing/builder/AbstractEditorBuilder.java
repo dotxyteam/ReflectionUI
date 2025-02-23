@@ -22,6 +22,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
+import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -330,6 +331,9 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		} else {
 			createdFormModificationStack.setMaximumSize(Integer.MAX_VALUE);
 		}
+		if (getParentModificationStack() != null) {
+			getParentModificationStack().beforeModification();
+		}
 	}
 
 	/**
@@ -376,6 +380,21 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 				parentObjectModifStack.push(IModification.FAKE_MODIFICATION);
 			}
 		}
+		createdFormModificationStack.addListener(new AbstractSimpleModificationListener() {
+
+			@Override
+			public void beforeModification() {
+				if (getParentModificationStack() != null) {
+					getParentModificationStack().beforeModification();
+				}
+			}
+
+			@Override
+			protected void handleAnyEvent(IModification modification) {
+				// TODO Auto-generated method stub
+
+			}
+		});		
 	}
 
 	/**

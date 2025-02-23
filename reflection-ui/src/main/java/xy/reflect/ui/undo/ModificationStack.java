@@ -7,9 +7,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import xy.reflect.ui.undo.AbstractModification.OppositeModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * This is an undo management class. it allows to undo/redo actions performed
@@ -38,7 +40,7 @@ public class ModificationStack {
 		public void apply(IModification modification) {
 			throw new ReflectionUIError();
 		}
-		
+
 	};
 
 	protected Stack<IModification> undoStack = new Stack<IModification>();
@@ -340,11 +342,10 @@ public class ModificationStack {
 	}
 
 	protected IModification applyAndGetOpposite(IModification modification) {
-		if (ModificationBatch.getCurrent() != null) {
-			if (!modification.isFake()) {
-				if (ModificationBatch.getCurrent().size() == 0) {
-					if (!(modification instanceof ModificationStackShitf)
-							&& !(modification instanceof CompositeModification)) {
+		if (!modification.isFake()) {
+			if (!modification.isComposite()) {
+				if (ModificationScheme.get() != null) {
+					if (!ModificationScheme.get().isTangible()) {
 						beforeModification();
 					}
 				}
@@ -353,15 +354,17 @@ public class ModificationStack {
 		try {
 			return modification.applyAndGetOpposite(this);
 		} finally {
-			if (ModificationBatch.getCurrent() != null) {
-				if (!modification.isFake()) {
-					ModificationBatch.getCurrent().add(modification);
+			if (!modification.isFake()) {
+				if (!modification.isComposite()) {
+					if (ModificationScheme.get() != null) {
+						ModificationScheme.get().makeTangible();
+					}
 				}
 			}
 		}
 	}
 
-	protected void beforeModification() {
+	public void beforeModification() {
 		allListenersProxy.beforeModification();
 	}
 
@@ -791,6 +794,11 @@ public class ModificationStack {
 					return false;
 				}
 			}
+			return true;
+		}
+
+		@Override
+		public boolean isComposite() {
 			return true;
 		}
 

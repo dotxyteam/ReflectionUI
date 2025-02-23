@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.undo;
 
 /**
@@ -22,6 +20,10 @@ public class ModificationStackShitf extends AbstractModification {
 		this.modificationStack = modificationStack;
 		this.offset = offset;
 		this.title = title;
+	}
+
+	public ModificationStack getTargetModificationStack() {
+		return modificationStack;
 	}
 
 	@Override
@@ -79,6 +81,11 @@ public class ModificationStackShitf extends AbstractModification {
 	}
 
 	@Override
+	public boolean isComposite() {
+		return true;
+	}
+
+	@Override
 	public String getTitle() {
 		return title;
 	}
@@ -88,8 +95,5 @@ public class ModificationStackShitf extends AbstractModification {
 		return "ModificationStackShitf [modificationStack=" + modificationStack + ", offset=" + offset + ", title="
 				+ title + "]";
 	}
-	
-	
-	
 
 }

@@ -251,6 +251,10 @@ public class ListModificationFactory {
 			return false;
 		}
 
+		@Override
+		public boolean isComposite() {
+			return false;
+		}
 	}
 
 }

@@ -34,6 +34,11 @@ public interface IModification {
 		}
 
 		@Override
+		public boolean isComposite() {
+			return false;
+		}
+
+		@Override
 		public String toString() {
 			return getTitle();
 		}
@@ -64,6 +69,11 @@ public interface IModification {
 		@Override
 		public boolean isFake() {
 			return true;
+		}
+
+		@Override
+		public boolean isComposite() {
+			return false;
 		}
 
 		@Override
@@ -105,6 +115,13 @@ public interface IModification {
 	 *         notifications and typically refresh themselves.
 	 */
 	boolean isFake();
+
+	/**
+	 * @return true if and only if this modification does not perform any tangible
+	 *         action by itself but is rather used to orchestrate other
+	 *         modifications.
+	 */
+	boolean isComposite();
 
 	/**
 	 * @return the title of this modification.

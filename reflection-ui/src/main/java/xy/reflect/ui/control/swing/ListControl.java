@@ -2056,6 +2056,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return true;
 		}
 
+		@Override
+		public boolean isComposite() {
+			return false;
+		}
 	}
 
 	protected class TreeTable extends JXTreeTable {

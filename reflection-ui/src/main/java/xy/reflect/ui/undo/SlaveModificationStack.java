@@ -54,6 +54,10 @@ public class SlaveModificationStack extends ModificationStack {
 		this.masterModificationExceptionListener = masterModificationExceptionListener;
 	}
 
+	public Accessor<ModificationStack> getMasterModificationStackGetter() {
+		return masterModificationStackGetter;
+	}
+
 	@Override
 	public void setMaximumSize(int maximumSize) {
 		throw new ReflectionUIError();
@@ -204,7 +208,7 @@ public class SlaveModificationStack extends ModificationStack {
 	}
 
 	@Override
-	protected void beforeModification() {
+	public void beforeModification() {
 		super.beforeModification();
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		parentObjectModifStack.beforeModification();

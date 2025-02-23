@@ -209,66 +209,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected void beforeModification(ITypeInfo objectType, Object object) {
-		ITransaction transaction = createTransaction(objectType, object);
-		if (transaction != null) {
-			transaction.begin();
-			customizedUI.setLastActiveTransaction(object, transaction);
-		}
-	}
-
-	@Override
-	protected Runnable getNextUpdateCustomUndoJob(IFieldInfo field, Object object, Object value, ITypeInfo objectType) {
-		Runnable result = super.getNextUpdateCustomUndoJob(field, object, value, objectType);
-		if (result == null) {
-			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
-			if (transaction != null) {
-				return ReflectionUIUtils.createRollbackJob(transaction);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	protected Runnable getPreviousUpdateCustomRedoJob(IFieldInfo field, Object object, Object value,
-			ITypeInfo objectType) {
-		Runnable result = super.getPreviousUpdateCustomRedoJob(field, object, value, objectType);
-		if (result == null) {
-			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
-			if (transaction != null) {
-				return ReflectionUIUtils.createRollbackJob(transaction);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	protected Runnable getNextInvocationUndoJob(IMethodInfo method, ITypeInfo objectType, Object object,
-			InvocationData invocationData) {
-		Runnable result = super.getNextInvocationUndoJob(method, objectType, object, invocationData);
-		if (result == null) {
-			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
-			if (transaction != null) {
-				return ReflectionUIUtils.createRollbackJob(transaction);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	protected Runnable getPreviousInvocationCustomRedoJob(IMethodInfo method, ITypeInfo objectType, Object object,
-			InvocationData invocationData) {
-		Runnable result = super.getPreviousInvocationCustomRedoJob(method, objectType, object, invocationData);
-		if (result == null) {
-			ITransaction transaction = customizedUI.getLastActiveTransaction(object);
-			if (transaction != null) {
-				return ReflectionUIUtils.createRollbackJob(transaction);
-			}
-		}
-		return result;
-	}
-
-	@Override
 	protected FieldsLayout getFieldsLayout(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {

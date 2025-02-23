@@ -71,6 +71,7 @@ import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 
 /**
@@ -1402,6 +1403,19 @@ public class ReflectionUIUtils {
 			result.addAll(listDescendantTypes(subType));
 		}
 		return result;
+	}
+
+	public static boolean isTransitivelySlave(ModificationStack slaveModificationStack,
+			ModificationStack masterModificationStack) {
+		if (!(slaveModificationStack instanceof SlaveModificationStack)) {
+			return false;
+		}
+		ModificationStack currentMaster = ((SlaveModificationStack) slaveModificationStack).getMasterModificationStackGetter()
+				.get();
+		if (currentMaster != masterModificationStack) {
+			return isTransitivelySlave(currentMaster, masterModificationStack);
+		}
+		return true;
 	}
 
 }

@@ -1,9 +1,6 @@
 
 package xy.reflect.ui;
 
-import java.util.WeakHashMap;
-
-import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
@@ -31,8 +28,6 @@ public class CustomizedUI extends ReflectionUI {
 	protected static CustomizedUI defaultInstance;
 
 	protected InfoCustomizations infoCustomizations;
-
-	protected WeakHashMap<Object, ITransaction> lastActiveTransactionByObject = new WeakHashMap<Object, ITransaction>();
 
 	/**
 	 * @return the default instance of this class. This instance is constructed with
@@ -245,26 +240,6 @@ public class CustomizedUI extends ReflectionUI {
 	 */
 	protected IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
 		return appInfo;
-	}
-
-	/**
-	 * @param object The transaction target.
-	 * @return the last active transaction or null if no transaction was created for
-	 *         the given object.
-	 */
-	public ITransaction getLastActiveTransaction(Object object) {
-		return lastActiveTransactionByObject.get(object);
-	}
-
-	/**
-	 * Updates the reference to the last active transaction created for the given
-	 * object.
-	 * 
-	 * @param object      The transaction target.
-	 * @param transaction The last active transaction.
-	 */
-	public void setLastActiveTransaction(Object object, ITransaction transaction) {
-		lastActiveTransactionByObject.put(object, transaction);
 	}
 
 	@Override

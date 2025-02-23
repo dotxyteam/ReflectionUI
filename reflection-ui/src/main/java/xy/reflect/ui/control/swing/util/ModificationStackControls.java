@@ -20,7 +20,7 @@ import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
-import xy.reflect.ui.undo.ModificationBatch;
+import xy.reflect.ui.undo.ModificationScheme;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -184,7 +184,7 @@ public class ModificationStackControls {
 		Runnable action = new Runnable() {
 			@Override
 			public void run() {
-				ModificationBatch.start();
+				ModificationScheme.initiate();
 				modificationStack.undo();
 			}
 		};
@@ -213,7 +213,7 @@ public class ModificationStackControls {
 		Runnable action = new Runnable() {
 			@Override
 			public void run() {
-				ModificationBatch.start();
+				ModificationScheme.initiate();
 				modificationStack.redo();
 			}
 		};
@@ -242,7 +242,7 @@ public class ModificationStackControls {
 		Runnable action = new Runnable() {
 			@Override
 			public void run() {
-				ModificationBatch.start();
+				ModificationScheme.initiate();
 				modificationStack.undoAll();
 			}
 		};
