@@ -10,12 +10,6 @@ package xy.reflect.ui.undo;
 public interface IModificationListener {
 
 	/**
-	 * Called before the execution of modifications represented by the current
-	 * {@link ModificationScheme}.
-	 */
-	void beforeModification();
-
-	/**
 	 * Called after the execution of {@link ModificationStack#push(IModification)}.
 	 * 
 	 * @param undoModification The parameter passed to

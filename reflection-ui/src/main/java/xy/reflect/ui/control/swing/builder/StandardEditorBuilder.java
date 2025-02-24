@@ -98,6 +98,11 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
+	protected IModification createUndoModificationsReplacement() {
+		return null;
+	}
+
+	@Override
 	protected void handleRealtimeLinkCommitException(Throwable t) {
 		throw new ReflectionUIError();
 	}

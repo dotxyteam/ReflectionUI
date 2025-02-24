@@ -2413,6 +2413,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		protected IModification createUndoModificationsReplacement() {
+			return ReflectionUIUtils.createUndoModificationsReplacement(listData);
+		}
+
+		@Override
 		protected void handleRealtimeLinkCommitException(Throwable t) {
 			swingRenderer.handleObjectException(ListControl.this, t);
 		}
@@ -3489,6 +3494,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				protected IModification createCommittingModification(Object newObjectValue) {
 					return new FieldControlDataModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
 							IDynamicListProperty.NO_OWNER, dynamicProperty), newObjectValue);
+				}
+
+				@Override
+				protected IModification createUndoModificationsReplacement() {
+					return ReflectionUIUtils.createUndoModificationsReplacement(listData);
 				}
 
 				@Override

@@ -387,6 +387,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		}
 
 		@Override
+		protected IModification createUndoModificationsReplacement() {
+			return ReflectionUIUtils.createUndoModificationsReplacement(data);
+		}
+
+		@Override
 		protected IInfoFilter getEncapsulatedFormFilter() {
 			return data.getFormControlFilter();
 		}

@@ -111,7 +111,12 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public void beforeModification(Object object) {
+		public void onFormRefresh(Object object) {
+		}
+
+		@Override
+		public Runnable getLastFormRefreshStateRestorationJob(Object object) {
+			return null;
 		}
 
 		@Override
@@ -276,13 +281,18 @@ public interface ITypeInfo extends IInfo {
 	ITransaction createTransaction(Object object);
 
 	/**
-	 * This method is called before the given object or one of its sub-objects is
-	 * modified. Note that this method is called only for objects represented by a
-	 * form.
+	 * This method is called when a form displaying the given object gets refreshed.
 	 * 
 	 * @param object Any object of the current type.
 	 */
-	void beforeModification(Object object);
+	void onFormRefresh(Object object);
+
+	/**
+	 * @param object Any object of the current type.
+	 * @return a job (may be null) that restores the state of the given object when
+	 *         its form was last refreshed.
+	 */
+	Runnable getLastFormRefreshStateRestorationJob(Object object);
 
 	/**
 	 * @return the source object from which this type information was created.
@@ -566,4 +576,5 @@ public interface ITypeInfo extends IInfo {
 			return MODERN;
 		}
 	}
+
 }

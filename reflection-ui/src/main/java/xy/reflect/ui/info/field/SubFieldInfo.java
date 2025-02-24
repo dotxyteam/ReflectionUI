@@ -13,7 +13,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.FututreActionBuilder;
+import xy.reflect.ui.util.FutureActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -29,8 +29,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo theField;
 	protected IFieldInfo theSubField;
-	protected FututreActionBuilder undoJobBuilder;
-	protected FututreActionBuilder redoJobBuilder;
+	protected FutureActionBuilder undoJobBuilder;
+	protected FutureActionBuilder redoJobBuilder;
 	protected ITypeInfo objectType;
 	protected ITypeInfo type;
 
@@ -139,8 +139,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 		Object fieldValue = expectTheFieldValue(object);
 		final Runnable theSubFieldUndoJob = ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(fieldValue,
 				theSubField, subFieldValue);
-		undoJobBuilder = new FututreActionBuilder();
-		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+		undoJobBuilder = new FutureActionBuilder();
+		return undoJobBuilder.will(new FutureActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				undoValueUpdate(object, theSubFieldUndoJob, fieldValue, options);
@@ -171,8 +171,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 		Object fieldValue = expectTheFieldValue(object);
 		final Runnable theSubFieldRedoJob = ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(fieldValue,
 				theSubField, subFieldValue);
-		redoJobBuilder = new FututreActionBuilder();
-		return redoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+		redoJobBuilder = new FutureActionBuilder();
+		return redoJobBuilder.will(new FutureActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				redoValueUpdate(theSubFieldRedoJob, options);

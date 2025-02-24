@@ -25,6 +25,10 @@ public abstract class AbstractModificationProxy implements IModification {
 		return base.isFake();
 	}
 
+	public boolean isComposite() {
+		return base.isComposite();
+	}
+
 	public String getTitle() {
 		return base.getTitle();
 	}

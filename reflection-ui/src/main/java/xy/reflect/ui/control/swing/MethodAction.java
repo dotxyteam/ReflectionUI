@@ -305,6 +305,11 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
+			protected IModification createUndoModificationsReplacement() {
+				return ReflectionUIUtils.createUndoModificationsReplacement(data);
+			}
+
+			@Override
 			public SwingRenderer getSwingRenderer() {
 				return swingRenderer;
 			}

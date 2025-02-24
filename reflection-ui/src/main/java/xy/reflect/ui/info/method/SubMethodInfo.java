@@ -16,7 +16,7 @@ import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.util.FututreActionBuilder;
+import xy.reflect.ui.util.FutureActionBuilder;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -32,8 +32,8 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo theField;
 	protected IMethodInfo theSubMethod;
-	protected FututreActionBuilder undoJobBuilder;
-	protected FututreActionBuilder redoJobBuilder;
+	protected FutureActionBuilder undoJobBuilder;
+	protected FutureActionBuilder redoJobBuilder;
 	protected ITypeInfo objectType;
 	protected ITypeInfo returnValueType;
 	protected boolean returnValueVoid = false;
@@ -152,8 +152,8 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 			undoJobBuilder = null;
 			return null;
 		}
-		undoJobBuilder = new FututreActionBuilder();
-		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+		undoJobBuilder = new FutureActionBuilder();
+		return undoJobBuilder.will(new FutureActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				undoInvocation(object, theSubMethodUndoJob, fieldValue, options);
@@ -186,8 +186,8 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 		Object fieldValue = expectTheFieldValue(object);
 		final Runnable theSubMethodRedoJob = ReflectionUIUtils.getPreviousInvocationCustomOrDefaultRedoJob(fieldValue,
 				theSubMethod, invocationData);
-		redoJobBuilder = new FututreActionBuilder();
-		return redoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+		redoJobBuilder = new FutureActionBuilder();
+		return redoJobBuilder.will(new FutureActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				redoInvocation(theSubMethodRedoJob, options);

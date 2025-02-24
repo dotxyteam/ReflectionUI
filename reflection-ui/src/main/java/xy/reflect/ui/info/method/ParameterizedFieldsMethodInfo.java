@@ -11,7 +11,7 @@ import xy.reflect.ui.info.parameter.FieldAsParameterInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.IrreversibleModificationException;
-import xy.reflect.ui.util.FututreActionBuilder;
+import xy.reflect.ui.util.FutureActionBuilder;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -26,8 +26,8 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	protected ReflectionUI reflectionUI;
 	protected List<IFieldInfo> parameterizedFields;
 	protected ITypeInfo objectType;
-	protected FututreActionBuilder undoJobBuilder;
-	protected FututreActionBuilder redoJobBuilder;
+	protected FutureActionBuilder undoJobBuilder;
+	protected FutureActionBuilder redoJobBuilder;
 	protected List<FieldAsParameterInfo> generatedParameters;
 
 	public ParameterizedFieldsMethodInfo(ReflectionUI reflectionUI, IMethodInfo method,
@@ -70,8 +70,8 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
-		undoJobBuilder = new FututreActionBuilder();
-		return undoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+		undoJobBuilder = new FutureActionBuilder();
+		return undoJobBuilder.will(new FutureActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				undoInvocation(object, invocationData, options);
@@ -103,8 +103,8 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 
 	@Override
 	public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
-		redoJobBuilder = new FututreActionBuilder();
-		return redoJobBuilder.will(new FututreActionBuilder.FuturePerformance() {
+		redoJobBuilder = new FutureActionBuilder();
+		return redoJobBuilder.will(new FutureActionBuilder.FuturePerformance() {
 			@Override
 			public void perform(Map<String, Object> options) {
 				redoInvocation(options);

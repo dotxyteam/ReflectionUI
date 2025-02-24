@@ -416,6 +416,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 
 		@Override
+		protected IModification createUndoModificationsReplacement() {
+			return ReflectionUIUtils.createUndoModificationsReplacement(data);
+		}
+
+		@Override
 		protected void handleRealtimeLinkCommitException(Throwable t) {
 			commitExceptionHandler.handle(t);
 		}

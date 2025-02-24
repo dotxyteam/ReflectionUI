@@ -85,10 +85,6 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			ModificationStack childModifStack = subForm.getModificationStack();
 			childModifStack.addListener(new AbstractSimpleModificationListener() {
 				@Override
-				public void beforeModification() {
-				}
-
-				@Override
 				protected void handleAnyEvent(IModification modification) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
@@ -115,6 +111,12 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 						return null;
 					}
 					return new FieldControlDataModification(data, subFormObject);
+				}
+			};
+			Accessor<IModification> undoModificationsReplacementGetter = new Accessor<IModification>() {
+				@Override
+				public IModification get() {
+					return ReflectionUIUtils.createUndoModificationsReplacement(data);
 				}
 			};
 			Accessor<String> childModifTitleGetter = new Accessor<String>() {
@@ -145,8 +147,8 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			};
 			SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(),
 					childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
-					childValueTransactionExecutedGetter, committingModifGetter, childModifTitleGetter,
-					masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
+					childValueTransactionExecutedGetter, committingModifGetter, undoModificationsReplacementGetter,
+					childModifTitleGetter, masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
 					masterModificationExceptionListener);

@@ -127,7 +127,12 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public void beforeModification(Object object) {
+		public void onFormRefresh(Object object) {
+		}
+
+		@Override
+		public Runnable getLastFormRefreshStateRestorationJob(Object object) {
+			return null;
 		}
 
 		@Override

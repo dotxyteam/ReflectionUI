@@ -58,8 +58,12 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.createTransaction(object);
 	}
 
-	public void beforeModification(Object object) {
-		base.beforeModification(object);
+	public void onFormRefresh(Object object) {
+		base.onFormRefresh(object);
+	}
+
+	public Runnable getLastFormRefreshStateRestorationJob(Object object) {
+		return base.getLastFormRefreshStateRestorationJob(object);
 	}
 
 	public ITypeInfoSource getSource() {

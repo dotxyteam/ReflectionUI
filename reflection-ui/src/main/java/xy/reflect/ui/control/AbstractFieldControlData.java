@@ -72,6 +72,12 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public Runnable getLastFormRefreshStateRestorationJob() {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+		return type.getLastFormRefreshStateRestorationJob(getObject());
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		final IFieldInfo field = getField();
 		final Object object = getObject();

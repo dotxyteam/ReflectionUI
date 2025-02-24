@@ -438,6 +438,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			return new FieldControlDataModification(data, value);
 		}
 
+		@Override
+		protected IModification createUndoModificationsReplacement() {
+			return ReflectionUIUtils.createUndoModificationsReplacement(data);
+		}
+
 		/**
 		 * Should never be called since the {@link FieldControlInputProxy} above catches
 		 * the exceptions.
@@ -519,6 +524,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		@Override
 		protected IModification createCommittingModification(Object newObjectValue) {
 			return new FieldControlDataModification(data, newObjectValue);
+		}
+
+		@Override
+		protected IModification createUndoModificationsReplacement() {
+			return ReflectionUIUtils.createUndoModificationsReplacement(data);
 		}
 
 		@Override

@@ -26,6 +26,7 @@ public class SlaveModificationStack extends ModificationStack {
 	protected Accessor<ModificationStack> masterModificationStackGetter;
 	protected Accessor<Boolean> masterModificationFakeGetter;
 	protected Accessor<IModification> committingModificationGetter;
+	protected Accessor<IModification> undoModificationsReplacementGetter;
 	protected boolean exclusiveLinkWithParent;
 	protected Listener<String> debugLogListener;
 	protected Listener<String> errorLogListener;
@@ -34,9 +35,9 @@ public class SlaveModificationStack extends ModificationStack {
 	public SlaveModificationStack(String name, Accessor<Boolean> valueModifAcceptedGetter,
 			Accessor<ValueReturnMode> valueReturnModeGetter, Accessor<Boolean> valueReplacedGetter,
 			Accessor<Boolean> valueTransactionExecutedGetter, Accessor<IModification> committingModificationGetter,
-			Accessor<String> masterModificationTitleGetter, Accessor<ModificationStack> masterModificationStackGetter,
-			Accessor<Boolean> masterModificationFakeGetter, boolean exclusiveLinkWithParent,
-			Listener<String> debugLogListener, Listener<String> errorLogListener,
+			Accessor<IModification> undoModificationsReplacementGetter, Accessor<String> masterModificationTitleGetter,
+			Accessor<ModificationStack> masterModificationStackGetter, Accessor<Boolean> masterModificationFakeGetter,
+			boolean exclusiveLinkWithParent, Listener<String> debugLogListener, Listener<String> errorLogListener,
 			Listener<Throwable> masterModificationExceptionListener) {
 		super(name);
 		this.maximumSize = Integer.MAX_VALUE;
@@ -45,6 +46,7 @@ public class SlaveModificationStack extends ModificationStack {
 		this.valueReplacedGetter = valueReplacedGetter;
 		this.valueTransactionExecutedGetter = valueTransactionExecutedGetter;
 		this.committingModificationGetter = committingModificationGetter;
+		this.undoModificationsReplacementGetter = undoModificationsReplacementGetter;
 		this.masterModificationTitleGetter = masterModificationTitleGetter;
 		this.masterModificationStackGetter = masterModificationStackGetter;
 		this.masterModificationFakeGetter = masterModificationFakeGetter;
@@ -96,6 +98,7 @@ public class SlaveModificationStack extends ModificationStack {
 		boolean valueReplaced = valueReplacedGetter.get();
 		boolean valueTransactionExecuted = valueTransactionExecutedGetter.get();
 		IModification committingModif = committingModificationGetter.get();
+		IModification undoModificationsReplacement = undoModificationsReplacementGetter.get();
 		String modifTitle = AbstractModification.getUndoTitle(undoModif.getTitle());
 		String modifTitlePrefix = masterModificationTitleGetter.get();
 		if ((modifTitlePrefix != null) && (modifTitle != null)) {
@@ -106,9 +109,10 @@ public class SlaveModificationStack extends ModificationStack {
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean masterModificationFake = masterModificationFakeGetter.get();
 		try {
-			ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
-					valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif, modifTitle,
-					masterModificationFake, debugLogListener, errorLogListener);
+			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+					valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif,
+					undoModificationsReplacement, modifTitle, masterModificationFake, debugLogListener,
+					errorLogListener);
 		} catch (Throwable t) {
 			masterModificationExceptionListener.handle(t);
 		}
@@ -132,13 +136,15 @@ public class SlaveModificationStack extends ModificationStack {
 		boolean valueReplaced = valueReplacedGetter.get();
 		boolean valueTransactionExecuted = valueTransactionExecutedGetter.get();
 		IModification committingModif = committingModificationGetter.get();
+		IModification undoModificationsReplacement = undoModificationsReplacementGetter.get();
 		String parentObjectModifTitle = null;
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean parentObjectModificationFake = masterModificationFakeGetter.get();
 		try {
-			ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
-					valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif, parentObjectModifTitle,
-					parentObjectModificationFake, debugLogListener, errorLogListener);
+			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+					valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif,
+					undoModificationsReplacement, parentObjectModifTitle, parentObjectModificationFake,
+					debugLogListener, errorLogListener);
 		} catch (Throwable t) {
 			masterModificationExceptionListener.handle(t);
 		}
@@ -205,13 +211,6 @@ public class SlaveModificationStack extends ModificationStack {
 	public IModificationListener[] getListeners() {
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		return parentObjectModifStack.getListeners();
-	}
-
-	@Override
-	public void beforeModification() {
-		super.beforeModification();
-		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
-		parentObjectModifStack.beforeModification();
 	}
 
 	/**

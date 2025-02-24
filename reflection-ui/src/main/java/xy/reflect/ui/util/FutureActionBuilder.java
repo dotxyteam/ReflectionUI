@@ -13,7 +13,7 @@ import java.util.Map;
  * @author olitank
  *
  */
-public class FututreActionBuilder {
+public class FutureActionBuilder {
 
 	protected Action currentAction;
 

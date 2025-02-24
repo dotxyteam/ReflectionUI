@@ -98,6 +98,13 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract IModification createCommittingModification(Object newObjectValue);
 
 	/**
+	 * @return a modification (may be null) that will be applied in order to revert
+	 *         modifications of the parent object. If null is returned then the
+	 *         default undo modifications will be used.
+	 */
+	protected abstract IModification createUndoModificationsReplacement();
+
+	/**
 	 * Processes exceptions thrown when the local value/object is committed to the
 	 * parent object through a real-time link.
 	 * 
@@ -488,10 +495,6 @@ public abstract class AbstractEditorFormBuilder {
 		ModificationStack childModificationStack = editorForm.getModificationStack();
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
-			public void beforeModification() {
-			}
-
-			@Override
 			protected void handleAnyEvent(IModification modification) {
 				refreshEditorForm(editorForm, false);
 			}
@@ -546,6 +549,12 @@ public abstract class AbstractEditorFormBuilder {
 				return createCommittingModification(getCurrentValue());
 			}
 		};
+		Accessor<IModification> undoModificationsReplacementGetter = new Accessor<IModification>() {
+			@Override
+			public IModification get() {
+				return createUndoModificationsReplacement();
+			}
+		};
 		Accessor<String> masterModifTitleGetter = new Accessor<String>() {
 			@Override
 			public String get() {
@@ -576,8 +585,8 @@ public abstract class AbstractEditorFormBuilder {
 		};
 		SlaveModificationStack slaveModificationStack = new SlaveModificationStack(editorForm.toString(),
 				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
-				childValueTransactionExecutedGetter, committingModifGetter, masterModifTitleGetter,
-				masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
+				childValueTransactionExecutedGetter, committingModifGetter, undoModificationsReplacementGetter,
+				masterModifTitleGetter, masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener);

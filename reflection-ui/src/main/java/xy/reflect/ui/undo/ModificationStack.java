@@ -7,11 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-import xy.reflect.ui.undo.AbstractModification.OppositeModification;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * This is an undo management class. it allows to undo/redo actions performed
@@ -59,10 +57,6 @@ public class ModificationStack {
 	protected IModificationListener internalListener = new IModificationListener() {
 
 		@Override
-		public void beforeModification() {
-		}
-
-		@Override
 		public void afterUndo(IModification undoModification) {
 			stateVersion--;
 		}
@@ -88,18 +82,6 @@ public class ModificationStack {
 
 	};
 	protected IModificationListener allListenersProxy = new IModificationListener() {
-
-		@Override
-		public void beforeModification() {
-			internalListener.beforeModification();
-			if (!eventFiringEnabled) {
-				return;
-			}
-			for (IModificationListener listener : new ArrayList<IModificationListener>(
-					ModificationStack.this.listeners)) {
-				listener.beforeModification();
-			}
-		}
 
 		@Override
 		public void afterPush(IModification undoModification) {
@@ -342,30 +324,7 @@ public class ModificationStack {
 	}
 
 	protected IModification applyAndGetOpposite(IModification modification) {
-		if (!modification.isFake()) {
-			if (!modification.isComposite()) {
-				if (ModificationScheme.get() != null) {
-					if (!ModificationScheme.get().isTangible()) {
-						beforeModification();
-					}
-				}
-			}
-		}
-		try {
-			return modification.applyAndGetOpposite(this);
-		} finally {
-			if (!modification.isFake()) {
-				if (!modification.isComposite()) {
-					if (ModificationScheme.get() != null) {
-						ModificationScheme.get().makeTangible();
-					}
-				}
-			}
-		}
-	}
-
-	public void beforeModification() {
-		allListenersProxy.beforeModification();
+		return modification.applyAndGetOpposite(this);
 	}
 
 	/**

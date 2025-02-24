@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control;
 
 import java.util.List;
@@ -183,6 +181,12 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	@Override
 	public Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData) {
 		return getMethod().getPreviousInvocationCustomRedoJob(getObject(), invocationData);
+	}
+
+	@Override
+	public Runnable getLastFormRefreshStateRestorationJob() {
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+		return type.getLastFormRefreshStateRestorationJob(getObject());
 	}
 
 	@Override

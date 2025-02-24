@@ -53,10 +53,6 @@ public class ModificationStackControls {
 			protected static final long serialVersionUID = 1L;
 			IModificationListener listener = new AbstractSimpleModificationListener() {
 				@Override
-				public void beforeModification() {
-				}
-
-				@Override
 				protected void handleAnyEvent(IModification modification) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override

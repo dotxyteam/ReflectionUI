@@ -49,8 +49,8 @@ public interface IMethodControlData {
 
 	/**
 	 * @param invocationData The parameter values.
-	 * @return a job that can replay the previous invocation of the underlying method or
-	 *         null if the default redo job should be used.
+	 * @return a job that can replay the previous invocation of the underlying
+	 *         method or null if the default redo job should be used.
 	 */
 	Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData);
 
@@ -202,4 +202,9 @@ public interface IMethodControlData {
 	 */
 	String getExecutionSuccessMessage();
 
+	/**
+	 * @return a job (may be null) that restores the state of the underlying object
+	 *         when its form was last refreshed.
+	 */
+	Runnable getLastFormRefreshStateRestorationJob();
 }

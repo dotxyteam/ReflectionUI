@@ -55,6 +55,10 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.getPreviousUpdateCustomRedoJob(newValue);
 	}
 
+	public Runnable getLastFormRefreshStateRestorationJob() {
+		return base.getLastFormRefreshStateRestorationJob();
+	}
+
 	public boolean isGetOnly() {
 		return base.isGetOnly();
 	}

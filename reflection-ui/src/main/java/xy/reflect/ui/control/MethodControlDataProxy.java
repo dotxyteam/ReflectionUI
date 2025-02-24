@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control;
 
 import java.util.List;
@@ -14,8 +12,8 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Method control data proxy class. The methods in this class should be overridden to provide a
- * custom behavior.
+ * Method control data proxy class. The methods in this class should be
+ * overridden to provide a custom behavior.
  * 
  * @author olitank
  *
@@ -112,6 +110,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 
 	public Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData) {
 		return base.getPreviousInvocationCustomRedoJob(invocationData);
+	}
+
+	public Runnable getLastFormRefreshStateRestorationJob() {
+		return base.getLastFormRefreshStateRestorationJob();
 	}
 
 	public void validateParameters(InvocationData invocationData) throws Exception {

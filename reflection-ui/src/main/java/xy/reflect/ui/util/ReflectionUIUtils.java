@@ -67,8 +67,12 @@ import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.undo.AbstractModification;
+import xy.reflect.ui.undo.AbstractModificationProxy;
+import xy.reflect.ui.undo.CancelledModificationException;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
+import xy.reflect.ui.undo.IrreversibleModificationException;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
@@ -569,11 +573,12 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static void finalizeSubModifications(final ModificationStack parentModificationStack,
+	public static void finalizeModifications(final ModificationStack parentModificationStack,
 			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
 			final ValueReturnMode valueReturnMode, final boolean valueReplaced, boolean valueTransactionExecuted,
-			final IModification committingModification, String parentModificationTitle, boolean fakeParentModification,
-			final Listener<String> debugLogListener, Listener<String> errorLogListener) {
+			final IModification committingModification, final IModification undoModificationsReplacement,
+			String parentModificationTitle, boolean fakeParentModification, final Listener<String> debugLogListener,
+			Listener<String> errorLogListener) {
 
 		if (currentModificationsStack == null) {
 			throw new ReflectionUIError();
@@ -599,18 +604,20 @@ public class ReflectionUIUtils {
 						new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								if (valueReturnMode != ValueReturnMode.CALCULATED) {
-									if (currentModificationsStack.wasInvalidated()) {
-										if (debugLogListener != null) {
-											debugLogListener.handle(
-													"Sub-modification stack invalidated => Invalidating parent modification stack: "
-															+ parentModificationStack);
+								if (undoModificationsReplacement == null) {
+									if (valueReturnMode != ValueReturnMode.CALCULATED) {
+										if (currentModificationsStack.wasInvalidated()) {
+											if (debugLogListener != null) {
+												debugLogListener.handle(
+														"Sub-modification stack invalidated => Invalidating parent modification stack: "
+																+ parentModificationStack);
+											}
+											parentModificationStack.invalidate();
+										} else {
+											parentModificationStack.push(ModificationStack.createCompositeModification(
+													null, UndoOrder.getNormal(),
+													currentModificationsStack.getUndoModifications()));
 										}
-										parentModificationStack.invalidate();
-									} else {
-										parentModificationStack.push(ModificationStack.createCompositeModification(null,
-												UndoOrder.getNormal(),
-												currentModificationsStack.getUndoModifications()));
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
@@ -618,8 +625,26 @@ public class ReflectionUIUtils {
 										if (debugLogListener != null) {
 											debugLogListener.handle("Executing " + committingModification);
 										}
-										parentModificationStack.apply(committingModification);
+										parentModificationStack
+												.apply((undoModificationsReplacement == null) ? committingModification
+														: new AbstractModificationProxy(committingModification) {
+
+															@Override
+															public IModification applyAndGetOpposite(
+																	ModificationStack modificationStack)
+																	throws IrreversibleModificationException,
+																	CancelledModificationException {
+																/*
+																 * to prevent the undo modification from being pushed on
+																 * the stack.
+																 */
+																return null;
+															}
+														});
 									}
+								}
+								if (undoModificationsReplacement != null) {
+									parentModificationStack.push(undoModificationsReplacement);
 								}
 								return true;
 							}
@@ -1410,12 +1435,75 @@ public class ReflectionUIUtils {
 		if (!(slaveModificationStack instanceof SlaveModificationStack)) {
 			return false;
 		}
-		ModificationStack currentMaster = ((SlaveModificationStack) slaveModificationStack).getMasterModificationStackGetter()
-				.get();
+		ModificationStack currentMaster = ((SlaveModificationStack) slaveModificationStack)
+				.getMasterModificationStackGetter().get();
 		if (currentMaster != masterModificationStack) {
 			return isTransitivelySlave(currentMaster, masterModificationStack);
 		}
 		return true;
+	}
+
+	public static IModification createUndoModificationsReplacement(final IFieldControlData data) {
+		return createUndoModificationsReplacement(new Accessor<Runnable>() {
+			@Override
+			public Runnable get() {
+				return data.getLastFormRefreshStateRestorationJob();
+			}
+		});
+	}
+
+	public static IModification createUndoModificationsReplacement(final IMethodControlData data) {
+		return createUndoModificationsReplacement(new Accessor<Runnable>() {
+			@Override
+			public Runnable get() {
+				return data.getLastFormRefreshStateRestorationJob();
+			}
+		});
+	}
+
+	private static IModification createUndoModificationsReplacement(
+			final Accessor<Runnable> stateRestorationJobGetter) {
+		final Runnable stateRestorationJob = stateRestorationJobGetter.get();
+		if (stateRestorationJob == null) {
+			return null;
+		}
+		return new AbstractModification() {
+
+			FutureActionBuilder undoJobBuilder;
+
+			@Override
+			public String getTitle() {
+				return "Restore Previous State";
+			}
+
+			@Override
+			protected Runnable createDoJob() {
+				return new Runnable() {
+					@Override
+					public void run() {
+						undoJobBuilder.setOption("runnable", stateRestorationJobGetter.get());
+						undoJobBuilder.build();
+						stateRestorationJob.run();
+					}
+				};
+			}
+
+			@Override
+			protected Runnable createUndoJob() {
+				return (undoJobBuilder = new FutureActionBuilder()).will(new FutureActionBuilder.FuturePerformance() {
+					@Override
+					public void perform(Map<String, Object> options) {
+						((Runnable) options.get("runnable")).run();
+					}
+				});
+			}
+
+			@Override
+			protected Runnable createRedoJob() {
+				return stateRestorationJob;
+			}
+
+		};
 	}
 
 }

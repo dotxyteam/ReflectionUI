@@ -22,7 +22,6 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
-import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -331,9 +330,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		} else {
 			createdFormModificationStack.setMaximumSize(Integer.MAX_VALUE);
 		}
-		if (getParentModificationStack() != null) {
-			getParentModificationStack().beforeModification();
-		}
 	}
 
 	/**
@@ -368,11 +364,13 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		} else {
 			committingModif = createCommittingModification(currentValue);
 		}
+		IModification undoModificationsReplacement = createUndoModificationsReplacement();
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifFake = isParentModificationFake();
-		ReflectionUIUtils.finalizeSubModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
-				valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif, parentObjectModifTitle,
-				parentObjectModifFake, ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
+		ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
+				valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif, undoModificationsReplacement,
+				parentObjectModifTitle, parentObjectModifFake,
+				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()));
 		if (currentValueTransaction != null) {
 			currentValueTransaction = null;
@@ -380,21 +378,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 				parentObjectModifStack.push(IModification.FAKE_MODIFICATION);
 			}
 		}
-		createdFormModificationStack.addListener(new AbstractSimpleModificationListener() {
-
-			@Override
-			public void beforeModification() {
-				if (getParentModificationStack() != null) {
-					getParentModificationStack().beforeModification();
-				}
-			}
-
-			@Override
-			protected void handleAnyEvent(IModification modification) {
-				// TODO Auto-generated method stub
-
-			}
-		});		
 	}
 
 	/**

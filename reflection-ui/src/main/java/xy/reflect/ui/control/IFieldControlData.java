@@ -71,8 +71,8 @@ public interface IFieldControlData {
 
 	/**
 	 * @param newValue The new value.
-	 * @return a job that can replay the previous value update or null if the default
-	 *         redo job should be used.
+	 * @return a job that can replay the previous value update or null if the
+	 *         default redo job should be used.
 	 */
 	Runnable getPreviousUpdateCustomRedoJob(Object newValue);
 
@@ -232,5 +232,11 @@ public interface IFieldControlData {
 	 *         border.
 	 */
 	ColorSpecification getButtonBorderColor();
+
+	/**
+	 * @return a job (may be null) that restores the state of the underlying object
+	 *         when its form was last refreshed.
+	 */
+	Runnable getLastFormRefreshStateRestorationJob();
 
 }

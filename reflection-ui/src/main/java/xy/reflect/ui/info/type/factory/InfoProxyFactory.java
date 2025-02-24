@@ -1506,13 +1506,27 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
-	 * Executes {@link ITypeInfo#beforeModification(Object)} unless overridden.
+	 * Executes {@link ITypeInfo#onFormRefresh(Object)} unless overridden.
 	 * 
 	 * @param type   The type information.
-	 * @param object Parameter of {@link ITypeInfo#beforeModification(Object)}.
+	 * @param object Parameter of {@link ITypeInfo#onFormRefresh(Object)}.
 	 */
-	protected void beforeModification(ITypeInfo type, Object object) {
-		type.beforeModification(object);
+	protected void onFormRefresh(ITypeInfo type, Object object) {
+		type.onFormRefresh(object);
+	}
+
+	/**
+	 * Executes {@link ITypeInfo#onFormRefresh(Object)} unless overridden.
+	 * 
+	 * @param type   The type information.
+	 * @param object Parameter of
+	 *               {@link ITypeInfo#getLastFormRefreshStateRestorationJob(Object)}.
+	 * @return the result of
+	 *         {@link ITypeInfo#getLastFormRefreshStateRestorationJob()} unless
+	 *         overridden.
+	 */
+	protected Runnable getLastFormRefreshStateRestorationJob(ITypeInfo type, Object object) {
+		return type.getLastFormRefreshStateRestorationJob(object);
 	}
 
 	/**
@@ -2166,8 +2180,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public void beforeModification(Object object) {
-			InfoProxyFactory.this.beforeModification(base, object);
+		public void onFormRefresh(Object object) {
+			InfoProxyFactory.this.onFormRefresh(base, object);
+		}
+
+		@Override
+		public Runnable getLastFormRefreshStateRestorationJob(Object object) {
+			return InfoProxyFactory.this.getLastFormRefreshStateRestorationJob(base, object);
 		}
 
 		@Override
