@@ -338,7 +338,7 @@ public abstract class AbstractEditorFormBuilder {
 		if (initialObjectValue != null) {
 			return getSwingRenderer().getReflectionUI().getTypeInfoSource(initialObjectValue);
 		}
-		return new JavaTypeInfoSource(getSwingRenderer().getReflectionUI(), Object.class, null);
+		return new JavaTypeInfoSource(Object.class, null);
 	}
 
 	/**

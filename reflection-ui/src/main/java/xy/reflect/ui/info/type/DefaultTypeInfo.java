@@ -49,11 +49,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	protected List<IMethodInfo> methods;
 	protected List<IMethodInfo> constructors;
 
-	public DefaultTypeInfo(JavaTypeInfoSource source) {
+	public DefaultTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {
 		if (source == null) {
 			throw new ReflectionUIError();
 		}
-		this.reflectionUI = source.getReflectionUI();
+		this.reflectionUI = reflectionUI;
 		this.source = source;
 	}
 

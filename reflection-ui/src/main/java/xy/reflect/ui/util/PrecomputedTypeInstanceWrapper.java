@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -127,7 +128,7 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		public ITypeInfo buildTypeInfo() {
+		public ITypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
 			return new InfoFactory(this).wrapTypeInfo(precomputedType);
 		}
 

@@ -25,8 +25,8 @@ public interface IParameterInfo extends IInfo {
 	 */
 	IParameterInfo NULL_PARAMETER_INFO = new IParameterInfo() {
 
-		ITypeInfo type = new DefaultTypeInfo(
-				new JavaTypeInfoSource(ReflectionUI.getDefault(), Object.class, null));
+		ITypeInfo type = new DefaultTypeInfo(ReflectionUI.getDefault(),
+				new JavaTypeInfoSource(Object.class, null));
 
 		@Override
 		public Map<String, Object> getSpecificProperties() {

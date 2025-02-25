@@ -75,7 +75,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			throw new RecursivePolymorphismDetectionException();
 		}
 		final ITypeInfoSource typeSource = type.getSource();
-		final ITypeInfo unwrappedType = typeSource.buildTypeInfo();
+		final ITypeInfo unwrappedType = typeSource.buildTypeInfo(reflectionUI);
 		final ITypeInfo[] blockedRecursivityType = new ITypeInfo[1];
 		blockedRecursivityType[0] = new InfoProxyFactory() {
 

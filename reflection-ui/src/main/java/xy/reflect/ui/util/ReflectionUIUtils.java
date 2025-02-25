@@ -1355,7 +1355,7 @@ public class ReflectionUIUtils {
 	public static ITypeInfo buildTypeInfo(String className) {
 		try {
 			return ReflectionUI.getDefault()
-					.getTypeInfo(new JavaTypeInfoSource(ReflectionUI.getDefault(), Class.forName(className), null));
+					.getTypeInfo(new JavaTypeInfoSource(Class.forName(className), null));
 		} catch (ClassNotFoundException e) {
 			throw new ReflectionUIError(e);
 		}

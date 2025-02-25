@@ -410,7 +410,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			@Override
 			protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
 				if (field.getType().getName().equals(ColorSpecification.class.getName())) {
-					return getTypeInfo(new JavaTypeInfoSource(CustomizationToolsUI.this, Color.class,
+					return getTypeInfo(new JavaTypeInfoSource(Color.class,
 							new SpecificitiesIdentifier(objectType.getName(), field.getName())));
 				}
 				return super.getType(field, objectType);

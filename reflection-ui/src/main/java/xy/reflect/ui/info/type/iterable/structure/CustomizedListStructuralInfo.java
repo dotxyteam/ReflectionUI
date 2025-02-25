@@ -401,7 +401,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 			public SubListGroupTypeInfo() {
 				this.itemType = reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(
-						new DefaultTypeInfo(new JavaTypeInfoSource(reflectionUI, SubListGroupItem.class, null))));
+						new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(SubListGroupItem.class, null))));
 			}
 
 			@Override
@@ -413,7 +413,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 						PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) itemPosition.getItem();
 						SubListGroupItem subListGroupItem = (SubListGroupItem) (item).getInstance();
 						return new PrecomputedTypeInstanceWrapper.TypeInfoSource(
-								new SubListGroupItemTypeInfo(subListGroupItem.getField())).buildTypeInfo().getFields()
+								new SubListGroupItemTypeInfo(subListGroupItem.getField())).buildTypeInfo(reflectionUI).getFields()
 										.get(0);
 					}
 

@@ -290,7 +290,7 @@ public class ReflectionUITutorial {
 								public Object invoke(Object object, InvocationData invocationData) {
 									HelloWorld newObject = new HelloWorld();
 									for (IFieldInfo field : ReflectionUI.getDefault().getTypeInfo(
-											new JavaTypeInfoSource(ReflectionUI.getDefault(), HelloWorld.class, null))
+											new JavaTypeInfoSource(HelloWorld.class, null))
 											.getFields()) {
 										if (field.isGetOnly()) {
 											continue;

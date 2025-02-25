@@ -54,7 +54,7 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 			public void run() {
 				ReflectionUI reflectionUI = SwingCustomizer.getDefault().getReflectionUI();
 				Object object = SwingCustomizer.getDefault().onTypeInstantiationRequest(null,
-						reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)));
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz, null)));
 				if (object == null) {
 					return;
 				}

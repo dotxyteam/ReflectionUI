@@ -48,13 +48,13 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 			if (javaParameter.isNamePresent()) {
 				name = javaParameter.getName();
 			} else {
-				name = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(), null))
+				name = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(), null))
 						.getCaption();
 				int sameNameCount = 0;
 				int sameNamePosition = 0;
 				int parameterPosition = 0;
 				for (Class<?> c : javaParameter.getDeclaringExecutable().getParameterTypes()) {
-					if (name.equals(new DefaultTypeInfo(new JavaTypeInfoSource(reflectionUI, c, null)).getCaption())) {
+					if (name.equals(new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(c, null)).getCaption())) {
 						sameNameCount++;
 						if (parameterPosition < position) {
 							sameNamePosition++;
@@ -80,7 +80,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, javaParameter.getType(),
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
 					javaParameter.getDeclaringExecutable(), position, null));
 		}
 		return type;

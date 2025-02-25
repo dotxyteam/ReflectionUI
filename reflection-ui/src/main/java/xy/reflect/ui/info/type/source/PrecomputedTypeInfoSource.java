@@ -3,6 +3,7 @@
 
 package xy.reflect.ui.info.type.source;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 
@@ -24,7 +25,7 @@ public class PrecomputedTypeInfoSource implements ITypeInfoSource {
 	}
 
 	@Override
-	public ITypeInfo buildTypeInfo() {
+	public ITypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
 		return new InfoProxyFactory() {
 
 			@Override

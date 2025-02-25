@@ -158,7 +158,7 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 
 		@Override
 		public ITypeInfo getType() {
-			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, File.class, null));
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(File.class, null));
 		}
 
 		@Override

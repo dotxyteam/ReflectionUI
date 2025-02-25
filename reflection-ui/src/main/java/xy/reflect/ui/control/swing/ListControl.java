@@ -1298,7 +1298,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		ITypeInfo typeToInstantiate = listType.getItemType();
 		if (typeToInstantiate == null) {
 			typeToInstantiate = swingRenderer.getReflectionUI()
-					.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
+					.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 		}
 
 		BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
@@ -1332,7 +1332,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			ITypeInfo typeToInstantiate = listType.getItemType();
 			if (typeToInstantiate == null) {
 				typeToInstantiate = swingRenderer.getReflectionUI()
-						.getTypeInfo(new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null));
+						.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 			}
 			if (swingRenderer.isDecisionRequiredOnTypeInstantiationRequest(typeToInstantiate)) {
 				return true;
@@ -2438,7 +2438,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (itemType != null) {
 				return itemType.getSource();
 			}
-			return new JavaTypeInfoSource(swingRenderer.getReflectionUI(), Object.class, null);
+			return new JavaTypeInfoSource(Object.class, null);
 		}
 
 		@Override

@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -23,11 +25,11 @@ public class StandardMapAsListTypeInfo extends StandardCollectionTypeInfo {
 	protected Class<?> keyJavaType;
 	protected Class<?> valueJavaType;
 
-	public StandardMapAsListTypeInfo(JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
-		super(source, null);
+	public StandardMapAsListTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
+		super(reflectionUI, source, null);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
-		this.itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, StandardMapEntry.class,
+		this.itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(StandardMapEntry.class,
 				new Class[] { keyJavaType, valueJavaType }, null));
 	}
 

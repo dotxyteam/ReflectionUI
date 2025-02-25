@@ -112,7 +112,7 @@ public class SwingRenderer {
 			public void run() {
 				ReflectionUI reflectionUI = SwingRenderer.getDefault().getReflectionUI();
 				Object object = SwingRenderer.getDefault().onTypeInstantiationRequest(null,
-						reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, clazz, null)));
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(clazz, null)));
 				if (object == null) {
 					return;
 				}
@@ -501,7 +501,7 @@ public class SwingRenderer {
 						return null;
 					}
 					try {
-						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
+						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
 								ClassUtils.getCachedClassForName(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);

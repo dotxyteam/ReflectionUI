@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.GetterFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
@@ -35,8 +36,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected GetterFieldInfo keyField;
 	protected GetterFieldInfo valueField;
 
-	public StandardMapEntryTypeInfo(JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
-		super(source);
+	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
+		super(reflectionUI, source);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
 	}
@@ -112,7 +113,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						if (type == null) {
 							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
-							type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
+							type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
 									(keyJavaType == null) ? Object.class : keyJavaType, specificitiesIdentifier));
 						}
 						return type;
@@ -152,7 +153,7 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						if (type == null) {
 							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
 									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
-							type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
+							type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
 									(valueJavaType == null) ? Object.class : valueJavaType, specificitiesIdentifier));
 						}
 						return type;
@@ -304,10 +305,10 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 					public ITypeInfo getType() {
 						if (type == null) {
 							if (getPosition() == 0) {
-								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
+								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
 										(keyJavaType != null) ? keyJavaType : Object.class, null));
 							} else if (getPosition() == 1) {
-								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI,
+								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
 										(valueJavaType != null) ? valueJavaType : Object.class, null));
 							} else {
 								throw new ReflectionUIError();

@@ -25,7 +25,7 @@ public class ExtractCustomizationsHelp {
 		CustomizationToolsUI toolsUI = tools.getToolsUI();
 		for (Class<?> c : Arrays.asList(TypeCustomization.class, FieldCustomization.class, MethodCustomization.class,
 				ListCustomization.class, EnumerationCustomization.class)) {
-			ITypeInfo typeCustomizationType = toolsUI.getTypeInfo(new JavaTypeInfoSource(toolsUI, c, null));
+			ITypeInfo typeCustomizationType = toolsUI.getTypeInfo(new JavaTypeInfoSource(c, null));
 			printTypeHelp(typeCustomizationType);
 		}
 	}

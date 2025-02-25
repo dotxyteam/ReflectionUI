@@ -42,7 +42,7 @@ public class FieldAlternativeListItemConstructorsInstaller extends InfoProxyFact
 	protected ITypeInfo getItemType(IListTypeInfo type) {
 		ITypeInfo result = super.getItemType(type);
 		if (result == null) {
-			result = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, Object.class, null));
+			result = reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 		}
 		result = new InfoProxyFactory() {
 

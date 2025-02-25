@@ -43,31 +43,26 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	protected static final Map<JavaTypeInfoSource, DefaultTypeInfo> CACHE = MiscUtils.newWeakValuesEqualityBasedMap();
 	protected static final Object CACHE_MUTEX = new Object();
 
-	protected ReflectionUI reflectionUI;
 	protected Class<?> javaType;
 	protected Member declaringMember;
 	protected int declaringInvokableParameterPosition;
 	protected Class<?>[] genericTypeParameters;
 	protected SpecificitiesIdentifier specificitiesIdentifier;
 
-	public JavaTypeInfoSource(ReflectionUI reflectionUI, Class<?> javaType,
-			SpecificitiesIdentifier specificitiesIdentifier) {
-		this.reflectionUI = reflectionUI;
+	public JavaTypeInfoSource(Class<?> javaType, SpecificitiesIdentifier specificitiesIdentifier) {
 		this.javaType = javaType;
 		this.specificitiesIdentifier = specificitiesIdentifier;
 	}
 
-	public JavaTypeInfoSource(ReflectionUI reflectionUI, Class<?> javaType, Class<?>[] genericTypeParameters,
+	public JavaTypeInfoSource(Class<?> javaType, Class<?>[] genericTypeParameters,
 			SpecificitiesIdentifier specificitiesIdentifier) {
-		this.reflectionUI = reflectionUI;
 		this.javaType = javaType;
 		this.genericTypeParameters = genericTypeParameters;
 		this.specificitiesIdentifier = specificitiesIdentifier;
 	}
 
-	public JavaTypeInfoSource(ReflectionUI reflectionUI, Class<?> javaType, Member declaringMember,
-			int declaringInvokableParameterPosition, SpecificitiesIdentifier specificitiesIdentifier) {
-		this.reflectionUI = reflectionUI;
+	public JavaTypeInfoSource(Class<?> javaType, Member declaringMember, int declaringInvokableParameterPosition,
+			SpecificitiesIdentifier specificitiesIdentifier) {
 		this.javaType = javaType;
 		this.declaringMember = declaringMember;
 		this.declaringInvokableParameterPosition = declaringInvokableParameterPosition;
@@ -75,7 +70,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	}
 
 	@Override
-	public DefaultTypeInfo buildTypeInfo() {
+	public DefaultTypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
 		synchronized (CACHE_MUTEX) {
 			DefaultTypeInfo result = CACHE.get(this);
 			if (result == null) {
@@ -85,13 +80,13 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 					if (itemClass == null) {
 						itemType = null;
 					} else {
-						itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, itemClass, null));
+						itemType = reflectionUI.getTypeInfo(new JavaTypeInfoSource(itemClass, null));
 					}
-					result = new StandardCollectionTypeInfo(this, itemType);
+					result = new StandardCollectionTypeInfo(reflectionUI, this, itemType);
 				} else if (StandardMapAsListTypeInfo.isCompatibleWith(getJavaType())) {
 					Class<?> keyClass = guessGenericTypeParameters(Map.class, 0);
 					Class<?> valueClass = guessGenericTypeParameters(Map.class, 1);
-					result = new StandardMapAsListTypeInfo(this, keyClass, valueClass);
+					result = new StandardMapAsListTypeInfo(reflectionUI, this, keyClass, valueClass);
 				} else if (StandardMapEntryTypeInfo.isCompatibleWith(getJavaType())) {
 					Class<?> keyClass = null;
 					Class<?> valueClass = null;
@@ -104,22 +99,18 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 						keyClass = genericParams[0];
 						valueClass = genericParams[1];
 					}
-					result = new StandardMapEntryTypeInfo(this, keyClass, valueClass);
+					result = new StandardMapEntryTypeInfo(reflectionUI, this, keyClass, valueClass);
 				} else if (getJavaType().isArray()) {
-					result = new ArrayTypeInfo(this);
+					result = new ArrayTypeInfo(reflectionUI, this);
 				} else if (getJavaType().isEnum()) {
-					result = new StandardEnumerationTypeInfo(this);
+					result = new StandardEnumerationTypeInfo(reflectionUI, this);
 				} else {
-					result = new DefaultTypeInfo(this);
+					result = new DefaultTypeInfo(reflectionUI, this);
 				}
 				CACHE.put(this, result);
 			}
 			return result;
 		}
-	}
-
-	public ReflectionUI getReflectionUI() {
-		return reflectionUI;
 	}
 
 	@Override
@@ -230,7 +221,6 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		result = prime * result + ((declaringMember == null) ? 0 : declaringMember.hashCode());
 		result = prime * result + Arrays.hashCode(genericTypeParameters);
 		result = prime * result + ((javaType == null) ? 0 : javaType.hashCode());
-		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
 		result = prime * result + ((specificitiesIdentifier == null) ? 0 : specificitiesIdentifier.hashCode());
 		return result;
 	}
@@ -257,11 +247,6 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 			if (other.javaType != null)
 				return false;
 		} else if (!javaType.equals(other.javaType))
-			return false;
-		if (reflectionUI == null) {
-			if (other.reflectionUI != null)
-				return false;
-		} else if (!reflectionUI.equals(other.reflectionUI))
 			return false;
 		if (specificitiesIdentifier == null) {
 			if (other.specificitiesIdentifier != null)

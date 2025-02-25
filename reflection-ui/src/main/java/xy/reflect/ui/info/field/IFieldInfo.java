@@ -29,7 +29,7 @@ public interface IFieldInfo extends IInfo {
 	 */
 	public IFieldInfo NULL_FIELD_INFO = new IFieldInfo() {
 
-		ITypeInfo type = new DefaultTypeInfo(new JavaTypeInfoSource(ReflectionUI.getDefault(), Object.class, null));
+		ITypeInfo type = new DefaultTypeInfo(ReflectionUI.getDefault(), new JavaTypeInfoSource(Object.class, null));
 
 		@Override
 		public String getName() {

@@ -80,10 +80,10 @@ public class ReflectionUI {
 			return ((PrecomputedTypeInstanceWrapper) object).getTypeInfoSource();
 		}
 		if (object instanceof StandardMapEntry) {
-			return new JavaTypeInfoSource(this, object.getClass(), ((StandardMapEntry) object).getGenericTypeParameters(),
+			return new JavaTypeInfoSource(object.getClass(), ((StandardMapEntry) object).getGenericTypeParameters(),
 					null);
 		}
-		return new JavaTypeInfoSource(this, object.getClass(), null);
+		return new JavaTypeInfoSource(object.getClass(), null);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class ReflectionUI {
 	 *         to the given typeInfoSource parameter.
 	 */
 	public ITypeInfo getTypeInfo(ITypeInfoSource typeInfoSource) {
-		ITypeInfo result = typeInfoSource.buildTypeInfo();
+		ITypeInfo result = typeInfoSource.buildTypeInfo(this);
 		if (!result.getSource().equals(typeInfoSource)) {
 			throw new ReflectionUIError("Calling " + ITypeInfo.class.getSimpleName()
 					+ "#getSource() on the following instance does not return an object equals to the source object: "

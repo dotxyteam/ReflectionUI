@@ -309,11 +309,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	public class ValueListTypeInfo extends StandardCollectionTypeInfo {
 
 		public ValueListTypeInfo() {
-			super(new JavaTypeInfoSource(MultipleFieldsAsListFieldInfo.this.reflectionUI, ArrayList.class, null),
+			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, new JavaTypeInfoSource(ArrayList.class, null),
 					MultipleFieldsAsListFieldInfo.this.reflectionUI
-							.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new DefaultTypeInfo(
-									new JavaTypeInfoSource(MultipleFieldsAsListFieldInfo.this.reflectionUI,
-											ValueListItem.class, null)))));
+							.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(
+									new DefaultTypeInfo(MultipleFieldsAsListFieldInfo.this.reflectionUI,
+											new JavaTypeInfoSource(ValueListItem.class, null)))));
 		}
 
 		@Override

@@ -8,6 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
@@ -37,8 +39,8 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 
 	protected ITypeInfo itemType;
 
-	public StandardCollectionTypeInfo(JavaTypeInfoSource source, ITypeInfo itemType) {
-		super(source);
+	public StandardCollectionTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, ITypeInfo itemType) {
+		super(reflectionUI, source);
 		this.itemType = itemType;
 	}
 
