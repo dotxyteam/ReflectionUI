@@ -51,7 +51,6 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
-import xy.reflect.ui.undo.ModificationScheme;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
@@ -260,7 +259,6 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					data.setValue(newValue);
 					return;
 				}
-				ModificationScheme.initiate();
 				ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, getModificationStack(),
 						ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
 			}
