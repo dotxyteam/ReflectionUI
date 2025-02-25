@@ -2052,8 +2052,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		public boolean isFake() {
-			return true;
+		public boolean isVolatile() {
+			return false;
 		}
 
 		@Override
@@ -2090,11 +2090,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			this.undoItem = undoItem;
 			this.detailsControlBuilder = detailsControlBuilder;
 			this.detailsControl = detailsControl;
-		}
-
-		@Override
-		public boolean isFake() {
-			return true;
 		}
 
 		@Override
@@ -2433,7 +2428,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected boolean isParentModificationFake() {
+		protected boolean isParentModificationVolatile() {
 			return listData.isTransient();
 		}
 
@@ -3470,7 +3465,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				protected boolean isParentModificationFake() {
+				protected boolean isParentModificationVolatile() {
 					return listData.isTransient();
 				}
 

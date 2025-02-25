@@ -366,10 +366,10 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		}
 		IModification undoModificationsReplacement = createUndoModificationsReplacement();
 		String parentObjectModifTitle = getParentModificationTitle();
-		boolean parentObjectModifFake = isParentModificationFake();
+		boolean parentObjectModifVolatile = isParentModificationVolatile();
 		ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
 				valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif, undoModificationsReplacement,
-				parentObjectModifTitle, parentObjectModifFake,
+				parentObjectModifTitle, parentObjectModifVolatile,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()));
 		if (currentValueTransaction != null) {

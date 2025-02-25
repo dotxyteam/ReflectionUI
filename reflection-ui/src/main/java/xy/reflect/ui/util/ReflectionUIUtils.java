@@ -577,7 +577,7 @@ public class ReflectionUIUtils {
 			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
 			final ValueReturnMode valueReturnMode, final boolean valueReplaced, boolean valueTransactionExecuted,
 			final IModification committingModification, final IModification undoModificationsReplacement,
-			String parentModificationTitle, boolean fakeParentModification, final Listener<String> debugLogListener,
+			String parentModificationTitle, boolean volatileParentModification, final Listener<String> debugLogListener,
 			Listener<String> errorLogListener) {
 
 		if (currentModificationsStack == null) {
@@ -648,7 +648,7 @@ public class ReflectionUIUtils {
 								}
 								return true;
 							}
-						}, fakeParentModification);
+						}, volatileParentModification);
 			}
 		} else {
 			if (valueReturnMode != ValueReturnMode.CALCULATED) {
@@ -716,7 +716,7 @@ public class ReflectionUIUtils {
 				data.setValue(newValue);
 			} finally {
 				if (debugLogListener != null) {
-					debugLogListener.handle("Sending fake modification to: " + modifStack);
+					debugLogListener.handle("Sending volatile modification to: " + modifStack);
 				}
 				modifStack.apply(IModification.FAKE_MODIFICATION);
 			}

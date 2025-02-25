@@ -441,7 +441,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 
 		@Override
-		protected boolean isParentModificationFake() {
+		protected boolean isParentModificationVolatile() {
 			return data.isTransient();
 		}
 

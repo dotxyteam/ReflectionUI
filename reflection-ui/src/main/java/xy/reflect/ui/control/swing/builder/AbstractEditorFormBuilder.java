@@ -76,10 +76,11 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return whether the modifications that will be communicated to the parent
-	 *         object modification stack are fake (typically because the source
+	 *         object modification stack are volatile (see
+	 *         {@link IModification#isVolatile()}) (typically because the source
 	 *         field is transient) or not.
 	 */
-	protected abstract boolean isParentModificationFake();
+	protected abstract boolean isParentModificationVolatile();
 
 	/**
 	 * @return whether modifications of the local value/object can be committed
@@ -574,7 +575,7 @@ public abstract class AbstractEditorFormBuilder {
 		Accessor<Boolean> masterModifFakeGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
-				return isParentModificationFake();
+				return isParentModificationVolatile();
 			}
 		};
 		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {

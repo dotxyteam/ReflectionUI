@@ -38,7 +38,7 @@ public abstract class AbstractModification implements IModification {
 	}
 
 	@Override
-	public boolean isFake() {
+	public boolean isVolatile() {
 		return false;
 	}
 
@@ -97,8 +97,8 @@ public abstract class AbstractModification implements IModification {
 		}
 
 		@Override
-		public boolean isFake() {
-			return getSourceModification().isFake();
+		public boolean isVolatile() {
+			return getSourceModification().isVolatile();
 		}
 
 		@Override

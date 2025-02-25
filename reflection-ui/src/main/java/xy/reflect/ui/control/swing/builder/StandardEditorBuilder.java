@@ -83,7 +83,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	protected boolean isParentModificationFake() {
+	protected boolean isParentModificationVolatile() {
 		return false;
 	}
 

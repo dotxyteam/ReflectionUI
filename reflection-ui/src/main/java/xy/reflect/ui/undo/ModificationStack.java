@@ -192,10 +192,9 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @return false if a fake modification ({@link IModification#isFake()} == true)
-	 *         has been submitted at least once to this modification stack (means
-	 *         that some listeners may need to be informed of the occurrence of
-	 *         non-memorized events about object state change), true otherwise.
+	 * @return false if a volatile modification ({@link IModification#isVolatile()}
+	 *         == true) has been submitted at least once to this modification stack
+	 *         (means that some undo modifications were not pushed), true otherwise.
 	 */
 	public boolean isExhaustive() {
 		return exhaustive;
@@ -272,8 +271,8 @@ public class ModificationStack {
 	 * {@link IModification#isNull()}) then it will not be stored and false will be
 	 * returned.
 	 * 
-	 * If the specified undo modification is fake (see
-	 * {@link IModification#isFake()}) then it will not be stored and this
+	 * If the specified undo modification is volatile (see
+	 * {@link IModification#isVolatile()}) then it will not be stored and this
 	 * modification stack will be marked as non-exhaustive (see
 	 * {@link #isExhaustive()}).
 	 * 
@@ -289,14 +288,16 @@ public class ModificationStack {
 			return false;
 		}
 		if (isInComposite()) {
-			compositeStack.peek().push(undoModification);
+			if (!undoModification.isVolatile()) {
+				compositeStack.peek().push(undoModification);
+			}
 			return true;
 		}
 		if (pushFilter != null) {
 			undoModification = pushFilter.get(undoModification);
 		}
 		validate();
-		if (undoModification.isFake()) {
+		if (undoModification.isVolatile()) {
 			exhaustive = false;
 		} else {
 			undoStack.push(undoModification);
@@ -305,7 +306,7 @@ public class ModificationStack {
 			undoStack.remove(0);
 			wasInvalidated = true;
 		}
-		if (!undoModification.isFake()) {
+		if (!undoModification.isVolatile()) {
 			redoStack.clear();
 		}
 		allListenersProxy.afterPush(undoModification);
@@ -486,16 +487,18 @@ public class ModificationStack {
 	}
 
 	/**
-	 * @param title The composite modification title.
-	 * @param order The composite modification undo order.
-	 * @param fake  Whether the composite modification will be marked as fake or
-	 *              not. Note that if false is returned the composite modification
-	 *              may be fake anyway (when composed of fake modifications only).
+	 * @param title      The composite modification title.
+	 * @param order      The composite modification undo order.
+	 * @param isVolatile Whether the composite modification will be marked as
+	 *                   volatile (see {@link IModification#isVolatile()}) or not.
+	 *                   Note that even if this parameter value is false then the
+	 *                   composite modification may be volatile anyway (when
+	 *                   composed of volatile modifications only).
 	 * @return true if the final composite undo modification was successfully pushed
 	 *         onto the undo stack. If the composite modification is null or
 	 *         invalidated then false will be returned.
 	 */
-	public boolean endComposite(String title, UndoOrder order, boolean fake) {
+	public boolean endComposite(String title, UndoOrder order, boolean isVolatile) {
 		ModificationStack topComposite = compositeStack.pop();
 		ModificationStack compositeParent;
 		if (compositeStack.size() > 0) {
@@ -517,11 +520,11 @@ public class ModificationStack {
 					list.toArray(new IModification[list.size()])) {
 
 				@Override
-				public boolean isFake() {
-					if (fake) {
+				public boolean isVolatile() {
+					if (isVolatile) {
 						return true;
 					}
-					return super.isFake();
+					return super.isVolatile();
 				}
 
 			};
@@ -546,19 +549,21 @@ public class ModificationStack {
 	 * {@link #endComposite(String, UndoOrder, boolean)} or
 	 * {@link #abortComposite()}.
 	 * 
-	 * @param title  The composite modification title.
-	 * @param order  The composite modification undo order.
-	 * @param fake   Whether the composite modification will be marked as fake or
-	 *               not. Note that if false is returned the composite modification
-	 *               may be fake anyway (when composed of fake modifications only).
-	 * @param action If the call of {@link Accessor#get()} on this parameter returns
-	 *               true then the composite modification is ended. Otherwise the
-	 *               composite modification is aborted.
+	 * @param title      The composite modification title.
+	 * @param order      The composite modification undo order.
+	 * @param isVolatile Whether the composite modification will be marked as
+	 *                   volatile (see {@link IModification#isVolatile()}) or not.
+	 *                   Note that even if this parameter value is false then the
+	 *                   composite modification may be volatile anyway (when
+	 *                   composed of volatile modifications only).
+	 * @param action     If the call of {@link Accessor#get()} on this parameter
+	 *                   returns true then the composite modification is ended.
+	 *                   Otherwise the composite modification is aborted.
 	 * @return true if the final composite undo modification was successfully pushed
 	 *         onto the undo stack. If the composite modification is null or
 	 *         invalidated then false will be returned.
 	 */
-	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action, boolean fake) {
+	public boolean insideComposite(String title, UndoOrder order, Accessor<Boolean> action, boolean isVolatile) {
 		beginComposite();
 		boolean ok;
 		try {
@@ -569,13 +574,13 @@ public class ModificationStack {
 			} catch (Throwable ignore) {
 			}
 			try {
-				endComposite(title, order, fake);
+				endComposite(title, order, isVolatile);
 			} catch (Throwable ignore) {
 			}
 			throw new ReflectionUIError(t);
 		}
 		if (ok) {
-			return endComposite(title, order, fake);
+			return endComposite(title, order, isVolatile);
 		} else {
 			abortComposite();
 			return false;
@@ -744,12 +749,12 @@ public class ModificationStack {
 		}
 
 		@Override
-		public boolean isFake() {
+		public boolean isVolatile() {
 			if (modifications.length == 0) {
 				return false;
 			}
 			for (IModification modif : modifications) {
-				if (!modif.isFake()) {
+				if (!modif.isVolatile()) {
 					return false;
 				}
 			}

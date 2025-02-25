@@ -328,7 +328,7 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
-			protected boolean isParentModificationFake() {
+			protected boolean isParentModificationVolatile() {
 				return false;
 			}
 

@@ -247,7 +247,7 @@ public class ListModificationFactory {
 		}
 
 		@Override
-		public boolean isFake() {
+		public boolean isVolatile() {
 			return false;
 		}
 

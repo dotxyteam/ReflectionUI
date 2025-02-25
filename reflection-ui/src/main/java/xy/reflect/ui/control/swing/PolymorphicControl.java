@@ -463,7 +463,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
-		protected boolean isParentModificationFake() {
+		protected boolean isParentModificationVolatile() {
 			return data.isTransient();
 		}
 
@@ -552,7 +552,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
-		protected boolean isParentModificationFake() {
+		protected boolean isParentModificationVolatile() {
 			return data.isTransient();
 		}
 

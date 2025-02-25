@@ -21,8 +21,8 @@ public abstract class AbstractModificationProxy implements IModification {
 		return base.isNull();
 	}
 
-	public boolean isFake() {
-		return base.isFake();
+	public boolean isVolatile() {
+		return base.isVolatile();
 	}
 
 	public boolean isComposite() {
