@@ -152,7 +152,8 @@ public class ModificationStackControls {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					action.run();
+					swingRenderer.showBusyDialogWhile(result, action,
+							ReflectionUIUtils.composeMessage(label, "Executing..."));
 				} catch (final Throwable t) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
