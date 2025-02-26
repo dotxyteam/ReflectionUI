@@ -15,8 +15,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
-import xy.reflect.ui.control.swing.builder.DialogBuilder;
-import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
@@ -131,36 +130,38 @@ public class MethodAction extends AbstractAction {
 	}
 
 	public InvocationData openMethoExecutionSettingsDialog(final Component activatorComponent) {
-		final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(activatorComponent);
 		final InvocationData invocationData;
 		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
 			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getMethodSignature());
 		} else {
 			invocationData = data.createInvocationData();
 		}
-		final Form methodForm = swingRenderer
-				.createForm(data.createParametersObject(invocationData, input.getContext().getIdentifier()));
-
-		List<Component> buttonBarControls = new ArrayList<Component>();
-		{
-			buttonBarControls.addAll(methodForm.createButtonBarControls());
-			String invokeButtonText = data.getParametersValidationCustomCaption();
-			if (invokeButtonText == null) {
-				invokeButtonText = data.getCaption();
+		StandardEditorBuilder editorBuilder = new StandardEditorBuilder(swingRenderer, activatorComponent,
+				data.createParametersObject(invocationData, input.getContext().getIdentifier())) {
+			@Override
+			protected String getEditorWindowTitle() {
+				return MethodAction.this.getTitle();
 			}
-			buttonBarControls.addAll(dialogBuilder.createStandardOKCancelDialogButtons(invokeButtonText, null));
-			dialogBuilder.setButtonBarControls(buttonBarControls);
-		}
 
-		dialogBuilder.setContentComponent(methodForm);
-		dialogBuilder.setTitle(getTitle());
+			@Override
+			protected boolean isDialogCancellable() {
+				return true;
+			}
 
-		swingRenderer.showDialog(dialogBuilder.createDialog(), true);
-		if (dialogBuilder.getCreatedDialog().wasOkPressed()) {
-			return invocationData;
-		} else {
+			@Override
+			protected String getOKCaption() {
+				String invokeButtonText = data.getParametersValidationCustomCaption();
+				if (invokeButtonText == null) {
+					invokeButtonText = data.getCaption();
+				}
+				return invokeButtonText;
+			}
+		};
+		editorBuilder.createAndShowDialog();
+		if (editorBuilder.isCancelled()) {
 			return null;
 		}
+		return invocationData;
 	}
 
 	public String getTitle() {
@@ -256,8 +257,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected boolean shouldDisplayReturnValue() {
-		return returnValueObtained && shouldDisplayReturnValueIfAny
-				&& (data.getReturnValueType() != null);
+		return returnValueObtained && shouldDisplayReturnValueIfAny && (data.getReturnValueType() != null);
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
