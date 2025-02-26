@@ -54,7 +54,9 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -93,6 +95,7 @@ import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.Visitor;
 
 /**
  * Utilities for dealing with {@link SwingRenderer} instances.
@@ -225,7 +228,7 @@ public class SwingRendererUtils {
 		for (Form form : findAncestorForms(component, swingRenderer)) {
 			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(form.getObject()));
-			if(objectType.getName().equals(typeName)) {
+			if (objectType.getName().equals(typeName)) {
 				return form;
 			}
 		}
@@ -252,13 +255,14 @@ public class SwingRendererUtils {
 		}
 		return result;
 	}
-	
-	public static List<Form> findDescendantFormsOfType(Container container, String typeName, SwingRenderer swingRenderer) {
+
+	public static List<Form> findDescendantFormsOfType(Container container, String typeName,
+			SwingRenderer swingRenderer) {
 		List<Form> result = new ArrayList<Form>();
 		for (Form form : findDescendantForms(container, swingRenderer)) {
 			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 			ITypeInfo objectType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(form.getObject()));
-			if(objectType.getName().equals(typeName)) {
+			if (objectType.getName().equals(typeName)) {
 				result.add(form);
 			}
 		}
@@ -1136,6 +1140,34 @@ public class SwingRendererUtils {
 		}
 		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 		return new Color(rgb);
+	}
+
+	public static void visitMenubar(JMenuBar menuBar, Visitor<JMenuItem> visitor) {
+		for (int iMenu = 0; iMenu < menuBar.getMenuCount(); iMenu++) {
+			JMenu menu = menuBar.getMenu(iMenu);
+			if (!visitMenu(menu, visitor)) {
+				return;
+			}
+		}
+	}
+
+	public static boolean visitMenu(JMenu menu, Visitor<JMenuItem> visitor) {
+		if (!visitor.visit(menu)) {
+			return false;
+		}
+		for (int iItem = 0; iItem < menu.getItemCount(); iItem++) {
+			JMenuItem item = menu.getItem(iItem);
+			if (item instanceof JMenu) {
+				if (!visitMenu((JMenu) item, visitor)) {
+					return false;
+				}
+			} else {
+				if (!visitor.visit(item)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

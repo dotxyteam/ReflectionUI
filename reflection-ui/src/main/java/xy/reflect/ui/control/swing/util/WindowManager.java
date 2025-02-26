@@ -25,6 +25,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -32,6 +33,7 @@ import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.StackLayout;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.swing.menu.SaveMenuItem;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.Form.IRefreshListener;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -39,6 +41,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.Visitor;
 
 /**
  * Helper class allowing to configure windows adequately.
@@ -61,6 +64,7 @@ public class WindowManager {
 	protected JPanel buttonBar;
 	protected Form form;
 	protected WindowListener windowListener = new WindowAdapter() {
+
 		@Override
 		public void windowOpened(WindowEvent e) {
 			if (form == null) {
@@ -73,6 +77,30 @@ public class WindowManager {
 					return SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
 				}
 			});
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			if (form == null) {
+				return;
+			}
+			JMenuBar menuBar = form.getMenuBar();
+			SwingRendererUtils.visitMenubar(menuBar, new Visitor<JMenuItem>() {
+				@Override
+				public boolean visit(JMenuItem item) {
+					if (item instanceof SaveMenuItem) {
+						SaveMenuItem saveMenuItem = (SaveMenuItem) item;
+						if (!saveMenuItem.isFileSynchronized()) {
+							if (swingRenderer.openQuestionDialog(form, "Save changes before closing?",
+									swingRenderer.getObjectTitle(form.getObject()))) {
+								saveMenuItem.execute();
+							}
+						}
+					}
+					return true;
+				}
+			});
+
 		}
 
 		void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {

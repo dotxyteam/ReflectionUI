@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.menu;
 
 import java.awt.Toolkit;
@@ -28,7 +26,7 @@ public class CloseWindowMenuItem extends AbstractStandardActionMenuItem {
 	}
 
 	@Override
-	protected void execute() {
+	protected void execute() {		
 		Window window = SwingUtilities.getWindowAncestor(form);
 		WindowEvent closeEvent = new WindowEvent(window, WindowEvent.WINDOW_CLOSING);
 		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeEvent);
