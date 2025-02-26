@@ -69,6 +69,19 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 	}
 
 	@Override
+	public boolean isReadOnly() {
+		if(!super.isReadOnly()) {
+			return false;
+		}
+		for (IFieldInfo parameterizedField : parameterizedFields) {
+			if(!parameterizedField.isTransient()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
 	public Runnable getNextInvocationUndoJob(Object object, InvocationData invocationData) {
 		undoJobBuilder = new FutureActionBuilder();
 		return undoJobBuilder.will(new FutureActionBuilder.FuturePerformance() {
@@ -93,8 +106,11 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 			newInvocationData.getDefaultParameterValues().remove(generatedParameter.getPosition());
 		}
 		if (undoJobBuilder != null) {
-			undoJobBuilder.setOption(getBaseMethodUndoJobName(),
-					super.getNextInvocationUndoJob(object, invocationData));
+			undoJobBuilder.setOption(getBaseMethodUndoJobName(), super.isReadOnly() ? new Runnable() {
+				@Override
+				public void run() {
+				}
+			} : super.getNextInvocationUndoJob(object, invocationData));
 			undoJobBuilder.build();
 			undoJobBuilder = null;
 		}
@@ -130,8 +146,11 @@ public class ParameterizedFieldsMethodInfo extends MethodInfoProxy {
 			fieldUndoJob.run();
 		}
 		if (redoJobBuilder != null) {
-			redoJobBuilder.setOption(getBaseMethodRedoJobName(),
-					super.getNextInvocationUndoJob(object, invocationData));
+			redoJobBuilder.setOption(getBaseMethodRedoJobName(), super.isReadOnly() ? new Runnable() {
+				@Override
+				public void run() {
+				}
+			} : super.getNextInvocationUndoJob(object, invocationData));
 			redoJobBuilder.build();
 			redoJobBuilder = null;
 		}

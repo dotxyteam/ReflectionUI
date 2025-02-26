@@ -192,9 +192,9 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 			Runnable theFieldUndoJob = (Runnable) undoJobBuilderOptions.get("theFieldUndoJob");
 			theFieldUndoJob.run();
 		}
-		if (undoJobBuilder != null) {
-			undoJobBuilder.build();
-			undoJobBuilder = null;
+		if (redoJobBuilder != null) {
+			redoJobBuilder.build();
+			redoJobBuilder = null;
 		}
 	}
 

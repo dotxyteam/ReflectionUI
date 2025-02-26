@@ -202,7 +202,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 			if (redoJobBuilder != null) {
 				Runnable theFieldRedoJob = ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(object, theField,
 						fieldValue);
-				undoJobBuilder.setOption("theFieldRedoJob", theFieldRedoJob);
+				redoJobBuilder.setOption("theFieldRedoJob", theFieldRedoJob);
 			}
 			Runnable theFieldUndoJob = (Runnable) undoJobBuilderOptions.get("theFieldUndoJob");
 			theFieldUndoJob.run();

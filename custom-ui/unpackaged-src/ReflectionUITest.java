@@ -408,6 +408,19 @@ public class ReflectionUITest {
 						}
 						return super.getNextInvocationUndoJob(method, objectType, object, invocationData);
 					}
+
+					@Override
+					protected boolean isReadOnly(IMethodInfo method, ITypeInfo objectType) {
+						if(objectType.getName().equals(ReflectionUITest.Test.class.getName())) {
+							if(method.getName().startsWith("echo")) {
+								return true;
+							}
+						}
+						return super.isReadOnly(method, objectType);
+					}
+					
+					
+					
 				}.wrapTypeInfo(result);
 			}
 		};

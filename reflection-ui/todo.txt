@@ -1,5 +1,3 @@
-- reflectionUI is used one time too many in
-reflectionUI.getTypeInfo(new JavaTypeInfoSource(reflectionUI, X.class, null))
 - add IFieldInfo.getNextUpdateCustomRedoJob(newValue)
 - add IMethodInfo.getInvocationCustomRedoJob(invocationData)
 - IFieldInfo.alternativeListItemContructors should be taken into account

@@ -72,7 +72,7 @@ public class ReflectionUI {
 
 	/**
 	 * @param object Any object from which a UI needs to be generated.
-	 * @return an object from which the UI-oriented type information of the given
+	 * @return a source from which the UI-oriented type information of the given
 	 *         object will be extracted.
 	 */
 	public ITypeInfoSource getTypeInfoSource(Object object) {
