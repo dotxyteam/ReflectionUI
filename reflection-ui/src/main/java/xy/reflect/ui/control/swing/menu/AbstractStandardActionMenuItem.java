@@ -45,6 +45,18 @@ public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 		initialize();
 	}
 
+	public SwingRenderer getSwingRenderer() {
+		return swingRenderer;
+	}
+
+	public Form getForm() {
+		return form;
+	}
+
+	public StandradActionMenuItemInfo getMenuItemInfo() {
+		return menuItemInfo;
+	}
+
 	protected void initialize() {
 		customizeUI();		
 		setAction(createAction());

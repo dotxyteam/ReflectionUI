@@ -92,7 +92,7 @@ public class WindowManager {
 						SaveMenuItem saveMenuItem = (SaveMenuItem) item;
 						if (!saveMenuItem.isFileSynchronized()) {
 							if (swingRenderer.openQuestionDialog(form, "Save changes before closing?",
-									swingRenderer.getObjectTitle(form.getObject()))) {
+									swingRenderer.getObjectTitle(saveMenuItem.getForm().getObject()))) {
 								saveMenuItem.execute();
 							}
 						}

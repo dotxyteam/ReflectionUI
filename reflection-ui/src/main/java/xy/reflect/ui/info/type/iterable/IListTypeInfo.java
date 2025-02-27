@@ -520,7 +520,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	/**
 	 * Allows to choose how the UI behaves when creating items. Typically it answers
 	 * the question "should the framework require constructor parameter values from
-	 * users or not ?".
+	 * users or not?".
 	 * 
 	 * @author olitank
 	 *
