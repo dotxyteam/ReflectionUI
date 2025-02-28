@@ -29,6 +29,7 @@ import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapAsListTypeInfo;
 import xy.reflect.ui.info.type.iterable.map.StandardMapEntryTypeInfo;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.Pair;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -40,7 +41,8 @@ import xy.reflect.ui.util.ReflectionUIError;
  */
 public class JavaTypeInfoSource implements ITypeInfoSource {
 
-	protected static final Map<JavaTypeInfoSource, DefaultTypeInfo> CACHE = MiscUtils.newWeakValuesEqualityBasedMap();
+	protected static final Map<Pair<ReflectionUI, JavaTypeInfoSource>, DefaultTypeInfo> CACHE = MiscUtils
+			.newWeakValuesEqualityBasedMap();
 	protected static final Object CACHE_MUTEX = new Object();
 
 	protected Class<?> javaType;
@@ -72,7 +74,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	@Override
 	public DefaultTypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
 		synchronized (CACHE_MUTEX) {
-			DefaultTypeInfo result = CACHE.get(this);
+			DefaultTypeInfo result = CACHE.get(new Pair<ReflectionUI, JavaTypeInfoSource>(reflectionUI, this));
 			if (result == null) {
 				if (StandardCollectionTypeInfo.isCompatibleWith(getJavaType())) {
 					Class<?> itemClass = guessGenericTypeParameters(Collection.class, 0);
@@ -107,7 +109,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 				} else {
 					result = new DefaultTypeInfo(reflectionUI, this);
 				}
-				CACHE.put(this, result);
+				CACHE.put(new Pair<ReflectionUI, JavaTypeInfoSource>(reflectionUI, this), result);
 			}
 			return result;
 		}
