@@ -28,11 +28,19 @@ public class MethodControlDataModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
+		Runnable result = data.getLastFormRefreshStateRestorationJob();
+		if(result != null) {
+			return result;
+		}
 		return data.getNextInvocationUndoJob(invocationData);
 	}
 
 	@Override
 	protected Runnable createRedoJob() {
+		Runnable result = data.getLastFormRefreshStateRestorationJob();
+		if(result != null) {
+			return result;
+		}
 		return ReflectionUIUtils.getPreviousInvocationCustomOrDefaultRedoJob(data, invocationData);
 	}
 

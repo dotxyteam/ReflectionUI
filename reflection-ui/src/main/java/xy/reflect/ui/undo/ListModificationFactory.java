@@ -218,7 +218,7 @@ public class ListModificationFactory {
 	 * @author olitank
 	 *
 	 */
-	protected static class ListModification implements IModification {
+	protected static class ListModification extends AbstractModification {
 
 		protected ItemPosition itemPosition;
 		protected Object[] newListRawValue;
@@ -236,9 +236,36 @@ public class ListModificationFactory {
 		}
 
 		@Override
-		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
-			itemPosition.updateContainingList(newListRawValue);
-			return new ListModification(itemPosition, oldListRawValue, newListRawValue);
+		protected Runnable createDoJob() {
+			return new Runnable() {				
+				@Override
+				public void run() {
+					itemPosition.updateContainingList(newListRawValue);			
+				}
+			};
+		}
+
+		@Override
+		protected Runnable createUndoJob() {
+			Runnable result = itemPosition.getFactory().getLastFormRefreshStateRestorationJob();
+			if(result != null) {
+				return result;
+			}
+			return new Runnable() {				
+				@Override
+				public void run() {
+					itemPosition.updateContainingList(oldListRawValue);			
+				}
+			};
+		}
+
+		@Override
+		protected Runnable createRedoJob() {
+			Runnable result = itemPosition.getFactory().getLastFormRefreshStateRestorationJob();
+			if(result != null) {
+				return result;
+			}
+			return createDoJob();
 		}
 
 		@Override

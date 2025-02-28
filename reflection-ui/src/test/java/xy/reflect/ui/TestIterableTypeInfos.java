@@ -73,7 +73,7 @@ public class TestIterableTypeInfos {
 		itemListTypeCustomization.setTreeStructureDiscoverySettings(treeSettings);
 		treeSettings.setHeterogeneousTree(false);
 		treeSettings.setSingleSubListFieldNameNeverDisplayedAsTreeNode(false);
-		
+
 		final Object itemListValue = itemListFieldInfo.getValue(this);
 		Object[] itemLisRawValue = itemListTypeInfo.toArray(itemListValue);
 		Assert.assertArrayEquals(itemLisRawValue, itemList.toArray());
@@ -112,6 +112,12 @@ public class TestIterableTypeInfos {
 			public String getRootListTitle() {
 				return itemListFieldInfo.getCaption();
 			}
+
+			@Override
+			public Runnable getLastFormRefreshStateRestorationJob() {
+				return null;
+			}
+
 		}.getRootItemPosition(0);
 		ITypeInfo firstItemType = customizedUI.getTypeInfo(new JavaTypeInfoSource(itemList.get(0).getClass(), null));
 		Assert.assertEquals(itemListStructuralInfo.getColumns().get(0).getCellValue(firstItemPosition),

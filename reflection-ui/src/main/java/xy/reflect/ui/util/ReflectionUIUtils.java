@@ -745,47 +745,27 @@ public class ReflectionUIUtils {
 		if (data.isReadOnly()) {
 			return data.invoke(invocationData);
 		} else {
-			final Runnable nextInvocationUndoJob = data.getNextInvocationUndoJob(invocationData);
-			if (nextInvocationUndoJob != null) {
-				final Object[] resultHolder = new Object[1];
-				data = new MethodControlDataProxy(data) {
-					@Override
-					public Object invoke(InvocationData invocationData) {
-						return resultHolder[0] = super.invoke(invocationData);
-					}
-				};
-				MethodControlDataModification modif = new MethodControlDataModification(data, invocationData) {
-
-					@Override
-					protected Runnable createUndoJob() {
-						return nextInvocationUndoJob;
-					}
-
-				};
-				try {
-					if (debugLogListener != null) {
-						debugLogListener.handle("Executing " + modif);
-					}
-					modifStack.apply(modif);
-				} catch (Throwable t) {
-					if (debugLogListener != null) {
-						debugLogListener.handle("Invalidating modification stack: " + modifStack);
-					}
-					modifStack.invalidate();
-					throw new ReflectionUIError(t);
+			final Object[] resultHolder = new Object[1];
+			data = new MethodControlDataProxy(data) {
+				@Override
+				public Object invoke(InvocationData invocationData) {
+					return resultHolder[0] = super.invoke(invocationData);
 				}
-				return resultHolder[0];
-			} else {
-				try {
-					Object result = data.invoke(invocationData);
-					return result;
-				} finally {
-					if (debugLogListener != null) {
-						debugLogListener.handle("Invalidating modification stack: " + modifStack);
-					}
-					modifStack.invalidate();
+			};
+			MethodControlDataModification modif = new MethodControlDataModification(data, invocationData);
+			try {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Executing " + modif);
 				}
+				modifStack.apply(modif);
+			} catch (Throwable t) {
+				if (debugLogListener != null) {
+					debugLogListener.handle("Invalidating modification stack: " + modifStack);
+				}
+				modifStack.invalidate();
+				throw new ReflectionUIError(t);
 			}
+			return resultHolder[0];
 		}
 	}
 

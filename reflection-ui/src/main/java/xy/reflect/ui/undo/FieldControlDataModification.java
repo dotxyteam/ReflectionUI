@@ -58,11 +58,19 @@ public class FieldControlDataModification extends AbstractModification {
 
 	@Override
 	protected Runnable createUndoJob() {
+		Runnable result = data.getLastFormRefreshStateRestorationJob();
+		if(result != null) {
+			return result;
+		}
 		return ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(data, newValue);
 	}
 
 	@Override
 	protected Runnable createRedoJob() {
+		Runnable result = data.getLastFormRefreshStateRestorationJob();
+		if(result != null) {
+			return result;
+		}
 		return ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(data, newValue);
 	}
 

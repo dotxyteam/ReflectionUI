@@ -109,7 +109,6 @@ import xy.reflect.ui.info.type.iterable.util.IDynamicListProperty;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractModification;
-import xy.reflect.ui.undo.BufferedListModificationFactory;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ListModificationFactory;
@@ -1015,7 +1014,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected ListModificationFactory createListModificationFactory(BufferedItemPosition anyListItemPosition) {
-		return new BufferedListModificationFactory(anyListItemPosition);
+		return new ListModificationFactory(anyListItemPosition);
 	}
 
 	protected boolean allSelectionItemsInSameList() {
@@ -1297,8 +1296,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		IListTypeInfo listType = itemPosition.getContainingListType();
 		ITypeInfo typeToInstantiate = listType.getItemType();
 		if (typeToInstantiate == null) {
-			typeToInstantiate = swingRenderer.getReflectionUI()
-					.getTypeInfo(new JavaTypeInfoSource(Object.class, null));
+			typeToInstantiate = swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(Object.class, null));
 		}
 
 		BufferedItemPosition parentItemPosition = itemPosition.getParentItemPosition();
@@ -3337,7 +3335,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				public IMethodControlData getControlData() {
 					return new DefaultMethodControlData(swingRenderer.getReflectionUI(), IDynamicListAction.NO_OWNER,
-							dynamicAction);
+							dynamicAction) {
+						@Override
+						public Runnable getLastFormRefreshStateRestorationJob() {
+							return listData.getLastFormRefreshStateRestorationJob();
+						}
+					};
 				}
 			});
 			invocationData = action.prepare(ListControl.this);
@@ -3488,7 +3491,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				protected IModification createCommittingModification(Object newObjectValue) {
 					return new FieldControlDataModification(new DefaultFieldControlData(swingRenderer.getReflectionUI(),
-							IDynamicListProperty.NO_OWNER, dynamicProperty), newObjectValue);
+							IDynamicListProperty.NO_OWNER, dynamicProperty) {
+						@Override
+						public Runnable getLastFormRefreshStateRestorationJob() {
+							return listData.getLastFormRefreshStateRestorationJob();
+						}
+					}, newObjectValue);
 				}
 
 				@Override

@@ -48,6 +48,12 @@ public abstract class AbstractItemPositionFactory {
 	public abstract String getRootListTitle();
 
 	/**
+	 * @return a job (may be null) that restores the state of the list when its form
+	 *         was last refreshed.
+	 */
+	public abstract Runnable getLastFormRefreshStateRestorationJob();
+
+	/**
 	 * @param index
 	 * @return a new root item position initialized with given index.
 	 */
