@@ -17,12 +17,12 @@ import xy.reflect.ui.control.MethodControlDataProxy;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.builder.StandardEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
+import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
@@ -185,9 +185,9 @@ public class MethodAction extends AbstractAction {
 
 			/*
 			 * The initial activator component may not be displayed anymore typically when
-			 * the current control data is used to undo/redo modifications. If it happen
+			 * the current control data is used to undo/redo modifications. If it happens
 			 * then the first displayed ancestor component will be used as the busy dialog
-			 * owner. TGhis is why the list of ancestor components is saved here.
+			 * owner. This is why the list of ancestor components is saved here.
 			 */
 
 			List<Component> initialComponentHierachy = getComponentHierachy(activatorComponent);
@@ -228,8 +228,50 @@ public class MethodAction extends AbstractAction {
 
 			@Override
 			public Object invoke(final InvocationData invocationData) {
-				return SwingRendererUtils.showBusyDialogWhileInvokingMethod(getDisplayedActivatorComponent(),
-						swingRenderer, data, invocationData);
+				final Object[] result = new Object[1];
+				swingRenderer.showBusyDialogWhile(getDisplayedActivatorComponent(), new Runnable() {
+					public void run() {
+						result[0] = data.invoke(invocationData);
+					}
+				}, ReflectionUIUtils.composeMessage(data.getCaption(), "Executing..."));
+				return result[0];
+			}
+
+			@Override
+			public Runnable getNextInvocationUndoJob(InvocationData invocationData) {
+				Runnable result = super.getNextInvocationUndoJob(invocationData);
+				if (result == null) {
+					return null;
+				}
+				return new Runnable() {
+					@Override
+					public void run() {
+						swingRenderer.showBusyDialogWhile(getDisplayedActivatorComponent(), new Runnable() {
+							public void run() {
+								result.run();
+							}
+						}, ReflectionUIUtils.composeMessage(AbstractModification.getUndoTitle(data.getCaption()),
+								"Executing..."));
+					}
+				};
+			}
+
+			@Override
+			public Runnable getPreviousInvocationCustomRedoJob(InvocationData invocationData) {
+				Runnable result = super.getPreviousInvocationCustomRedoJob(invocationData);
+				if (result == null) {
+					return null;
+				}
+				return new Runnable() {
+					@Override
+					public void run() {
+						swingRenderer.showBusyDialogWhile(getDisplayedActivatorComponent(), new Runnable() {
+							public void run() {
+								result.run();
+							}
+						}, ReflectionUIUtils.composeMessage(data.getCaption(), "Executing..."));
+					}
+				};
 			}
 
 		};

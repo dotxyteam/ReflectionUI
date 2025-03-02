@@ -151,17 +151,7 @@ public class ModificationStackControls {
 		result.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					swingRenderer.showBusyDialogWhile(result, action,
-							ReflectionUIUtils.composeMessage(label, "Executing..."));
-				} catch (final Throwable t) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							swingRenderer.handleObjectException(result, t);
-						}
-					});
-				}
+				action.run();
 			}
 		});
 		result.setEnabled(enabled.get());

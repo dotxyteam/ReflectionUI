@@ -76,7 +76,6 @@ import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
-import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
@@ -88,7 +87,6 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ResourcePath.PathKind;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.Listener;
@@ -698,18 +696,6 @@ public class SwingRendererUtils {
 			}
 		}
 		return result;
-	}
-
-	public static Object showBusyDialogWhileInvokingMethod(Component activatorComponent, SwingRenderer swingRenderer,
-			final IMethodControlData data, final InvocationData invocationData) {
-		final Object[] result = new Object[1];
-		swingRenderer.showBusyDialogWhile(activatorComponent, new Runnable() {
-			public void run() {
-				result[0] = data.invoke(invocationData);
-			}
-		}, ReflectionUIUtils.composeMessage(data.getCaption(), "Executing..."));
-		return result[0];
-
 	}
 
 	public static Border getErrorBorder() {
