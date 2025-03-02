@@ -1,3 +1,4 @@
+- allow to execute a list item method shortcut on multiple items
 - IFieldInfo.alternativeListItemContructors should be taken into account
 in ItemPosition.getSubListField() method used by all tree controls, not 
 in only some IListStructuralInfo.getSubListField(ItemPosition) method implementations

@@ -332,6 +332,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		}
 
 		@Override
+		protected boolean isCustomEncapsulatedControlForbidden() {
+			return true;
+		}
+
+		@Override
 		protected boolean isNullValueDistinct() {
 			return false;
 		}

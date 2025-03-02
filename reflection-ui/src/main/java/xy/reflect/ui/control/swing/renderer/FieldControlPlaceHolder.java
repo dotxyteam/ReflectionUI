@@ -467,36 +467,38 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			} catch (RejectedFieldControlInputException e) {
 			}
 		}
-		final SpecificitiesIdentifier specificitiesIdentifier = controlInput.getControlData().getType().getSource()
-				.getSpecificitiesIdentifier();
-		final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
-				.getTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
-					@Override
-					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-						return specificitiesIdentifier;
-					}
-
-					@Override
-					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "ActualFieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", form="
-								+ form.getName() + ", field=" + field.getName() + "]";
-					}
-				});
-		if (!controlInput.getControlData().getType().getName().equals(actualValueType.getName())) {
-			controlInput = new FieldControlInputProxy(controlInput) {
-				@Override
-				public IFieldControlData getControlData() {
-					return new FieldControlDataProxy(super.getControlData()) {
+		if (!controlInput.getControlData().getType().isPrimitive()) {
+			final SpecificitiesIdentifier specificitiesIdentifier = controlInput.getControlData().getType().getSource()
+					.getSpecificitiesIdentifier();
+			final ITypeInfo actualValueType = this.swingRenderer.reflectionUI
+					.getTypeInfo(new TypeInfoSourceProxy(this.swingRenderer.reflectionUI.getTypeInfoSource(value)) {
 						@Override
-						public ITypeInfo getType() {
-							return actualValueType;
+						public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+							return specificitiesIdentifier;
 						}
-					};
+
+						@Override
+						protected String getTypeInfoProxyFactoryIdentifier() {
+							return "ActualFieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", form="
+									+ form.getName() + ", field=" + field.getName() + "]";
+						}
+					});
+			if (!controlInput.getControlData().getType().getName().equals(actualValueType.getName())) {
+				controlInput = new FieldControlInputProxy(controlInput) {
+					@Override
+					public IFieldControlData getControlData() {
+						return new FieldControlDataProxy(super.getControlData()) {
+							@Override
+							public ITypeInfo getType() {
+								return actualValueType;
+							}
+						};
+					}
+				};
+				try {
+					return new MutableTypeControl(this.swingRenderer, controlInput);
+				} catch (RejectedFieldControlInputException e) {
 				}
-			};
-			try {
-				return new MutableTypeControl(this.swingRenderer, controlInput);
-			} catch (RejectedFieldControlInputException e) {
 			}
 		}
 		if (controlInput.getControlData().isFormControlEmbedded()) {
