@@ -204,9 +204,9 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the capsule holding the local value/object.
+	 * @return a new capsule holding the local value/object.
 	 */
-	public Object getCapsule() {
+	public Object getNewCapsule() {
 		ensureIsInitialized();
 		return createEncapsulation().getInstance(encapsulatedObjectValueAccessor);
 	}
@@ -342,12 +342,12 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the editor control is refreshed every time a modification of
-	 *         the local value/object is detected. It typically allows to keep a
-	 *         calculated read-only local value/object coherent by resetting it
-	 *         whenever it is modified.
+	 * @return whether the editor value is reloaded and its control refreshed every
+	 *         time a modification of the local value/object is detected. It
+	 *         typically allows to keep a calculated read-only local value/object
+	 *         coherent by resetting it whenever it is modified.
 	 */
-	protected boolean isEditorFormRefreshedOnModification() {
+	protected boolean isEditorValueReloadedOnModification() {
 		return isInReadOnlyMode();
 	}
 
@@ -365,7 +365,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         actually creating the editor control.
 	 */
 	public boolean isFormEmpty() {
-		Object capsule = getCapsule();
+		Object capsule = getNewCapsule();
 		ITypeInfo capsuleType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		IFieldInfo encapsulatedField = capsuleType.getFields().get(0);
@@ -395,7 +395,7 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return the created editor control.
 	 */
 	public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
-		Object capsule = getCapsule();
+		Object capsule = getNewCapsule();
 		Form result = getSwingRenderer().createForm(capsule);
 		setupLinkWithParent(result, realTimeLinkWithParent, exclusiveLinkWithParent);
 		return result;
@@ -409,11 +409,11 @@ public abstract class AbstractEditorFormBuilder {
 	 *                         structure to reflect the recent meta-data changes
 	 *                         (mainly used in design mode).
 	 */
-	public void refreshEditorForm(Form editorForm, boolean refreshStructure) {
+	public void reloadEditorValue(Form editorForm, boolean refreshStructure) {
 		if (refreshStructure) {
 			initialized = false;
 			ensureIsInitialized();
-			editorForm.setObject(getCapsule());
+			editorForm.setObject(getNewCapsule());
 		} else {
 			Object oldValue = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 				@Override
@@ -435,7 +435,7 @@ public abstract class AbstractEditorFormBuilder {
 				ITypeInfo newValueType = (newValue == null) ? null
 						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
 				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
-					editorForm.setObject(getCapsule());
+					editorForm.setObject(getNewCapsule());
 				}
 			}
 		}
@@ -459,8 +459,8 @@ public abstract class AbstractEditorFormBuilder {
 			if (mayModifyParentObject()) {
 				forwardEditorFormModificationsToParentObject(editorForm, exclusiveLinkWithParent);
 			}
-			if (isEditorFormRefreshedOnModification()) {
-				refreshEditorFormOnModification(editorForm);
+			if (isEditorValueReloadedOnModification()) {
+				reloadEditorValueOnModification(editorForm);
 			}
 		}
 	}
@@ -487,17 +487,17 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * Installs a listener that will trigger the editor control refreshing whenever
-	 * a modification of the local value/object is detected.
+	 * Installs a listener that will trigger the editor value reloading and control
+	 * refreshing whenever a modification of the local value/object is detected.
 	 * 
 	 * @param editorForm The created editor control.
 	 */
-	protected void refreshEditorFormOnModification(final Form editorForm) {
+	protected void reloadEditorValueOnModification(final Form editorForm) {
 		ModificationStack childModificationStack = editorForm.getModificationStack();
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				refreshEditorForm(editorForm, false);
+				reloadEditorValue(editorForm, false);
 			}
 		});
 	}

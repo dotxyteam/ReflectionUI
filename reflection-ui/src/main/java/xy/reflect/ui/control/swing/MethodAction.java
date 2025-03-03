@@ -6,6 +6,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.SwingUtilities;
 
@@ -20,13 +21,11 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.InvocationData;
-import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -397,15 +396,7 @@ public class MethodAction extends AbstractAction {
 		if (!data.isReturnValueDetached()) {
 			editorBuilder.createAndShowDialog();
 		} else {
-			if (returnValue == null) {
-				EncapsulatedObjectFactory nullEncapsulation = new EncapsulatedObjectFactory(
-						swingRenderer.getReflectionUI(), "Encapsulation [context=" + input.getContext().getIdentifier()
-								+ ", subContext=NullReturnValue]",
-						data.getReturnValueType());
-				swingRenderer.openObjectFrame(nullEncapsulation.getInstance(Accessor.returning(null)));
-			} else {
-				swingRenderer.openObjectFrame(returnValue);
-			}
+			editorBuilder.createAndShowFrame();
 		}
 	}
 

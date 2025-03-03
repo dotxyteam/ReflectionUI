@@ -228,7 +228,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
 				data.addInBuffer(value);
-				subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
+				subFormBuilder.reloadEditorValue((Form) currentSubControl, refreshStructure);
 				return;
 			}
 		}
@@ -237,7 +237,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			if (currentSubControl instanceof Form) {
 				// clear the sub-form before hiding it
 				data.addInBuffer(null);
-				subFormBuilder.refreshEditorForm((Form) currentSubControl, refreshStructure);
+				subFormBuilder.reloadEditorValue((Form) currentSubControl, refreshStructure);
 			}
 			if (nullControl == null) {
 				nullControl = createNullControl();
@@ -250,7 +250,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				if (currentError != null) {
 					// display the current error (over the last valid value)
 					data.addInBuffer(new ErrorOccurrence(currentError));
-					subFormBuilder.refreshEditorForm(subForm, refreshStructure);
+					subFormBuilder.reloadEditorValue(subForm, refreshStructure);
 				}
 			} else {
 				if (currentError != null) {
@@ -258,7 +258,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
 				data.addInBuffer(value);
-				subFormBuilder.refreshEditorForm(subForm, refreshStructure);
+				subFormBuilder.reloadEditorValue(subForm, refreshStructure);
 			}
 			currentSubControl = subForm;
 		}

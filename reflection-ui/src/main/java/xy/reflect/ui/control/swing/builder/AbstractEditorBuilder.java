@@ -98,7 +98,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		if (isInReadOnlyMode()) {
 			return false;
 		}
-		Object capsule = getCapsule();
+		Object capsule = getNewCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.isModificationStackAccessible();
@@ -108,7 +108,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	 * @return the title of the editor window.
 	 */
 	protected String getEditorWindowTitle() {
-		Object capsule = getCapsule();
+		Object capsule = getNewCapsule();
 		ITypeInfo encapsulatedObjectType = getSwingRenderer().getReflectionUI()
 				.getTypeInfo(getSwingRenderer().getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
@@ -213,7 +213,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 	protected DialogBuilder createDelegateDialogBuilder() {
 		DialogBuilder dialogBuilder = getSwingRenderer().createDialogBuilder(getOwnerComponent());
 		ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
-		Object capsule = getCapsule();
+		Object capsule = getNewCapsule();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(capsule));
 
 		if (type.getFormButtonBackgroundColor() != null) {
