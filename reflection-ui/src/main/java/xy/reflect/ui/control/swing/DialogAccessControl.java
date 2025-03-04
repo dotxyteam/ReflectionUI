@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.Color;
@@ -237,6 +235,12 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	protected void openDialog(Component owner) {
 		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(owner);
 		subDialogBuilder.createAndShowDialog();
+		if (!subDialogBuilder.getModificationStack().isInitial()) {
+			if (!ReflectionUIUtils.mayModificationsHaveImpact(
+					ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subDialogBuilder.getCurrentValue()),
+					data.getValueReturnMode(), !data.isGetOnly())) {
+			}
+		}
 	}
 
 	protected AbstractEditorBuilder createSubDialogBuilder(final Component owner) {

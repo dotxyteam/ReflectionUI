@@ -528,7 +528,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			}
 
 			public void refreshUI(boolean refreshStructure) {
-				formBuilder.reloadEditorValue(form, refreshStructure);
+				formBuilder.reloadValue(form, refreshStructure);
 			}
 
 			@Override

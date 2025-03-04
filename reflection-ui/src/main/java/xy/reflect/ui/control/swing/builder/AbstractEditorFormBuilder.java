@@ -409,7 +409,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *                         structure to reflect the recent meta-data changes
 	 *                         (mainly used in design mode).
 	 */
-	public void reloadEditorValue(Form editorForm, boolean refreshStructure) {
+	public void reloadValue(Form editorForm, boolean refreshStructure) {
 		if (refreshStructure) {
 			initialized = false;
 			ensureIsInitialized();
@@ -460,7 +460,7 @@ public abstract class AbstractEditorFormBuilder {
 				forwardEditorFormModificationsToParentObject(editorForm, exclusiveLinkWithParent);
 			}
 			if (isEditorValueReloadedOnModification()) {
-				reloadEditorValueOnModification(editorForm);
+				reloadValueOnModification(editorForm);
 			}
 		}
 	}
@@ -492,12 +492,12 @@ public abstract class AbstractEditorFormBuilder {
 	 * 
 	 * @param editorForm The created editor control.
 	 */
-	protected void reloadEditorValueOnModification(final Form editorForm) {
+	protected void reloadValueOnModification(final Form editorForm) {
 		ModificationStack childModificationStack = editorForm.getModificationStack();
 		childModificationStack.addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				reloadEditorValue(editorForm, false);
+				reloadValue(editorForm, false);
 			}
 		});
 	}

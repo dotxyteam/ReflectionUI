@@ -196,7 +196,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 
 	protected void refreshTypeEnumerationControl(boolean refreshStructure) {
 		if (typeEnumerationControl != null) {
-			typeEnumerationControlBuilder.reloadEditorValue(typeEnumerationControl, refreshStructure);
+			typeEnumerationControlBuilder.reloadValue(typeEnumerationControl, refreshStructure);
 		} else {
 			add(typeEnumerationControl = createTypeEnumerationControl(), BorderLayout.NORTH);
 			SwingRendererUtils.handleComponentSizeChange(this);
@@ -237,7 +237,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 			}
 			data.addInBuffer(instance);
-			dynamicControlBuilder.reloadEditorValue(dynamicControl, refreshStructure);
+			dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
 		} else {
 			// show/replace dynamic control
 			if (dynamicControlInstanceType != null) {
@@ -252,7 +252,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 				}
 				data.addInBuffer(instance);
-				dynamicControlBuilder.reloadEditorValue(dynamicControl, refreshStructure);
+				dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
 			} else {
 				data.addInBuffer(instance);
 				dynamicControl = createDynamicControl(instanceType);
@@ -261,7 +261,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				if (currentError != null) {
 					// display the current error (over the last valid instance value)
 					data.addInBuffer(new ErrorOccurrence(currentError));
-					dynamicControlBuilder.reloadEditorValue(dynamicControl, refreshStructure);
+					dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
 				}
 			}
 			dynamicControlInstanceType = instanceType;

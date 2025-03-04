@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
@@ -50,7 +51,19 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	protected Component iconControl;
 	protected Object subFormObject;
 	protected Form subForm;
+	protected ModificationStack subFormInitialModificationStack;
 	protected IFieldControlInput input;
+	protected IModificationListener refreshingModificationListener = new AbstractSimpleModificationListener() {
+		@Override
+		protected void handleAnyEvent(IModification modification) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					refreshUI(false);
+				}
+			});
+		}
+	};
 
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -78,22 +91,15 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 		return SwingRendererUtils.requestAnyComponentFocus(subForm, swingRenderer);
 	}
 
-	protected void forwardSubFormModifications() {
+	protected void handleSubFormModifications() {
 		if (!ReflectionUIUtils.mayModificationsHaveImpact(
 				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subFormObject),
 				data.getValueReturnMode(), !data.isGetOnly())) {
-			ModificationStack childModifStack = subForm.getModificationStack();
-			childModifStack.addListener(new AbstractSimpleModificationListener() {
-				@Override
-				protected void handleAnyEvent(IModification modification) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							refreshUI(false);
-						}
-					});
-				}
-			});
+			if (!Arrays.asList(subFormInitialModificationStack.getListeners())
+					.contains(refreshingModificationListener)) {
+				subFormInitialModificationStack.addListener(refreshingModificationListener);
+			}
+			subForm.setModificationStack(subFormInitialModificationStack);
 		} else {
 			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
 			Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
@@ -152,10 +158,11 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
 					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
 					masterModificationExceptionListener);
-			if (subForm.getModificationStack() != null) {
-				for (IModificationListener listener : subForm.getModificationStack().getListeners()) {
-					slaveModficationStack.addSlaveListener(listener);
+			for (IModificationListener listener : subFormInitialModificationStack.getListeners()) {
+				if (listener == refreshingModificationListener) {
+					continue;
 				}
+				slaveModficationStack.addSlaveListener(listener);
 			}
 			subForm.setModificationStack(slaveModficationStack);
 		}
@@ -205,8 +212,8 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			}
 			IInfoFilter filter = data.getFormControlFilter();
 			subForm = swingRenderer.createForm(subFormObject, filter);
+			subFormInitialModificationStack = subForm.getModificationStack();
 			add(subForm, BorderLayout.CENTER);
-			forwardSubFormModifications();
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
 			final Object newSubFormObject = data.getValue();
@@ -225,6 +232,9 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 						@Override
 						public void run() {
 							subFormObjectType.onFormVisibilityChange(subFormObject, false);
+							if (newSubFormObject instanceof java.util.Date) {
+								System.out.println("debug");
+							}
 							subForm.setObject(newSubFormObject);
 							newSubFormObjectType.onFormVisibilityChange(newSubFormObject, true);
 						}
@@ -235,6 +245,9 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					return false;
 				}
 			}
+		}
+		if (refreshStructure) {
+			handleSubFormModifications();
 		}
 		return true;
 	}

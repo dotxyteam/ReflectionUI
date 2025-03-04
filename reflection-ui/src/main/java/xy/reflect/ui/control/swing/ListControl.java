@@ -1473,11 +1473,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		try {
 			if ((detailsControlItemPosition != null) && (singleSelection != null)) {
 				if (detailsControlItemPosition.equals(singleSelection)) {
-					detailsControlBuilder.reloadEditorValue(detailsControl, refreshStructure);
+					detailsControlBuilder.reloadValue(detailsControl, refreshStructure);
 				} else {
 					detailsControlItemPosition = singleSelection;
 					detailsControlBuilder.setPosition(detailsControlItemPosition);
-					detailsControlBuilder.reloadEditorValue(detailsControl, true);
+					detailsControlBuilder.reloadValue(detailsControl, true);
 				}
 				return;
 			}
@@ -2134,7 +2134,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					if (detailsControlBuilder.getCurrentValue() != currentItem) {
 						containingListRawValue[currentPosition.getIndex()] = currentItem;
 						currentPosition.changeContainingListBuffer(containingListRawValue);
-						detailsControlBuilder.reloadEditorValue(detailsControl, false);
+						detailsControlBuilder.reloadValue(detailsControl, false);
 					}
 				}
 			};

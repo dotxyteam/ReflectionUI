@@ -1852,9 +1852,7 @@ public class Form extends ImagePanel {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.isModificationStackAccessible()) {
-			if (modificationStack != null) {
-				result.addAll(new ModificationStackControls(this).create(swingRenderer));
-			}
+			result.addAll(new ModificationStackControls(this).create(swingRenderer));
 		}
 		return result;
 	}
