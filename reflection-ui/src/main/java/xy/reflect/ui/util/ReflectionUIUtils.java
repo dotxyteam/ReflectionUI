@@ -577,14 +577,19 @@ public class ReflectionUIUtils {
 			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
 			final ValueReturnMode valueReturnMode, final boolean valueReplaced, boolean valueTransactionExecuted,
 			final IModification committingModification, final IModification undoModificationsReplacement,
-			String parentModificationTitle, boolean volatileParentModification, final Listener<String> debugLogListener,
-			Listener<String> errorLogListener) {
+			String parentModificationTitle, boolean volatileParentModification, Runnable parentControlRefreshJob,
+			final Listener<String> debugLogListener, Listener<String> errorLogListener) {
 
 		if (currentModificationsStack == null) {
 			throw new ReflectionUIError();
 		}
 
 		if (!mayModificationsHaveImpact(false, valueReturnMode, (committingModification != null))) {
+			if (!currentModificationsStack.isInitial()) {
+				if (parentControlRefreshJob != null) {
+					parentControlRefreshJob.run();
+				}
+			}
 			return;
 		}
 
@@ -1334,8 +1339,7 @@ public class ReflectionUIUtils {
 
 	public static ITypeInfo buildTypeInfo(String className) {
 		try {
-			return ReflectionUI.getDefault()
-					.getTypeInfo(new JavaTypeInfoSource(Class.forName(className), null));
+			return ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(Class.forName(className), null));
 		} catch (ClassNotFoundException e) {
 			throw new ReflectionUIError(e);
 		}

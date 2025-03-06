@@ -327,7 +327,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 
 	protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 			IContext subContext, Listener<Throwable> commitExceptionHandler) {
-		return new SubFormBuilder(swingRenderer, input, subContext, commitExceptionHandler);
+		return new SubFormBuilder(swingRenderer, this, input, subContext, commitExceptionHandler);
 	}
 
 	protected IContext getSubContext() {
@@ -371,14 +371,16 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	protected static class SubFormBuilder extends AbstractEditorFormBuilder {
 
 		protected SwingRenderer swingRenderer;
+		protected NullableControl ownerComponent;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected IContext subContext;
 		protected Listener<Throwable> commitExceptionHandler;
 
-		public SubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input, IContext subContext,
-				Listener<Throwable> commitExceptionHandler) {
+		public SubFormBuilder(SwingRenderer swingRenderer, NullableControl ownerComponent, IFieldControlInput input,
+				IContext subContext, Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
+			this.ownerComponent = ownerComponent;
 			this.input = input;
 			this.data = input.getControlData();
 			this.subContext = subContext;
@@ -428,6 +430,16 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		@Override
 		public SwingRenderer getSwingRenderer() {
 			return swingRenderer;
+		}
+
+		@Override
+		protected Runnable getParentControlRefreshJob() {
+			return new Runnable() {
+				@Override
+				public void run() {
+					ownerComponent.refreshUI(false);
+				}
+			};
 		}
 
 		@Override

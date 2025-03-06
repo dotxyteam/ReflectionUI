@@ -126,6 +126,12 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract ValueReturnMode getReturnModeFromParent();
 
 	/**
+	 * @return a {@link Runnable} instance (or null) that can be used to refresh an
+	 *         eventual parent control.
+	 */
+	protected abstract Runnable getParentControlRefreshJob();
+
+	/**
 	 * @return true if and only if the null value can be set and then must be
 	 *         distinctly displayed.
 	 */
@@ -187,9 +193,9 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return whether the local object/value reference (or primitive value) has
-	 *         changed. Typically immutable objects like primitive wrappers would be
-	 *         replaced on every modification.
+	 * @return whether the local object/value reference has changed. Typically
+	 *         immutable objects like primitive wrappers would be replaced on every
+	 *         modification.
 	 */
 	public boolean isValueReplaced() {
 		return getCurrentValue() != initialObjectValue;
@@ -282,11 +288,13 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
-	 * @return the encapsulated field value return mode (equals to
-	 *         {@link #getReturnModeFromParent()} is there is a parent object).
+	 * @return the encapsulated field value return mode.
+	 *         {@link ValueReturnMode.#DIRECT_OR_PROXY} is returned by default,
+	 *         since this encapsulated field value is hosted by the
+	 *         {@link #encapsulatedObjectValueAccessor} and accessed directly.
 	 */
 	protected ValueReturnMode getEncapsulatedFieldValueReturnMode() {
-		return hasParentObject() ? getReturnModeFromParent() : ValueReturnMode.DIRECT_OR_PROXY;
+		return ValueReturnMode.DIRECT_OR_PROXY;
 	}
 
 	/**
@@ -347,7 +355,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         typically allows to keep a calculated read-only local value/object
 	 *         coherent by resetting it whenever it is modified.
 	 */
-	protected boolean isEditorValueReloadedOnModification() {
+	protected boolean isValueReloadedOnModification() {
 		return isInReadOnlyMode();
 	}
 
@@ -459,7 +467,7 @@ public abstract class AbstractEditorFormBuilder {
 			if (mayModifyParentObject()) {
 				forwardEditorFormModificationsToParentObject(editorForm, exclusiveLinkWithParent);
 			}
-			if (isEditorValueReloadedOnModification()) {
+			if (isValueReloadedOnModification()) {
 				reloadValueOnModification(editorForm);
 			}
 		}
@@ -572,10 +580,16 @@ public abstract class AbstractEditorFormBuilder {
 				return result;
 			}
 		};
-		Accessor<Boolean> masterModifFakeGetter = new Accessor<Boolean>() {
+		Accessor<Boolean> masterModifVolatileGetter = new Accessor<Boolean>() {
 			@Override
 			public Boolean get() {
 				return isParentModificationVolatile();
+			}
+		};
+		Accessor<Runnable> parentControlRefreshJobGetter = new Accessor<Runnable>() {
+			@Override
+			public Runnable get() {
+				return getParentControlRefreshJob();
 			}
 		};
 		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
@@ -587,7 +601,8 @@ public abstract class AbstractEditorFormBuilder {
 		SlaveModificationStack slaveModificationStack = new SlaveModificationStack(editorForm.toString(),
 				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
 				childValueTransactionExecutedGetter, committingModifGetter, undoModificationsReplacementGetter,
-				masterModifTitleGetter, masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
+				masterModifTitleGetter, masterModifStackGetter, masterModifVolatileGetter,
+				parentControlRefreshJobGetter, exclusiveLinkWithParent,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener);

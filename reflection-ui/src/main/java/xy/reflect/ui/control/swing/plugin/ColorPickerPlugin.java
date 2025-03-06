@@ -255,8 +255,8 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		protected void openDialog(Component owner) {
-			final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(owner);
+		protected void openDialog() {
+			final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(this);
 			dialogBuilder.setTitle("Choose a color");
 			Color initialColor = statusControl.getForeground();
 			JColorChooser colorChooser = new JColorChooser(initialColor != null ? initialColor : Color.white);

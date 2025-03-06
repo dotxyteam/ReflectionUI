@@ -199,7 +199,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					openDialog(DialogAccessControl.this);
+					openDialog();
 				} catch (Throwable t) {
 					swingRenderer.handleObjectException(result, t);
 				}
@@ -232,19 +232,20 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		});
 	}
 
-	protected void openDialog(Component owner) {
-		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(owner);
+	protected void openDialog() {
+		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder();
 		subDialogBuilder.createAndShowDialog();
-		if (!subDialogBuilder.getModificationStack().isInitial()) {
-			if (!ReflectionUIUtils.mayModificationsHaveImpact(
-					ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subDialogBuilder.getCurrentValue()),
-					data.getValueReturnMode(), !data.isGetOnly())) {
+		if (!ReflectionUIUtils.mayModificationsHaveImpact(
+				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subDialogBuilder.getCurrentValue()),
+				data.getValueReturnMode(), !data.isGetOnly())) {
+			if (!subDialogBuilder.getModificationStack().isInitial()) {
+				refreshUI(false);
 			}
 		}
 	}
 
-	protected AbstractEditorBuilder createSubDialogBuilder(final Component owner) {
-		return new SubDialogBuilder(swingRenderer, owner, input);
+	protected AbstractEditorBuilder createSubDialogBuilder() {
+		return new SubDialogBuilder(swingRenderer, this, input);
 	}
 
 	protected void updateActionControl() {
@@ -309,11 +310,12 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	protected static class SubDialogBuilder extends AbstractEditorBuilder {
 
 		protected SwingRenderer swingRenderer;
-		protected Component ownerComponent;
+		protected DialogAccessControl ownerComponent;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 
-		public SubDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent, IFieldControlInput input) {
+		public SubDialogBuilder(SwingRenderer swingRenderer, DialogAccessControl ownerComponent,
+				IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.ownerComponent = ownerComponent;
 			this.input = input;
@@ -378,6 +380,16 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		@Override
 		protected ModificationStack getParentModificationStack() {
 			return input.getModificationStack();
+		}
+
+		@Override
+		protected Runnable getParentControlRefreshJob() {
+			return new Runnable() {
+				@Override
+				public void run() {
+					ownerComponent.refreshUI(false);
+				}
+			};
 		}
 
 		@Override

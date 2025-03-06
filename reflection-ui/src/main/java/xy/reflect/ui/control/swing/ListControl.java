@@ -2421,6 +2421,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
+		protected Runnable getParentControlRefreshJob() {
+			return new Runnable() {				
+				@Override
+				public void run() {
+					ListControl.this.refreshUI(false);
+				}
+			};
+		}
+
+		@Override
 		protected String getParentModificationTitle() {
 			return getItemModificationTitle();
 		}
@@ -3459,6 +3469,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				protected Object[] getEncapsulatedFieldValueOptions() {
 					return dynamicProperty.getValueOptions(IDynamicListProperty.NO_OWNER);
+				}
+
+				@Override
+				protected Runnable getParentControlRefreshJob() {
+					return new Runnable() {				
+						@Override
+						public void run() {
+							ListControl.this.refreshUI(false);
+						}
+					};
 				}
 
 				@Override

@@ -683,7 +683,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 			};
 			FileBrowser browser = browserPlugin.createControl(swingRenderer, fileBrowserInput);
-			browser.openDialog(browser);
+			browser.openDialog();
 			if (imageFileHolder[0] == null) {
 				return;
 			}

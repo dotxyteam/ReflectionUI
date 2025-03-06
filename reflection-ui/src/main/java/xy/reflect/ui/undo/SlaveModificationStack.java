@@ -27,6 +27,7 @@ public class SlaveModificationStack extends ModificationStack {
 	protected Accessor<Boolean> masterModificationVolatileGetter;
 	protected Accessor<IModification> committingModificationGetter;
 	protected Accessor<IModification> undoModificationsReplacementGetter;
+	protected Accessor<Runnable> parentControlRefreshJobGetter;
 	protected boolean exclusiveLinkWithParent;
 	protected Listener<String> debugLogListener;
 	protected Listener<String> errorLogListener;
@@ -36,7 +37,8 @@ public class SlaveModificationStack extends ModificationStack {
 			Accessor<ValueReturnMode> valueReturnModeGetter, Accessor<Boolean> valueReplacedGetter,
 			Accessor<Boolean> valueTransactionExecutedGetter, Accessor<IModification> committingModificationGetter,
 			Accessor<IModification> undoModificationsReplacementGetter, Accessor<String> masterModificationTitleGetter,
-			Accessor<ModificationStack> masterModificationStackGetter, Accessor<Boolean> masterModificationVolatileGetter,
+			Accessor<ModificationStack> masterModificationStackGetter,
+			Accessor<Boolean> masterModificationVolatileGetter, Accessor<Runnable> parentControlRefreshJobGetter,
 			boolean exclusiveLinkWithParent, Listener<String> debugLogListener, Listener<String> errorLogListener,
 			Listener<Throwable> masterModificationExceptionListener) {
 		super(name);
@@ -50,6 +52,7 @@ public class SlaveModificationStack extends ModificationStack {
 		this.masterModificationTitleGetter = masterModificationTitleGetter;
 		this.masterModificationStackGetter = masterModificationStackGetter;
 		this.masterModificationVolatileGetter = masterModificationVolatileGetter;
+		this.parentControlRefreshJobGetter = parentControlRefreshJobGetter;
 		this.exclusiveLinkWithParent = exclusiveLinkWithParent;
 		this.debugLogListener = debugLogListener;
 		this.errorLogListener = errorLogListener;
@@ -108,11 +111,12 @@ public class SlaveModificationStack extends ModificationStack {
 		}
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean masterModificationVolatile = masterModificationVolatileGetter.get();
+		Runnable parentControlRefreshJob = parentControlRefreshJobGetter.get();
 		try {
 			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
 					valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif,
-					undoModificationsReplacement, modifTitle, masterModificationVolatile, debugLogListener,
-					errorLogListener);
+					undoModificationsReplacement, modifTitle, masterModificationVolatile, parentControlRefreshJob,
+					debugLogListener, errorLogListener);
 		} catch (Throwable t) {
 			masterModificationExceptionListener.handle(t);
 		}
@@ -140,11 +144,12 @@ public class SlaveModificationStack extends ModificationStack {
 		String parentObjectModifTitle = null;
 		ModificationStack parentObjectModifStack = masterModificationStackGetter.get();
 		boolean parentObjectModificationVolatile = masterModificationVolatileGetter.get();
+		Runnable parentControlRefreshJob = parentControlRefreshJobGetter.get();
 		try {
 			ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
 					valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif,
 					undoModificationsReplacement, parentObjectModifTitle, parentObjectModificationVolatile,
-					debugLogListener, errorLogListener);
+					parentControlRefreshJob, debugLogListener, errorLogListener);
 		} catch (Throwable t) {
 			masterModificationExceptionListener.handle(t);
 		}

@@ -172,8 +172,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				refreshTypeEnumerationControl(false);
 			}
 		};
-		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, input, typeOptionsFactory,
-				currentSubTypeAccessor, dynamicControlUpdater, subTypeInstanceCache, instantiator,
+		typeEnumerationControlBuilder = new TypeEnumerationControlBuilder(swingRenderer, this, input,
+				typeOptionsFactory, currentSubTypeAccessor, dynamicControlUpdater, subTypeInstanceCache, instantiator,
 				commitExceptionHandler);
 		return typeEnumerationControlBuilder.createEditorForm(true, false);
 	}
@@ -214,7 +214,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				throw new ReflectionUIError(t);
 			}
 		};
-		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, input, instanceType, commitExceptionHandler);
+		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, this, input, instanceType,
+				commitExceptionHandler);
 		return dynamicControlBuilder.createEditorForm(true, false);
 	}
 
@@ -320,6 +321,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected static class TypeEnumerationControlBuilder extends AbstractEditorFormBuilder {
 
 		protected SwingRenderer swingRenderer;
+		protected PolymorphicControl ownerComponent;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected PolymorphicTypeOptionsFactory typeOptionsFactory;
@@ -328,11 +330,13 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		protected Mapper<ITypeInfo, Object> instantiator;
 		protected Listener<Throwable> commitExceptionHandler;
 
-		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
-				PolymorphicTypeOptionsFactory typeOptionsFactory, Accessor<ITypeInfo> currentSubTypeAccessor,
-				Listener<Object> dynamicControlUpdater, Map<ITypeInfo, Object> subTypeInstanceCache,
-				Mapper<ITypeInfo, Object> instantiator, Listener<Throwable> commitExceptionHandler) {
+		public TypeEnumerationControlBuilder(SwingRenderer swingRenderer, PolymorphicControl ownerComponent,
+				IFieldControlInput input, PolymorphicTypeOptionsFactory typeOptionsFactory,
+				Accessor<ITypeInfo> currentSubTypeAccessor, Listener<Object> dynamicControlUpdater,
+				Map<ITypeInfo, Object> subTypeInstanceCache, Mapper<ITypeInfo, Object> instantiator,
+				Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
+			this.ownerComponent = ownerComponent;
 			input = new FieldControlInputProxy(input) {
 				IFieldControlData fieldControlDataProxy = new FieldControlDataProxy(super.getControlData()) {
 
@@ -458,6 +462,16 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
+		protected Runnable getParentControlRefreshJob() {
+			return new Runnable() {
+				@Override
+				public void run() {
+					ownerComponent.refreshUI(false);
+				}
+			};
+		}
+
+		@Override
 		protected String getParentModificationTitle() {
 			return FieldControlDataModification.getTitle(data.getCaption());
 		}
@@ -482,14 +496,16 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected static class DynamicControlBuilder extends AbstractEditorFormBuilder {
 
 		protected SwingRenderer swingRenderer;
+		protected PolymorphicControl ownerComponent;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected ITypeInfo instanceType;
 		protected Listener<Throwable> commitExceptionHandler;
 
-		public DynamicControlBuilder(SwingRenderer swingRenderer, IFieldControlInput input, ITypeInfo instanceType,
-				Listener<Throwable> commitExceptionHandler) {
+		public DynamicControlBuilder(SwingRenderer swingRenderer, PolymorphicControl ownerComponent,
+				IFieldControlInput input, ITypeInfo instanceType, Listener<Throwable> commitExceptionHandler) {
 			this.swingRenderer = swingRenderer;
+			this.ownerComponent = ownerComponent;
 			this.input = input;
 			this.data = input.getControlData();
 			this.instanceType = instanceType;
@@ -539,6 +555,16 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		@Override
 		public SwingRenderer getSwingRenderer() {
 			return swingRenderer;
+		}
+
+		@Override
+		protected Runnable getParentControlRefreshJob() {
+			return new Runnable() {
+				@Override
+				public void run() {
+					ownerComponent.refreshUI(false);
+				}
+			};
 		}
 
 		@Override

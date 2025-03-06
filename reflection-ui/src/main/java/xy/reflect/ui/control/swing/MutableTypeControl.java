@@ -53,7 +53,7 @@ public class MutableTypeControl extends NullableControl {
 		if (parent != null) {
 			parent.recreationNeeded = true;
 		}
-		return new SubFormBuilder(swingRenderer, input, subContext, commitExceptionHandler) {
+		return new SubFormBuilder(swingRenderer, this, input, subContext, commitExceptionHandler) {
 
 			@Override
 			protected Map<String, Object> getEncapsulatedFieldSpecificProperties() {

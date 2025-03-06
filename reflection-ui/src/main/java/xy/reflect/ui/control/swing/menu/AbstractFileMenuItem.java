@@ -119,7 +119,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 
 		};
 		FileBrowser fileBrowser = fileBrowserPlugin.createControl(swingRenderer, fileBrowserInput);
-		fileBrowser.openDialog(form);
+		fileBrowser.openDialog();
 		File result = fileHolder[0];
 		return result;
 	}

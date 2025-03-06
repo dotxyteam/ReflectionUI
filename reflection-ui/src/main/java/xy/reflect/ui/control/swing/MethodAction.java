@@ -354,6 +354,11 @@ public class MethodAction extends AbstractAction {
 			}
 
 			@Override
+			protected Runnable getParentControlRefreshJob() {
+				return null;
+			}
+
+			@Override
 			protected ValueReturnMode getReturnModeFromParent() {
 				return data.getValueReturnMode();
 			}

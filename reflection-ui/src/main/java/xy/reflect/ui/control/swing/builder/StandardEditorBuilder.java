@@ -78,6 +78,11 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
+	protected Runnable getParentControlRefreshJob() {
+		return null;
+	}
+
+	@Override
 	protected String getParentModificationTitle() {
 		return null;
 	}

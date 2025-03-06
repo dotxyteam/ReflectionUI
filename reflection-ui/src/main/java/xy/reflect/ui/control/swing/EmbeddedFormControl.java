@@ -3,10 +3,8 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -23,7 +21,6 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
-import xy.reflect.ui.undo.AbstractSimpleModificationListener;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.IModificationListener;
@@ -51,19 +48,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	protected Component iconControl;
 	protected Object subFormObject;
 	protected Form subForm;
-	protected ModificationStack subFormInitialModificationStack;
 	protected IFieldControlInput input;
-	protected IModificationListener refreshingModificationListener = new AbstractSimpleModificationListener() {
-		@Override
-		protected void handleAnyEvent(IModification modification) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					refreshUI(false);
-				}
-			});
-		}
-	};
 
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -92,80 +77,78 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void handleSubFormModifications() {
-		if (!ReflectionUIUtils.mayModificationsHaveImpact(
-				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subFormObject),
-				data.getValueReturnMode(), !data.isGetOnly())) {
-			if (!Arrays.asList(subFormInitialModificationStack.getListeners())
-					.contains(refreshingModificationListener)) {
-				subFormInitialModificationStack.addListener(refreshingModificationListener);
+		Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
+		Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
+			@Override
+			public ValueReturnMode get() {
+				return data.getValueReturnMode();
 			}
-			subForm.setModificationStack(subFormInitialModificationStack);
-		} else {
-			Accessor<Boolean> childModifAcceptedGetter = Accessor.returning(Boolean.TRUE);
-			Accessor<ValueReturnMode> childValueReturnModeGetter = new Accessor<ValueReturnMode>() {
-				@Override
-				public ValueReturnMode get() {
-					return data.getValueReturnMode();
+		};
+		Accessor<Boolean> childValueReplacedGetter = Accessor.returning(Boolean.FALSE);
+		Accessor<Boolean> childValueTransactionExecutedGetter = Accessor.returning(false);
+		Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
+			@Override
+			public IModification get() {
+				if (data.isGetOnly()) {
+					return null;
 				}
-			};
-			Accessor<Boolean> childValueReplacedGetter = Accessor.returning(Boolean.FALSE);
-			Accessor<Boolean> childValueTransactionExecutedGetter = Accessor.returning(false);
-			Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
-				@Override
-				public IModification get() {
-					if (data.isGetOnly()) {
-						return null;
+				return new FieldControlDataModification(data, subFormObject);
+			}
+		};
+		Accessor<IModification> undoModificationsReplacementGetter = new Accessor<IModification>() {
+			@Override
+			public IModification get() {
+				return ReflectionUIUtils.createUndoModificationsReplacement(data);
+			}
+		};
+		Accessor<String> childModifTitleGetter = new Accessor<String>() {
+			@Override
+			public String get() {
+				return FieldControlDataModification.getTitle(data.getCaption());
+			}
+		};
+		Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {
+			@Override
+			public ModificationStack get() {
+				return input.getModificationStack();
+			}
+		};
+		Accessor<Boolean> masterModifVolatileGetter = new Accessor<Boolean>() {
+			@Override
+			public Boolean get() {
+				return data.isTransient();
+			}
+		};
+		Accessor<Runnable> parentControlRefreshJobGetter = new Accessor<Runnable>() {
+			@Override
+			public Runnable get() {
+				return new Runnable() {
+					@Override
+					public void run() {
+						EmbeddedFormControl.this.refreshUI(false);
 					}
-					return new FieldControlDataModification(data, subFormObject);
-				}
-			};
-			Accessor<IModification> undoModificationsReplacementGetter = new Accessor<IModification>() {
-				@Override
-				public IModification get() {
-					return ReflectionUIUtils.createUndoModificationsReplacement(data);
-				}
-			};
-			Accessor<String> childModifTitleGetter = new Accessor<String>() {
-				@Override
-				public String get() {
-					return FieldControlDataModification.getTitle(data.getCaption());
-				}
-			};
-			Accessor<ModificationStack> masterModifStackGetter = new Accessor<ModificationStack>() {
-				@Override
-				public ModificationStack get() {
-					return input.getModificationStack();
-				}
-			};
-			Accessor<Boolean> masterModifFakeGetter = new Accessor<Boolean>() {
-				@Override
-				public Boolean get() {
-					return data.isTransient();
-				}
-			};
-			boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
-					.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
-			Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
-				@Override
-				public void handle(Throwable t) {
-					swingRenderer.handleObjectException(EmbeddedFormControl.this, t);
-				}
-			};
-			SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(),
-					childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
-					childValueTransactionExecutedGetter, committingModifGetter, undoModificationsReplacementGetter,
-					childModifTitleGetter, masterModifStackGetter, masterModifFakeGetter, exclusiveLinkWithParent,
-					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
-					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
-					masterModificationExceptionListener);
-			for (IModificationListener listener : subFormInitialModificationStack.getListeners()) {
-				if (listener == refreshingModificationListener) {
-					continue;
-				}
-				slaveModficationStack.addSlaveListener(listener);
+				};
 			}
-			subForm.setModificationStack(slaveModficationStack);
+		};
+		boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
+				.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
+		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
+			@Override
+			public void handle(Throwable t) {
+				swingRenderer.handleObjectException(EmbeddedFormControl.this, t);
+			}
+		};
+		SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(),
+				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
+				childValueTransactionExecutedGetter, committingModifGetter, undoModificationsReplacementGetter,
+				childModifTitleGetter, masterModifStackGetter, masterModifVolatileGetter, parentControlRefreshJobGetter,
+				exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
+				ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
+				masterModificationExceptionListener);
+		for (IModificationListener listener : subForm.getModificationStack().getListeners()) {
+			slaveModficationStack.addSlaveListener(listener);
 		}
+		subForm.setModificationStack(slaveModficationStack);
 	}
 
 	@Override
@@ -212,7 +195,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			}
 			IInfoFilter filter = data.getFormControlFilter();
 			subForm = swingRenderer.createForm(subFormObject, filter);
-			subFormInitialModificationStack = subForm.getModificationStack();
+			handleSubFormModifications();
 			add(subForm, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
@@ -245,9 +228,6 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 					return false;
 				}
 			}
-		}
-		if (refreshStructure) {
-			handleSubFormModifications();
 		}
 		return true;
 	}
