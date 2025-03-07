@@ -344,7 +344,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			if (!MiscUtils.equalsOrBothNull(textComponent.getText(), newText)) {
 				int lastCaretPosition = textComponent.getCaretPosition();
 				textComponent.setText(newText);
-				setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getText().length()));
+				setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getDocument().getLength()));
 				SwingRendererUtils.handleComponentSizeChange(textComponent);
 			}
 		} finally {
@@ -400,7 +400,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		if (data.isGetOnly()) {
 			return false;
 		}
-		setCurrentTextEditPosition(textComponent.getText().length());
+		setCurrentTextEditPosition(textComponent.getDocument().getLength());
 		if (SwingRendererUtils.requestAnyComponentFocus(textComponent, swingRenderer)) {
 			return true;
 		}
