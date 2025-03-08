@@ -1,3 +1,6 @@
+- need to test utility class (only static fields and methods) instance dialog  
+- are transactions still useful ? 
+since last refresh state restoration jobs exist now.
 - some structural refreshing may not update IInfo related features. Check.
 - allow to execute a list item method shortcut on multiple items
 - IFieldInfo.alternativeListItemContructors should be taken into account

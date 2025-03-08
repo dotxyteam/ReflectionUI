@@ -12,8 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
-import javax.swing.border.TitledBorder;
-
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -108,29 +106,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				nullStatusControl.setText("");
 				((JComponent) currentSubControl).setBorder(
 						BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
-				{
-					if (data.getLabelForegroundColor() != null) {
-						((TitledBorder) ((JComponent) currentSubControl).getBorder())
-								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-					}
-					if (data.getBorderColor() != null) {
-						((TitledBorder) ((JComponent) currentSubControl).getBorder()).setBorder(
-								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-					}
-					if (data.getLabelCustomFontResourcePath() != null) {
-						((TitledBorder) ((JComponent) currentSubControl).getBorder())
-								.setTitleFont(
-										SwingRendererUtils
-												.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-														ReflectionUIUtils
-																.getErrorLogListener(swingRenderer.getReflectionUI()))
-												.deriveFont(
-														((TitledBorder) ((JComponent) currentSubControl).getBorder())
-																.getTitleFont().getStyle(),
-														((TitledBorder) ((JComponent) currentSubControl).getBorder())
-																.getTitleFont().getSize()));
-					}
-				}
+				SwingRendererUtils.showFieldCaptionOnBorder(data, (JComponent) currentSubControl, swingRenderer);
 			} else {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
 				add(currentSubControl, BorderLayout.CENTER);

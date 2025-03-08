@@ -5,9 +5,6 @@ import java.awt.BorderLayout;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
-import javax.swing.border.TitledBorder;
-
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -110,30 +107,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
 		if (refreshStructure) {
-			if (data.getCaption().length() > 0) {
-				setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
-				if (data.getLabelForegroundColor() != null) {
-					((TitledBorder) getBorder())
-							.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-				}
-				if (data.getBorderColor() != null) {
-					((TitledBorder) getBorder()).setBorder(
-							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-				}
-				if (data.getLabelCustomFontResourcePath() != null) {
-					((TitledBorder) getBorder())
-							.setTitleFont(
-									SwingRendererUtils
-											.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-													ReflectionUIUtils
-															.getErrorLogListener(swingRenderer.getReflectionUI()))
-											.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
-													((TitledBorder) getBorder()).getTitleFont().getSize()));
-				}
-
-			} else {
-				setBorder(null);
-			}
+			SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
+			SwingRendererUtils.handleComponentSizeChange(this);
 			subTypeInstanceCache.clear();
 			dynamicControlCache.clear();
 		}

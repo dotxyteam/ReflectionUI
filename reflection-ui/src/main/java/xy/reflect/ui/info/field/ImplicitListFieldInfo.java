@@ -76,23 +76,63 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	protected IMethodInfo getCreateMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), createMethodName);
+		if (createMethodName == null) {
+			return null;
+		}
+		IMethodInfo result = ReflectionUIUtils.findInfoByName(parentType.getMethods(), createMethodName);
+		if (result == null) {
+			throw new ReflectionUIError(
+					"Method '" + createMethodName + "' not found in type '" + parentType.getName() + "'");
+		}
+		return result;
 	}
 
 	protected IMethodInfo getGetMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), getMethodName);
+		if (getMethodName == null) {
+			return null;
+		}
+		IMethodInfo result = ReflectionUIUtils.findInfoByName(parentType.getMethods(), getMethodName);
+		if (result == null) {
+			throw new ReflectionUIError(
+					"Method '" + getMethodName + "' not found in type '" + parentType.getName() + "'");
+		}
+		return result;
 	}
 
 	protected IMethodInfo getAddMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), addMethodName);
+		if (addMethodName == null) {
+			return null;
+		}
+		IMethodInfo result = ReflectionUIUtils.findInfoByName(parentType.getMethods(), addMethodName);
+		if (result == null) {
+			throw new ReflectionUIError(
+					"Method '" + addMethodName + "' not found in type '" + parentType.getName() + "'");
+		}
+		return result;
 	}
 
 	protected IMethodInfo getRemoveMethod() {
-		return ReflectionUIUtils.findInfoByName(parentType.getMethods(), removeMethodName);
+		if (removeMethodName == null) {
+			return null;
+		}
+		IMethodInfo result = ReflectionUIUtils.findInfoByName(parentType.getMethods(), removeMethodName);
+		if (result == null) {
+			throw new ReflectionUIError(
+					"Method '" + removeMethodName + "' not found in type '" + parentType.getName() + "'");
+		}
+		return result;
 	}
 
 	protected IFieldInfo getSizeField() {
-		return ReflectionUIUtils.findInfoByName(parentType.getFields(), sizeFieldName);
+		if (sizeFieldName == null) {
+			return null;
+		}
+		IFieldInfo result = ReflectionUIUtils.findInfoByName(parentType.getFields(), sizeFieldName);
+		if (result == null) {
+			throw new ReflectionUIError(
+					"Field '" + sizeFieldName + "' not found in type '" + parentType.getName() + "'");
+		}
+		return result;
 	}
 
 	@Override

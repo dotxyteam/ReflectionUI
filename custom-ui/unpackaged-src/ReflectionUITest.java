@@ -148,6 +148,7 @@ public class ReflectionUITest {
 		public Set<Integer> theSet = new HashSet<Integer>(Arrays.asList(1, 2, 3));
 		public Stack<Integer> theStack = new Stack<Integer>();
 		public List<File> theNullList = null;
+		private List<String> implicitListSource = new ArrayList<String>(Arrays.asList("aze", "qsd", "wxc"));
 
 		public Test2 test2 = new Test2();
 		public Test3 test3 = null;
@@ -156,7 +157,7 @@ public class ReflectionUITest {
 		public List<AbstrcatTestDescendant> theTestDescendantList = new ArrayList<AbstrcatTestDescendant>(
 				Arrays.asList(new Test2(), new Test2(), new Test3()));
 		public AbstrcatTestDescendant selectedItemInTestDescendantList;
-		
+
 		public Date getTheDate() {
 			return theDate;
 		}
@@ -239,6 +240,29 @@ public class ReflectionUITest {
 			return parameterWithDefaultValue;
 		}
 
+		public String getImplicitListItem(int i) {
+			return implicitListSource.get(i);
+		}
+
+		public String setImplicitListItem(int i, String item) {
+			return implicitListSource.set(i, item);
+		}
+
+		public String createImplicitListItem() {
+			return new String();
+		}
+
+		public void addImplicitListItem(int i, String item) {
+			implicitListSource.add(i, item);
+		}
+
+		public void removeImplicitListItem(int i) {
+			implicitListSource.remove(i);
+		}
+
+		public int getImplicitListSize() {
+			return implicitListSource.size();
+		}
 	}
 
 	public static abstract class AbstrcatTestDescendant implements Serializable {
@@ -411,16 +435,14 @@ public class ReflectionUITest {
 
 					@Override
 					protected boolean isReadOnly(IMethodInfo method, ITypeInfo objectType) {
-						if(objectType.getName().equals(ReflectionUITest.Test.class.getName())) {
-							if(method.getName().startsWith("echo")) {
+						if (objectType.getName().equals(ReflectionUITest.Test.class.getName())) {
+							if (method.getName().startsWith("echo")) {
 								return true;
 							}
 						}
 						return super.isReadOnly(method, objectType);
 					}
-					
-					
-					
+
 				}.wrapTypeInfo(result);
 			}
 		};

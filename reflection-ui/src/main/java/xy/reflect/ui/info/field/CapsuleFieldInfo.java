@@ -221,7 +221,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isFormControlMandatory() {
-		return true;
+		return false;
 	}
 
 	@Override

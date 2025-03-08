@@ -6,11 +6,8 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
-
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -23,7 +20,6 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Empty field control that allows to represent the null value.
@@ -46,26 +42,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		this.data = input.getControlData();
 		setLayout(new BorderLayout());
 		add(labelComponent = createLabelComponent(), BorderLayout.CENTER);
-		if (data.getCaption().length() > 0) {
-			setBorder(BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
-			if (data.getLabelForegroundColor() != null) {
-				((TitledBorder) getBorder()).setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-			}
-			if (data.getBorderColor() != null) {
-				((TitledBorder) getBorder())
-						.setBorder(BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-			}
-			if (data.getLabelCustomFontResourcePath() != null) {
-				((TitledBorder) getBorder())
-						.setTitleFont(
-								SwingRendererUtils
-										.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-												ReflectionUIUtils
-														.getErrorLogListener(swingRenderer.getReflectionUI()))
-										.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
-												((TitledBorder) getBorder()).getTitleFont().getSize()));
-			}
-		}
+		SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
 		setupActivationAction();
 	}
 

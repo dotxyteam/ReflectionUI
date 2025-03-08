@@ -42,7 +42,6 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -1764,35 +1763,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void refreshTreeTableScrollPaneBorder() {
-		if (listData.getCaption().length() > 0) {
-			treeTableComponentScrollPane.setBorder(
-					BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(listData.getCaption())));
-			{
-				if (listData.getLabelForegroundColor() != null) {
-					((TitledBorder) treeTableComponentScrollPane.getBorder())
-							.setTitleColor(SwingRendererUtils.getColor(listData.getLabelForegroundColor()));
-				}
-				if (listData.getBorderColor() != null) {
-					((TitledBorder) treeTableComponentScrollPane.getBorder()).setBorder(
-							BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
-				}
-				if (listData.getLabelCustomFontResourcePath() != null) {
-					((TitledBorder) treeTableComponentScrollPane.getBorder())
-							.setTitleFont(
-									SwingRendererUtils
-											.loadFontThroughCache(listData.getLabelCustomFontResourcePath(),
-													ReflectionUIUtils
-															.getErrorLogListener(swingRenderer.getReflectionUI()))
-											.deriveFont(
-													((TitledBorder) treeTableComponentScrollPane.getBorder())
-															.getTitleFont().getStyle(),
-													((TitledBorder) treeTableComponentScrollPane.getBorder())
-															.getTitleFont().getSize()));
-				}
-			}
-		} else {
-			treeTableComponentScrollPane.setBorder(null);
-		}
+		SwingRendererUtils.showFieldCaptionOnBorder(listData, treeTableComponentScrollPane, swingRenderer);
 	}
 
 	protected void refreshRendrers() {
@@ -2422,7 +2393,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected Runnable getParentControlRefreshJob() {
-			return new Runnable() {				
+			return new Runnable() {
 				@Override
 				public void run() {
 					ListControl.this.refreshUI(false);
@@ -3473,7 +3444,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				protected Runnable getParentControlRefreshJob() {
-					return new Runnable() {				
+					return new Runnable() {
 						@Override
 						public void run() {
 							ListControl.this.refreshUI(false);

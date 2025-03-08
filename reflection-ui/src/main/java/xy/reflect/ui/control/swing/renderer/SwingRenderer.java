@@ -56,6 +56,7 @@ import xy.reflect.ui.control.swing.plugin.PasswordFieldPlugin;
 import xy.reflect.ui.control.swing.plugin.SingleLineTextPlugin;
 import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
+import xy.reflect.ui.control.swing.plugin.SplitFormPlugin;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -250,6 +251,7 @@ public class SwingRenderer {
 	 */
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
+		result.add(new SplitFormPlugin());
 		result.add(new OptionButtonsPlugin());
 		result.add(new SliderPlugin());
 		result.add(new SpinnerPlugin());

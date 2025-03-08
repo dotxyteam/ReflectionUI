@@ -66,6 +66,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.DefaultFormatter;
@@ -826,6 +827,31 @@ public class SwingRendererUtils {
 		}
 		SwingRendererUtils.setMultilineToolTipText(toolTipComponent, newTooltipText);
 		SwingRendererUtils.handleComponentSizeChange(borderComponent);
+	}
+
+	public static void showFieldCaptionOnBorder(IFieldControlData fieldControlData, JComponent borderComponent,
+			SwingRenderer swingRenderer) {
+		if (fieldControlData.getCaption().length() > 0) {
+			borderComponent.setBorder(BorderFactory
+					.createTitledBorder(swingRenderer.prepareMessageToDisplay(fieldControlData.getCaption())));
+			if (fieldControlData.getLabelForegroundColor() != null) {
+				((TitledBorder) borderComponent.getBorder())
+						.setTitleColor(SwingRendererUtils.getColor(fieldControlData.getLabelForegroundColor()));
+			}
+			if (fieldControlData.getBorderColor() != null) {
+				((TitledBorder) borderComponent.getBorder()).setBorder(
+						BorderFactory.createLineBorder(SwingRendererUtils.getColor(fieldControlData.getBorderColor())));
+			}
+			if (fieldControlData.getLabelCustomFontResourcePath() != null) {
+				((TitledBorder) borderComponent.getBorder()).setTitleFont(SwingRendererUtils
+						.loadFontThroughCache(fieldControlData.getLabelCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+						.deriveFont(((TitledBorder) borderComponent.getBorder()).getTitleFont().getStyle(),
+								((TitledBorder) borderComponent.getBorder()).getTitleFont().getSize()));
+			}
+		} else {
+			borderComponent.setBorder(BorderFactory.createEmptyBorder());
+		}
 	}
 
 	public static List<Form> findObjectDisplayedForms(Object object, SwingRenderer swingRenderer) {

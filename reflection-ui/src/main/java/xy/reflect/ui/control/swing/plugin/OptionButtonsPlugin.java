@@ -11,14 +11,11 @@ import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultButtonModel;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
-import javax.swing.border.TitledBorder;
-
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -117,30 +114,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 			OptionButtonsConfiguration controlCustomization = (OptionButtonsConfiguration) loadControlCustomization(
 					input);
 			if (refreshStructure) {
-				if (data.getCaption().length() > 0) {
-					setBorder(
-							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
-					if (data.getLabelForegroundColor() != null) {
-						((TitledBorder) getBorder())
-								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-					}
-					if (data.getBorderColor() != null) {
-						((TitledBorder) getBorder()).setBorder(
-								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-					}
-					if (data.getLabelCustomFontResourcePath() != null) {
-						((TitledBorder) getBorder())
-								.setTitleFont(
-										SwingRendererUtils
-												.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-														ReflectionUIUtils
-																.getErrorLogListener(swingRenderer.getReflectionUI()))
-												.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
-														((TitledBorder) getBorder()).getTitleFont().getSize()));
-					}
-				} else {
-					setBorder(null);
-				}
+				SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
 				if (controlCustomization.layout == OptionButtonsLayout.HORIZONTAL_FLOW) {
 					setLayout(new WrapLayout());
 				} else if (controlCustomization.layout == OptionButtonsLayout.VERTICAL_FLOW) {
@@ -148,6 +122,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				} else {
 					throw new ReflectionUIError();
 				}
+				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			if (enumType.isDynamicEnumeration() || refreshStructure) {
 				possibleValues = Arrays.asList(enumType.getValues());
@@ -162,6 +137,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					buttonGroup.add(button);
 
 				}
+				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			Object currentValue = data.getValue();
 			setSelectedValue(currentValue);
@@ -201,7 +177,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 							.deriveFont(result.getFont().getStyle(), result.getFont().getSize()));
 				} else {
 					result.setFont(new JRadioButton().getFont());
-				}				
+				}
 			} else if (controlCustomization.buttonType == OptionButtonType.TOGGLE) {
 				result = new AbstractControlButton() {
 
@@ -276,7 +252,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					@Override
 					public Icon retrieveIcon() {
 						Image image = swingRenderer.getEnumerationItemIconImage(itemInfo);
-						if(image == null) {
+						if (image == null) {
 							return null;
 						}
 						return SwingRendererUtils.getIcon(image);

@@ -469,7 +469,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		protected SwingRenderer swingRenderer;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
-		protected Class<?> numberClass;
 		protected ControlPanel contentPane;
 		protected JPanel imagePanelContainer;
 		protected ImagePanel imagePanel;
@@ -479,14 +478,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
-			try {
-				this.numberClass = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
-				if (this.numberClass.isPrimitive()) {
-					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
-				}
-			} catch (ClassNotFoundException e1) {
-				throw new ReflectionUIError(e1);
-			}
 			setLayout(new BorderLayout());
 			contentPane = new ControlPanel();
 			contentPane.setLayout(new BorderLayout());
@@ -502,30 +493,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				browseButton = null;
 				imagePanelContainer = null;
 				imagePanel = null;
-				if (data.getCaption().length() > 0) {
-					setBorder(
-							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
-					if (data.getLabelForegroundColor() != null) {
-						((TitledBorder) getBorder())
-								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-					}
-					if (data.getBorderColor() != null) {
-						((TitledBorder) getBorder()).setBorder(
-								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-					}
-					if (data.getLabelCustomFontResourcePath() != null) {
-						((TitledBorder) getBorder())
-								.setTitleFont(
-										SwingRendererUtils
-												.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-														ReflectionUIUtils
-																.getErrorLogListener(swingRenderer.getReflectionUI()))
-												.deriveFont(((TitledBorder) getBorder()).getTitleFont().getStyle(),
-														((TitledBorder) getBorder()).getTitleFont().getSize()));
-					}
-				} else {
-					setBorder(BorderFactory.createEmptyBorder());
-				}
+				SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
 				setOpaque(false);
 			}
 			if (browseButton == null) {
