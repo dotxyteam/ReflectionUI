@@ -138,7 +138,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 			return true;
 		}
-
+		
 		protected EmbeddedFormControl createSubControl1() {
 			return new EmbeddedFormControl(swingRenderer, new FieldControlInputProxy(input) {
 				@Override

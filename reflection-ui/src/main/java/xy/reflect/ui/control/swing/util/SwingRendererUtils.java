@@ -428,12 +428,12 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static List<Object> getDisplayedInstances(ITypeInfo type, SwingRenderer swingRenderer) {
+	public static List<Object> getDisplayedInstances(String typeName, SwingRenderer swingRenderer) {
 		List<Object> result = new ArrayList<Object>();
 		for (Object object : getAllDisplayedObjects(swingRenderer)) {
 			ITypeInfo objectType = swingRenderer.getReflectionUI()
 					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-			if (objectType.getName().equals(type.getName())) {
+			if (objectType.getName().equals(typeName)) {
 				result.add(object);
 			}
 		}

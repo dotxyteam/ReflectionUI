@@ -295,6 +295,32 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension result = super.getMinimumSize();
+		if (result != null) {
+			Dimension preferredSize = getPreferredSize();
+			if (preferredSize != null) {
+				result.width = Math.min(result.width, preferredSize.width);
+				result.height = Math.min(result.height, preferredSize.height);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Dimension getMaximumSize() {
+		Dimension result = super.getMaximumSize();
+		if (result != null) {
+			Dimension preferredSize = getPreferredSize();
+			if (preferredSize != null) {
+				result.width = Math.max(result.width, preferredSize.width);
+				result.height = Math.max(result.height, preferredSize.height);
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * Uses type information to check that the state of the underlying object is
 	 * valid.
