@@ -327,6 +327,7 @@ public class CustomizationTools {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
+								swingCustomizer.getCustomizedUI().getCustomizedTypesCache().clear();								
 								Form form = SwingRendererUtils.findParentForm(result, swingCustomizer);
 								try {
 									form.refresh(true);

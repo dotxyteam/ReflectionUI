@@ -3,6 +3,8 @@ package xy.reflect.ui.control.swing.plugin;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -138,7 +140,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 			return true;
 		}
-		
+
 		protected EmbeddedFormControl createSubControl1() {
 			return new EmbeddedFormControl(swingRenderer, new FieldControlInputProxy(input) {
 				@Override
@@ -272,7 +274,17 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					return null;
 				}
 
-			}.wrapTypeInfo(data.getType().getSource().buildTypeInfo(swingRenderer.getReflectionUI()));
+				@Override
+				protected boolean isFactoryTracedFor(ITypeInfo base) {
+					return false;
+				}
+
+				@Override
+				protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+					return Collections.emptyMap();
+				}
+
+			}.wrapTypeInfo(data.getType());
 		}
 
 		protected ITypeInfo getSubObject2Type() {
@@ -321,7 +333,17 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					return super.getLastFormRefreshStateRestorationJob(type, object);
 				}
 
-			}.wrapTypeInfo(data.getType().getSource().buildTypeInfo(swingRenderer.getReflectionUI()));
+				@Override
+				protected boolean isFactoryTracedFor(ITypeInfo base) {
+					return false;
+				}
+
+				@Override
+				protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+					return Collections.emptyMap();
+				}
+
+			}.wrapTypeInfo(data.getType());
 		}
 
 		@Override

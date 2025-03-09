@@ -1,3 +1,5 @@
+- problem with customizations optimization: precomputed types are store
+in wrappers and then are not refreshed when a customization is done 
 - need to test utility class (only static fields and methods) instance dialog  
 - are transactions still useful ? 
 since last refresh state restoration jobs exist now.
