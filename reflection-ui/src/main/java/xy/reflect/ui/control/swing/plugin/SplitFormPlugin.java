@@ -10,7 +10,6 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
-import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -48,16 +47,17 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				if (data.isFormControlMandatory()) {
 					return true;
 				}
-				Class<?> javaType;
-				try {
-					javaType = ClassUtils.getCachedClassForName(fieldType.getName());
-				} catch (ClassNotFoundException e) {
-					return true;
-				}
 				if (!(fieldType instanceof IEnumerationTypeInfo)
-						&& !ReflectionUIUtils.hasPolymorphicInstanceSubTypes(fieldType)
-						&& !ClassUtils.isPrimitiveClassOrWrapperOrString(javaType)) {
-					return true;
+						&& !ReflectionUIUtils.hasPolymorphicInstanceSubTypes(fieldType)) {
+					Class<?> javaType;
+					try {
+						javaType = ClassUtils.getCachedClassForName(fieldType.getName());
+					} catch (ClassNotFoundException e) {
+						return true;
+					}
+					if (!ClassUtils.isPrimitiveClassOrWrapperOrString(javaType)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -130,34 +130,13 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			}
 			if ((subControl1 == null) || !subControl1.refreshUI(refreshStructure)) {
 				setLeftComponent(subControl1 = createSubControl1());
-				forwardRefresh(subControl1, subControl2);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			if ((subControl2 == null) || !subControl2.refreshUI(refreshStructure)) {
 				setRightComponent(subControl2 = createSubControl2());
-				forwardRefresh(subControl2, subControl1);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			return true;
-		}
-
-		protected void forwardRefresh(EmbeddedFormControl control, EmbeddedFormControl otherControl) {
-			control.getSubForm().getRefreshListeners().add(new Form.IRefreshListener() {
-				@Override
-				public void onRefresh(boolean refreshStructure) {
-					if (refreshListenersDisabled) {
-						return;
-					}
-					if (otherControl != null) {
-						refreshListenersDisabled = true;
-						try {
-							otherControl.refreshUI(refreshStructure);
-						} finally {
-							refreshListenersDisabled = false;
-						}
-					}
-				}
-			});
 		}
 
 		protected EmbeddedFormControl createSubControl1() {

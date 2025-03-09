@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.util;
 
 /**
@@ -23,12 +21,6 @@ public class Pair<T1, T2> {
 	 * @param second The second element.
 	 */
 	public Pair(T1 first, T2 second) {
-		if (first == null) {
-			throw new IllegalArgumentException("first == null");
-		}
-		if (second == null) {
-			throw new IllegalArgumentException("second == null");
-		}
 		this.first = first;
 		this.second = second;
 	}
@@ -49,28 +41,38 @@ public class Pair<T1, T2> {
 
 	@Override
 	public int hashCode() {
-		return first.hashCode() + second.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((first == null) ? 0 : first.hashCode());
+		result = prime * result + ((second == null) ? 0 : second.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Pair)) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		@SuppressWarnings({ "rawtypes" })
-		Pair other = (Pair) obj;
-		if (!first.equals(other.first)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		if (!second.equals(other.second)) {
+		Pair<?, ?> other = (Pair<?, ?>) obj;
+		if (first == null) {
+			if (other.first != null)
+				return false;
+		} else if (!first.equals(other.first))
 			return false;
-		}
+		if (second == null) {
+			if (other.second != null)
+				return false;
+		} else if (!second.equals(other.second))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "first=" + first + "\nsecond=" + second;
+		return "Pair [first=" + first + ", second=" + second + "]";
 	}
 
 }

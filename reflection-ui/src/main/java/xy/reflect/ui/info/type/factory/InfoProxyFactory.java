@@ -2154,6 +2154,9 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		protected InfoProxyFactory factory = InfoProxyFactory.this;
 		protected ITypeInfo base;
+		protected List<IFieldInfo> fields;
+		protected List<IMethodInfo> methods;
+		protected List<IMethodInfo> constructors;
 
 		public GeneratedBasicTypeInfoProxy(ITypeInfo type) {
 			this.base = type;
@@ -2335,29 +2338,35 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public List<IMethodInfo> getMethods() {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo method : InfoProxyFactory.this.getMethods(base)) {
-				result.add(wrapMethodInfo(method, base));
+			if (methods == null) {
+				methods = new ArrayList<IMethodInfo>();
+				for (IMethodInfo method : InfoProxyFactory.this.getMethods(base)) {
+					methods.add(wrapMethodInfo(method, base));
+				}
 			}
-			return result;
+			return methods;
 		}
 
 		@Override
 		public List<IFieldInfo> getFields() {
-			List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-			for (IFieldInfo field : InfoProxyFactory.this.getFields(base)) {
-				result.add(wrapFieldInfo(field, base));
+			if (fields == null) {
+				fields = new ArrayList<IFieldInfo>();
+				for (IFieldInfo field : InfoProxyFactory.this.getFields(base)) {
+					fields.add(wrapFieldInfo(field, base));
+				}
 			}
-			return result;
+			return fields;
 		}
 
 		@Override
 		public List<IMethodInfo> getConstructors() {
-			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
-			for (IMethodInfo constructor : InfoProxyFactory.this.getConstructors(base)) {
-				result.add(wrapConstructorInfo(constructor, base));
+			if (constructors == null) {
+				constructors = new ArrayList<IMethodInfo>();
+				for (IMethodInfo constructor : InfoProxyFactory.this.getConstructors(base)) {
+					constructors.add(wrapConstructorInfo(constructor, base));
+				}
 			}
-			return result;
+			return constructors;
 		}
 
 		@Override

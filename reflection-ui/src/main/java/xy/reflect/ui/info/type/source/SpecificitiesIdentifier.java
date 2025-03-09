@@ -18,7 +18,6 @@ public class SpecificitiesIdentifier {
 	protected String fieldName;
 
 	public SpecificitiesIdentifier(String objectTypeName, String fieldName) {
-		super();
 		this.objectTypeName = objectTypeName;
 		this.fieldName = fieldName;
 	}
