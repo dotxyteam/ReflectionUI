@@ -21,6 +21,8 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -284,6 +286,25 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					return Collections.emptyMap();
 				}
 
+				@Override
+				protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
+					return swingRenderer.getReflectionUI()
+							.getTypeInfo(new TypeInfoSourceProxy(super.getType(field, objectType).getSource()) {
+
+								@Override
+								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+									return new SpecificitiesIdentifier(getName(objectType), field.getName());
+								}
+
+								@Override
+								protected String getTypeInfoProxyFactoryIdentifier() {
+									return "TypeInfoSourceSpecificitiesIdentifierChangeFactory [of=" + getIdentifier()
+											+ ", newSpecificitiesIdentifier=" + getSpecificitiesIdentifier() + "]";
+								}
+
+							});
+				}
+
 			}.wrapTypeInfo(data.getType());
 		}
 
@@ -341,6 +362,25 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				@Override
 				protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 					return Collections.emptyMap();
+				}
+
+				@Override
+				protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
+					return swingRenderer.getReflectionUI()
+							.getTypeInfo(new TypeInfoSourceProxy(super.getType(field, objectType).getSource()) {
+
+								@Override
+								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+									return new SpecificitiesIdentifier(getName(objectType), field.getName());
+								}
+
+								@Override
+								protected String getTypeInfoProxyFactoryIdentifier() {
+									return "TypeInfoSourceSpecificitiesIdentifierChangeFactory [of=" + getIdentifier()
+											+ ", newSpecificitiesIdentifier=" + getSpecificitiesIdentifier() + "]";
+								}
+
+							});
 				}
 
 			}.wrapTypeInfo(data.getType());

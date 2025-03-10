@@ -175,12 +175,13 @@ public class CustomizedUI extends ReflectionUI {
 
 			@Override
 			protected ITypeInfo getType(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
-				ITypeInfo result = super.getType(param, method, objectType);
+				ITypeInfo result = param.getType();
 				ITypeInfoSource source = result.getSource();
 				if (source.getSpecificitiesIdentifier() != null) {
 					throw new ReflectionUIError(
-							"Invalid parameter type info: specificities identifier of type info source not null, null value expected."
-									+ "\n" + "parameter=" + param.getName() + ", method=" + method.getName()
+							"Invalid parameter type info: unexpected source specificities identifier: "
+									+ source.getSpecificitiesIdentifier() + ", null value expected" + "\n"
+									+ "parameter=" + param.getName() + ", method=" + method.getSignature()
 									+ ", objectType=" + objectType.getName() + ", typeInfoSource=" + source);
 				}
 				return result;
@@ -188,29 +189,29 @@ public class CustomizedUI extends ReflectionUI {
 
 			@Override
 			protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
-				ITypeInfo result = super.getType(field, objectType);
+				ITypeInfo result = field.getType();
 				ITypeInfoSource source = result.getSource();
-				if (source.getSpecificitiesIdentifier() == null) {
-					throw new ReflectionUIError(
-							"Invalid field type info: specificities identifier of type info source is null, non-null value expected."
-									+ "\n" + "field=" + field.getName() + ", objectType=" + objectType.getName()
-									+ ", typeInfoSource=" + source);
+				SpecificitiesIdentifier expectedSpecificitiesIdentifier = new SpecificitiesIdentifier(
+						objectType.getName(), field.getName());
+				if (!expectedSpecificitiesIdentifier.equals(source.getSpecificitiesIdentifier())) {
+					throw new ReflectionUIError("Invalid field type info: unexpected source specificities identifier: "
+							+ source.getSpecificitiesIdentifier() + ", expected: " + expectedSpecificitiesIdentifier
+							+ "\n" + "typeInfoSource=" + source);
 				}
 				return result;
 			}
 
 			@Override
 			protected ITypeInfo getReturnValueType(IMethodInfo method, ITypeInfo objectType) {
-				ITypeInfo result = super.getReturnValueType(method, objectType);
+				ITypeInfo result = method.getReturnValueType();
 				if (result == null) {
 					return null;
 				}
 				ITypeInfoSource source = result.getSource();
 				if (source.getSpecificitiesIdentifier() != null) {
-					throw new ReflectionUIError(
-							"Invalid method type info: specificities identifier of type info source is not null, null value expected."
-									+ "\n" + "method=" + method.getName() + ", objectType=" + objectType.getName()
-									+ ", typeInfoSource=" + source);
+					throw new ReflectionUIError("Invalid method type info: unexpected source specificities identifier: "
+							+ source.getSpecificitiesIdentifier() + ", null value expected" + "\n" + "method="
+							+ method.getName() + ", objectType=" + objectType.getName() + ", typeInfoSource=" + source);
 				}
 				return result;
 			}
