@@ -1,7 +1,9 @@
 
 package xy.reflect.ui.control.swing.plugin;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -121,26 +124,43 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public boolean refreshUI(boolean refreshStructure) {
 			SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(input);
 			if (refreshStructure) {
-				if (controlCustomization.orientation == Orientation.HORIZONTAL_SPLIT) {
-					setOrientation(ControlSplitPane.HORIZONTAL_SPLIT);
-				} else if (controlCustomization.orientation == Orientation.VERTICAL_SPLIT) {
-					setOrientation(ControlSplitPane.VERTICAL_SPLIT);
-				} else {
-					throw new ReflectionUIError();
-				}
 				SwingRendererUtils.ensureDividerLocation(this, controlCustomization.defaultDividerLocation);
 				SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
+			boolean layoutUpdateNeeded = false;
 			if ((subControl1 == null) || !subControl1.refreshUI(refreshStructure)) {
-				setLeftComponent(subControl1 = createSubControl1());
-				SwingRendererUtils.handleComponentSizeChange(this);
+				subControl1 = createSubControl1();
+				layoutUpdateNeeded = true;
 			}
 			if ((subControl2 == null) || !subControl2.refreshUI(refreshStructure)) {
-				setRightComponent(subControl2 = createSubControl2());
-				SwingRendererUtils.handleComponentSizeChange(this);
+				subControl2 = createSubControl2();
+				layoutUpdateNeeded = true;
+			}
+			if (layoutUpdateNeeded || refreshStructure) {
+				layoutSubControls();
 			}
 			return true;
+		}
+
+		protected void layoutSubControls() {
+			SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(input);
+			if (controlCustomization.orientation == Orientation.HORIZONTAL_SPLIT) {
+				setOrientation(ControlSplitPane.HORIZONTAL_SPLIT);
+				setTopComponent(null);
+				setBottomComponent(null);
+				setLeftComponent(subControl1);
+				setRightComponent(subControl2);
+			} else if (controlCustomization.orientation == Orientation.VERTICAL_SPLIT) {
+				setOrientation(ControlSplitPane.VERTICAL_SPLIT);
+				setLeftComponent(null);
+				setRightComponent(null);
+				setTopComponent(subControl1);
+				setBottomComponent(subControl2);
+			} else {
+				throw new ReflectionUIError();
+			}
+			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 
 		protected EmbeddedFormControl createSubControl1() {
@@ -246,14 +266,23 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 				@Override
 				protected List<IFieldInfo> getFields(ITypeInfo type) {
-					List<IFieldInfo> result = super.getFields(type);
-					SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
+					final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
 							input);
-					if (result.size() < controlCustomization.firstLotFieldCount) {
-						throw new ReflectionUIError("Invalid divider position for " + getControlTitle() + ": "
-								+ controlCustomization.firstLotFieldCount);
+					List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+					int visibleFieldsCount = 0;
+					for (IFieldInfo field : super.getFields(type)) {
+						if (!field.isHidden()) {
+							visibleFieldsCount++;
+						}
+						final int visibleFieldsCountAtPosition = visibleFieldsCount;
+						result.add(new FieldInfoProxy(field) {
+							@Override
+							public boolean isHidden() {
+								return super.isHidden()
+										|| (visibleFieldsCountAtPosition > controlCustomization.firstLotFieldCount);
+							}
+						});
 					}
-					result = result.subList(0, controlCustomization.firstLotFieldCount);
 					return result;
 				}
 
@@ -283,7 +312,9 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 				@Override
 				protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-					return Collections.emptyMap();
+					Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
+					result.put(ACTIVE_FACTORIES_KEY, null);
+					return result;
 				}
 
 				@Override
@@ -323,14 +354,23 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 				@Override
 				protected List<IFieldInfo> getFields(ITypeInfo type) {
-					List<IFieldInfo> result = super.getFields(type);
-					SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
+					final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
 							input);
-					if (result.size() < controlCustomization.firstLotFieldCount) {
-						throw new ReflectionUIError("Invalid divider position for " + getControlTitle() + ": "
-								+ controlCustomization.firstLotFieldCount);
+					List<IFieldInfo> result = new ArrayList<IFieldInfo>();
+					int visibleFieldsCount = 0;
+					for (IFieldInfo field : super.getFields(type)) {
+						if (!field.isHidden()) {
+							visibleFieldsCount++;
+						}
+						final int visibleFieldsCountAtPosition = visibleFieldsCount;
+						result.add(new FieldInfoProxy(field) {
+							@Override
+							public boolean isHidden() {
+								return super.isHidden()
+										|| (visibleFieldsCountAtPosition <= controlCustomization.firstLotFieldCount);
+							}
+						});
 					}
-					result = result.subList(controlCustomization.firstLotFieldCount, result.size());
 					return result;
 				}
 
@@ -361,7 +401,9 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 				@Override
 				protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-					return Collections.emptyMap();
+					Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
+					result.put(ACTIVE_FACTORIES_KEY, null);
+					return result;
 				}
 
 				@Override

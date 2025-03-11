@@ -97,7 +97,7 @@ public class CustomizingForm extends Form {
 	}
 
 	@Override
-	protected void layoutMembersControls(
+	protected void layoutMembersControlPlaceHolders(
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
@@ -120,7 +120,7 @@ public class CustomizingForm extends Form {
 									.getToolsForegroundColor(), borderThickness));
 					newMembersPanel.setBorder(newMembersPanelBorder);
 				}
-				super.layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
+				super.layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
 						newMembersPanel);
 			}
 			JPanel typeCustomizationsControl = new ControlPanel();
@@ -133,7 +133,7 @@ public class CustomizingForm extends Form {
 			}
 			toolsAdded = true;
 		} else {
-			super.layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
+			super.layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
 					membersPanel);
 			toolsAdded = false;
 		}

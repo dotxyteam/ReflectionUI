@@ -521,7 +521,7 @@ public class Form extends ImagePanel {
 		});
 	}
 
-	protected void layoutMembersControls(
+	protected void layoutMembersControlPlaceHolders(
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
@@ -1153,8 +1153,9 @@ public class Form extends ImagePanel {
 			}
 			try {
 				removeAll();
-				createMembersControls();
-				layoutMembersControls(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
+				createMembersControlPlaceHolders();
+				layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
+				realizeMembersControls();
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
 				if (initiallySelectedCategory != null) {
@@ -1238,9 +1239,12 @@ public class Form extends ImagePanel {
 		objectType.onFormRefresh(object);
 	}
 
-	protected void createMembersControls() {
+	protected void createMembersControlPlaceHolders() {
 		fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(objectType.getFields());
 		methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(objectType.getMethods());
+	}
+	
+	protected void realizeMembersControls() {
 		for (List<FieldControlPlaceHolder> fieldControlPlaceHolders : fieldControlPlaceHoldersByCategory.values()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
 				fieldControlPlaceHolder.initializeUI();

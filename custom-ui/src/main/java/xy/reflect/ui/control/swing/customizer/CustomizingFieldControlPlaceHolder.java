@@ -25,9 +25,9 @@ public class CustomizingFieldControlPlaceHolder extends FieldControlPlaceHolder 
 	}
 
 	@Override
-	public void refreshUI(boolean recreate) {
+	public void refreshUI(boolean refreshStructure) {
 		refreshInfoCustomizationsControl();
-		super.refreshUI(recreate);
+		super.refreshUI(refreshStructure);
 	}
 
 	public void refreshInfoCustomizationsControl() {
