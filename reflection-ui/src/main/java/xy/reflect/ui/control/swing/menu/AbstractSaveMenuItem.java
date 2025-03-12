@@ -52,7 +52,6 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 				}
 			}
 		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Saving..."));
-
 	}
 
 	@Override

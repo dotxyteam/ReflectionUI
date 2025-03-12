@@ -27,7 +27,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.StackLayout;
@@ -60,7 +59,6 @@ public class WindowManager {
 	protected ImagePanel backgroundPane;
 	protected JPanel contentPane;
 	protected JPanel topBarsContainer;
-	protected JScrollPane scrollPane;
 	protected JPanel buttonBar;
 	protected Form form;
 	protected WindowListener windowListener = new WindowAdapter() {
@@ -191,11 +189,7 @@ public class WindowManager {
 		return averageBackgroundColor;
 	}
 
-	protected JScrollPane createScrollPane(Component content) {
-		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
-		result.setBorder(BorderFactory.createEmptyBorder());
-		return result;
-	}
+	
 
 	protected JPanel createContentPane() {
 		ControlPanel result = new ControlPanel();
@@ -311,8 +305,7 @@ public class WindowManager {
 				layoutStatusBar(form.getStatusBar());
 				form.getRefreshListeners().add(formRefreshListener);
 			}
-			scrollPane = createScrollPane(content);
-			layoutContent(scrollPane);
+			layoutContent(content);
 		}
 		buttonBar = createButtonBar(buttonBarControls);
 		layoutButtonBar(buttonBar);
@@ -334,7 +327,6 @@ public class WindowManager {
 		SwingRendererUtils.setContentPane(window, new ControlPanel());
 		{
 			alternativeDecorationsPanel = null;
-			scrollPane = null;
 			rootPane = null;
 			backgroundPane = null;
 			contentPane = null;

@@ -1,7 +1,10 @@
 
 package xy.reflect.ui.info.field;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -14,17 +17,23 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class ImportedFieldInfo extends FieldInfoProxy {
 
+	protected ReflectionUI reflectionUI;
+	protected ITypeInfo type;
 	protected String targetFieldName;
+	protected ITypeInfo targetObjectType;
 
-	public ImportedFieldInfo(ITypeInfo sourceType, String sourceFieldName, String targetFieldName) {
-		super(retrieveSourceField(sourceType, sourceFieldName));
+	public ImportedFieldInfo(ReflectionUI reflectionUI, ITypeInfo sourceObjectType, String sourceFieldName,
+			ITypeInfo targetObjectType, String targetFieldName) {
+		super(retrieveSourceField(sourceObjectType, sourceFieldName));
+		this.reflectionUI = reflectionUI;
+		this.targetObjectType = targetObjectType;
 		this.targetFieldName = targetFieldName;
 	}
 
-	protected static IFieldInfo retrieveSourceField(ITypeInfo sourceType, String sourceFieldName) {
-		IFieldInfo result = ReflectionUIUtils.findInfoByName(sourceType.getFields(), sourceFieldName);
+	protected static IFieldInfo retrieveSourceField(ITypeInfo sourceObjectType, String sourceFieldName) {
+		IFieldInfo result = ReflectionUIUtils.findInfoByName(sourceObjectType.getFields(), sourceFieldName);
 		if (result == null) {
-			throw new ReflectionUIError("'" + sourceFieldName + "' not found in type '" + sourceType + "'");
+			throw new ReflectionUIError("'" + sourceFieldName + "' not found in type '" + sourceObjectType + "'");
 		}
 		return result;
 	}
@@ -45,6 +54,15 @@ public class ImportedFieldInfo extends FieldInfoProxy {
 		} else {
 			return super.getCaption();
 		}
+	}
+
+	@Override
+	public ITypeInfo getType() {
+		if (type == null) {
+			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
+					new SpecificitiesIdentifier(targetObjectType.getName(), ImportedFieldInfo.this.getName())));
+		}
+		return type;
 	}
 
 	@Override

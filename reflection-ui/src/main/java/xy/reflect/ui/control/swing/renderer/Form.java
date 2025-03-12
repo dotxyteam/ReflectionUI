@@ -56,6 +56,7 @@ import xy.reflect.ui.control.swing.util.ControlTabbedPane;
 import xy.reflect.ui.control.swing.util.ImagePanel;
 import xy.reflect.ui.control.swing.util.ListTabbedPane;
 import xy.reflect.ui.control.swing.util.ModificationStackControls;
+import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -306,6 +307,7 @@ public class Form extends ImagePanel {
 			}
 		}
 		return result;
+
 	}
 
 	@Override
@@ -521,6 +523,12 @@ public class Form extends ImagePanel {
 		});
 	}
 
+	protected JScrollPane createMainScrollPane(Component content) {
+		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
+		SwingRendererUtils.removeScrollPaneBorder(result);
+		return result;
+	}
+
 	protected void layoutMembersControlPlaceHolders(
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
@@ -539,7 +547,7 @@ public class Form extends ImagePanel {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
 			categoriesControl = null;
-			layoutMembersControls(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
+			layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
 		} else if (allCategories.size() > 0) {
 			membersPanel.setLayout(new BorderLayout());
 			categoriesControl = createCategoriesControl();
@@ -564,7 +572,7 @@ public class Form extends ImagePanel {
 					JPanel tabContent = new ControlPanel();
 					tabContent.setName("categoryContentControl [category=" + category.getCaption() + "]");
 					tab.add(tabContent, BorderLayout.NORTH);
-					layoutMembersControls(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+					layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
 
 				}
 			}
@@ -1126,7 +1134,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected void layoutMembersControls(List<FieldControlPlaceHolder> fielControlPlaceHolders,
+	protected void layoutMembersControlPlaceHolders(List<FieldControlPlaceHolder> fielControlPlaceHolders,
 			final List<MethodControlPlaceHolder> methodControlPlaceHolders, JPanel membersPanel) {
 		Container fieldsPanel = (fielControlPlaceHolders.size() == 0) ? null
 				: createFieldsPanel(fielControlPlaceHolders);
@@ -1154,7 +1162,13 @@ public class Form extends ImagePanel {
 			try {
 				removeAll();
 				createMembersControlPlaceHolders();
-				layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory, this);
+				ControlPanel contentPanel = new ControlPanel();
+				{
+					setLayout(new BorderLayout());
+					add(createMainScrollPane(contentPanel), BorderLayout.CENTER);
+				}
+				layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory,
+						methodControlPlaceHoldersByCategory, contentPanel);
 				realizeMembersControls();
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
@@ -1243,7 +1257,7 @@ public class Form extends ImagePanel {
 		fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(objectType.getFields());
 		methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(objectType.getMethods());
 	}
-	
+
 	protected void realizeMembersControls() {
 		for (List<FieldControlPlaceHolder> fieldControlPlaceHolders : fieldControlPlaceHoldersByCategory.values()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {

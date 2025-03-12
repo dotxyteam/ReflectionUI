@@ -1974,8 +1974,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		protected IFieldInfo getImportedField(ImportedFieldDeclaration importedFieldDeclaration) {
 			try {
 				ITypeInfo sourceType = importedFieldDeclaration.getSourceTypeFinder().find(customizedUI, null);
-				return new ImportedFieldInfo(sourceType, importedFieldDeclaration.getSourceFieldName(),
-						importedFieldDeclaration.getTargetFieldName());
+				return new ImportedFieldInfo(customizedUI, sourceType, importedFieldDeclaration.getSourceFieldName(),
+						objectType, importedFieldDeclaration.getTargetFieldName());
 			} catch (Throwable t) {
 				throw new ReflectionUIError(
 						"Type '" + objectType.getName() + "': Failed to import field: " + t.toString(), t);

@@ -649,9 +649,8 @@ public class ModificationStack {
 	}
 
 	/**
-	 * Resets the modification stack. Unlike the method {@link #invalidate()}
-	 * calling {@link #isInvalidated()} and {@link #wasInvalidated()} will be set to
-	 * return false.
+	 * Resets the modification stack. Calling {@link #isInvalidated()} and
+	 * {@link #wasInvalidated()} will be set to return false.
 	 */
 	public void forget() {
 		if (isInComposite()) {

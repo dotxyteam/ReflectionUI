@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.menu;
 
 import java.io.File;
@@ -10,7 +8,6 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -49,11 +46,10 @@ public class OpenMenuItem extends AbstractFileMenuItem {
 						} catch (Throwable ignore) {
 						}
 					}
-					ModificationStack modifStack = form.getModificationStack();
-					modifStack.forget();
 				}
 			}
 		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Loading..."));
+		form.getModificationStack().forget();
 	}
 
 }

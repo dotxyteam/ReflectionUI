@@ -120,6 +120,7 @@ public class SwingRendererUtils {
 	public static Map<String, Font> FONT_CACHE = new HashMap<String, Font>();
 
 	private static final Map<GraphicsDevice, Rectangle> MAXIMUM_BOUNDS_BY_GRAPHIC_DEVICE_CACHE = new HashMap<GraphicsDevice, Rectangle>();
+	private static List<Window> windowsToValidate = new ArrayList<Window>();
 
 	public static boolean isNullImage(Image image) {
 		return (image.getWidth(null) * image.getHeight(null) == 1);
@@ -452,10 +453,24 @@ public class SwingRendererUtils {
 	}
 
 	public static void handleComponentSizeChange(Component c) {
+		expectInUIThread();
 		c.invalidate();
-		Window window = SwingUtilities.getWindowAncestor(c);
+		final Window window = SwingUtilities.getWindowAncestor(c);
 		if (window != null) {
-			window.validate();
+			if (!windowsToValidate.contains(window)) {
+				if (windowsToValidate.isEmpty()) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							for (Window window : windowsToValidate) {
+								window.validate();
+							}
+							windowsToValidate.clear();
+						}
+					});
+				}
+				windowsToValidate.add(window);
+			}
 		}
 		c.repaint();
 	}

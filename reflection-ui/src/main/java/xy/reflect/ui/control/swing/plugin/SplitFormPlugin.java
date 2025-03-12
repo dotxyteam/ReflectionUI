@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -118,6 +119,58 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			this.input = input;
 			this.data = input.getControlData();
 			refreshUI(true);
+		}
+
+		@Override
+		public Dimension getPreferredSize() {
+			Dimension result = super.getPreferredSize();
+			if (result == null) {
+				result = new Dimension(100, 100);
+			} else {
+				int screenWidth = SwingRendererUtils.getScreenBounds(this).width;
+				if (result.width > screenWidth) {
+					result.width = screenWidth;
+				}
+			}
+			ITypeInfo objectType = input.getControlData().getType();
+			if (objectType != null) {
+				Dimension configuredSize = new Dimension(objectType.getFormPreferredWidth(),
+						objectType.getFormPreferredHeight());
+				if (configuredSize.width > 0) {
+					result.width = configuredSize.width;
+				}
+				if (configuredSize.height > 0) {
+					result.height = configuredSize.height;
+				}
+			}
+			return result;
+		}
+
+		@Override
+		public Dimension getMinimumSize() {
+			Dimension result = super.getMinimumSize();
+			if (result != null) {
+				Dimension preferredSize = getPreferredSize();
+				if (preferredSize != null) {
+					result.width = Math.min(result.width, preferredSize.width);
+					result.height = Math.min(result.height, preferredSize.height);
+				}
+			}
+			return result;
+
+		}
+
+		@Override
+		public Dimension getMaximumSize() {
+			Dimension result = super.getMaximumSize();
+			if (result != null) {
+				Dimension preferredSize = getPreferredSize();
+				if (preferredSize != null) {
+					result.width = Math.max(result.width, preferredSize.width);
+					result.height = Math.max(result.height, preferredSize.height);
+				}
+			}
+			return result;
 		}
 
 		@Override
