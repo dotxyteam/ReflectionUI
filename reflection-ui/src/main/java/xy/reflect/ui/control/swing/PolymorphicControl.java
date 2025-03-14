@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.border.Border;
+
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -107,7 +109,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
 		if (refreshStructure) {
-			SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
+			SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
+				@Override
+				public Border get() {
+					return new ControlPanel().getBorder();
+				}
+			}, swingRenderer);
 			SwingRendererUtils.handleComponentSizeChange(this);
 			subTypeInstanceCache.clear();
 			dynamicControlCache.clear();

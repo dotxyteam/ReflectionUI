@@ -1,12 +1,16 @@
 
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
@@ -16,7 +20,9 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
+import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -27,6 +33,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -178,7 +185,12 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(input);
 			if (refreshStructure) {
 				SwingRendererUtils.ensureDividerLocation(this, controlCustomization.defaultDividerLocation);
-				SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
+				SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
+					@Override
+					public Border get() {
+						return new ControlSplitPane().getBorder();
+					}
+				}, swingRenderer);
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			boolean layoutUpdateNeeded = false;
@@ -202,18 +214,24 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				setOrientation(ControlSplitPane.HORIZONTAL_SPLIT);
 				setTopComponent(null);
 				setBottomComponent(null);
-				setLeftComponent(subControl1);
-				setRightComponent(subControl2);
+				setLeftComponent(createSubControlScrollPane(subControl1));
+				setRightComponent(createSubControlScrollPane(subControl2));
 			} else if (controlCustomization.orientation == Orientation.VERTICAL_SPLIT) {
 				setOrientation(ControlSplitPane.VERTICAL_SPLIT);
 				setLeftComponent(null);
 				setRightComponent(null);
-				setTopComponent(subControl1);
-				setBottomComponent(subControl2);
+				setTopComponent(createSubControlScrollPane(subControl1));
+				setBottomComponent(createSubControlScrollPane(subControl2));
 			} else {
 				throw new ReflectionUIError();
 			}
 			SwingRendererUtils.handleComponentSizeChange(this);
+		}
+
+		protected JScrollPane createSubControlScrollPane(Component content) {
+			ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
+			SwingRendererUtils.removeScrollPaneBorder(result);
+			return result;
 		}
 
 		protected EmbeddedFormControl createSubControl1() {
@@ -359,6 +377,16 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				}
 
 				@Override
+				protected int getFormPreferredWidth(ITypeInfo type) {
+					return -1;
+				}
+
+				@Override
+				protected int getFormPreferredHeight(ITypeInfo type) {
+					return -1;
+				}
+
+				@Override
 				protected boolean isFactoryTracedFor(ITypeInfo base) {
 					return false;
 				}
@@ -445,6 +473,16 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				@Override
 				protected Runnable getLastFormRefreshStateRestorationJob(ITypeInfo type, Object object) {
 					return super.getLastFormRefreshStateRestorationJob(type, object);
+				}
+
+				@Override
+				protected int getFormPreferredWidth(ITypeInfo type) {
+					return -1;
+				}
+
+				@Override
+				protected int getFormPreferredHeight(ITypeInfo type) {
+					return -1;
 				}
 
 				@Override

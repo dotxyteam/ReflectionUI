@@ -12,6 +12,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -35,6 +37,7 @@ import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -106,7 +109,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				nullStatusControl.setText("");
 				((JComponent) currentSubControl).setBorder(
 						BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
-				SwingRendererUtils.showFieldCaptionOnBorder(data, (JComponent) currentSubControl, swingRenderer);
+				SwingRendererUtils.showFieldCaptionOnBorder(data, (JComponent) currentSubControl, new Accessor<Border>() {
+					@Override
+					public Border get() {
+						return new ControlPanel().getBorder();
+					}
+				}, swingRenderer);
 			} else {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
 				add(currentSubControl, BorderLayout.CENTER);

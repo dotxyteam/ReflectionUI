@@ -42,6 +42,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -1763,7 +1764,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void refreshTreeTableScrollPaneBorder() {
-		SwingRendererUtils.showFieldCaptionOnBorder(listData, treeTableComponentScrollPane, swingRenderer);
+		SwingRendererUtils.showFieldCaptionOnBorder(listData, treeTableComponentScrollPane, new Accessor<Border>() {
+			@Override
+			public Border get() {
+				return new ControlScrollPane().getBorder();
+			}
+		}, swingRenderer);
 	}
 
 	protected void refreshRendrers() {

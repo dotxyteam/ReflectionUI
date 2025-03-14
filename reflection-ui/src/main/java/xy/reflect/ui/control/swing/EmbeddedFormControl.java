@@ -4,6 +4,8 @@ package xy.reflect.ui.control.swing;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
+import javax.swing.border.Border;
+
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -161,7 +163,12 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
 		if (refreshStructure) {
-			SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
+			SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
+				@Override
+				public Border get() {
+					return new ControlPanel().getBorder();
+				}
+			}, swingRenderer);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		if (subForm == null) {

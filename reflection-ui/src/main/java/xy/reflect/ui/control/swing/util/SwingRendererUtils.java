@@ -90,6 +90,7 @@ import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -845,7 +846,7 @@ public class SwingRendererUtils {
 	}
 
 	public static void showFieldCaptionOnBorder(IFieldControlData fieldControlData, JComponent borderComponent,
-			SwingRenderer swingRenderer) {
+			Accessor<Border> defaultBorderGetter, SwingRenderer swingRenderer) {
 		if (fieldControlData.getCaption().length() > 0) {
 			borderComponent.setBorder(BorderFactory
 					.createTitledBorder(swingRenderer.prepareMessageToDisplay(fieldControlData.getCaption())));
@@ -865,7 +866,7 @@ public class SwingRendererUtils {
 								((TitledBorder) borderComponent.getBorder()).getTitleFont().getSize()));
 			}
 		} else {
-			borderComponent.setBorder(BorderFactory.createEmptyBorder());
+			borderComponent.setBorder(defaultBorderGetter.get());
 		}
 	}
 

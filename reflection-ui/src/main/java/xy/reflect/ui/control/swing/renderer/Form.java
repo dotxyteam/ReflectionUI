@@ -533,7 +533,7 @@ public class Form extends ImagePanel {
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
-		if (objectType.isFormScrollable()) {
+		if (objectType.getFormPreferredHeight() != -1) {
 			ControlPanel contentPanel = new ControlPanel();
 			{
 				membersPanel.setLayout(new BorderLayout());

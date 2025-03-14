@@ -16,6 +16,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultButtonModel;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
+import javax.swing.border.Border;
+
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -28,6 +30,7 @@ import xy.reflect.ui.control.swing.util.WrapLayout;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -114,7 +117,12 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 			OptionButtonsConfiguration controlCustomization = (OptionButtonsConfiguration) loadControlCustomization(
 					input);
 			if (refreshStructure) {
-				SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
+				SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
+					@Override
+					public Border get() {
+						return new ControlPanel().getBorder();
+					}
+				}, swingRenderer);
 				if (controlCustomization.layout == OptionButtonsLayout.HORIZONTAL_FLOW) {
 					setLayout(new WrapLayout());
 				} else if (controlCustomization.layout == OptionButtonsLayout.VERTICAL_FLOW) {

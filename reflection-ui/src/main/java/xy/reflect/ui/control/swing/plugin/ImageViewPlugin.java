@@ -25,6 +25,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import xy.reflect.ui.ReflectionUI;
@@ -55,6 +56,7 @@ import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
+import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -493,7 +495,12 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				browseButton = null;
 				imagePanelContainer = null;
 				imagePanel = null;
-				SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
+				SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
+					@Override
+					public Border get() {
+						return new ControlPanel().getBorder();
+					}
+				}, swingRenderer);
 				setOpaque(false);
 			}
 			if (browseButton == null) {

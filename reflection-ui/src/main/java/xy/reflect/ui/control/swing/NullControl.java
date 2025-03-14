@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
+
 import xy.reflect.ui.control.FieldControlDataProxy;
 import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
@@ -20,6 +22,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
+import xy.reflect.ui.util.Accessor;
 
 /**
  * Empty field control that allows to represent the null value.
@@ -42,7 +45,12 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		this.data = input.getControlData();
 		setLayout(new BorderLayout());
 		add(labelComponent = createLabelComponent(), BorderLayout.CENTER);
-		SwingRendererUtils.showFieldCaptionOnBorder(data, this, swingRenderer);
+		SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
+			@Override
+			public Border get() {
+				return new ControlPanel().getBorder();
+			}
+		}, swingRenderer);
 		setupActivationAction();
 	}
 
