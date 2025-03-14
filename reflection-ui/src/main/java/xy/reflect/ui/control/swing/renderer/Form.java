@@ -1162,10 +1162,18 @@ public class Form extends ImagePanel {
 			try {
 				removeAll();
 				createMembersControlPlaceHolders();
-				ControlPanel contentPanel = new ControlPanel();
-				{
-					setLayout(new BorderLayout());
-					add(createMainScrollPane(contentPanel), BorderLayout.CENTER);
+				ControlPanel contentPanel;
+				if ((fieldControlPlaceHoldersByCategory.values().stream().map(list -> list.size()).reduce(0,
+						Integer::sum)
+						+ methodControlPlaceHoldersByCategory.values().stream().map(list -> list.size()).reduce(0,
+								Integer::sum)) > 1) {
+					contentPanel = new ControlPanel();
+					{
+						setLayout(new BorderLayout());
+						add(createMainScrollPane(contentPanel), BorderLayout.CENTER);
+					}
+				} else {
+					contentPanel = this;
 				}
 				layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory,
 						methodControlPlaceHoldersByCategory, contentPanel);
