@@ -1564,21 +1564,12 @@ public class InfoCustomizations implements Serializable {
 		protected boolean validationRequirementForced = false;
 		protected List<ImportedFieldDeclaration> importedFieldDeclarations = new ArrayList<ImportedFieldDeclaration>();
 		protected List<ImportedMethodDeclaration> importedMethodDeclarations = new ArrayList<ImportedMethodDeclaration>();
-		protected boolean formScrollableForced = false;
 
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
-		}
-
-		public boolean isFormScrollableForced() {
-			return formScrollableForced;
-		}
-
-		public void setFormScrollableForced(boolean formScrollableForced) {
-			this.formScrollableForced = formScrollableForced;
 		}
 
 		public List<ImportedFieldDeclaration> getImportedFieldDeclarations() {

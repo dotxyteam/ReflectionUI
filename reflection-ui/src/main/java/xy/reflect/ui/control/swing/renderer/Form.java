@@ -533,6 +533,14 @@ public class Form extends ImagePanel {
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
+		if (objectType.isFormScrollable()) {
+			ControlPanel contentPanel = new ControlPanel();
+			{
+				membersPanel.setLayout(new BorderLayout());
+				membersPanel.add(createMainScrollPane(contentPanel), BorderLayout.CENTER);
+			}
+			membersPanel = contentPanel;
+		}
 		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
 				methodControlPlaceHoldersByCategory);
 		if ((allCategories.size() == 1) && (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) {
@@ -1162,18 +1170,8 @@ public class Form extends ImagePanel {
 			try {
 				removeAll();
 				createMembersControlPlaceHolders();
-				ControlPanel contentPanel;
-				if (objectType.isFormScrollable()) {
-					contentPanel = new ControlPanel();
-					{
-						setLayout(new BorderLayout());
-						add(createMainScrollPane(contentPanel), BorderLayout.CENTER);
-					}
-				} else {
-					contentPanel = this;
-				}
 				layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory,
-						methodControlPlaceHoldersByCategory, contentPanel);
+						methodControlPlaceHoldersByCategory, this);
 				realizeMembersControls();
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
