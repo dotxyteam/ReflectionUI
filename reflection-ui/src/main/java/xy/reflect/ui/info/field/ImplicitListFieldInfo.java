@@ -552,6 +552,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public boolean isFormScrollable() {
+			return false;
+		}
+
+		@Override
 		public int getFormSpacing() {
 			return ITypeInfo.DEFAULT_FORM_SPACING;
 		}

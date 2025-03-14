@@ -507,6 +507,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public boolean isFormScrollable() {
+			return false;
+		}
+
+		@Override
 		public int getFormSpacing() {
 			return ITypeInfo.DEFAULT_FORM_SPACING;
 		}

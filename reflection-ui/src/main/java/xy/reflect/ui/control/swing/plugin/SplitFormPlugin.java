@@ -184,12 +184,10 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			boolean layoutUpdateNeeded = false;
 			if ((subControl1 == null) || !subControl1.refreshUI(refreshStructure)) {
 				subControl1 = createSubControl1();
-				subControl1.setMinimumSize(new Dimension(0, 0));
 				layoutUpdateNeeded = true;
 			}
 			if ((subControl2 == null) || !subControl2.refreshUI(refreshStructure)) {
 				subControl2 = createSubControl2();
-				subControl2.setMinimumSize(new Dimension(0, 0));
 				layoutUpdateNeeded = true;
 			}
 			if (layoutUpdateNeeded || refreshStructure) {

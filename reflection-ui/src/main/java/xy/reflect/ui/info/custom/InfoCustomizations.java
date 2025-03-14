@@ -222,8 +222,9 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public void setFilteredTypeCustomizations(SortedSet<TypeCustomization> typeCustomizations) {
-		this.typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>(MiscUtils.inferNewNonFilteredSet(
-				new HashSet<TypeCustomization>(this.typeCustomizations), getTypeCustomizationsFilter(), typeCustomizations));
+		this.typeCustomizations = new ArrayList<InfoCustomizations.TypeCustomization>(
+				MiscUtils.inferNewNonFilteredSet(new HashSet<TypeCustomization>(this.typeCustomizations),
+						getTypeCustomizationsFilter(), typeCustomizations));
 	}
 
 	protected Predicate<EnumerationCustomization> getEnumerationCustomizationsFilter() {
@@ -267,8 +268,9 @@ public class InfoCustomizations implements Serializable {
 	}
 
 	public void setFilteredListCustomizations(SortedSet<ListCustomization> listCustomizations) {
-		this.listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>(MiscUtils.inferNewNonFilteredSet(
-				new HashSet<ListCustomization>(this.listCustomizations), getListCustomizationsFilter(), listCustomizations));
+		this.listCustomizations = new ArrayList<InfoCustomizations.ListCustomization>(
+				MiscUtils.inferNewNonFilteredSet(new HashSet<ListCustomization>(this.listCustomizations),
+						getListCustomizationsFilter(), listCustomizations));
 	}
 
 	public void loadFromFile(File input, Listener<String> debugLogListener) throws IOException {
@@ -1562,12 +1564,21 @@ public class InfoCustomizations implements Serializable {
 		protected boolean validationRequirementForced = false;
 		protected List<ImportedFieldDeclaration> importedFieldDeclarations = new ArrayList<ImportedFieldDeclaration>();
 		protected List<ImportedMethodDeclaration> importedMethodDeclarations = new ArrayList<ImportedMethodDeclaration>();
+		protected boolean formScrollableForced = false;
 
 		@Override
 		public boolean isInitial() {
 			TypeCustomization defaultTypeCustomization = new TypeCustomization();
 			defaultTypeCustomization.typeName = typeName;
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
+		}
+
+		public boolean isFormScrollableForced() {
+			return formScrollableForced;
+		}
+
+		public void setFormScrollableForced(boolean formScrollableForced) {
+			this.formScrollableForced = formScrollableForced;
 		}
 
 		public List<ImportedFieldDeclaration> getImportedFieldDeclarations() {
@@ -2803,8 +2814,7 @@ public class InfoCustomizations implements Serializable {
 			if (newTypeFinder != null) {
 				return newTypeFinder.find(reflectionUI, specificitiesIdentifier);
 			} else {
-				return reflectionUI
-						.getTypeInfo(new JavaTypeInfoSource(Object.class, specificitiesIdentifier));
+				return reflectionUI.getTypeInfo(new JavaTypeInfoSource(Object.class, specificitiesIdentifier));
 			}
 		}
 

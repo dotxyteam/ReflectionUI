@@ -1163,10 +1163,7 @@ public class Form extends ImagePanel {
 				removeAll();
 				createMembersControlPlaceHolders();
 				ControlPanel contentPanel;
-				if ((fieldControlPlaceHoldersByCategory.values().stream().map(list -> list.size()).reduce(0,
-						Integer::sum)
-						+ methodControlPlaceHoldersByCategory.values().stream().map(list -> list.size()).reduce(0,
-								Integer::sum)) > 1) {
+				if (objectType.isFormScrollable()) {
 					contentPanel = new ControlPanel();
 					{
 						setLayout(new BorderLayout());
@@ -1397,6 +1394,13 @@ public class Form extends ImagePanel {
 				} else {
 					throw new ReflectionUIError();
 				}
+			}
+		}
+
+		if (!modificationsDetected) {
+			if (objectType
+					.isFormScrollable() != ((getComponentCount() > 0) && (getComponent(0) instanceof JScrollPane))) {
+				modificationsDetected = true;
 			}
 		}
 
