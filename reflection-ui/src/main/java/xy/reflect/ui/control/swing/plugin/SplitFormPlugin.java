@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
@@ -188,7 +189,11 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 				SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
 					@Override
 					public Border get() {
-						return new ControlSplitPane().getBorder();
+						if (data.getBorderColor() != null) {
+							return BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor()));
+						} else {
+							return new ControlSplitPane().getBorder();
+						}
 					}
 				}, swingRenderer);
 				SwingRendererUtils.handleComponentSizeChange(this);

@@ -656,6 +656,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected ControlScrollPane createTreeTableAndToolBarScrollPane(Component view) {
 		return new ControlScrollPane(new ScrollPaneOptions(view, true, false)) {
 			private static final long serialVersionUID = 1L;
+			{
+				SwingRendererUtils.removeScrollPaneBorder(this);
+			}
 
 			@Override
 			public Dimension getPreferredSize() {
