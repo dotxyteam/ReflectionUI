@@ -128,7 +128,7 @@ public class CustomizedUI extends ReflectionUI {
 			@Override
 			public InfoCustomizations getInfoCustomizations() {
 				TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
-						specificitiesIdentifier.getobjectTypeName());
+						specificitiesIdentifier.getObjectTypeName());
 				FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
 						specificitiesIdentifier.getFieldName());
 				FieldTypeSpecificities result = fieldCustomization.getSpecificTypeCustomizations();

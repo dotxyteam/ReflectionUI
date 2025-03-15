@@ -22,7 +22,7 @@ public class SpecificitiesIdentifier {
 		this.fieldName = fieldName;
 	}
 
-	public String getobjectTypeName() {
+	public String getObjectTypeName() {
 		return objectTypeName;
 	}
 
