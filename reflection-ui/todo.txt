@@ -1,5 +1,3 @@
-- fix list details view field removal bug
-
 - must study the utility of SpecificitiesIdentifier
 - optimize customizations again by storing field type, parameter type and 
 method return type

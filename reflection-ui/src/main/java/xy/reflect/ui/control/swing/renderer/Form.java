@@ -1160,6 +1160,9 @@ public class Form extends ImagePanel {
 	 * 
 	 */
 	public void refresh(boolean refreshStructure) {
+		if(object.getClass().getName().equals("com.otk.jesb.Folder")) {
+			System.out.println("debug");
+		}
 		if (refreshStructure && detectStructureChange()) {
 			InfoCategory initiallySelectedCategory = null;
 			{

@@ -16,7 +16,6 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
@@ -176,12 +175,14 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			if (subFormObject == null) {
 				throw new ReflectionUIError();
 			}
-			IInfoFilter filter = data.getFormControlFilter();
-			subForm = swingRenderer.createForm(subFormObject, filter);
+			subForm = swingRenderer.createForm(subFormObject, data.getFormControlFilter());
 			handleSubFormModifications();
 			add(subForm, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
+			if(refreshStructure) {
+				subForm.setInfoFilter(data.getFormControlFilter());
+			}
 			final Object newSubFormObject = data.getValue();
 			if (newSubFormObject == null) {
 				return false;
