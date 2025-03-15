@@ -163,10 +163,6 @@ public class MapEntryTypeInfoProxy extends AbstractInfoProxy implements IMapEntr
 		return base.getFormPreferredHeight();
 	}
 
-	public boolean isFormScrollable() {
-		return base.isFormScrollable();
-	}
-
 	public int getFormSpacing() {
 		return base.getFormSpacing();
 	}

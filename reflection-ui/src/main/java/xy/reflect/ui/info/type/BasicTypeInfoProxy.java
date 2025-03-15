@@ -149,10 +149,6 @@ public class BasicTypeInfoProxy extends AbstractInfoProxy implements ITypeInfo {
 		return base.getFormPreferredHeight();
 	}
 
-	public boolean isFormScrollable() {
-		return base.isFormScrollable();
-	}
-
 	public int getFormSpacing() {
 		return base.getFormSpacing();
 	}

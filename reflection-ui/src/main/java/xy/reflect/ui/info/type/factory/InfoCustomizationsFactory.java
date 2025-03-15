@@ -1745,17 +1745,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isFormScrollable(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
-		if (t != null) {
-			if ((t.getFormWidth() != null) || (t.getFormHeight() != null)) {
-				return true;
-			}
-		}
-		return super.isFormScrollable(type);
-	}
-
-	@Override
 	protected int getFormSpacing(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {

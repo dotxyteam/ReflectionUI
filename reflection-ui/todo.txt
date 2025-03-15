@@ -1,7 +1,6 @@
 - fix list details view field removal bug
-- delete ITypeInfo.osFormScrollable()
 - do not allow to change ListControl splitPane border
-- remove listControlAndtoolBarScrollPane
+- remove listControlAndtoolBarScrollPane border
 - allow to change change SplitPane internal borders
 - scroll panes border style not changed
 - must study the utility of SpecificitiesIdentifier

@@ -165,11 +165,6 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isFormScrollable() {
-			return false;
-		}
-
-		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return null;
 		}
@@ -462,11 +457,6 @@ public interface ITypeInfo extends IInfo {
 	 *         -1 if a default height should be used.
 	 */
 	int getFormPreferredHeight();
-
-	/**
-	 * @return whether forms generated from this type are have scroll bars or not.
-	 */
-	boolean isFormScrollable();
 
 	/**
 	 * @return the space (in pixels) between elements in forms generated from this

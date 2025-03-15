@@ -181,11 +181,6 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean isFormScrollable() {
-			return false;
-		}
-
-		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return null;
 		}

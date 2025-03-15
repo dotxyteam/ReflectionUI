@@ -275,11 +275,6 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean isFormScrollable() {
-			return false;
-		}
-
-		@Override
 		public ColorSpecification getFormForegroundColor() {
 			return null;
 		}

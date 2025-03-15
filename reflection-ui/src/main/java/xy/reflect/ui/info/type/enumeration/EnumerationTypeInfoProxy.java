@@ -166,10 +166,6 @@ public class EnumerationTypeInfoProxy extends AbstractInfoProxy implements IEnum
 		return base.getFormPreferredHeight();
 	}
 
-	public boolean isFormScrollable() {
-		return base.isFormScrollable();
-	}
-
 	public int getFormSpacing() {
 		return base.getFormSpacing();
 	}

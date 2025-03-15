@@ -1657,14 +1657,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type The type information.
-	 * @return the result of {@link ITypeInfo#isFormScrollable()} unless overridden.
-	 */
-	protected boolean isFormScrollable(ITypeInfo type) {
-		return type.isFormScrollable();
-	}
-
-	/**
-	 * @param type The type information.
 	 * @return the result of {@link ITypeInfo#getFormSpacing()} unless overridden.
 	 */
 	protected int getFormSpacing(ITypeInfo type) {
@@ -2273,11 +2265,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public int getFormPreferredHeight() {
 			return InfoProxyFactory.this.getFormPreferredHeight(base);
-		}
-
-		@Override
-		public boolean isFormScrollable() {
-			return InfoProxyFactory.this.isFormScrollable(base);
 		}
 
 		@Override

@@ -1396,8 +1396,8 @@ public class Form extends ImagePanel {
 		}
 
 		if (!modificationsDetected) {
-			if (objectType
-					.isFormScrollable() != ((getComponentCount() > 0) && (getComponent(0) instanceof JScrollPane))) {
+			if ((objectType.getFormPreferredHeight() != -1) != ((getComponentCount() > 0)
+					&& (getComponent(0) instanceof JScrollPane))) {
 				modificationsDetected = true;
 			}
 		}

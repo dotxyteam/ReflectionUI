@@ -462,11 +462,6 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public boolean isFormScrollable() {
-			return false;
-		}
-
-		@Override
 		public int getFormSpacing() {
 			return ITypeInfo.DEFAULT_FORM_SPACING;
 		}
