@@ -8,7 +8,6 @@ import java.io.File;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
-import xy.reflect.ui.undo.ModificationStack;
 
 /**
  * Menu item that allows to save an object state to a file.
@@ -32,21 +31,7 @@ public class SaveMenuItem extends AbstractSaveMenuItem {
 		return super.isActive();
 	}
 
-	public boolean isFileSynchronized() {
-		ModificationStack modifStack = form.getModificationStack();
-		Long lastSavedVersion = lastPersistedVersionByForm.get(form);
-		if (lastSavedVersion == null) {
-			if (modifStack.getStateVersion() == 0) {
-				return true;
-			}
-		} else {
-			if (lastSavedVersion.equals(modifStack.getStateVersion())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
+	
 	@Override
 	protected File retrieveFile() {
 		File file = lastFileByForm.get(form);

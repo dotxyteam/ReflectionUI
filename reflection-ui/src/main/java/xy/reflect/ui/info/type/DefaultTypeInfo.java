@@ -399,7 +399,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		try {
 			ReflectionUIUtils.copyFieldValuesAccordingInfos(reflectionUI, loaded, object, true);
 		} catch (Throwable t) {
-			throw new ReflectionUIError("Deserialized object: Deep copy failure: " + t.toString(), t);
+			throw new ReflectionUIError("Deserializion error: Deep copy failure: " + t.toString(), t);
 		}
 	}
 

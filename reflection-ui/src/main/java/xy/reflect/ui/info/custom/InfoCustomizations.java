@@ -1041,6 +1041,7 @@ public class InfoCustomizations implements Serializable {
 				@XmlElement(name = "undoMenuItem", type = UndoMenuItemCustomization.class),
 				@XmlElement(name = "redoMenuItem", type = RedoMenuItemCustomization.class),
 				@XmlElement(name = "resetMenuItem", type = ResetMenuItemCustomization.class),
+				@XmlElement(name = "renewMenuItem", type = RenewMenuItemCustomization.class),
 				@XmlElement(name = "openMenuItem", type = OpenMenuItemCustomization.class),
 				@XmlElement(name = "saveMenuItem", type = SaveMenuItemCustomization.class),
 				@XmlElement(name = "saveAsMenuItem", type = SaveAsMenuItemCustomization.class) })
@@ -1138,6 +1139,15 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public static class RenewMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
+
+		protected static final long serialVersionUID = 1L;
+
+		public RenewMenuItemCustomization() {
+			name = "New";
+		}
+	}
+
 	public static class OpenMenuItemCustomization extends AbstractFileMenuItemCustomization {
 
 		protected static final long serialVersionUID = 1L;
@@ -1217,6 +1227,7 @@ public class InfoCustomizations implements Serializable {
 				@XmlElement(name = "undoMenuItem", type = UndoMenuItemCustomization.class),
 				@XmlElement(name = "redoMenuItem", type = RedoMenuItemCustomization.class),
 				@XmlElement(name = "resetMenuItem", type = ResetMenuItemCustomization.class),
+				@XmlElement(name = "renewMenuItem", type = RenewMenuItemCustomization.class),
 				@XmlElement(name = "openMenuItem", type = OpenMenuItemCustomization.class),
 				@XmlElement(name = "saveMenuItem", type = SaveMenuItemCustomization.class),
 				@XmlElement(name = "saveAsMenuItem", type = SaveAsMenuItemCustomization.class) })

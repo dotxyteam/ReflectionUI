@@ -81,26 +81,31 @@ public class WindowManager {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-			if (form == null) {
-				return;
-			}
-			JMenuBar menuBar = form.getMenuBar();
-			SwingRendererUtils.visitMenubar(menuBar, new Visitor<JMenuItem>() {
-				@Override
-				public boolean visit(JMenuItem item) {
-					if (item instanceof SaveMenuItem) {
-						SaveMenuItem saveMenuItem = (SaveMenuItem) item;
-						if (!saveMenuItem.isFileSynchronized()) {
-							if (swingRenderer.openQuestionDialog(form, "Save changes before closing?",
-									swingRenderer.getObjectTitle(saveMenuItem.getForm().getObject()))) {
-								saveMenuItem.execute();
+			boolean[] cancelled = new boolean[] { false };
+			if (form != null) {
+				JMenuBar menuBar = form.getMenuBar();
+				SwingRendererUtils.visitMenubar(menuBar, new Visitor<JMenuItem>() {
+					@Override
+					public boolean visit(JMenuItem item) {
+						if (item instanceof SaveMenuItem) {
+							SaveMenuItem saveMenuItem = (SaveMenuItem) item;
+							if (!saveMenuItem.isFileSynchronized()) {
+								if (!swingRenderer.openQuestionDialog(form,
+										"Changes were not saved and will be lost.\nContinue?",
+										swingRenderer.getObjectTitle(saveMenuItem.getForm().getObject()), "OK",
+										"Cancel")) {
+									cancelled[0] = true;
+								}
 							}
 						}
+						return true;
 					}
-					return true;
-				}
-			});
-
+				});
+			}
+			if (cancelled[0]) {
+				return;
+			}
+			window.dispose();
 		}
 
 		void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {
@@ -321,9 +326,9 @@ public class WindowManager {
 		limitSize();
 		window.addWindowListener(windowListener);
 		if (window instanceof JFrame) {
-			((JFrame) window).setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			((JFrame) window).setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		} else if (window instanceof JDialog) {
-			((JDialog) window).setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			((JDialog) window).setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		} else {
 			throw new ReflectionUIError();
 		}

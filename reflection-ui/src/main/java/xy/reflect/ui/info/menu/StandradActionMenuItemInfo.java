@@ -45,7 +45,7 @@ public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 	}
 
 	public enum Type {
-		OPEN, SAVE, SAVE_AS, UNDO, REDO, RESET, HELP, EXIT
+		NEW, OPEN, SAVE, SAVE_AS, UNDO, REDO, RESET, HELP, EXIT
 	}
 
 	@Override

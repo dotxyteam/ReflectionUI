@@ -2674,6 +2674,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		protected IFieldInfo base;
 		protected ITypeInfo objectType;
 
+		protected ITypeInfo type;
+
 		public GeneratedFieldInfoProxy(IFieldInfo field, ITypeInfo objectType) {
 			this.base = field;
 			this.objectType = objectType;
@@ -2777,7 +2779,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public ITypeInfo getType() {
-			return InfoProxyFactory.this.getType(base, objectType);
+			if (type == null) {
+				type = InfoProxyFactory.this.getType(base, objectType);
+			}
+			return type;
 		}
 
 		@Override
@@ -2865,6 +2870,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		protected IMethodInfo base;
 		protected ITypeInfo objectType;
 
+		protected ITypeInfo returnValueType;
+
 		public GeneratedMethodInfoProxy(IMethodInfo method, ITypeInfo objectType) {
 			this.base = method;
 			this.objectType = objectType;
@@ -2912,7 +2919,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			return InfoProxyFactory.this.getReturnValueType(base, objectType);
+			if (returnValueType == null) {
+				returnValueType = InfoProxyFactory.this.getReturnValueType(base, objectType);
+			}
+			return returnValueType;
 		}
 
 		@Override
@@ -3060,6 +3070,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		protected IMethodInfo method;
 		protected ITypeInfo objectType;
 
+		protected ITypeInfo type;
+
 		public GeneratedParameterInfoProxy(IParameterInfo param, IMethodInfo method, ITypeInfo objectType) {
 			this.base = param;
 			this.method = method;
@@ -3088,7 +3100,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public ITypeInfo getType() {
-			return InfoProxyFactory.this.getType(base, method, objectType);
+			if (type == null) {
+				type = InfoProxyFactory.this.getType(base, method, objectType);
+			}
+			return type;
 		}
 
 		@Override

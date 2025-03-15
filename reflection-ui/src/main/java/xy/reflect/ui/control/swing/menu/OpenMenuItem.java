@@ -26,6 +26,18 @@ public class OpenMenuItem extends AbstractFileMenuItem {
 	}
 
 	@Override
+	public void execute() {
+		if (!isFileSynchronized()) {
+			if (!swingRenderer.openQuestionDialog(form,
+					"Changes were not saved and will be lost.\nContinue?",
+					fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
+				return;
+			}
+		}
+		super.execute();
+	}
+
+	@Override
 	protected void persist(final SwingRenderer swingRenderer, final Form form, File file) {
 		Object object = form.getObject();
 		final ITypeInfo type = swingRenderer.getReflectionUI()

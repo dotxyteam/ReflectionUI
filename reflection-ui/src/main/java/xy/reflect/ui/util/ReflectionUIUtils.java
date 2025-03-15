@@ -41,6 +41,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.MenuItemCategoryCustomizatio
 import xy.reflect.ui.info.custom.InfoCustomizations.MenuModelCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.OpenMenuItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.RedoMenuItemCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.RenewMenuItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ResetMenuItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.SaveAsMenuItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.SaveMenuItemCustomization;
@@ -1224,6 +1225,10 @@ public class ReflectionUIUtils {
 				result.getItems().add((AbstractMenuItemInfo) createMenuElementInfo(menuItemCustomization));
 			}
 			return result;
+		} else if (menuElementCustomization instanceof RenewMenuItemCustomization) {
+			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
+					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),
+					StandradActionMenuItemInfo.Type.NEW);
 		} else if (menuElementCustomization instanceof OpenMenuItemCustomization) {
 			return new StandradActionMenuItemInfo(menuElementCustomization.getName(),
 					((AbstractMenuItemCustomization) menuElementCustomization).getIconImagePath(),

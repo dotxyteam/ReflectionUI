@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.menu;
 
 import java.io.File;
@@ -47,6 +45,10 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	public AbstractFileMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, form, menuItemInfo);
 		fileBrowserConfiguration = menuItemInfo.getFileBrowserConfiguration();
+		check();
+	}
+
+	protected void check() {
 		if (fileBrowserConfiguration == null) {
 			throw new ReflectionUIError();
 		}
@@ -110,8 +112,8 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 								return result;
 							}
 
-						}.wrapTypeInfo(swingRenderer.getReflectionUI().getTypeInfo(
-								new JavaTypeInfoSource(File.class, null)));
+						}.wrapTypeInfo(
+								swingRenderer.getReflectionUI().getTypeInfo(new JavaTypeInfoSource(File.class, null)));
 					}
 
 				};
@@ -130,6 +132,10 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 		if (file == null) {
 			return;
 		}
+		processFile(file);
+	}
+
+	protected void processFile(File file) {
 		try {
 			persist(swingRenderer, (Form) form, file);
 			ModificationStack modifStack = ((Form) form).getModificationStack();
@@ -146,6 +152,21 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 				}
 			});
 		}
+	}
+
+	public boolean isFileSynchronized() {
+		ModificationStack modifStack = form.getModificationStack();
+		Long lastSavedVersion = lastPersistedVersionByForm.get(form);
+		if (lastSavedVersion == null) {
+			if (modifStack.getStateVersion() == 0) {
+				return true;
+			}
+		} else {
+			if (lastSavedVersion.equals(modifStack.getStateVersion())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
