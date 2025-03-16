@@ -1,39 +1,37 @@
 
-
-
 package xy.reflect.ui.info.filter;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
 /**
- * Filter proxy class. The methods in this class should be overridden to provide a custom behavior.
+ * Filter proxy class. The methods in this class should be overridden to provide
+ * a custom behavior.
  * 
  * @author olitank
  *
  */
 public class InfoFilterProxy implements IInfoFilter {
 
-	IInfoFilter delegate;
+	IInfoFilter base;
 
-	public InfoFilterProxy(IInfoFilter delegate) {
-		super();
-		this.delegate = delegate;
+	public InfoFilterProxy(IInfoFilter base) {
+		this.base = base;
 	}
 
 	public boolean excludeField(IFieldInfo field) {
-		return delegate.excludeField(field);
+		return base.excludeField(field);
 	}
 
 	public boolean excludeMethod(IMethodInfo method) {
-		return delegate.excludeMethod(method);
+		return base.excludeMethod(method);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((delegate == null) ? 0 : delegate.hashCode());
+		result = prime * result + ((base == null) ? 0 : base.hashCode());
 		return result;
 	}
 
@@ -46,17 +44,17 @@ public class InfoFilterProxy implements IInfoFilter {
 		if (getClass() != obj.getClass())
 			return false;
 		InfoFilterProxy other = (InfoFilterProxy) obj;
-		if (delegate == null) {
-			if (other.delegate != null)
+		if (base == null) {
+			if (other.base != null)
 				return false;
-		} else if (!delegate.equals(other.delegate))
+		} else if (!base.equals(other.base))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "InfoFilterProxy [base=" + delegate + "]";
+		return "InfoFilterProxy [base=" + base + "]";
 	}
 
 }

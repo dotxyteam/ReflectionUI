@@ -194,29 +194,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	@Override
 	public IInfoFilter getItemInfoFilter(final ItemPosition itemPosition) {
-		return new InfoFilterProxy(super.getItemInfoFilter(itemPosition)) {
-
-			@Override
-			public boolean excludeMethod(IMethodInfo method) {
-				String methodSignature = method.getSignature();
-				for (InfoFilter filter : listCustomization.getMethodsExcludedFromItemDetails()) {
-					if (filter.matches(methodSignature)) {
-						return true;
-					}
-				}
-				return super.excludeMethod(method);
-			}
-
-			@Override
-			public boolean excludeField(IFieldInfo field) {
-				for (InfoFilter filter : listCustomization.getFieldsExcludedFromItemDetails()) {
-					if (filter.matches(field.getName())) {
-						return true;
-					}
-				}
-				return super.excludeField(field);
-			}
-		};
+		return new CustomizedInfoFilter(super.getItemInfoFilter(itemPosition));
 	}
 
 	protected List<IFieldInfo> collectColumnFields() {
@@ -413,8 +391,8 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 						PrecomputedTypeInstanceWrapper item = (PrecomputedTypeInstanceWrapper) itemPosition.getItem();
 						SubListGroupItem subListGroupItem = (SubListGroupItem) (item).getInstance();
 						return new PrecomputedTypeInstanceWrapper.TypeInfoSource(
-								new SubListGroupItemTypeInfo(subListGroupItem.getField())).buildTypeInfo(reflectionUI).getFields()
-										.get(0);
+								new SubListGroupItemTypeInfo(subListGroupItem.getField())).buildTypeInfo(reflectionUI)
+										.getFields().get(0);
 					}
 
 				};
@@ -491,6 +469,66 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			public String toString() {
 				return "SubListGroupItemDetailsFieldInfo [of=" + SubListGroupField.this + ", itemField=" + base + "]";
 			}
+		}
+
+	}
+
+	public class CustomizedInfoFilter extends InfoFilterProxy {
+
+		public CustomizedInfoFilter(IInfoFilter base) {
+			super(base);
+		}
+
+		@Override
+		public boolean excludeMethod(IMethodInfo method) {
+			String methodSignature = method.getSignature();
+			for (InfoFilter filter : listCustomization.getMethodsExcludedFromItemDetails()) {
+				if (filter.matches(methodSignature)) {
+					return true;
+				}
+			}
+			return super.excludeMethod(method);
+		}
+
+		@Override
+		public boolean excludeField(IFieldInfo field) {
+			for (InfoFilter filter : listCustomization.getFieldsExcludedFromItemDetails()) {
+				if (filter.matches(field.getName())) {
+					return true;
+				}
+			}
+			return super.excludeField(field);
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + getEnclosingInstance().hashCode();
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CustomizedInfoFilter other = (CustomizedInfoFilter) obj;
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+				return false;
+			return true;
+		}
+
+		private CustomizedListStructuralInfo getEnclosingInstance() {
+			return CustomizedListStructuralInfo.this;
+		}
+
+		@Override
+		public String toString() {
+			return "CustomizedInfoFilter [base=" + base + ", parent=" + CustomizedListStructuralInfo.this + "]";
 		}
 
 	}

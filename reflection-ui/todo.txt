@@ -1,3 +1,7 @@
+- IListStructalInfo should not have methods with ItemPosition parameter
+since an IListStructalInfo is extracted from an ItemPosition
+- SplitForm fields order changes sometimes
+- SplitForm make loose ListCustomization
 - must study the utility of SpecificitiesIdentifier
 - optimize customizations again by storing field type, parameter type and 
 method return type
