@@ -3,12 +3,7 @@ package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.io.Serializable;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
@@ -25,18 +20,16 @@ import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
+import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.InfoProxyFactory;
-import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -106,10 +99,25 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public Orientation orientation = Orientation.HORIZONTAL_SPLIT;
 		public int firstLotFieldCount = 1;
 		public double defaultDividerLocation = 0.5;
+		public ControlDimensionSpecification width;
+		public ControlDimensionSpecification height;
 	}
 
 	public enum Orientation {
 		HORIZONTAL_SPLIT, VERTICAL_SPLIT
+	}
+
+	public enum ControlSizeUnit {
+		PIXELS, SCREEN_PERCENT
+	}
+
+	public static class ControlDimensionSpecification implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		public int value = 50;
+		public ControlSizeUnit unit = ControlSizeUnit.SCREEN_PERCENT;
+
 	}
 
 	public class SplitForm extends ControlSplitPane implements IAdvancedFieldControl {
@@ -131,6 +139,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public Dimension getPreferredSize() {
+			SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(input);
 			Dimension result = super.getPreferredSize();
 			if (result == null) {
 				result = new Dimension(100, 100);
@@ -140,15 +149,24 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					result.width = screenWidth;
 				}
 			}
-			ITypeInfo objectType = input.getControlData().getType();
-			if (objectType != null) {
-				Dimension configuredSize = new Dimension(objectType.getFormPreferredWidth(),
-						objectType.getFormPreferredHeight());
-				if (configuredSize.width > 0) {
-					result.width = configuredSize.width;
+			if (controlCustomization.width != null) {
+				if (controlCustomization.width.unit == ControlSizeUnit.PIXELS) {
+					result.width = controlCustomization.width.value;
+				} else if (controlCustomization.width.unit == ControlSizeUnit.SCREEN_PERCENT) {
+					Dimension screenSize = MiscUtils.getDefaultScreenSize();
+					result.width = Math.round((controlCustomization.width.value / 100f) * screenSize.width);
+				} else {
+					throw new ReflectionUIError();
 				}
-				if (configuredSize.height > 0) {
-					result.height = configuredSize.height;
+			}
+			if (controlCustomization.height != null) {
+				if (controlCustomization.height.unit == ControlSizeUnit.PIXELS) {
+					result.height = controlCustomization.height.value;
+				} else if (controlCustomization.height.unit == ControlSizeUnit.SCREEN_PERCENT) {
+					Dimension screenSize = MiscUtils.getDefaultScreenSize();
+					result.height = Math.round((controlCustomization.height.value / 100f) * screenSize.height);
+				} else {
+					throw new ReflectionUIError();
 				}
 			}
 			return result;
@@ -251,31 +269,24 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						}
 
 						@Override
-						public Object getValue() {
-							return new PrecomputedTypeInstanceWrapper(super.getValue(), getSubObject1Type());
-						}
+						public IInfoFilter getFormControlFilter() {
+							return new InfoFilterProxy(super.getFormControlFilter()) {
+								final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
+										input);
 
-						@Override
-						public void setValue(Object value) {
-							super.setValue(((PrecomputedTypeInstanceWrapper) value).getInstance());
-						}
+								@Override
+								public boolean excludeField(IFieldInfo field) {
+									return getType().getFields().stream()
+											.filter(f -> !(f.isHidden() || super.excludeField(f)))
+											.skip(controlCustomization.firstLotFieldCount)
+											.anyMatch(f -> f.getName().equals(field.getName()));
+								}
 
-						@Override
-						public Runnable getNextUpdateCustomUndoJob(Object newValue) {
-							return super.getNextUpdateCustomUndoJob(
-									((PrecomputedTypeInstanceWrapper) newValue).getInstance());
-						}
-
-						@Override
-						public Runnable getPreviousUpdateCustomRedoJob(Object newValue) {
-							return super.getPreviousUpdateCustomRedoJob(
-									((PrecomputedTypeInstanceWrapper) newValue).getInstance());
-						}
-
-						@Override
-						public ITypeInfo getType() {
-							return swingRenderer.getReflectionUI().getTypeInfo(
-									new PrecomputedTypeInstanceWrapper.TypeInfoSource(getSubObject1Type()));
+								@Override
+								public boolean excludeMethod(IMethodInfo method) {
+									return true;
+								}
+							};
 						}
 
 					};
@@ -295,233 +306,29 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						}
 
 						@Override
-						public Object getValue() {
-							return new PrecomputedTypeInstanceWrapper(super.getValue(), getSubObject2Type());
-						}
+						public IInfoFilter getFormControlFilter() {
+							return new InfoFilterProxy(super.getFormControlFilter()) {
+								final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
+										input);
 
-						@Override
-						public void setValue(Object value) {
-							super.setValue(((PrecomputedTypeInstanceWrapper) value).getInstance());
-						}
+								@Override
+								public boolean excludeField(IFieldInfo field) {
+									return getType().getFields().stream()
+											.filter(f -> !(f.isHidden() || super.excludeField(f)))
+											.limit(controlCustomization.firstLotFieldCount)
+											.anyMatch(f -> f.getName().equals(field.getName()));
+								}
 
-						@Override
-						public Runnable getNextUpdateCustomUndoJob(Object newValue) {
-							return super.getNextUpdateCustomUndoJob(
-									((PrecomputedTypeInstanceWrapper) newValue).getInstance());
-						}
-
-						@Override
-						public Runnable getPreviousUpdateCustomRedoJob(Object newValue) {
-							return super.getPreviousUpdateCustomRedoJob(
-									((PrecomputedTypeInstanceWrapper) newValue).getInstance());
-						}
-
-						@Override
-						public ITypeInfo getType() {
-							return swingRenderer.getReflectionUI().getTypeInfo(
-									new PrecomputedTypeInstanceWrapper.TypeInfoSource(getSubObject2Type()));
+								@Override
+								public boolean excludeMethod(IMethodInfo method) {
+									return false;
+								}
+							};
 						}
 
 					};
 				}
 			});
-		}
-
-		protected ITypeInfo getSubObject1Type() {
-			return new InfoProxyFactory() {
-
-				@Override
-				protected String getName(ITypeInfo type) {
-					return "SplitFormType1 [base=" + super.getName(type) + "]";
-				}
-
-				@Override
-				protected MenuModel getMenuModel(ITypeInfo type) {
-					return new MenuModel();
-				}
-
-				@Override
-				protected List<IFieldInfo> getFields(ITypeInfo type) {
-					final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
-							input);
-					List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-					int visibleFieldsCount = 0;
-					for (IFieldInfo field : super.getFields(type)) {
-						if (!field.isHidden()) {
-							visibleFieldsCount++;
-						}
-						final int visibleFieldsCountAtPosition = visibleFieldsCount;
-						result.add(new FieldInfoProxy(field) {
-							@Override
-							public boolean isHidden() {
-								return super.isHidden()
-										|| (visibleFieldsCountAtPosition > controlCustomization.firstLotFieldCount);
-							}
-						});
-					}
-					return result;
-				}
-
-				@Override
-				protected List<IMethodInfo> getMethods(ITypeInfo type) {
-					return Collections.emptyList();
-				}
-
-				@Override
-				protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
-					return false;
-				}
-
-				@Override
-				protected void onFormRefresh(ITypeInfo type, Object object) {
-				}
-
-				@Override
-				protected Runnable getLastFormRefreshStateRestorationJob(ITypeInfo type, Object object) {
-					return null;
-				}
-
-				@Override
-				protected int getFormPreferredWidth(ITypeInfo type) {
-					return -1;
-				}
-
-				@Override
-				protected int getFormPreferredHeight(ITypeInfo type) {
-					return -1;
-				}
-
-				@Override
-				protected boolean isFactoryTracedFor(ITypeInfo base) {
-					return false;
-				}
-
-				@Override
-				protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-					Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-					result.put(ACTIVE_FACTORIES_KEY, null);
-					return result;
-				}
-
-				@Override
-				protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
-					return swingRenderer.getReflectionUI()
-							.getTypeInfo(new TypeInfoSourceProxy(super.getType(field, objectType).getSource()) {
-
-								@Override
-								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-									return new SpecificitiesIdentifier(getName(objectType), field.getName());
-								}
-
-								@Override
-								protected String getTypeInfoProxyFactoryIdentifier() {
-									return "TypeInfoSourceSpecificitiesIdentifierChangeFactory [of=" + getIdentifier()
-											+ ", newSpecificitiesIdentifier=" + getSpecificitiesIdentifier() + "]";
-								}
-
-							});
-				}
-
-			}.wrapTypeInfo(data.getType());
-		}
-
-		protected ITypeInfo getSubObject2Type() {
-			return new InfoProxyFactory() {
-
-				@Override
-				protected String getName(ITypeInfo type) {
-					return "SplitFormType2 [base=" + super.getName(type) + "]";
-				}
-
-				@Override
-				protected MenuModel getMenuModel(ITypeInfo type) {
-					return super.getMenuModel(type);
-				}
-
-				@Override
-				protected List<IFieldInfo> getFields(ITypeInfo type) {
-					final SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(
-							input);
-					List<IFieldInfo> result = new ArrayList<IFieldInfo>();
-					int visibleFieldsCount = 0;
-					for (IFieldInfo field : super.getFields(type)) {
-						if (!field.isHidden()) {
-							visibleFieldsCount++;
-						}
-						final int visibleFieldsCountAtPosition = visibleFieldsCount;
-						result.add(new FieldInfoProxy(field) {
-							@Override
-							public boolean isHidden() {
-								return super.isHidden()
-										|| (visibleFieldsCountAtPosition <= controlCustomization.firstLotFieldCount);
-							}
-						});
-					}
-					return result;
-				}
-
-				@Override
-				protected List<IMethodInfo> getMethods(ITypeInfo type) {
-					return super.getMethods(type);
-				}
-
-				@Override
-				protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
-					return super.onFormVisibilityChange(type, object, visible);
-				}
-
-				@Override
-				protected void onFormRefresh(ITypeInfo type, Object object) {
-					super.onFormRefresh(type, object);
-				}
-
-				@Override
-				protected Runnable getLastFormRefreshStateRestorationJob(ITypeInfo type, Object object) {
-					return super.getLastFormRefreshStateRestorationJob(type, object);
-				}
-
-				@Override
-				protected int getFormPreferredWidth(ITypeInfo type) {
-					return -1;
-				}
-
-				@Override
-				protected int getFormPreferredHeight(ITypeInfo type) {
-					return -1;
-				}
-
-				@Override
-				protected boolean isFactoryTracedFor(ITypeInfo base) {
-					return false;
-				}
-
-				@Override
-				protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
-					Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-					result.put(ACTIVE_FACTORIES_KEY, null);
-					return result;
-				}
-
-				@Override
-				protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
-					return swingRenderer.getReflectionUI()
-							.getTypeInfo(new TypeInfoSourceProxy(super.getType(field, objectType).getSource()) {
-
-								@Override
-								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-									return new SpecificitiesIdentifier(getName(objectType), field.getName());
-								}
-
-								@Override
-								protected String getTypeInfoProxyFactoryIdentifier() {
-									return "TypeInfoSourceSpecificitiesIdentifierChangeFactory [of=" + getIdentifier()
-											+ ", newSpecificitiesIdentifier=" + getSpecificitiesIdentifier() + "]";
-								}
-
-							});
-				}
-
-			}.wrapTypeInfo(data.getType());
 		}
 
 		@Override
@@ -559,7 +366,6 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		@Override
 		public void addMenuContributions(MenuModel menuModel) {
 			subControl1.addMenuContributions(menuModel);
-			subControl2.addMenuContributions(menuModel);
 		}
 
 		@Override
