@@ -143,6 +143,9 @@ public class BufferedItemPosition extends ItemPosition {
 	@Override
 	public BufferedItemPosition getSibling(int index2) {
 		BufferedItemPosition result = (BufferedItemPosition) super.getSibling(index2);
+		if(result == null) {
+			return null;
+		}
 		result.fakeItem = null;
 		return result;
 	}
@@ -213,6 +216,9 @@ public class BufferedItemPosition extends ItemPosition {
 					index)) {
 				if (itemPosition != null) {
 					itemPosition.containingListFieldIfNotRoot = getSubListField();
+					if(itemPosition.containingListFieldIfNotRoot == null) {
+						return null;
+					}
 					return itemPosition;
 				}
 			}

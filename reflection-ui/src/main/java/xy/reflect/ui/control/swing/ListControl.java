@@ -2455,6 +2455,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				protected IInfoFilter getDelegate() {
 					BufferedItemPosition dynamicItemPosition = bufferedItemPosition.getSibling(-1);
+					if(dynamicItemPosition == null) {
+						return null;
+					}
 					dynamicItemPosition.setFakeItem(getCurrentValue());
 					return getStructuralInfo(dynamicItemPosition).getItemInfoFilter(dynamicItemPosition);
 				}

@@ -295,6 +295,9 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 		ItemPosition result = clone();
 		result.parentItemPosition = this;
 		result.containingListFieldIfNotRoot = getSubListField();
+		if(result.containingListFieldIfNotRoot == null) {
+			return null;
+		}
 		result.index = index;
 		return result;
 	}
