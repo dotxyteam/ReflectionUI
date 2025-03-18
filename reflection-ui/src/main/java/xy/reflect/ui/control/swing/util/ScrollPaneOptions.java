@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.BorderLayout;
@@ -12,7 +10,19 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 /**
- * Panel allowing to limit its containing scroll pane view extent.
+ * Panel allowing to modify the behavior of its parent scroll pane with options
+ * to disable scrolling on each axis.
+ * 
+ * Above the view's preferred dimension, the scroll pane normally stretches it
+ * until it fills the available space. Using {@link ScrollPaneOptions} with the
+ * false option allows the view to maintain its preferred dimension on the axis.
+ * The true option disables the axis scroll bar and stretches the view until it
+ * fills the available space.
+ * 
+ * Below the view's preferred dimension, the scroll pane displays the axis
+ * scroll bar. Using {@link ScrollPaneOptions} with the false option does not
+ * change this behavior. The true option disables the axis scroll bar and
+ * compresses the view to fit the available space.
  * 
  * @author olitank
  *
@@ -20,14 +30,14 @@ import javax.swing.SwingConstants;
 public class ScrollPaneOptions extends ControlPanel implements Scrollable {
 
 	protected static final long serialVersionUID = 1L;
-	protected boolean limitWidthToViewport;
-	protected boolean limitHeightToViewport;
+	protected boolean disableHorizontalScrolling;
+	protected boolean disableVerticalScrolling;
 
-	public ScrollPaneOptions(Component content, boolean limitWidthToViewport, boolean limitHeightToViewport) {
+	public ScrollPaneOptions(Component content, boolean disableHorizontalScrolling, boolean disableVerticalScrolling) {
 		setLayout(new BorderLayout());
 		add(content, BorderLayout.CENTER);
-		this.limitWidthToViewport = limitWidthToViewport;
-		this.limitHeightToViewport = limitHeightToViewport;
+		this.disableHorizontalScrolling = disableHorizontalScrolling;
+		this.disableVerticalScrolling = disableVerticalScrolling;
 	}
 
 	@Override
@@ -47,12 +57,12 @@ public class ScrollPaneOptions extends ControlPanel implements Scrollable {
 
 	@Override
 	public boolean getScrollableTracksViewportWidth() {
-		return limitWidthToViewport;
+		return disableHorizontalScrolling;
 	}
 
 	@Override
 	public boolean getScrollableTracksViewportHeight() {
-		return limitHeightToViewport;
+		return disableVerticalScrolling;
 	}
 
 }

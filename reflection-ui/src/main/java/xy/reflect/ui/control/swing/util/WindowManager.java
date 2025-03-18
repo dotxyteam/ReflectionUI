@@ -277,7 +277,8 @@ public class WindowManager {
 				if (window.getWidth() > maximumSize.width) {
 					if (window instanceof JFrame) {
 						if ((((JFrame) window).getExtendedState() & JFrame.MAXIMIZED_HORIZ) != 0) {
-							((JFrame) window).setExtendedState(JFrame.NORMAL);
+							((JFrame) window)
+									.setExtendedState(((JFrame) window).getExtendedState() & ~JFrame.MAXIMIZED_HORIZ);
 						}
 					}
 					window.setSize(maximumSize.width, window.getHeight());
@@ -285,7 +286,8 @@ public class WindowManager {
 				if (window.getHeight() > maximumSize.height) {
 					if (window instanceof JFrame) {
 						if ((((JFrame) window).getExtendedState() & JFrame.MAXIMIZED_VERT) != 0) {
-							((JFrame) window).setExtendedState(JFrame.NORMAL);
+							((JFrame) window)
+									.setExtendedState(((JFrame) window).getExtendedState() & ~JFrame.MAXIMIZED_VERT);
 						}
 					}
 					window.setSize(window.getWidth(), maximumSize.height);
