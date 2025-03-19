@@ -144,6 +144,14 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.getDisplayAreaVerticalWeight();
 	}
 
+	public boolean isDisplayAreaHorizontallyFilled() {
+		return base.isDisplayAreaHorizontallyFilled();
+	}
+
+	public boolean isDisplayAreaVerticallyFilled() {
+		return base.isDisplayAreaVerticallyFilled();
+	}
+
 	public DisplayMode getDisplayMode() {
 		return base.getDisplayMode();
 	}

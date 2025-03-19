@@ -109,7 +109,17 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public double getDisplayAreaVerticalWeight() {
-		return 1.0;
+		return 0.0;
+	}
+
+	@Override
+	public boolean isDisplayAreaHorizontallyFilled() {
+		return true;
+	}
+
+	@Override
+	public boolean isDisplayAreaVerticallyFilled() {
+		return false;
 	}
 
 	@Override
@@ -162,8 +172,8 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 	public ITypeInfo getType() {
 		if (type == null) {
 			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField, -1,
-					new SpecificitiesIdentifier(reflectionUI
-							.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
+					new SpecificitiesIdentifier(
+							reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
 							javaField.getName())));
 		}
 		return type;

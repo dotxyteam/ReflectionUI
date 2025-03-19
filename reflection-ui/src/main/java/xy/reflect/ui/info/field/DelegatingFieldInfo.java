@@ -142,6 +142,16 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isDisplayAreaHorizontallyFilled() {
+		return getDelegate().isDisplayAreaHorizontallyFilled();
+	}
+
+	@Override
+	public boolean isDisplayAreaVerticallyFilled() {
+		return getDelegate().isDisplayAreaVerticallyFilled();
+	}
+
+	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
 		getDelegate().onControlVisibilityChange(object, visible);
 	}

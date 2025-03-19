@@ -146,8 +146,8 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 			private static final long serialVersionUID = 1L;
 
-			public int value = 40;
-			public ControlSizeUnit unit = ControlSizeUnit.SCREEN_PERCENT;
+			public int value = 400;
+			public ControlSizeUnit unit = ControlSizeUnit.PIXELS;
 
 		}
 	}

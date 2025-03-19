@@ -47,7 +47,17 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public double getDisplayAreaVerticalWeight() {
-			return 1.0;
+			return 0.0;
+		}
+
+		@Override
+		public boolean isDisplayAreaHorizontallyFilled() {
+			return true;
+		}
+
+		@Override
+		public boolean isDisplayAreaVerticallyFilled() {
+			return false;
 		}
 
 		@Override
@@ -351,6 +361,18 @@ public interface IFieldInfo extends IInfo {
 	 * 
 	 */
 	double getDisplayAreaVerticalWeight();
+
+	/**
+	 * @return whether this field component is made wide enough to fill its display
+	 *         area horizontally.
+	 */
+	boolean isDisplayAreaHorizontallyFilled();
+
+	/**
+	 * @return whether this field component is made wide enough to fill its display
+	 *         area vertically.
+	 */
+	boolean isDisplayAreaVerticallyFilled();
 
 	/**
 	 * This method is called by the renderer when the visibility of the field

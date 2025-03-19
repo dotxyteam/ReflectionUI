@@ -52,6 +52,14 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base.getDisplayAreaVerticalWeight();
 	}
 
+	public boolean isDisplayAreaHorizontallyFilled() {
+		return base.isDisplayAreaHorizontallyFilled();
+	}
+
+	public boolean isDisplayAreaVerticallyFilled() {
+		return base.isDisplayAreaVerticallyFilled();
+	}
+
 	@Override
 	public Object getValue(Object object) {
 		return base.getValue(object);

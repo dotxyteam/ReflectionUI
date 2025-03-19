@@ -18,7 +18,6 @@ import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
-import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -115,8 +114,8 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		private static final long serialVersionUID = 1L;
 
-		public int value = 50;
-		public ControlSizeUnit unit = ControlSizeUnit.SCREEN_PERCENT;
+		public int value = 500;
+		public ControlSizeUnit unit = ControlSizeUnit.PIXELS;
 
 	}
 
@@ -252,7 +251,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		protected JScrollPane createSubControlScrollPane(Component content) {
-			ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
+			ControlScrollPane result = new ControlScrollPane(content);
 			SwingRendererUtils.removeScrollPaneBorder(result);
 			return result;
 		}

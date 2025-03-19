@@ -708,6 +708,26 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
+	 * @param field      The field information.
+	 * @param objectType The parent type information.
+	 * @return the result of {@link IFieldInfo#isDisplayAreaHorizontallyFilled()}
+	 *         unless overridden.
+	 */
+	protected boolean isDisplayAreaHorizontallyFilled(IFieldInfo field, ITypeInfo objectType) {
+		return field.isDisplayAreaHorizontallyFilled();
+	}
+
+	/**
+	 * @param field      The field information.
+	 * @param objectType The parent type information.
+	 * @return the result of {@link IFieldInfo#isDisplayAreaVerticallyFilled()}
+	 *         unless overridden.
+	 */
+	protected boolean isDisplayAreaVerticallyFilled(IFieldInfo field, ITypeInfo objectType) {
+		return field.isDisplayAreaVerticallyFilled();
+	}
+
+	/**
 	 * @param method     The method information.
 	 * @param objectType The parent type information.
 	 * @return the result of {@link IMethodInfo#getCategory()} unless overridden.
@@ -2709,6 +2729,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public double getDisplayAreaVerticalWeight() {
 			return InfoProxyFactory.this.getDisplayAreaVerticalWeight(base, objectType);
+		}
+
+		@Override
+		public boolean isDisplayAreaHorizontallyFilled() {
+			return InfoProxyFactory.this.isDisplayAreaHorizontallyFilled(base, objectType);
+		}
+
+		@Override
+		public boolean isDisplayAreaVerticallyFilled() {
+			return InfoProxyFactory.this.isDisplayAreaVerticallyFilled(base, objectType);
 		}
 
 		@Override

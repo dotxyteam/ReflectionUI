@@ -56,7 +56,6 @@ import xy.reflect.ui.control.swing.util.ControlTabbedPane;
 import xy.reflect.ui.control.swing.util.ImagePanel;
 import xy.reflect.ui.control.swing.util.ListTabbedPane;
 import xy.reflect.ui.control.swing.util.ModificationStackControls;
-import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.field.FieldInfoProxy;
@@ -524,7 +523,7 @@ public class Form extends ImagePanel {
 	}
 
 	protected JScrollPane createMainScrollPane(Component content) {
-		ControlScrollPane result = new ControlScrollPane(new ScrollPaneOptions(content, true, false));
+		ControlScrollPane result = new ControlScrollPane(content);
 		SwingRendererUtils.removeScrollPaneBorder(result);
 		return result;
 	}
@@ -533,7 +532,7 @@ public class Form extends ImagePanel {
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
-		if (objectType.getFormPreferredHeight() != -1) {
+		if ((objectType.getFormPreferredWidth() != -1) || (objectType.getFormPreferredHeight() != -1)) {
 			ControlPanel contentPanel = new ControlPanel();
 			{
 				membersPanel.setLayout(new BorderLayout());
@@ -1396,8 +1395,9 @@ public class Form extends ImagePanel {
 		}
 
 		if (!modificationsDetected) {
-			if ((objectType.getFormPreferredHeight() != -1) != ((getComponentCount() > 0)
-					&& (getComponent(0) instanceof JScrollPane))) {
+			if (((objectType.getFormPreferredWidth() != -1)
+					|| (objectType.getFormPreferredHeight() != -1)) != ((getComponentCount() > 0)
+							&& (getComponent(0) instanceof JScrollPane))) {
 				modificationsDetected = true;
 			}
 		}
@@ -1589,8 +1589,6 @@ public class Form extends ImagePanel {
 			} else {
 				throw new ReflectionUIError();
 			}
-			captionControlLayoutConstraints.weightx = 0.0;
-			captionControlLayoutConstraints.weighty = 1.0;
 			captionControlLayoutConstraints.anchor = GridBagConstraints.NORTHWEST;
 			fieldsPanel.add(captionControl, captionControlLayoutConstraints);
 			fieldControlPlaceHolder.setSiblingCaptionControl(captionControl);
@@ -1619,7 +1617,15 @@ public class Form extends ImagePanel {
 		}
 		fieldControlPlaceHolderLayoutConstraints.weightx = field.getDisplayAreaHorizontalWeight();
 		fieldControlPlaceHolderLayoutConstraints.weighty = field.getDisplayAreaVerticalWeight();
-		fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+		if (field.isDisplayAreaHorizontallyFilled() && field.isDisplayAreaVerticallyFilled()) {
+			fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.BOTH;
+		} else if (field.isDisplayAreaHorizontallyFilled()) {
+			fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.HORIZONTAL;
+		} else if (field.isDisplayAreaVerticallyFilled()) {
+			fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.VERTICAL;
+		} else {
+			fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.NONE;
+		}
 		fieldControlPlaceHolderLayoutConstraints.anchor = GridBagConstraints.NORTH;
 		for (Form subForm : SwingRendererUtils.findDescendantForms(fieldControlPlaceHolder, swingRenderer)) {
 			subForm.visibilityEventsDisabled = true;
@@ -1646,11 +1652,9 @@ public class Form extends ImagePanel {
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
 				layoutConstraints.gridx = 2;
 				layoutConstraints.gridy = fieldControlPlaceHolder.getPositionInContainer();
-				layoutConstraints.weighty = 1.0;
 			} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
 				layoutConstraints.gridy = 2;
 				layoutConstraints.gridx = fieldControlPlaceHolder.getPositionInContainer();
-				layoutConstraints.weightx = 1.0;
 			} else {
 				throw new ReflectionUIError();
 			}

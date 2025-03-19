@@ -1279,8 +1279,8 @@ public class InfoCustomizations implements Serializable {
 	public static class FormSizeCustomization extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected FormSizeUnit unit = FormSizeUnit.SCREEN_PERCENT;
-		protected int value = 50;
+		protected FormSizeUnit unit = FormSizeUnit.PIXELS;
+		protected int value = 500;
 
 		public FormSizeUnit getUnit() {
 			return unit;
@@ -2969,6 +2969,10 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
+	public enum DisplayAreaFillingMode {
+		NONE, HORIZONTAL, VERTICAL, BOTH
+	}
+
 	public static class FieldCustomization extends AbstractMemberCustomization
 			implements Comparable<FieldCustomization> {
 		private static final long serialVersionUID = 1L;
@@ -2997,12 +3001,21 @@ public class InfoCustomizations implements Serializable {
 		protected Long autoUpdatePeriodMilliseconds;
 		protected Double displayAreaHorizontalWeight;
 		protected Double displayAreaVerticalWeight;
+		protected DisplayAreaFillingMode displayAreaFillingMode;
 
 		@Override
 		public boolean isInitial() {
 			FieldCustomization defaultFieldCustomization = new FieldCustomization();
 			defaultFieldCustomization.fieldName = fieldName;
 			return InfoCustomizations.isSimilar(this, defaultFieldCustomization);
+		}
+
+		public DisplayAreaFillingMode getDisplayAreaFillingMode() {
+			return displayAreaFillingMode;
+		}
+
+		public void setDisplayAreaFillingMode(DisplayAreaFillingMode displayAreaFillingMode) {
+			this.displayAreaFillingMode = displayAreaFillingMode;
 		}
 
 		public Double getDisplayAreaHorizontalWeight() {
@@ -4180,8 +4193,8 @@ public class InfoCustomizations implements Serializable {
 	public static class ListLenghtCustomization extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected ListLengthUnit unit = ListLengthUnit.SCREEN_PERCENT;
-		protected int value = 40;
+		protected ListLengthUnit unit = ListLengthUnit.PIXELS;
+		protected int value = 400;
 
 		public ListLengthUnit getUnit() {
 			return unit;

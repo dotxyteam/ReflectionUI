@@ -791,7 +791,17 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public double getDisplayAreaVerticalWeight() {
-			return 1.0;
+			return 0.0;
+		}
+
+		@Override
+		public boolean isDisplayAreaHorizontallyFilled() {
+			return true;
+		}
+
+		@Override
+		public boolean isDisplayAreaVerticallyFilled() {
+			return false;
 		}
 
 		@Override

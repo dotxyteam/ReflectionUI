@@ -207,16 +207,26 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public double getDisplayAreaVerticalWeight() {
-		return 1.0;
+		return 0.0;
+	}
+
+	@Override
+	public boolean isDisplayAreaHorizontallyFilled() {
+		return true;
+	}
+
+	@Override
+	public boolean isDisplayAreaVerticallyFilled() {
+		return false;
 	}
 
 	@Override
 	public ITypeInfo getType() {
 		if (type == null) {
-			type = reflectionUI.getTypeInfo(
-					new JavaTypeInfoSource(javaGetterMethod.getReturnType(), javaGetterMethod, -1,
-							new SpecificitiesIdentifier(reflectionUI
-									.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
+			type = reflectionUI
+					.getTypeInfo(new JavaTypeInfoSource(javaGetterMethod.getReturnType(), javaGetterMethod, -1,
+							new SpecificitiesIdentifier(
+									reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
 									GetterFieldInfo.this.getName())));
 		}
 		return type;
