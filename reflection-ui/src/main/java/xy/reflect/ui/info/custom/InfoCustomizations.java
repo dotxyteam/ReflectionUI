@@ -2969,10 +2969,6 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public enum DisplayAreaFillingMode {
-		NONE, HORIZONTAL, VERTICAL, BOTH
-	}
-
 	public static class FieldCustomization extends AbstractMemberCustomization
 			implements Comparable<FieldCustomization> {
 		private static final long serialVersionUID = 1L;
@@ -3001,7 +2997,8 @@ public class InfoCustomizations implements Serializable {
 		protected Long autoUpdatePeriodMilliseconds;
 		protected Double displayAreaHorizontalWeight;
 		protected Double displayAreaVerticalWeight;
-		protected DisplayAreaFillingMode displayAreaFillingMode;
+		protected Boolean displayAreaHorizontalFilling;
+		protected Boolean displayAreaVerticalFilling;
 
 		@Override
 		public boolean isInitial() {
@@ -3010,12 +3007,20 @@ public class InfoCustomizations implements Serializable {
 			return InfoCustomizations.isSimilar(this, defaultFieldCustomization);
 		}
 
-		public DisplayAreaFillingMode getDisplayAreaFillingMode() {
-			return displayAreaFillingMode;
+		public Boolean getDisplayAreaHorizontalFilling() {
+			return displayAreaHorizontalFilling;
 		}
 
-		public void setDisplayAreaFillingMode(DisplayAreaFillingMode displayAreaFillingMode) {
-			this.displayAreaFillingMode = displayAreaFillingMode;
+		public void setDisplayAreaHorizontalFilling(Boolean displayAreaHorizontalFilling) {
+			this.displayAreaHorizontalFilling = displayAreaHorizontalFilling;
+		}
+
+		public Boolean getDisplayAreaVerticalFilling() {
+			return displayAreaVerticalFilling;
+		}
+
+		public void setDisplayAreaVerticalFilling(Boolean displayAreaVerticalFilling) {
+			this.displayAreaVerticalFilling = displayAreaVerticalFilling;
 		}
 
 		public Double getDisplayAreaHorizontalWeight() {

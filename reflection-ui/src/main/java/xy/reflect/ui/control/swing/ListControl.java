@@ -82,6 +82,7 @@ import xy.reflect.ui.control.swing.util.AbstractLazyTreeNode;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
+import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -653,7 +654,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected ControlScrollPane createTreeTableAndToolBarScrollPane(Component view) {
-		return new ControlScrollPane(view) {
+		return new ControlScrollPane(new ScrollPaneOptions(view, true, false)) {
 			private static final long serialVersionUID = 1L;
 			{
 				SwingRendererUtils.removeScrollPaneBorder(this);
@@ -2454,7 +2455,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				protected IInfoFilter getDelegate() {
 					BufferedItemPosition dynamicItemPosition = bufferedItemPosition.getSibling(-1);
-					if(dynamicItemPosition == null) {
+					if (dynamicItemPosition == null) {
 						return null;
 					}
 					dynamicItemPosition.setFakeItem(getCurrentValue());

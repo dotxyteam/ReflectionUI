@@ -57,11 +57,21 @@ public class ScrollPaneOptions extends ControlPanel implements Scrollable {
 
 	@Override
 	public boolean getScrollableTracksViewportWidth() {
+		if(!disableHorizontalScrolling) {
+			if(getParent().getWidth() > getPreferredSize().width) {
+				return true;
+			}
+		}
 		return disableHorizontalScrolling;
 	}
 
 	@Override
 	public boolean getScrollableTracksViewportHeight() {
+		if(!disableVerticalScrolling) {
+			if(getParent().getHeight() > getPreferredSize().height) {
+				return true;
+			}
+		}
 		return disableVerticalScrolling;
 	}
 

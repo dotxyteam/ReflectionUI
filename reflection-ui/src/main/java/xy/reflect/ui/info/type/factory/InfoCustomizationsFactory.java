@@ -27,7 +27,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractVirtualFieldDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ApplicationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
-import xy.reflect.ui.info.custom.InfoCustomizations.DisplayAreaFillingMode;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
@@ -2865,18 +2864,16 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 					@Override
 					public boolean isDisplayAreaHorizontallyFilled() {
-						if (fc.getDisplayAreaFillingMode() != null) {
-							return (fc.getDisplayAreaFillingMode() == DisplayAreaFillingMode.HORIZONTAL)
-									|| (fc.getDisplayAreaFillingMode() == DisplayAreaFillingMode.BOTH);
+						if (fc.getDisplayAreaHorizontalFilling() != null) {
+							return fc.getDisplayAreaHorizontalFilling();
 						}
 						return super.isDisplayAreaHorizontallyFilled();
 					}
 
 					@Override
 					public boolean isDisplayAreaVerticallyFilled() {
-						if (fc.getDisplayAreaFillingMode() != null) {
-							return (fc.getDisplayAreaFillingMode() == DisplayAreaFillingMode.VERTICAL)
-									|| (fc.getDisplayAreaFillingMode() == DisplayAreaFillingMode.BOTH);
+						if (fc.getDisplayAreaVerticalFilling() != null) {
+							return fc.getDisplayAreaVerticalFilling();
 						}
 						return super.isDisplayAreaVerticallyFilled();
 					}
