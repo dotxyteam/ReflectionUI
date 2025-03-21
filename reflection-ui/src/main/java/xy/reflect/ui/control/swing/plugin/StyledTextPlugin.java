@@ -209,8 +209,8 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		@Override
-		protected void updateTextComponent(boolean refreshStructure) {
-			super.updateTextComponent(refreshStructure);
+		protected void refreshTextComponent(boolean refreshStructure) {
+			super.refreshTextComponent(refreshStructure);
 			updateTextComponentStyle(refreshStructure);
 
 		}

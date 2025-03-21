@@ -187,11 +187,11 @@ public class HtmlPlugin extends StyledTextPlugin {
 		}
 
 		@Override
-		protected void updateTextComponent(boolean refreshStructure) {
+		protected void refreshTextComponent(boolean refreshStructure) {
 			if (refreshStructure) {
 				updateTextComponentEditorKit(refreshStructure);
 			}
-			super.updateTextComponent(refreshStructure);
+			super.refreshTextComponent(refreshStructure);
 		}
 
 		@Override

@@ -7,6 +7,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.NumberFormat;
 import java.util.concurrent.ExecutorService;
 
 import javax.swing.BorderFactory;
@@ -169,8 +170,8 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					if ("editor".equals(evt.getPropertyName())) {
 						JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) Spinner.this.getEditor();
 						final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
-						textField.setFormatterFactory(
-								new DefaultFormatterFactory(ReflectionUIUtils.getDefaultNumberFormatter(numberClass)));
+						textField.setFormatterFactory(new DefaultFormatterFactory(ReflectionUIUtils
+								.getDefaultNumberFormatter(numberClass, NumberFormat.getNumberInstance())));
 						textField.setHorizontalAlignment(JTextField.LEFT);
 						textField.getDocument().addDocumentListener(new DocumentListener() {
 

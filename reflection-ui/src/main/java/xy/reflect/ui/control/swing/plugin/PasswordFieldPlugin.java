@@ -90,8 +90,8 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		@Override
-		protected void updateTextComponent(boolean refreshStructure) {
-			super.updateTextComponent(refreshStructure);
+		protected void refreshTextComponent(boolean refreshStructure) {
+			super.refreshTextComponent(refreshStructure);
 			updateTextComponentStyle(refreshStructure);
 
 		}

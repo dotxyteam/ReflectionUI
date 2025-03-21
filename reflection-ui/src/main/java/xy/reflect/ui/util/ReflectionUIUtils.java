@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1275,13 +1274,6 @@ public class ReflectionUIUtils {
 		if (!ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
 			throw new RuntimeException("Invalid primitive type: '" + javaType.getName() + "'");
 		}
-		if (Number.class.isAssignableFrom(javaType)) {
-			try {
-				return getDefaultNumberFormatter(javaType).valueToString(object);
-			} catch (ParseException e) {
-				throw new RuntimeException(e);
-			}
-		}
 		return object.toString();
 	}
 
@@ -1303,12 +1295,6 @@ public class ReflectionUIUtils {
 			}
 			throw new RuntimeException("Invalid value: '" + text + "'. Expected '" + Boolean.TRUE.toString() + "' or '"
 					+ Boolean.FALSE.toString() + "'");
-		} else if (Number.class.isAssignableFrom(javaType)) {
-			try {
-				return getDefaultNumberFormatter(javaType).stringToValue(text);
-			} catch (ParseException e) {
-				throw new RuntimeException(e);
-			}
 		} else {
 			try {
 				try {
@@ -1332,8 +1318,8 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static NumberFormatter getDefaultNumberFormatter(Class<?> javaType) {
-		NumberFormatter result = new NumberFormatter(new StrictNumberFormat(NumberFormat.getNumberInstance()));
+	public static NumberFormatter getDefaultNumberFormatter(Class<?> javaType, NumberFormat numberFormat) {
+		NumberFormatter result = new NumberFormatter(new StrictNumberFormat(numberFormat));
 		result.setValueClass(javaType);
 		return result;
 	}

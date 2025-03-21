@@ -183,7 +183,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		updateTextComponent(refreshStructure);
+		refreshTextComponent(refreshStructure);
 		return true;
 	}
 
@@ -292,63 +292,63 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected void updateTextComponent(boolean refreshStructure) {
+	protected void refreshTextComponent(boolean refreshStructure) {
+		if (refreshStructure) {
+			if (data.isGetOnly()) {
+				textComponent.setEditable(false);
+				textComponent.setOpaque(false);
+				textComponent.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+				textComponent.setBorder(BorderFactory.createEmptyBorder());
+			} else {
+				textComponent.setEditable(true);
+				textComponent.setOpaque(true);
+				if (data.getEditorForegroundColor() != null) {
+					textComponent.setForeground(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
+					textComponent.setCaretColor(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
+				} else {
+					textComponent.setForeground(new JTextField().getForeground());
+					textComponent.setCaretColor(new JTextField().getForeground());
+				}
+				if (data.getEditorBackgroundColor() != null) {
+					textComponent.setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
+				} else {
+					textComponent.setBackground(new JTextField().getBackground());
+				}
+				if (data.getBorderColor() != null) {
+					textComponent.setBorder(
+							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+				} else {
+					textComponent.setBorder(new JTextField().getBorder());
+				}
+			}
+			if (data.getEditorCustomFontResourcePath() != null) {
+				textComponent.setFont(SwingRendererUtils
+						.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+						.deriveFont(textComponent.getFont().getStyle(), textComponent.getFont().getSize()));
+			} else {
+				textComponent.setFont(new JTextField().getFont());
+			}
+
+		}
 		listenerDisabled = true;
 		try {
-			if (refreshStructure) {
-				if (data.isGetOnly()) {
-					textComponent.setEditable(false);
-					textComponent.setOpaque(false);
-					textComponent.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
-					textComponent.setBorder(BorderFactory.createEmptyBorder());
-				} else {
-					textComponent.setEditable(true);
-					textComponent.setOpaque(true);
-					if (data.getEditorForegroundColor() != null) {
-						textComponent.setForeground(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
-						textComponent.setCaretColor(SwingRendererUtils.getColor(data.getEditorForegroundColor()));
-					} else {
-						textComponent.setForeground(new JTextField().getForeground());
-						textComponent.setCaretColor(new JTextField().getForeground());
-					}
-					if (data.getEditorBackgroundColor() != null) {
-						textComponent.setBackground(SwingRendererUtils.getColor(data.getEditorBackgroundColor()));
-					} else {
-						textComponent.setBackground(new JTextField().getBackground());
-					}
-					if (data.getBorderColor() != null) {
-						textComponent.setBorder(
-								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
-					} else {
-						textComponent.setBorder(new JTextField().getBorder());
-					}
-				}
-				if (data.getEditorCustomFontResourcePath() != null) {
-					textComponent
-							.setFont(
-									SwingRendererUtils
-											.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
-													ReflectionUIUtils
-															.getErrorLogListener(swingRenderer.getReflectionUI()))
-											.deriveFont(textComponent.getFont().getStyle(),
-													textComponent.getFont().getSize()));
-				} else {
-					textComponent.setFont(new JTextField().getFont());
-				}
-
-			}
-			String newText = (String) data.getValue();
-			if (newText == null) {
-				newText = "";
-			}
-			if (!MiscUtils.equalsOrBothNull(textComponent.getText(), newText)) {
-				int lastCaretPosition = textComponent.getCaretPosition();
-				textComponent.setText(newText);
-				setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getDocument().getLength()));
-				SwingRendererUtils.handleComponentSizeChange(textComponent);
-			}
+			updateTextComponentValue();
 		} finally {
 			listenerDisabled = false;
+		}
+	}
+
+	protected void updateTextComponentValue() {
+		String newText = (String) data.getValue();
+		if (newText == null) {
+			newText = "";
+		}
+		if (!MiscUtils.equalsOrBothNull(textComponent.getText(), newText)) {
+			int lastCaretPosition = textComponent.getCaretPosition();
+			textComponent.setText(newText);
+			setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getDocument().getLength()));
+			SwingRendererUtils.handleComponentSizeChange(textComponent);
 		}
 	}
 

@@ -48,6 +48,7 @@ import xy.reflect.ui.control.swing.plugin.DateTimePickerPlugin;
 import xy.reflect.ui.control.swing.plugin.DetailedListControlPlugin;
 import xy.reflect.ui.control.swing.plugin.EditorPlugin;
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin;
+import xy.reflect.ui.control.swing.plugin.FormattedNumberPlugin;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
 import xy.reflect.ui.control.swing.plugin.ImageViewPlugin;
 import xy.reflect.ui.control.swing.plugin.MultipleLinesTextPlugin;
@@ -252,6 +253,7 @@ public class SwingRenderer {
 	public List<IFieldControlPlugin> getFieldControlPlugins() {
 		List<IFieldControlPlugin> result = new ArrayList<IFieldControlPlugin>();
 		result.add(new SplitFormPlugin());
+		result.add(new FormattedNumberPlugin());
 		result.add(new OptionButtonsPlugin());
 		result.add(new SliderPlugin());
 		result.add(new SpinnerPlugin());
