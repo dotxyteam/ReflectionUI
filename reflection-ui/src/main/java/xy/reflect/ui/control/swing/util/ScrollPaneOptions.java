@@ -13,16 +13,8 @@ import javax.swing.SwingConstants;
  * Panel allowing to modify the behavior of its parent scroll pane with options
  * to disable scrolling on each axis.
  * 
- * Above the view's preferred dimension, the scroll pane normally stretches it
- * until it fills the available space. Using {@link ScrollPaneOptions} with the
- * false option allows the view to maintain its preferred dimension on the axis.
- * The true option disables the axis scroll bar and stretches the view until it
- * fills the available space.
- * 
- * Below the view's preferred dimension, the scroll pane displays the axis
- * scroll bar. Using {@link ScrollPaneOptions} with the false option does not
- * change this behavior. The true option disables the axis scroll bar and
- * compresses the view to fit the available space.
+ * When the scrolling is disabled on an axis, the view is compressed to fit the
+ * available space.
  * 
  * @author olitank
  *
@@ -57,8 +49,8 @@ public class ScrollPaneOptions extends ControlPanel implements Scrollable {
 
 	@Override
 	public boolean getScrollableTracksViewportWidth() {
-		if(!disableHorizontalScrolling) {
-			if(getParent().getWidth() > getPreferredSize().width) {
+		if (!disableHorizontalScrolling) {
+			if (getParent().getWidth() > getPreferredSize().width) {
 				return true;
 			}
 		}
@@ -67,8 +59,8 @@ public class ScrollPaneOptions extends ControlPanel implements Scrollable {
 
 	@Override
 	public boolean getScrollableTracksViewportHeight() {
-		if(!disableVerticalScrolling) {
-			if(getParent().getHeight() > getPreferredSize().height) {
+		if (!disableVerticalScrolling) {
+			if (getParent().getHeight() > getPreferredSize().height) {
 				return true;
 			}
 		}
