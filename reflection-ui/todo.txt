@@ -17,8 +17,7 @@ in ItemPosition.getSubListField() method used by all tree controls, not
 in only some IListStructuralInfo.getSubListField(ItemPosition) method implementations
 - allow to cancel window closing when asking to save unsaved modifications
 - size in percentage of default screen size should be 
-size in percentage of container size.
-- check primitive control number formatting
+size in percentage of container size ???
 - xy.reflect.ui.util.ReflectionUIUtils.formatMethodControlTooltipText(String, String, List<IParameterInfo>)
 may not be optimal
 - every plugin configuration is serialized as a swing renderer class instance,
