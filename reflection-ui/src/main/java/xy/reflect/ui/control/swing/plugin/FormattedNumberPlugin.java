@@ -86,7 +86,7 @@ public class FormattedNumberPlugin extends AbstractSimpleCustomizableFieldContro
 		protected NumberFormatter getNumberFormatter(Class<?> javaType) {
 			FormattedNumberConfiguration controlCustomization = (FormattedNumberConfiguration) loadControlCustomization(
 					numberInput);
-			return ReflectionUIUtils.getDefaultNumberFormatter(javaType,
+			return ReflectionUIUtils.getNumberFormatter(javaType,
 					new DecimalFormat(controlCustomization.pattern));
 		}
 

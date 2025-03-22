@@ -5,7 +5,9 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.text.FieldPosition;
 import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1318,10 +1320,35 @@ public class ReflectionUIUtils {
 		}
 	}
 
-	public static NumberFormatter getDefaultNumberFormatter(Class<?> javaType, NumberFormat numberFormat) {
+	public static NumberFormatter getNumberFormatter(Class<?> javaType, NumberFormat numberFormat) {
 		NumberFormatter result = new NumberFormatter(new StrictNumberFormat(numberFormat));
 		result.setValueClass(javaType);
 		return result;
+	}
+	
+	
+	public static NumberFormat getNativeNumberFormat(final Class<?> javaType) {
+		return new NumberFormat() {
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Number parse(String source, ParsePosition parsePosition) {
+				Number result = (Number) primitiveFromString(source, javaType);
+				parsePosition.setIndex(source.length());
+				return result;
+			}
+			
+			@Override
+			public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
+				return toAppendTo.append(primitiveToString(number));
+			}
+			
+			@Override
+			public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
+				return toAppendTo.append(primitiveToString(number));
+			}
+		};
 	}
 
 	public static String secureNameContent(String s) {

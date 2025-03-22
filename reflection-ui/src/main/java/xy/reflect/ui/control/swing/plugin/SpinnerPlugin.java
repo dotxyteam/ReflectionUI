@@ -7,11 +7,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.concurrent.ExecutorService;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -91,6 +93,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		public String minimum = "0";
 		public String maximum = "100";
 		public String stepSize = "1";
+		public String customNumberFormat;
 
 		public void validate() {
 			parseNumber(minimum);
@@ -170,8 +173,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					if ("editor".equals(evt.getPropertyName())) {
 						JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) Spinner.this.getEditor();
 						final JFormattedTextField textField = (JFormattedTextField) editor.getTextField();
-						textField.setFormatterFactory(new DefaultFormatterFactory(ReflectionUIUtils
-								.getDefaultNumberFormatter(numberClass, NumberFormat.getNumberInstance())));
+						textField.setFormatterFactory(new DefaultFormatterFactory(getNumberFormatter()));
 						textField.setHorizontalAlignment(JTextField.LEFT);
 						textField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -254,6 +256,23 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					}
 				}
 			});
+		}
+
+		protected AbstractFormatter getNumberFormatter() {
+			SpinnerConfiguration controlCustomization = (SpinnerConfiguration) loadControlCustomization(input);
+			Class<?> javaType;
+			try {
+				javaType = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
+			} catch (ClassNotFoundException e) {
+				throw new ReflectionUIError(e);
+			}
+			if (javaType.isPrimitive()) {
+				javaType = ClassUtils.primitiveToWrapperClass(javaType);
+			}
+			NumberFormat numberFormat = (controlCustomization.customNumberFormat == null)
+					? ReflectionUIUtils.getNativeNumberFormat(javaType)
+					: new DecimalFormat(controlCustomization.customNumberFormat);
+			return ReflectionUIUtils.getNumberFormatter(numberClass, numberFormat);
 		}
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
