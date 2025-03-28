@@ -74,6 +74,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.swing.ListControl.IItemsVisitor.VisitStatus;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -1083,12 +1084,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		final BufferedItemPosition[] result = new BufferedItemPosition[1];
 		visitItems(new IItemsVisitor() {
 			@Override
-			public boolean visitItem(BufferedItemPosition itemPosition) {
+			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
 				if (itemPosition.getItem() == item) {
 					result[0] = itemPosition;
-					return false;
+					return VisitStatus.TREE_VISIT_INTERRUPTED;
 				}
-				return true;
+				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		});
 		return result[0];
@@ -1098,11 +1099,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		final List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
 		visitItems(new IItemsVisitor() {
 			@Override
-			public boolean visitItem(BufferedItemPosition itemPosition) {
+			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
 				if (itemPosition.getItem().equals(item)) {
 					result.add(itemPosition);
 				}
-				return true;
+				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		});
 		return result;
@@ -1159,6 +1160,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} catch (Throwable ignore) {
 		}
 	}
+	
+	public boolean isItemPositionExpanded(BufferedItemPosition itemPosition) {
+		ItemNode node = findNode(itemPosition);
+		if (node == null) {
+			return false;
+		}
+		TreePath treePath = new TreePath(node.getPath());
+		return treeTableComponent.isExpanded(treePath);
+	}
 
 	public void expandItemPosition(BufferedItemPosition itemPosition) {
 		ItemNode node = findNode(itemPosition);
@@ -1181,12 +1191,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	public void expandItemPositions(int maximumDepth) {
 		visitItemsInBreadthFirstSearchMode(new IItemsVisitor() {
 			@Override
-			public boolean visitItem(BufferedItemPosition itemPosition) {
+			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
 				if (itemPosition.getDepth() >= maximumDepth) {
-					return false;
+					return VisitStatus.TREE_VISIT_INTERRUPTED;
 				}
 				expandItemPosition(itemPosition);
-				return true;
+				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		});
 	}
@@ -1619,45 +1629,71 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(iItemsVisitor, rootNode);
 	}
 
-	protected boolean visitItems(IItemsVisitor iItemsVisitor, ItemNode currentNode) {
-		BufferedItemPosition currentListItemPosition = getItemPositionByNode(currentNode);
-		if (currentListItemPosition != null) {
-			if (!iItemsVisitor.visitItem(currentListItemPosition)) {
-				return false;
+	protected VisitStatus visitItems(IItemsVisitor itemsVisitor, ItemNode currentNode) {
+		BufferedItemPosition currentItemPosition = getItemPositionByNode(currentNode);
+		final VisitStatus currentItemVisitStatus;
+		if (currentItemPosition != null) {
+			currentItemVisitStatus = itemsVisitor.visitItem(currentItemPosition);
+			if (currentItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
+				return VisitStatus.TREE_VISIT_INTERRUPTED;
+			}
+		} else {
+			currentItemVisitStatus = VisitStatus.VISIT_NOT_INTERRUPTED;
+		}
+		VisitStatus finalItemVisitStatus = currentItemVisitStatus;
+		if (currentItemVisitStatus != VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+			for (int i = 0; i < currentNode.getChildCount(); i++) {
+				ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
+				VisitStatus childItemVisitStatus = visitItems(itemsVisitor, childNode);
+				if (childItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
+					return VisitStatus.TREE_VISIT_INTERRUPTED;
+				}
+				if (childItemVisitStatus == VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+					if (finalItemVisitStatus == VisitStatus.VISIT_NOT_INTERRUPTED) {
+						finalItemVisitStatus = VisitStatus.BRANCH_VISIT_INTERRUPTED;
+					}
+				}
 			}
 		}
-		for (int i = 0; i < currentNode.getChildCount(); i++) {
-			ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
-			if (!visitItems(iItemsVisitor, childNode)) {
-				return false;
-			}
-		}
-		return true;
+		return finalItemVisitStatus;
 	}
 
 	public void visitItemsInBreadthFirstSearchMode(IItemsVisitor iItemsVisitor) {
 		visitItemsInBreadthFirstSearchMode(iItemsVisitor, rootNode, new LinkedList<ListControl.ItemNode>());
 	}
 
-	protected boolean visitItemsInBreadthFirstSearchMode(IItemsVisitor iItemsVisitor, ItemNode currentNode,
+	protected VisitStatus visitItemsInBreadthFirstSearchMode(IItemsVisitor itemsVisitor, ItemNode currentNode,
 			Queue<ItemNode> queue) {
-		BufferedItemPosition currentListItemPosition = getItemPositionByNode(currentNode);
-		if (currentListItemPosition != null) {
-			if (!iItemsVisitor.visitItem(currentListItemPosition)) {
-				return false;
+		BufferedItemPosition currentItemPosition = getItemPositionByNode(currentNode);
+		final VisitStatus currentItemVisitStatus;
+		if (currentItemPosition != null) {
+			currentItemVisitStatus = itemsVisitor.visitItem(currentItemPosition);
+			if (currentItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
+				return VisitStatus.TREE_VISIT_INTERRUPTED;
+			}
+		} else {
+			currentItemVisitStatus = VisitStatus.VISIT_NOT_INTERRUPTED;
+		}
+		if (currentItemVisitStatus != VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+			for (int i = 0; i < currentNode.getChildCount(); i++) {
+				ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
+				queue.add(childNode);
 			}
 		}
-		for (int i = 0; i < currentNode.getChildCount(); i++) {
-			ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
-			queue.add(childNode);
-		}
+		VisitStatus finalItemVisitStatus = currentItemVisitStatus;
 		while (!queue.isEmpty()) {
 			ItemNode nextNode = queue.poll();
-			if (!visitItemsInBreadthFirstSearchMode(iItemsVisitor, nextNode, queue)) {
-				return false;
+			VisitStatus nextItemVisitStatus = visitItemsInBreadthFirstSearchMode(itemsVisitor, nextNode, queue);
+			if (nextItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
+				return VisitStatus.TREE_VISIT_INTERRUPTED;
+			}
+			if (nextItemVisitStatus == VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+				if (finalItemVisitStatus == VisitStatus.VISIT_NOT_INTERRUPTED) {
+					finalItemVisitStatus = VisitStatus.BRANCH_VISIT_INTERRUPTED;
+				}
 			}
 		}
-		return true;
+		return finalItemVisitStatus;
 	}
 
 	@Override
@@ -2468,7 +2504,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public interface IItemsVisitor {
 
-		boolean visitItem(BufferedItemPosition itemPosition);
+		VisitStatus visitItem(BufferedItemPosition itemPosition);
+
+		public enum VisitStatus {
+			VISIT_NOT_INTERRUPTED, BRANCH_VISIT_INTERRUPTED, TREE_VISIT_INTERRUPTED
+		}
 
 	}
 

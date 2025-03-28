@@ -1,12 +1,4 @@
-- IListStructalInfo should not have methods with ItemPosition parameter
-since an IListStructalInfo is extracted from an ItemPosition
-- SplitForm fields order changes sometimes
-- SplitForm make loose ListCustomization
 - must study the utility of SpecificitiesIdentifier
-- optimize customizations again by storing field type, parameter type and 
-method return type
-- problem with customizations optimization: precomputed types are store
-in wrappers and then are not refreshed when a customization is done 
 - need to test utility class (only static fields and methods) instance dialog  
 - are transactions still useful ? 
 since last refresh state restoration jobs exist now.
@@ -15,7 +7,6 @@ since last refresh state restoration jobs exist now.
 - IFieldInfo.alternativeListItemContructors should be taken into account
 in ItemPosition.getSubListField() method used by all tree controls, not 
 in only some IListStructuralInfo.getSubListField(ItemPosition) method implementations
-- allow to cancel window closing when asking to save unsaved modifications
 - size in percentage of default screen size should be 
 size in percentage of container size ???
 - xy.reflect.ui.util.ReflectionUIUtils.formatMethodControlTooltipText(String, String, List<IParameterInfo>)
@@ -26,14 +17,11 @@ plugin identifier refers to a swing renderer class and is store as a customizati
 - getMinimumSize() is overridden in some components and it prevents split panes from
 working well. Check.
 - check the use of xy.reflect.ui.info.type.factory.InfoProxyFactory.isFactoryTracedFor(ITypeInfo)
-- java.awt.Dimension is in the abstract ui model. Remove ???
 - when a dialog is closed too quickly after a field update then
 the new field value is not taken into account. Maybe the problem
 can be solved by using the SwingRenderer.delayedUpdateExecutor 
 - handle bigdecimal, biginteger, ...
 - add customization option for list method shortcut icon
-- add "virtual composed list field" customization option that would use 
-ImplicitListFieldInfo.
 - undo/redo title often empty. See Calculator example.
 - vertical slider ???
 - allow to specify via customizations a list backed by
@@ -48,10 +36,6 @@ more generally.
 not sure that field behavioral changes are detected. Check. 
 - allow to specify a static options values field
 - allow to specify via customizations how to undo a method call
-- actually in applications modifications are not replayed: the
-object states are rather saved and restored. Then undo/redo should
-be fast and never display a busy indicator. The current design of
-modifications may need to be reviewed: doJob != redoJob. 
 - when refreshing forms structure the currently displayed category is lost
 if a field is moved etc. Maybe there is a more elegant solution.
 Think about it.
