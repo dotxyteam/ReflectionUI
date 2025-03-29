@@ -771,6 +771,38 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return true;
 	}
 
+	protected void customizeCellRendererComponent(JLabel label, ItemNode node, int rowIndex, int columnIndex,
+			boolean isSelected, boolean hasFocus) {
+		label.putClientProperty("html.disable", Boolean.TRUE);
+		if (getItemPositionByNode(node) == null) {
+			return;
+		}
+		String text = getCellValue(node, columnIndex);
+		if ((text == null) || (text.length() == 0)) {
+			label.setText(" ");
+			label.setToolTipText(null);
+		} else {
+			label.setText(text.replaceAll(MiscUtils.getNewLineRegex(), " "));
+			SwingRendererUtils.setMultilineToolTipText(label, text);
+		}
+
+		Image iconImage = getCellIconImage(node, columnIndex);
+		if (iconImage == null) {
+			label.setIcon(null);
+		} else {
+			label.setIcon(new ImageIcon(iconImage));
+		}
+
+		if (!isSelected) {
+			if (listData.getEditorForegroundColor() != null) {
+				label.setForeground(SwingRendererUtils.getColor(listData.getEditorForegroundColor()));
+			}
+			if (listData.getEditorBackgroundColor() != null) {
+				label.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
+			}
+		}
+	}
+
 	public String getColumnCaption(int columnIndex) {
 		IListStructuralInfo tableInfo = getRootStructuralInfo();
 		if (tableInfo == null) {
@@ -1160,7 +1192,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} catch (Throwable ignore) {
 		}
 	}
-	
+
 	public boolean isItemPositionExpanded(BufferedItemPosition itemPosition) {
 		ItemNode node = findNode(itemPosition);
 		if (node == null) {
@@ -2079,6 +2111,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class TreeTable extends JXTreeTable {
 		private static final long serialVersionUID = 1L;
 
+		public TreeTable() {
+		}
+
 		@Override
 		public String getToolTipText(MouseEvent event) {
 			try {
@@ -2158,43 +2193,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
-	protected abstract class AbstractItemCellRenderer {
-
-		protected void customizeCellRendererComponent(JLabel label, ItemNode node, int rowIndex, int columnIndex,
-				boolean isSelected, boolean hasFocus) {
-			label.putClientProperty("html.disable", Boolean.TRUE);
-			if (getItemPositionByNode(node) == null) {
-				return;
-			}
-			String text = getCellValue(node, columnIndex);
-			if ((text == null) || (text.length() == 0)) {
-				label.setText(" ");
-				label.setToolTipText(null);
-			} else {
-				label.setText(text.replaceAll(MiscUtils.getNewLineRegex(), " "));
-				SwingRendererUtils.setMultilineToolTipText(label, text);
-			}
-
-			Image iconImage = getCellIconImage(node, columnIndex);
-			if (iconImage == null) {
-				label.setIcon(null);
-			} else {
-				label.setIcon(new ImageIcon(iconImage));
-			}
-
-			if (!isSelected) {
-				if (listData.getEditorForegroundColor() != null) {
-					label.setForeground(SwingRendererUtils.getColor(listData.getEditorForegroundColor()));
-				}
-				if (listData.getEditorBackgroundColor() != null) {
-					label.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
-				}
-			}
-
-		}
-	}
-
-	protected class ItemTableCellRenderer extends AbstractItemCellRenderer implements TableCellRenderer {
+	protected class ItemTableCellRenderer implements TableCellRenderer {
 
 		protected TableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
 
@@ -2217,7 +2216,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
-	protected class ItemTreeCellRenderer extends AbstractItemCellRenderer implements TreeCellRenderer {
+	protected class ItemTreeCellRenderer implements TreeCellRenderer {
 
 		protected TreeCellRenderer defaultRenderer = new DefaultTreeCellRenderer();
 		protected JLabel component = new JLabel();
@@ -2238,8 +2237,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
 						.deriveFont(component.getFont().getStyle(), component.getFont().getSize()));
 			}
-			customizeCellRendererComponent(component, (ItemNode) value, row, 0, selected, focused);
 			component.setOpaque(false);
+			customizeCellRendererComponent(component, (ItemNode) value, row, 0, selected, focused);
 			return component;
 		}
 

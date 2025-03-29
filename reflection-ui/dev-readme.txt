@@ -86,8 +86,7 @@ To achieve this goal, 2 main layers have been created:
 		----------------------
 		This class helps to build proxies of IInfo interfaces in order to customize the 
 		default implementations.
-
-
+		
 	Rendering layer
 	---------------
 	This is the layer of the GUI elements that are created according the
@@ -138,35 +137,35 @@ To achieve this goal, 2 main layers have been created:
 		It will then create control data objects, controls, forms, ModificationStack objects
 		and glue them all together to provide a working UI.
 
-DEBIAN INTEGRATION
-------------------
-Build commands:
-	export DEBFULLNAME="OTK Software"
-	export DEBEMAIL="dotxyteam@yahoo.fr"
+	Customizations
+	--------------
+	The CustomizedUI class inherits from ReflectionUI and use the InfoCustomizationsFactory 
+	class to support the creation of proxies of IInfo interfaces from InfoCustomizations 
+	class instances. The 'custom-ui' project hosts the SwingCustomizer class that inherits
+	from the CustomizedUI class and offers tools that allow to visually edit the 
+	InfoCustomization class instances. Note that InfoCustomization class instances are
+	persisted as XML documents.
 	
-	mh_make
+	The generation of customized proxies of IInfo interfaces is complex and takes time.
+	The use the UIs generated from these customized proxies could have been problematic
+	since there may be a great number of proxy layers that need to interact in order to
+	provide a functioning UI that could have then been less reactive. To prevent this 
+	issue, proxy caches are used to minimize to cost of the computation needed to rebuild 
+	the	proxies. 
+	But, during the design phase, InfoCustomizations class instances are constantly 
+	modified and the IInfo proxies need to be rebuilt in order to provide coherent and 
+	up-to-date UIs. For this reason, the customized ITypeInfo proxies cache is cleared
+	after each customization action. Also the UI components are reconfigured 
+	or completely rebuilt when a structural change that cannot be incorporated is 
+	detected. If this detection is not well implemented, then the customization action
+	may	not produce the desired effect.
 	
-	export VERSION=`cat debian/changelog | grep UNRELEASED |  grep -P '\d+(\.\d+)+' -o`
-	export MAVEN_VERSION=`cat pom.xml | grep -A10 "<project " | grep "<version>" |  grep -P '\d+(\.\d+)+' -o`
-	if [ "$VERSION" == "$MAVEN_VERSION" ]; then echo "Current version=$VERSION"; else echo "---- WARNING: Version mismatch: DEBIAN=$VERSION and MAVEN=$MAVEN_VERSION ----"; fi
+	This detection is performed this way: each form searches for an eventual change
+	in its structure (categories, lists of fields and methods). The 'equals(...)' 
+	method is used on the fields for that, but it does not verify the field types
+	that are calculated lazily and cached. Yet these types may change after a 
+	customization action and their cached version may become obsolete. That is why
+	the customized types cache must be cleared after each customization action
+	and no other type cache should be used.
 	
-	echo 'tar cfz ../reflection-ui_'$VERSION'.orig.tar.gz src *.xml *.txt' > debian/orig-tar.sh; chmod +x debian/orig-tar.sh; debian/orig-tar.sh
-	echo 'extend-diff-ignore = "(debian|tmp|tools|\.classpath|\.settings|\.project)"' > debian/source/options 
 	
-	cp pom.xml pom.beforeDebianBuild.xml;\
-	BUILD_DIR="$HOME/tmp/reflection-ui";\
-	rm -rf "$BUILD_DIR";\
-	mkdir "$BUILD_DIR";\
-	mv ../reflection-ui_$VERSION.orig.tar.gz "$BUILD_DIR/..";\
-	cp -r debian "$BUILD_DIR";\
-	cd "$BUILD_DIR";\
-	tar xfz ../reflection-ui_$VERSION.orig.tar.gz;\
-	debuild;\
-	cd -;\
-	cp pom.beforeDebianBuild.xml pom.xml
-	
-Cleaning command:
-	cd $HOME/tmp/reflection-ui; rm ../*reflection-ui*.*; cd -
-	debuild clean
-	
-
