@@ -127,7 +127,6 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		protected ReflectionUI reflectionUI;
 		protected ITypeInfo type;
-		protected ITypeInfo returnType;
 
 		public DateConstructor(ReflectionUI reflectionUI, ITypeInfo type) {
 			this.reflectionUI = reflectionUI;
@@ -136,20 +135,17 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			if (returnType == null) {
-				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
-					@Override
-					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-						return null;
-					}
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return null;
+				}
 
-					@Override
-					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
-					}
-				});
-			}
-			return returnType;
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
+				}
+			});
 		}
 
 		@Override

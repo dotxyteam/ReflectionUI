@@ -36,7 +36,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected GetterFieldInfo keyField;
 	protected GetterFieldInfo valueField;
 
-	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType, Class<?> valueJavaType) {
+	public StandardMapEntryTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source, Class<?> keyJavaType,
+			Class<?> valueJavaType) {
 		super(reflectionUI, source);
 		this.keyJavaType = keyJavaType;
 		this.valueJavaType = valueJavaType;
@@ -106,17 +107,12 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 			try {
 				keyField = new GetterFieldInfo(reflectionUI,
 						StandardMapEntry.class.getMethod("getKey", new Class<?>[0]), StandardMapEntry.class) {
-					ITypeInfo type;
-
 					@Override
 					public ITypeInfo getType() {
-						if (type == null) {
-							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
-									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
-							type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-									(keyJavaType == null) ? Object.class : keyJavaType, specificitiesIdentifier));
-						}
-						return type;
+						SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
+								StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
+						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+								(keyJavaType == null) ? Object.class : keyJavaType, specificitiesIdentifier));
 					}
 
 					@Override
@@ -146,17 +142,12 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 				valueField = new GetterFieldInfo(reflectionUI,
 						StandardMapEntry.class.getMethod("getValue", new Class<?>[0]), StandardMapEntry.class) {
 
-					ITypeInfo type;
-
 					@Override
 					public ITypeInfo getType() {
-						if (type == null) {
-							SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
-									StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
-							type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-									(valueJavaType == null) ? Object.class : valueJavaType, specificitiesIdentifier));
-						}
-						return type;
+						SpecificitiesIdentifier specificitiesIdentifier = new SpecificitiesIdentifier(
+								StandardMapEntryTypeInfo.this.getName(), ((IFieldInfo) this).getName());
+						return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+								(valueJavaType == null) ? Object.class : valueJavaType, specificitiesIdentifier));
 					}
 
 					@Override
@@ -283,8 +274,6 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 						}
 					}
 
-					ITypeInfo type;
-
 					@Override
 					public String getName() {
 						if (getPosition() == 0) {
@@ -303,18 +292,15 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 					@Override
 					public ITypeInfo getType() {
-						if (type == null) {
-							if (getPosition() == 0) {
-								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-										(keyJavaType != null) ? keyJavaType : Object.class, null));
-							} else if (getPosition() == 1) {
-								type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-										(valueJavaType != null) ? valueJavaType : Object.class, null));
-							} else {
-								throw new ReflectionUIError();
-							}
+						if (getPosition() == 0) {
+							return reflectionUI.getTypeInfo(
+									new JavaTypeInfoSource((keyJavaType != null) ? keyJavaType : Object.class, null));
+						} else if (getPosition() == 1) {
+							return reflectionUI.getTypeInfo(new JavaTypeInfoSource(
+									(valueJavaType != null) ? valueJavaType : Object.class, null));
+						} else {
+							throw new ReflectionUIError();
 						}
-						return type;
 					}
 
 					@Override

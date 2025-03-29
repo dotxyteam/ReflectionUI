@@ -349,11 +349,8 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 		@Override
 		public ITypeInfo getType() {
-			if (type == null) {
-				type = reflectionUI
-						.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new SubListGroupTypeInfo()));
-			}
-			return type;
+			return reflectionUI
+					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new SubListGroupTypeInfo()));
 		}
 
 		@Override

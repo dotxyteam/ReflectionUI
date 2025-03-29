@@ -26,7 +26,6 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	protected Constructor<?> javaConstructor;
 	protected ReflectionUI reflectionUI;
 	protected ArrayList<IParameterInfo> parameters;
-	protected ITypeInfo returnValueType;
 
 	public DefaultConstructorInfo(ReflectionUI reflectionUI, Constructor<?> javaConstructor) {
 		this.reflectionUI = reflectionUI;
@@ -58,11 +57,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		if (returnValueType == null) {
-			returnValueType = reflectionUI
-					.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), null));
-		}
-		return returnValueType;
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), null));
 	}
 
 	@Override

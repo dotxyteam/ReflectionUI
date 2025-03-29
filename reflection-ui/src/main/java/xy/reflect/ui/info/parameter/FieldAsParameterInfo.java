@@ -20,7 +20,6 @@ public class FieldAsParameterInfo implements IParameterInfo {
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo field;
 	protected int position;
-	protected ITypeInfo type;
 
 	public FieldAsParameterInfo(ReflectionUI reflectionUI, IFieldInfo field, int position) {
 		this.reflectionUI = reflectionUI;
@@ -64,21 +63,18 @@ public class FieldAsParameterInfo implements IParameterInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
-				@Override
-				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return null;
-				}
+		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return null;
+			}
 
-				@Override
-				protected String getTypeInfoProxyFactoryIdentifier() {
-					return "ParameterTypeInfoProxyFactory [of=" + getClass().getName() + ", baseField="
-							+ field.getName() + ", position=" + position + "]";
-				}
-			});
-		}
-		return type;
+			@Override
+			protected String getTypeInfoProxyFactoryIdentifier() {
+				return "ParameterTypeInfoProxyFactory [of=" + getClass().getName() + ", baseField=" + field.getName()
+						+ ", position=" + position + "]";
+			}
+		});
 	}
 
 	@Override

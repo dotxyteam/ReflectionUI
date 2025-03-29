@@ -25,7 +25,6 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo objectType;
-	protected ITypeInfo type;
 
 	public ValueAsListFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo objectType) {
 		super(base);
@@ -35,44 +34,41 @@ public class ValueAsListFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new StandardCollectionTypeInfo(reflectionUI, 
-					new JavaTypeInfoSource(ArrayList.class, null), super.getType()) {
+		return reflectionUI.getTypeInfo(new StandardCollectionTypeInfo(reflectionUI,
+				new JavaTypeInfoSource(ArrayList.class, null), super.getType()) {
 
-				@Override
-				public boolean isInsertionAllowed() {
-					return false;
-				}
+			@Override
+			public boolean isInsertionAllowed() {
+				return false;
+			}
 
-				@Override
-				public boolean isRemovalAllowed() {
-					return false;
-				}
+			@Override
+			public boolean isRemovalAllowed() {
+				return false;
+			}
 
-				@Override
-				public boolean canReplaceContent() {
-					return false;
-				}
+			@Override
+			public boolean canReplaceContent() {
+				return false;
+			}
 
-				@Override
-				public boolean canInstantiateFromArray() {
-					return true;
-				}
+			@Override
+			public boolean canInstantiateFromArray() {
+				return true;
+			}
 
-				@Override
-				public boolean isItemNullValueSupported() {
-					return base.getType().supports(null);
-				}
+			@Override
+			public boolean isItemNullValueSupported() {
+				return base.getType().supports(null);
+			}
 
-				@Override
-				public ITypeInfoSource getSource() {
-					return new PrecomputedTypeInfoSource(this,
-							new SpecificitiesIdentifier(objectType.getName(), ValueAsListFieldInfo.this.getName()));
-				}
+			@Override
+			public ITypeInfoSource getSource() {
+				return new PrecomputedTypeInfoSource(this,
+						new SpecificitiesIdentifier(objectType.getName(), ValueAsListFieldInfo.this.getName()));
+			}
 
-			}.getSource());
-		}
-		return type;
+		}.getSource());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

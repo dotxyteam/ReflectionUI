@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.Collections;
@@ -27,7 +25,6 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
 	protected ITypeInfo objectType;
-	protected ITypeInfo type;
 
 	public ExportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, ITypeInfo objectType) {
 		super(base);
@@ -91,7 +88,7 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 		final Object baseNewValue = booleanTovalue((Boolean) newValue);
 		return ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(object, base, baseNewValue);
 	}
-	
+
 	@Override
 	public Runnable getPreviousUpdateCustomRedoJob(final Object object, final Object newValue) {
 		boolean currentNullStatus = (Boolean) getValue(object);
@@ -129,11 +126,8 @@ public class ExportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
-					new SpecificitiesIdentifier(objectType.getName(), ExportedNullStatusFieldInfo.this.getName())));
-		}
-		return type;
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
+				new SpecificitiesIdentifier(objectType.getName(), ExportedNullStatusFieldInfo.this.getName())));
 	}
 
 	@Override

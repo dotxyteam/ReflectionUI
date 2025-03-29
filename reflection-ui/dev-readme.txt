@@ -145,27 +145,31 @@ To achieve this goal, 2 main layers have been created:
 	from the CustomizedUI class and offers tools that allow to visually edit the 
 	InfoCustomization class instances. Note that InfoCustomization class instances are
 	persisted as XML documents.
-	
-	The generation of customized proxies of IInfo interfaces is complex and takes time.
-	The use the UIs generated from these customized proxies could have been problematic
-	since there may be a great number of proxy layers that need to interact in order to
-	provide a functioning UI that could have then been less reactive. To prevent this 
-	issue, proxy caches are used to minimize to cost of the computation needed to rebuild 
-	the	proxies. 
-	But, during the design phase, InfoCustomizations class instances are constantly 
-	modified and the IInfo proxies need to be rebuilt in order to provide coherent and 
-	up-to-date UIs. For this reason, the customized ITypeInfo proxies cache is cleared
-	after each customization action. Also the UI components are reconfigured 
-	or completely rebuilt when a structural change that cannot be incorporated is 
-	detected. If this detection is not well implemented, then the customization action
-	may	not produce the desired effect.
-	
-	This detection is performed this way: each form searches for an eventual change
-	in its structure (categories, lists of fields and methods). The 'equals(...)' 
-	method is used on the fields for that, but it does not verify the field types
-	that are calculated lazily and cached. Yet these types may change after a 
-	customization action and their cached version may become obsolete. That is why
-	the customized types cache must be cleared after each customization action
-	and no other type cache should be used.
-	
-	
+		
+		Performance considerations
+		--------------------------
+		The generation of customized proxies of IInfo interfaces is complex and takes time.
+		The use the UIs generated from these customized proxies could have been problematic
+		since there may be a great number of proxy layers that need to interact in order to
+		provide a functioning UI that could have then been less reactive. To prevent this 
+		issue, proxy caches are used to minimize to cost of the computation needed to rebuild 
+		the	proxies.
+		
+		Design mode considerations
+		--------------------------
+		But, during the design phase, InfoCustomizations class instances are constantly 
+		modified and the IInfo proxies need to be rebuilt in order to provide coherent and 
+		up-to-date UIs. For this reason, the customized ITypeInfo proxies cache is cleared
+		after each customization action. Also the UI components are reconfigured 
+		or completely rebuilt when a structural change that cannot be incorporated is 
+		detected. If this detection is not well implemented, then the customization action
+		may	not produce the desired effect.		
+		This detection is performed this way: each form searches for an eventual change
+		in its structure (categories, lists of fields and methods). The 'equals(...)' 
+		method is used on the fields for that, but it does not verify the field types
+		that are calculated lazily and cached. Yet these types may change after a 
+		customization action and their cached version may become obsolete. That is why
+		the customized types cache must be cleared after each customization action
+		and no other type cache should be used.
+		
+		

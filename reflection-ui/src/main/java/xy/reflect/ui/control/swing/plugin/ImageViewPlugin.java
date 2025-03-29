@@ -139,7 +139,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		protected ReflectionUI reflectionUI;
 		protected ITypeInfo type;
-		protected ITypeInfo returnType;
 
 		public ImageConstructor(ReflectionUI reflectionUI, ITypeInfo type) {
 			this.reflectionUI = reflectionUI;
@@ -148,20 +147,17 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			if (returnType == null) {
-				returnType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
-					@Override
-					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-						return null;
-					}
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(type.getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return null;
+				}
 
-					@Override
-					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
-					}
-				});
-			}
-			return returnType;
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "ConstructorReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + "]";
+				}
+			});
 		}
 
 		@Override
@@ -649,8 +645,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 									return result;
 								}
 
-							}.wrapTypeInfo(swingRenderer.getReflectionUI().getTypeInfo(
-									new JavaTypeInfoSource(File.class, null)));
+							}.wrapTypeInfo(swingRenderer.getReflectionUI()
+									.getTypeInfo(new JavaTypeInfoSource(File.class, null)));
 						}
 
 					};

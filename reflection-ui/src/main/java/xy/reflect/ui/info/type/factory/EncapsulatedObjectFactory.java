@@ -596,8 +596,6 @@ public class EncapsulatedObjectFactory {
 				for (IMethodInfo ctor : fieldType.getConstructors()) {
 					constructors.add(new MethodInfoProxy(ctor) {
 
-						ITypeInfo returnValueType;
-
 						@Override
 						public Object invoke(Object ignore, InvocationData invocationData) {
 							return getInstance(Accessor.returning(super.invoke(ignore, invocationData), true));
@@ -605,10 +603,7 @@ public class EncapsulatedObjectFactory {
 
 						@Override
 						public ITypeInfo getReturnValueType() {
-							if (returnValueType == null) {
-								returnValueType = reflectionUI.getTypeInfo(TypeInfo.this.getSource());
-							}
-							return returnValueType;
+							return reflectionUI.getTypeInfo(TypeInfo.this.getSource());
 						}
 
 						@Override
@@ -777,8 +772,6 @@ public class EncapsulatedObjectFactory {
 
 	public class ValueFieldInfo extends AbstractInfo implements IFieldInfo {
 
-		protected ITypeInfo type;
-
 		@Override
 		public String getName() {
 			return fieldName;
@@ -874,21 +867,18 @@ public class EncapsulatedObjectFactory {
 
 		@Override
 		public ITypeInfo getType() {
-			if (type == null) {
-				type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(fieldType.getSource()) {
-					@Override
-					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-						return new SpecificitiesIdentifier(typeName, ValueFieldInfo.this.getName());
-					}
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(fieldType.getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(typeName, ValueFieldInfo.this.getName());
+				}
 
-					@Override
-					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType=" + typeName
-								+ "]";
-					}
-				});
-			}
-			return type;
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType=" + typeName
+							+ "]";
+				}
+			});
 		}
 
 		@Override

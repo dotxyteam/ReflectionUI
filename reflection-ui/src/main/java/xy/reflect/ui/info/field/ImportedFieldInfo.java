@@ -18,7 +18,6 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ImportedFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo type;
 	protected String targetFieldName;
 	protected ITypeInfo targetObjectType;
 
@@ -58,11 +57,8 @@ public class ImportedFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
-					new SpecificitiesIdentifier(targetObjectType.getName(), ImportedFieldInfo.this.getName())));
-		}
-		return type;
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
+				new SpecificitiesIdentifier(targetObjectType.getName(), ImportedFieldInfo.this.getName())));
 	}
 
 	@Override

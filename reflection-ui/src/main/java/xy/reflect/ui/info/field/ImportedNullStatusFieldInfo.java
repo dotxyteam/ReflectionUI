@@ -26,7 +26,6 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo nullStatusField;
 	protected ITypeInfo objectType;
-	protected ITypeInfo type;
 
 	public ImportedNullStatusFieldInfo(ReflectionUI reflectionUI, IFieldInfo base, IFieldInfo nullStatusField,
 			ITypeInfo objectType) {
@@ -72,23 +71,19 @@ public class ImportedNullStatusFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = super.getType();
-			type = new InfoProxyFactory() {
+		return new InfoProxyFactory() {
 
-				@Override
-				protected boolean isConcrete(ITypeInfo type) {
-					return true;
-				}
+			@Override
+			protected boolean isConcrete(ITypeInfo type) {
+				return true;
+			}
 
-				@Override
-				public String toString() {
-					return "ConcreteTypeMaker [field=" + ImportedNullStatusFieldInfo.this + "]";
-				}
+			@Override
+			public String toString() {
+				return "ConcreteTypeMaker [field=" + ImportedNullStatusFieldInfo.this + "]";
+			}
 
-			}.wrapTypeInfo(type);
-		}
-		return type;
+		}.wrapTypeInfo(super.getType());
 	}
 
 	@Override

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.enumeration;
 
 import java.util.Collections;
@@ -50,15 +48,9 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 	public List<IMethodInfo> getConstructors() {
 		return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
 
-			ITypeInfo returnValueType;
-
 			@Override
 			public ITypeInfo getReturnValueType() {
-				if (returnValueType == null) {
-					returnValueType = reflectionUI
-							.getTypeInfo(new PrecomputedTypeInfoSource(StandardEnumerationTypeInfo.this, null));
-				}
-				return returnValueType;
+				return reflectionUI.getTypeInfo(new PrecomputedTypeInfoSource(StandardEnumerationTypeInfo.this, null));
 			}
 
 			@Override

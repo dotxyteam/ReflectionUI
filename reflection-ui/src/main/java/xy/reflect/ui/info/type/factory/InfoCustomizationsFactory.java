@@ -852,9 +852,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									SubMethodInfo delegate = new SubMethodInfo(customizedUI, itemPositionAsField,
 											itemMethod, actualItemType);
 
-									boolean returnValueVoid = false;
-									ITypeInfo returnValueType;
-
 									@Override
 									public String getName() {
 										return methodName;
@@ -892,31 +889,25 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 									}
 
 									public ITypeInfo getReturnValueType() {
-										if (returnValueVoid) {
+										if (delegate.getReturnValueType() == null) {
 											return null;
-										}
-										if (returnValueType == null) {
-											if (delegate.getReturnValueType() == null) {
-												returnValueVoid = true;
-											} else {
-												returnValueType = customizedUI.getTypeInfo(new TypeInfoSourceProxy(
-														delegate.getReturnValueType().getSource()) {
-													@Override
-													public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-														return null;
-													}
+										} else {
+											return customizedUI.getTypeInfo(
+													new TypeInfoSourceProxy(delegate.getReturnValueType().getSource()) {
+														@Override
+														public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+															return null;
+														}
 
-													@Override
-													protected String getTypeInfoProxyFactoryIdentifier() {
-														return "DynamicActionReturnValueTypeInfoProxyFactory [of="
-																+ getClass().getName() + ", listType="
-																+ listType.getName() + ", method="
-																+ shortcut.getMethodSignature() + "]";
-													}
-												});
-											}
+														@Override
+														protected String getTypeInfoProxyFactoryIdentifier() {
+															return "DynamicActionReturnValueTypeInfoProxyFactory [of="
+																	+ getClass().getName() + ", listType="
+																	+ listType.getName() + ", method="
+																	+ shortcut.getMethodSignature() + "]";
+														}
+													});
 										}
-										return returnValueType;
 									}
 
 									public Object invoke(Object object, InvocationData invocationData) {
@@ -3123,8 +3114,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				if (fc.isDuplicateGenerated()) {
 					IFieldInfo duplicateField = new FieldInfoProxy(field) {
 
-						ITypeInfo type;
-
 						@Override
 						public String getName() {
 							return super.getName() + ".duplicate";
@@ -3142,21 +3131,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 						@Override
 						public ITypeInfo getType() {
-							if (type == null) {
-								type = customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
-									@Override
-									public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-										return new SpecificitiesIdentifier(objectType.getName(), getName());
-									}
+							return customizedUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+								@Override
+								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+									return new SpecificitiesIdentifier(objectType.getName(), getName());
+								}
 
-									@Override
-									protected String getTypeInfoProxyFactoryIdentifier() {
-										return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", field="
-												+ getName() + ", objectType=" + objectType.getName() + "]";
-									}
-								});
-							}
-							return type;
+								@Override
+								protected String getTypeInfoProxyFactoryIdentifier() {
+									return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", field="
+											+ getName() + ", objectType=" + objectType.getName() + "]";
+								}
+							});
 						}
 					};
 					newFields.add(duplicateField);

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.structure.column;
 
 import java.util.Collections;
@@ -21,9 +19,9 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class FieldColumnInfo extends AbstractInfo implements IColumnInfo {
 
+	protected ReflectionUI reflectionUI;
 	protected IFieldInfo field;
 	protected ITypeInfo ownerType;
-	protected ReflectionUI reflectionUI;
 
 	public FieldColumnInfo(ReflectionUI reflectionUI, ITypeInfo ownerType, IFieldInfo field) {
 		this.reflectionUI = reflectionUI;

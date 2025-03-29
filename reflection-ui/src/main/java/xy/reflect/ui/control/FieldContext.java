@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control;
 
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -15,8 +13,8 @@ import xy.reflect.ui.info.type.ITypeInfo;
  */
 public class FieldContext implements IContext {
 
-	protected IFieldInfo field;
 	protected ITypeInfo objectType;
+	protected IFieldInfo field;
 
 	public FieldContext(ITypeInfo objectType, IFieldInfo field) {
 		this.objectType = objectType;

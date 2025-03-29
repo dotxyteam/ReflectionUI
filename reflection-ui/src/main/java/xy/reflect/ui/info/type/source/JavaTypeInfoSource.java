@@ -140,7 +140,11 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		TypeResolver typeResolver = new TypeResolver();
 		ResolvedType resolvedType = null;
 		if (declaringMember == null) {
-			resolvedType = typeResolver.resolve(javaType);
+			if (genericTypeParameters != null) {
+				resolvedType = typeResolver.resolve(javaType, genericTypeParameters);
+			} else {
+				resolvedType = typeResolver.resolve(javaType);
+			}
 		} else {
 			MemberResolver memberResolver = new MemberResolver(typeResolver);
 			ResolvedType declaringResolvedType = typeResolver.resolve(declaringMember.getDeclaringClass());

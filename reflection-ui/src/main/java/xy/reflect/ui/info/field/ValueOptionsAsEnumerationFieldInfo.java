@@ -23,7 +23,6 @@ public abstract class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy 
 	protected ReflectionUI reflectionUI;
 
 	protected GenericEnumerationFactory enumFactory;
-	protected ITypeInfo enumType;
 
 	protected abstract Object getObject();
 
@@ -31,8 +30,6 @@ public abstract class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy 
 		super(base);
 		this.reflectionUI = reflectionUI;
 		this.enumFactory = createEnumerationFactory();
-		this.enumType = reflectionUI.getTypeInfo(enumFactory
-				.getInstanceTypeInfoSource(new SpecificitiesIdentifier(getObjectType().getName(), getName())));
 	}
 
 	protected GenericEnumerationFactory createEnumerationFactory() {
@@ -89,7 +86,8 @@ public abstract class ValueOptionsAsEnumerationFieldInfo extends FieldInfoProxy 
 
 	@Override
 	public ITypeInfo getType() {
-		return enumType;
+		return reflectionUI.getTypeInfo(enumFactory
+				.getInstanceTypeInfoSource(new SpecificitiesIdentifier(getObjectType().getName(), getName())));
 	}
 
 	@Override

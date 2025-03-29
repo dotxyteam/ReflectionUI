@@ -32,7 +32,6 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected FutureActionBuilder undoJobBuilder;
 	protected FutureActionBuilder redoJobBuilder;
 	protected ITypeInfo objectType;
-	protected ITypeInfo type;
 
 	public SubFieldInfo(ReflectionUI reflectionUI, IFieldInfo theField, IFieldInfo theSubField, ITypeInfo objectType) {
 		this.reflectionUI = reflectionUI;
@@ -86,22 +85,19 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(theSubField.getType().getSource()) {
-				@Override
-				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return new SpecificitiesIdentifier(objectType.getName(), SubFieldInfo.this.getName());
-				}
+		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(theSubField.getType().getSource()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return new SpecificitiesIdentifier(objectType.getName(), SubFieldInfo.this.getName());
+			}
 
-				@Override
-				protected String getTypeInfoProxyFactoryIdentifier() {
-					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", subField="
-							+ theSubField.getName() + ", field=" + theField.getName() + ", objectType="
-							+ objectType.getName() + "]";
-				}
-			});
-		}
-		return type;
+			@Override
+			protected String getTypeInfoProxyFactoryIdentifier() {
+				return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", subField="
+						+ theSubField.getName() + ", field=" + theField.getName() + ", objectType="
+						+ objectType.getName() + "]";
+			}
+		});
 	}
 
 	@Override

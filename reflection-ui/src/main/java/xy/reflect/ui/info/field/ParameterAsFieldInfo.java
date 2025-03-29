@@ -22,8 +22,6 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 	protected IMethodInfo method;
 	protected ITypeInfo objectType;
 
-	protected ITypeInfo type;
-
 	public ParameterAsFieldInfo(ReflectionUI reflectionUI, IMethodInfo method, IParameterInfo param,
 			ITypeInfo objectType) {
 		super(param.getName(), param.getType());
@@ -53,22 +51,19 @@ public class ParameterAsFieldInfo extends VirtualFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
-				@Override
-				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return new SpecificitiesIdentifier(objectType.getName(), getName());
-				}
+		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(param.getType().getSource()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return new SpecificitiesIdentifier(objectType.getName(), getName());
+			}
 
-				@Override
-				protected String getTypeInfoProxyFactoryIdentifier() {
-					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", baseParameter="
-							+ param.getName() + ", method=" + method.getSignature() + ", objectType="
-							+ objectType.getName() + "]";
-				}
-			});
-		}
-		return type;
+			@Override
+			protected String getTypeInfoProxyFactoryIdentifier() {
+				return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", baseParameter="
+						+ param.getName() + ", method=" + method.getSignature() + ", objectType=" + objectType.getName()
+						+ "]";
+			}
+		});
 	}
 
 	public void ensureInitialValueIsDefaultParameterValue(Object object) {

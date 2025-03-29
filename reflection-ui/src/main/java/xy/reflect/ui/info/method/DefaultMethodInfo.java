@@ -38,8 +38,6 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected ReflectionUI reflectionUI;
 	protected Method javaMethod;
 	protected List<IParameterInfo> parameters;
-	protected ITypeInfo returnValueType;
-	protected boolean returnValueVoid = false;
 	protected int duplicateNameIndex = -1;
 	protected String name;
 	protected String caption;
@@ -179,18 +177,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		if (returnValueVoid) {
+		if (javaMethod.getReturnType() == void.class) {
 			return null;
+		} else {
+			return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod, -1, null));
 		}
-		if (returnValueType == null) {
-			if (javaMethod.getReturnType() == void.class) {
-				returnValueVoid = true;
-			} else {
-				returnValueType = reflectionUI.getTypeInfo(
-						new JavaTypeInfoSource(javaMethod.getReturnType(), javaMethod, -1, null));
-			}
-		}
-		return returnValueType;
 	}
 
 	@Override

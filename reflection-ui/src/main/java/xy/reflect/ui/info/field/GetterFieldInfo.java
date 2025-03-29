@@ -45,7 +45,6 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected Method javaGetterMethod;
 	protected Class<?> objectJavaClass;
-	protected ITypeInfo type;
 	protected IMethodInfo setterMethodInfo;
 	protected int duplicateNameIndex = -1;
 	protected String name;
@@ -222,14 +221,10 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI
-					.getTypeInfo(new JavaTypeInfoSource(javaGetterMethod.getReturnType(), javaGetterMethod, -1,
-							new SpecificitiesIdentifier(
-									reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
-									GetterFieldInfo.this.getName())));
-		}
-		return type;
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaGetterMethod.getReturnType(), javaGetterMethod, -1,
+				new SpecificitiesIdentifier(
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
+						GetterFieldInfo.this.getName())));
 	}
 
 	@Override

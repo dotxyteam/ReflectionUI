@@ -51,7 +51,6 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
 	protected ITypeInfo objectType;
-	protected ITypeInfo type;
 
 	public CapsuleFieldInfo(ReflectionUI reflectionUI, String fieldName, List<IFieldInfo> encapsulatedFields,
 			List<IMethodInfo> encapsulatedMethods, ITypeInfo objectType) {
@@ -148,10 +147,7 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
-		}
-		return type;
+		return reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 	}
 
 	@Override
@@ -676,8 +672,6 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public class EncapsulatedFieldInfoProxy extends FieldInfoProxy {
 
-		protected ITypeInfo type;
-
 		public EncapsulatedFieldInfoProxy(IFieldInfo base) {
 			super(base);
 		}
@@ -688,24 +682,21 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public ITypeInfo getType() {
-			if (type == null) {
-				type = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
 
-					@Override
-					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-						return new SpecificitiesIdentifier(CapsuleFieldInfo.this.getType().getName(),
-								EncapsulatedFieldInfoProxy.this.getName());
-					}
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return new SpecificitiesIdentifier(CapsuleFieldInfo.this.getType().getName(),
+							EncapsulatedFieldInfoProxy.this.getName());
+				}
 
-					@Override
-					protected String getTypeInfoProxyFactoryIdentifier() {
-						return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
-								+ objectType.getName() + ", field=" + EncapsulatedFieldInfoProxy.this.getName() + "]";
-					}
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "FieldValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
+							+ objectType.getName() + ", field=" + EncapsulatedFieldInfoProxy.this.getName() + "]";
+				}
 
-				});
-			}
-			return type;
+			});
 		}
 
 		@Override
@@ -773,9 +764,6 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public class EncapsulatedMethodInfoProxy extends MethodInfoProxy {
 
-		protected boolean returnValueVoid = false;
-		protected ITypeInfo returnValueType;
-
 		public EncapsulatedMethodInfoProxy(IMethodInfo base) {
 			super(base);
 		}
@@ -786,30 +774,23 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 
 		@Override
 		public ITypeInfo getReturnValueType() {
-			if (returnValueVoid) {
+			if (super.getReturnValueType() == null) {
 				return null;
-			}
-			if (returnValueType == null) {
-				if (super.getReturnValueType() == null) {
-					returnValueVoid = true;
-				} else {
-					returnValueType = reflectionUI
-							.getTypeInfo(new TypeInfoSourceProxy(super.getReturnValueType().getSource()) {
-								@Override
-								public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-									return null;
-								}
+			} else {
+				return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getReturnValueType().getSource()) {
+					@Override
+					public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+						return null;
+					}
 
-								@Override
-								protected String getTypeInfoProxyFactoryIdentifier() {
-									return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
-											+ ", objectType=" + objectType.getName() + ", method="
-											+ EncapsulatedMethodInfoProxy.this.getSignature() + "]";
-								}
-							});
-				}
+					@Override
+					protected String getTypeInfoProxyFactoryIdentifier() {
+						return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
+								+ objectType.getName() + ", method=" + EncapsulatedMethodInfoProxy.this.getSignature()
+								+ "]";
+					}
+				});
 			}
-			return returnValueType;
 		}
 
 		@Override
@@ -853,11 +834,13 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 			object = ((Value) object).getObject();
 			return super.getNextInvocationUndoJob(object, invocationData);
 		}
+
 		@Override
 		public Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData) {
 			object = ((Value) object).getObject();
 			return super.getPreviousInvocationCustomRedoJob(object, invocationData);
 		}
+
 		@Override
 		public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 			object = ((Value) object).getObject();

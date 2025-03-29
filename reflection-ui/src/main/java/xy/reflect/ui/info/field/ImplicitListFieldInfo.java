@@ -52,7 +52,6 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected String fieldName;
-	protected IListTypeInfo type;
 	protected ITypeInfo itemType;
 	protected ITypeInfo parentType;
 	protected String createMethodName;
@@ -186,11 +185,8 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public IListTypeInfo getType() {
-		if (type == null) {
-			type = (IListTypeInfo) reflectionUI
-					.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
-		}
-		return type;
+		return (IListTypeInfo) reflectionUI
+				.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 	}
 
 	@Override

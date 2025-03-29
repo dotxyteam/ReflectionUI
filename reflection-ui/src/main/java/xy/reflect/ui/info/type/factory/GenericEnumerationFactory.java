@@ -424,14 +424,9 @@ public class GenericEnumerationFactory {
 			} else {
 				return Collections.<IMethodInfo>singletonList(new AbstractConstructorInfo() {
 
-					ITypeInfo returnValueType;
-
 					@Override
 					public ITypeInfo getReturnValueType() {
-						if (returnValueType == null) {
-							returnValueType = reflectionUI.getTypeInfo(TypeInfo.this.getSource());
-						}
-						return returnValueType;
+						return reflectionUI.getTypeInfo(TypeInfo.this.getSource());
 					}
 
 					@Override

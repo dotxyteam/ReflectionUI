@@ -28,7 +28,6 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	protected ReflectionUI reflectionUI;
 	protected IFieldInfo field;
 	protected ITypeInfo objectType;
-	protected ITypeInfo returnValueType;
 
 	public FieldAsGetterInfo(ReflectionUI reflectionUI, IFieldInfo field, ITypeInfo objectType) {
 		this.reflectionUI = reflectionUI;
@@ -142,21 +141,18 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		if (returnValueType == null) {
-			returnValueType = reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
-				@Override
-				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-					return null;
-				}
+		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(field.getType().getSource()) {
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return null;
+			}
 
-				@Override
-				protected String getTypeInfoProxyFactoryIdentifier() {
-					return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
-							+ objectType.getName() + ", baseField=" + field.getName() + "]";
-				}
-			});
-		}
-		return returnValueType;
+			@Override
+			protected String getTypeInfoProxyFactoryIdentifier() {
+				return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", objectType="
+						+ objectType.getName() + ", baseField=" + field.getName() + "]";
+			}
+		});
 
 	}
 

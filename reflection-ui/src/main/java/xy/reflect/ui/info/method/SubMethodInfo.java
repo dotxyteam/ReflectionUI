@@ -35,8 +35,6 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected FutureActionBuilder undoJobBuilder;
 	protected FutureActionBuilder redoJobBuilder;
 	protected ITypeInfo objectType;
-	protected ITypeInfo returnValueType;
-	protected boolean returnValueVoid = false;
 
 	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod,
 			ITypeInfo objectType) {
@@ -84,30 +82,23 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		if (returnValueVoid) {
+		if (theSubMethod.getReturnValueType() == null) {
 			return null;
-		}
-		if (returnValueType == null) {
-			if (theSubMethod.getReturnValueType() == null) {
-				returnValueVoid = true;
-			} else {
-				returnValueType = reflectionUI
-						.getTypeInfo(new TypeInfoSourceProxy(theSubMethod.getReturnValueType().getSource()) {
-							@Override
-							public SpecificitiesIdentifier getSpecificitiesIdentifier() {
-								return null;
-							}
+		} else {
+			return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(theSubMethod.getReturnValueType().getSource()) {
+				@Override
+				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+					return null;
+				}
 
-							@Override
-							protected String getTypeInfoProxyFactoryIdentifier() {
-								return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName()
-										+ ", subMethod=" + theSubMethod.getSignature() + ", field=" + theField.getName()
-										+ ", objectType=" + objectType.getName() + "]";
-							}
-						});
-			}
+				@Override
+				protected String getTypeInfoProxyFactoryIdentifier() {
+					return "MethodReturnValueTypeInfoProxyFactory [of=" + getClass().getName() + ", subMethod="
+							+ theSubMethod.getSignature() + ", field=" + theField.getName() + ", objectType="
+							+ objectType.getName() + "]";
+				}
+			});
 		}
-		return returnValueType;
 	}
 
 	@Override

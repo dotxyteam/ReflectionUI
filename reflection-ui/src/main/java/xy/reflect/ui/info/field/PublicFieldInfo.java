@@ -33,7 +33,6 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	protected Field javaField;
 	protected ReflectionUI reflectionUI;
-	protected ITypeInfo type;
 	protected Class<?> objectJavaClass;
 	protected int duplicateNameIndex = -1;
 	protected String name;
@@ -170,13 +169,10 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField, -1,
-					new SpecificitiesIdentifier(
-							reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
-							javaField.getName())));
-		}
-		return type;
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaField.getType(), javaField, -1,
+				new SpecificitiesIdentifier(
+						reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null)).getName(),
+						javaField.getName())));
 	}
 
 	@Override

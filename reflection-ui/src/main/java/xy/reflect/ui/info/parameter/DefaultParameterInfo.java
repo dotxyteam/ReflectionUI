@@ -24,7 +24,6 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	protected ReflectionUI reflectionUI;
 	protected Parameter javaParameter;
-	protected ITypeInfo type;
 	private int position;
 	protected String name;
 
@@ -48,8 +47,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 			if (javaParameter.isNamePresent()) {
 				name = javaParameter.getName();
 			} else {
-				name = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(), null))
-						.getCaption();
+				name = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(), null)).getCaption();
 				int sameNameCount = 0;
 				int sameNamePosition = 0;
 				int parameterPosition = 0;
@@ -79,11 +77,8 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	@Override
 	public ITypeInfo getType() {
-		if (type == null) {
-			type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
-					javaParameter.getDeclaringExecutable(), position, null));
-		}
-		return type;
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
+				javaParameter.getDeclaringExecutable(), position, null));
 	}
 
 	@Override
