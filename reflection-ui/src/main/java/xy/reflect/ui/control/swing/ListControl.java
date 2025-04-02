@@ -1634,27 +1634,29 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void refreshTreeTableModelAndControl(final boolean refreshStructure) {
-		restoringColumnWidthsAsMuchAsPossible(new Runnable() {
+		Runnable action = new Runnable() {
 			@Override
 			public void run() {
 				valuesByNode.clear();
 				rootNode = createRootNode();
 				treeTableComponent.setTreeTableModel(createTreeTableModel());
-				if (refreshStructure) {
-					TableColumnModel columnModel = treeTableComponent.getColumnModel();
-					{
-						List<IColumnInfo> columnInfos = getRootStructuralInfo().getColumns();
-						for (int i = 0; i < columnInfos.size(); i++) {
-							IColumnInfo columnInfo = columnInfos.get(i);
-							TableColumn column = columnModel.getColumn(i);
-							column.setPreferredWidth(columnInfo.getMinimalCharacterCount()
-									* SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
-						}
-					}
+			}
+		};
+		if (refreshStructure) {
+			action.run();
+			TableColumnModel columnModel = treeTableComponent.getColumnModel();
+			{
+				List<IColumnInfo> columnInfos = getRootStructuralInfo().getColumns();
+				for (int i = 0; i < columnInfos.size(); i++) {
+					IColumnInfo columnInfo = columnInfos.get(i);
+					TableColumn column = columnModel.getColumn(i);
+					column.setPreferredWidth(columnInfo.getMinimalCharacterCount()
+							* SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
 				}
 			}
-		});
-
+		} else {
+			restoringColumnWidthsAsMuchAsPossible(action);
+		}
 	}
 
 	public void visitItems(IItemsVisitor iItemsVisitor) {
