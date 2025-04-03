@@ -81,7 +81,9 @@ import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
+import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
+import xy.reflect.ui.control.swing.renderer.MethodControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ResourcePath;
@@ -891,6 +893,27 @@ public class SwingRendererUtils {
 		for (Form form : findDescendantForms(container, swingRenderer)) {
 			if (object == form.getObject()) {
 				return form;
+			}
+		}
+		return null;
+	}
+
+	public static Component findDescendantFieldControl(Container container, String fieldName, SwingRenderer swingRenderer) {
+		for (Form form : findDescendantForms(container, swingRenderer)) {
+			FieldControlPlaceHolder fieldControlPlaceHolder = form.getFieldControlPlaceHolder(fieldName);
+			if (fieldControlPlaceHolder != null) {
+				return fieldControlPlaceHolder.getFieldControl();
+			}
+		}
+		return null;
+	}
+	
+	
+	public static Component findDescendantMethodControl(Container container, String fieldName, SwingRenderer swingRenderer) {
+		for (Form form : findDescendantForms(container, swingRenderer)) {
+			MethodControlPlaceHolder methodControlPlaceHolder = form.getMethodControlPlaceHolder(fieldName);
+			if (methodControlPlaceHolder != null) {
+				return methodControlPlaceHolder.getMethodControl();
 			}
 		}
 		return null;
