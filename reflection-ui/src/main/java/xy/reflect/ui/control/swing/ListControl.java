@@ -645,8 +645,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return null;
 				}
 				IListStructuralInfo structure = getRootStructuralInfo();
-				if (structure.getLength() != -1) {
-					result.height = structure.getLength();
+				if (structure.getHeight() != -1) {
+					result.height = structure.getHeight();
 				}
 				return result;
 			}
@@ -668,8 +668,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return null;
 				}
 				IListStructuralInfo structure = getRootStructuralInfo();
-				if (structure.getLength() != -1) {
-					result.height = structure.getLength();
+				if (structure.getHeight() != -1) {
+					result.height = structure.getHeight();
 					if (getDetailsAccessMode() instanceof EmbeddedItemDetailsAccessMode) {
 						EmbeddedItemDetailsAccessMode embeddedItemDetailsAccessMode = (EmbeddedItemDetailsAccessMode) getDetailsAccessMode();
 						if ((embeddedItemDetailsAccessMode
@@ -678,6 +678,31 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 										.getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.BOTTOM)) {
 							result.height = Math.round(result.height / 2f);
 						}
+					}
+				}
+				return result;
+			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.min(result.height, preferredSize.height);
+					}
+				}
+				return result;
+
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				Dimension result = super.getMaximumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.max(result.height, preferredSize.height);
 					}
 				}
 				return result;
@@ -700,8 +725,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return null;
 				}
 				IListStructuralInfo structure = getRootStructuralInfo();
-				if (structure.getLength() != -1) {
-					result.height = structure.getLength();
+				if (structure.getHeight() != -1) {
+					result.height = structure.getHeight();
 					if (getDetailsAccessMode() instanceof EmbeddedItemDetailsAccessMode) {
 						EmbeddedItemDetailsAccessMode embeddedItemDetailsAccessMode = (EmbeddedItemDetailsAccessMode) getDetailsAccessMode();
 						if ((embeddedItemDetailsAccessMode
@@ -715,7 +740,70 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return result;
 			}
 
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.min(result.height, preferredSize.height);
+					}
+				}
+				return result;
+
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				Dimension result = super.getMaximumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.max(result.height, preferredSize.height);
+					}
+				}
+				return result;
+			}
+
 		};
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension result = super.getPreferredSize();
+		if (result == null) {
+			return null;
+		}
+		IListStructuralInfo structure = getRootStructuralInfo();
+		if (structure.getWidth() != -1) {
+			result.width = structure.getWidth();
+		}
+		return result;
+	}
+
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension result = super.getMinimumSize();
+		if (result != null) {
+			Dimension preferredSize = getPreferredSize();
+			if (preferredSize != null) {
+				result.width = Math.min(result.width, preferredSize.width);
+			}
+		}
+		return result;
+
+	}
+
+	@Override
+	public Dimension getMaximumSize() {
+		Dimension result = super.getMaximumSize();
+		if (result != null) {
+			Dimension preferredSize = getPreferredSize();
+			if (preferredSize != null) {
+				result.width = Math.max(result.width, preferredSize.width);
+			}
+		}
+		return result;
 	}
 
 	protected AbstractBufferedItemPositionFactory createItemPositionfactory() {

@@ -12,7 +12,7 @@ import org.junit.Test;
 import xy.reflect.ui.control.swing.customizer.CustomizationToolsUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.info.custom.InfoCustomizations.ListLenghtCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.ControlSizeCustomization;
 import xy.reflect.ui.info.field.CapsuleFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -75,7 +75,7 @@ public class TestToolsMessages {
 
 	private boolean testSpells(ITypeInfo type) {
 		boolean correctSpells = true;
-		if (!Arrays.asList(ListLenghtCustomization.class.getName()).contains(type.getName())) {
+		if (!Arrays.asList(ControlSizeCustomization.class.getName()).contains(type.getName())) {
 			correctSpells = checkSpell(type.getCaption(), type.getName(), "<caption>") && correctSpells;
 		}
 		if (type.getOnlineHelp() != null) {

@@ -28,7 +28,12 @@ public interface IListStructuralInfo {
 		}
 
 		@Override
-		public int getLength() {
+		public int getWidth() {
+			return -1;
+		}
+
+		@Override
+		public int getHeight() {
 			return -1;
 		}
 
@@ -69,10 +74,19 @@ public interface IListStructuralInfo {
 	IInfoFilter getItemInfoFilter(ItemPosition itemPosition);
 
 	/**
-	 * @return the height (in pixels) of the list or -1 if the default height should
-	 *         be used. Note that when the list is actually a tree then this method
-	 *         must be called from the root list type information.
+	 * @return the height (in pixels) of the list control or -1 if the default
+	 *         height should be used. Note that when the list is actually a tree,
+	 *         only the return value from the root list type information should be
+	 *         considered.
 	 */
-	int getLength();
+	int getHeight();
+
+	/**
+	 * @return the width (in pixels) of the list control or -1 if the default width
+	 *         should be used. Note that when the list is actually a tree, only the
+	 *         return value from the root list type information should be
+	 *         considered.
+	 */
+	int getWidth();
 
 }

@@ -1,8 +1,6 @@
 
 package xy.reflect.ui;
 
-import java.util.Map;
-
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
@@ -16,7 +14,6 @@ import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -32,9 +29,7 @@ public class CustomizedUI extends ReflectionUI {
 
 	protected InfoCustomizations infoCustomizations;
 
-	protected Map<ITypeInfo, ITypeInfo> customizedTypesCache = MiscUtils.newWeakValuesEqualityBasedMap();
-	protected Object customizedTypesCacheMutex = new Object();
-
+	
 	/**
 	 * @return the default instance of this class. This instance is constructed with
 	 *         the {@link InfoCustomizations#getDefault()} return value.
@@ -63,14 +58,7 @@ public class CustomizedUI extends ReflectionUI {
 		this(new InfoCustomizations());
 	}
 
-	/**
-	 * @return the cache that maps {@link ITypeInfo} non-customized instances to
-	 *         customized instances.
-	 */
-	public Map<ITypeInfo, ITypeInfo> getCustomizedTypesCache() {
-		return customizedTypesCache;
-	}
-
+	
 	/**
 	 * @return the abstract UI model customizations specification.
 	 */
@@ -81,9 +69,9 @@ public class CustomizedUI extends ReflectionUI {
 	@Override
 	public final ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 		ITypeInfo result = super.getTypeInfo(typeSource);
-		synchronized (customizedTypesCacheMutex) {
+		synchronized (getTypeCacheMutex()) {
 			ITypeInfo customizedTypesCacheKey = result;
-			ITypeInfo cachedResult = customizedTypesCache.get(customizedTypesCacheKey);
+			ITypeInfo cachedResult = typeCache.get(customizedTypesCacheKey);
 			if (cachedResult != null) {
 				result = cachedResult;
 			} else {
@@ -95,7 +83,7 @@ public class CustomizedUI extends ReflectionUI {
 					result = getSpecificitiesFactory(specificitiesIdentifier).wrapTypeInfo(result);
 				}
 				result = getTypeInfoAfterCustomizations(result);
-				customizedTypesCache.put(customizedTypesCacheKey, result);
+				typeCache.put(customizedTypesCacheKey, result);
 			}
 		}
 		return result;

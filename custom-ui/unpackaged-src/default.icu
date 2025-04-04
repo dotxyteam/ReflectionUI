@@ -7913,6 +7913,9 @@
         </categoriesForegroundColor>
         <categoriesStyle>CLASSIC</categoriesStyle>
         <copyForbidden>false</copyForbidden>
+        <customFieldsOrder>leftPrimitives</customFieldsOrder>
+        <customFieldsOrder>rightPrimitives</customFieldsOrder>
+        <customFieldsOrder>sidePrimitives</customFieldsOrder>
         <customFieldsOrder>impliciList</customFieldsOrder>
         <customFieldsOrder>theTestDescendantList</customFieldsOrder>
         <customFieldsOrder>selectedItemInTestDescendantList</customFieldsOrder>
@@ -7959,12 +7962,14 @@
         <customFieldsOrder>theStack</customFieldsOrder>
         <customFieldsOrder>theBooleanPrimitive</customFieldsOrder>
         <customFieldsOrder>test2</customFieldsOrder>
+        <customFieldsOrder>primitiveMethods</customFieldsOrder>
         <customFieldsOrder>theString.duplicate</customFieldsOrder>
         <customFieldsOrder>theString.duplicate.duplicate</customFieldsOrder>
         <customFieldsOrder>theImage</customFieldsOrder>
         <customFieldsOrder>dates</customFieldsOrder>
         <customFieldsOrder>fieldToImportAsParameter</customFieldsOrder>
         <customFieldsOrder>textOf-java.lang.String-echoParameterExportedAsField-java.lang.String</customFieldsOrder>
+        <customFieldsOrder>generalMethods</customFieldsOrder>
         <customFieldsOrder>theDate</customFieldsOrder>
         <customFieldsOrder>theDatePlus1Day</customFieldsOrder>
         <customFieldsOrder>theFloatArray</customFieldsOrder>
@@ -7994,7 +7999,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:636b</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5efe</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8026,7 +8031,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:24</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:636c</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5eff</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8100,7 +8105,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:636d</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f00</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -8182,7 +8187,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:636e</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f01</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -8213,7 +8218,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:636f</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f02</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8590,7 +8595,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6370</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f03</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8645,7 +8650,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-10</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6371</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f04</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8697,7 +8702,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6372</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f05</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -8880,7 +8885,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-4</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6373</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f06</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11152,7 +11157,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:14</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6374</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f07</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11183,7 +11188,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1a</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6375</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f08</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11816,7 +11821,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:16</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6376</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f09</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11847,7 +11852,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-12</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6377</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f0a</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -11879,7 +11884,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:28</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6378</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f0b</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -11910,7 +11915,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6379</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f0c</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -12343,7 +12348,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:-e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:637a</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f0d</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -12399,7 +12404,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:637b</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f0e</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -13710,7 +13715,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1c</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:637c</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f0f</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14330,7 +14335,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:637d</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f10</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14361,7 +14366,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:6</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:637e</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f11</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -14392,7 +14397,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:22</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:637f</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f12</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14449,7 +14454,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:18</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6380</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f13</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -14529,7 +14534,7 @@
             <uniqueIdentifier>1f78d90f:165043762d2:1e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6381</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f14</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16921,7 +16926,7 @@
             <uniqueIdentifier>2e34d93a:17970a4d5a7:-43a9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6382</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f15</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -16979,7 +16984,7 @@
             <uniqueIdentifier>-7fd953ed:179723000f4:-2c20</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6383</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f16</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -17010,7 +17015,7 @@
             <uniqueIdentifier>-715a7328:193a808180d:-5df5</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6384</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f17</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -17062,7 +17067,7 @@
             <uniqueIdentifier>-715a7328:193a808180d:-5dee</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6385</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f18</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -17093,7 +17098,7 @@
             <uniqueIdentifier>42be858e:19421547b9a:-5c67</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6386</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f19</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -17125,7 +17130,7 @@
             <uniqueIdentifier>-487239ca:195766fd159:-13c9</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6387</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f1a</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -19049,7 +19054,7 @@
             <uniqueIdentifier>-387b4a54:19576ed1fe4:-49d</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6388</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f1b</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -19081,7 +19086,7 @@
             <uniqueIdentifier>-387b4a54:19576ed1fe4:-44e</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:6389</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f1c</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -19113,7 +19118,7 @@
             <uniqueIdentifier>-387b4a54:19576ed1fe4:935</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:638a</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f1d</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -19158,6 +19163,488 @@
                         <uniqueIdentifier>-387b4a54:19576ed1fe4:941</uniqueIdentifier>
                     </menuModel>
                     <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=ReflectionUITest$Test], fieldName=sidePrimitives]</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:4edc</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>generalMethods</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>410ac89:1960240ff1a:4ede</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>410ac89:1960240ff1a:4edd</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>410ac89:1960240ff1a:4fd6</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>410ac89:1960240ff1a:4fd7</uniqueIdentifier>
+                    </menuModel>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:4fde</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>removeImplicitListItem</methodName>
+                        <methodSignature>void removeImplicitListItem(int)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:4fdf</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:4fe0</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>integer</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:4fe5</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>getImplicitListItem</methodName>
+                        <methodSignature>java.lang.String getImplicitListItem(int)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:4fe6</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:4fe7</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>integer</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:5168</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>addImplicitListItem</methodName>
+                        <methodSignature>void addImplicitListItem(int, java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:5169</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:516a</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>integer</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:516b</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:516c</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>text</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:5173</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>setImplicitListItem</methodName>
+                        <methodSignature>java.lang.String setImplicitListItem(int, java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:5174</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:5175</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>integer</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:5176</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:5177</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>text</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:519c</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>callWithManyParams</methodName>
+                        <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:519d</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:519e</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>integer</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:519f</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51a0</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>text</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:51a1</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51a2</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>date</parameterName>
+                        </parametersCustomizations>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:51a3</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51a4</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>color</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:51a9</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>echo</methodName>
+                        <methodSignature>java.lang.Object echo(java.lang.Object)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:51aa</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51ab</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>object</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:51b0</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>echoHiddenParameterDefaultValue</methodName>
+                        <methodSignature>java.lang.String echoHiddenParameterDefaultValue(java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:51b1</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51b2</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>text</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:51b7</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>echoParameterExportedAsField</methodName>
+                        <methodSignature>java.lang.String echoParameterExportedAsField(java.lang.String)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:51b8</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51b9</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>text</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:51be</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>save</methodName>
+                        <methodSignature>void save(java.io.File)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:51bf</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51c0</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>file</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:51c5</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>load</methodName>
+                        <methodSignature>void load(java.io.File)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:51c6</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:51c7</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>file</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=ReflectionUITest$Test], fieldName=generalMethods]</typeName>
+                    <undoManagementHidden>false</undoManagementHidden>
+                    <validationRequirementForced>false</validationRequirementForced>
+                </typeCustomizations>
+            </specificTypeCustomizations>
+            <transientForced>false</transientForced>
+        </fieldsCustomizations>
+        <fieldsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:605b</uniqueIdentifier>
+            <specificProperties/>
+            <category>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f1e</uniqueIdentifier>
+                <caption>Primitives</caption>
+            </category>
+            <categoryCaption>Primitives</categoryCaption>
+            <hidden>false</hidden>
+            <customFieldCaption></customFieldCaption>
+            <displayedAsSingletonList>false</displayedAsSingletonList>
+            <duplicateGenerated>false</duplicateGenerated>
+            <fieldName>primitiveMethods</fieldName>
+            <formControlCreationForced>false</formControlCreationForced>
+            <formControlEmbeddingForced>true</formControlEmbeddingForced>
+            <getOnlyForced>false</getOnlyForced>
+            <getterGenerated>false</getterGenerated>
+            <nullReplacement>
+                <uniqueIdentifier>410ac89:1960240ff1a:605d</uniqueIdentifier>
+            </nullReplacement>
+            <nullStatusFieldExported>false</nullStatusFieldExported>
+            <nullValueDistinctForced>false</nullValueDistinctForced>
+            <setterGenerated>false</setterGenerated>
+            <specificTypeCustomizations>
+                <applicationCustomization>
+                    <uniqueIdentifier>410ac89:1960240ff1a:605c</uniqueIdentifier>
+                    <specificProperties/>
+                    <systemIntegrationCrossPlatform>false</systemIntegrationCrossPlatform>
+                </applicationCustomization>
+                <typeCustomizations>
+                    <uniqueIdentifier>410ac89:1960240ff1a:6062</uniqueIdentifier>
+                    <specificProperties/>
+                    <abstractForced>false</abstractForced>
+                    <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+                    <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+                    <copyForbidden>false</copyForbidden>
+                    <immutableForced>false</immutableForced>
+                    <menuModel>
+                        <uniqueIdentifier>410ac89:1960240ff1a:6063</uniqueIdentifier>
+                    </menuModel>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:6069</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>multiplyTheFloat</methodName>
+                        <methodSignature>void multiplyTheFloat(int)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:606a</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:606b</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>integer</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:6070</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>multiplyTheInt</methodName>
+                        <methodSignature>void multiplyTheInt(int)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:6071</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:6072</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>integer</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <methodsCustomizations>
+                        <uniqueIdentifier>410ac89:1960240ff1a:6077</uniqueIdentifier>
+                        <specificProperties/>
+                        <hidden>false</hidden>
+                        <detachedReturnValueForced>false</detachedReturnValueForced>
+                        <duplicateGenerated>false</duplicateGenerated>
+                        <ignoredReturnValueForced>false</ignoredReturnValueForced>
+                        <methodName>mySin</methodName>
+                        <methodSignature>double mySin(double)</methodSignature>
+                        <parametersCustomizations>
+                            <uniqueIdentifier>410ac89:1960240ff1a:6078</uniqueIdentifier>
+                            <specificProperties/>
+                            <defaultValue>
+<uniqueIdentifier>410ac89:1960240ff1a:6079</uniqueIdentifier>
+                            </defaultValue>
+                            <displayedAsField>false</displayedAsField>
+                            <hidden>false</hidden>
+                            <nullValueDistinctForced>false</nullValueDistinctForced>
+                            <parameterName>double</parameterName>
+                        </parametersCustomizations>
+                        <readOnlyForced>false</readOnlyForced>
+                        <returnValueFieldGenerated>false</returnValueFieldGenerated>
+                        <runWhenObjectHidden>false</runWhenObjectHidden>
+                        <runWhenObjectShown>false</runWhenObjectShown>
+                        <validating>false</validating>
+                    </methodsCustomizations>
+                    <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=ReflectionUITest$Test], fieldName=primitiveMethods]</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                     <validationRequirementForced>false</validationRequirementForced>
                 </typeCustomizations>
@@ -19265,6 +19752,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>callWithManyParams</methodName>
             <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
@@ -19368,6 +19856,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>echo</methodName>
             <methodSignature>java.lang.Object echo(java.lang.Object)</methodSignature>
@@ -19395,6 +19884,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>echoFieldImportedAsParameter</methodName>
             <methodSignature>java.lang.String echoFieldImportedAsParameter()</methodSignature>
@@ -19459,6 +19949,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>echoHiddenParameterDefaultValue</methodName>
             <methodSignature>java.lang.String echoHiddenParameterDefaultValue(java.lang.String)</methodSignature>
@@ -19491,6 +19982,7 @@
             <customMethodCaption>Echo Preset Parameter Value</customMethodCaption>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>preset01Of-java.lang.String-echoHiddenParameterDefaultValue-java.lang.String</methodName>
             <methodSignature>java.lang.String preset01Of-java.lang.String-echoHiddenParameterDefaultValue-java.lang.String()</methodSignature>
@@ -19506,6 +19998,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>echoParameterExportedAsField</methodName>
             <methodSignature>java.lang.String echoParameterExportedAsField(java.lang.String)</methodSignature>
@@ -19531,7 +20024,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1061</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:638b</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f1f</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
@@ -19539,6 +20032,7 @@
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
             <enablementStatusFieldName>theBooleanPrimitive</enablementStatusFieldName>
+            <encapsulationFieldName>primitiveMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <menu>
                 <uniqueIdentifier>-55d0412e:1652056c391:9c9</uniqueIdentifier>
@@ -19558,6 +20052,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>load</methodName>
             <methodSignature>void load(java.io.File)</methodSignature>
@@ -19582,13 +20077,14 @@
             <uniqueIdentifier>1f78d90f:165043762d2:37</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:638c</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f20</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>primitiveMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <menu>
                 <uniqueIdentifier>-55d0412e:1652056c391:9c9</uniqueIdentifier>
@@ -19628,13 +20124,14 @@
             <uniqueIdentifier>1f78d90f:165043762d2:38</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:638d</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f21</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>primitiveMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <menu>
                 <uniqueIdentifier>-55d0412e:1652056c391:9c9</uniqueIdentifier>
@@ -19674,7 +20171,7 @@
             <uniqueIdentifier>-55d0412e:16520501dc8:1062</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:638e</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f22</uniqueIdentifier>
                 <caption>Lists</caption>
             </category>
             <categoryCaption>Lists</categoryCaption>
@@ -19700,6 +20197,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>save</methodName>
             <methodSignature>void save(java.io.File)</methodSignature>
@@ -19726,6 +20224,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>verify</methodName>
             <methodSignature>void verify()</methodSignature>
@@ -19758,13 +20257,14 @@
             <uniqueIdentifier>42be858e:19421590dc8:-7a2</uniqueIdentifier>
             <specificProperties/>
             <category>
-                <uniqueIdentifier>-428113b7:195ba9167d6:638f</uniqueIdentifier>
+                <uniqueIdentifier>3b15b3a:1960250c6fe:5f23</uniqueIdentifier>
                 <caption>Primitives</caption>
             </category>
             <categoryCaption>Primitives</categoryCaption>
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>primitiveMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>mySin</methodName>
             <methodSignature>double mySin(double)</methodSignature>
@@ -19818,6 +20318,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>removeImplicitListItem</methodName>
             <methodSignature>void removeImplicitListItem(int)</methodSignature>
@@ -19844,6 +20345,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>getImplicitListItem</methodName>
             <methodSignature>java.lang.String getImplicitListItem(int)</methodSignature>
@@ -19870,6 +20372,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>addImplicitListItem</methodName>
             <methodSignature>void addImplicitListItem(int, java.lang.String)</methodSignature>
@@ -19907,6 +20410,7 @@
             <hidden>false</hidden>
             <detachedReturnValueForced>false</detachedReturnValueForced>
             <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
             <ignoredReturnValueForced>false</ignoredReturnValueForced>
             <methodName>setImplicitListItem</methodName>
             <methodSignature>java.lang.String setImplicitListItem(int, java.lang.String)</methodSignature>
@@ -19932,6 +20436,118 @@
                 <nullValueDistinctForced>false</nullValueDistinctForced>
                 <parameterName>text</parameterName>
             </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240d6bb:-562d</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>doInterruptibleLongTask</methodName>
+            <methodSignature>void doInterruptibleLongTask()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240d6bb:-562c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>doUninterruptibleLongTask</methodName>
+            <methodSignature>void doUninterruptibleLongTask()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240d6bb:-562b</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>throwException</methodName>
+            <methodSignature>void throwException()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240d6bb:-562a</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>returnAnyObject</methodName>
+            <methodSignature>java.lang.Object returnAnyObject()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240d6bb:-5629</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>returnNothing</methodName>
+            <methodSignature>java.lang.Object returnNothing()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240d6bb:-5628</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>createImplicitListItem</methodName>
+            <methodSignature>java.lang.String createImplicitListItem()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240d6bb:-5626</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <encapsulationFieldName>generalMethods</encapsulationFieldName>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>bannerImage.get</methodName>
+            <methodSignature>java.awt.Image bannerImage.get()</methodSignature>
             <readOnlyForced>false</readOnlyForced>
             <returnValueFieldGenerated>false</returnValueFieldGenerated>
             <runWhenObjectHidden>false</runWhenObjectHidden>
@@ -20339,6 +20955,7 @@
             <runWhenObjectShown>true</runWhenObjectShown>
             <validating>false</validating>
         </methodsCustomizations>
+        <methodsLayout>VERTICAL_FLOW</methodsLayout>
         <typeName>ReflectionUITest$Test2</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <validationRequirementForced>false</validationRequirementForced>
@@ -56271,6 +56888,455 @@
             <validating>false</validating>
         </methodsCustomizations>
         <typeName>java.util.Collection</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>410ac89:1960240ff1a:4f1e</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <formWidth>
+            <uniqueIdentifier>410ac89:1960240ff1a:5158</uniqueIdentifier>
+            <unit>PIXELS</unit>
+            <value>1000</value>
+        </formWidth>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>410ac89:1960240ff1a:4f1f</uniqueIdentifier>
+        </menuModel>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:4fda</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>removeImplicitListItem</methodName>
+            <methodSignature>void removeImplicitListItem(int)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:4fdc</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:4fdd</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>integer</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:4fe1</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>getImplicitListItem</methodName>
+            <methodSignature>java.lang.String getImplicitListItem(int)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:4fe3</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:4fe4</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>integer</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:5162</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>addImplicitListItem</methodName>
+            <methodSignature>void addImplicitListItem(int, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:5164</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:5165</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>integer</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:5166</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:5167</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:516d</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>setImplicitListItem</methodName>
+            <methodSignature>java.lang.String setImplicitListItem(int, java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:516f</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:5170</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>integer</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:5171</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:5172</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:5192</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>callWithManyParams</methodName>
+            <methodSignature>void callWithManyParams(int, java.lang.String, java.util.Date, java.awt.Color)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:5194</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:5195</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>integer</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:5196</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:5197</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:5198</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:5199</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>date</parameterName>
+            </parametersCustomizations>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:519a</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:519b</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>color</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:51a5</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>echo</methodName>
+            <methodSignature>java.lang.Object echo(java.lang.Object)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:51a7</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:51a8</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>object</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>true</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:51ac</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>echoHiddenParameterDefaultValue</methodName>
+            <methodSignature>java.lang.String echoHiddenParameterDefaultValue(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:51ae</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:51af</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:51b3</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>echoParameterExportedAsField</methodName>
+            <methodSignature>java.lang.String echoParameterExportedAsField(java.lang.String)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:51b5</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:51b6</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>text</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>true</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:51ba</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>save</methodName>
+            <methodSignature>void save(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:51bc</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:51bd</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>file</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:51c1</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>load</methodName>
+            <methodSignature>void load(java.io.File)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:51c3</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:51c4</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>file</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:51cc</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <customMethodCaption>Echo Preset Parameter Value</customMethodCaption>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>preset01Of-java.lang.String-echoHiddenParameterDefaultValue-java.lang.String</methodName>
+            <methodSignature>java.lang.String preset01Of-java.lang.String-echoHiddenParameterDefaultValue-java.lang.String()</methodSignature>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=ReflectionUITest$Test], fieldName=generalMethods]</typeName>
+        <undoManagementHidden>false</undoManagementHidden>
+        <validationRequirementForced>false</validationRequirementForced>
+    </typeCustomizations>
+    <typeCustomizations>
+        <uniqueIdentifier>410ac89:1960240ff1a:605e</uniqueIdentifier>
+        <specificProperties/>
+        <abstractForced>false</abstractForced>
+        <anyDefaultObjectMemberIncluded>false</anyDefaultObjectMemberIncluded>
+        <anyPersistenceMemberIncluded>false</anyPersistenceMemberIncluded>
+        <copyForbidden>false</copyForbidden>
+        <formWidth>
+            <uniqueIdentifier>410ac89:1960240ff1a:607a</uniqueIdentifier>
+            <unit>PIXELS</unit>
+            <value>1000</value>
+        </formWidth>
+        <immutableForced>false</immutableForced>
+        <menuModel>
+            <uniqueIdentifier>410ac89:1960240ff1a:605f</uniqueIdentifier>
+        </menuModel>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:6065</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>multiplyTheFloat</methodName>
+            <methodSignature>void multiplyTheFloat(int)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:6067</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:6068</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>integer</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:606c</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>multiplyTheInt</methodName>
+            <methodSignature>void multiplyTheInt(int)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:606e</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:606f</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>integer</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <methodsCustomizations>
+            <uniqueIdentifier>410ac89:1960240ff1a:6073</uniqueIdentifier>
+            <specificProperties/>
+            <hidden>false</hidden>
+            <detachedReturnValueForced>false</detachedReturnValueForced>
+            <duplicateGenerated>false</duplicateGenerated>
+            <ignoredReturnValueForced>false</ignoredReturnValueForced>
+            <methodName>mySin</methodName>
+            <methodSignature>double mySin(double)</methodSignature>
+            <parametersCustomizations>
+                <uniqueIdentifier>410ac89:1960240ff1a:6075</uniqueIdentifier>
+                <specificProperties/>
+                <defaultValue>
+                    <uniqueIdentifier>410ac89:1960240ff1a:6076</uniqueIdentifier>
+                </defaultValue>
+                <displayedAsField>false</displayedAsField>
+                <hidden>false</hidden>
+                <nullValueDistinctForced>false</nullValueDistinctForced>
+                <parameterName>double</parameterName>
+            </parametersCustomizations>
+            <readOnlyForced>false</readOnlyForced>
+            <returnValueFieldGenerated>false</returnValueFieldGenerated>
+            <runWhenObjectHidden>false</runWhenObjectHidden>
+            <runWhenObjectShown>false</runWhenObjectShown>
+            <validating>false</validating>
+        </methodsCustomizations>
+        <typeName>CapsuleFieldType [context=EncapsulationContext [objectType=ReflectionUITest$Test], fieldName=primitiveMethods]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
         <validationRequirementForced>false</validationRequirementForced>
     </typeCustomizations>

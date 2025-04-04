@@ -4,6 +4,8 @@ package xy.reflect.ui;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.app.ApplicationInfoProxy;
@@ -29,6 +31,9 @@ import xy.reflect.ui.util.SystemProperties;
 public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
+
+	protected Map<Object, ITypeInfo> typeCache = MiscUtils.newWeakValuesEqualityBasedMap();
+	protected Object typeCacheMutex = new Object();
 
 	/**
 	 * Constructs an instance of this class.
@@ -68,6 +73,28 @@ public class ReflectionUI {
 			};
 		}
 		return defaultInstance;
+	}
+
+	/**
+	 * @return the cache that stores {@link ITypeInfo} instances obtained from this
+	 *         {@link ReflectionUI} instance. The {@link ITypeInfo} instances in
+	 *         this cache will be garbage collected once they are weakly reachable.
+	 *         Developers that implement new {@link ITypeInfo} classes are
+	 *         encouraged to use this map to store their instances in order to
+	 *         improve performances.
+	 */
+	public Map<Object, ITypeInfo> getTypeCache() {
+		return typeCache;
+	}
+
+	/**
+	 * @return the mutual-exclusion object (also called monitor) that should be used
+	 *         to synchronize accesses and updates of the cache returned by
+	 *         {@link #getTypeCache()}. Note that using alternate monitors may lead
+	 *         to dead-lock situations.
+	 */
+	public Object getTypeCacheMutex() {
+		return typeCacheMutex;
 	}
 
 	/**

@@ -1,3 +1,4 @@
+- fix some customiation tools border issues with white background
 - when a plugin control cannot display null values, then the plugin is selectable
 but the plugin control does not appear inside the nullableControl
 - when a field conversion is badly specified, then the field is not customizable

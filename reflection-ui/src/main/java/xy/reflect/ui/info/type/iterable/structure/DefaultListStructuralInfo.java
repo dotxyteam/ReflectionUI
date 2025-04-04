@@ -30,7 +30,12 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	}
 
 	@Override
-	public int getLength() {
+	public int getWidth() {
+		return -1;
+	}
+
+	@Override
+	public int getHeight() {
 		return -1;
 	}
 

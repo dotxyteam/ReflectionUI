@@ -276,11 +276,6 @@ public class Form extends ImagePanel {
 		Dimension result = super.getPreferredSize();
 		if (result == null) {
 			result = new Dimension(100, 100);
-		} else {
-			int screenWidth = SwingRendererUtils.getScreenBounds(this).width;
-			if (result.width > screenWidth) {
-				result.width = screenWidth;
-			}
 		}
 		if (objectType != null) {
 			Dimension configuredSize = new Dimension(objectType.getFormPreferredWidth(),
@@ -1526,10 +1521,7 @@ public class Form extends ImagePanel {
 			updateMethodControlLayoutInContainer(methodControlPlaceHolder);
 		}
 		methodsPanel.setName("methodsPanel [parent=" + this.getName() + "]");
-		ControlScrollPane scrollPane = new ControlScrollPane(
-				SwingRendererUtils.flowInLayout(methodsPanel, GridBagConstraints.CENTER));
-		SwingRendererUtils.removeScrollPaneBorder(scrollPane);
-		return scrollPane;
+		return SwingRendererUtils.flowInLayout(methodsPanel, GridBagConstraints.CENTER);
 	}
 
 	protected LayoutManager getFieldsPanelLayout() {

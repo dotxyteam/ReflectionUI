@@ -142,11 +142,6 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			Dimension result = super.getPreferredSize();
 			if (result == null) {
 				result = new Dimension(100, 100);
-			} else {
-				int screenWidth = SwingRendererUtils.getScreenBounds(this).width;
-				if (result.width > screenWidth) {
-					result.width = screenWidth;
-				}
 			}
 			if (controlCustomization.width != null) {
 				if (controlCustomization.width.unit == ControlSizeUnit.PIXELS) {
@@ -200,9 +195,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 
 		@Override
 		public boolean refreshUI(boolean refreshStructure) {
-			SplitFormConfiguration controlCustomization = (SplitFormConfiguration) loadControlCustomization(input);
 			if (refreshStructure) {
-				SwingRendererUtils.ensureDividerLocation(this, controlCustomization.defaultDividerLocation);
 				SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
 					@Override
 					public Border get() {
@@ -213,7 +206,6 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						}
 					}
 				}, swingRenderer);
-				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			boolean layoutUpdateNeeded = false;
 			if ((subControl1 == null) || !subControl1.refreshUI(refreshStructure)) {
@@ -247,6 +239,8 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			} else {
 				throw new ReflectionUIError();
 			}
+			SwingRendererUtils.ensureDividerLocation(this, controlCustomization.defaultDividerLocation);
+			setResizeWeight(controlCustomization.defaultDividerLocation);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 

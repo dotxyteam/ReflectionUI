@@ -4187,25 +4187,21 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public enum ListLengthUnit {
+	public enum ControlSizeUnit {
 		PIXELS, SCREEN_PERCENT
 	}
 
-	/**
-	 * Spell error to be fixed: should be "Length" not "Lenght". The customizations
-	 * files should be migrated automatically.
-	 */
-	public static class ListLenghtCustomization extends AbstractCustomization {
+	public static class ControlSizeCustomization extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
-		protected ListLengthUnit unit = ListLengthUnit.PIXELS;
+		protected ControlSizeUnit unit = ControlSizeUnit.PIXELS;
 		protected int value = 400;
 
-		public ListLengthUnit getUnit() {
+		public ControlSizeUnit getUnit() {
 			return unit;
 		}
 
-		public void setUnit(ListLengthUnit unit) {
+		public void setUnit(ControlSizeUnit unit) {
 			this.unit = unit;
 		}
 
@@ -4234,7 +4230,7 @@ public class InfoCustomizations implements Serializable {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ListLenghtCustomization other = (ListLenghtCustomization) obj;
+			ControlSizeCustomization other = (ControlSizeCustomization) obj;
 			if (unit != other.unit)
 				return false;
 			if (value != other.value)
@@ -4244,7 +4240,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return "ListLenghtCustomization [unit=" + unit + ", value=" + value + "]";
+			return "ControlSizeCustomization [unit=" + unit + ", value=" + value + "]";
 		}
 
 	}
@@ -4269,7 +4265,8 @@ public class InfoCustomizations implements Serializable {
 		protected ListEditOptions editOptions = new ListEditOptions();
 		protected boolean listSorted = false;
 		protected IListItemDetailsAccessMode customDetailsAccessMode;
-		protected ListLenghtCustomization length = null;
+		protected ControlSizeCustomization width = null;
+		protected ControlSizeCustomization height = null;
 		protected boolean itemNullValueAllowed = false;
 		protected ItemCreationMode itemCreationMode = ItemCreationMode.UNDEFINED;
 		protected ITypeInfoFinder customItemTypeFinder;
@@ -4326,12 +4323,20 @@ public class InfoCustomizations implements Serializable {
 			this.itemNullValueAllowed = itemNullValueAllowed;
 		}
 
-		public ListLenghtCustomization getLength() {
-			return length;
+		public ControlSizeCustomization getWidth() {
+			return width;
 		}
 
-		public void setLength(ListLenghtCustomization length) {
-			this.length = length;
+		public void setWidth(ControlSizeCustomization width) {
+			this.width = width;
+		}
+
+		public ControlSizeCustomization getHeight() {
+			return height;
+		}
+
+		public void setHeight(ControlSizeCustomization height) {
+			this.height = height;
 		}
 
 		@XmlElements({ @XmlElement(name = "detachedDetailsAccessMode", type = DetachedItemDetailsAccessMode.class),

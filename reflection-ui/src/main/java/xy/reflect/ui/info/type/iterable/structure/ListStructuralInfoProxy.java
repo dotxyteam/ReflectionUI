@@ -25,8 +25,12 @@ public class ListStructuralInfoProxy implements IListStructuralInfo {
 		this.base = base;
 	}
 
-	public int getLength() {
-		return base.getLength();
+	public int getWidth() {
+		return base.getWidth();
+	}
+
+	public int getHeight() {
+		return base.getHeight();
 	}
 
 	public List<IColumnInfo> getColumns() {

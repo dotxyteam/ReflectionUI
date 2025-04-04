@@ -11,7 +11,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.InfoFilter;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.ListLengthUnit;
+import xy.reflect.ui.info.custom.InfoCustomizations.ControlSizeUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -69,18 +69,33 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	@Override
-	public int getLength() {
-		if (listCustomization.getLength() != null) {
-			if (listCustomization.getLength().getUnit() == ListLengthUnit.PIXELS) {
-				return listCustomization.getLength().getValue();
-			} else if (listCustomization.getLength().getUnit() == ListLengthUnit.SCREEN_PERCENT) {
+	public int getWidth() {
+		if (listCustomization.getWidth() != null) {
+			if (listCustomization.getWidth().getUnit() == ControlSizeUnit.PIXELS) {
+				return listCustomization.getWidth().getValue();
+			} else if (listCustomization.getWidth().getUnit() == ControlSizeUnit.SCREEN_PERCENT) {
 				Dimension screenSize = MiscUtils.getDefaultScreenSize();
-				return Math.round((listCustomization.getLength().getValue() / 100f) * screenSize.height);
+				return Math.round((listCustomization.getWidth().getValue() / 100f) * screenSize.width);
 			} else {
 				throw new ReflectionUIError();
 			}
 		}
-		return super.getLength();
+		return super.getWidth();
+	}
+
+	@Override
+	public int getHeight() {
+		if (listCustomization.getHeight() != null) {
+			if (listCustomization.getHeight().getUnit() == ControlSizeUnit.PIXELS) {
+				return listCustomization.getHeight().getValue();
+			} else if (listCustomization.getHeight().getUnit() == ControlSizeUnit.SCREEN_PERCENT) {
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
+				return Math.round((listCustomization.getHeight().getValue() / 100f) * screenSize.height);
+			} else {
+				throw new ReflectionUIError();
+			}
+		}
+		return super.getHeight();
 	}
 
 	protected ITypeInfo findRootItemType() {
