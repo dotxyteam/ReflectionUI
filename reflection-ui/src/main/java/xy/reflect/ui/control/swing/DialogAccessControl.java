@@ -235,13 +235,6 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	protected void openDialog() {
 		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder();
 		subDialogBuilder.createAndShowDialog();
-		if (!ReflectionUIUtils.mayModificationsHaveImpact(
-				ReflectionUIUtils.isValueImmutable(swingRenderer.getReflectionUI(), subDialogBuilder.getCurrentValue()),
-				data.getValueReturnMode(), !data.isGetOnly())) {
-			if (!subDialogBuilder.getModificationStack().isInitial()) {
-				refreshUI(false);
-			}
-		}
 	}
 
 	protected AbstractEditorBuilder createSubDialogBuilder() {

@@ -673,21 +673,23 @@ public class ReflectionUIUtils {
 						parentModificationStack.push(IModification.FAKE_MODIFICATION);
 					}
 				} else {
+					if (debugLogListener != null) {
+						debugLogListener.handle("Undoing sub-modification stack: " + currentModificationsStack);
+					}
+					currentModificationsStack.undoAll();
 					if (!currentModificationsStack.wasInvalidated()) {
-						if (debugLogListener != null) {
-							debugLogListener.handle("Undoing sub-modification stack: " + currentModificationsStack);
+						if (parentControlRefreshJob != null) {
+							parentControlRefreshJob.run();
 						}
-						currentModificationsStack.undoAll();
 					} else {
 						if (errorLogListener != null) {
 							errorLogListener.handle(
-									"Cannot undo invalidated sub-modification stack: " + currentModificationsStack);
+									"Detected invalidated sub-modification stack: " + currentModificationsStack);
 						}
 						if (parentModificationStack != null) {
 							if (debugLogListener != null) {
-								debugLogListener.handle(
-										"Failed to undo sub-modification stack invalidated => Invalidating parent modification stack: "
-												+ parentModificationStack);
+								debugLogListener
+										.handle("Invalidating parent modification stack: " + parentModificationStack);
 							}
 							parentModificationStack.invalidate();
 						}
@@ -1325,11 +1327,10 @@ public class ReflectionUIUtils {
 		result.setValueClass(javaType);
 		return result;
 	}
-	
-	
+
 	public static NumberFormat getNativeNumberFormat(final Class<?> javaType) {
 		return new NumberFormat() {
-			
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -1338,12 +1339,12 @@ public class ReflectionUIUtils {
 				parsePosition.setIndex(source.length());
 				return result;
 			}
-			
+
 			@Override
 			public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
 				return toAppendTo.append(primitiveToString(number));
 			}
-			
+
 			@Override
 			public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
 				return toAppendTo.append(primitiveToString(number));
