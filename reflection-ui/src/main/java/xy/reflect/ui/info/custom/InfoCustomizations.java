@@ -482,12 +482,12 @@ public class InfoCustomizations implements Serializable {
 		return result;
 	}
 
-	public static List<String> getMemberCategoryCaptionOptions(InfoCustomizations infoCustomizations,
+	public static List<String> getMemberCategoryNameOptions(InfoCustomizations infoCustomizations,
 			AbstractMemberCustomization m) {
 		TypeCustomization tc = findParentTypeCustomization(infoCustomizations, m);
 		List<String> result = new ArrayList<String>();
 		for (CustomizationCategory c : tc.getMemberCategories()) {
-			result.add(c.getCaption());
+			result.add(c.getName());
 		}
 		return result;
 	}

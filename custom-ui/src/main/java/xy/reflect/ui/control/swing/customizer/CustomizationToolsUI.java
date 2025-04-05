@@ -142,7 +142,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			protected boolean hasValueOptions(IFieldInfo field, Object object, ITypeInfo objectType) {
-				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
+				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryName")) {
 					return true;
 				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
 					return true;
@@ -153,8 +153,8 @@ public class CustomizationToolsUI extends CustomizedUI {
 
 			@Override
 			protected Object[] getValueOptions(IFieldInfo field, Object object, ITypeInfo objectType) {
-				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryCaption")) {
-					List<String> result = InfoCustomizations.getMemberCategoryCaptionOptions(
+				if ((object instanceof AbstractMemberCustomization) && field.getName().equals("categoryName")) {
+					List<String> result = InfoCustomizations.getMemberCategoryNameOptions(
 							swingCustomizer.getInfoCustomizations(), (AbstractMemberCustomization) object);
 					return result.toArray();
 				} else if ((object instanceof MethodCustomization) && field.getName().equals("menuLocation")) {
@@ -349,7 +349,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 				} else if (object instanceof ColumnCustomization) {
 					return ((ColumnCustomization) object).getColumnName();
 				} else if (object instanceof CustomizationCategory) {
-					return ((CustomizationCategory) object).getCaption();
+					return ((CustomizationCategory) object).getName();
 				} else if (object instanceof ResourcePath) {
 					String result = ((ResourcePath) object).getSpecification();
 					if (result.length() == 0) {
