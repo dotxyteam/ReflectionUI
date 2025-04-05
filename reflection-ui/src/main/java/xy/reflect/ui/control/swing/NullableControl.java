@@ -107,8 +107,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 				add(currentSubControl, BorderLayout.CENTER);
 				nullStatusControl.setText("");
-				((JComponent) currentSubControl).setBorder(
-						BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
 				SwingRendererUtils.showFieldCaptionOnBorder(data, (JComponent) currentSubControl, new Accessor<Border>() {
 					@Override
 					public Border get() {
@@ -123,7 +121,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					((JComponent) currentSubControl).setBorder(
 							BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
 				} else {
-					((JComponent) currentSubControl).setBorder(BorderFactory.createEtchedBorder());
+					((JComponent) currentSubControl).setBorder(BorderFactory.createTitledBorder(""));
 				}
 			}
 			SwingRendererUtils.handleComponentSizeChange(this);

@@ -96,7 +96,7 @@ public class CustomizationController {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						swingCustomizer.getCustomizedUI().getTypeCache().clear();
+						swingCustomizer.getCustomizedUI().clearCustomizationsCache();
 						SwingRendererUtils.refreshAllDisplayedForms(swingCustomizer, true);
 					}
 				});
