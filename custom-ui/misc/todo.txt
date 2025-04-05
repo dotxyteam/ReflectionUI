@@ -40,5 +40,5 @@ it is a textual storage
 - allow to customize online help on list properties/actions
 - allow to clean customizations
 - preset customizations object names must be special 
-	. ex: prefixe with '.': Field ".position" or ".type"
+	. ex: prefix with '.': Field ".position" or ".type"
 

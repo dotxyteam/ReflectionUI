@@ -2602,12 +2602,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 					@Override
 					public InfoCategory getCategory() {
-						String categoryName = mc.getCategoryCaption();
+						String categoryName = mc.getCategoryName();
 						List<CustomizationCategory> categories = objectTypeCustomization.getMemberCategories();
 						int categoryPosition = -1;
 						int i = 0;
 						for (CustomizationCategory c : categories) {
-							if (c.getCaption().equals(categoryName)) {
+							if (c.getName().equals(categoryName)) {
 								categoryPosition = i;
 								break;
 							}
@@ -2983,12 +2983,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 					@Override
 					public InfoCategory getCategory() {
-						String categoryName = fc.getCategoryCaption();
+						String categoryName = fc.getCategoryName();
 						List<CustomizationCategory> categories = objectTypeCustomization.getMemberCategories();
 						int categoryPosition = -1;
 						int i = 0;
 						for (CustomizationCategory c : categories) {
-							if (c.getCaption().equals(categoryName)) {
+							if (c.getName().equals(categoryName)) {
 								categoryPosition = i;
 								break;
 							}

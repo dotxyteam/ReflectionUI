@@ -2023,15 +2023,39 @@ public class InfoCustomizations implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		protected String caption;
+		protected String name;
+		protected String customCaption;
 		protected ResourcePath iconImagePath;
 
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getCustomCaption() {
+			return customCaption;
+		}
+
+		public void setCustomCaption(String customCaption) {
+			this.customCaption = customCaption;
+		}
+
 		public String getCaption() {
-			return caption;
+			if (customCaption != null) {
+				return customCaption;
+			}
+			return ReflectionUIUtils.identifierToCaption(name);
 		}
 
 		public void setCaption(String caption) {
-			this.caption = caption;
+			if (name == null) {
+				this.name = caption;
+				return;
+			}
+			this.customCaption = caption;
 		}
 
 		public ResourcePath getIconImagePath() {
@@ -2046,8 +2070,9 @@ public class InfoCustomizations implements Serializable {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((caption == null) ? 0 : caption.hashCode());
+			result = prime * result + ((customCaption == null) ? 0 : customCaption.hashCode());
 			result = prime * result + ((iconImagePath == null) ? 0 : iconImagePath.hashCode());
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
 			return result;
 		}
 
@@ -2060,22 +2085,28 @@ public class InfoCustomizations implements Serializable {
 			if (getClass() != obj.getClass())
 				return false;
 			CustomizationCategory other = (CustomizationCategory) obj;
-			if (caption == null) {
-				if (other.caption != null)
+			if (customCaption == null) {
+				if (other.customCaption != null)
 					return false;
-			} else if (!caption.equals(other.caption))
+			} else if (!customCaption.equals(other.customCaption))
 				return false;
 			if (iconImagePath == null) {
 				if (other.iconImagePath != null)
 					return false;
 			} else if (!iconImagePath.equals(other.iconImagePath))
 				return false;
+			if (name == null) {
+				if (other.name != null)
+					return false;
+			} else if (!name.equals(other.name))
+				return false;
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			return "CustomizationCategory [caption=" + caption + ", iconImagePath=" + iconImagePath + "]";
+			return "CustomizationCategory [name=" + name + ", customCaption=" + customCaption + ", iconImagePath="
+					+ iconImagePath + "]";
 		}
 
 	}
@@ -2083,8 +2114,8 @@ public class InfoCustomizations implements Serializable {
 	public static abstract class AbstractMemberCustomization extends AbstractInfoCustomization {
 		private static final long serialVersionUID = 1L;
 
+		protected String categoryName;
 		protected boolean hidden = false;
-		protected String categoryCaption;
 		protected String onlineHelp;
 
 		public boolean isHidden() {
@@ -2095,22 +2126,32 @@ public class InfoCustomizations implements Serializable {
 			this.hidden = hidden;
 		}
 
-		public String getCategoryCaption() {
-			return categoryCaption;
+		public String getCategoryName() {
+			return categoryName;
 		}
 
+		public void setCategoryName(String categoryName) {
+			this.categoryName = categoryName;
+		}
+
+		// for backward compatibility
+		public String getCategoryCaption() {
+			return categoryName;
+		}
+
+		// for backward compatibility
 		public void setCategoryCaption(String categoryCaption) {
-			this.categoryCaption = categoryCaption;
+			this.categoryName = categoryCaption;
 		}
 
 		// for backward compatibility
 		@Deprecated
 		public CustomizationCategory getCategory() {
-			if (categoryCaption == null) {
+			if (categoryName == null) {
 				return null;
 			} else {
 				CustomizationCategory result = new CustomizationCategory();
-				result.setCaption(categoryCaption);
+				result.setCaption(categoryName);
 				return result;
 			}
 		}
@@ -2119,9 +2160,9 @@ public class InfoCustomizations implements Serializable {
 		@Deprecated
 		public void setCategory(CustomizationCategory category) {
 			if (category == null) {
-				this.categoryCaption = null;
+				this.categoryName = null;
 			} else {
-				this.categoryCaption = category.getCaption();
+				this.categoryName = category.getCaption();
 			}
 		}
 
