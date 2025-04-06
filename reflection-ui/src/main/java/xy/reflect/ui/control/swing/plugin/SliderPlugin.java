@@ -188,6 +188,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 							"The value is less than the minimum value: " + intValue + " < " + getMinimum());
 				}
 				setValue(intValue);
+				setToolTipText(Integer.toString(intValue));
 				return true;
 			} finally {
 				listenerDisabled = false;

@@ -296,6 +296,33 @@ public class SwingRendererUtils {
 			if ((splitPane.getWidth() > 0) && (splitPane.getHeight() > 0)
 					&& (splitPane.getMinimumDividerLocation() < splitPane.getMaximumDividerLocation())) {
 				splitPane.setDividerLocation(proportionalLocation);
+				splitPane.addComponentListener(new ComponentAdapter() {
+					final int lastDividerLocation = splitPane.getDividerLocation();
+					final Dimension lastSize = splitPane.getSize();
+
+					@Override
+					public void componentResized(ComponentEvent ce) {
+						splitPane.removeComponentListener(this);
+						detectAndFixIgnoredResizeWeightIssue();
+					}
+
+					private void detectAndFixIgnoredResizeWeightIssue() {
+						if(splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+							if(lastSize.width == splitPane.getWidth()) {
+								return;
+							}
+						}
+						if(splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT) {
+							if(lastSize.height == splitPane.getHeight()) {
+								return;
+							}
+						}
+						if ((splitPane.getResizeWeight() != 0.0)
+								&& (lastDividerLocation == splitPane.getDividerLocation())) {
+							splitPane.setDividerLocation(proportionalLocation);
+						}
+					}
+				});
 			} else {
 				splitPane.addComponentListener(new ComponentAdapter() {
 					@Override
@@ -898,7 +925,8 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	public static Component findDescendantFieldControl(Container container, String fieldName, SwingRenderer swingRenderer) {
+	public static Component findDescendantFieldControl(Container container, String fieldName,
+			SwingRenderer swingRenderer) {
 		for (Form form : findDescendantForms(container, swingRenderer)) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = form.getFieldControlPlaceHolder(fieldName);
 			if (fieldControlPlaceHolder != null) {
@@ -907,9 +935,9 @@ public class SwingRendererUtils {
 		}
 		return null;
 	}
-	
-	
-	public static Component findDescendantMethodControl(Container container, String fieldName, SwingRenderer swingRenderer) {
+
+	public static Component findDescendantMethodControl(Container container, String fieldName,
+			SwingRenderer swingRenderer) {
 		for (Form form : findDescendantForms(container, swingRenderer)) {
 			MethodControlPlaceHolder methodControlPlaceHolder = form.getMethodControlPlaceHolder(fieldName);
 			if (methodControlPlaceHolder != null) {
