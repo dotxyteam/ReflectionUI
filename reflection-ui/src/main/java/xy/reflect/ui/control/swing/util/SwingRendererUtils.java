@@ -307,13 +307,13 @@ public class SwingRendererUtils {
 					}
 
 					private void detectAndFixIgnoredResizeWeightIssue() {
-						if(splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-							if(lastSize.width == splitPane.getWidth()) {
+						if (splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+							if (lastSize.width == splitPane.getWidth()) {
 								return;
 							}
 						}
-						if(splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT) {
-							if(lastSize.height == splitPane.getHeight()) {
+						if (splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT) {
+							if (lastSize.height == splitPane.getHeight()) {
 								return;
 							}
 						}
@@ -925,23 +925,23 @@ public class SwingRendererUtils {
 		return null;
 	}
 
-	public static Component findDescendantFieldControl(Container container, String fieldName,
+	public static FieldControlPlaceHolder findDescendantFieldControlPlaceHolder(Container container, String fieldName,
 			SwingRenderer swingRenderer) {
 		for (Form form : findDescendantForms(container, swingRenderer)) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = form.getFieldControlPlaceHolder(fieldName);
 			if (fieldControlPlaceHolder != null) {
-				return fieldControlPlaceHolder.getFieldControl();
+				return fieldControlPlaceHolder;
 			}
 		}
 		return null;
 	}
 
-	public static Component findDescendantMethodControl(Container container, String fieldName,
+	public static MethodControlPlaceHolder findDescendantMethodControlPlaceHolder(Container container, String fieldName,
 			SwingRenderer swingRenderer) {
 		for (Form form : findDescendantForms(container, swingRenderer)) {
 			MethodControlPlaceHolder methodControlPlaceHolder = form.getMethodControlPlaceHolder(fieldName);
 			if (methodControlPlaceHolder != null) {
-				return methodControlPlaceHolder.getMethodControl();
+				return methodControlPlaceHolder;
 			}
 		}
 		return null;

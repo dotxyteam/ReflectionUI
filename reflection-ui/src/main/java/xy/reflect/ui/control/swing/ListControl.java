@@ -850,6 +850,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return new ItemNode(null);
 	}
 
+	public List<BufferedItemPosition> getRootListItemPositions() {
+		List<ItemPosition> result = itemPositionFactory.getRootItemPositions();
+		if (result == null) {
+			return null;
+		}
+		return MiscUtils.<ItemPosition, BufferedItemPosition>convertCollectionUnsafely(result);
+	}
+
 	public BufferedItemPosition getRootListItemPosition(int index) {
 		return itemPositionFactory.getRootItemPosition(index);
 	}

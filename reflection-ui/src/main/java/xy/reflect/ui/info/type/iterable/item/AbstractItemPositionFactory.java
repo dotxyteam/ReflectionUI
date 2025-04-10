@@ -1,6 +1,9 @@
 
 package xy.reflect.ui.info.type.iterable.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 
@@ -55,12 +58,27 @@ public abstract class AbstractItemPositionFactory {
 
 	/**
 	 * @param index
-	 * @return a new root item position initialized with given index.
+	 * @return the root item position for with given index.
 	 */
 	public ItemPosition getRootItemPosition(int index) {
 		ItemPosition result = createItemPosition();
 		result.factory = this;
 		result.index = index;
+		return result;
+	}
+
+	/**
+	 * @return all the root item positions.
+	 */
+	public List<ItemPosition> getRootItemPositions() {
+		Object[] rootListRawValue = getRootListRawValue();
+		if (rootListRawValue == null) {
+			return null;
+		}
+		List<ItemPosition> result = new ArrayList<ItemPosition>();
+		for (int i = 0; i < rootListRawValue.length; i++) {
+			result.add(getRootItemPosition(i));
+		}
 		return result;
 	}
 
