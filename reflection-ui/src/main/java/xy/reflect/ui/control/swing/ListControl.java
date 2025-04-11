@@ -879,7 +879,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			label.setToolTipText(null);
 		} else {
 			label.setText(text.replaceAll(MiscUtils.getNewLineRegex(), " "));
-			SwingRendererUtils.setMultilineToolTipText(label, text);
+			label.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(text));
 		}
 
 		Image iconImage = getCellIconImage(node, columnIndex);
@@ -1191,7 +1191,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		for (int selectedRow : treeTableComponent.getSelectedRows()) {
 			TreePath path = treeTableComponent.getPathForRow(selectedRow);
 			if (path == null) {
-				return null;
+				continue;
 			}
 			ItemNode selectedNode = (ItemNode) path.getLastPathComponent();
 			BufferedItemPosition bufferedItemPosition = getItemPositionByNode(selectedNode);

@@ -69,7 +69,7 @@ public abstract class AbstractControlButton extends JButton {
 
 		setText(buttonText);
 		if ((buttonToolTipText != null) && (buttonToolTipText.length() > 0)) {
-			SwingRendererUtils.setMultilineToolTipText(this, buttonToolTipText);
+			this.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(buttonToolTipText));
 		} else {
 			setToolTipText(null);
 		}

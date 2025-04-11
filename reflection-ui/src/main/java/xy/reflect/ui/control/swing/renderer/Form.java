@@ -53,6 +53,7 @@ import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlTabbedPane;
+import xy.reflect.ui.control.swing.util.HyperlinkLabel;
 import xy.reflect.ui.control.swing.util.ImagePanel;
 import xy.reflect.ui.control.swing.util.ListTabbedPane;
 import xy.reflect.ui.control.swing.util.ModificationStackControls;
@@ -410,19 +411,27 @@ public class Form extends ImagePanel {
 		} else {
 			errorMsg = MiscUtils.getPrettyErrorMessage(e);
 			errorMsg = MiscUtils.multiToSingleLine(errorMsg);
-			errorMsg = "<HTML>" + MiscUtils.escapeHTML(errorMsg, true) + "</HTML>";
 		}
-		if (!MiscUtils.equalsOrBothNull(errorMsg, ((JLabel) statusBar).getText())) {
+		if (!MiscUtils.equalsOrBothNull(errorMsg, statusBar.getText())) {
 			if (e != null) {
 				swingRenderer.getReflectionUI().logDebug(e);
 			}
 			if (errorMsg == null) {
-				((JLabel) statusBar).setIcon(null);
-				((JLabel) statusBar).setText(null);
+				statusBar.setIcon(null);
+				statusBar.setText(null);
+				statusBar.setToolTipText(null);
+				((HyperlinkLabel) statusBar).setLinkOpener(null);
 				statusBar.setVisible(false);
 			} else {
-				((JLabel) statusBar).setIcon(SwingRendererUtils.ERROR_ICON);
-				((JLabel) statusBar).setText(errorMsg);
+				statusBar.setIcon(SwingRendererUtils.ERROR_ICON);
+				statusBar.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(errorMsg));
+				statusBar.setText(errorMsg);
+				((HyperlinkLabel) statusBar).setLinkOpener(new Runnable() {
+					@Override
+					public void run() {
+						swingRenderer.openErrorDetailsDialog(statusBar, e);
+					}
+				});
 				statusBar.setVisible(true);
 			}
 			SwingRendererUtils.handleComponentSizeChange(statusBar);
@@ -596,7 +605,7 @@ public class Form extends ImagePanel {
 	}
 
 	protected JLabel createStatusBar() {
-		JLabel result = new JLabel();
+		JLabel result = new HyperlinkLabel();
 		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
 		result.setName("statusBar");
@@ -1233,14 +1242,14 @@ public class Form extends ImagePanel {
 				} else {
 					statusBar.setBorder(BorderFactory.createRaisedBevelBorder());
 				}
-			}
-			Font labelCustomFont = getLabelCustomFont();
-			{
-				if (labelCustomFont != null) {
-					statusBar.setFont(
-							labelCustomFont.deriveFont(statusBar.getFont().getStyle(), statusBar.getFont().getSize()));
-				} else {
-					statusBar.setFont(new JLabel().getFont());
+				Font labelCustomFont = getLabelCustomFont();
+				{
+					if (labelCustomFont != null) {
+						statusBar.setFont(labelCustomFont.deriveFont(statusBar.getFont().getStyle(),
+								statusBar.getFont().getSize()));
+					} else {
+						statusBar.setFont(createStatusBar().getFont());
+					}
 				}
 			}
 		}

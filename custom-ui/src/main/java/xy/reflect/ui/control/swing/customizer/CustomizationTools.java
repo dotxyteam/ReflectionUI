@@ -276,19 +276,17 @@ public class CustomizationTools {
 								ConversionMethodFinder conversionMethodFinder = new ConversionMethodFinder();
 								{
 									conversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
-									conversionMethodFinder
-											.setConversionMethodSignature(ReflectionUIUtils.buildMethodSignature(
-													new DefaultConstructorInfo(ReflectionUI.getDefault(),
-															ImageIcon.class.getConstructor(Image.class))));
+									conversionMethodFinder.setConversionMethodSignature(ReflectionUIUtils
+											.buildMethodSignature(new DefaultConstructorInfo(ReflectionUI.getDefault(),
+													ImageIcon.class.getConstructor(Image.class))));
 									storageMapping.setConversionMethodFinder(conversionMethodFinder);
 								}
 								ConversionMethodFinder reverseConversionMethodFinder = new ConversionMethodFinder();
 								{
 									reverseConversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
-									reverseConversionMethodFinder
-											.setConversionMethodSignature(ReflectionUIUtils.buildMethodSignature(
-													new DefaultMethodInfo(ReflectionUI.getDefault(),
-															ImageIcon.class.getMethod("getImage"))));
+									reverseConversionMethodFinder.setConversionMethodSignature(
+											ReflectionUIUtils.buildMethodSignature(new DefaultMethodInfo(
+													ReflectionUI.getDefault(), ImageIcon.class.getMethod("getImage"))));
 									storageMapping.setReverseConversionMethodFinder(reverseConversionMethodFinder);
 								}
 								nullReplacement.setPreConversion(storageMapping);
@@ -327,7 +325,7 @@ public class CustomizationTools {
 
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								swingCustomizer.getCustomizedUI().clearCustomizationsCache();								
+								swingCustomizer.getCustomizedUI().clearCustomizationsCache();
 								Form form = SwingRendererUtils.findParentForm(result, swingCustomizer);
 								try {
 									form.refresh(true);
@@ -441,8 +439,8 @@ public class CustomizationTools {
 
 	public Component makeButtonForField(final FieldControlPlaceHolder fieldControlPlaceHolder) {
 		final JButton result = makeButton();
-		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
-				.prepareMessageToDisplay(getCustomizationTitle(fieldControlPlaceHolder.getField().getName())));
+		result.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(toolsRenderer
+				.prepareMessageToDisplay(getCustomizationTitle(fieldControlPlaceHolder.getField().getName()))));
 		result.addActionListener(new ActionListener() {
 
 			@Override
@@ -496,7 +494,8 @@ public class CustomizationTools {
 	public Component makeButtonForTextualStorageDataField(
 			final FieldControlPlaceHolder textualStorageDatafieldControlPlaceHolder) {
 		final JButton result = makeButton();
-		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer.prepareMessageToDisplay("Editing Options"));
+		result.setToolTipText(SwingRendererUtils
+				.adaptToolTipTextToMultiline(toolsRenderer.prepareMessageToDisplay("Editing Options")));
 		result.addActionListener(new ActionListener() {
 
 			@Override
@@ -639,8 +638,7 @@ public class CustomizationTools {
 								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
 										objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
-										true);
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleTypeName, true);
 								transferFieldCustomizationSettings(srcTc, dstTc, field.getName());
@@ -673,8 +671,7 @@ public class CustomizationTools {
 								String capsuleContainerTypeName = CapsuleFieldInfo
 										.extractobjectTypeName(objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
-										true);
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleContainerTypeName, true);
 								FieldCustomization srcFc = InfoCustomizations.getFieldCustomization(srcTc,
@@ -709,8 +706,7 @@ public class CustomizationTools {
 								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
 										objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
-										true);
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleTypeName, true);
 								transferMethodCustomizationSettings(srcTc, dstTc, method.getSignature());
@@ -743,8 +739,7 @@ public class CustomizationTools {
 								String capsuleContainerTypeName = CapsuleFieldInfo
 										.extractobjectTypeName(objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
-										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(),
-										true);
+										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
 								TypeCustomization dstTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), capsuleContainerTypeName, true);
 								MethodCustomization srcMc = InfoCustomizations.getMethodCustomization(srcTc,
@@ -763,8 +758,7 @@ public class CustomizationTools {
 	}
 
 	protected List<JMenuItem> makeMenuItemsForMemberEncapsulation(final JButton customizerButton, final IInfo member,
-			final ITypeInfo objectCustomizedType, final Listener<String> encapsulator,
-			final Runnable decapsulator) {
+			final ITypeInfo objectCustomizedType, final Listener<String> encapsulator, final Runnable decapsulator) {
 		List<JMenuItem> result = new ArrayList<JMenuItem>();
 		final JMenu encapsulateSubMenu = createMenu(toolsRenderer.prepareMessageToDisplay("Move Into"));
 		{
@@ -1442,8 +1436,8 @@ public class CustomizationTools {
 
 	public Component makeButtonForMethod(final MethodControlPlaceHolder methodControlPlaceHolder) {
 		final JButton result = makeButton();
-		SwingRendererUtils.setMultilineToolTipText(result, toolsRenderer
-				.prepareMessageToDisplay(getCustomizationTitle(methodControlPlaceHolder.getMethod().getSignature())));
+		result.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(toolsRenderer
+				.prepareMessageToDisplay(getCustomizationTitle(methodControlPlaceHolder.getMethod().getSignature()))));
 		result.addActionListener(new ActionListener() {
 
 			@Override

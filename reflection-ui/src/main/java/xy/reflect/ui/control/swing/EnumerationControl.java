@@ -113,7 +113,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 					label.setToolTipText(null);
 				} else {
 					label.setText(text.replaceAll(MiscUtils.getNewLineRegex(), " "));
-					SwingRendererUtils.setMultilineToolTipText(label, text);
+					label.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(text));
 				}
 				label.setIcon(getValueIcon(value));
 				if ((value != null) && !possibleValues.contains(value)) {
@@ -183,9 +183,8 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 			if ((text == null) || (text.length() == 0)) {
 				comboBox.setToolTipText(null);
 			} else {
-				SwingRendererUtils.setMultilineToolTipText(comboBox, text);
+				comboBox.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(text));
 			}
-
 		} finally {
 			listenerDisabled = false;
 		}

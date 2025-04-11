@@ -143,8 +143,8 @@ public class ModificationStackControls {
 
 			protected void updateState() {
 				setEnabled(enabled.get());
-				SwingRendererUtils.setMultilineToolTipText(this,
-						swingRenderer.prepareMessageToDisplay(tooltipText.get()));
+				this.setToolTipText(SwingRendererUtils
+						.adaptToolTipTextToMultiline(swingRenderer.prepareMessageToDisplay(tooltipText.get())));
 			}
 
 		};

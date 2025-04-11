@@ -280,14 +280,14 @@ public class SwingRendererUtils {
 		return c.getFontMetrics(font).charWidth('a');
 	}
 
-	public static void setMultilineToolTipText(JComponent c, String toolTipText) {
+	public static String adaptToolTipTextToMultiline(String toolTipText) {
 		if (toolTipText == null) {
-			c.setToolTipText(null);
+			return null;
 		} else {
 			if (!MiscUtils.isHTMLText(toolTipText)) {
 				toolTipText = "<HTML>" + MiscUtils.escapeHTML(toolTipText, true) + "</HTML>";
 			}
-			c.setToolTipText(toolTipText);
+			return toolTipText;
 		}
 	}
 
@@ -859,6 +859,9 @@ public class SwingRendererUtils {
 				if (newTooltipText.length() == 0) {
 					newTooltipText = null;
 				}
+				if (newTooltipText != null) {
+					newTooltipText = SwingRendererUtils.adaptToolTipTextToMultiline(newTooltipText);
+				}
 			}
 		}
 		boolean changeDetected = !MiscUtils.equalsOrBothNull(oldTooltipText, newTooltipText);
@@ -870,7 +873,7 @@ public class SwingRendererUtils {
 		} else {
 			borderComponent.setBorder(SwingRendererUtils.getErrorBorder());
 		}
-		SwingRendererUtils.setMultilineToolTipText(toolTipComponent, newTooltipText);
+		toolTipComponent.setToolTipText(newTooltipText);
 		SwingRendererUtils.handleComponentSizeChange(borderComponent);
 	}
 
