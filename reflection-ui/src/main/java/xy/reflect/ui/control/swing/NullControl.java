@@ -155,7 +155,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		return false;
+		return data.getValue() == null;
 	}
 
 	@Override
