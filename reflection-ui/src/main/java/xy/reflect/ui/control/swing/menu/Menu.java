@@ -13,6 +13,7 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
+import xy.reflect.ui.info.menu.CustomActionMenuItemInfo;
 import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
@@ -96,11 +97,18 @@ public class Menu extends JMenu {
 			return createActionMenuItem((StandradActionMenuItemInfo) itemInfo);
 		} else if (itemInfo instanceof MethodActionMenuItemInfo) {
 			return createActionMenuItem((MethodActionMenuItemInfo) itemInfo);
+		} else if (itemInfo instanceof CustomActionMenuItemInfo) {
+			return createActionMenuItem((CustomActionMenuItemInfo) itemInfo);
 		} else if (itemInfo instanceof MenuInfo) {
 			return new Menu(swingRenderer, (MenuInfo) itemInfo);
 		} else {
 			throw new ReflectionUIError("Unhandled menu item type: '" + itemInfo + "'");
 		}
+	}
+
+	protected JMenuItem createActionMenuItem(final CustomActionMenuItemInfo actionMenuItemInfo) {
+		Form contextForm = (Form) actionMenuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
+		return new CustomActionMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
 	}
 
 	protected JMenuItem createActionMenuItem(final MethodActionMenuItemInfo actionMenuItemInfo) {
