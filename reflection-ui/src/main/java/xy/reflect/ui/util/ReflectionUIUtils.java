@@ -613,6 +613,11 @@ public class ReflectionUIUtils {
 							public Boolean get() {
 								if (undoModificationsReplacement == null) {
 									if (valueReturnMode != ValueReturnMode.CALCULATED) {
+										/*
+										 * If the modifications were applied on calculated (then temporary) data, it
+										 * would be useless to revert or replay them, and any invalidation would have no
+										 * impact.
+										 */
 										if (currentModificationsStack.wasInvalidated()) {
 											if (debugLogListener != null) {
 												debugLogListener.handle(
@@ -628,6 +633,11 @@ public class ReflectionUIUtils {
 									}
 								}
 								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
+									/*
+									 * If the modifications were applied directly or through a proxy, it would be
+									 * useless to commit them since we are sure that the actual data (not a copy or
+									 * something else) was altered.
+									 */
 									if (committingModification != null) {
 										if (debugLogListener != null) {
 											debugLogListener.handle("Executing " + committingModification);
