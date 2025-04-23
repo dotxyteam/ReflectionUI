@@ -50,6 +50,9 @@ public class MethodControlDataModification extends AbstractModification {
 	}
 
 	public static String getTitle(String methodCaption) {
+		if ((methodCaption == null) || (methodCaption.length() == 0)) {
+			return null;
+		}
 		return "Execute '" + methodCaption + "'";
 	}
 

@@ -1560,7 +1560,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected String getItemModificationTitle() {
 		if (getRootListTitle().length() == 0) {
-			return "Edit item";
+			return null;
 		}
 		return "Edit '" + getRootListTitle() + "' item";
 	}

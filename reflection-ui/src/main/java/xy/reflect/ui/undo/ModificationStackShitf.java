@@ -1,6 +1,9 @@
 
 package xy.reflect.ui.undo;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * Modification that calls undo() or redo() on the given modification stack
  * according to the specified offset. If the offset is positive then +offset
@@ -93,7 +96,11 @@ public class ModificationStackShitf extends AbstractModification {
 	@Override
 	public String toString() {
 		return "ModificationStackShitf [modificationStack=" + modificationStack + ", offset=" + offset + ", title="
-				+ title + "]";
+				+ title + ", modifications="
+				+ Arrays.asList((offset < 0) ? modificationStack.getUndoModifications()
+						: modificationStack.getRedoModifications()).stream().limit(Math.abs(offset))
+						.collect(Collectors.toList())
+				+ "]";
 	}
 
 }
