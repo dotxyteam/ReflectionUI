@@ -46,6 +46,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractVirtualFieldDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ConversionMethodFinder;
+import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldTypeSpecificities;
@@ -649,8 +650,17 @@ public class CustomizationTools {
 									if (field.getCategory() != null) {
 										FieldCustomization capsuleFc = InfoCustomizations.getFieldCustomization(srcTc,
 												capsuleFieldName, true);
-										changeCustomizationFieldValue(capsuleFc, "categoryCaption",
-												field.getCategory().getCaption());
+										for (int i = 0; i < srcTc.getMemberCategories().size(); i++) {
+											CustomizationCategory customizationCategory = srcTc.getMemberCategories()
+													.get(i);
+											if (customizationCategory.getCaption()
+													.equals(field.getCategory().getCaption())
+													&& (i == field.getCategory().getPosition())) {
+												changeCustomizationFieldValue(capsuleFc, "categoryName",
+														customizationCategory.getName());
+												break;
+											}
+										}
 									}
 								}
 								changeCustomizationFieldValue(srcFc, "encapsulationFieldName", capsuleFieldName);
@@ -717,8 +727,17 @@ public class CustomizationTools {
 									if (method.getCategory() != null) {
 										FieldCustomization capsuleFc = InfoCustomizations.getFieldCustomization(srcTc,
 												capsuleFieldName, true);
-										changeCustomizationFieldValue(capsuleFc, "categoryCaption",
-												method.getCategory().getCaption());
+										for (int i = 0; i < srcTc.getMemberCategories().size(); i++) {
+											CustomizationCategory customizationCategory = srcTc.getMemberCategories()
+													.get(i);
+											if (customizationCategory.getCaption()
+													.equals(method.getCategory().getCaption())
+													&& (i == method.getCategory().getPosition())) {
+												changeCustomizationFieldValue(capsuleFc, "categoryName",
+														customizationCategory.getName());
+												break;
+											}
+										}
 									}
 								}
 								changeCustomizationFieldValue(srcMc, "encapsulationFieldName", capsuleFieldName);
