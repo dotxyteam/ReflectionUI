@@ -6,7 +6,6 @@ package xy.reflect.ui.info.field;
 import java.util.ArrayList;
 import java.util.List;
 
-import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -133,11 +132,6 @@ public class ChangedTypeFieldInfo extends FieldInfoProxy {
 	@Override
 	public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
 		return null;
-	}
-
-	@Override
-	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.CALCULATED;
 	}
 
 	@Override
