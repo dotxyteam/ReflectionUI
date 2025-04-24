@@ -14,6 +14,8 @@ public class HyperlinkLabel extends JLabel {
 	private String rawText;
 	private Runnable linkOpener;
 
+	private boolean revalidationDisabled = false;
+
 	public HyperlinkLabel() {
 		setup();
 	}
@@ -57,13 +59,31 @@ public class HyperlinkLabel extends JLabel {
 			}
 
 			public void mouseEntered(MouseEvent e) {
-				setText(rawText, true);
+				revalidationDisabled = true;
+				try {
+					setText(rawText, true);
+				} finally {
+					revalidationDisabled = false;
+				}
 			}
 
 			public void mouseExited(MouseEvent e) {
-				setText(rawText, false);
+				revalidationDisabled = true;
+				try {
+					setText(rawText, false);
+				} finally {
+					revalidationDisabled = false;
+				}
 			}
 		});
+	}
+
+	@Override
+	public void revalidate() {
+		if (revalidationDisabled ) {
+			return;
+		}
+		super.revalidate();
 	}
 
 	protected void openLink() {
