@@ -3416,9 +3416,14 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public boolean isInitial() {
+			for (ParameterCustomization pc : parametersCustomizations) {
+				if (!pc.isInitial()) {
+					return false;
+				}
+			}
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
-			return InfoCustomizations.isSimilar(this, defaultMethodCustomization);
+			return InfoCustomizations.isSimilar(this, defaultMethodCustomization, "parametersCustomizations");
 		}
 
 		public String getExecutionSuccessMessage() {
@@ -3673,6 +3678,13 @@ public class InfoCustomizations implements Serializable {
 		protected String onlineHelp;
 		protected boolean displayedAsField;
 		protected TextualStorage defaultValue = new TextualStorage();
+
+		@Override
+		public boolean isInitial() {
+			ParameterCustomization defaultParameterCustomization = new ParameterCustomization();
+			defaultParameterCustomization.parameterName = parameterName;
+			return InfoCustomizations.isSimilar(this, defaultParameterCustomization);
+		}
 
 		public TextualStorage getDefaultValue() {
 			return defaultValue;
