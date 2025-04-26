@@ -199,7 +199,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					openDialog();
+					openDialog(result);
 				} catch (Throwable t) {
 					swingRenderer.handleObjectException(result, t);
 				}
@@ -232,13 +232,13 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		});
 	}
 
-	protected void openDialog() {
-		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder();
+	protected void openDialog(Component ownerComponent) {
+		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(ownerComponent);
 		subDialogBuilder.createAndShowDialog();
 	}
 
-	protected AbstractEditorBuilder createSubDialogBuilder() {
-		return new SubDialogBuilder(swingRenderer, this, input);
+	protected AbstractEditorBuilder createSubDialogBuilder(Component ownerComponent) {
+		return new SubDialogBuilder(swingRenderer, ownerComponent, this, input);
 	}
 
 	protected void updateActionControl() {
@@ -303,14 +303,16 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	protected static class SubDialogBuilder extends AbstractEditorBuilder {
 
 		protected SwingRenderer swingRenderer;
-		protected DialogAccessControl ownerComponent;
+		protected Component ownerComponent;
+		protected IAdvancedFieldControl parentControl;
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 
-		public SubDialogBuilder(SwingRenderer swingRenderer, DialogAccessControl ownerComponent,
-				IFieldControlInput input) {
+		public SubDialogBuilder(SwingRenderer swingRenderer, Component ownerComponent,
+				IAdvancedFieldControl parentControl, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.ownerComponent = ownerComponent;
+			this.parentControl = parentControl;
 			this.input = input;
 			this.data = input.getControlData();
 		}
@@ -380,7 +382,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			return new Runnable() {
 				@Override
 				public void run() {
-					ownerComponent.refreshUI(false);
+					parentControl.refreshUI(false);
 				}
 			};
 		}

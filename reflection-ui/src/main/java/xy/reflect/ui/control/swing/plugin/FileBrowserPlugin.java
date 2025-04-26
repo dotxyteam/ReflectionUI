@@ -334,13 +334,13 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		public void openDialog() {
+		public void openDialog(Component ownerComponent) {
 			final JFileChooser fileChooser = new JFileChooser();
 			File currentFile = (File) data.getValue();
 			fileChooser.setCurrentDirectory(lastDirectory);
 			configureFileChooser(fileChooser, currentFile);
 
-			final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(this);
+			final DialogBuilder dialogBuilder = swingRenderer.createDialogBuilder(ownerComponent);
 			dialogBuilder.setTitle(getDialogTitle());
 			fileChooser.setApproveButtonText(swingRenderer.prepareMessageToDisplay("OK"));
 			fileChooser.rescanCurrentDirectory();
