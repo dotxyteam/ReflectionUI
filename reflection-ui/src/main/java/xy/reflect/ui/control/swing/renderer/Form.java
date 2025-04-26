@@ -582,7 +582,7 @@ public class Form extends ImagePanel {
 
 					JPanel tabContent = new ControlPanel();
 					tabContent.setName("categoryContentControl [category=" + category.getCaption() + "]");
-					tab.add(tabContent, BorderLayout.NORTH);
+					tab.add(tabContent, BorderLayout.CENTER);
 					layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
 
 				}
@@ -1211,6 +1211,7 @@ public class Form extends ImagePanel {
 		}
 		finalizeFormUpdate();
 		if (refreshStructure) {
+			updateFieldsPanelsLayout();
 			refreshCategoriesControlStructure();
 			setPreservingRatio(true);
 			setFillingAreaWhenPreservingRatio(true);
@@ -1560,6 +1561,38 @@ public class Form extends ImagePanel {
 	protected Border getMethodsPanelBorder() {
 		int spacing = getLayoutSpacing();
 		return new EmptyBorder(spacing, spacing, spacing, spacing);
+	}
+
+	protected void updateFieldsPanelsLayout() {
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
+		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
+			JPanel fieldsPanel = (JPanel) fieldControlPlaceHolders.get(0).getParent();
+			boolean fieldsPanelFilled = false;
+			for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
+				FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
+				GridBagConstraints fieldControlPlaceHolderLayoutConstraints = ((GridBagLayout) fieldsPanel.getLayout())
+						.getConstraints(fieldControlPlaceHolder);
+				if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
+					if (fieldControlPlaceHolderLayoutConstraints.weighty > 0) {
+						fieldsPanelFilled = true;
+						break;
+					}
+				} else if (fieldsOrientation == ITypeInfo.FieldsLayout.HORIZONTAL_FLOW) {
+					if (fieldControlPlaceHolderLayoutConstraints.weightx > 0) {
+						fieldsPanelFilled = true;
+						break;
+					}
+				} else {
+					throw new ReflectionUIError();
+				}
+			}
+			Container membersPanel = fieldsPanel.getParent();
+			membersPanel.remove(fieldsPanel);
+			membersPanel.add(fieldsPanel, fieldsPanelFilled ? BorderLayout.CENTER : BorderLayout.NORTH);
+		}
 	}
 
 	protected void updateFieldControlLayoutInContainer(FieldControlPlaceHolder fieldControlPlaceHolder) {
