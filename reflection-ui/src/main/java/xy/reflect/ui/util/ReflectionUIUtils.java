@@ -1072,8 +1072,24 @@ public class ReflectionUIUtils {
 		return false;
 	}
 
+	public static void setFieldControlPluginManagementDisabled(Map<String, Object> specificProperties, boolean b) {
+		if (b) {
+			specificProperties.put(IFieldControlPlugin.MANAGEMENT_DISABLED_PROPERTY_KEY, Boolean.TRUE);
+		} else {
+			specificProperties.remove(IFieldControlPlugin.MANAGEMENT_DISABLED_PROPERTY_KEY);
+		}
+	}
+
+	public static boolean isFieldControlPluginManagementDisabled(Map<String, Object> specificProperties) {
+		return Boolean.TRUE.equals(specificProperties.get(IFieldControlPlugin.MANAGEMENT_DISABLED_PROPERTY_KEY));
+	}
+
 	public static void setFieldControlPluginIdentifier(Map<String, Object> specificProperties, String identifier) {
-		specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, identifier);
+		if (identifier == null) {
+			specificProperties.remove(IFieldControlPlugin.CHOSEN_PROPERTY_KEY);
+		} else {
+			specificProperties.put(IFieldControlPlugin.CHOSEN_PROPERTY_KEY, identifier);
+		}
 	}
 
 	public static String getFieldControlPluginIdentifier(Map<String, Object> specificProperties) {

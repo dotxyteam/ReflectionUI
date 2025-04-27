@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.plugin;
 
 import xy.reflect.ui.control.IFieldControlData;
@@ -18,10 +16,16 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public interface IFieldControlPlugin {
 
 	/**
-	 * The key that references the name of the chosen field control plugin in the
-	 * map returned by {@link ITypeInfo#getSpecificProperties()}.
+	 * The key (in the map returned by {@link ITypeInfo#getSpecificProperties()})
+	 * that references the name of the chosen field control plugin .
 	 */
 	public String CHOSEN_PROPERTY_KEY = IFieldControlPlugin.class.getName() + ".CHOSEN";
+	/**
+	 * The key (in the map returned by {@link ITypeInfo#getSpecificProperties()})
+	 * that references the 'disabled' status of the field control plugin management
+	 * system.
+	 */
+	public String MANAGEMENT_DISABLED_PROPERTY_KEY = IFieldControlPlugin.class.getName() + ".MANAGEMENT_DISABLED";
 
 	/**
 	 * @param input The specification of the field to be displayed.

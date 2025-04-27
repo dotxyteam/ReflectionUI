@@ -42,17 +42,21 @@ import xy.reflect.ui.control.swing.NullableControl;
 import xy.reflect.ui.control.swing.PolymorphicControl;
 import xy.reflect.ui.control.swing.PrimitiveValueControl;
 import xy.reflect.ui.control.swing.TextControl;
+import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.ValueOptionsAsEnumerationFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
+import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -576,7 +580,56 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					}
 				};
 				try {
-					return new NullableControl(this.swingRenderer, controlInput);
+					return new NullableControl(this.swingRenderer, controlInput) {
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer,
+								IFieldControlInput input, IContext subContext,
+								Listener<Throwable> commitExceptionHandler) {
+							return new SubFormBuilder(swingRenderer, this, input, subContext, commitExceptionHandler) {
+
+								@Override
+								protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+									return new TypeInfoSourceProxy(super.getEncapsulatedFieldDeclaredTypeSource()) {
+
+										@Override
+										protected String getTypeInfoProxyFactoryIdentifier() {
+											return "FieldControlPluginSettingTypeInfoProxyFactory [pluginIdentifier="
+													+ currentPlugin.getIdentifier() + "]";
+										}
+
+										@Override
+										public ITypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
+											return new InfoProxyFactory() {
+
+												@Override
+												protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
+													Map<String, Object> result = new HashMap<String, Object>(
+															super.getSpecificProperties(type));
+													SwingRendererUtils.setCurrentFieldControlPlugin(swingRenderer,
+															result, currentPlugin);
+													ReflectionUIUtils.setFieldControlPluginConfiguration(result,
+															currentPlugin.getIdentifier(),
+															ReflectionUIUtils.getFieldControlPluginConfiguration(
+																	input.getControlData().getType()
+																			.getSpecificProperties(),
+																	currentPlugin.getIdentifier()));
+													ReflectionUIUtils.setFieldControlPluginManagementDisabled(result,
+															true);
+													return result;
+												}
+											}.wrapTypeInfo(super.buildTypeInfo(reflectionUI));
+										}
+
+									};
+								}
+
+							};
+						}
+
+					};
 				} catch (RejectedFieldControlInputException e) {
 				}
 			} else {

@@ -972,6 +972,10 @@ public class CustomizationTools {
 		if (fieldControlPlaceHolder.getControlData().isFormControlMandatory()) {
 			return Collections.emptyList();
 		}
+		if (ReflectionUIUtils.isFieldControlPluginManagementDisabled(
+				fieldControlPlaceHolder.getControlData().getType().getSpecificProperties())) {
+			return Collections.emptyList();
+		}
 		List<JMenuItem> result = new ArrayList<JMenuItem>();
 		final TypeCustomization typeCustomization = getTypeCustomization(
 				fieldControlPlaceHolder.getControlData().getType().getName(), infoCustomizations);
