@@ -596,8 +596,9 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 										@Override
 										protected String getTypeInfoProxyFactoryIdentifier() {
-											return "FieldControlPluginSettingTypeInfoProxyFactory [pluginIdentifier="
-													+ currentPlugin.getIdentifier() + "]";
+											return "FieldControlPluginSettingsCopyingTypeInfoProxyFactory [pluginIdentifier="
+													+ currentPlugin.getIdentifier() + ", parentContext="
+													+ getContext().getIdentifier() + "]";
 										}
 
 										@Override
