@@ -3,9 +3,6 @@ package xy.reflect.ui;
 
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
-import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.FieldTypeSpecificities;
-import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -85,10 +82,6 @@ public class CustomizedUI extends ReflectionUI {
 				result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 				result = getTypeInfoBeforeCustomizations(result);
 				result = getInfoCustomizationsFactory().wrapTypeInfo(result);
-				SpecificitiesIdentifier specificitiesIdentifier = typeSource.getSpecificitiesIdentifier();
-				if (specificitiesIdentifier != null) {
-					result = getSpecificitiesFactory(specificitiesIdentifier).wrapTypeInfo(result);
-				}
 				result = getTypeInfoAfterCustomizations(result);
 				typeCache.put(customizedTypesCacheKey, result);
 			}
@@ -107,32 +100,6 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	/**
-	 * @return the UI model proxy factory that will be used to provide specific
-	 *         customizations (e.g.: specific to a field) for {@link ITypeInfo}
-	 *         instances. This factory would be used after the one returned by
-	 *         {@link #getInfoCustomizationsFactory()}.
-	 */
-	public InfoProxyFactory getSpecificitiesFactory(final SpecificitiesIdentifier specificitiesIdentifier) {
-		return new InfoCustomizationsFactory(this) {
-			@Override
-			public String getIdentifier() {
-				return "SpecificitiesFactory [of=" + CustomizedUI.this.toString() + ", specificitiesIdentifier="
-						+ specificitiesIdentifier.toString() + "]";
-			}
-
-			@Override
-			public InfoCustomizations getInfoCustomizations() {
-				TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(infoCustomizations,
-						specificitiesIdentifier.getObjectTypeName());
-				FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
-						specificitiesIdentifier.getFieldName());
-				FieldTypeSpecificities result = fieldCustomization.getSpecificTypeCustomizations();
-				return result;
-			}
-		};
-	}
-
-	/**
 	 * @return the UI model proxy factory that will be used to customize every UI
 	 *         model. This factory will be used after calling
 	 *         {@link #getTypeInfoBeforeCustomizations(ITypeInfo)} |
@@ -140,7 +107,7 @@ public class CustomizedUI extends ReflectionUI {
 	 *         before calling {@link #getTypeInfoAfterCustomizations(ITypeInfo)} |
 	 *         {@link #getApplicationInfoAfterCustomizations(IApplicationInfo)}.
 	 */
-	public InfoProxyFactory getInfoCustomizationsFactory() {
+	public InfoCustomizationsFactory getInfoCustomizationsFactory() {
 		return new InfoCustomizationsFactory(this) {
 
 			@Override

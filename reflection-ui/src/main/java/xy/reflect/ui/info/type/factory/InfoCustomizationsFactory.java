@@ -30,6 +30,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationItemCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.FieldTypeSpecificities;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.FormSizeUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
@@ -106,6 +107,7 @@ import xy.reflect.ui.undo.ListModificationFactory;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.Pair;
@@ -187,25 +189,39 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getBaseTypeName() != null) {
-				type = new ChangedTypeNameFactory(t.getTypeName(), t.getBaseTypeName()).wrapTypeInfo(type);
-				type = super.wrapTypeInfo(type);
-				type = new ChangedTypeNameFactory(t.getBaseTypeName(), t.getTypeName()).wrapTypeInfo(type);
+				type = getTypeInheritanceFactory(type.getName(), t.getBaseTypeName()).wrapTypeInfo(type);
 			}
 		}
-		return super.wrapTypeInfo(type);
+		type = super.wrapTypeInfo(type);
+		SpecificitiesIdentifier specificitiesIdentifier = type.getSource().getSpecificitiesIdentifier();
+		if (specificitiesIdentifier != null) {
+			type = getSpecificitiesFactory(specificitiesIdentifier).wrapTypeInfo(type);
+		}
+		return type;
 	}
 
 	@Override
 	public ITypeInfo unwrapTypeInfo(ITypeInfo type) {
+		SpecificitiesIdentifier specificitiesIdentifier = type.getSource().getSpecificitiesIdentifier();
+		if (specificitiesIdentifier != null) {
+			type = getSpecificitiesFactory(specificitiesIdentifier).unwrapTypeInfo(type);
+		}
+		type = super.unwrapTypeInfo(type);
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
 			if (t.getBaseTypeName() != null) {
-				type = ((ChangedTypeNameFactory) ((GeneratedBasicTypeInfoProxy) type).factory).unwrapTypeInfo(type);
-				type = super.unwrapTypeInfo(type);
-				type = ((ChangedTypeNameFactory) ((GeneratedBasicTypeInfoProxy) type).factory).unwrapTypeInfo(type);
+				type = getTypeInheritanceFactory(type.getName(), t.getBaseTypeName()).unwrapTypeInfo(type);
 			}
 		}
-		return super.unwrapTypeInfo(type);
+		return type;
+	}
+
+	protected IInfoProxyFactory getSpecificitiesFactory(final SpecificitiesIdentifier specificitiesIdentifier) {
+		return new SpecificitiesFactory(specificitiesIdentifier);
+	}
+
+	protected IInfoProxyFactory getTypeInheritanceFactory(String targetTypeName, String baseTypeName) {
+		return new TypeInheritanceFactory(targetTypeName, baseTypeName);
 	}
 
 	@Override
@@ -3315,30 +3331,116 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	}
 
-	protected class ChangedTypeNameFactory extends InfoProxyFactory {
+	protected class SpecificitiesFactory extends InfoCustomizationsFactory {
 
-		protected String sourceTypeName;
-		protected String targetTypeName;
+		protected SpecificitiesIdentifier specificitiesIdentifier;
 
-		public ChangedTypeNameFactory(String sourceTypeName, String targetTypeName) {
-			this.sourceTypeName = sourceTypeName;
-			this.targetTypeName = targetTypeName;
+		public SpecificitiesFactory(SpecificitiesIdentifier specificitiesIdentifier) {
+			super(InfoCustomizationsFactory.this.customizedUI);
+			this.specificitiesIdentifier = specificitiesIdentifier;
 		}
 
 		@Override
 		public String getIdentifier() {
-			return "ChangedTypeNameFactory [sourceTypeName=" + sourceTypeName + ", targetTypeName=" + targetTypeName
-					+ ", parent=" + InfoCustomizationsFactory.this.getIdentifier() + "]";
+			return "SpecificitiesFactory [of=" + InfoCustomizationsFactory.this.customizedUI.toString()
+					+ ", specificitiesIdentifier=" + specificitiesIdentifier.toString() + "]";
 		}
 
 		@Override
-		protected String getName(ITypeInfo type) {
-			if (type.getName().equals(sourceTypeName)) {
-				return targetTypeName;
-			}
-			return type.getName();
+		public IInfoProxyFactory getSpecificitiesFactory(SpecificitiesIdentifier specificitiesIdentifier) {
+			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 		}
 
+		@Override
+		public InfoCustomizations getInfoCustomizations() {
+			TypeCustomization typeCustomization = InfoCustomizations.getTypeCustomization(
+					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations(),
+					specificitiesIdentifier.getObjectTypeName());
+			FieldCustomization fieldCustomization = InfoCustomizations.getFieldCustomization(typeCustomization,
+					specificitiesIdentifier.getFieldName());
+			FieldTypeSpecificities result = fieldCustomization.getSpecificTypeCustomizations();
+			return result;
+		}
+
+		@Override
+		public ITypeInfo wrapTypeInfo(ITypeInfo type) {
+			TypeCustomization t = InfoCustomizations.getTypeCustomization(
+					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations(),
+					specificitiesIdentifier.getObjectTypeName());
+			if (t != null) {
+				if (t.getBaseTypeName() != null) {
+					SpecificitiesFactory baseSpecificitiesFactory = new SpecificitiesFactory(
+							new SpecificitiesIdentifier(t.getBaseTypeName(), specificitiesIdentifier.getFieldName()));
+					type = baseSpecificitiesFactory.wrapTypeInfo(type);
+					type = baseSpecificitiesFactory.new TypeInheritanceFactory(
+							specificitiesIdentifier.getObjectTypeName(), t.getBaseTypeName()).wrapTypeInfo(type);
+				}
+			}
+			type = super.wrapTypeInfo(type);
+			return type;
+		}
+
+		@Override
+		public ITypeInfo unwrapTypeInfo(ITypeInfo type) {
+			type = super.unwrapTypeInfo(type);
+			TypeCustomization t = InfoCustomizations.getTypeCustomization(
+					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations(),
+					specificitiesIdentifier.getObjectTypeName());
+			if (t != null) {
+				if (t.getBaseTypeName() != null) {
+					SpecificitiesFactory baseSpecificitiesFactory = new SpecificitiesFactory(
+							new SpecificitiesIdentifier(t.getBaseTypeName(), specificitiesIdentifier.getFieldName()));
+					type = baseSpecificitiesFactory.new TypeInheritanceFactory(
+							specificitiesIdentifier.getObjectTypeName(), t.getBaseTypeName()).unwrapTypeInfo(type);
+					type = baseSpecificitiesFactory.unwrapTypeInfo(type);
+				}
+			}
+			return type;
+		}
+	}
+
+	protected class TypeInheritanceFactory extends InfoCustomizationsFactory {
+
+		protected String targetTypeName;
+		protected String baseTypeName;
+		protected InfoCustomizations baseInfoCustomizations;
+
+		public TypeInheritanceFactory(String targetTypeName, String baseTypeName) {
+			super(InfoCustomizationsFactory.this.customizedUI);
+			this.targetTypeName = targetTypeName;
+			this.baseTypeName = baseTypeName;
+			baseInfoCustomizations = createBaseInfoCustomizations();
+
+		}
+
+		@Override
+		public String getIdentifier() {
+			return "InheritedCustomizationsFactory [targetType=" + targetTypeName + ", inheritedType=" + baseTypeName
+					+ ", parentFactoryIdentifier=" + InfoCustomizationsFactory.this.getIdentifier() + "]";
+		}
+
+		protected InfoCustomizations createBaseInfoCustomizations() {
+			InfoCustomizations result = new InfoCustomizations();
+			for (TypeCustomization baseTc : InfoCustomizationsFactory.this.getInfoCustomizations()
+					.getTypeCustomizations()) {
+				if (baseTc.getTypeName().contains(baseTypeName)) {
+					baseTc = (TypeCustomization) IOUtils.copyThroughSerialization(baseTc);
+					baseTc.setTypeName(baseTc.getTypeName().replace(baseTypeName, targetTypeName));
+					result.getTypeCustomizations().add(baseTc);
+				}
+			}
+			return result;
+		}
+
+		@Override
+		public InfoCustomizations getInfoCustomizations() {
+			return baseInfoCustomizations;
+		}
+
+		@Override
+		public IInfoProxyFactory getSpecificitiesFactory(SpecificitiesIdentifier specificitiesIdentifier) {
+			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
+		}
 	}
 
 }
