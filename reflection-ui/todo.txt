@@ -1,3 +1,6 @@
+- type inheritance issues:
+	. not optimized (info customizations are copied during customization)
+- types are evicted from CustomizeUI.typesCache when some forms are hidden
 - must study the utility of SpecificitiesIdentifier
 - need to test utility class (only static fields and methods) instance dialog  
 - are transactions still useful ? 
