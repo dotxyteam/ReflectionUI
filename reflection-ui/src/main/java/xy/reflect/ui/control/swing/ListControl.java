@@ -368,6 +368,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		toolbar.add(new JSeparator(JSeparator.VERTICAL), constraints);
 
 		SwingRendererUtils.handleComponentSizeChange(ListControl.this);
+		toolbar.validate();
 		toolbar.repaint();
 	}
 
