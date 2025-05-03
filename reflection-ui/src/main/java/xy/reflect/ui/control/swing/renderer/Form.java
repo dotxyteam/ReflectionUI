@@ -328,6 +328,10 @@ public class Form extends ImagePanel {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		type.validate(object);
+		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
+				methodControlPlaceHoldersByCategory);
+		boolean categoriesDisplayed = !((allCategories.size() == 1)
+				&& (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) && (allCategories.size() > 0);
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
@@ -337,9 +341,11 @@ public class Form extends ImagePanel {
 					} catch (Exception e) {
 						String errorMsg = e.toString();
 						IFieldInfo field = fieldControlPlaceHolder.getField();
-						errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
-						InfoCategory fieldCategory = field.getCategory();
-						if (fieldCategory != null) {
+						if (field.getCaption().length() > 0) {
+							errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
+						}
+						if (categoriesDisplayed) {
+							InfoCategory fieldCategory = field.getCategory();
 							errorMsg = ReflectionUIUtils.composeMessage(fieldCategory.getCaption(), errorMsg);
 						}
 						throw new ReflectionUIError(errorMsg, e);
@@ -429,8 +435,22 @@ public class Form extends ImagePanel {
 				((HyperlinkLabel) statusBar).setLinkOpener(new Runnable() {
 					@Override
 					public void run() {
-						swingRenderer.openErrorDetailsDialog(statusBar, e);
+						swingRenderer.openErrorDetailsDialog(statusBar, removeUselessExceptionWrappers(e));
 					}
+
+					private Throwable removeUselessExceptionWrappers(Throwable e) {
+						if (e instanceof ReflectionUIError) {
+							if (e.getCause() != null) {
+								if (((ReflectionUIError) e).getBaseMessage() != null) {
+									if (((ReflectionUIError) e).getBaseMessage().contains(e.getCause().toString())) {
+										return removeUselessExceptionWrappers(e.getCause());
+									}
+								}
+							}
+						}
+						return e;
+					}
+
 				});
 				statusBar.setVisible(true);
 			}

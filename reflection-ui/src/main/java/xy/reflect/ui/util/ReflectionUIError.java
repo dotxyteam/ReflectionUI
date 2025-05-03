@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.util;
 
 /**
@@ -27,6 +25,10 @@ public class ReflectionUIError extends RuntimeException {
 
 	public ReflectionUIError(Throwable cause) {
 		super(cause);
+	}
+
+	public String getBaseMessage() {
+		return super.getMessage();
 	}
 
 	@Override
