@@ -448,6 +448,7 @@ public abstract class AbstractEditorFormBuilder {
 				ITypeInfo newValueType = (newValue == null) ? null
 						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
 				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
+					refreshStructure = true;
 					editorForm.setObject(getNewCapsule());
 				}
 			}
