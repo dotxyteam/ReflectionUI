@@ -308,6 +308,19 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
+	protected ValueReturnMode getItemReturnMode(IListTypeInfo listType) {
+		ITypeInfo itemType = listType.getItemType();
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
+		if (l != null) {
+			if (l.getCustomItemReturnMode() != null) {
+				return l.getCustomItemReturnMode();
+			}
+		}
+		return super.getItemReturnMode(listType);
+	}
+
+	@Override
 	protected boolean isConcrete(ITypeInfo type) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {

@@ -4322,6 +4322,7 @@ public class InfoCustomizations implements Serializable {
 		protected ControlSizeCustomization height = null;
 		protected boolean itemNullValueAllowed = false;
 		protected ItemCreationMode itemCreationMode = ItemCreationMode.UNDEFINED;
+		protected ValueReturnMode customItemReturnMode;		
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
 		protected boolean itemAutomaticPositioningManagementForced = false;
@@ -4338,6 +4339,14 @@ public class InfoCustomizations implements Serializable {
 				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
 		public ITypeInfoFinder getCustomItemTypeFinder() {
 			return customItemTypeFinder;
+		}
+
+		public ValueReturnMode getCustomItemReturnMode() {
+			return customItemReturnMode;
+		}
+
+		public void setCustomItemReturnMode(ValueReturnMode customItemReturnMode) {
+			this.customItemReturnMode = customItemReturnMode;
 		}
 
 		public void setCustomItemTypeFinder(ITypeInfoFinder customItemTypeFinder) {

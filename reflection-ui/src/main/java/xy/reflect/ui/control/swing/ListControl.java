@@ -1613,13 +1613,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		try {
 			if ((detailsControlItemPosition != null) && (singleSelection != null)) {
-				if (detailsControlItemPosition.equals(singleSelection)) {
-					detailsControlBuilder.reloadValue(detailsControl, refreshStructure);
-				} else {
+				if (!detailsControlItemPosition.equals(singleSelection)) {
 					detailsControlItemPosition = singleSelection;
 					detailsControlBuilder.setPosition(detailsControlItemPosition);
-					detailsControlBuilder.reloadValue(detailsControl, refreshStructure);
 				}
+				detailsControlBuilder.reloadValue(detailsControl, refreshStructure);
 				return;
 			}
 			if ((detailsControlItemPosition != null) && (singleSelection == null)) {
