@@ -105,12 +105,18 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			return false;
 		}
 		if (statusControl != null) {
-			data.addInBuffer(value);
-			updateStatusControl(refreshStructure);
+			data.withInBuffer(value, new Runnable() {
+				public void run() {
+					updateStatusControl(refreshStructure);
+				}
+			});
 		}
 		if (iconControl != null) {
-			data.addInBuffer(value);
-			updateIconControl(refreshStructure);
+			data.withInBuffer(value, new Runnable() {
+				public void run() {
+					updateIconControl(refreshStructure);
+				}
+			});
 		}
 		if (actionControl != null) {
 			updateActionControl();

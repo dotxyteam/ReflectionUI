@@ -1,14 +1,13 @@
 
-
-
 package xy.reflect.ui.control;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import xy.reflect.ui.util.ReflectionUIError;
+
 /**
- * Control data proxy that stacks and returns the provided values before
+ * Control data proxy that queues and returns the provided values before
  * returning the underlying control data values.
  * 
  * @author olitank
@@ -18,16 +17,15 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 
 	protected List<Object> buffer = new ArrayList<Object>();
 
-	public BufferedFieldControlData(IFieldControlData base, Object... values) {
+	public BufferedFieldControlData(IFieldControlData base) {
 		super(base);
-		buffer.addAll(Arrays.asList(values));
 	}
 
 	@Override
 	public Object getValue() {
 		if (buffer.size() > 0) {
-			Object nextValue = buffer.remove(0);
-			return ErrorOccurrence.rethrow(nextValue);
+			Object value = buffer.remove(0);
+			return ErrorOccurrence.rethrow(value);
 		}
 		return super.getValue();
 	}
@@ -38,8 +36,20 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 		super.setValue(value);
 	}
 
-	public void addInBuffer(Object value) {
+	public void withInBuffer(Object value, Runnable runnable) {
+		int initialBufferSize = buffer.size();
 		buffer.add(value);
+		try {
+			runnable.run();
+		} finally {
+			if (buffer.size() < initialBufferSize) {
+				throw new ReflectionUIError();
+			}
+			while (buffer.size() > initialBufferSize) {
+				buffer.remove(0);
+			}
+		}
 	}
+
 
 }

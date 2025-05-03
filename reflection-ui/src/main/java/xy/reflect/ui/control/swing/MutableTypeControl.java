@@ -100,18 +100,23 @@ public class MutableTypeControl extends NullableControl {
 				return false;
 			}
 		}
-		data.addInBuffer(value);
-		boolean result = super.refreshUI(refreshStructure);
+		final boolean[] result = new boolean[1];
+		data.withInBuffer(value, new Runnable() {			
+			@Override
+			public void run() {
+				result[0] = MutableTypeControl.super.refreshUI(refreshStructure);
+			}
+		});
 		if (refreshStructure) {
 			if (data.getCaption().length() == 0) {
 				((JComponent) currentSubControl).setBorder(null);
 			}
 		}
 		if (info.isRecreationNeeded()) {
-			result = false;
+			result[0] = false;
 		}
 		nullStatusControl.setVisible(false);
-		return result;
+		return result[0];
 	}
 
 	@Override

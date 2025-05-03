@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -455,10 +454,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			} catch (RejectedFieldControlInputException e) {
 			}
 		}
-		Object value = controlInput.getControlData().getValue();
+		final Object value = controlInput.getControlData().getValue();
+		final BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(
+				controlInput.getControlData());
 		controlInput = new FieldControlInputProxy(controlInput) {
-			BufferedFieldControlData bufferedFieldControlData = new BufferedFieldControlData(super.getControlData(),
-					value);
 
 			@Override
 			public IFieldControlData getControlData() {
@@ -467,7 +466,15 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		};
 		if (value == null) {
 			try {
-				return new NullControl(swingRenderer, controlInput);
+				final IFieldControlInput finalControlInput = controlInput;
+				final Component[] result = new Component[1];
+				bufferedFieldControlData.withInBuffer(value, new Runnable() {
+					@Override
+					public void run() {
+						result[0] = new NullControl(swingRenderer, finalControlInput);
+					}
+				});
+				return result[0];
 			} catch (RejectedFieldControlInputException e) {
 			}
 		}
@@ -500,19 +507,43 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					}
 				};
 				try {
-					return new MutableTypeControl(this.swingRenderer, controlInput);
+					final IFieldControlInput finalControlInput = controlInput;
+					final Component[] result = new Component[1];
+					bufferedFieldControlData.withInBuffer(value, new Runnable() {
+						@Override
+						public void run() {
+							result[0] = new MutableTypeControl(swingRenderer, finalControlInput);
+						}
+					});
+					return result[0];
 				} catch (RejectedFieldControlInputException e) {
 				}
 			}
 		}
 		if (controlInput.getControlData().isFormControlEmbedded()) {
 			try {
-				return new EmbeddedFormControl(this.swingRenderer, controlInput);
+				final IFieldControlInput finalControlInput = controlInput;
+				final Component[] result = new Component[1];
+				bufferedFieldControlData.withInBuffer(value, new Runnable() {
+					@Override
+					public void run() {
+						result[0] = new EmbeddedFormControl(swingRenderer, finalControlInput);
+					}
+				});
+				return result[0];
 			} catch (RejectedFieldControlInputException e) {
 			}
 		} else {
 			try {
-				return new DialogAccessControl(this.swingRenderer, controlInput);
+				final IFieldControlInput finalControlInput = controlInput;
+				final Component[] result = new Component[1];
+				bufferedFieldControlData.withInBuffer(value, new Runnable() {
+					@Override
+					public void run() {
+						result[0] = new DialogAccessControl(swingRenderer, finalControlInput);
+					}
+				});
+				return result[0];
 			} catch (RejectedFieldControlInputException e) {
 			}
 		}

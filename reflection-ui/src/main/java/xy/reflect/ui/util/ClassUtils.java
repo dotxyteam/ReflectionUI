@@ -22,10 +22,10 @@ import java.util.Set;
  */
 public class ClassUtils {
 
-	protected static final Class<?>[] PRIMITIVE_CLASSES = new Class<?>[] { boolean.class, byte.class, short.class,
+	public static final Class<?>[] PRIMITIVE_CLASSES = new Class<?>[] { boolean.class, byte.class, short.class,
 			int.class, long.class, float.class, double.class, char.class };
-	protected static final Class<?>[] PRIMITIVE_WRAPPER_CLASSES = new Class<?>[] { Boolean.class, Byte.class,
-			Short.class, Integer.class, Long.class, Float.class, Double.class, Character.class };
+	public static final Class<?>[] PRIMITIVE_WRAPPER_CLASSES = new Class<?>[] { Boolean.class, Byte.class, Short.class,
+			Integer.class, Long.class, Float.class, Double.class, Character.class };
 
 	protected static final Map<String, Class<?>> PRIMITIVE_CLASS_BY_NAME = new HashMap<String, Class<?>>() {
 		private static final long serialVersionUID = 1L;

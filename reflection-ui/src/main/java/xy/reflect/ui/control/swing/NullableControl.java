@@ -97,22 +97,31 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
 		Object value = data.getValue();
-		data.addInBuffer(value);
-		refreshNullStatusControl(refreshStructure);
-		data.addInBuffer(value);
-		refreshSubControl(refreshStructure);
+		data.withInBuffer(value, new Runnable() {			
+			@Override
+			public void run() {
+				refreshNullStatusControl(refreshStructure);
+			}
+		});
+		data.withInBuffer(value, new Runnable() {			
+			@Override
+			public void run() {
+				refreshSubControl(refreshStructure);
+			}
+		});
 		if (!Arrays.asList(getComponents()).contains(currentSubControl) || refreshStructure) {
 			removeAll();
 			if (!isCaptionDisplayedOnNullStatusControl()) {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 				add(currentSubControl, BorderLayout.CENTER);
 				nullStatusControl.setText("");
-				SwingRendererUtils.showFieldCaptionOnBorder(data, (JComponent) currentSubControl, new Accessor<Border>() {
-					@Override
-					public Border get() {
-						return new ControlPanel().getBorder();
-					}
-				}, swingRenderer);
+				SwingRendererUtils.showFieldCaptionOnBorder(data, (JComponent) currentSubControl,
+						new Accessor<Border>() {
+							@Override
+							public Border get() {
+								return new ControlPanel().getBorder();
+							}
+						}, swingRenderer);
 			} else {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.WEST), BorderLayout.NORTH);
 				add(currentSubControl, BorderLayout.CENTER);
@@ -209,8 +218,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					// display the current error (over the last valid value)
 					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
-				data.addInBuffer(value);
-				subFormBuilder.reloadValue((Form) currentSubControl, refreshStructure);
+				data.withInBuffer(value, new Runnable() {
+					@Override
+					public void run() {
+						subFormBuilder.reloadValue((Form) currentSubControl, refreshStructure);
+					}
+				});
 				return;
 			}
 		}
@@ -218,8 +231,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if ((value == null) && (currentError == null)) {
 			if (currentSubControl instanceof Form) {
 				// clear the sub-form before hiding it
-				data.addInBuffer(null);
-				subFormBuilder.reloadValue((Form) currentSubControl, refreshStructure);
+				data.withInBuffer(null, new Runnable() {
+					@Override
+					public void run() {
+						subFormBuilder.reloadValue((Form) currentSubControl, refreshStructure);
+					}
+				});
 			}
 			if (nullControl == null) {
 				nullControl = createNullControl();
@@ -227,24 +244,39 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			currentSubControl = nullControl;
 		} else {
 			if (subForm == null) {
-				data.addInBuffer(value);
-				subForm = createSubForm();
+				data.withInBuffer(value, new Runnable() {
+					@Override
+					public void run() {
+						subForm = createSubForm();
+					}
+				});
 				if (currentError != null) {
 					// display the current error (over the last valid value)
-					data.addInBuffer(new ErrorOccurrence(currentError));
-					subFormBuilder.reloadValue(subForm, refreshStructure);
+					data.withInBuffer(new ErrorOccurrence(currentError), new Runnable() {
+						@Override
+						public void run() {
+							subFormBuilder.reloadValue(subForm, refreshStructure);
+						}
+					});
 				}
 			} else {
 				if (currentError != null) {
 					// display the current error (over the last valid value)
 					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
-				data.addInBuffer(value);
-				subFormBuilder.reloadValue(subForm, refreshStructure);
+				data.withInBuffer(value, new Runnable() {
+					@Override
+					public void run() {
+						subFormBuilder.reloadValue(subForm, refreshStructure);
+					}
+				});
 			}
 			currentSubControl = subForm;
 		}
-		currentSubControl.setVisible(isSubControlDisplayed());
+		if (currentSubControl.isVisible() != isSubControlDisplayed()) {
+			currentSubControl.setVisible(isSubControlDisplayed());
+			SwingRendererUtils.handleComponentSizeChange(this);
+		}
 	}
 
 	protected JCheckBox createNullStatusControl() {

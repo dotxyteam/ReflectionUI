@@ -120,10 +120,18 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			dynamicControlCache.clear();
 		}
 		Object value = data.getValue();
-		data.addInBuffer(value);
-		refreshTypeEnumerationControl(refreshStructure);
-		data.addInBuffer(value);
-		refreshDynamicControl(refreshStructure);
+		data.withInBuffer(value, new Runnable() {			
+			@Override
+			public void run() {
+				refreshTypeEnumerationControl(refreshStructure);
+			}
+		});
+		data.withInBuffer(value, new Runnable() {			
+			@Override
+			public void run() {
+				refreshDynamicControl(refreshStructure);
+			}
+		});
 		return true;
 	}
 
@@ -137,8 +145,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		Listener<Object> dynamicControlUpdater = new Listener<Object>() {
 			@Override
 			public void handle(Object instance) {
-				data.addInBuffer(instance);
-				refreshDynamicControl(false);
+				data.withInBuffer(instance, new Runnable() {			
+					@Override
+					public void run() {
+						refreshDynamicControl(false);
+					}
+				});
 			}
 		};
 		Mapper<ITypeInfo, Object> instantiator = new Mapper<ITypeInfo, Object>() {
@@ -219,8 +231,12 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				// display the current error (over the last valid instance value)
 				instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 			}
-			data.addInBuffer(instance);
-			dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
+			data.withInBuffer(instance, new Runnable() {
+				@Override
+				public void run() {
+					dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
+				}
+			});
 		} else {
 			// show/replace dynamic control
 			if (dynamicControlInstanceType != null) {
@@ -234,17 +250,29 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					// display the current error (over the last valid instance value)
 					instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 				}
-				data.addInBuffer(instance);
-				dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
+				data.withInBuffer(instance, new Runnable() {
+					@Override
+					public void run() {
+						dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
+					}
+				});
 			} else {
-				data.addInBuffer(instance);
-				dynamicControl = createDynamicControl(instanceType);
+				data.withInBuffer(instance, new Runnable() {
+					@Override
+					public void run() {
+						dynamicControl = createDynamicControl(instanceType);
+					}
+				});
 				dynamicControlCache.put(instanceType,
 						new Pair<AbstractEditorFormBuilder, Form>(dynamicControlBuilder, dynamicControl));
 				if (currentError != null) {
 					// display the current error (over the last valid instance value)
-					data.addInBuffer(new ErrorOccurrence(currentError));
-					dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
+					data.withInBuffer(new ErrorOccurrence(currentError), new Runnable() {
+						@Override
+						public void run() {
+							dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
+						}
+					});
 				}
 			}
 			dynamicControlInstanceType = instanceType;
