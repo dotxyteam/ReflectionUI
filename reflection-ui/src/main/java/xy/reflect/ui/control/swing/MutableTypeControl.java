@@ -24,10 +24,13 @@ import xy.reflect.ui.util.Listener;
  * is used to display the non-null supported value.
  * 
  * Note that this control is used when
- * {@link IFieldControlData#isNullValueDistinct()} returns false. Which means
- * that it prevents its sub-control from encountering null value. The null value
- * allows to destroy the current control and pick a more suitable one.
+ * {@link IFieldControlData#isNullValueDistinct()} returns false. It prevents
+ * its sub-control from encountering a null value. Such a null value would cause
+ * the current control to be destroyed and replaced by a more suitable one.
  * 
+ * The {@link #MUTABLE_TYPE_CONTROL_INFO_PROPERTY_KEY} specific property key is
+ * used to prevent the creation of multiple nested mutable controls for the same
+ * control input.
  * 
  * @author olitank
  *
@@ -36,22 +39,28 @@ public class MutableTypeControl extends NullableControl {
 
 	private static final long serialVersionUID = 1L;
 
-	protected static final String MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY = MutableTypeControl.class.getName()
-			+ ".MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY";
+	protected static final String MUTABLE_TYPE_CONTROL_INFO_PROPERTY_KEY = MutableTypeControl.class.getName()
+			+ ".MUTABLE_TYPE_CONTROL_INFO_PROPERTY_KEY";
 
-	protected boolean recreationNeeded = false;
+	protected Info info;
 
 	public MutableTypeControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, input);
 	}
 
 	@Override
+	protected void initialize() {
+		info = new Info();
+		super.initialize();
+	}
+
+	@Override
 	protected AbstractEditorFormBuilder createSubFormBuilder(SwingRenderer swingRenderer, IFieldControlInput input,
 			IContext subContext, Listener<Throwable> commitExceptionHandler) {
-		final MutableTypeControl parent = (MutableTypeControl) input.getControlData().getSpecificProperties()
-				.get(MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY);
-		if (parent != null) {
-			parent.recreationNeeded = true;
+		Info alreadyCreatedMutableTypeControlInfo = (Info) input.getControlData().getSpecificProperties()
+				.get(MUTABLE_TYPE_CONTROL_INFO_PROPERTY_KEY);
+		if (alreadyCreatedMutableTypeControlInfo != null) {
+			alreadyCreatedMutableTypeControlInfo.setRecreationNeeded(true);
 		}
 		return new SubFormBuilder(swingRenderer, this, input, subContext, commitExceptionHandler) {
 
@@ -59,13 +68,13 @@ public class MutableTypeControl extends NullableControl {
 			protected Map<String, Object> getEncapsulatedFieldSpecificProperties() {
 				Map<String, Object> result = new HashMap<String, Object>(
 						super.getEncapsulatedFieldSpecificProperties());
-				result.put(MUTABLE_TYPE_CONTROL_ALREADY_CREATED_PROPERTY_KEY, MutableTypeControl.this);
+				result.put(MUTABLE_TYPE_CONTROL_INFO_PROPERTY_KEY, info);
 				return result;
 			}
 
 			@Override
 			public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
-				if (parent != null) {
+				if (alreadyCreatedMutableTypeControlInfo != null) {
 					return new Form(swingRenderer, new Object(), IInfoFilter.DEFAULT);
 				} else {
 					return super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
@@ -98,7 +107,7 @@ public class MutableTypeControl extends NullableControl {
 				((JComponent) currentSubControl).setBorder(null);
 			}
 		}
-		if (recreationNeeded) {
+		if (info.isRecreationNeeded()) {
 			result = false;
 		}
 		nullStatusControl.setVisible(false);
@@ -119,4 +128,45 @@ public class MutableTypeControl extends NullableControl {
 	public String toString() {
 		return "MutableTypeControl [data=" + data + "]";
 	}
+
+	protected static class Info {
+		protected boolean recreationNeeded = false;
+
+		public boolean isRecreationNeeded() {
+			return recreationNeeded;
+		}
+
+		public void setRecreationNeeded(boolean recreationNeeded) {
+			this.recreationNeeded = recreationNeeded;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + (recreationNeeded ? 1231 : 1237);
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Info other = (Info) obj;
+			if (recreationNeeded != other.recreationNeeded)
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "MutableTypeControl.Info [recreationNeeded=" + recreationNeeded + "]";
+		}
+
+	}
+
 }

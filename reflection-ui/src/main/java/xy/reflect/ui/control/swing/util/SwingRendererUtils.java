@@ -124,6 +124,7 @@ public class SwingRendererUtils {
 
 	private static final Map<GraphicsDevice, Rectangle> MAXIMUM_BOUNDS_BY_GRAPHIC_DEVICE_CACHE = new HashMap<GraphicsDevice, Rectangle>();
 	private static List<Window> windowsToValidate = new ArrayList<Window>();
+	private static boolean windowsValidationScheduled = false;
 
 	public static boolean isNullImage(Image image) {
 		return (image.getWidth(null) * image.getHeight(null) == 1);
@@ -325,6 +326,7 @@ public class SwingRendererUtils {
 				});
 			} else {
 				splitPane.addComponentListener(new ComponentAdapter() {
+
 					@Override
 					public void componentResized(ComponentEvent ce) {
 						splitPane.removeComponentListener(this);
@@ -343,6 +345,7 @@ public class SwingRendererUtils {
 				}
 			});
 		}
+
 	}
 
 	public static void disableComponentTree(JComponent c, final boolean revert) {
@@ -489,17 +492,25 @@ public class SwingRendererUtils {
 		if (window != null) {
 			if (!windowsToValidate.contains(window)) {
 				if (windowsToValidate.isEmpty()) {
+					windowsValidationScheduled = true;
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							for (Window window : windowsToValidate) {
-								window.validate();
+							try {
+								for (Window window : windowsToValidate) {
+									window.validate();
+								}
+							} finally {
+								windowsToValidate.clear();
+								windowsValidationScheduled = false;
 							}
-							windowsToValidate.clear();
 						}
 					});
 				}
 				windowsToValidate.add(window);
+			}
+			if (!windowsValidationScheduled) {
+				throw new ReflectionUIError();
 			}
 		}
 		c.repaint();

@@ -32,8 +32,8 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected Map<Object, ITypeInfo> typeCache = MiscUtils.newAutoCleanUpCache(false, false, 1000, 5000,
-			"TypeCacheCleaner[of=" + this + "]");
+	protected Map<Object, ITypeInfo> typeCache = MiscUtils.newAutoCleanUpCache(false, false,
+			SystemProperties.getStandardCacheSize(), 5000, "TypeCacheCleaner[of=" + this + "]");
 	protected Object typeCacheMutex = new Object();
 
 	/**

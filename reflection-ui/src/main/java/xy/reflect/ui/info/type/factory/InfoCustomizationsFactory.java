@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -186,10 +187,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	@Override
 	public ITypeInfo wrapTypeInfo(ITypeInfo type) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
-		if (t != null) {
-			if (t.getBaseTypeName() != null) {
-				type = getTypeInheritanceFactory(type.getName(), t.getBaseTypeName()).wrapTypeInfo(type);
+		for (TypeCustomization tc : new ArrayList<TypeCustomization>(
+				InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+			if (tc.getBaseTypeName() != null) {
+				if (MiscUtils.containsWord(type.getName(), tc.getTypeName())) {
+					type = getTypeInheritanceFactory(tc.getTypeName(), tc.getBaseTypeName()).wrapTypeInfo(type);
+				}
 			}
 		}
 		type = super.wrapTypeInfo(type);
@@ -207,10 +210,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			type = getSpecificitiesFactory(specificitiesIdentifier).unwrapTypeInfo(type);
 		}
 		type = super.unwrapTypeInfo(type);
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
-		if (t != null) {
-			if (t.getBaseTypeName() != null) {
-				type = getTypeInheritanceFactory(type.getName(), t.getBaseTypeName()).unwrapTypeInfo(type);
+		for (TypeCustomization tc : MiscUtils.getReverse(
+				InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+			if (tc.getBaseTypeName() != null) {
+				if (MiscUtils.containsWord(type.getName(), tc.getTypeName())) {
+					type = getTypeInheritanceFactory(tc.getTypeName(), tc.getBaseTypeName()).unwrapTypeInfo(type);
+				}
 			}
 		}
 		return type;
@@ -3342,8 +3347,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		@Override
 		public String getIdentifier() {
-			return "SpecificitiesFactory [of=" + InfoCustomizationsFactory.this.customizedUI.toString()
-					+ ", specificitiesIdentifier=" + specificitiesIdentifier.toString() + "]";
+			return "SpecificitiesFactory [specificitiesIdentifier=" + specificitiesIdentifier.toString()
+					+ ", parentFactoryIdentifier=" + InfoCustomizationsFactory.this.getIdentifier() + "]";
 		}
 
 		@Override
@@ -3364,16 +3369,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		@Override
 		public ITypeInfo wrapTypeInfo(ITypeInfo type) {
-			TypeCustomization t = InfoCustomizations.getTypeCustomization(
-					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations(),
-					specificitiesIdentifier.getObjectTypeName());
-			if (t != null) {
-				if (t.getBaseTypeName() != null) {
-					SpecificitiesFactory baseSpecificitiesFactory = new SpecificitiesFactory(
-							new SpecificitiesIdentifier(t.getBaseTypeName(), specificitiesIdentifier.getFieldName()));
-					type = baseSpecificitiesFactory.wrapTypeInfo(type);
-					type = baseSpecificitiesFactory.new TypeInheritanceFactory(
-							specificitiesIdentifier.getObjectTypeName(), t.getBaseTypeName()).wrapTypeInfo(type);
+			for (TypeCustomization tc : new ArrayList<TypeCustomization>(
+					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+				if (tc.getBaseTypeName() != null) {
+					if (MiscUtils.containsWord(specificitiesIdentifier.getObjectTypeName(), tc.getTypeName())) {
+						type = new SpecificitiesFactory(
+								new SpecificitiesIdentifier(
+										MiscUtils.replaceWord(specificitiesIdentifier.getObjectTypeName(),
+												tc.getTypeName(), tc.getBaseTypeName()),
+										specificitiesIdentifier.getFieldName()))
+												.getTypeInheritanceFactory(tc.getTypeName(), tc.getBaseTypeName())
+												.wrapTypeInfo(type);
+					}
 				}
 			}
 			type = super.wrapTypeInfo(type);
@@ -3383,16 +3390,18 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		@Override
 		public ITypeInfo unwrapTypeInfo(ITypeInfo type) {
 			type = super.unwrapTypeInfo(type);
-			TypeCustomization t = InfoCustomizations.getTypeCustomization(
-					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations(),
-					specificitiesIdentifier.getObjectTypeName());
-			if (t != null) {
-				if (t.getBaseTypeName() != null) {
-					SpecificitiesFactory baseSpecificitiesFactory = new SpecificitiesFactory(
-							new SpecificitiesIdentifier(t.getBaseTypeName(), specificitiesIdentifier.getFieldName()));
-					type = baseSpecificitiesFactory.new TypeInheritanceFactory(
-							specificitiesIdentifier.getObjectTypeName(), t.getBaseTypeName()).unwrapTypeInfo(type);
-					type = baseSpecificitiesFactory.unwrapTypeInfo(type);
+			for (TypeCustomization tc : MiscUtils.getReverse(
+					InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
+				if (tc.getBaseTypeName() != null) {
+					if (MiscUtils.containsWord(specificitiesIdentifier.getObjectTypeName(), tc.getTypeName())) {
+						type = new SpecificitiesFactory(
+								new SpecificitiesIdentifier(
+										MiscUtils.replaceWord(specificitiesIdentifier.getObjectTypeName(),
+												tc.getTypeName(), tc.getBaseTypeName()),
+										specificitiesIdentifier.getFieldName()))
+												.getTypeInheritanceFactory(tc.getTypeName(), tc.getBaseTypeName())
+												.unwrapTypeInfo(type);
+					}
 				}
 			}
 			return type;
@@ -3403,13 +3412,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 		protected String targetTypeName;
 		protected String baseTypeName;
-		protected InfoCustomizations baseInfoCustomizations;
+		protected InfoCustomizations inheritanceInfoCustomizations;
 
 		public TypeInheritanceFactory(String targetTypeName, String baseTypeName) {
 			super(InfoCustomizationsFactory.this.customizedUI);
 			this.targetTypeName = targetTypeName;
 			this.baseTypeName = baseTypeName;
-			baseInfoCustomizations = createBaseInfoCustomizations();
 
 		}
 
@@ -3419,22 +3427,90 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					+ ", parentFactoryIdentifier=" + InfoCustomizationsFactory.this.getIdentifier() + "]";
 		}
 
-		protected InfoCustomizations createBaseInfoCustomizations() {
-			InfoCustomizations result = new InfoCustomizations();
-			for (TypeCustomization baseTc : InfoCustomizationsFactory.this.getInfoCustomizations()
-					.getTypeCustomizations()) {
-				if (baseTc.getTypeName().contains(baseTypeName)) {
-					baseTc = (TypeCustomization) IOUtils.copyThroughSerialization(baseTc);
-					baseTc.setTypeName(baseTc.getTypeName().replace(baseTypeName, targetTypeName));
-					result.getTypeCustomizations().add(baseTc);
-				}
-			}
-			return result;
+		@Override
+		protected IInfoProxyFactory getTypeInheritanceFactory(String targetTypeName, String baseTypeName) {
+			return IInfoProxyFactory.NULL_INFO_PROXY_FACTORY;
 		}
 
 		@Override
 		public InfoCustomizations getInfoCustomizations() {
-			return baseInfoCustomizations;
+			if (inheritanceInfoCustomizations == null) {
+				return InfoCustomizationsFactory.this.getInfoCustomizations();
+			}
+			return inheritanceInfoCustomizations;
+		}
+
+		@Override
+		public ITypeInfo wrapTypeInfo(ITypeInfo type) {
+			if (inheritanceInfoCustomizations == null) {
+				if (MiscUtils.containsWord(type.getName(), targetTypeName)) {
+					inheritanceInfoCustomizations = createInheritanceInfoCustomizationsFrom(
+							InfoCustomizationsFactory.this.getInfoCustomizations());
+				}
+			}
+			return super.wrapTypeInfo(type);
+		}
+
+		@Override
+		public ITypeInfo unwrapTypeInfo(ITypeInfo type) {
+			if (inheritanceInfoCustomizations == null) {
+				if (MiscUtils.containsWord(type.getName(), targetTypeName)) {
+					inheritanceInfoCustomizations = createInheritanceInfoCustomizationsFrom(
+							InfoCustomizationsFactory.this.getInfoCustomizations());
+				}
+			}
+			return super.unwrapTypeInfo(type);
+		}
+
+		protected InfoCustomizations createInheritanceInfoCustomizationsFrom(
+				InfoCustomizations baseInfoCustomizations) {
+			InfoCustomizations result = (InfoCustomizations) IOUtils.copyThroughSerialization(baseInfoCustomizations);
+			for (Iterator<TypeCustomization> it = result.getTypeCustomizations().iterator(); it.hasNext();) {
+				TypeCustomization tc = it.next();
+				if (MiscUtils.containsWord(tc.getTypeName(), targetTypeName)) {
+					it.remove();
+					continue;
+				}
+				if (MiscUtils.containsWord(tc.getTypeName(), baseTypeName)) {
+					tc.setTypeName(MiscUtils.replaceWord(tc.getTypeName(), baseTypeName, targetTypeName));
+				}
+				for (FieldCustomization fc : tc.getFieldsCustomizations()) {
+					fc.setSpecificTypeCustomizations((FieldTypeSpecificities) createInheritanceInfoCustomizationsFrom(
+							fc.getSpecificTypeCustomizations()));
+				}
+			}
+			for (Iterator<ListCustomization> it = result.getListCustomizations().iterator(); it.hasNext();) {
+				ListCustomization lc = it.next();
+				if (MiscUtils.containsWord(lc.getListTypeName(), targetTypeName)) {
+					it.remove();
+					continue;
+				}
+				if (MiscUtils.containsWord(lc.getListTypeName(), baseTypeName)) {
+					lc.setListTypeName(MiscUtils.replaceWord(lc.getListTypeName(), baseTypeName, targetTypeName));
+				}
+				if (lc.getItemTypeName() != null) {
+					if (MiscUtils.containsWord(lc.getItemTypeName(), targetTypeName)) {
+						it.remove();
+						continue;
+					}
+					if (MiscUtils.containsWord(lc.getItemTypeName(), baseTypeName)) {
+						lc.setItemTypeName(MiscUtils.replaceWord(lc.getItemTypeName(), baseTypeName, targetTypeName));
+					}
+				}
+			}
+			for (Iterator<EnumerationCustomization> it = result.getEnumerationCustomizations().iterator(); it
+					.hasNext();) {
+				EnumerationCustomization ec = it.next();
+				if (MiscUtils.containsWord(ec.getEnumerationTypeName(), targetTypeName)) {
+					it.remove();
+					continue;
+				}
+				if (MiscUtils.containsWord(ec.getEnumerationTypeName(), baseTypeName)) {
+					ec.setEnumerationTypeName(
+							MiscUtils.replaceWord(ec.getEnumerationTypeName(), baseTypeName, targetTypeName));
+				}
+			}
+			return result;
 		}
 
 		@Override

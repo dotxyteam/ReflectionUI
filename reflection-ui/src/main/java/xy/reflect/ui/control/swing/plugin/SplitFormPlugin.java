@@ -163,6 +163,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					throw new ReflectionUIError();
 				}
 			}
+			System.out.println(result);
 			return result;
 		}
 

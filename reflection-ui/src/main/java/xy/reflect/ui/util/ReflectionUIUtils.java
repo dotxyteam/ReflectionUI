@@ -636,7 +636,9 @@ public class ReflectionUIUtils {
 									/*
 									 * If the modifications were applied directly or through a proxy, it would be
 									 * useless to commit them since we are sure that the actual data (not a copy or
-									 * something else) was altered.
+									 * something else) was altered. However, it is necessary to commit the
+									 * modifications, even if the editor has direct access to the value, when the
+									 * resulting value replaces the old value (with a new identity).
 									 */
 									if (committingModification != null) {
 										if (debugLogListener != null) {

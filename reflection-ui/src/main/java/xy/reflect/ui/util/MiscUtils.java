@@ -15,6 +15,7 @@ import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +44,20 @@ public class MiscUtils {
 
 	public static final String[] NEW_LINE_SEQUENCES = new String[] { "\r\n", "\n", "\r" };
 	public static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
+	public static final Pattern SPECIAL_REGEX_REPLACEMENT_CHARS = Pattern.compile("[$\\\\]");
 
 	public static String escapeRegex(String str) {
 		return SPECIAL_REGEX_CHARS.matcher(str).replaceAll("\\\\$0");
+	}
+
+	public static String escapeRegexReplacement(String str) {
+		return SPECIAL_REGEX_REPLACEMENT_CHARS.matcher(str).replaceAll("\\\\$0");
+	}
+
+	public static <T> List<T> getReverse(List<T> ts) {
+		List<T> result = new ArrayList<T>(ts);
+		Collections.reverse(result);
+		return result;
 	}
 
 	public static <BASE, C extends BASE> List<BASE> convertCollection(Collection<C> ts) {
@@ -300,7 +312,7 @@ public class MiscUtils {
 		return newAutoCleanUpCache(true, false, maxSize, 5000, "WeakKeysIdentityBasedCacheCleaner");
 	}
 
-	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues, int maxSize,
+	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues, long maxSize,
 			final long cleanUpPeriodMilliseconds, String cleanUpThreadNamePrefix) {
 		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
 		if (maxSize != -1) {
@@ -379,6 +391,14 @@ public class MiscUtils {
 		removedNodes.removeAll(newFilteredSet);
 		result.removeAll(removedNodes);
 		return result;
+	}
+
+	public static boolean containsWord(String text, String word) {
+		return text.matches(".*\\b" + escapeRegex(word) + "\\b.*");
+	}
+
+	public static String replaceWord(String text, String word, String replacement) {
+		return text.replaceAll("\\b" + escapeRegex(word) + "\\b", escapeRegexReplacement(replacement));
 	}
 
 }

@@ -81,16 +81,6 @@ public class CustomizedUI extends ReflectionUI {
 			} else {
 				result = getInfoCustomizationsSetupFactory().wrapTypeInfo(result);
 				result = getTypeInfoBeforeCustomizations(result);
-				if (typeSource.toString().equals(
-						"PrecomputedTypeInstanceWrapper.TypeInfoSource [type=TypeInfo [of=EncapsulatedObjectFactory [typeCaption=Plan Activator, fieldType=GeneratedBasicTypeInfoProxy [name=com.otk.jesb.Debugger$PlanActivator, factory=TypeInfoProxyFactory [id=com.otk.jesb.ui.JESBReflectionUI$3], base=GeneratedBasicTypeInfoProxy [name=com.otk.jesb.Debugger$PlanActivator, factory=TypeInfoProxyFactory [id=CustomizationsFactory [of=com.otk.jesb.ui.JESBReflectionUI@32d992b2]], base=GeneratedBasicTypeInfoProxy [name=com.otk.jesb.Debugger$PlanActivator, factory=TypeInfoProxyFactory [id=com.otk.jesb.ui.JESBReflectionUI$2], base=GeneratedBasicTypeInfoProxy [name=com.otk.jesb.Debugger$PlanActivator, factory=TypeInfoProxyFactory [id=CustomizationsSetupFactory [of=com.otk.jesb.ui.JESBReflectionUI@32d992b2]], base=DefaultTypeInfo [source=JavaTypeInfoSource [javaType=class com.otk.jesb.Debugger$PlanActivator, declaringMember=null, declaringInvokableParameterPosition=0, genericTypeParameters=null, specificitiesIdentifier=null]]]]]], fieldCaption=]]]")) {
-					System.out.println("debug");
-					System.out.println(typeCache.get("debug"));
-					System.out.println("customizedTypesCacheKey.equals(typeCache.get(\"debug\")): "
-							+ customizedTypesCacheKey.equals(typeCache.get("debug")));
-					System.out.println("typeCache.get(typeCache.get(\"debug\")): "
-							+ typeCache.get(typeCache.get("debug")));
-					typeCache.put("debug", customizedTypesCacheKey);
-				}
 				result = getInfoCustomizationsFactory().wrapTypeInfo(result);
 				result = getTypeInfoAfterCustomizations(result);
 				typeCache.put(customizedTypesCacheKey, result);
