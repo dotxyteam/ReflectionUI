@@ -54,6 +54,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractEditorFormBuilder {
 
 	protected Object initialObjectValue;
+	protected Object currentObjectValue;
+	protected Object lastObjectValue;
 	protected boolean initialized = false;
 	protected Accessor<Object> encapsulatedObjectValueAccessor;
 
@@ -162,23 +164,25 @@ public abstract class AbstractEditorFormBuilder {
 			return;
 		}
 		encapsulatedObjectValueAccessor = new Accessor<Object>() {
-
-			Object object = ErrorOccurrence.tryCatch(new Accessor<Object>() {
-				@Override
-				public Object get() {
-					initialObjectValue = null;
-					return initialObjectValue = loadValue();
-				}
-			});
-
-			@Override
-			public Object get() {
-				return ErrorOccurrence.rethrow(object);
+			{
+				currentObjectValue = ErrorOccurrence.tryCatch(new Accessor<Object>() {
+					@Override
+					public Object get() {
+						lastObjectValue = (initialObjectValue = null);
+						return lastObjectValue = (initialObjectValue = loadValue());
+					}
+				});
 			}
 
 			@Override
-			public void set(Object o) {
-				object = o;
+			public Object get() {
+				return ErrorOccurrence.rethrow(currentObjectValue);
+			}
+
+			@Override
+			public void set(Object value) {
+				lastObjectValue = currentObjectValue;
+				currentObjectValue = value;
 			}
 
 		};
@@ -198,7 +202,7 @@ public abstract class AbstractEditorFormBuilder {
 	 *         modification.
 	 */
 	public boolean isValueReplaced() {
-		return getCurrentValue() != initialObjectValue;
+		return getCurrentValue() != lastObjectValue;
 	}
 
 	/**
@@ -423,6 +427,7 @@ public abstract class AbstractEditorFormBuilder {
 			ensureIsInitialized();
 			editorForm.setObject(getNewCapsule());
 		} else {
+			ensureIsInitialized();
 			Object oldValue = ErrorOccurrence.tryCatch(new Accessor<Object>() {
 				@Override
 				public Object get() {
@@ -489,9 +494,16 @@ public abstract class AbstractEditorFormBuilder {
 			return false;
 		}
 		ensureIsInitialized();
-		return ReflectionUIUtils.mayModificationsHaveImpact(
-				ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue),
-				getReturnModeFromParent(), canCommitToParent());
+		return ReflectionUIUtils.mayModificationsHaveImpact(isValueKnownAsImmutable(), getReturnModeFromParent(),
+				canCommitToParent());
+	}
+
+	/**
+	 * @return whether the local value/object can be modified or not. If there is a
+	 *         doubt then false should be returned.
+	 */
+	protected boolean isValueKnownAsImmutable() {
+		return ReflectionUIUtils.isValueImmutable(getSwingRenderer().getReflectionUI(), initialObjectValue);
 	}
 
 	/**

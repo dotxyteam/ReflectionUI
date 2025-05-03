@@ -163,7 +163,6 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					throw new ReflectionUIError();
 				}
 			}
-			System.out.println(result);
 			return result;
 		}
 
@@ -240,6 +239,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			} else {
 				throw new ReflectionUIError();
 			}
+			validate();
 			SwingRendererUtils.ensureDividerLocation(this, controlCustomization.defaultDividerLocation);
 			setResizeWeight(controlCustomization.defaultDividerLocation);
 			SwingRendererUtils.handleComponentSizeChange(this);

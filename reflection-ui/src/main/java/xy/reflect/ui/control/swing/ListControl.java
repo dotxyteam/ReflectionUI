@@ -1618,7 +1618,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				} else {
 					detailsControlItemPosition = singleSelection;
 					detailsControlBuilder.setPosition(detailsControlItemPosition);
-					detailsControlBuilder.reloadValue(detailsControl, true);
+					detailsControlBuilder.reloadValue(detailsControl, refreshStructure);
 				}
 				return;
 			}
@@ -2595,6 +2595,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return getStructuralInfo(dynamicItemPosition).getItemInfoFilter(dynamicItemPosition);
 				}
 			};
+		}
+
+		@Override
+		protected boolean isValueKnownAsImmutable() {
+			return false;
 		}
 
 	}

@@ -43,16 +43,16 @@ public class ErrorOccurrence {
 			if (error instanceof Error) {
 				throw (Error) error;
 			}
-			throw new CheckExceptionWrapper(error);
+			throw new CheckedExceptionWrapper(error);
 		}
 		return object;
 	}
 
-	public static class CheckExceptionWrapper extends ReflectionUIError {
+	public static class CheckedExceptionWrapper extends ReflectionUIError {
 
 		private static final long serialVersionUID = 1L;
 
-		public CheckExceptionWrapper(Throwable cause) {
+		public CheckedExceptionWrapper(Throwable cause) {
 			super(cause);
 		}
 
