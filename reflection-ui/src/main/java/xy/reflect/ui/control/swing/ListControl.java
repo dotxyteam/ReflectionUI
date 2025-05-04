@@ -2047,7 +2047,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
-				if (!itemPosition.getContainingListType().isItemValidityDetected(itemPosition)) {
+				if (!itemPosition.getContainingListType().isBranchValidityDetected(itemPosition)) {
 					return VisitStatus.BRANCH_VISIT_INTERRUPTED;
 				}
 				ItemUIBuilder itemUIBuilder = new ItemUIBuilder(itemPosition);

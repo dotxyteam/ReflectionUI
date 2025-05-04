@@ -15,7 +15,6 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
@@ -68,6 +67,11 @@ public interface IListTypeInfo extends ITypeInfo {
 		@Override
 		public Object[] toArray(Object listValue) {
 			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isBranchValidityDetected(ItemPosition itemPosition) {
+			return false;
 		}
 
 		@Override
@@ -520,10 +524,11 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	/**
 	 * @param itemPosition The position of the list item to inspect.
-	 * @return whether a validation error should be checked for the element
-	 *         designated by the list item position passed as a parameter.
+	 * @return whether validation errors should be checked for the branch starting
+	 *         from the element designated by the list item position passed as a
+	 *         parameter.
 	 */
-	boolean isItemValidityDetected(BufferedItemPosition itemPosition);
+	boolean isBranchValidityDetected(ItemPosition itemPosition);
 
 	/**
 	 * Allows to choose how the UI behaves when creating items. Typically it answers

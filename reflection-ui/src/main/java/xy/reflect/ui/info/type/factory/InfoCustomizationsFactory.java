@@ -27,6 +27,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractVirtualFieldDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ApplicationCustomization;
+import xy.reflect.ui.info.custom.InfoCustomizations.BranchValidityDetectionConfiguration;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationItemCustomization;
@@ -305,6 +306,43 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 		return super.getItemCreationMode(listType);
+	}
+
+	@Override
+	protected boolean isBranchValidityDetected(IListTypeInfo listType, ItemPosition itemPosition) {
+		ITypeInfo itemType = listType.getItemType();
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
+		if (l != null) {
+			BranchValidityDetectionConfiguration c = l.getBranchValidityDetectionConfiguration();
+			if (c != null) {
+				if (c.getEnablementStatusFieldNameInfoFilter() != null) {
+					try {
+						Object item = itemPosition.getItem();
+						ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+						for (IFieldInfo field : actualItemType.getFields()) {
+							if (c.getEnablementStatusFieldNameInfoFilter().matches(field.getName())) {
+								Object fieldValue = field.getValue(item);
+								if (fieldValue instanceof Boolean) {
+									return (Boolean) fieldValue;
+								} else {
+									throw new ReflectionUIError(
+											"Unexpected non-boolean value returned from the field: '" + fieldValue
+													+ "'");
+								}
+							}
+						}
+						throw new ReflectionUIError("Field not found");
+					} catch (Throwable t) {
+						throw new ReflectionUIError(
+								"Failed to get the enablement status of the branch validity detection from the field designated by '"
+										+ c.getEnablementStatusFieldNameInfoFilter() + "': " + t.toString());
+					}
+				}
+				return true;
+			}
+		}
+		return super.isBranchValidityDetected(listType, itemPosition);
 	}
 
 	@Override

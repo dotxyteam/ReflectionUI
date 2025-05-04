@@ -1147,7 +1147,20 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type       The type information.
-	 * @param objectType The parent type information.
+	 * @param objectType Parameter of
+	 *                   {@link IListTypeInfo#isBranchValidityDetected(ItemPosition)}.
+	 * @return the result of
+	 *         {@link IListTypeInfo#isBranchValidityDetected(ItemPosition)} unless
+	 *         overridden.
+	 */
+	protected boolean isBranchValidityDetected(IListTypeInfo type, ItemPosition itemPosition) {
+		return type.isBranchValidityDetected(itemPosition);
+	}
+
+	/**
+	 * @param type       The type information.
+	 * @param objectType Parameter of
+	 *                   {@link IListTypeInfo#getSelectionTargetField(ITypeInfo)}.
 	 * @return the result of
 	 *         {@link IListTypeInfo#getSelectionTargetField(ITypeInfo)} unless
 	 *         overridden.
@@ -2529,6 +2542,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		public GeneratedListTypeInfoProxy(IListTypeInfo type) {
 			super(type);
+		}
+
+		@Override
+		public boolean isBranchValidityDetected(ItemPosition itemPosition) {
+			return InfoProxyFactory.this.isBranchValidityDetected((IListTypeInfo) base, itemPosition);
 		}
 
 		@Override

@@ -443,6 +443,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		@Override
+		public boolean isBranchValidityDetected(ItemPosition itemPosition) {
+			return false;
+		}
+
+		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(this,
 					new SpecificitiesIdentifier(parentType.getName(), ImplicitListFieldInfo.this.getName()));

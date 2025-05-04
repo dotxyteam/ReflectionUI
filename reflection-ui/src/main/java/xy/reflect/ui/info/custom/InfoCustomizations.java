@@ -4322,10 +4322,11 @@ public class InfoCustomizations implements Serializable {
 		protected ControlSizeCustomization height = null;
 		protected boolean itemNullValueAllowed = false;
 		protected ItemCreationMode itemCreationMode = ItemCreationMode.UNDEFINED;
-		protected ValueReturnMode customItemReturnMode;		
+		protected ValueReturnMode customItemReturnMode;
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
 		protected boolean itemAutomaticPositioningManagementForced = false;
+		protected BranchValidityDetectionConfiguration branchValidityDetectionConfiguration;
 
 		@Override
 		public boolean isInitial() {
@@ -4339,6 +4340,15 @@ public class InfoCustomizations implements Serializable {
 				@XmlElement(name = "customTypeInfoFinder", type = CustomTypeInfoFinder.class) })
 		public ITypeInfoFinder getCustomItemTypeFinder() {
 			return customItemTypeFinder;
+		}
+
+		public BranchValidityDetectionConfiguration getBranchValidityDetectionConfiguration() {
+			return branchValidityDetectionConfiguration;
+		}
+
+		public void setBranchValidityDetectionConfiguration(
+				BranchValidityDetectionConfiguration branchValidityDetectionConfiguration) {
+			this.branchValidityDetectionConfiguration = branchValidityDetectionConfiguration;
 		}
 
 		public ValueReturnMode getCustomItemReturnMode() {
@@ -4584,6 +4594,21 @@ public class InfoCustomizations implements Serializable {
 		public String toString() {
 			return "ListCustomization [listTypeName=" + listTypeName + ", itemTypeName=" + itemTypeName + "]";
 		}
+
+	}
+
+	public static class BranchValidityDetectionConfiguration extends AbstractCustomization {
+		private static final long serialVersionUID = 1L;
+		protected InfoFilter enablementStatusFieldNameInfoFilter;
+
+		public InfoFilter getEnablementStatusFieldNameInfoFilter() {
+			return enablementStatusFieldNameInfoFilter;
+		}
+
+		public void setEnablementStatusFieldNameInfoFilter(InfoFilter enablementStatusFieldNameInfoFilter) {
+			this.enablementStatusFieldNameInfoFilter = enablementStatusFieldNameInfoFilter;
+		}
+		
 
 	}
 
