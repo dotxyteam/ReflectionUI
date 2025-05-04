@@ -120,7 +120,7 @@ public class MutableTypeControl extends NullableControl {
 	}
 
 	@Override
-	protected boolean isCaptionDisplayedOnNullStatusControl() {
+	protected boolean shouldCaptionBeDisplayedOnNullStatusControl() {
 		return false;
 	}
 

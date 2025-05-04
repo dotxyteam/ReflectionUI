@@ -1537,4 +1537,17 @@ public class ReflectionUIUtils {
 		};
 	}
 
+	public static Exception unwrapValidationException(Exception e) {
+		if (e instanceof ReflectionUIError) {
+			if (e.getCause() instanceof Exception) {
+				if (((ReflectionUIError) e).getBaseMessage() != null) {
+					if (((ReflectionUIError) e).getBaseMessage().contains(e.getCause().toString())) {
+						return unwrapValidationException((Exception) e.getCause());
+					}
+				}
+			}
+		}
+		return e;
+	}
+
 }

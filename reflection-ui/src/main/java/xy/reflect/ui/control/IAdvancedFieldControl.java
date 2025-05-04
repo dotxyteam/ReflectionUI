@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control;
 
 import xy.reflect.ui.info.menu.MenuModel;
@@ -36,7 +34,8 @@ public interface IAdvancedFieldControl {
 	boolean refreshUI(boolean refreshStructure);
 
 	/**
-	 * Validates forms that are embedded in the current control.
+	 * Validates forms that are embedded in the current control. Note that this
+	 * method is not intended to be called from the UI thread.
 	 * 
 	 * @throws Exception If an invalid sub-form is detected.
 	 */

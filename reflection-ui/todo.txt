@@ -1,6 +1,16 @@
+- IListStructuralInfo methods do not need the ItemPosition parameter as
+the structural info is already bound to a  list type that is bound to an
+ItemPosition. It may be enough to pass an item instead of an item position.
+There is the same problem for IListeTypeInfo.isItemValidityDetected().
+But note that ItemPositions allow to know the index of the item in its list.
+It may be a useful information. Analyze ! 
+- Form.validateForm() IAdvanceFieldControl.validateSubForms() may be replaced
+by an algorithm that is based on IInfo only, not forms and field controls, since
+it is possible know exactly what is displayed on the screen by inspecting
+the IInfos. It would allow to not generate forms for performing list items
+validation. 
 - type inheritance issues:
 	. not optimized (info customizations are copied during customization)
-- types are evicted from CustomizeUI.typesCache when some forms are hidden
 - must study the utility of SpecificitiesIdentifier
 - need to test utility class (only static fields and methods) instance dialog  
 - are transactions still useful ? 

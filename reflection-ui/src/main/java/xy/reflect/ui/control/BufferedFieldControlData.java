@@ -32,7 +32,9 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 
 	@Override
 	public void setValue(Object value) {
-		buffer.clear();
+		if (buffer.size() > 0) {
+			throw new ReflectionUIError("Cannot update buffered field control data value (" + this + ")");
+		}
 		super.setValue(value);
 	}
 
@@ -43,13 +45,12 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 			runnable.run();
 		} finally {
 			if (buffer.size() < initialBufferSize) {
-				throw new ReflectionUIError();
+				throw new ReflectionUIError("Field control data value accessed at least once too often (" + this + ")");
 			}
 			while (buffer.size() > initialBufferSize) {
 				buffer.remove(0);
 			}
 		}
 	}
-
 
 }

@@ -111,7 +111,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		});
 		if (!Arrays.asList(getComponents()).contains(currentSubControl) || refreshStructure) {
 			removeAll();
-			if (!isCaptionDisplayedOnNullStatusControl()) {
+			if (!shouldCaptionBeDisplayedOnNullStatusControl()) {
 				add(SwingRendererUtils.flowInLayout(nullStatusControl, GridBagConstraints.CENTER), BorderLayout.WEST);
 				add(currentSubControl, BorderLayout.CENTER);
 				nullStatusControl.setText("");
@@ -138,11 +138,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		return true;
 	}
 
-	protected boolean isCaptionDisplayedOnNullStatusControl() {
-		return !(currentSubControl instanceof NullControl) || !isSubControlDisplayed();
+	protected boolean shouldCaptionBeDisplayedOnNullStatusControl() {
+		return !(currentSubControl instanceof NullControl) || !shouldSubControlBeDisplayed();
 	}
 
-	protected boolean isSubControlDisplayed() {
+	protected boolean shouldSubControlBeDisplayed() {
 		return !((currentSubControl instanceof NullControl) && (data.getNullValueLabel() == null));
 	}
 
@@ -273,8 +273,8 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			}
 			currentSubControl = subForm;
 		}
-		if (currentSubControl.isVisible() != isSubControlDisplayed()) {
-			currentSubControl.setVisible(isSubControlDisplayed());
+		if (currentSubControl.isVisible() != shouldSubControlBeDisplayed()) {
+			currentSubControl.setVisible(shouldSubControlBeDisplayed());
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 	}

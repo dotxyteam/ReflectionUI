@@ -109,7 +109,6 @@ public class SwingRendererUtils {
 
 	public static final BufferedImage NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 	public static final Font NULL_FONT = new Font(Font.SERIF, Font.PLAIN, 1);
-	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
 	public static final ImageIcon HELP_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/help.png"));
 	public static final ImageIcon DETAILS_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/details.png"));
 	public static final ImageIcon ADD_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/add.png"));
@@ -118,6 +117,11 @@ public class SwingRendererUtils {
 	public static final ImageIcon DOWN_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/down.png"));
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
+	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
+	public static final ImageIcon ERROR_OVERLAY_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/error-overlay.png"));
+	public static final ImageIcon WEAK_ERROR_OVERLAY_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/weak-error-overlay.png"));
 
 	public static Map<String, Image> IMAGE_CACHE = new HashMap<String, Image>();
 	public static Map<String, Font> FONT_CACHE = new HashMap<String, Font>();

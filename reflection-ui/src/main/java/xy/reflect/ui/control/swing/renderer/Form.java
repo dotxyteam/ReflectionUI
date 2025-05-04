@@ -25,6 +25,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -320,7 +321,7 @@ public class Form extends ImagePanel {
 
 	/**
 	 * Uses type information to check that the state of the underlying object is
-	 * valid.
+	 * valid. Note that this method should not be called from the UI thread.
 	 * 
 	 * @throws Exception If the state of the underlying object is not valid.
 	 */
@@ -330,8 +331,7 @@ public class Form extends ImagePanel {
 		type.validate(object);
 		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
 				methodControlPlaceHoldersByCategory);
-		boolean categoriesDisplayed = !((allCategories.size() == 1)
-				&& (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) && (allCategories.size() > 0);
+		boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
@@ -435,20 +435,7 @@ public class Form extends ImagePanel {
 				((HyperlinkLabel) statusBar).setLinkOpener(new Runnable() {
 					@Override
 					public void run() {
-						swingRenderer.openErrorDetailsDialog(statusBar, removeUselessExceptionWrappers(e));
-					}
-
-					private Throwable removeUselessExceptionWrappers(Throwable e) {
-						if (e instanceof ReflectionUIError) {
-							if (e.getCause() != null) {
-								if (((ReflectionUIError) e).getBaseMessage() != null) {
-									if (((ReflectionUIError) e).getBaseMessage().contains(e.getCause().toString())) {
-										return removeUselessExceptionWrappers(e.getCause());
-									}
-								}
-							}
-						}
-						return e;
+						swingRenderer.openErrorDetailsDialog(statusBar, ReflectionUIUtils.unwrapValidationException(e));
 					}
 
 				});
@@ -566,20 +553,7 @@ public class Form extends ImagePanel {
 		}
 		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
 				methodControlPlaceHoldersByCategory);
-		if ((allCategories.size() == 1) && (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) {
-			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-					.get(allCategories.get(0));
-			if (fieldControlPlaceHolders == null) {
-				fieldControlPlaceHolders = Collections.emptyList();
-			}
-			List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-					.get(allCategories.get(0));
-			if (methodControlPlaceHolders == null) {
-				methodControlPlaceHolders = Collections.emptyList();
-			}
-			categoriesControl = null;
-			layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
-		} else if (allCategories.size() > 0) {
+		if (shouldCategoriesBeDisplayed(allCategories)) {
 			membersPanel.setLayout(new BorderLayout());
 			categoriesControl = createCategoriesControl();
 			{
@@ -612,7 +586,25 @@ public class Form extends ImagePanel {
 			if (form == null) {
 				throw new ReflectionUIError();
 			}
+		} else {
+			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.values()
+					.stream().flatMap(List::stream).collect(Collectors.toList());
+			if (fieldControlPlaceHolders == null) {
+				fieldControlPlaceHolders = Collections.emptyList();
+			}
+			List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory.values()
+					.stream().flatMap(List::stream).collect(Collectors.toList());
+			if (methodControlPlaceHolders == null) {
+				methodControlPlaceHolders = Collections.emptyList();
+			}
+			categoriesControl = null;
+			layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
 		}
+	}
+
+	protected boolean shouldCategoriesBeDisplayed(List<InfoCategory> categories) {
+		return !((categories.size() == 1) && (swingRenderer.getNullInfoCategory().equals(categories.get(0))))
+				&& (categories.size() > 0);
 	}
 
 	protected List<InfoCategory> collectCategories(

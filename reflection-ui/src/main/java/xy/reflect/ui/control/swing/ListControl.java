@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -14,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -145,6 +149,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected AbstractBufferedItemPositionFactory itemPositionFactory;
 	protected static List<Object> clipboard = new ArrayList<Object>();
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
+	protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = new HashMap<BufferedItemPosition, Exception>();
 
 	protected JPanel detailsArea;
 	protected Form detailsControl;
@@ -962,11 +967,48 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected Image getCellIconImage(ItemNode node, int columnIndex) {
-		BufferedItemPosition itemPosition = getItemPositionByNode(node);
+		Image result = null;
+		final BufferedItemPosition itemPosition = getItemPositionByNode(node);
 		if (columnIndex == 0) {
-			return swingRenderer.getObjectIconImage(itemPosition.getItem());
+			result = swingRenderer.getObjectIconImage(itemPosition.getItem());
 		}
-		return null;
+		final boolean[] currentNodeValid = new boolean[] { true };
+		final boolean[] currentBranchValid = new boolean[] { true };
+		visitItems(new IItemsVisitor() {
+			@Override
+			public VisitStatus visitItem(BufferedItemPosition visitedItemPosition) {
+				/*
+				 * if(!getStructuralInfo(itemPosition).isBranchValidable(visitedItemPosition)) {
+				 * return VisitStatus.BRANCH_VISIT_INTERRUPTED; }
+				 */
+				if (validitionErrorByItemPosition.get(visitedItemPosition) != null) {
+					currentBranchValid[0] = false;
+					if (visitedItemPosition.equals(itemPosition)) {
+						currentNodeValid[0] = false;
+					}
+					return VisitStatus.TREE_VISIT_INTERRUPTED;
+				}
+				return VisitStatus.VISIT_NOT_INTERRUPTED;
+			}
+		}, node);
+		if (!currentBranchValid[0]) {
+			BufferedImage overlayedResult = new BufferedImage(
+					(result != null) ? result.getWidth(null) : SwingRendererUtils.ERROR_OVERLAY_ICON.getIconWidth(),
+					(result != null) ? result.getHeight(null) : SwingRendererUtils.ERROR_OVERLAY_ICON.getIconHeight(),
+					BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = overlayedResult.createGraphics();
+			if (result != null) {
+				g.drawImage(result, 0, 0, null);
+			}
+			int drawY = (result != null)
+					? (result.getHeight(null) - SwingRendererUtils.ERROR_OVERLAY_ICON.getIconHeight())
+					: 0;
+			g.drawImage((currentNodeValid[0] ? SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON
+					: SwingRendererUtils.ERROR_OVERLAY_ICON).getImage(), 0, drawY, null);
+			g.dispose();
+			result = overlayedResult;
+		}
+		return result;
 	}
 
 	protected List<AbstractAction> getCurrentSelectionActions() {
@@ -1211,7 +1253,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public BufferedItemPosition findItemPositionByReference(final Object item) {
 		final BufferedItemPosition[] result = new BufferedItemPosition[1];
-		visitItems(new IItemsVisitor() {
+		visitItemsInBreadthFirstSearchMode(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
 				if (itemPosition.getItem() == item) {
@@ -1226,7 +1268,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public List<BufferedItemPosition> findItemPositionsByValue(Object item) {
 		final List<BufferedItemPosition> result = new ArrayList<BufferedItemPosition>();
-		visitItems(new IItemsVisitor() {
+		visitItemsInBreadthFirstSearchMode(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
 				if (itemPosition.getItem().equals(item)) {
@@ -2001,6 +2043,42 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateSubForms() throws Exception {
+		validitionErrorByItemPosition.clear();
+		visitItems(new IItemsVisitor() {
+			@Override
+			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
+				if (!itemPosition.getContainingListType().isItemValidityDetected(itemPosition)) {
+					return VisitStatus.BRANCH_VISIT_INTERRUPTED;
+				}
+				ItemUIBuilder itemUIBuilder = new ItemUIBuilder(itemPosition);
+				Form[] itemForm = new Form[1];
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
+							itemForm[0] = itemUIBuilder.createEditorForm(false, false);
+						}
+					});
+				} catch (InvocationTargetException | InterruptedException e) {
+					throw new ReflectionUIError(e);
+				}
+				try {
+					itemForm[0].validateForm();
+				} catch (Exception e) {
+					validitionErrorByItemPosition.put(itemPosition, e);
+				}
+				return VisitStatus.VISIT_NOT_INTERRUPTED;
+			}
+		});
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				treeTableComponent.repaint();
+			}
+		});
+		if (validitionErrorByItemPosition.size() > 0) {
+			throw new ValidationError("Invalid item(s) found", validitionErrorByItemPosition);
+		}
 	}
 
 	@Override
@@ -3697,6 +3775,35 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		protected String getActionDescription() {
 			return dynamicProperty.getOnlineHelp();
+		}
+
+	}
+
+	public class ValidationError extends ReflectionUIError {
+
+		private static final long serialVersionUID = 1L;
+
+		protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition;
+
+		public ValidationError(String message, Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
+			super(message);
+			this.validitionErrorByItemPosition = validitionErrorByItemPosition;
+		}
+
+		public Map<String, Exception> getItemErrorByPath() {
+			return validitionErrorByItemPosition.entrySet().stream().collect(Collectors.toMap(entry -> {
+				BufferedItemPosition itemPosition = ((Map.Entry<BufferedItemPosition, Exception>) entry).getKey();
+				List<BufferedItemPosition> ancestorsAndItemPosition = new ArrayList<BufferedItemPosition>(
+						MiscUtils.getReverse(MiscUtils.convertCollectionUnsafely(itemPosition.getAncestors())));
+				ancestorsAndItemPosition.add(itemPosition);
+				return MiscUtils.stringJoin(ancestorsAndItemPosition.stream()
+						.map(itemPositionOrAncestor -> getCellValue(findNode(itemPositionOrAncestor), 0)).toArray(),
+						" / ");
+			}, entry -> {
+				Exception error = ((Map.Entry<BufferedItemPosition, Exception>) entry).getValue();
+				error = ReflectionUIUtils.unwrapValidationException(error);
+				return error;
+			}));
 		}
 
 	}
