@@ -100,12 +100,12 @@ public class BufferedItemPosition extends ItemPosition {
 	 * Updates the descendant lists buffers recursively. All existing descendant
 	 * item positions will be up-to-date after this operation.
 	 */
-	public void refreshBranch() {
+	public void refreshDescendants() {
 		for (int index : indexByBufferedSubItemPosition.values()) {
 			for (BufferedItemPosition bufferedSubItemPosition : MiscUtils
 					.getKeysFromValue(indexByBufferedSubItemPosition, index)) {
 				if (bufferedSubItemPosition != null) {
-					bufferedSubItemPosition.refreshBranch();
+					bufferedSubItemPosition.refreshDescendants();
 				}
 			}
 		}

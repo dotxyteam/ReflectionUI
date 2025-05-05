@@ -70,7 +70,7 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean isBranchValidityDetected(ItemPosition itemPosition) {
+		public boolean isItemNodeValidityDetected(ItemPosition itemPosition) {
 			return false;
 		}
 
@@ -524,11 +524,11 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	/**
 	 * @param itemPosition The position of the list item to inspect.
-	 * @return whether validation errors should be checked for the branch starting
-	 *         from the element designated by the list item position passed as a
-	 *         parameter.
+	 * @return whether validation errors should be checked for the item node (or
+	 *         subtree starting from this node) designated by the item position
+	 *         passed as a parameter.
 	 */
-	boolean isBranchValidityDetected(ItemPosition itemPosition);
+	boolean isItemNodeValidityDetected(ItemPosition itemPosition);
 
 	/**
 	 * Allows to choose how the UI behaves when creating items. Typically it answers

@@ -62,7 +62,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean isBranchValidityDetected(ItemPosition itemPosition) {
+	public boolean isItemNodeValidityDetected(ItemPosition itemPosition) {
 		return false;
 	}
 

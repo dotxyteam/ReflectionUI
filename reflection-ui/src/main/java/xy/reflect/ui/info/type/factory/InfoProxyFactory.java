@@ -1148,13 +1148,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	/**
 	 * @param type       The type information.
 	 * @param objectType Parameter of
-	 *                   {@link IListTypeInfo#isBranchValidityDetected(ItemPosition)}.
+	 *                   {@link IListTypeInfo#isItemNodeValidityDetected(ItemPosition)}.
 	 * @return the result of
-	 *         {@link IListTypeInfo#isBranchValidityDetected(ItemPosition)} unless
+	 *         {@link IListTypeInfo#isItemNodeValidityDetected(ItemPosition)} unless
 	 *         overridden.
 	 */
-	protected boolean isBranchValidityDetected(IListTypeInfo type, ItemPosition itemPosition) {
-		return type.isBranchValidityDetected(itemPosition);
+	protected boolean isItemNodeValidityDetected(IListTypeInfo type, ItemPosition itemPosition) {
+		return type.isItemNodeValidityDetected(itemPosition);
 	}
 
 	/**
@@ -2545,8 +2545,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isBranchValidityDetected(ItemPosition itemPosition) {
-			return InfoProxyFactory.this.isBranchValidityDetected((IListTypeInfo) base, itemPosition);
+		public boolean isItemNodeValidityDetected(ItemPosition itemPosition) {
+			return InfoProxyFactory.this.isItemNodeValidityDetected((IListTypeInfo) base, itemPosition);
 		}
 
 		@Override

@@ -972,26 +972,25 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (columnIndex == 0) {
 			result = swingRenderer.getObjectIconImage(itemPosition.getItem());
 		}
-		final boolean[] currentNodeValid = new boolean[] { true };
-		final boolean[] currentBranchValid = new boolean[] { true };
+		final boolean[] nodeValid = new boolean[] { true };
+		final boolean[] subtreeValid = new boolean[] { true };
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition visitedItemPosition) {
-				/*
-				 * if(!getStructuralInfo(itemPosition).isBranchValidable(visitedItemPosition)) {
-				 * return VisitStatus.BRANCH_VISIT_INTERRUPTED; }
-				 */
+				if (!visitedItemPosition.getContainingListType().isItemNodeValidityDetected(visitedItemPosition)) {
+					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
+				}
 				if (validitionErrorByItemPosition.get(visitedItemPosition) != null) {
-					currentBranchValid[0] = false;
+					subtreeValid[0] = false;
 					if (visitedItemPosition.equals(itemPosition)) {
-						currentNodeValid[0] = false;
+						nodeValid[0] = false;
 					}
 					return VisitStatus.TREE_VISIT_INTERRUPTED;
 				}
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		}, node);
-		if (!currentBranchValid[0]) {
+		if (!subtreeValid[0]) {
 			BufferedImage overlayedResult = new BufferedImage(
 					(result != null) ? result.getWidth(null) : SwingRendererUtils.ERROR_OVERLAY_ICON.getIconWidth(),
 					(result != null) ? result.getHeight(null) : SwingRendererUtils.ERROR_OVERLAY_ICON.getIconHeight(),
@@ -1003,8 +1002,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			int drawY = (result != null)
 					? (result.getHeight(null) - SwingRendererUtils.ERROR_OVERLAY_ICON.getIconHeight())
 					: 0;
-			g.drawImage((currentNodeValid[0] ? SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON
-					: SwingRendererUtils.ERROR_OVERLAY_ICON).getImage(), 0, drawY, null);
+			g.drawImage(
+					(nodeValid[0] ? SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON : SwingRendererUtils.ERROR_OVERLAY_ICON)
+							.getImage(),
+					0, drawY, null);
 			g.dispose();
 			result = overlayedResult;
 		}
@@ -1812,16 +1813,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			currentItemVisitStatus = VisitStatus.VISIT_NOT_INTERRUPTED;
 		}
 		VisitStatus finalItemVisitStatus = currentItemVisitStatus;
-		if (currentItemVisitStatus != VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+		if (currentItemVisitStatus != VisitStatus.SUBTREE_VISIT_INTERRUPTED) {
 			for (int i = 0; i < currentNode.getChildCount(); i++) {
 				ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
 				VisitStatus childItemVisitStatus = visitItems(itemsVisitor, childNode);
 				if (childItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
 					return VisitStatus.TREE_VISIT_INTERRUPTED;
 				}
-				if (childItemVisitStatus == VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+				if (childItemVisitStatus == VisitStatus.SUBTREE_VISIT_INTERRUPTED) {
 					if (finalItemVisitStatus == VisitStatus.VISIT_NOT_INTERRUPTED) {
-						finalItemVisitStatus = VisitStatus.BRANCH_VISIT_INTERRUPTED;
+						finalItemVisitStatus = VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 					}
 				}
 			}
@@ -1845,7 +1846,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} else {
 			currentItemVisitStatus = VisitStatus.VISIT_NOT_INTERRUPTED;
 		}
-		if (currentItemVisitStatus != VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+		if (currentItemVisitStatus != VisitStatus.SUBTREE_VISIT_INTERRUPTED) {
 			for (int i = 0; i < currentNode.getChildCount(); i++) {
 				ItemNode childNode = (ItemNode) currentNode.getChildAt(i);
 				queue.add(childNode);
@@ -1858,9 +1859,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (nextItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
 				return VisitStatus.TREE_VISIT_INTERRUPTED;
 			}
-			if (nextItemVisitStatus == VisitStatus.BRANCH_VISIT_INTERRUPTED) {
+			if (nextItemVisitStatus == VisitStatus.SUBTREE_VISIT_INTERRUPTED) {
 				if (finalItemVisitStatus == VisitStatus.VISIT_NOT_INTERRUPTED) {
-					finalItemVisitStatus = VisitStatus.BRANCH_VISIT_INTERRUPTED;
+					finalItemVisitStatus = VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
 			}
 		}
@@ -2047,8 +2048,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
-				if (!itemPosition.getContainingListType().isBranchValidityDetected(itemPosition)) {
-					return VisitStatus.BRANCH_VISIT_INTERRUPTED;
+				if (!itemPosition.getContainingListType().isItemNodeValidityDetected(itemPosition)) {
+					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
 				ItemUIBuilder itemUIBuilder = new ItemUIBuilder(itemPosition);
 				Form[] itemForm = new Form[1];
@@ -2686,7 +2687,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		VisitStatus visitItem(BufferedItemPosition itemPosition);
 
 		public enum VisitStatus {
-			VISIT_NOT_INTERRUPTED, BRANCH_VISIT_INTERRUPTED, TREE_VISIT_INTERRUPTED
+			VISIT_NOT_INTERRUPTED, SUBTREE_VISIT_INTERRUPTED, TREE_VISIT_INTERRUPTED
 		}
 
 	}

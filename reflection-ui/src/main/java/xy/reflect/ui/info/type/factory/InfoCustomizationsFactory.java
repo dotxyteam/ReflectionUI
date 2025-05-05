@@ -27,7 +27,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.AbstractVirtualFieldDeclaration;
 import xy.reflect.ui.info.custom.InfoCustomizations.ApplicationCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.BranchValidityDetectionConfiguration;
+import xy.reflect.ui.info.custom.InfoCustomizations.ItemNodeValidityDetectionConfiguration;
 import xy.reflect.ui.info.custom.InfoCustomizations.CustomizationCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.EnumerationItemCustomization;
@@ -309,12 +309,12 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isBranchValidityDetected(IListTypeInfo listType, ItemPosition itemPosition) {
+	protected boolean isItemNodeValidityDetected(IListTypeInfo listType, ItemPosition itemPosition) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			BranchValidityDetectionConfiguration c = l.getBranchValidityDetectionConfiguration();
+			ItemNodeValidityDetectionConfiguration c = l.getItemNodeValidityDetectionConfiguration();
 			if (c != null) {
 				if (c.getEnablementStatusFieldNameInfoFilter() != null) {
 					try {
@@ -335,14 +335,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						throw new ReflectionUIError("Field not found");
 					} catch (Throwable t) {
 						throw new ReflectionUIError(
-								"Failed to get the enablement status of the branch validity detection from the field designated by '"
+								"Unable to obtain the activation status of item node validity detection from the field designated by '"
 										+ c.getEnablementStatusFieldNameInfoFilter() + "': " + t.toString());
 					}
 				}
 				return true;
 			}
 		}
-		return super.isBranchValidityDetected(listType, itemPosition);
+		return super.isItemNodeValidityDetected(listType, itemPosition);
 	}
 
 	@Override

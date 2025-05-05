@@ -4326,7 +4326,7 @@ public class InfoCustomizations implements Serializable {
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
 		protected boolean itemAutomaticPositioningManagementForced = false;
-		protected BranchValidityDetectionConfiguration branchValidityDetectionConfiguration;
+		protected ItemNodeValidityDetectionConfiguration itemNodeValidityDetectionConfiguration;
 
 		@Override
 		public boolean isInitial() {
@@ -4342,13 +4342,13 @@ public class InfoCustomizations implements Serializable {
 			return customItemTypeFinder;
 		}
 
-		public BranchValidityDetectionConfiguration getBranchValidityDetectionConfiguration() {
-			return branchValidityDetectionConfiguration;
+		public ItemNodeValidityDetectionConfiguration getItemNodeValidityDetectionConfiguration() {
+			return itemNodeValidityDetectionConfiguration;
 		}
 
-		public void setBranchValidityDetectionConfiguration(
-				BranchValidityDetectionConfiguration branchValidityDetectionConfiguration) {
-			this.branchValidityDetectionConfiguration = branchValidityDetectionConfiguration;
+		public void setItemNodeValidityDetectionConfiguration(
+				ItemNodeValidityDetectionConfiguration itemNodeValidityDetectionConfiguration) {
+			this.itemNodeValidityDetectionConfiguration = itemNodeValidityDetectionConfiguration;
 		}
 
 		public ValueReturnMode getCustomItemReturnMode() {
@@ -4597,7 +4597,7 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class BranchValidityDetectionConfiguration extends AbstractCustomization {
+	public static class ItemNodeValidityDetectionConfiguration extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 		protected InfoFilter enablementStatusFieldNameInfoFilter;
 

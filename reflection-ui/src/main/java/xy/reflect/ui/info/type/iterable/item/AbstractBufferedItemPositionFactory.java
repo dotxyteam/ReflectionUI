@@ -82,7 +82,7 @@ public abstract class AbstractBufferedItemPositionFactory extends AbstractItemPo
 			for (BufferedItemPosition bufferedRootItemPosition : MiscUtils
 					.getKeysFromValue(indexByBufferedRootItemPosition, index)) {
 				if (bufferedRootItemPosition != null) {
-					bufferedRootItemPosition.refreshBranch();
+					bufferedRootItemPosition.refreshDescendants();
 				}
 			}
 		}
