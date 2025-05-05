@@ -1531,7 +1531,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected ItemCreationMode getRelevantItemCreationMode(BufferedItemPosition newItemPosition) {
 		if ((newItemPosition.getContainingListType().getItemType() != null) && ReflectionUIUtils
-				.canCreateDefaultInstance(newItemPosition.getContainingListType().getItemType(), true)) {
+				.canCreateDefaultInstance(newItemPosition.getContainingListType().getItemType(), false)) {
 			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 				return ItemCreationMode.DEFAULT_VERIFIED_INSTANCE;
 			} else {
