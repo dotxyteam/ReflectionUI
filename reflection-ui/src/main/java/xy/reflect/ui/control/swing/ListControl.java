@@ -968,10 +968,30 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected Image getCellIconImage(ItemNode node, int columnIndex) {
 		Image result = null;
-		final BufferedItemPosition itemPosition = getItemPositionByNode(node);
+		BufferedItemPosition itemPosition = getItemPositionByNode(node);
 		if (columnIndex == 0) {
 			result = swingRenderer.getObjectIconImage(itemPosition.getItem());
 		}
+		Image overlayImage = getCellIconOverlayImage(node);
+		if (overlayImage != null) {
+			BufferedImage overlayedResult = new BufferedImage(
+					(result != null) ? result.getWidth(null) : overlayImage.getWidth(null),
+					(result != null) ? result.getHeight(null) : overlayImage.getHeight(null),
+					BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = overlayedResult.createGraphics();
+			if (result != null) {
+				g.drawImage(result, 0, 0, null);
+			}
+			int drawY = (result != null) ? (result.getHeight(null) - overlayImage.getHeight(null)) : 0;
+			g.drawImage(overlayImage, 0, drawY, null);
+			g.dispose();
+			result = overlayedResult;
+		}
+		return result;
+	}
+
+	protected Image getCellIconOverlayImage(ItemNode node) {
+		final BufferedItemPosition itemPosition = getItemPositionByNode(node);
 		final boolean[] nodeValid = new boolean[] { true };
 		final boolean[] subtreeValid = new boolean[] { true };
 		visitItems(new IItemsVisitor() {
@@ -990,26 +1010,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		}, node);
-		if (!subtreeValid[0]) {
-			BufferedImage overlayedResult = new BufferedImage(
-					(result != null) ? result.getWidth(null) : SwingRendererUtils.ERROR_OVERLAY_ICON.getIconWidth(),
-					(result != null) ? result.getHeight(null) : SwingRendererUtils.ERROR_OVERLAY_ICON.getIconHeight(),
-					BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g = overlayedResult.createGraphics();
-			if (result != null) {
-				g.drawImage(result, 0, 0, null);
-			}
-			int drawY = (result != null)
-					? (result.getHeight(null) - SwingRendererUtils.ERROR_OVERLAY_ICON.getIconHeight())
-					: 0;
-			g.drawImage(
-					(nodeValid[0] ? SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON : SwingRendererUtils.ERROR_OVERLAY_ICON)
-							.getImage(),
-					0, drawY, null);
-			g.dispose();
-			result = overlayedResult;
+		if (!nodeValid[0]) {
+			return SwingRendererUtils.ERROR_OVERLAY_ICON.getImage();
 		}
-		return result;
+		if (!subtreeValid[0]) {
+			return SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON.getImage();
+		}
+		return null;
 	}
 
 	protected List<AbstractAction> getCurrentSelectionActions() {
