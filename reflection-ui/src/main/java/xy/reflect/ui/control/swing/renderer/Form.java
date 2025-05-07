@@ -105,7 +105,7 @@ public class Form extends ImagePanel {
 	protected Object object;
 	protected ITypeInfo objectType;
 	protected ModificationStack modificationStack;
-	protected boolean fieldsUpdateListenerDisabled = false;
+	protected boolean forwardingUpdateEventToTwinFormsDisabled = false;
 	protected IInfoFilter infoFilter;
 	protected SortedMap<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
@@ -116,6 +116,7 @@ public class Form extends ImagePanel {
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
+	protected boolean absolutelyVisible = false;
 
 	/**
 	 * Creates a form allowing to view/edit the given object.
@@ -130,6 +131,7 @@ public class Form extends ImagePanel {
 		setObject(object);
 		setInfoFilter(infoFilter);
 		setModificationStack(new ModificationStack(null));
+		getModificationStack().addListener(fieldsUpdateListener);
 		addAncestorListener(new AncestorListener() {
 
 			@Override
@@ -186,6 +188,15 @@ public class Form extends ImagePanel {
 	}
 
 	/**
+	 * @return whether this form is currently visible on the screen. Note that
+	 *         unlike the {@link #isVisible()} method, this method return value
+	 *         interpretation does not depend on the parent visibility.
+	 */
+	public boolean isAbsolutelyVisible() {
+		return absolutelyVisible;
+	}
+
+	/**
 	 * @return the renderer used to generate this form controls.
 	 */
 	public SwingRenderer getSwingRenderer() {
@@ -209,21 +220,21 @@ public class Form extends ImagePanel {
 	}
 
 	/**
-	 * @return whether the listener that updates the form (when a modifications is
-	 *         detected) is enabled or not.
+	 * @return whether the forwarding of field update events to twin forms (other
+	 *         forms that display the same object as this form) is disabled or not.
 	 */
-	public boolean isFieldsUpdateListenerDisabled() {
-		return fieldsUpdateListenerDisabled;
+	public boolean isForwardingUpdateEventToTwinFormsDisabled() {
+		return forwardingUpdateEventToTwinFormsDisabled;
 	}
 
 	/**
-	 * Updates whether the listener that updates the form (when a modifications is
-	 * detected) is enabled or not.
+	 * Updates whether the forwarding of field update events to twin forms (other
+	 * forms that display the same object as this form) is disabled or not.
 	 * 
-	 * @param fieldsUpdateListenerDisabled The new listener status.
+	 * @param forwardingUpdateEventToTwinFormsDisabled The new listener status.
 	 */
-	public void setFieldsUpdateListenerDisabled(boolean fieldsUpdateListenerDisabled) {
-		this.fieldsUpdateListenerDisabled = fieldsUpdateListenerDisabled;
+	public void setForwardingUpdateEventToTwinFormsDisabled(boolean forwardingUpdateEventToTwinFormsDisabled) {
+		this.forwardingUpdateEventToTwinFormsDisabled = forwardingUpdateEventToTwinFormsDisabled;
 	}
 
 	/**
@@ -446,10 +457,8 @@ public class Form extends ImagePanel {
 	}
 
 	protected void formShown() {
+		absolutelyVisible = true;
 		swingRenderer.getAllDisplayedForms().add(this);
-		if (!isModificationStackSlave()) {
-			modificationStack.addListener(fieldsUpdateListener);
-		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final boolean[] formUpdateNeeded = new boolean[] { false };
@@ -470,9 +479,8 @@ public class Form extends ImagePanel {
 	}
 
 	protected void formHidden() {
-		if (!isModificationStackSlave()) {
-			modificationStack.removeListener(fieldsUpdateListener);
-		}
+		absolutelyVisible = false;
+		swingRenderer.getAllDisplayedForms().remove(this);
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		final boolean[] formUpdateNeeded = new boolean[] { false };
@@ -490,7 +498,6 @@ public class Form extends ImagePanel {
 				}
 			});
 		}
-		swingRenderer.getAllDisplayedForms().remove(this);
 	}
 
 	protected boolean isModificationStackSlave() {
@@ -506,31 +513,44 @@ public class Form extends ImagePanel {
 
 			@Override
 			protected void handleAnyEvent(IModification modification) {
-				if (isFieldsUpdateListenerDisabled()) {
-					return;
-				}
-				onFieldsUpdate();
+				onFieldsUpdate((modification != null) && modification.isVolatile());
 			}
 		};
 	}
 
-	protected void onFieldsUpdate() {
+	protected void onFieldsUpdate(boolean sourceModificationVolatile) {
+		if (isModificationStackSlave()) {
+			return;
+		}
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				refresh(false);
-				for (Form otherForm : SwingRendererUtils.findObjectDisplayedForms(object, swingRenderer)) {
-					if (otherForm != Form.this) {
-						ModificationStack otherModifStack = otherForm.getModificationStack();
-						if (otherForm.isDisplayable()) {
-							otherForm.setFieldsUpdateListenerDisabled(true);
-							otherModifStack.invalidate();
-							otherForm.setFieldsUpdateListenerDisabled(false);
-						}
-					}
+				if (isAbsolutelyVisible()) {
+					refresh(false);
 				}
+				forwardUpdateEventToTwins(sourceModificationVolatile);
 			}
 		});
+	}
+
+	protected void forwardUpdateEventToTwins(boolean sourceModificationVolatile) {
+		if (isForwardingUpdateEventToTwinFormsDisabled()) {
+			return;
+		}
+		for (Form twinForm : SwingRendererUtils.findObjectDisplayedForms(object, swingRenderer)) {
+			if (twinForm != Form.this) {
+				ModificationStack twinFormModifStack = twinForm.getModificationStack();
+				if (twinForm.isDisplayable()) {
+					twinForm.setForwardingUpdateEventToTwinFormsDisabled(true);
+					if (sourceModificationVolatile) {
+						twinFormModifStack.push(IModification.VOLATILE_MODIFICATION);
+					} else {
+						twinFormModifStack.invalidate();
+					}
+					twinForm.setForwardingUpdateEventToTwinFormsDisabled(false);
+				}
+			}
+		}
 	}
 
 	protected JScrollPane createMainScrollPane(Component content) {

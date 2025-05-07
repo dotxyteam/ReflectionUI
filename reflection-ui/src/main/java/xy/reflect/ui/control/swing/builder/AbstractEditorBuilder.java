@@ -376,7 +376,7 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		if (currentValueTransaction != null) {
 			currentValueTransaction = null;
 			if (parentObjectModifStack != null) {
-				parentObjectModifStack.push(IModification.FAKE_MODIFICATION);
+				parentObjectModifStack.push(IModification.VOLATILE_MODIFICATION);
 			}
 		}
 	}

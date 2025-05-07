@@ -13,9 +13,8 @@ package xy.reflect.ui.undo;
 public interface IModification {
 
 	/**
-	 * Dummy instance of this class made for utilitarian purposes. Represents a null
-	 * (no impact on the object state) modification. It just returns true when
-	 * {@link #isNull()} is called.
+	 * Dummy instance of this class made for utilitarian purposes. It just returns
+	 * true when {@link #isNull()} is called.
 	 */
 	IModification NULL_MODIFICATION = new IModification() {
 		@Override
@@ -51,14 +50,13 @@ public interface IModification {
 	};
 
 	/**
-	 * Dummy instance of this class made for utilitarian purposes. Represents a null
-	 * (no impact on the object state) modification. It just returns true when
-	 * {@link #isVolatile()} is called.
+	 * Dummy instance of this class made for utilitarian purposes. It just returns
+	 * true when {@link #isVolatile()} is called.
 	 */
-	IModification FAKE_MODIFICATION = new IModification() {
+	IModification VOLATILE_MODIFICATION = new IModification() {
 		@Override
 		public IModification applyAndGetOpposite(ModificationStack modificationStack) {
-			return FAKE_MODIFICATION;
+			return VOLATILE_MODIFICATION;
 		}
 
 		@Override
@@ -83,7 +81,7 @@ public interface IModification {
 
 		@Override
 		public String getTitle() {
-			return "FAKE_MODIFICATION";
+			return "VOLATILE_MODIFICATION";
 		}
 
 	};;

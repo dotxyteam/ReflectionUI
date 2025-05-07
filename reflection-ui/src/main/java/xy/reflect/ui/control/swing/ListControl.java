@@ -1696,6 +1696,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				detailsControl.getModificationStack().setPushFilter(new Filter<IModification>() {
 					@Override
 					public IModification get(IModification undoModif) {
+						if(undoModif.isVolatile()) {
+							return undoModif;
+						}
 						Object oldItem = detailsControlItemPosition.getItem();
 						Object newItem = detailsControlBuilder.getCurrentValue();
 						IModification preSelection = new SelectItemModification(detailsControlItemPosition, newItem,

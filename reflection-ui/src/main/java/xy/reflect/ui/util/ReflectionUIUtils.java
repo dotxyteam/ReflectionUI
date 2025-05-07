@@ -598,7 +598,7 @@ public class ReflectionUIUtils {
 		if (currentModificationsStack.isInitial()) {
 			if (!currentModificationsStack.isExhaustive()) {
 				if (parentModificationStack != null) {
-					parentModificationStack.push(IModification.FAKE_MODIFICATION);
+					parentModificationStack.push(IModification.VOLATILE_MODIFICATION);
 				}
 				return;
 			}
@@ -682,7 +682,7 @@ public class ReflectionUIUtils {
 						 * allowing the parent object UI to refresh and then take into account the
 						 * changes caused by the transaction.
 						 */
-						parentModificationStack.push(IModification.FAKE_MODIFICATION);
+						parentModificationStack.push(IModification.VOLATILE_MODIFICATION);
 					}
 				} else {
 					if (debugLogListener != null) {
@@ -739,7 +739,7 @@ public class ReflectionUIUtils {
 				if (debugLogListener != null) {
 					debugLogListener.handle("Sending volatile modification to: " + modifStack);
 				}
-				modifStack.apply(IModification.FAKE_MODIFICATION);
+				modifStack.apply(IModification.VOLATILE_MODIFICATION);
 			}
 		} else {
 			FieldControlDataModification modif = new FieldControlDataModification(data, newValue);

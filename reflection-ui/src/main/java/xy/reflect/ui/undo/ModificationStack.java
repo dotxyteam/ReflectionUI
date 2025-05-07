@@ -353,7 +353,7 @@ public class ModificationStack {
 			throw new ReflectionUIError("Cannot undo while composite modification creation is ongoing");
 		}
 		if (undoStack.size() == 0) {
-			return;
+			throw new ReflectionUIError("Cannot undo: The undo stack is empty");
 		}
 		IModification undoModif = undoStack.pop();
 		IModification redoModif = applySafelyAndGetOpposite(undoModif);
@@ -375,7 +375,7 @@ public class ModificationStack {
 			throw new ReflectionUIError("Cannot redo while composite modification creation is ongoing");
 		}
 		if (redoStack.size() == 0) {
-			return;
+			throw new ReflectionUIError("Cannot redo: The redo stack is empty");
 		}
 		IModification redoModif = redoStack.pop();
 		IModification undoModif = applySafelyAndGetOpposite(redoModif);

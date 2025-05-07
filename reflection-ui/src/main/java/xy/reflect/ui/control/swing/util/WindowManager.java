@@ -11,7 +11,6 @@ import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -45,7 +44,7 @@ import xy.reflect.ui.util.Visitor;
  * @author olitank
  *
  */
-public class WindowManager {
+public class WindowManager extends WindowAdapter {
 
 	protected static final Color DEFAULT_TITLE_BAR_FOREROUND_COLOR = Color.BLACK;
 
@@ -59,84 +58,7 @@ public class WindowManager {
 	protected JScrollPane scrollPane;
 	protected JPanel buttonBar;
 	protected Form form;
-	protected WindowListener windowListener = new WindowAdapter() {
 
-		@Override
-		public void windowOpened(WindowEvent e) {
-			if (form == null) {
-				return;
-			}
-			form.validateFormInBackgroundAndReportOnStatusBar();
-			workAroundOpeningWindowFocusRequestBug(new Callable<Boolean>() {
-				@Override
-				public Boolean call() throws Exception {
-					return SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
-				}
-			});
-		}
-
-		@Override
-		public void windowClosing(WindowEvent e) {
-			boolean[] cancelled = new boolean[] { false };
-			if (form != null) {
-				JMenuBar menuBar = form.getMenuBar();
-				SwingRendererUtils.visitMenubar(menuBar, new Visitor<JMenuItem>() {
-					@Override
-					public boolean visit(JMenuItem item) {
-						if (item instanceof SaveMenuItem) {
-							SaveMenuItem saveMenuItem = (SaveMenuItem) item;
-							if (!saveMenuItem.isFileSynchronized()) {
-								if (!swingRenderer.openQuestionDialog(form,
-										"Changes were not saved and will be lost.\nContinue?",
-										swingRenderer.getObjectTitle(saveMenuItem.getForm().getObject()), "OK",
-										"Cancel")) {
-									cancelled[0] = true;
-								}
-							}
-						}
-						return true;
-					}
-				});
-			}
-			if (cancelled[0]) {
-				return;
-			}
-			window.dispose();
-		}
-
-		void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {
-			new Thread(WindowManager.class.getName() + ".workerAroundOpeningWindowFocusRequestBug") {
-				long MAXIMUM_RETRY_DURATION_MILLISECONDS = 1000;
-
-				@Override
-				public void run() {
-					boolean[] retry = new boolean[] { true };
-					final long startTime = System.currentTimeMillis();
-					while (retry[0]
-							&& ((System.currentTimeMillis() - startTime <= MAXIMUM_RETRY_DURATION_MILLISECONDS))) {
-						try {
-							SwingUtilities.invokeAndWait(new Runnable() {
-								@Override
-								public void run() {
-									if (form == null) {
-										retry[0] = false;
-									} else {
-										try {
-											retry[0] = !callable.call();
-										} catch (Exception e) {
-											throw new ReflectionUIError(e);
-										}
-									}
-								}
-							});
-						} catch (Exception e) {
-							throw new ReflectionUIError(e);
-						}
-					}
-				}
-			}.start();
-		}
-	};
 	protected IRefreshListener formRefreshListener = new Form.IRefreshListener() {
 		@Override
 		public void onRefresh(boolean refreshStructure) {
@@ -294,7 +216,7 @@ public class WindowManager {
 		layoutButtonBar(buttonBar);
 		refreshWindowStructureAsMuchAsPossible();
 		adjustBounds();
-		window.addWindowListener(windowListener);
+		window.addWindowListener(this);
 		if (window instanceof JFrame) {
 			((JFrame) window).setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		} else if (window instanceof JDialog) {
@@ -305,7 +227,7 @@ public class WindowManager {
 	}
 
 	public void uninstall() {
-		window.removeWindowListener(windowListener);
+		window.removeWindowListener(this);
 		SwingRendererUtils.setContentPane(window, new ControlPanel());
 		{
 			alternativeDecorationsPanel = null;
@@ -422,6 +344,80 @@ public class WindowManager {
 
 	public void setTitle(String title) {
 		SwingRendererUtils.setTitle(window, swingRenderer.prepareMessageToDisplay(title));
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		if (form == null) {
+			return;
+		}
+		form.validateFormInBackgroundAndReportOnStatusBar();
+		workAroundOpeningWindowFocusRequestBug(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				return SwingRendererUtils.requestAnyComponentFocus(form, swingRenderer);
+			}
+		});
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		boolean[] cancelled = new boolean[] { false };
+		if (form != null) {
+			JMenuBar menuBar = form.getMenuBar();
+			SwingRendererUtils.visitMenubar(menuBar, new Visitor<JMenuItem>() {
+				@Override
+				public boolean visit(JMenuItem item) {
+					if (item instanceof SaveMenuItem) {
+						SaveMenuItem saveMenuItem = (SaveMenuItem) item;
+						if (!saveMenuItem.isFileSynchronized()) {
+							if (!swingRenderer.openQuestionDialog(form,
+									"Changes were not saved and will be lost.\nContinue?",
+									swingRenderer.getObjectTitle(saveMenuItem.getForm().getObject()), "OK", "Cancel")) {
+								cancelled[0] = true;
+							}
+						}
+					}
+					return true;
+				}
+			});
+		}
+		if (cancelled[0]) {
+			return;
+		}
+		window.dispose();
+	}
+
+	protected void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {
+		new Thread(WindowManager.class.getName() + ".workerAroundOpeningWindowFocusRequestBug") {
+			long MAXIMUM_RETRY_DURATION_MILLISECONDS = 1000;
+
+			@Override
+			public void run() {
+				boolean[] retry = new boolean[] { true };
+				final long startTime = System.currentTimeMillis();
+				while (retry[0] && ((System.currentTimeMillis() - startTime <= MAXIMUM_RETRY_DURATION_MILLISECONDS))) {
+					try {
+						SwingUtilities.invokeAndWait(new Runnable() {
+							@Override
+							public void run() {
+								if (form == null) {
+									retry[0] = false;
+								} else {
+									try {
+										retry[0] = !callable.call();
+									} catch (Exception e) {
+										throw new ReflectionUIError(e);
+									}
+								}
+							}
+						});
+					} catch (Exception e) {
+						throw new ReflectionUIError(e);
+					}
+				}
+			}
+		}.start();
 	}
 
 	@Override

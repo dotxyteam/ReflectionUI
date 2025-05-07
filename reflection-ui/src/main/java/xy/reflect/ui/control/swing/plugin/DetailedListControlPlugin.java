@@ -277,6 +277,10 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
+		public void validateSubForms() throws Exception {
+		}
+
+		@Override
 		public void expandItemPosition(BufferedItemPosition itemPosition) {
 		}
 

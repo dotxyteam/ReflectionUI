@@ -8,6 +8,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -105,6 +106,10 @@ public class CustomizationToolsRenderer extends SwingCustomizer {
 				if (window instanceof JFrame) {
 					((JFrame) window).setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				}
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
 			}
 
 		};
