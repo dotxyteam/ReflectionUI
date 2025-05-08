@@ -159,7 +159,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean displayError(String msg) {
+	public boolean displayError(Throwable error) {
 		return false;
 	}
 

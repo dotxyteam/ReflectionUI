@@ -272,29 +272,15 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		return new ErrorHandlingFieldControlData(data, swingRenderer, FieldControlPlaceHolder.this) {
 
 			@Override
-			protected void handleError(Throwable t) {
-				final String newErrorId = (t == null) ? null : t.toString();
-				if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
-					return;
+			protected void displayError(Throwable error) {
+				if (error != null) {
+					swingRenderer.getReflectionUI().logDebug(error);
 				}
-				if (t != null) {
-					swingRenderer.getReflectionUI().logDebug(t);
+				boolean errorDisplayed = (fieldControl instanceof IAdvancedFieldControl)
+						&& ((IAdvancedFieldControl) fieldControl).displayError((error == null) ? null : error);
+				if (!errorDisplayed) {
+					super.displayError(error);
 				}
-				currentlyDisplayedErrorId = newErrorId;
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						boolean done = (fieldControl instanceof IAdvancedFieldControl)
-								&& ((IAdvancedFieldControl) fieldControl)
-										.displayError((t == null) ? null : MiscUtils.getPrettyErrorMessage(t));
-						if (!done && (t != null)) {
-							FieldControlPlaceHolder.this.setBorder(SwingRendererUtils.getErrorBorder());
-							showErrorDialog(t);
-						} else {
-							FieldControlPlaceHolder.this.setBorder(null);
-						}
-					}
-				});
 			}
 
 			@Override
@@ -468,7 +454,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			try {
 				final IFieldControlInput finalControlInput = controlInput;
 				final Component[] result = new Component[1];
-				bufferedFieldControlData.withInBuffer(value, new Runnable() {
+				bufferedFieldControlData.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
 						result[0] = new NullControl(swingRenderer, finalControlInput);
@@ -509,7 +495,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				try {
 					final IFieldControlInput finalControlInput = controlInput;
 					final Component[] result = new Component[1];
-					bufferedFieldControlData.withInBuffer(value, new Runnable() {
+					bufferedFieldControlData.returningValue(value, new Runnable() {
 						@Override
 						public void run() {
 							result[0] = new MutableTypeControl(swingRenderer, finalControlInput);
@@ -524,7 +510,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			try {
 				final IFieldControlInput finalControlInput = controlInput;
 				final Component[] result = new Component[1];
-				bufferedFieldControlData.withInBuffer(value, new Runnable() {
+				bufferedFieldControlData.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
 						result[0] = new EmbeddedFormControl(swingRenderer, finalControlInput);
@@ -537,7 +523,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 			try {
 				final IFieldControlInput finalControlInput = controlInput;
 				final Component[] result = new Component[1];
-				bufferedFieldControlData.withInBuffer(value, new Runnable() {
+				bufferedFieldControlData.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
 						result[0] = new DialogAccessControl(swingRenderer, finalControlInput);

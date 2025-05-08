@@ -246,7 +246,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		};
 		protected boolean initialized = false;
 		protected Throwable currentConversionError;
-		protected String currentDataErrorMessage;
+		protected Throwable currentDataError;
 
 		public DateTimePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -530,20 +530,19 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 
 		protected void updateErrorDisplay() {
 			if (currentConversionError != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
-						MiscUtils.getPrettyErrorMessage(currentConversionError), swingRenderer);
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentConversionError, swingRenderer);
 				return;
 			}
-			if (currentDataErrorMessage != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataErrorMessage, swingRenderer);
+			if (currentDataError != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataError, swingRenderer);
 				return;
 			}
 			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
 		}
 
 		@Override
-		public boolean displayError(String msg) {
-			currentDataErrorMessage = msg;
+		public boolean displayError(Throwable error) {
+			currentDataError = error;
 			updateErrorDisplay();
 			return true;
 		}

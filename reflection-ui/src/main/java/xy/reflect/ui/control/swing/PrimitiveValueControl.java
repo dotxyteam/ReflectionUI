@@ -12,7 +12,6 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.ClassUtils;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -28,7 +27,7 @@ public class PrimitiveValueControl extends TextControl {
 	private static final long serialVersionUID = 1L;
 
 	protected Throwable currentConversionError;
-	protected String currentDataErrorMessage;
+	protected Throwable currentDataError;
 
 	public PrimitiveValueControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		super(swingRenderer, input);
@@ -90,19 +89,19 @@ public class PrimitiveValueControl extends TextControl {
 
 	protected void updateErrorDisplay() {
 		if (currentConversionError != null) {
-			super.displayError(MiscUtils.getPrettyErrorMessage(currentConversionError));
+			super.displayError(currentConversionError);
 			return;
 		}
-		if (currentDataErrorMessage != null) {
-			super.displayError(currentDataErrorMessage);
+		if (currentDataError != null) {
+			super.displayError(currentDataError);
 			return;
 		}
 		super.displayError(null);
 	}
 
 	@Override
-	public boolean displayError(String msg) {
-		currentDataErrorMessage = msg;
+	public boolean displayError(Throwable error) {
+		currentDataError = error;
 		updateErrorDisplay();
 		return true;
 	}

@@ -97,13 +97,13 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
 		Object value = data.getValue();
-		data.withInBuffer(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {			
 			@Override
 			public void run() {
 				refreshNullStatusControl(refreshStructure);
 			}
 		});
-		data.withInBuffer(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {			
 			@Override
 			public void run() {
 				refreshSubControl(refreshStructure);
@@ -218,7 +218,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					// display the current error (over the last valid value)
 					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
-				data.withInBuffer(value, new Runnable() {
+				data.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
 						subFormBuilder.reloadValue((Form) currentSubControl, refreshStructure);
@@ -231,7 +231,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if ((value == null) && (currentError == null)) {
 			if (currentSubControl instanceof Form) {
 				// clear the sub-form before hiding it
-				data.withInBuffer(null, new Runnable() {
+				data.returningValue(null, new Runnable() {
 					@Override
 					public void run() {
 						subFormBuilder.reloadValue((Form) currentSubControl, refreshStructure);
@@ -244,7 +244,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 			currentSubControl = nullControl;
 		} else {
 			if (subForm == null) {
-				data.withInBuffer(value, new Runnable() {
+				data.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
 						subForm = createSubForm();
@@ -252,7 +252,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				});
 				if (currentError != null) {
 					// display the current error (over the last valid value)
-					data.withInBuffer(new ErrorOccurrence(currentError), new Runnable() {
+					data.returningValue(new ErrorOccurrence(currentError), new Runnable() {
 						@Override
 						public void run() {
 							subFormBuilder.reloadValue(subForm, refreshStructure);
@@ -264,7 +264,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 					// display the current error (over the last valid value)
 					value = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, value));
 				}
-				data.withInBuffer(value, new Runnable() {
+				data.returningValue(value, new Runnable() {
 					@Override
 					public void run() {
 						subFormBuilder.reloadValue(subForm, refreshStructure);
@@ -354,7 +354,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	@Override
-	public boolean displayError(String msg) {
+	public boolean displayError(Throwable error) {
 		return false;
 	}
 

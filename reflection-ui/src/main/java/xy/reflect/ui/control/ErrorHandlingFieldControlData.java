@@ -9,7 +9,6 @@ import javax.swing.border.CompoundBorder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -39,7 +38,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	protected Object lastFieldValue;
 	protected boolean lastFieldValueInitialized = false;
 	protected Throwable lastValueUpdateError;
-	protected String currentlyDisplayedErrorId;
+	protected Throwable currentlyDisplayedError;
 
 	public ErrorHandlingFieldControlData(IFieldControlData data, SwingRenderer swingRenderer,
 			JComponent errorDialogOwner) {
@@ -97,26 +96,41 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	/**
 	 * Called to notify an error.
 	 * 
-	 * @param t The exception that was thrown or null if the error is gone.
+	 * @param error The exception that was thrown or null if the error is no longer
+	 *              present.
 	 */
-	protected void handleError(final Throwable t) {
-		final String newErrorId = (t == null) ? null : t.toString();
-		if (MiscUtils.equalsOrBothNull(newErrorId, currentlyDisplayedErrorId)) {
+	protected void handleError(final Throwable error) {
+		if (sameError(error, currentlyDisplayedError)) {
 			return;
 		}
-		currentlyDisplayedErrorId = newErrorId;
-		if (t != null) {
-			errorDialogOwner.setBorder(BorderFactory.createCompoundBorder(errorDialogOwner.getBorder(),
-					SwingRendererUtils.getErrorBorder()));
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					showErrorDialog(t);
-				}
-			});
-		} else {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				displayError(error);
+				currentlyDisplayedError = error;
+			}
+		});
+	}
+
+	protected void displayError(Throwable error) {
+		if (currentlyDisplayedError != null) {
 			errorDialogOwner.setBorder(((CompoundBorder) errorDialogOwner.getBorder()).getOutsideBorder());
 		}
+		if (error != null) {
+			errorDialogOwner.setBorder(BorderFactory.createCompoundBorder(errorDialogOwner.getBorder(),
+					SwingRendererUtils.getErrorBorder()));
+			showErrorDialog(error);
+		}
+	}
+
+	protected boolean sameError(Throwable error1, Throwable error2) {
+		if (error1 == null) {
+			return error2 == null;
+		}
+		if (error2 == null) {
+			return false;
+		}
+		return error1.toString().equals(error2.toString());
 	}
 
 	protected void showErrorDialog(Throwable t) {

@@ -230,8 +230,8 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean displayError(String msg) {
-		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, comboBox, msg, swingRenderer);
+	public boolean displayError(Throwable error) {
+		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, comboBox, error, swingRenderer);
 		return true;
 	}
 

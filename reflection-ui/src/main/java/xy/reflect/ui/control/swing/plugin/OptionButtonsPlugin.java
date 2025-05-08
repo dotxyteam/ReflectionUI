@@ -289,7 +289,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		@Override
-		public boolean displayError(String msg) {
+		public boolean displayError(Throwable error) {
 			return false;
 		}
 

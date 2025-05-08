@@ -101,7 +101,7 @@ public class MutableTypeControl extends NullableControl {
 			}
 		}
 		final boolean[] result = new boolean[1];
-		data.withInBuffer(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {			
 			@Override
 			public void run() {
 				result[0] = MutableTypeControl.super.refreshUI(refreshStructure);

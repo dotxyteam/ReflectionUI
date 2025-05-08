@@ -196,7 +196,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		@Override
-		public boolean displayError(String msg) {
+		public boolean displayError(Throwable error) {
 			return false;
 		}
 

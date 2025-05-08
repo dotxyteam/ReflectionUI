@@ -120,13 +120,13 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			dynamicControlCache.clear();
 		}
 		Object value = data.getValue();
-		data.withInBuffer(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {			
 			@Override
 			public void run() {
 				refreshTypeEnumerationControl(refreshStructure);
 			}
 		});
-		data.withInBuffer(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {			
 			@Override
 			public void run() {
 				refreshDynamicControl(refreshStructure);
@@ -145,7 +145,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		Listener<Object> dynamicControlUpdater = new Listener<Object>() {
 			@Override
 			public void handle(Object instance) {
-				data.withInBuffer(instance, new Runnable() {			
+				data.returningValue(instance, new Runnable() {			
 					@Override
 					public void run() {
 						refreshDynamicControl(false);
@@ -231,7 +231,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				// display the current error (over the last valid instance value)
 				instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 			}
-			data.withInBuffer(instance, new Runnable() {
+			data.returningValue(instance, new Runnable() {
 				@Override
 				public void run() {
 					dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
@@ -250,14 +250,14 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 					// display the current error (over the last valid instance value)
 					instance = new ErrorOccurrence(new ErrorWithDefaultValue(currentError, instance));
 				}
-				data.withInBuffer(instance, new Runnable() {
+				data.returningValue(instance, new Runnable() {
 					@Override
 					public void run() {
 						dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
 					}
 				});
 			} else {
-				data.withInBuffer(instance, new Runnable() {
+				data.returningValue(instance, new Runnable() {
 					@Override
 					public void run() {
 						dynamicControl = createDynamicControl(instanceType);
@@ -267,7 +267,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 						new Pair<AbstractEditorFormBuilder, Form>(dynamicControlBuilder, dynamicControl));
 				if (currentError != null) {
 					// display the current error (over the last valid instance value)
-					data.withInBuffer(new ErrorOccurrence(currentError), new Runnable() {
+					data.returningValue(new ErrorOccurrence(currentError), new Runnable() {
 						@Override
 						public void run() {
 							dynamicControlBuilder.reloadValue(dynamicControl, refreshStructure);
@@ -287,7 +287,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public boolean displayError(String msg) {
+	public boolean displayError(Throwable error) {
 		return false;
 	}
 

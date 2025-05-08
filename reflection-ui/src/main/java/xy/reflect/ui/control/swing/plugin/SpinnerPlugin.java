@@ -34,7 +34,6 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ConversionUtils;
-import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 import xy.reflect.ui.util.ReschedulableTask;
@@ -136,7 +135,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			}
 		};
 		protected Throwable currentConversionError;
-		protected String currentDataErrorMessage;
+		protected Throwable currentDataError;
 
 		public Spinner(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -358,19 +357,19 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected void updateErrorDisplay() {
 			if (currentConversionError != null) {
 				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
-						MiscUtils.getPrettyErrorMessage(currentConversionError), swingRenderer);
+						currentConversionError, swingRenderer);
 				return;
 			}
-			if (currentDataErrorMessage != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataErrorMessage, swingRenderer);
+			if (currentDataError != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataError, swingRenderer);
 				return;
 			}
 			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
 		}
 
 		@Override
-		public boolean displayError(String msg) {
-			currentDataErrorMessage = msg;
+		public boolean displayError(Throwable error) {
+			currentDataError = error;
 			updateErrorDisplay();
 			return true;
 		}

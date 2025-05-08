@@ -67,11 +67,11 @@ import org.jdesktop.swingx.treetable.TreeTableModel;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
+import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
-import xy.reflect.ui.control.FieldControlInputProxy;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
@@ -140,7 +140,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected static final long serialVersionUID = 1L;
 
 	protected SwingRenderer swingRenderer;
-	protected IFieldControlData listData;
+	protected BufferedFieldControlData listData;
 
 	protected JXTreeTable treeTableComponent;
 	protected JScrollPane treeTableComponentScrollPane;
@@ -176,41 +176,38 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
-		input = new FieldControlInputProxy(input) {
-			ErrorHandlingFieldControlData errorHandlingFieldControlData = new ErrorHandlingFieldControlData(
-					super.getControlData(), swingRenderer, ListControl.this) {
-				{
-					refreshingErrorHandler = new Listener<Throwable>() {
-						@Override
-						public void handle(Throwable t) {
-							handleError(t);
-						}
-					};
-				}
-			};
-
-			@Override
-			public IFieldControlData getControlData() {
-				return errorHandlingFieldControlData;
-			}
-		};
 		this.input = input;
-		this.listData = input.getControlData();
+		this.listData = new BufferedFieldControlData(
+				new ErrorHandlingFieldControlData(input.getControlData(), swingRenderer, ListControl.this) {
+					{
+						refreshingErrorHandler = new Listener<Throwable>() {
+							@Override
+							public void handle(Throwable t) {
+								handleError(t);
+							}
+						};
+					}
+				});
 
-		initializeTreeTableModelAndControl();
-		toolbar = new ControlPanel();
-		detailsArea = new ControlPanel();
+		listData.returningValue(listData.getValue(), new Runnable() {			
+			@Override
+			public void run() {
+				initializeTreeTableModelAndControl();
+				toolbar = new ControlPanel();
+				detailsArea = new ControlPanel();
 
-		openDetailsDialogOnItemDoubleClick();
-		updatePartsOnSelectionChange();
-		updateSelectionTargetOnSelectionChange();
-		handleMouseRightButton();
-		updateToolbar();
-		initializeSelectionListening();
-		refreshUI(true);
-		if (getSelection().isEmpty() && (getRootListSize() > 0)) {
-			setSingleSelection(getRootListItemPosition(0));
-		}
+				openDetailsDialogOnItemDoubleClick();
+				updatePartsOnSelectionChange();
+				updateSelectionTargetOnSelectionChange();
+				handleMouseRightButton();
+				updateToolbar();
+				initializeSelectionListening();
+				refreshUI(true);
+				if (getSelection().isEmpty() && (getRootListSize() > 0)) {
+					setSingleSelection(getRootListItemPosition(0));
+				}
+			}
+		});
 		this.initialized = true;
 	}
 
@@ -556,7 +553,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean displayError(String msg) {
+	public boolean displayError(Throwable error) {
 		return false;
 	}
 
@@ -1696,7 +1693,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				detailsControl.getModificationStack().setPushFilter(new Filter<IModification>() {
 					@Override
 					public IModification get(IModification undoModif) {
-						if(undoModif.isVolatile()) {
+						if (undoModif.isVolatile()) {
 							return undoModif;
 						}
 						Object oldItem = detailsControlItemPosition.getItem();
@@ -1880,35 +1877,40 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
-		if (refreshStructure) {
-			removeAll();
-			detailsMode = null;
-			layoutControls();
-			refreshTreeTableScrollPaneBorder();
-			refreshTreeTableComponentStyle();
-			refreshTreeTableComponentHeader();
-			refreshRendrers();
-		}
-		restoringSelectionDespiteDataAlteration(new Runnable() {
+		listData.returningValue(listData.getValue(), new Runnable() {
 			@Override
 			public void run() {
-				restoringExpandedPathsDespiteDataAlteration(new Runnable() {
+				if (refreshStructure) {
+					removeAll();
+					detailsMode = null;
+					layoutControls();
+					refreshTreeTableScrollPaneBorder();
+					refreshTreeTableComponentStyle();
+					refreshTreeTableComponentHeader();
+					refreshRendrers();
+				}
+				restoringSelectionDespiteDataAlteration(new Runnable() {
 					@Override
 					public void run() {
-						refreshItemPositionBuffers();
-						refreshTreeTableModelAndControl(refreshStructure);
-					}
+						restoringExpandedPathsDespiteDataAlteration(new Runnable() {
+							@Override
+							public void run() {
+								refreshItemPositionBuffers();
+								refreshTreeTableModelAndControl(refreshStructure);
+							}
 
+						});
+					}
 				});
+				if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
+					updateDetailsArea(refreshStructure);
+				}
+				updateToolbar();
+				if (refreshStructure) {
+					SwingRendererUtils.handleComponentSizeChange(ListControl.this);
+				}
 			}
 		});
-		if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
-			updateDetailsArea(refreshStructure);
-		}
-		updateToolbar();
-		if (refreshStructure) {
-			SwingRendererUtils.handleComponentSizeChange(ListControl.this);
-		}
 		return true;
 	}
 

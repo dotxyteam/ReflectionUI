@@ -7,8 +7,11 @@ import java.util.List;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
- * Control data proxy that queues and returns the provided values before
- * returning the underlying control data values.
+ * Control data proxy that provides the specified value during the execution of
+ * {@link #returningValue(Object, Runnable)}. When the buffer is empty, the
+ * underlying control data values are returned. Note that
+ * {@link ErrorOccurrence} instances can be put in the buffer so that their
+ * underlying exceptions will be thrown when accessing the data value.
  * 
  * @author olitank
  *
@@ -24,7 +27,7 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 	@Override
 	public Object getValue() {
 		if (buffer.size() > 0) {
-			Object value = buffer.remove(0);
+			Object value = buffer.get(buffer.size() - 1);
 			return ErrorOccurrence.rethrow(value);
 		}
 		return super.getValue();
@@ -38,18 +41,12 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 		super.setValue(value);
 	}
 
-	public void withInBuffer(Object value, Runnable runnable) {
-		int initialBufferSize = buffer.size();
+	public void returningValue(Object value, Runnable runnable) {
 		buffer.add(value);
 		try {
 			runnable.run();
 		} finally {
-			if (buffer.size() < initialBufferSize) {
-				throw new ReflectionUIError("Field control data value accessed at least once too often (" + this + ")");
-			}
-			while (buffer.size() > initialBufferSize) {
-				buffer.remove(0);
-			}
+			buffer.remove(buffer.size() - 1);
 		}
 	}
 

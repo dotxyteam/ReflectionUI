@@ -380,7 +380,7 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		}
 
 		@Override
-		public boolean displayError(String msg) {
+		public boolean displayError(Throwable error) {
 			return false;
 		}
 

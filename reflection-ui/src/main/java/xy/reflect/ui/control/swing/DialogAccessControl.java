@@ -105,14 +105,14 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			return false;
 		}
 		if (statusControl != null) {
-			data.withInBuffer(value, new Runnable() {
+			data.returningValue(value, new Runnable() {
 				public void run() {
 					updateStatusControl(refreshStructure);
 				}
 			});
 		}
 		if (iconControl != null) {
-			data.withInBuffer(value, new Runnable() {
+			data.returningValue(value, new Runnable() {
 				public void run() {
 					updateIconControl(refreshStructure);
 				}
@@ -265,7 +265,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public boolean displayError(String msg) {
+	public boolean displayError(Throwable error) {
 		return false;
 	}
 

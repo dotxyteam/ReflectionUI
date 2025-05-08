@@ -669,8 +669,8 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public boolean displayError(String msg) {
-			SwingRendererUtils.displayErrorOnBorderAndTooltip(contentPane, contentPane, msg, swingRenderer);
+		public boolean displayError(Throwable error) {
+			SwingRendererUtils.displayErrorOnBorderAndTooltip(contentPane, contentPane, error, swingRenderer);
 			return true;
 		}
 

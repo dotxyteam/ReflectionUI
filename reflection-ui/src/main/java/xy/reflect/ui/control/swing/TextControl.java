@@ -380,8 +380,8 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public boolean displayError(String msg) {
-		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textComponent, msg, swingRenderer);
+	public boolean displayError(Throwable error) {
+		SwingRendererUtils.displayErrorOnBorderAndTooltip(this, textComponent, error, swingRenderer);
 		return true;
 	}
 

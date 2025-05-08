@@ -865,30 +865,52 @@ public class SwingRendererUtils {
 	}
 
 	public static void displayErrorOnBorderAndTooltip(JComponent borderComponent, JComponent toolTipComponent,
-			String msg, SwingRenderer swingRenderer) {
-		String oldTooltipText = toolTipComponent.getToolTipText();
-		String newTooltipText = null;
+			Throwable error, SwingRenderer swingRenderer) {
+		Throwable oldError = null;
 		{
-			if (msg != null) {
-				newTooltipText = swingRenderer.prepareMessageToDisplay(msg);
-				if (newTooltipText.length() == 0) {
-					newTooltipText = null;
-				}
-				if (newTooltipText != null) {
-					newTooltipText = SwingRendererUtils.adaptToolTipTextToMultiline(newTooltipText);
+			HyperlinkTooltip oldTooltip = HyperlinkTooltip.get(toolTipComponent);
+			if (oldTooltip != null) {
+				if (oldTooltip.getCustomValue() instanceof Throwable) {
+					oldError = (Throwable) oldTooltip.getCustomValue();
 				}
 			}
 		}
-		boolean changeDetected = !MiscUtils.equalsOrBothNull(oldTooltipText, newTooltipText);
+		boolean changeDetected;
+		{
+			if (oldError == null) {
+				changeDetected = (error != null);
+			} else {
+				if (error == null) {
+					changeDetected = true;
+				} else {
+					changeDetected = MiscUtils.getPrintedStackTrace(error)
+							.equals(MiscUtils.getPrintedStackTrace(error));
+				}
+			}
+		}
 		if (!changeDetected) {
 			return;
 		}
-		if (newTooltipText == null) {
+		String message = (error != null) ? swingRenderer.prepareMessageToDisplay(MiscUtils.getPrettyErrorMessage(error))
+				: null;
+		if (message != null) {
+			if (message.length() == 0) {
+				message = null;
+			}
+		}
+		if (message == null) {
 			borderComponent.setBorder(null);
+			HyperlinkTooltip.unset(toolTipComponent);
 		} else {
 			borderComponent.setBorder(SwingRendererUtils.getErrorBorder());
+			HyperlinkTooltip.set(toolTipComponent, message, new Runnable() {
+				@Override
+				public void run() {
+					swingRenderer.openErrorDetailsDialog(borderComponent, error);
+				}
+			});
+			HyperlinkTooltip.get(toolTipComponent).setCustomValue(error);
 		}
-		toolTipComponent.setToolTipText(newTooltipText);
 		SwingRendererUtils.handleComponentSizeChange(borderComponent);
 	}
 

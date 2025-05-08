@@ -237,7 +237,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		};
 		protected boolean initialized = false;
 		protected Throwable currentConversionError;
-		protected String currentDataErrorMessage;
+		protected Throwable currentDataError;
 
 		public DatePicker(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -454,19 +454,19 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		protected void updateErrorDisplay() {
 			if (currentConversionError != null) {
 				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
-						MiscUtils.getPrettyErrorMessage(currentConversionError), swingRenderer);
+						currentConversionError, swingRenderer);
 				return;
 			}
-			if (currentDataErrorMessage != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataErrorMessage, swingRenderer);
+			if (currentDataError != null) {
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentDataError, swingRenderer);
 				return;
 			}
 			SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, null, swingRenderer);
 		}
 
 		@Override
-		public boolean displayError(String msg) {
-			currentDataErrorMessage = msg;
+		public boolean displayError(Throwable error) {
+			currentDataError = error;
 			updateErrorDisplay();
 			return true;
 		}

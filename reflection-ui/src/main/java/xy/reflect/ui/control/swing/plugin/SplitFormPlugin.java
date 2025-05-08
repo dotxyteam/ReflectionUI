@@ -326,7 +326,7 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public boolean displayError(String msg) {
+		public boolean displayError(Throwable error) {
 			return false;
 		}
 
