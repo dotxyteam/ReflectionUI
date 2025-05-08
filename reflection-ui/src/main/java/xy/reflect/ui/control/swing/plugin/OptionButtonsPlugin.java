@@ -280,7 +280,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 						result.setSelected(true);
 						data.setValue(value);
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(OptionButtons.this, t);
+						swingRenderer.handleException(OptionButtons.this, t);
 					}
 				}
 			});

@@ -207,7 +207,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 				try {
 					openDialog(result);
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(result, t);
+					swingRenderer.handleException(result, t);
 				}
 			}
 		});
@@ -420,7 +420,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 		@Override
 		protected void handleRealtimeLinkCommitException(Throwable t) {
-			swingRenderer.handleObjectException(ownerComponent, t);
+			swingRenderer.handleException(ownerComponent, t);
 		}
 	}
 

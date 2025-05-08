@@ -87,7 +87,7 @@ public class MethodAction extends AbstractAction {
 		try {
 			onInvocationRequest(activatorComponent);
 		} catch (Throwable t) {
-			swingRenderer.handleObjectException(activatorComponent, t);
+			swingRenderer.handleException(activatorComponent, t);
 		}
 
 	}

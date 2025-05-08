@@ -184,7 +184,7 @@ public class DialogBuilder {
 						beforeClosingAction.run();
 					}
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(result, t);
+					swingRenderer.handleException(result, t);
 				} finally {
 					dialog.dispose();
 				}

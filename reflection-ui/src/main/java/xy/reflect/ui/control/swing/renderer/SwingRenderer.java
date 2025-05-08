@@ -369,14 +369,14 @@ public class SwingRenderer {
 	}
 
 	/**
-	 * This method manages the display of exceptions typically thrown when
-	 * interacting with the generated UI underlying objects.
+	 * This method manages the display of exceptions typically thrown by underlying
+	 * objects when interacting with their generated UIs.
 	 * 
 	 * @param activatorComponent The owner component of the exception dialog or
 	 *                           null.
 	 * @param t                  The exception to be displayed.
 	 */
-	public void handleObjectException(Component activatorComponent, final Throwable t) {
+	public void handleException(Component activatorComponent, final Throwable t) {
 		reflectionUI.logDebug(t);
 		openErrorDialog(activatorComponent, "An Error Occurred", t);
 	}
@@ -505,8 +505,8 @@ public class SwingRenderer {
 						return null;
 					}
 					try {
-						type = reflectionUI.getTypeInfo(new JavaTypeInfoSource(
-								ClassUtils.getCachedClassForName(className), null));
+						type = reflectionUI
+								.getTypeInfo(new JavaTypeInfoSource(ClassUtils.getCachedClassForName(className), null));
 					} catch (ClassNotFoundException e) {
 						throw new ReflectionUIError(e);
 					}

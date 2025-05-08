@@ -134,7 +134,7 @@ public class MethodActionMenuItem extends JMenuItem {
 					});
 					methodAction.onInvocationRequest((Form) form);
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(form, t);
+					swingRenderer.handleException(form, t);
 				}
 			}
 

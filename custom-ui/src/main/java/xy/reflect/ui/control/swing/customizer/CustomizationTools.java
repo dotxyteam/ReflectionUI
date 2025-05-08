@@ -233,7 +233,7 @@ public class CustomizationTools {
 								}
 							}, false);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(result, t);
+							toolsRenderer.handleException(result, t);
 						}
 					}
 				}));
@@ -316,7 +316,7 @@ public class CustomizationTools {
 								}
 							}, false);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(result, t);
+							toolsRenderer.handleException(result, t);
 						}
 					}
 				}));
@@ -334,7 +334,7 @@ public class CustomizationTools {
 										SwingRendererUtils.updateWindowMenu(form, swingCustomizer);
 									}
 								} catch (Throwable t) {
-									swingCustomizer.handleObjectException(form, t);
+									swingCustomizer.handleException(form, t);
 								}
 							}
 						}));
@@ -457,7 +457,7 @@ public class CustomizationTools {
 									hideField(result, getContainingObjectCustomizedType(fieldControlPlaceHolder),
 											fieldControlPlaceHolder.getField().getName());
 								} catch (Throwable t) {
-									toolsRenderer.handleObjectException(result, t);
+									toolsRenderer.handleException(result, t);
 								}
 							}
 						}));
@@ -540,7 +540,7 @@ public class CustomizationTools {
 							moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
 									fieldControlPlaceHolder.getField().getName(), -1);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(customizerButton, t);
+							toolsRenderer.handleException(customizerButton, t);
 						}
 					}
 				}));
@@ -554,7 +554,7 @@ public class CustomizationTools {
 							moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
 									fieldControlPlaceHolder.getField().getName(), 1);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(customizerButton, t);
+							toolsRenderer.handleException(customizerButton, t);
 						}
 					}
 				}));
@@ -568,7 +568,7 @@ public class CustomizationTools {
 							moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
 									fieldControlPlaceHolder.getField().getName(), Short.MIN_VALUE);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(customizerButton, t);
+							toolsRenderer.handleException(customizerButton, t);
 						}
 					}
 				}));
@@ -582,7 +582,7 @@ public class CustomizationTools {
 							moveField(customizerButton, getContainingObjectCustomizedType(fieldControlPlaceHolder),
 									fieldControlPlaceHolder.getField().getName(), Short.MAX_VALUE);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(customizerButton, t);
+							toolsRenderer.handleException(customizerButton, t);
 						}
 					}
 				}));
@@ -602,7 +602,7 @@ public class CustomizationTools {
 							moveMethod(customizerButton, getContainingObjectCustomizedType(methodControlPlaceHolder),
 									methodControlPlaceHolder.getMethod().getSignature(), -1);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(customizerButton, t);
+							toolsRenderer.handleException(customizerButton, t);
 						}
 					}
 				}));
@@ -616,7 +616,7 @@ public class CustomizationTools {
 							moveMethod(customizerButton, getContainingObjectCustomizedType(methodControlPlaceHolder),
 									methodControlPlaceHolder.getMethod().getSignature(), 1);
 						} catch (Throwable t) {
-							toolsRenderer.handleObjectException(customizerButton, t);
+							toolsRenderer.handleException(customizerButton, t);
 						}
 					}
 				}));
@@ -838,7 +838,7 @@ public class CustomizationTools {
 							try {
 								checkNewFieldNameAvailability(newFieldName, objectCustomizedType);
 							} catch (IllegalArgumentException e) {
-								toolsRenderer.handleObjectException(customizerButton, e);
+								toolsRenderer.handleException(customizerButton, e);
 								return;
 							}
 							final TypeCustomization typeCustomization = getTypeCustomization(
@@ -1477,7 +1477,7 @@ public class CustomizationTools {
 									hideMethod(result, getContainingObjectCustomizedType(methodControlPlaceHolder),
 											methodControlPlaceHolder.getMethod().getSignature());
 								} catch (Throwable t) {
-									toolsRenderer.handleObjectException(result, t);
+									toolsRenderer.handleException(result, t);
 								}
 							}
 						}));

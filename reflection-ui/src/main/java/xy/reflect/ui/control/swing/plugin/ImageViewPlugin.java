@@ -594,7 +594,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 					try {
 						onBrowseImage();
 					} catch (Throwable t) {
-						ImageView.this.swingRenderer.handleObjectException(ImageView.this, t);
+						ImageView.this.swingRenderer.handleException(ImageView.this, t);
 					}
 				}
 			});

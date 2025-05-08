@@ -39,7 +39,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 				try {
 					data.setValue(isSelected());
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(CheckBoxControl.this, t);
+					swingRenderer.handleException(CheckBoxControl.this, t);
 				}
 			}
 		});

@@ -65,7 +65,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 					try {
 						TextControl.this.commitChanges();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(TextControl.this, t);
+						swingRenderer.handleException(TextControl.this, t);
 					}
 				}
 			});
@@ -116,7 +116,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					TextControl.this.textComponentEditHappened();
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(TextControl.this, t);
+					swingRenderer.handleException(TextControl.this, t);
 				}
 			}
 		});
@@ -127,7 +127,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					TextControl.this.textComponentFocustLost();
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(TextControl.this, t);
+					swingRenderer.handleException(TextControl.this, t);
 				}
 			}
 
@@ -279,7 +279,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					TextControl.this.textComponentEditHappened();
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(TextControl.this, t);
+					swingRenderer.handleException(TextControl.this, t);
 				}
 			}
 

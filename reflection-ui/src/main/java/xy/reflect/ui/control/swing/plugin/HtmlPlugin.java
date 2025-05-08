@@ -144,7 +144,7 @@ public class HtmlPlugin extends StyledTextPlugin {
 						try {
 							openWebPage(e.getURL());
 						} catch (Throwable t) {
-							swingRenderer.handleObjectException(HtmlControl.this, t);
+							swingRenderer.handleException(HtmlControl.this, t);
 						}
 
 					}

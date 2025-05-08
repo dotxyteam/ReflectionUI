@@ -99,7 +99,7 @@ public class EditorPlugin extends StyledTextPlugin {
 					try {
 						EditorControl.this.textComponentEditHappened();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(EditorControl.this, t);
+						swingRenderer.handleException(EditorControl.this, t);
 					}
 				}
 
@@ -122,7 +122,7 @@ public class EditorPlugin extends StyledTextPlugin {
 					try {
 						EditorControl.this.textComponentFocustLost();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(EditorControl.this, t);
+						swingRenderer.handleException(EditorControl.this, t);
 					}
 				}
 
@@ -157,7 +157,7 @@ public class EditorPlugin extends StyledTextPlugin {
 						try {
 							EditorControl.this.textComponentEditHappened();
 						} catch (Throwable t) {
-							swingRenderer.handleObjectException(EditorControl.this, t);
+							swingRenderer.handleException(EditorControl.this, t);
 						}
 					}
 				});
@@ -167,7 +167,7 @@ public class EditorPlugin extends StyledTextPlugin {
 						try {
 							EditorControl.this.textComponentEditHappened();
 						} catch (Throwable t) {
-							swingRenderer.handleObjectException(EditorControl.this, t);
+							swingRenderer.handleException(EditorControl.this, t);
 						}
 					}
 

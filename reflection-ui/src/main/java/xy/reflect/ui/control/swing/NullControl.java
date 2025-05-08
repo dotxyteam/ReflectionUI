@@ -135,7 +135,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 			try {
 				activationAction.run();
 			} catch (Throwable t) {
-				swingRenderer.handleObjectException(NullControl.this, t);
+				swingRenderer.handleException(NullControl.this, t);
 			}
 		}
 	}

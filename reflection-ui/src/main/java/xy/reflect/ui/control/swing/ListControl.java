@@ -1634,7 +1634,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					fireSelectionEvent();
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(ListControl.this, t);
+					swingRenderer.handleException(ListControl.this, t);
 				}
 			}
 		});
@@ -1752,7 +1752,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 					action.actionPerformed(null);
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(treeTableComponent, t);
+					swingRenderer.handleException(treeTableComponent, t);
 				}
 			}
 		});
@@ -2526,7 +2526,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				displayResult();
 			} catch (Throwable t) {
-				swingRenderer.handleObjectException(ListControl.this, t);
+				swingRenderer.handleException(ListControl.this, t);
 			}
 		}
 
@@ -2613,7 +2613,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected void handleRealtimeLinkCommitException(Throwable t) {
-			swingRenderer.handleObjectException(ListControl.this, t);
+			swingRenderer.handleException(ListControl.this, t);
 		}
 
 		@Override
@@ -3739,7 +3739,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 				@Override
 				protected void handleRealtimeLinkCommitException(Throwable t) {
-					swingRenderer.handleObjectException(ListControl.this, t);
+					swingRenderer.handleException(ListControl.this, t);
 				}
 
 				@Override

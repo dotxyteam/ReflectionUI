@@ -162,7 +162,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		Listener<Throwable> commitExceptionHandler = new Listener<Throwable>() {
 			@Override
 			public void handle(Throwable t) {
-				swingRenderer.handleObjectException(PolymorphicControl.this, t);
+				swingRenderer.handleException(PolymorphicControl.this, t);
 				refreshTypeEnumerationControl(false);
 			}
 		};

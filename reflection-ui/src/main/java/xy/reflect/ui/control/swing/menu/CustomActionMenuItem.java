@@ -106,7 +106,7 @@ public class CustomActionMenuItem extends JMenuItem {
 				try {
 					menuItemInfo.getRunnable().run();
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(form, t);
+					swingRenderer.handleException(form, t);
 				}
 			}
 

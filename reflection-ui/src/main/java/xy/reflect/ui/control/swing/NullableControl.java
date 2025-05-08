@@ -288,7 +288,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 				try {
 					onNullingControlStateChange();
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(NullableControl.this, t);
+					swingRenderer.handleException(NullableControl.this, t);
 				}
 			}
 		});

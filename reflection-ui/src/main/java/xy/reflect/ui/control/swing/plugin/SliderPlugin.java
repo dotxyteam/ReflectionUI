@@ -89,7 +89,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 						try {
 							Slider.this.commitChanges();
 						} catch (Throwable t) {
-							swingRenderer.handleObjectException(Slider.this, t);
+							swingRenderer.handleException(Slider.this, t);
 						}
 					}
 				});
@@ -125,7 +125,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 					try {
 						onSlide();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(Slider.this, t);
+						swingRenderer.handleException(Slider.this, t);
 					}
 				}
 			});
@@ -136,7 +136,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 					try {
 						onFocusLoss();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(Slider.this, t);
+						swingRenderer.handleException(Slider.this, t);
 					}
 				}
 

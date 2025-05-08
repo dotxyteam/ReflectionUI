@@ -133,7 +133,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
 			@Override
 			public void handle(Throwable t) {
-				swingRenderer.handleObjectException(EmbeddedFormControl.this, t);
+				swingRenderer.handleException(EmbeddedFormControl.this, t);
 			}
 		};
 		SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(),

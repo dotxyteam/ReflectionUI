@@ -120,7 +120,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	}
 
 	protected void showErrorDialog(Throwable t) {
-		swingRenderer.handleObjectException(errorDialogOwner, new ReflectionUIError(
+		swingRenderer.handleException(errorDialogOwner, new ReflectionUIError(
 				((getCaption().length() > 0) ? ("'" + getCaption() + "' error: ") : "") + t.toString(), t));
 	}
 

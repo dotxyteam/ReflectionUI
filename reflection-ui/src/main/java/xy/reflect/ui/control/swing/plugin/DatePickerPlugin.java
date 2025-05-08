@@ -219,7 +219,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 						try {
 							DatePicker.this.commitTextEditorChanges();
 						} catch (Throwable t) {
-							swingRenderer.handleObjectException(DatePicker.this, t);
+							swingRenderer.handleException(DatePicker.this, t);
 						}
 					}
 				});
@@ -279,7 +279,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 						}
 						data.setValue(value);
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(DatePicker.this, t);
+						swingRenderer.handleException(DatePicker.this, t);
 					}
 				}
 			});
@@ -301,7 +301,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 						}
 						textEditorChangesCommittingProcess.schedule();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(DatePicker.this, t);
+						swingRenderer.handleException(DatePicker.this, t);
 					}
 				}
 
@@ -328,7 +328,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					try {
 						onFocusLoss();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(DatePicker.this, t);
+						swingRenderer.handleException(DatePicker.this, t);
 					}
 				}
 

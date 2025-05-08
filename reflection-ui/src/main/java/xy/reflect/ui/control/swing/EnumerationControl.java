@@ -91,7 +91,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 					Object selected = comboBox.getSelectedItem();
 					data.setValue(selected);
 				} catch (Throwable t) {
-					swingRenderer.handleObjectException(EnumerationControl.this, t);
+					swingRenderer.handleException(EnumerationControl.this, t);
 				}
 			}
 		};

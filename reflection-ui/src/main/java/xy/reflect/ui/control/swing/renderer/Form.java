@@ -142,7 +142,7 @@ public class Form extends ImagePanel {
 				try {
 					formShown();
 				} catch (Throwable t) {
-					Form.this.swingRenderer.handleObjectException(Form.this, t);
+					Form.this.swingRenderer.handleException(Form.this, t);
 				}
 			}
 
@@ -154,7 +154,7 @@ public class Form extends ImagePanel {
 				try {
 					formHidden();
 				} catch (Throwable t) {
-					Form.this.swingRenderer.handleObjectException(Form.this, t);
+					Form.this.swingRenderer.handleException(Form.this, t);
 				}
 			}
 

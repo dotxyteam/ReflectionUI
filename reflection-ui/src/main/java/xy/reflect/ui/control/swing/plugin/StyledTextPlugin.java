@@ -195,7 +195,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					try {
 						StyledTextControl.this.textComponentEditHappened();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(StyledTextControl.this, t);
+						swingRenderer.handleException(StyledTextControl.this, t);
 					}
 				}
 

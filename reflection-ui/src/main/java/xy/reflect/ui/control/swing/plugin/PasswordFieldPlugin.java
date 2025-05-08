@@ -77,7 +77,7 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 					try {
 						PasswordFieldControl.this.textComponentEditHappened();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(PasswordFieldControl.this, t);
+						swingRenderer.handleException(PasswordFieldControl.this, t);
 					}
 				}
 

@@ -119,7 +119,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						try {
 							Spinner.this.commitChanges();
 						} catch (Throwable t) {
-							swingRenderer.handleObjectException(Spinner.this, t);
+							swingRenderer.handleException(Spinner.this, t);
 						}
 					}
 				});
@@ -162,7 +162,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 					try {
 						onSpin();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(Spinner.this, t);
+						swingRenderer.handleException(Spinner.this, t);
 					}
 				}
 			});
@@ -215,7 +215,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 											textField.setCaretPosition(
 													Math.min(caretPosition, textField.getText().length()));
 										} catch (Throwable t) {
-											swingRenderer.handleObjectException(Spinner.this, t);
+											swingRenderer.handleException(Spinner.this, t);
 										}
 									}
 								});
@@ -244,7 +244,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 								try {
 									onFocusLoss();
 								} catch (Throwable t) {
-									swingRenderer.handleObjectException(Spinner.this, t);
+									swingRenderer.handleException(Spinner.this, t);
 								}
 							}
 

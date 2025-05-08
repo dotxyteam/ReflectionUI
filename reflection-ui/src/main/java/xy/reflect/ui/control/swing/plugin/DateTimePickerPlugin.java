@@ -228,7 +228,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 						try {
 							DateTimePicker.this.commitTextEditorChanges();
 						} catch (Throwable t) {
-							swingRenderer.handleObjectException(DateTimePicker.this, t);
+							swingRenderer.handleException(DateTimePicker.this, t);
 						}
 					}
 				});
@@ -355,7 +355,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 						}
 						data.setValue(value);
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(DateTimePicker.this, t);
+						swingRenderer.handleException(DateTimePicker.this, t);
 					}
 				}
 			});
@@ -377,7 +377,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 						}
 						textEditorChangesCommittingProcess.schedule();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(DateTimePicker.this, t);
+						swingRenderer.handleException(DateTimePicker.this, t);
 					}
 				}
 
@@ -404,7 +404,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 					try {
 						onFocusLoss();
 					} catch (Throwable t) {
-						swingRenderer.handleObjectException(DateTimePicker.this, t);
+						swingRenderer.handleException(DateTimePicker.this, t);
 					}
 				}
 
