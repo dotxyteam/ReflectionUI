@@ -443,7 +443,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		@Override
-		public boolean isItemNodeValidityDetected(ItemPosition itemPosition) {
+		public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
 			return false;
 		}
 

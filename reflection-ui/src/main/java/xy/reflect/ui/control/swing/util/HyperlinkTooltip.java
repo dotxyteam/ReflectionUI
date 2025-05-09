@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing.util;
 
+import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -13,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JWindow;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 public class HyperlinkTooltip {
 
@@ -28,7 +30,7 @@ public class HyperlinkTooltip {
 	private Object customValue;
 
 	private final JWindow window;
-	private final MouseMotionListener listener;
+	private final MouseMotionListener mouseListener;
 	private Timer showingTimer;
 	private Timer hidingTimer;
 
@@ -38,11 +40,11 @@ public class HyperlinkTooltip {
 		this.linkOpener = linkOpener;
 		window.setAlwaysOnTop(true);
 		window.setFocusableWindowState(false);
-		HyperlinkLabel label = new HyperlinkLabel();
+		HyperlinkLabel label = createHyperlinkLabel();
 		label.setText(message);
 		label.setOpaque(true);
-		label.setBackground(UIManager.getColor("ToolTip.background"));
-		label.setBorder(UIManager.getBorder("ToolTip.border"));
+		label.setBackground(getBackground());
+		label.setBorder(getBorder());
 		label.setLinkOpener(new Runnable() {
 			@Override
 			public void run() {
@@ -85,7 +87,7 @@ public class HyperlinkTooltip {
 			}
 		});
 		hidingTimer.setRepeats(false);
-		listener = new MouseMotionAdapter() {
+		mouseListener = new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				if (!window.isVisible()) {
@@ -95,9 +97,21 @@ public class HyperlinkTooltip {
 				}
 			}
 		};
-		component.addMouseMotionListener(listener);
-		label.addMouseMotionListener(listener);
+		component.addMouseMotionListener(mouseListener);
+		label.addMouseMotionListener(mouseListener);
 
+	}
+
+	protected HyperlinkLabel createHyperlinkLabel() {
+		return new HyperlinkLabel();
+	}
+
+	protected Border getBorder() {
+		return UIManager.getBorder("ToolTip.border");
+	}
+
+	protected Color getBackground() {
+		return UIManager.getColor("ToolTip.background");
 	}
 
 	public String getMessage() {
@@ -125,7 +139,7 @@ public class HyperlinkTooltip {
 	public static void unset(JComponent comp) {
 		HyperlinkTooltip tooltip = BY_COMPONENT.remove(comp);
 		if (tooltip != null) {
-			comp.removeMouseMotionListener(tooltip.listener);
+			comp.removeMouseMotionListener(tooltip.mouseListener);
 			tooltip.window.setVisible(false);
 			tooltip.window.dispose();
 		}

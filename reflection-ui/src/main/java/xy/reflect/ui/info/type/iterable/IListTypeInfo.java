@@ -70,7 +70,7 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public boolean isItemNodeValidityDetected(ItemPosition itemPosition) {
+		public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
 			return false;
 		}
 
@@ -528,7 +528,7 @@ public interface IListTypeInfo extends ITypeInfo {
 	 *         subtree starting from this node) designated by the item position
 	 *         passed as a parameter.
 	 */
-	boolean isItemNodeValidityDetected(ItemPosition itemPosition);
+	boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition);
 
 	/**
 	 * Allows to choose how the UI behaves when creating items. Typically it answers

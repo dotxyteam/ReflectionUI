@@ -300,8 +300,8 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.areItemsAutomaticallyPositioned();
 	}
 
-	public boolean isItemNodeValidityDetected(ItemPosition itemPosition) {
-		return base.isItemNodeValidityDetected(itemPosition);
+	public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
+		return base.isItemNodeValidityDetectionEnabled(itemPosition);
 	}
 
 	@Override

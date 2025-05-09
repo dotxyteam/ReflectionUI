@@ -62,7 +62,7 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
-	public boolean isItemNodeValidityDetected(ItemPosition itemPosition) {
+	public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
 		return false;
 	}
 

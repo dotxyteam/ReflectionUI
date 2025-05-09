@@ -12,9 +12,6 @@ public class HyperlinkLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
 
-	private static String LINK_COLOR_CODE = System.getProperty(HyperlinkLabel.class.getName() + ".LINK_COLOR_CODE",
-			"#000099");
-
 	private String rawText;
 	private Runnable linkOpener;
 
@@ -49,7 +46,7 @@ public class HyperlinkLabel extends JLabel {
 		} else {
 			String htmlText = MiscUtils.escapeHTML(text, true);
 			htmlText = underlined ? "<u>" + htmlText + "</u>" : htmlText;
-			htmlText = "<html><span style=\"color: " + LINK_COLOR_CODE + ";\">" + htmlText + "</span></html>";
+			htmlText = "<html><span style=\"color: " + getLinkColorCode() + ";\">" + htmlText + "</span></html>";
 			super.setText(htmlText);
 			this.rawText = text;
 		}
@@ -94,6 +91,10 @@ public class HyperlinkLabel extends JLabel {
 		if (linkOpener != null) {
 			linkOpener.run();
 		}
+	}
+
+	protected String getLinkColorCode() {
+		return System.getProperty(HyperlinkLabel.class.getName() + ".LINK_COLOR_CODE", "#000099");
 	}
 
 }

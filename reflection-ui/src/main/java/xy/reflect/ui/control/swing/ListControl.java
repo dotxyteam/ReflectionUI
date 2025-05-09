@@ -994,7 +994,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition visitedItemPosition) {
-				if (!visitedItemPosition.getContainingListType().isItemNodeValidityDetected(visitedItemPosition)) {
+				if (!visitedItemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
 				if (validitionErrorByItemPosition.get(visitedItemPosition) != null) {
@@ -2060,7 +2060,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
-				if (!itemPosition.getContainingListType().isItemNodeValidityDetected(itemPosition)) {
+				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
 				ItemUIBuilder itemUIBuilder = new ItemUIBuilder(itemPosition);

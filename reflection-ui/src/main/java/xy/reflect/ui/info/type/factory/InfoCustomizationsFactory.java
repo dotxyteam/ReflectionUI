@@ -309,7 +309,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isItemNodeValidityDetected(IListTypeInfo listType, ItemPosition itemPosition) {
+	protected boolean isItemNodeValidityDetectionEnabled(IListTypeInfo listType, ItemPosition itemPosition) {
 		ITypeInfo itemType = listType.getItemType();
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
@@ -342,7 +342,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				return true;
 			}
 		}
-		return super.isItemNodeValidityDetected(listType, itemPosition);
+		return super.isItemNodeValidityDetectionEnabled(listType, itemPosition);
 	}
 
 	@Override
