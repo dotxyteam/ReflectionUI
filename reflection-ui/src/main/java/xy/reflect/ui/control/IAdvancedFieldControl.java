@@ -66,14 +66,13 @@ public interface IAdvancedFieldControl {
 	boolean isAutoManaged();
 
 	/**
-	 * Instructs the current control to display the specified error message.
+	 * Instructs the current control to display the specified error.
 	 * 
-	 * @param error The exception containing the error message that must be
-	 *              displayed.
-	 * @return whether the given error message was displayed by the current control
-	 *         or not. If false is returned then the renderer will take care of the
-	 *         error message display. Note that the renderer will not call this
-	 *         method if {@link #isAutoManaged()} returns true.
+	 * @param error The exception representing the error that must be displayed.
+	 * @return whether the given error was displayed by the current control or not.
+	 *         If false is returned then the renderer will take care of the error
+	 *         display. Note that the renderer will not call this method if
+	 *         {@link #isAutoManaged()} returns true.
 	 */
 	boolean displayError(Throwable error);
 

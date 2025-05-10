@@ -12,13 +12,22 @@ public class HyperlinkLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
 
-	private String rawText;
-	private Runnable linkOpener;
+	protected String rawText;
+	protected boolean underlined = false;
+	protected Runnable linkOpener;
+	protected Object customValue;
 
-	private boolean revalidationDisabled = false;
+	protected boolean revalidationDisabled = false;
+
+	public HyperlinkLabel(String rawText, Runnable linkOpener) {
+		super((String) null);
+		setup();
+		setRawTextAndLinkOpener(rawText, linkOpener);
+		refresh();
+	}
 
 	public HyperlinkLabel() {
-		setup();
+		this(null, null);
 	}
 
 	public Runnable getLinkOpener() {
@@ -33,22 +42,46 @@ public class HyperlinkLabel extends JLabel {
 		return rawText;
 	}
 
-	@Override
-	public void setText(String text) {
-		rawText = text;
-		setText(text, false);
+	public void setRawText(String text) {
+		this.rawText = text;
+		refresh();
 	}
 
-	public void setText(String text, boolean underlined) {
+	@Override
+	public void setText(String text) {
 		if (text == null) {
-			super.setText(null);
-			this.rawText = null;
+			setRawText(null);
 		} else {
-			String htmlText = MiscUtils.escapeHTML(text, true);
-			htmlText = underlined ? "<u>" + htmlText + "</u>" : htmlText;
-			htmlText = "<html><span style=\"color: " + getLinkColorCode() + ";\">" + htmlText + "</span></html>";
-			super.setText(htmlText);
-			this.rawText = text;
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	public void setRawTextAndLinkOpener(String rawText, Runnable linkOpener) {
+		this.rawText = rawText;
+		this.linkOpener = linkOpener;
+		refresh();
+	}
+
+	public Object getCustomValue() {
+		return customValue;
+	}
+
+	public void setCustomValue(Object customValue) {
+		this.customValue = customValue;
+	}
+
+	protected void refresh() {
+		if (rawText == null) {
+			super.setText(null);
+		} else {
+			if (linkOpener == null) {
+				super.setText(rawText);
+			} else {
+				String htmlText = MiscUtils.escapeHTML(rawText, true);
+				htmlText = underlined ? "<u>" + htmlText + "</u>" : htmlText;
+				htmlText = "<html><span style=\"color: " + getLinkColorCode() + ";\">" + htmlText + "</span></html>";
+				super.setText(htmlText);
+			}
 		}
 	}
 
@@ -62,7 +95,8 @@ public class HyperlinkLabel extends JLabel {
 			public void mouseEntered(MouseEvent e) {
 				revalidationDisabled = true;
 				try {
-					setText(rawText, true);
+					HyperlinkLabel.this.underlined = true;
+					refresh();
 				} finally {
 					revalidationDisabled = false;
 				}
@@ -71,7 +105,8 @@ public class HyperlinkLabel extends JLabel {
 			public void mouseExited(MouseEvent e) {
 				revalidationDisabled = true;
 				try {
-					setText(rawText, false);
+					HyperlinkLabel.this.underlined = false;
+					refresh();
 				} finally {
 					revalidationDisabled = false;
 				}

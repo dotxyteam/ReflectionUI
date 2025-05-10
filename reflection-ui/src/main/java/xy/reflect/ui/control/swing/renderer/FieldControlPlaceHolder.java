@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.AncestorEvent;
@@ -18,8 +17,6 @@ import javax.swing.event.AncestorListener;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.AbstractFieldControlData;
 import xy.reflect.ui.control.BufferedFieldControlData;
-import xy.reflect.ui.control.DefaultFieldControlData;
-import xy.reflect.ui.control.DefaultFieldControlInput;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
 import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -34,6 +31,7 @@ import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
 import xy.reflect.ui.control.swing.EnumerationControl;
+import xy.reflect.ui.control.swing.ErrorDisplayControl;
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.MutableTypeControl;
 import xy.reflect.ui.control.swing.NullControl;
@@ -330,10 +328,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				 * change:
 				 */
 				lastFieldControlSelectionCriteria = getFieldControlSelectionCriteria(controlData);
-				fieldControl.setName("fieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
 			} catch (Throwable t) {
 				fieldControl = createFieldErrorControl(t);
 			}
+			fieldControl.setName("fieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
 			layoutFieldControl();
 		} else {
 			if ((fieldControl instanceof IAdvancedFieldControl)
@@ -661,29 +659,12 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				}
 			}
 		}
-
 		return null;
 	}
 
 	public Component createFieldErrorControl(final Throwable t) {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		reflectionUI.logError(t);
-		JPanel result = new ControlPanel();
-		result.setLayout(new BorderLayout());
-		result.add(new NullControl(swingRenderer, new DefaultFieldControlInput(swingRenderer.getReflectionUI()) {
-			@Override
-			public IFieldControlData getControlData() {
-				return new DefaultFieldControlData(swingRenderer.getReflectionUI()) {
-					@Override
-					public String getNullValueLabel() {
-						return MiscUtils.getPrettyErrorMessage(t);
-					}
-				};
-			}
-		}), BorderLayout.CENTER);
-		result.setBorder(SwingRendererUtils.getErrorBorder());
-		result.setName("errorFieldControl [field=" + field.getName() + ", parent=" + form.getName() + "]");
-		return result;
+		swingRenderer.getReflectionUI().logError(t);
+		return new ErrorDisplayControl(swingRenderer, this, t);
 	}
 
 	protected Map<String, Object> getFieldControlSelectionCriteria(IFieldControlData controlData) {

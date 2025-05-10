@@ -93,7 +93,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 						if (result == null) {
 							result = "";
 						}
-						return result;
+						return swingRenderer.prepareMessageToDisplay(result);
 					}
 
 					@Override

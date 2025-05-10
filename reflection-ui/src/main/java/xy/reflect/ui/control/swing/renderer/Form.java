@@ -400,6 +400,15 @@ public class Form extends ImagePanel {
 							setStandardOKButtonEnabled(!type.isValidationRequired());
 						}
 					});
+				} catch (Throwable t) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							showErrorOnStatusBar(null);
+							setStandardOKButtonEnabled(true);
+							swingRenderer.handleException(Form.this, t);
+						}
+					});
 				}
 
 			}
@@ -422,39 +431,38 @@ public class Form extends ImagePanel {
 		button.setEnabled(b);
 	}
 
-	protected void showErrorOnStatusBar(Exception e) {
-		String errorMsg;
-		if (e == null) {
-			errorMsg = null;
-		} else {
-			errorMsg = MiscUtils.getPrettyErrorMessage(e);
-			errorMsg = MiscUtils.multiToSingleLine(errorMsg);
-		}
-		if (!MiscUtils.equalsOrBothNull(errorMsg, statusBar.getText())) {
-			if (e != null) {
-				swingRenderer.getReflectionUI().logDebug(e);
+	protected void showErrorOnStatusBar(Exception error) {
+		if (!MiscUtils.sameExceptionOrBothNull(error, (Throwable) ((HyperlinkLabel) statusBar).getCustomValue())) {
+			if (error != null) {
+				swingRenderer.getReflectionUI().logDebug(error);
+			}
+			String errorMsg;
+			if (error == null) {
+				errorMsg = null;
+			} else {
+				errorMsg = MiscUtils.getPrettyErrorMessage(error);
+				errorMsg = MiscUtils.multiToSingleLine(errorMsg);
 			}
 			if (errorMsg == null) {
 				statusBar.setIcon(null);
-				statusBar.setText(null);
 				statusBar.setToolTipText(null);
-				((HyperlinkLabel) statusBar).setLinkOpener(null);
-				statusBar.setVisible(false);
+				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(null, null);
+				((HyperlinkLabel) statusBar).setCustomValue(null);
 			} else {
 				statusBar.setIcon(SwingRendererUtils.ERROR_ICON);
 				statusBar.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(errorMsg));
-				statusBar.setText(errorMsg);
-				((HyperlinkLabel) statusBar).setLinkOpener(new Runnable() {
+				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(errorMsg, new Runnable() {
 					@Override
 					public void run() {
-						swingRenderer.openErrorDetailsDialog(statusBar, ReflectionUIUtils.unwrapValidationException(e));
+						swingRenderer.openErrorDetailsDialog(statusBar, ReflectionUIUtils.unwrapValidationError(error));
 					}
 
 				});
-				statusBar.setVisible(true);
+				((HyperlinkLabel) statusBar).setCustomValue(error);
 			}
 			SwingRendererUtils.handleComponentSizeChange(statusBar);
 		}
+		statusBar.setVisible(statusBar.getText() != null);
 	}
 
 	protected void formShown() {
@@ -641,6 +649,7 @@ public class Form extends ImagePanel {
 		JLabel result = new HyperlinkLabel();
 		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
+		result.setPreferredSize(new Dimension(100, 20));
 		result.setName("statusBar");
 		return result;
 	}

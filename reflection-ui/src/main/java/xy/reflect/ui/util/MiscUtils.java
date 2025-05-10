@@ -401,4 +401,14 @@ public class MiscUtils {
 		return text.replaceAll("\\b" + escapeRegex(word) + "\\b", escapeRegexReplacement(replacement));
 	}
 
+	public static boolean sameExceptionOrBothNull(Throwable error1, Throwable error2) {
+		if (error1 == null) {
+			return error2 == null;
+		}
+		if (error2 == null) {
+			return false;
+		}
+		return error1.toString().equals(error2.toString());
+	}
+
 }

@@ -161,7 +161,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected List<Listener<List<BufferedItemPosition>>> selectionListeners = new ArrayList<Listener<List<BufferedItemPosition>>>();
 	protected boolean selectionListenersEnabled = true;
 	protected IFieldControlInput input;
-	protected Listener<Throwable> refreshingErrorHandler;
 
 	protected IFieldControlData selectionTargetData;
 	protected boolean selectionTargetListenerEnabled = true;
@@ -179,18 +178,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.listData = new BufferedFieldControlData(
-				new ErrorHandlingFieldControlData(input.getControlData(), swingRenderer, ListControl.this) {
-					{
-						refreshingErrorHandler = new Listener<Throwable>() {
-							@Override
-							public void handle(Throwable t) {
-								handleError(t);
-							}
-						};
-					}
-				});
-
-		listData.returningValue(listData.getValue(), new Runnable() {			
+				new ErrorHandlingFieldControlData(input.getControlData(), swingRenderer, ListControl.this));
+		listData.returningValue(listData.getValue(), new Runnable() {
 			@Override
 			public void run() {
 				initializeTreeTableModelAndControl();
@@ -995,7 +984,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition visitedItemPosition) {
-				if (!visitedItemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
+				if (!visitedItemPosition.getContainingListType()
+						.isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
 				if (validitionErrorByItemPosition.get(visitedItemPosition) != null) {
@@ -2091,7 +2081,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		});
 		if (validitionErrorByItemPosition.size() > 0) {
-			throw new ValidationError("Invalid element(s) detected", validitionErrorByItemPosition);
+			throw new ListValidationError("Invalid element(s) detected", validitionErrorByItemPosition);
 		}
 	}
 
@@ -2217,21 +2207,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		protected List<AbstractLazyTreeNode> createChildrenNodes() {
 			List<AbstractLazyTreeNode> result = new ArrayList<AbstractLazyTreeNode>();
-			try {
-				if (currentItemPosition == null) {
-					for (int i = 0; i < itemPositionFactory.getRootItemPosition(-1).getContainingListSize(); i++) {
-						BufferedItemPosition rootItemPosition = itemPositionFactory.getRootItemPosition(i);
-						ItemNode node = new ItemNode(rootItemPosition);
-						result.add(node);
-					}
-				} else {
-					for (BufferedItemPosition childItemPosition : currentItemPosition.getSubItemPositions()) {
-						ItemNode node = new ItemNode(childItemPosition);
-						result.add(node);
-					}
+			if (currentItemPosition == null) {
+				for (int i = 0; i < itemPositionFactory.getRootItemPosition(-1).getContainingListSize(); i++) {
+					BufferedItemPosition rootItemPosition = itemPositionFactory.getRootItemPosition(i);
+					ItemNode node = new ItemNode(rootItemPosition);
+					result.add(node);
 				}
-			} catch (Throwable t) {
-				refreshingErrorHandler.handle(t);
+			} else {
+				for (BufferedItemPosition childItemPosition : currentItemPosition.getSubItemPositions()) {
+					ItemNode node = new ItemNode(childItemPosition);
+					result.add(node);
+				}
 			}
 			return result;
 		}
@@ -3793,13 +3779,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
-	public class ValidationError extends ReflectionUIError {
+	public class ListValidationError extends ReflectionUIError {
 
 		private static final long serialVersionUID = 1L;
 
 		protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition;
 
-		public ValidationError(String message, Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
+		public ListValidationError(String message, Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
 			super(message);
 			this.validitionErrorByItemPosition = validitionErrorByItemPosition;
 		}
@@ -3815,7 +3801,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						" / ");
 			}, entry -> {
 				Exception error = ((Map.Entry<BufferedItemPosition, Exception>) entry).getValue();
-				error = ReflectionUIUtils.unwrapValidationException(error);
+				error = ReflectionUIUtils.unwrapValidationError(error);
 				return error;
 			}));
 		}

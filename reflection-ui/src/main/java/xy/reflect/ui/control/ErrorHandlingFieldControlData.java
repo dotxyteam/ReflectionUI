@@ -8,9 +8,8 @@ import javax.swing.border.CompoundBorder;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control data that handles value access errors by notifying them and
@@ -66,15 +65,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 			}
 		} catch (final Throwable t) {
 			if (!lastFieldValueInitialized) {
-				ITypeInfo type = getType();
-				if (!type.supports(null)) {
-					try {
-						lastFieldValue = ReflectionUIUtils.createDefaultInstance(type, true);
-					} catch (Throwable ignore) {
-						throw new ReflectionUIError(t);
-					}
-				}
-				lastFieldValueInitialized = true;
+				throw new ReflectionUIError(t);
 			}
 			handleError(t);
 		}
@@ -86,6 +77,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	public void setValue(Object newValue) {
 		try {
 			lastFieldValue = newValue;
+			lastFieldValueInitialized = true;
 			super.setValue(newValue);
 			lastValueUpdateError = null;
 		} catch (Throwable t) {
@@ -100,7 +92,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 	 *              present.
 	 */
 	protected void handleError(final Throwable error) {
-		if (sameError(error, currentlyDisplayedError)) {
+		if (MiscUtils.sameExceptionOrBothNull(error, currentlyDisplayedError)) {
 			return;
 		}
 		SwingUtilities.invokeLater(new Runnable() {
@@ -121,16 +113,6 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 					SwingRendererUtils.getErrorBorder()));
 			showErrorDialog(error);
 		}
-	}
-
-	protected boolean sameError(Throwable error1, Throwable error2) {
-		if (error1 == null) {
-			return error2 == null;
-		}
-		if (error2 == null) {
-			return false;
-		}
-		return error1.toString().equals(error2.toString());
 	}
 
 	protected void showErrorDialog(Throwable t) {

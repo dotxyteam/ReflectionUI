@@ -18,34 +18,33 @@ import javax.swing.border.Border;
 
 public class HyperlinkTooltip {
 
-	private static int MILLISECONDS_BEFORE_OPENING = Integer
+	protected static int MILLISECONDS_BEFORE_OPENING = Integer
 			.valueOf(System.getProperty(HyperlinkTooltip.class.getName() + ".MILLISECONDS_BEFORE_OPENING", "1000"));
-	private static int MILLISECONDS_BEFORE_CLOSING = Integer
+	protected static int MILLISECONDS_BEFORE_CLOSING = Integer
 			.valueOf(System.getProperty(HyperlinkTooltip.class.getName() + ".MILLISECONDS_BEFORE_CLOSING", "1000"));
 
-	private static final WeakHashMap<JComponent, HyperlinkTooltip> BY_COMPONENT = new WeakHashMap<>();
+	protected static final WeakHashMap<JComponent, HyperlinkTooltip> BY_COMPONENT = new WeakHashMap<>();
 
-	private final String message;
-	private final Runnable linkOpener;
-	private Object customValue;
+	protected final String message;
+	protected final Runnable linkOpener;
+	protected Object customValue;
 
-	private final JWindow window;
-	private final MouseMotionListener mouseListener;
-	private Timer showingTimer;
-	private Timer hidingTimer;
+	protected final JWindow window;
+	protected final MouseMotionListener mouseListener;
+	protected Timer showingTimer;
+	protected Timer hidingTimer;
 
-	private HyperlinkTooltip(JComponent component, String message, Runnable linkOpener) {
+	protected HyperlinkTooltip(JComponent component, String message, Runnable linkOpener) {
 		this.window = new JWindow();
 		this.message = message;
 		this.linkOpener = linkOpener;
 		window.setAlwaysOnTop(true);
 		window.setFocusableWindowState(false);
 		HyperlinkLabel label = createHyperlinkLabel();
-		label.setText(message);
 		label.setOpaque(true);
 		label.setBackground(getBackground());
 		label.setBorder(getBorder());
-		label.setLinkOpener(new Runnable() {
+		label.setRawTextAndLinkOpener(message, new Runnable() {
 			@Override
 			public void run() {
 				window.setVisible(false);
