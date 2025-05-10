@@ -30,6 +30,7 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -97,13 +98,13 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
 		Object value = data.getValue();
-		data.returningValue(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {
 			@Override
 			public void run() {
 				refreshNullStatusControl(refreshStructure);
 			}
 		});
-		data.returningValue(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {
 			@Override
 			public void run() {
 				refreshSubControl(refreshStructure);
@@ -364,9 +365,9 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	@Override
-	public void validateSubForms() throws Exception {
+	public void validateSubForms(ValidationSession session) throws Exception {
 		if (currentSubControl instanceof Form) {
-			((Form) currentSubControl).validateForm();
+			((Form) currentSubControl).validateForm(session);
 		}
 	}
 

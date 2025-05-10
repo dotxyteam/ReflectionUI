@@ -19,6 +19,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.ConversionUtils;
@@ -247,7 +248,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		@Override
-		public void validateSubForms() throws Exception {
+		public void validateSubForms(ValidationSession session) throws Exception {
 		}
 
 		@Override

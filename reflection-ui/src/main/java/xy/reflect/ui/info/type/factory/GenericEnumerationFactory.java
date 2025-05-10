@@ -14,6 +14,7 @@ import xy.reflect.ui.info.AbstractInfo;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
@@ -475,7 +476,7 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
-		public void validate(Object object) throws Exception {
+		public void validate(Object object, ValidationSession session) throws Exception {
 			ReflectionUIUtils.checkInstance(this, object);
 		}
 

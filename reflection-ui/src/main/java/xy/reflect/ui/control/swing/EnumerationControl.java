@@ -26,6 +26,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
@@ -249,7 +250,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public void validateSubForms() throws Exception {
+	public void validateSubForms(ValidationSession session) throws Exception {
 	}
 
 	@Override

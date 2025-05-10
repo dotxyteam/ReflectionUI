@@ -9,6 +9,7 @@ import xy.reflect.ui.info.AbstractInfoProxy;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -119,8 +120,8 @@ public class MapEntryTypeInfoProxy extends AbstractInfoProxy implements IMapEntr
 		return base.toString(object);
 	}
 
-	public void validate(Object object) throws Exception {
-		base.validate(object);
+	public void validate(Object object, ValidationSession session) throws Exception {
+		base.validate(object, session);
 	}
 
 	public boolean canCopy(Object object) {

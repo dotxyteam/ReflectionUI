@@ -89,6 +89,7 @@ import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.ScrollPaneOptions;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.DelegatingInfoFilter;
@@ -2055,7 +2056,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void validateSubForms() throws Exception {
+	public void validateSubForms(ValidationSession session) throws Exception {
 		validitionErrorByItemPosition.clear();
 		visitItems(new IItemsVisitor() {
 			@Override
@@ -2076,7 +2077,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					throw new ReflectionUIError(e);
 				}
 				try {
-					itemForm[0].validateForm();
+					itemForm[0].validateForm(session);
 				} catch (Exception e) {
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}

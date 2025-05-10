@@ -22,6 +22,7 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
@@ -1819,7 +1820,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected void validate(ITypeInfo type, Object object) throws Exception {
+	protected void validate(ITypeInfo type, Object object, ValidationSession session) throws Exception {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
 			for (IMethodInfo method : getMethods(type)) {
@@ -1835,7 +1836,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 			}
 		}
-		super.validate(type, object);
+		super.validate(type, object, session);
 	}
 
 	@Override

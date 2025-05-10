@@ -19,6 +19,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlSplitPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.filter.InfoFilterProxy;
@@ -352,9 +353,9 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public void validateSubForms() throws Exception {
-			subControl1.validateSubForms();
-			subControl2.validateSubForms();
+		public void validateSubForms(ValidationSession session) throws Exception {
+			subControl1.validateSubForms(session);
+			subControl2.validateSubForms(session);
 		}
 
 		@Override

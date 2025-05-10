@@ -11,6 +11,7 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -57,7 +58,7 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public void validate(Object object) throws Exception {
+		public void validate(Object object, ValidationSession session) throws Exception {
 		}
 
 		@Override
@@ -382,10 +383,11 @@ public interface ITypeInfo extends IInfo {
 	 * this method is executed concurrently by a validation thread while the given
 	 * object is possibly accessed/modified by another thread.
 	 * 
-	 * @param object Any object of the current type.
+	 * @param object  Any object of the current type.
+	 * @param session The current validation session object.
 	 * @throws Exception If the state of the given object is not valid.
 	 */
-	void validate(Object object) throws Exception;
+	void validate(Object object, ValidationSession session) throws Exception;
 
 	/**
 	 * @param object Any object of the current type.

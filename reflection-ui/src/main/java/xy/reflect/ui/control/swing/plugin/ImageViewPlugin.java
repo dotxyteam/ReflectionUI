@@ -46,6 +46,7 @@ import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ImagePanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -711,7 +712,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public void validateSubForms() throws Exception {
+		public void validateSubForms(ValidationSession session) throws Exception {
 		}
 
 		@Override

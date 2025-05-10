@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -379,8 +380,8 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected void validate(ITypeInfo type, Object object) throws Exception {
-			super.validate(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
+		protected void validate(ITypeInfo type, Object object, ValidationSession session) throws Exception {
+			super.validate(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), session);
 		}
 
 		@Override

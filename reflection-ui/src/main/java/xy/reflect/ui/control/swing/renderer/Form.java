@@ -60,6 +60,7 @@ import xy.reflect.ui.control.swing.util.ListTabbedPane;
 import xy.reflect.ui.control.swing.util.ModificationStackControls;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.InfoCategory;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
@@ -336,10 +337,10 @@ public class Form extends ImagePanel {
 	 * 
 	 * @throws Exception If the state of the underlying object is not valid.
 	 */
-	public void validateForm() throws Exception {
+	public void validateForm(ValidationSession session) throws Exception {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		type.validate(object);
+		type.validate(object, session);
 		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
 				methodControlPlaceHoldersByCategory);
 		boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
@@ -348,7 +349,7 @@ public class Form extends ImagePanel {
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
-						((IAdvancedFieldControl) fieldControl).validateSubForms();
+						((IAdvancedFieldControl) fieldControl).validateSubForms(session);
 					} catch (Exception e) {
 						String errorMsg = e.toString();
 						IFieldInfo field = fieldControlPlaceHolder.getField();
@@ -382,7 +383,7 @@ public class Form extends ImagePanel {
 				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 				final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 				try {
-					validateForm();
+					validateForm(new ValidationSession());
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {

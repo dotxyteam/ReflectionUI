@@ -14,6 +14,7 @@ import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.ITransaction;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -1150,8 +1151,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @param objectType Parameter of
 	 *                   {@link IListTypeInfo#isItemNodeValidityDetectionEnabled(ItemPosition)}.
 	 * @return the result of
-	 *         {@link IListTypeInfo#isItemNodeValidityDetectionEnabled(ItemPosition)} unless
-	 *         overridden.
+	 *         {@link IListTypeInfo#isItemNodeValidityDetectionEnabled(ItemPosition)}
+	 *         unless overridden.
 	 */
 	protected boolean isItemNodeValidityDetectionEnabled(IListTypeInfo type, ItemPosition itemPosition) {
 		return type.isItemNodeValidityDetectionEnabled(itemPosition);
@@ -1810,13 +1811,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
-	 * @param type   The type information.
-	 * @param object Parameter of {@link ITypeInfo#validate(Object)}.
+	 * @param type    The type information.
+	 * @param object  Parameter of
+	 *                {@link ITypeInfo#validate(Object, ValidationSession)}.
+	 * @param session Parameter of
+	 *                {@link ITypeInfo#validate(Object, ValidationSession)}.
 	 * @throws Exception If {@link ITypeInfo#validate(Object)} throws the exception
 	 *                   unless overridden.
 	 */
-	protected void validate(ITypeInfo type, Object object) throws Exception {
-		type.validate(object);
+	protected void validate(ITypeInfo type, Object object, ValidationSession session) throws Exception {
+		type.validate(object, session);
 	}
 
 	/**
@@ -2448,8 +2452,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public void validate(Object object) throws Exception {
-			InfoProxyFactory.this.validate(base, object);
+		public void validate(Object object, ValidationSession session) throws Exception {
+			InfoProxyFactory.this.validate(base, object, session);
 		}
 
 		@Override
