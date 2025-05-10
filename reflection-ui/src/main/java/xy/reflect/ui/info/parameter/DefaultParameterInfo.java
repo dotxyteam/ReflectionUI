@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.info.parameter;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
 import java.util.Collections;
 import java.util.Map;
@@ -24,13 +25,18 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	protected ReflectionUI reflectionUI;
 	protected Parameter javaParameter;
-	private int position;
+	protected int position;
+	protected Executable javaExecutable;
+	protected Class<?> javaObjectType;
 	protected String name;
 
-	public DefaultParameterInfo(ReflectionUI reflectionUI, Parameter javaParameter, int position) {
+	public DefaultParameterInfo(ReflectionUI reflectionUI, Parameter javaParameter, int position,
+			Executable javaExecutable, Class<?> javaObjectType) {
 		this.reflectionUI = reflectionUI;
 		this.javaParameter = javaParameter;
 		this.position = position;
+		this.javaExecutable = javaExecutable;
+		this.javaObjectType = javaObjectType;
 	}
 
 	public Parameter getJavaParameter() {
@@ -51,7 +57,7 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 				int sameNameCount = 0;
 				int sameNamePosition = 0;
 				int parameterPosition = 0;
-				for (Class<?> c : javaParameter.getDeclaringExecutable().getParameterTypes()) {
+				for (Class<?> c : javaExecutable.getParameterTypes()) {
 					if (name.equals(new DefaultTypeInfo(reflectionUI, new JavaTypeInfoSource(c, null)).getCaption())) {
 						sameNameCount++;
 						if (parameterPosition < position) {
@@ -77,8 +83,8 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(),
-				javaParameter.getDeclaringExecutable(), position, null));
+		return reflectionUI
+				.getTypeInfo(new JavaTypeInfoSource(javaParameter.getType(), javaExecutable, position, null));
 	}
 
 	@Override
@@ -129,7 +135,10 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((javaExecutable == null) ? 0 : javaExecutable.hashCode());
+		result = prime * result + ((javaObjectType == null) ? 0 : javaObjectType.hashCode());
 		result = prime * result + ((javaParameter == null) ? 0 : javaParameter.hashCode());
+		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
 		return result;
 	}
 
@@ -142,16 +151,33 @@ public class DefaultParameterInfo extends AbstractInfo implements IParameterInfo
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultParameterInfo other = (DefaultParameterInfo) obj;
+		if (javaExecutable == null) {
+			if (other.javaExecutable != null)
+				return false;
+		} else if (!javaExecutable.equals(other.javaExecutable))
+			return false;
+		if (javaObjectType == null) {
+			if (other.javaObjectType != null)
+				return false;
+		} else if (!javaObjectType.equals(other.javaObjectType))
+			return false;
 		if (javaParameter == null) {
 			if (other.javaParameter != null)
 				return false;
 		} else if (!javaParameter.equals(other.javaParameter))
+			return false;
+		if (reflectionUI == null) {
+			if (other.reflectionUI != null)
+				return false;
+		} else if (!reflectionUI.equals(other.reflectionUI))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DefaultParameterInfo [javaParameter=" + javaParameter + "]";
+		return "DefaultParameterInfo [javaParameter=" + javaParameter + ", position=" + position + ", javaMethod="
+				+ javaExecutable + ", javaObjectType=" + javaObjectType + "]";
 	}
+
 }

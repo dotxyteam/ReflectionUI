@@ -388,6 +388,18 @@ public class WindowManager extends WindowAdapter {
 		window.dispose();
 	}
 
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		super.windowClosed(e);
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		super.windowDeactivated(e);
+	}
+
 	protected void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {
 		new Thread(WindowManager.class.getName() + ".workerAroundOpeningWindowFocusRequestBug") {
 			long MAXIMUM_RETRY_DURATION_MILLISECONDS = 1000;

@@ -2091,7 +2091,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		});
 		if (validitionErrorByItemPosition.size() > 0) {
-			throw new ValidationError("Invalid item(s) found", validitionErrorByItemPosition);
+			throw new ValidationError("Invalid element(s) detected", validitionErrorByItemPosition);
 		}
 	}
 

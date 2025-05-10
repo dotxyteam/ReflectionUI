@@ -1,3 +1,4 @@
+- IInfo equals() and hashCode() methods should take the ReflectionUI field into account
 - IListStructuralInfo methods do not need the ItemPosition parameter as
 the structural info is already bound to a  list type that is bound to an
 ItemPosition. It may be enough to pass an item instead of an item position.

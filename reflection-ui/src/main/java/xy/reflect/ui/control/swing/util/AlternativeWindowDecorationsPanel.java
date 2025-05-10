@@ -71,7 +71,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 
 	public AlternativeWindowDecorationsPanel(String windowTitle, Icon windowIcon) {
 		super(new BorderLayout());
-		init(windowTitle, windowIcon);
+		initialize(windowTitle, windowIcon);
 	}
 
 	public AlternativeWindowDecorationsPanel(String windowTitle, Icon windowIcon, Window window,
@@ -117,7 +117,7 @@ public class AlternativeWindowDecorationsPanel extends JPanel {
 		return true;
 	}
 
-	public void init(String title, Icon icon) {
+	public void initialize(String title, Icon icon) {
 
 		setOpaque(false);
 		add(resizePanel, BorderLayout.CENTER);

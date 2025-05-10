@@ -230,7 +230,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
-				constructors.add(new DefaultConstructorInfo(reflectionUI, primitiveParamWrapperCtor) {
+				constructors.add(new DefaultConstructorInfo(reflectionUI, primitiveParamWrapperCtor, getJavaType()) {
 
 					@Override
 					public List<IParameterInfo> getParameters() {
@@ -247,16 +247,17 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 				});
 			} else if (String.class == getJavaType()) {
 				try {
-					constructors.add(new DefaultConstructorInfo(reflectionUI, String.class.getConstructor()));
+					constructors.add(
+							new DefaultConstructorInfo(reflectionUI, String.class.getConstructor(), getJavaType()));
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
 			} else {
 				for (Constructor<?> javaConstructor : getJavaType().getConstructors()) {
-					if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor)) {
+					if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor, getJavaType())) {
 						continue;
 					}
-					constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor));
+					constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor, getJavaType()));
 				}
 			}
 		}
@@ -283,20 +284,23 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IFieldInfo> getFields() {
 		if (fields == null) {
 			fields = new ArrayList<IFieldInfo>();
-			for (Field javaField : getJavaType().getFields()) {
+			Field[] javaFields = getJavaType().getFields();
+			ReflectionUIUtils.sortFields(javaFields);
+			for (Field javaField : javaFields) {
 				if (!PublicFieldInfo.isCompatibleWith(javaField)) {
 					continue;
 				}
 				fields.add(new PublicFieldInfo(reflectionUI, javaField, getJavaType()));
 			}
-			for (Method javaMethod : getJavaType().getMethods()) {
+			Method[] javaMethods = getJavaType().getMethods();
+			ReflectionUIUtils.sortMethods(javaMethods);
+			for (Method javaMethod : javaMethods) {
 				if (!GetterFieldInfo.isCompatibleWith(javaMethod, getJavaType())) {
 					continue;
 				}
 				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, getJavaType());
 				fields.add(getterFieldInfo);
 			}
-			ReflectionUIUtils.sortFields(fields);
 		}
 		return fields;
 	}
@@ -305,13 +309,14 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public List<IMethodInfo> getMethods() {
 		if (methods == null) {
 			methods = new ArrayList<IMethodInfo>();
-			for (Method javaMethod : getJavaType().getMethods()) {
+			Method[] javaMethods = getJavaType().getMethods();
+			ReflectionUIUtils.sortMethods(javaMethods);
+			for (Method javaMethod : javaMethods) {
 				if (!DefaultMethodInfo.isCompatibleWith(javaMethod, getJavaType())) {
 					continue;
 				}
-				methods.add(new DefaultMethodInfo(reflectionUI, javaMethod));
+				methods.add(new DefaultMethodInfo(reflectionUI, javaMethod, getJavaType()));
 			}
-			ReflectionUIUtils.sortMethods(methods);
 		}
 		return methods;
 	}
@@ -432,6 +437,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
 		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
@@ -445,6 +451,11 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		DefaultTypeInfo other = (DefaultTypeInfo) obj;
+		if (reflectionUI == null) {
+			if (other.reflectionUI != null)
+				return false;
+		} else if (!reflectionUI.equals(other.reflectionUI))
+			return false;
 		if (source == null) {
 			if (other.source != null)
 				return false;

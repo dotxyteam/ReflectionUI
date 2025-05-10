@@ -2073,7 +2073,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					newField = customizedUI.getInfoCustomizationsSetupFactory().wrapFieldInfo(newField, objectType);
 					fields.add(newField);
 				} else {
-					IMethodInfo newMethod = new DefaultMethodInfo(customizedUI, objectMethod);
+					IMethodInfo newMethod = new DefaultMethodInfo(customizedUI, objectMethod, Object.class);
 					if (newMethod.getName().equals("toString")) {
 						newMethod = new MethodInfoProxy(newMethod) {
 							@Override

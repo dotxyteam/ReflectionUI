@@ -9,8 +9,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
-import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -101,15 +99,11 @@ public class CustomizationToolsRenderer extends SwingCustomizer {
 			}
 
 			@Override
-			public void install(Component content, List<Component> buttonBarControls) {
-				super.install(content, buttonBarControls);
-				if (window instanceof JFrame) {
-					((JFrame) window).setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-				}
-			}
-
-			@Override
 			public void windowClosing(WindowEvent e) {
+				if (window instanceof JFrame) {
+					return;
+				}
+				super.windowClosing(e);
 			}
 
 		};

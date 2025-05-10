@@ -241,7 +241,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 	protected class StandardMapEntryConstructorInfo extends DefaultConstructorInfo {
 
 		public StandardMapEntryConstructorInfo() {
-			super(StandardMapEntryTypeInfo.this.reflectionUI, getStandardMapEntryJavaConstructor());
+			super(StandardMapEntryTypeInfo.this.reflectionUI, getStandardMapEntryJavaConstructor(),
+					StandardMapEntry.class);
 		}
 
 		@Override

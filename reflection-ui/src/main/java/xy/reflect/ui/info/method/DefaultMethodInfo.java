@@ -37,24 +37,20 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaMethod;
+	protected Class<?> objectJavaClass;
 	protected List<IParameterInfo> parameters;
-	protected int duplicateNameIndex = -1;
+	protected int duplicateSignatureIndex = -1;
 	protected String name;
 	protected String caption;
 
-	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod) {
+	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod, Class<?> objectJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaMethod = javaMethod;
+		this.objectJavaClass = objectJavaClass;
 		resolveJavaReflectionModelAccessProblems();
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod, Class<?> objectJavaClass) {
-		if (javaMethod.isSynthetic()) {
-			return false;
-		}
-		if (javaMethod.isBridge()) {
-			return false;
-		}
 		if (GetterFieldInfo.isCompatibleWith(javaMethod, objectJavaClass)) {
 			return false;
 		}
@@ -91,7 +87,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	public String getName() {
 		if (name == null) {
 			name = javaMethod.getName();
-			int index = getDuplicateSignatureIndex(javaMethod);
+			int index = obtainDuplicateSignatureIndex();
 			if (index > 0) {
 				name += "." + Integer.toString(index);
 			}
@@ -99,20 +95,24 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		return name;
 	}
 
-	protected int getDuplicateSignatureIndex(Method javaMethod) {
-		if (duplicateNameIndex == -1) {
-			duplicateNameIndex = 0;
-			for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
-				if (ReflectionUIUtils.buildMethodSignature(otherMethod)
-						.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
-					if (!otherMethod.equals(javaMethod)) {
-						// other method with same signature forcibly declared in base class
-						duplicateNameIndex += 1;
+	protected int obtainDuplicateSignatureIndex() {
+		if (duplicateSignatureIndex == -1) {
+			duplicateSignatureIndex = 0;
+			Method[] allJavaMethods = objectJavaClass.getMethods();
+			ReflectionUIUtils.sortMethods(allJavaMethods);
+			for (Method eachJavaMethod : allJavaMethods) {
+				if (DefaultMethodInfo.isCompatibleWith(eachJavaMethod, objectJavaClass)) {
+					if (ReflectionUIUtils.buildMethodSignature(eachJavaMethod)
+							.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
+						if (eachJavaMethod.equals(javaMethod)) {
+							break;
+						}
+						duplicateSignatureIndex++;
 					}
 				}
 			}
 		}
-		return duplicateNameIndex;
+		return duplicateSignatureIndex;
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 			if (getReturnValueType() != null) {
 				caption = caption.replaceAll("^Get ", "Show ");
 			}
-			int index = getDuplicateSignatureIndex(javaMethod);
+			int index = obtainDuplicateSignatureIndex();
 			if (index > 0) {
 				caption += " (" + (index + 1) + ")";
 			}
@@ -194,7 +194,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 				if (!DefaultParameterInfo.isCompatibleWith(javaParameter)) {
 					continue;
 				}
-				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameter, i));
+				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameter, i, javaMethod, objectJavaClass));
 			}
 		}
 		return parameters;
@@ -278,6 +278,8 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((javaMethod == null) ? 0 : javaMethod.hashCode());
+		result = prime * result + ((objectJavaClass == null) ? 0 : objectJavaClass.hashCode());
+		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
 		return result;
 	}
 
@@ -295,12 +297,22 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 				return false;
 		} else if (!javaMethod.equals(other.javaMethod))
 			return false;
+		if (objectJavaClass == null) {
+			if (other.objectJavaClass != null)
+				return false;
+		} else if (!objectJavaClass.equals(other.objectJavaClass))
+			return false;
+		if (reflectionUI == null) {
+			if (other.reflectionUI != null)
+				return false;
+		} else if (!reflectionUI.equals(other.reflectionUI))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DefaultMethodInfo [javaMethod=" + javaMethod + "]";
+		return "DefaultMethodInfo [javaMethod=" + javaMethod + ", objectJavaClass=" + objectJavaClass + "]";
 	}
 
 }

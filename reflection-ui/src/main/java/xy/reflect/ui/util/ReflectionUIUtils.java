@@ -2,9 +2,11 @@
 package xy.reflect.ui.util;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -301,24 +303,18 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static void sortFields(List<IFieldInfo> list) {
-		Collections.sort(list, new Comparator<IFieldInfo>() {
+	public static void sortFields(Field[] fields) {
+		Arrays.sort(fields, new Comparator<Field>() {
 			@Override
-			public int compare(IFieldInfo f1, IFieldInfo f2) {
+			public int compare(Field f1, Field f2) {
 				int result;
 
-				result = MiscUtils.compareNullables(f1.getCategory(), f2.getCategory());
+				result = f1.getType().getName().toUpperCase().compareTo(f2.getType().getName().toUpperCase());
 				if (result != 0) {
 					return result;
 				}
 
-				result = MiscUtils.compareNullables(f1.getType().getName().toUpperCase(),
-						f2.getType().getName().toUpperCase());
-				if (result != 0) {
-					return result;
-				}
-
-				result = MiscUtils.compareNullables(f1.getName(), f2.getName());
+				result = f1.getName().compareTo(f2.getName());
 				if (result != 0) {
 					return result;
 				}
@@ -328,24 +324,19 @@ public class ReflectionUIUtils {
 		});
 	}
 
-	public static void sortMethods(List<IMethodInfo> list) {
-		Collections.sort(list, new Comparator<IMethodInfo>() {
+	public static void sortMethods(Method[] methods) {
+		Arrays.sort(methods, new Comparator<Method>() {
 			@Override
-			public int compare(IMethodInfo m1, IMethodInfo m2) {
+			public int compare(Method m1, Method m2) {
 				int result;
 
-				result = MiscUtils.compareNullables(m1.getCategory(), m2.getCategory());
-				if (result != 0) {
-					return result;
-				}
-
 				List<String> parameterTypeNames1 = new ArrayList<String>();
-				for (IParameterInfo param : m1.getParameters()) {
+				for (Parameter param : m1.getParameters()) {
 					parameterTypeNames1.add(param.getType().getName());
 				}
 				Collections.sort(parameterTypeNames1);
 				List<String> parameterTypeNames2 = new ArrayList<String>();
-				for (IParameterInfo param : m2.getParameters()) {
+				for (Parameter param : m2.getParameters()) {
 					parameterTypeNames2.add(param.getType().getName());
 				}
 				Collections.sort(parameterTypeNames2);
@@ -355,28 +346,12 @@ public class ReflectionUIUtils {
 					return result;
 				}
 
-				String returnTypeName1;
-				{
-					if (m1.getReturnValueType() == null) {
-						returnTypeName1 = "";
-					} else {
-						returnTypeName1 = m1.getReturnValueType().getName();
-					}
-				}
-				String returnTypeName2;
-				{
-					if (m2.getReturnValueType() == null) {
-						returnTypeName2 = "";
-					} else {
-						returnTypeName2 = m2.getReturnValueType().getName();
-					}
-				}
-				result = MiscUtils.compareNullables(returnTypeName1, returnTypeName2);
+				result = m1.getReturnType().getName().compareTo(m2.getReturnType().getName());
 				if (result != 0) {
 					return result;
 				}
 
-				result = MiscUtils.compareNullables(m1.getName(), m2.getName());
+				result = m1.getName().compareTo(m2.getName());
 				if (result != 0) {
 					return result;
 				}

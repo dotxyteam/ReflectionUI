@@ -2232,23 +2232,23 @@ public class InfoCustomizations implements Serializable {
 			List<String> result = new ArrayList<String>();
 			for (Constructor<?> ctor : conversionClass.getConstructors()) {
 				if (ctor.getParameterTypes().length >= 1) {
-					result.add(ReflectionUIUtils
-							.buildMethodSignature(new DefaultConstructorInfo(ReflectionUI.getDefault(), ctor)));
+					result.add(ReflectionUIUtils.buildMethodSignature(
+							new DefaultConstructorInfo(ReflectionUI.getDefault(), ctor, conversionClass)));
 				}
 			}
 			for (Method method : conversionClass.getMethods()) {
 				if (Modifier.isStatic(method.getModifiers())) {
 					if (method.getParameterTypes().length >= 1) {
 						if (!method.getReturnType().equals(void.class)) {
-							result.add(ReflectionUIUtils
-									.buildMethodSignature(new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
+							result.add(ReflectionUIUtils.buildMethodSignature(
+									new DefaultMethodInfo(ReflectionUI.getDefault(), method, conversionClass)));
 						}
 					}
 				} else {
 					if (method.getParameterTypes().length >= 0) {
 						if (!method.getReturnType().equals(void.class)) {
-							result.add(ReflectionUIUtils
-									.buildMethodSignature(new DefaultMethodInfo(ReflectionUI.getDefault(), method)));
+							result.add(ReflectionUIUtils.buildMethodSignature(
+									new DefaultMethodInfo(ReflectionUI.getDefault(), method, conversionClass)));
 						}
 					}
 				}
@@ -2257,7 +2257,7 @@ public class InfoCustomizations implements Serializable {
 			return result;
 		}
 
-		public Filter<Object> find() {
+		public IConverter find() {
 			if ((conversionClassName == null) || (conversionClassName.length() == 0)) {
 				return null;
 			}
@@ -2299,10 +2299,10 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 
-		protected String getParameterName(Executable executable, int parameterPosition) {
+		protected String getParameterName(Class<?> conversionClass, Executable executable, int parameterPosition) {
 			if (executable instanceof Constructor) {
 				DefaultConstructorInfo constructorInfo = new DefaultConstructorInfo(ReflectionUI.getDefault(),
-						(Constructor<?>) executable);
+						(Constructor<?>) executable, conversionClass);
 				List<IParameterInfo> paramInfos = constructorInfo.getParameters();
 				if (parameterPosition >= paramInfos.size()) {
 					return null;
@@ -2311,7 +2311,8 @@ public class InfoCustomizations implements Serializable {
 				return paramInfo.getName();
 			} else if (executable instanceof Method) {
 				Method method = (Method) executable;
-				DefaultMethodInfo methodInfo = new DefaultMethodInfo(ReflectionUI.getDefault(), method);
+				DefaultMethodInfo methodInfo = new DefaultMethodInfo(ReflectionUI.getDefault(), method,
+						conversionClass);
 				List<IParameterInfo> paramInfos = methodInfo.getParameters();
 				if (Modifier.isStatic(method.getModifiers())) {
 					if (parameterPosition >= paramInfos.size()) {
@@ -2371,7 +2372,7 @@ public class InfoCustomizations implements Serializable {
 			if (!isParameterPluralityResolvingRequired()) {
 				return Collections.emptyList();
 			}
-			Filter<Object> converter;
+			IConverter converter;
 			try {
 				converter = find();
 			} catch (Throwable t) {
@@ -2387,7 +2388,7 @@ public class InfoCustomizations implements Serializable {
 			List<String> result = new ArrayList<String>();
 			int paramCount = getParameterCount(executable);
 			for (int paramPosition = 0; paramPosition < paramCount; paramPosition++) {
-				result.add(getParameterName(executable, paramPosition));
+				result.add(getParameterName(converter.getConversionClass(), executable, paramPosition));
 			}
 			return result;
 		}
@@ -2400,7 +2401,7 @@ public class InfoCustomizations implements Serializable {
 			if (chosenParameterPosition == -1) {
 				return null;
 			}
-			Filter<Object> converter;
+			IConverter converter;
 			try {
 				converter = find();
 			} catch (Throwable t) {
@@ -2413,14 +2414,14 @@ public class InfoCustomizations implements Serializable {
 			if (executable == null) {
 				return null;
 			}
-			return getParameterName(executable, chosenParameterPosition);
+			return getParameterName(converter.getConversionClass(), executable, chosenParameterPosition);
 		}
 
 		public void setChosenParameterName(String parameterName) {
 			if (!isParameterPluralityResolvingRequired()) {
 				throw new ReflectionUIError();
 			}
-			Filter<Object> converter;
+			IConverter converter;
 			try {
 				converter = find();
 			} catch (Throwable t) {
@@ -2435,7 +2436,8 @@ public class InfoCustomizations implements Serializable {
 			}
 			int paramCount = getParameterCount(executable);
 			for (int paramPosition = 0; paramPosition < paramCount; paramPosition++) {
-				String currentParameterName = getParameterName(executable, paramPosition);
+				String currentParameterName = getParameterName(converter.getConversionClass(), executable,
+						paramPosition);
 				if (parameterName.equals(currentParameterName)) {
 					chosenParameterPosition = paramPosition;
 					break;
@@ -2448,7 +2450,7 @@ public class InfoCustomizations implements Serializable {
 			if (!isParameterPluralityResolvingRequired()) {
 				return null;
 			}
-			Filter<Object> converter;
+			IConverter converter;
 			try {
 				converter = find();
 			} catch (Throwable t) {
@@ -2471,7 +2473,7 @@ public class InfoCustomizations implements Serializable {
 				if (storage == null) {
 					storage = new TextualStorage();
 				}
-				result.put(getParameterName(executable, paramPosition), storage);
+				result.put(getParameterName(converter.getConversionClass(), executable, paramPosition), storage);
 			}
 			return result;
 		}
@@ -2480,7 +2482,7 @@ public class InfoCustomizations implements Serializable {
 			if (!isParameterPluralityResolvingRequired()) {
 				throw new ReflectionUIError();
 			}
-			Filter<Object> converter;
+			IConverter converter;
 			try {
 				converter = find();
 			} catch (Throwable t) {
@@ -2496,7 +2498,7 @@ public class InfoCustomizations implements Serializable {
 			otherParameterValueStorages.clear();
 			int paramCount = getParameterCount(executable);
 			for (int paramPosition = 0; paramPosition < paramCount; paramPosition++) {
-				String parameterName = getParameterName(executable, paramPosition);
+				String parameterName = getParameterName(converter.getConversionClass(), executable, paramPosition);
 				TextualStorage storage = map.get(parameterName);
 				if (storage == null) {
 					continue;
@@ -2530,11 +2532,11 @@ public class InfoCustomizations implements Serializable {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
+			result = prime * result + chosenParameterPosition;
 			result = prime * result + ((conversionClassName == null) ? 0 : conversionClassName.hashCode());
 			result = prime * result + ((conversionMethodSignature == null) ? 0 : conversionMethodSignature.hashCode());
-			result = prime * result + ((getChosenParameterName() == null) ? 0 : getChosenParameterName().hashCode());
-			result = prime * result + ((getOtherParameterValueStorageByName() == null) ? 0
-					: getOtherParameterValueStorageByName().hashCode());
+			result = prime * result
+					+ ((otherParameterValueStorages == null) ? 0 : otherParameterValueStorages.hashCode());
 			return result;
 		}
 
@@ -2547,6 +2549,8 @@ public class InfoCustomizations implements Serializable {
 			if (getClass() != obj.getClass())
 				return false;
 			ConversionMethodFinder other = (ConversionMethodFinder) obj;
+			if (chosenParameterPosition != other.chosenParameterPosition)
+				return false;
 			if (conversionClassName == null) {
 				if (other.conversionClassName != null)
 					return false;
@@ -2557,15 +2561,10 @@ public class InfoCustomizations implements Serializable {
 					return false;
 			} else if (!conversionMethodSignature.equals(other.conversionMethodSignature))
 				return false;
-			if (getChosenParameterName() == null) {
-				if (other.getChosenParameterName() != null)
+			if (otherParameterValueStorages == null) {
+				if (other.otherParameterValueStorages != null)
 					return false;
-			} else if (!getChosenParameterName().equals(other.getChosenParameterName()))
-				return false;
-			if (getOtherParameterValueStorageByName() == null) {
-				if (other.getOtherParameterValueStorageByName() != null)
-					return false;
-			} else if (!getOtherParameterValueStorageByName().equals(other.getOtherParameterValueStorageByName()))
+			} else if (!otherParameterValueStorages.equals(other.otherParameterValueStorages))
 				return false;
 			return true;
 		}
@@ -2573,16 +2572,19 @@ public class InfoCustomizations implements Serializable {
 		@Override
 		public String toString() {
 			return "ConversionMethodFinder [conversionClassName=" + conversionClassName + ", conversionMethodSignature="
-					+ conversionMethodSignature
-					+ (isParameterPluralityResolvingRequired()
-							? (", chosenParameterName=" + getChosenParameterName()
-									+ ", otherParameterValueStorageByName=" + getOtherParameterValueStorageByName())
-							: "")
-					+ "]";
+					+ conversionMethodSignature + ", chosenParameterPosition=" + chosenParameterPosition
+					+ ", otherParameterValueStorages=" + otherParameterValueStorages + "]";
 		}
 
-		protected static class MethodBasedConverter implements Filter<Object> {
+		protected interface IConverter extends Filter<Object> {
 
+			Class<?> getConversionClass();
+
+		}
+
+		protected static class MethodBasedConverter implements IConverter {
+
+			protected Class<?> conversionClass;
 			protected Method method;
 			protected int parameterCount;
 			protected boolean parameterPluralityResolvingRequired;
@@ -2591,6 +2593,7 @@ public class InfoCustomizations implements Serializable {
 
 			public MethodBasedConverter(ConversionMethodFinder conversionMethodFinder, Class<?> theClass,
 					String methodName, Class<?>[] parameterTypes) {
+				this.conversionClass = theClass;
 				try {
 					this.method = theClass.getMethod(methodName, parameterTypes);
 				} catch (NoSuchMethodException e) {
@@ -2640,6 +2643,11 @@ public class InfoCustomizations implements Serializable {
 					throw new ReflectionUIError("Failed to convert '" + obj + "' with " + this + ": " + e.toString(),
 							e);
 				}
+			}
+
+			@Override
+			public Class<?> getConversionClass() {
+				return conversionClass;
 			}
 
 			public Method getMethod() {
@@ -2697,8 +2705,9 @@ public class InfoCustomizations implements Serializable {
 
 		}
 
-		protected static class ConstructorBasedConverter implements Filter<Object> {
+		protected static class ConstructorBasedConverter implements IConverter {
 
+			protected Class<?> conversionClass;
 			protected Constructor<?> constrcutor;
 			protected int parameterCount;
 			protected boolean parameterPluralityResolvingRequired;
@@ -2707,6 +2716,7 @@ public class InfoCustomizations implements Serializable {
 
 			public ConstructorBasedConverter(ConversionMethodFinder conversionMethodFinder, Class<?> theClass,
 					Class<?>[] parameterTypes) {
+				this.conversionClass = theClass;
 				try {
 					this.constrcutor = theClass.getDeclaredConstructor(parameterTypes);
 				} catch (NoSuchMethodException e) {
@@ -2747,6 +2757,11 @@ public class InfoCustomizations implements Serializable {
 					throw new ReflectionUIError("Failed to convert '" + obj + "' with " + this + ": " + e.toString(),
 							e);
 				}
+			}
+
+			@Override
+			public Class<?> getConversionClass() {
+				return conversionClass;
 			}
 
 			public Constructor<?> getConstructor() {
@@ -4608,7 +4623,6 @@ public class InfoCustomizations implements Serializable {
 		public void setEnablementStatusFieldNameInfoFilter(InfoFilter enablementStatusFieldNameInfoFilter) {
 			this.enablementStatusFieldNameInfoFilter = enablementStatusFieldNameInfoFilter;
 		}
-		
 
 	}
 

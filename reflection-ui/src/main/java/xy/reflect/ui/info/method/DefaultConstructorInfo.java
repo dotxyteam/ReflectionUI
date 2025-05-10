@@ -24,12 +24,14 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	protected Constructor<?> javaConstructor;
+	protected Class<?> objectJavaClass;
 	protected ReflectionUI reflectionUI;
 	protected ArrayList<IParameterInfo> parameters;
 
-	public DefaultConstructorInfo(ReflectionUI reflectionUI, Constructor<?> javaConstructor) {
+	public DefaultConstructorInfo(ReflectionUI reflectionUI, Constructor<?> javaConstructor, Class<?> objectJavaClass) {
 		this.reflectionUI = reflectionUI;
 		this.javaConstructor = javaConstructor;
+		this.objectJavaClass = objectJavaClass;
 		resolveJavaReflectionModelAccessProblems();
 	}
 
@@ -37,10 +39,9 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 		return javaConstructor;
 	}
 
-	public static boolean isCompatibleWith(Constructor<?> constructor) {
-		Class<?> declaringClass = constructor.getDeclaringClass();
-		if (declaringClass.getEnclosingClass() != null) {
-			if (!Modifier.isStatic(declaringClass.getModifiers())) {
+	public static boolean isCompatibleWith(Constructor<?> constructor, Class<?> objectJavaClass) {
+		if (objectJavaClass.getEnclosingClass() != null) {
+			if (!Modifier.isStatic(objectJavaClass.getModifiers())) {
 				return false;
 			}
 		}
@@ -57,7 +58,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	@Override
 	public ITypeInfo getReturnValueType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(javaConstructor.getDeclaringClass(), null));
+		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(objectJavaClass, null));
 	}
 
 	@Override
@@ -69,7 +70,8 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 				if (!DefaultParameterInfo.isCompatibleWith(javaParameters[i])) {
 					continue;
 				}
-				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameters[i], i));
+				parameters.add(
+						new DefaultParameterInfo(reflectionUI, javaParameters[i], i, javaConstructor, objectJavaClass));
 			}
 		}
 		return parameters;
@@ -99,6 +101,8 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((javaConstructor == null) ? 0 : javaConstructor.hashCode());
+		result = prime * result + ((objectJavaClass == null) ? 0 : objectJavaClass.hashCode());
+		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
 		return result;
 	}
 
@@ -116,12 +120,23 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 				return false;
 		} else if (!javaConstructor.equals(other.javaConstructor))
 			return false;
+		if (objectJavaClass == null) {
+			if (other.objectJavaClass != null)
+				return false;
+		} else if (!objectJavaClass.equals(other.objectJavaClass))
+			return false;
+		if (reflectionUI == null) {
+			if (other.reflectionUI != null)
+				return false;
+		} else if (!reflectionUI.equals(other.reflectionUI))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DefaultConstructorInfo [javaConstructor=" + javaConstructor + "]";
+		return "DefaultConstructorInfo [javaConstructor=" + javaConstructor + ", objectJavaClass=" + objectJavaClass
+				+ "]";
 	}
 
 }

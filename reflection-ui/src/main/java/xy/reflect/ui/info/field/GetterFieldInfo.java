@@ -27,13 +27,15 @@ import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Field generated from a '(get|is|has)Something()' Java method. If the
- * corresponding 'setSomething(...)' method is not found in the same class then
+ * This class represents field information generated from a
+ * '(get|is|has)Something()' Java method. If the corresponding
+ * 'setSomething(...)' method is not found in the same containing class then
  * this field will be "read-only" (may not be editable).
  * 
- * Note that a unique suffix may be added to the field name to avoid collisions
- * when there are multiple fields with the same name accessible from the same
- * class.
+ * Note that the field name of underlying synthetic methods will have a special
+ * prefix. A unique suffix may also be added to avoid collisions when there are
+ * multiple fields with the same name accessible from the same containing type
+ * information.
  * 
  * @author olitank
  *
@@ -73,6 +75,10 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		return result;
 	}
 
+	protected static String namePrefix(Method javaGetterMethod) {
+		return javaGetterMethod.isSynthetic() ? "_" : "";
+	}
+
 	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> objectJavaClass) {
 		String fieldName = getterToFieldName(javaGetterMethod.getName());
 		String setterMethodName = "set" + MiscUtils.changeCase(fieldName, true, 0, 1);
@@ -96,12 +102,6 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public static boolean isCompatibleWith(Method javaMethod, Class<?> objectJavaClass) {
-		if (javaMethod.isSynthetic()) {
-			return false;
-		}
-		if (javaMethod.isBridge()) {
-			return false;
-		}
 		String fieldName = GetterFieldInfo.getterToFieldName(javaMethod.getName());
 		if (fieldName == null) {
 			return false;
@@ -133,7 +133,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	public DefaultMethodInfo getGetterMethodInfo() {
-		return new DefaultMethodInfo(reflectionUI, javaGetterMethod);
+		return new DefaultMethodInfo(reflectionUI, javaGetterMethod, objectJavaClass);
 	}
 
 	protected IMethodInfo getSetterMethodInfo() {
@@ -142,7 +142,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 			if (javaSetterMethod == null) {
 				setterMethodInfo = IMethodInfo.NULL_METHOD_INFO;
 			} else {
-				setterMethodInfo = new DefaultMethodInfo(reflectionUI, javaSetterMethod);
+				setterMethodInfo = new DefaultMethodInfo(reflectionUI, javaSetterMethod, objectJavaClass);
 			}
 		}
 		if (setterMethodInfo == IMethodInfo.NULL_METHOD_INFO) {
@@ -154,8 +154,8 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public String getName() {
 		if (name == null) {
-			name = GetterFieldInfo.getterToFieldName(javaGetterMethod.getName());
-			int index = getDuplicateSignatureIndex(javaGetterMethod);
+			name = namePrefix(javaGetterMethod) + GetterFieldInfo.getterToFieldName(javaGetterMethod.getName());
+			int index = obtainDuplicateNameIndex();
 			if (index > 0) {
 				name += "." + Integer.toString(index);
 			}
@@ -163,19 +163,22 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		return name;
 	}
 
-	protected int getDuplicateSignatureIndex(Method javaMethod) {
+	protected int obtainDuplicateNameIndex() {
 		if (duplicateNameIndex == -1) {
-			for (Method otherMethod : javaMethod.getDeclaringClass().getMethods()) {
-				if (ReflectionUIUtils.buildMethodSignature(otherMethod)
-						.equals(ReflectionUIUtils.buildMethodSignature(javaMethod))) {
-					if (!otherMethod.equals(javaMethod)) {
-						// other method with same signature forcibly declared in base class
-						duplicateNameIndex = getDuplicateSignatureIndex(otherMethod) + 1;
+			duplicateNameIndex = 0;
+			Method[] allJavaMethods = objectJavaClass.getMethods();
+			ReflectionUIUtils.sortMethods(allJavaMethods);
+			for (Method eachJavaMethod : allJavaMethods) {
+				if (GetterFieldInfo.isCompatibleWith(eachJavaMethod, objectJavaClass)) {
+					if ((namePrefix(eachJavaMethod) + GetterFieldInfo.getterToFieldName(eachJavaMethod.getName()))
+							.equals(namePrefix(javaGetterMethod)
+									+ GetterFieldInfo.getterToFieldName(javaGetterMethod.getName()))) {
+						if (eachJavaMethod.equals(javaGetterMethod)) {
+							break;
+						}
+						duplicateNameIndex++;
 					}
 				}
-			}
-			if (duplicateNameIndex == -1) {
-				duplicateNameIndex = 0;
 			}
 		}
 		return duplicateNameIndex;
@@ -186,7 +189,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		if (caption == null) {
 			caption = ReflectionUIUtils
 					.identifierToCaption(GetterFieldInfo.getterToFieldName(javaGetterMethod.getName()));
-			int index = getDuplicateSignatureIndex(javaGetterMethod);
+			int index = obtainDuplicateNameIndex();
 			if (index > 0) {
 				caption += " (" + (index + 1) + ")";
 			}
@@ -335,26 +338,44 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public int hashCode() {
-		return javaGetterMethod.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((javaGetterMethod == null) ? 0 : javaGetterMethod.hashCode());
+		result = prime * result + ((objectJavaClass == null) ? 0 : objectJavaClass.hashCode());
+		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
+		if (this == obj)
 			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
-		return javaGetterMethod.equals(((GetterFieldInfo) obj).javaGetterMethod);
+		if (getClass() != obj.getClass())
+			return false;
+		GetterFieldInfo other = (GetterFieldInfo) obj;
+		if (javaGetterMethod == null) {
+			if (other.javaGetterMethod != null)
+				return false;
+		} else if (!javaGetterMethod.equals(other.javaGetterMethod))
+			return false;
+		if (objectJavaClass == null) {
+			if (other.objectJavaClass != null)
+				return false;
+		} else if (!objectJavaClass.equals(other.objectJavaClass))
+			return false;
+		if (reflectionUI == null) {
+			if (other.reflectionUI != null)
+				return false;
+		} else if (!reflectionUI.equals(other.reflectionUI))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "GetterFieldInfo [javaGetterMethod=" + javaGetterMethod + "]";
+		return "GetterFieldInfo [javaGetterMethod=" + javaGetterMethod + ", objectJavaClass=" + objectJavaClass + "]";
 	}
 
 }

@@ -251,26 +251,44 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public int hashCode() {
-		return javaField.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((javaField == null) ? 0 : javaField.hashCode());
+		result = prime * result + ((objectJavaClass == null) ? 0 : objectJavaClass.hashCode());
+		result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
+		if (this == obj)
 			return true;
-		}
-		if (!getClass().equals(obj.getClass())) {
+		if (obj == null)
 			return false;
-		}
-		return javaField.equals(((PublicFieldInfo) obj).javaField);
+		if (getClass() != obj.getClass())
+			return false;
+		PublicFieldInfo other = (PublicFieldInfo) obj;
+		if (javaField == null) {
+			if (other.javaField != null)
+				return false;
+		} else if (!javaField.equals(other.javaField))
+			return false;
+		if (objectJavaClass == null) {
+			if (other.objectJavaClass != null)
+				return false;
+		} else if (!objectJavaClass.equals(other.objectJavaClass))
+			return false;
+		if (reflectionUI == null) {
+			if (other.reflectionUI != null)
+				return false;
+		} else if (!reflectionUI.equals(other.reflectionUI))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "PublicFieldInfo [javaField=" + javaField + "]";
+		return "PublicFieldInfo [javaField=" + javaField + ", objectJavaClass=" + objectJavaClass + "]";
 	}
 
 };

@@ -279,15 +279,15 @@ public class CustomizationTools {
 									conversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
 									conversionMethodFinder.setConversionMethodSignature(ReflectionUIUtils
 											.buildMethodSignature(new DefaultConstructorInfo(ReflectionUI.getDefault(),
-													ImageIcon.class.getConstructor(Image.class))));
+													ImageIcon.class.getConstructor(Image.class), ImageIcon.class)));
 									storageMapping.setConversionMethodFinder(conversionMethodFinder);
 								}
 								ConversionMethodFinder reverseConversionMethodFinder = new ConversionMethodFinder();
 								{
 									reverseConversionMethodFinder.setConversionClassName(ImageIcon.class.getName());
-									reverseConversionMethodFinder.setConversionMethodSignature(
-											ReflectionUIUtils.buildMethodSignature(new DefaultMethodInfo(
-													ReflectionUI.getDefault(), ImageIcon.class.getMethod("getImage"))));
+									reverseConversionMethodFinder.setConversionMethodSignature(ReflectionUIUtils
+											.buildMethodSignature(new DefaultMethodInfo(ReflectionUI.getDefault(),
+													ImageIcon.class.getMethod("getImage"), ImageIcon.class)));
 									storageMapping.setReverseConversionMethodFinder(reverseConversionMethodFinder);
 								}
 								nullReplacement.setPreConversion(storageMapping);
