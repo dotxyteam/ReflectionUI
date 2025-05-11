@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.util;
 
 import java.util.List;
@@ -37,6 +35,10 @@ public class DynamicListActionProxy implements IDynamicListAction {
 	@Override
 	public String getCaption() {
 		return base.getCaption();
+	}
+
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return base.isReturnValueValidityDetectionEnabled();
 	}
 
 	@Override

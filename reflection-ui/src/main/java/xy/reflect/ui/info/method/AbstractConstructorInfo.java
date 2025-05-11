@@ -23,6 +23,11 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public abstract class AbstractConstructorInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return false;
+	}
+
+	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {
 		return null;
 	}

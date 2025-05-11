@@ -207,4 +207,10 @@ public interface IMethodControlData {
 	 *         when its form was last refreshed.
 	 */
 	Runnable getLastFormRefreshStateRestorationJob();
+
+	/**
+	 * @return whether validation errors should be checked for the return value of
+	 *         the underlying method.
+	 */
+	boolean isReturnValueValidityDetectionEnabled();
 }

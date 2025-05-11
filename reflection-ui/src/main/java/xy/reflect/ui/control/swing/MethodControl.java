@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import java.awt.Color;
@@ -8,14 +6,21 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.Icon;
+import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.control.IAdvancedMethodControl;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
+import xy.reflect.ui.info.ValidationSession;
+import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -24,7 +29,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * @author olitank
  *
  */
-public class MethodControl extends AbstractControlButton implements ActionListener {
+public class MethodControl extends AbstractControlButton implements IAdvancedMethodControl, ActionListener {
 
 	protected static final long serialVersionUID = 1L;
 	protected SwingRenderer swingRenderer;
@@ -100,7 +105,7 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 	@Override
 	public Icon retrieveIcon() {
 		Image image = swingRenderer.getMethodIconImage(data);
-		if(image == null) {
+		if (image == null) {
 			return null;
 		}
 		return SwingRendererUtils.getIcon(image);
@@ -110,6 +115,39 @@ public class MethodControl extends AbstractControlButton implements ActionListen
 	public void actionPerformed(final ActionEvent e) {
 		MethodAction action = swingRenderer.createMethodAction(input);
 		action.actionPerformed(e);
+	}
+
+	@Override
+	public void validateSubForms(ValidationSession session) throws Exception {
+		if (!data.isReturnValueValidityDetectionEnabled()) {
+			return;
+		}
+		Form[] form = new Form[1];
+		new MethodAction(swingRenderer, input) {
+			private static final long serialVersionUID = 1L;
+
+			{
+				if (data.getParameters().size() > 0) {
+					throw new ReflectionUIError(
+							"Cannot validate the return value of this method that requires parameter value(s): '"
+									+ data.getMethodSignature() + "'");
+				}
+				InvocationData invocationData = prepare(null);
+				returnValue = input.getControlData().invoke(invocationData);
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
+							form[0] = createReturnValueEditorBuilder(null).createEditorForm(false, false);
+						}
+					});
+				} catch (InvocationTargetException | InterruptedException e) {
+					throw new ReflectionUIError(e);
+				}
+
+			}
+		};
+		form[0].validateForm(session);
 	}
 
 	@Override

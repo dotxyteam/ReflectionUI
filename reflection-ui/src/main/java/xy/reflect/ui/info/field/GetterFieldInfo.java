@@ -42,7 +42,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
-	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)([A-Z].*)");
+	public static final Pattern GETTER_PATTERN = Pattern.compile("^(?:get|is|has)(.*)");
 
 	protected ReflectionUI reflectionUI;
 	protected Method javaGetterMethod;
@@ -69,7 +69,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 			return null;
 		}
 		String result = m.group(1);
-		if (result != null) {
+		if (result.length() > 0) {
 			result = MiscUtils.changeCase(result, false, 0, 1);
 		}
 		return result;
@@ -81,7 +81,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	public static Method getValidSetterMethod(Method javaGetterMethod, Class<?> objectJavaClass) {
 		String fieldName = getterToFieldName(javaGetterMethod.getName());
-		String setterMethodName = "set" + MiscUtils.changeCase(fieldName, true, 0, 1);
+		String setterMethodName = "set" + ((fieldName.length() > 0) ? MiscUtils.changeCase(fieldName, true, 0, 1) : "");
 		try {
 			for (Method otherMethod : objectJavaClass.getMethods()) {
 				if (otherMethod.getName().equals(setterMethodName)) {

@@ -62,6 +62,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return false;
+	}
+
+	@Override
 	public InfoCategory getCategory() {
 		return null;
 	}

@@ -136,6 +136,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return false;
+	}
+
+	@Override
 	public boolean isEnabled(Object object) {
 		return true;
 	}

@@ -2623,6 +2623,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
+					public boolean isReturnValueValidityDetectionEnabled() {
+						if (mc.isReturnValueValidityDetectionForced()) {
+							return true;
+						}
+						return super.isReturnValueValidityDetectionEnabled();
+					}
+
+					@Override
 					public String getNullReturnValueLabel() {
 						if (mc.getNullReturnValueLabel() != null) {
 							return mc.getNullReturnValueLabel();

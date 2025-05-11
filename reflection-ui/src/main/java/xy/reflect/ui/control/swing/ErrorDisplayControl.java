@@ -2,11 +2,13 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 
+import javax.swing.SwingUtilities;
+
 import xy.reflect.ui.control.IAdvancedFieldControl;
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
-import xy.reflect.ui.control.swing.util.HyperlinkLabel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
@@ -25,21 +27,18 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 	private static final long serialVersionUID = 1L;
 
 	protected IFieldControlInput input;
+	protected IFieldControlData data;
 	protected Throwable error;
 	protected SwingRenderer swingRenderer;
 
 	public ErrorDisplayControl(final SwingRenderer swingRenderer, IFieldControlInput input, final Throwable error) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
+		this.data = input.getControlData();
 		this.error = error;
 		setLayout(new BorderLayout());
-		add(new HyperlinkLabel(MiscUtils.getPrettyErrorMessage(error), new Runnable() {
-			@Override
-			public void run() {
-				swingRenderer.openErrorDetailsDialog(ErrorDisplayControl.this, error);
-			}
-		}), BorderLayout.SOUTH);
-		add(new NullControl(swingRenderer, input), BorderLayout.CENTER);
+		add(swingRenderer.createForm(data.isGetOnly() ? new GetOnlyErrorDisplay() : new ErrorDisplay()),
+				BorderLayout.CENTER);
 		setBorder(SwingRendererUtils.getErrorBorder());
 	}
 
@@ -75,6 +74,40 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 	@Override
 	public boolean displayError(Throwable error) {
 		return false;
+	}
+
+	public class GetOnlyErrorDisplay {
+
+		public String get() {
+			return swingRenderer.prepareMessageToDisplay("An error occured: " + MiscUtils.getPrettyErrorMessage(error));
+		}
+
+		public void showErrorDetails() {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					swingRenderer.openErrorDetailsDialog(ErrorDisplayControl.this, error);
+				}
+			});
+		}
+
+	}
+
+	public class ErrorDisplay extends GetOnlyErrorDisplay {
+
+		public void reset() {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					Object newValue = swingRenderer.onTypeInstantiationRequest(ErrorDisplayControl.this,
+							data.getType());
+					if (newValue == null) {
+						return;
+					}
+					data.setValue(newValue);
+				}
+			});
+		}
 	}
 
 }

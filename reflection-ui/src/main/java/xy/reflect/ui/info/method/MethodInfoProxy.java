@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.util.List;
@@ -14,8 +12,8 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 
 /**
- * Method information proxy class. The methods in this class should be overridden
- * to provide custom information.
+ * Method information proxy class. The methods in this class should be
+ * overridden to provide custom information.
  * 
  * Note that if the name, the return type or the parameters are modified then
  * the method signature should be adjusted to remain consistent.
@@ -46,6 +44,10 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 	public boolean isEnabled(Object object) {
 		return base.isEnabled(object);
+	}
+
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return base.isReturnValueValidityDetectionEnabled();
 	}
 
 	public void onControlVisibilityChange(Object object, boolean visible) {

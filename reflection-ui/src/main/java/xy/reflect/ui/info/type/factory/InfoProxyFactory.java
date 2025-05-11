@@ -899,6 +899,17 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
+	 * @param method     The method information.
+	 * @param objectType The parent type information.
+	 * @return the result of
+	 *         {@link IMethodInfo#isReturnValueValidityDetectionEnabled()} unless
+	 *         overridden.
+	 */
+	protected boolean isReturnValueValidityDetectionEnabled(IMethodInfo method, ITypeInfo objectType) {
+		return method.isReturnValueValidityDetectionEnabled();
+	}
+
+	/**
 	 * Executes {@link IMethodInfo#onControlVisibilityChange(Object, boolean)}
 	 * unless overridden.
 	 * 
@@ -2935,6 +2946,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isHidden() {
 			return InfoProxyFactory.this.isHidden(base, objectType);
+		}
+
+		@Override
+		public boolean isReturnValueValidityDetectionEnabled() {
+			return InfoProxyFactory.this.isReturnValueValidityDetectionEnabled(base, objectType);
 		}
 
 		@Override

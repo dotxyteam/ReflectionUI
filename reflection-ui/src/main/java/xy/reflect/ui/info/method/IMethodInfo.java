@@ -43,6 +43,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isReturnValueValidityDetectionEnabled() {
+			return false;
+		}
+
+		@Override
 		public void onControlVisibilityChange(Object object, boolean b) {
 		}
 
@@ -225,8 +230,8 @@ public interface IMethodInfo extends IInfo {
 	 * @param object         The object offering this method or null (if the method
 	 *                       is static or is a constructor)
 	 * @param invocationData The parameter values.
-	 * @return a job that can replay the previous invocation of this method or null if
-	 *         the default redo job should be used.
+	 * @return a job that can replay the previous invocation of this method or null
+	 *         if the default redo job should be used.
 	 */
 	Runnable getPreviousInvocationCustomRedoJob(Object object, InvocationData invocationData);
 
@@ -313,4 +318,9 @@ public interface IMethodInfo extends IInfo {
 	 */
 	String getExecutionSuccessMessage();
 
+	/**
+	 * @return whether validation errors should be checked for the return value of
+	 *         the method.
+	 */
+	boolean isReturnValueValidityDetectionEnabled();
 }

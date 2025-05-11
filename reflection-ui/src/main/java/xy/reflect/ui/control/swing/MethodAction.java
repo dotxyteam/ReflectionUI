@@ -302,102 +302,7 @@ public class MethodAction extends AbstractAction {
 	}
 
 	protected void openMethodReturnValueWindow(final Component activatorComponent) {
-		AbstractEditorBuilder editorBuilder = new AbstractEditorBuilder() {
-
-			@Override
-			protected IContext getContext() {
-				return input.getContext();
-			}
-
-			@Override
-			protected IContext getSubContext() {
-				return new CustomContext("MethodResult");
-			}
-
-			@Override
-			protected Object loadValue() {
-				return returnValue;
-			}
-
-			@Override
-			protected boolean isNullValueDistinct() {
-				return data.isNullReturnValueDistinct();
-			}
-
-			@Override
-			protected boolean isEncapsulatedFormEmbedded() {
-				return true;
-			}
-
-			protected boolean canCommitToParent() {
-				return false;
-			}
-
-			@Override
-			protected void handleRealtimeLinkCommitException(Throwable t) {
-				throw new ReflectionUIError();
-			}
-
-			@Override
-			protected IModification createCommittingModification(Object newObjectValue) {
-				return null;
-			}
-
-			@Override
-			protected IModification createUndoModificationsReplacement() {
-				return ReflectionUIUtils.createUndoModificationsReplacement(data);
-			}
-
-			@Override
-			public SwingRenderer getSwingRenderer() {
-				return swingRenderer;
-			}
-
-			@Override
-			protected Runnable getParentControlRefreshJob() {
-				return null;
-			}
-
-			@Override
-			protected ValueReturnMode getReturnModeFromParent() {
-				return data.getValueReturnMode();
-			}
-
-			@Override
-			protected Component getOwnerComponent() {
-				return activatorComponent;
-			}
-
-			@Override
-			protected String getParentModificationTitle() {
-				return MethodControlDataModification.getTitle(data.getCaption());
-			}
-
-			@Override
-			protected boolean isParentModificationVolatile() {
-				return false;
-			}
-
-			@Override
-			protected IInfoFilter getEncapsulatedFormFilter() {
-				return IInfoFilter.DEFAULT;
-			}
-
-			@Override
-			protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
-				return data.getReturnValueType().getSource();
-			}
-
-			@Override
-			protected ModificationStack getParentModificationStack() {
-				if (data.isReturnValueDetached()) {
-					return null;
-				} else {
-					return MethodAction.this.modificationStack;
-				}
-			}
-
-		};
+		AbstractEditorBuilder editorBuilder = createReturnValueEditorBuilder(activatorComponent);
 		if (!data.isReturnValueDetached()) {
 			editorBuilder.createAndShowDialog();
 		} else {
@@ -405,9 +310,125 @@ public class MethodAction extends AbstractAction {
 		}
 	}
 
+	protected AbstractEditorBuilder createReturnValueEditorBuilder(Component activatorComponent) {
+		return new ReturnValueEditorBuilder(swingRenderer, activatorComponent, input, returnValue);
+	}
+
 	@Override
 	public String toString() {
 		return "MethodAction [data=" + data + "]";
+	}
+
+	protected static class ReturnValueEditorBuilder extends AbstractEditorBuilder {
+
+		protected SwingRenderer swingRenderer;
+		protected Component ownerComponent;
+		protected IMethodControlInput input;
+		protected IMethodControlData data;
+		protected Object returnValue;
+
+		public ReturnValueEditorBuilder(SwingRenderer swingRenderer, Component ownerComponent,
+				IMethodControlInput input, Object returnValue) {
+			this.swingRenderer = swingRenderer;
+			this.ownerComponent = ownerComponent;
+			this.input = input;
+			this.data = input.getControlData();
+			this.returnValue = returnValue;
+		}
+
+		@Override
+		protected IContext getContext() {
+			return input.getContext();
+		}
+
+		@Override
+		protected IContext getSubContext() {
+			return new CustomContext("MethodResult");
+		}
+
+		@Override
+		protected Object loadValue() {
+			return returnValue;
+		}
+
+		@Override
+		protected boolean isNullValueDistinct() {
+			return data.isNullReturnValueDistinct();
+		}
+
+		@Override
+		protected boolean isEncapsulatedFormEmbedded() {
+			return true;
+		}
+
+		protected boolean canCommitToParent() {
+			return false;
+		}
+
+		@Override
+		protected void handleRealtimeLinkCommitException(Throwable t) {
+			throw new ReflectionUIError();
+		}
+
+		@Override
+		protected IModification createCommittingModification(Object newObjectValue) {
+			return null;
+		}
+
+		@Override
+		protected IModification createUndoModificationsReplacement() {
+			return ReflectionUIUtils.createUndoModificationsReplacement(data);
+		}
+
+		@Override
+		public SwingRenderer getSwingRenderer() {
+			return swingRenderer;
+		}
+
+		@Override
+		protected Runnable getParentControlRefreshJob() {
+			return null;
+		}
+
+		@Override
+		protected ValueReturnMode getReturnModeFromParent() {
+			return data.getValueReturnMode();
+		}
+
+		@Override
+		protected Component getOwnerComponent() {
+			return ownerComponent;
+		}
+
+		@Override
+		protected String getParentModificationTitle() {
+			return MethodControlDataModification.getTitle(data.getCaption());
+		}
+
+		@Override
+		protected boolean isParentModificationVolatile() {
+			return false;
+		}
+
+		@Override
+		protected IInfoFilter getEncapsulatedFormFilter() {
+			return IInfoFilter.DEFAULT;
+		}
+
+		@Override
+		protected ITypeInfoSource getEncapsulatedFieldDeclaredTypeSource() {
+			return data.getReturnValueType().getSource();
+		}
+
+		@Override
+		protected ModificationStack getParentModificationStack() {
+			if (data.isReturnValueDetached()) {
+				return null;
+			} else {
+				return input.getModificationStack();
+			}
+		}
+
 	}
 
 }

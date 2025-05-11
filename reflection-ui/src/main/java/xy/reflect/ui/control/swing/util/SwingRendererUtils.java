@@ -967,7 +967,12 @@ public class SwingRendererUtils {
 
 	public static FieldControlPlaceHolder findDescendantFieldControlPlaceHolder(Container container, String fieldName,
 			SwingRenderer swingRenderer) {
-		for (Form form : findDescendantForms(container, swingRenderer)) {
+		List<Form> searchForms = new ArrayList<Form>();
+		if (container instanceof Form) {
+			searchForms.add((Form) container);
+		}
+		searchForms.addAll(findDescendantForms(container, swingRenderer));
+		for (Form form : searchForms) {
 			FieldControlPlaceHolder fieldControlPlaceHolder = form.getFieldControlPlaceHolder(fieldName);
 			if (fieldControlPlaceHolder != null) {
 				return fieldControlPlaceHolder;

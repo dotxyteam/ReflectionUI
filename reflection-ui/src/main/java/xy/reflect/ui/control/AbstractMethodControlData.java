@@ -113,7 +113,10 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	public String getConfirmationMessage(InvocationData invocationData) {
 		return getMethod().getConfirmationMessage(getObject(), invocationData);
 	}
-
+	@Override
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return getMethod().isReturnValueValidityDetectionEnabled();
+	}
 	@Override
 	public boolean isNullReturnValueDistinct() {
 		return getMethod().isNullReturnValueDistinct();

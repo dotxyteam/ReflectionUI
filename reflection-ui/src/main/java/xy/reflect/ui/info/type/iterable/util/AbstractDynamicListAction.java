@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.util;
 
 import java.util.Collections;
@@ -29,6 +27,11 @@ public abstract class AbstractDynamicListAction extends AbstractInfo implements 
 	@Override
 	public boolean isEnabled(Object object) {
 		return true;
+	}
+
+	@Override
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return false;
 	}
 
 	@Override

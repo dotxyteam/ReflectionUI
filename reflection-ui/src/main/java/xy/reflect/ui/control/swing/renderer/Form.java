@@ -46,6 +46,7 @@ import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IAdvancedFieldControl;
+import xy.reflect.ui.control.IAdvancedMethodControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.swing.builder.DialogBuilder;
 import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
@@ -357,8 +358,28 @@ public class Form extends ImagePanel {
 							errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
 						}
 						if (categoriesDisplayed) {
-							InfoCategory fieldCategory = field.getCategory();
-							errorMsg = ReflectionUIUtils.composeMessage(fieldCategory.getCaption(), errorMsg);
+							errorMsg = ReflectionUIUtils.composeMessage(category.getCaption(), errorMsg);
+						}
+						throw new ReflectionUIError(errorMsg, e);
+					}
+				}
+			}
+		}
+		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
+					.get(category)) {
+				Component methodControl = methodControlPlaceHolder.getMethodControl();
+				if (methodControl instanceof IAdvancedMethodControl) {
+					try {
+						((IAdvancedMethodControl) methodControl).validateSubForms(session);
+					} catch (Exception e) {
+						String errorMsg = e.toString();
+						IMethodInfo method = methodControlPlaceHolder.getMethod();
+						if (method.getCaption().length() > 0) {
+							errorMsg = ReflectionUIUtils.composeMessage(method.getCaption(), errorMsg);
+						}
+						if (categoriesDisplayed) {
+							errorMsg = ReflectionUIUtils.composeMessage(category.getCaption(), errorMsg);
 						}
 						throw new ReflectionUIError(errorMsg, e);
 					}
@@ -369,12 +390,13 @@ public class Form extends ImagePanel {
 
 	/**
 	 * Runs {@link #validateForm()} asynchronously and updates the status bar
-	 * accordingly (displays the validation error message if the object state is not
-	 * valid). If the status bar does not have a parent component (probably because
-	 * the current form is not a root form) then nothing is done.
+	 * accordingly (displays a validation error if the form is not valid). If the
+	 * status bar does not have a parent component (probably because the current
+	 * form is not a root form) or if this parent component is not visible on the
+	 * screen, then nothing is done.
 	 */
 	public void validateFormInBackgroundAndReportOnStatusBar() {
-		if (statusBar.getParent() == null) {
+		if ((statusBar.getParent() == null) || !statusBar.getParent().isShowing()) {
 			return;
 		}
 		swingRenderer.getFormValidator().submit(new Runnable() {
@@ -646,10 +668,42 @@ public class Form extends ImagePanel {
 	}
 
 	protected JLabel createStatusBar() {
-		JLabel result = new HyperlinkLabel();
+		HyperlinkLabel result = new HyperlinkLabel() {
+
+			private static final long serialVersionUID = 1L;
+
+			private static final int PREFERRED_WIDTH = 300;
+
+			@Override
+			public Dimension getPreferredSize() {
+				Dimension result = super.getPreferredSize();
+				if (result != null) {
+					result.width = PREFERRED_WIDTH;
+				}
+				return result;
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				Dimension result = super.getMaximumSize();
+				if (result != null) {
+					result.width = Math.max(result.width, PREFERRED_WIDTH);
+				}
+				return result;
+			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result != null) {
+					result.width = Math.min(result.width, PREFERRED_WIDTH);
+				}
+				return result;
+			}
+
+		};
 		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
-		result.setPreferredSize(new Dimension(100, 20));
 		result.setName("statusBar");
 		return result;
 	}
@@ -1283,7 +1337,7 @@ public class Form extends ImagePanel {
 							getLayoutSpacing(), getLayoutSpacing());
 					statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 				} else {
-					statusBar.setBorder(BorderFactory.createRaisedBevelBorder());
+					statusBar.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 				}
 				Font labelCustomFont = getLabelCustomFont();
 				{

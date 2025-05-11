@@ -23,7 +23,6 @@ public class MethodControlDataProxy implements IMethodControlData {
 	protected IMethodControlData base;
 
 	public MethodControlDataProxy(IMethodControlData base) {
-		super();
 		this.base = base;
 	}
 
@@ -37,6 +36,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 
 	public boolean isEnabled() {
 		return base.isEnabled();
+	}
+
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return base.isReturnValueValidityDetectionEnabled();
 	}
 
 	public String getParametersValidationCustomCaption() {

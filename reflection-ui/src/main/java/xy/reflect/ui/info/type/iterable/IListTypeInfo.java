@@ -525,9 +525,10 @@ public interface IListTypeInfo extends ITypeInfo {
 
 	/**
 	 * @param itemPosition The position of the list item to inspect.
-	 * @return whether validation errors should be checked for the item node (or
-	 *         subtree starting from this node) designated by the item position
-	 *         passed as a parameter.
+	 * @return whether validation errors should be checked for the element
+	 *         designated by the item position passed as a parameter. Note that in
+	 *         the case of trees, if the checking is disabled for the current item,
+	 *         it will also be disabled for entire subtree.
 	 */
 	boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition);
 

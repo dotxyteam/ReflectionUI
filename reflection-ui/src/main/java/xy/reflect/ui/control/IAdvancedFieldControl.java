@@ -35,8 +35,8 @@ public interface IAdvancedFieldControl {
 	boolean refreshUI(boolean refreshStructure);
 
 	/**
-	 * Validates forms that are embedded in the current control. Note that this
-	 * method is not intended to be called from the UI thread.
+	 * Validates forms that are embedded in or accessible from the current control.
+	 * Note that this method is not intended to be called from the UI thread.
 	 * 
 	 * @param session The current validation session object.
 	 * 

@@ -38,7 +38,6 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	public SubMethodInfo(ReflectionUI reflectionUI, IFieldInfo theField, IMethodInfo theSubMethod,
 			ITypeInfo objectType) {
-		super();
 		this.reflectionUI = reflectionUI;
 		this.theField = theField;
 		this.theSubMethod = theSubMethod;
@@ -292,6 +291,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	public void validateParameters(Object object, InvocationData invocationData) throws Exception {
 		Object fieldValue = expectTheFieldValue(object);
 		theSubMethod.validateParameters(fieldValue, invocationData);
+	}
+
+	@Override
+	public boolean isReturnValueValidityDetectionEnabled() {
+		return theSubMethod.isReturnValueDetached();
 	}
 
 	@Override

@@ -109,14 +109,14 @@ public class MiscUtils {
 		return result;
 	}
 
-	public static String changeCase(String result, boolean upperElseLower, int subStringStart, int subStringEnd) {
-		String subString = result.substring(subStringStart, subStringEnd);
+	public static String changeCase(String string, boolean upperElseLower, int subStringStart, int subStringEnd) {
+		String subString = string.substring(subStringStart, subStringEnd);
 		if (upperElseLower) {
 			subString = subString.toUpperCase();
 		} else {
 			subString = subString.toLowerCase();
 		}
-		return result.substring(0, subStringStart) + subString + result.substring(subStringEnd);
+		return string.substring(0, subStringStart) + subString + string.substring(subStringEnd);
 	}
 
 	public static String[] splitLines(String s) {

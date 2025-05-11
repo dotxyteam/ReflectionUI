@@ -3416,6 +3416,7 @@ public class InfoCustomizations implements Serializable {
 		protected String nullReturnValueLabel;
 		protected boolean returnValueFieldGenerated = false;
 		protected boolean detachedReturnValueForced = false;
+		protected boolean returnValueValidityDetectionForced = false;
 		protected String encapsulationFieldName;
 		protected List<String> parameterizedFieldNames = new ArrayList<String>();
 		protected ResourcePath iconImagePath;
@@ -3587,6 +3588,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setDetachedReturnValueForced(boolean detachedReturnValueForced) {
 			this.detachedReturnValueForced = detachedReturnValueForced;
+		}
+
+		public boolean isReturnValueValidityDetectionForced() {
+			return returnValueValidityDetectionForced;
+		}
+
+		public void setReturnValueValidityDetectionForced(boolean returnValueValidityDetectionForced) {
+			this.returnValueValidityDetectionForced = returnValueValidityDetectionForced;
 		}
 
 		public boolean isValidating() {
