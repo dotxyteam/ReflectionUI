@@ -309,8 +309,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 					form[0] = subDialogBuilder.createEditorForm(false, false);
 				}
 			});
-		} catch (InvocationTargetException | InterruptedException e) {
+		} catch (InvocationTargetException e) {
 			throw new ReflectionUIError(e);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			return;
 		}
 		form[0].validateForm(session);
 	}

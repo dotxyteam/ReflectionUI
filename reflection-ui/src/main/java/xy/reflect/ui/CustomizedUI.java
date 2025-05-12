@@ -1,6 +1,8 @@
 
 package xy.reflect.ui;
 
+import java.util.List;
+
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -67,7 +69,18 @@ public class CustomizedUI extends ReflectionUI {
 	 * of these instances.
 	 */
 	public void clearCustomizationsCache() {
-		getTypeCache().clear();
+		getTypeCache().entrySet().stream().forEach(entry -> {
+			List<InfoProxyFactory> factories = InfoProxyFactory.listFactories(entry.getValue());
+			if (factories != null) {
+				for (InfoProxyFactory factory : factories) {
+					if (factory instanceof InfoCustomizationsFactory) {
+						if (((InfoCustomizationsFactory) factory).getCustomizedUI() == CustomizedUI.this) {
+							getTypeCache().remove(entry.getKey());
+						}
+					}
+				}
+			}
+		});
 	}
 
 	@Override

@@ -141,12 +141,16 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 							form[0] = createReturnValueEditorBuilder(null).createEditorForm(false, false);
 						}
 					});
-				} catch (InvocationTargetException | InterruptedException e) {
+				} catch (InvocationTargetException e) {
 					throw new ReflectionUIError(e);
-				}
-
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}	
 			}
 		};
+		if(Thread.currentThread().isInterrupted()) {
+			return;
+		}
 		form[0].validateForm(session);
 	}
 

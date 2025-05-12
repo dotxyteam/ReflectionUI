@@ -958,21 +958,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		BufferedItemPosition itemPosition = getItemPositionByNode(node);
 		if (columnIndex == 0) {
 			result = swingRenderer.getObjectIconImage(itemPosition.getItem());
-		}
-		Image overlayImage = getCellIconOverlayImage(node);
-		if (overlayImage != null) {
-			BufferedImage overlayedResult = new BufferedImage(
-					(result != null) ? result.getWidth(null) : overlayImage.getWidth(null),
-					(result != null) ? result.getHeight(null) : overlayImage.getHeight(null),
-					BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g = overlayedResult.createGraphics();
-			if (result != null) {
-				g.drawImage(result, 0, 0, null);
+			Image overlayImage = getCellIconOverlayImage(node);
+			if (overlayImage != null) {
+				BufferedImage overlayedResult = new BufferedImage(
+						(result != null) ? result.getWidth(null) : overlayImage.getWidth(null),
+						(result != null) ? result.getHeight(null) : overlayImage.getHeight(null),
+						BufferedImage.TYPE_INT_ARGB);
+				Graphics2D g = overlayedResult.createGraphics();
+				if (result != null) {
+					g.drawImage(result, 0, 0, null);
+				}
+				int drawY = (result != null) ? (result.getHeight(null) - overlayImage.getHeight(null)) : 0;
+				g.drawImage(overlayImage, 0, drawY, null);
+				g.dispose();
+				result = overlayedResult;
 			}
-			int drawY = (result != null) ? (result.getHeight(null) - overlayImage.getHeight(null)) : 0;
-			g.drawImage(overlayImage, 0, drawY, null);
-			g.dispose();
-			result = overlayedResult;
 		}
 		return result;
 	}
@@ -2051,6 +2051,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
+				if(Thread.currentThread().isInterrupted()) {
+					return VisitStatus.TREE_VISIT_INTERRUPTED;
+				}
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
@@ -2063,8 +2066,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							itemForm[0] = itemUIBuilder.createEditorForm(false, false);
 						}
 					});
-				} catch (InvocationTargetException | InterruptedException e) {
+				} catch (InvocationTargetException e) {
 					throw new ReflectionUIError(e);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					return VisitStatus.TREE_VISIT_INTERRUPTED;
 				}
 				try {
 					itemForm[0].validateForm(session);
@@ -2074,6 +2080,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		});
+		if(Thread.currentThread().isInterrupted()) {
+			return;
+		}
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

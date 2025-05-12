@@ -71,6 +71,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	protected static final String ACTIVE_FACTORIES_KEY = InfoProxyFactory.class.getName() + "ACTIVE_FACTORIES";
 
+	@SuppressWarnings("unchecked")
+	public static List<InfoProxyFactory> listFactories(IApplicationInfo application) {
+		return (List<InfoProxyFactory>) application.getSpecificProperties().get(ACTIVE_FACTORIES_KEY);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<InfoProxyFactory> listFactories(ITypeInfo type) {
+		return (List<InfoProxyFactory>) type.getSpecificProperties().get(ACTIVE_FACTORIES_KEY);
+	}
+
 	/**
 	 * @return the identifier of this proxy factory.
 	 */
@@ -2127,9 +2137,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 				return specificProperties;
 			}
 			Map<String, Object> result = new HashMap<String, Object>(specificProperties);
-			@SuppressWarnings("unchecked")
-			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
-					.get(ACTIVE_FACTORIES_KEY);
+			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories == null) {
 				factories = new ArrayList<InfoProxyFactory>();
 			}
@@ -2142,9 +2150,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
 				return;
 			}
-			@SuppressWarnings("unchecked")
-			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
-					.get(ACTIVE_FACTORIES_KEY);
+			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories != null) {
 				List<String> factoryIds = new ArrayList<String>();
 				for (InfoProxyFactory factory : factories) {
@@ -2477,9 +2483,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 				return specificProperties;
 			}
 			Map<String, Object> result = new HashMap<String, Object>(specificProperties);
-			@SuppressWarnings("unchecked")
-			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
-					.get(ACTIVE_FACTORIES_KEY);
+			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories == null) {
 				factories = new ArrayList<InfoProxyFactory>();
 			}
@@ -2492,9 +2496,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
 				return;
 			}
-			@SuppressWarnings("unchecked")
-			List<InfoProxyFactory> factories = (List<InfoProxyFactory>) base.getSpecificProperties()
-					.get(ACTIVE_FACTORIES_KEY);
+			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories != null) {
 				List<String> factoryIds = new ArrayList<String>();
 				for (InfoProxyFactory factory : factories) {

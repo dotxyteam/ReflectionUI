@@ -80,6 +80,7 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Filter;
+import xy.reflect.ui.util.FixedFutureTask;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -119,6 +120,8 @@ public class Form extends ImagePanel {
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
 	protected boolean absolutelyVisible = false;
+
+	protected FixedFutureTask<Boolean> validationTask;
 
 	/**
 	 * Creates a form allowing to view/edit the given object.
@@ -347,6 +350,9 @@ public class Form extends ImagePanel {
 		boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				if (Thread.currentThread().isInterrupted()) {
+					return;
+				}
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
@@ -368,6 +374,9 @@ public class Form extends ImagePanel {
 		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
 			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
 					.get(category)) {
+				if (Thread.currentThread().isInterrupted()) {
+					return;
+				}
 				Component methodControl = methodControlPlaceHolder.getMethodControl();
 				if (methodControl instanceof IAdvancedMethodControl) {
 					try {
@@ -399,7 +408,7 @@ public class Form extends ImagePanel {
 		if ((statusBar.getParent() == null) || !statusBar.getParent().isShowing()) {
 			return;
 		}
-		swingRenderer.getFormValidator().submit(new Runnable() {
+		validationTask = new FixedFutureTask<Boolean>(new Runnable() {
 			@Override
 			public void run() {
 				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
@@ -434,7 +443,8 @@ public class Form extends ImagePanel {
 				}
 
 			}
-		});
+		}, true);
+		swingRenderer.getFormValidator().submit(validationTask);
 	}
 
 	protected void setStandardOKButtonEnabled(boolean b) {
@@ -1259,6 +1269,13 @@ public class Form extends ImagePanel {
 	 * 
 	 */
 	public void refresh(boolean refreshStructure) {
+		if (validationTask != null) {
+			try {
+				validationTask.cancelAndWait(true);
+			} catch (InterruptedException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
 		if (refreshStructure && detectStructureChange()) {
 			InfoCategory initiallySelectedCategory = null;
 			{

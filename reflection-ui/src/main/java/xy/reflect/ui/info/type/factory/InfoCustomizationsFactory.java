@@ -140,6 +140,10 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		this.customizedUI = customizedUI;
 	}
 
+	public CustomizedUI getCustomizedUI() {
+		return customizedUI;
+	}
+
 	protected void traceActiveCustomizations(Map<String, Object> specificProperties) {
 		@SuppressWarnings("unchecked")
 		List<InfoCustomizations> trace = (List<InfoCustomizations>) specificProperties.get(ACTIVE_CUSTOMIZATIONS_KEY);
