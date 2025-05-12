@@ -3051,6 +3051,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
+					public boolean isValueValidityDetectionEnabled() {
+						if (fc.isValueValidityDetectionDisabled()) {
+							return false;
+						}
+						return super.isValueValidityDetectionEnabled();
+					}
+
+					@Override
 					public Map<String, Object> getSpecificProperties() {
 						Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
 						traceActiveCustomizations(result);

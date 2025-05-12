@@ -353,6 +353,9 @@ public class Form extends ImagePanel {
 				if (Thread.currentThread().isInterrupted()) {
 					return;
 				}
+				if(!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
+					return;
+				}				
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
@@ -375,6 +378,9 @@ public class Form extends ImagePanel {
 			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
 					.get(category)) {
 				if (Thread.currentThread().isInterrupted()) {
+					return;
+				}
+				if (!methodControlPlaceHolder.getControlData().isReturnValueValidityDetectionEnabled()) {
 					return;
 				}
 				Component methodControl = methodControlPlaceHolder.getMethodControl();

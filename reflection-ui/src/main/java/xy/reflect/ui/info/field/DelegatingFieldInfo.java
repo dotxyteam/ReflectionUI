@@ -157,6 +157,11 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isValueValidityDetectionEnabled() {
+		return getDelegate().isValueValidityDetectionEnabled();
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

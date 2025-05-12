@@ -131,6 +131,11 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public boolean isValueValidityDetectionEnabled() {
+		return getField().isValueValidityDetectionEnabled();
+	}
+
+	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return getField().getSpecificProperties();
 	}

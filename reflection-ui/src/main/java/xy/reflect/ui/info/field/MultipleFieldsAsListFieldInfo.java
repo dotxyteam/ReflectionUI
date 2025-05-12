@@ -222,6 +222,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
+	public boolean isValueValidityDetectionEnabled() {
+		return true;
+	}
+
+	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}

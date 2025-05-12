@@ -180,6 +180,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isValueValidityDetectionEnabled() {
+		return true;
+	}
+
+	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return Collections.emptyMap();
 	}

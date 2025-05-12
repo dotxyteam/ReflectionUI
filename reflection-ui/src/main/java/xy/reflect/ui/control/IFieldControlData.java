@@ -239,4 +239,10 @@ public interface IFieldControlData {
 	 */
 	Runnable getLastFormRefreshStateRestorationJob();
 
+	/**
+	 * @return whether validation errors should be checked for the value of the
+	 *         underlying field.
+	 */
+	boolean isValueValidityDetectionEnabled();
+
 }

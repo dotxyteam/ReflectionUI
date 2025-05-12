@@ -23,7 +23,6 @@ public class FieldControlDataProxy implements IFieldControlData {
 	protected IFieldControlData base;
 
 	public FieldControlDataProxy(IFieldControlData base) {
-		super();
 		this.base = base;
 	}
 
@@ -94,6 +93,10 @@ public class FieldControlDataProxy implements IFieldControlData {
 
 	public IInfoFilter getFormControlFilter() {
 		return base.getFormControlFilter();
+	}
+
+	public boolean isValueValidityDetectionEnabled() {
+		return base.isValueValidityDetectionEnabled();
 	}
 
 	public Map<String, Object> getSpecificProperties() {

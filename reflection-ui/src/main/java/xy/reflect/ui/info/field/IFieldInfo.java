@@ -37,6 +37,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isValueValidityDetectionEnabled() {
+			return true;
+		}
+
+		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
 		}
 
@@ -385,4 +390,9 @@ public interface IFieldInfo extends IInfo {
 	 */
 	void onControlVisibilityChange(Object object, boolean visible);
 
+	/**
+	 * @return whether validation errors should be checked for the value of the
+	 *         field.
+	 */
+	boolean isValueValidityDetectionEnabled();
 }

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.field;
 
 import java.util.List;
@@ -30,6 +28,10 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 	public IFieldInfo getBase() {
 		return base;
+	}
+
+	public boolean isValueValidityDetectionEnabled() {
+		return base.isValueValidityDetectionEnabled();
 	}
 
 	public List<IMethodInfo> getAlternativeConstructors(Object object) {

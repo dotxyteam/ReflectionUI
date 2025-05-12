@@ -268,6 +268,11 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isValueValidityDetectionEnabled() {
+		return theField.isValueValidityDetectionEnabled() && theSubField.isValueValidityDetectionEnabled();
+	}
+
+	@Override
 	public String getOnlineHelp() {
 		return theSubField.getOnlineHelp();
 	}

@@ -1784,6 +1784,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	/**
 	 * @param field      The field information.
 	 * @param objectType The parent type information.
+	 * @return the result of {@link IFieldInfo#isValueValidityDetectionEnabled()}
+	 *         unless overridden.
+	 */
+	protected boolean isValueValidityDetectionEnabled(IFieldInfo field, ITypeInfo objectType) {
+		return field.isValueValidityDetectionEnabled();
+	}
+
+	/**
+	 * @param field      The field information.
+	 * @param objectType The parent type information.
 	 * @return the result of {@link IFieldInfo#getOnlineHelp()} unless overridden.
 	 */
 	protected String getOnlineHelp(IFieldInfo field, ITypeInfo objectType) {
@@ -2877,6 +2887,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		public long getAutoUpdatePeriodMilliseconds() {
 			return InfoProxyFactory.this.getAutoUpdatePeriodMilliseconds(base, objectType);
+		}
+
+		@Override
+		public boolean isValueValidityDetectionEnabled() {
+			return InfoProxyFactory.this.isValueValidityDetectionEnabled(base, objectType);
 		}
 
 		@Override

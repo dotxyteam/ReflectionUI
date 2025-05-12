@@ -3055,12 +3055,21 @@ public class InfoCustomizations implements Serializable {
 		protected Double displayAreaVerticalWeight;
 		protected Boolean displayAreaHorizontalFilling;
 		protected Boolean displayAreaVerticalFilling;
+		protected boolean valueValidityDetectionDisabled = false;
 
 		@Override
 		public boolean isInitial() {
 			FieldCustomization defaultFieldCustomization = new FieldCustomization();
 			defaultFieldCustomization.fieldName = fieldName;
 			return InfoCustomizations.isSimilar(this, defaultFieldCustomization);
+		}
+
+		public boolean isValueValidityDetectionDisabled() {
+			return valueValidityDetectionDisabled;
+		}
+
+		public void setValueValidityDetectionDisabled(boolean valueValidityDetectionDisabled) {
+			this.valueValidityDetectionDisabled = valueValidityDetectionDisabled;
 		}
 
 		public Boolean getDisplayAreaHorizontalFilling() {

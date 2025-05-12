@@ -119,9 +119,6 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 
 	@Override
 	public void validateSubForms(ValidationSession session) throws Exception {
-		if (!data.isReturnValueValidityDetectionEnabled()) {
-			return;
-		}
 		Form[] form = new Form[1];
 		new MethodAction(swingRenderer, input) {
 			private static final long serialVersionUID = 1L;

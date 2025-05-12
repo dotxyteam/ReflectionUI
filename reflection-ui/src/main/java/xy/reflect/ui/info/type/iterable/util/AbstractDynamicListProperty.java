@@ -149,6 +149,11 @@ public abstract class AbstractDynamicListProperty extends AbstractInfo implement
 	}
 
 	@Override
+	public boolean isValueValidityDetectionEnabled() {
+		return true;
+	}
+
+	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}

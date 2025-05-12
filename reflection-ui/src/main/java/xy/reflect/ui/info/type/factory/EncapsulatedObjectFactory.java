@@ -779,6 +779,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public boolean isValueValidityDetectionEnabled() {
+			return true;
+		}
+
+		@Override
 		public double getDisplayAreaHorizontalWeight() {
 			return 1.0;
 		}

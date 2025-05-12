@@ -63,6 +63,11 @@ public class CapsuleFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
+	public boolean isValueValidityDetectionEnabled() {
+		return true;
+	}
+
+	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
 	}
 

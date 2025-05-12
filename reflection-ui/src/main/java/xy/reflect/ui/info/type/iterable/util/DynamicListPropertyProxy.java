@@ -39,6 +39,10 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.getOnlineHelp();
 	}
 
+	public boolean isValueValidityDetectionEnabled() {
+		return base.isValueValidityDetectionEnabled();
+	}
+
 	public void onControlVisibilityChange(Object object, boolean visible) {
 		base.onControlVisibilityChange(object, visible);
 	}
