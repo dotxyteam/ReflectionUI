@@ -354,7 +354,7 @@ public class Form extends ImagePanel {
 					return;
 				}
 				if(!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
-					return;
+					continue;
 				}				
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {

@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.builder;
 
 import java.awt.Component;
@@ -142,4 +140,8 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 		return true;
 	}
 
+	@Override
+	protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+		return true;
+	}
 }

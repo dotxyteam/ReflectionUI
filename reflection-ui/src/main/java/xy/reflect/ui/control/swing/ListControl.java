@@ -2051,7 +2051,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
-				if(Thread.currentThread().isInterrupted()) {
+				if (Thread.currentThread().isInterrupted()) {
 					return VisitStatus.TREE_VISIT_INTERRUPTED;
 				}
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
@@ -2080,7 +2080,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		});
-		if(Thread.currentThread().isInterrupted()) {
+		if (Thread.currentThread().isInterrupted()) {
 			return;
 		}
 		SwingUtilities.invokeLater(new Runnable() {
@@ -2562,6 +2562,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected boolean isEncapsulatedFormEmbedded() {
+			return true;
+		}
+
+		@Override
+		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
 			return true;
 		}
 
@@ -3645,6 +3650,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				protected boolean isEncapsulatedFormEmbedded() {
 					return dynamicProperty.isFormControlEmbedded();
+				}
+
+				@Override
+				protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+					return dynamicProperty.isValueValidityDetectionEnabled();
 				}
 
 				@Override

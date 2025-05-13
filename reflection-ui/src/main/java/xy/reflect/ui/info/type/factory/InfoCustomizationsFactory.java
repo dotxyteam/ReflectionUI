@@ -49,7 +49,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TransactionalRole;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
-import xy.reflect.ui.info.field.CapsuleFieldInfo;
+import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
 import xy.reflect.ui.info.field.ChangedTypeFieldInfo;
 import xy.reflect.ui.info.field.DelegatingFieldInfo;
 import xy.reflect.ui.info.field.ExportedNullStatusFieldInfo;
@@ -1948,7 +1948,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	 */
 	protected class MembersCustomizationsFactory {
 
-		protected List<CapsuleFieldInfo> capsuleFields = new ArrayList<CapsuleFieldInfo>();
+		protected List<MembersCapsuleFieldInfo> capsuleFields = new ArrayList<MembersCapsuleFieldInfo>();
 		protected List<IFieldInfo> inputFields = new ArrayList<IFieldInfo>();
 		protected List<IMethodInfo> inputMethods = new ArrayList<IMethodInfo>();
 		protected List<IMethodInfo> inputConstructors = new ArrayList<IMethodInfo>();
@@ -2104,7 +2104,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			List<IMethodInfo> newMethods = new ArrayList<IMethodInfo>();
 			List<IMethodInfo> newConstructors = new ArrayList<IMethodInfo>();
 
-			List<CapsuleFieldInfo> newCapsuleFields = encapsulateMembers(inputFields, inputMethods);
+			List<MembersCapsuleFieldInfo> newCapsuleFields = encapsulateMembers(inputFields, inputMethods);
 			newCapsuleFields = mergeOrAddCapsuleFields(capsuleFields, newCapsuleFields);
 			newFields.addAll(newCapsuleFields);
 
@@ -2237,7 +2237,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			return result;
 		}
 
-		protected List<CapsuleFieldInfo> encapsulateMembers(List<IFieldInfo> fields, List<IMethodInfo> methods) {
+		protected List<MembersCapsuleFieldInfo> encapsulateMembers(List<IFieldInfo> fields, List<IMethodInfo> methods) {
 			Map<String, Pair<List<IFieldInfo>, List<IMethodInfo>>> encapsulatedMembersByCapsuleFieldName = new HashMap<String, Pair<List<IFieldInfo>, List<IMethodInfo>>>();
 			for (IFieldInfo field : new ArrayList<IFieldInfo>(fields)) {
 				if (!field.isHidden()) {
@@ -2287,25 +2287,25 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			if (encapsulatedMembersByCapsuleFieldName.size() == 0) {
 				return Collections.emptyList();
 			}
-			List<CapsuleFieldInfo> result = new ArrayList<CapsuleFieldInfo>();
+			List<MembersCapsuleFieldInfo> result = new ArrayList<MembersCapsuleFieldInfo>();
 			for (String capsuleFieldName : encapsulatedMembersByCapsuleFieldName.keySet()) {
 				Pair<List<IFieldInfo>, List<IMethodInfo>> encapsulatedMembers = encapsulatedMembersByCapsuleFieldName
 						.get(capsuleFieldName);
 				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
 				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
-				CapsuleFieldInfo capsuleField = new CapsuleFieldInfo(customizedUI, capsuleFieldName, encapsulatedFields,
+				MembersCapsuleFieldInfo capsuleField = new MembersCapsuleFieldInfo(customizedUI, capsuleFieldName, encapsulatedFields,
 						encapsulatedMethods, objectType);
 				result.add(capsuleField);
 			}
 			return result;
 		}
 
-		protected List<CapsuleFieldInfo> mergeOrAddCapsuleFields(List<CapsuleFieldInfo> capsuleFields,
-				List<CapsuleFieldInfo> toMerge) {
-			List<CapsuleFieldInfo> notMerged = new ArrayList<CapsuleFieldInfo>();
-			for (CapsuleFieldInfo newField : toMerge) {
+		protected List<MembersCapsuleFieldInfo> mergeOrAddCapsuleFields(List<MembersCapsuleFieldInfo> capsuleFields,
+				List<MembersCapsuleFieldInfo> toMerge) {
+			List<MembersCapsuleFieldInfo> notMerged = new ArrayList<MembersCapsuleFieldInfo>();
+			for (MembersCapsuleFieldInfo newField : toMerge) {
 				boolean merged = false;
-				for (CapsuleFieldInfo oldField : capsuleFields) {
+				for (MembersCapsuleFieldInfo oldField : capsuleFields) {
 					if (newField.getName().equals(oldField.getName())) {
 						oldField.getEncapsulatedFields().addAll(newField.getEncapsulatedFields());
 						oldField.getEncapsulatedMethods().addAll(newField.getEncapsulatedMethods());
@@ -3052,8 +3052,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 					@Override
 					public boolean isValueValidityDetectionEnabled() {
-						if (fc.isValueValidityDetectionDisabled()) {
-							return false;
+						if (fc.isValueValidityDetectionForced()) {
+							return true;
 						}
 						return super.isValueValidityDetectionEnabled();
 					}

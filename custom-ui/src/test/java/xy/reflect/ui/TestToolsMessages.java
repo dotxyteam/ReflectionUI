@@ -13,7 +13,7 @@ import xy.reflect.ui.control.swing.customizer.CustomizationToolsUI;
 import xy.reflect.ui.control.swing.customizer.SwingCustomizer;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.ControlSizeCustomization;
-import xy.reflect.ui.info.field.CapsuleFieldInfo;
+import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -105,7 +105,7 @@ public class TestToolsMessages {
 			correctSpells = checkSpell(field.getCategory().getCaption(), objectType.getName(),
 					field.getName() + ".<category>") && correctSpells;
 		}
-		CapsuleFieldInfo capsuleField = getCapsuleField(field);
+		MembersCapsuleFieldInfo capsuleField = getCapsuleField(field);
 		if (capsuleField != null) {
 			for (IFieldInfo subField : capsuleField.getType().getFields()) {
 				correctSpells = testSpells(subField, capsuleField.getType()) && correctSpells;
@@ -132,15 +132,15 @@ public class TestToolsMessages {
 		return correctSpells;
 	}
 
-	private CapsuleFieldInfo getCapsuleField(IFieldInfo field) {
+	private MembersCapsuleFieldInfo getCapsuleField(IFieldInfo field) {
 		while (true) {
 			try {
 				field = (IFieldInfo) getInaccesibleFieldValue(field.getClass(), field, "base");
 			} catch (Exception e) {
 				break;
 			}
-			if (field instanceof CapsuleFieldInfo) {
-				return (CapsuleFieldInfo) field;
+			if (field instanceof MembersCapsuleFieldInfo) {
+				return (MembersCapsuleFieldInfo) field;
 			}
 			if (field == null) {
 				break;

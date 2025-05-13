@@ -10,7 +10,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.FieldCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
-import xy.reflect.ui.info.field.CapsuleFieldInfo;
+import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -51,7 +51,7 @@ public class ExtractCustomizationsHelp {
 				System.out.println("<LI>" + "<B>" + title + ": " + "</B>" + field.getOnlineHelp() + "</LI>");
 			}
 		} else {
-			CapsuleFieldInfo capsuleField = getCapsuleField(field);
+			MembersCapsuleFieldInfo capsuleField = getCapsuleField(field);
 			if (capsuleField != null) {
 				for (IFieldInfo subField : capsuleField.getType().getFields()) {
 					printFieldHelp(subField);
@@ -60,15 +60,15 @@ public class ExtractCustomizationsHelp {
 		}
 	}
 
-	private static CapsuleFieldInfo getCapsuleField(IFieldInfo field) {
+	private static MembersCapsuleFieldInfo getCapsuleField(IFieldInfo field) {
 		while (true) {
 			try {
 				field = (IFieldInfo) getInaccesibleFieldValue(field.getClass(), field, "base");
 			} catch (Exception e) {
 				break;
 			}
-			if (field instanceof CapsuleFieldInfo) {
-				return (CapsuleFieldInfo) field;
+			if (field instanceof MembersCapsuleFieldInfo) {
+				return (MembersCapsuleFieldInfo) field;
 			}
 			if (field == null) {
 				break;

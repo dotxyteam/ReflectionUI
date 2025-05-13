@@ -53,7 +53,7 @@ import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
-import xy.reflect.ui.info.field.CapsuleFieldInfo;
+import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.field.MethodReturnValueAsFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
@@ -3055,7 +3055,7 @@ public class InfoCustomizations implements Serializable {
 		protected Double displayAreaVerticalWeight;
 		protected Boolean displayAreaHorizontalFilling;
 		protected Boolean displayAreaVerticalFilling;
-		protected boolean valueValidityDetectionDisabled = false;
+		protected boolean valueValidityDetectionForced = false;
 
 		@Override
 		public boolean isInitial() {
@@ -3064,12 +3064,12 @@ public class InfoCustomizations implements Serializable {
 			return InfoCustomizations.isSimilar(this, defaultFieldCustomization);
 		}
 
-		public boolean isValueValidityDetectionDisabled() {
-			return valueValidityDetectionDisabled;
+		public boolean isValueValidityDetectionForced() {
+			return valueValidityDetectionForced;
 		}
 
-		public void setValueValidityDetectionDisabled(boolean valueValidityDetectionDisabled) {
-			this.valueValidityDetectionDisabled = valueValidityDetectionDisabled;
+		public void setValueValidityDetectionForced(boolean valueValidityDetectionForced) {
+			this.valueValidityDetectionForced = valueValidityDetectionForced;
 		}
 
 		public Boolean getDisplayAreaHorizontalFilling() {
@@ -5027,7 +5027,7 @@ public class InfoCustomizations implements Serializable {
 						FieldCustomization capsuleFc = getFieldCustomization(containingTc,
 								siblingFc.getEncapsulationFieldName(), false);
 						if (capsuleFc != null) {
-							String capsuleTypeName = CapsuleFieldInfo
+							String capsuleTypeName = MembersCapsuleFieldInfo
 									.buildTypeName(siblingFc.getEncapsulationFieldName(), containingTc.getTypeName());
 							TypeCustomization capsuleTc = getTypeCustomization(InfoCustomizations.this, capsuleTypeName,
 									false);
@@ -5061,7 +5061,7 @@ public class InfoCustomizations implements Serializable {
 							FieldCustomization capsuleFc = getFieldCustomization(containingTc,
 									siblingMc.getEncapsulationFieldName(), false);
 							if (capsuleFc != null) {
-								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(
+								String capsuleTypeName = MembersCapsuleFieldInfo.buildTypeName(
 										siblingMc.getEncapsulationFieldName(), containingTc.getTypeName());
 								TypeCustomization capsuleTc = getTypeCustomization(InfoCustomizations.this,
 										capsuleTypeName, false);
@@ -5093,7 +5093,7 @@ public class InfoCustomizations implements Serializable {
 						FieldCustomization capsuleFc = getFieldCustomization(containingTc,
 								siblingFc.getEncapsulationFieldName(), false);
 						if (capsuleFc != null) {
-							String capsuleTypeName = CapsuleFieldInfo
+							String capsuleTypeName = MembersCapsuleFieldInfo
 									.buildTypeName(siblingFc.getEncapsulationFieldName(), containingTc.getTypeName());
 							TypeCustomization capsuleTc = getTypeCustomization(InfoCustomizations.this, capsuleTypeName,
 									false);

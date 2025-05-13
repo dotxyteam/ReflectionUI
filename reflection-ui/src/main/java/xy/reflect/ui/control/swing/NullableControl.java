@@ -418,6 +418,11 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 
 		@Override
+		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+			return data.isValueValidityDetectionEnabled();
+		}
+
+		@Override
 		protected boolean isNullValueDistinct() {
 			return false;
 		}

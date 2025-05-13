@@ -223,7 +223,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override

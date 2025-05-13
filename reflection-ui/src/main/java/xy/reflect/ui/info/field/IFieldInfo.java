@@ -38,7 +38,7 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public boolean isValueValidityDetectionEnabled() {
-			return true;
+			return false;
 		}
 
 		@Override

@@ -246,7 +246,7 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override

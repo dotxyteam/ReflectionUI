@@ -58,7 +58,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
-import xy.reflect.ui.info.field.CapsuleFieldInfo;
+import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
@@ -636,7 +636,7 @@ public class CustomizationTools {
 						UndoOrder.getNormal(), new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
+								String capsuleTypeName = MembersCapsuleFieldInfo.buildTypeName(capsuleFieldName,
 										objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
@@ -678,7 +678,7 @@ public class CustomizationTools {
 						UndoOrder.getNormal(), new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								String capsuleContainerTypeName = CapsuleFieldInfo
+								String capsuleContainerTypeName = MembersCapsuleFieldInfo
 										.extractobjectTypeName(objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
@@ -713,7 +713,7 @@ public class CustomizationTools {
 						UndoOrder.getNormal(), new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								String capsuleTypeName = CapsuleFieldInfo.buildTypeName(capsuleFieldName,
+								String capsuleTypeName = MembersCapsuleFieldInfo.buildTypeName(capsuleFieldName,
 										objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
@@ -755,7 +755,7 @@ public class CustomizationTools {
 						UndoOrder.getNormal(), new Accessor<Boolean>() {
 							@Override
 							public Boolean get() {
-								String capsuleContainerTypeName = CapsuleFieldInfo
+								String capsuleContainerTypeName = MembersCapsuleFieldInfo
 										.extractobjectTypeName(objectCustomizedType.getName());
 								TypeCustomization srcTc = InfoCustomizations.getTypeCustomization(
 										swingCustomizer.getInfoCustomizations(), objectCustomizedType.getName(), true);
@@ -860,8 +860,8 @@ public class CustomizationTools {
 					}));
 		}
 
-		final CapsuleFieldInfo containingCapsuleField = (CapsuleFieldInfo) member.getSpecificProperties()
-				.get(CapsuleFieldInfo.CONTAINING_CAPSULE_FIELD_PROPERTY_KEY);
+		final MembersCapsuleFieldInfo containingCapsuleField = (MembersCapsuleFieldInfo) member.getSpecificProperties()
+				.get(MembersCapsuleFieldInfo.CONTAINING_CAPSULE_FIELD_PROPERTY_KEY);
 		if (containingCapsuleField != null) {
 			result.add(createMenuItem(new AbstractAction(toolsRenderer.prepareMessageToDisplay("Move Out")) {
 				private static final long serialVersionUID = 1L;

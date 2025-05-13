@@ -361,6 +361,11 @@ public class MethodAction extends AbstractAction {
 			return true;
 		}
 
+		@Override
+		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+			return true;
+		}
+
 		protected boolean canCommitToParent() {
 			return false;
 		}

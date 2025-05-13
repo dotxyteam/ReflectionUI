@@ -121,13 +121,13 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			dynamicControlCache.clear();
 		}
 		Object value = data.getValue();
-		data.returningValue(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {
 			@Override
 			public void run() {
 				refreshTypeEnumerationControl(refreshStructure);
 			}
 		});
-		data.returningValue(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {
 			@Override
 			public void run() {
 				refreshDynamicControl(refreshStructure);
@@ -146,7 +146,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		Listener<Object> dynamicControlUpdater = new Listener<Object>() {
 			@Override
 			public void handle(Object instance) {
-				data.returningValue(instance, new Runnable() {			
+				data.returningValue(instance, new Runnable() {
 					@Override
 					public void run() {
 						refreshDynamicControl(false);
@@ -419,6 +419,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
+		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+			return false;
+		}
+
+		@Override
 		protected boolean isNullValueDistinct() {
 			return data.isNullValueDistinct();
 		}
@@ -536,6 +541,11 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		@Override
 		protected boolean isEncapsulatedFormEmbedded() {
 			return data.isFormControlEmbedded();
+		}
+
+		@Override
+		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+			return data.isValueValidityDetectionEnabled();
 		}
 
 		@Override

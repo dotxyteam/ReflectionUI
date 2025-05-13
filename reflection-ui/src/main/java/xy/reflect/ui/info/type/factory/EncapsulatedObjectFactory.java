@@ -70,6 +70,7 @@ public class EncapsulatedObjectFactory {
 	protected long fieldAutoUpdatePeriodMilliseconds = -1;
 	protected boolean fieldFormControlMandatory = false;
 	protected boolean fieldFormControlEmbedded = false;
+	protected boolean fieldValueValidityDetectionEnabled = false;
 	protected IInfoFilter fieldFormControlFilter = IInfoFilter.DEFAULT;
 	protected IInfoProxyFactory fieldTypeSpecificities;
 
@@ -231,6 +232,14 @@ public class EncapsulatedObjectFactory {
 		this.fieldFormControlEmbedded = fieldFormControlEmbedded;
 	}
 
+	public boolean isFieldValueValidityDetectionEnabled() {
+		return fieldValueValidityDetectionEnabled;
+	}
+
+	public void setFieldValueValidityDetectionEnabled(boolean fieldValueValidityDetectionEnabled) {
+		this.fieldValueValidityDetectionEnabled = fieldValueValidityDetectionEnabled;
+	}
+
 	public IInfoFilter getFieldFormControlFilter() {
 		return fieldFormControlFilter;
 	}
@@ -284,6 +293,7 @@ public class EncapsulatedObjectFactory {
 		result = prime * result + ((fieldCaption == null) ? 0 : fieldCaption.hashCode());
 		result = prime * result + ((fieldCategory == null) ? 0 : fieldCategory.hashCode());
 		result = prime * result + (fieldFormControlEmbedded ? 1231 : 1237);
+		result = prime * result + (fieldValueValidityDetectionEnabled ? 1231 : 1237);
 		result = prime * result + ((fieldFormControlFilter == null) ? 0 : fieldFormControlFilter.hashCode());
 		result = prime * result + (fieldFormControlMandatory ? 1231 : 1237);
 		result = prime * result + (fieldGetOnly ? 1231 : 1237);
@@ -326,6 +336,8 @@ public class EncapsulatedObjectFactory {
 		} else if (!fieldCategory.equals(other.fieldCategory))
 			return false;
 		if (fieldFormControlEmbedded != other.fieldFormControlEmbedded)
+			return false;
+		if (fieldValueValidityDetectionEnabled != other.fieldValueValidityDetectionEnabled)
 			return false;
 		if (fieldFormControlFilter == null) {
 			if (other.fieldFormControlFilter != null)
@@ -779,11 +791,6 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public boolean isValueValidityDetectionEnabled() {
-			return true;
-		}
-
-		@Override
 		public double getDisplayAreaHorizontalWeight() {
 			return 1.0;
 		}
@@ -851,6 +858,11 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public boolean isFormControlEmbedded() {
 			return fieldFormControlEmbedded;
+		}
+
+		@Override
+		public boolean isValueValidityDetectionEnabled() {
+			return fieldValueValidityDetectionEnabled;
 		}
 
 		@Override

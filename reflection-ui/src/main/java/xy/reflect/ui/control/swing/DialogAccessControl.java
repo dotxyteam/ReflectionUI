@@ -315,7 +315,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 			Thread.currentThread().interrupt();
 			return;
 		}
-		form[0].validateForm(session);
+		try {
+			form[0].validateForm(session);
+		} catch (Exception e) {
+			throw new ReflectionUIError("Validation failed", e);
+		}
 	}
 
 	@Override
@@ -357,6 +361,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		@Override
 		protected boolean isEncapsulatedFormEmbedded() {
 			return true;
+		}
+
+		@Override
+		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+			return data.isValueValidityDetectionEnabled();
 		}
 
 		@Override

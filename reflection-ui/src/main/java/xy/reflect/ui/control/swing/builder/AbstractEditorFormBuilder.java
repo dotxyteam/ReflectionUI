@@ -269,6 +269,12 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract boolean isEncapsulatedFormEmbedded();
 
 	/**
+	 * @return whether validation errors should be checked for the local
+	 *         object/value.
+	 */
+	protected abstract boolean isEncapsulatedValueValidityDetectionEnabled();
+
+	/**
 	 * @return true if the local value/object must be displayed as a generic form
 	 *         (not a custom control).
 	 */
@@ -644,6 +650,7 @@ public abstract class AbstractEditorFormBuilder {
 			setFieldNullValueDistinct(isNullValueDistinct());
 			setFieldValueReturnMode(getEncapsulatedFieldValueReturnMode());
 			setFieldFormControlEmbedded(isEncapsulatedFormEmbedded());
+			setFieldValueValidityDetectionEnabled(isEncapsulatedValueValidityDetectionEnabled());
 			setFieldFormControlFilter(getEncapsulatedFormFilter());
 			setFieldFormControlMandatory(isCustomEncapsulatedControlForbidden());
 			setFieldSpecificProperties(getEncapsulatedFieldSpecificProperties());
