@@ -13,13 +13,14 @@ import xy.reflect.ui.info.ValidationSession;
 public interface IAdvancedMethodControl {
 
 	/**
-	 * Validates forms that are accessible from the current control. Note that this
-	 * method is not intended to be called from the UI thread.
+	 * Validates the control data. Typically, forms that are directly accessible
+	 * from the current control would be validated. Note that this method is not
+	 * intended to be called from the UI thread.
 	 * 
 	 * @param session The current validation session object.
 	 * 
 	 * @throws Exception If an invalid sub-form is detected.
 	 */
-	void validateSubForms(ValidationSession session) throws Exception;
+	void validateControl(ValidationSession session) throws Exception;
 
 }

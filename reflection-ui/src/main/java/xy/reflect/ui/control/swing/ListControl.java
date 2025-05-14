@@ -1701,7 +1701,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					detailsArea.add(statusBar, BorderLayout.NORTH);
 				}
 				detailsArea.add(detailsControl, BorderLayout.CENTER);
-				detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 				SwingRendererUtils.handleComponentSizeChange(detailsArea);
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -1715,6 +1714,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		} finally {
 			SwingRendererUtils.updateWindowMenu(this, swingRenderer);
+			if (detailsControl != null) {
+				if (isShowing()) {
+					detailsControl.validateFormInBackgroundAndReportOnStatusBar();
+				}
+			}
 		}
 		throw new ReflectionUIError();
 	}
@@ -2046,7 +2050,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void validateSubForms(ValidationSession session) throws Exception {
+	public void validateControl(ValidationSession session) throws Exception {
 		validitionErrorByItemPosition.clear();
 		visitItems(new IItemsVisitor() {
 			@Override

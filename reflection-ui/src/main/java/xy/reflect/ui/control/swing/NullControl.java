@@ -170,7 +170,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void validateSubForms(ValidationSession session) throws Exception {
+	public void validateControl(ValidationSession session) throws Exception {
 	}
 
 	@Override

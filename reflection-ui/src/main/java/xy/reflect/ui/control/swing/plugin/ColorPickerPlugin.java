@@ -20,6 +20,7 @@ import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.builder.DialogBuilder;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
@@ -186,6 +187,10 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 
 		public ColorControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public void validateControl(ValidationSession session) throws Exception {
 		}
 
 		@Override

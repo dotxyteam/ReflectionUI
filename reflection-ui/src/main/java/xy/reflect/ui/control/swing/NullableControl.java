@@ -365,7 +365,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	@Override
-	public void validateSubForms(ValidationSession session) throws Exception {
+	public void validateControl(ValidationSession session) throws Exception {
 		if (currentSubControl instanceof Form) {
 			((Form) currentSubControl).validateForm(session);
 		}

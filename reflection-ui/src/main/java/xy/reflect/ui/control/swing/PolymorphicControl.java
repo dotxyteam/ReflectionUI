@@ -311,7 +311,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public void validateSubForms(ValidationSession session) throws Exception {
+	public void validateControl(ValidationSession session) throws Exception {
 		if (dynamicControl != null) {
 			dynamicControl.validateForm(session);
 		}

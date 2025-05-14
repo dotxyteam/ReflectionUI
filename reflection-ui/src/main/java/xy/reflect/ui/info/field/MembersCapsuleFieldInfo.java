@@ -238,7 +238,7 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override

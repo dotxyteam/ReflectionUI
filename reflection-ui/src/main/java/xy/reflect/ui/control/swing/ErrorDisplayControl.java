@@ -53,7 +53,7 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public void validateSubForms(ValidationSession session) throws Exception {
+	public void validateControl(ValidationSession session) throws Exception {
 		throw new ReflectionUIError(error);
 	}
 

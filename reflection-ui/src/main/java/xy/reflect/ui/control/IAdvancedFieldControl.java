@@ -35,14 +35,15 @@ public interface IAdvancedFieldControl {
 	boolean refreshUI(boolean refreshStructure);
 
 	/**
-	 * Validates forms that are embedded in or accessible from the current control.
-	 * Note that this method is not intended to be called from the UI thread.
+	 * Validates the control data. Typically, forms that are embedded in or
+	 * accessible from the current control would be validated. Note that this method
+	 * is not intended to be called from the UI thread.
 	 * 
 	 * @param session The current validation session object.
 	 * 
 	 * @throws Exception If an invalid sub-form is detected.
 	 */
-	void validateSubForms(ValidationSession session) throws Exception;
+	void validateControl(ValidationSession session) throws Exception;
 
 	/**
 	 * Allows the current control to contribute to its generated window menu.

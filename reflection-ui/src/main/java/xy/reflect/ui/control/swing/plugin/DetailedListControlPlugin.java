@@ -278,7 +278,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		public void validateSubForms(ValidationSession session) throws Exception {
+		public void validateControl(ValidationSession session) throws Exception {
 		}
 
 		@Override

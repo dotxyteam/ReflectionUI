@@ -121,7 +121,7 @@ public class Form extends ImagePanel {
 	protected JMenuBar menuBar;
 	protected boolean absolutelyVisible = false;
 
-	protected FixedFutureTask<Boolean> validationTask;
+	protected FixedFutureTask<Boolean> currentValidationTask;
 
 	/**
 	 * Creates a form allowing to view/edit the given object.
@@ -184,11 +184,12 @@ public class Form extends ImagePanel {
 	/**
 	 * Changes the object that is viewed/edited through this form. Note that this
 	 * method does not refresh the form. {@link #refresh(boolean)} should be called
-	 * after to actually display the new object values.
+	 * after this method to actually display the new object values.
 	 * 
 	 * @param object The new object.
 	 */
 	public void setObject(Object object) {
+		ensureNoCurrentValidationTask();
 		this.object = object;
 	}
 
@@ -353,13 +354,13 @@ public class Form extends ImagePanel {
 				if (Thread.currentThread().isInterrupted()) {
 					return;
 				}
-				if(!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
+				if (!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
 					continue;
-				}				
+				}
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					try {
-						((IAdvancedFieldControl) fieldControl).validateSubForms(session);
+						((IAdvancedFieldControl) fieldControl).validateControl(session);
 					} catch (Exception e) {
 						String errorMsg = e.toString();
 						IFieldInfo field = fieldControlPlaceHolder.getField();
@@ -386,7 +387,7 @@ public class Form extends ImagePanel {
 				Component methodControl = methodControlPlaceHolder.getMethodControl();
 				if (methodControl instanceof IAdvancedMethodControl) {
 					try {
-						((IAdvancedMethodControl) methodControl).validateSubForms(session);
+						((IAdvancedMethodControl) methodControl).validateControl(session);
 					} catch (Exception e) {
 						String errorMsg = e.toString();
 						IMethodInfo method = methodControlPlaceHolder.getMethod();
@@ -405,20 +406,13 @@ public class Form extends ImagePanel {
 
 	/**
 	 * Runs {@link #validateForm()} asynchronously and updates the status bar
-	 * accordingly (displays a validation error if the form is not valid). If the
-	 * status bar does not have a parent component (probably because the current
-	 * form is not a root form) or if this parent component is not visible on the
-	 * screen, then nothing is done.
+	 * accordingly (displays a validation error if the form is not valid).
 	 */
 	public void validateFormInBackgroundAndReportOnStatusBar() {
-		if ((statusBar.getParent() == null) || !statusBar.getParent().isShowing()) {
-			return;
-		}
-		validationTask = new FixedFutureTask<Boolean>(new Runnable() {
+		ensureNoCurrentValidationTask();
+		currentValidationTask = new FixedFutureTask<Boolean>(new Runnable() {
 			@Override
 			public void run() {
-				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-				final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 				try {
 					validateForm(new ValidationSession());
 					SwingUtilities.invokeLater(new Runnable() {
@@ -434,6 +428,8 @@ public class Form extends ImagePanel {
 						@Override
 						public void run() {
 							showErrorOnStatusBar(e);
+							ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+							ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 							setStandardOKButtonEnabled(!type.isValidationRequired());
 						}
 					});
@@ -446,11 +442,12 @@ public class Form extends ImagePanel {
 							swingRenderer.handleException(Form.this, t);
 						}
 					});
+				} finally {
+					currentValidationTask = null;
 				}
-
 			}
 		}, true);
-		swingRenderer.getFormValidator().submit(validationTask);
+		swingRenderer.getFormValidator().submit(currentValidationTask);
 	}
 
 	protected void setStandardOKButtonEnabled(boolean b) {
@@ -1275,13 +1272,7 @@ public class Form extends ImagePanel {
 	 * 
 	 */
 	public void refresh(boolean refreshStructure) {
-		if (validationTask != null) {
-			try {
-				validationTask.cancelAndWait(true);
-			} catch (InterruptedException e) {
-				throw new ReflectionUIError(e);
-			}
-		}
+		ensureNoCurrentValidationTask();
 		if (refreshStructure && detectStructureChange()) {
 			InfoCategory initiallySelectedCategory = null;
 			{
@@ -1377,6 +1368,19 @@ public class Form extends ImagePanel {
 			l.onRefresh(refreshStructure);
 		}
 		objectType.onFormRefresh(object);
+	}
+
+	/**
+	 * If a validation job is running, it will be interrupted by this method.
+	 */
+	public void ensureNoCurrentValidationTask() {
+		if (currentValidationTask != null) {
+			try {
+				currentValidationTask.cancelAndWait(true);
+			} catch (InterruptedException e) {
+				throw new ReflectionUIError(e);
+			}
+		}
 	}
 
 	protected void createMembersControlPlaceHolders() {
@@ -1531,7 +1535,9 @@ public class Form extends ImagePanel {
 
 	protected void finalizeFormUpdate() {
 		updateMenuBar();
-		validateFormInBackgroundAndReportOnStatusBar();
+		if ((statusBar.getParent() != null) && statusBar.getParent().isShowing()) {
+			validateFormInBackgroundAndReportOnStatusBar();
+		}
 	}
 
 	/**

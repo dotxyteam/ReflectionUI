@@ -299,7 +299,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public void validateSubForms(ValidationSession session) throws Exception {
+	public void validateControl(ValidationSession session) throws Exception {
 		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(this);
 		Form[] form = new Form[1];
 		try {

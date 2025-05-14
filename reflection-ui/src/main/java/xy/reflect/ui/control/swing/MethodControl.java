@@ -118,7 +118,7 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 	}
 
 	@Override
-	public void validateSubForms(ValidationSession session) throws Exception {
+	public void validateControl(ValidationSession session) throws Exception {
 		Form[] form = new Form[1];
 		new MethodAction(swingRenderer, input) {
 			private static final long serialVersionUID = 1L;
