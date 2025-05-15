@@ -324,24 +324,27 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				if (c.getEnablementStatusFieldNameInfoFilter() != null) {
 					try {
 						Object item = itemPosition.getItem();
-						ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
-						for (IFieldInfo field : actualItemType.getFields()) {
-							if (c.getEnablementStatusFieldNameInfoFilter().matches(field.getName())) {
-								Object fieldValue = field.getValue(item);
-								if (fieldValue instanceof Boolean) {
-									return (Boolean) fieldValue;
-								} else {
-									throw new ReflectionUIError(
-											"Unexpected non-boolean value returned from the field: '" + fieldValue
-													+ "'");
+						if (item != null) {
+							ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+							for (IFieldInfo field : actualItemType.getFields()) {
+								if (c.getEnablementStatusFieldNameInfoFilter().matches(field.getName())) {
+									Object fieldValue = field.getValue(item);
+									if (fieldValue instanceof Boolean) {
+										return (Boolean) fieldValue;
+									} else {
+										throw new ReflectionUIError(
+												"Unexpected non-boolean value returned from the field: '" + fieldValue
+														+ "'");
+									}
 								}
 							}
+							throw new ReflectionUIError("Field not found");
 						}
-						throw new ReflectionUIError("Field not found");
 					} catch (Throwable t) {
 						throw new ReflectionUIError(
 								"Unable to obtain the activation status of item node validity detection from the field designated by '"
-										+ c.getEnablementStatusFieldNameInfoFilter() + "': " + t.toString());
+										+ c.getEnablementStatusFieldNameInfoFilter() + "': " + t.toString(),
+								t);
 					}
 				}
 				return true;
@@ -2293,8 +2296,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 						.get(capsuleFieldName);
 				List<IFieldInfo> encapsulatedFields = encapsulatedMembers.getFirst();
 				List<IMethodInfo> encapsulatedMethods = encapsulatedMembers.getSecond();
-				MembersCapsuleFieldInfo capsuleField = new MembersCapsuleFieldInfo(customizedUI, capsuleFieldName, encapsulatedFields,
-						encapsulatedMethods, objectType);
+				MembersCapsuleFieldInfo capsuleField = new MembersCapsuleFieldInfo(customizedUI, capsuleFieldName,
+						encapsulatedFields, encapsulatedMethods, objectType);
 				result.add(capsuleField);
 			}
 			return result;
