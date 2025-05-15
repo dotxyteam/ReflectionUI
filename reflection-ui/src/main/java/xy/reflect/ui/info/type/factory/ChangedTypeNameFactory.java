@@ -1,6 +1,10 @@
 package xy.reflect.ui.info.type.factory;
 
+import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 
 /**
  * Type information factory that renames a type.
@@ -10,10 +14,12 @@ import xy.reflect.ui.info.type.ITypeInfo;
  */
 public class ChangedTypeNameFactory extends InfoProxyFactory {
 
+	protected ReflectionUI reflectionUI;
 	protected String sourceTypeName;
 	protected String targetTypeName;
 
-	public ChangedTypeNameFactory(String sourceTypeName, String targetTypeName) {
+	public ChangedTypeNameFactory(ReflectionUI reflectionUI, String sourceTypeName, String targetTypeName) {
+		this.reflectionUI = reflectionUI;
 		this.sourceTypeName = sourceTypeName;
 		this.targetTypeName = targetTypeName;
 	}
@@ -37,6 +43,23 @@ public class ChangedTypeNameFactory extends InfoProxyFactory {
 	@Override
 	public String getIdentifier() {
 		return "ChangedTypeNameFactory [sourceTypeName=" + sourceTypeName + ", targetTypeName=" + targetTypeName + "]";
+	}
+
+	@Override
+	protected ITypeInfo getType(IFieldInfo field, ITypeInfo objectType) {
+		return new TypeInfoSourceProxy(super.getType(field, objectType).getSource()) {
+
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return new SpecificitiesIdentifier(targetTypeName, field.getName());
+			}
+
+			@Override
+			protected String getTypeInfoProxyFactoryIdentifier() {
+				return "FieldValueTypeInfoProxyFactory [of=" + ChangedTypeNameFactory.this.getIdentifier() + "]";
+			}
+
+		}.buildTypeInfo(reflectionUI);
 	}
 
 	@Override

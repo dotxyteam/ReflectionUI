@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.SwingUtilities;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IAdvancedFieldControl;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
@@ -12,12 +13,18 @@ import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.ChangedTypeNameFactory;
+import xy.reflect.ui.info.type.factory.InfoProxyFactory;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
- * Field control intended to be displayed when a standard field control creation
- * fails.
+ * Field control that displays an error. Note that it is intended to be
+ * displayed typically when a standard field control creation fails.
  * 
  * @author olitank
  *
@@ -37,9 +44,32 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 		this.data = input.getControlData();
 		this.error = error;
 		setLayout(new BorderLayout());
-		add(swingRenderer.createForm(data.isGetOnly() ? new GetOnlyErrorDisplay() : new ErrorDisplay()),
-				BorderLayout.CENTER);
+		add(swingRenderer.createForm(buildDisplayObject()), BorderLayout.CENTER);
 		setBorder(SwingRendererUtils.getErrorBorder());
+	}
+
+	protected Object buildDisplayObject() {
+		ErrorDisplay errorDisplay = data.isGetOnly() ? new ErrorDisplay() : new RecoverableErrorDisplay();
+		Class<? extends ErrorDisplay> errorDisplayClass = errorDisplay.getClass();
+		JavaTypeInfoSource typeSource = new JavaTypeInfoSource(errorDisplayClass, null);
+		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+		ITypeInfo type = typeSource.buildTypeInfo(reflectionUI);
+		InfoProxyFactory proxyFactory = new ChangedTypeNameFactory(swingRenderer.getReflectionUI(),
+				errorDisplayClass.getName(), "ErrorDisplayType [context=" + input.getContext().getIdentifier() + "]") {
+
+			@Override
+			public String getIdentifier() {
+				return "ErrorDisplayWrappingFactory [context=" + input.getContext().getIdentifier() + "]";
+			}
+
+			@Override
+			protected boolean isReadOnly(IMethodInfo method, ITypeInfo objectType) {
+				return true;
+			}
+
+		};
+		type = proxyFactory.wrapTypeInfo(type);
+		return new PrecomputedTypeInstanceWrapper(errorDisplay, type);
 	}
 
 	@Override
@@ -76,7 +106,7 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 		return false;
 	}
 
-	public class GetOnlyErrorDisplay {
+	public class ErrorDisplay {
 
 		public String get() {
 			return swingRenderer.prepareMessageToDisplay("An error occured: " + MiscUtils.getPrettyErrorMessage(error));
@@ -93,7 +123,7 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 
 	}
 
-	public class ErrorDisplay extends GetOnlyErrorDisplay {
+	public class RecoverableErrorDisplay extends ErrorDisplay {
 
 		public void reset() {
 			SwingUtilities.invokeLater(new Runnable() {
