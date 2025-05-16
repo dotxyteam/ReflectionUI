@@ -3809,7 +3809,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition;
 
 		public ListValidationError(String message, Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
-			super(message);
+			super(message, validitionErrorByItemPosition.values().iterator().next());
 			this.validitionErrorByItemPosition = validitionErrorByItemPosition;
 		}
 
