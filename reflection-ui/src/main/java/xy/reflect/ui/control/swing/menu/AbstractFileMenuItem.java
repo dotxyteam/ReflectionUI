@@ -42,8 +42,9 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 
 	protected abstract void persist(SwingRenderer swingRenderer, Form form, File file);
 
-	public AbstractFileMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public AbstractFileMenuItem(SwingRenderer swingRenderer, Form menuBarOwner,
+			StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 		fileBrowserConfiguration = menuItemInfo.getFileBrowserConfiguration();
 		check();
 	}
@@ -51,6 +52,12 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	protected void check() {
 		if (fileBrowserConfiguration == null) {
 			throw new ReflectionUIError();
+		}
+		Object object = getContextForm().getObject();
+		ITypeInfo type = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		if (!type.canPersist()) {
+			throw new ReflectionUIError("Type '" + type.getName() + "' cannot persist its instances state");
 		}
 	}
 
@@ -72,12 +79,6 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 
 	@Override
 	protected boolean isActive() {
-		Object object = form.getObject();
-		ITypeInfo type = swingRenderer.getReflectionUI()
-				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-		if (!type.canPersist()) {
-			throw new ReflectionUIError("Type '" + type.getName() + "' cannot persist its instances state");
-		}
 		return true;
 	}
 
@@ -121,7 +122,7 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 
 		};
 		FileBrowser fileBrowser = fileBrowserPlugin.createControl(swingRenderer, fileBrowserInput);
-		fileBrowser.openDialog(form);
+		fileBrowser.openDialog(menuBarOwner);
 		File result = fileHolder[0];
 		return result;
 	}
@@ -136,27 +137,28 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	}
 
 	protected void processFile(File file) {
+		Form form = getContextForm();
 		try {
-			persist(swingRenderer, (Form) form, file);
-			ModificationStack modifStack = ((Form) form).getModificationStack();
-			lastPersistedVersionByForm.put((Form) form, modifStack.getStateVersion());
-			lastFileByForm.put((Form) form, file);
+			persist(swingRenderer, form, file);
+			ModificationStack modifStack = form.getModificationStack();
+			lastPersistedVersionByForm.put(form, modifStack.getStateVersion());
+			lastFileByForm.put(form, file);
 		} catch (Throwable t) {
-			lastPersistedVersionByForm.put((Form) form, -1l);
+			lastPersistedVersionByForm.put(form, -1l);
 			throw new ReflectionUIError(t);
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					SwingRendererUtils.updateWindowMenu(form, swingRenderer);
+					SwingRendererUtils.updateWindowMenu(menuBarOwner, swingRenderer);
 				}
 			});
 		}
 	}
 
 	public boolean isFileSynchronized() {
-		ModificationStack modifStack = form.getModificationStack();
-		Long lastSavedVersion = lastPersistedVersionByForm.get(form);
+		ModificationStack modifStack = getContextForm().getModificationStack();
+		Long lastSavedVersion = lastPersistedVersionByForm.get(getContextForm());
 		if (lastSavedVersion == null) {
 			if (modifStack.getStateVersion() == 0) {
 				return true;

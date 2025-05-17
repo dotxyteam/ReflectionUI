@@ -176,6 +176,23 @@ public interface IFieldControlData {
 	ColorSpecification getBorderColor();
 
 	/**
+	 * @return the background color that the control must use on its non-editable
+	 *         parts or null if the default background color should be used. Note
+	 *         that this color is intended to be used in combination with the
+	 *         foreground color returned by
+	 *         {@link #getNonEditableForegroundColor()}.
+	 */
+	ColorSpecification getNonEditableBackgroundColor();
+
+	/**
+	 * @return the text color that the control must use on its non-editable parts or
+	 *         null if the default text color should be used. Note that this color
+	 *         must be used in combination with the background color returned by
+	 *         {@link #getNonEditableBackgroundColor()}.
+	 */
+	ColorSpecification getNonEditableForegroundColor();
+
+	/**
 	 * @return the background color that the control must use on its editable parts
 	 *         or null if the default background color should be used. Note that
 	 *         this color is intended to be used in combination with the foreground

@@ -22,8 +22,8 @@ public class RenewMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public RenewMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public RenewMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
 	@Override
@@ -38,8 +38,8 @@ public class RenewMenuItem extends AbstractFileMenuItem {
 	@Override
 	public void execute() {
 		if (!isFileSynchronized()) {
-			if (!swingRenderer.openQuestionDialog(form, "Changes were not saved and will be lost.\nContinue?",
-					ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(form.getObject()),
+			if (!swingRenderer.openQuestionDialog(menuBarOwner, "Changes were not saved and will be lost.\nContinue?",
+					ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(getContextForm().getObject()),
 							getMenuItemInfo().getCaption()),
 					"OK", "Cancel")) {
 				return;

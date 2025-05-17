@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.menu;
 
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -20,14 +18,14 @@ public class UndoMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	public UndoMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public UndoMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
 	@Override
 	protected void initialize() {
 		super.initialize();
-		IModification nextUndoModification = form.getModificationStack().getNextUndoModification();
+		IModification nextUndoModification = getContextForm().getModificationStack().getNextUndoModification();
 		if (nextUndoModification != null) {
 			setToolTipText(nextUndoModification.getTitle());
 		} else {
@@ -37,12 +35,12 @@ public class UndoMenuItem extends AbstractStandardActionMenuItem {
 
 	@Override
 	protected boolean isActive() {
-		return form.getModificationStack().canUndo();
+		return getContextForm().getModificationStack().canUndo();
 	}
 
 	@Override
 	protected void execute() {
-		form.getModificationStack().undo();
+		getContextForm().getModificationStack().undo();
 	}
 
 }

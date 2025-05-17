@@ -599,7 +599,11 @@ public class Form extends ImagePanel {
 
 	protected JScrollPane createMainScrollPane(Component content) {
 		ControlScrollPane result = new ControlScrollPane(content);
-		SwingRendererUtils.removeScrollPaneBorder(result);
+		Color borderColor = getControlsBorderColor();
+		if (borderColor != null) {
+			SwingRendererUtils.removeScrollPaneBorder(result);
+			result.setBorder(BorderFactory.createLineBorder(borderColor));
+		}
 		return result;
 	}
 
@@ -715,7 +719,6 @@ public class Form extends ImagePanel {
 			}
 
 		};
-		result.setOpaque(false);
 		result.setFont(new JToolTip().getFont());
 		result.setName("statusBar");
 		return result;
@@ -723,7 +726,6 @@ public class Form extends ImagePanel {
 
 	protected JMenuBar createMenuBar() {
 		JMenuBar result = new JMenuBar();
-		result.setOpaque(false);
 		result.setName("menuBar");
 		return result;
 	}
@@ -945,7 +947,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected Font getLabelCustomFont() {
+	public Font getLabelCustomFont() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		if (reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath() != null) {
 			return SwingRendererUtils.loadFontThroughCache(
@@ -956,7 +958,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected Color getControlsForegroundColor() {
+	public Color getControlsForegroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormForegroundColor() == null) {
@@ -966,7 +968,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected Color getControlsBackgroundColor() {
+	public Color getControlsBackgroundColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBackgroundColor() == null) {
@@ -981,7 +983,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected Color getControlsBorderColor() {
+	public Color getControlsBorderColor() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBorderColor() == null) {
@@ -991,7 +993,7 @@ public class Form extends ImagePanel {
 		}
 	}
 
-	protected Image getControlsBackgroundImage() {
+	public Image getControlsBackgroundImage() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if (type.getFormBackgroundImagePath() == null) {
@@ -1325,15 +1327,17 @@ public class Form extends ImagePanel {
 			refreshCategoriesControlStructure();
 			setPreservingRatio(true);
 			setFillingAreaWhenPreservingRatio(true);
-			Color awtBackgroundColor = getControlsBackgroundColor();
-			Color awtForegroundColor = getControlsForegroundColor();
-			Image awtImage = getControlsBackgroundImage();
-			setBackground(awtBackgroundColor);
-			setImage(awtImage);
-			setOpaque((awtBackgroundColor != null) && (awtImage == null));
-			Color borderColor = getMainBorderColor();
+			Color backgroundColor = getControlsBackgroundColor();
+			Color foregroundColor = getControlsForegroundColor();
+			Image image = getControlsBackgroundImage();
+			setBackground(backgroundColor);
+			setImage(image);
+			setOpaque((backgroundColor != null) && (image == null));
+			Color borderColor = getControlsBorderColor();
 			{
-				menuBar.setForeground(awtForegroundColor);
+				menuBar.setBackground(backgroundColor);
+				menuBar.setOpaque(backgroundColor != null);
+				menuBar.setForeground(foregroundColor);
 				if (borderColor != null) {
 					Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, borderColor);
 					Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
@@ -1344,7 +1348,9 @@ public class Form extends ImagePanel {
 				}
 			}
 			{
-				statusBar.setForeground(awtForegroundColor);
+				statusBar.setBackground(backgroundColor);
+				statusBar.setOpaque(backgroundColor != null);
+				statusBar.setForeground(foregroundColor);
 				if (borderColor != null) {
 					Border outsideBorder = BorderFactory.createLineBorder(borderColor);
 					Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
@@ -1554,12 +1560,12 @@ public class Form extends ImagePanel {
 		for (MenuInfo menuInfo : globalMenuModel.getMenus()) {
 			menuBar.add(creatMenu(menuInfo));
 		}
-		SwingRendererUtils.handleComponentSizeChange(menuBar);
 		menuBar.setVisible(menuBar.getComponentCount() > 0);
+		SwingRendererUtils.handleComponentSizeChange(menuBar);
 	}
 
 	protected JMenu creatMenu(MenuInfo menuInfo) {
-		return new Menu(swingRenderer, menuInfo);
+		return new Menu(swingRenderer, this, menuInfo);
 	}
 
 	/**

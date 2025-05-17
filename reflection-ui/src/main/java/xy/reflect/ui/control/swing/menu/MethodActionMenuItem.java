@@ -3,16 +3,12 @@
  */
 package xy.reflect.ui.control.swing.menu;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
@@ -25,7 +21,6 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Menu item that allows to invoke a method.
@@ -33,23 +28,23 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * @author olitank
  *
  */
-public class MethodActionMenuItem extends JMenuItem {
+public class MethodActionMenuItem extends AbstractMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	protected SwingRenderer swingRenderer;
-	protected Form form;
 	protected MethodActionMenuItemInfo menuItemInfo;
 
-	public MethodActionMenuItem(SwingRenderer swingRenderer, Form form, MethodActionMenuItemInfo menuItemInfo) {
-		this.swingRenderer = swingRenderer;
-		this.form = form;
+	public MethodActionMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, MethodActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner);
 		this.menuItemInfo = menuItemInfo;
 		initialize();
 	}
 
+	public Form getContextForm() {
+		return (Form) menuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
+	}
+
 	protected void initialize() {
-		customizeUI();
 		setAction(createAction());
 		try {
 			setText(menuItemInfo.getCaption());
@@ -57,11 +52,11 @@ public class MethodActionMenuItem extends JMenuItem {
 			ImageIcon icon;
 			if (image != null) {
 				icon = SwingRendererUtils.getSmallIcon(SwingRendererUtils.getIcon(image));
-			}else {
+			} else {
 				icon = null;
 			}
 			setIcon(icon);
-			setEnabled(menuItemInfo.getMethod().isEnabled(form.getObject()));
+			setEnabled(menuItemInfo.getMethod().isEnabled(getContextForm().getObject()));
 		} catch (Throwable t) {
 			swingRenderer.getReflectionUI().logError(t);
 			if (getText() == null) {
@@ -71,38 +66,6 @@ public class MethodActionMenuItem extends JMenuItem {
 			}
 			setEnabled(false);
 		}
-	}
-
-	protected void customizeUI() {
-		Color awtBackgroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getMainBackgroundColor() != null)
-						? SwingRendererUtils
-								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor())
-						: null;
-		Color awtForegroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getMainForegroundColor() != null)
-						? SwingRendererUtils
-								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor())
-						: null;
-		Font labelCustomFont = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getLabelCustomFontResourcePath() != null)
-						? SwingRendererUtils
-								.loadFontThroughCache(
-										swingRenderer.getReflectionUI().getApplicationInfo()
-												.getLabelCustomFontResourcePath(),
-										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
-								.deriveFont(getFont().getStyle(), getFont().getSize())
-						: null;
-		if (awtBackgroundColor != null) {
-			setBackground(awtBackgroundColor);
-		}
-		if (awtForegroundColor != null) {
-			setForeground(awtForegroundColor);
-		}
-		if (labelCustomFont != null) {
-			setFont(labelCustomFont);
-		}
-
 	}
 
 	protected Action createAction() {
@@ -116,25 +79,25 @@ public class MethodActionMenuItem extends JMenuItem {
 
 						@Override
 						public ModificationStack getModificationStack() {
-							return form.getModificationStack();
+							return getContextForm().getModificationStack();
 						}
 
 						@Override
 						public IContext getContext() {
-							ITypeInfo objectType = swingRenderer.getReflectionUI()
-									.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(form.getObject()));
+							ITypeInfo objectType = swingRenderer.getReflectionUI().getTypeInfo(
+									swingRenderer.getReflectionUI().getTypeInfoSource(getContextForm().getObject()));
 							return new MethodContext(objectType, menuItemInfo.getMethod());
 						}
 
 						@Override
 						public IMethodControlData getControlData() {
-							return new DefaultMethodControlData(swingRenderer.getReflectionUI(), form.getObject(),
-									menuItemInfo.getMethod());
+							return new DefaultMethodControlData(swingRenderer.getReflectionUI(),
+									getContextForm().getObject(), menuItemInfo.getMethod());
 						}
 					});
-					methodAction.onInvocationRequest((Form) form);
+					methodAction.onInvocationRequest(menuBarOwner);
 				} catch (Throwable t) {
-					swingRenderer.handleException(form, t);
+					swingRenderer.handleException(menuBarOwner, t);
 				}
 			}
 

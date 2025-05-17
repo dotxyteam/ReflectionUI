@@ -1233,10 +1233,10 @@ public class CustomizationTools {
 
 	protected JMenuItem createMenuItem(Action action) {
 		JMenuItem result = new JMenuItem(action);
-		Color awtBackgroundColor = (toolsUI.getApplicationInfo().getMainBackgroundColor() != null)
+		Color backgroundColor = (toolsUI.getApplicationInfo().getMainBackgroundColor() != null)
 				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainBackgroundColor())
 				: null;
-		Color awtForegroundColor = (toolsUI.getApplicationInfo().getMainForegroundColor() != null)
+		Color foregroundColor = (toolsUI.getApplicationInfo().getMainForegroundColor() != null)
 				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainForegroundColor())
 				: null;
 		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
@@ -1245,11 +1245,11 @@ public class CustomizationTools {
 								ReflectionUIUtils.getErrorLogListener(toolsUI))
 						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
 				: null;
-		if (awtBackgroundColor != null) {
-			result.setBackground(awtBackgroundColor);
+		if (backgroundColor != null) {
+			result.setBackground(backgroundColor);
 		}
-		if (awtForegroundColor != null) {
-			result.setForeground(awtForegroundColor);
+		if (foregroundColor != null) {
+			result.setForeground(foregroundColor);
 		}
 		if (labelCustomFont != null) {
 			result.setFont(labelCustomFont);
@@ -1260,10 +1260,10 @@ public class CustomizationTools {
 	protected JCheckBoxMenuItem createCheckBoxMenuItem(Action action, boolean selected) {
 		JCheckBoxMenuItem result = new JCheckBoxMenuItem(action);
 		result.setSelected(selected);
-		Color awtBackgroundColor = (toolsUI.getApplicationInfo().getMainBackgroundColor() != null)
+		Color backgroundColor = (toolsUI.getApplicationInfo().getMainBackgroundColor() != null)
 				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainBackgroundColor())
 				: null;
-		Color awtForegroundColor = (toolsUI.getApplicationInfo().getMainForegroundColor() != null)
+		Color foregroundColor = (toolsUI.getApplicationInfo().getMainForegroundColor() != null)
 				? SwingRendererUtils.getColor(toolsUI.getApplicationInfo().getMainForegroundColor())
 				: null;
 		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
@@ -1272,11 +1272,11 @@ public class CustomizationTools {
 								ReflectionUIUtils.getErrorLogListener(toolsUI))
 						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
 				: null;
-		if (awtBackgroundColor != null) {
-			result.setBackground(awtBackgroundColor);
+		if (backgroundColor != null) {
+			result.setBackground(backgroundColor);
 		}
-		if (awtForegroundColor != null) {
-			result.setForeground(awtForegroundColor);
+		if (foregroundColor != null) {
+			result.setForeground(foregroundColor);
 		}
 		if (labelCustomFont != null) {
 			result.setFont(labelCustomFont);

@@ -14,12 +14,12 @@ import xy.reflect.ui.info.ResourcePath;
 public interface IApplicationInfo extends IInfo {
 
 	/**
-	 * @return the custom background color of generated windows or null.
+	 * @return the main custom background color of generated windows or null.
 	 */
 	ColorSpecification getMainBackgroundColor();
 
 	/**
-	 * @return the custom text color of generated labels or null.
+	 * @return the main custom text color of generated labels or null.
 	 */
 	ColorSpecification getMainForegroundColor();
 

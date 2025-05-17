@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.menu;
 
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -20,14 +18,14 @@ public class RedoMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	public RedoMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public RedoMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
 	@Override
 	protected void initialize() {
 		super.initialize();
-		IModification nextRedoModification = form.getModificationStack().getNextRedoModification();
+		IModification nextRedoModification = getContextForm().getModificationStack().getNextRedoModification();
 		if (nextRedoModification != null) {
 			setToolTipText(swingRenderer.prepareMessageToDisplay(nextRedoModification.getTitle()));
 		} else {
@@ -37,12 +35,12 @@ public class RedoMenuItem extends AbstractStandardActionMenuItem {
 
 	@Override
 	protected boolean isActive() {
-		return form.getModificationStack().canRedo();
+		return getContextForm().getModificationStack().canRedo();
 	}
 
 	@Override
 	protected void execute() {
-		form.getModificationStack().redo();
+		getContextForm().getModificationStack().redo();
 	}
 
 }

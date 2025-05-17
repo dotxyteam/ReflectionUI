@@ -21,13 +21,13 @@ public class CloseWindowMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	public CloseWindowMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public CloseWindowMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
 	@Override
 	protected void execute() {		
-		Window window = SwingUtilities.getWindowAncestor(form);
+		Window window = SwingUtilities.getWindowAncestor(getContextForm());
 		WindowEvent closeEvent = new WindowEvent(window, WindowEvent.WINDOW_CLOSING);
 		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeEvent);
 	}

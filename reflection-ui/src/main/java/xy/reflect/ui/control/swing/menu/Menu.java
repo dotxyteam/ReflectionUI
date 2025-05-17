@@ -11,7 +11,6 @@ import javax.swing.JMenuItem;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
 import xy.reflect.ui.info.menu.CustomActionMenuItemInfo;
 import xy.reflect.ui.info.menu.MenuInfo;
@@ -20,7 +19,6 @@ import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Menu item container class.
@@ -32,12 +30,14 @@ public class Menu extends JMenu {
 
 	private static final long serialVersionUID = 1L;
 
-	private SwingRenderer swingRenderer;
-	private MenuInfo menuInfo;
+	protected SwingRenderer swingRenderer;
+	protected Form menuBarOwner;
+	protected MenuInfo menuInfo;
 
-	public Menu(SwingRenderer swingRenderer, MenuInfo menuInfo) {
+	public Menu(SwingRenderer swingRenderer, Form menuBarOwner, MenuInfo menuInfo) {
 		super(menuInfo.getCaption());
 		this.swingRenderer = swingRenderer;
+		this.menuBarOwner = menuBarOwner;
 		this.menuInfo = menuInfo;
 		initialize();
 	}
@@ -64,31 +64,20 @@ public class Menu extends JMenu {
 	}
 
 	protected void customizeUI() {
-		Color awtForegroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getMainForegroundColor() != null)
-						? SwingRendererUtils
-								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor())
-						: null;
-		Font labelCustomFont = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getLabelCustomFontResourcePath() != null)
-						? SwingRendererUtils
-								.loadFontThroughCache(
-										swingRenderer.getReflectionUI().getApplicationInfo()
-												.getLabelCustomFontResourcePath(),
-										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
-								.deriveFont(getFont().getStyle(), getFont().getSize())
-						: null;
+		Color foregroundColor = menuBarOwner.getControlsForegroundColor();
+		Font labelCustomFont = menuBarOwner.getLabelCustomFont();
 		/*
 		 * Windows menus must be transparent (no background color) so that an eventual
 		 * background image would be visible through them. Note that the menu bar is
 		 * also transparent.
 		 */
 		setOpaque(false);
-		if (awtForegroundColor != null) {
-			setForeground(awtForegroundColor);
+		if (foregroundColor != null) {
+			setForeground(foregroundColor);
 		}
 		if (labelCustomFont != null) {
-			setFont(labelCustomFont);
+			setFont(labelCustomFont.deriveFont(getFont().getStyle(),
+					getFont().getSize()));
 		}
 	}
 
@@ -100,42 +89,39 @@ public class Menu extends JMenu {
 		} else if (itemInfo instanceof CustomActionMenuItemInfo) {
 			return createActionMenuItem((CustomActionMenuItemInfo) itemInfo);
 		} else if (itemInfo instanceof MenuInfo) {
-			return new Menu(swingRenderer, (MenuInfo) itemInfo);
+			return new Menu(swingRenderer, menuBarOwner, (MenuInfo) itemInfo);
 		} else {
 			throw new ReflectionUIError("Unhandled menu item type: '" + itemInfo + "'");
 		}
 	}
 
 	protected JMenuItem createActionMenuItem(final CustomActionMenuItemInfo actionMenuItemInfo) {
-		Form contextForm = (Form) actionMenuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
-		return new CustomActionMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
+		return new CustomActionMenuItem(swingRenderer, menuBarOwner, actionMenuItemInfo);
 	}
 
 	protected JMenuItem createActionMenuItem(final MethodActionMenuItemInfo actionMenuItemInfo) {
-		Form contextForm = (Form) actionMenuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
-		return new MethodActionMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
+		return new MethodActionMenuItem(swingRenderer, menuBarOwner, actionMenuItemInfo);
 	}
 
-	protected JMenuItem createActionMenuItem(final StandradActionMenuItemInfo actionMenuItemInfo) {
-		Form contextForm = (Form) actionMenuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
-		if (actionMenuItemInfo.getType() == Type.NEW) {
-			return new RenewMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.OPEN) {
-			return new OpenMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.SAVE) {
-			return new SaveMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.SAVE_AS) {
-			return new SaveAsMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.UNDO) {
-			return new UndoMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.REDO) {
-			return new RedoMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.RESET) {
-			return new ResetMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.HELP) {
-			return new HelpMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
-		} else if (actionMenuItemInfo.getType() == Type.EXIT) {
-			return new CloseWindowMenuItem(swingRenderer, contextForm, actionMenuItemInfo);
+	protected JMenuItem createActionMenuItem(final StandradActionMenuItemInfo menuItemInfo) {
+		if (menuItemInfo.getType() == Type.NEW) {
+			return new RenewMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.OPEN) {
+			return new OpenMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.SAVE) {
+			return new SaveMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.SAVE_AS) {
+			return new SaveAsMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.UNDO) {
+			return new UndoMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.REDO) {
+			return new RedoMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.RESET) {
+			return new ResetMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.HELP) {
+			return new HelpMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
+		} else if (menuItemInfo.getType() == Type.EXIT) {
+			return new CloseWindowMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
 		} else {
 			throw new ReflectionUIError();
 		}

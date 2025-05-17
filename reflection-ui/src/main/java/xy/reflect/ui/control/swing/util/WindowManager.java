@@ -116,7 +116,7 @@ public class WindowManager extends WindowAdapter {
 
 	protected JScrollPane createScrollPane(Component content) {
 		ControlScrollPane result = new ControlScrollPane(content);
-		result.setBorder(BorderFactory.createEmptyBorder());
+		SwingRendererUtils.removeScrollPaneBorder(result);
 		return result;
 	}
 
@@ -373,7 +373,7 @@ public class WindowManager extends WindowAdapter {
 						if (!saveMenuItem.isFileSynchronized()) {
 							if (!swingRenderer.openQuestionDialog(form,
 									"Changes were not saved and will be lost.\nContinue?",
-									swingRenderer.getObjectTitle(saveMenuItem.getForm().getObject()), "OK", "Cancel")) {
+									swingRenderer.getObjectTitle(saveMenuItem.getContextForm().getObject()), "OK", "Cancel")) {
 								cancelled[0] = true;
 							}
 						}
@@ -386,18 +386,6 @@ public class WindowManager extends WindowAdapter {
 			return;
 		}
 		window.dispose();
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		super.windowClosed(e);
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		super.windowDeactivated(e);
 	}
 
 	protected void workAroundOpeningWindowFocusRequestBug(Callable<Boolean> callable) {

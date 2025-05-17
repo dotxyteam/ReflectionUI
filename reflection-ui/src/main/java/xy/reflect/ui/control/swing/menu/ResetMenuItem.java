@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.menu;
 
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -19,18 +17,18 @@ public class ResetMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	public ResetMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public ResetMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
 	@Override
 	protected boolean isActive() {
-		return form.getModificationStack().canReset();
+		return getContextForm().getModificationStack().canReset();
 	}
 
 	@Override
 	protected void execute() {
-		form.getModificationStack().undoAll();
+		getContextForm().getModificationStack().undoAll();
 	}
 
 }

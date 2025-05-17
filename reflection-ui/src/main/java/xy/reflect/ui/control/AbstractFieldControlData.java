@@ -168,6 +168,33 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
+	public ColorSpecification getNonEditableForegroundColor() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormForegroundColor() != null) {
+				return type.getFormForegroundColor();
+			}
+		}
+		return reflectionUI.getApplicationInfo().getMainForegroundColor();
+	}
+
+	@Override
+	public ColorSpecification getNonEditableBackgroundColor() {
+		if (getObject() != null) {
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
+			if (type.getFormBackgroundColor() != null) {
+				return type.getFormBackgroundColor();
+			}
+		}
+		/*
+		 * Note that we do not return the main background color because we want the
+		 * non-editable parts to be transparent so that a window background image would
+		 * be visible through them.
+		 */
+		return null;
+	}
+
+	@Override
 	public ColorSpecification getEditorForegroundColor() {
 		if (getObject() != null) {
 			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));

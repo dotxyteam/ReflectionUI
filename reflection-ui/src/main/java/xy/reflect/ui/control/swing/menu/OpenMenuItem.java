@@ -21,14 +21,14 @@ public class OpenMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public OpenMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public OpenMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
 	@Override
 	public void execute() {
 		if (!isFileSynchronized()) {
-			if (!swingRenderer.openQuestionDialog(form,
+			if (!swingRenderer.openQuestionDialog(menuBarOwner,
 					"Changes were not saved and will be lost.\nContinue?",
 					fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
 				return;

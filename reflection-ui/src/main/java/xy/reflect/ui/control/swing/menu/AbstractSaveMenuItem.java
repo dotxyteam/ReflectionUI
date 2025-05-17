@@ -22,8 +22,8 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public AbstractSaveMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
-		super(swingRenderer, form, menuItemInfo);
+	public AbstractSaveMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 		File result = super.retrieveFile();
 		if (result != null) {
 			if (result.exists()) {
-				if (!swingRenderer.openQuestionDialog(form,
+				if (!swingRenderer.openQuestionDialog(menuBarOwner,
 						"The file '" + result.getPath() + "' already exists.\nDo you want to replace it?",
 						fileBrowserConfiguration.actionTitle, "OK", "Cancel")) {
 					result = null;

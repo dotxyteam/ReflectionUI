@@ -3,21 +3,16 @@
  */
 package xy.reflect.ui.control.swing.menu;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Base class for standard menu items.
@@ -25,22 +20,19 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  * @author olitank
  *
  */
-public abstract class AbstractStandardActionMenuItem extends JMenuItem {
+public abstract class AbstractStandardActionMenuItem extends AbstractMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	protected SwingRenderer swingRenderer;
-	protected Form form;
 	protected StandradActionMenuItemInfo menuItemInfo;
 
 	protected abstract void execute();
 
 	protected abstract boolean isActive();
 
-	public AbstractStandardActionMenuItem(SwingRenderer swingRenderer, Form form,
+	public AbstractStandardActionMenuItem(SwingRenderer swingRenderer, Form menuBarOwner,
 			StandradActionMenuItemInfo menuItemInfo) {
-		this.swingRenderer = swingRenderer;
-		this.form = form;
+		super(swingRenderer, menuBarOwner);
 		this.menuItemInfo = menuItemInfo;
 		initialize();
 	}
@@ -49,8 +41,11 @@ public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 		return swingRenderer;
 	}
 
-	public Form getForm() {
-		return form;
+	public Form getContextForm() {
+		if (menuItemInfo == null) {
+			return null;
+		}
+		return (Form) menuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
 	}
 
 	public StandradActionMenuItemInfo getMenuItemInfo() {
@@ -58,18 +53,17 @@ public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 	}
 
 	protected void initialize() {
-		customizeUI();		
 		setAction(createAction());
 		try {
 			setText(menuItemInfo.getCaption());
 			if (!isActive()) {
 				setEnabled(false);
-			}			
+			}
 			Image image = swingRenderer.getMenuItemIconImage(menuItemInfo);
 			ImageIcon icon;
 			if (image != null) {
 				icon = SwingRendererUtils.getSmallIcon(SwingRendererUtils.getIcon(image));
-			}else {
+			} else {
 				icon = null;
 			}
 			setIcon(icon);
@@ -84,38 +78,6 @@ public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 		}
 	}
 
-	protected void customizeUI() {
-		Color awtBackgroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getMainBackgroundColor() != null)
-						? SwingRendererUtils
-								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainBackgroundColor())
-						: null;
-		Color awtForegroundColor = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getMainForegroundColor() != null)
-						? SwingRendererUtils
-								.getColor(swingRenderer.getReflectionUI().getApplicationInfo().getMainForegroundColor())
-						: null;
-		Font labelCustomFont = (swingRenderer.getReflectionUI().getApplicationInfo()
-				.getLabelCustomFontResourcePath() != null)
-						? SwingRendererUtils
-								.loadFontThroughCache(
-										swingRenderer.getReflectionUI().getApplicationInfo()
-												.getLabelCustomFontResourcePath(),
-										ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
-								.deriveFont(getFont().getStyle(), getFont().getSize())
-						: null;
-		if (awtBackgroundColor != null) {
-			setBackground(awtBackgroundColor);
-		}
-		if (awtForegroundColor != null) {
-			setForeground(awtForegroundColor);
-		}
-		if (labelCustomFont != null) {
-			setFont(labelCustomFont);
-		}
-
-	}
-
 	protected Action createAction() {
 		return new AbstractAction() {
 
@@ -126,7 +88,7 @@ public abstract class AbstractStandardActionMenuItem extends JMenuItem {
 				try {
 					execute();
 				} catch (Throwable t) {
-					swingRenderer.handleException(form, t);
+					swingRenderer.handleException(menuBarOwner, t);
 				}
 			}
 		};

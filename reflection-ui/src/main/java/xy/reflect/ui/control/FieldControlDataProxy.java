@@ -119,6 +119,14 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.getEditorForegroundColor();
 	}
 
+	public ColorSpecification getNonEditableBackgroundColor() {
+		return base.getNonEditableBackgroundColor();
+	}
+
+	public ColorSpecification getNonEditableForegroundColor() {
+		return base.getNonEditableForegroundColor();
+	}
+
 	public ResourcePath getButtonBackgroundImagePath() {
 		return base.getButtonBackgroundImagePath();
 	}

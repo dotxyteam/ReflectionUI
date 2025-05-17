@@ -251,11 +251,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			SwingRendererUtils.removeScrollPaneBorder(listAndToolbarScrollPane);
 			ControlScrollPane detailsAreaScrollPane = createDetailsAreaScrollPane(detailsArea);
 			JSplitPane splitPane = new ControlSplitPane();
-			add(splitPane, BorderLayout.CENTER);
 			if (listData.getBorderColor() != null) {
 				splitPane.setBorder(
 						BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor())));
 			}
+			add(splitPane, BorderLayout.CENTER);
 			final double dividerLocation;
 			if (getDetailsAccessMode().getEmbeddedDetailsAreaPosition() == ItemDetailsAreaPosition.RIGHT) {
 				splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
@@ -1985,7 +1985,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		SwingRendererUtils.showFieldCaptionOnBorder(listData, treeTableComponentScrollPane, new Accessor<Border>() {
 			@Override
 			public Border get() {
-				return new ControlScrollPane().getBorder();
+				if (listData.getBorderColor() != null) {
+					return BorderFactory.createLineBorder(SwingRendererUtils.getColor(listData.getBorderColor()));
+				} else {
+					return new ControlScrollPane().getBorder();
+				}
 			}
 		}, swingRenderer);
 	}
@@ -2001,6 +2005,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} else {
 			treeTableComponent.setBackground(new JXTreeTable().getBackground());
 		}
+		if (listData.getEditorForegroundColor() != null) {
+			treeTableComponent.setForeground(SwingRendererUtils.getColor(listData.getEditorForegroundColor()));
+		} else {
+			treeTableComponent.setForeground(new JXTreeTable().getForeground());
+		}
 		if (listData.getEditorCustomFontResourcePath() != null) {
 			treeTableComponent
 					.setFont(SwingRendererUtils
@@ -2014,15 +2023,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void refreshTreeTableComponentHeader() {
-		if (listData.getEditorBackgroundColor() != null) {
+		if (listData.getNonEditableBackgroundColor() != null) {
 			treeTableComponent.getTableHeader()
-					.setBackground(SwingRendererUtils.getColor(listData.getEditorBackgroundColor()));
+					.setBackground(SwingRendererUtils.getColor(listData.getNonEditableBackgroundColor()));
 		} else {
 			treeTableComponent.getTableHeader().setBackground(new JXTreeTable().getTableHeader().getBackground());
 		}
-		if (listData.getEditorForegroundColor() != null) {
+		if (listData.getNonEditableForegroundColor() != null) {
 			treeTableComponent.getTableHeader()
-					.setForeground(SwingRendererUtils.getColor(listData.getEditorForegroundColor()));
+					.setForeground(SwingRendererUtils.getColor(listData.getNonEditableForegroundColor()));
 		} else {
 			treeTableComponent.getTableHeader().setForeground(new JXTreeTable().getTableHeader().getForeground());
 		}

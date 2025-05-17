@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.menu;
 
 import java.io.File;
@@ -31,10 +29,9 @@ public class SaveMenuItem extends AbstractSaveMenuItem {
 		return super.isActive();
 	}
 
-	
 	@Override
 	protected File retrieveFile() {
-		File file = lastFileByForm.get(form);
+		File file = lastFileByForm.get(getContextForm());
 		if (file != null) {
 			return file;
 		}
@@ -44,7 +41,7 @@ public class SaveMenuItem extends AbstractSaveMenuItem {
 	@Override
 	public String getText() {
 		String result = super.getText();
-		File file = lastFileByForm.get((Form) form);
+		File file = lastFileByForm.get(getContextForm());
 		if (file != null) {
 			result += " " + file.getPath();
 		}
