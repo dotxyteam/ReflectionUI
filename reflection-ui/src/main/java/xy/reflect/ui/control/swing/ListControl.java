@@ -186,7 +186,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				toolbar = new ControlPanel();
 				detailsArea = new ControlPanel();
 
-				openDetailsDialogOnItemDoubleClick();
+				showDetailsOnItemDoubleClick();
 				updatePartsOnSelectionChange();
 				updateSelectionTargetOnSelectionChange();
 				handleMouseRightButton();
@@ -800,7 +800,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected AbstractBufferedItemPositionFactory createItemPositionfactory() {
-		return new BufferedItemPositionFactory(listData);
+		return new BufferedItemPositionFactory(listData, this);
 	}
 
 	protected TreeTableModel createTreeTableModel() {
@@ -1723,10 +1723,26 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		throw new ReflectionUIError();
 	}
 
-	protected void openDetailsDialogOnItemDoubleClick() {
+	protected void showDetailsOnItemDoubleClick() {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
+				BufferedItemPosition itemPosition = getSingleSelection();
+				if (itemPosition != null) {
+					if (itemPosition.isRoot()) {
+						BufferedItemPosition externalParentItemPosition = (BufferedItemPosition) listData
+								.getSpecificProperties()
+								.get(IListStructuralInfo.SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY);
+						if (externalParentItemPosition != null) {
+							BufferedItemPosition externalItemPosition = externalParentItemPosition
+									.getSubItemPosition(itemPosition.getIndex());
+							ListControl externalListControl = (ListControl) externalItemPosition.getFactory()
+									.getSource();
+							externalListControl.setSingleSelection(externalItemPosition);
+							return;
+						}
+					}
+				}
 				if (!getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
 					return;
 				}
@@ -2691,12 +2707,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return new DelegatingInfoFilter() {
 				@Override
 				protected IInfoFilter getDelegate() {
-					BufferedItemPosition dynamicItemPosition = bufferedItemPosition.getSibling(-1);
-					if (dynamicItemPosition == null) {
-						return null;
-					}
+					BufferedItemPosition dynamicItemPosition = (BufferedItemPosition) bufferedItemPosition.clone();
 					dynamicItemPosition.setFakeItem(getCurrentValue());
-					return getStructuralInfo(dynamicItemPosition).getItemInfoFilter(dynamicItemPosition);
+					return getStructuralInfo(dynamicItemPosition).getItemDetailsInfoFilter(dynamicItemPosition);
 				}
 			};
 		}

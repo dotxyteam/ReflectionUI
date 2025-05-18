@@ -1,14 +1,12 @@
 
-
-
 package xy.reflect.ui.info.filter;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 
 /**
- * This interface allows to specify objects used to dynamically filter out some
- * fields and methods from the display.
+ * This interface allows you to specify objects used to dynamically filter
+ * certain fields and methods for display.
  * 
  * @author olitank
  *
@@ -18,13 +16,13 @@ public interface IInfoFilter {
 	public IInfoFilter DEFAULT = new IInfoFilter() {
 
 		@Override
-		public boolean excludeField(IFieldInfo field) {
-			return false;
+		public IFieldInfo apply(IFieldInfo field) {
+			return field;
 		}
 
 		@Override
-		public boolean excludeMethod(IMethodInfo method) {
-			return false;
+		public IMethodInfo apply(IMethodInfo method) {
+			return method;
 		}
 
 		@Override
@@ -35,17 +33,17 @@ public interface IInfoFilter {
 	};
 
 	/**
-	 * @param field
-	 *            The field to be filtered out.
-	 * @return true if the given field is filtered out from the display.
+	 * @param field The field to be filtered.
+	 * @return a field (may be the input field or a proxy) or null if the field
+	 *         should be filtered out from the display.
 	 */
-	boolean excludeField(IFieldInfo field);
+	IFieldInfo apply(IFieldInfo field);
 
 	/**
-	 * @param method
-	 *            The method to be filtered out.
-	 * @return true if the given method is filtered out from the display.
+	 * @param method The method to be filtered.
+	 * @return a method (may be the input method or a proxy) or null if the method
+	 *         should be filtered out from the display.
 	 */
-	boolean excludeMethod(IMethodInfo method);
+	IMethodInfo apply(IMethodInfo method);
 
 }

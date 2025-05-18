@@ -91,7 +91,7 @@ public class ImagePanel extends ControlPanel {
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Image imageToPaint = image;
 		if (imageToPaint != null) {

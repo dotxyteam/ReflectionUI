@@ -1150,19 +1150,19 @@ public class Form extends ImagePanel {
 		infoFilter = new InfoFilterProxy(infoFilter) {
 
 			@Override
-			public boolean excludeField(IFieldInfo field) {
+			public IFieldInfo apply(IFieldInfo field) {
 				if (field.isHidden()) {
-					return true;
+					return null;
 				}
-				return super.excludeField(field);
+				return super.apply(field);
 			}
 
 			@Override
-			public boolean excludeMethod(IMethodInfo method) {
+			public IMethodInfo apply(IMethodInfo method) {
 				if (method.isHidden()) {
-					return true;
+					return null;
 				}
-				return super.excludeMethod(method);
+				return super.apply(method);
 			}
 
 		};

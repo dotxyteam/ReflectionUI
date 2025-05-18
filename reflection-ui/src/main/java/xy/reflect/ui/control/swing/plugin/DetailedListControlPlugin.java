@@ -311,7 +311,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		protected void openDetailsDialogOnItemDoubleClick() {
+		protected void showDetailsOnItemDoubleClick() {
 		}
 
 		@Override

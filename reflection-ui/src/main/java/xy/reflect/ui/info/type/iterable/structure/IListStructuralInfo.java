@@ -48,11 +48,21 @@ public interface IListStructuralInfo {
 		}
 
 		@Override
-		public IInfoFilter getItemInfoFilter(ItemPosition itemPosition) {
+		public IInfoFilter getItemDetailsInfoFilter(ItemPosition itemPosition) {
 			return IInfoFilter.DEFAULT;
 		}
 
 	};
+
+	/**
+	 * Key to access the parent position of an item in a list/tree from the item
+	 * details. The value is to be retrieved from the
+	 * {@link IFieldInfo#getSpecificProperties()} map of a field that accesses some
+	 * details of the list/tree item. It typically allows to detect that a list
+	 * control displays a value that is already displayed by a parent list control.
+	 */
+	String SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY = IListStructuralInfo.class.getName()
+			+ ".SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY";
 
 	/**
 	 * @return the list of columns. Note that when the list is actually a tree then
@@ -71,7 +81,7 @@ public interface IListStructuralInfo {
 	 * @param itemPosition The position of the item in the list/tree.
 	 * @return the filter that must be applied to the item type information or null.
 	 */
-	IInfoFilter getItemInfoFilter(ItemPosition itemPosition);
+	IInfoFilter getItemDetailsInfoFilter(ItemPosition itemPosition);
 
 	/**
 	 * @return the height (in pixels) of the list control or -1 if the default

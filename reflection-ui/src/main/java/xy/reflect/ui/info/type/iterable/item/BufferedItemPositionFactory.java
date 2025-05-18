@@ -16,6 +16,7 @@ import xy.reflect.ui.util.ReflectionUIError;
 public class BufferedItemPositionFactory extends AbstractBufferedItemPositionFactory {
 
 	protected IFieldControlData listData;
+	protected Object source;
 
 	/**
 	 * Instantiates this class.
@@ -23,11 +24,17 @@ public class BufferedItemPositionFactory extends AbstractBufferedItemPositionFac
 	 * @param listData The field control data that will be used to obtain the list
 	 *                 value or update it.
 	 */
-	public BufferedItemPositionFactory(IFieldControlData listData) {
+	public BufferedItemPositionFactory(IFieldControlData listData, Object source) {
 		if (!(listData.getType() instanceof IListTypeInfo)) {
 			throw new ReflectionUIError();
 		}
 		this.listData = listData;
+		this.source = source;
+	}
+
+	@Override
+	public Object getSource() {
+		return source;
 	}
 
 	@Override

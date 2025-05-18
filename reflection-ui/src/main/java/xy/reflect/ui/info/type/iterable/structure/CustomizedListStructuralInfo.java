@@ -4,7 +4,10 @@ package xy.reflect.ui.info.type.iterable.structure;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.custom.InfoCustomizations;
@@ -128,6 +131,20 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			return super.getItemSubListField(itemPosition);
 		}
 		List<IFieldInfo> candidateFields = getItemSubListCandidateFields(itemPosition);
+		candidateFields = candidateFields.stream().map(field -> {
+			final List<IMethodInfo> alternativeListItemConstructors = field.getAlternativeListItemConstructors(item);
+			if (alternativeListItemConstructors != null) {
+				return new FieldInfoProxy(field) {
+					@Override
+					public ITypeInfo getType() {
+						return new FieldAlternativeListItemConstructorsInstaller(reflectionUI, item, field)
+								.wrapTypeInfo(super.getType());
+					}
+				};
+			} else {
+				return field;
+			}
+		}).collect(Collectors.toList());
 		ITypeInfo actualItemType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(item));
 		if (candidateFields.size() == 0) {
 			return null;
@@ -169,19 +186,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 				if (fieldType instanceof IListTypeInfo) {
 					ITypeInfo subListItemType = ((IListTypeInfo) fieldType).getItemType();
 					if (isValidSubListItemType(subListItemType)) {
-						final List<IMethodInfo> alternativeListItemConstructors = field
-								.getAlternativeListItemConstructors(item);
-						if (alternativeListItemConstructors != null) {
-							result.add(new FieldInfoProxy(field) {
-								@Override
-								public ITypeInfo getType() {
-									return new FieldAlternativeListItemConstructorsInstaller(reflectionUI, item, field)
-											.wrapTypeInfo(super.getType());
-								}
-							});
-						} else {
-							result.add(field);
-						}
+						result.add(field);
 					}
 				}
 			}
@@ -208,8 +213,8 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 	}
 
 	@Override
-	public IInfoFilter getItemInfoFilter(final ItemPosition itemPosition) {
-		return new CustomizedInfoFilter(super.getItemInfoFilter(itemPosition));
+	public IInfoFilter getItemDetailsInfoFilter(final ItemPosition itemPosition) {
+		return new CustomizedItemDetailsInfoFilter(itemPosition);
 	}
 
 	protected List<IFieldInfo> collectColumnFields() {
@@ -485,31 +490,49 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	}
 
-	public class CustomizedInfoFilter extends InfoFilterProxy {
+	protected class CustomizedItemDetailsInfoFilter extends InfoFilterProxy {
 
-		public CustomizedInfoFilter(IInfoFilter base) {
-			super(base);
+		protected ItemPosition itemPosition;
+
+		public CustomizedItemDetailsInfoFilter(ItemPosition itemPosition) {
+			super(CustomizedListStructuralInfo.super.getItemDetailsInfoFilter(itemPosition));
+			this.itemPosition = itemPosition;
 		}
 
 		@Override
-		public boolean excludeMethod(IMethodInfo method) {
+		public IMethodInfo apply(IMethodInfo method) {
 			String methodSignature = method.getSignature();
 			for (InfoFilter filter : listCustomization.getMethodsExcludedFromItemDetails()) {
 				if (filter.matches(methodSignature)) {
-					return true;
+					return null;
 				}
 			}
-			return super.excludeMethod(method);
+			return super.apply(method);
 		}
 
 		@Override
-		public boolean excludeField(IFieldInfo field) {
+		public IFieldInfo apply(IFieldInfo field) {
 			for (InfoFilter filter : listCustomization.getFieldsExcludedFromItemDetails()) {
 				if (filter.matches(field.getName())) {
-					return true;
+					return null;
 				}
 			}
-			return super.excludeField(field);
+			IFieldInfo result = super.apply(field);
+			if (result == null) {
+				return null;
+			}
+			if (listCustomization.getTreeStructureDiscoverySettings() == null) {
+				return result;
+			}
+			if (getItemSubListCandidateFields(itemPosition).stream()
+					.anyMatch(candidateField -> candidateField.getName().equals(field.getName()))) {
+				result = new CustomizedItemDetailsField(result);
+			}
+			return result;
+		}
+
+		private CustomizedListStructuralInfo getEnclosingInstance() {
+			return CustomizedListStructuralInfo.this;
 		}
 
 		@Override
@@ -517,6 +540,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			final int prime = 31;
 			int result = super.hashCode();
 			result = prime * result + getEnclosingInstance().hashCode();
+			result = prime * result + ((itemPosition == null) ? 0 : itemPosition.hashCode());
 			return result;
 		}
 
@@ -528,19 +552,67 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			CustomizedInfoFilter other = (CustomizedInfoFilter) obj;
+			CustomizedItemDetailsInfoFilter other = (CustomizedItemDetailsInfoFilter) obj;
 			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+				return false;
+			if (itemPosition == null) {
+				if (other.itemPosition != null)
+					return false;
+			} else if (!itemPosition.equals(other.itemPosition))
 				return false;
 			return true;
 		}
 
-		private CustomizedListStructuralInfo getEnclosingInstance() {
-			return CustomizedListStructuralInfo.this;
-		}
-
 		@Override
 		public String toString() {
-			return "CustomizedInfoFilter [base=" + base + ", parent=" + CustomizedListStructuralInfo.this + "]";
+			return "CustomizedItemDetailsInfoFilter [itemPosition=" + itemPosition + ", parent="
+					+ getEnclosingInstance() + "]";
+		}
+
+		protected class CustomizedItemDetailsField extends FieldInfoProxy {
+
+			public CustomizedItemDetailsField(IFieldInfo base) {
+				super(base);
+			}
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+				result.put(IListStructuralInfo.SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY, itemPosition);
+				return result;
+			}
+
+			private CustomizedItemDetailsInfoFilter getEnclosingInstance() {
+				return CustomizedItemDetailsInfoFilter.this;
+			}
+
+			@Override
+			public int hashCode() {
+				final int prime = 31;
+				int result = super.hashCode();
+				result = prime * result + getEnclosingInstance().hashCode();
+				return result;
+			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if (this == obj)
+					return true;
+				if (!super.equals(obj))
+					return false;
+				if (getClass() != obj.getClass())
+					return false;
+				CustomizedItemDetailsField other = (CustomizedItemDetailsField) obj;
+				if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+					return false;
+				return true;
+			}
+
+			@Override
+			public String toString() {
+				return "CustomizedItemDetailsField [base=" + base + ", parent" + getEnclosingInstance() + "]";
+			}
+
 		}
 
 	}

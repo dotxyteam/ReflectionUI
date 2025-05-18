@@ -84,6 +84,11 @@ public class TestIterableTypeInfos {
 		ItemPosition firstItemPosition = new AbstractItemPositionFactory() {
 
 			@Override
+			public Object getSource() {
+				return null;
+			}
+
+			@Override
 			public Object getRootListValue() {
 				return itemListValue;
 			}
@@ -130,8 +135,8 @@ public class TestIterableTypeInfos {
 			}
 		}
 
-		IInfoFilter firstItemInfoSettings = itemListStructuralInfo.getItemInfoFilter(firstItemPosition);
-		Assert.assertTrue(!firstItemInfoSettings.excludeField(valueField));
+		IInfoFilter firstItemInfoSettings = itemListStructuralInfo.getItemDetailsInfoFilter(firstItemPosition);
+		Assert.assertTrue(firstItemInfoSettings.apply(valueField) != null);
 
 		IFieldInfo subItemsField = ReflectionUIUtils.findInfoByName(firstItemType.getFields(), "subItems");
 		IFieldInfo subListField = itemListStructuralInfo.getItemSubListField(firstItemPosition);

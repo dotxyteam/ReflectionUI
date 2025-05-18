@@ -433,22 +433,22 @@ public class InfoCustomizations implements Serializable {
 		return ReflectionUIUtils.equalsAccordingInfos(c1, c2, ReflectionUI.getDefault(), new IInfoFilter() {
 
 			@Override
-			public boolean excludeMethod(IMethodInfo method) {
-				return false;
+			public IMethodInfo apply(IMethodInfo method) {
+				return method;
 			}
 
 			@Override
-			public boolean excludeField(IFieldInfo field) {
+			public IFieldInfo apply(IFieldInfo field) {
 				if (field.getName().equals(UID_FIELD_NAME)) {
-					return true;
+					return null;
 				}
 				if (field.getName().equals(INITIAL_STATE_FIELD_NAME)) {
-					return true;
+					return null;
 				}
 				if (Arrays.asList(excludedFieldNames).contains(field.getName())) {
-					return true;
+					return null;
 				}
-				return false;
+				return field;
 			}
 		});
 	}

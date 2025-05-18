@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
@@ -30,7 +28,8 @@ public class FilteredTypeFactory extends InfoProxyFactory {
 	protected List<IFieldInfo> getFields(ITypeInfo type) {
 		List<IFieldInfo> result = new ArrayList<IFieldInfo>();
 		for (IFieldInfo field : super.getFields(type)) {
-			if (infoFilter.excludeField(field)) {
+			field = infoFilter.apply(field);
+			if (field == null) {
 				continue;
 			}
 			result.add(field);
@@ -42,7 +41,8 @@ public class FilteredTypeFactory extends InfoProxyFactory {
 	protected List<IMethodInfo> getMethods(ITypeInfo type) {
 		List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 		for (IMethodInfo method : super.getMethods(type)) {
-			if (infoFilter.excludeMethod(method)) {
+			method = infoFilter.apply(method);
+			if (method == null) {
 				continue;
 			}
 			result.add(method);

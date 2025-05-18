@@ -1,5 +1,6 @@
 package xy.reflect.ui.control.swing.util;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -129,7 +130,12 @@ public class HyperlinkLabel extends JLabel {
 	}
 
 	protected String getLinkColorCode() {
-		return System.getProperty(HyperlinkLabel.class.getName() + ".LINK_COLOR_CODE", "#000099");
+		if (getForeground() == null) {
+			return System.getProperty(HyperlinkLabel.class.getName() + ".LINK_COLOR_CODE", "#000099");
+		} else {
+			Color color = SwingRendererUtils.addColorActivationEffect(getForeground());
+			return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
+		}
 	}
 
 }

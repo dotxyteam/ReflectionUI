@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.filter;
 
 import xy.reflect.ui.info.field.IFieldInfo;
@@ -28,12 +26,12 @@ public abstract class DelegatingInfoFilter implements IInfoFilter {
 		return getDelegate();
 	}
 
-	public boolean excludeField(IFieldInfo field) {
-		return getDelegate().excludeField(field);
+	public IFieldInfo apply(IFieldInfo field) {
+		return getDelegate().apply(field);
 	}
 
-	public boolean excludeMethod(IMethodInfo method) {
-		return getDelegate().excludeMethod(method);
+	public IMethodInfo apply(IMethodInfo method) {
+		return getDelegate().apply(method);
 	}
 
 	@Override

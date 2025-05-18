@@ -19,12 +19,12 @@ public class InfoFilterProxy implements IInfoFilter {
 		this.base = base;
 	}
 
-	public boolean excludeField(IFieldInfo field) {
-		return base.excludeField(field);
+	public IFieldInfo apply(IFieldInfo field) {
+		return base.apply(field);
 	}
 
-	public boolean excludeMethod(IMethodInfo method) {
-		return base.excludeMethod(method);
+	public IMethodInfo apply(IMethodInfo method) {
+		return base.apply(method);
 	}
 
 	@Override

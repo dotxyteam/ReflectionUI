@@ -846,7 +846,8 @@ public class ReflectionUIUtils {
 			return o1.equals(o2);
 		}
 		for (IFieldInfo field : type1.getFields()) {
-			if (infoFilter.excludeField(field)) {
+			field = infoFilter.apply(field);
+			if (field == null) {
 				continue;
 			}
 			Object value1 = field.getValue(o1);
@@ -1108,7 +1109,8 @@ public class ReflectionUIUtils {
 		fields = new ArrayList<IFieldInfo>(fields);
 		for (Iterator<IFieldInfo> it = fields.iterator(); it.hasNext();) {
 			IFieldInfo field = it.next();
-			if (field.isHidden() || infoFilter.excludeField(field)) {
+			field = infoFilter.apply(field);
+			if ((field == null) || field.isHidden()) {
 				it.remove();
 			}
 		}
@@ -1116,7 +1118,8 @@ public class ReflectionUIUtils {
 		methods = new ArrayList<IMethodInfo>(methods);
 		for (Iterator<IMethodInfo> it = methods.iterator(); it.hasNext();) {
 			IMethodInfo method = it.next();
-			if (method.isHidden() || infoFilter.excludeMethod(method)) {
+			method = infoFilter.apply(method);
+			if ((method == null) || method.isHidden()) {
 				it.remove();
 			}
 		}

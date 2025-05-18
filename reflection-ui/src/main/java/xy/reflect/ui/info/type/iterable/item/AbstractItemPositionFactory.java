@@ -57,6 +57,12 @@ public abstract class AbstractItemPositionFactory {
 	public abstract Runnable getLastFormRefreshStateRestorationJob();
 
 	/**
+	 * @return the object (typically a list control) from which this factory was
+	 *         created.
+	 */
+	public abstract Object getSource();
+
+	/**
 	 * @param index
 	 * @return the root item position for with given index.
 	 */

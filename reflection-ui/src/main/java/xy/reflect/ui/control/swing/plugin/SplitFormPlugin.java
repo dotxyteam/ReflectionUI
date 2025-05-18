@@ -270,16 +270,19 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 										input);
 
 								@Override
-								public boolean excludeField(IFieldInfo field) {
-									return getType().getFields().stream()
-											.filter(f -> !(f.isHidden() || super.excludeField(f)))
+								public IFieldInfo apply(IFieldInfo field) {
+									if (getType().getFields().stream()
+											.filter(f -> !(f.isHidden() || (super.apply(f) == null)))
 											.skip(controlCustomization.firstLotFieldCount)
-											.anyMatch(f -> f.getName().equals(field.getName()));
+											.anyMatch(f -> f.getName().equals(field.getName()))) {
+										return null;
+									}
+									return field;
 								}
 
 								@Override
-								public boolean excludeMethod(IMethodInfo method) {
-									return true;
+								public IMethodInfo apply(IMethodInfo method) {
+									return null;
 								}
 							};
 						}
@@ -307,16 +310,19 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 										input);
 
 								@Override
-								public boolean excludeField(IFieldInfo field) {
-									return getType().getFields().stream()
-											.filter(f -> !(f.isHidden() || super.excludeField(f)))
+								public IFieldInfo apply(IFieldInfo field) {
+									if (getType().getFields().stream()
+											.filter(f -> !(f.isHidden() || (super.apply(f) == null)))
 											.limit(controlCustomization.firstLotFieldCount)
-											.anyMatch(f -> f.getName().equals(field.getName()));
+											.anyMatch(f -> f.getName().equals(field.getName()))) {
+										return null;
+									}
+									return field;
 								}
 
 								@Override
-								public boolean excludeMethod(IMethodInfo method) {
-									return false;
+								public IMethodInfo apply(IMethodInfo method) {
+									return method;
 								}
 							};
 						}
