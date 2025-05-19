@@ -4651,6 +4651,7 @@ public class InfoCustomizations implements Serializable {
 		protected ITypeInfoFinder customBaseNodeTypeFinder;
 		protected List<InfoFilter> excludedSubListFields = new ArrayList<InfoFilter>();
 		protected boolean singleSubListFieldNameNeverDisplayedAsTreeNode = true;
+		protected boolean subListFieldControlSlave = false;
 
 		public boolean isSingleSubListFieldNameNeverDisplayedAsTreeNode() {
 			return singleSubListFieldNameNeverDisplayedAsTreeNode;
@@ -4685,6 +4686,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setExcludedSubListFields(List<InfoFilter> excludedSubListFields) {
 			this.excludedSubListFields = excludedSubListFields;
+		}
+
+		public boolean isSubListFieldControlSlave() {
+			return subListFieldControlSlave;
+		}
+
+		public void setSubListFieldControlSlave(boolean subListFieldControlSlave) {
+			this.subListFieldControlSlave = subListFieldControlSlave;
 		}
 
 	}

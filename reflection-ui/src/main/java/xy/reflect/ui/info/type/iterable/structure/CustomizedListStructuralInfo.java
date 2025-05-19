@@ -526,7 +526,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			}
 			if (getItemSubListCandidateFields(itemPosition).stream()
 					.anyMatch(candidateField -> candidateField.getName().equals(field.getName()))) {
-				result = new CustomizedItemDetailsField(result);
+				result = new CustomizedSubListFieldProxy(result);
 			}
 			return result;
 		}
@@ -569,16 +569,18 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 					+ getEnclosingInstance() + "]";
 		}
 
-		protected class CustomizedItemDetailsField extends FieldInfoProxy {
+		protected class CustomizedSubListFieldProxy extends FieldInfoProxy {
 
-			public CustomizedItemDetailsField(IFieldInfo base) {
+			public CustomizedSubListFieldProxy(IFieldInfo base) {
 				super(base);
 			}
 
 			@Override
 			public Map<String, Object> getSpecificProperties() {
 				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-				result.put(IListStructuralInfo.SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY, itemPosition);
+				if (listCustomization.getTreeStructureDiscoverySettings().isSubListFieldControlSlave()) {
+					result.put(IListStructuralInfo.SLAVE_SUB_LIST_FIELD_CONTROL_ITEM_POSITION_KEY, itemPosition);
+				}
 				return result;
 			}
 
@@ -602,7 +604,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 					return false;
 				if (getClass() != obj.getClass())
 					return false;
-				CustomizedItemDetailsField other = (CustomizedItemDetailsField) obj;
+				CustomizedSubListFieldProxy other = (CustomizedSubListFieldProxy) obj;
 				if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
 					return false;
 				return true;
@@ -610,7 +612,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 			@Override
 			public String toString() {
-				return "CustomizedItemDetailsField [base=" + base + ", parent" + getEnclosingInstance() + "]";
+				return "CustomizedSubListFieldProxy [base=" + base + ", parent" + getEnclosingInstance() + "]";
 			}
 
 		}

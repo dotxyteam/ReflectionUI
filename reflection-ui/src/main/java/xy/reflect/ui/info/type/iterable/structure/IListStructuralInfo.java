@@ -55,14 +55,14 @@ public interface IListStructuralInfo {
 	};
 
 	/**
-	 * Key to access the parent position of an item in a list/tree from the item
-	 * details. The value is to be retrieved from the
-	 * {@link IFieldInfo#getSpecificProperties()} map of a field that accesses some
-	 * details of the list/tree item. It typically allows to detect that a list
-	 * control displays a value that is already displayed by a parent list control.
+	 * Key to access the position of a tree item from its details. The value is to
+	 * be retrieved from the {@link IFieldInfo#getSpecificProperties()} map of a
+	 * field that accesses a sub-list value from the item. It typically allows to
+	 * detect that a 'slave' list control displays items that are already displayed
+	 * by the current 'master' list control.
 	 */
-	String SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY = IListStructuralInfo.class.getName()
-			+ ".SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY";
+	String SLAVE_SUB_LIST_FIELD_CONTROL_ITEM_POSITION_KEY = IListStructuralInfo.class.getName()
+			+ ".SLAVE_SUB_LIST_FIELD_CONTROL_ITEM_POSITION_KEY";
 
 	/**
 	 * @return the list of columns. Note that when the list is actually a tree then

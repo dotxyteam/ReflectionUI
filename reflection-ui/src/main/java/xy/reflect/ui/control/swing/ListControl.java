@@ -186,19 +186,23 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				toolbar = new ControlPanel();
 				detailsArea = new ControlPanel();
 
-				showDetailsOnItemDoubleClick();
+				displayDetailsOnItemDoubleClick();
 				updatePartsOnSelectionChange();
 				updateSelectionTargetOnSelectionChange();
 				handleMouseRightButton();
 				updateToolbar();
 				initializeSelectionListening();
 				refreshUI(true);
-				if (getSelection().isEmpty() && (getRootListSize() > 0)) {
-					setSingleSelection(getRootListItemPosition(0));
-				}
+				setDefaultSelection();
 			}
 		});
 		this.initialized = true;
+	}
+
+	protected void setDefaultSelection() {
+		if (getSelection().isEmpty() && (getRootListSize() > 0)) {
+			setSingleSelection(getRootListItemPosition(0));
+		}
 	}
 
 	@Override
@@ -242,7 +246,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void layoutControls() {
 		setLayout(new BorderLayout());
-		if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
+		if (getSlaveInputItemPosition() != null) {
+			add(treeTableComponentScrollPane, BorderLayout.CENTER);
+		} else if (getDetailsAccessMode().hasEmbeddedDetailsDisplayArea()) {
 			JPanel listAndToolbarPanel = new ControlPanel();
 			listAndToolbarPanel.setLayout(new BorderLayout());
 			listAndToolbarPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
@@ -1723,22 +1729,20 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		throw new ReflectionUIError();
 	}
 
-	protected void showDetailsOnItemDoubleClick() {
+	protected void displayDetailsOnItemDoubleClick() {
 		treeTableComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				BufferedItemPosition itemPosition = getSingleSelection();
 				if (itemPosition != null) {
 					if (itemPosition.isRoot()) {
-						BufferedItemPosition externalParentItemPosition = (BufferedItemPosition) listData
-								.getSpecificProperties()
-								.get(IListStructuralInfo.SUB_LIST_FIELD_ITEM_DETAILS_PARENT_POSITION_KEY);
-						if (externalParentItemPosition != null) {
-							BufferedItemPosition externalItemPosition = externalParentItemPosition
+						BufferedItemPosition slaveInputItemPosition = getSlaveInputItemPosition();
+						if (slaveInputItemPosition != null) {
+							BufferedItemPosition slaveSelectionItemPosition = slaveInputItemPosition
 									.getSubItemPosition(itemPosition.getIndex());
-							ListControl externalListControl = (ListControl) externalItemPosition.getFactory()
+							ListControl masterListControl = (ListControl) slaveInputItemPosition.getFactory()
 									.getSource();
-							externalListControl.setSingleSelection(externalItemPosition);
+							masterListControl.setSingleSelection(slaveSelectionItemPosition);
 							return;
 						}
 					}
@@ -1764,6 +1768,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 		});
+	}
+
+	protected BufferedItemPosition getSlaveInputItemPosition() {
+		return (BufferedItemPosition) listData.getSpecificProperties()
+				.get(IListStructuralInfo.SLAVE_SUB_LIST_FIELD_CONTROL_ITEM_POSITION_KEY);
 	}
 
 	public Object[] getRootListRawValue() {
@@ -2065,9 +2074,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean requestCustomFocus() {
-		if (getSelection().isEmpty() && (getRootListSize() > 0)) {
-			setSingleSelection(getRootListItemPosition(0));
-		}
+		setDefaultSelection();
 		if (SwingRendererUtils.requestAnyComponentFocus(treeTableComponent, swingRenderer)) {
 			return true;
 		}
@@ -2704,12 +2711,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected IInfoFilter getEncapsulatedFormFilter() {
+			/*
+			 * We need to return a dynamic delegating filter because the item position may
+			 * change during the lifetime of this item UI builder.
+			 */
 			return new DelegatingInfoFilter() {
 				@Override
 				protected IInfoFilter getDelegate() {
-					BufferedItemPosition dynamicItemPosition = (BufferedItemPosition) bufferedItemPosition.clone();
-					dynamicItemPosition.setFakeItem(getCurrentValue());
-					return getStructuralInfo(dynamicItemPosition).getItemDetailsInfoFilter(dynamicItemPosition);
+					return getStructuralInfo(bufferedItemPosition).getItemDetailsInfoFilter(bufferedItemPosition);
 				}
 			};
 		}
