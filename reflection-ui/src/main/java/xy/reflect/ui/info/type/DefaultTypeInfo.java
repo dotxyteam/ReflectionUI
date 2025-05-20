@@ -49,6 +49,7 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	protected List<IFieldInfo> fields;
 	protected List<IMethodInfo> methods;
 	protected List<IMethodInfo> constructors;
+	protected final Object mutex = new Object();
 
 	public DefaultTypeInfo(ReflectionUI reflectionUI, JavaTypeInfoSource source) {
 		if (source == null) {
@@ -212,56 +213,59 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		if (constructors == null) {
-			constructors = new ArrayList<IMethodInfo>();
-			if (ClassUtils.isPrimitiveClassOrWrapper(getJavaType())) {
-				final Class<?> primitiveClass;
-				final Class<?> wrapperClass;
-				if (ClassUtils.isPrimitiveClass(getJavaType())) {
-					primitiveClass = getJavaType();
-					wrapperClass = ClassUtils.primitiveToWrapperClass(primitiveClass);
+		synchronized (mutex) {
+			if (constructors == null) {
+				constructors = new ArrayList<IMethodInfo>();
+				if (ClassUtils.isPrimitiveClassOrWrapper(getJavaType())) {
+					final Class<?> primitiveClass;
+					final Class<?> wrapperClass;
+					if (ClassUtils.isPrimitiveClass(getJavaType())) {
+						primitiveClass = getJavaType();
+						wrapperClass = ClassUtils.primitiveToWrapperClass(primitiveClass);
+					} else {
+						wrapperClass = getJavaType();
+						primitiveClass = ClassUtils.wrapperToPrimitiveClass(wrapperClass);
+					}
+					Constructor<?> primitiveParamWrapperCtor;
+					try {
+						primitiveParamWrapperCtor = wrapperClass.getConstructor(primitiveClass);
+					} catch (Exception e) {
+						throw new ReflectionUIError(e);
+					}
+					constructors
+							.add(new DefaultConstructorInfo(reflectionUI, primitiveParamWrapperCtor, getJavaType()) {
+
+								@Override
+								public List<IParameterInfo> getParameters() {
+									return Collections.emptyList();
+								}
+
+								@Override
+								public Object invoke(Object ignore, InvocationData invocationData) {
+									invocationData.getProvidedParameterValues().put(0,
+											ClassUtils.getDefaultPrimitiveValue(primitiveClass));
+									return super.invoke(ignore, invocationData);
+								}
+
+							});
+				} else if (String.class == getJavaType()) {
+					try {
+						constructors.add(
+								new DefaultConstructorInfo(reflectionUI, String.class.getConstructor(), getJavaType()));
+					} catch (Exception e) {
+						throw new ReflectionUIError(e);
+					}
 				} else {
-					wrapperClass = getJavaType();
-					primitiveClass = ClassUtils.wrapperToPrimitiveClass(wrapperClass);
-				}
-				Constructor<?> primitiveParamWrapperCtor;
-				try {
-					primitiveParamWrapperCtor = wrapperClass.getConstructor(primitiveClass);
-				} catch (Exception e) {
-					throw new ReflectionUIError(e);
-				}
-				constructors.add(new DefaultConstructorInfo(reflectionUI, primitiveParamWrapperCtor, getJavaType()) {
-
-					@Override
-					public List<IParameterInfo> getParameters() {
-						return Collections.emptyList();
+					for (Constructor<?> javaConstructor : getJavaType().getConstructors()) {
+						if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor, getJavaType())) {
+							continue;
+						}
+						constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor, getJavaType()));
 					}
-
-					@Override
-					public Object invoke(Object ignore, InvocationData invocationData) {
-						invocationData.getProvidedParameterValues().put(0,
-								ClassUtils.getDefaultPrimitiveValue(primitiveClass));
-						return super.invoke(ignore, invocationData);
-					}
-
-				});
-			} else if (String.class == getJavaType()) {
-				try {
-					constructors.add(
-							new DefaultConstructorInfo(reflectionUI, String.class.getConstructor(), getJavaType()));
-				} catch (Exception e) {
-					throw new ReflectionUIError(e);
-				}
-			} else {
-				for (Constructor<?> javaConstructor : getJavaType().getConstructors()) {
-					if (!DefaultConstructorInfo.isCompatibleWith(javaConstructor, getJavaType())) {
-						continue;
-					}
-					constructors.add(new DefaultConstructorInfo(reflectionUI, javaConstructor, getJavaType()));
 				}
 			}
+			return constructors;
 		}
-		return constructors;
 	}
 
 	@Override
@@ -282,43 +286,47 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 
 	@Override
 	public List<IFieldInfo> getFields() {
-		if (fields == null) {
-			fields = new ArrayList<IFieldInfo>();
-			Field[] javaFields = getJavaType().getFields();
-			ReflectionUIUtils.sortFields(javaFields);
-			for (Field javaField : javaFields) {
-				if (!PublicFieldInfo.isCompatibleWith(javaField)) {
-					continue;
+		synchronized (mutex) {
+			if (fields == null) {
+				fields = new ArrayList<IFieldInfo>();
+				Field[] javaFields = getJavaType().getFields();
+				ReflectionUIUtils.sortFields(javaFields);
+				for (Field javaField : javaFields) {
+					if (!PublicFieldInfo.isCompatibleWith(javaField)) {
+						continue;
+					}
+					fields.add(new PublicFieldInfo(reflectionUI, javaField, getJavaType()));
 				}
-				fields.add(new PublicFieldInfo(reflectionUI, javaField, getJavaType()));
-			}
-			Method[] javaMethods = getJavaType().getMethods();
-			ReflectionUIUtils.sortMethods(javaMethods);
-			for (Method javaMethod : javaMethods) {
-				if (!GetterFieldInfo.isCompatibleWith(javaMethod, getJavaType())) {
-					continue;
+				Method[] javaMethods = getJavaType().getMethods();
+				ReflectionUIUtils.sortMethods(javaMethods);
+				for (Method javaMethod : javaMethods) {
+					if (!GetterFieldInfo.isCompatibleWith(javaMethod, getJavaType())) {
+						continue;
+					}
+					GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, getJavaType());
+					fields.add(getterFieldInfo);
 				}
-				GetterFieldInfo getterFieldInfo = new GetterFieldInfo(reflectionUI, javaMethod, getJavaType());
-				fields.add(getterFieldInfo);
 			}
+			return fields;
 		}
-		return fields;
 	}
 
 	@Override
 	public List<IMethodInfo> getMethods() {
-		if (methods == null) {
-			methods = new ArrayList<IMethodInfo>();
-			Method[] javaMethods = getJavaType().getMethods();
-			ReflectionUIUtils.sortMethods(javaMethods);
-			for (Method javaMethod : javaMethods) {
-				if (!DefaultMethodInfo.isCompatibleWith(javaMethod, getJavaType())) {
-					continue;
+		synchronized (mutex) {
+			if (methods == null) {
+				methods = new ArrayList<IMethodInfo>();
+				Method[] javaMethods = getJavaType().getMethods();
+				ReflectionUIUtils.sortMethods(javaMethods);
+				for (Method javaMethod : javaMethods) {
+					if (!DefaultMethodInfo.isCompatibleWith(javaMethod, getJavaType())) {
+						continue;
+					}
+					methods.add(new DefaultMethodInfo(reflectionUI, javaMethod, getJavaType()));
 				}
-				methods.add(new DefaultMethodInfo(reflectionUI, javaMethod, getJavaType()));
 			}
+			return methods;
 		}
-		return methods;
 	}
 
 	@Override

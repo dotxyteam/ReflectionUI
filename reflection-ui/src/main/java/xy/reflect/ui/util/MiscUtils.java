@@ -285,10 +285,12 @@ public class MiscUtils {
 	public static ExecutorService newExecutor(final String threadName, int minimumThreadCount) {
 		ThreadPoolExecutor result = new ThreadPoolExecutor(minimumThreadCount, Integer.MAX_VALUE, 60000,
 				TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>(), new ThreadFactory() {
+					private int threadNumber = 0;
+
 					@Override
 					public Thread newThread(Runnable r) {
 						Thread result = new Thread(r);
-						result.setName(threadName);
+						result.setName(threadName + "-" + (threadNumber++));
 						result.setDaemon(true);
 						return result;
 					}

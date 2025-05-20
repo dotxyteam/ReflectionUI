@@ -42,6 +42,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	protected int duplicateSignatureIndex = -1;
 	protected String name;
 	protected String caption;
+	protected final Object mutex = new Object();
 
 	public DefaultMethodInfo(ReflectionUI reflectionUI, Method javaMethod, Class<?> objectJavaClass) {
 		this.reflectionUI = reflectionUI;
@@ -191,18 +192,21 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		if (parameters == null) {
-			parameters = new ArrayList<IParameterInfo>();
-			Parameter[] javaParameters = javaMethod.getParameters();
-			for (int i = 0; i < javaParameters.length; i++) {
-				Parameter javaParameter = javaParameters[i];
-				if (!DefaultParameterInfo.isCompatibleWith(javaParameter)) {
-					continue;
+		synchronized (mutex) {
+			if (parameters == null) {
+				parameters = new ArrayList<IParameterInfo>();
+				Parameter[] javaParameters = javaMethod.getParameters();
+				for (int i = 0; i < javaParameters.length; i++) {
+					Parameter javaParameter = javaParameters[i];
+					if (!DefaultParameterInfo.isCompatibleWith(javaParameter)) {
+						continue;
+					}
+					parameters
+							.add(new DefaultParameterInfo(reflectionUI, javaParameter, i, javaMethod, objectJavaClass));
 				}
-				parameters.add(new DefaultParameterInfo(reflectionUI, javaParameter, i, javaMethod, objectJavaClass));
 			}
+			return parameters;
 		}
-		return parameters;
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	protected Class<?> objectJavaClass;
 	protected ReflectionUI reflectionUI;
 	protected ArrayList<IParameterInfo> parameters;
+	protected final Object mutex = new Object();
 
 	public DefaultConstructorInfo(ReflectionUI reflectionUI, Constructor<?> javaConstructor, Class<?> objectJavaClass) {
 		this.reflectionUI = reflectionUI;
@@ -63,18 +64,20 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 
 	@Override
 	public List<IParameterInfo> getParameters() {
-		if (parameters == null) {
-			parameters = new ArrayList<IParameterInfo>();
-			Parameter[] javaParameters = javaConstructor.getParameters();
-			for (int i = 0; i < javaParameters.length; i++) {
-				if (!DefaultParameterInfo.isCompatibleWith(javaParameters[i])) {
-					continue;
+		synchronized (mutex) {
+			if (parameters == null) {
+				parameters = new ArrayList<IParameterInfo>();
+				Parameter[] javaParameters = javaConstructor.getParameters();
+				for (int i = 0; i < javaParameters.length; i++) {
+					if (!DefaultParameterInfo.isCompatibleWith(javaParameters[i])) {
+						continue;
+					}
+					parameters.add(new DefaultParameterInfo(reflectionUI, javaParameters[i], i, javaConstructor,
+							objectJavaClass));
 				}
-				parameters.add(
-						new DefaultParameterInfo(reflectionUI, javaParameters[i], i, javaConstructor, objectJavaClass));
 			}
+			return parameters;
 		}
-		return parameters;
 	}
 
 	@Override
