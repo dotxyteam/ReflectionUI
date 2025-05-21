@@ -1708,6 +1708,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				detailsArea.add(detailsControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(detailsArea);
+				detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -1720,11 +1721,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		} finally {
 			SwingRendererUtils.updateWindowMenu(this, swingRenderer);
-			if (detailsControl != null) {
-				if (isShowing()) {
-					detailsControl.validateFormInBackgroundAndReportOnStatusBar();
-				}
-			}
 		}
 		throw new ReflectionUIError();
 	}

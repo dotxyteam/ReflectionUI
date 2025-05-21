@@ -137,6 +137,19 @@ public class Form extends ImagePanel {
 		setInfoFilter(infoFilter);
 		setModificationStack(new ModificationStack(null));
 		getModificationStack().addListener(fieldsUpdateListener);
+		handleVisibilityEvents();
+		menuBar = createMenuBar();
+		statusBar = createStatusBar();
+		showErrorOnStatusBar(null);
+		refresh(true);
+	}
+
+	@Override
+	public void removeNotify() {
+		ensureNoCurrentValidationTask();
+	}
+
+	protected void handleVisibilityEvents() {
 		addAncestorListener(new AncestorListener() {
 
 			@Override
@@ -168,10 +181,6 @@ public class Form extends ImagePanel {
 			}
 
 		});
-		menuBar = createMenuBar();
-		statusBar = createStatusBar();
-		showErrorOnStatusBar(null);
-		refresh(true);
 	}
 
 	/**
@@ -1377,10 +1386,11 @@ public class Form extends ImagePanel {
 	}
 
 	/**
-	 * If a validation job is running, it will be interrupted by this method.
+	 * If a validation job is running, it will be interrupted after the execution of
+	 * this method.
 	 */
 	public void ensureNoCurrentValidationTask() {
-		if (currentValidationTask != null) {
+		if ((currentValidationTask != null) && !currentValidationTask.isDone()) {
 			try {
 				currentValidationTask.cancelAndWait(true);
 			} catch (InterruptedException e) {
