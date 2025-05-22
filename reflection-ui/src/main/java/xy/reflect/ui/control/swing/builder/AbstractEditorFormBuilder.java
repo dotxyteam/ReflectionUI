@@ -24,6 +24,7 @@ import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -448,13 +449,22 @@ public abstract class AbstractEditorFormBuilder {
 			});
 			if (oldValue != newValue) {
 				encapsulatedObjectValueAccessor.set(newValue);
+				refreshStructure = true;
 				ReflectionUI reflectionUI = getSwingRenderer().getReflectionUI();
 				ITypeInfo oldValueType = (oldValue == null) ? null
 						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(oldValue));
 				ITypeInfo newValueType = (newValue == null) ? null
 						: reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(newValue));
-				if (!MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
-					refreshStructure = true;
+				if (MiscUtils.equalsOrBothNull(oldValueType, newValueType)) {
+					EncapsulatedObjectFactory oldEncapsulation = ((EncapsulatedObjectFactory.TypeInfo) ((PrecomputedTypeInstanceWrapper) editorForm
+							.getObject()).getPrecomputedType()).getFactory();
+					EncapsulatedObjectFactory newEncapsulation = ((EncapsulatedObjectFactory.TypeInfo) ((PrecomputedTypeInstanceWrapper) getNewCapsule())
+							.getPrecomputedType()).getFactory();
+					if (oldEncapsulation.equals(newEncapsulation)) {
+						refreshStructure = false;
+					}						
+				}
+				if (refreshStructure) {
 					editorForm.setObject(getNewCapsule());
 				}
 			}

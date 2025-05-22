@@ -7,6 +7,7 @@ import java.util.List;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPositionFactory;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
 /**
@@ -55,14 +56,15 @@ public interface IListStructuralInfo {
 	};
 
 	/**
-	 * Key to access the position of a tree item from its details. The value is to
+	 * Key to access the {@link ItemPositionFactory#getSource()} value (which is
+	 * generally the list control) of a tree item from its details. The value is to
 	 * be retrieved from the {@link IFieldInfo#getSpecificProperties()} map of a
 	 * field that accesses a sub-list value from the item. It typically allows to
 	 * detect that a 'slave' list control displays items that are already displayed
-	 * by the current 'master' list control.
+	 * by a 'master' list control.
 	 */
-	String SLAVE_SUB_LIST_FIELD_CONTROL_ITEM_POSITION_KEY = IListStructuralInfo.class.getName()
-			+ ".SLAVE_SUB_LIST_FIELD_CONTROL_ITEM_POSITION_KEY";
+	String SUB_LIST_FIELD_CONTROL_MASTER_KEY = IListStructuralInfo.class.getName()
+			+ ".SUB_LIST_FIELD_CONTROL_MASTER_KEY";
 
 	/**
 	 * @return the list of columns. Note that when the list is actually a tree then
