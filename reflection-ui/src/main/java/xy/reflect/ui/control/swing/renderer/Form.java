@@ -146,6 +146,7 @@ public class Form extends ImagePanel {
 
 	@Override
 	public void removeNotify() {
+		super.removeNotify();
 		ensureNoCurrentValidationTask();
 	}
 

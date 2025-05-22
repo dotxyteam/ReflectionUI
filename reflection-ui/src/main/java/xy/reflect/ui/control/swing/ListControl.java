@@ -1823,6 +1823,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		} else {
 			restoringColumnWidthsAsMuchAsPossible(action);
 		}
+		treeTableComponent.setOpaque(listData.getValue() != null);
 	}
 
 	public void visitItems(IItemsVisitor iItemsVisitor) {
