@@ -13,7 +13,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
  */
 public class InfoFilterProxy implements IInfoFilter {
 
-	IInfoFilter base;
+	protected IInfoFilter base;
 
 	public InfoFilterProxy(IInfoFilter base) {
 		this.base = base;
