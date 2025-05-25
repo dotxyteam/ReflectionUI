@@ -95,6 +95,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.ToolsLocation;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo;
@@ -311,6 +312,19 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 			}
 		}
 		return super.getItemCreationMode(listType);
+	}
+
+	@Override
+	protected ToolsLocation getToolsLocation(IListTypeInfo listType) {
+		ITypeInfo itemType = listType.getItemType();
+		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
+				listType.getName(), (itemType == null) ? null : itemType.getName());
+		if (l != null) {
+			if (l.getCustomToolsLocation() != null) {
+				return l.getCustomToolsLocation();
+			}
+		}
+		return super.getToolsLocation(listType);
 	}
 
 	@Override
@@ -608,6 +622,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							return i.getCustomCaption();
 						}
 						return super.getCaption();
+					}
+
+					@Override
+					public String getOnlineHelp() {
+						if (i.getOnlineHelp() != null) {
+							return i.getOnlineHelp();
+						}
+						return super.getOnlineHelp();
 					}
 
 					@Override

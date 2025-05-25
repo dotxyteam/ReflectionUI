@@ -57,13 +57,13 @@ public class ControlScrollPane extends JScrollPane {
 		JScrollBar hSBar = getHorizontalScrollBar();
 		{
 			if (hSBar != null) {
-				result.height += hSBar.getHeight();
+				result.height += hSBar.getHeight() + 2;
 			}
 		}
 		JScrollBar vSBar = getVerticalScrollBar();
 		{
 			if (vSBar != null) {
-				result.width += vSBar.getWidth();
+				result.width += vSBar.getWidth() + 2;
 			}
 		}
 		return result;

@@ -41,7 +41,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  *
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class EnumerationControl extends ControlPanel implements IAdvancedFieldControl {
+public class ComboBoxControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected static final long serialVersionUID = 1L;
 
@@ -55,7 +55,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 	protected JComboBox comboBox;
 	protected boolean listenerDisabled = false;
 
-	public EnumerationControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
+	public ComboBoxControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		this.input = input;
 		this.data = input.getControlData();
@@ -92,7 +92,7 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 					Object selected = comboBox.getSelectedItem();
 					data.setValue(selected);
 				} catch (Throwable t) {
-					swingRenderer.handleException(EnumerationControl.this, t);
+					swingRenderer.handleException(ComboBoxControl.this, t);
 				}
 			}
 		};
@@ -149,6 +149,19 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 		}
 	}
 
+	protected String getValueTooltipText(Object value) {
+		if (value != null) {
+			IEnumerationItemInfo itemInfo = enumType.getValueInfo(value);
+			if (itemInfo != null) {
+				String onlineHelp = itemInfo.getOnlineHelp();
+				if (onlineHelp != null) {
+					return swingRenderer.prepareMessageToDisplay(onlineHelp);
+				}
+			}
+		}
+		return getValueText(value);
+	}
+
 	protected Icon getValueIcon(Object value) {
 		if (value == null) {
 			return null;
@@ -180,11 +193,11 @@ public class EnumerationControl extends ControlPanel implements IAdvancedFieldCo
 		listenerDisabled = true;
 		try {
 			comboBox.setSelectedItem(currentValue);
-			String text = getValueText(currentValue);
-			if ((text == null) || (text.length() == 0)) {
+			String tooltipText = getValueTooltipText(currentValue);
+			if ((tooltipText == null) || (tooltipText.length() == 0)) {
 				comboBox.setToolTipText(null);
 			} else {
-				comboBox.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(text));
+				comboBox.setToolTipText(SwingRendererUtils.adaptToolTipTextToMultiline(tooltipText));
 			}
 		} finally {
 			listenerDisabled = false;

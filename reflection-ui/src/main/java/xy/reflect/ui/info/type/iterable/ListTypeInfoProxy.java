@@ -277,6 +277,10 @@ public class ListTypeInfoProxy extends AbstractInfoProxy implements IListTypeInf
 		return base.getItemCreationMode();
 	}
 
+	public ToolsLocation getToolsLocation() {
+		return base.getToolsLocation();
+	}
+
 	public ResourcePath getFormButtonBackgroundImagePath() {
 		return base.getFormButtonBackgroundImagePath();
 	}

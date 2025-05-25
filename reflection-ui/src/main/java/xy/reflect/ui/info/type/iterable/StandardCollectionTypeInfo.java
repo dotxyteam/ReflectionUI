@@ -87,6 +87,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
+	public ToolsLocation getToolsLocation() {
+		return ToolsLocation.EAST;
+	}
+
+	@Override
 	public boolean canReplaceContent() {
 		return true;
 	}

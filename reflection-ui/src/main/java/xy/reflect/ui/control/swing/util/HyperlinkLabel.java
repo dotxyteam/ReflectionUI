@@ -22,6 +22,7 @@ public class HyperlinkLabel extends JLabel {
 
 	public HyperlinkLabel(String rawText, Runnable linkOpener) {
 		super((String) null);
+		setForeground(Color.BLUE);
 		setup();
 		setRawTextAndLinkOpener(rawText, linkOpener);
 		refresh();

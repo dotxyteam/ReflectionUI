@@ -253,7 +253,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	protected void updateActionControl() {
-		((AbstractControlButton) actionControl).updateStyle();
+		((AbstractControlButton) actionControl).initialize();
 	}
 
 	protected void updateIconControl(boolean refreshStructure) {

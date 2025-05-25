@@ -152,7 +152,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 
 	public Component createMethodControl() {
 		MethodControl result = new MethodControl(this.swingRenderer, this);
-		result.updateStyle();
+		result.initialize();
 		return result;
 	}
 

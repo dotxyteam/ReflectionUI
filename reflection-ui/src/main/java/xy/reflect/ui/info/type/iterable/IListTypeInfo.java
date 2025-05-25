@@ -158,6 +158,11 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
+		public ToolsLocation getToolsLocation() {
+			return ToolsLocation.EAST;
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}
@@ -540,6 +545,12 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * @author olitank
 	 *
 	 */
+
+	/**
+	 * @return where the tool bar will be located on the list control.
+	 */
+	ToolsLocation getToolsLocation();
+
 	public enum ItemCreationMode {
 		/**
 		 * A null value is directly inserted in the list.
@@ -576,6 +587,16 @@ public interface IListTypeInfo extends ITypeInfo {
 		 * A relevant mode is used.
 		 */
 		UNDEFINED
+	}
+
+	/**
+	 * Allows to choose where the toolbar will be located on the list control.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	public enum ToolsLocation {
+		NORTH, SOUTH, EAST, WEST, HIDDEN
 	}
 
 }

@@ -66,6 +66,7 @@ import xy.reflect.ui.info.method.PresetInvocationDataMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.ToolsLocation;
 import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
@@ -4108,6 +4109,7 @@ public class InfoCustomizations implements Serializable {
 		protected String customCaption;
 		protected boolean hidden;
 		protected ResourcePath iconImagePath;
+		protected String onlineHelp;
 
 		@Override
 		public boolean isInitial() {
@@ -4139,6 +4141,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setIconImagePath(ResourcePath iconImagePath) {
 			this.iconImagePath = iconImagePath;
+		}
+
+		public String getOnlineHelp() {
+			return onlineHelp;
+		}
+
+		public void setOnlineHelp(String onlineHelp) {
+			this.onlineHelp = onlineHelp;
 		}
 
 		public boolean isHidden() {
@@ -4355,6 +4365,7 @@ public class InfoCustomizations implements Serializable {
 		protected ControlSizeCustomization height = null;
 		protected boolean itemNullValueAllowed = false;
 		protected ItemCreationMode itemCreationMode = ItemCreationMode.UNDEFINED;
+		protected ToolsLocation customToolsLocation;
 		protected ValueReturnMode customItemReturnMode;
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
@@ -4402,6 +4413,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setItemCreationMode(ItemCreationMode itemCreationMode) {
 			this.itemCreationMode = itemCreationMode;
+		}
+
+		public ToolsLocation getCustomToolsLocation() {
+			return customToolsLocation;
+		}
+
+		public void setCustomToolsLocation(ToolsLocation customToolsLocation) {
+			this.customToolsLocation = customToolsLocation;
 		}
 
 		public boolean isItemAutomaticPositioningManagementForced() {

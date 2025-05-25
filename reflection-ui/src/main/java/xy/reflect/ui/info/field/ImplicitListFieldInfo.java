@@ -622,6 +622,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 		}
 
 		@Override
+		public ToolsLocation getToolsLocation() {
+			return ToolsLocation.EAST;
+		}
+
+		@Override
 		public ValueReturnMode getItemReturnMode() {
 			return getGetMethod().getValueReturnMode();
 		}

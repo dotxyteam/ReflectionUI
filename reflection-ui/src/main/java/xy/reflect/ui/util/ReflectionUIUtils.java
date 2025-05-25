@@ -70,7 +70,6 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.CancelledModificationException;
@@ -1360,14 +1359,6 @@ public class ReflectionUIUtils {
 
 	public static String secureNameContent(String s) {
 		return s.replaceAll("[^a-zA-Z0-9 ]", "_");
-	}
-
-	public static ITypeInfo buildTypeInfo(String className) {
-		try {
-			return ReflectionUI.getDefault().getTypeInfo(new JavaTypeInfoSource(Class.forName(className), null));
-		} catch (ClassNotFoundException e) {
-			throw new ReflectionUIError(e);
-		}
 	}
 
 	public static List<Object> collectItemAncestors(ItemPosition itemPosition) {

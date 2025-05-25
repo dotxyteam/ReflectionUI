@@ -153,7 +153,10 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		protected void layoutControls() {
 			setLayout(new BorderLayout());
 			add(treeTableComponentScrollPane, BorderLayout.CENTER);
-			add(toolbar, BorderLayout.EAST);
+			String toolbarConstraint = getToolbarBorderLayoutConstraint();
+			if (toolbarConstraint != null) {
+				add(toolbar, toolbarConstraint);
+			}
 			scrolledContentPane.setLayout(new GridBagLayout());
 			{
 				GridBagConstraints cellsContainerConstraint = new GridBagConstraints();

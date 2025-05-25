@@ -30,6 +30,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
+import xy.reflect.ui.info.type.iterable.IListTypeInfo.ToolsLocation;
 import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.map.IMapEntryTypeInfo;
@@ -1128,6 +1129,15 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 */
 	protected ValueReturnMode getItemReturnMode(IListTypeInfo type) {
 		return type.getItemReturnMode();
+	}
+
+	/**
+	 * @param type The type information.
+	 * @return the result of {@link IListTypeInfo#getToolsLocation()} unless
+	 *         overridden.
+	 */
+	protected ToolsLocation getToolsLocation(IListTypeInfo type) {
+		return type.getToolsLocation();
 	}
 
 	/**
@@ -2609,6 +2619,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public ValueReturnMode getItemReturnMode() {
 			return InfoProxyFactory.this.getItemReturnMode((IListTypeInfo) base);
+		}
+
+		@Override
+		public ToolsLocation getToolsLocation() {
+			return InfoProxyFactory.this.getToolsLocation((IListTypeInfo) base);
 		}
 
 		@Override

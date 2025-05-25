@@ -30,7 +30,7 @@ import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.DialogAccessControl;
 import xy.reflect.ui.control.swing.EmbeddedFormControl;
-import xy.reflect.ui.control.swing.EnumerationControl;
+import xy.reflect.ui.control.swing.ComboBoxControl;
 import xy.reflect.ui.control.swing.ErrorDisplayControl;
 import xy.reflect.ui.control.swing.ListControl;
 import xy.reflect.ui.control.swing.MutableTypeControl;
@@ -541,7 +541,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		if (currentPlugin == null) {
 			if (controlInput.getControlData().getType() instanceof IEnumerationTypeInfo) {
 				try {
-					return new EnumerationControl(swingRenderer, controlInput);
+					return new ComboBoxControl(swingRenderer, controlInput);
 				} catch (RejectedFieldControlInputException e) {
 				}
 			}

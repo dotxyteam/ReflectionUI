@@ -250,7 +250,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			JPanel listAndToolbarPanel = new ControlPanel();
 			listAndToolbarPanel.setLayout(new BorderLayout());
 			listAndToolbarPanel.add(BorderLayout.CENTER, treeTableComponentScrollPane);
-			listAndToolbarPanel.add(toolbar, BorderLayout.EAST);
+			String toolbarConstraint = getToolbarBorderLayoutConstraint();
+			if (toolbarConstraint != null) {
+				listAndToolbarPanel.add(toolbar, getToolbarBorderLayoutConstraint());
+			}
 			ControlScrollPane listAndToolbarScrollPane = createTreeTableAndToolBarScrollPane(listAndToolbarPanel);
 			SwingRendererUtils.removeScrollPaneBorder(listAndToolbarScrollPane);
 			ControlScrollPane detailsAreaScrollPane = createDetailsAreaScrollPane(detailsArea);
@@ -292,9 +295,29 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	protected String getToolbarBorderLayoutConstraint() {
+		IListTypeInfo.ToolsLocation toolsLocation = getRootListType().getToolsLocation();
+		if (toolsLocation == IListTypeInfo.ToolsLocation.NORTH) {
+			return BorderLayout.NORTH;
+		} else if (toolsLocation == IListTypeInfo.ToolsLocation.SOUTH) {
+			return BorderLayout.SOUTH;
+		} else if (toolsLocation == IListTypeInfo.ToolsLocation.EAST) {
+			return BorderLayout.EAST;
+		} else if (toolsLocation == IListTypeInfo.ToolsLocation.WEST) {
+			return BorderLayout.WEST;
+		} else if (toolsLocation == IListTypeInfo.ToolsLocation.HIDDEN) {
+			return null;
+		} else {
+			throw new ReflectionUIError();
+		}
+	}
+
 	protected void updateToolbar() {
 		toolbar.removeAll();
-
+		String toolbarConstraint = getToolbarBorderLayoutConstraint();
+		if (toolbarConstraint == null) {
+			return;
+		}
 		GridBagLayout layout = new GridBagLayout();
 		toolbar.setLayout(layout);
 
@@ -352,16 +375,34 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		for (int i = 0; i < toolbar.getComponentCount(); i++) {
 			Component c = toolbar.getComponent(i);
 			GridBagConstraints constraints = new GridBagConstraints();
-			constraints.gridx = 0;
-			constraints.fill = GridBagConstraints.HORIZONTAL;
-			constraints.insets = new Insets(1, 5, 1, 5);
+			if (toolbarConstraint.equals(BorderLayout.WEST) || toolbarConstraint.equals(BorderLayout.EAST)) {
+				constraints.gridx = 0;
+				constraints.fill = GridBagConstraints.HORIZONTAL;
+				constraints.insets = new Insets(1, 5, 1, 5);
+			} else if (toolbarConstraint.equals(BorderLayout.NORTH) || toolbarConstraint.equals(BorderLayout.SOUTH)) {
+				constraints.gridy = 0;
+				constraints.fill = GridBagConstraints.VERTICAL;
+				constraints.insets = new Insets(5, 1, 5, 1);
+			} else {
+				throw new ReflectionUIError();
+			}
 			layout.setConstraints(c, constraints);
 		}
 
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.gridx = 0;
-		constraints.weighty = 1;
-		toolbar.add(new JSeparator(JSeparator.VERTICAL), constraints);
+		JSeparator filler = new JSeparator(JSeparator.VERTICAL);
+		{
+			GridBagConstraints constraints = new GridBagConstraints();
+			if (toolbarConstraint.equals(BorderLayout.WEST) || toolbarConstraint.equals(BorderLayout.EAST)) {
+				constraints.gridx = 0;
+				constraints.weighty = 1;
+			} else if (toolbarConstraint.equals(BorderLayout.NORTH) || toolbarConstraint.equals(BorderLayout.SOUTH)) {
+				constraints.gridy = 0;
+				constraints.weightx = 1;
+			} else {
+				throw new ReflectionUIError();
+			}
+			toolbar.add(filler, constraints);
+		}
 
 		SwingRendererUtils.handleComponentSizeChange(ListControl.this);
 		toolbar.validate();
@@ -1710,7 +1751,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				detailsArea.add(detailsControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(detailsArea);
-				detailsControl.validateFormInBackgroundAndReportOnStatusBar();
+				if (isShowing()) {
+					detailsControl.validateFormInBackgroundAndReportOnStatusBar();
+				}
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {

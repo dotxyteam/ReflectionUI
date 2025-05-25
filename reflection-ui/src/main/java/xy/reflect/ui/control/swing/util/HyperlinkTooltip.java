@@ -5,13 +5,17 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
 import java.awt.Rectangle;
+import java.awt.Window.Type;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
+import java.util.Arrays;
 import java.util.WeakHashMap;
+import java.util.function.Function;
 
 import javax.swing.JComponent;
 import javax.swing.JWindow;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -28,16 +32,18 @@ public class HyperlinkTooltip {
 	protected final String message;
 	protected final Runnable linkOpener;
 	protected Object customValue;
+	protected Function<JComponent, Rectangle> customComponentResponsiveBoundsMapper;
 
 	protected final JWindow window;
-	protected final MouseMotionListener mouseListener;
+	protected final MouseMotionListener mouseMotionListener;
 	protected Timer showingTimer;
 	protected Timer hidingTimer;
 
 	protected HyperlinkTooltip(JComponent component, String message, Runnable linkOpener) {
-		this.window = new JWindow();
 		this.message = message;
 		this.linkOpener = linkOpener;
+		this.window = new JWindow(SwingUtilities.getWindowAncestor(component));
+		window.setType(Type.UTILITY);
 		window.setAlwaysOnTop(true);
 		window.setFocusableWindowState(false);
 		HyperlinkLabel label = createHyperlinkLabel();
@@ -56,14 +62,16 @@ public class HyperlinkTooltip {
 		window.add(label);
 		window.pack();
 		showingTimer = new Timer(MILLISECONDS_BEFORE_OPENING, e -> {
+			if (!isConnectedTo(component)) {
+				return;
+			}
 			PointerInfo pointerInfo = MouseInfo.getPointerInfo();
 			if (pointerInfo != null) {
 				Point pointerLocation = pointerInfo.getLocation();
-				Rectangle componentBounds = component.getBounds();
-				componentBounds.setLocation(component.getLocationOnScreen());
+				Rectangle componentBounds = getComponentResponsiveBoundsOnScreen(component);
 				if (componentBounds.contains(pointerLocation)) {
-					window.setLocationRelativeTo(component);
-					window.setLocation(window.getLocation().x, componentBounds.y + component.getHeight());
+					window.setLocation(componentBounds.x + ((componentBounds.width - window.getWidth()) / 2),
+							componentBounds.y + componentBounds.height);
 					window.setVisible(true);
 					hidingTimer.restart();
 				}
@@ -71,11 +79,13 @@ public class HyperlinkTooltip {
 		});
 		showingTimer.setRepeats(false);
 		hidingTimer = new Timer(MILLISECONDS_BEFORE_CLOSING, e -> {
+			if (!isConnectedTo(component)) {
+				return;
+			}
 			PointerInfo pointerInfo = MouseInfo.getPointerInfo();
 			if (pointerInfo != null) {
 				Point pointerLocation = pointerInfo.getLocation();
-				Rectangle componentBounds = component.getBounds();
-				componentBounds.setLocation(component.getLocationOnScreen());
+				Rectangle componentBounds = getComponentResponsiveBoundsOnScreen(component);
 				if (!componentBounds.contains(pointerLocation) && !window.getBounds().contains(pointerLocation)) {
 					window.setVisible(false);
 				} else {
@@ -86,7 +96,7 @@ public class HyperlinkTooltip {
 			}
 		});
 		hidingTimer.setRepeats(false);
-		mouseListener = new MouseMotionAdapter() {
+		mouseMotionListener = new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				if (!window.isVisible()) {
@@ -96,9 +106,29 @@ public class HyperlinkTooltip {
 				}
 			}
 		};
-		component.addMouseMotionListener(mouseListener);
-		label.addMouseMotionListener(mouseListener);
+		component.addMouseMotionListener(mouseMotionListener);
+		label.addMouseMotionListener(mouseMotionListener);
 
+	}
+
+	protected Rectangle getComponentResponsiveBoundsOnScreen(JComponent component) {
+		Rectangle result = component.getBounds();
+		result.setLocation(component.getLocationOnScreen());
+		if (customComponentResponsiveBoundsMapper != null) {
+			Rectangle responsiveBounds = customComponentResponsiveBoundsMapper.apply(component);
+			if (responsiveBounds == null) {
+				return null;
+			}
+			result.x += responsiveBounds.x;
+			result.y += responsiveBounds.y;
+			result.width = responsiveBounds.width;
+			result.height = responsiveBounds.height;
+		}
+		return result;
+	}
+
+	protected boolean isConnectedTo(JComponent component) {
+		return Arrays.asList(component.getMouseMotionListeners()).contains(mouseMotionListener);
 	}
 
 	protected HyperlinkLabel createHyperlinkLabel() {
@@ -129,16 +159,36 @@ public class HyperlinkTooltip {
 		this.customValue = customValue;
 	}
 
-	public static void set(JComponent comp, String message, Runnable action) {
-		unset(comp);
-		HyperlinkTooltip tooltip = new HyperlinkTooltip(comp, message, action);
-		BY_COMPONENT.put(comp, tooltip);
+	public Function<JComponent, Rectangle> getCustomComponentResponsiveBoundsMapper() {
+		return customComponentResponsiveBoundsMapper;
 	}
 
-	public static void unset(JComponent comp) {
-		HyperlinkTooltip tooltip = BY_COMPONENT.remove(comp);
+	public void setCustomComponentResponsiveBoundsMapper(
+			Function<JComponent, Rectangle> customComponentResponsiveBoundsMapper) {
+		this.customComponentResponsiveBoundsMapper = customComponentResponsiveBoundsMapper;
+	}
+
+	public MouseMotionListener getMouseMotionListener() {
+		return mouseMotionListener;
+	}
+
+	public Timer getShowingTimer() {
+		return showingTimer;
+	}
+
+	public Timer getHidingTimer() {
+		return hidingTimer;
+	}
+
+	public static void set(JComponent component, String message, Runnable linkOpener) {
+		unset(component);
+		BY_COMPONENT.put(component, new HyperlinkTooltip(component, message, linkOpener));
+	}
+
+	public static void unset(JComponent component) {
+		HyperlinkTooltip tooltip = BY_COMPONENT.remove(component);
 		if (tooltip != null) {
-			comp.removeMouseMotionListener(tooltip.mouseListener);
+			component.removeMouseMotionListener(tooltip.mouseMotionListener);
 			tooltip.window.setVisible(false);
 			tooltip.window.dispose();
 		}

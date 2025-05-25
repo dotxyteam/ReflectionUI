@@ -259,6 +259,11 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					}
 
 					@Override
+					public String retrieveToolTipText() {
+						return super.getToolTipText();
+					}
+
+					@Override
 					public Icon retrieveIcon() {
 						Image image = swingRenderer.getEnumerationItemIconImage(itemInfo);
 						if (image == null) {
@@ -270,6 +275,11 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				};
 			} else {
 				throw new ReflectionUIError();
+			}
+			String tooltipText = itemInfo.getOnlineHelp();
+			if ((tooltipText != null) && (tooltipText.length() > 0)) {
+				result.setToolTipText(SwingRendererUtils
+						.adaptToolTipTextToMultiline(swingRenderer.prepareMessageToDisplay(tooltipText)));
 			}
 			result.addActionListener(new ActionListener() {
 				@Override
