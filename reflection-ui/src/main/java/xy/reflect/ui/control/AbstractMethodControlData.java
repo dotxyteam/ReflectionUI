@@ -188,6 +188,9 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 
 	@Override
 	public Runnable getLastFormRefreshStateRestorationJob() {
+		if(getObject() == null) {
+			return null;
+		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));
 		return type.getLastFormRefreshStateRestorationJob(getObject());
 	}
