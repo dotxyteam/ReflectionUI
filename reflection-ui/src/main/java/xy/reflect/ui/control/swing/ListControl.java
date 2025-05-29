@@ -1751,14 +1751,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				detailsArea.add(detailsControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(detailsArea);
-				if (isShowing()) {
-					detailsControl.validateFormInBackgroundAndReportOnStatusBar();
-				}
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 						if (detailsControlItemPosition != null) {
 							scrollTo(detailsControlItemPosition);
+						}
+						if (isShowing()) {
+							detailsControl.validateFormInBackgroundAndReportOnStatusBar();
 						}
 					}
 				});
@@ -2167,6 +2167,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				refreshRendrers();
 				treeTableComponent.repaint();
 			}
 		});

@@ -53,6 +53,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
+import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
@@ -111,7 +112,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+			protected String getCaption(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 				Object itemValue = info.getValue();
 				if (itemValue instanceof IMenuItemContainerCustomization) {
 					IMenuElementPosition position = ReflectionUIUtils.getMenuElementPosition(
@@ -507,7 +508,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 			}
 
 			@Override
-			protected String getOnlineHelp(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+			protected String getOnlineHelp(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 				return fixOnlineHelp(super.getOnlineHelp(info, parentEnumType));
 			}
 

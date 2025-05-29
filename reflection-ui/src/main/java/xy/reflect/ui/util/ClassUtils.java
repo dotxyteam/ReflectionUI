@@ -27,7 +27,7 @@ public class ClassUtils {
 	public static final Class<?>[] PRIMITIVE_WRAPPER_CLASSES = new Class<?>[] { Boolean.class, Byte.class, Short.class,
 			Integer.class, Long.class, Float.class, Double.class, Character.class };
 
-	protected static final Map<String, Class<?>> PRIMITIVE_CLASS_BY_NAME = new HashMap<String, Class<?>>() {
+	public static final Map<String, Class<?>> PRIMITIVE_CLASS_BY_NAME = new HashMap<String, Class<?>>() {
 		private static final long serialVersionUID = 1L;
 		{
 			for (Class<?> c : PRIMITIVE_CLASSES) {

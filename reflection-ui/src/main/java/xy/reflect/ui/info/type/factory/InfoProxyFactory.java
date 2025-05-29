@@ -1966,7 +1966,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @return the result of {@link IEnumerationItemInfo#getName()} unless
 	 *         overridden.
 	 */
-	protected String getName(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected String getName(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		return info.getName();
 	}
 
@@ -1976,7 +1976,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @return the result of {@link IEnumerationItemInfo#getValue()} unless
 	 *         overridden.
 	 */
-	protected Object getValue(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected Object getValue(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		return info.getValue();
 	}
 
@@ -1986,7 +1986,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @return the result of {@link IEnumerationItemInfo#getSpecificProperties()}
 	 *         unless overridden.
 	 */
-	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		return info.getSpecificProperties();
 	}
 
@@ -1996,7 +1996,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @return the result of {@link IEnumerationItemInfo#getIconImagePath()} unless
 	 *         overridden.
 	 */
-	protected ResourcePath getIconImagePath(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected ResourcePath getIconImagePath(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		return info.getIconImagePath();
 	}
 
@@ -2006,7 +2006,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @return the result of {@link IEnumerationItemInfo#getOnlineHelp()} unless
 	 *         overridden.
 	 */
-	protected String getOnlineHelp(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected String getOnlineHelp(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		return info.getOnlineHelp();
 	}
 
@@ -2016,7 +2016,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @return the result of {@link IEnumerationItemInfo#getCaption()} unless
 	 *         overridden.
 	 */
-	protected String getCaption(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected String getCaption(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		return info.getCaption();
 	}
 

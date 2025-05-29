@@ -361,6 +361,9 @@ public class Form extends ImagePanel {
 		boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				if(fieldControlPlaceHolder.getField().getName().equals("instanceBuilder")) {
+					System.out.println("debug");
+				}
 				if (Thread.currentThread().isInterrupted()) {
 					return;
 				}
@@ -1732,8 +1735,9 @@ public class Form extends ImagePanel {
 				}
 			}
 			Container membersPanel = fieldsPanel.getParent();
-			membersPanel.remove(fieldsPanel);
-			membersPanel.add(fieldsPanel, fieldsPanelFilled ? BorderLayout.CENTER : BorderLayout.NORTH);
+			((BorderLayout) membersPanel.getLayout()).removeLayoutComponent(fieldsPanel);
+			((BorderLayout) membersPanel.getLayout()).addLayoutComponent(fieldsPanel,
+					fieldsPanelFilled ? BorderLayout.CENTER : BorderLayout.NORTH);
 		}
 	}
 
@@ -1807,8 +1811,8 @@ public class Form extends ImagePanel {
 			subForm.visibilityEventsDisabled = true;
 		}
 		try {
-			fieldsPanel.remove(fieldControlPlaceHolder);
-			fieldsPanel.add(fieldControlPlaceHolder, fieldControlPlaceHolderLayoutConstraints);
+			((GridBagLayout) fieldsPanel.getLayout()).setConstraints(fieldControlPlaceHolder,
+					fieldControlPlaceHolderLayoutConstraints);
 		} finally {
 			for (Form subForm : SwingRendererUtils.findDescendantForms(fieldControlPlaceHolder, swingRenderer)) {
 				subForm.visibilityEventsDisabled = false;

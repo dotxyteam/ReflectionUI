@@ -159,7 +159,7 @@ public class GenericEnumerationFactory {
 
 	@Override
 	public String toString() {
-		return "ArrayAsEnumerationFactory [enumerationTypeName=" + enumerationTypeName + ", typeCaption=" + typeCaption
+		return "GenericEnumerationFactory [enumerationTypeName=" + enumerationTypeName + ", typeCaption=" + typeCaption
 				+ "]";
 	}
 

@@ -410,7 +410,7 @@ public class MiscUtils {
 		if (error2 == null) {
 			return false;
 		}
-		return error1.toString().equals(error2.toString());
+		return getPrintedStackTrace(error1).equals(getPrintedStackTrace(error2));
 	}
 
 }

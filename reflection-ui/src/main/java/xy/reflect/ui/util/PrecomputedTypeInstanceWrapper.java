@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ITransaction;
+import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -229,6 +231,31 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
+		protected ResourcePath getIconImagePath(ITypeInfo type, Object object) {
+			return super.getIconImagePath(type, ((PrecomputedTypeInstanceWrapper) object));
+		}
+
+		@Override
+		protected boolean isEnabled(IMethodInfo method, Object object, ITypeInfo objectType) {
+			return super.isEnabled(method, ((PrecomputedTypeInstanceWrapper) object), objectType);
+		}
+
+		@Override
+		protected ITransaction createTransaction(ITypeInfo type, Object object) {
+			return super.createTransaction(type, ((PrecomputedTypeInstanceWrapper) object));
+		}
+
+		@Override
+		protected void onFormRefresh(ITypeInfo type, Object object) {
+			super.onFormRefresh(type, ((PrecomputedTypeInstanceWrapper) object));
+		}
+
+		@Override
+		protected Runnable getLastFormRefreshStateRestorationJob(ITypeInfo type, Object object) {
+			return super.getLastFormRefreshStateRestorationJob(type, ((PrecomputedTypeInstanceWrapper) object));
+		}
+
+		@Override
 		protected Runnable getNextUpdateCustomUndoJob(IFieldInfo field, Object object, Object value,
 				ITypeInfo objectType) {
 			return super.getNextUpdateCustomUndoJob(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(),
@@ -415,6 +442,11 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 				newResult[i] = new PrecomputedTypeInstanceWrapper(result[i], type);
 			}
 			return newResult;
+		}
+
+		@Override
+		protected Object getValue(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
+			return new PrecomputedTypeInstanceWrapper(super.getValue(info, parentEnumType), parentEnumType);
 		}
 
 		@Override

@@ -1394,7 +1394,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, ITypeInfo parentEnumType) {
+	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(info, parentEnumType));
 		traceActiveCustomizations(result);
 		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),

@@ -23,9 +23,9 @@ import javax.swing.border.Border;
 public class HyperlinkTooltip {
 
 	protected static int MILLISECONDS_BEFORE_OPENING = Integer
-			.valueOf(System.getProperty(HyperlinkTooltip.class.getName() + ".MILLISECONDS_BEFORE_OPENING", "1000"));
+			.valueOf(System.getProperty(HyperlinkTooltip.class.getName() + ".MILLISECONDS_BEFORE_OPENING", "500"));
 	protected static int MILLISECONDS_BEFORE_CLOSING = Integer
-			.valueOf(System.getProperty(HyperlinkTooltip.class.getName() + ".MILLISECONDS_BEFORE_CLOSING", "1000"));
+			.valueOf(System.getProperty(HyperlinkTooltip.class.getName() + ".MILLISECONDS_BEFORE_CLOSING", "500"));
 
 	protected static final WeakHashMap<JComponent, HyperlinkTooltip> BY_COMPONENT = new WeakHashMap<>();
 
@@ -65,6 +65,9 @@ public class HyperlinkTooltip {
 			if (!isConnectedTo(component)) {
 				return;
 			}
+			if (!component.isShowing()) {
+				return;
+			}
 			PointerInfo pointerInfo = MouseInfo.getPointerInfo();
 			if (pointerInfo != null) {
 				Point pointerLocation = pointerInfo.getLocation();
@@ -80,6 +83,11 @@ public class HyperlinkTooltip {
 		showingTimer.setRepeats(false);
 		hidingTimer = new Timer(MILLISECONDS_BEFORE_CLOSING, e -> {
 			if (!isConnectedTo(component)) {
+				window.setVisible(false);
+				return;
+			}
+			if (!component.isShowing()) {
+				window.setVisible(false);
 				return;
 			}
 			PointerInfo pointerInfo = MouseInfo.getPointerInfo();
