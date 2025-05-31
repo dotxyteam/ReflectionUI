@@ -69,13 +69,13 @@ public class CustomizedUI extends ReflectionUI {
 	 * of these instances.
 	 */
 	public void clearCustomizationsCache() {
-		getTypeCache().entrySet().stream().forEach(entry -> {
+		typeCache.entrySet().stream().forEach(entry -> {
 			List<InfoProxyFactory> factories = InfoProxyFactory.listFactories(entry.getValue());
 			if (factories != null) {
 				for (InfoProxyFactory factory : factories) {
 					if (factory instanceof InfoCustomizationsFactory) {
 						if (((InfoCustomizationsFactory) factory).getCustomizedUI() == CustomizedUI.this) {
-							getTypeCache().remove(entry.getKey());
+							typeCache.remove(entry.getKey());
 						}
 					}
 				}

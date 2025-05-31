@@ -361,9 +361,6 @@ public class Form extends ImagePanel {
 		boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
-				if(fieldControlPlaceHolder.getField().getName().equals("instanceBuilder")) {
-					System.out.println("debug");
-				}
 				if (Thread.currentThread().isInterrupted()) {
 					return;
 				}
@@ -1164,6 +1161,9 @@ public class Form extends ImagePanel {
 
 			@Override
 			public IFieldInfo apply(IFieldInfo field) {
+				if(field.getName().equals("expressionPattern")) {
+					System.out.println("debug");
+				}
 				if (field.isHidden()) {
 					return null;
 				}

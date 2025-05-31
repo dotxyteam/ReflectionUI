@@ -182,17 +182,6 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean isFactoryTracedFor(ITypeInfo base) {
-		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), base.getName());
-		if (t != null) {
-			if (t.getBaseTypeName() != null) {
-				return false;
-			}
-		}
-		return super.isFactoryTracedFor(base);
-	}
-
-	@Override
 	public ITypeInfo wrapTypeInfo(ITypeInfo type) {
 		for (TypeCustomization tc : new ArrayList<TypeCustomization>(
 				InfoCustomizationsFactory.this.customizedUI.getInfoCustomizations().getTypeCustomizations())) {
@@ -1394,7 +1383,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
+	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info,
+			IEnumerationTypeInfo parentEnumType) {
 		Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(info, parentEnumType));
 		traceActiveCustomizations(result);
 		EnumerationCustomization e = InfoCustomizations.getEnumerationCustomization(this.getInfoCustomizations(),
