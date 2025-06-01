@@ -1986,7 +1986,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @return the result of {@link IEnumerationItemInfo#getSpecificProperties()}
 	 *         unless overridden.
 	 */
-	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
+	protected Map<String, Object> getSpecificProperties(IEnumerationItemInfo info,
+			IEnumerationTypeInfo parentEnumType) {
 		return info.getSpecificProperties();
 	}
 
@@ -2018,14 +2019,6 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 */
 	protected String getCaption(IEnumerationItemInfo info, IEnumerationTypeInfo parentEnumType) {
 		return info.getCaption();
-	}
-
-	protected boolean isFactoryTracedFor(ITypeInfo base) {
-		return true;
-	}
-
-	protected boolean isFactoryTracedFor(IApplicationInfo base) {
-		return true;
 	}
 
 	public class GeneratedApplicationInfoProxy extends AbstractInfoProxy implements IApplicationInfo {
@@ -2152,10 +2145,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return traceActiveFactory(InfoProxyFactory.this.getSpecificProperties(base));
 		}
 
-		private Map<String, Object> traceActiveFactory(Map<String, Object> specificProperties) {
-			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
-				return specificProperties;
-			}
+		protected Map<String, Object> traceActiveFactory(Map<String, Object> specificProperties) {
 			Map<String, Object> result = new HashMap<String, Object>(specificProperties);
 			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories == null) {
@@ -2166,10 +2156,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return result;
 		}
 
-		private void checkActiveFactories() {
-			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
-				return;
-			}
+		protected void checkActiveFactories() {
 			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories != null) {
 				List<String> factoryIds = new ArrayList<String>();
@@ -2498,10 +2485,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return traceActiveFactory(InfoProxyFactory.this.getSpecificProperties(base));
 		}
 
-		private Map<String, Object> traceActiveFactory(Map<String, Object> specificProperties) {
-			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
-				return specificProperties;
-			}
+		protected Map<String, Object> traceActiveFactory(Map<String, Object> specificProperties) {
 			Map<String, Object> result = new HashMap<String, Object>(specificProperties);
 			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories == null) {
@@ -2512,10 +2496,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return result;
 		}
 
-		private void checkActiveFactories() {
-			if (!InfoProxyFactory.this.isFactoryTracedFor(base)) {
-				return;
-			}
+		protected void checkActiveFactories() {
 			List<InfoProxyFactory> factories = listFactories(base);
 			if (factories != null) {
 				List<String> factoryIds = new ArrayList<String>();

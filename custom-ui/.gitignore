@@ -5,3 +5,4 @@
 /default.icu
 /.settings/
 /.classpath
+/hs_err_*.log
