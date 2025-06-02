@@ -130,7 +130,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 		return genericTypeParameters;
 	}
 
-	public List<Class<?>> guessGenericTypeParameters(Class<?> parameterizedBaseClass) {
+	public List<Class<?>> guessGenericTypeParameter(Class<?> parameterizedBaseClass) {
 		TypeResolver typeResolver = new TypeResolver();
 		ResolvedType resolvedType = null;
 		if (declaringMember == null) {
@@ -203,7 +203,7 @@ public class JavaTypeInfoSource implements ITypeInfoSource {
 	}
 
 	public Class<?> guessGenericTypeParameters(Class<?> parameterizedBaseClass, int genericParameterIndex) {
-		List<Class<?>> parameterClasses = guessGenericTypeParameters(parameterizedBaseClass);
+		List<Class<?>> parameterClasses = guessGenericTypeParameter(parameterizedBaseClass);
 		if (parameterClasses == null) {
 			return null;
 		}
