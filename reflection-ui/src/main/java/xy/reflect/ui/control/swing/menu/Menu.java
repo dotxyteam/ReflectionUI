@@ -64,20 +64,27 @@ public class Menu extends JMenu {
 	}
 
 	protected void customizeUI() {
+		Color backgroundColor = menuBarOwner.getControlsBackgroundColor();
 		Color foregroundColor = menuBarOwner.getControlsForegroundColor();
 		Font labelCustomFont = menuBarOwner.getLabelCustomFont();
-		/*
-		 * Windows menus must be transparent (no background color) so that an eventual
-		 * background image would be visible through them. Note that the menu bar is
-		 * also transparent.
-		 */
-		setOpaque(false);
+		if (backgroundColor != null) {
+			setBackground(backgroundColor);
+		}
+		if (isTopLevelMenu()) {
+			/*
+			 * Windows top-level menus may be transparent (no background color) so that an
+			 * eventual background image would be visible through them. Note that the menu
+			 * bar may also be transparent.
+			 */
+			setOpaque(backgroundColor != null);
+		} else {
+			setOpaque(true);
+		}
 		if (foregroundColor != null) {
 			setForeground(foregroundColor);
 		}
 		if (labelCustomFont != null) {
-			setFont(labelCustomFont.deriveFont(getFont().getStyle(),
-					getFont().getSize()));
+			setFont(labelCustomFont.deriveFont(getFont().getStyle(), getFont().getSize()));
 		}
 	}
 

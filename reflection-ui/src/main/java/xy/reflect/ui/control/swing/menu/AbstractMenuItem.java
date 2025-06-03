@@ -36,6 +36,7 @@ public abstract class AbstractMenuItem extends JMenuItem {
 		if (backgroundColor != null) {
 			setBackground(backgroundColor);
 		}
+		setOpaque(true);
 		if (foregroundColor != null) {
 			setForeground(foregroundColor);
 		}
