@@ -80,7 +80,7 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Filter;
-import xy.reflect.ui.util.FixedFutureTask;
+import xy.reflect.ui.util.BetterFutureTask;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -121,7 +121,7 @@ public class Form extends ImagePanel {
 	protected JMenuBar menuBar;
 	protected boolean absolutelyVisible = false;
 
-	protected FixedFutureTask<Boolean> currentValidationTask;
+	protected BetterFutureTask<Boolean> currentValidationTask;
 
 	/**
 	 * Creates a form allowing to view/edit the given object.
@@ -420,7 +420,7 @@ public class Form extends ImagePanel {
 	 */
 	public void validateFormInBackgroundAndReportOnStatusBar() {
 		ensureNoCurrentValidationTask();
-		currentValidationTask = new FixedFutureTask<Boolean>(new Runnable() {
+		currentValidationTask = new BetterFutureTask<Boolean>(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -1161,7 +1161,7 @@ public class Form extends ImagePanel {
 
 			@Override
 			public IFieldInfo apply(IFieldInfo field) {
-				if(field.getName().equals("expressionPattern")) {
+				if (field.getName().equals("expressionPattern")) {
 					System.out.println("debug");
 				}
 				if (field.isHidden()) {
@@ -1396,7 +1396,7 @@ public class Form extends ImagePanel {
 	public void ensureNoCurrentValidationTask() {
 		if ((currentValidationTask != null) && !currentValidationTask.isDone()) {
 			try {
-				currentValidationTask.cancelAndWait(true);
+				currentValidationTask.cancelAndWaitRepeatedly(100);
 			} catch (InterruptedException e) {
 				throw new ReflectionUIError(e);
 			}
