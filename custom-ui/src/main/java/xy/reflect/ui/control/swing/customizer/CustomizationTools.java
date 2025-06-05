@@ -55,7 +55,6 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.Mapping;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
-import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
@@ -73,6 +72,7 @@ import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo.SubListGroupField;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
+import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
@@ -809,6 +809,11 @@ public class CustomizationTools {
 					if (methodCustomization.getEncapsulationFieldName() == null) {
 						continue;
 					}
+					if (member instanceof IFieldInfo) {
+						if (member.getName().equals(methodCustomization.getEncapsulationFieldName())) {
+							continue;
+						}
+					}
 					capsuleNames.add(methodCustomization.getEncapsulationFieldName());
 				}
 			}
@@ -875,7 +880,6 @@ public class CustomizationTools {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void transferFieldCustomizationSettings(TypeCustomization srcTc, TypeCustomization dstTc,
 			String fieldName) {
 		FieldCustomization srcFc = InfoCustomizations.getFieldCustomization(srcTc, fieldName, true);
@@ -883,29 +887,26 @@ public class CustomizationTools {
 		if (srcFc.isInitial()) {
 			removeCustomizationItem(dstTc, "fieldsCustomizations", dstFc);
 		} else {
-			changeCustomizationFieldValue(dstFc, "customFieldCaption", srcFc.getCustomFieldCaption());
-			changeCustomizationFieldValue(dstFc, "customValueReturnMode", srcFc.getCustomValueReturnMode());
-			changeCustomizationFieldValue(dstFc, "displayedAsSingletonList", srcFc.isDisplayedAsSingletonList());
-			changeCustomizationFieldValue(dstFc, "formControlCreationForced", srcFc.isFormControlCreationForced());
-			changeCustomizationFieldValue(dstFc, "formControlEmbeddingForced", srcFc.isFormControlEmbeddingForced());
-			changeCustomizationFieldValue(dstFc, "autoUpdatePeriodMilliseconds",
-					srcFc.getAutoUpdatePeriodMilliseconds());
-			changeCustomizationFieldValue(dstFc, "getOnlyForced", srcFc.isGetOnlyForced());
-			changeCustomizationFieldValue(dstFc, "nullValueDistinctForced", srcFc.isNullValueDistinctForced());
-			changeCustomizationFieldValue(dstFc, "nullValueLabel", srcFc.getNullValueLabel());
-			changeCustomizationFieldValue(dstFc, "onlineHelp", srcFc.getOnlineHelp());
-			changeCustomizationFieldValue(dstFc, "typeConversion",
-					(TypeConversion) IOUtils.copyThroughSerialization(srcFc.getTypeConversion()));
-			changeCustomizationFieldValue(dstFc, "nullReplacement", (srcFc.getNullReplacement() == null) ? null
-					: (TextualStorage) IOUtils.copyThroughSerialization(srcFc.getNullReplacement()));
-			changeCustomizationFieldValue(dstFc, "specificProperties", (Map<String, Object>) IOUtils
-					.copyThroughSerialization((Serializable) srcFc.getSpecificProperties()));
-			changeCustomizationFieldValue(dstFc, "specificTypeCustomizations",
-					(FieldTypeSpecificities) IOUtils.copyThroughSerialization(srcFc.getSpecificTypeCustomizations()));
+			for (IFieldInfo field : ReflectionUI.getDefault()
+					.getTypeInfo(new JavaTypeInfoSource(FieldCustomization.class, null)).getFields()) {
+				if (field.isGetOnly()) {
+					continue;
+				}
+				if (field.getName().equals("uniqueIdentifier")) {
+					continue;
+				}
+				if (field.getName().equals("encapsulationFieldName")) {
+					continue;
+				}
+				if (field.getName().equals("duplicateGenerated")) {
+					continue;
+				}
+				changeCustomizationFieldValue(dstFc, field.getName(),
+						IOUtils.copyThroughSerialization((Serializable) field.getValue(srcFc)));
+			}
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void transferMethodCustomizationSettings(TypeCustomization srcTc, TypeCustomization dstTc,
 			String methodSignature) {
 		MethodCustomization srcMc = InfoCustomizations.getMethodCustomization(srcTc, methodSignature, true);
@@ -913,16 +914,23 @@ public class CustomizationTools {
 		if (srcMc.isInitial()) {
 			removeCustomizationItem(dstTc, "methodsCustomizations", dstMc);
 		} else {
-			changeCustomizationFieldValue(dstMc, "customMethodCaption", srcMc.getCustomMethodCaption());
-			changeCustomizationFieldValue(dstMc, "customValueReturnMode", srcMc.getCustomValueReturnMode());
-			changeCustomizationFieldValue(dstMc, "detachedReturnValueForced", srcMc.isDetachedReturnValueForced());
-			changeCustomizationFieldValue(dstMc, "iconImagePath", srcMc.getIconImagePath());
-			changeCustomizationFieldValue(dstMc, "nullReturnValueLabel", srcMc.getNullReturnValueLabel());
-			changeCustomizationFieldValue(dstMc, "onlineHelp", srcMc.getOnlineHelp());
-			changeCustomizationFieldValue(dstMc, "readOnlyForced", srcMc.isReadOnlyForced());
-			changeCustomizationFieldValue(dstMc, "ignoredReturnValueForced", srcMc.isIgnoredReturnValueForced());
-			changeCustomizationFieldValue(dstMc, "specificProperties", (Map<String, Object>) IOUtils
-					.copyThroughSerialization((Serializable) dstMc.getSpecificProperties()));
+			for (IFieldInfo field : ReflectionUI.getDefault()
+					.getTypeInfo(new JavaTypeInfoSource(MethodCustomization.class, null)).getFields()) {
+				if (field.isGetOnly()) {
+					continue;
+				}
+				if (field.getName().equals("uniqueIdentifier")) {
+					continue;
+				}
+				if (field.getName().equals("encapsulationFieldName")) {
+					continue;
+				}
+				if (field.getName().equals("duplicateGenerated")) {
+					continue;
+				}
+				changeCustomizationFieldValue(dstMc, field.getName(),
+						IOUtils.copyThroughSerialization((Serializable) field.getValue(srcMc)));
+			}
 		}
 	}
 
@@ -1221,7 +1229,7 @@ public class CustomizationTools {
 		if (awtBackgroundColor != null) {
 			result.setBackground(awtBackgroundColor);
 		}
-		result.setOpaque(awtBackgroundColor != null);
+		result.setOpaque(true);
 		if (awtForegroundColor != null) {
 			result.setForeground(awtForegroundColor);
 		}
@@ -1248,6 +1256,7 @@ public class CustomizationTools {
 		if (backgroundColor != null) {
 			result.setBackground(backgroundColor);
 		}
+		result.setOpaque(true);
 		if (foregroundColor != null) {
 			result.setForeground(foregroundColor);
 		}

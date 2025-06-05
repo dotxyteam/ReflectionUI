@@ -114,6 +114,7 @@ public class Form extends ImagePanel {
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
 
 	protected Container categoriesControl;
+	protected ControlPanel scrollPane;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
 	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
@@ -625,9 +626,11 @@ public class Form extends ImagePanel {
 			ControlPanel contentPanel = new ControlPanel();
 			{
 				membersPanel.setLayout(new BorderLayout());
-				membersPanel.add(createMainScrollPane(contentPanel), BorderLayout.CENTER);
+				membersPanel.add(createMainScrollPane(scrollPane = contentPanel), BorderLayout.CENTER);
 			}
 			membersPanel = contentPanel;
+		} else {
+			scrollPane = null;
 		}
 		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
 				methodControlPlaceHoldersByCategory);
@@ -1108,6 +1111,14 @@ public class Form extends ImagePanel {
 		return categoriesControl;
 	}
 
+	/**
+	 * @return the scroll pane that contains the form controls, or null if the
+	 *         form's contents are not scrollable.
+	 */
+	public ControlPanel getScrollPane() {
+		return scrollPane;
+	}
+
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> createMethodControlPlaceHoldersByCategory(
 			List<IMethodInfo> methods) {
 		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> result = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
@@ -1544,8 +1555,7 @@ public class Form extends ImagePanel {
 
 		if (!modificationsDetected) {
 			if (((objectType.getFormPreferredWidth() != -1)
-					|| (objectType.getFormPreferredHeight() != -1)) != ((getComponentCount() > 0)
-							&& (getComponent(0) instanceof JScrollPane))) {
+					|| (objectType.getFormPreferredHeight() != -1)) != (scrollPane != null)) {
 				modificationsDetected = true;
 			}
 		}
