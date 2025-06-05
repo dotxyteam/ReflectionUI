@@ -209,7 +209,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				throw new ReflectionUIError(t);
 			}
 		};
-		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, this, input, instanceType,
+		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, this, input, PolymorphicTypeOptionsFactory
+				.preventPolymorphismRecursivity(swingRenderer.getReflectionUI(), polymorphicType),
 				commitExceptionHandler);
 		return dynamicControlBuilder.createEditorForm(true, false);
 	}

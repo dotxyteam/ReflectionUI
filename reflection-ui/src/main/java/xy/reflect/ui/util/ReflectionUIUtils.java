@@ -459,7 +459,7 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean hasPolymorphicInstanceSubTypes(ITypeInfo type) {
-		if (PolymorphicTypeOptionsFactory.isRecursivityDetected(type)) {
+		if (PolymorphicTypeOptionsFactory.isPolymorphismRecursivityDetected(type)) {
 			return false;
 		}
 		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();

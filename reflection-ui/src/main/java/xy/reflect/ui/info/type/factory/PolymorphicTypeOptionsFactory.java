@@ -2,6 +2,7 @@
 package xy.reflect.ui.info.type.factory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +49,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			public Iterator<ITypeInfo> iterator() {
 				List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 				if (polymorphicType.isConcrete()) {
-					result.add(0, detectRecursivity(reflectionUI, polymorphicType));
+					result.add(0, preventPolymorphismRecursivity(reflectionUI, polymorphicType));
 				}
 				result.addAll(listConcreteDescendantTypes(polymorphicType));
 				return result.iterator();
@@ -70,14 +71,18 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	protected static ITypeInfo detectRecursivity(ReflectionUI reflectionUI, final ITypeInfo type) {
-		if (isRecursivityDetected(type)) {
+	public static ITypeInfo preventPolymorphismRecursivity(ReflectionUI reflectionUI, final ITypeInfo type) {
+		if (isPolymorphismRecursivityDetected(type)) {
 			throw new RecursivePolymorphismDetectionException();
 		}
 		final ITypeInfoSource typeSource = type.getSource();
 		final ITypeInfo unwrappedType = typeSource.buildTypeInfo(reflectionUI);
 		final ITypeInfo[] blockedRecursivityType = new ITypeInfo[1];
 		blockedRecursivityType[0] = new InfoProxyFactory() {
+			@Override
+			protected List<ITypeInfo> getPolymorphicInstanceSubTypes(ITypeInfo type) {
+				return Collections.emptyList();
+			}
 
 			@Override
 			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
@@ -102,7 +107,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	public static boolean isRecursivityDetected(ITypeInfo type) {
+	public static boolean isPolymorphismRecursivityDetected(ITypeInfo type) {
 		return Boolean.TRUE.equals(type.getSpecificProperties().get(POLYMORPHISM_EXPLORED_PROPERTY_KEY));
 	}
 

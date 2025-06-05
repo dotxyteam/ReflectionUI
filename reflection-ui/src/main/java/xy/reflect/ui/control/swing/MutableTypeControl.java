@@ -3,6 +3,8 @@ package xy.reflect.ui.control.swing;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JComponent;
 
@@ -81,6 +83,24 @@ public class MutableTypeControl extends NullableControl {
 				}
 			}
 
+			@Override
+			protected String getCapsuleTypeName() {
+				/*
+				 * Rename several types for backward compatibility.
+				 */
+				Pattern pattern = Pattern.compile("FieldContext \\[fieldName=, objectType="
+						+ "Encapsulation \\[context=FieldContext (.+), subContext=PolymorphicInstance, encapsulatedObjectType=([a-zA-Z0-9_\\.]+)\\]"
+						+ "\\]");
+				Matcher matcher = pattern.matcher(getContext().getIdentifier());
+				if (matcher.matches()) {
+					String result = "Encapsulation [context=FieldContext " + matcher.group(1)
+							+ ", subContext=PolymorphicInstance, encapsulatedObjectType=" + data.getType().getName()
+							+ "]";
+					return result;
+				}
+				return super.getCapsuleTypeName();
+			}
+
 		};
 	}
 
@@ -101,7 +121,7 @@ public class MutableTypeControl extends NullableControl {
 			}
 		}
 		final boolean[] result = new boolean[1];
-		data.returningValue(value, new Runnable() {			
+		data.returningValue(value, new Runnable() {
 			@Override
 			public void run() {
 				result[0] = MutableTypeControl.super.refreshUI(refreshStructure);
