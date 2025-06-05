@@ -1582,7 +1582,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return ItemCreationMode.DEFAULT_UNVERIFIED_INSTANCE;
 			}
 		} else {
-			return ItemCreationMode.CUSTOM_UNVERIFIED_INSTANCE;
+			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+				return ItemCreationMode.CUSTOM_VERIFIED_INSTANCE;
+			} else {
+				return ItemCreationMode.CUSTOM_UNVERIFIED_INSTANCE;
+			}
 		}
 	}
 
@@ -1659,6 +1663,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public void removeListControlSelectionListener(Listener<List<BufferedItemPosition>> listener) {
 		selectionListeners.remove(listener);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Listener<List<BufferedItemPosition>>[] getListControlSelectionListeners() {
+		return selectionListeners.toArray(new Listener[selectionListeners.size()]);
 	}
 
 	protected void initializeSelectionListening() {
