@@ -12,7 +12,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -55,15 +54,33 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 
 		private static final long serialVersionUID = 1L;
 
-		public ControlDimensionSpecification length = new ControlDimensionSpecification();
+		public ControlDimensionSpecification width = new ControlDimensionSpecification();
+		public ControlDimensionSpecification height = new ControlDimensionSpecification();
 		public boolean lineWrappingEnabled = false;
 
-		public int getLenghthInPixels() {
-			if (length.unit == ControlSizeUnit.PIXELS) {
-				return length.value;
-			} else if (length.unit == ControlSizeUnit.SCREEN_PERCENT) {
+		public int getWidthInPixels() {
+			if (width == null) {
+				return -1;
+			}
+			if (width.unit == ControlSizeUnit.PIXELS) {
+				return width.value;
+			} else if (width.unit == ControlSizeUnit.SCREEN_PERCENT) {
 				Dimension screenSize = MiscUtils.getDefaultScreenSize();
-				return Math.round((length.value / 100f) * screenSize.height);
+				return Math.round((width.value / 100f) * screenSize.width);
+			} else {
+				throw new ReflectionUIError();
+			}
+		}
+
+		public int getHeightInPixels() {
+			if (height == null) {
+				return -1;
+			}
+			if (height.unit == ControlSizeUnit.PIXELS) {
+				return height.value;
+			} else if (height.unit == ControlSizeUnit.SCREEN_PERCENT) {
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
+				return Math.round((height.value / 100f) * screenSize.height);
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -93,12 +110,16 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 		}
 
 		@Override
-		protected Dimension getDynamicPreferredSize(ControlScrollPane scrollPane, Dimension defaultSize) {
-			Dimension result = super.getDynamicPreferredSize(scrollPane, defaultSize);
+		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+			Dimension result = new Dimension(defaultSize);
 			MultipleLinesTextConfiguration controlCustomization = (MultipleLinesTextConfiguration) loadControlCustomization(
 					input);
-			int configuredHeight = controlCustomization.getLenghthInPixels();
-			result.height = configuredHeight;
+			if (controlCustomization.width != null) {
+				result.width = controlCustomization.getWidthInPixels();
+			}
+			if (controlCustomization.height != null) {
+				result.height = controlCustomization.getHeightInPixels();
+			}
 			return result;
 		}
 

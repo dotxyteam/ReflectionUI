@@ -1,7 +1,8 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
+
+import java.awt.Dimension;
+import java.io.Serializable;
 
 import javax.swing.JPasswordField;
 import javax.swing.text.JTextComponent;
@@ -9,7 +10,10 @@ import javax.swing.text.JTextComponent;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
+import xy.reflect.ui.control.swing.plugin.MultipleLinesTextPlugin.MultipleLinesTextConfiguration.ControlSizeUnit;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.ReflectionUIError;
 
 /**
  * Field control plugin that displays password text controls.
@@ -48,6 +52,29 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 		private static final long serialVersionUID = 1L;
 
 		public char echoCharacter = '\u2022';
+		public ControlDimensionSpecification width = new ControlDimensionSpecification();
+
+		public int getWidthInPixels() {
+			if (width == null) {
+				return -1;
+			}
+			if (width.unit == ControlSizeUnit.PIXELS) {
+				return width.value;
+			} else if (width.unit == ControlSizeUnit.SCREEN_PERCENT) {
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
+				return Math.round((width.value / 100f) * screenSize.width);
+			} else {
+				throw new ReflectionUIError();
+			}
+		}
+	}
+
+	public static class ControlDimensionSpecification implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		public int value = 400;
+		public ControlSizeUnit unit = ControlSizeUnit.PIXELS;
 
 	}
 
@@ -82,6 +109,17 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 				}
 
 			};
+		}
+
+		@Override
+		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+			Dimension result = new Dimension(defaultSize);
+			PasswordFieldConfiguration controlCustomization = (PasswordFieldConfiguration) loadControlCustomization(
+					input);
+			if (controlCustomization.width != null) {
+				result.width = controlCustomization.getWidthInPixels();
+			}
+			return result;
 		}
 
 		@Override

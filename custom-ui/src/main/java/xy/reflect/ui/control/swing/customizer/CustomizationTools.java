@@ -1284,6 +1284,7 @@ public class CustomizationTools {
 		if (backgroundColor != null) {
 			result.setBackground(backgroundColor);
 		}
+		result.setOpaque(true);
 		if (foregroundColor != null) {
 			result.setForeground(foregroundColor);
 		}

@@ -693,6 +693,30 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				return result;
 			}
 
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.min(result.height, preferredSize.height);
+					}
+				}
+				return result;
+
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				Dimension result = super.getMaximumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.max(result.height, preferredSize.height);
+					}
+				}
+				return result;
+			}
 		};
 	}
 

@@ -3,10 +3,10 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
@@ -123,9 +123,8 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected JScrollPane createScrollPane() {
-				JScrollPane result = super.createScrollPane();
-				return result;
+			protected Dimension getDynamicPreferredSize(Dimension defaultPreferredSize) {
+				return defaultPreferredSize;
 			}
 		};
 		return result;

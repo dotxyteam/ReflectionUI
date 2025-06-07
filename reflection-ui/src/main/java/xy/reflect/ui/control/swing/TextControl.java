@@ -216,7 +216,32 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			public Dimension getPreferredSize() {
-				return getDynamicPreferredSize(this, super.getPreferredSize());
+				return getDynamicPreferredSize(super.getPreferredSize());
+			}
+
+			@Override
+			public Dimension getMinimumSize() {
+				Dimension result = super.getMinimumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.min(result.height, preferredSize.height);
+					}
+				}
+				return result;
+
+			}
+
+			@Override
+			public Dimension getMaximumSize() {
+				Dimension result = super.getMaximumSize();
+				if (result != null) {
+					Dimension preferredSize = getPreferredSize();
+					if (preferredSize != null) {
+						result.height = Math.max(result.height, preferredSize.height);
+					}
+				}
+				return result;
 			}
 
 			void adaptSizeOnScrollBarsVisibilityChange() {
@@ -253,12 +278,12 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected Dimension getDynamicPreferredSize(ControlScrollPane scrollPane, Dimension defaultPreferredSize) {
+	protected Dimension getDynamicPreferredSize(Dimension defaultPreferredSize) {
 		Dimension result = new Dimension(defaultPreferredSize);
-		int characterSize = SwingRendererUtils.getStandardCharacterWidth(textComponent);
-		int maxPreferredHeight = SwingRendererUtils.getScreenSize(this).height / 3;
-		result.width = characterSize * 20;
-		result.height = Math.min(result.height, maxPreferredHeight);
+		Dimension characterSize = new Dimension(SwingRendererUtils.getStandardCharacterWidth(textComponent),
+				SwingRendererUtils.getStandardCharacterHeight(textComponent));
+		result.width = Math.min(result.width, characterSize.width * 20);
+		result.height = Math.min(result.height, characterSize.height * 10);
 		return result;
 
 	}

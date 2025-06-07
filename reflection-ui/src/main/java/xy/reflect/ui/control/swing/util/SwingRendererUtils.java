@@ -285,6 +285,14 @@ public class SwingRendererUtils {
 		return c.getFontMetrics(font).charWidth('a');
 	}
 
+	public static int getStandardCharacterHeight(Component c) {
+		Font font = c.getFont();
+		if (font == null) {
+			font = UIManager.getFont("Panel.font");
+		}
+		return c.getFontMetrics(font).getHeight();
+	}
+
 	public static String adaptToolTipTextToMultiline(String toolTipText) {
 		if (toolTipText == null) {
 			return null;

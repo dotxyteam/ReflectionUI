@@ -23,7 +23,6 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.util.MiscUtils;
@@ -72,7 +71,8 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		public HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
 		public boolean underlined = false;
 		public boolean struckThrough = false;
-		public ControlDimensionSpecification length;
+		public ControlDimensionSpecification width = new ControlDimensionSpecification();
+		public ControlDimensionSpecification height;
 		public ColorSpecification color;
 
 		public BufferedImage getSampleTextImage() {
@@ -120,15 +120,29 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			return result;
 		}
 
-		public int getLenghthInPixels() {
-			if (length == null) {
+		public int getWidthInPixels() {
+			if (width == null) {
 				return -1;
 			}
-			if (length.unit == ControlSizeUnit.PIXELS) {
-				return length.value;
-			} else if (length.unit == ControlSizeUnit.SCREEN_PERCENT) {
+			if (width.unit == ControlSizeUnit.PIXELS) {
+				return width.value;
+			} else if (width.unit == ControlSizeUnit.SCREEN_PERCENT) {
 				Dimension screenSize = MiscUtils.getDefaultScreenSize();
-				return Math.round((length.value / 100f) * screenSize.height);
+				return Math.round((width.value / 100f) * screenSize.width);
+			} else {
+				throw new ReflectionUIError();
+			}
+		}
+
+		public int getHeightInPixels() {
+			if (height == null) {
+				return -1;
+			}
+			if (height.unit == ControlSizeUnit.PIXELS) {
+				return height.value;
+			} else if (height.unit == ControlSizeUnit.SCREEN_PERCENT) {
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
+				return Math.round((height.value / 100f) * screenSize.height);
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -246,8 +260,12 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		@Override
-		protected Dimension getDynamicPreferredSize(ControlScrollPane scrollPane, Dimension defaultSize) {
-			Dimension result = super.getDynamicPreferredSize(scrollPane, defaultSize);
+		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+			Dimension result = new Dimension(defaultSize);
+			int configuredWidth = getConfiguredScrollPaneWidth();
+			if (configuredWidth != -1) {
+				result.width = configuredWidth;
+			}
 			int configuredHeight = getConfiguredScrollPaneHeight();
 			if (configuredHeight != -1) {
 				result.height = configuredHeight;
@@ -255,8 +273,12 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			return result;
 		}
 
+		protected int getConfiguredScrollPaneWidth() {
+			return ((StyledTextConfiguration) getOrLoadControlCustomization()).getWidthInPixels();
+		}
+
 		protected int getConfiguredScrollPaneHeight() {
-			return ((StyledTextConfiguration) getOrLoadControlCustomization()).getLenghthInPixels();
+			return ((StyledTextConfiguration) getOrLoadControlCustomization()).getHeightInPixels();
 		}
 
 		@Override

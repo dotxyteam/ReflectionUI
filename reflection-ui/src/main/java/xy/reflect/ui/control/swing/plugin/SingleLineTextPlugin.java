@@ -1,9 +1,9 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.Dimension;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
@@ -14,7 +14,10 @@ import javax.swing.text.JTextComponent;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
+import xy.reflect.ui.control.swing.plugin.MultipleLinesTextPlugin.MultipleLinesTextConfiguration.ControlSizeUnit;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.util.MiscUtils;
+import xy.reflect.ui.util.ReflectionUIError;
 
 /**
  * Field control plugin that allows to display only single-line text.
@@ -53,6 +56,21 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 		private static final long serialVersionUID = 1L;
 
 		public char invalidCharacterReplacement = ' ';
+		public ControlDimensionSpecification width = new ControlDimensionSpecification();
+
+		public int getWidthInPixels() {
+			if (width == null) {
+				return -1;
+			}
+			if (width.unit == ControlSizeUnit.PIXELS) {
+				return width.value;
+			} else if (width.unit == ControlSizeUnit.SCREEN_PERCENT) {
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
+				return Math.round((width.value / 100f) * screenSize.width);
+			} else {
+				throw new ReflectionUIError();
+			}
+		}
 
 		private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 			in.defaultReadObject();
@@ -60,6 +78,15 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 				invalidCharacterReplacement = ' ';
 			}
 		}
+
+	}
+
+	public static class ControlDimensionSpecification implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		public int value = 400;
+		public ControlSizeUnit unit = ControlSizeUnit.PIXELS;
 
 	}
 
@@ -86,6 +113,17 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 					super.replace(fb, offset, length, text, attrs);
 				}
 			});
+			return result;
+		}
+
+		@Override
+		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+			Dimension result = new Dimension(defaultSize);
+			SingleLineTextConfiguration controlCustomization = (SingleLineTextConfiguration) loadControlCustomization(
+					input);
+			if (controlCustomization.width != null) {
+				result.width = controlCustomization.getWidthInPixels();
+			}
 			return result;
 		}
 

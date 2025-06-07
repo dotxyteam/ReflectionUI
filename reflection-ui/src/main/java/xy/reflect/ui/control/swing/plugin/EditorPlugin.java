@@ -47,18 +47,33 @@ public class EditorPlugin extends StyledTextPlugin {
 	public static class EditorConfiguration extends AbstractConfiguration {
 		private static final long serialVersionUID = 1L;
 
-		public ControlDimensionSpecification length;
+		public ControlDimensionSpecification width = new ControlDimensionSpecification();
+		public ControlDimensionSpecification height = new ControlDimensionSpecification();
 		public String syntaxImplementationClassName;
 
-		public int getLenghthInPixels() {
-			if (length == null) {
+		public int getWidthInPixels() {
+			if (width == null) {
 				return -1;
 			}
-			if (length.unit == ControlSizeUnit.PIXELS) {
-				return length.value;
-			} else if (length.unit == ControlSizeUnit.SCREEN_PERCENT) {
+			if (width.unit == ControlSizeUnit.PIXELS) {
+				return width.value;
+			} else if (width.unit == ControlSizeUnit.SCREEN_PERCENT) {
 				Dimension screenSize = MiscUtils.getDefaultScreenSize();
-				return Math.round((length.value / 100f) * screenSize.height);
+				return Math.round((width.value / 100f) * screenSize.width);
+			} else {
+				throw new ReflectionUIError();
+			}
+		}
+
+		public int getHeightInPixels() {
+			if (height == null) {
+				return -1;
+			}
+			if (height.unit == ControlSizeUnit.PIXELS) {
+				return height.value;
+			} else if (height.unit == ControlSizeUnit.SCREEN_PERCENT) {
+				Dimension screenSize = MiscUtils.getDefaultScreenSize();
+				return Math.round((height.value / 100f) * screenSize.height);
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -189,8 +204,14 @@ public class EditorPlugin extends StyledTextPlugin {
 			}
 		}
 
+		@Override
 		protected int getConfiguredScrollPaneHeight() {
-			return ((EditorConfiguration) getOrLoadControlCustomization()).getLenghthInPixels();
+			return ((EditorConfiguration) getOrLoadControlCustomization()).getHeightInPixels();
+		}
+
+		@Override
+		protected int getConfiguredScrollPaneWidth() {
+			return ((EditorConfiguration) getOrLoadControlCustomization()).getWidthInPixels();
 		}
 
 		@Override

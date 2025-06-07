@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.util;
 
 import java.awt.Component;
@@ -33,6 +31,16 @@ public class ControlScrollPane extends JScrollPane {
 	}
 
 	@Override
+	public Dimension getPreferredSize() {
+		Dimension result = super.getPreferredSize();
+		if (result == null) {
+			return null;
+		}
+		result = preventScrollBarsFromHidingContent(result);
+		return result;
+	}
+
+	@Override
 	public Dimension getMinimumSize() {
 		Dimension result = super.getMinimumSize();
 		if (result == null) {
@@ -43,8 +51,8 @@ public class ControlScrollPane extends JScrollPane {
 	}
 
 	@Override
-	public Dimension getPreferredSize() {
-		Dimension result = super.getPreferredSize();
+	public Dimension getMaximumSize() {
+		Dimension result = super.getMaximumSize();
 		if (result == null) {
 			return null;
 		}
@@ -57,13 +65,13 @@ public class ControlScrollPane extends JScrollPane {
 		JScrollBar hSBar = getHorizontalScrollBar();
 		{
 			if (hSBar != null) {
-				result.height += hSBar.getHeight() + 2;
+				result.height += hSBar.getHeight() + 2/* +2 to prevent the other scroll bar from appearing uselessly */;
 			}
 		}
 		JScrollBar vSBar = getVerticalScrollBar();
 		{
 			if (vSBar != null) {
-				result.width += vSBar.getWidth() + 2;
+				result.width += vSBar.getWidth() + 2/* +2 to prevent the other scroll bar from appearing uselessly */;
 			}
 		}
 		return result;

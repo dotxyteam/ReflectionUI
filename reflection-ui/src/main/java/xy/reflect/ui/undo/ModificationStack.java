@@ -462,7 +462,10 @@ public class ModificationStack {
 		if (!isInComposite()) {
 			validate();
 		}
-		compositeStack.push(new ModificationStack("(composite level " + compositeStack.size() + ") " + name));
+		ModificationStack compositeStackElement = new ModificationStack(
+				"(composite level " + compositeStack.size() + ") " + name);
+		compositeStackElement.setMaximumSize(Integer.MAX_VALUE);
+		compositeStack.push(compositeStackElement);
 	}
 
 	/**
