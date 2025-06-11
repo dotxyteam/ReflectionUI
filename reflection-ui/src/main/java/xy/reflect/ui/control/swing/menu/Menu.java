@@ -8,6 +8,7 @@ import java.awt.Font;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
@@ -46,7 +47,7 @@ public class Menu extends JMenu {
 		customizeUI();
 		for (int i = 0; i < menuInfo.getItemCategories().size(); i++) {
 			if (i > 0) {
-				addSeparator();
+				add(createSeparator());
 			}
 			MenuItemCategory category = menuInfo.getItemCategories().get(i);
 			for (AbstractMenuItemInfo item : category.getItems()) {
@@ -55,7 +56,7 @@ public class Menu extends JMenu {
 		}
 		if (menuInfo.getItems().size() > 0) {
 			if (getSubElements().length > 0) {
-				addSeparator();
+				add(createSeparator());
 			}
 			for (AbstractMenuItemInfo item : menuInfo.getItems()) {
 				add(createMenuItem(item));
@@ -86,6 +87,10 @@ public class Menu extends JMenu {
 		if (labelCustomFont != null) {
 			setFont(labelCustomFont.deriveFont(getFont().getStyle(), getFont().getSize()));
 		}
+	}
+
+	protected JSeparator createSeparator() {
+		return new MenuItemSeparator(swingRenderer, menuBarOwner);
 	}
 
 	protected JMenuItem createMenuItem(AbstractMenuItemInfo itemInfo) {
