@@ -2,7 +2,6 @@
 package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,7 +37,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 	protected IFieldControlInput input;
 	protected IFieldControlData data;
 	protected SwingRenderer swingRenderer;
-	protected Component labelComponent;
+	protected TextControl labelComponent;
 
 	public NullControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -46,37 +45,16 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		this.data = input.getControlData();
 		setLayout(new BorderLayout());
 		add(labelComponent = createLabelComponent(), BorderLayout.CENTER);
-		SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
-			@Override
-			public Border get() {
-				return new ControlPanel().getBorder();
-			}
-		}, swingRenderer);
-		setupActivationAction();
-	}
-
-	protected void setupActivationAction() {
 		labelComponent.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				runActivationAction();
 			}
 		});
-		if (!input.getControlData().isGetOnly()) {
-			setActivationAction(new Runnable() {
-				@Override
-				public void run() {
-					Object newValue = swingRenderer.onTypeInstantiationRequest(NullControl.this, data.getType());
-					if (newValue == null) {
-						return;
-					}
-					data.setValue(newValue);
-				}
-			});
-		}
+		refreshUI(true);
 	}
 
-	protected Component createLabelComponent() {
+	protected TextControl createLabelComponent() {
 		TextControl result = new TextControl(swingRenderer, new FieldControlInputProxy(input) {
 			@Override
 			public IFieldControlData getControlData() {
@@ -155,7 +133,33 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
-		return data.getValue() == null;
+		if (data.getValue() != null) {
+			return false;
+		}
+		if (refreshStructure) {
+			SwingRendererUtils.showFieldCaptionOnBorder(data, this, new Accessor<Border>() {
+				@Override
+				public Border get() {
+					return new ControlPanel().getBorder();
+				}
+			}, swingRenderer);
+			if (input.getControlData().isGetOnly()) {
+				setActivationAction(null);
+			} else {
+				setActivationAction(new Runnable() {
+					@Override
+					public void run() {
+						Object newValue = swingRenderer.onTypeInstantiationRequest(NullControl.this, data.getType());
+						if (newValue == null) {
+							return;
+						}
+						data.setValue(newValue);
+					}
+				});
+			}
+			labelComponent.refreshUI(true);
+		}
+		return true;
 	}
 
 	@Override
