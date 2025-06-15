@@ -216,7 +216,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 			@Override
 			public Dimension getPreferredSize() {
-				return getDynamicPreferredSize(super.getPreferredSize());
+				return getScrollPanePreferredSize(super.getPreferredSize());
 			}
 
 			@Override
@@ -278,7 +278,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		};
 	}
 
-	protected Dimension getDynamicPreferredSize(Dimension defaultPreferredSize) {
+	protected Dimension getScrollPanePreferredSize(Dimension defaultPreferredSize) {
 		Dimension result = new Dimension(defaultPreferredSize);
 		Dimension characterSize = new Dimension(SwingRendererUtils.getStandardCharacterWidth(textComponent),
 				SwingRendererUtils.getStandardCharacterHeight(textComponent));

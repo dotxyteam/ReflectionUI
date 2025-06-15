@@ -101,7 +101,7 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 
 			@Override
-			protected Dimension getDynamicPreferredSize(Dimension defaultPreferredSize) {
+			protected Dimension getScrollPanePreferredSize(Dimension defaultPreferredSize) {
 				return defaultPreferredSize;
 			}
 		};

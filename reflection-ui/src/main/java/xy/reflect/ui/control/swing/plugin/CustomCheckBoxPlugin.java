@@ -22,7 +22,6 @@ import xy.reflect.ui.control.swing.CheckBoxControl;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ResourcePath;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control plugin that displays check boxs with custom "selected" and
@@ -91,8 +90,6 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 
 	public class CustomCheckBoxControl extends CheckBoxControl {
 		private static final long serialVersionUID = 1L;
-
-		protected Class<?> numberClass;
 
 		public CustomCheckBoxControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
@@ -174,8 +171,7 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 		protected Icon getFirstNonNullImageIcon(Icon defaultIcon, ResourcePath... iconPaths) {
 			for (ResourcePath iconPath : iconPaths) {
 				if (iconPath != null) {
-					Image iconImage = SwingRendererUtils.loadImageThroughCache(iconPath,
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+					Image iconImage = swingRenderer.getIconImage(iconPath);
 					if (iconImage != null) {
 						return new ImageIcon(iconImage);
 					}

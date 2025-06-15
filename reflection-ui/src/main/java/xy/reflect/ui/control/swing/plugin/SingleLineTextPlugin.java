@@ -117,7 +117,7 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 		}
 
 		@Override
-		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+		protected Dimension getScrollPanePreferredSize(Dimension defaultSize) {
 			Dimension result = new Dimension(defaultSize);
 			SingleLineTextConfiguration controlCustomization = (SingleLineTextConfiguration) loadControlCustomization(
 					input);

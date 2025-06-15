@@ -110,7 +110,7 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 		}
 
 		@Override
-		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+		protected Dimension getScrollPanePreferredSize(Dimension defaultSize) {
 			Dimension result = new Dimension(defaultSize);
 			MultipleLinesTextConfiguration controlCustomization = (MultipleLinesTextConfiguration) loadControlCustomization(
 					input);

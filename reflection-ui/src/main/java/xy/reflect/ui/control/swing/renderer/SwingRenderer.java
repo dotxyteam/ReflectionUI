@@ -59,6 +59,7 @@ import xy.reflect.ui.control.swing.plugin.SliderPlugin;
 import xy.reflect.ui.control.swing.plugin.SpinnerPlugin;
 import xy.reflect.ui.control.swing.plugin.SplitFormPlugin;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin;
+import xy.reflect.ui.control.swing.plugin.ToggleButtonPlugin;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.control.swing.util.WindowManager;
@@ -260,6 +261,7 @@ public class SwingRenderer {
 		result.add(new FileBrowserPlugin());
 		result.add(new ColorPickerPlugin());
 		result.add(new ImageViewPlugin());
+		result.add(new ToggleButtonPlugin());
 		result.add(new CustomCheckBoxPlugin());
 		result.add(new DetailedListControlPlugin());
 		result.add(new StyledTextPlugin());
@@ -305,7 +307,7 @@ public class SwingRenderer {
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return getIconImage(imagePath);
 	}
 
 	/**
@@ -316,7 +318,15 @@ public class SwingRenderer {
 		if (appInfo.getIconImagePath() == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughCache(appInfo.getIconImagePath(),
+		return getIconImage(appInfo.getIconImagePath());
+	}
+
+	/**
+	 * @param iconImagePath The path indicating the icon image location.
+	 * @return an icon image loaded from the resource indicated by given path.
+	 */
+	public Image getIconImage(ResourcePath iconImagePath) {
+		return SwingRendererUtils.loadImageThroughCache(iconImagePath,
 				ReflectionUIUtils.getErrorLogListener(reflectionUI));
 	}
 
@@ -328,8 +338,7 @@ public class SwingRenderer {
 		if (category.getIconImagePath() == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughCache(category.getIconImagePath(),
-				ReflectionUIUtils.getErrorLogListener(getReflectionUI()));
+		return getIconImage(category.getIconImagePath());
 	}
 
 	/**
@@ -341,7 +350,7 @@ public class SwingRenderer {
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return getIconImage(imagePath);
 	}
 
 	/**
@@ -353,7 +362,7 @@ public class SwingRenderer {
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return getIconImage(imagePath);
 	}
 
 	/**
@@ -365,7 +374,7 @@ public class SwingRenderer {
 		if (imagePath == null) {
 			return null;
 		}
-		return SwingRendererUtils.loadImageThroughCache(imagePath, ReflectionUIUtils.getErrorLogListener(reflectionUI));
+		return getIconImage(imagePath);
 	}
 
 	/**

@@ -149,11 +149,11 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				SwingRendererUtils.handleComponentSizeChange(this);
 			}
 			Object currentValue = data.getValue();
-			setSelectedValue(currentValue);
+			updateSelection(currentValue);
 			return true;
 		}
 
-		protected void setSelectedValue(Object currentValue) {
+		protected void updateSelection(Object currentValue) {
 			buttonGroup.clearSelection();
 			int i = 0;
 			for (Enumeration<AbstractButton> radioButtonsEnum = buttonGroup.getElements(); radioButtonsEnum
@@ -288,8 +288,8 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 						return;
 					}
 					try {
-						result.setSelected(true);
 						data.setValue(value);
+						updateSelection(value);						
 					} catch (Throwable t) {
 						swingRenderer.handleException(OptionButtons.this, t);
 					}

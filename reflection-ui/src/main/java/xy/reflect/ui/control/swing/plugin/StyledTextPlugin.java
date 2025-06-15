@@ -260,7 +260,7 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		}
 
 		@Override
-		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+		protected Dimension getScrollPanePreferredSize(Dimension defaultSize) {
 			Dimension result = new Dimension(defaultSize);
 			int configuredWidth = getConfiguredScrollPaneWidth();
 			if (configuredWidth != -1) {

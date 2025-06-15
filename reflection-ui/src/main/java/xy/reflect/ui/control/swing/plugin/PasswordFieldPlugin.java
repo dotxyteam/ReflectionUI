@@ -112,7 +112,7 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		@Override
-		protected Dimension getDynamicPreferredSize(Dimension defaultSize) {
+		protected Dimension getScrollPanePreferredSize(Dimension defaultSize) {
 			Dimension result = new Dimension(defaultSize);
 			PasswordFieldConfiguration controlCustomization = (PasswordFieldConfiguration) loadControlCustomization(
 					input);
