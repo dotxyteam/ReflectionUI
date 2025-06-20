@@ -38,6 +38,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isRelevant(Object object) {
+			return true;
+		}
+
+		@Override
 		public boolean isEnabled(Object object) {
 			return true;
 		}
@@ -293,6 +298,14 @@ public interface IMethodInfo extends IInfo {
 	 *         the display.
 	 */
 	boolean isHidden();
+
+	/**
+	 * @param object The object offering this method or null (if the method is
+	 *               static or is a constructor)
+	 * @return whether the display of this method control makes sense given the
+	 *         state of the parent object.
+	 */
+	boolean isRelevant(Object object);
 
 	/**
 	 * @return the text displayed on the validation control (typically a 'validate'

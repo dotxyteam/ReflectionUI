@@ -63,6 +63,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
 		Object fieldValue = expectTheFieldValue(object);
 		theSubMethod.onControlVisibilityChange(fieldValue, visible);

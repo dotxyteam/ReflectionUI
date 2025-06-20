@@ -71,6 +71,11 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isRelevant(Object object) {
+			return true;
+		}
+
+		@Override
 		public String getOnlineHelp() {
 			return null;
 		}
@@ -341,6 +346,14 @@ public interface IFieldInfo extends IInfo {
 	 *         the display.
 	 */
 	boolean isHidden();
+
+	/**
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
+	 * @return whether the display of this field control makes sense given the state
+	 *         of the parent object.
+	 */
+	boolean isRelevant(Object object);
 
 	/**
 	 * @return a number that specifies how to distribute extra horizontal space

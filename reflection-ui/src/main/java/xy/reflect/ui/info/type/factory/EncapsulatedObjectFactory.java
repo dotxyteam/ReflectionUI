@@ -820,6 +820,11 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
+		public boolean isRelevant(Object object) {
+			return true;
+		}
+
+		@Override
 		public String getCaption() {
 			return fieldCaption;
 		}

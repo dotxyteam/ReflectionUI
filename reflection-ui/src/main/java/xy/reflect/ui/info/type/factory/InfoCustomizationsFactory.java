@@ -2602,6 +2602,25 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
+					public boolean isRelevant(Object object) {
+						if (mc.getRelevanceStatusFieldName() != null) {
+							IFieldInfo field = ReflectionUIUtils.findInfoByName(outputFields,
+									mc.getRelevanceStatusFieldName());
+							if (field == null) {
+								throw new ReflectionUIError(
+										"Relevance status field not found: '" + mc.getRelevanceStatusFieldName() + "'");
+							}
+							Object relevanceStatus = field.getValue(object);
+							if (!(relevanceStatus instanceof Boolean)) {
+								throw new ReflectionUIError("Invalid relevance status field value (boolean expected): '"
+										+ relevanceStatus + "'");
+							}
+							return (boolean) relevanceStatus;
+						}
+						return super.isRelevant(object);
+					}
+
+					@Override
 					public String getConfirmationMessage(Object object, InvocationData invocationData) {
 						if (mc.getConfirmationMessage() != null) {
 							return mc.getConfirmationMessage();
@@ -2935,6 +2954,25 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 							return true;
 						}
 						return super.isHidden();
+					}
+
+					@Override
+					public boolean isRelevant(Object object) {
+						if (fc.getRelevanceStatusFieldName() != null) {
+							IFieldInfo field = ReflectionUIUtils.findInfoByName(outputFields,
+									fc.getRelevanceStatusFieldName());
+							if (field == null) {
+								throw new ReflectionUIError(
+										"Relevance status field not found: '" + fc.getRelevanceStatusFieldName() + "'");
+							}
+							Object relevanceStatus = field.getValue(object);
+							if (!(relevanceStatus instanceof Boolean)) {
+								throw new ReflectionUIError("Invalid relevance status field value (boolean expected): '"
+										+ relevanceStatus + "'");
+							}
+							return (boolean) relevanceStatus;
+						}
+						return super.isRelevant(object);
 					}
 
 					@Override

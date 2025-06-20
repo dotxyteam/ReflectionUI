@@ -121,6 +121,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public String getParametersValidationCustomCaption() {
 		return null;
 	}

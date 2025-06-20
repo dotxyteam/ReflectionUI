@@ -155,6 +155,11 @@ public class DynamicListActionProxy implements IDynamicListAction {
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return base.isRelevant(object);
+	}
+
+	@Override
 	public void onControlVisibilityChange(Object object, boolean b) {
 		base.onControlVisibilityChange(object, b);
 	}

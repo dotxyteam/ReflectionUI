@@ -706,6 +706,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param field      The field information.
+	 * @param object     Parameter of {@link IMethodInfo#isRelevant(Object)}.
+	 * @param objectType The parent type information.
+	 * @return the result of {@link IFieldInfo#isRelevant()} unless overridden.
+	 */
+	protected boolean isRelevant(IFieldInfo field, Object object, ITypeInfo objectType) {
+		return field.isRelevant(object);
+	}
+
+	/**
+	 * @param field      The field information.
 	 * @param objectType The parent type information.
 	 * @return the result of {@link IFieldInfo#getDisplayAreaHorizontalWeight()}
 	 *         unless overridden.
@@ -907,6 +917,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 */
 	protected boolean isHidden(IMethodInfo method, ITypeInfo objectType) {
 		return method.isHidden();
+	}
+
+	/**
+	 * @param method     The method information.
+	 * @param object     Parameter of {@link IMethodInfo#isRelevant(Object)}.
+	 * @param objectType The parent type information.
+	 * @return the result of {@link IMethodInfo#isRelevant()} unless overridden.
+	 */
+	protected boolean isRelevant(IMethodInfo method, Object object, ITypeInfo objectType) {
+		return method.isRelevant(object);
 	}
 
 	/**
@@ -2756,6 +2776,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public boolean isRelevant(Object object) {
+			return InfoProxyFactory.this.isRelevant(base, object, objectType);
+		}
+
+		@Override
 		public List<IMethodInfo> getAlternativeConstructors(Object object) {
 			return InfoProxyFactory.this.getAlternativeConstructors(base, object, objectType);
 		}
@@ -2959,6 +2984,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isHidden() {
 			return InfoProxyFactory.this.isHidden(base, objectType);
+		}
+
+		@Override
+		public boolean isRelevant(Object object) {
+			return InfoProxyFactory.this.isRelevant(base, object, objectType);
 		}
 
 		@Override

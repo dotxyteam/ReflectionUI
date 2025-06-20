@@ -52,6 +52,11 @@ public abstract class AbstractDynamicListProperty extends AbstractInfo implement
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public List<IMethodInfo> getAlternativeConstructors(Object object) {
 		return null;
 	}

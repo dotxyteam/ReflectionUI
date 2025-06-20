@@ -145,6 +145,10 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base.isHidden();
 	}
 
+	public boolean isRelevant(Object object) {
+		return base.isRelevant(object);
+	}
+
 	@Override
 	public InfoCategory getCategory() {
 		return base.getCategory();

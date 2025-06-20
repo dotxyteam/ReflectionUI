@@ -2118,6 +2118,7 @@ public class InfoCustomizations implements Serializable {
 		protected String categoryName;
 		protected boolean hidden = false;
 		protected String onlineHelp;
+		protected String relevanceStatusFieldName;
 
 		public boolean isHidden() {
 			return hidden;
@@ -2125,6 +2126,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setHidden(boolean hidden) {
 			this.hidden = hidden;
+		}
+
+		public String getRelevanceStatusFieldName() {
+			return relevanceStatusFieldName;
+		}
+
+		public void setRelevanceStatusFieldName(String relevanceStatusFieldName) {
+			this.relevanceStatusFieldName = relevanceStatusFieldName;
 		}
 
 		public String getCategoryName() {

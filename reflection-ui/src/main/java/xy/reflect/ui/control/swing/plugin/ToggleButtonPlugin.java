@@ -104,6 +104,7 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 					}
 				}
 			});
+			refreshUI(true);
 		}
 
 		@Override

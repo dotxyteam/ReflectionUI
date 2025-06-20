@@ -140,6 +140,10 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.isHidden();
 	}
 
+	public boolean isRelevant(Object object) {
+		return base.isRelevant(object);
+	}
+
 	public double getDisplayAreaHorizontalWeight() {
 		return base.getDisplayAreaHorizontalWeight();
 	}

@@ -320,14 +320,12 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	public void refreshUI(boolean refreshStructure) {
-		if (refreshStructure) {
-			setVisible(!field.isHidden());
-			if (siblingCaptionControl != null) {
-				siblingCaptionControl.setVisible(isVisible());
-			}
-			if (siblingOnlineHelpControl != null) {
-				siblingOnlineHelpControl.setVisible(isVisible());
-			}
+		setVisible(!field.isHidden() && field.isRelevant(getObject()));
+		if (siblingCaptionControl != null) {
+			siblingCaptionControl.setVisible(isVisible());
+		}
+		if (siblingOnlineHelpControl != null) {
+			siblingOnlineHelpControl.setVisible(isVisible());
 		}
 		if (!isVisible()) {
 			return;

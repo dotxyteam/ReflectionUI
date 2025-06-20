@@ -55,6 +55,11 @@ public abstract class AbstractDynamicListAction extends AbstractInfo implements 
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public void onControlVisibilityChange(Object object, boolean visible) {
 	}
 

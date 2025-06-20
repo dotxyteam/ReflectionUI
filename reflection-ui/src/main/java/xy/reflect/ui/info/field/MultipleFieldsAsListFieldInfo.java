@@ -173,6 +173,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public double getDisplayAreaHorizontalWeight() {
 		return 1.0;
 	}

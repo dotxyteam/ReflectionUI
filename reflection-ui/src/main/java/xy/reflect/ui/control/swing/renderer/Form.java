@@ -52,6 +52,7 @@ import xy.reflect.ui.control.swing.builder.DialogBuilder;
 import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.menu.Menu;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
+import xy.reflect.ui.control.swing.util.BetterGridLayout;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlTabbedPane;
@@ -1750,9 +1751,9 @@ public class Form extends ImagePanel {
 		int spacing = getLayoutSpacing();
 		GridLayout newLayout;
 		if (methodsOrientation == MethodsLayout.HORIZONTAL_FLOW) {
-			newLayout = new GridLayout(1, 0, spacing, spacing);
+			newLayout = new BetterGridLayout(1, 0, spacing, spacing);
 		} else if (methodsOrientation == MethodsLayout.VERTICAL_FLOW) {
-			newLayout = new GridLayout(0, 1, spacing, spacing);
+			newLayout = new BetterGridLayout(0, 1, spacing, spacing);
 		} else {
 			throw new ReflectionUIError();
 		}
@@ -1837,7 +1838,7 @@ public class Form extends ImagePanel {
 			} else {
 				throw new ReflectionUIError();
 			}
-			captionControlLayoutConstraints.anchor = GridBagConstraints.NORTHWEST;
+			captionControlLayoutConstraints.anchor = GridBagConstraints.WEST;
 			fieldsPanel.add(captionControl, captionControlLayoutConstraints);
 			fieldControlPlaceHolder.setSiblingCaptionControl(captionControl);
 		}

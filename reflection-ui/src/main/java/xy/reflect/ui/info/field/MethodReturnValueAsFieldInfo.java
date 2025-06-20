@@ -62,6 +62,11 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public double getDisplayAreaHorizontalWeight() {
 		return 1.0;
 	}

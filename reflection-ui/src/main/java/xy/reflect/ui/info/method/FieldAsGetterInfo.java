@@ -66,6 +66,11 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public boolean isEnabled(Object object) {
 		return true;
 	}

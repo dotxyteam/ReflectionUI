@@ -32,18 +32,22 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		return getDelegate();
 	}
 
+	@Override
 	public String getName() {
 		return getDelegate().getName();
 	}
 
+	@Override
 	public String getCaption() {
 		return getDelegate().getCaption();
 	}
 
+	@Override
 	public String getOnlineHelp() {
 		return getDelegate().getOnlineHelp();
 	}
 
+	@Override
 	public Map<String, Object> getSpecificProperties() {
 		return getDelegate().getSpecificProperties();
 	}
@@ -58,6 +62,7 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		return getDelegate().getAlternativeListItemConstructors(object);
 	}
 
+	@Override
 	public ITypeInfo getType() {
 		return getDelegate().getType();
 	}
@@ -71,14 +76,17 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		return getDelegate().hasValueOptions(object);
 	}
 
+	@Override
 	public Object[] getValueOptions(Object object) {
 		return getDelegate().getValueOptions(object);
 	}
 
+	@Override
 	public void setValue(Object object, Object value) {
 		getDelegate().setValue(object, value);
 	}
 
+	@Override
 	public Runnable getNextUpdateCustomUndoJob(Object object, Object newValue) {
 		return getDelegate().getNextUpdateCustomUndoJob(object, newValue);
 	}
@@ -88,10 +96,12 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		return getDelegate().getPreviousUpdateCustomRedoJob(object, newValue);
 	}
 
+	@Override
 	public boolean isNullValueDistinct() {
 		return getDelegate().isNullValueDistinct();
 	}
 
+	@Override
 	public boolean isGetOnly() {
 		return getDelegate().isGetOnly();
 	}
@@ -101,42 +111,57 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 		return getDelegate().isTransient();
 	}
 
+	@Override
 	public String getNullValueLabel() {
 		return getDelegate().getNullValueLabel();
 	}
 
+	@Override
 	public ValueReturnMode getValueReturnMode() {
 		return getDelegate().getValueReturnMode();
 	}
 
+	@Override
 	public InfoCategory getCategory() {
 		return getDelegate().getCategory();
 	}
 
+	@Override
 	public boolean isFormControlMandatory() {
 		return getDelegate().isFormControlMandatory();
 	}
 
+	@Override
 	public boolean isFormControlEmbedded() {
 		return getDelegate().isFormControlEmbedded();
 	}
 
+	@Override
 	public IInfoFilter getFormControlFilter() {
 		return getDelegate().getFormControlFilter();
 	}
 
+	@Override
 	public long getAutoUpdatePeriodMilliseconds() {
 		return getDelegate().getAutoUpdatePeriodMilliseconds();
 	}
 
+	@Override
 	public boolean isHidden() {
 		return getDelegate().isHidden();
 	}
 
+	@Override
+	public boolean isRelevant(Object object) {
+		return getDelegate().isRelevant(object);
+	}
+
+	@Override
 	public double getDisplayAreaHorizontalWeight() {
 		return getDelegate().getDisplayAreaHorizontalWeight();
 	}
 
+	@Override
 	public double getDisplayAreaVerticalWeight() {
 		return getDelegate().getDisplayAreaVerticalWeight();
 	}

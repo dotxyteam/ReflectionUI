@@ -147,6 +147,11 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public ITypeInfo getType() {
 		return reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueTypeInfo()));
 	}
@@ -301,8 +306,8 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 
 	@Override
 	public String toString() {
-		return "MembersCapsuleField [fieldName=" + fieldName + ", objectType=" + objectType + ", fields=" + encapsulatedFields
-				+ ", methods=" + encapsulatedMethods + "]";
+		return "MembersCapsuleField [fieldName=" + fieldName + ", objectType=" + objectType + ", fields="
+				+ encapsulatedFields + ", methods=" + encapsulatedMethods + "]";
 	}
 
 	public class Value {

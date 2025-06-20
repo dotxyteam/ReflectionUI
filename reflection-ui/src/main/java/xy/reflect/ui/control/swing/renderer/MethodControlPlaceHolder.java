@@ -160,9 +160,7 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	public void refreshUI(boolean refreshStructure) {
-		if (refreshStructure) {
-			setVisible(!method.isHidden());
-		}
+		setVisible(!method.isHidden() && method.isRelevant(getObject()));
 		if (!isVisible()) {
 			return;
 		}

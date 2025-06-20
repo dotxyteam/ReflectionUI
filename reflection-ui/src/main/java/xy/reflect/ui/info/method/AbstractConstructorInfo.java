@@ -48,6 +48,11 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
+	public boolean isRelevant(Object object) {
+		return true;
+	}
+
+	@Override
 	public void onControlVisibilityChange(Object object, boolean b) {
 	}
 
