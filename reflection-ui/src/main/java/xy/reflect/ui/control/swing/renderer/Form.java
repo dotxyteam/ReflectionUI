@@ -65,7 +65,6 @@ import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
-import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.menu.AbstractActionMenuItemInfo;
 import xy.reflect.ui.info.menu.IMenuElementInfo;
 import xy.reflect.ui.info.menu.MenuInfo;
@@ -80,6 +79,7 @@ import xy.reflect.ui.undo.IModificationListener;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.SlaveModificationStack;
 import xy.reflect.ui.util.Filter;
+import xy.reflect.ui.util.MinimalListUpdater;
 import xy.reflect.ui.util.BetterFutureTask;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -114,6 +114,7 @@ public class Form extends ImagePanel {
 	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
 
 	protected Container categoriesControl;
+	protected MinimalListUpdater<InfoCategory> categoriesVisibilityUpdater;
 	protected ControlPanel scrollPane;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
@@ -365,6 +366,9 @@ public class Form extends ImagePanel {
 				if (Thread.currentThread().isInterrupted()) {
 					return;
 				}
+				if (!fieldControlPlaceHolder.isVisible()) {
+					continue;
+				}
 				if (!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
 					continue;
 				}
@@ -390,6 +394,9 @@ public class Form extends ImagePanel {
 			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
 					.get(category)) {
 				if (Thread.currentThread().isInterrupted()) {
+					return;
+				}
+				if (!methodControlPlaceHolder.isVisible()) {
 					return;
 				}
 				if (!methodControlPlaceHolder.getControlData().isReturnValueValidityDetectionEnabled()) {
@@ -637,31 +644,7 @@ public class Form extends ImagePanel {
 		if (shouldCategoriesBeDisplayed(allCategories)) {
 			membersPanel.setLayout(new BorderLayout());
 			categoriesControl = createCategoriesControl();
-			{
-				for (final InfoCategory category : allCategories) {
-					List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
-							.get(category);
-					if (fieldControlPlaceHolders == null) {
-						fieldControlPlaceHolders = Collections.emptyList();
-					}
-					List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
-							.get(category);
-					if (methodControlPlaceHolders == null) {
-						methodControlPlaceHolders = Collections.emptyList();
-					}
-
-					JPanel tab = new ControlPanel();
-					tab.setName("categoryContainerControl [category=" + category.getCaption() + "]");
-					addCategoryTab(category, tab);
-					tab.setLayout(new BorderLayout());
-
-					JPanel tabContent = new ControlPanel();
-					tabContent.setName("categoryContentControl [category=" + category.getCaption() + "]");
-					tab.add(tabContent, BorderLayout.CENTER);
-					layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
-
-				}
-			}
+			categoriesVisibilityUpdater = createCategoriesVisibilityUpdater(allCategories);
 			membersPanel.add(categoriesControl, BorderLayout.CENTER);
 			Form form = SwingRendererUtils.findParentForm(categoriesControl, swingRenderer);
 			if (form == null) {
@@ -679,8 +662,96 @@ public class Form extends ImagePanel {
 				methodControlPlaceHolders = Collections.emptyList();
 			}
 			categoriesControl = null;
+			categoriesVisibilityUpdater = null;
 			layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, membersPanel);
 		}
+	}
+
+	protected MinimalListUpdater<InfoCategory> createCategoriesVisibilityUpdater(List<InfoCategory> allCategories) {
+
+		return new MinimalListUpdater<InfoCategory>() {
+			Map<InfoCategory, Component> tabByCategory = new HashMap<InfoCategory, Component>();
+			{
+				for (final InfoCategory category : allCategories) {
+					List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+							.get(category);
+					if (fieldControlPlaceHolders == null) {
+						fieldControlPlaceHolders = Collections.emptyList();
+					}
+					List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
+							.get(category);
+					if (methodControlPlaceHolders == null) {
+						methodControlPlaceHolders = Collections.emptyList();
+					}
+
+					JPanel tab = new ControlPanel();
+					tab.setName("categoryContainerControl [category=" + category.getCaption() + "]");
+					tab.setLayout(new BorderLayout());
+
+					JPanel tabContent = new ControlPanel();
+					tabContent.setName("categoryContentControl [category=" + category.getCaption() + "]");
+					tab.add(tabContent, BorderLayout.CENTER);
+					layoutMembersControlPlaceHolders(fieldControlPlaceHolders, methodControlPlaceHolders, tabContent);
+					tabByCategory.put(category, tab);
+				}
+			}
+
+			@Override
+			protected List<InfoCategory> collectKeys() {
+				return allCategories;
+			}
+
+			@Override
+			protected boolean shouldBePresent(InfoCategory category) {
+				List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory
+						.get(category);
+				if (fieldControlPlaceHolders != null) {
+					for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHolders) {
+						if (fieldControlPlaceHolder.isVisible()) {
+							return true;
+						}
+					}
+				}
+				List<MethodControlPlaceHolder> methodControlPlaceHolders = methodControlPlaceHoldersByCategory
+						.get(category);
+				if (methodControlPlaceHolders != null) {
+					for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHolders) {
+						if (methodControlPlaceHolder.isVisible()) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
+			@Override
+			protected void add(int tabIndex, InfoCategory category) {
+				Component tab = tabByCategory.get(category);
+				Image iconImage = swingRenderer.getCategoryIconImage(category);
+				ImageIcon icon = (iconImage != null) ? new ImageIcon(iconImage) : null;
+				if (categoriesControl instanceof ListTabbedPane) {
+					((ListTabbedPane) categoriesControl).insertTab(
+							swingRenderer.prepareMessageToDisplay(category.getCaption()), icon, tab, tabIndex);
+				} else if (categoriesControl instanceof ControlTabbedPane) {
+					((ControlTabbedPane) categoriesControl).insertTab(
+							swingRenderer.prepareMessageToDisplay(category.getCaption()), icon, tab, "", tabIndex);
+				} else {
+					throw new ReflectionUIError();
+				}
+			}
+
+			@Override
+			protected void remove(int index) {
+				if (categoriesControl instanceof ListTabbedPane) {
+					((ListTabbedPane) categoriesControl).removeTabAt(index);
+				} else if (categoriesControl instanceof ControlTabbedPane) {
+					((ControlTabbedPane) categoriesControl).removeTabAt(index);
+				} else {
+					throw new ReflectionUIError();
+				}
+			}
+
+		};
 	}
 
 	protected boolean shouldCategoriesBeDisplayed(List<InfoCategory> categories) {
@@ -865,13 +936,13 @@ public class Form extends ImagePanel {
 				protected void refreshNonSelectableArea() {
 					Color backgroundColor = getCategoriesCellBackgroundColor();
 					if (backgroundColor != null) {
-						listControl.setOpaque(true);
-						listControl.setBackground(backgroundColor);
-						listControlWrapper.setOpaque(true);
-						listControlWrapper.setBackground(backgroundColor);
+						titleListControl.setOpaque(true);
+						titleListControl.setBackground(backgroundColor);
+						titleListControlWrapper.setOpaque(true);
+						titleListControlWrapper.setBackground(backgroundColor);
 					} else {
-						listControl.setOpaque(false);
-						listControlWrapper.setOpaque(false);
+						titleListControl.setOpaque(false);
+						titleListControlWrapper.setOpaque(false);
 					}
 				}
 
@@ -921,24 +992,6 @@ public class Form extends ImagePanel {
 			} else {
 				throw new ReflectionUIError();
 			}
-		}
-	}
-
-	protected void addCategoryTab(InfoCategory category, JPanel tab) {
-		Image iconImage = swingRenderer.getCategoryIconImage(category);
-		ImageIcon icon = (iconImage != null) ? new ImageIcon(iconImage) : null;
-		if (categoriesControl instanceof ListTabbedPane) {
-			int tabIndex = ((ListTabbedPane) categoriesControl).getTabCount();
-			((ListTabbedPane) categoriesControl).addTab(swingRenderer.prepareMessageToDisplay(category.getCaption()),
-					tab);
-			((ListTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
-		} else if (categoriesControl instanceof ControlTabbedPane) {
-			int tabIndex = ((ControlTabbedPane) categoriesControl).getTabCount();
-			((ControlTabbedPane) categoriesControl).addTab(swingRenderer.prepareMessageToDisplay(category.getCaption()),
-					tab);
-			((ControlTabbedPane) categoriesControl).setIconAt(tabIndex, icon);
-		} else {
-			throw new ReflectionUIError();
 		}
 	}
 
@@ -1079,7 +1132,11 @@ public class Form extends ImagePanel {
 	 * @return all displayed categories.
 	 */
 	public List<InfoCategory> getDisplayedCategories() {
-		return collectCategories(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory);
+		if (categoriesVisibilityUpdater == null) {
+			return Collections.emptyList();
+		} else {
+			return categoriesVisibilityUpdater.getPresentKeys();
+		}
 	}
 
 	/**
@@ -1168,28 +1225,6 @@ public class Form extends ImagePanel {
 		}
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		final ITypeInfo rawType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		infoFilter = new InfoFilterProxy(infoFilter) {
-
-			@Override
-			public IFieldInfo apply(IFieldInfo field) {
-				if (field.getName().equals("expressionPattern")) {
-					System.out.println("debug");
-				}
-				if (field.isHidden()) {
-					return null;
-				}
-				return super.apply(field);
-			}
-
-			@Override
-			public IMethodInfo apply(IMethodInfo method) {
-				if (method.isHidden()) {
-					return null;
-				}
-				return super.apply(method);
-			}
-
-		};
 		ITypeInfo result = new FilteredTypeFactory(infoFilter) {
 
 			List<IFieldInfo> fields;
@@ -1239,12 +1274,15 @@ public class Form extends ImagePanel {
 
 	/**
 	 * @param fieldName The name of the field to search for.
-	 * @return the control place holder associated with field that has the specified
-	 *         name.
+	 * @return the first visible control place holder associated with a field that
+	 *         has the specified name.
 	 */
 	public FieldControlPlaceHolder getFieldControlPlaceHolder(String fieldName) {
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				if (!fieldControlPlaceHolder.isVisible()) {
+					continue;
+				}
 				if (fieldName.equals(fieldControlPlaceHolder.getField().getName())) {
 					return fieldControlPlaceHolder;
 				}
@@ -1255,13 +1293,16 @@ public class Form extends ImagePanel {
 
 	/**
 	 * @param methodSignature The signature of the method to search for.
-	 * @return the control place holder associated with method that has the
-	 *         specified signature.
+	 * @return the first visible control place holder associated with a method that
+	 *         has the specified signature.
 	 */
 	public MethodControlPlaceHolder getMethodControlPlaceHolder(String methodSignature) {
 		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
 			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
 					.get(category)) {
+				if (!methodControlPlaceHolder.isVisible()) {
+					continue;
+				}
 				if (methodControlPlaceHolder.getMethod().getSignature().equals(methodSignature)) {
 					return methodControlPlaceHolder;
 				}
@@ -1344,6 +1385,9 @@ public class Form extends ImagePanel {
 					}
 				}
 			}
+		}
+		if (categoriesVisibilityUpdater != null) {
+			categoriesVisibilityUpdater.update();
 		}
 		finalizeFormUpdate();
 		if (refreshStructure) {
@@ -1617,6 +1661,9 @@ public class Form extends ImagePanel {
 		});
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				if (!fieldControlPlaceHolder.isVisible()) {
+					continue;
+				}
 				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 				if (fieldControl instanceof IAdvancedFieldControl) {
 					((IAdvancedFieldControl) fieldControl).addMenuContributions(menuModel);
@@ -1635,6 +1682,9 @@ public class Form extends ImagePanel {
 	public boolean requestFormFocus() {
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
+				if (!fieldControlPlaceHolder.isVisible()) {
+					continue;
+				}
 				if (SwingRendererUtils.requestAnyComponentFocus(fieldControlPlaceHolder.getFieldControl(),
 						swingRenderer)) {
 					return true;
@@ -1724,10 +1774,17 @@ public class Form extends ImagePanel {
 		ITypeInfo.FieldsLayout fieldsOrientation = type.getFieldsLayout();
 		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 			List<FieldControlPlaceHolder> fieldControlPlaceHolders = fieldControlPlaceHoldersByCategory.get(category);
-			JPanel fieldsPanel = (JPanel) fieldControlPlaceHolders.get(0).getParent();
+			JPanel fieldsPanel = (JPanel) fieldControlPlaceHolders.stream().filter(Component::isVisible)
+					.map(Component::getParent).findFirst().orElse(null);
+			if (fieldsPanel == null) {
+				continue;
+			}
 			boolean fieldsPanelFilled = false;
 			for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
 				FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
+				if (!fieldControlPlaceHolder.isVisible()) {
+					continue;
+				}
 				GridBagConstraints fieldControlPlaceHolderLayoutConstraints = ((GridBagLayout) fieldsPanel.getLayout())
 						.getConstraints(fieldControlPlaceHolder);
 				if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
@@ -1768,6 +1825,7 @@ public class Form extends ImagePanel {
 				&& (fieldControlPlaceHolder.getField().getCaption().length() > 0);
 		if (shouldHaveSeparateCaptionControl) {
 			captionControl = createSeparateFieldCaptionControl(fieldControlPlaceHolder);
+			captionControl.setVisible(fieldControlPlaceHolder.isVisible());
 			GridBagConstraints captionControlLayoutConstraints = new GridBagConstraints();
 			captionControlLayoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);
 			if (fieldsOrientation == ITypeInfo.FieldsLayout.VERTICAL_FLOW) {
@@ -1836,6 +1894,7 @@ public class Form extends ImagePanel {
 		}
 		onlineHelpControl = createFieldOnlineHelpControl(fieldControlPlaceHolder);
 		if (onlineHelpControl != null) {
+			onlineHelpControl.setVisible(fieldControlPlaceHolder.isVisible());
 			fieldControlPlaceHolder.setSiblingOnlineHelpControl(onlineHelpControl);
 			GridBagConstraints layoutConstraints = new GridBagConstraints();
 			layoutConstraints.insets = new Insets(spacing, spacing, spacing, spacing);

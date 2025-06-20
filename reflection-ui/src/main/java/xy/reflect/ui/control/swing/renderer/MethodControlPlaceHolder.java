@@ -106,6 +106,9 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 					.getMethodControlPlaceHoldersByCategory().get(method.getCategory());
 			if (siblingMethodControlPlaceHolders != null) {
 				for (MethodControlPlaceHolder methodControlPlaceHolder : siblingMethodControlPlaceHolders) {
+					if (!methodControlPlaceHolder.isVisible()) {
+						continue;
+					}
 					Component methodControl = methodControlPlaceHolder.getMethodControl();
 					maxMethodControlWidth = Math.max(maxMethodControlWidth, methodControl.getPreferredSize().width);
 				}
@@ -157,6 +160,12 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	public void refreshUI(boolean refreshStructure) {
+		if (refreshStructure) {
+			setVisible(!method.isHidden());
+		}
+		if (!isVisible()) {
+			return;
+		}
 		if (refreshStructure && (methodControl != null)) {
 			remove(methodControl);
 			methodControl = null;
