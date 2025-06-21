@@ -2,15 +2,18 @@
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.AbstractButton;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultButtonModel;
@@ -26,9 +29,9 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.control.swing.util.WrapLayout;
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.menu.MenuModel;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.Accessor;
@@ -52,7 +55,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 	@Override
 	public boolean canDisplayDistinctNullValue() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -83,6 +86,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 
 		public OptionButtonsLayout layout = OptionButtonsLayout.HORIZONTAL_FLOW;
 		public OptionButtonType buttonType = OptionButtonType.RADIO;
+		public int spacing = ITypeInfo.DEFAULT_FORM_SPACING * 2;
 	}
 
 	public enum OptionButtonsLayout {
@@ -103,6 +107,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		protected ButtonGroup buttonGroup;
 		protected IEnumerationTypeInfo enumType;
 		protected List<Object> possibleValues;
+		protected Object lastSelectedValue;
 
 		public OptionButtons(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -125,7 +130,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					}
 				}, swingRenderer);
 				if (controlCustomization.layout == OptionButtonsLayout.HORIZONTAL_FLOW) {
-					setLayout(new WrapLayout());
+					setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 				} else if (controlCustomization.layout == OptionButtonsLayout.VERTICAL_FLOW) {
 					setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				} else {
@@ -137,11 +142,16 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				possibleValues = Arrays.asList(enumType.getValues());
 				while (buttonGroup.getButtonCount() > 0) {
 					AbstractButton button = buttonGroup.getElements().nextElement();
-					remove(button);
 					buttonGroup.remove(button);
 				}
-				for (final Object value : possibleValues) {
+				removeAll();				
+				for (int i = 0; i < possibleValues.size(); i++) {
+					final Object value = possibleValues.get(i);
 					AbstractButton button = createButton(value);
+					if (i > 0) {
+						add(Box.createRigidArea(
+								new Dimension(controlCustomization.spacing, controlCustomization.spacing)));
+					}
 					add(button);
 					buttonGroup.add(button);
 
@@ -154,20 +164,19 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		protected void updateSelection(Object currentValue) {
-			buttonGroup.clearSelection();
-			int i = 0;
-			for (Enumeration<AbstractButton> radioButtonsEnum = buttonGroup.getElements(); radioButtonsEnum
-					.hasMoreElements();) {
-				AbstractButton button = radioButtonsEnum.nextElement();
-				listenerDisabled = true;
-				try {
-					button.setSelected(MiscUtils.equalsOrBothNull(currentValue, possibleValues.get(i)));
-				} finally {
-					listenerDisabled = false;
+			listenerDisabled = true;
+			try {
+				int currentValueIndex = possibleValues.indexOf(currentValue);
+				if (currentValueIndex == -1) {
+					buttonGroup.clearSelection();
+				} else {
+					buttonGroup.setSelected(
+							Collections.list(buttonGroup.getElements()).get(currentValueIndex).getModel(), true);
 				}
-				button.repaint();
-				i++;
+			} finally {
+				listenerDisabled = false;
 			}
+			lastSelectedValue = currentValue;
 		}
 
 		protected AbstractButton createButton(final Object value) {
@@ -288,8 +297,14 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 						return;
 					}
 					try {
-						data.setValue(value);
-						updateSelection(value);						
+						Object newValue = value;
+						if (data.isNullValueDistinct()) {
+							if (MiscUtils.equalsOrBothNull(lastSelectedValue, newValue)) {
+								newValue = null;
+							}
+						}
+						data.setValue(newValue);
+						updateSelection(newValue);
 					} catch (Throwable t) {
 						swingRenderer.handleException(OptionButtons.this, t);
 					}

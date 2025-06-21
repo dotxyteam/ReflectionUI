@@ -11,11 +11,13 @@ import java.util.TreeSet;
 import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.parameter.IParameterInfo;
+import xy.reflect.ui.info.parameter.ParameterInfoProxy;
+import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
- * Zero-parameter method proxy that actually holds the parameter values and then
- * allows to execute the base method without requiring these parameter values.
+ * Method proxy that actually holds some parameter values and then allows to
+ * execute the base method without requiring these parameter values.
  * 
  * @author olitank
  *
@@ -52,15 +54,28 @@ public class PresetInvocationDataMethodInfo extends MethodInfoProxy {
 	@Override
 	public List<IParameterInfo> getParameters() {
 		if (parameters == null) {
-			parameters = new ArrayList<IParameterInfo>(base.getParameters());
-			SortedSet<Integer> presetParameterPositions = new TreeSet<Integer>();
-			InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load();
-			presetParameterPositions.addAll(presetInvocationData.getDefaultParameterValues().keySet());
-			presetParameterPositions.addAll(presetInvocationData.getProvidedParameterValues().keySet());
-			List<Integer> reversedPresetParameterPositions = new ArrayList<Integer>(presetParameterPositions);
-			Collections.reverse(reversedPresetParameterPositions);
-			for (int parameterPosition : reversedPresetParameterPositions) {
-				parameters.remove(parameterPosition);
+			try {
+				parameters = new ArrayList<IParameterInfo>(base.getParameters());
+				SortedSet<Integer> presetParameterPositions = new TreeSet<Integer>();
+				InvocationData presetInvocationData = (InvocationData) invocationDataStorage.load();
+				if (presetInvocationData != null) {
+					presetParameterPositions.addAll(presetInvocationData.getDefaultParameterValues().keySet());
+					presetParameterPositions.addAll(presetInvocationData.getProvidedParameterValues().keySet());
+					List<Integer> descendingPresetParameterPositions = new ArrayList<Integer>(presetParameterPositions);
+					{
+						Collections.reverse(descendingPresetParameterPositions);
+					}
+					for (int parameterPosition : descendingPresetParameterPositions) {
+						parameters.remove(parameterPosition);
+					}
+				}
+			} catch (Exception e) {
+				parameters = Collections.singletonList(new ParameterInfoProxy(IParameterInfo.NULL_PARAMETER_INFO) {
+					@Override
+					public Object getDefaultValue(Object object) {
+						throw new ReflectionUIError(e);
+					}
+				});
 			}
 		}
 		return parameters;

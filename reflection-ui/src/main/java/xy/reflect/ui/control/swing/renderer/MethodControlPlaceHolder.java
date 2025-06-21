@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -160,7 +162,16 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	public void refreshUI(boolean refreshStructure) {
-		setVisible(!method.isHidden() && method.isRelevant(getObject()));
+		try {
+			setVisible(!method.isHidden() && method.isRelevant(getObject()));
+		} catch (Throwable t) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					swingRenderer.handleException(MethodControlPlaceHolder.this, t);
+				}
+			});
+		}
 		if (!isVisible()) {
 			return;
 		}

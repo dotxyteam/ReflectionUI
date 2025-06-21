@@ -73,30 +73,34 @@ public class BetterGridLayout extends GridLayout {
 	}
 
 	private Dimension computeLayoutSize(Container parent, java.util.function.Function<Component, Dimension> sizeFn) {
-		synchronized (parent.getTreeLock()) {
-			Insets insets = parent.getInsets();
-			int nComponents = 0;
-			Dimension maxSize = new Dimension(0, 0);
-			for (Component c : parent.getComponents()) {
-				if (c.isVisible()) {
-					Dimension d = sizeFn.apply(c);
-					maxSize.width = Math.max(maxSize.width, d.width);
-					maxSize.height = Math.max(maxSize.height, d.height);
-					nComponents++;
-				}
-			}
-			int rows = getRows();
-			int cols = getColumns();
-			if (rows > 0) {
-				cols = (nComponents + rows - 1) / rows;
-			} else {
-				rows = (nComponents + cols - 1) / cols;
-			}
-			int width = cols * maxSize.width + (cols - 1) * getHgap();
-			int height = rows * maxSize.height + (rows - 1) * getVgap();
-			width += insets.left + insets.right;
-			height += insets.top + insets.bottom;
-			return new Dimension(width, height);
-		}
+	    synchronized (parent.getTreeLock()) {
+	        Insets insets = parent.getInsets();
+	        int visibleCount = 0;
+	        Dimension maxSize = new Dimension(0, 0);
+	        for (Component c : parent.getComponents()) {
+	            if (c.isVisible()) {
+	                Dimension d = sizeFn.apply(c);
+	                maxSize.width = Math.max(maxSize.width, d.width);
+	                maxSize.height = Math.max(maxSize.height, d.height);
+	                visibleCount++;
+	            }
+	        }
+	        if (visibleCount == 0) {
+	            return new Dimension(0, 0);
+	        }
+	        int rows = getRows();
+	        int cols = getColumns();
+	        if (rows > 0) {
+	            cols = (visibleCount + rows - 1) / rows;
+	        } else {
+	            rows = (visibleCount + cols - 1) / cols;
+	        }
+	        int width = cols * maxSize.width + (cols - 1) * getHgap();
+	        int height = rows * maxSize.height + (rows - 1) * getVgap();
+	        width += insets.left + insets.right;
+	        height += insets.top + insets.bottom;
+	        return new Dimension(width, height);
+	    }
 	}
+
 }

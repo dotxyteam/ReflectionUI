@@ -1875,7 +1875,6 @@ public class Form extends ImagePanel {
 		} else {
 			fieldControlPlaceHolderLayoutConstraints.fill = GridBagConstraints.NONE;
 		}
-		fieldControlPlaceHolderLayoutConstraints.anchor = GridBagConstraints.NORTH;
 		for (Form subForm : SwingRendererUtils.findDescendantForms(fieldControlPlaceHolder, swingRenderer)) {
 			subForm.visibilityEventsDisabled = true;
 		}
