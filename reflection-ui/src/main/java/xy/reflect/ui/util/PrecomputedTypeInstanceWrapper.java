@@ -320,10 +320,8 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		/**
-		 * {@link PrecomputedTypeInstanceWrapper} is used to associate object with
-		 * custom (usually not polymorphic) type information. Then by default an empty
-		 * list is returned by this method. If the custom type is still polymorphic then
-		 * this method must be overridden.
+		 * This method has not been correctly implemented yet. It should be overridden
+		 * if required.
 		 * 
 		 * @return an empty list.
 		 */
