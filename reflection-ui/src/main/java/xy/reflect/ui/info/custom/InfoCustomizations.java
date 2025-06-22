@@ -3983,7 +3983,7 @@ public class InfoCustomizations implements Serializable {
 
 	}
 
-	public static class InfoFilter extends AbstractCustomization {
+	public static class InfoPattern extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
 
 		protected String value = "";
@@ -4032,7 +4032,7 @@ public class InfoCustomizations implements Serializable {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			InfoFilter other = (InfoFilter) obj;
+			InfoPattern other = (InfoPattern) obj;
 			if (regularExpression != other.regularExpression)
 				return false;
 			if (value == null) {
@@ -4045,7 +4045,7 @@ public class InfoCustomizations implements Serializable {
 
 		@Override
 		public String toString() {
-			return "InfoFilter [value=" + value + ", regularExpression=" + regularExpression + "]";
+			return "InfoPattern [value=" + value + ", regularExpression=" + regularExpression + "]";
 		}
 
 	}
@@ -4364,8 +4364,8 @@ public class InfoCustomizations implements Serializable {
 		protected TreeStructureDiscoverySettings treeStructureDiscoverySettings;
 		protected List<ListItemFieldShortcut> allowedItemFieldShortcuts = new ArrayList<ListItemFieldShortcut>();
 		protected List<ListItemMethodShortcut> allowedItemMethodShortcuts = new ArrayList<ListItemMethodShortcut>();
-		protected List<InfoFilter> methodsExcludedFromItemDetails = new ArrayList<InfoFilter>();
-		protected List<InfoFilter> fieldsExcludedFromItemDetails = new ArrayList<InfoFilter>();
+		protected List<InfoPattern> methodsExcludedFromItemDetails = new ArrayList<InfoPattern>();
+		protected List<InfoPattern> fieldsExcludedFromItemDetails = new ArrayList<InfoPattern>();
 		protected boolean itemDetailsViewDisabled = false;
 		protected ListEditOptions editOptions = new ListEditOptions();
 		protected boolean listSorted = false;
@@ -4499,19 +4499,19 @@ public class InfoCustomizations implements Serializable {
 			this.listSorted = listSorted;
 		}
 
-		public List<InfoFilter> getFieldsExcludedFromItemDetails() {
+		public List<InfoPattern> getFieldsExcludedFromItemDetails() {
 			return fieldsExcludedFromItemDetails;
 		}
 
-		public void setFieldsExcludedFromItemDetails(List<InfoFilter> fieldsExcludedFromItemDetails) {
+		public void setFieldsExcludedFromItemDetails(List<InfoPattern> fieldsExcludedFromItemDetails) {
 			this.fieldsExcludedFromItemDetails = fieldsExcludedFromItemDetails;
 		}
 
-		public List<InfoFilter> getMethodsExcludedFromItemDetails() {
+		public List<InfoPattern> getMethodsExcludedFromItemDetails() {
 			return methodsExcludedFromItemDetails;
 		}
 
-		public void setMethodsExcludedFromItemDetails(List<InfoFilter> methods) {
+		public void setMethodsExcludedFromItemDetails(List<InfoPattern> methods) {
 			this.methodsExcludedFromItemDetails = methods;
 		}
 
@@ -4660,14 +4660,14 @@ public class InfoCustomizations implements Serializable {
 
 	public static class ItemNodeValidityDetectionConfiguration extends AbstractCustomization {
 		private static final long serialVersionUID = 1L;
-		protected InfoFilter enablementStatusFieldNameInfoFilter;
+		protected InfoPattern enablementStatusFieldNamePattern;
 
-		public InfoFilter getEnablementStatusFieldNameInfoFilter() {
-			return enablementStatusFieldNameInfoFilter;
+		public InfoPattern getEnablementStatusFieldNamePattern() {
+			return enablementStatusFieldNamePattern;
 		}
 
-		public void setEnablementStatusFieldNameInfoFilter(InfoFilter enablementStatusFieldNameInfoFilter) {
-			this.enablementStatusFieldNameInfoFilter = enablementStatusFieldNameInfoFilter;
+		public void setEnablementStatusFieldNamePattern(InfoPattern enablementStatusFieldNamePattern) {
+			this.enablementStatusFieldNamePattern = enablementStatusFieldNamePattern;
 		}
 
 	}
@@ -4677,7 +4677,7 @@ public class InfoCustomizations implements Serializable {
 
 		protected boolean heterogeneousTree = true;
 		protected ITypeInfoFinder customBaseNodeTypeFinder;
-		protected List<InfoFilter> excludedSubListFields = new ArrayList<InfoFilter>();
+		protected List<InfoPattern> excludedSubListFields = new ArrayList<InfoPattern>();
 		protected boolean singleSubListFieldNameNeverDisplayedAsTreeNode = true;
 		protected boolean subListFieldControlSlave = false;
 
@@ -4708,11 +4708,11 @@ public class InfoCustomizations implements Serializable {
 			this.customBaseNodeTypeFinder = customBaseNodeTypeFinder;
 		}
 
-		public List<InfoFilter> getExcludedSubListFields() {
+		public List<InfoPattern> getExcludedSubListFields() {
 			return excludedSubListFields;
 		}
 
-		public void setExcludedSubListFields(List<InfoFilter> excludedSubListFields) {
+		public void setExcludedSubListFields(List<InfoPattern> excludedSubListFields) {
 			this.excludedSubListFields = excludedSubListFields;
 		}
 

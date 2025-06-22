@@ -324,13 +324,13 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		if (l != null) {
 			ItemNodeValidityDetectionConfiguration c = l.getItemNodeValidityDetectionConfiguration();
 			if (c != null) {
-				if (c.getEnablementStatusFieldNameInfoFilter() != null) {
+				if (c.getEnablementStatusFieldNamePattern() != null) {
 					try {
 						Object item = itemPosition.getItem();
 						if (item != null) {
 							ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
 							for (IFieldInfo field : actualItemType.getFields()) {
-								if (c.getEnablementStatusFieldNameInfoFilter().matches(field.getName())) {
+								if (c.getEnablementStatusFieldNamePattern().matches(field.getName())) {
 									Object fieldValue = field.getValue(item);
 									if (fieldValue instanceof Boolean) {
 										return (Boolean) fieldValue;
@@ -346,7 +346,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					} catch (Throwable t) {
 						throw new ReflectionUIError(
 								"Unable to obtain the activation status of item node validity detection from the field designated by '"
-										+ c.getEnablementStatusFieldNameInfoFilter() + "': " + t.toString(),
+										+ c.getEnablementStatusFieldNamePattern() + "': " + t.toString(),
 								t);
 					}
 				}

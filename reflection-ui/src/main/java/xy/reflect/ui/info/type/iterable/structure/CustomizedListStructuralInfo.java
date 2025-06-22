@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.custom.InfoCustomizations;
 import xy.reflect.ui.info.custom.InfoCustomizations.ColumnCustomization;
-import xy.reflect.ui.info.custom.InfoCustomizations.InfoFilter;
+import xy.reflect.ui.info.custom.InfoCustomizations.InfoPattern;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ControlSizeUnit;
 import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
@@ -175,7 +175,7 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			List<IFieldInfo> itemFields = actualItemType.getFields();
 			for (final IFieldInfo field : itemFields) {
 				boolean excluded = false;
-				for (InfoFilter excludedField : listCustomization.getTreeStructureDiscoverySettings()
+				for (InfoPattern excludedField : listCustomization.getTreeStructureDiscoverySettings()
 						.getExcludedSubListFields()) {
 					if (excludedField.matches(field.getName())) {
 						excluded = true;
@@ -511,8 +511,8 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 		@Override
 		public IMethodInfo apply(IMethodInfo method) {
 			String methodSignature = method.getSignature();
-			for (InfoFilter filter : listCustomization.getMethodsExcludedFromItemDetails()) {
-				if (filter.matches(methodSignature)) {
+			for (InfoPattern pattern : listCustomization.getMethodsExcludedFromItemDetails()) {
+				if (pattern.matches(methodSignature)) {
 					return null;
 				}
 			}
@@ -521,8 +521,8 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 		@Override
 		public IFieldInfo apply(IFieldInfo field) {
-			for (InfoFilter filter : listCustomization.getFieldsExcludedFromItemDetails()) {
-				if (filter.matches(field.getName())) {
+			for (InfoPattern pattern : listCustomization.getFieldsExcludedFromItemDetails()) {
+				if (pattern.matches(field.getName())) {
 					return null;
 				}
 			}

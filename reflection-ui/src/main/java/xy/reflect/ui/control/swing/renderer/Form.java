@@ -37,6 +37,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -56,6 +57,7 @@ import xy.reflect.ui.control.swing.util.BetterGridLayout;
 import xy.reflect.ui.control.swing.util.ControlPanel;
 import xy.reflect.ui.control.swing.util.ControlScrollPane;
 import xy.reflect.ui.control.swing.util.ControlTabbedPane;
+import xy.reflect.ui.control.swing.util.ClassicTabbedPane;
 import xy.reflect.ui.control.swing.util.HyperlinkLabel;
 import xy.reflect.ui.control.swing.util.ImagePanel;
 import xy.reflect.ui.control.swing.util.ListTabbedPane;
@@ -733,6 +735,9 @@ public class Form extends ImagePanel {
 				if (categoriesControl instanceof ListTabbedPane) {
 					((ListTabbedPane) categoriesControl).insertTab(
 							swingRenderer.prepareMessageToDisplay(category.getCaption()), icon, tab, tabIndex);
+				} else if (categoriesControl instanceof ClassicTabbedPane) {
+					((ClassicTabbedPane) categoriesControl).insertTab(
+							swingRenderer.prepareMessageToDisplay(category.getCaption()), icon, tab, "", tabIndex);
 				} else if (categoriesControl instanceof ControlTabbedPane) {
 					((ControlTabbedPane) categoriesControl).insertTab(
 							swingRenderer.prepareMessageToDisplay(category.getCaption()), icon, tab, "", tabIndex);
@@ -745,6 +750,8 @@ public class Form extends ImagePanel {
 			protected void remove(int index) {
 				if (categoriesControl instanceof ListTabbedPane) {
 					((ListTabbedPane) categoriesControl).removeTabAt(index);
+				} else if (categoriesControl instanceof ClassicTabbedPane) {
+					((ClassicTabbedPane) categoriesControl).removeTabAt(index);
 				} else if (categoriesControl instanceof ControlTabbedPane) {
 					((ControlTabbedPane) categoriesControl).removeTabAt(index);
 				} else {
@@ -815,17 +822,21 @@ public class Form extends ImagePanel {
 		return result;
 	}
 
-	protected int getCategoriesControlPlacement() {
+	protected int getExpectedCategoriesControlPlacement() {
 		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC) {
-			return ControlTabbedPane.TOP;
+		if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.STANDARD) {
+			return JTabbedPane.TOP;
+		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC) {
+			return JTabbedPane.TOP;
 		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN) {
-			return ControlTabbedPane.TOP;
+			return JTabbedPane.TOP;
+		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.STANDARD_VERTICAL) {
+			return JTabbedPane.LEFT;
 		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC_VERTICAL) {
-			return ControlTabbedPane.LEFT;
+			return JTabbedPane.LEFT;
 		} else if (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL) {
-			return ControlTabbedPane.LEFT;
+			return JTabbedPane.LEFT;
 		} else {
 			throw new ReflectionUIError();
 		}
@@ -836,7 +847,7 @@ public class Form extends ImagePanel {
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
 		if ((type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN)
 				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.MODERN_VERTICAL)) {
-			return new ListTabbedPane(ControlTabbedPane.TOP) {
+			return new ListTabbedPane(ClassicTabbedPane.TOP) {
 
 				private static final long serialVersionUID = 1L;
 				private JButton nonSelectedCellRenderer;
@@ -959,7 +970,7 @@ public class Form extends ImagePanel {
 			};
 		} else if ((type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC)
 				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.CLASSIC_VERTICAL)) {
-			return new ControlTabbedPane() {
+			return new ClassicTabbedPane() {
 
 				private static final long serialVersionUID = 1L;
 
@@ -973,6 +984,9 @@ public class Form extends ImagePanel {
 				}
 
 			};
+		} else if ((type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.STANDARD)
+				|| (type.getCategoriesStyle() == ITypeInfo.CategoriesStyle.STANDARD_VERTICAL)) {
+			return new ControlTabbedPane();
 		} else {
 			throw new ReflectionUIError();
 		}
@@ -982,14 +996,18 @@ public class Form extends ImagePanel {
 		if (categoriesControl != null) {
 			if (categoriesControl instanceof ListTabbedPane) {
 				((ListTabbedPane) categoriesControl).refresh();
-				((ListTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
+				((ListTabbedPane) categoriesControl).setTabPlacement(getExpectedCategoriesControlPlacement());
+			} else if (categoriesControl instanceof ClassicTabbedPane) {
+				((ClassicTabbedPane) categoriesControl).setForeground(getCategoriesCellForegroundColor());
+				((ClassicTabbedPane) categoriesControl).setBackground(getCategoriesCellBackgroundColor());
+				((ClassicTabbedPane) categoriesControl)
+						.setTabBackgroundPainted(getCategoriesCellBackgroundColor() != null);
+				((ClassicTabbedPane) categoriesControl).updateUI();
+				((ClassicTabbedPane) categoriesControl).setTabPlacement(getExpectedCategoriesControlPlacement());
 			} else if (categoriesControl instanceof ControlTabbedPane) {
 				((ControlTabbedPane) categoriesControl).setForeground(getCategoriesCellForegroundColor());
 				((ControlTabbedPane) categoriesControl).setBackground(getCategoriesCellBackgroundColor());
-				((ControlTabbedPane) categoriesControl)
-						.setTabBackgroundPainted(getCategoriesCellBackgroundColor() != null);
-				((ControlTabbedPane) categoriesControl).updateUI();
-				((ControlTabbedPane) categoriesControl).setTabPlacement(getCategoriesControlPlacement());
+				((ControlTabbedPane) categoriesControl).setTabPlacement(getExpectedCategoriesControlPlacement());
 			} else {
 				throw new ReflectionUIError();
 			}
@@ -1100,6 +1118,8 @@ public class Form extends ImagePanel {
 		if (categoriesControl != null) {
 			if (categoriesControl instanceof ListTabbedPane) {
 				return ((ListTabbedPane) categoriesControl).getSelectedIndex();
+			} else if (categoriesControl instanceof ClassicTabbedPane) {
+				return ((ClassicTabbedPane) categoriesControl).getSelectedIndex();
 			} else if (categoriesControl instanceof ControlTabbedPane) {
 				return ((ControlTabbedPane) categoriesControl).getSelectedIndex();
 			} else {
@@ -1121,6 +1141,8 @@ public class Form extends ImagePanel {
 		if (categoriesControl != null) {
 			if (categoriesControl instanceof ListTabbedPane) {
 				((ListTabbedPane) categoriesControl).setSelectedIndex(index);
+			} else if (categoriesControl instanceof ClassicTabbedPane) {
+				((ClassicTabbedPane) categoriesControl).setSelectedIndex(index);
 			} else if (categoriesControl instanceof ControlTabbedPane) {
 				((ControlTabbedPane) categoriesControl).setSelectedIndex(index);
 			} else {
@@ -1152,6 +1174,8 @@ public class Form extends ImagePanel {
 			if (categoryIndex != -1) {
 				if (categoriesControl instanceof ListTabbedPane) {
 					return ((ListTabbedPane) categoriesControl).getComponentAt(categoryIndex);
+				} else if (categoriesControl instanceof ClassicTabbedPane) {
+					return ((ClassicTabbedPane) categoriesControl).getComponentAt(categoryIndex);
 				} else if (categoriesControl instanceof ControlTabbedPane) {
 					return ((ControlTabbedPane) categoriesControl).getComponentAt(categoryIndex);
 				} else {
@@ -1575,25 +1599,27 @@ public class Form extends ImagePanel {
 			}
 			if (categoriesControl != null) {
 				Container newCategoriesControl = createCategoriesControl();
-				if (newCategoriesControl instanceof ListTabbedPane) {
-					if (!(categoriesControl instanceof ListTabbedPane)) {
-						modificationsDetected = true;
-					} else {
-						if (((ListTabbedPane) categoriesControl).getTabPlacement() != getCategoriesControlPlacement()) {
-							modificationsDetected = true;
-						}
-					}
-				} else if (newCategoriesControl instanceof ControlTabbedPane) {
-					if (!(categoriesControl instanceof ControlTabbedPane)) {
-						modificationsDetected = true;
-					} else {
-						if (((ControlTabbedPane) categoriesControl)
-								.getTabPlacement() != getCategoriesControlPlacement()) {
-							modificationsDetected = true;
-						}
-					}
+				if (newCategoriesControl.getClass() != categoriesControl.getClass()) {
+					modificationsDetected = true;
 				} else {
-					throw new ReflectionUIError();
+					if (newCategoriesControl instanceof ListTabbedPane) {
+						if (((ListTabbedPane) categoriesControl)
+								.getTabPlacement() != getExpectedCategoriesControlPlacement()) {
+							modificationsDetected = true;
+						}
+					} else if (newCategoriesControl instanceof ClassicTabbedPane) {
+						if (((ClassicTabbedPane) categoriesControl)
+								.getTabPlacement() != getExpectedCategoriesControlPlacement()) {
+							modificationsDetected = true;
+						}
+					} else if (newCategoriesControl instanceof ControlTabbedPane) {
+						if (((ControlTabbedPane) categoriesControl)
+								.getTabPlacement() != getExpectedCategoriesControlPlacement()) {
+							modificationsDetected = true;
+						}
+					} else {
+						throw new ReflectionUIError();
+					}
 				}
 			}
 		}
