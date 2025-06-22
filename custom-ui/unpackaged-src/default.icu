@@ -7198,7 +7198,7 @@
             <customValueReturnMode>DIRECT_OR_PROXY</customValueReturnMode>
             <displayedAsSingletonList>false</displayedAsSingletonList>
             <duplicateGenerated>false</duplicateGenerated>
-            <fieldName>systematicallyReplacedDirectValueList</fieldName>
+            <fieldName>systematicallyReplacedDirectList</fieldName>
             <formControlCreationForced>false</formControlCreationForced>
             <formControlEmbeddingForced>false</formControlEmbeddingForced>
             <getOnlyForced>false</getOnlyForced>

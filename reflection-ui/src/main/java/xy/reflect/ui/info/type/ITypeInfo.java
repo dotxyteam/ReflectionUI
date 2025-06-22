@@ -67,8 +67,8 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public boolean supports(Object localObject) {
-			return false;
+		public boolean supports(Object object) {
+			return true;
 		}
 
 		@Override
@@ -122,7 +122,7 @@ public interface ITypeInfo extends IInfo {
 
 		@Override
 		public ITypeInfoSource getSource() {
-			throw new UnsupportedOperationException();
+			return ITypeInfoSource.NULL_TYPE_INFO_SOURCE;
 		}
 
 		@Override

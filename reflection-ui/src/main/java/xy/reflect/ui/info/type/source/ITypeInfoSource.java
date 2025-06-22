@@ -18,6 +18,22 @@ import xy.reflect.ui.info.type.ITypeInfo;
 public interface ITypeInfoSource {
 
 	/**
+	 * Dummy instance of this class made for utilitarian purposes.
+	 */
+	public static ITypeInfoSource NULL_TYPE_INFO_SOURCE = new ITypeInfoSource() {
+		
+		@Override
+		public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+			return null;
+		}
+		
+		@Override
+		public ITypeInfo buildTypeInfo(ReflectionUI reflectionUI) {
+			return ITypeInfo.NULL_BASIC_TYPE_INFO;
+		}
+	};
+
+	/**
 	 * @return specificities identifier or null. Useful only if {@link CustomizedUI}
 	 *         is the current abstract UI model generator.
 	 */

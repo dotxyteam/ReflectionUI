@@ -9,8 +9,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JTextPane;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.JTextComponent;
@@ -20,6 +22,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlDimensionSpecification;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlSizeUnit;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.AlternativeDesktopApi;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -148,6 +151,34 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 		public HtmlControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public boolean showsCaption() {
+			return true;
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			super.refreshUI(refreshStructure);
+			if (refreshStructure) {
+				if (data.getCaption().length() > 0) {
+					setBorder(
+							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
+					if (data.getLabelForegroundColor() != null) {
+						((TitledBorder) getBorder())
+								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+					}
+					if (data.getBorderColor() != null) {
+						((TitledBorder) getBorder()).setBorder(
+								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+					}
+				} else {
+					setBorder(BorderFactory.createEmptyBorder());
+				}
+				textComponent.setBorder(BorderFactory.createEmptyBorder());
+			}
+			return true;
 		}
 
 		@Override

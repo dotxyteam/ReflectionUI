@@ -70,7 +70,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ValueListTypeInfo()));
+		return reflectionUI.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(new ListTypeInfo()));
 	}
 
 	@Override
@@ -78,13 +78,13 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		List<Object> result = new ArrayList<Object>();
 		for (IFieldInfo field : fields) {
 			result.add(
-					new PrecomputedTypeInstanceWrapper(getListItem(object, field), new ValueListItemTypeInfo(field)));
+					new PrecomputedTypeInstanceWrapper(getListItem(object, field), new ListItemTypeInfo(field)));
 		}
-		return new PrecomputedTypeInstanceWrapper(result, new ValueListTypeInfo());
+		return new PrecomputedTypeInstanceWrapper(result, new ListTypeInfo());
 	}
 
-	protected ValueListItem getListItem(Object object, IFieldInfo listFieldInfo) {
-		return new ValueListItem(object, listFieldInfo);
+	protected ListItem getListItem(Object object, IFieldInfo listFieldInfo) {
+		return new ListItem(object, listFieldInfo);
 	}
 
 	@Override
@@ -260,12 +260,12 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		return "MultipleFieldAsListField [fields=" + fields + "]";
 	}
 
-	public class ValueListItem {
+	public class ListItem {
 
 		protected Object object;
 		protected IFieldInfo field;
 
-		public ValueListItem(Object object, IFieldInfo field) {
+		public ListItem(Object object, IFieldInfo field) {
 			this.object = object;
 			this.field = field;
 		}
@@ -300,7 +300,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ValueListItem other = (ValueListItem) obj;
+			ListItem other = (ListItem) obj;
 			if (!getSourceField().equals(other.getSourceField()))
 				return false;
 			if (field == null) {
@@ -323,19 +323,19 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 	}
 
-	public class ValueListTypeInfo extends StandardCollectionTypeInfo {
+	public class ListTypeInfo extends StandardCollectionTypeInfo {
 
-		public ValueListTypeInfo() {
+		public ListTypeInfo() {
 			super(MultipleFieldsAsListFieldInfo.this.reflectionUI, new JavaTypeInfoSource(ArrayList.class, null),
 					MultipleFieldsAsListFieldInfo.this.reflectionUI
 							.getTypeInfo(new PrecomputedTypeInstanceWrapper.TypeInfoSource(
 									new DefaultTypeInfo(MultipleFieldsAsListFieldInfo.this.reflectionUI,
-											new JavaTypeInfoSource(ValueListItem.class, null)))));
+											new JavaTypeInfoSource(ListItem.class, null)))));
 		}
 
 		@Override
 		public String getName() {
-			return "ValueListTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this.getName() + "]";
+			return "ListTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this.getName() + "]";
 		}
 
 		@Override
@@ -366,16 +366,16 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public String toString() {
-			return "ValueListTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this + "]";
+			return "ListTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this + "]";
 		}
 
 	}
 
-	public class ValueListItemTypeInfo extends AbstractInfo implements ITypeInfo {
+	public class ListItemTypeInfo extends AbstractInfo implements ITypeInfo {
 
 		protected IFieldInfo field;
 
-		public ValueListItemTypeInfo(IFieldInfo field) {
+		public ListItemTypeInfo(IFieldInfo field) {
 			this.field = field;
 		}
 
@@ -527,7 +527,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		public IFieldInfo getDetailsField() {
-			return new ValueListItemDetailsFieldInfo(field);
+			return new ListItemDetailsFieldInfo(field);
 		}
 
 		@Override
@@ -537,7 +537,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public String getName() {
-			return "ValueListItemTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this.getName() + ", field="
+			return "ListItemTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this.getName() + ", field="
 					+ field.getName() + "]";
 		}
 
@@ -578,10 +578,10 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public boolean supports(Object object) {
-			if (!(object instanceof ValueListItem)) {
+			if (!(object instanceof ListItem)) {
 				return false;
 			}
-			if (!getSourceField().equals(((ValueListItem) object).getSourceField())) {
+			if (!getSourceField().equals(((ListItem) object).getSourceField())) {
 				return false;
 			}
 			return true;
@@ -633,7 +633,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ValueListItemTypeInfo other = (ValueListItemTypeInfo) obj;
+			ListItemTypeInfo other = (ListItemTypeInfo) obj;
 			if (!getSourceField().equals(other.getSourceField()))
 				return false;
 			if (field == null) {
@@ -650,14 +650,14 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public String toString() {
-			return "ValueListItemTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this + ", field=" + field + "]";
+			return "ListItemTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this + ", field=" + field + "]";
 		}
 
 	}
 
-	public class ValueListItemDetailsFieldInfo extends FieldInfoProxy {
+	public class ListItemDetailsFieldInfo extends FieldInfoProxy {
 
-		public ValueListItemDetailsFieldInfo(IFieldInfo field) {
+		public ListItemDetailsFieldInfo(IFieldInfo field) {
 			super(field);
 		}
 
@@ -667,8 +667,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 				@Override
 				public SpecificitiesIdentifier getSpecificitiesIdentifier() {
 					return new SpecificitiesIdentifier(
-							new ValueListItemTypeInfo(ValueListItemDetailsFieldInfo.this.base).getName(),
-							ValueListItemDetailsFieldInfo.this.getName());
+							new ListItemTypeInfo(ListItemDetailsFieldInfo.this.base).getName(),
+							ListItemDetailsFieldInfo.this.getName());
 				}
 
 				@Override
@@ -687,63 +687,63 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public Object getValue(Object object) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			return super.getValue(object);
 		}
 
 		@Override
 		public void setValue(Object object, Object value) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			super.setValue(object, value);
 		}
 
 		@Override
 		public Runnable getNextUpdateCustomUndoJob(Object object, Object value) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			return super.getNextUpdateCustomUndoJob(object, value);
 		}
 
 		@Override
 		public Runnable getPreviousUpdateCustomRedoJob(Object object, Object value) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			return super.getPreviousUpdateCustomRedoJob(object, value);
 		}
 
 		@Override
 		public boolean hasValueOptions(Object object) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			return super.hasValueOptions(object);
 		}
 
 		@Override
 		public Object[] getValueOptions(Object object) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			return super.getValueOptions(object);
 		}
 
 		@Override
 		public List<IMethodInfo> getAlternativeConstructors(Object object) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			return super.getAlternativeConstructors(object);
 		}
 
 		@Override
 		public List<IMethodInfo> getAlternativeListItemConstructors(Object object) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			return super.getAlternativeListItemConstructors(object);
 		}
 
 		@Override
 		public void onControlVisibilityChange(Object object, boolean visible) {
-			ValueListItem valueListItem = (ValueListItem) object;
+			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();
 			super.onControlVisibilityChange(object, visible);
 		}
@@ -755,7 +755,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public String toString() {
-			return "ValueListItemDetailsFieldInfo [of=" + MultipleFieldsAsListFieldInfo.this + ", field=" + base + "]";
+			return "ListItemDetailsFieldInfo [of=" + MultipleFieldsAsListFieldInfo.this + ", field=" + base + "]";
 		}
 	}
 

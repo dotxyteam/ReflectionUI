@@ -1,5 +1,4 @@
-- add ToggleButtonPlugin with icon option
-- add tooltip text option for ToggleButton and CustomCheckBox
+- add tooltip text option for ToggleButton and CustomCheckBox ???
 -  check implementation of info proxy factories that need to wrap/unwrap values
 (is is easy to forget to update them after adding an info method)
 - remove the fonts customization options ???

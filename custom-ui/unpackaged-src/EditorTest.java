@@ -26,7 +26,7 @@ public class EditorTest {
 	public static class Test {
 		private Integer systematicallyReplacedDirectValue = 0;
 		private Test2 nonReplacedDirectValue = new Test2();
-		private List<Integer> systematicallyReplacedDirectValueList = new ArrayList<Integer>(Arrays.asList(1, 2, 3));
+		private List<Integer> systematicallyReplacedDirectList = new ArrayList<Integer>(Arrays.asList(1, 2, 3));
 
 		public Integer getSystematicallyReplacedDirectValue() {
 			return systematicallyReplacedDirectValue;
@@ -44,12 +44,12 @@ public class EditorTest {
 			this.nonReplacedDirectValue = nonReplacedDirectValue;
 		}
 
-		public List<Integer> getSystematicallyReplacedDirectValueList() {
-			return systematicallyReplacedDirectValueList;
+		public List<Integer> getSystematicallyReplacedDirectList() {
+			return systematicallyReplacedDirectList;
 		}
 
-		public void setSystematicallyReplacedDirectValueList(List<Integer> systematicallyReplacedDirectValueList) {
-			this.systematicallyReplacedDirectValueList = systematicallyReplacedDirectValueList;
+		public void setSystematicallyReplacedDirectList(List<Integer> systematicallyReplacedDirectList) {
+			this.systematicallyReplacedDirectList = systematicallyReplacedDirectList;
 		}
 	}
 

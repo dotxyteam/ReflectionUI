@@ -4,7 +4,10 @@ package xy.reflect.ui.control.swing.plugin;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+
+import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
@@ -16,6 +19,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlDimensionSpecification;
 import xy.reflect.ui.control.swing.plugin.StyledTextPlugin.StyledTextConfiguration.ControlSizeUnit;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -94,6 +98,34 @@ public class EditorPlugin extends StyledTextPlugin {
 
 		public EditorControl(SwingRenderer swingRenderer, IFieldControlInput input) {
 			super(swingRenderer, input);
+		}
+
+		@Override
+		public boolean showsCaption() {
+			return true;
+		}
+
+		@Override
+		public boolean refreshUI(boolean refreshStructure) {
+			super.refreshUI(refreshStructure);
+			if (refreshStructure) {
+				if (data.getCaption().length() > 0) {
+					setBorder(
+							BorderFactory.createTitledBorder(swingRenderer.prepareMessageToDisplay(data.getCaption())));
+					if (data.getLabelForegroundColor() != null) {
+						((TitledBorder) getBorder())
+								.setTitleColor(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
+					}
+					if (data.getBorderColor() != null) {
+						((TitledBorder) getBorder()).setBorder(
+								BorderFactory.createLineBorder(SwingRendererUtils.getColor(data.getBorderColor())));
+					}
+				} else {
+					setBorder(BorderFactory.createEmptyBorder());
+				}
+				textComponent.setBorder(BorderFactory.createEmptyBorder());
+			}
+			return true;
 		}
 
 		@Override

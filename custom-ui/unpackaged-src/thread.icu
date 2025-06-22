@@ -1710,7 +1710,7 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.ArrayList</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -1761,9 +1761,9 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
-                    <listTypeName>ValueListTypeInfo [of=subListGroup [containingItemType=java.lang.Thread]]</listTypeName>
+                    <listTypeName>ListTypeInfo [of=subListGroup [containingItemType=java.lang.Thread]]</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>
@@ -3894,7 +3894,7 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.ArrayList</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -4879,7 +4879,7 @@
                     <menuModel>
                         <uniqueIdentifier>2b4eed94:17924f40d32:5db6</uniqueIdentifier>
                     </menuModel>
-                    <typeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</typeName>
+                    <typeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</typeName>
                     <undoManagementHidden>false</undoManagementHidden>
                 </typeCustomizations>
                 <typeCustomizations>
@@ -4945,7 +4945,7 @@
         <menuModel>
             <uniqueIdentifier>2b4eed94:17924f40d32:5db0</uniqueIdentifier>
         </menuModel>
-        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem]</typeName>
+        <typeName>Encapsulation [context=FieldContext [fieldName=, objectType=Encapsulation [encapsulatedObjectType=java.lang.Thread]], subContext=ListItem, encapsulatedObjectType=xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem]</typeName>
         <undoManagementHidden>false</undoManagementHidden>
     </typeCustomizations>
     <typeCustomizations>
@@ -7143,7 +7143,7 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.ArrayList</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>

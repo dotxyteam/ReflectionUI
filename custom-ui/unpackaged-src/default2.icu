@@ -16825,7 +16825,7 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.ArrayList</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -16871,9 +16871,9 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
-                    <listTypeName>ValueListTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test2]]</listTypeName>
+                    <listTypeName>ListTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test2]]</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>
@@ -17196,7 +17196,7 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
                     <listTypeName>java.util.ArrayList</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
@@ -17242,9 +17242,9 @@
                     <itemDetailsViewDisabled>false</itemDetailsViewDisabled>
                     <itemNullValueAllowed>false</itemNullValueAllowed>
                     <itemTypeColumnAdded>false</itemTypeColumnAdded>
-                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ValueListItem</itemTypeName>
+                    <itemTypeName>xy.reflect.ui.info.field.MultipleFieldsAsListFieldInfo$ListItem</itemTypeName>
                     <listSorted>false</listSorted>
-                    <listTypeName>ValueListTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test3]]</listTypeName>
+                    <listTypeName>ListTypeInfo [of=subListGroup [containingItemType=ReflectionUITest$Test3]]</listTypeName>
                     <positionColumnAdded>false</positionColumnAdded>
                     <stringValueColumnAdded>false</stringValueColumnAdded>
                 </listCustomizations>

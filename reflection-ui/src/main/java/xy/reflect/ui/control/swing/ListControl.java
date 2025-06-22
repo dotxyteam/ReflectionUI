@@ -105,7 +105,6 @@ import xy.reflect.ui.info.type.iterable.item.IListItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.ItemDetailsAreaPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.BufferedItemPositionFactory;
-import xy.reflect.ui.info.type.iterable.item.DetachedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.item.EmbeddedItemDetailsAccessMode;
 import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
@@ -613,15 +612,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public IListItemDetailsAccessMode getDetailsAccessMode() {
 		if (detailsMode == null) {
-			if (getMasterListControl() != null) {
-				detailsMode = new DetachedItemDetailsAccessMode();
-			} else {
-				IListTypeInfo listType = getRootListType();
-				detailsMode = listType.getDetailsAccessMode();
-				if (detailsMode == null) {
-					throw new ReflectionUIError("No " + IListItemDetailsAccessMode.class.getSimpleName()
-							+ " found on the type '" + listType.getName());
-				}
+			IListTypeInfo listType = getRootListType();
+			detailsMode = listType.getDetailsAccessMode();
+			if (detailsMode == null) {
+				throw new ReflectionUIError("No " + IListItemDetailsAccessMode.class.getSimpleName()
+						+ " found on the type '" + listType.getName());
 			}
 		}
 		return detailsMode;
@@ -1831,8 +1826,26 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected ListControl getMasterListControl() {
-		return (ListControl) listData.getSpecificProperties()
-				.get(IListStructuralInfo.SUB_LIST_FIELD_CONTROL_MASTER_KEY);
+		ListControl firstAncestorListControl = (ListControl) SwingUtilities.getAncestorOfClass(ListControl.class, this);
+		if (firstAncestorListControl == null) {
+			return null;
+		}
+		BufferedItemPosition itemPosition = firstAncestorListControl.getSingleSelection();
+		if (itemPosition == null) {
+			return null;
+		}
+		if (!Boolean.TRUE.equals(itemPosition.getContainingListType().getSpecificProperties()
+				.get(IListTypeInfo.SUB_LIST_SLAVERY_STATUS_KEY))) {
+			return null;
+		}
+		IFieldInfo subListField = itemPosition.getSubListField();
+		if (subListField == null) {
+			return null;
+		}
+		if (!MiscUtils.equalsOrBothNull(subListField.getValue(itemPosition.getItem()), listData.getValue())) {
+			return null;
+		}
+		return firstAncestorListControl;
 	}
 
 	protected BufferedItemPosition toMasterListControlItemPosition(BufferedItemPosition itemPosition) {

@@ -1362,6 +1362,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				if (l.getCustomItemTypeFinder() != null) {
 					traceListItemTypeChange(result, l.getCustomItemTypeFinder(), itemType);
 				}
+				if(l.getTreeStructureDiscoverySettings() != null) {
+					if(l.getTreeStructureDiscoverySettings().isSubListFieldControlSlave()) {
+						result.put(IListTypeInfo.SUB_LIST_SLAVERY_STATUS_KEY, Boolean.TRUE);
+					}
+				}
 			}
 		}
 		return result;
