@@ -124,6 +124,46 @@ public class ItemPositionProxy extends ItemPosition {
 		return base.getSubItemPosition(index);
 	}
 
+	public AbstractItemPositionFactory getFactory() {
+		return base.getFactory();
+	}
+
+	public boolean isValid() {
+		return base.isValid();
+	}
+
+	public Object retrieveContainingListValue() {
+		return base.retrieveContainingListValue();
+	}
+
+	public Object[] retrieveContainingListRawValue() {
+		return base.retrieveContainingListRawValue();
+	}
+
+	public Object retrieveSubListValue() {
+		return base.retrieveSubListValue();
+	}
+
+	public boolean isContainingListEditable() {
+		return base.isContainingListEditable();
+	}
+
+	public boolean isStable() {
+		return base.isStable();
+	}
+
+	public void updateContainingList(Object[] newContainingListRawValue) {
+		base.updateContainingList(newContainingListRawValue);
+	}
+
+	public void checkContainingListRawValue(Object[] listRawValue) {
+		base.checkContainingListRawValue(listRawValue);
+	}
+
+	public int compareTo(ItemPosition o2) {
+		return base.compareTo(o2);
+	}
+
 	public ItemPosition clone() {
 		return base.clone();
 	}
