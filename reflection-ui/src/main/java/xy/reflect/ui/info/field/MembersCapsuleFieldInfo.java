@@ -711,6 +711,12 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		}
 
 		@Override
+		public boolean isRelevant(Object object) {
+			object = ((Value) object).getObject();
+			return super.isRelevant(object);
+		}
+
+		@Override
 		public Object getValue(Object object) {
 			object = ((Value) object).getObject();
 			return super.getValue(object);
@@ -838,6 +844,18 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		public Object invoke(Object object, InvocationData invocationData) {
 			object = ((Value) object).getObject();
 			return super.invoke(object, invocationData);
+		}
+
+		@Override
+		public boolean isRelevant(Object object) {
+			object = ((Value) object).getObject();
+			return super.isRelevant(object);
+		}
+
+		@Override
+		public boolean isEnabled(Object object) {
+			object = ((Value) object).getObject();
+			return super.isEnabled(object);
 		}
 
 		@Override

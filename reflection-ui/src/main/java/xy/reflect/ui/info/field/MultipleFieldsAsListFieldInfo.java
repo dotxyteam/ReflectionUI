@@ -686,6 +686,13 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public boolean isRelevant(Object object) {
+			ListItem valueListItem = (ListItem) object;
+			object = valueListItem.getObject();
+			return super.isRelevant(object);
+		}
+
+		@Override
 		public Object getValue(Object object) {
 			ListItem valueListItem = (ListItem) object;
 			object = valueListItem.getObject();

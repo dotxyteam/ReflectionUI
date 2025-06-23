@@ -41,21 +41,66 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		this.polymorphicType = polymorphicType;
 	}
 
+	protected static class TypeOptionsCollector implements Iterable<ITypeInfo> {
+		protected ReflectionUI reflectionUI;
+		protected ITypeInfo polymorphicType;
+
+		public TypeOptionsCollector(ReflectionUI reflectionUI, ITypeInfo polymorphicType) {
+			this.reflectionUI = reflectionUI;
+			this.polymorphicType = polymorphicType;
+		}
+
+		@Override
+		public Iterator<ITypeInfo> iterator() {
+			List<ITypeInfo> result = new ArrayList<ITypeInfo>();
+			if (polymorphicType.isConcrete()) {
+				result.add(0, preventPolymorphismRecursivity(reflectionUI, polymorphicType));
+			}
+			result.addAll(listConcreteDescendantTypes(polymorphicType));
+			return result.iterator();
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((polymorphicType == null) ? 0 : polymorphicType.hashCode());
+			result = prime * result + ((reflectionUI == null) ? 0 : reflectionUI.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			TypeOptionsCollector other = (TypeOptionsCollector) obj;
+			if (polymorphicType == null) {
+				if (other.polymorphicType != null)
+					return false;
+			} else if (!polymorphicType.equals(other.polymorphicType))
+				return false;
+			if (reflectionUI == null) {
+				if (other.reflectionUI != null)
+					return false;
+			} else if (!reflectionUI.equals(other.reflectionUI))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "TypeOptionsCollector [polymorphicType=" + polymorphicType + ", reflectionUI=" + reflectionUI + "]";
+		}
+
+	}
+
 	protected static Iterable<ITypeInfo> getTypeOptionsCollector(ReflectionUI reflectionUI,
 			final ITypeInfo polymorphicType) {
-		return new Iterable<ITypeInfo>() {
-
-			@Override
-			public Iterator<ITypeInfo> iterator() {
-				List<ITypeInfo> result = new ArrayList<ITypeInfo>();
-				if (polymorphicType.isConcrete()) {
-					result.add(0, preventPolymorphismRecursivity(reflectionUI, polymorphicType));
-				}
-				result.addAll(listConcreteDescendantTypes(polymorphicType));
-				return result.iterator();
-			}
-
-		};
+		return new TypeOptionsCollector(reflectionUI, polymorphicType);
 
 	}
 

@@ -232,27 +232,39 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 
 		@Override
 		protected ResourcePath getIconImagePath(ITypeInfo type, Object object) {
-			return super.getIconImagePath(type, ((PrecomputedTypeInstanceWrapper) object));
+			return super.getIconImagePath(type,
+					(object == null) ? null : ((PrecomputedTypeInstanceWrapper) object).getInstance());
+		}
+
+		@Override
+		protected boolean isRelevant(IFieldInfo field, Object object, ITypeInfo objectType) {
+			return super.isRelevant(field, ((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
+		}
+
+		@Override
+		protected boolean isRelevant(IMethodInfo method, Object object, ITypeInfo objectType) {
+			return super.isRelevant(method, ((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
 		}
 
 		@Override
 		protected boolean isEnabled(IMethodInfo method, Object object, ITypeInfo objectType) {
-			return super.isEnabled(method, ((PrecomputedTypeInstanceWrapper) object), objectType);
+			return super.isEnabled(method, ((PrecomputedTypeInstanceWrapper) object).getInstance(), objectType);
 		}
 
 		@Override
 		protected ITransaction createTransaction(ITypeInfo type, Object object) {
-			return super.createTransaction(type, ((PrecomputedTypeInstanceWrapper) object));
+			return super.createTransaction(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 		@Override
 		protected void onFormRefresh(ITypeInfo type, Object object) {
-			super.onFormRefresh(type, ((PrecomputedTypeInstanceWrapper) object));
+			super.onFormRefresh(type, ((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 		@Override
 		protected Runnable getLastFormRefreshStateRestorationJob(ITypeInfo type, Object object) {
-			return super.getLastFormRefreshStateRestorationJob(type, ((PrecomputedTypeInstanceWrapper) object));
+			return super.getLastFormRefreshStateRestorationJob(type,
+					((PrecomputedTypeInstanceWrapper) object).getInstance());
 		}
 
 		@Override
