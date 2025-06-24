@@ -218,7 +218,18 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	public void setSelectionTargetData(IFieldControlData selectionTargetData) {
 		this.selectionTargetData = selectionTargetData;
-		updateSelectionTarget();
+		if (selectionTargetData != null) {
+			Object selectionTargetDataValue = selectionTargetData.getValue();
+			BufferedItemPosition itemPosition = (selectionTargetDataValue != null)
+					? findFirstItemPositionByValue(selectionTargetDataValue)
+					: null;
+			withoutSelectionTargetListenerEnabled(new Runnable() {
+				@Override
+				public void run() {
+					setSingleSelection(itemPosition);
+				}
+			});
+		}
 	}
 
 	public Object getRootListValue() {
@@ -2165,7 +2176,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean requestCustomFocus() {
-		setDefaultSelection();
+		if (selectionTargetData == null) {
+			setDefaultSelection();
+		}
 		if (SwingRendererUtils.requestAnyComponentFocus(treeTableComponent, swingRenderer)) {
 			return true;
 		}
