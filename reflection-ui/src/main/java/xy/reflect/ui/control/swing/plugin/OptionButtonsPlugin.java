@@ -1,9 +1,11 @@
 
 package xy.reflect.ui.control.swing.plugin;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -108,6 +110,7 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		protected IEnumerationTypeInfo enumType;
 		protected List<Object> possibleValues;
 		protected Object lastSelectedValue;
+		protected ControlPanel contentPane;
 
 		public OptionButtons(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -115,6 +118,9 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 			this.data = input.getControlData();
 			this.enumType = (IEnumerationTypeInfo) data.getType();
 			buttonGroup = new ButtonGroup();
+			setLayout(new BorderLayout());
+			add(SwingRendererUtils.flowInLayout(contentPane = new ControlPanel(), GridBagConstraints.CENTER),
+					BorderLayout.CENTER);
 			refreshUI(true);
 		}
 
@@ -130,9 +136,9 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					}
 				}, swingRenderer);
 				if (controlCustomization.layout == OptionButtonsLayout.HORIZONTAL_FLOW) {
-					setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+					contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 				} else if (controlCustomization.layout == OptionButtonsLayout.VERTICAL_FLOW) {
-					setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+					contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 				} else {
 					throw new ReflectionUIError();
 				}
@@ -144,15 +150,15 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 					AbstractButton button = buttonGroup.getElements().nextElement();
 					buttonGroup.remove(button);
 				}
-				removeAll();				
+				contentPane.removeAll();
 				for (int i = 0; i < possibleValues.size(); i++) {
 					final Object value = possibleValues.get(i);
 					AbstractButton button = createButton(value);
 					if (i > 0) {
-						add(Box.createRigidArea(
+						contentPane.add(Box.createRigidArea(
 								new Dimension(controlCustomization.spacing, controlCustomization.spacing)));
 					}
-					add(button);
+					contentPane.add(button);
 					buttonGroup.add(button);
 
 				}
