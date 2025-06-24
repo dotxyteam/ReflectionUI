@@ -1378,6 +1378,9 @@ public class Form extends ImagePanel {
 				layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory,
 						methodControlPlaceHoldersByCategory, this);
 				realizeMembersControls();
+				if (categoriesVisibilityUpdater != null) {
+					categoriesVisibilityUpdater.update();
+				}
 				SwingRendererUtils.handleComponentSizeChange(this);
 			} finally {
 				if (initiallySelectedCategory != null) {
@@ -1410,9 +1413,9 @@ public class Form extends ImagePanel {
 					}
 				}
 			}
-		}
-		if (categoriesVisibilityUpdater != null) {
-			categoriesVisibilityUpdater.update();
+			if (categoriesVisibilityUpdater != null) {
+				categoriesVisibilityUpdater.update();
+			}
 		}
 		finalizeFormUpdate();
 		if (refreshStructure) {
@@ -1444,14 +1447,10 @@ public class Form extends ImagePanel {
 				statusBar.setBackground(backgroundColor);
 				statusBar.setOpaque(backgroundColor != null);
 				statusBar.setForeground(foregroundColor);
-				if (borderColor != null) {
-					Border outsideBorder = BorderFactory.createLineBorder(borderColor);
-					Border insideBorder = BorderFactory.createEmptyBorder(getLayoutSpacing(), getLayoutSpacing(),
-							getLayoutSpacing(), getLayoutSpacing());
-					statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-				} else {
-					statusBar.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-				}
+				Border insideBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+				Border outsideBorder = (borderColor != null) ? BorderFactory.createLineBorder(borderColor)
+						: BorderFactory.createRaisedSoftBevelBorder();
+				statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 				Font labelCustomFont = getLabelCustomFont();
 				{
 					if (labelCustomFont != null) {
