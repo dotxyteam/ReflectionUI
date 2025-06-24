@@ -895,10 +895,34 @@ public class CustomizationTools {
 				if (field.getName().equals("uniqueIdentifier")) {
 					continue;
 				}
+				if (field.getName().startsWith("category")) {
+					continue;
+				}
 				if (field.getName().equals("encapsulationFieldName")) {
 					continue;
 				}
 				if (field.getName().equals("duplicateGenerated")) {
+					continue;
+				}
+				if (field.getName().equals("customSetterSignature")) {
+					continue;
+				}
+				if (field.getName().equals("valueOptionsFieldName")) {
+					continue;
+				}
+				if (field.getName().equals("getterGenerated")) {
+					continue;
+				}
+				if (field.getName().equals("setterGenerated")) {
+					continue;
+				}
+				if (field.getName().equals("nullStatusFieldExported")) {
+					continue;
+				}
+				if (field.getName().equals("importedNullStatusFieldName")) {
+					continue;
+				}
+				if (field.getName().equals("importedNullStatusFieldName")) {
 					continue;
 				}
 				changeCustomizationFieldValue(dstFc, field.getName(),
@@ -922,10 +946,28 @@ public class CustomizationTools {
 				if (field.getName().equals("uniqueIdentifier")) {
 					continue;
 				}
+				if (field.getName().startsWith("category")) {
+					continue;
+				}
 				if (field.getName().equals("encapsulationFieldName")) {
 					continue;
 				}
 				if (field.getName().equals("duplicateGenerated")) {
+					continue;
+				}
+				if (field.getName().equals("returnValueFieldGenerated")) {
+					continue;
+				}
+				if (field.getName().equals("parameterizedFieldNames")) {
+					continue;
+				}
+				if (field.getName().equals("menuLocation")) {
+					continue;
+				}
+				if (field.getName().equals("transactionalRole")) {
+					continue;
+				}
+				if (field.getName().equals("enablementStatusFieldName")) {
 					continue;
 				}
 				changeCustomizationFieldValue(dstMc, field.getName(),

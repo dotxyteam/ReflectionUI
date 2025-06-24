@@ -39,11 +39,13 @@ import xy.reflect.ui.info.custom.InfoCustomizations.ITypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.JavaClassBasedTypeInfoFinder;
 import xy.reflect.ui.info.custom.InfoCustomizations.ListCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.Mapping;
+import xy.reflect.ui.info.custom.InfoCustomizations.MenuCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeConversion;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
+import xy.reflect.ui.info.field.FieldInfoProxy;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.menu.IMenuElementPosition;
 import xy.reflect.ui.info.menu.MenuElementKind;
@@ -208,6 +210,44 @@ public class CustomizationToolsUI extends CustomizedUI {
 						}
 						result.add(field);
 					}
+					if (type.getName().equals(MethodCustomization.class.getName())) {
+						result.add(new FieldInfoProxy(IFieldInfo.NULL_FIELD_INFO) {
+							@Override
+							public String getName() {
+								return "menuLocationSelector";
+							}
+
+							@Override
+							public String getCaption() {
+								return ReflectionUIUtils.identifierToCaption(getName());
+							}
+
+							@Override
+							public ITypeInfo getType() {
+								return CustomizationToolsUI.this.getTypeInfo(new JavaTypeInfoSource(
+										MenuLocationSelector.class,
+										new SpecificitiesIdentifier(MethodCustomization.class.getName(), getName())));
+							}
+
+							@Override
+							public Object getValue(Object object) {
+								return new MenuLocationSelector(swingCustomizer.getInfoCustomizations(),
+										(MethodCustomization) object);
+							}
+
+							@Override
+							public void setValue(Object object, Object value) {
+								((MethodCustomization) object).setMenuLocation((value == null) ? null
+										: ((MenuLocationSelector) value).getSelectedMenuItemContainerCustomization());
+							}
+
+							@Override
+							public boolean isGetOnly() {
+								return false;
+							}
+
+						});
+					}
 					return result;
 				} else {
 					return super.getFields(type);
@@ -259,7 +299,12 @@ public class CustomizationToolsUI extends CustomizedUI {
 						List<TextualStorage> storages = new ArrayList<InfoCustomizations.TextualStorage>(
 								mc.getSerializedInvocationDatas());
 						TextualStorage newStorage = new TextualStorage();
-						newStorage.save(lastInvocationData);
+						InvocationData toStore = new InvocationData(lastInvocationData);
+						for (Integer parameterPosition : toStore.getProvidedParameterValues().keySet()) {
+							// no need to store the default value if an actual value was provided
+							toStore.getDefaultParameterValues().remove(parameterPosition);
+						}
+						newStorage.save(toStore);
 						storages.add(newStorage);
 						mc.setSerializedInvocationDatas(storages);
 						return null;
@@ -533,6 +578,47 @@ public class CustomizationToolsUI extends CustomizedUI {
 	@Override
 	public void logError(String msg) {
 		super.logError(msg);
+	}
+
+	protected static class MenuLocationSelector {
+
+		protected InfoCustomizations infoCustomizations;
+		protected MethodCustomization methodCustomization;
+		protected IMenuItemContainerCustomization selectedMenuItemContainerCustomization;
+
+		public MenuLocationSelector(InfoCustomizations infoCustomizations, MethodCustomization methodCustomization) {
+			this.infoCustomizations = infoCustomizations;
+			this.methodCustomization = methodCustomization;
+			selectedMenuItemContainerCustomization = methodCustomization.getMenuLocation();
+		}
+
+		public List<MenuCustomization> getMenuCustomizations() {
+			TypeCustomization tc = InfoCustomizations.findParentTypeCustomization(infoCustomizations,
+					methodCustomization);
+			return tc.getMenuModelCustomization().getMenuCustomizations();
+		}
+
+		public IMenuItemContainerCustomization getSelectedMenuItemContainerCustomization() {
+			return selectedMenuItemContainerCustomization;
+		}
+
+		public void setSelectedMenuItemContainerCustomization(
+				IMenuItemContainerCustomization selectedMenuItemContainerCustomization) {
+			this.selectedMenuItemContainerCustomization = selectedMenuItemContainerCustomization;
+		}
+
+		public void validate() {
+			if (selectedMenuItemContainerCustomization == null) {
+				throw new IllegalStateException("Menu item container not selected!");
+			}
+		}
+
+		@Override
+		public String toString() {
+			return (selectedMenuItemContainerCustomization != null) ? selectedMenuItemContainerCustomization.getName()
+					: "<None>";
+		}
+
 	}
 
 	/**
