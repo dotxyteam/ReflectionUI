@@ -342,6 +342,15 @@ public class SwingRendererUtils {
 					@Override
 					public void componentResized(ComponentEvent ce) {
 						splitPane.removeComponentListener(this);
+						int dividerSpace = ((splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT)
+								? splitPane.getHeight()
+								: splitPane.getWidth()) - splitPane.getDividerSize();
+						if (dividerSpace > 0) {
+							double currentProportionalLocation = splitPane.getDividerLocation() / (double) dividerSpace;
+							if (Math.abs(currentProportionalLocation - proportionalLocation) < 0.2) {
+								return;
+							}
+						}
 						ensureDividerLocation(splitPane, proportionalLocation);
 					}
 				});

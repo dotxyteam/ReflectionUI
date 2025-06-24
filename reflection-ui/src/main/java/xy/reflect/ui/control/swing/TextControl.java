@@ -251,12 +251,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 					public void hierarchyChanged(HierarchyEvent e) {
 						if (e.getID() == HierarchyEvent.HIERARCHY_CHANGED
 								&& (e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									SwingRendererUtils.handleComponentSizeChange(thisScrollPane);
-								}
-							});
+							SwingRendererUtils.handleComponentSizeChange(thisScrollPane);							
 						}
 					}
 				});
@@ -265,12 +260,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 					public void hierarchyChanged(HierarchyEvent e) {
 						if (e.getID() == HierarchyEvent.HIERARCHY_CHANGED
 								&& (e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									SwingRendererUtils.handleComponentSizeChange(thisScrollPane);
-								}
-							});
+							SwingRendererUtils.handleComponentSizeChange(thisScrollPane);
 						}
 					}
 				});
