@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -282,6 +284,19 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		public void validateControl(ValidationSession session) throws Exception {
+			final Map<BufferedItemPosition, Exception> tmpErrorMap = new HashMap<BufferedItemPosition, Exception>();
+			for (DetailedCellControl cell : detailedCellControlList) {
+				try {
+					cell.getForm().validateForm(session);
+				} catch (Exception e) {
+					tmpErrorMap.put(cell.getItemPosition(), e);
+				}
+			}
+			validitionErrorByItemPosition.clear();
+			validitionErrorByItemPosition.putAll(tmpErrorMap);
+			if (validitionErrorByItemPosition.size() > 0) {
+				throw new ListValidationError("Invalid element(s) detected", validitionErrorByItemPosition);
+			}
 		}
 
 		@Override
@@ -439,10 +454,8 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 			protected BufferedItemPosition itemPosition;
 			protected boolean selected = false;
-
-			private Form form;
-
-			private ItemUIBuilder formBuilder;
+			protected Form form;
+			protected ItemUIBuilder formBuilder;
 
 			public DetailedCellControl(BufferedItemPosition itemPosition) {
 				this.itemPosition = itemPosition;
@@ -454,6 +467,14 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				}
 				enableSelection();
 				setupContexteMenu(this);
+			}
+
+			public Form getForm() {
+				return form;
+			}
+
+			public ItemUIBuilder getFormBuilder() {
+				return formBuilder;
 			}
 
 			protected void enableSelection() {
