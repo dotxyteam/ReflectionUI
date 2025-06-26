@@ -147,6 +147,9 @@ public class SwingRenderer {
 
 	protected ReflectionUI reflectionUI;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
+	protected Map<Object, Exception> LastValidationErrors = Collections
+			.synchronizedMap(MiscUtils.newWeakKeysEqualityBasedMap());
+
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
 	protected static final String BUSY_DIALOG_JOB_EXECUTOR_NAME = SwingRenderer.class.getName()
@@ -208,6 +211,14 @@ public class SwingRenderer {
 	 */
 	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
 		return lastInvocationDataByMethodSignature;
+	}
+
+	/**
+	 * @return a map that contains last validation errors (values) of form objects
+	 *         (keys).
+	 */
+	public Map<Object, Exception> getLastValidationErrors() {
+		return LastValidationErrors;
 	}
 
 	/**

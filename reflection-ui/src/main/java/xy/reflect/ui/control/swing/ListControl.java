@@ -26,6 +26,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
@@ -121,6 +124,7 @@ import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.BetterFutureTask;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.Mapper;
@@ -149,7 +153,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected AbstractBufferedItemPositionFactory itemPositionFactory;
 	protected static List<Object> clipboard = new ArrayList<Object>();
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
-	protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = new HashMap<BufferedItemPosition, Exception>();
+	protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = Collections
+			.synchronizedMap(MiscUtils.newWeakKeysEqualityBasedMap());
+	protected ExecutorService itemValidationErrorsCollectingExecutor = MiscUtils
+			.newExecutor(ListControl.class.getName() + "ValidationErrorsCollector", 0);
 
 	protected JPanel detailsArea;
 	protected Form detailsControl;
@@ -2187,7 +2194,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateControl(ValidationSession session) throws Exception {
-		validitionErrorByItemPosition.clear();
+		final Map<BufferedItemPosition, Exception> tmpErrorMap = new HashMap<BufferedItemPosition, Exception>();
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
@@ -2215,7 +2222,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					itemForm[0].validateForm(session);
 				} catch (Exception e) {
-					validitionErrorByItemPosition.put(itemPosition, e);
+					tmpErrorMap.put(itemPosition, e);
 				}
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
@@ -2223,6 +2230,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (Thread.currentThread().isInterrupted()) {
 			return;
 		}
+		validitionErrorByItemPosition.clear();
+		validitionErrorByItemPosition.putAll(tmpErrorMap);
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -2689,6 +2698,67 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			this.modificationFactory = createListModificationFactory(bufferedItemPosition);
 			this.canCommit = modificationFactory.canSet(bufferedItemPosition.getIndex());
 			this.objectValueReturnMode = bufferedItemPosition.getItemReturnMode();
+		}
+
+		@Override
+		public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
+			Form result = super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
+			postCopyValidationErrorFromCapsuleToItem(result);
+			return result;
+		}
+
+		protected void postCopyValidationErrorFromCapsuleToItem(Form form) {
+			form.getRefreshListeners().add(new Form.IRefreshListener() {
+				@Override
+				public void onRefresh(boolean refreshStructure) {
+					itemValidationErrorsCollectingExecutor.submit(new Runnable() {
+						@Override
+						public void run() {
+							BetterFutureTask<Boolean> validationTask = form.getCurrentValidationTask();
+							if (validationTask != null) {
+								try {
+									validationTask.get();
+								} catch (CancellationException | InterruptedException | ExecutionException e) {
+									return;
+								}
+							}
+							copyValidationErrorFromCapsuleToItem(form.getObject());
+						}
+					});
+				}
+			});
+		}
+
+		protected void copyValidationErrorFromCapsuleToItem(Object capsule) {
+			Exception validitionError = swingRenderer.getLastValidationErrors().get(capsule);
+			if (validitionError != null) {
+				swingRenderer.getLastValidationErrors().put(bufferedItemPosition.getItem(), validitionError);
+			} else {
+				swingRenderer.getLastValidationErrors().remove(bufferedItemPosition.getItem());
+			}
+		}
+
+		protected void copyValidationErrorFromItemToCapsule(Object capsule) {
+			Exception itemValiditionError = swingRenderer.getLastValidationErrors().get(bufferedItemPosition.getItem());
+			if (itemValiditionError != null) {
+				swingRenderer.getLastValidationErrors().put(capsule, itemValiditionError);
+			} else {
+				swingRenderer.getLastValidationErrors().remove(capsule);
+			}
+		}
+
+		@Override
+		public Object getNewCapsule() {
+			Object capsule = super.getNewCapsule();
+			copyValidationErrorFromItemToCapsule(capsule);
+			return capsule;
+		}
+
+		@Override
+		public void reloadValue(Form editorForm, boolean refreshStructure) {
+			Object capsule = editorForm.getObject();
+			copyValidationErrorFromItemToCapsule(capsule);
+			super.reloadValue(editorForm, refreshStructure);
 		}
 
 		@Override

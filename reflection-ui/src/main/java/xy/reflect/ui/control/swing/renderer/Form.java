@@ -145,8 +145,11 @@ public class Form extends ImagePanel {
 		handleVisibilityEvents();
 		menuBar = createMenuBar();
 		statusBar = createStatusBar();
-		showErrorOnStatusBar(null);
 		refresh(true);
+	}
+
+	public BetterFutureTask<Boolean> getCurrentValidationTask() {
+		return currentValidationTask;
 	}
 
 	@Override
@@ -436,39 +439,37 @@ public class Form extends ImagePanel {
 			public void run() {
 				try {
 					validateForm(new ValidationSession());
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							showErrorOnStatusBar(null);
-							setStandardOKButtonEnabled(true);
-						}
-
-					});
+					if (!Thread.currentThread().isInterrupted()) {
+						swingRenderer.getLastValidationErrors().remove(object);
+					}
 				} catch (Exception e) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							showErrorOnStatusBar(e);
-							ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-							ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-							setStandardOKButtonEnabled(!type.isValidationRequired());
-						}
-					});
+					swingRenderer.getLastValidationErrors().put(object, e);
 				} catch (Throwable t) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							showErrorOnStatusBar(null);
-							setStandardOKButtonEnabled(true);
 							swingRenderer.handleException(Form.this, t);
 						}
 					});
 				} finally {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							refreshValidityComponents();
+						}
+
+					});
 					currentValidationTask = null;
 				}
 			}
 		}, true);
 		swingRenderer.getFormValidator().submit(currentValidationTask);
+	}
+
+	protected void refreshValidityComponents() {
+		Exception validationError = swingRenderer.getLastValidationErrors().get(object);
+		showErrorOnStatusBar(validationError);
+		setStandardOKButtonEnabled((validationError == null) || !objectType.isValidationRequired());
 	}
 
 	protected void setStandardOKButtonEnabled(boolean b) {
@@ -812,6 +813,7 @@ public class Form extends ImagePanel {
 
 		};
 		result.setFont(new JToolTip().getFont());
+		result.setCustomValue(new Exception("INITIAL_UNDEFINED_ERROR"));
 		result.setName("statusBar");
 		return result;
 	}
@@ -1417,7 +1419,6 @@ public class Form extends ImagePanel {
 				categoriesVisibilityUpdater.update();
 			}
 		}
-		finalizeFormUpdate();
 		if (refreshStructure) {
 			updateFieldsPanelsLayout();
 			refreshCategoriesControlStructure();
@@ -1447,7 +1448,9 @@ public class Form extends ImagePanel {
 				statusBar.setBackground(backgroundColor);
 				statusBar.setOpaque(backgroundColor != null);
 				statusBar.setForeground(foregroundColor);
-				Border insideBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+				int borderSpacing = getLayoutSpacing();
+				Border insideBorder = BorderFactory.createEmptyBorder(borderSpacing, borderSpacing, borderSpacing,
+						borderSpacing);
 				Border outsideBorder = (borderColor != null) ? BorderFactory.createLineBorder(borderColor)
 						: BorderFactory.createRaisedSoftBevelBorder();
 				statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
@@ -1462,6 +1465,8 @@ public class Form extends ImagePanel {
 				}
 			}
 		}
+		refreshValidityComponents();
+		finalizeFormUpdate();
 		for (IRefreshListener l : refreshListeners) {
 			l.onRefresh(refreshStructure);
 		}

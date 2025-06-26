@@ -365,7 +365,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 		@Override
 		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
-			return data.isValueValidityDetectionEnabled();
+			return true;
 		}
 
 		@Override
