@@ -54,6 +54,12 @@ public class MiscUtils {
 		return SPECIAL_REGEX_REPLACEMENT_CHARS.matcher(str).replaceAll("\\\\$0");
 	}
 
+	public static <T> List<T> getAdded(Collection<T> baseItems, Collection<T> newItems) {
+		List<T> result = new ArrayList<T>(baseItems);
+		result.addAll(newItems);
+		return result;
+	}
+
 	public static <T> List<T> getReverse(List<T> ts) {
 		List<T> result = new ArrayList<T>(ts);
 		Collections.reverse(result);

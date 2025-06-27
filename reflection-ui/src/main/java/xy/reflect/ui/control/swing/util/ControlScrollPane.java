@@ -3,9 +3,9 @@ package xy.reflect.ui.control.swing.util;
 
 import java.awt.Component;
 import java.awt.Dimension;
-
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 
@@ -65,14 +65,22 @@ public class ControlScrollPane extends JScrollPane {
 		JScrollBar hSBar = getHorizontalScrollBar();
 		{
 			if ((hSBar != null) && hSBar.isVisible()) {
-				result.height += hSBar.getHeight();
+				result.height += (hSBar.getHeight() > 0) ? hSBar.getHeight() : getDefaultScrollBarThickness();
 			}
 		}
 		JScrollBar vSBar = getVerticalScrollBar();
 		{
 			if ((vSBar != null) && vSBar.isVisible()) {
-				result.width += vSBar.getWidth();
+				result.width += (vSBar.getWidth() > 0) ? vSBar.getWidth() : getDefaultScrollBarThickness();
 			}
+		}
+		return result;
+	}
+
+	protected int getDefaultScrollBarThickness() {
+		Integer result = ((Integer) UIManager.get("ScrollBar.width"));
+		if (result == null) {
+			result = 10;
 		}
 		return result;
 	}

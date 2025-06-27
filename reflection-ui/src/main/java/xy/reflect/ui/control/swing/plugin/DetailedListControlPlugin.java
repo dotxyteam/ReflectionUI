@@ -284,18 +284,23 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 
 		@Override
 		public void validateControl(ValidationSession session) throws Exception {
-			final Map<BufferedItemPosition, Exception> tmpErrorMap = new HashMap<BufferedItemPosition, Exception>();
+			final Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = new HashMap<BufferedItemPosition, Exception>();
 			for (DetailedCellControl cell : detailedCellControlList) {
+				BufferedItemPosition itemPosition = cell.getItemPosition();
+				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
+					continue;
+				}
 				try {
 					cell.getForm().validateForm(session);
+					swingRenderer.getLastValidationErrors().remove(itemPosition.getItem());
 				} catch (Exception e) {
-					tmpErrorMap.put(cell.getItemPosition(), e);
+					swingRenderer.getLastValidationErrors().put(itemPosition.getItem(),
+							new ItemValidationError(itemPosition, e));
+					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 			}
-			validitionErrorByItemPosition.clear();
-			validitionErrorByItemPosition.putAll(tmpErrorMap);
 			if (validitionErrorByItemPosition.size() > 0) {
-				throw new ListValidationError("Invalid element(s) detected", validitionErrorByItemPosition);
+				throw new ListValidationError(validitionErrorByItemPosition);
 			}
 		}
 

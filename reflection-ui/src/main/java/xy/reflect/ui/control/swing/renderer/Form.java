@@ -384,14 +384,21 @@ public class Form extends ImagePanel {
 						((IAdvancedFieldControl) fieldControl).validateControl(session);
 					} catch (Exception e) {
 						String errorMsg = e.toString();
+						boolean errorMsgModified = false;
 						IFieldInfo field = fieldControlPlaceHolder.getField();
 						if (field.getCaption().length() > 0) {
 							errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
+							errorMsgModified = true;
 						}
 						if (categoriesDisplayed) {
 							errorMsg = ReflectionUIUtils.composeMessage(category.getCaption(), errorMsg);
+							errorMsgModified = true;
 						}
-						throw new ReflectionUIError(errorMsg, e);
+						if (errorMsgModified) {
+							throw new ReflectionUIError(errorMsg, e);
+						} else {
+							throw e;
+						}
 					}
 				}
 			}

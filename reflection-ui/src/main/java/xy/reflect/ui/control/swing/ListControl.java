@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -153,8 +154,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected AbstractBufferedItemPositionFactory itemPositionFactory;
 	protected static List<Object> clipboard = new ArrayList<Object>();
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
-	protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = Collections
-			.synchronizedMap(MiscUtils.newWeakKeysEqualityBasedMap());
 	protected ExecutorService itemValidationErrorsCollectingExecutor = MiscUtils
 			.newExecutor(ListControl.class.getName() + "ValidationErrorsCollector", 0);
 
@@ -1074,7 +1073,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						.isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				if (validitionErrorByItemPosition.get(visitedItemPosition) != null) {
+				if (swingRenderer.getLastValidationErrors().containsKey(visitedItemPosition.getItem())) {
 					subtreeValid[0] = false;
 					if (visitedItemPosition.equals(itemPosition)) {
 						nodeValid[0] = false;
@@ -2194,7 +2193,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void validateControl(ValidationSession session) throws Exception {
-		final Map<BufferedItemPosition, Exception> tmpErrorMap = new HashMap<BufferedItemPosition, Exception>();
+		final Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = new HashMap<BufferedItemPosition, Exception>();
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
@@ -2221,8 +2220,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				try {
 					itemForm[0].validateForm(session);
+					swingRenderer.getLastValidationErrors().remove(itemPosition.getItem());
 				} catch (Exception e) {
-					tmpErrorMap.put(itemPosition, e);
+					swingRenderer.getLastValidationErrors().put(itemPosition.getItem(),
+							new ItemValidationError(itemPosition, e));
+					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
@@ -2230,8 +2232,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (Thread.currentThread().isInterrupted()) {
 			return;
 		}
-		validitionErrorByItemPosition.clear();
-		validitionErrorByItemPosition.putAll(tmpErrorMap);
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -2240,8 +2240,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		});
 		if (validitionErrorByItemPosition.size() > 0) {
-			throw new ListValidationError("Invalid element(s) detected", validitionErrorByItemPosition);
+			throw new ListValidationError(validitionErrorByItemPosition);
 		}
+	}
+
+	protected String getDisplayPath(BufferedItemPosition itemPosition) {
+		return MiscUtils
+				.getReverse(MiscUtils.getAdded(Collections.singletonList(itemPosition), itemPosition.getAncestors()))
+				.stream().map(eachItemPosition -> getCellValue(findNode((BufferedItemPosition) eachItemPosition), 0))
+				.collect(Collectors.joining(" / "));
 	}
 
 	@Override
@@ -4006,26 +4013,52 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
-	public class ListValidationError extends ReflectionUIError {
+	public class ItemValidationError extends Exception {
+
+		private static final long serialVersionUID = 1L;
+
+		protected BufferedItemPosition itemPosition;
+
+		public ItemValidationError(Entry<BufferedItemPosition, Exception> entry) {
+			this(entry.getKey(), entry.getValue());
+		}
+
+		public ItemValidationError(BufferedItemPosition itemPosition, Exception cause) {
+			super(cause);
+			this.itemPosition = itemPosition;
+		}
+
+		public BufferedItemPosition getItemPosition() {
+			return itemPosition;
+		}
+
+		@Override
+		public String getMessage() {
+			return "Failed to validate " + getDisplayPath(itemPosition);
+		}
+
+		@Override
+		public String toString() {
+			return getMessage();
+		}
+	}
+
+	public class ListValidationError extends Exception {
 
 		private static final long serialVersionUID = 1L;
 
 		protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition;
 
-		public ListValidationError(String message, Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
-			super(message, validitionErrorByItemPosition.values().iterator().next());
+		public ListValidationError(Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
+			super("Invalid element(s) detected",
+					new ItemValidationError(validitionErrorByItemPosition.entrySet().iterator().next()));
 			this.validitionErrorByItemPosition = validitionErrorByItemPosition;
 		}
 
-		public Map<String, Exception> getItemErrorByPath() {
+		public Map<String, Exception> getAllErrors() {
 			return validitionErrorByItemPosition.entrySet().stream().collect(Collectors.toMap(entry -> {
 				BufferedItemPosition itemPosition = ((Map.Entry<BufferedItemPosition, Exception>) entry).getKey();
-				List<BufferedItemPosition> ancestorsAndItemPosition = new ArrayList<BufferedItemPosition>(
-						MiscUtils.getReverse(MiscUtils.convertCollectionUnsafely(itemPosition.getAncestors())));
-				ancestorsAndItemPosition.add(itemPosition);
-				return MiscUtils.stringJoin(ancestorsAndItemPosition.stream()
-						.map(itemPositionOrAncestor -> getCellValue(findNode(itemPositionOrAncestor), 0)).toArray(),
-						" / ");
+				return getDisplayPath(itemPosition);
 			}, entry -> {
 				Exception error = ((Map.Entry<BufferedItemPosition, Exception>) entry).getValue();
 				error = ReflectionUIUtils.unwrapValidationError(error);
@@ -4033,6 +4066,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}));
 		}
 
+		@Override
+		public String toString() {
+			return getMessage();
+		}
 	}
 
 }
