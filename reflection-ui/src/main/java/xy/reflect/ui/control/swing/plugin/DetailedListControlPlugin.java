@@ -292,11 +292,13 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				}
 				try {
 					cell.getForm().validateForm(session);
-					swingRenderer.getLastValidationErrors().remove(itemPosition.getItem());
-				} catch (Exception e) {
 					if (!Thread.currentThread().isInterrupted()) {
-						swingRenderer.getLastValidationErrors().put(itemPosition.getItem(), e);
+						swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().cancelAttribution(
+								swingRenderer.getLastValidationErrors(), session, itemPosition.getItem());
 					}
+				} catch (Exception e) {
+					swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+							.attribute(swingRenderer.getLastValidationErrors(), session, itemPosition.getItem(), e);
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 			}

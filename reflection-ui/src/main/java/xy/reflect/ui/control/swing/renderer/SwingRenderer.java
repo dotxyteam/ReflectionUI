@@ -146,9 +146,8 @@ public class SwingRenderer {
 	}
 
 	protected ReflectionUI reflectionUI;
+	protected Map<Object, Exception> LastValidationErrors;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
-	protected Map<Object, Exception> LastValidationErrors = Collections
-			.synchronizedMap(MiscUtils.newWeakKeysIdentityBasedMap());
 
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
@@ -174,6 +173,8 @@ public class SwingRenderer {
 	 */
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
+		LastValidationErrors = Collections
+				.synchronizedMap(reflectionUI.getValidationErrorAttributionStrategy().buildAttributionMap());
 	}
 
 	/**

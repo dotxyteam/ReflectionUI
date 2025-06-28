@@ -132,6 +132,7 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ValidationErrorWrapper;
 
 /**
  * Field control that displays a tree table. Compatible with
@@ -1073,7 +1074,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						.isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				if (swingRenderer.getLastValidationErrors().containsKey(visitedItemPosition.getItem())) {
+				if (swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().getValidationError(
+						swingRenderer.getLastValidationErrors(), visitedItemPosition.getItem()) != null) {
 					subtreeValid[0] = false;
 					if (visitedItemPosition.equals(itemPosition)) {
 						nodeValid[0] = false;
@@ -2221,10 +2223,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					itemForm[0].validateForm(session);
 					if (!Thread.currentThread().isInterrupted()) {
-						swingRenderer.getLastValidationErrors().remove(itemPosition.getItem());
+						swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().cancelAttribution(
+								swingRenderer.getLastValidationErrors(), session, itemPosition.getItem());
 					}
 				} catch (Exception e) {
-					swingRenderer.getLastValidationErrors().put(itemPosition.getItem(), e);
+					swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+							.attribute(swingRenderer.getLastValidationErrors(), session, itemPosition.getItem(), e);
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
@@ -2738,20 +2742,26 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		protected void copyValidationErrorFromCapsuleToItem(Object capsule) {
-			Exception validitionError = swingRenderer.getLastValidationErrors().get(capsule);
+			Exception validitionError = swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+					.getValidationError(swingRenderer.getLastValidationErrors(), capsule);
 			if (validitionError != null) {
-				swingRenderer.getLastValidationErrors().put(bufferedItemPosition.getItem(), validitionError);
+				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().attribute(
+						swingRenderer.getLastValidationErrors(), null, bufferedItemPosition.getItem(), validitionError);
 			} else {
-				swingRenderer.getLastValidationErrors().remove(bufferedItemPosition.getItem());
+				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().cancelAttribution(
+						swingRenderer.getLastValidationErrors(), null, bufferedItemPosition.getItem());
 			}
 		}
 
 		protected void copyValidationErrorFromItemToCapsule(Object capsule) {
-			Exception itemValiditionError = swingRenderer.getLastValidationErrors().get(bufferedItemPosition.getItem());
+			Exception itemValiditionError = swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+					.getValidationError(swingRenderer.getLastValidationErrors(), bufferedItemPosition.getItem());
 			if (itemValiditionError != null) {
-				swingRenderer.getLastValidationErrors().put(capsule, itemValiditionError);
+				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+						.attribute(swingRenderer.getLastValidationErrors(), null, capsule, itemValiditionError);
 			} else {
-				swingRenderer.getLastValidationErrors().remove(capsule);
+				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+						.cancelAttribution(swingRenderer.getLastValidationErrors(), null, capsule);
 			}
 		}
 
@@ -4055,7 +4065,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return validitionErrorByItemPosition.entrySet().stream()
 					.map(mapEntry -> new ItemValidationError(
 							((Map.Entry<BufferedItemPosition, Exception>) mapEntry).getKey(),
-							ReflectionUIUtils.unwrapValidationError(
+							ValidationErrorWrapper.unwrapValidationError(
 									((Map.Entry<BufferedItemPosition, Exception>) mapEntry).getValue())))
 					.collect(Collectors.toList());
 		}

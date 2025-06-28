@@ -320,6 +320,10 @@ public class MiscUtils {
 		return newAutoCleanUpCache(true, false, maxSize, 5000, "WeakKeysIdentityBasedCacheCleaner");
 	}
 
+	public static <K, V> Map<K, V> newStandardCache() {
+		return newAutoCleanUpCache(false, false, SystemProperties.getStandardCacheSize(), 5000, "StandardCacheCleaner");
+	}
+
 	public static <K, V> Map<K, V> newAutoCleanUpCache(boolean weakKeys, boolean weakValues, long maxSize,
 			final long cleanUpPeriodMilliseconds, String cleanUpThreadNamePrefix) {
 		CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();

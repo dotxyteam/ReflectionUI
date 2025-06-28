@@ -27,10 +27,6 @@ public class ReflectionUIError extends RuntimeException {
 		super(cause);
 	}
 
-	public String getBaseMessage() {
-		return super.getMessage();
-	}
-
 	@Override
 	public String getMessage() {
 		String result = super.getMessage();

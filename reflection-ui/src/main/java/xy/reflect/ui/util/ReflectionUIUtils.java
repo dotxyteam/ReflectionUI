@@ -209,7 +209,7 @@ public class ReflectionUIUtils {
 	public static String identifierToCaption(String identifier) {
 		if (identifier.length() == 0) {
 			return "";
-		} else if (identifier.toUpperCase().equals(identifier)) {
+		} else if (identifier.toUpperCase().equals(identifier) && !identifier.toLowerCase().equals(identifier)) {
 			String[] words = identifier.split("_");
 			return Arrays.stream(words).map(String::toLowerCase).map(ReflectionUIUtils::identifierToCaption)
 					.collect(Collectors.joining(" "));
@@ -1530,19 +1530,6 @@ public class ReflectionUIUtils {
 			}
 
 		};
-	}
-
-	public static Exception unwrapValidationError(Exception e) {
-		if (e instanceof ReflectionUIError) {
-			if (e.getCause() instanceof Exception) {
-				if (((ReflectionUIError) e).getBaseMessage() != null) {
-					if (((ReflectionUIError) e).getBaseMessage().contains(e.getCause().toString())) {
-						return unwrapValidationError((Exception) e.getCause());
-					}
-				}
-			}
-		}
-		return e;
 	}
 
 }

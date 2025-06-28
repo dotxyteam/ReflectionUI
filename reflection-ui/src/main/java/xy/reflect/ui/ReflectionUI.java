@@ -19,6 +19,7 @@ import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SystemProperties;
+import xy.reflect.ui.util.ValidationErrorAttributionStrategy;
 
 /**
  * This class reads and interprets the metadata (usually the class) of objects
@@ -32,8 +33,7 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected Map<Object, ITypeInfo> typeCache = MiscUtils.newAutoCleanUpCache(false, false,
-			SystemProperties.getStandardCacheSize(), 5000, "TypeCacheCleaner[of=" + this + "]");
+	protected Map<Object, ITypeInfo> typeCache = MiscUtils.newStandardCache();
 	protected Object typeCacheMutex = new Object();
 
 	/**
@@ -86,6 +86,14 @@ public class ReflectionUI {
 	 */
 	public Map<Object, ITypeInfo> getTypeCache() {
 		return typeCache;
+	}
+
+	/**
+	 * @return the {@link ValidationErrorAttributionStrategy} used by this
+	 *         {@link ReflectionUI} instance.
+	 */
+	public ValidationErrorAttributionStrategy getValidationErrorAttributionStrategy() {
+		return new ValidationErrorAttributionStrategy();
 	}
 
 	/**

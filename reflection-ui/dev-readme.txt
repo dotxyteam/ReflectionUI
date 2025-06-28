@@ -171,7 +171,9 @@ To achieve this goal, 2 main layers have been created:
 		customization action and their cached version may become obsolete. That is why
 		the customized types cache must be cleared after each customization action
 		and no other type cache should be used.
-		
+	
+	Entity concept
+	--------------
 	An editor instance often allows to view/update a single object that has a specific
 	reference/identity. But sometimes the editor manages over time multiple objects that
 	however represent the same entity. This is typically the case with calculated field
@@ -180,15 +182,36 @@ To achieve this goal, 2 main layers have been created:
 	Inspecting objects metadata is not enough. Additional information like value mode 
 	(direct, calculated, ...), list item position predictability, etc, need to be provided.
 	Formally an entity is identified by an invariant: its access (get/set) method that
-	often depends on its parent/ancestors access method(s). Typically, an item contained
-	in a stable list/tree (according to the item positions predictability) is an entity
-	identified by its ItemPosition (that actually gives access to the successive objects 
-	and fields that used in order to get/set a specific item value). In an unstable
-	list/tree the item would rather be identified the combo ItemPosition+ancestors. Note
-	that if the parent item entity resolution fails, or if the item position is 
-	unpredictable, its value mode indirect and its equals(Object) method implementation 
-	unreliable, then the item entity resolution will fail.
+	often depends on its parent/ancestors access method(s). 
 		
+		List/tree item entities
+		-----------------------
+		Typically, an item contained in a stable list/tree (stable according to the item 
+		positions predictability) is an entity identified by its ItemPosition (that actually 
+		gives access to the successive objects	and fields used in order to get/set a specific 
+		item value). In an unstable	list/tree the item would rather be identified the combo 
+		ItemPosition+ancestors. Note that if the parent item entity resolution fails, or if 
+		both the item position is unpredictable, its value mode indirect and its equals(Object) 
+		method implementation unreliable, then the item entity resolution will fail.
+		
+		Background validation considerations
+		------------------------------------
+		Generic UI entity resolution is then required for list/tree display, but also for
+		validation. Indeed it should be possible to validate once a whole object model in 
+		background, assign the resulting errors to the model entities, and consult afterwards
+		these errors on the UI components that display the concerned entities. It would then
+		be necessary to have available entity objects in order to map them to the validation
+		errors. But since the development of such entity objects may be expensive, it may be 
+		appropriate to first map the object values to their validation errors by using a
+		key equality-based cache. It actually makes sense to map multiple equal objects to a 
+		single validation error, but it could lead to inconsistencies: validation errors may 
+		get lost when the equals(Object) method is not correctly implemented, or appear on
+		components of valid object when the validation depends on a context. The temporary
+		workaround would be to use ValidationErrorAttributionStrategy that allows to adapt
+		the object model in order to prevent these issues.
+		
+	
+	
 		
 		
 		

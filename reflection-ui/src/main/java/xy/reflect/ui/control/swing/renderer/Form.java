@@ -87,6 +87,7 @@ import xy.reflect.ui.util.BetterFutureTask;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ValidationErrorWrapper;
 
 /**
  * Instances of this class are forms allowing to edit any object. The layout and
@@ -361,77 +362,89 @@ public class Form extends ImagePanel {
 	 * @throws Exception If the state of the underlying object is not valid.
 	 */
 	public void validateForm(ValidationSession session) throws Exception {
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		type.validate(object, session);
-		List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
-				methodControlPlaceHoldersByCategory);
-		boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
-		for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
-			for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory.get(category)) {
-				if (Thread.currentThread().isInterrupted()) {
-					return;
-				}
-				if (!fieldControlPlaceHolder.isVisible()) {
-					continue;
-				}
-				if (!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
-					continue;
-				}
-				Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-				if (fieldControl instanceof IAdvancedFieldControl) {
-					try {
-						((IAdvancedFieldControl) fieldControl).validateControl(session);
-					} catch (Exception e) {
-						String errorMsg = e.toString();
-						boolean errorMsgModified = false;
-						IFieldInfo field = fieldControlPlaceHolder.getField();
-						if (field.getCaption().length() > 0) {
-							errorMsg = ReflectionUIUtils.composeMessage(field.getCaption(), errorMsg);
-							errorMsgModified = true;
-						}
-						if (categoriesDisplayed) {
-							errorMsg = ReflectionUIUtils.composeMessage(category.getCaption(), errorMsg);
-							errorMsgModified = true;
-						}
-						if (errorMsgModified) {
-							throw new ReflectionUIError(errorMsg, e);
-						} else {
-							throw e;
+		try {
+			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+			type.validate(object, session);
+			List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
+					methodControlPlaceHoldersByCategory);
+			boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
+			for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+				for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory
+						.get(category)) {
+					if (Thread.currentThread().isInterrupted()) {
+						return;
+					}
+					if (!fieldControlPlaceHolder.isVisible()) {
+						continue;
+					}
+					if (!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
+						continue;
+					}
+					Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+					if (fieldControl instanceof IAdvancedFieldControl) {
+						try {
+							((IAdvancedFieldControl) fieldControl).validateControl(session);
+						} catch (Exception e) {
+							String contextCaption = null;
+							IFieldInfo field = fieldControlPlaceHolder.getField();
+							if (field.getCaption().length() > 0) {
+								contextCaption = field.getCaption();
+							}
+							if (categoriesDisplayed) {
+								contextCaption = category.getCaption();
+							}
+							if (contextCaption != null) {
+								throw new ValidationErrorWrapper(contextCaption, e);
+							} else {
+								throw e;
+							}
 						}
 					}
 				}
 			}
-		}
-		for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-			for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
-					.get(category)) {
-				if (Thread.currentThread().isInterrupted()) {
-					return;
-				}
-				if (!methodControlPlaceHolder.isVisible()) {
-					return;
-				}
-				if (!methodControlPlaceHolder.getControlData().isReturnValueValidityDetectionEnabled()) {
-					return;
-				}
-				Component methodControl = methodControlPlaceHolder.getMethodControl();
-				if (methodControl instanceof IAdvancedMethodControl) {
-					try {
-						((IAdvancedMethodControl) methodControl).validateControl(session);
-					} catch (Exception e) {
-						String errorMsg = e.toString();
-						IMethodInfo method = methodControlPlaceHolder.getMethod();
-						if (method.getCaption().length() > 0) {
-							errorMsg = ReflectionUIUtils.composeMessage(method.getCaption(), errorMsg);
+			for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+				for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
+						.get(category)) {
+					if (Thread.currentThread().isInterrupted()) {
+						return;
+					}
+					if (!methodControlPlaceHolder.isVisible()) {
+						return;
+					}
+					if (!methodControlPlaceHolder.getControlData().isReturnValueValidityDetectionEnabled()) {
+						return;
+					}
+					Component methodControl = methodControlPlaceHolder.getMethodControl();
+					if (methodControl instanceof IAdvancedMethodControl) {
+						try {
+							((IAdvancedMethodControl) methodControl).validateControl(session);
+						} catch (Exception e) {
+							String contextCaption = null;
+							IMethodInfo method = methodControlPlaceHolder.getMethod();
+							if (method.getCaption().length() > 0) {
+								contextCaption = method.getCaption();
+							}
+							if (categoriesDisplayed) {
+								contextCaption = category.getCaption();
+							}
+							if (contextCaption != null) {
+								throw new ValidationErrorWrapper(contextCaption, e);
+							} else {
+								throw e;
+							}
 						}
-						if (categoriesDisplayed) {
-							errorMsg = ReflectionUIUtils.composeMessage(category.getCaption(), errorMsg);
-						}
-						throw new ReflectionUIError(errorMsg, e);
 					}
 				}
 			}
+			if (!Thread.currentThread().isInterrupted()) {
+				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+						.cancelAttribution(swingRenderer.getLastValidationErrors(), session, object);
+			}
+		} catch (Exception e) {
+			swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+					.attribute(swingRenderer.getLastValidationErrors(), session, object, e);
+			throw e;
 		}
 	}
 
@@ -446,11 +459,8 @@ public class Form extends ImagePanel {
 			public void run() {
 				try {
 					validateForm(new ValidationSession());
-					if (!Thread.currentThread().isInterrupted()) {
-						swingRenderer.getLastValidationErrors().remove(object);
-					}
 				} catch (Exception e) {
-					swingRenderer.getLastValidationErrors().put(object, e);
+					swingRenderer.getReflectionUI().logDebug(e);
 				} catch (Throwable t) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
@@ -464,7 +474,6 @@ public class Form extends ImagePanel {
 						public void run() {
 							refreshValidityComponents();
 						}
-
 					});
 					currentValidationTask = null;
 				}
@@ -474,7 +483,8 @@ public class Form extends ImagePanel {
 	}
 
 	protected void refreshValidityComponents() {
-		Exception validationError = swingRenderer.getLastValidationErrors().get(object);
+		Exception validationError = swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
+				.getValidationError(swingRenderer.getLastValidationErrors(), object);
 		showErrorOnStatusBar(validationError);
 		setStandardOKButtonEnabled((validationError == null) || !objectType.isValidationRequired());
 	}
@@ -497,9 +507,6 @@ public class Form extends ImagePanel {
 
 	protected void showErrorOnStatusBar(Exception error) {
 		if (!MiscUtils.sameExceptionOrBothNull(error, (Throwable) ((HyperlinkLabel) statusBar).getCustomValue())) {
-			if (error != null) {
-				swingRenderer.getReflectionUI().logDebug(error);
-			}
 			String errorMsg;
 			if (error == null) {
 				errorMsg = null;
@@ -518,7 +525,8 @@ public class Form extends ImagePanel {
 				((HyperlinkLabel) statusBar).setRawTextAndLinkOpener(errorMsg, new Runnable() {
 					@Override
 					public void run() {
-						swingRenderer.openErrorDetailsDialog(statusBar, ReflectionUIUtils.unwrapValidationError(error));
+						swingRenderer.openErrorDetailsDialog(statusBar,
+								ValidationErrorWrapper.unwrapValidationError(error));
 					}
 
 				});
