@@ -117,7 +117,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 
 	@Override
 	protected ValueReturnMode getReturnModeFromParent() {
-		return ValueReturnMode.DIRECT_OR_PROXY;
+		return ValueReturnMode.DIRECT;
 	}
 
 	@Override

@@ -171,7 +171,7 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.DIRECT_OR_PROXY;
+		return fieldType.isPrimitive() ? ValueReturnMode.CALCULATED : ValueReturnMode.DIRECT;
 	}
 
 	@Override

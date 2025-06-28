@@ -300,12 +300,15 @@ public abstract class AbstractEditorFormBuilder {
 
 	/**
 	 * @return the encapsulated field value return mode.
-	 *         {@link ValueReturnMode.#DIRECT_OR_PROXY} is returned by default,
-	 *         since this encapsulated field value is hosted by the
-	 *         {@link #encapsulatedObjectValueAccessor} and accessed directly.
+	 *         {@link ValueReturnMode.#DIRECT} ({@link ValueReturnMode.#CALCULATED}
+	 *         for primitives) is returned by default, since this encapsulated field
+	 *         value is hosted by the {@link #encapsulatedObjectValueAccessor} and
+	 *         accessed directly.
 	 */
 	protected ValueReturnMode getEncapsulatedFieldValueReturnMode() {
-		return ValueReturnMode.DIRECT_OR_PROXY;
+		return getSwingRenderer().getReflectionUI().getTypeInfo(getEncapsulatedFieldTypeSource()).isPrimitive()
+				? ValueReturnMode.CALCULATED
+				: ValueReturnMode.DIRECT;
 	}
 
 	/**
@@ -462,7 +465,7 @@ public abstract class AbstractEditorFormBuilder {
 							.getPrecomputedType()).getFactory();
 					if (oldEncapsulation.equals(newEncapsulation)) {
 						refreshStructure = false;
-					}						
+					}
 				}
 				if (refreshStructure) {
 					editorForm.setObject(getNewCapsule());

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.swing.text.NumberFormatter;
 
@@ -205,26 +206,34 @@ public class ReflectionUIUtils {
 		return result.toArray(new String[result.size()]);
 	}
 
-	public static String identifierToCaption(String id) {
-		StringBuilder result = new StringBuilder();
-		int i = 0;
-		char lastC = 0;
-		for (char c : id.toCharArray()) {
-			if (i == 0) {
-				result.append(Character.toUpperCase(c));
-			} else if (Character.isUpperCase(c) && !Character.isUpperCase(lastC)) {
-				result.append(" " + c);
-			} else if (Character.isDigit(c) && !Character.isDigit(lastC)) {
-				result.append(" " + c);
-			} else if (!Character.isLetterOrDigit(c) && Character.isLetterOrDigit(lastC)) {
-				result.append(" " + c);
-			} else {
-				result.append(c);
+	public static String identifierToCaption(String identifier) {
+		if (identifier.length() == 0) {
+			return "";
+		} else if (identifier.toUpperCase().equals(identifier)) {
+			String[] words = identifier.split("_");
+			return Arrays.stream(words).map(String::toLowerCase).map(ReflectionUIUtils::identifierToCaption)
+					.collect(Collectors.joining(" "));
+		} else {
+			StringBuilder result = new StringBuilder();
+			int i = 0;
+			char lastC = 0;
+			for (char c : identifier.toCharArray()) {
+				if (i == 0) {
+					result.append(Character.toUpperCase(c));
+				} else if (Character.isUpperCase(c) && !Character.isUpperCase(lastC)) {
+					result.append(" " + c);
+				} else if (Character.isDigit(c) && !Character.isDigit(lastC)) {
+					result.append(" " + c);
+				} else if (!Character.isLetterOrDigit(c) && Character.isLetterOrDigit(lastC)) {
+					result.append(" " + c);
+				} else {
+					result.append(c);
+				}
+				lastC = c;
+				i++;
 			}
-			lastC = c;
-			i++;
+			return result.toString();
 		}
-		return result.toString();
 	}
 
 	public static IMethodInfo getNParametersMethod(List<IMethodInfo> methods, int n) {
@@ -500,8 +509,8 @@ public class ReflectionUIUtils {
 		copyFieldValuesAccordingInfos(reflectionUI, src, dst, deeply, new ArrayList<Pair<Object, Object>>());
 	}
 
-	protected static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst,
-			boolean deeply, List<Pair<Object, Object>> alreadyCopied) {
+	public static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply,
+			List<Pair<Object, Object>> alreadyCopied) {
 		alreadyCopied.add(new Pair<Object, Object>(src, dst));
 		ITypeInfo srcType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(src));
 		ITypeInfo dstType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(dst));
@@ -606,7 +615,7 @@ public class ReflectionUIUtils {
 										}
 									}
 								}
-								if ((valueReturnMode != ValueReturnMode.DIRECT_OR_PROXY) || valueReplaced) {
+								if (!ValueReturnMode.isDirectOrProxy(valueReturnMode) || valueReplaced) {
 									/*
 									 * If the modifications were applied directly or through a proxy, it would be
 									 * useless to commit them since we are sure that the actual data (not a copy or
@@ -826,8 +835,8 @@ public class ReflectionUIUtils {
 		return equalsAccordingInfos(o1, o2, reflectionUI, infoFilter, new ArrayList<Pair<Object, Object>>());
 	}
 
-	protected static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI,
-			IInfoFilter infoFilter, List<Pair<Object, Object>> alreadyCompared) {
+	public static boolean equalsAccordingInfos(Object o1, Object o2, ReflectionUI reflectionUI, IInfoFilter infoFilter,
+			List<Pair<Object, Object>> alreadyCompared) {
 		if (o1 == o2) {
 			return true;
 		}
@@ -1411,7 +1420,18 @@ public class ReflectionUIUtils {
 				}
 				if (containingListRawValue != null) {
 					if (itemPosition.getContainingListType().areItemsAutomaticallyPositioned()) {
-						int index = Arrays.asList(containingListRawValue).indexOf(items.get(i));
+						int index;
+						if (itemPosition.getItemReturnMode() == ValueReturnMode.DIRECT) {
+							index = -1;
+							for (int containingListItemIndex = 0; containingListItemIndex < containingListRawValue.length; containingListItemIndex++) {
+								if (containingListRawValue[containingListItemIndex] == items.get(i)) {
+									index = containingListItemIndex;
+									break;
+								}
+							}
+						} else {
+							index = Arrays.asList(containingListRawValue).indexOf(items.get(i));
+						}
 						if (index != -1) {
 							itemPosition = (T) itemPosition.getSibling(index);
 							result.add(itemPosition);
@@ -1468,8 +1488,7 @@ public class ReflectionUIUtils {
 		});
 	}
 
-	private static IModification createUndoModificationsReplacement(
-			final Accessor<Runnable> stateRestorationJobGetter) {
+	public static IModification createUndoModificationsReplacement(final Accessor<Runnable> stateRestorationJobGetter) {
 		final Runnable stateRestorationJob = stateRestorationJobGetter.get();
 		if (stateRestorationJob == null) {
 			return null;

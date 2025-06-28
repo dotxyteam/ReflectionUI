@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info;
 
 import java.util.Arrays;
@@ -16,10 +14,22 @@ import java.util.Collections;
 public enum ValueReturnMode {
 
 	/**
-	 * Means that the value is a reference or a proxy of a value stored in the
-	 * source object. Thus altering the value will alter the source object.
+	 * Means that the value is an sub-object stored in the source object. Thus
+	 * altering the value is equivalent to altering the source object.
 	 */
+	DIRECT,
+
+	/**
+	 * (for backward compatibility) {@link #DIRECT} or {@link #PROXY}.
+	 */
+	@Deprecated
 	DIRECT_OR_PROXY,
+
+	/**
+	 * Means that the value is not a sub-object stored in the source object,
+	 * nevertheless altering the value will result in altering the source object.
+	 */
+	PROXY,
 
 	/**
 	 * Means that the value is not stored in the source object. It is either a copy
@@ -45,5 +55,23 @@ public enum ValueReturnMode {
 	 */
 	public static ValueReturnMode combine(ValueReturnMode parent, ValueReturnMode child) {
 		return Collections.max(Arrays.asList(parent, child));
+	}
+
+	/**
+	 * @param valueReturnMode an item of this enumeration.
+	 * @return whether the given valueReturnMode is {@link #DIRECT}, {@link #PROXY},
+	 *         or {@value #DIRECT_OR_PROXY}.
+	 */
+	public static boolean isDirectOrProxy(ValueReturnMode valueReturnMode) {
+		if (valueReturnMode == DIRECT) {
+			return true;
+		}
+		if (valueReturnMode == PROXY) {
+			return true;
+		}
+		if (valueReturnMode == DIRECT_OR_PROXY) {
+			return true;
+		}
+		return false;
 	}
 }

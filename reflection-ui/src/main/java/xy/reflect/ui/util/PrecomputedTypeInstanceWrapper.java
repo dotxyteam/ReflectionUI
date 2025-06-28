@@ -302,6 +302,11 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
+		protected boolean isPrimitive(ITypeInfo type) {
+			return false;
+		}
+
+		@Override
 		protected List<IMethodInfo> getConstructors(ITypeInfo type) {
 			List<IMethodInfo> result = new ArrayList<IMethodInfo>();
 			for (IMethodInfo ctor : super.getConstructors(type)) {

@@ -387,7 +387,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 		if (listType.canReplaceContent()) {
 			Object containingListValue = retrieveContainingListValue();
 			if (containingListValue != null) {
-				if (geContainingListReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
+				if (ValueReturnMode.isDirectOrProxy(geContainingListReturnMode())) {
 					return true;
 				}
 				if (!isContainingListGetOnly()) {
@@ -444,7 +444,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 			Object containingListValue = retrieveContainingListValue();
 			if (containingListValue != null) {
 				if (!done) {
-					if (geContainingListReturnMode() == ValueReturnMode.DIRECT_OR_PROXY) {
+					if (ValueReturnMode.isDirectOrProxy(geContainingListReturnMode())) {
 						listType.replaceContent(containingListValue, newContainingListRawValue);
 						done = true;
 					}

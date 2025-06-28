@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.AbstractConstructorInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
@@ -72,6 +73,12 @@ public class ArrayTypeInfo extends StandardCollectionTypeInfo {
 			}
 
 		});
+	}
+
+	@Override
+	public ValueReturnMode getItemReturnMode() {
+		return source.getJavaType().getComponentType().isPrimitive() ? ValueReturnMode.CALCULATED
+				: ValueReturnMode.DIRECT;
 	}
 
 	@Override

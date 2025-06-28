@@ -148,7 +148,7 @@ public class SwingRenderer {
 	protected ReflectionUI reflectionUI;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
 	protected Map<Object, Exception> LastValidationErrors = Collections
-			.synchronizedMap(MiscUtils.newWeakKeysEqualityBasedMap());
+			.synchronizedMap(MiscUtils.newWeakKeysIdentityBasedMap());
 
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 

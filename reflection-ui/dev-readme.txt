@@ -172,4 +172,25 @@ To achieve this goal, 2 main layers have been created:
 		the customized types cache must be cleared after each customization action
 		and no other type cache should be used.
 		
+	An editor instance often allows to view/update a single object that has a specific
+	reference/identity. But sometimes the editor manages over time multiple objects that
+	however represent the same entity. This is typically the case with calculated field
+	values. This entity concept must be and is taken into account by UIs. But it is not
+	trivial: entities cannot systematically be identified by generic UI generators.
+	Inspecting objects metadata is not enough. Additional information like value mode 
+	(direct, calculated, ...), list item position predictability, etc, need to be provided.
+	Formally an entity is identified by an invariant: its access (get/set) method that
+	often depends on its parent/ancestors access method(s). Typically, an item contained
+	in a stable list/tree (according to the item positions predictability) is an entity
+	identified by its ItemPosition (that actually gives access to the successive objects 
+	and fields that used in order to get/set a specific item value). In an unstable
+	list/tree the item would rather be identified the combo ItemPosition+ancestors. Note
+	that if the parent item entity resolution fails, or if the item position is 
+	unpredictable, its value mode indirect and its equals(Object) method implementation 
+	unreliable, then the item entity resolution will fail.
+		
+		
+		
+		
+		
 		

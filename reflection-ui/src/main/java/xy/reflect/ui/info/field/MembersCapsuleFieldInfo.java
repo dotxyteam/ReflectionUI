@@ -203,7 +203,7 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.DIRECT_OR_PROXY;
+		return ValueReturnMode.PROXY;
 	}
 
 	@Override

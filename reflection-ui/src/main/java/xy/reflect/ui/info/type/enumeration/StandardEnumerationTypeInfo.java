@@ -15,6 +15,7 @@ import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Enumeration type information extracted from the Java enum type encapsulated
@@ -67,53 +68,87 @@ public class StandardEnumerationTypeInfo extends DefaultTypeInfo implements IEnu
 	}
 
 	@Override
-	public IEnumerationItemInfo getValueInfo(final Object object) {
-		if (object == null) {
+	public IEnumerationItemInfo getValueInfo(final Object item) {
+		if (item == null) {
 			return null;
 		} else {
-			return new IEnumerationItemInfo() {
-
-				@Override
-				public Map<String, Object> getSpecificProperties() {
-					return Collections.emptyMap();
-				}
-
-				@Override
-				public ResourcePath getIconImagePath() {
-					return null;
-				}
-
-				@Override
-				public String getOnlineHelp() {
-					return null;
-				}
-
-				@Override
-				public String getName() {
-					return object.toString();
-				}
-
-				@Override
-				public Object getValue() {
-					return object;
-				}
-
-				@Override
-				public String getCaption() {
-					return object.toString();
-				}
-
-				@Override
-				public String toString() {
-					return object.toString();
-				}
-			};
+			return new StandardEnumerationItemInfo(item);
 		}
 	}
 
 	@Override
 	public String toString() {
 		return "StandardEnumerationTypeInfo [source=" + getSource() + "]";
+	}
+
+	public static class StandardEnumerationItemInfo implements IEnumerationItemInfo {
+
+		protected Object item;
+
+		public StandardEnumerationItemInfo(Object item) {
+			this.item = item;
+		}
+
+		@Override
+		public Map<String, Object> getSpecificProperties() {
+			return Collections.emptyMap();
+		}
+
+		@Override
+		public ResourcePath getIconImagePath() {
+			return null;
+		}
+
+		@Override
+		public String getOnlineHelp() {
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			return item.toString();
+		}
+
+		@Override
+		public Object getValue() {
+			return item;
+		}
+
+		@Override
+		public String getCaption() {
+			return ReflectionUIUtils.identifierToCaption(getName());
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((item == null) ? 0 : item.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			StandardEnumerationItemInfo other = (StandardEnumerationItemInfo) obj;
+			if (item == null) {
+				if (other.item != null)
+					return false;
+			} else if (!item.equals(other.item))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "StandardEnumerationItemInfo [item=" + item + "]";
+		}
+
 	}
 
 }

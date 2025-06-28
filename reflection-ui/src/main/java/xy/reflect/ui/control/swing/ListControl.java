@@ -2220,10 +2220,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				try {
 					itemForm[0].validateForm(session);
-					swingRenderer.getLastValidationErrors().remove(itemPosition.getItem());
+					if (!Thread.currentThread().isInterrupted()) {
+						swingRenderer.getLastValidationErrors().remove(itemPosition.getItem());
+					}
 				} catch (Exception e) {
-					swingRenderer.getLastValidationErrors().put(itemPosition.getItem(),
-							new ItemValidationError(itemPosition, e));
+					swingRenderer.getLastValidationErrors().put(itemPosition.getItem(), e);
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
@@ -4028,10 +4029,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			this.itemPosition = itemPosition;
 		}
 
-		public BufferedItemPosition getItemPosition() {
-			return itemPosition;
-		}
-
 		@Override
 		public String getMessage() {
 			return "Failed to validate " + getDisplayPath(itemPosition);
@@ -4050,26 +4047,24 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected Map<BufferedItemPosition, Exception> validitionErrorByItemPosition;
 
 		public ListValidationError(Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
-			super("Invalid element(s) detected",
-					new ItemValidationError(validitionErrorByItemPosition.entrySet().iterator().next()));
+			super("Invalid element(s) detected");
 			this.validitionErrorByItemPosition = validitionErrorByItemPosition;
 		}
 
-		public Map<String, Exception> getAllErrors() {
-			return validitionErrorByItemPosition.entrySet().stream().collect(Collectors.toMap(entry -> {
-				BufferedItemPosition itemPosition = ((Map.Entry<BufferedItemPosition, Exception>) entry).getKey();
-				return getDisplayPath(itemPosition);
-			}, entry -> {
-				Exception error = ((Map.Entry<BufferedItemPosition, Exception>) entry).getValue();
-				error = ReflectionUIUtils.unwrapValidationError(error);
-				return error;
-			}));
+		public List<ItemValidationError> getEntries() {
+			return validitionErrorByItemPosition.entrySet().stream()
+					.map(mapEntry -> new ItemValidationError(
+							((Map.Entry<BufferedItemPosition, Exception>) mapEntry).getKey(),
+							ReflectionUIUtils.unwrapValidationError(
+									((Map.Entry<BufferedItemPosition, Exception>) mapEntry).getValue())))
+					.collect(Collectors.toList());
 		}
 
 		@Override
 		public String toString() {
 			return getMessage();
 		}
+
 	}
 
 }

@@ -212,7 +212,7 @@ public class PublicFieldInfo extends AbstractInfo implements IFieldInfo {
 
 	@Override
 	public ValueReturnMode getValueReturnMode() {
-		return ValueReturnMode.DIRECT_OR_PROXY;
+		return javaField.getType().isPrimitive() ? ValueReturnMode.CALCULATED : ValueReturnMode.DIRECT;
 	}
 
 	public static boolean isCompatibleWith(Field field) {

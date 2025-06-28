@@ -113,7 +113,7 @@ public interface IMethodInfo extends IInfo {
 
 		@Override
 		public ValueReturnMode getValueReturnMode() {
-			return ValueReturnMode.DIRECT_OR_PROXY;
+			return ValueReturnMode.INDETERMINATE;
 		}
 
 		@Override

@@ -294,8 +294,9 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 					cell.getForm().validateForm(session);
 					swingRenderer.getLastValidationErrors().remove(itemPosition.getItem());
 				} catch (Exception e) {
-					swingRenderer.getLastValidationErrors().put(itemPosition.getItem(),
-							new ItemValidationError(itemPosition, e));
+					if (!Thread.currentThread().isInterrupted()) {
+						swingRenderer.getLastValidationErrors().put(itemPosition.getItem(), e);
+					}
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 			}
