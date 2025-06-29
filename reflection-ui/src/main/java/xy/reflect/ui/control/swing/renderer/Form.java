@@ -410,10 +410,10 @@ public class Form extends ImagePanel {
 						return;
 					}
 					if (!methodControlPlaceHolder.isVisible()) {
-						return;
+						continue;
 					}
 					if (!methodControlPlaceHolder.getControlData().isReturnValueValidityDetectionEnabled()) {
-						return;
+						continue;
 					}
 					Component methodControl = methodControlPlaceHolder.getMethodControl();
 					if (methodControl instanceof IAdvancedMethodControl) {
@@ -437,13 +437,14 @@ public class Form extends ImagePanel {
 					}
 				}
 			}
+			if(object.toString().equals("a")) {
+				System.out.println("debug");
+			}
 			if (!Thread.currentThread().isInterrupted()) {
-				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-						.cancelAttribution(swingRenderer.getLastValidationErrors(), session, object);
+				swingRenderer.getReflectionUI().getValidationErrorRegistry().cancelAttribution(object, session);
 			}
 		} catch (Exception e) {
-			swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-					.attribute(swingRenderer.getLastValidationErrors(), session, object, e);
+			swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(object, e, session);
 			throw e;
 		}
 	}
@@ -483,8 +484,8 @@ public class Form extends ImagePanel {
 	}
 
 	protected void refreshValidityComponents() {
-		Exception validationError = swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-				.getValidationError(swingRenderer.getLastValidationErrors(), object);
+		Exception validationError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
+				.getValidationError(object, null);
 		showErrorOnStatusBar(validationError);
 		setStandardOKButtonEnabled((validationError == null) || !objectType.isValidationRequired());
 	}

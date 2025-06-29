@@ -146,7 +146,6 @@ public class SwingRenderer {
 	}
 
 	protected ReflectionUI reflectionUI;
-	protected Map<Object, Exception> LastValidationErrors;
 	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
 
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
@@ -173,8 +172,6 @@ public class SwingRenderer {
 	 */
 	public SwingRenderer(ReflectionUI reflectionUI) {
 		this.reflectionUI = reflectionUI;
-		LastValidationErrors = Collections
-				.synchronizedMap(reflectionUI.getValidationErrorAttributionStrategy().buildAttributionMap());
 	}
 
 	/**
@@ -212,14 +209,6 @@ public class SwingRenderer {
 	 */
 	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
 		return lastInvocationDataByMethodSignature;
-	}
-
-	/**
-	 * @return a map that contains last validation errors (values) of form objects
-	 *         (keys).
-	 */
-	public Map<Object, Exception> getLastValidationErrors() {
-		return LastValidationErrors;
 	}
 
 	/**

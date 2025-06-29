@@ -160,7 +160,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected JPanel detailsArea;
 	protected Form detailsControl;
-	protected ItemUIBuilder detailsControlBuilder;
+	protected ItemFormBuilder detailsControlBuilder;
 	protected IListItemDetailsAccessMode detailsMode;
 	protected BufferedItemPosition detailsControlItemPosition;
 
@@ -1074,8 +1074,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						.isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				if (swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().getValidationError(
-						swingRenderer.getLastValidationErrors(), visitedItemPosition.getItem()) != null) {
+				if (getValidationError(visitedItemPosition) != null) {
 					subtreeValid[0] = false;
 					if (visitedItemPosition.equals(itemPosition)) {
 						nodeValid[0] = false;
@@ -1092,6 +1091,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			return SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON.getImage();
 		}
 		return null;
+	}
+
+	public Exception getValidationError(BufferedItemPosition itemPosition) {
+		return swingRenderer.getReflectionUI().getValidationErrorRegistry().getValidationError(itemPosition.getItem(),
+				null);
 	}
 
 	protected List<AbstractAction> getCurrentSelectionActions() {
@@ -1528,33 +1532,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return new InsertAction(insertPosition);
 	}
 
-	protected ItemUIBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition,
+	protected ItemFormBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition,
 			Object anticipatedItem) {
 		BufferedItemPosition fakeItemPosition = anticipatedItemPosition.getSibling(-1);
 		fakeItemPosition.setFakeItem(anticipatedItem);
-		ItemUIBuilder dialogBuilder = new ItemUIBuilder(fakeItemPosition) {
-			ModificationStack dummyModificationStack = new ModificationStack(null);
-
-			@Override
-			protected ModificationStack getParentModificationStack() {
-				return dummyModificationStack;
-			}
-
-			@Override
-			protected boolean canCommitToParent() {
-				return true;
-			}
-
-			@Override
-			protected IModification createCommittingModification(Object newObjectValue) {
-				return IModification.NULL_MODIFICATION;
-			}
-
-			@Override
-			protected boolean isDialogCancellable() {
-				return true;
-			}
-		};
+		ItemFormBuilder dialogBuilder = createItemDialogBuilder(fakeItemPosition);
 		dialogBuilder.createAndShowDialog();
 		return dialogBuilder;
 	}
@@ -1633,15 +1615,20 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	};
 
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
-		Object capsule = new ItemUIBuilder(itemPosition) {
-			@Override
-			protected Object loadValue() {
-				return null;
-			}
-		}.getNewCapsule();
+		BufferedItemPosition fakeItemPosition = itemPosition.getSibling(-1);
+		fakeItemPosition.setFakeItem(null);
+		Object capsule = createItemFormBuilder(fakeItemPosition).getNewCapsule();
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
+	}
+
+	protected ItemFormBuilder createItemFormBuilder(BufferedItemPosition bufferedItemPosition) {
+		return new ItemFormBuilder(bufferedItemPosition);
+	}
+
+	protected ItemDialogBuilder createItemDialogBuilder(BufferedItemPosition bufferedItemPosition) {
+		return new ItemDialogBuilder(bufferedItemPosition);
 	}
 
 	protected AbstractStandardListAction createCopyAction() {
@@ -1766,7 +1753,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			if ((detailsControlItemPosition == null) && (singleSelection != null)) {
 				detailsControlItemPosition = singleSelection;
-				detailsControlBuilder = new ItemUIBuilder(detailsControlItemPosition);
+				detailsControlBuilder = createItemFormBuilder(detailsControlItemPosition);
 				detailsControl = detailsControlBuilder.createEditorForm(true, false);
 				/*
 				 * A pre-selection must be done before each undo/redo modification to ensure
@@ -2205,7 +2192,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				ItemUIBuilder itemUIBuilder = new ItemUIBuilder(itemPosition);
+				ItemFormBuilder itemUIBuilder = createItemFormBuilder(itemPosition);
 				Form[] itemForm = new Form[1];
 				try {
 					SwingUtilities.invokeAndWait(new Runnable() {
@@ -2223,20 +2210,17 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				try {
 					itemForm[0].validateForm(session);
 					if (!Thread.currentThread().isInterrupted()) {
-						swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().cancelAttribution(
-								swingRenderer.getLastValidationErrors(), session, itemPosition.getItem());
+						swingRenderer.getReflectionUI().getValidationErrorRegistry()
+								.cancelAttribution(itemPosition.getItem(), session);
 					}
 				} catch (Exception e) {
-					swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-							.attribute(swingRenderer.getLastValidationErrors(), session, itemPosition.getItem(), e);
+					swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(itemPosition.getItem(), e,
+							session);
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
 			}
 		});
-		if (Thread.currentThread().isInterrupted()) {
-			return;
-		}
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -2244,6 +2228,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				treeTableComponent.repaint();
 			}
 		});
+		if (Thread.currentThread().isInterrupted()) {
+			return;
+		}
 		if (validitionErrorByItemPosition.size() > 0) {
 			throw new ListValidationError(validitionErrorByItemPosition);
 		}
@@ -2475,11 +2462,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected BufferedItemPosition currentPosition;
 		protected Object doItem;
 		protected Object undoItem;
-		protected ItemUIBuilder detailsControlBuilder;
+		protected ItemFormBuilder detailsControlBuilder;
 		protected Form detailsControl;
 
 		public SelectItemModification(BufferedItemPosition currentPosition, Object doItem, Object undoItem,
-				ItemUIBuilder detailsControlBuilder, Form detailsControl) {
+				ItemFormBuilder detailsControlBuilder, Form detailsControl) {
 			this.currentPosition = currentPosition;
 			this.doItem = doItem;
 			this.undoItem = undoItem;
@@ -2695,13 +2682,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	};
 
-	protected class ItemUIBuilder extends AbstractEditorBuilder {
+	protected class ItemFormBuilder extends AbstractEditorBuilder {
 		protected BufferedItemPosition bufferedItemPosition;
 		protected ListModificationFactory modificationFactory;
 		protected boolean canCommit;
 		protected ValueReturnMode objectValueReturnMode;
 
-		public ItemUIBuilder(BufferedItemPosition bufferedItemPosition) {
+		public ItemFormBuilder(BufferedItemPosition bufferedItemPosition) {
 			setPosition(bufferedItemPosition);
 		}
 
@@ -2742,26 +2729,25 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		protected void copyValidationErrorFromCapsuleToItem(Object capsule) {
-			Exception validitionError = swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-					.getValidationError(swingRenderer.getLastValidationErrors(), capsule);
+			Exception validitionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
+					.getValidationError(capsule, null);
 			if (validitionError != null) {
-				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().attribute(
-						swingRenderer.getLastValidationErrors(), null, bufferedItemPosition.getItem(), validitionError);
+				swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(bufferedItemPosition.getItem(),
+						validitionError, null);
 			} else {
-				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().cancelAttribution(
-						swingRenderer.getLastValidationErrors(), null, bufferedItemPosition.getItem());
+				swingRenderer.getReflectionUI().getValidationErrorRegistry()
+						.cancelAttribution(bufferedItemPosition.getItem(), null);
 			}
 		}
 
 		protected void copyValidationErrorFromItemToCapsule(Object capsule) {
-			Exception itemValiditionError = swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-					.getValidationError(swingRenderer.getLastValidationErrors(), bufferedItemPosition.getItem());
+			Exception itemValiditionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
+					.getValidationError(bufferedItemPosition.getItem(), null);
 			if (itemValiditionError != null) {
-				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-						.attribute(swingRenderer.getLastValidationErrors(), null, capsule, itemValiditionError);
+				swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(capsule, itemValiditionError,
+						null);
 			} else {
-				swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-						.cancelAttribution(swingRenderer.getLastValidationErrors(), null, capsule);
+				swingRenderer.getReflectionUI().getValidationErrorRegistry().cancelAttribution(capsule, null);
 			}
 		}
 
@@ -2914,6 +2900,34 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
+	protected class ItemDialogBuilder extends ItemFormBuilder {
+		protected ModificationStack dummyModificationStack = new ModificationStack(null);
+
+		public ItemDialogBuilder(BufferedItemPosition bufferedItemPosition) {
+			super(bufferedItemPosition);
+		}
+
+		@Override
+		protected ModificationStack getParentModificationStack() {
+			return dummyModificationStack;
+		}
+
+		@Override
+		protected boolean canCommitToParent() {
+			return true;
+		}
+
+		@Override
+		protected IModification createCommittingModification(Object newObjectValue) {
+			return IModification.NULL_MODIFICATION;
+		}
+
+		@Override
+		protected boolean isDialogCancellable() {
+			return true;
+		}
+	}
+
 	public interface IItemsVisitor {
 
 		VisitStatus visitItem(BufferedItemPosition itemPosition);
@@ -2976,7 +2990,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if ((itemCreationMode == ItemCreationMode.VERIFIED_NULL)
 					|| (itemCreationMode == ItemCreationMode.DEFAULT_VERIFIED_INSTANCE)
 					|| (itemCreationMode == ItemCreationMode.CUSTOM_VERIFIED_INSTANCE)) {
-				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
+				ItemFormBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
 				}
@@ -3294,7 +3308,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if ((itemCreationMode == ItemCreationMode.VERIFIED_NULL)
 					|| (itemCreationMode == ItemCreationMode.DEFAULT_VERIFIED_INSTANCE)
 					|| (itemCreationMode == ItemCreationMode.CUSTOM_VERIFIED_INSTANCE)) {
-				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
+				ItemFormBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
 				}
@@ -3460,7 +3474,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class OpenItemAction extends AbstractStandardListAction {
 		protected static final long serialVersionUID = 1L;
 
-		protected ItemUIBuilder dialogBuilder;
+		protected ItemFormBuilder dialogBuilder;
 
 		@Override
 		protected boolean prepare() {
@@ -3472,7 +3486,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return true;
 				}
 			}
-			dialogBuilder = new ItemUIBuilder(itemPosition);
+			dialogBuilder = createItemFormBuilder(itemPosition);
 			JDialog dialog = dialogBuilder.createDialog();
 			swingRenderer.showDialog(dialog, true);
 			return true;
@@ -3499,7 +3513,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			BufferedItemPosition singleSelectedPosition = getSingleSelection();
 			if (singleSelectedPosition != null) {
-				if (!new ItemUIBuilder(singleSelectedPosition).isFormEmpty()) {
+				if (!createItemFormBuilder(singleSelectedPosition).isFormEmpty()) {
 					IListTypeInfo listType = singleSelectedPosition.getContainingListType();
 					if (listType.canViewItemDetails()) {
 						return true;

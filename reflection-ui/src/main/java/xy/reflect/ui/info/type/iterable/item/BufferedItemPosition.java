@@ -46,6 +46,18 @@ public class BufferedItemPosition extends ItemPosition {
 		super();
 	}
 
+	@Override
+	public Object getItem() {
+		if (fakeItem != null) {
+			if (fakeItem == NULL_FAKE_ITEM) {
+				return null;
+			} else {
+				return fakeItem;
+			}
+		}
+		return super.getItem();
+	}
+
 	/**
 	 * Sets the fake item value that overrides the actual item value. Note that null
 	 * is a valid value, not the absence of value. In order to remove the fake item
@@ -114,18 +126,6 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
-	public Object getItem() {
-		if (fakeItem != null) {
-			if (fakeItem == NULL_FAKE_ITEM) {
-				return null;
-			} else {
-				return fakeItem;
-			}
-		}
-		return super.getItem();
-	}
-
-	@Override
 	public AbstractBufferedItemPositionFactory getFactory() {
 		return (AbstractBufferedItemPositionFactory) super.getFactory();
 	}
@@ -143,7 +143,7 @@ public class BufferedItemPosition extends ItemPosition {
 	@Override
 	public BufferedItemPosition getSibling(int index2) {
 		BufferedItemPosition result = (BufferedItemPosition) super.getSibling(index2);
-		if(result == null) {
+		if (result == null) {
 			return null;
 		}
 		result.fakeItem = null;
@@ -216,7 +216,7 @@ public class BufferedItemPosition extends ItemPosition {
 					index)) {
 				if (itemPosition != null) {
 					itemPosition.containingListFieldIfNotRoot = getSubListField();
-					if(itemPosition.containingListFieldIfNotRoot == null) {
+					if (itemPosition.containingListFieldIfNotRoot == null) {
 						return null;
 					}
 					return itemPosition;

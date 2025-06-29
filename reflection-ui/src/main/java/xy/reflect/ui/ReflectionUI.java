@@ -19,7 +19,7 @@ import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.PrecomputedTypeInstanceWrapper;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.SystemProperties;
-import xy.reflect.ui.util.ValidationErrorAttributionStrategy;
+import xy.reflect.ui.util.ValidationErrorRegistry;
 
 /**
  * This class reads and interprets the metadata (usually the class) of objects
@@ -33,14 +33,9 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected Map<Object, ITypeInfo> typeCache = MiscUtils.newStandardCache();
 	protected Object typeCacheMutex = new Object();
-
-	/**
-	 * Constructs an instance of this class.
-	 */
-	public ReflectionUI() {
-	}
+	protected Map<Object, ITypeInfo> typeCache = createTypeCache();
+	protected ValidationErrorRegistry validationErrorRegistry = createValidationErrorRegistry();
 
 	/**
 	 * @return the default instance of this class.
@@ -76,6 +71,14 @@ public class ReflectionUI {
 		return defaultInstance;
 	}
 
+	protected ValidationErrorRegistry createValidationErrorRegistry() {
+		return new ValidationErrorRegistry();
+	}
+
+	protected Map<Object, ITypeInfo> createTypeCache() {
+		return MiscUtils.newStandardCache();
+	}
+
 	/**
 	 * @return the cache that stores {@link ITypeInfo} instances obtained from this
 	 *         {@link ReflectionUI} instance. The {@link ITypeInfo} instances in
@@ -89,11 +92,11 @@ public class ReflectionUI {
 	}
 
 	/**
-	 * @return the {@link ValidationErrorAttributionStrategy} used by this
-	 *         {@link ReflectionUI} instance.
+	 * @return the {@link ValidationErrorRegistry} used by this {@link ReflectionUI}
+	 *         instance.
 	 */
-	public ValidationErrorAttributionStrategy getValidationErrorAttributionStrategy() {
-		return new ValidationErrorAttributionStrategy();
+	public ValidationErrorRegistry getValidationErrorRegistry() {
+		return validationErrorRegistry;
 	}
 
 	/**

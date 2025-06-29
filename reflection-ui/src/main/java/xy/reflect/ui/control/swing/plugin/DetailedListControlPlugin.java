@@ -28,6 +28,7 @@ import javax.swing.event.AncestorListener;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.AbstractSimpleCustomizableFieldControlPlugin;
 import xy.reflect.ui.control.swing.ListControl;
+import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -293,12 +294,12 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				try {
 					cell.getForm().validateForm(session);
 					if (!Thread.currentThread().isInterrupted()) {
-						swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy().cancelAttribution(
-								swingRenderer.getLastValidationErrors(), session, itemPosition.getItem());
+						swingRenderer.getReflectionUI().getValidationErrorRegistry()
+								.cancelAttribution(itemPosition.getItem(), session);
 					}
 				} catch (Exception e) {
-					swingRenderer.getReflectionUI().getValidationErrorAttributionStrategy()
-							.attribute(swingRenderer.getLastValidationErrors(), session, itemPosition.getItem(), e);
+					swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(itemPosition.getItem(), e,
+							session);
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 			}
@@ -463,12 +464,12 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			protected BufferedItemPosition itemPosition;
 			protected boolean selected = false;
 			protected Form form;
-			protected ItemUIBuilder formBuilder;
+			protected AbstractEditorBuilder formBuilder;
 
 			public DetailedCellControl(BufferedItemPosition itemPosition) {
 				this.itemPosition = itemPosition;
 				setLayout(new BorderLayout());
-				formBuilder = new ItemUIBuilder(itemPosition);
+				formBuilder = createItemFormBuilder(itemPosition);
 				form = formBuilder.createEditorForm(true, false);
 				{
 					add(form, BorderLayout.CENTER);
@@ -481,7 +482,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				return form;
 			}
 
-			public ItemUIBuilder getFormBuilder() {
+			public AbstractEditorBuilder getFormBuilder() {
 				return formBuilder;
 			}
 
