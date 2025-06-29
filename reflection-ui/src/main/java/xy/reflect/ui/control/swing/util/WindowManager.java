@@ -55,6 +55,7 @@ public class WindowManager extends WindowAdapter {
 	protected ImagePanel backgroundPane;
 	protected JPanel contentPane;
 	protected JPanel topBarsContainer;
+	protected JPanel bottomBarsContainer;
 	protected JScrollPane scrollPane;
 	protected JPanel buttonBar;
 	protected Form form;
@@ -128,6 +129,11 @@ public class WindowManager extends WindowAdapter {
 			topBarsContainer.setLayout(new BorderLayout());
 			result.add(topBarsContainer, BorderLayout.NORTH);
 		}
+		bottomBarsContainer = new ControlPanel();
+		{
+			bottomBarsContainer.setLayout(new BorderLayout());
+			result.add(bottomBarsContainer, BorderLayout.SOUTH);
+		}
 		return result;
 	}
 
@@ -170,16 +176,16 @@ public class WindowManager extends WindowAdapter {
 		topBarsContainer.add(menuBar, BorderLayout.NORTH);
 	}
 
-	protected void layoutStatusBar(Component statusBar) {
-		topBarsContainer.add(statusBar, BorderLayout.SOUTH);
-	}
-
 	protected void layoutContent(Component content) {
 		contentPane.add(content, BorderLayout.CENTER);
 	}
 
+	protected void layoutStatusBar(Component statusBar) {
+		bottomBarsContainer.add(statusBar, BorderLayout.NORTH);
+	}
+
 	protected void layoutButtonBar(JPanel buttonBar) {
-		contentPane.add(buttonBar, BorderLayout.SOUTH);
+		bottomBarsContainer.add(buttonBar, BorderLayout.SOUTH);
 	}
 
 	protected void adjustBounds() {
@@ -373,7 +379,8 @@ public class WindowManager extends WindowAdapter {
 						if (!saveMenuItem.isFileSynchronized()) {
 							if (!swingRenderer.openQuestionDialog(form,
 									"Changes were not saved and will be lost.\nContinue?",
-									swingRenderer.getObjectTitle(saveMenuItem.getContextForm().getObject()), "OK", "Cancel")) {
+									swingRenderer.getObjectTitle(saveMenuItem.getContextForm().getObject()), "OK",
+									"Cancel")) {
 								cancelled[0] = true;
 							}
 						}

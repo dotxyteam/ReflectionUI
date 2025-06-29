@@ -1781,7 +1781,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				detailsArea.setLayout(new BorderLayout());
 				Component statusBar = detailsControl.getStatusBar();
 				{
-					detailsArea.add(statusBar, BorderLayout.NORTH);
+					detailsArea.add(statusBar, BorderLayout.SOUTH);
 				}
 				detailsArea.add(detailsControl, BorderLayout.CENTER);
 				SwingRendererUtils.handleComponentSizeChange(detailsArea);

@@ -17,13 +17,14 @@ import xy.reflect.ui.control.swing.builder.AbstractEditorFormBuilder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
 import xy.reflect.ui.util.Listener;
 
 /**
  * Field control that detects and rejects ({@link #refreshUI(boolean)} will
- * return false) null and unsupported values (type not compatible). A sub-form
- * is used to display the non-null supported value.
+ * return false) null and other type (different from the input data type)
+ * values. A sub-form is used to display the non-null supported value.
  * 
  * Note that this control is used when
  * {@link IFieldControlData#isNullValueDistinct()} returns false. It prevents
@@ -116,7 +117,9 @@ public class MutableTypeControl extends NullableControl {
 			return false;
 		}
 		if (!(value instanceof ErrorOccurrence)) {
-			if (!data.getType().supports(value)) {
+			ITypeInfo actualValueType = swingRenderer.getReflectionUI()
+					.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(value));
+			if (!data.getType().getName().equals(actualValueType.getName())) {
 				return false;
 			}
 		}
