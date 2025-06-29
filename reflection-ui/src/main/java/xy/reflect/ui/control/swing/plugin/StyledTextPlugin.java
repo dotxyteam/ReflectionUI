@@ -213,11 +213,6 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					}
 				}
 
-				@Override
-				public void setText(String t) {
-					super.setText(t);
-					updateScrollPolicy();
-				}
 
 			};
 		}

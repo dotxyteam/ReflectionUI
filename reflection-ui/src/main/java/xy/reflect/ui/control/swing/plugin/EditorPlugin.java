@@ -150,11 +150,6 @@ public class EditorPlugin extends StyledTextPlugin {
 					}
 				}
 
-				@Override
-				public void setText(String t) {
-					super.setText(t);
-					updateScrollPolicy();
-				}
 
 			};
 			return result;

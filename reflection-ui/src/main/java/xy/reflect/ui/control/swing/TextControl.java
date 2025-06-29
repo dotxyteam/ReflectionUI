@@ -5,8 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.ExecutorService;
@@ -95,7 +93,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		{
 			setupTextComponentEvents();
 			scrollPane = createScrollPane();
-			updateScrollPolicy();
 			scrollPane.setViewportView(textComponent);
 			add(scrollPane, BorderLayout.CENTER);
 		}
@@ -184,19 +181,20 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public boolean refreshUI(boolean refreshStructure) {
+		if (refreshStructure) {
+			updateScrollPolicy();
+		}
 		refreshTextComponent(refreshStructure);
 		return true;
 	}
 
 	protected void updateScrollPolicy() {
-		if (scrollPane != null) {
-			if (areScrollBarsEnabled()) {
-				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-			} else {
-				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-			}
+		if (areScrollBarsEnabled()) {
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		} else {
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		}
 	}
 
@@ -211,7 +209,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 			{
 				SwingRendererUtils.removeScrollPaneBorder(this);
-				adaptSizeOnScrollBarsVisibilityChange();
 			}
 
 			@Override
@@ -244,27 +241,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				return result;
 			}
 
-			void adaptSizeOnScrollBarsVisibilityChange() {
-				final ControlScrollPane thisScrollPane = this;
-				getVerticalScrollBar().addHierarchyListener(new HierarchyListener() {
-					@Override
-					public void hierarchyChanged(HierarchyEvent e) {
-						if (e.getID() == HierarchyEvent.HIERARCHY_CHANGED
-								&& (e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
-							SwingRendererUtils.handleComponentSizeChange(thisScrollPane);							
-						}
-					}
-				});
-				getHorizontalScrollBar().addHierarchyListener(new HierarchyListener() {
-					@Override
-					public void hierarchyChanged(HierarchyEvent e) {
-						if (e.getID() == HierarchyEvent.HIERARCHY_CHANGED
-								&& (e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
-							SwingRendererUtils.handleComponentSizeChange(thisScrollPane);
-						}
-					}
-				});
-			}
+			
 		};
 	}
 
@@ -299,11 +276,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 			}
 
-			@Override
-			public void setText(String t) {
-				super.setText(t);
-				updateScrollPolicy();
-			}
 
 		};
 	}
@@ -373,7 +345,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void textComponentEditHappened() {
-		updateScrollPolicy();
 		if (listenerDisabled) {
 			return;
 		}

@@ -437,9 +437,6 @@ public class Form extends ImagePanel {
 					}
 				}
 			}
-			if(object.toString().equals("a")) {
-				System.out.println("debug");
-			}
 			if (!Thread.currentThread().isInterrupted()) {
 				swingRenderer.getReflectionUI().getValidationErrorRegistry().cancelAttribution(object, session);
 			}
