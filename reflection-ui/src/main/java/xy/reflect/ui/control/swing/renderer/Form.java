@@ -1464,8 +1464,7 @@ public class Form extends ImagePanel {
 				int borderSpacing = getLayoutSpacing();
 				Border insideBorder = BorderFactory.createEmptyBorder(borderSpacing, borderSpacing, borderSpacing,
 						borderSpacing);
-				Border outsideBorder = (borderColor != null) ? BorderFactory.createLineBorder(borderColor)
-						: BorderFactory.createRaisedSoftBevelBorder();
+				Border outsideBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 				statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 				Font labelCustomFont = getLabelCustomFont();
 				{

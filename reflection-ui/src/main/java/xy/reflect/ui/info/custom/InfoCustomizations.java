@@ -2144,17 +2144,16 @@ public class InfoCustomizations implements Serializable {
 			this.categoryName = categoryName;
 		}
 
-		// for backward compatibility
+		@Deprecated
 		public String getCategoryCaption() {
 			return categoryName;
 		}
 
-		// for backward compatibility
+		@Deprecated
 		public void setCategoryCaption(String categoryCaption) {
 			this.categoryName = categoryCaption;
 		}
 
-		// for backward compatibility
 		@Deprecated
 		public CustomizationCategory getCategory() {
 			if (categoryName == null) {
@@ -2166,7 +2165,6 @@ public class InfoCustomizations implements Serializable {
 			}
 		}
 
-		// for backward compatibility
 		@Deprecated
 		public void setCategory(CustomizationCategory category) {
 			if (category == null) {
@@ -4379,7 +4377,7 @@ public class InfoCustomizations implements Serializable {
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
 		protected boolean itemAutomaticPositioningManagementForced = false;
-		protected ItemNodeValidityDetectionConfiguration itemNodeValidityDetectionConfiguration;
+		protected InfoPattern itemValidabilityStatusFieldNamePattern;
 
 		@Override
 		public boolean isInitial() {
@@ -4395,13 +4393,28 @@ public class InfoCustomizations implements Serializable {
 			return customItemTypeFinder;
 		}
 
-		public ItemNodeValidityDetectionConfiguration getItemNodeValidityDetectionConfiguration() {
-			return itemNodeValidityDetectionConfiguration;
+		public InfoPattern getItemValidabilityStatusFieldNamePattern() {
+			return itemValidabilityStatusFieldNamePattern;
 		}
 
+		public void setItemValidabilityStatusFieldNamePattern(InfoPattern itemValidabilityStatusFieldNamePattern) {
+			this.itemValidabilityStatusFieldNamePattern = itemValidabilityStatusFieldNamePattern;
+		}
+
+		@Deprecated
+		public ItemNodeValidityDetectionConfiguration getItemNodeValidityDetectionConfiguration() {
+			ItemNodeValidityDetectionConfiguration result = new ItemNodeValidityDetectionConfiguration();
+			result.setEnablementStatusFieldNamePattern(itemValidabilityStatusFieldNamePattern);
+			return result;
+		}
+
+		@Deprecated
 		public void setItemNodeValidityDetectionConfiguration(
 				ItemNodeValidityDetectionConfiguration itemNodeValidityDetectionConfiguration) {
-			this.itemNodeValidityDetectionConfiguration = itemNodeValidityDetectionConfiguration;
+			if (itemNodeValidityDetectionConfiguration != null) {
+				itemValidabilityStatusFieldNamePattern = itemNodeValidityDetectionConfiguration
+						.getEnablementStatusFieldNamePattern();
+			}
 		}
 
 		public ValueReturnMode getCustomItemReturnMode() {

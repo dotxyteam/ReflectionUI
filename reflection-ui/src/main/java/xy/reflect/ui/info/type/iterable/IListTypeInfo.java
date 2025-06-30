@@ -72,7 +72,7 @@ public interface IListTypeInfo extends ITypeInfo {
 
 		@Override
 		public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
-			return false;
+			return true;
 		}
 
 		@Override

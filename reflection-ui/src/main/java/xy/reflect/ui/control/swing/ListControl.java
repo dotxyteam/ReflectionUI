@@ -132,6 +132,7 @@ import xy.reflect.ui.util.Mapper;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.SystemProperties;
 import xy.reflect.ui.util.ValidationErrorWrapper;
 
 /**
@@ -1064,31 +1065,33 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected Image getCellIconOverlayImage(ItemNode node) {
-		final BufferedItemPosition itemPosition = getItemPositionByNode(node);
-		final boolean[] nodeValid = new boolean[] { true };
-		final boolean[] subtreeValid = new boolean[] { true };
-		visitItems(new IItemsVisitor() {
-			@Override
-			public VisitStatus visitItem(BufferedItemPosition visitedItemPosition) {
-				if (!visitedItemPosition.getContainingListType()
-						.isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
-					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
-				}
-				if (getValidationError(visitedItemPosition) != null) {
-					subtreeValid[0] = false;
-					if (visitedItemPosition.equals(itemPosition)) {
-						nodeValid[0] = false;
+		if (listData.isValueValidityDetectionEnabled()) {
+			final BufferedItemPosition itemPosition = getItemPositionByNode(node);
+			final boolean[] nodeValid = new boolean[] { true };
+			final boolean[] subtreeValid = new boolean[] { true };
+			visitItems(new IItemsVisitor() {
+				@Override
+				public VisitStatus visitItem(BufferedItemPosition visitedItemPosition) {
+					if (!visitedItemPosition.getContainingListType()
+							.isItemNodeValidityDetectionEnabled(visitedItemPosition)) {
+						return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 					}
-					return VisitStatus.TREE_VISIT_INTERRUPTED;
+					if (getValidationError(visitedItemPosition) != null) {
+						subtreeValid[0] = false;
+						if (visitedItemPosition.equals(itemPosition)) {
+							nodeValid[0] = false;
+						}
+						return VisitStatus.TREE_VISIT_INTERRUPTED;
+					}
+					return VisitStatus.VISIT_NOT_INTERRUPTED;
 				}
-				return VisitStatus.VISIT_NOT_INTERRUPTED;
+			}, node);
+			if (!nodeValid[0]) {
+				return SwingRendererUtils.ERROR_OVERLAY_ICON.getImage();
 			}
-		}, node);
-		if (!nodeValid[0]) {
-			return SwingRendererUtils.ERROR_OVERLAY_ICON.getImage();
-		}
-		if (!subtreeValid[0]) {
-			return SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON.getImage();
+			if (!subtreeValid[0]) {
+				return SwingRendererUtils.WEAK_ERROR_OVERLAY_ICON.getImage();
+			}
 		}
 		return null;
 	}
@@ -1894,33 +1897,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return input.getModificationStack();
 	}
 
-	protected void refreshTreeTableModelAndControl(final boolean refreshStructure) {
-		Runnable action = new Runnable() {
-			@Override
-			public void run() {
-				valuesByNode.clear();
-				rootNode = createRootNode();
-				treeTableComponent.setTreeTableModel(createTreeTableModel());
-			}
-		};
-		if (refreshStructure) {
-			action.run();
-			TableColumnModel columnModel = treeTableComponent.getColumnModel();
-			{
-				List<IColumnInfo> columnInfos = getRootStructuralInfo().getColumns();
-				for (int i = 0; i < columnInfos.size(); i++) {
-					IColumnInfo columnInfo = columnInfos.get(i);
-					TableColumn column = columnModel.getColumn(i);
-					column.setPreferredWidth(columnInfo.getMinimalCharacterCount()
-							* SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
-				}
-			}
-		} else {
-			restoringColumnWidthsAsMuchAsPossible(action);
-		}
-		treeTableComponent.setOpaque(listData.getValue() != null);
-	}
-
 	public void visitItems(IItemsVisitor iItemsVisitor) {
 		visitItems(iItemsVisitor, rootNode);
 	}
@@ -1929,6 +1905,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		BufferedItemPosition currentItemPosition = getItemPositionByNode(currentNode);
 		final VisitStatus currentItemVisitStatus;
 		if (currentItemPosition != null) {
+			if (SystemProperties.isDebugModeActive()) {
+				checkVisit(currentItemPosition);
+			}
 			currentItemVisitStatus = itemsVisitor.visitItem(currentItemPosition);
 			if (currentItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
 				return VisitStatus.TREE_VISIT_INTERRUPTED;
@@ -1963,6 +1942,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		BufferedItemPosition currentItemPosition = getItemPositionByNode(currentNode);
 		final VisitStatus currentItemVisitStatus;
 		if (currentItemPosition != null) {
+			if (SystemProperties.isDebugModeActive()) {
+				checkVisit(currentItemPosition);
+			}
 			currentItemVisitStatus = itemsVisitor.visitItem(currentItemPosition);
 			if (currentItemVisitStatus == VisitStatus.TREE_VISIT_INTERRUPTED) {
 				return VisitStatus.TREE_VISIT_INTERRUPTED;
@@ -1992,6 +1974,29 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return finalItemVisitStatus;
 	}
 
+	protected void checkVisit(BufferedItemPosition currentItemPosition) {
+		final int ITEM_POSITION_DEPTH_LIMIT = 100;
+		if (currentItemPosition.getDepth() == ITEM_POSITION_DEPTH_LIMIT) {
+			Runnable runnable = new Runnable() {
+				@Override
+				public void run() {
+					if (!swingRenderer.openQuestionDialog(
+							ListControl.this, "Reached the depth " + ITEM_POSITION_DEPTH_LIMIT
+									+ " for the tree control (title=" + getRootListTitle() + "). Continue ?",
+							"[DEBUG] WARNING")) {
+						throw new ReflectionUIError(
+								new InterruptedException("Reached the depth " + ITEM_POSITION_DEPTH_LIMIT));
+					}
+				}
+			};
+			if (SwingUtilities.isEventDispatchThread()) {
+				runnable.run();
+			} else {
+				SwingUtilities.invokeLater(runnable);
+			}
+		}
+	}
+
 	@Override
 	public boolean refreshUI(final boolean refreshStructure) {
 		listData.returningValue(listData.getValue(), new Runnable() {
@@ -2015,7 +2020,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 								refreshItemPositionBuffers();
 								refreshTreeTableModelAndControl(refreshStructure);
 							}
-
 						});
 					}
 				});
@@ -2247,6 +2251,37 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	public void addMenuContributions(MenuModel menuModel) {
 		if (detailsControl != null) {
 			detailsControl.addMenuContributionTo(menuModel);
+		}
+	}
+
+	protected void refreshTreeTableModelAndControl(boolean refreshStructure) {
+		Runnable action = new Runnable() {
+			@Override
+			public void run() {
+				valuesByNode.clear();
+				rootNode = createRootNode();
+				treeTableComponent.setTreeTableModel(createTreeTableModel());
+			}
+		};
+		if (refreshStructure) {
+			action.run();
+			initializeColumnWidths();
+		} else {
+			restoringColumnWidthsAsMuchAsPossible(action);
+		}
+		treeTableComponent.setOpaque(listData.getValue() != null);
+	}
+
+	protected void initializeColumnWidths() {
+		TableColumnModel columnModel = treeTableComponent.getColumnModel();
+		{
+			List<IColumnInfo> columnInfos = getRootStructuralInfo().getColumns();
+			for (int i = 0; i < columnInfos.size(); i++) {
+				IColumnInfo columnInfo = columnInfos.get(i);
+				TableColumn column = columnModel.getColumn(i);
+				column.setPreferredWidth(columnInfo.getMinimalCharacterCount()
+						* SwingRendererUtils.getStandardCharacterWidth(treeTableComponent));
+			}
 		}
 	}
 
