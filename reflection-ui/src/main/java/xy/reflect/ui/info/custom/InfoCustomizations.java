@@ -155,6 +155,7 @@ public class InfoCustomizations implements Serializable {
 		this.applicationCustomization = applicationCustomization;
 	}
 
+	@XmlElement(name = "typeCustomization")	
 	public List<TypeCustomization> getTypeCustomizations() {
 		return typeCustomizations;
 	}
@@ -163,6 +164,7 @@ public class InfoCustomizations implements Serializable {
 		this.typeCustomizations = typeCustomizations;
 	}
 
+	@XmlElement(name = "listCustomization")	
 	public List<ListCustomization> getListCustomizations() {
 		return listCustomizations;
 	}
@@ -171,6 +173,7 @@ public class InfoCustomizations implements Serializable {
 		this.listCustomizations = listCustomizations;
 	}
 
+	@XmlElement(name = "enumerationCustomization")	
 	public List<EnumerationCustomization> getEnumerationCustomizations() {
 		return enumerationCustomizations;
 	}
@@ -1240,7 +1243,7 @@ public class InfoCustomizations implements Serializable {
 			this.itemCustomizations = itemCustomizations;
 		}
 
-		@XmlElement(name = "itemCategories")
+		@XmlElement(name = "itemCategory")
 		public List<MenuItemCategoryCustomization> getItemCategoryCustomizations() {
 			return itemCategoryCustomizations;
 		}
@@ -1262,7 +1265,7 @@ public class InfoCustomizations implements Serializable {
 
 		protected List<MenuCustomization> menuCustomizations = new ArrayList<MenuCustomization>();
 
-		@XmlElement(name = "menus")
+		@XmlElement(name = "menu")
 		public List<MenuCustomization> getMenuCustomizations() {
 			return menuCustomizations;
 		}
@@ -1584,6 +1587,7 @@ public class InfoCustomizations implements Serializable {
 			return InfoCustomizations.isSimilar(this, defaultTypeCustomization, "typeName");
 		}
 
+		@XmlElement(name = "importedFieldDeclaration")	
 		public List<ImportedFieldDeclaration> getImportedFieldDeclarations() {
 			return importedFieldDeclarations;
 		}
@@ -1592,6 +1596,7 @@ public class InfoCustomizations implements Serializable {
 			this.importedFieldDeclarations = importedFieldDeclarations;
 		}
 
+		@XmlElement(name = "importedMethodDeclaration")	
 		public List<ImportedMethodDeclaration> getImportedMethodDeclarations() {
 			return importedMethodDeclarations;
 		}
@@ -1834,8 +1839,8 @@ public class InfoCustomizations implements Serializable {
 			this.formHeight = formHeight;
 		}
 
-		@XmlElements({ @XmlElement(name = "virtualFieldDeclarations", type = VirtualFieldDeclaration.class),
-				@XmlElement(name = "implicitListFieldDeclarations", type = ImplicitListFieldDeclaration.class) })
+		@XmlElements({ @XmlElement(name = "virtualFieldDeclaration", type = VirtualFieldDeclaration.class),
+				@XmlElement(name = "implicitListFieldDeclaration", type = ImplicitListFieldDeclaration.class) })
 		public List<AbstractVirtualFieldDeclaration> getVirtualFieldDeclarations() {
 			return virtualFieldDeclarations;
 		}
@@ -1919,6 +1924,7 @@ public class InfoCustomizations implements Serializable {
 			this.polymorphicSubTypeFinders = polymorphicSubTypeFinders;
 		}
 
+		@XmlElement(name = "memberCategory")	
 		public List<CustomizationCategory> getMemberCategories() {
 			return memberCategories;
 		}
@@ -1951,6 +1957,7 @@ public class InfoCustomizations implements Serializable {
 			this.customTypeCaption = customTypeCaption;
 		}
 
+		@XmlElement(name = "fieldsCustomization")	
 		public List<FieldCustomization> getFieldsCustomizations() {
 			return fieldsCustomizations;
 		}
@@ -1959,6 +1966,7 @@ public class InfoCustomizations implements Serializable {
 			this.fieldsCustomizations = fieldsCustomizations;
 		}
 
+		@XmlElement(name = "methodsCustomization")	
 		public List<MethodCustomization> getMethodsCustomizations() {
 			return methodsCustomizations;
 		}
@@ -3523,6 +3531,7 @@ public class InfoCustomizations implements Serializable {
 			this.duplicateGenerated = duplicateGenerated;
 		}
 
+		@XmlElement(name = "serializedInvocationData")	
 		public List<TextualStorage> getSerializedInvocationDatas() {
 			return serializedInvocationDatas;
 		}
@@ -3591,6 +3600,7 @@ public class InfoCustomizations implements Serializable {
 			this.returnValueFieldGenerated = returnValueFieldGenerated;
 		}
 
+		@XmlElement(name = "parameterizedFieldName")	
 		public List<String> getParameterizedFieldNames() {
 			return parameterizedFieldNames;
 		}
@@ -3663,6 +3673,7 @@ public class InfoCustomizations implements Serializable {
 			this.customMethodCaption = customMethodCaption;
 		}
 
+		@XmlElement(name = "parametersCustomization")	
 		public List<ParameterCustomization> getParametersCustomizations() {
 			return parametersCustomizations;
 		}
@@ -4228,6 +4239,7 @@ public class InfoCustomizations implements Serializable {
 			this.enumerationTypeName = enumerationTypeName;
 		}
 
+		@XmlElement(name = "itemCustomization")	
 		public List<EnumerationItemCustomization> getItemCustomizations() {
 			return itemCustomizations;
 		}
@@ -4512,6 +4524,7 @@ public class InfoCustomizations implements Serializable {
 			this.listSorted = listSorted;
 		}
 
+		@XmlElement(name = "fieldExcludedFromItemDetails")	
 		public List<InfoPattern> getFieldsExcludedFromItemDetails() {
 			return fieldsExcludedFromItemDetails;
 		}
@@ -4520,6 +4533,7 @@ public class InfoCustomizations implements Serializable {
 			this.fieldsExcludedFromItemDetails = fieldsExcludedFromItemDetails;
 		}
 
+		@XmlElement(name = "methodExcludedFromItemDetails")	
 		public List<InfoPattern> getMethodsExcludedFromItemDetails() {
 			return methodsExcludedFromItemDetails;
 		}
@@ -4528,6 +4542,7 @@ public class InfoCustomizations implements Serializable {
 			this.methodsExcludedFromItemDetails = methods;
 		}
 
+		@XmlElement(name = "allowedItemFieldShortcut")	
 		public List<ListItemFieldShortcut> getAllowedItemFieldShortcuts() {
 			return allowedItemFieldShortcuts;
 		}
@@ -4536,6 +4551,7 @@ public class InfoCustomizations implements Serializable {
 			this.allowedItemFieldShortcuts = allowedItemFieldShortcuts;
 		}
 
+		@XmlElement(name = "allowedItemMethodShortcut")	
 		public List<ListItemMethodShortcut> getAllowedItemMethodShortcuts() {
 			return allowedItemMethodShortcuts;
 		}
@@ -4576,6 +4592,7 @@ public class InfoCustomizations implements Serializable {
 			this.itemTypeName = itemTypeName;
 		}
 
+		@XmlElement(name = "columnCustomization")
 		public List<ColumnCustomization> getColumnCustomizations() {
 			return columnCustomizations;
 		}
@@ -4721,6 +4738,7 @@ public class InfoCustomizations implements Serializable {
 			this.customBaseNodeTypeFinder = customBaseNodeTypeFinder;
 		}
 
+		@XmlElement(name = "excludedSubListField")	
 		public List<InfoPattern> getExcludedSubListFields() {
 			return excludedSubListFields;
 		}
@@ -5208,6 +5226,52 @@ public class InfoCustomizations implements Serializable {
 		public String migrateXMLLocalName(String localName) {
 			if ("appplicationCustomization".equals(localName)) {
 				return "applicationCustomization";
+			} else if ("columnCustomizations".equals(localName)) {
+				return "columnCustomization";
+			} else if ("enumerationCustomizations".equals(localName)) {
+				return "enumerationCustomization";
+			} else if ("fieldsCustomizations".equals(localName)) {
+				return "fieldsCustomization";
+			} else if ("itemCustomizations".equals(localName)) {
+				return "itemCustomization";
+			} else if ("listCustomizations".equals(localName)) {
+				return "listCustomization";
+			} else if ("memberCategories".equals(localName)) {
+				return "memberCategory";
+			} else if ("methodsCustomizations".equals(localName)) {
+				return "methodsCustomization";
+			} else if ("parametersCustomizations".equals(localName)) {
+				return "parametersCustomization";
+			} else if ("serializedInvocationDatas".equals(localName)) {
+				return "serializedInvocationData";
+			} else if ("typeCustomizations".equals(localName)) {
+				return "typeCustomization";
+			} else if ("virtualFieldDeclarations".equals(localName)) {
+				return "virtualFieldDeclaration";
+			} else if ("implicitListFieldDeclarations".equals(localName)) {
+				return "implicitListFieldDeclaration";
+			} else if ("importedFieldDeclarations".equals(localName)) {
+				return "importedFieldDeclaration";
+			} else if ("importedMethodDeclarations".equals(localName)) {
+				return "importedMethodDeclaration";
+			} else if ("excludedSubListFields".equals(localName)) {
+				return "excludedSubListField";
+			} else if ("fieldsExcludedFromItemDetails".equals(localName)) {
+				return "fieldExcludedFromItemDetails";
+			} else if ("methodsExcludedFromItemDetails".equals(localName)) {
+				return "methodExcludedFromItemDetails";
+			} else if ("polymorphicSubTypeFinders".equals(localName)) {
+				return "polymorphicSubTypeFinder";
+			} else if ("allowedItemFieldShortcuts".equals(localName)) {
+				return "allowedItemFieldShortcut";
+			} else if ("allowedItemMethodShortcuts".equals(localName)) {
+				return "allowedItemMethodShortcut";
+			} else if ("menus".equals(localName)) {
+				return "menu";
+			} else if ("itemCategoryCustomizations".equals(localName)) {
+				return "itemCategoryCustomization";
+			} else if ("parameterizedFieldNames".equals(localName)) {
+				return "parameterizedFieldName";
 			} else {
 				return localName;
 			}
