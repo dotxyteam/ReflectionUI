@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.info.type.factory;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -1289,23 +1290,23 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	/**
 	 * Executes {@link ITypeInfo#save(Object, OutputStream)} unless overridden.
 	 * 
-	 * @param type   The type information.
-	 * @param object Parameter of {@link ITypeInfo#save(Object, OutputStream)}.
-	 * @param out    Parameter of {@link ITypeInfo#save(Object, OutputStream)}.
+	 * @param type       The type information.
+	 * @param object     Parameter of {@link ITypeInfo#save(Object, File)}.
+	 * @param outputFile Parameter of {@link ITypeInfo#save(Object, File)}.
 	 */
-	protected void save(ITypeInfo type, Object object, OutputStream out) {
-		type.save(object, out);
+	protected void save(ITypeInfo type, Object object, File outputFile) {
+		type.save(object, outputFile);
 	}
 
 	/**
 	 * Executes {@link ITypeInfo#load(Object, InputStream)} unless overridden.
 	 * 
-	 * @param type   The type information.
-	 * @param object Parameter of {@link ITypeInfo#load(Object, InputStream)}.
-	 * @param in     Parameter of {@link ITypeInfo#load(Object, InputStream)}.
+	 * @param type      The type information.
+	 * @param object    Parameter of {@link ITypeInfo#load(Object, File)}.
+	 * @param inputFile Parameter of {@link ITypeInfo#load(Object, File)}.
 	 */
-	protected void load(ITypeInfo type, Object object, InputStream in) {
-		type.load(object, in);
+	protected void load(ITypeInfo type, Object object, File inputFile) {
+		type.load(object, inputFile);
 	}
 
 	/**
@@ -2394,13 +2395,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public void save(Object object, OutputStream out) {
-			InfoProxyFactory.this.save(base, object, out);
+		public void save(Object object, File outputFile) {
+			InfoProxyFactory.this.save(base, object, outputFile);
 		}
 
 		@Override
-		public void load(Object object, InputStream in) {
-			InfoProxyFactory.this.load(base, object, in);
+		public void load(Object object, File inputFile) {
+			InfoProxyFactory.this.load(base, object, inputFile);
 		}
 
 		@Override

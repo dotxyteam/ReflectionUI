@@ -2,14 +2,10 @@
 package xy.reflect.ui.control.swing.menu;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -22,7 +18,8 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public AbstractSaveMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+	public AbstractSaveMenuItem(SwingRenderer swingRenderer, Form menuBarOwner,
+			StandradActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 
@@ -34,20 +31,7 @@ public abstract class AbstractSaveMenuItem extends AbstractFileMenuItem {
 		swingRenderer.showBusyDialogWhile(form, new Runnable() {
 			@Override
 			public void run() {
-				OutputStream out = null;
-				try {
-					out = new FileOutputStream(file);
-					type.save(object, out);
-				} catch (Throwable t) {
-					throw new ReflectionUIError(t);
-				} finally {
-					if (out != null) {
-						try {
-							out.close();
-						} catch (Throwable ignore) {
-						}
-					}
-				}
+				type.save(object, file);
 			}
 		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Saving..."));
 	}

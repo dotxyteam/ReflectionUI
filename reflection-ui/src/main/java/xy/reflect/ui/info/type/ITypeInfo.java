@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.info.type;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collections;
@@ -72,17 +73,17 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public void save(Object object, OutputStream out) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
 		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return false;
 		}
 
 		@Override
-		public void load(Object object, InputStream in) {
+		public void save(Object object, File outputFile) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void load(Object object, File inputFile) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -310,18 +311,18 @@ public interface ITypeInfo extends IInfo {
 	/**
 	 * Saves the given object state to the output stream.
 	 * 
-	 * @param object An object of the current type.
-	 * @param out    The output stream.
+	 * @param object     An object of the current type.
+	 * @param outputFile The output file.
 	 */
-	void save(Object object, OutputStream out);
+	void save(Object object, File outputFile);
 
 	/**
 	 * Loads the given object state from the input stream.
 	 * 
-	 * @param object An object of the current type.
-	 * @param in     The input stream.
+	 * @param object    An object of the current type.
+	 * @param inputFile The input file.
 	 */
-	void load(Object object, InputStream in);
+	void load(Object object, File inputFile);
 
 	/**
 	 * @return true if and only if objects of the current type should be considered

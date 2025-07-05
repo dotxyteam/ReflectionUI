@@ -1,8 +1,10 @@
 
 package xy.reflect.ui.info.type;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -403,13 +405,22 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
-	public void save(Object object, OutputStream output) {
-		IOUtils.serialize(object, output);
+	public void save(Object object, File outputFile) {
+		try (FileOutputStream out = new FileOutputStream(outputFile)) {
+			IOUtils.serialize(object, out);
+		} catch (IOException e) {
+			throw new ReflectionUIError(e);
+		}
 	}
 
 	@Override
-	public void load(Object object, InputStream input) {
-		Object loaded = IOUtils.deserialize(input);
+	public void load(Object object, File inputFile) {
+		Object loaded;
+		try (FileInputStream in = new FileInputStream(inputFile)) {
+			loaded = IOUtils.deserialize(in);
+		} catch (IOException e) {
+			throw new ReflectionUIError(e);
+		}
 		try {
 			ReflectionUIUtils.copyFieldValuesAccordingInfos(reflectionUI, loaded, object, true);
 		} catch (Throwable t) {

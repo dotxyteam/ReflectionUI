@@ -1,17 +1,11 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.util.ReflectionUIError;
 
 /**
  * Virtual method allowing to execute the
@@ -44,20 +38,7 @@ public class LoadFromFileMethod extends AbstractPersistenceMethod {
 	@Override
 	public Object invoke(Object object, InvocationData invocationData) {
 		File file = (File) invocationData.getParameterValue(0);
-		InputStream in = null;
-		try {
-			in = new FileInputStream(file);
-			objectType.load(object, in);
-		} catch (FileNotFoundException e) {
-			throw new ReflectionUIError(e);
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException ignore) {
-				}
-			}
-		}
+		objectType.load(object, file);
 		return null;
 	}
 

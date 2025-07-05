@@ -4,8 +4,7 @@
 package xy.reflect.ui;
 
 import java.awt.Rectangle;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,6 +25,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.Accessor;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -80,11 +80,10 @@ public class MiscTests {
 		Date objectToSave = new Date();
 		ReflectionUI reflectionUI = new ReflectionUI();
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(objectToSave));
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		type.save(objectToSave, out);
+		File tmpFile = IOUtils.createTemporaryFile();;
+		type.save(objectToSave, tmpFile);
 		Date objectToLoad = new Date(0);
-		ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-		type.load(objectToLoad, in);
+		type.load(objectToLoad, tmpFile);
 
 		Assert.assertEquals(objectToSave, objectToLoad);
 	}

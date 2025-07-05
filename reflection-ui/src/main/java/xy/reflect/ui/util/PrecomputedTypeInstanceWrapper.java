@@ -3,8 +3,7 @@
  */
 package xy.reflect.ui.util;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -391,13 +390,13 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected void save(ITypeInfo type, Object object, OutputStream out) {
-			super.save(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), out);
+		protected void save(ITypeInfo type, Object object, File outputFile) {
+			super.save(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), outputFile);
 		}
 
 		@Override
-		protected void load(ITypeInfo type, Object object, InputStream in) {
-			super.load(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), in);
+		protected void load(ITypeInfo type, Object object, File inputFile) {
+			super.load(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), inputFile);
 		}
 
 		@Override

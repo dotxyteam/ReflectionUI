@@ -1,8 +1,7 @@
 
 package xy.reflect.ui.info.type.factory;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class EncapsulatedObjectFactory {
 
-	public static final String IS_ENCAPSULATION_FIELD_PROPERTY_KEY = EncapsulatedObjectFactory.class.getName()
+	public static final String ENCAPSULATION_STATUS_PROPERTY_KEY = EncapsulatedObjectFactory.class.getName()
 			+ ".IS_ENCAPSULATION_FIELD";
 
 	protected ReflectionUI reflectionUI;
@@ -535,11 +534,13 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public void save(Object object, OutputStream out) {
+		public void save(Object object, File outputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void load(Object object, InputStream in) {
+		public void load(Object object, File inputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
@@ -878,7 +879,7 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public Map<String, Object> getSpecificProperties() {
 			Map<String, Object> result = new HashMap<String, Object>(fieldSpecificProperties);
-			result.put(IS_ENCAPSULATION_FIELD_PROPERTY_KEY, true);
+			result.put(ENCAPSULATION_STATUS_PROPERTY_KEY, true);
 			return result;
 		}
 

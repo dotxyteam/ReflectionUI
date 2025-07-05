@@ -1,7 +1,6 @@
 package xy.reflect.ui.info.type.enumeration;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -71,16 +70,16 @@ public class EnumerationTypeInfoProxy extends AbstractInfoProxy implements IEnum
 		return base.getValues();
 	}
 
-	public void save(Object object, OutputStream out) {
-		base.save(object, out);
+	public void save(Object object, File outputFile) {
+		base.save(object, outputFile);
 	}
 
 	public IEnumerationItemInfo getValueInfo(Object value) {
 		return base.getValueInfo(value);
 	}
 
-	public void load(Object object, InputStream in) {
-		base.load(object, in);
+	public void load(Object object, File inputFile) {
+		base.load(object, inputFile);
 	}
 
 	public boolean isDynamicEnumeration() {

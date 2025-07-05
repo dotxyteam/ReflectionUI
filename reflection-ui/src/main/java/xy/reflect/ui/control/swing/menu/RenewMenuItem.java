@@ -1,10 +1,7 @@
 
 package xy.reflect.ui.control.swing.menu;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
@@ -53,28 +50,11 @@ public class RenewMenuItem extends AbstractFileMenuItem {
 		Object object = form.getObject();
 		final ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
-		swingRenderer.showBusyDialogWhile(form, new Runnable() {
-			@Override
-			public void run() {
-				InputStream in = null;
-				try {
-					Object newObject = ReflectionUIUtils.createDefaultInstance(type);
-					ByteArrayOutputStream newObjectStore = new ByteArrayOutputStream();
-					type.save(newObject, newObjectStore);
-					in = new ByteArrayInputStream(newObjectStore.toByteArray());
-					type.load(object, in);
-				} catch (Throwable t) {
-					throw new ReflectionUIError(t);
-				} finally {
-					if (in != null) {
-						try {
-							in.close();
-						} catch (Throwable ignore) {
-						}
-					}
-				}
-			}
-		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Renewing..."));
+		Object newObject = swingRenderer.onTypeInstantiationRequest(form, type);
+		if(newObject == null) {
+			return;
+		}
+		form.setObject(newObject);
 		form.getModificationStack().forget();
 	}
 

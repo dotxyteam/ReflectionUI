@@ -1,8 +1,7 @@
 
 package xy.reflect.ui.info.field;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -77,8 +76,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	public Object getValue(Object object) {
 		List<Object> result = new ArrayList<Object>();
 		for (IFieldInfo field : fields) {
-			result.add(
-					new PrecomputedTypeInstanceWrapper(getListItem(object, field), new ListItemTypeInfo(field)));
+			result.add(new PrecomputedTypeInstanceWrapper(getListItem(object, field), new ListItemTypeInfo(field)));
 		}
 		return new PrecomputedTypeInstanceWrapper(result, new ListTypeInfo());
 	}
@@ -494,11 +492,13 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
-		public void save(Object object, OutputStream out) {
+		public void save(Object object, File outputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void load(Object object, InputStream in) {
+		public void load(Object object, File inputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
@@ -537,8 +537,8 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public String getName() {
-			return "ListItemTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this.getName() + ", field="
-					+ field.getName() + "]";
+			return "ListItemTypeInfo [of=" + MultipleFieldsAsListFieldInfo.this.getName() + ", field=" + field.getName()
+					+ "]";
 		}
 
 		@Override
@@ -608,7 +608,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 
 		@Override
 		public Object copy(Object object) {
-			throw new ReflectionUIError();
+			throw new UnsupportedOperationException();
 		}
 
 		@Override

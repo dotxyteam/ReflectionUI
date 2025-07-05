@@ -1,8 +1,7 @@
 
 package xy.reflect.ui.info.field;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -473,11 +472,13 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		}
 
 		@Override
-		public void save(Object object, OutputStream out) {
+		public void save(Object object, File outputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void load(Object object, InputStream in) {
+		public void load(Object object, File inputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override

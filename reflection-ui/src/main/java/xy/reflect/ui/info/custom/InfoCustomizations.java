@@ -1664,8 +1664,7 @@ public class InfoCustomizations implements Serializable {
 				if (parameters.size() != 1) {
 					continue;
 				}
-				Parameter outputStreamParameter = parameters.get(0);
-				if (!outputStreamParameter.getType().equals(OutputStream.class)) {
+				if (!parameters.get(0).getType().equals(File.class)) {
 					continue;
 				}
 				result.add(method.getName());
@@ -1701,8 +1700,7 @@ public class InfoCustomizations implements Serializable {
 				if (parameters.size() != 1) {
 					continue;
 				}
-				Parameter inputStreamParameter = parameters.get(0);
-				if (!inputStreamParameter.getType().equals(InputStream.class)) {
+				if (!parameters.get(0).getType().equals(File.class)) {
 					continue;
 				}
 				result.add(method.getName());

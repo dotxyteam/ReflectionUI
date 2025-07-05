@@ -2,10 +2,7 @@
 package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -412,7 +409,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected void save(ITypeInfo type, Object object, OutputStream out) {
+	protected void save(ITypeInfo type, Object object, File outputFile) {
 		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
 				type.getName());
 		if (t != null) {
@@ -420,19 +417,19 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				Class<?> javaType;
 				try {
 					javaType = ClassUtils.getCachedClassForName(type.getName());
-					Method method = javaType.getMethod(t.getSavingMethodName(), OutputStream.class);
-					method.invoke(object, out);
+					Method method = javaType.getMethod(t.getSavingMethodName(), File.class);
+					method.invoke(object, outputFile);
 					return;
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
 			}
 		}
-		super.save(type, object, out);
+		super.save(type, object, outputFile);
 	}
 
 	@Override
-	protected void load(ITypeInfo type, Object object, InputStream in) {
+	protected void load(ITypeInfo type, Object object, File inputFile) {
 		final TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(),
 				type.getName());
 		if (t != null) {
@@ -440,15 +437,15 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				Class<?> javaType;
 				try {
 					javaType = ClassUtils.getCachedClassForName(type.getName());
-					Method method = javaType.getMethod(t.getLoadingMethodName(), InputStream.class);
-					method.invoke(object, in);
+					Method method = javaType.getMethod(t.getLoadingMethodName(), File.class);
+					method.invoke(object, inputFile);
 					return;
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
 			}
 		}
-		super.load(type, object, in);
+		super.load(type, object, inputFile);
 	}
 
 	@Override
@@ -501,22 +498,29 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 				}
 				if (object.getClass().equals(javaType)) {
 					if (ReflectionUIUtils.canCreateDefaultInstance(wrapTypeInfo(type), false)) {
-						ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
 						try {
-							Method method = javaType.getMethod(t.getSavingMethodName(), OutputStream.class);
-							method.invoke(object, outputBuffer);
+							File tmpFile = IOUtils.createTemporaryFile();
+							try {
+								try {
+									Method method = javaType.getMethod(t.getSavingMethodName(), File.class);
+									method.invoke(object, tmpFile);
+								} catch (Exception e) {
+									throw new ReflectionUIError(e);
+								}
+								Object newInstance = ReflectionUIUtils.createDefaultInstance(wrapTypeInfo(type), false);
+								try {
+									Method method = javaType.getMethod(t.getLoadingMethodName(), File.class);
+									method.invoke(newInstance, tmpFile);
+								} catch (Exception e) {
+									throw new ReflectionUIError(e);
+								}
+								return newInstance;
+							} finally {
+								IOUtils.delete(tmpFile);
+							}
 						} catch (Exception e) {
 							throw new ReflectionUIError(e);
 						}
-						Object newInstance = ReflectionUIUtils.createDefaultInstance(wrapTypeInfo(type), false);
-						ByteArrayInputStream inputBuffer = new ByteArrayInputStream(outputBuffer.toByteArray());
-						try {
-							Method method = javaType.getMethod(t.getLoadingMethodName(), InputStream.class);
-							method.invoke(newInstance, inputBuffer);
-						} catch (Exception e) {
-							throw new ReflectionUIError(e);
-						}
-						return newInstance;
 					}
 				}
 			}

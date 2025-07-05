@@ -45,9 +45,9 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 
 	protected Component textControl;
 	protected Component iconControl;
-	protected Object subFormObject;
-	protected Form subForm;
 	protected IFieldControlInput input;
+	protected Form subForm;
+	protected Object lastSubFormObject;
 
 	public EmbeddedFormControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -83,7 +83,12 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				return data.getValueReturnMode();
 			}
 		};
-		Accessor<Boolean> childValueReplacedGetter = Accessor.returning(Boolean.FALSE);
+		Accessor<Boolean> childValueReplacedGetter = new Accessor<Boolean>() {
+			@Override
+			public Boolean get() {
+				return lastSubFormObject != subForm.getObject();
+			}
+		};
 		Accessor<Boolean> childValueTransactionExecutedGetter = Accessor.returning(false);
 		Accessor<IModification> committingModifGetter = new Accessor<IModification>() {
 			@Override
@@ -91,7 +96,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				if (data.isGetOnly()) {
 					return null;
 				}
-				return new FieldControlDataModification(data, subFormObject);
+				return new FieldControlDataModification(data, subForm.getObject());
 			}
 		};
 		Accessor<IModification> undoModificationsReplacementGetter = new Accessor<IModification>() {
@@ -130,7 +135,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			}
 		};
 		boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
-				.get(EncapsulatedObjectFactory.IS_ENCAPSULATION_FIELD_PROPERTY_KEY));
+				.get(EncapsulatedObjectFactory.ENCAPSULATION_STATUS_PROPERTY_KEY));
 		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
 			@Override
 			public void handle(Throwable t) {
@@ -172,39 +177,38 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 			SwingRendererUtils.handleComponentSizeChange(this);
 		}
 		if (subForm == null) {
-			subFormObject = data.getValue();
-			if (subFormObject == null) {
+			lastSubFormObject = data.getValue();
+			if (lastSubFormObject == null) {
 				throw new ReflectionUIError();
 			}
-			subForm = swingRenderer.createForm(subFormObject, data.getFormControlFilter());
+			subForm = swingRenderer.createForm(lastSubFormObject, data.getFormControlFilter());
 			handleSubFormModifications();
 			add(subForm, BorderLayout.CENTER);
 			SwingRendererUtils.handleComponentSizeChange(this);
 		} else {
-			if(refreshStructure) {
+			if (refreshStructure) {
 				subForm.setInfoFilter(data.getFormControlFilter());
 			}
 			final Object newSubFormObject = data.getValue();
 			if (newSubFormObject == null) {
 				return false;
 			}
-			if (newSubFormObject == subFormObject) {
+			if (newSubFormObject == subForm.getObject()) {
 				subForm.refresh(refreshStructure);
 			} else {
 				final ITypeInfo subFormObjectType = swingRenderer.getReflectionUI()
-						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subFormObject));
+						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(subForm.getObject()));
 				final ITypeInfo newSubFormObjectType = swingRenderer.getReflectionUI()
 						.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(newSubFormObject));
 				if (subFormObjectType.equals(newSubFormObjectType)) {
 					swingRenderer.showBusyDialogWhile(this, new Runnable() {
 						@Override
 						public void run() {
-							subFormObjectType.onFormVisibilityChange(subFormObject, false);
+							subFormObjectType.onFormVisibilityChange(subForm.getObject(), false);
 							subForm.setObject(newSubFormObject);
 							newSubFormObjectType.onFormVisibilityChange(newSubFormObject, true);
 						}
 					}, "Refreshing " + swingRenderer.getObjectTitle(newSubFormObject) + "...");
-					subFormObject = newSubFormObject;
 					subForm.refresh(refreshStructure);
 				} else {
 					return false;

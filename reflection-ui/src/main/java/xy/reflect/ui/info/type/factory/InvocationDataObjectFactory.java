@@ -1,8 +1,7 @@
 
 package xy.reflect.ui.info.type.factory;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -271,11 +270,13 @@ public class InvocationDataObjectFactory {
 		}
 
 		@Override
-		public void save(Object object, OutputStream out) {
+		public void save(Object object, File outputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
-		public void load(Object object, InputStream in) {
+		public void load(Object object, File inputFile) {
+			throw new UnsupportedOperationException();
 		}
 
 		@Override
@@ -371,7 +372,7 @@ public class InvocationDataObjectFactory {
 
 		@Override
 		public Object copy(Object object) {
-			throw new ReflectionUIError();
+			throw new UnsupportedOperationException();
 		}
 
 		@Override

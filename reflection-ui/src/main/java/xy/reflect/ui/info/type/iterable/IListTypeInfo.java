@@ -1,8 +1,7 @@
 
 package xy.reflect.ui.info.type.iterable;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -192,17 +191,17 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
-		public void save(Object object, OutputStream out) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
 		public boolean onFormVisibilityChange(Object object, boolean visible) {
 			return false;
 		}
 
 		@Override
-		public void load(Object object, InputStream in) {
+		public void save(Object object, File outputFile) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void load(Object object, File inputFile) {
 			throw new UnsupportedOperationException();
 		}
 
