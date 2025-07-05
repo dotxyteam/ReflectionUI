@@ -163,16 +163,20 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if (getNullStatusControlState()) {
 			ReflectionUIUtils.setFieldValueThroughModificationStack(data, null, input.getModificationStack(),
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
-			refreshUI(false);
 		} else {
-			Object newValue = getNewValue();
+			Object newValue;
+			try {
+				newValue = getNewValue();
+			} catch (Throwable t) {
+				refreshUI(false);
+				throw new ReflectionUIError(t);
+			}
 			if (newValue == null) {
 				refreshUI(false);
 				return;
 			}
 			ReflectionUIUtils.setFieldValueThroughModificationStack(data, newValue, input.getModificationStack(),
 					ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()));
-			refreshUI(false);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {

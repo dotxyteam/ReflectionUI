@@ -5268,8 +5268,8 @@ public class InfoCustomizations implements Serializable {
 				return "allowedItemMethodShortcut";
 			} else if ("menus".equals(localName)) {
 				return "menu";
-			} else if ("itemCategoryCustomizations".equals(localName)) {
-				return "itemCategoryCustomization";
+			} else if ("itemCategories".equals(localName)) {
+				return "itemCategory";
 			} else if ("parameterizedFieldNames".equals(localName)) {
 				return "parameterizedFieldName";
 			} else {

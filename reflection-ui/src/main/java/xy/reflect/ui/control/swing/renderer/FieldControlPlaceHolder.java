@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.SwingUtilities;
@@ -578,25 +579,22 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
-				final Class<?> javaType;
-				try {
-					javaType = ClassUtils.getCachedClassForName(fieldType.getName());
-				} catch (ClassNotFoundException e) {
-					return null;
-				}
-				if (boolean.class.equals(javaType) || Boolean.class.equals(javaType)) {
+				if (boolean.class.getName().equals(fieldType.getName())
+						|| Boolean.class.getName().equals(fieldType.getName())) {
 					try {
 						return new CheckBoxControl(swingRenderer, controlInput);
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
-				if (ClassUtils.isPrimitiveClassOrWrapper(javaType)) {
+				if (Arrays.stream(ClassUtils.PRIMITIVE_CLASSES).anyMatch(c -> c.getName().equals(fieldType.getName()))
+						|| Arrays.stream(ClassUtils.PRIMITIVE_WRAPPER_CLASSES)
+								.anyMatch(c -> c.getName().equals(fieldType.getName()))) {
 					try {
 						return new PrimitiveValueControl(swingRenderer, controlInput);
 					} catch (RejectedFieldControlInputException e) {
 					}
 				}
-				if (String.class.equals(javaType)) {
+				if (String.class.getName().equals(fieldType.getName())) {
 					try {
 						return new TextControl(swingRenderer, controlInput);
 					} catch (RejectedFieldControlInputException e) {

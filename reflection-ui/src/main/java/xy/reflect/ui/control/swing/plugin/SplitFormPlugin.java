@@ -26,12 +26,9 @@ import xy.reflect.ui.info.filter.InfoFilterProxy;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Field control plugin that allows to have a split form display with a movable
@@ -53,20 +50,8 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		if (!data.isNullValueDistinct()) {
 			ITypeInfo fieldType = data.getType();
 			if (fieldType.getFields().size() >= 2) {
-				if (data.isFormControlMandatory()) {
+				if (data.isFormControlEmbedded()) {
 					return true;
-				}
-				if (!(fieldType instanceof IEnumerationTypeInfo)
-						&& !ReflectionUIUtils.hasPolymorphicInstanceSubTypes(fieldType)) {
-					Class<?> javaType;
-					try {
-						javaType = ClassUtils.getCachedClassForName(fieldType.getName());
-					} catch (ClassNotFoundException e) {
-						return true;
-					}
-					if (!ClassUtils.isPrimitiveClassOrWrapperOrString(javaType)) {
-						return true;
-					}
 				}
 			}
 		}
