@@ -150,7 +150,6 @@ public class EditorPlugin extends StyledTextPlugin {
 					}
 				}
 
-
 			};
 			return result;
 		}
@@ -241,10 +240,6 @@ public class EditorPlugin extends StyledTextPlugin {
 			return ((EditorConfiguration) getOrLoadControlCustomization()).getWidthInPixels();
 		}
 
-		@Override
-		public String toString() {
-			return "EditorControl [data=" + data + "]";
-		}
 	}
 
 }

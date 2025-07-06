@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.BasicStroke;
@@ -180,9 +178,5 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 			return defaultIcon;
 		}
 
-		@Override
-		public String toString() {
-			return "CustomCheckBoxPlugin [data=" + data + "]";
-		}
 	}
 }

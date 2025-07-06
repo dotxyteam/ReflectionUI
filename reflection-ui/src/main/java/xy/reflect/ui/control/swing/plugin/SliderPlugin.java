@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Component;
@@ -255,10 +253,6 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		public void addMenuContributions(MenuModel menuModel) {
 		}
 
-		@Override
-		public String toString() {
-			return "Slider [data=" + data + "]";
-		}
 	}
 
 }

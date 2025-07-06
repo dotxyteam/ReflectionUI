@@ -354,10 +354,6 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 			subControl1.addMenuContributions(menuModel);
 		}
 
-		@Override
-		public String toString() {
-			return "SplitForm [data=" + data + "]";
-		}
 	}
 
 }

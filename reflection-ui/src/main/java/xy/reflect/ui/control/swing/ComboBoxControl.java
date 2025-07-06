@@ -270,9 +270,4 @@ public class ComboBoxControl extends ControlPanel implements IAdvancedFieldContr
 	public void addMenuContributions(MenuModel menuModel) {
 	}
 
-	@Override
-	public String toString() {
-		return "EnumerationControl [data=" + data + "]";
-	}
-
 }

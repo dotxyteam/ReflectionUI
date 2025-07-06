@@ -325,11 +325,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "PolymorphicControl [data=" + data + "]";
-	}
-
 	protected static class TypeEnumerationControlBuilder extends AbstractEditorFormBuilder {
 
 		protected SwingRenderer swingRenderer;

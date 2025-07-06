@@ -152,11 +152,6 @@ public class MutableTypeControl extends NullableControl {
 		return new CustomContext("MutableInstance");
 	}
 
-	@Override
-	public String toString() {
-		return "MutableTypeControl [data=" + data + "]";
-	}
-
 	protected static class Info {
 		protected boolean recreationNeeded = false;
 

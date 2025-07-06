@@ -454,8 +454,7 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 
 		protected void updateErrorDisplay() {
 			if (currentConversionError != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
-						currentConversionError, swingRenderer);
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentConversionError, swingRenderer);
 				return;
 			}
 			if (currentDataError != null) {
@@ -498,10 +497,6 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 		public void addMenuContributions(MenuModel menuModel) {
 		}
 
-		@Override
-		public String toString() {
-			return "DatePicker [data=" + data + "]";
-		}
 	}
 
 }

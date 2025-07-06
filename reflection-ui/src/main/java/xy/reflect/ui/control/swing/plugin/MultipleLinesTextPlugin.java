@@ -154,10 +154,6 @@ public class MultipleLinesTextPlugin extends AbstractSimpleCustomizableFieldCont
 			return true;
 		}
 
-		@Override
-		public String toString() {
-			return "MultipleLinesTextControl [data=" + data + "]";
-		}
 	}
 
 }

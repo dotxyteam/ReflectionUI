@@ -288,10 +288,6 @@ public class HtmlPlugin extends StyledTextPlugin {
 			return controlCustomization.getHeightInPixels();
 		}
 
-		@Override
-		public String toString() {
-			return "HtmlControl [data=" + data + "]";
-		}
 	}
 
 }

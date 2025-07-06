@@ -142,18 +142,13 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 					throw new ReflectionUIError(e);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
-				}	
+				}
 			}
 		};
-		if(Thread.currentThread().isInterrupted()) {
+		if (Thread.currentThread().isInterrupted()) {
 			return;
 		}
 		form[0].validateForm(session);
-	}
-
-	@Override
-	public String toString() {
-		return "MethodControl [data=" + data + "]";
 	}
 
 }

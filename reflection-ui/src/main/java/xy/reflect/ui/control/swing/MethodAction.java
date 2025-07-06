@@ -314,11 +314,6 @@ public class MethodAction extends AbstractAction {
 		return new ReturnValueEditorBuilder(swingRenderer, activatorComponent, input, returnValue);
 	}
 
-	@Override
-	public String toString() {
-		return "MethodAction [data=" + data + "]";
-	}
-
 	protected static class ReturnValueEditorBuilder extends AbstractEditorBuilder {
 
 		protected SwingRenderer swingRenderer;

@@ -227,10 +227,5 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 			return SwingRendererUtils.getIcon(image);
 		}
 
-		@Override
-		public String toString() {
-			return "ToggleButtonPlugin [data=" + data + "]";
-		}
-
 	}
 }

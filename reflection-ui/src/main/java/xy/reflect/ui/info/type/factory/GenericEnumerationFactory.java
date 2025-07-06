@@ -49,7 +49,6 @@ public class GenericEnumerationFactory {
 
 	public GenericEnumerationFactory(ReflectionUI reflectionUI, Iterable<?> iterable, String enumerationTypeName,
 			String typeCaption, boolean dynamicEnumeration, boolean nullSupported) {
-		super();
 		this.reflectionUI = reflectionUI;
 		this.iterable = iterable;
 		this.enumerationTypeName = enumerationTypeName;

@@ -142,10 +142,6 @@ public class PasswordFieldPlugin extends AbstractSimpleCustomizableFieldControlP
 			}
 		}
 
-		@Override
-		public String toString() {
-			return "PasswordField [data=" + data + "]";
-		}
 	}
 
 }

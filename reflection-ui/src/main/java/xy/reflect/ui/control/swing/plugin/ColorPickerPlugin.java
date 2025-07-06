@@ -273,11 +273,6 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 			((TextControl) statusControl).refreshUI(false);
 		}
 
-		@Override
-		public String toString() {
-			return "ColorControl [data=" + data + "]";
-		}
-
 	}
 
 }

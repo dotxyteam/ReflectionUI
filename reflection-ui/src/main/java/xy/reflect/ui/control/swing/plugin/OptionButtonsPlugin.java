@@ -358,10 +358,6 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		public void addMenuContributions(MenuModel menuModel) {
 		}
 
-		@Override
-		public String toString() {
-			return "OptionButtons [data=" + data + "]";
-		}
 	}
 
 }

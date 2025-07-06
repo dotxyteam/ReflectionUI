@@ -399,11 +399,6 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 			return false;
 		}
 
-		@Override
-		public String toString() {
-			return "FileBrowser [data=" + data + "]";
-		}
-
 	}
 
 }

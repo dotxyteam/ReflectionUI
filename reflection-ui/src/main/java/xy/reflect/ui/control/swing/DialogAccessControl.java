@@ -326,11 +326,6 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	public void addMenuContributions(MenuModel menuModel) {
 	}
 
-	@Override
-	public String toString() {
-		return "DialogAccessControl [data=" + data + "]";
-	}
-
 	protected static class SubDialogBuilder extends AbstractEditorBuilder {
 
 		protected SwingRenderer swingRenderer;

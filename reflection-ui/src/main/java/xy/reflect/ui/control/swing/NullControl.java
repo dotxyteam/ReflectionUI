@@ -185,9 +185,4 @@ public class NullControl extends ControlPanel implements IAdvancedFieldControl {
 		return false;
 	}
 
-	@Override
-	public String toString() {
-		return "NullControl [data=" + data + "]";
-	}
-
 }

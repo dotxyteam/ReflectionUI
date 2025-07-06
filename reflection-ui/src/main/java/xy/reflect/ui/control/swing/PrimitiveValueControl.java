@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control.swing;
 
 import xy.reflect.ui.control.FieldControlDataProxy;
@@ -112,11 +110,6 @@ public class PrimitiveValueControl extends TextControl {
 
 	protected Object fromText(String text, Class<?> dataClass) {
 		return ReflectionUIUtils.primitiveFromString(text, dataClass);
-	}
-
-	@Override
-	public String toString() {
-		return "PrimitiveValueControl [data=" + data + "]";
 	}
 
 }

@@ -357,8 +357,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 
 		protected void updateErrorDisplay() {
 			if (currentConversionError != null) {
-				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this,
-						currentConversionError, swingRenderer);
+				SwingRendererUtils.displayErrorOnBorderAndTooltip(this, this, currentConversionError, swingRenderer);
 				return;
 			}
 			if (currentDataError != null) {
@@ -429,10 +428,6 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		public void addMenuContributions(MenuModel menuModel) {
 		}
 
-		@Override
-		public String toString() {
-			return "Spinner [data=" + data + "]";
-		}
 	}
 
 }

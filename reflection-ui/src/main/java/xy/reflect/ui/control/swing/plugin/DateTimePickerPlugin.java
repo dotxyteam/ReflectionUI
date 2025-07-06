@@ -574,10 +574,6 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		public void addMenuContributions(MenuModel menuModel) {
 		}
 
-		@Override
-		public String toString() {
-			return "DateTimePicker [data=" + data + "]";
-		}
 	}
 
 }

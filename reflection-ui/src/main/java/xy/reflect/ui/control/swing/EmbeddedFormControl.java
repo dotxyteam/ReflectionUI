@@ -233,9 +233,4 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 		subForm.addMenuContributionTo(menuModel);
 	}
 
-	@Override
-	public String toString() {
-		return "EmbeddedFormControl [data=" + data + "]";
-	}
-
 }

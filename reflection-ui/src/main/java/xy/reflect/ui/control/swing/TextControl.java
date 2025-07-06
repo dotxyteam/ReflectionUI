@@ -241,7 +241,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 				return result;
 			}
 
-			
 		};
 	}
 
@@ -275,7 +274,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 					swingRenderer.handleException(TextControl.this, t);
 				}
 			}
-
 
 		};
 	}
@@ -400,11 +398,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	@Override
 	public void addMenuContributions(MenuModel menuModel) {
-	}
-
-	@Override
-	public String toString() {
-		return "TextControl [data=" + data + "]";
 	}
 
 }

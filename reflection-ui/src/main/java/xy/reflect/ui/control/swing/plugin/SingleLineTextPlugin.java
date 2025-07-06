@@ -132,10 +132,6 @@ public class SingleLineTextPlugin extends AbstractSimpleCustomizableFieldControl
 			return false;
 		}
 
-		@Override
-		public String toString() {
-			return "SingleLineTextControl [data=" + data + "]";
-		}
 	}
 
 }

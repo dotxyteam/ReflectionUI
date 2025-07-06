@@ -452,11 +452,6 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			});
 		}
 
-		@Override
-		public String toString() {
-			return "DetailedListControl [data=" + listData + "]";
-		}
-
 		public class DetailedCellControl extends ControlPanel {
 
 			private static final long serialVersionUID = 1L;

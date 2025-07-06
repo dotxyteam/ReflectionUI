@@ -105,9 +105,4 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	public void addMenuContributions(MenuModel menuModel) {
 	}
 
-	@Override
-	public String toString() {
-		return "CheckBoxControl [data=" + data + "]";
-	}
-
 }

@@ -719,10 +719,6 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public void addMenuContributions(MenuModel menuModel) {
 		}
 
-		@Override
-		public String toString() {
-			return "ImageView [data=" + data + "]";
-		}
 	}
 
 }

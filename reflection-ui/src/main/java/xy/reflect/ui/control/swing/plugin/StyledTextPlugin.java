@@ -213,7 +213,6 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 					}
 				}
 
-
 			};
 		}
 
@@ -276,10 +275,6 @@ public class StyledTextPlugin extends AbstractSimpleCustomizableFieldControlPlug
 			return ((StyledTextConfiguration) getOrLoadControlCustomization()).getHeightInPixels();
 		}
 
-		@Override
-		public String toString() {
-			return "StyledText [data=" + data + "]";
-		}
 	}
 
 }

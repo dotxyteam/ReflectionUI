@@ -2381,11 +2381,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "ListControl [listData=" + listData + "]";
-	}
-
 	protected class ItemNode extends AbstractLazyTreeNode {
 
 		protected static final long serialVersionUID = 1L;

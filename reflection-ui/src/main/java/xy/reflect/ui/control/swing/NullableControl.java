@@ -382,11 +382,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "NullableControl [data=" + data + "]";
-	}
-
 	protected static class SubFormBuilder extends AbstractEditorFormBuilder {
 
 		protected SwingRenderer swingRenderer;
