@@ -63,7 +63,7 @@ public class GetterFieldInfo extends AbstractInfo implements IFieldInfo {
 		return javaGetterMethod;
 	}
 
-	protected static String getterToFieldName(String getterMethodName) {
+	public static String getterToFieldName(String getterMethodName) {
 		Matcher m = GETTER_PATTERN.matcher(getterMethodName);
 		if (!m.matches()) {
 			return null;
