@@ -27,6 +27,7 @@ import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
@@ -243,6 +244,11 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return true;
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return null;
 	}
 
 	@Override

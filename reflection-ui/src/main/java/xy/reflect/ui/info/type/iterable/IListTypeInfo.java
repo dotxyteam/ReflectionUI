@@ -70,6 +70,11 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
+		public IValidationJob getListItemAbstractFormValidationJob(ItemPosition itemPosition) {
+			return null;
+		}
+
+		@Override
 		public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
 			return true;
 		}
@@ -561,6 +566,18 @@ public interface IListTypeInfo extends ITypeInfo {
 	 * @return where the tool bar will be located on the list control.
 	 */
 	ToolsLocation getToolsLocation();
+
+	/**
+	 * @param itemPosition The position of the list item to validate.
+	 * @return a validation task that can be used to fully validate the state of the
+	 *         item at the given position in the absence of a concrete form that
+	 *         would have orchestrated the item's validation. Note that this method
+	 *         was added for optimization purposes because, with the Swing toolkit,
+	 *         it was mandatory to create any form from the UI thread, which was
+	 *         therefore slowed down, just to have a form orchestrating the
+	 *         validation.
+	 */
+	IValidationJob getListItemAbstractFormValidationJob(ItemPosition itemPosition);
 
 	public enum ItemCreationMode {
 		/**

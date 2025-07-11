@@ -12,6 +12,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -202,6 +203,11 @@ public class VirtualFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return false;
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return null;
 	}
 
 	@Override

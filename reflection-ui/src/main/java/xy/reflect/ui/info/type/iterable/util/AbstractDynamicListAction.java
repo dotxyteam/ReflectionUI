@@ -12,6 +12,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -27,6 +28,11 @@ public abstract class AbstractDynamicListAction extends AbstractInfo implements 
 	@Override
 	public boolean isEnabled(Object object) {
 		return true;
+	}
+
+	@Override
+	public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+		return null;
 	}
 
 	@Override

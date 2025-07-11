@@ -11,6 +11,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.FutureActionBuilder;
@@ -275,6 +276,12 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return theField.isValueValidityDetectionEnabled() && theSubField.isValueValidityDetectionEnabled();
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		Object fieldValue = expectTheFieldValue(object);
+		return theSubField.getValueAbstractFormValidationJob(fieldValue);
 	}
 
 	@Override

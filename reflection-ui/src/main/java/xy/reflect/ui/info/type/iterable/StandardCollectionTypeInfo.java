@@ -62,6 +62,11 @@ public class StandardCollectionTypeInfo extends DefaultTypeInfo implements IList
 	}
 
 	@Override
+	public IValidationJob getListItemAbstractFormValidationJob(ItemPosition itemPosition) {
+		return null;
+	}
+
+	@Override
 	public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
 		return true;
 	}

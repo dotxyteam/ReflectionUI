@@ -13,6 +13,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 
@@ -34,6 +35,11 @@ public interface IFieldInfo extends IInfo {
 		@Override
 		public String getName() {
 			return "NULL_FIELD_INFO";
+		}
+
+		@Override
+		public IValidationJob getValueAbstractFormValidationJob(Object object) {
+			return null;
 		}
 
 		@Override
@@ -408,4 +414,17 @@ public interface IFieldInfo extends IInfo {
 	 *         field.
 	 */
 	boolean isValueValidityDetectionEnabled();
+
+	/**
+	 * @param object The object hosting the field value or null if the field is
+	 *               static.
+	 * @return a validation task that can be used to fully validate the state of the
+	 *         field value extracted from the given object in the absence of a
+	 *         concrete form that would have orchestrated the object's validation.
+	 *         Note that this method was added for optimization purposes because,
+	 *         with the Swing toolkit, it was mandatory to create any form from the
+	 *         UI thread, which was therefore slowed down, just to have a form
+	 *         orchestrating the validation.
+	 */
+	IValidationJob getValueAbstractFormValidationJob(Object object);
 }

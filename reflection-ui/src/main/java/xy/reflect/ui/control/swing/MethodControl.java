@@ -20,6 +20,7 @@ import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -119,36 +120,41 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 
 	@Override
 	public void validateControl(ValidationSession session) throws Exception {
-		Form[] form = new Form[1];
+		final IValidationJob[] validationJob = new IValidationJob[1];
 		new MethodAction(swingRenderer, input) {
 			private static final long serialVersionUID = 1L;
 
 			{
 				if (data.getParameters().size() > 0) {
 					throw new ReflectionUIError(
-							"Cannot validate the return value of this method that requires parameter value(s): '"
+							"Cannot validate the return value of this method because it requires parameter value(s): '"
 									+ data.getMethodSignature() + "'");
 				}
 				InvocationData invocationData = prepare(null);
 				returnValue = input.getControlData().invoke(invocationData);
-				try {
-					SwingUtilities.invokeAndWait(new Runnable() {
-						@Override
-						public void run() {
-							form[0] = createReturnValueEditorBuilder(null).createEditorForm(false, false);
-						}
-					});
-				} catch (InvocationTargetException e) {
-					throw new ReflectionUIError(e);
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
+				validationJob[0] = data.getReturnValueAbstractFormCustomValidationJob(returnValue);
+				if (validationJob[0] == null) {
+					Form[] form = new Form[1];
+					try {
+						SwingUtilities.invokeAndWait(new Runnable() {
+							@Override
+							public void run() {
+								form[0] = createReturnValueEditorBuilder(null).createEditorForm(false, false);
+							}
+						});
+					} catch (InvocationTargetException e) {
+						throw new ReflectionUIError(e);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}
+					validationJob[0] = (sessionArg) -> form[0].validateForm(sessionArg);
 				}
 			}
 		};
 		if (Thread.currentThread().isInterrupted()) {
 			return;
 		}
-		form[0].validateForm(session);
+		validationJob[0].validate(session);		
 	}
 
 }

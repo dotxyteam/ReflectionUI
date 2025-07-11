@@ -100,6 +100,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.factory.FieldAlternativeListItemConstructorsInstaller;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo.ItemCreationMode;
@@ -1839,19 +1840,23 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		if (firstAncestorListControl == null) {
 			return null;
 		}
-		BufferedItemPosition itemPosition = firstAncestorListControl.getSingleSelection();
-		if (itemPosition == null) {
+		BufferedItemPosition masterItemPosition = firstAncestorListControl.getSingleSelection();
+		if (masterItemPosition == null) {
 			return null;
 		}
-		if (!Boolean.TRUE.equals(itemPosition.getContainingListType().getSpecificProperties()
+		if (!Boolean.TRUE.equals(masterItemPosition.getContainingListType().getSpecificProperties()
 				.get(IListTypeInfo.SUB_LIST_SLAVERY_STATUS_KEY))) {
 			return null;
 		}
-		IFieldInfo subListField = itemPosition.getSubListField();
+		Object masterSubListValue = masterItemPosition.retrieveSubListValue();
+		if (masterSubListValue == null) {
+			return null;
+		}
+		IFieldInfo subListField = masterItemPosition.getSubListField();
 		if (subListField == null) {
 			return null;
 		}
-		if (!MiscUtils.equalsOrBothNull(subListField.getValue(itemPosition.getItem()), listData.getValue())) {
+		if (!masterSubListValue.equals(itemPositionFactory.getRootListValue())) {
 			return null;
 		}
 		return firstAncestorListControl;
@@ -2196,23 +2201,28 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				ItemFormBuilder itemUIBuilder = createItemFormBuilder(itemPosition);
-				Form[] itemForm = new Form[1];
-				try {
-					SwingUtilities.invokeAndWait(new Runnable() {
-						@Override
-						public void run() {
-							itemForm[0] = itemUIBuilder.createEditorForm(false, false);
-						}
-					});
-				} catch (InvocationTargetException e) {
-					throw new ReflectionUIError(e);
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-					return VisitStatus.TREE_VISIT_INTERRUPTED;
+				IValidationJob validationJob = itemPosition.getContainingListType()
+						.getListItemAbstractFormValidationJob(itemPosition);
+				if (validationJob == null) {
+					ItemFormBuilder itemUIBuilder = createItemFormBuilder(itemPosition);
+					Form[] itemForm = new Form[1];
+					try {
+						SwingUtilities.invokeAndWait(new Runnable() {
+							@Override
+							public void run() {
+								itemForm[0] = itemUIBuilder.createEditorForm(false, false);
+							}
+						});
+					} catch (InvocationTargetException e) {
+						throw new ReflectionUIError(e);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						return VisitStatus.TREE_VISIT_INTERRUPTED;
+					}
+					validationJob = (sessionArg) -> itemForm[0].validateForm(sessionArg);
 				}
 				try {
-					itemForm[0].validateForm(session);
+					validationJob.validate(session);
 					if (!Thread.currentThread().isInterrupted()) {
 						swingRenderer.getReflectionUI().getValidationErrorRegistry()
 								.cancelAttribution(itemPosition.getItem(), session);
@@ -2547,7 +2557,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					 */
 					if (detailsControlBuilder.getCurrentValue() != currentItem) {
 						containingListRawValue[currentPosition.getIndex()] = currentItem;
-						currentPosition.changeContainingListBuffer(containingListRawValue);
+						currentPosition.changeContainingListBuffer(currentPosition.retrieveContainingListValue(),
+								containingListRawValue);
 						detailsControlBuilder.reloadValue(detailsControl, false);
 					}
 				}
@@ -2758,6 +2769,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			});
 		}
 
+		/**
+		 * Allows to associate the current item with the eventual validation error of
+		 * the capsule object, in order to anticipate the item validation error.
+		 * 
+		 * @param capsule The capsule object.
+		 */
 		protected void copyValidationErrorFromCapsuleToItem(Object capsule) {
 			Exception validitionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
 					.getValidationError(capsule, null);
@@ -2770,6 +2787,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 		}
 
+		/**
+		 * Allows to associate the eventual validation error (probably computed in
+		 * background) of the current item with the capsule object, in order to
+		 * anticipate the capsule validation error.
+		 * 
+		 * @param capsule The capsule object.
+		 */
 		protected void copyValidationErrorFromItemToCapsule(Object capsule) {
 			Exception itemValiditionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
 					.getValidationError(bufferedItemPosition.getItem(), null);

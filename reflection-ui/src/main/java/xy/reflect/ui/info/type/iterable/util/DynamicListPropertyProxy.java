@@ -9,6 +9,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
@@ -37,6 +38,10 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 
 	public String getOnlineHelp() {
 		return base.getOnlineHelp();
+	}
+
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return base.getValueAbstractFormValidationJob(object);
 	}
 
 	public boolean isValueValidityDetectionEnabled() {

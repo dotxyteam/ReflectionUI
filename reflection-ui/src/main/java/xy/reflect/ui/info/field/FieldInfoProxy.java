@@ -10,6 +10,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * Field information proxy class. The methods in this class should be overridden
@@ -28,6 +29,10 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 
 	public IFieldInfo getBase() {
 		return base;
+	}
+
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return base.getValueAbstractFormValidationJob(object);
 	}
 
 	public boolean isValueValidityDetectionEnabled() {

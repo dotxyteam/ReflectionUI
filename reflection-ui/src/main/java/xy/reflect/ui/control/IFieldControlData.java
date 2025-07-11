@@ -9,6 +9,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * This interface provides what field controls need to look and behave properly.
@@ -258,8 +259,14 @@ public interface IFieldControlData {
 
 	/**
 	 * @return whether validation errors should be checked for the value of the
-	 *         underlying field.
+	 *         field.
 	 */
 	boolean isValueValidityDetectionEnabled();
 
+	/**
+	 * @return a validation task that can be used to fully validate the state of the
+	 *         field value extracted from the underlying object in the absence of a
+	 *         concrete form that would have orchestrated the object's validation.
+	 */
+	IValidationJob getValueAbstractFormCustomValidationJob();
 }

@@ -11,6 +11,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * This interface provides what method controls need to look and behave
@@ -213,4 +214,12 @@ public interface IMethodControlData {
 	 *         the underlying method.
 	 */
 	boolean isReturnValueValidityDetectionEnabled();
+
+	/**
+	 * @param returnValue The method return value.
+	 * @return a validation task that can be used to fully validate the state of the
+	 *         given return value in the absence of a concrete form that would have
+	 *         orchestrated the return value's validation.
+	 */
+	IValidationJob getReturnValueAbstractFormCustomValidationJob(Object returnValue);
 }

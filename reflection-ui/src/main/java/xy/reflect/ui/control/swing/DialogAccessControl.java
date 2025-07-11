@@ -37,6 +37,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
@@ -300,26 +301,26 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	@Override
 	public void validateControl(ValidationSession session) throws Exception {
-		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(this);
-		Form[] form = new Form[1];
-		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
-				@Override
-				public void run() {
-					form[0] = subDialogBuilder.createEditorForm(false, false);
-				}
-			});
-		} catch (InvocationTargetException e) {
-			throw new ReflectionUIError(e);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			return;
+		IValidationJob validationJob = data.getValueAbstractFormCustomValidationJob();
+		if (validationJob == null) {
+			AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(this);
+			Form[] form = new Form[1];
+			try {
+				SwingUtilities.invokeAndWait(new Runnable() {
+					@Override
+					public void run() {
+						form[0] = subDialogBuilder.createEditorForm(false, false);
+					}
+				});
+			} catch (InvocationTargetException e) {
+				throw new ReflectionUIError(e);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				return;
+			}
+			validationJob = (sessionArg) -> form[0].validateForm(sessionArg);
 		}
-		try {
-			form[0].validateForm(session);
-		} catch (Exception e) {
-			throw new ReflectionUIError("Validation failed", e);
-		}
+		validationJob.validate(session);
 	}
 
 	@Override

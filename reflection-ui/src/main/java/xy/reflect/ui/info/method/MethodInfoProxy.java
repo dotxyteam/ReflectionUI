@@ -10,6 +10,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * Method information proxy class. The methods in this class should be
@@ -48,6 +49,10 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 
 	public boolean isEnabled(Object object) {
 		return base.isEnabled(object);
+	}
+
+	public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+		return base.getReturnValueAbstractFormValidationJob(object, returnValue);
 	}
 
 	public boolean isReturnValueValidityDetectionEnabled() {

@@ -12,6 +12,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.factory.InvocationDataObjectFactory;
 
 /**
@@ -113,10 +114,17 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	public String getConfirmationMessage(InvocationData invocationData) {
 		return getMethod().getConfirmationMessage(getObject(), invocationData);
 	}
+
 	@Override
 	public boolean isReturnValueValidityDetectionEnabled() {
 		return getMethod().isReturnValueValidityDetectionEnabled();
 	}
+
+	@Override
+	public IValidationJob getReturnValueAbstractFormCustomValidationJob(Object returnValue) {
+		return getMethod().getReturnValueAbstractFormValidationJob(getObject(), returnValue);
+	}
+
 	@Override
 	public boolean isNullReturnValueDistinct() {
 		return getMethod().isNullReturnValueDistinct();
@@ -188,7 +196,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 
 	@Override
 	public Runnable getLastFormRefreshStateRestorationJob() {
-		if(getObject() == null) {
+		if (getObject() == null) {
 			return null;
 		}
 		ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getObject()));

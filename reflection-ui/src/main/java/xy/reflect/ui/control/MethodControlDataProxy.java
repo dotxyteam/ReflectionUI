@@ -10,6 +10,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * Method control data proxy class. The methods in this class should be
@@ -36,6 +37,10 @@ public class MethodControlDataProxy implements IMethodControlData {
 
 	public boolean isEnabled() {
 		return base.isEnabled();
+	}
+
+	public IValidationJob getReturnValueAbstractFormCustomValidationJob(Object returnValue) {
+		return base.getReturnValueAbstractFormCustomValidationJob(returnValue);
 	}
 
 	public boolean isReturnValueValidityDetectionEnabled() {

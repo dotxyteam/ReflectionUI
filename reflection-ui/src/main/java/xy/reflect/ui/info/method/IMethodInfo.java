@@ -11,6 +11,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -45,6 +46,11 @@ public interface IMethodInfo extends IInfo {
 		@Override
 		public boolean isEnabled(Object object) {
 			return true;
+		}
+
+		@Override
+		public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+			return null;
 		}
 
 		@Override
@@ -336,4 +342,18 @@ public interface IMethodInfo extends IInfo {
 	 *         the method.
 	 */
 	boolean isReturnValueValidityDetectionEnabled();
+
+	/**
+	 * @param object      The object offering this method or null (if the method is
+	 *                    static or is a constructor)
+	 * @param returnValue The method return value.
+	 * @return a validation task that can be used to fully validate the state of the
+	 *         given return value in the absence of a concrete form that would have
+	 *         orchestrated the return value's validation. Note that this method was
+	 *         added for optimization purposes because, with the Swing toolkit, it
+	 *         was mandatory to create any form from the UI thread, which was
+	 *         therefore slowed down, just to have a form orchestrating the
+	 *         validation.
+	 */
+	IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue);
 }

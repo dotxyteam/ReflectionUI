@@ -26,6 +26,7 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo.CategoriesStyle;
 import xy.reflect.ui.info.type.ITypeInfo.FieldsLayout;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.ITypeInfo.MethodsLayout;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
@@ -347,6 +348,49 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @param field      The field information.
+	 * @param object     Parameter of
+	 *                   {@link IFieldInfo#getValueAbstractFormValidationJob(Object)}.
+	 * @param objectType The parent type information.
+	 * @return the result of
+	 *         {@link IFieldInfo#getValueAbstractFormValidationJob(Object)}
+	 *         unless overridden.
+	 */
+	protected IValidationJob getValueAbstractFormValidationJob(IFieldInfo field, Object object,
+			ITypeInfo objectType) {
+		return field.getValueAbstractFormValidationJob(object);
+	}
+
+	/**
+	 * @param method      The method information.
+	 * @param object      Parameter of
+	 *                    {@link IMethodInfo#getReturnValueAbstractFormValidationJob(Object, Object)}.
+	 * @param returnValue Parameter of
+	 *                    {@link IMethodInfo#getReturnValueAbstractFormValidationJob(Object, Object)}.
+	 * @param objectType  The parent type information.
+	 * @return the result of
+	 *         {@link IMethodInfo#getReturnValueAbstractFormValidationJob(Object, Object)}
+	 *         unless overridden.
+	 */
+	protected IValidationJob getReturnValueAbstractFormValidationJob(IMethodInfo method, Object object,
+			Object returnValue, ITypeInfo objectType) {
+		return method.getReturnValueAbstractFormValidationJob(object, returnValue);
+	}
+
+	/**
+	 * @param listType     The list type information.
+	 * @param itemPosition Parameter of
+	 *                     {@link IListTypeInfo#getListItemAbstractFormValidationJob(ItemPosition)}.
+	 * @return the result of
+	 *         {@link IListTypeInfo#getListItemAbstractFormValidationJob(ItemPosition)}
+	 *         unless overridden.
+	 */
+	protected IValidationJob getListItemAbstractFormValidationJob(IListTypeInfo listType,
+			ItemPosition itemPosition) {
+		return listType.getListItemAbstractFormValidationJob(itemPosition);
 	}
 
 	/**
@@ -2584,6 +2628,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
+		public IValidationJob getListItemAbstractFormValidationJob(ItemPosition itemPosition) {
+			return InfoProxyFactory.this.getListItemAbstractFormValidationJob((IListTypeInfo) base, itemPosition);
+		}
+
+		@Override
 		public boolean isItemNodeValidityDetectionEnabled(ItemPosition itemPosition) {
 			return InfoProxyFactory.this.isItemNodeValidityDetectionEnabled((IListTypeInfo) base, itemPosition);
 		}
@@ -2779,6 +2828,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isRelevant(Object object) {
 			return InfoProxyFactory.this.isRelevant(base, object, objectType);
+		}
+
+		@Override
+		public IValidationJob getValueAbstractFormValidationJob(Object object) {
+			return InfoProxyFactory.this.getValueAbstractFormValidationJob(base, object, objectType);
 		}
 
 		@Override
@@ -2990,6 +3044,12 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isRelevant(Object object) {
 			return InfoProxyFactory.this.isRelevant(base, object, objectType);
+		}
+
+		@Override
+		public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+			return InfoProxyFactory.this.getReturnValueAbstractFormValidationJob(base, object, returnValue,
+					objectType);
 		}
 
 		@Override

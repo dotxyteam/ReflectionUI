@@ -379,10 +379,13 @@ public interface ITypeInfo extends IInfo {
 	String toString(Object object);
 
 	/**
-	 * Validates the state of the given object. An exception is thrown if the object
-	 * state is not valid. Otherwise the object is considered as valid. Note that
-	 * this method is executed concurrently by a validation thread while the given
-	 * object is possibly accessed/modified by another thread.
+	 * Validates the state of the object passed as a parameter. The validation
+	 * should not affect any sub-objects if they have their own validation logic
+	 * implemented in their {@link ITypeInfo#validate(Object, ValidationSession)}
+	 * methods. An exception is thrown if the state of the object is invalid.
+	 * Otherwise, the object is considered valid. Note that this method is executed
+	 * by a specific validation thread, possibly at the same time as the UI thread
+	 * accesses/modifies the object.
 	 * 
 	 * @param object  Any object of the current type.
 	 * @param session The current validation session object.
@@ -578,6 +581,23 @@ public interface ITypeInfo extends IInfo {
 		public static CategoriesStyle getDefault() {
 			return STANDARD;
 		}
+	}
+
+	/**
+	 * Custom object validation routines interface.
+	 * 
+	 * @author olitank
+	 *
+	 */
+	@FunctionalInterface
+	public interface IValidationJob {
+		/**
+		 * Validates the state of the underlying object.
+		 * 
+		 * @param session The current validation session object.
+		 * @throws Exception If the state of the underlying object is not valid.
+		 */
+		void validate(ValidationSession session) throws Exception;
 	}
 
 }

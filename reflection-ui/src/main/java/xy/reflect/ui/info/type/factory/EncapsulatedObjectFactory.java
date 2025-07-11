@@ -23,6 +23,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.PrecomputedTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
@@ -874,6 +875,11 @@ public class EncapsulatedObjectFactory {
 		@Override
 		public IInfoFilter getFormControlFilter() {
 			return fieldFormControlFilter;
+		}
+
+		@Override
+		public IValidationJob getValueAbstractFormValidationJob(Object object) {
+			return null;
 		}
 
 		@Override

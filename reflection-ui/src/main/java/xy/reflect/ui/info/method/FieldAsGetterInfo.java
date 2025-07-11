@@ -13,6 +13,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -78,6 +79,11 @@ public class FieldAsGetterInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public boolean isReturnValueValidityDetectionEnabled() {
 		return false;
+	}
+
+	@Override
+	public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+		return null;
 	}
 
 	@Override

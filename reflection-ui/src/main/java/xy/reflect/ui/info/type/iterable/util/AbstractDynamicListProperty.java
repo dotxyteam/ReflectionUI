@@ -10,6 +10,7 @@ import xy.reflect.ui.info.InfoCategory;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
@@ -156,6 +157,11 @@ public abstract class AbstractDynamicListProperty extends AbstractInfo implement
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return false;
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return null;
 	}
 
 	@Override

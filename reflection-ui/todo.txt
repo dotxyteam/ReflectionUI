@@ -1,6 +1,6 @@
+- ListControl.getMasterListControl() wrongly compares the list value
+but this equality that cannot guarantee that it is a sub-list 
 - add tooltip text option for ToggleButton and CustomCheckBox ???
--  check implementation of info proxy factories that need to wrap/unwrap values
-(is is easy to forget to update them after adding an info method)
 - remove the fonts customization options ???
 - IInfo equals() and hashCode() methods should take the ReflectionUI field into account
 - IListStructuralInfo methods do not need the ItemPosition parameter as

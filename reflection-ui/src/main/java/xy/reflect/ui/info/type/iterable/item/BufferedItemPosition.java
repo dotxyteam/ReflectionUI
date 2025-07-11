@@ -38,6 +38,7 @@ public class BufferedItemPosition extends ItemPosition {
 
 	};
 	protected Object fakeItem;
+	protected Object bufferedSubListValue;
 	protected Object[] bufferedSubListRawValue;
 	protected IFieldInfo bufferedSubListField;
 	protected WeakHashMap<BufferedItemPosition, Integer> indexByBufferedSubItemPosition = new WeakHashMap<BufferedItemPosition, Integer>();
@@ -89,6 +90,7 @@ public class BufferedItemPosition extends ItemPosition {
 		if (isRoot()) {
 			((AbstractBufferedItemPositionFactory) factory).refresh();
 		} else {
+			((BufferedItemPosition) parentItemPosition).bufferedSubListValue = null;
 			((BufferedItemPosition) parentItemPosition).bufferedSubListRawValue = null;
 			((BufferedItemPosition) parentItemPosition).bufferedSubListField = null;
 		}
@@ -121,6 +123,7 @@ public class BufferedItemPosition extends ItemPosition {
 				}
 			}
 		}
+		bufferedSubListValue = null;
 		bufferedSubListRawValue = null;
 		bufferedSubListField = null;
 	}
@@ -177,6 +180,14 @@ public class BufferedItemPosition extends ItemPosition {
 	}
 
 	@Override
+	public Object retrieveSubListValue() {
+		if (bufferedSubListValue == null) {
+			bufferedSubListValue = super.retrieveSubListValue();
+		}
+		return bufferedSubListValue;
+	}
+
+	@Override
 	public Object[] retrieveSubListRawValue() {
 		if (bufferedSubListRawValue == null) {
 			bufferedSubListRawValue = super.retrieveSubListRawValue();
@@ -188,22 +199,26 @@ public class BufferedItemPosition extends ItemPosition {
 	public void updateContainingList(Object[] newContainingListRawValue) {
 		super.updateContainingList(newContainingListRawValue);
 		refreshContainingList();
-		changeContainingListBuffer(retrieveContainingListRawValue());
+		changeContainingListBuffer(retrieveContainingListValue(), retrieveContainingListRawValue());
 	}
 
 	/**
 	 * Updates the buffer of the containing list (or the factory if the current item
 	 * position is root). Note that this method is not recursive.
 	 * 
+	 * @param newContainingListValue    The object that should replace the buffered
+	 *                                  containing list.
 	 * @param newContainingListRawValue The array that contains the items that
-	 *                                  should replace all the containing list
-	 *                                  items.
+	 *                                  should replace all the buffered containing
+	 *                                  list items.
 	 */
-	public void changeContainingListBuffer(Object[] newContainingListRawValue) {
+	public void changeContainingListBuffer(Object newContainingListValue, Object[] newContainingListRawValue) {
 		if (isRoot()) {
+			getFactory().bufferedRootListValue = newContainingListValue;
 			getFactory().bufferedRootListRawValue = Arrays.copyOf(newContainingListRawValue,
 					newContainingListRawValue.length);
 		} else {
+			getParentItemPosition().bufferedSubListValue = newContainingListValue;
 			getParentItemPosition().bufferedSubListRawValue = Arrays.copyOf(newContainingListRawValue,
 					newContainingListRawValue.length);
 		}
@@ -226,6 +241,7 @@ public class BufferedItemPosition extends ItemPosition {
 		BufferedItemPosition result = (BufferedItemPosition) super.getSubItemPosition(index);
 		if (result != null) {
 			result.bufferedSubListField = null;
+			result.bufferedSubListValue = null;
 			result.bufferedSubListRawValue = null;
 			result.indexByBufferedSubItemPosition = new WeakHashMap<BufferedItemPosition, Integer>();
 		}

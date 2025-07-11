@@ -10,6 +10,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 
 /**
@@ -35,6 +36,10 @@ public class DynamicListActionProxy implements IDynamicListAction {
 	@Override
 	public String getCaption() {
 		return base.getCaption();
+	}
+
+	public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+		return base.getReturnValueAbstractFormValidationJob(object, returnValue);
 	}
 
 	public boolean isReturnValueValidityDetectionEnabled() {

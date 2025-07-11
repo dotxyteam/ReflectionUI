@@ -14,6 +14,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.parameter.ParameterInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.FutureActionBuilder;
@@ -301,6 +302,12 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public boolean isReturnValueValidityDetectionEnabled() {
 		return theSubMethod.isReturnValueDetached();
+	}
+
+	@Override
+	public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
+		Object fieldValue = expectTheFieldValue(object);
+		return theSubMethod.getReturnValueAbstractFormValidationJob(fieldValue, returnValue);
 	}
 
 	@Override

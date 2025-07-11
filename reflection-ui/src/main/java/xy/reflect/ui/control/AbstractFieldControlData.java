@@ -14,6 +14,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.factory.FieldAlternativeConstructorsInstaller;
 import xy.reflect.ui.info.type.factory.FieldAlternativeListItemConstructorsInstaller;
 
@@ -136,6 +137,11 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return getField().isValueValidityDetectionEnabled();
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormCustomValidationJob() {
+		return getField().getValueAbstractFormValidationJob(getObject());
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -213,6 +214,11 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return false;
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return null;
 	}
 
 	@Override

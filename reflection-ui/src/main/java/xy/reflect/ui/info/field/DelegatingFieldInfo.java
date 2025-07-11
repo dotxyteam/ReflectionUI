@@ -9,6 +9,7 @@ import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * Field proxy that delegates to another field that can be replaced dynamically.
@@ -184,6 +185,11 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return getDelegate().isValueValidityDetectionEnabled();
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return getDelegate().getValueAbstractFormValidationJob(object);
 	}
 
 	@Override

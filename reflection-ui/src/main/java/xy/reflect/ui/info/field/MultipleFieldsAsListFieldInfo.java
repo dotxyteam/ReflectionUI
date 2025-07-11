@@ -20,6 +20,7 @@ import xy.reflect.ui.info.menu.MenuModel;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.iterable.StandardCollectionTypeInfo;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -227,6 +228,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	@Override
 	public boolean isValueValidityDetectionEnabled() {
 		return false;
+	}
+
+	@Override
+	public IValidationJob getValueAbstractFormValidationJob(Object object) {
+		return null;
 	}
 
 	@Override

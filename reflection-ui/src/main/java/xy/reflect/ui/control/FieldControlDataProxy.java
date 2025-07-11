@@ -10,6 +10,7 @@ import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * Field control data proxy class. The methods in this class should be overridden to provide a
@@ -97,6 +98,10 @@ public class FieldControlDataProxy implements IFieldControlData {
 
 	public boolean isValueValidityDetectionEnabled() {
 		return base.isValueValidityDetectionEnabled();
+	}
+
+	public IValidationJob getValueAbstractFormCustomValidationJob() {
+		return base.getValueAbstractFormCustomValidationJob();
 	}
 
 	public Map<String, Object> getSpecificProperties() {
