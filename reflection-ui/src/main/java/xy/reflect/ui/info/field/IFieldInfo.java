@@ -205,7 +205,12 @@ public interface IFieldInfo extends IInfo {
 	/**
 	 * @param object The object hosting the field value or null if the field is
 	 *               static.
-	 * @return the value of this field extracted from the given object.
+	 * @return the value of this field extracted from the given object. Note that
+	 *         null may be returned (even if {@link #isNullValueDistinct()} returns
+	 *         false). All field controls must then support null (not crash). If
+	 *         null is returned and {@link #isNullValueDistinct()} returns true then
+	 *         the null value should be distinctly displayed (not like a default
+	 *         non-null value).
 	 */
 	Object getValue(Object object);
 
@@ -295,8 +300,8 @@ public interface IFieldInfo extends IInfo {
 	boolean isGetOnly();
 
 	/**
-	 * @return true if and only if this field value update should not be stored in a
-	 *         modification stack (in order to be reverted).
+	 * @return true if and only if this field value updates should not be stored in
+	 *         a modification stack (in order to be reverted).
 	 */
 	boolean isTransient();
 

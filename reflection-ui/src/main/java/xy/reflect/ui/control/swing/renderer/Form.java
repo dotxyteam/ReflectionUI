@@ -122,7 +122,7 @@ public class Form extends ImagePanel {
 	protected ControlPanel scrollPane;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
-	protected List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
+	protected List<IFormListener> listeners = new ArrayList<IFormListener>();
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
 	protected boolean absolutelyVisible = false;
@@ -439,9 +439,15 @@ public class Form extends ImagePanel {
 			}
 			if (!Thread.currentThread().isInterrupted()) {
 				swingRenderer.getReflectionUI().getValidationErrorRegistry().cancelAttribution(object, session);
+				for (IFormListener l : listeners) {
+					l.afterValidation(null);
+				}
 			}
 		} catch (Exception e) {
 			swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(object, e, session);
+			for (IFormListener l : listeners) {
+				l.afterValidation(e);
+			}
 			throw e;
 		}
 	}
@@ -1480,7 +1486,7 @@ public class Form extends ImagePanel {
 		}
 		refreshValidityComponents();
 		finalizeFormUpdate();
-		for (IRefreshListener l : refreshListeners) {
+		for (IFormListener l : listeners) {
 			l.onRefresh(refreshStructure);
 		}
 		objectType.onFormRefresh(object);
@@ -2208,11 +2214,11 @@ public class Form extends ImagePanel {
 	}
 
 	/**
-	 * @return the modifiable list of listeners that will get the form refreshing
+	 * @return the modifiable list of listeners that will get the form events
 	 *         notifications.
 	 */
-	public List<IRefreshListener> getRefreshListeners() {
-		return refreshListeners;
+	public List<IFormListener> getListeners() {
+		return listeners;
 	}
 
 	@Override
@@ -2221,12 +2227,12 @@ public class Form extends ImagePanel {
 	}
 
 	/**
-	 * Listener class allowing to get notifications when a form is refreshed.
+	 * Listener class allowing to get notifications on some form events.
 	 * 
 	 * @author olitank
 	 *
 	 */
-	public interface IRefreshListener {
+	public interface IFormListener {
 
 		/**
 		 * Called when the source form is refreshed.
@@ -2235,6 +2241,13 @@ public class Form extends ImagePanel {
 		 *                         {@link Form#refresh(boolean)}.
 		 */
 		void onRefresh(boolean refreshStructure);
+
+		/**
+		 * Called after the source form is validated.
+		 * 
+		 * @param validationError The validation error or null if the form is valid.
+		 */
+		void afterValidation(Exception validationError);
 
 	}
 

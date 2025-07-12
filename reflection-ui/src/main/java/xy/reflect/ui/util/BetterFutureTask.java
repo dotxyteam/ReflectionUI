@@ -93,7 +93,7 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 					thread.interrupt();
 				} else {
 					if (!semaphore.tryAcquire()) {
-						throw new UnknownError();
+						throw new AssertionError();
 					}
 					break;
 				}

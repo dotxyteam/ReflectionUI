@@ -121,7 +121,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public IValidationJob getReturnValueAbstractFormCustomValidationJob(Object returnValue) {
+	public IValidationJob getReturnValueAbstractFormValidationJob(Object returnValue) {
 		return getMethod().getReturnValueAbstractFormValidationJob(getObject(), returnValue);
 	}
 
@@ -214,7 +214,7 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public String getMethodSignature() {
+	public String getSignature() {
 		return getMethod().getSignature();
 	}
 

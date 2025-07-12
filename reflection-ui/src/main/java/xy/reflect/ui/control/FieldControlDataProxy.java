@@ -100,8 +100,8 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.isValueValidityDetectionEnabled();
 	}
 
-	public IValidationJob getValueAbstractFormCustomValidationJob() {
-		return base.getValueAbstractFormCustomValidationJob();
+	public IValidationJob getValueAbstractFormValidationJob() {
+		return base.getValueAbstractFormValidationJob();
 	}
 
 	public Map<String, Object> getSpecificProperties() {

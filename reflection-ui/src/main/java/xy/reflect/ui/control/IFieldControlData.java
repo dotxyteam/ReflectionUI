@@ -45,139 +45,170 @@ import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 public interface IFieldControlData {
 
 	/**
-	 * Retrieves the underlying field value.
+	 * Behaves like {@link IFieldInfo#getValue(Object)} with a specific underlying
+	 * object.
 	 * 
-	 * Note that null may be returned (even if {@link #isNullValueDistinct()}
-	 * returns false). All field controls must then support null (not crash). If
-	 * null is returned and {@link #isNullValueDistinct()} returns true then the
-	 * null value must be distinctly displayed (not like a default non-null value).
-	 * 
-	 * @return the value that the control must display.
+	 * @return the value corresponding to the behavior described above.
 	 */
 	Object getValue();
 
 	/**
-	 * Updates the underlying field with the provided value.
+	 * Behaves like {@link IFieldInfo#setValue(Object, Object)} with a specific
+	 * underlying object.
 	 * 
-	 * @param value The new value.
+	 * @param value Similar to the parameter of
+	 *              {@link IFieldInfo#setValue(Object, Object)}.
 	 */
 	void setValue(Object value);
 
 	/**
-	 * @param newValue The new value.
-	 * @return a job that can revert the next value update or null if the default
-	 *         undo job should be used.
+	 * Behaves like {@link IFieldInfo#getNextUpdateCustomUndoJob(Object, Object)}
+	 * with a specific underlying object.
+	 * 
+	 * @param newValue Similar to the parameter of
+	 *                 {@link IFieldInfo#getNextUpdateCustomUndoJob(Object, Object)}.
+	 * @return the value corresponding to the behavior described above.
 	 */
 	Runnable getNextUpdateCustomUndoJob(Object newValue);
 
 	/**
-	 * @param newValue The new value.
-	 * @return a job that can replay the previous value update or null if the
-	 *         default redo job should be used.
+	 * Behaves like
+	 * {@link IFieldInfo#getPreviousUpdateCustomRedoJob(Object, Object)} with a
+	 * specific underlying object.
+	 * 
+	 * @param newValue Similar to the parameter of
+	 *                 {@link IFieldInfo#getPreviousUpdateCustomRedoJob(Object, Object)}.
+	 * @return the value corresponding to the behavior described above.
 	 */
 	Runnable getPreviousUpdateCustomRedoJob(Object newValue);
 
 	/**
-	 * @return the name that the field control must display.
+	 * Behaves like {@link IFieldInfo#getCaption()}. *
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	String getCaption();
 
 	/**
-	 * @return the help text of the field control.
+	 * Behaves like {@link IFieldInfo#getOnlineHelp()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	String getOnlineHelp();
 
 	/**
-	 * @return the type information of the underlying field.
+	 * Behaves like {@link IFieldInfo#getType()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	ITypeInfo getType();
 
 	/**
-	 * @return false if and only if the control value can be set. Otherwise
-	 *         {@link #setValue(Object)} should not be called.
+	 * Behaves like {@link IFieldInfo#isGetOnly()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	boolean isGetOnly();
 
 	/**
-	 * @return true if and only if this control value update should not be stored in
-	 *         a modification stack.
+	 * Behaves like {@link IFieldInfo#isTransient()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	boolean isTransient();
 
 	/**
-	 * @return the value return mode of this control data. It may impact the
-	 *         behavior of the control.
+	 * Behaves like {@link IFieldInfo#getValueReturnMode()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	ValueReturnMode getValueReturnMode();
 
 	/**
-	 * @return true if and only if the control must distinctly display and allow to
-	 *         set the null value. This is usually needed if a null value has a
-	 *         special meaning different from "empty/default value" for the
-	 *         developer. Note that the null value may be returned by
-	 *         {@link #getValue()} even if it is not required to be distinctly
-	 *         displayed (false returned by the current method).
+	 * Behaves like {@link IFieldInfo#isNullValueDistinct()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	boolean isNullValueDistinct();
 
 	/**
-	 * @return a text that should be displayed by the control to describe the null
-	 *         value.
+	 * Behaves like {@link IFieldInfo#getNullValueLabel()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	String getNullValueLabel();
 
 	/**
-	 * @return true if the control associated with this field control data must be a
-	 *         generic form. If false is returned then a custom control may be
-	 *         displayed. Note that the form is either embedded in the parent form
-	 *         or displayed in a child dialog according to the return value of
-	 *         {@link #isFormControlEmbedded()}.
+	 * Behaves like {@link IFieldInfo#isFormControlMandatory()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	boolean isFormControlMandatory();
 
 	/**
-	 * @return whether the generic form associated with this field control data is
-	 *         embedded in the parent form or displayed in a child dialog. Note that
-	 *         this method has no impact if a custom control is displayed instead of
-	 *         a generic form.
+	 * Behaves like {@link IFieldInfo#isFormControlEmbedded()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	boolean isFormControlEmbedded();
 
 	/**
-	 * @return an object used to filter out some fields and methods from the generic
-	 *         form associated with this field control data. Note that this method
-	 *         has no impact if a custom control is displayed instead of a generic
-	 *         form.
+	 * Behaves like {@link IFieldInfo#getFormControlFilter()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	IInfoFilter getFormControlFilter();
 
 	/**
-	 * @return custom properties intended to be used to extend the this field
-	 *         control data for specific renderers.
+	 * Behaves like {@link IFieldInfo#getSpecificProperties()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
 	 */
 	Map<String, Object> getSpecificProperties();
 
 	/**
-	 * @return the text color that the control must use on its non-editable parts or
-	 *         null if the default text color should be used.
+	 * Behaves like {@link ITypeInfo#getLastFormRefreshStateRestorationJob(Object)}
+	 * with a specific underlying object.
+	 * 
+	 * @return the value corresponding to the behavior described above.
+	 */
+	Runnable getLastFormRefreshStateRestorationJob();
+
+	/**
+	 * Behaves like {@link IFieldInfo#isValueValidityDetectionEnabled()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
+	 */
+	boolean isValueValidityDetectionEnabled();
+
+	/**
+	 * Behaves like {@link IFieldInfo#getValueAbstractFormValidationJob(Object)}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
+	 */
+	IValidationJob getValueAbstractFormValidationJob();
+
+	/**
+	 * @return the text color that the control should use on its non-editable parts
+	 *         or null if the default text color should be used.
 	 */
 	ColorSpecification getLabelForegroundColor();
 
 	/**
-	 * @return the resource location of a font object that the control must use on
+	 * @return the resource location of a font object that the control should use on
 	 *         its non-editable parts to display text or null if the default font
 	 *         should be used.
 	 */
 	ResourcePath getLabelCustomFontResourcePath();
 
 	/**
-	 * @return the border color that the control must use or null if the default
+	 * @return the border color that the control should use or null if the default
 	 *         border should be used.
 	 */
 	ColorSpecification getBorderColor();
 
 	/**
-	 * @return the background color that the control must use on its non-editable
+	 * @return the background color that the control should use on its non-editable
 	 *         parts or null if the default background color should be used. Note
 	 *         that this color is intended to be used in combination with the
 	 *         foreground color returned by
@@ -186,23 +217,23 @@ public interface IFieldControlData {
 	ColorSpecification getNonEditableBackgroundColor();
 
 	/**
-	 * @return the text color that the control must use on its non-editable parts or
-	 *         null if the default text color should be used. Note that this color
-	 *         must be used in combination with the background color returned by
-	 *         {@link #getNonEditableBackgroundColor()}.
+	 * @return the text color that the control should use on its non-editable parts
+	 *         or null if the default text color should be used. Note that this
+	 *         color must be used in combination with the background color returned
+	 *         by {@link #getNonEditableBackgroundColor()}.
 	 */
 	ColorSpecification getNonEditableForegroundColor();
 
 	/**
-	 * @return the background color that the control must use on its editable parts
-	 *         or null if the default background color should be used. Note that
-	 *         this color is intended to be used in combination with the foreground
-	 *         color returned by {@link #getEditorForegroundColor()}.
+	 * @return the background color that the control should use on its editable
+	 *         parts or null if the default background color should be used. Note
+	 *         that this color is intended to be used in combination with the
+	 *         foreground color returned by {@link #getEditorForegroundColor()}.
 	 */
 	ColorSpecification getEditorBackgroundColor();
 
 	/**
-	 * @return the text color that the control must use on its editable parts or
+	 * @return the text color that the control should use on its editable parts or
 	 *         null if the default text color should be used. Note that this color
 	 *         must be used in combination with the background color returned by
 	 *         {@link #getEditorBackgroundColor()}.
@@ -210,7 +241,7 @@ public interface IFieldControlData {
 	ColorSpecification getEditorForegroundColor();
 
 	/**
-	 * @return the resource location of a font object that the control must use on
+	 * @return the resource location of a font object that the control should use on
 	 *         its editable parts to display text or null if the default font should
 	 *         be used.
 	 */
@@ -225,48 +256,30 @@ public interface IFieldControlData {
 
 	/**
 	 * @return the resource location of a font object that the buttons of the
-	 *         control must use to display text or null if the control buttons must
-	 *         use their default font.
+	 *         control should use to display text or null if the control buttons
+	 *         must use their default font.
 	 */
 	ResourcePath getButtonCustomFontResourcePath();
 
 	/**
-	 * @return the background color that the buttons of the control must use as
+	 * @return the background color that the buttons of the control should use as
 	 *         their background color or null if the control buttons must have their
 	 *         default background color.
 	 */
 	ColorSpecification getButtonBackgroundColor();
 
 	/**
-	 * @return the text color that the buttons of the control must use as their text
-	 *         color or null if the control buttons must have the default text
+	 * @return the text color that the buttons of the control should use as their
+	 *         text color or null if the control buttons must have the default text
 	 *         color.
 	 */
 	ColorSpecification getButtonForegroundColor();
 
 	/**
-	 * @return the border color that the buttons of the control must use as their
+	 * @return the border color that the buttons of the control should use as their
 	 *         border color or null if the control buttons must have their default
 	 *         border.
 	 */
 	ColorSpecification getButtonBorderColor();
 
-	/**
-	 * @return a job (may be null) that restores the state of the underlying object
-	 *         when its form was last refreshed.
-	 */
-	Runnable getLastFormRefreshStateRestorationJob();
-
-	/**
-	 * @return whether validation errors should be checked for the value of the
-	 *         field.
-	 */
-	boolean isValueValidityDetectionEnabled();
-
-	/**
-	 * @return a validation task that can be used to fully validate the state of the
-	 *         field value extracted from the underlying object in the absence of a
-	 *         concrete form that would have orchestrated the object's validation.
-	 */
-	IValidationJob getValueAbstractFormCustomValidationJob();
 }

@@ -130,8 +130,8 @@ public class MethodAction extends AbstractAction {
 
 	public InvocationData openMethoExecutionSettingsDialog(final Component activatorComponent) {
 		final InvocationData invocationData;
-		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getMethodSignature())) {
-			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getMethodSignature());
+		if (swingRenderer.getLastInvocationDataByMethodSignature().containsKey(data.getSignature())) {
+			invocationData = swingRenderer.getLastInvocationDataByMethodSignature().get(data.getSignature());
 		} else {
 			invocationData = data.createInvocationData();
 		}
@@ -278,7 +278,7 @@ public class MethodAction extends AbstractAction {
 
 	public void invokeAndObtainReturnValue(InvocationData invocationData, Component activatorComponent) {
 		if (data.getParameters().size() > 0) {
-			swingRenderer.getLastInvocationDataByMethodSignature().put(data.getMethodSignature(), invocationData);
+			swingRenderer.getLastInvocationDataByMethodSignature().put(data.getSignature(), invocationData);
 		}
 		returnValueObtained = false;
 		returnValue = makeMethodModificationsUndoable(indicateWhenBusy(data, activatorComponent))

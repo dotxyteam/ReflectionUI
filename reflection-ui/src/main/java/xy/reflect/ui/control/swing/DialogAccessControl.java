@@ -301,7 +301,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 
 	@Override
 	public void validateControl(ValidationSession session) throws Exception {
-		IValidationJob validationJob = data.getValueAbstractFormCustomValidationJob();
+		IValidationJob validationJob = data.getValueAbstractFormValidationJob();
 		if (validationJob == null) {
 			AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(this);
 			Form[] form = new Form[1];

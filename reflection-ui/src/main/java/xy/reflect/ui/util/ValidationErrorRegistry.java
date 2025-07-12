@@ -66,7 +66,11 @@ public class ValidationErrorRegistry {
 	 * @param session
 	 */
 	public void cancelAttribution(Object object, ValidationSession session) {
-		attributionMap.remove(getValidationErrorMapKey(object, session));
+		Object attributionKey = getValidationErrorMapKey(object, session);
+		if(!attributionMap.containsKey(attributionKey)) {
+			return;
+		}
+		attributionMap.remove(attributionKey);
 	}
 
 	/**

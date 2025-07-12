@@ -128,11 +128,11 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 				if (data.getParameters().size() > 0) {
 					throw new ReflectionUIError(
 							"Cannot validate the return value of this method because it requires parameter value(s): '"
-									+ data.getMethodSignature() + "'");
+									+ data.getSignature() + "'");
 				}
 				InvocationData invocationData = prepare(null);
 				returnValue = input.getControlData().invoke(invocationData);
-				validationJob[0] = data.getReturnValueAbstractFormCustomValidationJob(returnValue);
+				validationJob[0] = data.getReturnValueAbstractFormValidationJob(returnValue);
 				if (validationJob[0] == null) {
 					Form[] form = new Form[1];
 					try {

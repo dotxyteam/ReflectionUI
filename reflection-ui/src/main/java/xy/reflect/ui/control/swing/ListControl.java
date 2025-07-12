@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
@@ -126,7 +124,6 @@ import xy.reflect.ui.undo.MethodControlDataModification;
 import xy.reflect.ui.undo.ModificationStack;
 import xy.reflect.ui.undo.UndoOrder;
 import xy.reflect.ui.util.Accessor;
-import xy.reflect.ui.util.BetterFutureTask;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.Mapper;
@@ -2201,9 +2198,28 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				IValidationJob validationJob = itemPosition.getContainingListType()
+				IValidationJob validationJob;
+				IValidationJob abstractFormValidationJob = itemPosition.getContainingListType()
 						.getListItemAbstractFormValidationJob(itemPosition);
-				if (validationJob == null) {
+				if (abstractFormValidationJob != null) {
+					/*
+					 * Manage validation error attribution since it will not be managed
+					 * automatically by a concrete form validation.
+					 */
+					validationJob = (sessionArg) -> {
+						try {
+							abstractFormValidationJob.validate(sessionArg);
+							if (!Thread.currentThread().isInterrupted()) {
+								swingRenderer.getReflectionUI().getValidationErrorRegistry()
+										.cancelAttribution(itemPosition.getItem(), session);
+							}
+						} catch (Exception e) {
+							swingRenderer.getReflectionUI().getValidationErrorRegistry()
+									.attribute(itemPosition.getItem(), e, session);
+							throw e;
+						}
+					};
+				} else {
 					ItemFormBuilder itemUIBuilder = createItemFormBuilder(itemPosition);
 					Form[] itemForm = new Form[1];
 					try {
@@ -2223,13 +2239,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 				try {
 					validationJob.validate(session);
-					if (!Thread.currentThread().isInterrupted()) {
-						swingRenderer.getReflectionUI().getValidationErrorRegistry()
-								.cancelAttribution(itemPosition.getItem(), session);
-					}
 				} catch (Exception e) {
-					swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(itemPosition.getItem(), e,
-							session);
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
 				return VisitStatus.VISIT_NOT_INTERRUPTED;
@@ -2748,20 +2758,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		protected void postCopyValidationErrorFromCapsuleToItem(Form form) {
-			form.getRefreshListeners().add(new Form.IRefreshListener() {
+			form.getListeners().add(new Form.IFormListener() {
 				@Override
 				public void onRefresh(boolean refreshStructure) {
+				}
+
+				@Override
+				public void afterValidation(Exception validationError) {
 					itemValidationErrorsCollectingExecutor.submit(new Runnable() {
 						@Override
 						public void run() {
-							BetterFutureTask<Boolean> validationTask = form.getCurrentValidationTask();
-							if (validationTask != null) {
-								try {
-									validationTask.get();
-								} catch (CancellationException | InterruptedException | ExecutionException e) {
-									return;
-								}
-							}
 							copyValidationErrorFromCapsuleToItem(form.getObject());
 						}
 					});

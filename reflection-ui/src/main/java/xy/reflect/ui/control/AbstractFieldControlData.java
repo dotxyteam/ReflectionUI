@@ -140,7 +140,7 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
-	public IValidationJob getValueAbstractFormCustomValidationJob() {
+	public IValidationJob getValueAbstractFormValidationJob() {
 		return getField().getValueAbstractFormValidationJob(getObject());
 	}
 

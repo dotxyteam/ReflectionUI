@@ -39,8 +39,8 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.isEnabled();
 	}
 
-	public IValidationJob getReturnValueAbstractFormCustomValidationJob(Object returnValue) {
-		return base.getReturnValueAbstractFormCustomValidationJob(returnValue);
+	public IValidationJob getReturnValueAbstractFormValidationJob(Object returnValue) {
+		return base.getReturnValueAbstractFormValidationJob(returnValue);
 	}
 
 	public boolean isReturnValueValidityDetectionEnabled() {
@@ -144,8 +144,8 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getCaption();
 	}
 
-	public String getMethodSignature() {
-		return base.getMethodSignature();
+	public String getSignature() {
+		return base.getSignature();
 	}
 
 	public ResourcePath getIconImagePath() {

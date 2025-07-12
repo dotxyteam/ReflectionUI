@@ -31,7 +31,7 @@ import org.jdesktop.swingx.StackLayout;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.swing.menu.SaveMenuItem;
 import xy.reflect.ui.control.swing.renderer.Form;
-import xy.reflect.ui.control.swing.renderer.Form.IRefreshListener;
+import xy.reflect.ui.control.swing.renderer.Form.IFormListener;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -60,12 +60,16 @@ public class WindowManager extends WindowAdapter {
 	protected JPanel buttonBar;
 	protected Form form;
 
-	protected IRefreshListener formRefreshListener = new Form.IRefreshListener() {
+	protected IFormListener formRefreshListener = new Form.IFormListener() {
 		@Override
 		public void onRefresh(boolean refreshStructure) {
 			if (refreshStructure) {
 				WindowManager.this.refreshWindowStructureAsMuchAsPossible();
 			}
+		}
+
+		@Override
+		public void afterValidation(Exception validationError) {
 		}
 	};
 
@@ -213,7 +217,7 @@ public class WindowManager extends WindowAdapter {
 				layoutMenuBar(form.getMenuBar());
 				form.updateMenuBar();
 				layoutStatusBar(form.getStatusBar());
-				form.getRefreshListeners().add(formRefreshListener);
+				form.getListeners().add(formRefreshListener);
 			}
 			scrollPane = createScrollPane(content);
 			layoutContent(scrollPane);
@@ -245,7 +249,7 @@ public class WindowManager extends WindowAdapter {
 			buttonBar = null;
 		}
 		if (form != null) {
-			form.getRefreshListeners().remove(formRefreshListener);
+			form.getListeners().remove(formRefreshListener);
 			form = null;
 		}
 	}
