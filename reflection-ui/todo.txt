@@ -1,5 +1,3 @@
-- ListControl.getMasterListControl() wrongly compares the list value
-but this equality that cannot guarantee that it is a sub-list 
 - add tooltip text option for ToggleButton and CustomCheckBox ???
 - remove the fonts customization options ???
 - IInfo equals() and hashCode() methods should take the ReflectionUI field into account

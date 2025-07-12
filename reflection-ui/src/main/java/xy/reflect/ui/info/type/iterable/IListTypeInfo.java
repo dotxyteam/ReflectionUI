@@ -396,18 +396,6 @@ public interface IListTypeInfo extends ITypeInfo {
 	};
 
 	/**
-	 * Key to access a boolean value indicating whether a list control (actually, a
-	 * tree control) should have (when the value is true) a master-slave
-	 * relationship with certain descendant list controls that appear in its
-	 * embedded detail view and display sublists. The value should be retrieved from
-	 * the {@link IListTypeInfo#getSpecificProperties()} map of the current list (or
-	 * sublist) type. Note that only one item should be selected. This is usually
-	 * used to detect that a "slave" list control is displaying items already
-	 * displayed by a "master" list control, and then adapt the UI behavior.
-	 */
-	public static String SUB_LIST_SLAVERY_STATUS_KEY = IListTypeInfo.class.getName() + ".SUB_LIST_SLAVERY_STATUS_KEY";
-
-	/**
 	 * @return the type of items supported by the lists of this type or null if this
 	 *         type is not known.
 	 */

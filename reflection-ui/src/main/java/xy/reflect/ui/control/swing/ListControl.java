@@ -82,6 +82,7 @@ import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.swing.ListControl.IItemsVisitor.VisitStatus;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
+import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
@@ -1833,30 +1834,29 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected ListControl getMasterListControl() {
-		ListControl firstAncestorListControl = (ListControl) SwingUtilities.getAncestorOfClass(ListControl.class, this);
-		if (firstAncestorListControl == null) {
+		FieldControlPlaceHolder fieldControlPlaceHolder = (FieldControlPlaceHolder) SwingUtilities
+				.getAncestorOfClass(FieldControlPlaceHolder.class, this);
+		if (fieldControlPlaceHolder == null) {
 			return null;
 		}
-		BufferedItemPosition masterItemPosition = firstAncestorListControl.getSingleSelection();
+		ListControl masterListControl = (ListControl) SwingUtilities.getAncestorOfClass(ListControl.class,
+				fieldControlPlaceHolder);
+		if (masterListControl == null) {
+			return null;
+		}
+		BufferedItemPosition masterItemPosition = masterListControl.getSingleSelection();
 		if (masterItemPosition == null) {
 			return null;
 		}
-		if (!Boolean.TRUE.equals(masterItemPosition.getContainingListType().getSpecificProperties()
-				.get(IListTypeInfo.SUB_LIST_SLAVERY_STATUS_KEY))) {
+		IListStructuralInfo masterStructuralInfo = masterItemPosition.getContainingListType().getStructuralInfo();
+		if (masterStructuralInfo == null) {
 			return null;
 		}
-		Object masterSubListValue = masterItemPosition.retrieveSubListValue();
-		if (masterSubListValue == null) {
+		if (!masterStructuralInfo.isSlave(fieldControlPlaceHolder.getObject(), fieldControlPlaceHolder.getField(),
+				masterItemPosition)) {
 			return null;
 		}
-		IFieldInfo subListField = masterItemPosition.getSubListField();
-		if (subListField == null) {
-			return null;
-		}
-		if (!masterSubListValue.equals(itemPositionFactory.getRootListValue())) {
-			return null;
-		}
-		return firstAncestorListControl;
+		return masterListControl;
 	}
 
 	protected BufferedItemPosition toMasterListControlItemPosition(BufferedItemPosition itemPosition) {

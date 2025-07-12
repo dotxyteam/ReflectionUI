@@ -7,6 +7,7 @@ import java.util.List;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.info.type.iterable.structure.column.StringValueColumnInfo;
@@ -50,6 +51,11 @@ public class DefaultListStructuralInfo implements IListStructuralInfo {
 	@Override
 	public IInfoFilter getItemDetailsInfoFilter(ItemPosition itemPosition) {
 		return IInfoFilter.DEFAULT;
+	}
+
+	@Override
+	public boolean isSlave(Object subFormObject, IFieldInfo subFormField, BufferedItemPosition itemPosition) {
+		return false;
 	}
 
 	@Override

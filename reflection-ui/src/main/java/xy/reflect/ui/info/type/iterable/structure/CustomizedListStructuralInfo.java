@@ -20,6 +20,7 @@ import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.DefaultTypeInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
+import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPositionProxy;
 import xy.reflect.ui.info.type.iterable.structure.CustomizedListStructuralInfo.SubListGroupField.SubListGroupItemTypeInfo;
@@ -277,6 +278,21 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 			return false;
 		}
 		if (listCustomization.getTreeStructureDiscoverySettings().isSingleSubListFieldNameNeverDisplayedAsTreeNode()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isSlave(Object subFormObject, IFieldInfo subFormField, BufferedItemPosition itemPosition) {
+		if (!listCustomization.getTreeStructureDiscoverySettings().isSubListFieldControlSlave()) {
+			return false;
+		}
+		IFieldInfo subListField = getItemSubListField(itemPosition);
+		if (subListField == null) {
+			return false;
+		}
+		if (!subListField.getName().equals(subFormField.getName())) {
 			return false;
 		}
 		return true;

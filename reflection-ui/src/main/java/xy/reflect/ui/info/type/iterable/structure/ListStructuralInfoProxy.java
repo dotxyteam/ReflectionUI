@@ -1,18 +1,17 @@
 
-
-
 package xy.reflect.ui.info.type.iterable.structure;
 
 import java.util.List;
 
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.type.iterable.item.BufferedItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 
 /**
- * List structural information proxy class. The methods in this class should be overridden to
- * provide custom information.
+ * List structural information proxy class. The methods in this class should be
+ * overridden to provide custom information.
  * 
  * @author olitank
  *
@@ -43,6 +42,10 @@ public class ListStructuralInfoProxy implements IListStructuralInfo {
 
 	public IInfoFilter getItemDetailsInfoFilter(ItemPosition itemPosition) {
 		return base.getItemDetailsInfoFilter(itemPosition);
+	}
+
+	public boolean isSlave(Object subFormObject, IFieldInfo subFormField, BufferedItemPosition itemPosition) {
+		return base.isSlave(subFormObject, subFormField, itemPosition);
 	}
 
 	@Override
