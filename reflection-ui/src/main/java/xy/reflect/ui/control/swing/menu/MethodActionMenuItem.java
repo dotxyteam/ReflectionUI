@@ -5,10 +5,11 @@ package xy.reflect.ui.control.swing.menu;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
+
 import xy.reflect.ui.control.DefaultMethodControlData;
 import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
@@ -21,6 +22,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.KeyboardShortcut;
 
 /**
  * Menu item that allows to invoke a method.
@@ -37,15 +39,21 @@ public class MethodActionMenuItem extends AbstractMenuItem {
 	public MethodActionMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, MethodActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner);
 		this.menuItemInfo = menuItemInfo;
-		initialize();
+		configure();
 	}
 
 	public Form getContextForm() {
 		return (Form) menuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
 	}
 
-	protected void initialize() {
+	@Override
+	public void refresh() {
+		configure();
+	}
+
+	protected void configure() {
 		setAction(createAction());
+		setAccelerator(createAccelerator());
 		try {
 			setText(menuItemInfo.getCaption());
 			Image image = swingRenderer.getMenuItemIconImage(menuItemInfo);
@@ -66,6 +74,14 @@ public class MethodActionMenuItem extends AbstractMenuItem {
 			}
 			setEnabled(false);
 		}
+	}
+
+	protected KeyStroke createAccelerator() {
+		KeyboardShortcut keyboardShortcut = menuItemInfo.getKeyboardShortcut();
+		if (keyboardShortcut == null) {
+			return null;
+		}
+		return KeyStroke.getKeyStroke(keyboardShortcut.getKeyCode(), keyboardShortcut.getModifiers());
 	}
 
 	protected Action createAction() {

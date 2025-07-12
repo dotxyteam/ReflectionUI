@@ -20,6 +20,8 @@ public abstract class AbstractMenuItem extends JMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
+	public abstract void refresh();
+
 	protected SwingRenderer swingRenderer;
 	protected Form menuBarOwner;
 
@@ -41,8 +43,7 @@ public abstract class AbstractMenuItem extends JMenuItem {
 			setForeground(foregroundColor);
 		}
 		if (labelCustomFont != null) {
-			setFont(labelCustomFont.deriveFont(getFont().getStyle(),
-					getFont().getSize()));
+			setFont(labelCustomFont.deriveFont(getFont().getStyle(), getFont().getSize()));
 		}
 	}
 

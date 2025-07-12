@@ -30,6 +30,13 @@ public abstract class MinimalListUpdater<K> {
 	protected abstract void remove(int index);
 
 	/**
+	 * Optionally updates the given key at the specified index from the external
+	 * list.
+	 */
+	protected void refresh(K current, int index) {
+	}
+
+	/**
 	 * @return the currently present elements in the external list, in the same
 	 *         order as keys from getKeys().
 	 */
@@ -70,6 +77,7 @@ public abstract class MinimalListUpdater<K> {
 				K expected = desiredKeys.get(desiredIndex);
 				if (current.equals(expected)) {
 					// Element is already in the correct place
+					refresh(current, presentIndex);
 					presentIndex++;
 					desiredIndex++;
 				} else {
@@ -92,4 +100,5 @@ public abstract class MinimalListUpdater<K> {
 			}
 		}
 	}
+
 }

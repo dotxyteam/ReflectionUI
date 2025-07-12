@@ -8,10 +8,10 @@ package xy.reflect.ui.info.menu;
  *
  */
 public abstract class AbstractMenuItemInfo extends AbstractMenuElementInfo {
+
 	protected String caption = "";
 
 	public AbstractMenuItemInfo(String caption) {
-		super();
 		this.caption = caption;
 	}
 

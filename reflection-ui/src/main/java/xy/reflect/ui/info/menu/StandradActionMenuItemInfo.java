@@ -1,10 +1,9 @@
 
-
-
 package xy.reflect.ui.info.menu;
 
 import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.util.KeyboardShortcut;
 
 /**
  * This class represents a standard menu item (eg: open, save, undo, ...)..
@@ -18,14 +17,16 @@ public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 	private FileBrowserConfiguration fileBrowserConfiguration;
 
 	public StandradActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
-			FileBrowserConfiguration fileBrowserConfiguration) {
+			KeyboardShortcut keyboardShortcut, FileBrowserConfiguration fileBrowserConfiguration) {
 		super(name, iconImagePath);
 		this.type = type;
+		this.keyboardShortcut = keyboardShortcut;
 		this.fileBrowserConfiguration = fileBrowserConfiguration;
 	}
 
-	public StandradActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type) {
-		this(name, iconImagePath, type, null);
+	public StandradActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
+			KeyboardShortcut keyboardShortcut) {
+		this(name, iconImagePath, type, keyboardShortcut, null);
 	}
 
 	public Type getType() {

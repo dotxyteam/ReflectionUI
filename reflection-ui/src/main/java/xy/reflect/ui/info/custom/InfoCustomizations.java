@@ -2,6 +2,7 @@
 package xy.reflect.ui.info.custom;
 
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -76,6 +77,8 @@ import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.Filter;
 import xy.reflect.ui.util.IOUtils;
+import xy.reflect.ui.util.KeyboardKey;
+import xy.reflect.ui.util.KeyboardShortcut;
 import xy.reflect.ui.util.Listener;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -1104,6 +1107,15 @@ public class InfoCustomizations implements Serializable {
 
 		private static final long serialVersionUID = 1L;
 
+		protected KeyboardShortcut keyboardShortcut;
+
+		public KeyboardShortcut getKeyboardShortcut() {
+			return keyboardShortcut;
+		}
+
+		public void setKeyboardShortcut(KeyboardShortcut keyboardShortcut) {
+			this.keyboardShortcut = keyboardShortcut;
+		}
 	}
 
 	public static class ExitMenuItemCustomization extends AbstractStandardActionMenuItemCustomization {
@@ -1184,6 +1196,7 @@ public class InfoCustomizations implements Serializable {
 		public SaveMenuItemCustomization() {
 			name = "Save";
 			fileBrowserConfiguration.actionTitle = "Save";
+			keyboardShortcut = new KeyboardShortcut(KeyEvent.VK_S, false, true, false, false, false);
 		}
 
 	}
@@ -1194,6 +1207,7 @@ public class InfoCustomizations implements Serializable {
 
 		public RedoMenuItemCustomization() {
 			name = "Redo";
+			keyboardShortcut = new KeyboardShortcut(KeyEvent.VK_Y, false, true, false, false, false);
 		}
 
 	}
@@ -1214,6 +1228,7 @@ public class InfoCustomizations implements Serializable {
 
 		public UndoMenuItemCustomization() {
 			name = "Undo";
+			keyboardShortcut = new KeyboardShortcut(KeyEvent.VK_Z, false, true, false, false, false);
 		}
 
 	}
@@ -1224,6 +1239,7 @@ public class InfoCustomizations implements Serializable {
 
 		protected List<AbstractMenuItemCustomization> itemCustomizations = new ArrayList<AbstractMenuItemCustomization>();
 		protected List<MenuItemCategoryCustomization> itemCategoryCustomizations = new ArrayList<MenuItemCategoryCustomization>();
+		protected KeyboardKey mnemonicKey;
 
 		public MenuCustomization() {
 			name = "Menu";
@@ -1254,6 +1270,14 @@ public class InfoCustomizations implements Serializable {
 
 		public void setItemCategoryCustomizations(List<MenuItemCategoryCustomization> itemCategoryCustomizations) {
 			this.itemCategoryCustomizations = itemCategoryCustomizations;
+		}
+
+		public KeyboardKey getMnemonicKey() {
+			return mnemonicKey;
+		}
+
+		public void setMnemonicKey(KeyboardKey mnemonicKey) {
+			this.mnemonicKey = mnemonicKey;
 		}
 
 		public void validate() {

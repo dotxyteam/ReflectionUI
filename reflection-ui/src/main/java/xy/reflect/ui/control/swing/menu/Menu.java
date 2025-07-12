@@ -9,7 +9,6 @@ import java.awt.Font;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
-
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.AbstractMenuItemInfo;
@@ -19,6 +18,7 @@ import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type;
+import xy.reflect.ui.util.KeyboardKey;
 import xy.reflect.ui.util.ReflectionUIError;
 
 /**
@@ -43,8 +43,17 @@ public class Menu extends JMenu {
 		initialize();
 	}
 
+	public void refresh() {
+		removeAll();
+		configure();
+	}
+
 	protected void initialize() {
 		customizeUI();
+		configure();
+	}
+
+	protected void configure() {
 		for (int i = 0; i < menuInfo.getItemCategories().size(); i++) {
 			if (i > 0) {
 				add(createSeparator());
@@ -61,6 +70,10 @@ public class Menu extends JMenu {
 			for (AbstractMenuItemInfo item : menuInfo.getItems()) {
 				add(createMenuItem(item));
 			}
+		}
+		int mnemonic = computeMnemonic();
+		if (mnemonic != -1) {
+			setMnemonic(mnemonic);
 		}
 	}
 
@@ -87,6 +100,14 @@ public class Menu extends JMenu {
 		if (labelCustomFont != null) {
 			setFont(labelCustomFont.deriveFont(getFont().getStyle(), getFont().getSize()));
 		}
+	}
+
+	protected int computeMnemonic() {
+		KeyboardKey mnemonicKey = menuInfo.getMnemonicKey();
+		if (mnemonicKey == null) {
+			return -1;
+		}
+		return mnemonicKey.getKeyCode();
 	}
 
 	protected JSeparator createSeparator() {

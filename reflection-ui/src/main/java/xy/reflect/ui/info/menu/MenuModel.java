@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.menu;
 
 import java.io.Serializable;
@@ -149,6 +147,7 @@ public class MenuModel implements Serializable {
 		for (IMenuElementInfo containerChild : getChildren(container)) {
 			if (same(element, containerChild)) {
 				if (!(containerChild instanceof IMenuItemContainerInfo)) {
+					// only menu containers can be merged
 					final String errorMenuName = "<MENU ERROR> Duplicate menu detected: " + element.getCaption()
 							+ " (id=" + element.hashCode() + ")";
 					element = new AbstractActionMenuItemInfo(errorMenuName, null) {
@@ -194,9 +193,14 @@ public class MenuModel implements Serializable {
 
 	protected IMenuItemContainerInfo createSameContainer(IMenuItemContainerInfo element) {
 		if (element instanceof MenuInfo) {
-			return new MenuInfo(((MenuInfo) element).getCaption());
+			MenuInfo result = new MenuInfo();
+			result.setCaption(((MenuInfo) element).getCaption());
+			result.setMnemonicKey(((MenuInfo) element).getMnemonicKey());
+			return result;
 		} else if (element instanceof MenuItemCategory) {
-			return new MenuItemCategory(((MenuItemCategory) element).getCaption());
+			MenuItemCategory result = new MenuItemCategory(((MenuItemCategory) element).getCaption());
+			result.setCaption(((MenuItemCategory) element).getCaption());
+			return result;
 		} else {
 			throw new ReflectionUIError();
 		}

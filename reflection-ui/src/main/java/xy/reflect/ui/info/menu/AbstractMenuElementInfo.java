@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public abstract class AbstractMenuElementInfo implements IMenuElementInfo {
 
-	private Map<String, Object> specificProperties = new HashMap<String, Object>();
+	protected Map<String, Object> specificProperties = new HashMap<String, Object>();
 
 	@Override
 	public String getName() {

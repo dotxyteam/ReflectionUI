@@ -9,10 +9,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
+
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.util.KeyboardShortcut;
 
 /**
  * Base class for standard menu items.
@@ -34,7 +37,12 @@ public abstract class AbstractStandardActionMenuItem extends AbstractMenuItem {
 			StandradActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner);
 		this.menuItemInfo = menuItemInfo;
-		initialize();
+		configure();
+	}
+
+	@Override
+	public void refresh() {
+		configure();
 	}
 
 	public SwingRenderer getSwingRenderer() {
@@ -52,8 +60,9 @@ public abstract class AbstractStandardActionMenuItem extends AbstractMenuItem {
 		return menuItemInfo;
 	}
 
-	protected void initialize() {
+	protected void configure() {
 		setAction(createAction());
+		setAccelerator(createAccelerator());
 		try {
 			setText(menuItemInfo.getCaption());
 			if (!isActive()) {
@@ -76,6 +85,14 @@ public abstract class AbstractStandardActionMenuItem extends AbstractMenuItem {
 			}
 			setEnabled(false);
 		}
+	}
+
+	protected KeyStroke createAccelerator() {
+		KeyboardShortcut keyboardShortcut = menuItemInfo.getKeyboardShortcut();
+		if (keyboardShortcut == null) {
+			return null;
+		}
+		return KeyStroke.getKeyStroke(keyboardShortcut.getKeyCode(), keyboardShortcut.getModifiers());
 	}
 
 	protected Action createAction() {

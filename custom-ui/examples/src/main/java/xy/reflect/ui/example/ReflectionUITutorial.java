@@ -289,9 +289,8 @@ public class ReflectionUITutorial {
 								@Override
 								public Object invoke(Object object, InvocationData invocationData) {
 									HelloWorld newObject = new HelloWorld();
-									for (IFieldInfo field : ReflectionUI.getDefault().getTypeInfo(
-											new JavaTypeInfoSource(HelloWorld.class, null))
-											.getFields()) {
+									for (IFieldInfo field : ReflectionUI.getDefault()
+											.getTypeInfo(new JavaTypeInfoSource(HelloWorld.class, null)).getFields()) {
 										if (field.isGetOnly()) {
 											continue;
 										}
@@ -502,16 +501,17 @@ public class ReflectionUITutorial {
 										}
 										persistenceCategory.addItem(new StandradActionMenuItemInfo(
 												"Open Hello World File...", null, StandradActionMenuItemInfo.Type.OPEN,
-												fileBrowserConfiguration));
-										persistenceCategory.addItem(new StandradActionMenuItemInfo(
-												"Save Hello World File As...", null,
-												StandradActionMenuItemInfo.Type.SAVE_AS, fileBrowserConfiguration));
+												null, fileBrowserConfiguration));
+										persistenceCategory
+												.addItem(new StandradActionMenuItemInfo("Save Hello World File As...",
+														null, StandradActionMenuItemInfo.Type.SAVE_AS, null,
+														fileBrowserConfiguration));
 										fileMenu.addItemCategory(persistenceCategory);
 									}
 									MenuItemCategory lifeCycleCategory = new MenuItemCategory("Life Cycle");
 									{
 										lifeCycleCategory.addItem(new StandradActionMenuItemInfo("Quit", null,
-												StandradActionMenuItemInfo.Type.EXIT));
+												StandradActionMenuItemInfo.Type.EXIT, null));
 										fileMenu.addItemCategory(lifeCycleCategory);
 									}
 								}

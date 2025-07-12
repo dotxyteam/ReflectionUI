@@ -1695,6 +1695,12 @@ public class Form extends ImagePanel {
 				protected void remove(int index) {
 					menuBar.remove(index);
 				}
+
+				@Override
+				protected void refresh(MenuInfo current, int index) {
+					((Menu) menuBar.getMenu(index)).refresh();
+				}
+
 			};
 		}
 		menuBarUpdater.update();

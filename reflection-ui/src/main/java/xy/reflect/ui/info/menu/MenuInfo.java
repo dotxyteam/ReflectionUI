@@ -1,10 +1,10 @@
 
-
-
 package xy.reflect.ui.info.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import xy.reflect.ui.util.KeyboardKey;
 
 /**
  * This class represents a menu.
@@ -23,6 +23,7 @@ public class MenuInfo extends AbstractMenuItemInfo implements IMenuItemContainer
 
 	protected List<AbstractMenuItemInfo> items = new ArrayList<AbstractMenuItemInfo>();
 	protected List<MenuItemCategory> itemCategories = new ArrayList<MenuItemCategory>();
+	protected KeyboardKey mnemonicKey;
 
 	@Override
 	public List<AbstractMenuItemInfo> getItems() {
@@ -49,12 +50,21 @@ public class MenuInfo extends AbstractMenuItemInfo implements IMenuItemContainer
 		this.itemCategories.add(itemCategory);
 	}
 
+	public KeyboardKey getMnemonicKey() {
+		return mnemonicKey;
+	}
+
+	public void setMnemonicKey(KeyboardKey mnemonicKey) {
+		this.mnemonicKey = mnemonicKey;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((itemCategories == null) ? 0 : itemCategories.hashCode());
 		result = prime * result + ((items == null) ? 0 : items.hashCode());
+		result = prime * result + ((mnemonicKey == null) ? 0 : mnemonicKey.hashCode());
 		return result;
 	}
 
@@ -76,6 +86,11 @@ public class MenuInfo extends AbstractMenuItemInfo implements IMenuItemContainer
 			if (other.items != null)
 				return false;
 		} else if (!items.equals(other.items))
+			return false;
+		if (mnemonicKey == null) {
+			if (other.mnemonicKey != null)
+				return false;
+		} else if (!mnemonicKey.equals(other.mnemonicKey))
 			return false;
 		return true;
 	}

@@ -23,8 +23,8 @@ public class UndoMenuItem extends AbstractStandardActionMenuItem {
 	}
 
 	@Override
-	protected void initialize() {
-		super.initialize();
+	protected void configure() {
+		super.configure();
 		IModification nextUndoModification = getContextForm().getModificationStack().getNextUndoModification();
 		if (nextUndoModification != null) {
 			setToolTipText(nextUndoModification.getTitle());

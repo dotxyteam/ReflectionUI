@@ -1,9 +1,8 @@
 
-
-
 package xy.reflect.ui.info.menu;
 
 import xy.reflect.ui.info.ResourcePath;
+import xy.reflect.ui.util.KeyboardShortcut;
 
 /**
  * Base class of action menu item specifications.
@@ -14,6 +13,7 @@ import xy.reflect.ui.info.ResourcePath;
 public abstract class AbstractActionMenuItemInfo extends AbstractMenuItemInfo {
 
 	protected ResourcePath iconImagePath;
+	protected KeyboardShortcut keyboardShortcut;
 
 	public AbstractActionMenuItemInfo(String name, ResourcePath iconImagePath) {
 		super(name);
@@ -32,11 +32,20 @@ public abstract class AbstractActionMenuItemInfo extends AbstractMenuItemInfo {
 		this.iconImagePath = iconImagePath;
 	}
 
+	public KeyboardShortcut getKeyboardShortcut() {
+		return keyboardShortcut;
+	}
+
+	public void setKeyboardShortcut(KeyboardShortcut keyboardShortcut) {
+		this.keyboardShortcut = keyboardShortcut;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((iconImagePath == null) ? 0 : iconImagePath.hashCode());
+		result = prime * result + ((keyboardShortcut == null) ? 0 : keyboardShortcut.hashCode());
 		return result;
 	}
 
@@ -53,6 +62,11 @@ public abstract class AbstractActionMenuItemInfo extends AbstractMenuItemInfo {
 			if (other.iconImagePath != null)
 				return false;
 		} else if (!iconImagePath.equals(other.iconImagePath))
+			return false;
+		if (keyboardShortcut == null) {
+			if (other.keyboardShortcut != null)
+				return false;
+		} else if (!keyboardShortcut.equals(other.keyboardShortcut))
 			return false;
 		return true;
 	}
