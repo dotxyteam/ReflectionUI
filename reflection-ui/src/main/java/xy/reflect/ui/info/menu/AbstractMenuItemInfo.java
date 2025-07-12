@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.menu;
 
 /**
@@ -31,7 +29,7 @@ public abstract class AbstractMenuItemInfo extends AbstractMenuElementInfo {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((caption == null) ? 0 : caption.hashCode());
 		return result;
 	}
@@ -40,7 +38,7 @@ public abstract class AbstractMenuItemInfo extends AbstractMenuElementInfo {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;

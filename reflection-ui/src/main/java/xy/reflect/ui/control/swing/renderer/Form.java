@@ -33,7 +33,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -126,8 +125,8 @@ public class Form extends ImagePanel {
 	protected JLabel statusBar;
 	protected JMenuBar menuBar;
 	protected boolean absolutelyVisible = false;
-
 	protected BetterFutureTask<Boolean> currentValidationTask;
+	protected MinimalListUpdater<MenuInfo> menuBarUpdater;
 
 	/**
 	 * Creates a form allowing to view/edit the given object.
@@ -1672,17 +1671,38 @@ public class Form extends ImagePanel {
 		if (menuBar.getParent() == null) {
 			return;
 		}
-		MenuModel globalMenuModel = new MenuModel();
-		addMenuContributionTo(globalMenuModel);
-		menuBar.removeAll();
-		for (MenuInfo menuInfo : globalMenuModel.getMenus()) {
-			menuBar.add(creatMenu(menuInfo));
+		if (menuBarUpdater == null) {
+			menuBarUpdater = new MinimalListUpdater<MenuInfo>() {
+
+				@Override
+				protected List<MenuInfo> collectKeys() {
+					MenuModel globalMenuModel = new MenuModel();
+					addMenuContributionTo(globalMenuModel);
+					return globalMenuModel.getMenus();
+				}
+
+				@Override
+				protected boolean shouldBePresent(MenuInfo menuInfo) {
+					return true;
+				}
+
+				@Override
+				protected void add(int index, MenuInfo menuInfo) {
+					menuBar.add(creatMenu(menuInfo), index);
+				}
+
+				@Override
+				protected void remove(int index) {
+					menuBar.remove(index);
+				}
+			};
 		}
+		menuBarUpdater.update();
 		menuBar.setVisible(menuBar.getComponentCount() > 0);
 		SwingRendererUtils.handleComponentSizeChange(menuBar);
 	}
 
-	protected JMenu creatMenu(MenuInfo menuInfo) {
+	protected Menu creatMenu(MenuInfo menuInfo) {
 		return new Menu(swingRenderer, this, menuInfo);
 	}
 

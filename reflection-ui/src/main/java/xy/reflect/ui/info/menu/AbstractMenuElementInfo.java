@@ -35,4 +35,29 @@ public abstract class AbstractMenuElementInfo implements IMenuElementInfo {
 		this.specificProperties = specificProperties;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((specificProperties == null) ? 0 : specificProperties.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractMenuElementInfo other = (AbstractMenuElementInfo) obj;
+		if (specificProperties == null) {
+			if (other.specificProperties != null)
+				return false;
+		} else if (!specificProperties.equals(other.specificProperties))
+			return false;
+		return true;
+	}
+
 }
