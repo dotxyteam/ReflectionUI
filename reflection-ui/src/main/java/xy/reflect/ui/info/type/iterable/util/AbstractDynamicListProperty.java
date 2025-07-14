@@ -155,7 +155,7 @@ public abstract class AbstractDynamicListProperty extends AbstractInfo implement
 	}
 
 	@Override
-	public boolean isValueValidityDetectionEnabled() {
+	public boolean isControlValueValiditionEnabled() {
 		return false;
 	}
 

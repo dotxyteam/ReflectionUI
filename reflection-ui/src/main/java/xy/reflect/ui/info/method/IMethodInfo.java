@@ -54,7 +54,7 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isReturnValueValidityDetectionEnabled() {
+		public boolean isControlReturnValueValiditionEnabled() {
 			return false;
 		}
 
@@ -338,10 +338,10 @@ public interface IMethodInfo extends IInfo {
 	String getExecutionSuccessMessage();
 
 	/**
-	 * @return whether validation errors should be checked for the return value of
-	 *         the method.
+	 * @return whether control-based validation errors should be checked for the
+	 *         return value of the method.
 	 */
-	boolean isReturnValueValidityDetectionEnabled();
+	boolean isControlReturnValueValiditionEnabled();
 
 	/**
 	 * @param object      The object offering this method or null (if the method is

@@ -284,7 +284,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 		}
 
 		@Override
-		public void validateControl(ValidationSession session) throws Exception {
+		public void validateControlData(ValidationSession session) throws Exception {
 			final Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = new HashMap<BufferedItemPosition, Exception>();
 			for (DetailedCellControl cell : detailedCellControlList) {
 				BufferedItemPosition itemPosition = cell.getItemPosition();

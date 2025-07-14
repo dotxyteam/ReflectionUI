@@ -175,11 +175,11 @@ public interface IFieldControlData {
 	Runnable getLastFormRefreshStateRestorationJob();
 
 	/**
-	 * Behaves like {@link IFieldInfo#isValueValidityDetectionEnabled()}.
+	 * Behaves like {@link IFieldInfo#isControlValueValiditionEnabled()}.
 	 * 
 	 * @return the value corresponding to the behavior described above.
 	 */
-	boolean isValueValidityDetectionEnabled();
+	boolean isControlValueValiditionEnabled();
 
 	/**
 	 * Behaves like {@link IFieldInfo#getValueAbstractFormValidationJob(Object)}.

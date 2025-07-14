@@ -55,8 +55,8 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.getReturnValueAbstractFormValidationJob(object, returnValue);
 	}
 
-	public boolean isReturnValueValidityDetectionEnabled() {
-		return base.isReturnValueValidityDetectionEnabled();
+	public boolean isControlReturnValueValiditionEnabled() {
+		return base.isControlReturnValueValiditionEnabled();
 	}
 
 	public void onControlVisibilityChange(Object object, boolean visible) {

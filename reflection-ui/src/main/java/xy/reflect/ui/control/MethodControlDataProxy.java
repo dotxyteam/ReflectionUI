@@ -43,8 +43,8 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.getReturnValueAbstractFormValidationJob(returnValue);
 	}
 
-	public boolean isReturnValueValidityDetectionEnabled() {
-		return base.isReturnValueValidityDetectionEnabled();
+	public boolean isControlReturnValueValiditionEnabled() {
+		return base.isControlReturnValueValiditionEnabled();
 	}
 
 	public String getParametersValidationCustomCaption() {

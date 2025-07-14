@@ -358,6 +358,7 @@ public class Form extends ImagePanel {
 	 * Uses type information to check that the state of the underlying object is
 	 * valid. Note that this method should not be called from the UI thread.
 	 * 
+	 * @param session If the state of the underlying object is not valid.
 	 * @throws Exception If the state of the underlying object is not valid.
 	 */
 	public void validateForm(ValidationSession session) throws Exception {
@@ -377,13 +378,13 @@ public class Form extends ImagePanel {
 					if (!fieldControlPlaceHolder.isVisible()) {
 						continue;
 					}
-					if (!fieldControlPlaceHolder.getControlData().isValueValidityDetectionEnabled()) {
+					if (!fieldControlPlaceHolder.getControlData().isControlValueValiditionEnabled()) {
 						continue;
 					}
 					Component fieldControl = fieldControlPlaceHolder.getFieldControl();
 					if (fieldControl instanceof IAdvancedFieldControl) {
 						try {
-							((IAdvancedFieldControl) fieldControl).validateControl(session);
+							((IAdvancedFieldControl) fieldControl).validateControlData(session);
 						} catch (Exception e) {
 							String contextCaption = null;
 							IFieldInfo field = fieldControlPlaceHolder.getField();
@@ -411,13 +412,13 @@ public class Form extends ImagePanel {
 					if (!methodControlPlaceHolder.isVisible()) {
 						continue;
 					}
-					if (!methodControlPlaceHolder.getControlData().isReturnValueValidityDetectionEnabled()) {
+					if (!methodControlPlaceHolder.getControlData().isControlReturnValueValiditionEnabled()) {
 						continue;
 					}
 					Component methodControl = methodControlPlaceHolder.getMethodControl();
 					if (methodControl instanceof IAdvancedMethodControl) {
 						try {
-							((IAdvancedMethodControl) methodControl).validateControl(session);
+							((IAdvancedMethodControl) methodControl).validateControlData(session);
 						} catch (Exception e) {
 							String contextCaption = null;
 							IMethodInfo method = methodControlPlaceHolder.getMethod();

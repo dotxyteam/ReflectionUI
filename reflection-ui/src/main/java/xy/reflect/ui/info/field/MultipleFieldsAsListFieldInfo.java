@@ -226,7 +226,7 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 	}
 
 	@Override
-	public boolean isValueValidityDetectionEnabled() {
+	public boolean isControlValueValiditionEnabled() {
 		return false;
 	}
 

@@ -393,7 +393,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void validateControl(ValidationSession session) throws Exception {
+	public void validateControlData(ValidationSession session) throws Exception {
 	}
 
 	@Override

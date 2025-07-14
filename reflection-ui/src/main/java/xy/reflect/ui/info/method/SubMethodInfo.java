@@ -300,7 +300,7 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
-	public boolean isReturnValueValidityDetectionEnabled() {
+	public boolean isControlReturnValueValiditionEnabled() {
 		return theSubMethod.isReturnValueDetached();
 	}
 

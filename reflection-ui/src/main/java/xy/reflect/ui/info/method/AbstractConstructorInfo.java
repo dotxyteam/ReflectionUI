@@ -29,7 +29,7 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
-	public boolean isReturnValueValidityDetectionEnabled() {
+	public boolean isControlReturnValueValiditionEnabled() {
 		return false;
 	}
 

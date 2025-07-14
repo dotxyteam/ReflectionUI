@@ -35,8 +35,8 @@ public class FieldInfoProxy extends AbstractInfoProxy implements IFieldInfo {
 		return base.getValueAbstractFormValidationJob(object);
 	}
 
-	public boolean isValueValidityDetectionEnabled() {
-		return base.isValueValidityDetectionEnabled();
+	public boolean isControlValueValiditionEnabled() {
+		return base.isControlValueValiditionEnabled();
 	}
 
 	public List<IMethodInfo> getAlternativeConstructors(Object object) {

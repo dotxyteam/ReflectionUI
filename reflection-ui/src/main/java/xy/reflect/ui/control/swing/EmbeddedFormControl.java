@@ -224,7 +224,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public void validateControl(ValidationSession session) throws Exception {
+	public void validateControlData(ValidationSession session) throws Exception {
 		subForm.validateForm(session);
 	}
 

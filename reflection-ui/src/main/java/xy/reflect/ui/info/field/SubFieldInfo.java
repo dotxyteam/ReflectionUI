@@ -274,8 +274,8 @@ public class SubFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueValidityDetectionEnabled() {
-		return theField.isValueValidityDetectionEnabled() && theSubField.isValueValidityDetectionEnabled();
+	public boolean isControlValueValiditionEnabled() {
+		return theField.isControlValueValiditionEnabled() && theSubField.isControlValueValiditionEnabled();
 	}
 
 	@Override

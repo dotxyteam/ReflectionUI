@@ -344,9 +344,9 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public void validateControl(ValidationSession session) throws Exception {
-			subControl1.validateControl(session);
-			subControl2.validateControl(session);
+		public void validateControlData(ValidationSession session) throws Exception {
+			subControl1.validateControlData(session);
+			subControl2.validateControlData(session);
 		}
 
 		@Override

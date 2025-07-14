@@ -43,6 +43,7 @@ import xy.reflect.ui.info.custom.InfoCustomizations.MethodCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.ParameterCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.TextualStorage;
 import xy.reflect.ui.info.custom.InfoCustomizations.TransactionalRole;
+import xy.reflect.ui.info.custom.InfoCustomizations.TreeStructureDiscoverySettings;
 import xy.reflect.ui.info.custom.InfoCustomizations.TypeCustomization;
 import xy.reflect.ui.info.custom.InfoCustomizations.VirtualFieldDeclaration;
 import xy.reflect.ui.info.field.MembersCapsuleFieldInfo;
@@ -318,30 +319,33 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 		final ListCustomization l = InfoCustomizations.getListCustomization(this.getInfoCustomizations(),
 				listType.getName(), (itemType == null) ? null : itemType.getName());
 		if (l != null) {
-			if (l.getItemValidabilityStatusFieldNamePattern() != null) {
-				try {
-					Object item = itemPosition.getItem();
-					if (item != null) {
-						ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
-						for (IFieldInfo field : actualItemType.getFields()) {
-							if (l.getItemValidabilityStatusFieldNamePattern().matches(field.getName())) {
-								Object fieldValue = field.getValue(item);
-								if (fieldValue instanceof Boolean) {
-									return (Boolean) fieldValue;
-								} else {
-									throw new ReflectionUIError(
-											"Unexpected non-boolean value returned from the field: '" + fieldValue
-													+ "'");
+			TreeStructureDiscoverySettings d = l.getTreeStructureDiscoverySettings();
+			if (d != null) {
+				if (d.getItemValidabilityStatusFieldNamePattern() != null) {
+					try {
+						Object item = itemPosition.getItem();
+						if (item != null) {
+							ITypeInfo actualItemType = customizedUI.getTypeInfo(customizedUI.getTypeInfoSource(item));
+							for (IFieldInfo field : actualItemType.getFields()) {
+								if (d.getItemValidabilityStatusFieldNamePattern().matches(field.getName())) {
+									Object fieldValue = field.getValue(item);
+									if (fieldValue instanceof Boolean) {
+										return (Boolean) fieldValue;
+									} else {
+										throw new ReflectionUIError(
+												"Unexpected non-boolean value returned from the field: '" + fieldValue
+														+ "'");
+									}
 								}
 							}
+							throw new ReflectionUIError("Field not found");
 						}
-						throw new ReflectionUIError("Field not found");
+					} catch (Throwable t) {
+						throw new ReflectionUIError(
+								"Unable to obtain the activation status of item node validity detection from the field designated by '"
+										+ d.getItemValidabilityStatusFieldNamePattern() + "': " + t.toString(),
+								t);
 					}
-				} catch (Throwable t) {
-					throw new ReflectionUIError(
-							"Unable to obtain the activation status of item node validity detection from the field designated by '"
-									+ l.getItemValidabilityStatusFieldNamePattern() + "': " + t.toString(),
-							t);
 				}
 			}
 		}
@@ -2660,11 +2664,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
-					public boolean isReturnValueValidityDetectionEnabled() {
+					public boolean isControlReturnValueValiditionEnabled() {
 						if (mc.isReturnValueValidityDetectionForced()) {
 							return true;
 						}
-						return super.isReturnValueValidityDetectionEnabled();
+						return super.isControlReturnValueValiditionEnabled();
 					}
 
 					@Override
@@ -3103,11 +3107,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
-					public boolean isValueValidityDetectionEnabled() {
+					public boolean isControlValueValiditionEnabled() {
 						if (fc.isValueValidityDetectionForced()) {
 							return true;
 						}
-						return super.isValueValidityDetectionEnabled();
+						return super.isControlValueValiditionEnabled();
 					}
 
 					@Override

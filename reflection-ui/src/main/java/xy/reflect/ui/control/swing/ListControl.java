@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1064,7 +1063,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected Image getCellIconOverlayImage(ItemNode node) {
-		if (listData.isValueValidityDetectionEnabled()) {
+		if (listData.isControlValueValiditionEnabled()) {
 			final BufferedItemPosition itemPosition = getItemPositionByNode(node);
 			final boolean[] nodeValid = new boolean[] { true };
 			final boolean[] subtreeValid = new boolean[] { true };
@@ -2187,7 +2186,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	@Override
-	public void validateControl(ValidationSession session) throws Exception {
+	public void validateControlData(ValidationSession session) throws Exception {
 		final Map<BufferedItemPosition, Exception> validitionErrorByItemPosition = new HashMap<BufferedItemPosition, Exception>();
 		visitItems(new IItemsVisitor() {
 			@Override
@@ -2198,47 +2197,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				IValidationJob validationJob;
-				IValidationJob abstractFormValidationJob = itemPosition.getContainingListType()
-						.getListItemAbstractFormValidationJob(itemPosition);
-				if (abstractFormValidationJob != null) {
-					/*
-					 * Manage validation error attribution since it will not be managed
-					 * automatically by a concrete form validation.
-					 */
-					validationJob = (sessionArg) -> {
-						try {
-							abstractFormValidationJob.validate(sessionArg);
-							if (!Thread.currentThread().isInterrupted()) {
-								swingRenderer.getReflectionUI().getValidationErrorRegistry()
-										.cancelAttribution(itemPosition.getItem(), session);
-							}
-						} catch (Exception e) {
-							swingRenderer.getReflectionUI().getValidationErrorRegistry()
-									.attribute(itemPosition.getItem(), e, session);
-							throw e;
-						}
-					};
-				} else {
-					ItemFormBuilder itemUIBuilder = createItemFormBuilder(itemPosition);
-					Form[] itemForm = new Form[1];
-					try {
-						SwingUtilities.invokeAndWait(new Runnable() {
-							@Override
-							public void run() {
-								itemForm[0] = itemUIBuilder.createEditorForm(false, false);
-							}
-						});
-					} catch (InvocationTargetException e) {
-						throw new ReflectionUIError(e);
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-						return VisitStatus.TREE_VISIT_INTERRUPTED;
-					}
-					validationJob = (sessionArg) -> itemForm[0].validateForm(sessionArg);
-				}
+				ItemFormBuilder itemUIBuilder = createItemFormBuilder(itemPosition);
 				try {
-					validationJob.validate(session);
+					itemUIBuilder.performHeadlessFormValidation(session);
 				} catch (Exception e) {
 					validitionErrorByItemPosition.put(itemPosition, e);
 				}
@@ -2743,6 +2704,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			setPosition(bufferedItemPosition);
 		}
 
+		@Override
+		protected IValidationJob getValueAbstractFormValidationJob() {
+			return bufferedItemPosition.getContainingListType()
+					.getListItemAbstractFormValidationJob(bufferedItemPosition);
+		}
+
 		public void setPosition(BufferedItemPosition bufferedItemPosition) {
 			this.bufferedItemPosition = bufferedItemPosition;
 			this.modificationFactory = createListModificationFactory(bufferedItemPosition);
@@ -2782,6 +2749,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		 * @param capsule The capsule object.
 		 */
 		protected void copyValidationErrorFromCapsuleToItem(Object capsule) {
+			if (bufferedItemPosition.getContainingListType()
+					.getListItemAbstractFormValidationJob(bufferedItemPosition) != null) {
+				/*
+				 * Do not copy the eventual abstract form validation error because it may be
+				 * structurally different (even if it represents the same incoherence) from the
+				 * error that would have been generated from a concrete form.
+				 */
+				return;
+			}
 			Exception validitionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
 					.getValidationError(capsule, null);
 			if (validitionError != null) {
@@ -2801,6 +2777,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		 * @param capsule The capsule object.
 		 */
 		protected void copyValidationErrorFromItemToCapsule(Object capsule) {
+			if (bufferedItemPosition.getContainingListType()
+					.getListItemAbstractFormValidationJob(bufferedItemPosition) != null) {
+				/*
+				 * Do not copy the eventual abstract form validation error because it may be
+				 * structurally different (even if it represents the same incoherence) from the
+				 * error that would have been generated from a concrete form.
+				 */
+				return;
+			}
 			Exception itemValiditionError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
 					.getValidationError(bufferedItemPosition.getItem(), null);
 			if (itemValiditionError != null) {
@@ -2841,7 +2826,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 
 		@Override
-		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+		protected boolean isEncapsulatedisControlValueValiditionEnabled() {
 			return true;
 		}
 
@@ -3953,8 +3938,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				protected boolean isEncapsulatedValueValidityDetectionEnabled() {
-					return dynamicProperty.isValueValidityDetectionEnabled();
+				protected boolean isEncapsulatedisControlValueValiditionEnabled() {
+					return dynamicProperty.isControlValueValiditionEnabled();
 				}
 
 				@Override

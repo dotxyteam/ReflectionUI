@@ -312,7 +312,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	}
 
 	@Override
-	public void validateControl(ValidationSession session) throws Exception {
+	public void validateControlData(ValidationSession session) throws Exception {
 		if (dynamicControl != null) {
 			dynamicControl.validateForm(session);
 		}
@@ -415,7 +415,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
-		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+		protected boolean isEncapsulatedisControlValueValiditionEnabled() {
 			return false;
 		}
 
@@ -540,8 +540,8 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
-		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
-			return data.isValueValidityDetectionEnabled();
+		protected boolean isEncapsulatedisControlValueValiditionEnabled() {
+			return data.isControlValueValiditionEnabled();
 		}
 
 		@Override

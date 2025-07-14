@@ -1,18 +1,25 @@
 
 package xy.reflect.ui.control.swing.builder;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Map;
+
+import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.ErrorOccurrence;
 import xy.reflect.ui.control.IContext;
+import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
+import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
+import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.factory.EncapsulatedObjectFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -273,7 +280,7 @@ public abstract class AbstractEditorFormBuilder {
 	 * @return whether validation errors should be checked for the local
 	 *         object/value.
 	 */
-	protected abstract boolean isEncapsulatedValueValidityDetectionEnabled();
+	protected abstract boolean isEncapsulatedisControlValueValiditionEnabled();
 
 	/**
 	 * @return true if the local value/object must be displayed as a generic form
@@ -647,6 +654,84 @@ public abstract class AbstractEditorFormBuilder {
 	}
 
 	/**
+	 * Validates the local value/object. The validation is performed by the job
+	 * returned by {@link #getValueAbstractFormValidationJob()} if not null.
+	 * Otherwise the validation is done by using either the
+	 * {@link ITypeInfo#validate(Object, ValidationSession)} method associated with
+	 * the current local value/object when there is no specific control-based
+	 * validation, or by using a temporary concrete form that will orchestrate the
+	 * validation.
+	 * 
+	 * @param session If the state of the underlying object is not valid.
+	 * @throws Exception If the state of the underlying object is not valid.
+	 */
+	public void performHeadlessFormValidation(ValidationSession session) throws Exception {
+		SwingRenderer swingRenderer = getSwingRenderer();
+		IValidationJob validationJob;
+		IValidationJob abstractFormValidationJob = getValueAbstractFormValidationJob();
+		if (abstractFormValidationJob == null) {
+			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+			final ITypeInfo valueType;
+			if (getCurrentValue() == null) {
+				valueType = reflectionUI.getTypeInfo(getEncapsulatedFieldTypeSource());
+			} else {
+				valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(getCurrentValue()));
+			}
+			if (!valueType.getFields().stream().anyMatch(IFieldInfo::isControlValueValiditionEnabled)
+					&& !valueType.getMethods().stream().anyMatch(IMethodInfo::isControlReturnValueValiditionEnabled)) {
+				abstractFormValidationJob = (sessionArg) -> valueType.validate(getCurrentValue(), sessionArg);
+			}
+		}
+		if (abstractFormValidationJob != null) {
+			/*
+			 * Manage validation error attribution since it will not be managed
+			 * automatically through a concrete form validation.
+			 */
+			final IValidationJob finalAbstractFormValidationJob = abstractFormValidationJob;
+			validationJob = (sessionArg) -> {
+				try {
+					finalAbstractFormValidationJob.validate(sessionArg);
+					if (!Thread.currentThread().isInterrupted()) {
+						swingRenderer.getReflectionUI().getValidationErrorRegistry()
+								.cancelAttribution(getCurrentValue(), session);
+					}
+				} catch (Exception e) {
+					swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(getCurrentValue(), e,
+							session);
+					throw e;
+				}
+			};
+		} else {
+			Form[] form = new Form[1];
+			try {
+				SwingUtilities.invokeAndWait(new Runnable() {
+					@Override
+					public void run() {
+						form[0] = createEditorForm(false, false);
+					}
+				});
+			} catch (InvocationTargetException e) {
+				throw new ReflectionUIError(e);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				return;
+			}
+			validationJob = (sessionArg) -> form[0].validateForm(sessionArg);
+		}
+		validationJob.validate(session);
+	}
+
+	/**
+	 * Behaves like {@link IFieldControlData#getValueAbstractFormValidationJob()}.
+	 * 
+	 * @return the value corresponding to the behavior described above. Note that
+	 *         null is returned unless this method is overriden
+	 */
+	protected IValidationJob getValueAbstractFormValidationJob() {
+		return null;
+	}
+
+	/**
 	 * Factory used to encapsulate the local value/object for practical reasons.
 	 * 
 	 * @author olitank
@@ -663,7 +748,7 @@ public abstract class AbstractEditorFormBuilder {
 			setFieldNullValueDistinct(isNullValueDistinct());
 			setFieldValueReturnMode(getEncapsulatedFieldValueReturnMode());
 			setFieldFormControlEmbedded(isEncapsulatedFormEmbedded());
-			setFieldValueValidityDetectionEnabled(isEncapsulatedValueValidityDetectionEnabled());
+			setFieldValueValidityDetectionEnabled(isEncapsulatedisControlValueValiditionEnabled());
 			setFieldFormControlFilter(getEncapsulatedFormFilter());
 			setFieldFormControlMandatory(isCustomEncapsulatedControlForbidden());
 			setFieldSpecificProperties(getEncapsulatedFieldSpecificProperties());

@@ -185,7 +185,7 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueValidityDetectionEnabled() {
+	public boolean isControlValueValiditionEnabled() {
 		return false;
 	}
 

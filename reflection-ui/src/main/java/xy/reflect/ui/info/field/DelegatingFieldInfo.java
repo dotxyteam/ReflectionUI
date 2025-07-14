@@ -183,8 +183,8 @@ public abstract class DelegatingFieldInfo implements IFieldInfo {
 	}
 
 	@Override
-	public boolean isValueValidityDetectionEnabled() {
-		return getDelegate().isValueValidityDetectionEnabled();
+	public boolean isControlValueValiditionEnabled() {
+		return getDelegate().isControlValueValiditionEnabled();
 	}
 
 	@Override

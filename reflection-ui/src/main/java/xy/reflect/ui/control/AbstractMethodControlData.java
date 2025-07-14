@@ -116,8 +116,8 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
-	public boolean isReturnValueValidityDetectionEnabled() {
-		return getMethod().isReturnValueValidityDetectionEnabled();
+	public boolean isControlReturnValueValiditionEnabled() {
+		return getMethod().isControlReturnValueValiditionEnabled();
 	}
 
 	@Override

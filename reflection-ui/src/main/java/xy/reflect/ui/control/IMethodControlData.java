@@ -197,11 +197,11 @@ public interface IMethodControlData {
 	Runnable getLastFormRefreshStateRestorationJob();
 
 	/**
-	 * Behaves like {@link IMethodInfo#isReturnValueValidityDetectionEnabled()}.
+	 * Behaves like {@link IMethodInfo#isControlReturnValueValiditionEnabled()}.
 	 * 
 	 * @return the value corresponding to the behavior described above.
 	 */
-	boolean isReturnValueValidityDetectionEnabled();
+	boolean isControlReturnValueValiditionEnabled();
 
 	/**
 	 * Behaves like

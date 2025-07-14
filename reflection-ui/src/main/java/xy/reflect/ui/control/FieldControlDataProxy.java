@@ -96,8 +96,8 @@ public class FieldControlDataProxy implements IFieldControlData {
 		return base.getFormControlFilter();
 	}
 
-	public boolean isValueValidityDetectionEnabled() {
-		return base.isValueValidityDetectionEnabled();
+	public boolean isControlValueValiditionEnabled() {
+		return base.isControlValueValiditionEnabled();
 	}
 
 	public IValidationJob getValueAbstractFormValidationJob() {

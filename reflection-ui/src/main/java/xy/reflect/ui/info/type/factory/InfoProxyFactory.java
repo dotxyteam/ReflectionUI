@@ -978,11 +978,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 * @param method     The method information.
 	 * @param objectType The parent type information.
 	 * @return the result of
-	 *         {@link IMethodInfo#isReturnValueValidityDetectionEnabled()} unless
+	 *         {@link IMethodInfo#isControlReturnValueValiditionEnabled()} unless
 	 *         overridden.
 	 */
-	protected boolean isReturnValueValidityDetectionEnabled(IMethodInfo method, ITypeInfo objectType) {
-		return method.isReturnValueValidityDetectionEnabled();
+	protected boolean isControlReturnValueValiditionEnabled(IMethodInfo method, ITypeInfo objectType) {
+		return method.isControlReturnValueValiditionEnabled();
 	}
 
 	/**
@@ -1859,11 +1859,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	/**
 	 * @param field      The field information.
 	 * @param objectType The parent type information.
-	 * @return the result of {@link IFieldInfo#isValueValidityDetectionEnabled()}
+	 * @return the result of {@link IFieldInfo#isControlValueValiditionEnabled()}
 	 *         unless overridden.
 	 */
-	protected boolean isValueValidityDetectionEnabled(IFieldInfo field, ITypeInfo objectType) {
-		return field.isValueValidityDetectionEnabled();
+	protected boolean isControlValueValiditionEnabled(IFieldInfo field, ITypeInfo objectType) {
+		return field.isControlValueValiditionEnabled();
 	}
 
 	/**
@@ -2966,8 +2966,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isValueValidityDetectionEnabled() {
-			return InfoProxyFactory.this.isValueValidityDetectionEnabled(base, objectType);
+		public boolean isControlValueValiditionEnabled() {
+			return InfoProxyFactory.this.isControlValueValiditionEnabled(base, objectType);
 		}
 
 		@Override
@@ -3053,8 +3053,8 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean isReturnValueValidityDetectionEnabled() {
-			return InfoProxyFactory.this.isReturnValueValidityDetectionEnabled(base, objectType);
+		public boolean isControlReturnValueValiditionEnabled() {
+			return InfoProxyFactory.this.isControlReturnValueValiditionEnabled(base, objectType);
 		}
 
 		@Override

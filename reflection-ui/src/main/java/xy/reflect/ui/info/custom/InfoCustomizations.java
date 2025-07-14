@@ -4418,7 +4418,6 @@ public class InfoCustomizations implements Serializable {
 		protected ITypeInfoFinder customItemTypeFinder;
 		protected String selectionTargetFieldName;
 		protected boolean itemAutomaticPositioningManagementForced = false;
-		protected InfoPattern itemValidabilityStatusFieldNamePattern;
 
 		@Override
 		public boolean isInitial() {
@@ -4434,18 +4433,12 @@ public class InfoCustomizations implements Serializable {
 			return customItemTypeFinder;
 		}
 
-		public InfoPattern getItemValidabilityStatusFieldNamePattern() {
-			return itemValidabilityStatusFieldNamePattern;
-		}
-
-		public void setItemValidabilityStatusFieldNamePattern(InfoPattern itemValidabilityStatusFieldNamePattern) {
-			this.itemValidabilityStatusFieldNamePattern = itemValidabilityStatusFieldNamePattern;
-		}
-
 		@Deprecated
 		public ItemNodeValidityDetectionConfiguration getItemNodeValidityDetectionConfiguration() {
 			ItemNodeValidityDetectionConfiguration result = new ItemNodeValidityDetectionConfiguration();
-			result.setEnablementStatusFieldNamePattern(itemValidabilityStatusFieldNamePattern);
+			result.setEnablementStatusFieldNamePattern((treeStructureDiscoverySettings != null)
+					? treeStructureDiscoverySettings.getItemValidabilityStatusFieldNamePattern()
+					: null);
 			return result;
 		}
 
@@ -4453,8 +4446,11 @@ public class InfoCustomizations implements Serializable {
 		public void setItemNodeValidityDetectionConfiguration(
 				ItemNodeValidityDetectionConfiguration itemNodeValidityDetectionConfiguration) {
 			if (itemNodeValidityDetectionConfiguration != null) {
-				itemValidabilityStatusFieldNamePattern = itemNodeValidityDetectionConfiguration
-						.getEnablementStatusFieldNamePattern();
+				if (treeStructureDiscoverySettings == null) {
+					treeStructureDiscoverySettings = new TreeStructureDiscoverySettings();
+				}
+				treeStructureDiscoverySettings.setItemValidabilityStatusFieldNamePattern(
+						itemNodeValidityDetectionConfiguration.getEnablementStatusFieldNamePattern());
 			}
 		}
 
@@ -4740,6 +4736,15 @@ public class InfoCustomizations implements Serializable {
 		protected List<InfoPattern> excludedSubListFields = new ArrayList<InfoPattern>();
 		protected boolean singleSubListFieldNameNeverDisplayedAsTreeNode = true;
 		protected boolean subListFieldControlSlave = false;
+		protected InfoPattern itemValidabilityStatusFieldNamePattern;
+
+		public InfoPattern getItemValidabilityStatusFieldNamePattern() {
+			return itemValidabilityStatusFieldNamePattern;
+		}
+
+		public void setItemValidabilityStatusFieldNamePattern(InfoPattern itemValidabilityStatusFieldNamePattern) {
+			this.itemValidabilityStatusFieldNamePattern = itemValidabilityStatusFieldNamePattern;
+		}
 
 		public boolean isSingleSubListFieldNameNeverDisplayedAsTreeNode() {
 			return singleSubListFieldNameNeverDisplayedAsTreeNode;

@@ -6,15 +6,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
-
 import javax.swing.Icon;
-import javax.swing.SwingUtilities;
-
 import xy.reflect.ui.control.IAdvancedMethodControl;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
-import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
@@ -119,7 +114,7 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 	}
 
 	@Override
-	public void validateControl(ValidationSession session) throws Exception {
+	public void validateControlData(ValidationSession session) throws Exception {
 		final IValidationJob[] validationJob = new IValidationJob[1];
 		new MethodAction(swingRenderer, input) {
 			private static final long serialVersionUID = 1L;
@@ -132,29 +127,14 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 				}
 				InvocationData invocationData = prepare(null);
 				returnValue = input.getControlData().invoke(invocationData);
-				validationJob[0] = data.getReturnValueAbstractFormValidationJob(returnValue);
-				if (validationJob[0] == null) {
-					Form[] form = new Form[1];
-					try {
-						SwingUtilities.invokeAndWait(new Runnable() {
-							@Override
-							public void run() {
-								form[0] = createReturnValueEditorBuilder(null).createEditorForm(false, false);
-							}
-						});
-					} catch (InvocationTargetException e) {
-						throw new ReflectionUIError(e);
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-					}
-					validationJob[0] = (sessionArg) -> form[0].validateForm(sessionArg);
-				}
+				validationJob[0] = (sessionArg) -> createReturnValueEditorBuilder(null)
+						.performHeadlessFormValidation(sessionArg);
 			}
 		};
 		if (Thread.currentThread().isInterrupted()) {
 			return;
 		}
-		validationJob[0].validate(session);		
+		validationJob[0].validate(session);
 	}
 
 }

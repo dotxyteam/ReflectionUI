@@ -212,7 +212,7 @@ public class MethodReturnValueAsFieldInfo extends AbstractInfo implements IField
 	}
 
 	@Override
-	public boolean isValueValidityDetectionEnabled() {
+	public boolean isControlValueValiditionEnabled() {
 		return false;
 	}
 

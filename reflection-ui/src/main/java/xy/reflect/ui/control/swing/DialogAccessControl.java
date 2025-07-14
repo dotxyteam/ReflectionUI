@@ -10,13 +10,9 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
-
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -26,7 +22,6 @@ import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
-import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.AbstractControlButton;
 import xy.reflect.ui.control.swing.util.ControlPanel;
@@ -43,7 +38,6 @@ import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.FieldControlDataModification;
 import xy.reflect.ui.undo.IModification;
 import xy.reflect.ui.undo.ModificationStack;
-import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
@@ -300,27 +294,9 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public void validateControl(ValidationSession session) throws Exception {
-		IValidationJob validationJob = data.getValueAbstractFormValidationJob();
-		if (validationJob == null) {
-			AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(this);
-			Form[] form = new Form[1];
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						form[0] = subDialogBuilder.createEditorForm(false, false);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				throw new ReflectionUIError(e);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				return;
-			}
-			validationJob = (sessionArg) -> form[0].validateForm(sessionArg);
-		}
-		validationJob.validate(session);
+	public void validateControlData(ValidationSession session) throws Exception {
+		AbstractEditorBuilder subDialogBuilder = createSubDialogBuilder(this);
+		subDialogBuilder.performHeadlessFormValidation(session);
 	}
 
 	@Override
@@ -345,6 +321,11 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		}
 
 		@Override
+		protected IValidationJob getValueAbstractFormValidationJob() {
+			return data.getValueAbstractFormValidationJob();
+		}
+
+		@Override
 		protected IContext getContext() {
 			return input.getContext();
 		}
@@ -360,7 +341,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		}
 
 		@Override
-		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+		protected boolean isEncapsulatedisControlValueValiditionEnabled() {
 			return true;
 		}
 

@@ -190,7 +190,7 @@ public class ColorPickerPlugin extends AbstractSimpleFieldControlPlugin {
 		}
 
 		@Override
-		public void validateControl(ValidationSession session) throws Exception {
+		public void validateControlData(ValidationSession session) throws Exception {
 		}
 
 		@Override

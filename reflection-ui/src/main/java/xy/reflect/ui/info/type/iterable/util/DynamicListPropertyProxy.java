@@ -44,8 +44,8 @@ public class DynamicListPropertyProxy implements IDynamicListProperty {
 		return base.getValueAbstractFormValidationJob(object);
 	}
 
-	public boolean isValueValidityDetectionEnabled() {
-		return base.isValueValidityDetectionEnabled();
+	public boolean isControlValueValiditionEnabled() {
+		return base.isControlValueValiditionEnabled();
 	}
 
 	public void onControlVisibilityChange(Object object, boolean visible) {

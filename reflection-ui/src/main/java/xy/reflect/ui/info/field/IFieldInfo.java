@@ -43,7 +43,7 @@ public interface IFieldInfo extends IInfo {
 		}
 
 		@Override
-		public boolean isValueValidityDetectionEnabled() {
+		public boolean isControlValueValiditionEnabled() {
 			return false;
 		}
 
@@ -415,10 +415,10 @@ public interface IFieldInfo extends IInfo {
 	void onControlVisibilityChange(Object object, boolean visible);
 
 	/**
-	 * @return whether validation errors should be checked for the value of the
-	 *         field.
+	 * @return whether control-based validation errors should be checked for the
+	 *         value of the field.
 	 */
-	boolean isValueValidityDetectionEnabled();
+	boolean isControlValueValiditionEnabled();
 
 	/**
 	 * @param object The object hosting the field value or null if the field is

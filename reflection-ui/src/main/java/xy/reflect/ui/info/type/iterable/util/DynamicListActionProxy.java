@@ -42,8 +42,8 @@ public class DynamicListActionProxy implements IDynamicListAction {
 		return base.getReturnValueAbstractFormValidationJob(object, returnValue);
 	}
 
-	public boolean isReturnValueValidityDetectionEnabled() {
-		return base.isReturnValueValidityDetectionEnabled();
+	public boolean isControlReturnValueValiditionEnabled() {
+		return base.isControlReturnValueValiditionEnabled();
 	}
 
 	@Override

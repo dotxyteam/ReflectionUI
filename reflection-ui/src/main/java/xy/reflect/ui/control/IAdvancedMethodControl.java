@@ -21,6 +21,6 @@ public interface IAdvancedMethodControl {
 	 * 
 	 * @throws Exception If an invalid sub-form is detected.
 	 */
-	void validateControl(ValidationSession session) throws Exception;
+	void validateControlData(ValidationSession session) throws Exception;
 
 }

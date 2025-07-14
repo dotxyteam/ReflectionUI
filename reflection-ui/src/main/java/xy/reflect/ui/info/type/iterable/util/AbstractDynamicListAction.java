@@ -36,7 +36,7 @@ public abstract class AbstractDynamicListAction extends AbstractInfo implements 
 	}
 
 	@Override
-	public boolean isReturnValueValidityDetectionEnabled() {
+	public boolean isControlReturnValueValiditionEnabled() {
 		return false;
 	}
 

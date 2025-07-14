@@ -135,8 +135,8 @@ public abstract class AbstractFieldControlData implements IFieldControlData {
 	}
 
 	@Override
-	public boolean isValueValidityDetectionEnabled() {
-		return getField().isValueValidityDetectionEnabled();
+	public boolean isControlValueValiditionEnabled() {
+		return getField().isControlValueValiditionEnabled();
 	}
 
 	@Override

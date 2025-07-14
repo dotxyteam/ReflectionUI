@@ -868,7 +868,7 @@ public class EncapsulatedObjectFactory {
 		}
 
 		@Override
-		public boolean isValueValidityDetectionEnabled() {
+		public boolean isControlValueValiditionEnabled() {
 			return fieldValueValidityDetectionEnabled;
 		}
 

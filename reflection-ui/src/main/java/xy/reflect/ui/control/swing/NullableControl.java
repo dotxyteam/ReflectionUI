@@ -369,7 +369,7 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	@Override
-	public void validateControl(ValidationSession session) throws Exception {
+	public void validateControlData(ValidationSession session) throws Exception {
 		if (currentSubControl instanceof Form) {
 			((Form) currentSubControl).validateForm(session);
 		}
@@ -417,8 +417,8 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 
 		@Override
-		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
-			return data.isValueValidityDetectionEnabled();
+		protected boolean isEncapsulatedisControlValueValiditionEnabled() {
+			return data.isControlValueValiditionEnabled();
 		}
 
 		@Override

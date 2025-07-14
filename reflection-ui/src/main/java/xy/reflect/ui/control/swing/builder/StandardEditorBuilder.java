@@ -141,7 +141,7 @@ public class StandardEditorBuilder extends AbstractEditorBuilder {
 	}
 
 	@Override
-	protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+	protected boolean isEncapsulatedisControlValueValiditionEnabled() {
 		return true;
 	}
 }

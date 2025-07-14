@@ -21,6 +21,7 @@ import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.ValueReturnMode;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.IModification;
@@ -332,6 +333,11 @@ public class MethodAction extends AbstractAction {
 		}
 
 		@Override
+		protected IValidationJob getValueAbstractFormValidationJob() {
+			return data.getReturnValueAbstractFormValidationJob(returnValue);
+		}
+
+		@Override
 		protected IContext getContext() {
 			return input.getContext();
 		}
@@ -357,7 +363,7 @@ public class MethodAction extends AbstractAction {
 		}
 
 		@Override
-		protected boolean isEncapsulatedValueValidityDetectionEnabled() {
+		protected boolean isEncapsulatedisControlValueValiditionEnabled() {
 			return true;
 		}
 
