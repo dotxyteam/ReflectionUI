@@ -687,20 +687,8 @@ public abstract class AbstractEditorFormBuilder {
 			 * Manage validation error attribution since it will not be managed
 			 * automatically through a concrete form validation.
 			 */
-			final IValidationJob finalAbstractFormValidationJob = abstractFormValidationJob;
-			validationJob = (sessionArg) -> {
-				try {
-					finalAbstractFormValidationJob.validate(sessionArg);
-					if (!Thread.currentThread().isInterrupted()) {
-						swingRenderer.getReflectionUI().getValidationErrorRegistry()
-								.cancelAttribution(getCurrentValue(), session);
-					}
-				} catch (Exception e) {
-					swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(getCurrentValue(), e,
-							session);
-					throw e;
-				}
-			};
+			validationJob = swingRenderer.getReflectionUI().getValidationErrorRegistry().attributing(getCurrentValue(),
+					abstractFormValidationJob);
 		} else {
 			Form[] form = new Form[1];
 			try {

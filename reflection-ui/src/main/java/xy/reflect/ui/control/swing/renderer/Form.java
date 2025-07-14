@@ -363,88 +363,88 @@ public class Form extends ImagePanel {
 	 */
 	public void validateForm(ValidationSession session) throws Exception {
 		try {
-			ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-			ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-			type.validate(object, session);
-			List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
-					methodControlPlaceHoldersByCategory);
-			boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
-			for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
-				for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory
-						.get(category)) {
-					if (Thread.currentThread().isInterrupted()) {
-						return;
-					}
-					if (!fieldControlPlaceHolder.isVisible()) {
-						continue;
-					}
-					if (!fieldControlPlaceHolder.getControlData().isControlValueValiditionEnabled()) {
-						continue;
-					}
-					Component fieldControl = fieldControlPlaceHolder.getFieldControl();
-					if (fieldControl instanceof IAdvancedFieldControl) {
-						try {
-							((IAdvancedFieldControl) fieldControl).validateControlData(session);
-						} catch (Exception e) {
-							String contextCaption = null;
-							IFieldInfo field = fieldControlPlaceHolder.getField();
-							if (field.getCaption().length() > 0) {
-								contextCaption = field.getCaption();
-							}
-							if (categoriesDisplayed) {
-								contextCaption = category.getCaption();
-							}
-							if (contextCaption != null) {
-								throw new ValidationErrorWrapper(contextCaption, e);
-							} else {
-								throw e;
+			swingRenderer.getReflectionUI().getValidationErrorRegistry().attributing(object, (sessionArg) -> {
+				ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
+				ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
+				type.validate(object, session);
+				List<InfoCategory> allCategories = collectCategories(fieldControlPlaceHoldersByCategory,
+						methodControlPlaceHoldersByCategory);
+				boolean categoriesDisplayed = shouldCategoriesBeDisplayed(allCategories);
+				for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
+					for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory
+							.get(category)) {
+						if (Thread.currentThread().isInterrupted()) {
+							return;
+						}
+						if (!fieldControlPlaceHolder.isVisible()) {
+							continue;
+						}
+						if (!fieldControlPlaceHolder.getControlData().isControlValueValiditionEnabled()) {
+							continue;
+						}
+						Component fieldControl = fieldControlPlaceHolder.getFieldControl();
+						if (fieldControl instanceof IAdvancedFieldControl) {
+							try {
+								((IAdvancedFieldControl) fieldControl).validateControlData(session);
+							} catch (Exception e) {
+								String contextCaption = null;
+								IFieldInfo field = fieldControlPlaceHolder.getField();
+								if (field.getCaption().length() > 0) {
+									contextCaption = field.getCaption();
+								}
+								if (categoriesDisplayed) {
+									contextCaption = category.getCaption();
+								}
+								if (contextCaption != null) {
+									throw new ValidationErrorWrapper(contextCaption, e);
+								} else {
+									throw e;
+								}
 							}
 						}
 					}
 				}
-			}
-			for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
-				for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
-						.get(category)) {
-					if (Thread.currentThread().isInterrupted()) {
-						return;
-					}
-					if (!methodControlPlaceHolder.isVisible()) {
-						continue;
-					}
-					if (!methodControlPlaceHolder.getControlData().isControlReturnValueValiditionEnabled()) {
-						continue;
-					}
-					Component methodControl = methodControlPlaceHolder.getMethodControl();
-					if (methodControl instanceof IAdvancedMethodControl) {
-						try {
-							((IAdvancedMethodControl) methodControl).validateControlData(session);
-						} catch (Exception e) {
-							String contextCaption = null;
-							IMethodInfo method = methodControlPlaceHolder.getMethod();
-							if (method.getCaption().length() > 0) {
-								contextCaption = method.getCaption();
-							}
-							if (categoriesDisplayed) {
-								contextCaption = category.getCaption();
-							}
-							if (contextCaption != null) {
-								throw new ValidationErrorWrapper(contextCaption, e);
-							} else {
-								throw e;
+				for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
+					for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
+							.get(category)) {
+						if (Thread.currentThread().isInterrupted()) {
+							return;
+						}
+						if (!methodControlPlaceHolder.isVisible()) {
+							continue;
+						}
+						if (!methodControlPlaceHolder.getControlData().isControlReturnValueValiditionEnabled()) {
+							continue;
+						}
+						Component methodControl = methodControlPlaceHolder.getMethodControl();
+						if (methodControl instanceof IAdvancedMethodControl) {
+							try {
+								((IAdvancedMethodControl) methodControl).validateControlData(session);
+							} catch (Exception e) {
+								String contextCaption = null;
+								IMethodInfo method = methodControlPlaceHolder.getMethod();
+								if (method.getCaption().length() > 0) {
+									contextCaption = method.getCaption();
+								}
+								if (categoriesDisplayed) {
+									contextCaption = category.getCaption();
+								}
+								if (contextCaption != null) {
+									throw new ValidationErrorWrapper(contextCaption, e);
+								} else {
+									throw e;
+								}
 							}
 						}
 					}
 				}
-			}
+			}).validate(session);
 			if (!Thread.currentThread().isInterrupted()) {
-				swingRenderer.getReflectionUI().getValidationErrorRegistry().cancelAttribution(object, session);
 				for (IFormListener l : listeners) {
 					l.afterValidation(null);
 				}
 			}
 		} catch (Exception e) {
-			swingRenderer.getReflectionUI().getValidationErrorRegistry().attribute(object, e, session);
 			for (IFormListener l : listeners) {
 				l.afterValidation(e);
 			}

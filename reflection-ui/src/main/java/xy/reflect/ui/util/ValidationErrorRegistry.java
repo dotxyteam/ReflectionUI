@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import xy.reflect.ui.info.ValidationSession;
+import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 
 /**
  * This class is responsible for creating, providing and destroying relations
@@ -67,7 +68,7 @@ public class ValidationErrorRegistry {
 	 */
 	public void cancelAttribution(Object object, ValidationSession session) {
 		Object attributionKey = getValidationErrorMapKey(object, session);
-		if(!attributionMap.containsKey(attributionKey)) {
+		if (!attributionMap.containsKey(attributionKey)) {
 			return;
 		}
 		attributionMap.remove(attributionKey);
@@ -81,6 +82,34 @@ public class ValidationErrorRegistry {
 	 */
 	public Exception getValidationError(Object object, ValidationSession session) {
 		return attributionMap.get(getValidationErrorMapKey(object, null));
+	}
+
+	/**
+	 * @param object        The object that will receive the attribution or be
+	 *                      discharged from it.
+	 * @param validationJob The validation job.
+	 * @return a proxy of the given validation job that will attribute the eventual
+	 *         validation error to the object passed as argument.
+	 */
+	public IValidationJob attributing(Object object, IValidationJob validationJob) {
+		return (sessionArg) -> {
+			try {
+				validationJob.validate(sessionArg);
+				if (!Thread.currentThread().isInterrupted()) {
+					cancelAttribution(object, sessionArg);
+				}
+			} catch (Throwable t) {
+				if (t.toString().toLowerCase().contains("interrupt")) {
+					Thread.currentThread().interrupt();
+					return;
+				}
+				if (t instanceof Exception) {
+					attribute(object, (Exception) t, sessionArg);
+					throw (Exception) t;
+				}
+				throw new Error(t);
+			}
+		};
 	}
 
 }
