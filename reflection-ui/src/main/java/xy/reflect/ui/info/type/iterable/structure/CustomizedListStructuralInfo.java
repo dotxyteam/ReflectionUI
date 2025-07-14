@@ -285,6 +285,9 @@ public class CustomizedListStructuralInfo extends ListStructuralInfoProxy {
 
 	@Override
 	public boolean isSlave(Object subFormObject, IFieldInfo subFormField, BufferedItemPosition itemPosition) {
+		if (listCustomization.getTreeStructureDiscoverySettings() == null) {
+			return false;
+		}
 		if (!listCustomization.getTreeStructureDiscoverySettings().isSubListFieldControlSlave()) {
 			return false;
 		}

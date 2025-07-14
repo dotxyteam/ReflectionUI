@@ -1461,6 +1461,8 @@ public class Form extends ImagePanel {
 				} else {
 					menuBar.setBorder(new JMenuBar().getBorder());
 				}
+				menuBar.removeAll();
+				menuBarUpdater = null;
 			}
 			{
 				statusBar.setBackground(backgroundColor);
