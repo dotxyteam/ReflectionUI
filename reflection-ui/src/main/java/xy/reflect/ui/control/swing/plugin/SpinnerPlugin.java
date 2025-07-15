@@ -108,7 +108,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
-		protected ReschedulableTask dataUpdateProcess = createDelayedUpdateProcess();
+		protected ReschedulableTask dataUpdateProcess;
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
 
@@ -116,6 +116,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
+			this.dataUpdateProcess = createDelayedUpdateProcess();
 			try {
 				this.numberClass = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {

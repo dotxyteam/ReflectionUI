@@ -218,7 +218,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
-		protected ReschedulableTask textEditorChangesCommittingProcess = createDelayedUpdateProcess();
+		protected ReschedulableTask textEditorChangesCommittingProcess;
 		protected boolean initialized = false;
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
@@ -227,6 +227,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
+			this.textEditorChangesCommittingProcess = createDelayedUpdateProcess();
 			setupEvents();
 			refreshUI(true);
 			this.initialized = true;

@@ -76,12 +76,13 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
-		protected ReschedulableTask dataUpdateProcess = createDelayedUpdateProcess();
+		protected ReschedulableTask dataUpdateProcess;
 
 		public Slider(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
 			this.input = input;
 			this.data = input.getControlData();
+			this.dataUpdateProcess = createDelayedUpdateProcess();
 			setOpaque(false);
 			try {
 				this.numberClass = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());

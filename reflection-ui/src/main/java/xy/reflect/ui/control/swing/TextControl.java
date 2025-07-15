@@ -52,13 +52,14 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	protected boolean listenerDisabled = false;
 
 	protected Border defaultTextComponentBorder;
-	protected ReschedulableTask dataUpdateProcess = createDelayedUpdateProcess();
+	protected ReschedulableTask dataUpdateProcess;
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
 		input = adaptTextInput(input);
 		this.input = input;
 		this.data = input.getControlData();
+		this.dataUpdateProcess = createDelayedUpdateProcess();
 
 		setLayout(new BorderLayout());
 
