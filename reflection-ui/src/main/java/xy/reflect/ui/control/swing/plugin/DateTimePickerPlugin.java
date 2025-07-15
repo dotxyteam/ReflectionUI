@@ -15,8 +15,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
@@ -220,31 +218,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		protected IFieldControlInput input;
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
-		protected ReschedulableTask textEditorChangesCommittingProcess = new ReschedulableTask() {
-			@Override
-			protected void execute() {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							DateTimePicker.this.commitTextEditorChanges();
-						} catch (Throwable t) {
-							swingRenderer.handleException(DateTimePicker.this, t);
-						}
-					}
-				});
-			}
-
-			@Override
-			protected ExecutorService getTaskExecutor() {
-				return swingRenderer.getDelayedUpdateExecutor();
-			}
-
-			@Override
-			protected long getExecutionDelayMilliseconds() {
-				return DateTimePicker.this.getCommitDelayMilliseconds();
-			}
-		};
+		protected ReschedulableTask textEditorChangesCommittingProcess = createDelayedUpdateProcess();
 		protected boolean initialized = false;
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
@@ -256,6 +230,15 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			setupEvents();
 			refreshUI(true);
 			this.initialized = true;
+		}
+
+		protected ReschedulableTask createDelayedUpdateProcess() {
+			return swingRenderer.createDelayedUpdateProcess(this, new Runnable() {
+				@Override
+				public void run() {
+					DateTimePicker.this.commitTextEditorChanges();
+				}
+			}, 3000);
 		}
 
 		@Override
@@ -479,10 +462,6 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 			} finally {
 				listenerDisabled = false;
 			}
-		}
-
-		protected long getCommitDelayMilliseconds() {
-			return 3000;
 		}
 
 		protected void commitTextEditorChanges() {

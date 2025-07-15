@@ -29,7 +29,7 @@ public abstract class ReschedulableTask {
 	protected abstract ExecutorService getTaskExecutor();
 
 	protected Object executionMutex = new Object();
-	protected Future<?> taskStatus;
+	protected Future<?> future;
 	protected boolean executionScheduled = false;
 	protected long executionScheduledSince = -1;
 
@@ -37,7 +37,7 @@ public abstract class ReschedulableTask {
 		synchronized (executionMutex) {
 			if (!executionScheduled) {
 				boolean[] statusChanged = new boolean[] { false };
-				taskStatus = getTaskExecutor().submit(new Runnable() {
+				future = getTaskExecutor().submit(new Runnable() {
 					@Override
 					public void run() {
 						executionScheduled = true;
@@ -70,7 +70,7 @@ public abstract class ReschedulableTask {
 	public void cancelSchedule() {
 		synchronized (executionMutex) {
 			if (executionScheduled) {
-				taskStatus.cancel(true);
+				future.cancel(true);
 				while (executionScheduled) {
 					try {
 						Thread.sleep(1);

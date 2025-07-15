@@ -9,8 +9,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.concurrent.ExecutorService;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -110,31 +108,7 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
-		protected ReschedulableTask dataUpdateProcess = new ReschedulableTask() {
-			@Override
-			protected void execute() {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Spinner.this.commitChanges();
-						} catch (Throwable t) {
-							swingRenderer.handleException(Spinner.this, t);
-						}
-					}
-				});
-			}
-
-			@Override
-			protected ExecutorService getTaskExecutor() {
-				return swingRenderer.getDelayedUpdateExecutor();
-			}
-
-			@Override
-			protected long getExecutionDelayMilliseconds() {
-				return Spinner.this.getCommitDelayMilliseconds();
-			}
-		};
+		protected ReschedulableTask dataUpdateProcess = createDelayedUpdateProcess();
 		protected Throwable currentConversionError;
 		protected Throwable currentDataError;
 
@@ -153,6 +127,15 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 			setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 			setupEvents();
 			refreshUI(true);
+		}
+
+		protected ReschedulableTask createDelayedUpdateProcess() {
+			return swingRenderer.createDelayedUpdateProcess(this, new Runnable() {
+				@Override
+				public void run() {
+					Spinner.this.commitChanges();
+				}
+			}, 500);
 		}
 
 		protected void setupEvents() {
@@ -391,10 +374,6 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 				dataUpdateProcess.cancelSchedule();
 				commitChanges();
 			}
-		}
-
-		protected long getCommitDelayMilliseconds() {
-			return 500;
 		}
 
 		protected void commitChanges() {

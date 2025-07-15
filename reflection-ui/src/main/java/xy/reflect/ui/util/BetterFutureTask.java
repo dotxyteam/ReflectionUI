@@ -85,7 +85,7 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 	 * @throws InterruptedException if the thread is interrupted
 	 */
 	public void cancelAndWaitRepeatedly(long millisecondsBetweenInterrupts) throws InterruptedException {
-		super.cancel(true);
+		cancel(true);
 		while (!semaphore.tryAcquire()) {
 			Thread.sleep(millisecondsBetweenInterrupts);
 			synchronized (threadMutex) {
@@ -114,7 +114,6 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 	 */
 	@Override
 	public T get() throws InterruptedException, ExecutionException, CancellationException {
-
 		try {
 			return super.get();
 		} catch (CancellationException e) {
@@ -141,7 +140,6 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 	@Override
 	public T get(long timeout, TimeUnit unit)
 			throws InterruptedException, ExecutionException, CancellationException, TimeoutException {
-
 		try {
 			return super.get(timeout, unit);
 		} catch (CancellationException e) {
@@ -170,9 +168,7 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 	 * @throws InterruptedException if the thread is interrupted
 	 */
 	public void cancelAndWait(boolean mayInterruptIfRunning) throws InterruptedException {
-
-		super.cancel(mayInterruptIfRunning);
-
+		cancel(mayInterruptIfRunning);
 		semaphore.acquire();
 		semaphore.release();
 	}

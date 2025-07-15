@@ -2,6 +2,7 @@ package xy.reflect.ui.util;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
@@ -27,6 +28,7 @@ import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
 public class ValidationErrorRegistry {
 
 	protected Map<Object, Exception> attributionMap = Collections.synchronizedMap(buildAttributionMap());
+	protected WeakHashMap<Thread, Boolean> validationCancellationStatusByThread = new WeakHashMap<Thread, Boolean>();
 
 	/**
 	 * @param object  The validated object.
@@ -89,18 +91,19 @@ public class ValidationErrorRegistry {
 	 *                      discharged from it.
 	 * @param validationJob The validation job.
 	 * @return a proxy of the given validation job that will attribute the eventual
-	 *         validation error to the object passed as argument.
+	 *         validation error to the object passed as argument. Note that the
+	 *         validation cancellation status is taken into account and may lead to
+	 *         skipping the error attribution update.
 	 */
 	public IValidationJob attributing(Object object, IValidationJob validationJob) {
 		return (sessionArg) -> {
 			try {
 				validationJob.validate(sessionArg);
-				if (!Thread.currentThread().isInterrupted()) {
+				if (!isValidationCancelled(Thread.currentThread())) {
 					cancelAttribution(object, sessionArg);
 				}
 			} catch (Throwable t) {
-				if (t.toString().toLowerCase().contains("interrupt")) {
-					Thread.currentThread().interrupt();
+				if (isValidationCancelled(Thread.currentThread())) {
 					return;
 				}
 				if (t instanceof Exception) {
@@ -110,6 +113,31 @@ public class ValidationErrorRegistry {
 				throw new Error(t);
 			}
 		};
+	}
+
+	/**
+	 * @param runnable The validation job.
+	 * @return a new task that can be used to execute and cancel properly a
+	 *         validation job.
+	 */
+	public BetterFutureTask<Boolean> createValidationTask(Runnable runnable) {
+		return new BetterFutureTask<Boolean>(runnable, true) {
+
+			@Override
+			public boolean cancel(boolean mayInterruptIfRunning) {
+				setValidationCancelled(thread);
+				return super.cancel(mayInterruptIfRunning);
+			}
+
+		};
+	}
+
+	protected boolean isValidationCancelled(Thread thread) {
+		return Boolean.TRUE.equals(validationCancellationStatusByThread.get(thread));
+	}
+
+	protected void setValidationCancelled(Thread thread) {
+		validationCancellationStatusByThread.put(thread, Boolean.TRUE);
 	}
 
 }

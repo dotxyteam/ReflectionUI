@@ -7,8 +7,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.ExecutorService;
-
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
@@ -17,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
@@ -55,31 +52,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	protected boolean listenerDisabled = false;
 
 	protected Border defaultTextComponentBorder;
-	protected ReschedulableTask dataUpdateProcess = new ReschedulableTask() {
-		@Override
-		protected void execute() {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						TextControl.this.commitChanges();
-					} catch (Throwable t) {
-						swingRenderer.handleException(TextControl.this, t);
-					}
-				}
-			});
-		}
-
-		@Override
-		protected ExecutorService getTaskExecutor() {
-			return swingRenderer.getDelayedUpdateExecutor();
-		}
-
-		@Override
-		protected long getExecutionDelayMilliseconds() {
-			return TextControl.this.getCommitDelayMilliseconds();
-		}
-	};
+	protected ReschedulableTask dataUpdateProcess = createDelayedUpdateProcess();
 
 	public TextControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
 		this.swingRenderer = swingRenderer;
@@ -97,6 +70,15 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			add(scrollPane, BorderLayout.CENTER);
 		}
 		refreshUI(true);
+	}
+
+	protected ReschedulableTask createDelayedUpdateProcess() {
+		return swingRenderer.createDelayedUpdateProcess(this, new Runnable() {
+			@Override
+			public void run() {
+				TextControl.this.commitChanges();
+			}
+		}, 1000);
 	}
 
 	public JTextComponent getTextComponent() {
@@ -338,6 +320,10 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
+	protected void commitChanges() {
+		data.setValue(textComponent.getText());
+	}
+
 	protected void setCurrentTextEditPosition(int position) {
 		textComponent.setCaretPosition(position);
 	}
@@ -354,14 +340,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			dataUpdateProcess.cancelSchedule();
 			commitChanges();
 		}
-	}
-
-	protected long getCommitDelayMilliseconds() {
-		return 1000;
-	}
-
-	protected void commitChanges() {
-		data.setValue(textComponent.getText());
 	}
 
 	@Override

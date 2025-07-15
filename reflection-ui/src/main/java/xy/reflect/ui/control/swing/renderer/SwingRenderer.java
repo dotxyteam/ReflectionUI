@@ -82,6 +82,7 @@ import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
+import xy.reflect.ui.util.ReschedulableTask;
 import xy.reflect.ui.util.SystemProperties;
 
 /**
@@ -189,14 +190,6 @@ public class SwingRenderer {
 	}
 
 	/**
-	 * @return an executor service intended to execute delayed updates for generated
-	 *         controls.
-	 */
-	public ExecutorService getDelayedUpdateExecutor() {
-		return delayedUpdateExecutor;
-	}
-
-	/**
 	 * @return all displayed forms that were generated using this renderer.
 	 */
 	public List<Form> getAllDisplayedForms() {
@@ -209,6 +202,40 @@ public class SwingRenderer {
 	 */
 	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
 		return lastInvocationDataByMethodSignature;
+	}
+
+	/**
+	 * @param activatorComponent The owner component of the exception update process
+	 *                           or null.
+	 * @param updateJob          The specific update action.
+	 * @param delayMilliseconds  The number of milliseconds to wait before executing
+	 *                           the update.
+	 * @return a re-schedulable delayed update task.
+	 */
+	public ReschedulableTask createDelayedUpdateProcess(Component activatorComponent, Runnable updateJob,
+			int delayMilliseconds) {
+		return new ReschedulableTask() {
+			@Override
+			protected void execute() {
+				SwingUtilities.invokeLater(() -> {
+					try {
+						updateJob.run();
+					} catch (Throwable t) {
+						handleException(activatorComponent, t);
+					}
+				});
+			}
+
+			@Override
+			protected ExecutorService getTaskExecutor() {
+				return delayedUpdateExecutor;
+			}
+
+			@Override
+			protected long getExecutionDelayMilliseconds() {
+				return delayMilliseconds;
+			}
+		};
 	}
 
 	/**

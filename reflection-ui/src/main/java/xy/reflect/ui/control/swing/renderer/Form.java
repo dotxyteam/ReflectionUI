@@ -458,31 +458,32 @@ public class Form extends ImagePanel {
 	 */
 	public void validateFormInBackgroundAndReportOnStatusBar() {
 		ensureNoCurrentValidationTask();
-		currentValidationTask = new BetterFutureTask<Boolean>(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					validateForm(new ValidationSession());
-				} catch (Exception e) {
-					swingRenderer.getReflectionUI().logDebug(e);
-				} catch (Throwable t) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							swingRenderer.handleException(Form.this, t);
+		currentValidationTask = swingRenderer.getReflectionUI().getValidationErrorRegistry()
+				.createValidationTask(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							validateForm(new ValidationSession());
+						} catch (Exception e) {
+							swingRenderer.getReflectionUI().logDebug(e);
+						} catch (Throwable t) {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									swingRenderer.handleException(Form.this, t);
+								}
+							});
+						} finally {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									refreshValidityComponents();
+								}
+							});
+							currentValidationTask = null;
 						}
-					});
-				} finally {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							refreshValidityComponents();
-						}
-					});
-					currentValidationTask = null;
-				}
-			}
-		}, true);
+					}
+				});
 		swingRenderer.getFormValidator().submit(currentValidationTask);
 	}
 

@@ -4,10 +4,7 @@ package xy.reflect.ui.control.swing.plugin;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.concurrent.ExecutorService;
-
 import javax.swing.JSlider;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -79,31 +76,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		protected IFieldControlData data;
 		protected boolean listenerDisabled = false;
 		protected Class<?> numberClass;
-		protected ReschedulableTask dataUpdateProcess = new ReschedulableTask() {
-			@Override
-			protected void execute() {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Slider.this.commitChanges();
-						} catch (Throwable t) {
-							swingRenderer.handleException(Slider.this, t);
-						}
-					}
-				});
-			}
-
-			@Override
-			protected ExecutorService getTaskExecutor() {
-				return swingRenderer.getDelayedUpdateExecutor();
-			}
-
-			@Override
-			protected long getExecutionDelayMilliseconds() {
-				return Slider.this.getCommitDelayMilliseconds();
-			}
-		};
+		protected ReschedulableTask dataUpdateProcess = createDelayedUpdateProcess();
 
 		public Slider(SwingRenderer swingRenderer, IFieldControlInput input) {
 			this.swingRenderer = swingRenderer;
@@ -144,6 +117,15 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 				}
 			});
 			refreshUI(true);
+		}
+
+		protected ReschedulableTask createDelayedUpdateProcess() {
+			return swingRenderer.createDelayedUpdateProcess(this, new Runnable() {
+				@Override
+				public void run() {
+					Slider.this.commitChanges();
+				}
+			}, 750);
 		}
 
 		@Override
@@ -202,10 +184,6 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		@Override
 		public boolean showsCaption() {
 			return false;
-		}
-
-		protected long getCommitDelayMilliseconds() {
-			return 750;
 		}
 
 		protected void commitChanges() {
