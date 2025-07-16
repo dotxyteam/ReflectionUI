@@ -12,8 +12,9 @@ import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -274,15 +275,28 @@ public class HtmlPlugin extends StyledTextPlugin {
 		}
 
 		@Override
-		protected void setCurrentTextEditPosition(int position) {
+		protected void restoringCaretPosition(Runnable runnable) {
+			runnable.run();
 		}
 
 		@Override
 		protected void updateTextComponentValue() {
-			JScrollPane scrollPane = (JScrollPane) textComponent.getParent();
-			Rectangle visibleRectangle = scrollPane.getViewport().getViewRect();
+			final Rectangle visibleRectangle;
+			if (textComponent.getParent() instanceof JViewport) {
+				JViewport viewport = (JViewport) textComponent.getParent();
+				visibleRectangle = viewport.getViewRect();
+			} else {
+				visibleRectangle = null;
+			}
 			super.updateTextComponentValue();
-			textComponent.scrollRectToVisible(visibleRectangle);
+			if (visibleRectangle != null) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						textComponent.scrollRectToVisible(visibleRectangle);
+					}
+				});
+			}
 		}
 
 		@Override

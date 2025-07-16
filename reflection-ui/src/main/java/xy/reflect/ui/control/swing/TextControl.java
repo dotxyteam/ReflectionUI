@@ -314,23 +314,31 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected void updateTextComponentValue() {
 		String newText = (String) data.getValue();
-		if (newText == null) {
-			newText = "";
-		}
-		if (!MiscUtils.equalsOrBothNull(textComponent.getText(), newText)) {
-			int lastCaretPosition = textComponent.getCaretPosition();
-			textComponent.setText(newText);
-			setCurrentTextEditPosition(Math.min(lastCaretPosition, textComponent.getDocument().getLength()));
+		final String finalText = (newText != null) ? newText : "";
+		if (!MiscUtils.equalsOrBothNull(textComponent.getText(), finalText)) {
+			restoringCaretPosition(() -> restoringSelection(() -> textComponent.setText(finalText)));
 			SwingRendererUtils.handleComponentSizeChange(textComponent);
+		}
+	}
+
+	protected void restoringCaretPosition(Runnable runnable) {
+		int lastCaretPosition = textComponent.getCaretPosition();
+		runnable.run();
+		textComponent.setCaretPosition(Math.min(lastCaretPosition, textComponent.getDocument().getLength()));
+	}
+
+	protected void restoringSelection(Runnable runnable) {
+		int selectionStart = textComponent.getSelectionStart();
+		int selectionEnd = textComponent.getSelectionEnd();
+		runnable.run();
+		if (selectionStart != selectionEnd) {
+			textComponent.setSelectionStart(Math.min(selectionStart, textComponent.getDocument().getLength()));
+			textComponent.setSelectionEnd(Math.min(selectionEnd, textComponent.getDocument().getLength()));
 		}
 	}
 
 	protected void commitChanges() {
 		data.setValue(textComponent.getText());
-	}
-
-	protected void setCurrentTextEditPosition(int position) {
-		textComponent.setCaretPosition(position);
 	}
 
 	protected void textComponentEditHappened() {
@@ -368,7 +376,6 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		if (data.isGetOnly()) {
 			return false;
 		}
-		setCurrentTextEditPosition(textComponent.getDocument().getLength());
 		if (SwingRendererUtils.requestAnyComponentFocus(textComponent, swingRenderer)) {
 			return true;
 		}
