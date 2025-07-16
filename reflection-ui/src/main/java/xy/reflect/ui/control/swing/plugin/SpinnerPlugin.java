@@ -311,6 +311,10 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 						getEditor().getComponent(0).setFont(new JFormattedTextField().getFont());
 					}
 				}
+				if (dataUpdateProcess.isScheduled()) {
+					dataUpdateProcess.cancelSchedule();
+					commitChanges();
+				}
 				SpinnerNumberModel spinnerNumberModel = (SpinnerNumberModel) getModel();
 				Number value = (Number) data.getValue();
 				if (value == null) {

@@ -124,8 +124,14 @@ public class ValidationErrorRegistry {
 		return new BetterFutureTask<Boolean>(runnable, true) {
 
 			@Override
+			public void run() {
+				setValidationCancelled(Thread.currentThread(), false);
+				super.run();
+			}
+
+			@Override
 			public boolean cancel(boolean mayInterruptIfRunning) {
-				setValidationCancelled(thread);
+				setValidationCancelled(thread, true);
 				return super.cancel(mayInterruptIfRunning);
 			}
 
@@ -136,8 +142,12 @@ public class ValidationErrorRegistry {
 		return Boolean.TRUE.equals(validationCancellationStatusByThread.get(thread));
 	}
 
-	protected void setValidationCancelled(Thread thread) {
-		validationCancellationStatusByThread.put(thread, Boolean.TRUE);
+	protected void setValidationCancelled(Thread thread, boolean cancelled) {
+		if (cancelled) {
+			validationCancellationStatusByThread.put(thread, Boolean.TRUE);
+		} else {
+			validationCancellationStatusByThread.remove(thread);
+		}
 	}
 
 }

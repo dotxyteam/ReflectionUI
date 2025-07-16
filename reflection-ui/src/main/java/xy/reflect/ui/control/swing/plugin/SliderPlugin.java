@@ -154,6 +154,10 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 					}
 					SwingRendererUtils.handleComponentSizeChange(this);
 				}
+				if (dataUpdateProcess.isScheduled()) {
+					dataUpdateProcess.cancelSchedule();
+					commitChanges();
+				}
 				Object value = data.getValue();
 				final int intValue;
 				if (value == null) {

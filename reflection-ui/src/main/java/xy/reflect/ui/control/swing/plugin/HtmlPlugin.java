@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing.plugin;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URI;
@@ -11,6 +12,7 @@ import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
@@ -273,7 +275,14 @@ public class HtmlPlugin extends StyledTextPlugin {
 
 		@Override
 		protected void setCurrentTextEditPosition(int position) {
-			return;
+		}
+
+		@Override
+		protected void updateTextComponentValue() {
+			JScrollPane scrollPane = (JScrollPane) textComponent.getParent();
+			Rectangle visibleRectangle = scrollPane.getViewport().getViewRect();
+			super.updateTextComponentValue();
+			textComponent.scrollRectToVisible(visibleRectangle);
 		}
 
 		@Override

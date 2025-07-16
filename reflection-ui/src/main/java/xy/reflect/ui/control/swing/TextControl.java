@@ -167,6 +167,10 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		if (refreshStructure) {
 			updateScrollPolicy();
 		}
+		if (dataUpdateProcess.isScheduled()) {
+			dataUpdateProcess.cancelSchedule();
+			commitChanges();
+		}
 		refreshTextComponent(refreshStructure);
 		return true;
 	}
