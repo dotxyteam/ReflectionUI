@@ -3,6 +3,7 @@ package xy.reflect.ui.control.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -14,7 +15,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
@@ -316,8 +319,28 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		String newText = (String) data.getValue();
 		final String finalText = (newText != null) ? newText : "";
 		if (!MiscUtils.equalsOrBothNull(textComponent.getText(), finalText)) {
-			restoringCaretPosition(() -> restoringSelection(() -> textComponent.setText(finalText)));
+			restoringViewPortState(
+					() -> restoringCaretPosition(() -> restoringSelection(() -> textComponent.setText(finalText))));
 			SwingRendererUtils.handleComponentSizeChange(textComponent);
+		}
+	}
+
+	protected void restoringViewPortState(Runnable runnable) {
+		final Rectangle visibleRectangle;
+		if (textComponent.getParent() instanceof JViewport) {
+			JViewport viewport = (JViewport) textComponent.getParent();
+			visibleRectangle = viewport.getViewRect();
+		} else {
+			visibleRectangle = null;
+		}
+		runnable.run();
+		if (visibleRectangle != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					textComponent.scrollRectToVisible(visibleRectangle);
+				}
+			});
 		}
 	}
 

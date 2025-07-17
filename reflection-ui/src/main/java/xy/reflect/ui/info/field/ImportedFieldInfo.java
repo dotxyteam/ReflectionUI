@@ -3,8 +3,8 @@ package xy.reflect.ui.info.field;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.type.ITypeInfo;
-import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.info.type.source.SpecificitiesIdentifier;
+import xy.reflect.ui.info.type.source.TypeInfoSourceProxy;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -18,13 +18,17 @@ import xy.reflect.ui.util.ReflectionUIUtils;
 public class ImportedFieldInfo extends FieldInfoProxy {
 
 	protected ReflectionUI reflectionUI;
-	protected String targetFieldName;
+	protected ITypeInfo sourceObjectType;
+	protected String sourceFieldName;
 	protected ITypeInfo targetObjectType;
+	protected String targetFieldName;
 
 	public ImportedFieldInfo(ReflectionUI reflectionUI, ITypeInfo sourceObjectType, String sourceFieldName,
 			ITypeInfo targetObjectType, String targetFieldName) {
 		super(retrieveSourceField(sourceObjectType, sourceFieldName));
 		this.reflectionUI = reflectionUI;
+		this.sourceObjectType = sourceObjectType;
+		this.sourceFieldName = sourceFieldName;
 		this.targetObjectType = targetObjectType;
 		this.targetFieldName = targetFieldName;
 	}
@@ -57,8 +61,20 @@ public class ImportedFieldInfo extends FieldInfoProxy {
 
 	@Override
 	public ITypeInfo getType() {
-		return reflectionUI.getTypeInfo(new JavaTypeInfoSource(boolean.class,
-				new SpecificitiesIdentifier(targetObjectType.getName(), ImportedFieldInfo.this.getName())));
+		return reflectionUI.getTypeInfo(new TypeInfoSourceProxy(super.getType().getSource()) {
+
+			@Override
+			protected String getTypeInfoProxyFactoryIdentifier() {
+				return "ImportedFieldInfoProxyFactory [sourceObjectType=" + sourceObjectType.getName()
+						+ ", sourceFieldName=" + sourceFieldName + ", targetObjectType=" + targetObjectType.getName()
+						+ ", targetFieldName=" + targetFieldName + "]";
+			}
+
+			@Override
+			public SpecificitiesIdentifier getSpecificitiesIdentifier() {
+				return new SpecificitiesIdentifier(targetObjectType.getName(), ImportedFieldInfo.this.getName());
+			}
+		});
 	}
 
 	@Override
