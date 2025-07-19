@@ -75,32 +75,7 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 		}
 	}
 
-	/**
-	 * Behaves almost like {@link #cancelAndWait(boolean)} with "true" argument and
-	 * repeatedly interrupts the running thread until it terminates. This can be
-	 * useful if the first interrupt is ignored (presumably due to a bug).
-	 * 
-	 * @param millisecondsBetweenInterrupts
-	 * 
-	 * @throws InterruptedException if the thread is interrupted
-	 */
-	public void cancelAndWaitRepeatedly(long millisecondsBetweenInterrupts) throws InterruptedException {
-		cancel(true);
-		while (!semaphore.tryAcquire()) {
-			Thread.sleep(millisecondsBetweenInterrupts);
-			synchronized (threadMutex) {
-				if (thread != null) {
-					thread.interrupt();
-				} else {
-					if (!semaphore.tryAcquire()) {
-						throw new AssertionError();
-					}
-					break;
-				}
-			}
-		}
-		semaphore.release();
-	}
+	
 
 	/**
 	 * Waits if necessary for the computation to complete or finish cancelling, and
@@ -194,6 +169,33 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 				task.semaphore.release();
 			}
 		}
+	}
+	
+	/**
+	 * Behaves almost like {@link #cancelAndWait(boolean)} with "true" argument and
+	 * repeatedly interrupts the running thread until it terminates. This can be
+	 * useful if the first interrupt is ignored (presumably due to a bug).
+	 * 
+	 * @param millisecondsBetweenInterrupts
+	 * 
+	 * @throws InterruptedException if the thread is interrupted
+	 */
+	public void cancelRepeatedlyAndWait(long millisecondsBetweenInterrupts) throws InterruptedException {
+		cancel(true);
+		while (!semaphore.tryAcquire()) {
+			Thread.sleep(millisecondsBetweenInterrupts);
+			synchronized (threadMutex) {
+				if (thread != null) {
+					thread.interrupt();
+				} else {
+					if (!semaphore.tryAcquire()) {
+						throw new AssertionError();
+					}
+					break;
+				}
+			}
+		}
+		semaphore.release();
 	}
 
 }

@@ -1502,7 +1502,7 @@ public class Form extends ImagePanel {
 	public void ensureNoCurrentValidationTask() {
 		if ((currentValidationTask != null) && !currentValidationTask.isDone()) {
 			try {
-				currentValidationTask.cancelAndWaitRepeatedly(100);
+				currentValidationTask.cancelRepeatedlyAndWait(100);
 			} catch (InterruptedException e) {
 				throw new ReflectionUIError(e);
 			}

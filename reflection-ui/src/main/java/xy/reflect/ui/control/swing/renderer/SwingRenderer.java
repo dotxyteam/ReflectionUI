@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -78,6 +77,7 @@ import xy.reflect.ui.info.type.factory.GenericEnumerationFactory;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.BetterFutureTask;
 import xy.reflect.ui.util.ClassUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -1105,7 +1105,7 @@ public class SwingRenderer {
 		}
 		final Throwable[] exceptionThrown = new Throwable[1];
 		final boolean[] reallyDone = new boolean[] { false };
-		final Future<?> busyDialogJob = busyDialogJobExecutor.submit(new Runnable() {
+		final BetterFutureTask<?> busyDialogJob = new BetterFutureTask<Boolean>(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -1116,7 +1116,8 @@ public class SwingRenderer {
 					reallyDone[0] = true;
 				}
 			}
-		});
+		}, true);
+		busyDialogJobExecutor.submit(busyDialogJob);
 		try {
 			busyDialogJob.get(1000, TimeUnit.MILLISECONDS);
 		} catch (TimeoutException e1) {
@@ -1173,8 +1174,12 @@ public class SwingRenderer {
 			final JDialog dialog = dialogBuilder.createDialog();
 			dialog.addWindowListener(new WindowAdapter() {
 				@Override
-				public void windowClosing(WindowEvent e) {
-					busyDialogJob.cancel(true);
+				public void windowClosing(WindowEvent event) {
+					try {
+						busyDialogJob.cancelRepeatedlyAndWait(100);
+					} catch (InterruptedException e) {
+						throw new ReflectionUIError(e);
+					}
 					dialog.removeWindowListener(this);
 				}
 			});
