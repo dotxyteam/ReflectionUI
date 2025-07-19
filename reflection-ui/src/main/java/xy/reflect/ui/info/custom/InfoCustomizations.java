@@ -4435,22 +4435,28 @@ public class InfoCustomizations implements Serializable {
 
 		@Deprecated
 		public ItemNodeValidityDetectionConfiguration getItemNodeValidityDetectionConfiguration() {
-			ItemNodeValidityDetectionConfiguration result = new ItemNodeValidityDetectionConfiguration();
-			result.setEnablementStatusFieldNamePattern((treeStructureDiscoverySettings != null)
-					? treeStructureDiscoverySettings.getItemValidabilityStatusFieldNamePattern()
-					: null);
-			return result;
+			if (treeStructureDiscoverySettings != null) {
+				if (treeStructureDiscoverySettings.getItemValidabilityStatusFieldNamePattern() != null) {
+					ItemNodeValidityDetectionConfiguration result = new ItemNodeValidityDetectionConfiguration();
+					result.setEnablementStatusFieldNamePattern(
+							treeStructureDiscoverySettings.getItemValidabilityStatusFieldNamePattern());
+					return result;
+				}
+			}
+			return null;
 		}
 
 		@Deprecated
 		public void setItemNodeValidityDetectionConfiguration(
 				ItemNodeValidityDetectionConfiguration itemNodeValidityDetectionConfiguration) {
 			if (itemNodeValidityDetectionConfiguration != null) {
-				if (treeStructureDiscoverySettings == null) {
-					treeStructureDiscoverySettings = new TreeStructureDiscoverySettings();
+				if (itemNodeValidityDetectionConfiguration.getEnablementStatusFieldNamePattern() != null) {
+					if (treeStructureDiscoverySettings == null) {
+						treeStructureDiscoverySettings = new TreeStructureDiscoverySettings();
+					}
+					treeStructureDiscoverySettings.setItemValidabilityStatusFieldNamePattern(
+							itemNodeValidityDetectionConfiguration.getEnablementStatusFieldNamePattern());
 				}
-				treeStructureDiscoverySettings.setItemValidabilityStatusFieldNamePattern(
-						itemNodeValidityDetectionConfiguration.getEnablementStatusFieldNamePattern());
 			}
 		}
 
