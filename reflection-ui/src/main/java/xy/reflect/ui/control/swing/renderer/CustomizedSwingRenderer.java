@@ -1,7 +1,7 @@
 
-
-
 package xy.reflect.ui.control.swing.renderer;
+
+import java.lang.reflect.InvocationTargetException;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.info.custom.InfoCustomizations;
@@ -28,6 +28,8 @@ public class CustomizedSwingRenderer extends SwingRenderer {
 			if (customClass != null) {
 				try {
 					defaultInstance = (CustomizedSwingRenderer) customClass.getMethod("getDefault").invoke(null);
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}

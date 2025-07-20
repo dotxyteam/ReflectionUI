@@ -223,12 +223,10 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 		}
 		try {
 			return javaMethod.invoke(object, args);
-		} catch (IllegalAccessException e) {
-			throw new ReflectionUIError(e);
-		} catch (IllegalArgumentException e) {
-			throw new ReflectionUIError(e);
 		} catch (InvocationTargetException e) {
 			throw new ReflectionUIError(e.getTargetException());
+		} catch (Exception e) {
+			throw new ReflectionUIError(e);
 		}
 	}
 

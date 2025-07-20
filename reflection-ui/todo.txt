@@ -1,3 +1,5 @@
+- xy.reflect.ui.util.MiscUtils.sameExceptionOrBothNull(Throwable, Throwable)
+may be wrong if some information is not in the exception message (rare) 
 - add tooltip text option for ToggleButton and CustomCheckBox ???
 - remove the fonts customization options ???
 - IInfo equals() and hashCode() methods should take the ReflectionUI field into account

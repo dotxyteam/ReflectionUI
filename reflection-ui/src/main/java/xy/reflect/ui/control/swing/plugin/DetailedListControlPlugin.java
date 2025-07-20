@@ -44,6 +44,7 @@ import xy.reflect.ui.info.type.iterable.structure.IListStructuralInfo;
 import xy.reflect.ui.info.type.iterable.structure.ListStructuralInfoProxy;
 import xy.reflect.ui.info.type.iterable.structure.column.IColumnInfo;
 import xy.reflect.ui.util.ReflectionUIError;
+import xy.reflect.ui.util.ValidationErrorWrapper;
 
 /**
  * Field control that displays a list of values in a grid. Each cell contains a
@@ -298,7 +299,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 				}
 			}
 			if (validitionErrorByItemPosition.size() > 0) {
-				throw new ListValidationError(validitionErrorByItemPosition);
+				throw new ValidationErrorWrapper(null, new ListValidationError(validitionErrorByItemPosition));
 			}
 		}
 

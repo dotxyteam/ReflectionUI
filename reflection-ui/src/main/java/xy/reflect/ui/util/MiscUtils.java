@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.rmi.server.UID;
 import java.util.ArrayList;
@@ -360,6 +361,8 @@ public class MiscUtils {
 						Method cleanUpMethod = map.getClass().getMethod("cleanUp");
 						cleanUpMethod.setAccessible(true);
 						cleanUpMethod.invoke(map);
+					} catch (InvocationTargetException e) {
+						throw new ReflectionUIError(e.getTargetException());
 					} catch (Exception e) {
 						throw new ReflectionUIError(e);
 					}

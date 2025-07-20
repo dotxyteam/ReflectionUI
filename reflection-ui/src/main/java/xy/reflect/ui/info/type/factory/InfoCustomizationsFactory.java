@@ -3,6 +3,7 @@ package xy.reflect.ui.info.type.factory;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -424,6 +425,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					Method method = javaType.getMethod(t.getSavingMethodName(), File.class);
 					method.invoke(object, outputFile);
 					return;
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -444,6 +447,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					Method method = javaType.getMethod(t.getLoadingMethodName(), File.class);
 					method.invoke(object, inputFile);
 					return;
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -508,6 +513,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 								try {
 									Method method = javaType.getMethod(t.getSavingMethodName(), File.class);
 									method.invoke(object, tmpFile);
+								} catch (InvocationTargetException e) {
+									throw new ReflectionUIError(e.getTargetException());
 								} catch (Exception e) {
 									throw new ReflectionUIError(e);
 								}
@@ -515,6 +522,8 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 								try {
 									Method method = javaType.getMethod(t.getLoadingMethodName(), File.class);
 									method.invoke(newInstance, tmpFile);
+								} catch (InvocationTargetException e) {
+									throw new ReflectionUIError(e.getTargetException());
 								} catch (Exception e) {
 									throw new ReflectionUIError(e);
 								}

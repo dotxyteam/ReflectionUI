@@ -7,7 +7,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.CompoundBorder;
 
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.util.MiscUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -110,7 +109,7 @@ public class ErrorHandlingFieldControlData extends FieldControlDataProxy {
 		}
 		if (error != null) {
 			errorDialogOwner.setBorder(BorderFactory.createCompoundBorder(errorDialogOwner.getBorder(),
-					SwingRendererUtils.getErrorBorder()));
+					swingRenderer.getErrorBorder()));
 			showErrorDialog(error);
 		}
 	}

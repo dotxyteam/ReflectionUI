@@ -18,9 +18,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -2191,7 +2193,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		visitItems(new IItemsVisitor() {
 			@Override
 			public VisitStatus visitItem(BufferedItemPosition itemPosition) {
-				if (Thread.currentThread().isInterrupted()) {
+				if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
+						.isValidationCancelled(Thread.currentThread())) {
 					return VisitStatus.TREE_VISIT_INTERRUPTED;
 				}
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
@@ -2213,11 +2216,12 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				treeTableComponent.repaint();
 			}
 		});
-		if (Thread.currentThread().isInterrupted()) {
+		if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
+				.isValidationCancelled(Thread.currentThread())) {
 			return;
 		}
 		if (validitionErrorByItemPosition.size() > 0) {
-			throw new ListValidationError(validitionErrorByItemPosition);
+			throw new ValidationErrorWrapper(null, new ListValidationError(validitionErrorByItemPosition));
 		}
 	}
 
@@ -4100,7 +4104,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public String getMessage() {
-			return "Failed to validate " + getDisplayPath(itemPosition);
+			return "(" + getDisplayPath(itemPosition) + ") " + getCause();
 		}
 
 		@Override
@@ -4118,6 +4122,16 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		public ListValidationError(Map<BufferedItemPosition, Exception> validitionErrorByItemPosition) {
 			super("Invalid element(s) detected");
 			this.validitionErrorByItemPosition = validitionErrorByItemPosition;
+			Collection<Exception> validationErros = validitionErrorByItemPosition.values();
+			List<StackTraceElement[]> stackTraceArrays = validationErros.stream().map(e -> e.getStackTrace()).collect(Collectors.toList());
+			StackTraceElement[] allStackTraceElements = new StackTraceElement[stackTraceArrays.stream().map(st -> st.length).reduce(Integer::sum).get()];
+			int insertionIndex = 0;
+			for(Iterator<StackTraceElement[]> it=stackTraceArrays.iterator(); it.hasNext();) {
+				StackTraceElement[] stackTraceElements = it.next();
+				System.arraycopy(stackTraceElements, 0, allStackTraceElements, insertionIndex, stackTraceElements.length);
+				insertionIndex += stackTraceElements.length;
+			}
+			setStackTrace(allStackTraceElements);
 		}
 
 		public List<ItemValidationError> getEntries() {

@@ -776,11 +776,6 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Border getErrorBorder() {
-		return BorderFactory.createLineBorder(Color.RED, 2);
-
-	}
-
 	public static Component getMessagePane(final String msg, int jOptionPaneMessageType,
 			final SwingRenderer swingRenderer) {
 		JPanel result = new ControlPanel();
@@ -919,7 +914,7 @@ public class SwingRendererUtils {
 			borderComponent.setBorder(null);
 			HyperlinkTooltip.unset(toolTipComponent);
 		} else {
-			borderComponent.setBorder(SwingRendererUtils.getErrorBorder());
+			borderComponent.setBorder(swingRenderer.getErrorBorder());
 			HyperlinkTooltip.set(toolTipComponent, message, new Runnable() {
 				@Override
 				public void run() {

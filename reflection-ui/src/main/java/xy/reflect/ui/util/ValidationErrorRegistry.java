@@ -138,11 +138,21 @@ public class ValidationErrorRegistry {
 		};
 	}
 
-	protected boolean isValidationCancelled(Thread thread) {
+	/**
+	 * @param thread The validation thread.
+	 * @return whether the validation run by the given thread is cancelled or not.
+	 */
+	public boolean isValidationCancelled(Thread thread) {
 		return Boolean.TRUE.equals(validationCancellationStatusByThread.get(thread));
 	}
 
-	protected void setValidationCancelled(Thread thread, boolean cancelled) {
+	/**
+	 * Updates whether the validation run by the given thread is cancelled or not.
+	 * 
+	 * @param thread    The validation thread.
+	 * @param cancelled The new validation cancellation status.
+	 */
+	public void setValidationCancelled(Thread thread, boolean cancelled) {
 		if (cancelled) {
 			validationCancellationStatusByThread.put(thread, Boolean.TRUE);
 		} else {

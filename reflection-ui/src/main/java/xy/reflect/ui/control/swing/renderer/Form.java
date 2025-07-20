@@ -373,7 +373,8 @@ public class Form extends ImagePanel {
 				for (InfoCategory category : fieldControlPlaceHoldersByCategory.keySet()) {
 					for (FieldControlPlaceHolder fieldControlPlaceHolder : fieldControlPlaceHoldersByCategory
 							.get(category)) {
-						if (Thread.currentThread().isInterrupted()) {
+						if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
+								.isValidationCancelled(Thread.currentThread())) {
 							return;
 						}
 						if (!fieldControlPlaceHolder.isVisible()) {
@@ -386,7 +387,14 @@ public class Form extends ImagePanel {
 						if (fieldControl instanceof IAdvancedFieldControl) {
 							try {
 								((IAdvancedFieldControl) fieldControl).validateControlData(session);
+								if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+										.isValidationCancelled(Thread.currentThread())) {
+									fieldControlPlaceHolder.setBorder(null);
+								}
 							} catch (Exception e) {
+								if (!(e instanceof ValidationErrorWrapper)) {
+									fieldControlPlaceHolder.setBorder(swingRenderer.getErrorBorder());
+								}
 								String contextCaption = null;
 								IFieldInfo field = fieldControlPlaceHolder.getField();
 								if (field.getCaption().length() > 0) {
@@ -395,11 +403,7 @@ public class Form extends ImagePanel {
 								if (categoriesDisplayed) {
 									contextCaption = category.getCaption();
 								}
-								if (contextCaption != null) {
-									throw new ValidationErrorWrapper(contextCaption, e);
-								} else {
-									throw e;
-								}
+								throw new ValidationErrorWrapper(contextCaption, e);
 							}
 						}
 					}
@@ -407,7 +411,8 @@ public class Form extends ImagePanel {
 				for (InfoCategory category : methodControlPlaceHoldersByCategory.keySet()) {
 					for (MethodControlPlaceHolder methodControlPlaceHolder : methodControlPlaceHoldersByCategory
 							.get(category)) {
-						if (Thread.currentThread().isInterrupted()) {
+						if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
+								.isValidationCancelled(Thread.currentThread())) {
 							return;
 						}
 						if (!methodControlPlaceHolder.isVisible()) {
@@ -420,7 +425,12 @@ public class Form extends ImagePanel {
 						if (methodControl instanceof IAdvancedMethodControl) {
 							try {
 								((IAdvancedMethodControl) methodControl).validateControlData(session);
+								if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+										.isValidationCancelled(Thread.currentThread())) {
+									methodControlPlaceHolder.setBorder(null);
+								}
 							} catch (Exception e) {
+								methodControlPlaceHolder.setBorder(swingRenderer.getErrorBorder());
 								String contextCaption = null;
 								IMethodInfo method = methodControlPlaceHolder.getMethod();
 								if (method.getCaption().length() > 0) {
@@ -429,17 +439,14 @@ public class Form extends ImagePanel {
 								if (categoriesDisplayed) {
 									contextCaption = category.getCaption();
 								}
-								if (contextCaption != null) {
-									throw new ValidationErrorWrapper(contextCaption, e);
-								} else {
-									throw e;
-								}
+								throw new ValidationErrorWrapper(contextCaption, e);
 							}
 						}
 					}
 				}
 			}).validate(session);
-			if (!Thread.currentThread().isInterrupted()) {
+			if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
+					.isValidationCancelled(Thread.currentThread())) {
 				for (IFormListener l : listeners) {
 					l.afterValidation(null);
 				}
@@ -835,6 +842,10 @@ public class Form extends ImagePanel {
 		result.setFont(new JToolTip().getFont());
 		result.setCustomValue(new Exception("INITIAL_UNDEFINED_ERROR"));
 		result.setName("statusBar");
+		result.setBackground(new Color(255, 200, 200));
+		result.setOpaque(true);
+		result.setForeground(new Color(255, 0, 0));
+		result.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 1, true));
 		return result;
 	}
 
@@ -1467,14 +1478,10 @@ public class Form extends ImagePanel {
 				menuBarUpdater = null;
 			}
 			{
-				statusBar.setBackground(backgroundColor);
-				statusBar.setOpaque(backgroundColor != null);
-				statusBar.setForeground(foregroundColor);
 				int borderSpacing = getLayoutSpacing();
 				Border insideBorder = BorderFactory.createEmptyBorder(borderSpacing, borderSpacing, borderSpacing,
 						borderSpacing);
-				Border outsideBorder = (borderColor != null) ? BorderFactory.createLineBorder(borderColor)
-						: BorderFactory.createRaisedSoftBevelBorder();
+				Border outsideBorder = createStatusBar().getBorder();
 				statusBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 				Font labelCustomFont = getLabelCustomFont();
 				{

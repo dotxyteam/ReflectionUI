@@ -58,17 +58,23 @@ public class ModificationStack {
 
 		@Override
 		public void afterUndo(IModification undoModification) {
-			stateVersion--;
+			if (!undoModification.isVolatile()) {
+				stateVersion--;
+			}
 		}
 
 		@Override
-		public void afterRedo(IModification modification) {
-			stateVersion++;
+		public void afterRedo(IModification redoModification) {
+			if (!redoModification.isVolatile()) {
+				stateVersion++;
+			}
 		}
 
 		@Override
 		public void afterPush(IModification undoModification) {
-			stateVersion++;
+			if (!undoModification.isVolatile()) {
+				stateVersion++;
+			}
 		}
 
 		@Override

@@ -87,6 +87,12 @@ public class HyperlinkLabel extends JLabel {
 		}
 	}
 
+	@Override
+	public void setForeground(Color fg) {
+		super.setForeground(fg);
+		refresh();
+	}
+
 	protected void setup() {
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addMouseListener(new MouseAdapter() {
@@ -134,7 +140,7 @@ public class HyperlinkLabel extends JLabel {
 		if (getForeground() == null) {
 			return System.getProperty(HyperlinkLabel.class.getName() + ".LINK_COLOR_CODE", "#000099");
 		} else {
-			Color color = SwingRendererUtils.addColorActivationEffect(getForeground());
+			Color color = getForeground();
 			return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
 		}
 	}

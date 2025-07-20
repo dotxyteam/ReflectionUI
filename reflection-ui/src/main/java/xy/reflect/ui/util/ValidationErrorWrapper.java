@@ -1,14 +1,25 @@
 package xy.reflect.ui.util;
 
+/**
+ * Exception class that is used to throw specific validation errors that add
+ * some context information to their underlying validation error (cause). It
+ * also provides information on the fact that a component that threw this kind
+ * of exception is not the ultimate source of the validation error, but rather a
+ * container of this source component. The framework should then be able to
+ * highlight distinctly only this source component.
+ * 
+ * @author olitank
+ *
+ */
 public class ValidationErrorWrapper extends ReflectionUIError {
 
 	private static final long serialVersionUID = 1L;
 
-	protected String contextCaption;
+	protected String contextInformation;
 
-	public ValidationErrorWrapper(String contextCaption, Exception validationError) {
+	public ValidationErrorWrapper(String contextInformation, Exception validationError) {
 		super(validationError);
-		this.contextCaption = contextCaption;
+		this.contextInformation = contextInformation;
 	}
 
 	protected String getBaseMessage() {
@@ -17,7 +28,7 @@ public class ValidationErrorWrapper extends ReflectionUIError {
 
 	@Override
 	public String getMessage() {
-		return ReflectionUIUtils.composeMessage(contextCaption, getCause().toString());
+		return ReflectionUIUtils.composeMessage(contextInformation, getCause().toString());
 	}
 
 	public static Exception unwrapValidationError(Exception e) {

@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,12 +22,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 import org.jdesktop.swingx.JXBusyLabel;
 
@@ -136,6 +139,8 @@ public class SwingRenderer {
 			if (customClass != null) {
 				try {
 					defaultInstance = (SwingRenderer) customClass.getMethod("getDefault").invoke(null);
+				} catch (InvocationTargetException e) {
+					throw new ReflectionUIError(e.getTargetException());
 				} catch (Exception e) {
 					throw new ReflectionUIError(e);
 				}
@@ -885,6 +890,17 @@ public class SwingRenderer {
 	 */
 	public String formatErrorMessage(Throwable error) {
 		return MiscUtils.getPrettyErrorMessage(error);
+	}
+
+	/**
+	 * @return A border that allows to highlight errors on components.
+	 */
+	public Border getErrorBorder() {
+		return BorderFactory.createCompoundBorder(
+				BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0),
+						BorderFactory.createMatteBorder(0, 10, 0, 0, new Color(255, 0, 0))),
+				BorderFactory.createEmptyBorder(0, 2, 0, 0));
+
 	}
 
 	/**

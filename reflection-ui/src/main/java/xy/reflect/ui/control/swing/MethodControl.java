@@ -131,7 +131,8 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 						.performHeadlessFormValidation(sessionArg);
 			}
 		};
-		if (Thread.currentThread().isInterrupted()) {
+		if (swingRenderer.getReflectionUI().getValidationErrorRegistry()
+				.isValidationCancelled(Thread.currentThread())) {
 			return;
 		}
 		validationJob[0].validate(session);
