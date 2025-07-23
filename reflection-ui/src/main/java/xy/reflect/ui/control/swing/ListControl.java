@@ -2477,6 +2477,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected BufferedItemPosition currentPosition;
 		protected Object doItem;
 		protected Object undoItem;
+		protected List<Object> itemAncestors;
 		protected ItemFormBuilder detailsControlBuilder;
 		protected Form detailsControl;
 
@@ -2485,6 +2486,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			this.currentPosition = currentPosition;
 			this.doItem = doItem;
 			this.undoItem = undoItem;
+			this.itemAncestors = ReflectionUIUtils.collectItemAncestors(currentPosition);
 			this.detailsControlBuilder = detailsControlBuilder;
 			this.detailsControl = detailsControl;
 		}
@@ -2516,9 +2518,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					Object[] containingListRawValue = currentPosition.retrieveContainingListRawValue();
 					List<BufferedItemPosition> toSelect = ReflectionUIUtils.actualizeItemPositions(
 							Collections.singletonList(currentPosition), Collections.singletonList(currentItem),
-							Collections.singletonList(ReflectionUIUtils.collectItemAncestors(currentPosition)));
+							Collections.singletonList(itemAncestors));
 					setSelection(toSelect);
-					if (!currentPosition.equals(detailsControlItemPosition)) {
+					if (!detailsControlItemPosition.equals(getSingleSelection())) {
 						updateDetailsArea(false);
 					}
 					/*
@@ -2846,29 +2848,27 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected IModification createCommittingModification(final Object newItem) {
-			IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newItem);
+			final Object oldItem = bufferedItemPosition.getItem();
+			final List<Object> itemAncestors = ReflectionUIUtils.collectItemAncestors(bufferedItemPosition);
 			IModification structureRefreshing = new RefreshStructureModification(
 					new Accessor<List<BufferedItemPosition>>() {
-						Object item = newItem;
 
 						@Override
 						public List<BufferedItemPosition> get() {
 							return ReflectionUIUtils.actualizeItemPositions(
-									Collections.singletonList(bufferedItemPosition), Collections.singletonList(item),
-									Collections.singletonList(
-											ReflectionUIUtils.collectItemAncestors(bufferedItemPosition)));
+									Collections.singletonList(bufferedItemPosition), Collections.singletonList(newItem),
+									Collections.singletonList(itemAncestors));
 						}
 					}, new Accessor<List<BufferedItemPosition>>() {
-						Object item = bufferedItemPosition.getItem();
 
 						@Override
 						public List<BufferedItemPosition> get() {
 							return ReflectionUIUtils.actualizeItemPositions(
-									Collections.singletonList(bufferedItemPosition), Collections.singletonList(item),
-									Collections.singletonList(
-											ReflectionUIUtils.collectItemAncestors(bufferedItemPosition)));
+									Collections.singletonList(bufferedItemPosition), Collections.singletonList(oldItem),
+									Collections.singletonList(itemAncestors));
 						}
 					});
+			IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newItem);
 			return ModificationStack.createCompositeModification(update.getTitle(), UndoOrder.FIFO, update,
 					structureRefreshing);
 		}
@@ -4123,12 +4123,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			super("Invalid element(s) detected");
 			this.validitionErrorByItemPosition = validitionErrorByItemPosition;
 			Collection<Exception> validationErros = validitionErrorByItemPosition.values();
-			List<StackTraceElement[]> stackTraceArrays = validationErros.stream().map(e -> e.getStackTrace()).collect(Collectors.toList());
-			StackTraceElement[] allStackTraceElements = new StackTraceElement[stackTraceArrays.stream().map(st -> st.length).reduce(Integer::sum).get()];
+			List<StackTraceElement[]> stackTraceArrays = validationErros.stream().map(e -> e.getStackTrace())
+					.collect(Collectors.toList());
+			StackTraceElement[] allStackTraceElements = new StackTraceElement[stackTraceArrays.stream()
+					.map(st -> st.length).reduce(Integer::sum).get()];
 			int insertionIndex = 0;
-			for(Iterator<StackTraceElement[]> it=stackTraceArrays.iterator(); it.hasNext();) {
+			for (Iterator<StackTraceElement[]> it = stackTraceArrays.iterator(); it.hasNext();) {
 				StackTraceElement[] stackTraceElements = it.next();
-				System.arraycopy(stackTraceElements, 0, allStackTraceElements, insertionIndex, stackTraceElements.length);
+				System.arraycopy(stackTraceElements, 0, allStackTraceElements, insertionIndex,
+						stackTraceElements.length);
 				insertionIndex += stackTraceElements.length;
 			}
 			setStackTrace(allStackTraceElements);

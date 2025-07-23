@@ -1395,6 +1395,17 @@ public class ReflectionUIUtils {
 		return result;
 	}
 
+	/**
+	 * Allows to ensure that the items behind the given positions are the same
+	 * despite any possible automatic repositioning.
+	 * 
+	 * @param <T>
+	 * @param oldItemPositions  The old item positions.
+	 * @param items             The items values/references.
+	 * @param itemAncestorLists A list containing 1 sub-list of ancestors
+	 *                          values/references corresponding to each item.
+	 * @return the list of up-to-date positions of each item.
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends ItemPosition> List<T> actualizeItemPositions(List<T> oldItemPositions, List<Object> items,
 			List<List<Object>> itemAncestorLists) {
