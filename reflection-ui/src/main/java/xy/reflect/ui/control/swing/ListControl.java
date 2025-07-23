@@ -252,14 +252,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		selectionListeners.add(new Listener<List<BufferedItemPosition>>() {
 			@Override
 			public void handle(List<BufferedItemPosition> event) {
-				updateCurrentSelectionDependentParts();
+				updateDetailsArea(true);
+				updateToolbar();
 			}
 		});
-	}
-
-	protected void updateCurrentSelectionDependentParts() {
-		updateDetailsArea(true);
-		updateToolbar();
 	}
 
 	protected void layoutControls() {
@@ -1775,7 +1771,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						}
 						Object oldItem = detailsControlItemPosition.getItem();
 						Object newItem = detailsControlBuilder.getCurrentValue();
-						IModification preSelection = new SelectItemModification(detailsControlItemPosition, newItem,
+						IModification preSelection = new PreSelectItemModification(detailsControlItemPosition, newItem,
 								oldItem, detailsControlBuilder, detailsControl);
 						return ModificationStack.createCompositeModification(undoModif.getTitle(), UndoOrder.FIFO,
 								preSelection, undoModif);
@@ -2472,7 +2468,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 	}
 
-	protected class SelectItemModification extends AbstractModification {
+	protected class PreSelectItemModification extends AbstractModification {
 
 		protected BufferedItemPosition currentPosition;
 		protected Object doItem;
@@ -2481,7 +2477,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected ItemFormBuilder detailsControlBuilder;
 		protected Form detailsControl;
 
-		public SelectItemModification(BufferedItemPosition currentPosition, Object doItem, Object undoItem,
+		public PreSelectItemModification(BufferedItemPosition currentPosition, Object doItem, Object undoItem,
 				ItemFormBuilder detailsControlBuilder, Form detailsControl) {
 			this.currentPosition = currentPosition;
 			this.doItem = doItem;
