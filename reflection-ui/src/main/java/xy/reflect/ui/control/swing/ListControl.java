@@ -258,7 +258,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void updateCurrentSelectionDependentParts() {
-		updateDetailsArea(false);
+		updateDetailsArea(true);
 		updateToolbar();
 	}
 
@@ -2521,7 +2521,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							Collections.singletonList(itemAncestors));
 					setSelection(toSelect);
 					if (!detailsControlItemPosition.equals(getSingleSelection())) {
-						updateDetailsArea(false);
+						updateDetailsArea(true);
 					}
 					/*
 					 * Now we are sure that the item that must be modified is selected. But it may
