@@ -328,7 +328,12 @@ public class SplitFormPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		}
 
 		@Override
-		public boolean isAutoManaged() {
+		public boolean isModificationStackManaged() {
+			return true;
+		}
+
+		@Override
+		public boolean areValueAccessErrorsManaged() {
 			return true;
 		}
 

@@ -60,11 +60,18 @@ public interface IAdvancedFieldControl {
 	boolean requestCustomFocus();
 
 	/**
-	 * @return whether the following features are handled by the current control
-	 *         itself (if false is returned then the renderer will take care of
-	 *         them): undo management, error display.
+	 * @return whether undo management is handled by the current control itself (if
+	 *         false is returned then the renderer will take care of it).
 	 */
-	boolean isAutoManaged();
+	boolean isModificationStackManaged();
+
+	/**
+	 * @return whether value access (methods: {@link IFieldControlData#getValue()},
+	 *         {@link IFieldControlData#setValue(Object)}) exceptions are handled by
+	 *         the current control itself (if false is returned then the renderer
+	 *         will take care of them).
+	 */
+	boolean areValueAccessErrorsManaged();
 
 	/**
 	 * Instructs the current control to display the specified error.

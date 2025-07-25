@@ -96,7 +96,12 @@ public class ErrorDisplayControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public boolean isAutoManaged() {
+	public boolean isModificationStackManaged() {
+		return false;
+	}
+
+	@Override
+	public boolean areValueAccessErrorsManaged() {
 		return false;
 	}
 

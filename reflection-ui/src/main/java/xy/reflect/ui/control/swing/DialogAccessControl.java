@@ -275,7 +275,12 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 	}
 
 	@Override
-	public boolean isAutoManaged() {
+	public boolean isModificationStackManaged() {
+		return true;
+	}
+
+	@Override
+	public boolean areValueAccessErrorsManaged() {
 		return true;
 	}
 

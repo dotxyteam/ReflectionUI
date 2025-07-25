@@ -25,9 +25,9 @@ public class FieldControlDataModification extends AbstractModification {
 
 	protected void check(IFieldControlData data) {
 		if (Boolean.TRUE.equals(data.getSpecificProperties()
-				.get(FieldControlPlaceHolder.CONTROL_AUTO_MANAGEMENT_ENABLED_PROPERTY_KEY))) {
+				.get(FieldControlPlaceHolder.CONTROL_BASED_MODIFICATION_STACK_MANAGEMENT_ENABLED_PROPERTY_KEY))) {
 			throw new ReflectionUIError("A " + FieldControlDataModification.class.getSimpleName()
-					+ " must not be constructed with a control data that has the control auto-management property enabled."
+					+ " must not be constructed with a control data that has the control-based modification stack management property enabled."
 					+ "\n" + "It ensures that a " + FieldControlDataModification.class.getSimpleName()
 					+ " is not already constructed by the " + FieldControlPlaceHolder.class.getSimpleName()
 					+ " undo-management proxy for the same control data.");
@@ -59,7 +59,7 @@ public class FieldControlDataModification extends AbstractModification {
 	@Override
 	protected Runnable createUndoJob() {
 		Runnable result = data.getLastFormRefreshStateRestorationJob();
-		if(result != null) {
+		if (result != null) {
 			return result;
 		}
 		return ReflectionUIUtils.getNextUpdateCustomOrDefaultUndoJob(data, newValue);
@@ -68,7 +68,7 @@ public class FieldControlDataModification extends AbstractModification {
 	@Override
 	protected Runnable createRedoJob() {
 		Runnable result = data.getLastFormRefreshStateRestorationJob();
-		if(result != null) {
+		if (result != null) {
 			return result;
 		}
 		return ReflectionUIUtils.getPreviousUpdateCustomOrDefaultRedoJob(data, newValue);

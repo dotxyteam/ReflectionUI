@@ -76,8 +76,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 	protected static final long serialVersionUID = 1L;
 
-	public static final String CONTROL_AUTO_MANAGEMENT_ENABLED_PROPERTY_KEY = FieldControlPlaceHolder.class.getName()
-			+ ".COMMON_CONTROL_MANAGEMENT_ENABLED";
+	public static final String CONTROL_BASED_MODIFICATION_STACK_MANAGEMENT_ENABLED_PROPERTY_KEY = FieldControlPlaceHolder.class
+			.getName() + ".CONTROL_MODIFICATION_STACK_MANAGEMENT_ENABLED";
+	public static final String CONTROL_BASED_VALUE_ACCESS_ERRORS_MANAGEMENT_ENABLED_PROPERTY_KEY = FieldControlPlaceHolder.class
+			.getName() + ".CONTROL_BASED_VALUE_ACCESS_ERRORS_MANAGEMENT_ENABLED";
 
 	protected final SwingRenderer swingRenderer;
 	protected Component fieldControl;
@@ -257,7 +259,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 			@Override
 			public void setValue(Object newValue) {
-				if (isFieldControlAutoManaged()) {
+				if (isModificationStackManagedByFieldControl()) {
 					data.setValue(newValue);
 					return;
 				}
@@ -284,7 +286,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 			@Override
 			public Object getValue() {
-				if (isFieldControlAutoManaged()) {
+				if (areValueAccessErrorsManagedByFieldControl()) {
 					return data.getValue();
 				}
 				return super.getValue();
@@ -292,7 +294,7 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 
 			@Override
 			public void setValue(Object newValue) {
-				if (isFieldControlAutoManaged()) {
+				if (areValueAccessErrorsManagedByFieldControl()) {
 					data.setValue(newValue);
 					return;
 				}
@@ -302,14 +304,28 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		};
 	}
 
-	protected boolean isFieldControlAutoManaged() {
+	protected boolean isModificationStackManagedByFieldControl() {
 		Component c = fieldControl;
 		if (c == null) {
 			return false;
 		}
 		if ((c instanceof IAdvancedFieldControl)) {
 			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
-			if (fieldControl.isAutoManaged()) {
+			if (fieldControl.isModificationStackManaged()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean areValueAccessErrorsManagedByFieldControl() {
+		Component c = fieldControl;
+		if (c == null) {
+			return false;
+		}
+		if ((c instanceof IAdvancedFieldControl)) {
+			IAdvancedFieldControl fieldControl = (IAdvancedFieldControl) c;
+			if (fieldControl.areValueAccessErrorsManaged()) {
 				return true;
 			}
 		}
@@ -428,17 +444,32 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 		IFieldControlData result = new FieldControlData(finalField);
 		result = handleValueAccessIssues(result);
 		result = makeFieldModificationsUndoable(result);
-		result = addControlAutoManagementStatusProperty(result);
+		result = addControlBasedModificationStackManagementStatusProperty(result);
+		result = addControlBasedValueAccessErrorsManagementStatusProperty(result);
 		return result;
 	}
 
-	protected IFieldControlData addControlAutoManagementStatusProperty(IFieldControlData result) {
+	protected IFieldControlData addControlBasedModificationStackManagementStatusProperty(IFieldControlData result) {
 		return new FieldControlDataProxy(result) {
 
 			@Override
 			public Map<String, Object> getSpecificProperties() {
 				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
-				result.put(CONTROL_AUTO_MANAGEMENT_ENABLED_PROPERTY_KEY, !isFieldControlAutoManaged());
+				result.put(CONTROL_BASED_MODIFICATION_STACK_MANAGEMENT_ENABLED_PROPERTY_KEY,
+						!isModificationStackManagedByFieldControl());
+				return result;
+			}
+		};
+	}
+
+	protected IFieldControlData addControlBasedValueAccessErrorsManagementStatusProperty(IFieldControlData result) {
+		return new FieldControlDataProxy(result) {
+
+			@Override
+			public Map<String, Object> getSpecificProperties() {
+				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties());
+				result.put(CONTROL_BASED_VALUE_ACCESS_ERRORS_MANAGEMENT_ENABLED_PROPERTY_KEY,
+						!areValueAccessErrorsManagedByFieldControl());
 				return result;
 			}
 		};

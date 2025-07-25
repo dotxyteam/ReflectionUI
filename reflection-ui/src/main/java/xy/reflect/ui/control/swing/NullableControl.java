@@ -364,7 +364,12 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 	}
 
 	@Override
-	public boolean isAutoManaged() {
+	public boolean isModificationStackManaged() {
+		return true;
+	}
+
+	@Override
+	public boolean areValueAccessErrorsManaged() {
 		return true;
 	}
 

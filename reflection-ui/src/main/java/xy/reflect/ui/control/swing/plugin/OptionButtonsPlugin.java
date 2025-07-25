@@ -331,7 +331,12 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 		}
 
 		@Override
-		public boolean isAutoManaged() {
+		public boolean isModificationStackManaged() {
+			return false;
+		}
+
+		@Override
+		public boolean areValueAccessErrorsManaged() {
 			return false;
 		}
 

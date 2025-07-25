@@ -79,7 +79,12 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 	}
 
 	@Override
-	public boolean isAutoManaged() {
+	public boolean isModificationStackManaged() {
+		return false;
+	}
+
+	@Override
+	public boolean areValueAccessErrorsManaged() {
 		return false;
 	}
 
