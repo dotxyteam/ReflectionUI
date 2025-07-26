@@ -33,7 +33,7 @@ public class ReflectionUI {
 
 	protected static ReflectionUI defaultInstance;
 
-	protected Object typeCacheMutex = new Object();
+	protected final Object typeCacheMutex = new Object();
 	protected Map<Object, ITypeInfo> typeCache = createTypeCache();
 	protected ValidationErrorRegistry validationErrorRegistry = createValidationErrorRegistry();
 

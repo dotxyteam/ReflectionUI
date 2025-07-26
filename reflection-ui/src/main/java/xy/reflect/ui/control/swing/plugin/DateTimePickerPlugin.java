@@ -453,9 +453,13 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 						getEditor().setFont(new JFormattedTextField().getFont());
 					}
 				}
-				if (textEditorChangesCommittingProcess.isScheduled()) {
-					textEditorChangesCommittingProcess.cancelSchedule();
-					commitTextEditorChanges();
+				if (textEditorChangesCommittingProcess.isActive()) {
+					/*
+					 * If a change is pending, the refresh can then be aborted, as it will be
+					 * performed later after the change is committed. Note that refreshing the
+					 * control would have deleted the new control value before it was committed.
+					 */
+					return true;
 				}
 				Date date = (Date) data.getValue();
 				currentConversionError = null;
@@ -507,8 +511,7 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 		}
 
 		protected void onFocusLoss() {
-			if (textEditorChangesCommittingProcess.isScheduled()) {
-				textEditorChangesCommittingProcess.cancelSchedule();
+			if (textEditorChangesCommittingProcess.cancelSchedule()) {
 				commitTextEditorChanges();
 			}
 		}

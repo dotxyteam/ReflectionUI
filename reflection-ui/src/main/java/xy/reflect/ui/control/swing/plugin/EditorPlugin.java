@@ -161,7 +161,7 @@ public class EditorPlugin extends StyledTextPlugin {
 				@Override
 				public void focusLost(FocusEvent e) {
 					try {
-						EditorControl.this.textComponentFocustLost();
+						EditorControl.this.onFocustLoss();
 					} catch (Throwable t) {
 						swingRenderer.handleException(EditorControl.this, t);
 					}

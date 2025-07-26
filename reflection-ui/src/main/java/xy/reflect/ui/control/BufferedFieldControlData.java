@@ -36,7 +36,8 @@ public class BufferedFieldControlData extends FieldControlDataProxy {
 	@Override
 	public void setValue(Object value) {
 		if (buffer.size() > 0) {
-			throw new ReflectionUIError("Cannot update buffered field control data value (" + this + ")");
+			throw new ReflectionUIError("Cannot update buffered field control data value while the buffer is not empty."
+					+ "\n" + "Buffered values: " + buffer + "\n" + "Control data: " + this);
 		}
 		super.setValue(value);
 	}

@@ -154,9 +154,13 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 					}
 					SwingRendererUtils.handleComponentSizeChange(this);
 				}
-				if (dataUpdateProcess.isScheduled()) {
-					dataUpdateProcess.cancelSchedule();
-					commitChanges();
+				if (dataUpdateProcess.isActive()) {
+					/*
+					 * If a change is pending, the refresh can then be aborted, as it will be
+					 * performed later after the change is committed. Note that refreshing the
+					 * control would have deleted the new control value before it was committed.
+					 */
+					return true;
 				}
 				Object value = data.getValue();
 				final int intValue;
@@ -204,8 +208,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 		}
 
 		protected void onFocusLoss() {
-			if (dataUpdateProcess.isScheduled()) {
-				dataUpdateProcess.cancelSchedule();
+			if (dataUpdateProcess.cancelSchedule()) {
 				commitChanges();
 			}
 		}

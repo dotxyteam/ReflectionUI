@@ -109,7 +109,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			@Override
 			public void focusLost(FocusEvent e) {
 				try {
-					TextControl.this.textComponentFocustLost();
+					TextControl.this.onFocustLoss();
 				} catch (Throwable t) {
 					swingRenderer.handleException(TextControl.this, t);
 				}
@@ -170,9 +170,13 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		if (refreshStructure) {
 			updateScrollPolicy();
 		}
-		if (dataUpdateProcess.isScheduled()) {
-			dataUpdateProcess.cancelSchedule();
-			commitChanges();
+		if (dataUpdateProcess.isActive()) {
+			/*
+			 * If a change is pending, the refresh can then be aborted, as it will be
+			 * performed later after the change is committed. Note that refreshing the
+			 * control would have deleted the new control value before it was committed.
+			 */
+			return true;
 		}
 		refreshTextComponent(refreshStructure);
 		return true;
@@ -371,9 +375,8 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 		dataUpdateProcess.reschedule();
 	}
 
-	protected void textComponentFocustLost() {
-		if (dataUpdateProcess.isScheduled()) {
-			dataUpdateProcess.cancelSchedule();
+	protected void onFocustLoss() {
+		if (dataUpdateProcess.cancelSchedule()) {
 			commitChanges();
 		}
 	}

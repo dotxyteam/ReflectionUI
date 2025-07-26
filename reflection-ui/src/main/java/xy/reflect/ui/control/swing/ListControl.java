@@ -4105,7 +4105,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		public String getMessage() {
-			return "(" + getDisplayPath(itemPosition) + ") " + getCause();
+			return "[" + getDisplayPath(itemPosition) + "] " + getCause();
 		}
 
 		@Override

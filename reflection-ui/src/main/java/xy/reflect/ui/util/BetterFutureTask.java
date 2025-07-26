@@ -28,7 +28,7 @@ public class BetterFutureTask<T> extends FutureTask<T> {
 
 	protected final Semaphore semaphore = new Semaphore(1);
 	protected Thread thread;
-	protected Object threadMutex = new Object();
+	protected final Object threadMutex = new Object();
 
 	/**
 	 * Creates a {@code FutureTask} that will, upon running, execute the given
