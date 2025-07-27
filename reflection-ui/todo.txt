@@ -1,3 +1,8 @@
+- prevent from:
+	. creating a capsule field
+	. generating a new member from this capsule field
+	. adding this new member in the capsule
+	. => StackOverfowError
 - xy.reflect.ui.util.MiscUtils.sameExceptionOrBothNull(Throwable, Throwable)
 may be wrong if some information is not in the exception message (rare) 
 - add tooltip text option for ToggleButton and CustomCheckBox ???

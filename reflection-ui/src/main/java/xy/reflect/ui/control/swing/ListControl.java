@@ -1758,7 +1758,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if ((detailsControlItemPosition == null) && (singleSelection != null)) {
 				detailsControlItemPosition = singleSelection;
 				detailsControlBuilder = createItemFormBuilder(detailsControlItemPosition);
-				detailsControl = detailsControlBuilder.createEditorForm(true, false);
+				try {
+					detailsControl = detailsControlBuilder.createEditorForm(true, false);
+				} catch (Throwable t) {
+					detailsControlItemPosition = null;
+					detailsControlBuilder = null;
+					throw new ReflectionUIError(t);
+				}
 				/*
 				 * A pre-selection must be done before each undo/redo modification to ensure
 				 * that the replayed modification will affect the right item. Otherwise it may

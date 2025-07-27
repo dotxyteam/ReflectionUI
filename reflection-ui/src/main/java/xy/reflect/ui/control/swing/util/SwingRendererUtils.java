@@ -118,6 +118,8 @@ public class SwingRendererUtils {
 	public static final ImageIcon SAVE_ALL_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/save-all.png"));
 	public static final ImageIcon ERROR_ICON = new ImageIcon(ReflectionUI.class.getResource("resource/error.png"));
+	public static final ImageIcon ERROR_REFRESHING_ICON = new ImageIcon(
+			ReflectionUI.class.getResource("resource/error-refreshing.gif"));
 	public static final ImageIcon ERROR_OVERLAY_ICON = new ImageIcon(
 			ReflectionUI.class.getResource("resource/error-overlay.png"));
 	public static final ImageIcon WEAK_ERROR_OVERLAY_ICON = new ImageIcon(

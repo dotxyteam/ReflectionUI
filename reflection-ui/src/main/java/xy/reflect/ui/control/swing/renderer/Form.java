@@ -469,6 +469,8 @@ public class Form extends ImagePanel {
 				.createValidationTask(new Runnable() {
 					@Override
 					public void run() {
+						Icon initialStatusBarIcon = statusBar.getIcon();
+						statusBar.setIcon(getOngoingValidationIcon());
 						try {
 							validateForm(new ValidationSession());
 						} catch (Exception e) {
@@ -487,11 +489,16 @@ public class Form extends ImagePanel {
 									refreshValidityComponents();
 								}
 							});
+							statusBar.setIcon(initialStatusBarIcon);
 							currentValidationTask = null;
 						}
 					}
 				});
 		swingRenderer.getFormValidator().submit(currentValidationTask);
+	}
+
+	protected Icon getOngoingValidationIcon() {
+		return SwingRendererUtils.ERROR_REFRESHING_ICON;
 	}
 
 	protected void refreshValidityComponents() {
