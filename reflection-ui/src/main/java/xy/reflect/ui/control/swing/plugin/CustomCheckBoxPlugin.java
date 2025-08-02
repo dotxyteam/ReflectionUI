@@ -63,7 +63,7 @@ public class CustomCheckBoxPlugin extends AbstractSimpleCustomizableFieldControl
 			Graphics2D g = result.createGraphics();
 			g.setColor(color);
 			g.fillRect(0, 0, result.getWidth(), result.getHeight());
-			g.setColor(Color.BLACK);
+			g.setColor(Color.YELLOW);
 			g.setStroke(new BasicStroke(1f));
 			g.drawRect(0, 0, result.getWidth(), result.getHeight());
 			g.dispose();

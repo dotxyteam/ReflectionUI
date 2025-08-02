@@ -459,7 +459,7 @@ public class DetailedListControlPlugin extends AbstractSimpleCustomizableFieldCo
 			public DetailedCellControl(BufferedItemPosition itemPosition) {
 				this.itemPosition = itemPosition;
 				setLayout(new BorderLayout());
-				formBuilder = createItemFormBuilder(itemPosition);
+				formBuilder = createItemUIBuilder(itemPosition);
 				form = formBuilder.createEditorForm(true, false);
 				{
 					add(form, BorderLayout.CENTER);
