@@ -161,7 +161,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	protected JPanel detailsArea;
 	protected Form detailsControl;
-	protected ItemFormBuilder detailsControlBuilder;
+	protected ItemUIBuilder detailsControlBuilder;
 	protected IListItemDetailsAccessMode detailsMode;
 	protected BufferedItemPosition detailsControlItemPosition;
 
@@ -1536,11 +1536,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		return new InsertAction(insertPosition);
 	}
 
-	protected ItemFormBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition,
+	protected ItemUIBuilder openAnticipatedItemDialog(BufferedItemPosition anticipatedItemPosition,
 			Object anticipatedItem) {
-		BufferedItemPosition fakeItemPosition = anticipatedItemPosition.getSibling(-1);
-		fakeItemPosition.setFakeItem(anticipatedItem);
-		ItemFormBuilder dialogBuilder = createItemDialogBuilder(fakeItemPosition);
+		ItemUIBuilder dialogBuilder = createAnticipatedItemDialogBuilder(anticipatedItemPosition, anticipatedItem);
 		dialogBuilder.createAndShowDialog();
 		return dialogBuilder;
 	}
@@ -1600,13 +1598,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected ItemCreationMode getRelevantItemCreationMode(BufferedItemPosition newItemPosition) {
 		if ((newItemPosition.getContainingListType().getItemType() != null) && ReflectionUIUtils
 				.canCreateDefaultInstance(newItemPosition.getContainingListType().getItemType(), false)) {
-			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption() && (getMasterListControl() == null)) {
 				return ItemCreationMode.DEFAULT_VERIFIED_INSTANCE;
 			} else {
 				return ItemCreationMode.DEFAULT_UNVERIFIED_INSTANCE;
 			}
 		} else {
-			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption()) {
+			if (getDetailsAccessMode().hasDetachedDetailsDisplayOption() && (getMasterListControl() == null)) {
 				return ItemCreationMode.CUSTOM_VERIFIED_INSTANCE;
 			} else {
 				return ItemCreationMode.CUSTOM_UNVERIFIED_INSTANCE;
@@ -1621,18 +1619,19 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected String getItemTitle(BufferedItemPosition itemPosition) {
 		BufferedItemPosition fakeItemPosition = itemPosition.getSibling(-1);
 		fakeItemPosition.setFakeItem(null);
-		Object capsule = createItemFormBuilder(fakeItemPosition).getNewCapsule();
+		Object capsule = createItemUIBuilder(fakeItemPosition).getNewCapsule();
 		ITypeInfo encapsulatedObjectType = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(capsule));
 		return encapsulatedObjectType.getCaption();
 	}
 
-	protected ItemFormBuilder createItemFormBuilder(BufferedItemPosition bufferedItemPosition) {
-		return new ItemFormBuilder(bufferedItemPosition);
+	protected ItemUIBuilder createItemUIBuilder(BufferedItemPosition bufferedItemPosition) {
+		return new ItemUIBuilder(bufferedItemPosition);
 	}
 
-	protected ItemDialogBuilder createItemDialogBuilder(BufferedItemPosition bufferedItemPosition) {
-		return new ItemDialogBuilder(bufferedItemPosition);
+	protected AnticipatedItemDialogBuilder createAnticipatedItemDialogBuilder(BufferedItemPosition bufferedItemPosition,
+			Object item) {
+		return new AnticipatedItemDialogBuilder(bufferedItemPosition, item);
 	}
 
 	protected AbstractStandardListAction createCopyAction() {
@@ -1757,7 +1756,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 			if ((detailsControlItemPosition == null) && (singleSelection != null)) {
 				detailsControlItemPosition = singleSelection;
-				detailsControlBuilder = createItemFormBuilder(detailsControlItemPosition);
+				detailsControlBuilder = createItemUIBuilder(detailsControlItemPosition);
 				try {
 					detailsControl = detailsControlBuilder.createEditorForm(true, false);
 				} catch (Throwable t) {
@@ -2207,7 +2206,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				if (!itemPosition.getContainingListType().isItemNodeValidityDetectionEnabled(itemPosition)) {
 					return VisitStatus.SUBTREE_VISIT_INTERRUPTED;
 				}
-				ItemFormBuilder itemUIBuilder = createItemFormBuilder(itemPosition);
+				ItemUIBuilder itemUIBuilder = createItemUIBuilder(itemPosition);
 				try {
 					itemUIBuilder.performHeadlessFormValidation(session);
 				} catch (Exception e) {
@@ -2485,11 +2484,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected Object doItem;
 		protected Object undoItem;
 		protected List<Object> itemAncestors;
-		protected ItemFormBuilder detailsControlBuilder;
+		protected ItemUIBuilder detailsControlBuilder;
 		protected Form detailsControl;
 
 		public PreSelectItemModification(BufferedItemPosition currentPosition, Object doItem, Object undoItem,
-				ItemFormBuilder detailsControlBuilder, Form detailsControl) {
+				ItemUIBuilder detailsControlBuilder, Form detailsControl) {
 			this.currentPosition = currentPosition;
 			this.doItem = doItem;
 			this.undoItem = undoItem;
@@ -2707,13 +2706,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	};
 
-	protected class ItemFormBuilder extends AbstractEditorBuilder {
+	protected class ItemUIBuilder extends AbstractEditorBuilder {
 		protected BufferedItemPosition bufferedItemPosition;
 		protected ListModificationFactory modificationFactory;
 		protected boolean canCommit;
 		protected ValueReturnMode objectValueReturnMode;
 
-		public ItemFormBuilder(BufferedItemPosition bufferedItemPosition) {
+		public ItemUIBuilder(BufferedItemPosition bufferedItemPosition) {
 			setPosition(bufferedItemPosition);
 		}
 
@@ -2956,11 +2955,14 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
-	protected class ItemDialogBuilder extends ItemFormBuilder {
+	protected class AnticipatedItemDialogBuilder extends ItemUIBuilder {
 		protected ModificationStack dummyModificationStack = new ModificationStack(null);
 
-		public ItemDialogBuilder(BufferedItemPosition bufferedItemPosition) {
+		public AnticipatedItemDialogBuilder(BufferedItemPosition bufferedItemPosition, Object item) {
 			super(bufferedItemPosition);
+			BufferedItemPosition fakeItemPosition = bufferedItemPosition.getSibling(-1);
+			fakeItemPosition.setFakeItem(item);
+			setPosition(fakeItemPosition);
 		}
 
 		@Override
@@ -3046,7 +3048,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if ((itemCreationMode == ItemCreationMode.VERIFIED_NULL)
 					|| (itemCreationMode == ItemCreationMode.DEFAULT_VERIFIED_INSTANCE)
 					|| (itemCreationMode == ItemCreationMode.CUSTOM_VERIFIED_INSTANCE)) {
-				ItemFormBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
+				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newSubItemPosition, newSubListItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
 				}
@@ -3364,7 +3366,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if ((itemCreationMode == ItemCreationMode.VERIFIED_NULL)
 					|| (itemCreationMode == ItemCreationMode.DEFAULT_VERIFIED_INSTANCE)
 					|| (itemCreationMode == ItemCreationMode.CUSTOM_VERIFIED_INSTANCE)) {
-				ItemFormBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
+				ItemUIBuilder dialogBuilder = openAnticipatedItemDialog(newItemPosition, newItem);
 				if (dialogBuilder.isCancelled()) {
 					return false;
 				}
@@ -3530,7 +3532,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected class OpenItemAction extends AbstractStandardListAction {
 		protected static final long serialVersionUID = 1L;
 
-		protected ItemFormBuilder dialogBuilder;
+		protected ItemUIBuilder dialogBuilder;
 
 		@Override
 		protected boolean prepare() {
@@ -3542,7 +3544,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return true;
 				}
 			}
-			dialogBuilder = createItemFormBuilder(itemPosition);
+			dialogBuilder = createItemUIBuilder(itemPosition);
 			JDialog dialog = dialogBuilder.createDialog();
 			swingRenderer.showDialog(dialog, true);
 			return true;
@@ -3569,7 +3571,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			}
 			BufferedItemPosition singleSelectedPosition = getSingleSelection();
 			if (singleSelectedPosition != null) {
-				if (!createItemFormBuilder(singleSelectedPosition).isFormEmpty()) {
+				if (!createItemUIBuilder(singleSelectedPosition).isFormEmpty()) {
 					IListTypeInfo listType = singleSelectedPosition.getContainingListType();
 					if (listType.canViewItemDetails()) {
 						return true;
