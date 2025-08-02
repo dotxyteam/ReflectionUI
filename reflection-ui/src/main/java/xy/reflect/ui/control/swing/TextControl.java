@@ -355,12 +355,12 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 	}
 
 	protected void restoringSelection(Runnable runnable) {
-		int selectionStart = textComponent.getSelectionStart();
-		int selectionEnd = textComponent.getSelectionEnd();
+		int selectionStart = textComponent.getCaret().getMark();
+		int selectionEnd = textComponent.getCaret().getDot();
 		runnable.run();
 		if (selectionStart != selectionEnd) {
-			textComponent.setSelectionStart(Math.min(selectionStart, textComponent.getDocument().getLength()));
-			textComponent.setSelectionEnd(Math.min(selectionEnd, textComponent.getDocument().getLength()));
+			textComponent.getCaret().setDot(Math.min(selectionStart, textComponent.getDocument().getLength()));
+			textComponent.getCaret().moveDot(Math.min(selectionEnd, textComponent.getDocument().getLength()));
 		}
 	}
 
