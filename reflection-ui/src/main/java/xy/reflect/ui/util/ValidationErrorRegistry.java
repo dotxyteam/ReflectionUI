@@ -37,7 +37,7 @@ public class ValidationErrorRegistry {
 	 *         of the given object from the map returned by
 	 *         {@link #buildAttributionMap()}.
 	 */
-	protected Object getValidationErrorMapKey(Object object, ValidationSession session) {
+	public Object getValidationErrorMapKey(Object object, ValidationSession session) {
 		return object;
 	}
 

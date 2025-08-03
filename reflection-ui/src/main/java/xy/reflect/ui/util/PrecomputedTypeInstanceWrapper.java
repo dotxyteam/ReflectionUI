@@ -185,7 +185,8 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 
 		@Override
 		public String getIdentifier() {
-			return "PrecomputedTypeInstanceWrapping [type=" + typeInfoSource.getPrecomputedType().getName() + "]";
+			return "PrecomputedTypeInstanceWrapping [type=" + typeInfoSource.getPrecomputedType().getName()
+					+ ", sourceSpecificitiesIdentifier=" + typeInfoSource.getSpecificitiesIdentifier() + "]";
 		}
 
 		@Override
