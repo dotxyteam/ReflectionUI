@@ -78,7 +78,7 @@ public class MutableTypeControl extends NullableControl {
 			@Override
 			public Form createEditorForm(boolean realTimeLinkWithParent, boolean exclusiveLinkWithParent) {
 				if (alreadyCreatedMutableTypeControlInfo != null) {
-					return new Form(swingRenderer, new Object(), IInfoFilter.DEFAULT);
+					return swingRenderer.createForm(new Object(), IInfoFilter.DEFAULT);
 				} else {
 					return super.createEditorForm(realTimeLinkWithParent, exclusiveLinkWithParent);
 				}

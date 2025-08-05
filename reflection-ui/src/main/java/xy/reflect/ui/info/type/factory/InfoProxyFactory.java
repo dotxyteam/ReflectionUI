@@ -356,11 +356,10 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 *                   {@link IFieldInfo#getValueAbstractFormValidationJob(Object)}.
 	 * @param objectType The parent type information.
 	 * @return the result of
-	 *         {@link IFieldInfo#getValueAbstractFormValidationJob(Object)}
-	 *         unless overridden.
+	 *         {@link IFieldInfo#getValueAbstractFormValidationJob(Object)} unless
+	 *         overridden.
 	 */
-	protected IValidationJob getValueAbstractFormValidationJob(IFieldInfo field, Object object,
-			ITypeInfo objectType) {
+	protected IValidationJob getValueAbstractFormValidationJob(IFieldInfo field, Object object, ITypeInfo objectType) {
 		return field.getValueAbstractFormValidationJob(object);
 	}
 
@@ -388,8 +387,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 *         {@link IListTypeInfo#getListItemAbstractFormValidationJob(ItemPosition)}
 	 *         unless overridden.
 	 */
-	protected IValidationJob getListItemAbstractFormValidationJob(IListTypeInfo listType,
-			ItemPosition itemPosition) {
+	protected IValidationJob getListItemAbstractFormValidationJob(IListTypeInfo listType, ItemPosition itemPosition) {
 		return listType.getListItemAbstractFormValidationJob(itemPosition);
 	}
 
@@ -1243,9 +1241,9 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
-	 * @param type       The type information.
-	 * @param objectType Parameter of
-	 *                   {@link IListTypeInfo#isItemNodeValidityDetectionEnabled(ItemPosition)}.
+	 * @param type               The type information.
+	 * @param filteredObjectType Parameter of
+	 *                           {@link IListTypeInfo#isItemNodeValidityDetectionEnabled(ItemPosition)}.
 	 * @return the result of
 	 *         {@link IListTypeInfo#isItemNodeValidityDetectionEnabled(ItemPosition)}
 	 *         unless overridden.
@@ -1398,8 +1396,21 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	 *         {@link ITypeInfo#onFormVisibilityChange(Object, boolean)} unless
 	 *         overridden.
 	 */
-	protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
-		return type.onFormVisibilityChange(object, visible);
+	protected void onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
+		type.onFormVisibilityChange(object, visible);
+	}
+
+	/**
+	 * @param type    The type information.
+	 * @param object  Parameter of
+	 *                {@link ITypeInfo#onFormCreation(Object, boolean)}.
+	 * @param visible Parameter of
+	 *                {@link ITypeInfo#onFormCreation(Object, boolean)}.
+	 * @return the result of {@link ITypeInfo#onFormCreation(Object, boolean)}
+	 *         unless overridden.
+	 */
+	protected void onFormCreation(ITypeInfo type, Object object, boolean beforeOrAfter) {
+		type.onFormCreation(object, beforeOrAfter);
 	}
 
 	/**
@@ -2404,8 +2415,13 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		}
 
 		@Override
-		public boolean onFormVisibilityChange(Object object, boolean visible) {
-			return InfoProxyFactory.this.onFormVisibilityChange(base, object, visible);
+		public void onFormVisibilityChange(Object object, boolean visible) {
+			InfoProxyFactory.this.onFormVisibilityChange(base, object, visible);
+		}
+
+		@Override
+		public void onFormCreation(Object object, boolean beforeOrAfter) {
+			InfoProxyFactory.this.onFormCreation(base, object, beforeOrAfter);
 		}
 
 		@Override
@@ -3048,8 +3064,7 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 		@Override
 		public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
-			return InfoProxyFactory.this.getReturnValueAbstractFormValidationJob(base, object, returnValue,
-					objectType);
+			return InfoProxyFactory.this.getReturnValueAbstractFormValidationJob(base, object, returnValue, objectType);
 		}
 
 		@Override

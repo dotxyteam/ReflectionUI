@@ -154,8 +154,12 @@ public class EnumerationTypeInfoProxy extends AbstractInfoProxy implements IEnum
 		return base.getMenuModel();
 	}
 
-	public boolean onFormVisibilityChange(Object object, boolean visible) {
-		return base.onFormVisibilityChange(object, visible);
+	public void onFormVisibilityChange(Object object, boolean visible) {
+		base.onFormVisibilityChange(object, visible);
+	}
+
+	public void onFormCreation(Object object, boolean beforeOrAfter) {
+		base.onFormCreation(object, beforeOrAfter);
 	}
 
 	public int getFormPreferredWidth() {

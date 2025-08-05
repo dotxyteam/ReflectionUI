@@ -109,7 +109,7 @@ public class Form extends ImagePanel {
 
 	protected SwingRenderer swingRenderer;
 	protected Object object;
-	protected ITypeInfo objectType;
+	protected ITypeInfo filteredObjectType;
 	protected ModificationStack modificationStack;
 	protected boolean forwardingUpdateEventToTwinFormsDisabled = false;
 	protected IInfoFilter infoFilter;
@@ -136,16 +136,34 @@ public class Form extends ImagePanel {
 	 * @param infoFilter    A filter that will be used to exclude some
 	 *                      fields/methods of the object.
 	 */
-	public Form(SwingRenderer swingRenderer, Object object, IInfoFilter infoFilter) {
-		this.swingRenderer = swingRenderer;
-		setObject(object);
-		setInfoFilter(infoFilter);
-		setModificationStack(new ModificationStack(null));
-		getModificationStack().addListener(fieldsUpdateListener);
-		handleVisibilityEvents();
-		menuBar = createMenuBar();
-		statusBar = createStatusBar();
-		refresh(true);
+	public Form(SwingRenderer swingRenderer, final Object object, IInfoFilter infoFilter) {
+		final ITypeInfo objectType = swingRenderer.getReflectionUI()
+				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
+		swingRenderer.showBusyDialogWhile(this, new Runnable() {
+			@Override
+			public void run() {
+				objectType.onFormCreation(object, true);
+			}
+		}, swingRenderer.getObjectTitle(object) + " - Setting up...");
+		try {
+			this.swingRenderer = swingRenderer;
+			setObject(object);
+			setInfoFilter(infoFilter);
+			setModificationStack(new ModificationStack(null));
+			getModificationStack().addListener(fieldsUpdateListener);
+			handleVisibilityEvents();
+			menuBar = createMenuBar();
+			statusBar = createStatusBar();
+			refresh(true);
+		} finally {
+			swingRenderer.showBusyDialogWhile(this, new Runnable() {
+				@Override
+				public void run() {
+					objectType.onFormCreation(object, false);
+				}
+			}, swingRenderer.getObjectTitle(object) + " - Setting up...");
+			
+		}
 	}
 
 	public BetterFutureTask<Boolean> getCurrentValidationTask() {
@@ -314,9 +332,9 @@ public class Form extends ImagePanel {
 		if (result == null) {
 			result = new Dimension(100, 100);
 		}
-		if (objectType != null) {
-			Dimension configuredSize = new Dimension(objectType.getFormPreferredWidth(),
-					objectType.getFormPreferredHeight());
+		if (filteredObjectType != null) {
+			Dimension configuredSize = new Dimension(filteredObjectType.getFormPreferredWidth(),
+					filteredObjectType.getFormPreferredHeight());
 			if (configuredSize.width > 0) {
 				result.width = configuredSize.width;
 			}
@@ -505,7 +523,7 @@ public class Form extends ImagePanel {
 		Exception validationError = swingRenderer.getReflectionUI().getValidationErrorRegistry()
 				.getValidationError(object, null);
 		showErrorOnStatusBar(validationError);
-		setStandardOKButtonEnabled((validationError == null) || !objectType.isValidationRequired());
+		setStandardOKButtonEnabled((validationError == null) || !filteredObjectType.isValidationRequired());
 	}
 
 	protected void setStandardOKButtonEnabled(boolean b) {
@@ -559,45 +577,23 @@ public class Form extends ImagePanel {
 	protected void formShown() {
 		absolutelyVisible = true;
 		swingRenderer.getAllDisplayedForms().add(this);
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		final boolean[] formUpdateNeeded = new boolean[] { false };
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
 			public void run() {
-				formUpdateNeeded[0] = type.onFormVisibilityChange(object, true);
+				Form.this.filteredObjectType.onFormVisibilityChange(object, true);
 			}
 		}, swingRenderer.getObjectTitle(object) + " - Setting up...");
-		if (formUpdateNeeded[0]) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					refresh(false);
-				}
-			});
-		}
 	}
 
 	protected void formHidden() {
 		absolutelyVisible = false;
 		swingRenderer.getAllDisplayedForms().remove(this);
-		ReflectionUI reflectionUI = swingRenderer.getReflectionUI();
-		final ITypeInfo type = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(object));
-		final boolean[] formUpdateNeeded = new boolean[] { false };
 		swingRenderer.showBusyDialogWhile(this, new Runnable() {
 			@Override
 			public void run() {
-				formUpdateNeeded[0] = type.onFormVisibilityChange(object, false);
+				Form.this.filteredObjectType.onFormVisibilityChange(object, false);
 			}
 		}, swingRenderer.getObjectTitle(object) + " - Cleaning up...");
-		if (formUpdateNeeded[0]) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					refresh(false);
-				}
-			});
-		}
 	}
 
 	protected boolean isModificationStackSlave() {
@@ -667,7 +663,7 @@ public class Form extends ImagePanel {
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
-		if ((objectType.getFormPreferredWidth() != -1) || (objectType.getFormPreferredHeight() != -1)) {
+		if ((filteredObjectType.getFormPreferredWidth() != -1) || (filteredObjectType.getFormPreferredHeight() != -1)) {
 			ControlPanel contentPanel = new ControlPanel();
 			{
 				membersPanel.setLayout(new BorderLayout());
@@ -802,12 +798,11 @@ public class Form extends ImagePanel {
 				&& (categories.size() > 0);
 	}
 
-	protected List<InfoCategory> collectCategories(
-			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
-			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory) {
+	protected <T1, T2> List<InfoCategory> collectCategories(Map<InfoCategory, T1> t1ByCategory,
+			Map<InfoCategory, T2> t2ByCategory) {
 		SortedSet<InfoCategory> result = new TreeSet<InfoCategory>();
-		result.addAll(fieldControlPlaceHoldersByCategory.keySet());
-		result.addAll(methodControlPlaceHoldersByCategory.keySet());
+		result.addAll(t1ByCategory.keySet());
+		result.addAll(t2ByCategory.keySet());
 		return new ArrayList<InfoCategory>(result);
 	}
 
@@ -1241,46 +1236,15 @@ public class Form extends ImagePanel {
 		return scrollPane;
 	}
 
-	protected SortedMap<InfoCategory, List<MethodControlPlaceHolder>> createMethodControlPlaceHoldersByCategory(
-			List<IMethodInfo> methods) {
-		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> result = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>();
-		for (IMethodInfo method : methods) {
-			MethodControlPlaceHolder methodControlPlaceHolder = createMethodControlPlaceHolder(method);
-			{
-				InfoCategory category = method.getCategory();
-				if (category == null) {
-					category = swingRenderer.getNullInfoCategory();
-				}
-				List<MethodControlPlaceHolder> methodControlPlaceHolders = result.get(category);
-				if (methodControlPlaceHolders == null) {
-					methodControlPlaceHolders = new ArrayList<MethodControlPlaceHolder>();
-					result.put(category, methodControlPlaceHolders);
-				}
-				methodControlPlaceHolders.add(methodControlPlaceHolder);
-			}
-		}
-		return result;
+	protected SortedMap<InfoCategory, List<IMethodInfo>> getMethodsByCategory(List<IMethodInfo> methods) {
+		return new TreeMap<InfoCategory, List<IMethodInfo>>(methods.stream()
+				.collect(Collectors.groupingBy(method -> (method.getCategory() != null) ? method.getCategory()
+						: swingRenderer.getNullInfoCategory())));
 	}
 
-	protected SortedMap<InfoCategory, List<FieldControlPlaceHolder>> createFieldControlPlaceHoldersByCategory(
-			List<IFieldInfo> fields) {
-		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> result = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>();
-		for (IFieldInfo field : fields) {
-			FieldControlPlaceHolder fieldControlPlaceHolder = createFieldControlPlaceHolder(field);
-			{
-				InfoCategory category = field.getCategory();
-				if (category == null) {
-					category = swingRenderer.getNullInfoCategory();
-				}
-				List<FieldControlPlaceHolder> fieldControlPlaceHolders = result.get(category);
-				if (fieldControlPlaceHolders == null) {
-					fieldControlPlaceHolders = new ArrayList<FieldControlPlaceHolder>();
-					result.put(category, fieldControlPlaceHolders);
-				}
-				fieldControlPlaceHolders.add(fieldControlPlaceHolder);
-			}
-		}
-		return result;
+	protected SortedMap<InfoCategory, List<IFieldInfo>> getFieldsByCategory(List<IFieldInfo> fields) {
+		return new TreeMap<InfoCategory, List<IFieldInfo>>(fields.stream().collect(Collectors.groupingBy(
+				field -> (field.getCategory() != null) ? field.getCategory() : swingRenderer.getNullInfoCategory())));
 	}
 
 	protected ITypeInfo buildFormFilteredType() {
@@ -1506,7 +1470,7 @@ public class Form extends ImagePanel {
 		for (IFormListener l : listeners) {
 			l.onRefresh(refreshStructure);
 		}
-		objectType.onFormRefresh(object);
+		filteredObjectType.onFormRefresh(object);
 	}
 
 	/**
@@ -1524,8 +1488,14 @@ public class Form extends ImagePanel {
 	}
 
 	protected void createMembersControlPlaceHolders() {
-		fieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(objectType.getFields());
-		methodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(objectType.getMethods());
+		fieldControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<FieldControlPlaceHolder>>(
+				getFieldsByCategory(filteredObjectType.getFields()).entrySet().stream()
+						.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream()
+								.map(this::createFieldControlPlaceHolder).collect(Collectors.toList()))));
+		methodControlPlaceHoldersByCategory = new TreeMap<InfoCategory, List<MethodControlPlaceHolder>>(
+				getMethodsByCategory(filteredObjectType.getMethods()).entrySet().stream()
+						.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().stream()
+								.map(this::createMethodControlPlaceHolder).collect(Collectors.toList()))));
 	}
 
 	protected void realizeMembersControls() {
@@ -1543,53 +1513,59 @@ public class Form extends ImagePanel {
 
 	protected boolean detectStructureChange() {
 
-		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> displayedFieldControlPlaceHoldersByCategory = fieldControlPlaceHoldersByCategory;
-		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> displayedMethodControlPlaceHoldersByCategory = methodControlPlaceHoldersByCategory;
+		SortedMap<InfoCategory, List<IFieldInfo>> oldFieldsByCategory = (fieldControlPlaceHoldersByCategory != null)
+				? new TreeMap<InfoCategory, List<IFieldInfo>>(fieldControlPlaceHoldersByCategory.entrySet().stream()
+						.collect(Collectors.toMap(Map.Entry::getKey,
+								entry -> entry.getValue().stream().map(FieldControlPlaceHolder::getField)
+										.collect(Collectors.toList()))))
+				: null;
+		SortedMap<InfoCategory, List<IMethodInfo>> oldMethodsByCategory = (methodControlPlaceHoldersByCategory != null)
+				? new TreeMap<InfoCategory, List<IMethodInfo>>(methodControlPlaceHoldersByCategory.entrySet().stream()
+						.collect(Collectors.toMap(Map.Entry::getKey,
+								entry -> entry.getValue().stream().map(MethodControlPlaceHolder::getMethod)
+										.collect(Collectors.toList()))))
+				: null;
 
 		boolean modificationsDetected = false;
 
-		ITypeInfo oldObjectType = objectType;
-		objectType = buildFormFilteredType();
+		ITypeInfo oldObjectType = filteredObjectType;
+		filteredObjectType = buildFormFilteredType();
 
-		if (!objectType.equals(oldObjectType)) {
+		if (!filteredObjectType.equals(oldObjectType)) {
 			modificationsDetected = true;
-			setName("form [objectType=" + objectType.getName() + "]");
+			setName("form [objectType=" + filteredObjectType.getName() + "]");
 			modificationStack.setName(getName());
 		}
 
-		SortedMap<InfoCategory, List<FieldControlPlaceHolder>> newFieldControlPlaceHoldersByCategory = createFieldControlPlaceHoldersByCategory(
-				objectType.getFields());
-		SortedMap<InfoCategory, List<MethodControlPlaceHolder>> newMethodControlPlaceHoldersByCategory = createMethodControlPlaceHoldersByCategory(
-				objectType.getMethods());
+		SortedMap<InfoCategory, List<IFieldInfo>> newFieldsByCategory = getFieldsByCategory(
+				filteredObjectType.getFields());
+		SortedMap<InfoCategory, List<IMethodInfo>> newMethodsByCategory = getMethodsByCategory(
+				filteredObjectType.getMethods());
 
 		if (!modificationsDetected) {
-			if (!new ArrayList<InfoCategory>(newFieldControlPlaceHoldersByCategory.keySet())
-					.equals(new ArrayList<InfoCategory>(displayedFieldControlPlaceHoldersByCategory.keySet()))) {
+			if ((oldFieldsByCategory == null) || !new ArrayList<InfoCategory>(newFieldsByCategory.keySet())
+					.equals(new ArrayList<InfoCategory>(oldFieldsByCategory.keySet()))) {
 				modificationsDetected = true;
 			}
 		}
 
 		if (!modificationsDetected) {
-			if (!new ArrayList<InfoCategory>(newMethodControlPlaceHoldersByCategory.keySet())
-					.equals(new ArrayList<InfoCategory>(displayedMethodControlPlaceHoldersByCategory.keySet()))) {
+			if ((oldMethodsByCategory == null) || !new ArrayList<InfoCategory>(newMethodsByCategory.keySet())
+					.equals(new ArrayList<InfoCategory>(oldMethodsByCategory.keySet()))) {
 				modificationsDetected = true;
 			}
 		}
 
 		if (!modificationsDetected) {
-			for (InfoCategory category : newFieldControlPlaceHoldersByCategory.keySet()) {
-				List<FieldControlPlaceHolder> fieldControlPlaceHolders = newFieldControlPlaceHoldersByCategory
-						.get(category);
-				List<FieldControlPlaceHolder> displayedFieldControlPlaceHolders = displayedFieldControlPlaceHoldersByCategory
-						.get(category);
-				if (displayedFieldControlPlaceHolders.size() != fieldControlPlaceHolders.size()) {
+			for (InfoCategory category : newFieldsByCategory.keySet()) {
+				List<IFieldInfo> newFields = newFieldsByCategory.get(category);
+				List<IFieldInfo> oldFields = oldFieldsByCategory.get(category);
+				if (oldFields.size() != newFields.size()) {
 					modificationsDetected = true;
 					break;
 				}
-				for (int i = 0; i < fieldControlPlaceHolders.size(); i++) {
-					FieldControlPlaceHolder fieldControlPlaceHolder = fieldControlPlaceHolders.get(i);
-					FieldControlPlaceHolder displayedFieldControlPlaceHolder = displayedFieldControlPlaceHolders.get(i);
-					if (!fieldControlPlaceHolder.getField().equals(displayedFieldControlPlaceHolder.getField())) {
+				for (int i = 0; i < newFields.size(); i++) {
+					if (!newFields.get(i).equals(oldFields.get(i))) {
 						modificationsDetected = true;
 						break;
 					}
@@ -1601,20 +1577,15 @@ public class Form extends ImagePanel {
 		}
 
 		if (!modificationsDetected) {
-			for (InfoCategory category : newMethodControlPlaceHoldersByCategory.keySet()) {
-				List<MethodControlPlaceHolder> methodControlPlaceHolders = newMethodControlPlaceHoldersByCategory
-						.get(category);
-				List<MethodControlPlaceHolder> displayedMethodControlPlaceHolders = displayedMethodControlPlaceHoldersByCategory
-						.get(category);
-				if (displayedMethodControlPlaceHolders.size() != methodControlPlaceHolders.size()) {
+			for (InfoCategory category : newMethodsByCategory.keySet()) {
+				List<IMethodInfo> newMethods = newMethodsByCategory.get(category);
+				List<IMethodInfo> oldMethods = oldMethodsByCategory.get(category);
+				if (oldMethods.size() != newMethods.size()) {
 					modificationsDetected = true;
 					break;
 				}
-				for (int i = 0; i < methodControlPlaceHolders.size(); i++) {
-					MethodControlPlaceHolder methodControlPlaceHolder = methodControlPlaceHolders.get(i);
-					MethodControlPlaceHolder displayedMethodControlPlaceHolder = displayedMethodControlPlaceHolders
-							.get(i);
-					if (!methodControlPlaceHolder.getMethod().equals(displayedMethodControlPlaceHolder.getMethod())) {
+				for (int i = 0; i < newMethods.size(); i++) {
+					if (!newMethods.get(i).equals(oldMethods.get(i))) {
 						modificationsDetected = true;
 						break;
 					}
@@ -1626,8 +1597,7 @@ public class Form extends ImagePanel {
 		}
 
 		if (!modificationsDetected) {
-			List<InfoCategory> allCategories = collectCategories(newFieldControlPlaceHoldersByCategory,
-					newMethodControlPlaceHoldersByCategory);
+			List<InfoCategory> allCategories = collectCategories(newFieldsByCategory, newMethodsByCategory);
 			if ((allCategories.size() == 1) && (swingRenderer.getNullInfoCategory().equals(allCategories.get(0)))) {
 				if (categoriesControl != null) {
 					modificationsDetected = true;
@@ -1665,8 +1635,8 @@ public class Form extends ImagePanel {
 		}
 
 		if (!modificationsDetected) {
-			if (((objectType.getFormPreferredWidth() != -1)
-					|| (objectType.getFormPreferredHeight() != -1)) != (scrollPane != null)) {
+			if (((filteredObjectType.getFormPreferredWidth() != -1)
+					|| (filteredObjectType.getFormPreferredHeight() != -1)) != (scrollPane != null)) {
 				modificationsDetected = true;
 			}
 		}
@@ -2233,7 +2203,7 @@ public class Form extends ImagePanel {
 	}
 
 	protected int getLayoutSpacing() {
-		return objectType.getFormSpacing();
+		return filteredObjectType.getFormSpacing();
 	}
 
 	/**

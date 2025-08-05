@@ -318,8 +318,11 @@ public class GenericEnumerationFactory {
 		}
 
 		@Override
-		public boolean onFormVisibilityChange(Object object, boolean visible) {
-			return false;
+		public void onFormVisibilityChange(Object object, boolean visible) {
+		}
+
+		@Override
+		public void onFormCreation(Object object, boolean beforeOrAFter) {
 		}
 
 		@Override

@@ -1871,8 +1871,7 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 	}
 
 	@Override
-	protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
-		boolean formUpdateNeeded = false;
+	protected void onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
 		TypeCustomization t = InfoCustomizations.getTypeCustomization(this.getInfoCustomizations(), type.getName());
 		if (t != null) {
 			for (IMethodInfo method : getMethods(type)) {
@@ -1885,12 +1884,11 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 											+ method.getSignature());
 						}
 						method.invoke(object, new InvocationData(object, method));
-						formUpdateNeeded = formUpdateNeeded || !method.isReadOnly();
 					}
 				}
 			}
 		}
-		return super.onFormVisibilityChange(type, object, visible) || formUpdateNeeded;
+		super.onFormVisibilityChange(type, object, visible);
 	}
 
 	@Override

@@ -73,8 +73,11 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
-		public boolean onFormVisibilityChange(Object object, boolean visible) {
-			return false;
+		public void onFormVisibilityChange(Object object, boolean visible) {
+		}
+
+		@Override
+		public void onFormCreation(Object object, boolean beforeOrAFter) {
 		}
 
 		@Override
@@ -283,13 +286,6 @@ public interface ITypeInfo extends IInfo {
 	ITransaction createTransaction(Object object);
 
 	/**
-	 * This method is called when a form displaying the given object gets refreshed.
-	 * 
-	 * @param object Any object of the current type.
-	 */
-	void onFormRefresh(Object object);
-
-	/**
 	 * @param object Any object of the current type.
 	 * @return a job (may be null) that restores the state of the given object when
 	 *         its form was last refreshed.
@@ -442,15 +438,31 @@ public interface ITypeInfo extends IInfo {
 	MenuModel getMenuModel();
 
 	/**
+	 * This method is called when a form displaying the given object gets refreshed.
+	 * 
+	 * @param object Any object of the current type.
+	 */
+	void onFormRefresh(Object object);
+
+	/**
 	 * This method is called by the renderer when the visibility of the form
 	 * generated for the given object changes.
 	 * 
 	 * @param object  Any object of the current type.
 	 * @param visible Is true when the form becomes visible, false when it becomes
 	 *                invisible.
-	 * @return whether an update of the form is required.
 	 */
-	boolean onFormVisibilityChange(Object object, boolean visible);
+	void onFormVisibilityChange(Object object, boolean visible);
+
+	/**
+	 * This method is called twice (before and after) by the renderer when a form
+	 * gets generated for the given object.
+	 * 
+	 * @param object        Any object of the current type.
+	 * @param beforeOrAfter Is true when the form is about to be generated, false
+	 *                      when it has just been generated.
+	 */
+	void onFormCreation(Object object, boolean beforeOrAFter);
 
 	/**
 	 * @return the preferred width (in pixels) of forms generated from this type or

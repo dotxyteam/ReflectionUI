@@ -412,8 +412,8 @@ public class PrecomputedTypeInstanceWrapper implements Comparable<PrecomputedTyp
 		}
 
 		@Override
-		protected boolean onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
-			return super.onFormVisibilityChange(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), visible);
+		protected void onFormVisibilityChange(ITypeInfo type, Object object, boolean visible) {
+			super.onFormVisibilityChange(type, ((PrecomputedTypeInstanceWrapper) object).getInstance(), visible);
 		}
 
 		@Override
