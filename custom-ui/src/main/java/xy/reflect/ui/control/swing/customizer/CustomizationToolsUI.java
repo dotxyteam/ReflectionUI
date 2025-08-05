@@ -91,6 +91,10 @@ public class CustomizationToolsUI extends CustomizedUI {
 		this.swingCustomizer = swingCustomizer;
 	}
 
+	public SwingCustomizer getSwingCustomizer() {
+		return swingCustomizer;
+	}
+
 	@Override
 	protected ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
 		type = new InfoProxyFactory() {

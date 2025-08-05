@@ -120,33 +120,10 @@ public class CustomizationTools {
 	}
 
 	protected CustomizationToolsRenderer createToolsRenderer() {
-		return new CustomizationToolsRenderer(toolsUI) {
-
-			@Override
-			public boolean isCustomizationsEditorEnabled() {
-				return isMetaCustomizationAllowed();
-			}
-
-			@Override
-			public CustomizationTools createCustomizationTools() {
-				if (!isMetaCustomizationAllowed()) {
-					return null;
-				}
-				return new CustomizationTools(this) {
-
-					@Override
-					protected boolean isMetaCustomizationAllowed() {
-						return false;
-					}
-
-				};
-			}
-		};
+		return new CustomizationToolsRenderer(toolsUI);
 	}
 
-	protected boolean isMetaCustomizationAllowed() {
-		return MoreSystemProperties.isInfoCustomizationToolsCustomizationAllowed();
-	}
+	
 
 	protected CustomizationToolsUI createToolsUI() {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();

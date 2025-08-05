@@ -46,6 +46,24 @@ public class CustomizationToolsRenderer extends SwingCustomizer {
 		return (CustomizationToolsUI) getCustomizedUI();
 	}
 
+	@Override
+	public boolean isCustomizationsEditorEnabled() {
+		return getCustomizationToolsUI().getSwingCustomizer().isMetaCustomizationAllowed();
+	}
+
+	@Override
+	public boolean isMetaCustomizationAllowed() {
+		return false;
+	}
+
+	@Override
+	public CustomizationTools createCustomizationTools() {
+		if (!getCustomizationToolsUI().getSwingCustomizer().isMetaCustomizationAllowed()) {
+			return null;
+		}
+		return new CustomizationTools(this);
+	}
+
 	protected Color getToolsForegroundColor() {
 		IApplicationInfo toolsAppInfo = getCustomizationToolsUI().getApplicationInfo();
 		if (toolsAppInfo.getTitleForegroundColor() != null) {

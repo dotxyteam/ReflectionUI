@@ -36,6 +36,8 @@ public class CustomizingForm extends Form {
 	private static final long serialVersionUID = 1L;
 
 	protected boolean toolsAdded;
+	protected JPanel newMembersPanel;
+	protected JPanel typeCustomizationsControl;
 
 	public CustomizingForm(SwingCustomizer swingCustomizer, Object object, IInfoFilter infoFilter) {
 		super(swingCustomizer, object, infoFilter);
@@ -88,53 +90,53 @@ public class CustomizingForm extends Form {
 		return true;
 	}
 
-	/**
-	 * @return whether customization tools are currently installed on the form or
-	 *         not.
-	 */
-	public boolean areToolsAdded() {
-		return toolsAdded;
-	}
-
 	@Override
 	protected void layoutMembersControlPlaceHolders(
 			Map<InfoCategory, List<FieldControlPlaceHolder>> fieldControlPlaceHoldersByCategory,
 			Map<InfoCategory, List<MethodControlPlaceHolder>> methodControlPlaceHoldersByCategory,
 			JPanel membersPanel) {
+		membersPanel.setLayout(new BorderLayout());
+		newMembersPanel = new ControlPanel();
+		{
+			membersPanel.add(newMembersPanel, BorderLayout.CENTER);
+			super.layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory,
+					methodControlPlaceHoldersByCategory, newMembersPanel);
+		}
+		typeCustomizationsControl = new ControlPanel();
+		{
+			typeCustomizationsControl.setLayout(new BorderLayout());
+			membersPanel.add(SwingRendererUtils.flowInLayout(typeCustomizationsControl, GridBagConstraints.CENTER),
+					BorderLayout.NORTH);
+		}
+		refreshTools();
+	}
+
+	protected void refreshTools() {
 		if (areCustomizationsEditable(object)) {
-			membersPanel.setLayout(new BorderLayout());
-			JPanel newMembersPanel = new ControlPanel();
+			Border newMembersPanelBorder;
 			{
-				membersPanel.add(newMembersPanel, BorderLayout.CENTER);
-				Border newMembersPanelBorder;
-				{
-					int borderThickness = 2;
-					newMembersPanelBorder = BorderFactory.createLineBorder(
-							getSwingRenderer().getCustomizationTools().getToolsRenderer().getToolsForegroundColor(),
-							borderThickness);
-					newMembersPanelBorder = BorderFactory.createCompoundBorder(newMembersPanelBorder,
-							BorderFactory.createLineBorder(getSwingRenderer().getCustomizationTools().getToolsRenderer()
-									.getToolsBackgroundColor(), borderThickness));
-					newMembersPanelBorder = BorderFactory.createCompoundBorder(newMembersPanelBorder,
-							BorderFactory.createLineBorder(getSwingRenderer().getCustomizationTools().getToolsRenderer()
-									.getToolsForegroundColor(), borderThickness));
-					newMembersPanel.setBorder(newMembersPanelBorder);
-				}
-				super.layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
-						newMembersPanel);
+				int borderThickness = 2;
+				newMembersPanelBorder = BorderFactory.createLineBorder(
+						getSwingRenderer().getCustomizationTools().getToolsRenderer().getToolsForegroundColor(),
+						borderThickness);
+				newMembersPanelBorder = BorderFactory.createCompoundBorder(newMembersPanelBorder,
+						BorderFactory.createLineBorder(
+								getSwingRenderer().getCustomizationTools().getToolsRenderer().getToolsBackgroundColor(),
+								borderThickness));
+				newMembersPanelBorder = BorderFactory.createCompoundBorder(newMembersPanelBorder,
+						BorderFactory.createLineBorder(
+								getSwingRenderer().getCustomizationTools().getToolsRenderer().getToolsForegroundColor(),
+								borderThickness));
 			}
-			JPanel typeCustomizationsControl = new ControlPanel();
-			{
-				typeCustomizationsControl.setLayout(new BorderLayout());
-				typeCustomizationsControl.add(getSwingRenderer().getCustomizationTools().makeButtonForType(object),
-						BorderLayout.CENTER);
-				membersPanel.add(SwingRendererUtils.flowInLayout(typeCustomizationsControl, GridBagConstraints.CENTER),
-						BorderLayout.NORTH);
-			}
+			newMembersPanel.setBorder(newMembersPanelBorder);
+			typeCustomizationsControl.add(getSwingRenderer().getCustomizationTools().makeButtonForType(object),
+					BorderLayout.CENTER);
+			typeCustomizationsControl.setVisible(true);
 			toolsAdded = true;
 		} else {
-			super.layoutMembersControlPlaceHolders(fieldControlPlaceHoldersByCategory, methodControlPlaceHoldersByCategory,
-					membersPanel);
+			newMembersPanel.setBorder(null);
+			typeCustomizationsControl.removeAll();
+			typeCustomizationsControl.setVisible(false);
 			toolsAdded = false;
 		}
 	}
@@ -142,8 +144,8 @@ public class CustomizingForm extends Form {
 	@Override
 	public void refresh(boolean refreshStructure) {
 		if (areCustomizationsEditable(object) != toolsAdded) {
-			objectType = null;
 			super.refresh(true);
+			refreshTools();
 		} else {
 			super.refresh(refreshStructure);
 		}

@@ -177,13 +177,25 @@ public class SwingCustomizer extends CustomizedSwingRenderer {
 	}
 
 	/**
-	 * @return whether customizations are enabled or not. Customizations are
-	 *         disabled if the customizations file path is not defined (null) or if
-	 *         the {@link MoreSystemProperties#HIDE_INFO_CUSTOMIZATIONS_TOOLS}
-	 *         property is set to "true".
+	 * @return whether customizations are enabled or not. Unless this method is
+	 *         overridden, customizations are disabled if and only if the
+	 *         customizations file path is not defined (null) or if the
+	 *         {@link MoreSystemProperties#HIDE_INFO_CUSTOMIZATIONS_TOOLS} property
+	 *         is set to "true".
 	 */
 	public boolean isCustomizationsEditorEnabled() {
 		return (infoCustomizationsOutputFilePath != null) && !MoreSystemProperties.areCustomizationToolsDisabled();
+	}
+
+	/**
+	 * @return whether customization tools are customizable or not. Unless this
+	 *         method is overridden, meta-customizations are enabled if and only if
+	 *         the meta-customizations file path system property
+	 *         ({@link MoreSystemProperties#INFO_CUSTOMIZATION_TOOLS_CUSTOMIZATIONS_FILE_PATH})
+	 *         is defined (not null).
+	 */
+	public boolean isMetaCustomizationAllowed() {
+		return MoreSystemProperties.isInfoCustomizationToolsCustomizationAllowed();
 	}
 
 	/**
