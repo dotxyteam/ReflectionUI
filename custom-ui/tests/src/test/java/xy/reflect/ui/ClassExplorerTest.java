@@ -31,7 +31,7 @@ public class ClassExplorerTest {
 
 					@Override
 					protected void openWindow() {
-						refreshCustomizedControlsOnModification();
+						recustomizeAllFormsOnModification();
 					}
 
 					@Override

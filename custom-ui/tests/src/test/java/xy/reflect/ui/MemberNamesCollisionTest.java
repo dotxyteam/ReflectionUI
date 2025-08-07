@@ -31,7 +31,7 @@ public class MemberNamesCollisionTest {
 
 					@Override
 					protected void openWindow() {
-						refreshCustomizedControlsOnModification();
+						recustomizeAllFormsOnModification();
 					}
 
 					@Override

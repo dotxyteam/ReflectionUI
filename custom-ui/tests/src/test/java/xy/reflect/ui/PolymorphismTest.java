@@ -31,7 +31,7 @@ public class PolymorphismTest {
 
 					@Override
 					protected void openWindow() {
-						refreshCustomizedControlsOnModification();
+						recustomizeAllFormsOnModification();
 					}
 
 					@Override

@@ -35,7 +35,7 @@ public class CustomizationsTest {
 
 					@Override
 					protected void openWindow() {
-						refreshCustomizedControlsOnModification();
+						recustomizeAllFormsOnModification();
 					}
 
 					@Override

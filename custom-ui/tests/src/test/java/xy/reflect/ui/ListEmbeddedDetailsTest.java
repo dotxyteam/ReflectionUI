@@ -33,7 +33,7 @@ public class ListEmbeddedDetailsTest {
 
 					@Override
 					protected void openWindow() {
-						refreshCustomizedControlsOnModification();
+						recustomizeAllFormsOnModification();
 					}
 
 					@Override

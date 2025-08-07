@@ -34,7 +34,7 @@ public class MenuCreationTest implements Serializable {
 
 					@Override
 					protected void openWindow() {
-						refreshCustomizedControlsOnModification();
+						recustomizeAllFormsOnModification();
 					}
 
 					@Override

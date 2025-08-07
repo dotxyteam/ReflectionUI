@@ -84,7 +84,7 @@ public class CustomizedUI extends ReflectionUI {
 	}
 
 	@Override
-	public final ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
+	public ITypeInfo getTypeInfo(ITypeInfoSource typeSource) {
 		ITypeInfo result = super.getTypeInfo(typeSource);
 		synchronized (getTypeCacheMutex()) {
 			ITypeInfo customizedTypesCacheKey = result;

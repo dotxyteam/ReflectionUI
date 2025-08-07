@@ -69,7 +69,7 @@ public class CustomizationController {
 	protected void openWindow() {
 		windowBuilder = createWindowBuilder();
 		window = windowBuilder.createFrame();
-		refreshCustomizedControlsOnModification();
+		recustomizeAllFormsOnModification();
 		if (lastWindowBounds != null) {
 			window.setBounds(lastWindowBounds);
 		}
@@ -89,20 +89,23 @@ public class CustomizationController {
 		return new StandardEditorBuilder(customizationsToolsRenderer, null, this);
 	}
 
-	protected void refreshCustomizedControlsOnModification() {
+	protected void recustomizeAllFormsOnModification() {
 		getModificationStack().addListener(new AbstractSimpleModificationListener() {
 			@Override
 			protected void handleAnyEvent(IModification modification) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						swingCustomizer.getCustomizedUI().clearCustomizationsCache();
-						SwingRendererUtils.refreshAllDisplayedForms(swingCustomizer, true);
+						recustomizeAllForms();
 					}
 				});
-
 			}
 		});
+	}
+
+	protected void recustomizeAllForms() {
+		swingCustomizer.getCustomizedUI().clearCustomizationsCache();
+		SwingRendererUtils.refreshAllDisplayedForms(swingCustomizer, true);
 	}
 
 	public ModificationStack getModificationStack() {

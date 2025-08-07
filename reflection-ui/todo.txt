@@ -5,9 +5,11 @@
 	. => StackOverfowError
 - xy.reflect.ui.util.MiscUtils.sameExceptionOrBothNull(Throwable, Throwable)
 may be wrong if some information is not in the exception message (rare) 
-- add ReflectionUI#findCurrentFormObject(Class) allowing to get the
-the current object of a specific type according to the current thread
-and the focused components. 
+- allow to find in a safe way focused objects from the IInfo methods:
+	. either add ReflectionUI#findCurrentFormObject(Class) allowing to get the
+	the current object of a specific type according to the current thread
+	and the focused components.
+	. or add ITypeInfo#onFocusChange(Object object, List focusHierarchy) ???
 - add tooltip text option for ToggleButton and CustomCheckBox ???
 - it should n to be possible to return true from ITypeInfo.onFormVisibilityChange(Object, boolean)
 and trigger a form refresh when the form is hidden 

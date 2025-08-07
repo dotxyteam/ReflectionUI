@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -778,6 +777,14 @@ public class SwingRendererUtils {
 		return result;
 	}
 
+	public static List<Window> getOwnerHierarchy(Window window) {
+		List<Window> result = new ArrayList<Window>();
+		while ((window = window.getOwner()) != null) {
+			result.add(window);
+		}
+		return result;
+	}
+
 	public static Component getMessagePane(final String msg, int jOptionPaneMessageType,
 			final SwingRenderer swingRenderer) {
 		JPanel result = new ControlPanel();
@@ -1079,7 +1086,8 @@ public class SwingRendererUtils {
 	}
 
 	public static void refreshAllDisplayedForms(SwingRenderer swingRenderer, boolean refreshStructure) {
-		for (Form form : getAllRootForms(swingRenderer)) {
+		List<Form> rootForms = getAllRootForms(swingRenderer);
+		for (Form form : rootForms) {
 			form.refresh(refreshStructure);
 		}
 	}

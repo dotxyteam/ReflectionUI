@@ -31,7 +31,7 @@ public class TextualStorageDataFieldControlMutationTest {
 
 					@Override
 					protected void openWindow() {
-						refreshCustomizedControlsOnModification();
+						recustomizeAllFormsOnModification();
 					}
 
 					@Override
