@@ -6,6 +6,7 @@ import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
 
@@ -51,10 +52,25 @@ public class RenewMenuItem extends AbstractFileMenuItem {
 		final ITypeInfo type = swingRenderer.getReflectionUI()
 				.getTypeInfo(swingRenderer.getReflectionUI().getTypeInfoSource(object));
 		Object newObject = swingRenderer.onTypeInstantiationRequest(form, type);
-		if(newObject == null) {
+		if (newObject == null) {
 			return;
 		}
-		form.setObject(newObject);
+		swingRenderer.showBusyDialogWhile(form, new Runnable() {
+			@Override
+			public void run() {
+				try {
+					File tmpFile = IOUtils.createTemporaryFile();
+					try {
+						type.save(newObject, tmpFile);
+						type.load(object, tmpFile);
+					} finally {
+						IOUtils.delete(tmpFile);
+					}
+				} catch (Exception e) {
+					throw new ReflectionUIError(e);
+				}
+			}
+		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Renewing..."));
 		form.getModificationStack().forget();
 	}
 
