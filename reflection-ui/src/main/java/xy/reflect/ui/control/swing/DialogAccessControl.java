@@ -396,16 +396,6 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 		}
 
 		@Override
-		protected Runnable getParentControlRefreshJob() {
-			return new Runnable() {
-				@Override
-				public void run() {
-					parentControl.refreshUI(false);
-				}
-			};
-		}
-
-		@Override
 		protected Component getOwnerComponent() {
 			return ownerComponent;
 		}

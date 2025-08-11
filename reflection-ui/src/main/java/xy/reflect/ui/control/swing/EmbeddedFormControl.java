@@ -123,17 +123,6 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 				return data.isTransient();
 			}
 		};
-		Accessor<Runnable> parentControlRefreshJobGetter = new Accessor<Runnable>() {
-			@Override
-			public Runnable get() {
-				return new Runnable() {
-					@Override
-					public void run() {
-						EmbeddedFormControl.this.refreshUI(false);
-					}
-				};
-			}
-		};
 		boolean exclusiveLinkWithParent = Boolean.TRUE.equals(input.getControlData().getSpecificProperties()
 				.get(EncapsulatedObjectFactory.ENCAPSULATION_STATUS_PROPERTY_KEY));
 		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
@@ -145,8 +134,8 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 		SlaveModificationStack slaveModficationStack = new SlaveModificationStack(subForm.getName(),
 				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
 				childValueTransactionExecutedGetter, committingModifGetter, undoModificationsReplacementGetter,
-				childModifTitleGetter, masterModifStackGetter, masterModifVolatileGetter, parentControlRefreshJobGetter,
-				exclusiveLinkWithParent, ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
+				childModifTitleGetter, masterModifStackGetter, masterModifVolatileGetter, exclusiveLinkWithParent,
+				ReflectionUIUtils.getDebugLogListener(swingRenderer.getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
 				masterModificationExceptionListener);
 		for (IModificationListener listener : subForm.getModificationStack().getListeners()) {

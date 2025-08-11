@@ -457,16 +457,6 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		}
 
 		@Override
-		protected Runnable getParentControlRefreshJob() {
-			return new Runnable() {
-				@Override
-				public void run() {
-					ownerComponent.refreshUI(false);
-				}
-			};
-		}
-
-		@Override
 		protected ValueReturnMode getReturnModeFromParent() {
 			return data.getValueReturnMode();
 		}

@@ -63,7 +63,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	 */
 	public int getContainingListSize() {
 		Object[] containingListRawValue = retrieveContainingListRawValue();
-		if(containingListRawValue == null) {
+		if (containingListRawValue == null) {
 			return 0;
 		}
 		return containingListRawValue.length;
@@ -295,7 +295,7 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 		ItemPosition result = clone();
 		result.parentItemPosition = this;
 		result.containingListFieldIfNotRoot = getSubListField();
-		if(result.containingListFieldIfNotRoot == null) {
+		if (result.containingListFieldIfNotRoot == null) {
 			return null;
 		}
 		result.index = index;
@@ -361,7 +361,9 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	}
 
 	/**
-	 * @return false if and only if the containing list value can be set.
+	 * @return false if and only if the containing list value can be set. Note that
+	 *         the containing list may be editable even if it cannot be set. See
+	 *         {@link #isContainingListEditable()} for more information.
 	 */
 	public boolean isContainingListGetOnly() {
 		if (isRoot()) {
@@ -372,9 +374,10 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	}
 
 	/**
-	 * @return whether the containing list content can be durably changed or not
-	 *         (would imply that eventual changes made to the item at this position
-	 *         would be lost).
+	 * @return whether the containing list content can be durably changed (by using
+	 *         {@link #updateContainingList(Object[])}) or not. Note that it would
+	 *         imply that eventual changes made to the item at this position would
+	 *         be lost.
 	 */
 	public boolean isContainingListEditable() {
 		if (!isRoot()) {
@@ -434,6 +437,10 @@ public class ItemPosition implements Cloneable, Comparable<ItemPosition> {
 	 *                                  items.
 	 */
 	public void updateContainingList(Object[] newContainingListRawValue) {
+		if (!isContainingListEditable()) {
+			throw new ReflectionUIError();
+		}
+		
 		boolean done = false;
 		ItemPosition parentItemPosition = getParentItemPosition();
 		Object parentItem = isRoot() ? null : parentItemPosition.getItem();

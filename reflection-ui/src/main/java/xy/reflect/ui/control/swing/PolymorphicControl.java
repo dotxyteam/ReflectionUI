@@ -479,16 +479,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
-		protected Runnable getParentControlRefreshJob() {
-			return new Runnable() {
-				@Override
-				public void run() {
-					ownerComponent.refreshUI(false);
-				}
-			};
-		}
-
-		@Override
 		protected String getParentModificationTitle() {
 			return FieldControlDataModification.getTitle(data.getCaption());
 		}
@@ -577,16 +567,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		@Override
 		public SwingRenderer getSwingRenderer() {
 			return swingRenderer;
-		}
-
-		@Override
-		protected Runnable getParentControlRefreshJob() {
-			return new Runnable() {
-				@Override
-				public void run() {
-					ownerComponent.refreshUI(false);
-				}
-			};
 		}
 
 		@Override

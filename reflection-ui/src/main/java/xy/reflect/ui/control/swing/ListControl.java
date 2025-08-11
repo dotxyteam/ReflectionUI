@@ -2403,11 +2403,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 	}
 
-	protected class RefreshStructureModification implements IModification {
+	protected class RefreshModification implements IModification {
 		protected Accessor<List<BufferedItemPosition>> newSelectionGetter;
 		protected Accessor<List<BufferedItemPosition>> oldSelectionGetter;
 
-		public RefreshStructureModification(Accessor<List<BufferedItemPosition>> newSelectionGetter,
+		public RefreshModification(Accessor<List<BufferedItemPosition>> newSelectionGetter,
 				Accessor<List<BufferedItemPosition>> oldSelectionGetter) {
 			this.newSelectionGetter = newSelectionGetter;
 			this.oldSelectionGetter = oldSelectionGetter;
@@ -2433,7 +2433,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					}
 				}
 			});
-			return new RefreshStructureModification(oldSelectionGetter, newSelectionGetter);
+			return new RefreshModification(oldSelectionGetter, newSelectionGetter);
 		}
 
 		@Override
@@ -2668,7 +2668,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 						defaultPostSelectionGetter };
 				if (modifTitle == null) {
 					perform(postSelectionGetterHolder);
-					new RefreshStructureModification(postSelectionGetterHolder[0], null)
+					new RefreshModification(postSelectionGetterHolder[0], null)
 							.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
 				} else {
 					final ModificationStack modifStack = getModificationStack();
@@ -2683,11 +2683,11 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 											return true;
 										}
 									}, listData.isTransient())) {
-								modifStack.apply(new RefreshStructureModification(postSelectionGetterHolder[0],
+								modifStack.apply(new RefreshModification(postSelectionGetterHolder[0],
 										defaultPostSelectionGetter));
 								return true;
 							} else {
-								new RefreshStructureModification(postSelectionGetterHolder[0], null)
+								new RefreshModification(postSelectionGetterHolder[0], null)
 										.applyAndGetOpposite(ModificationStack.DUMMY_MODIFICATION_STACK);
 								return modifStack.wasInvalidated();
 							}
@@ -2856,7 +2856,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected IModification createCommittingModification(final Object newItem) {
 			final Object oldItem = bufferedItemPosition.getItem();
 			final List<Object> itemAncestors = ReflectionUIUtils.collectItemAncestors(bufferedItemPosition);
-			IModification structureRefreshing = new RefreshStructureModification(
+			IModification structureRefreshing = new RefreshModification(
 					new Accessor<List<BufferedItemPosition>>() {
 
 						@Override
@@ -2892,16 +2892,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		@Override
 		public SwingRenderer getSwingRenderer() {
 			return swingRenderer;
-		}
-
-		@Override
-		protected Runnable getParentControlRefreshJob() {
-			return new Runnable() {
-				@Override
-				public void run() {
-					ListControl.this.refreshUI(false);
-				}
-			};
 		}
 
 		@Override
@@ -3988,16 +3978,6 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				@Override
 				protected Object[] getEncapsulatedFieldValueOptions() {
 					return dynamicProperty.getValueOptions(IDynamicListProperty.NO_OWNER);
-				}
-
-				@Override
-				protected Runnable getParentControlRefreshJob() {
-					return new Runnable() {
-						@Override
-						public void run() {
-							ListControl.this.refreshUI(false);
-						}
-					};
 				}
 
 				@Override

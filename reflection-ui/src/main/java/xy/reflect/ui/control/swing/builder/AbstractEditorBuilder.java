@@ -367,10 +367,9 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		IModification undoModificationsReplacement = createUndoModificationsReplacement();
 		String parentObjectModifTitle = getParentModificationTitle();
 		boolean parentObjectModifVolatile = isParentModificationVolatile();
-		Runnable parentControlRefreshJob = getParentControlRefreshJob();
 		ReflectionUIUtils.finalizeModifications(parentObjectModifStack, valueModifStack, valueModifAccepted,
 				valueReturnMode, valueReplaced, valueTransactionExecuted, committingModif, undoModificationsReplacement,
-				parentObjectModifTitle, parentObjectModifVolatile, parentControlRefreshJob,
+				parentObjectModifTitle, parentObjectModifVolatile,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()));
 		if (currentValueTransaction != null) {
@@ -381,7 +380,6 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		}
 	}
 
-	
 	/**
 	 * @return whether the user cancelled the editor dialog.
 	 */
@@ -453,6 +451,5 @@ public abstract class AbstractEditorBuilder extends AbstractEditorFormBuilder {
 		}
 
 	}
-
 
 }

@@ -136,12 +136,6 @@ public abstract class AbstractEditorFormBuilder {
 	protected abstract ValueReturnMode getReturnModeFromParent();
 
 	/**
-	 * @return a {@link Runnable} instance (or null) that can be used to refresh an
-	 *         eventual parent control.
-	 */
-	protected abstract Runnable getParentControlRefreshJob();
-
-	/**
 	 * @return true if and only if the null value can be set and then must be
 	 *         distinctly displayed.
 	 */
@@ -625,12 +619,6 @@ public abstract class AbstractEditorFormBuilder {
 				return isParentModificationVolatile();
 			}
 		};
-		Accessor<Runnable> parentControlRefreshJobGetter = new Accessor<Runnable>() {
-			@Override
-			public Runnable get() {
-				return getParentControlRefreshJob();
-			}
-		};
 		Listener<Throwable> masterModificationExceptionListener = new Listener<Throwable>() {
 			@Override
 			public void handle(Throwable t) {
@@ -640,8 +628,7 @@ public abstract class AbstractEditorFormBuilder {
 		SlaveModificationStack slaveModificationStack = new SlaveModificationStack(editorForm.toString(),
 				childModifAcceptedGetter, childValueReturnModeGetter, childValueReplacedGetter,
 				childValueTransactionExecutedGetter, committingModifGetter, undoModificationsReplacementGetter,
-				masterModifTitleGetter, masterModifStackGetter, masterModifVolatileGetter,
-				parentControlRefreshJobGetter, exclusiveLinkWithParent,
+				masterModifTitleGetter, masterModifStackGetter, masterModifVolatileGetter, exclusiveLinkWithParent,
 				ReflectionUIUtils.getDebugLogListener(getSwingRenderer().getReflectionUI()),
 				ReflectionUIUtils.getErrorLogListener(getSwingRenderer().getReflectionUI()),
 				masterModificationExceptionListener);

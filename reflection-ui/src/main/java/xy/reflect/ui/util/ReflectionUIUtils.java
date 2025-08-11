@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import javax.swing.text.NumberFormatter;
 
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.DefaultFieldControlData;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.MethodControlDataProxy;
@@ -72,6 +73,7 @@ import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
 import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
+import xy.reflect.ui.info.type.iterable.item.ItemPositionFactory;
 import xy.reflect.ui.undo.AbstractModification;
 import xy.reflect.ui.undo.AbstractModificationProxy;
 import xy.reflect.ui.undo.CancelledModificationException;
@@ -510,7 +512,7 @@ public class ReflectionUIUtils {
 		copyFieldValuesAccordingInfos(reflectionUI, src, dst, deeply, new ArrayList<Pair<Object, Object>>());
 	}
 
-	public static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply,
+	private static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply,
 			List<Pair<Object, Object>> alreadyCopied) {
 		alreadyCopied.add(new Pair<Object, Object>(src, dst));
 		ITypeInfo srcType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(src));
@@ -537,19 +539,63 @@ public class ReflectionUIUtils {
 						}
 					}
 					if (dstFieldValue == null) {
-						if (canCopy(reflectionUI, srcFieldValue)) {
-							dstFieldValue = copy(reflectionUI, srcFieldValue);
-						} else {
-							dstFieldValue = ReflectionUIUtils.createDefaultInstance(fieldValueType, false);
-							copyFieldValuesAccordingInfos(reflectionUI, srcFieldValue, dstFieldValue, true,
-									alreadyCopied);
-						}
+						dstFieldValue = copyAccordingInfos(reflectionUI, srcFieldValue, alreadyCopied);
+
 					}
 					dstField.setValue(dst, dstFieldValue);
 				} else {
 					dstField.setValue(dst, srcFieldValue);
 				}
 			}
+		}
+	}
+
+	public static Object copyAccordingInfos(ReflectionUI reflectionUI, Object srcValue) {
+		return copyAccordingInfos(reflectionUI, srcValue, new ArrayList<Pair<Object, Object>>());
+	}
+
+	private static Object copyAccordingInfos(ReflectionUI reflectionUI, Object srcValue,
+			List<Pair<Object, Object>> alreadyCopied) {
+		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcValue));
+		if (valueType instanceof IListTypeInfo) {
+			Object[] srcListRawValue = ((IListTypeInfo) valueType).toArray(srcValue);
+			Object[] dstListRawValue = new Object[srcListRawValue.length];
+			for (int i = 0; i < srcListRawValue.length; i++) {
+				dstListRawValue[i] = copyAccordingInfos(reflectionUI, srcListRawValue[i], alreadyCopied);
+			}
+			DefaultFieldControlData dstListData = new DefaultFieldControlData(reflectionUI) {
+				Object value;
+
+				@Override
+				public Object getValue() {
+					if (value == null) {
+						value = ReflectionUIUtils.createDefaultInstance(valueType, false);
+					}
+					return value;
+				}
+
+				@Override
+				public void setValue(Object newValue) {
+					value = newValue;
+				}
+
+				@Override
+				public boolean isGetOnly() {
+					return false;
+				}
+
+				@Override
+				public ITypeInfo getType() {
+					return valueType;
+				}
+			};
+			ItemPosition dstListUpdateUtility = new ItemPositionFactory(dstListData, null).getRootItemPosition(-1);
+			dstListUpdateUtility.updateContainingList(dstListRawValue);
+			return dstListData.getValue();
+		} else {
+			Object dstValue = ReflectionUIUtils.createDefaultInstance(valueType, false);
+			copyFieldValuesAccordingInfos(reflectionUI, srcValue, dstValue, true, alreadyCopied);
+			return dstValue;
 		}
 	}
 
@@ -563,12 +609,24 @@ public class ReflectionUIUtils {
 			final ModificationStack currentModificationsStack, boolean currentModificationsAccepted,
 			final ValueReturnMode valueReturnMode, final boolean valueReplaced, boolean valueTransactionExecuted,
 			final IModification committingModification, final IModification undoModificationsReplacement,
-			String parentModificationTitle, boolean volatileParentModification, Runnable parentControlRefreshJob,
-			final Listener<String> debugLogListener, Listener<String> errorLogListener) {
+			String parentModificationTitle, boolean volatileParentModification, final Listener<String> debugLogListener,
+			Listener<String> errorLogListener) {
 
 		if (currentModificationsStack == null) {
 			throw new ReflectionUIError();
 		}
+
+		Runnable parentControlRefreshJob = (parentModificationStack != null) ? new Runnable() {
+			@Override
+			public void run() {
+				/*
+				 * Here we optionally make sure that the parentModificationStack will fire an
+				 * event allowing the parent object UI to refresh and then take into account the
+				 * potential changes.
+				 */
+				parentModificationStack.push(IModification.VOLATILE_MODIFICATION);
+			}
+		} : null;
 
 		if (!mayModificationsHaveImpact(false, valueReturnMode, (committingModification != null))) {
 			if (!currentModificationsStack.isInitial()) {
@@ -660,13 +718,8 @@ public class ReflectionUIUtils {
 					 * The transaction has been rolled back then the value has recovered its initial
 					 * state => no need to undo the value modifications anymore.
 					 */
-					if (parentModificationStack != null) {
-						/*
-						 * We then need to make sure that the parentModificationStack will fire an event
-						 * allowing the parent object UI to refresh and then take into account the
-						 * changes caused by the transaction.
-						 */
-						parentModificationStack.push(IModification.VOLATILE_MODIFICATION);
+					if (parentControlRefreshJob != null) {
+						parentControlRefreshJob.run();
 					}
 				} else {
 					if (debugLogListener != null) {
