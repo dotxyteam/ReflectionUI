@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -509,10 +510,17 @@ public class ReflectionUIUtils {
 
 	public static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst,
 			boolean deeply) {
-		copyFieldValuesAccordingInfos(reflectionUI, src, dst, deeply, new ArrayList<Pair<Object, Object>>());
+		copyFieldValuesAccordingInfos(reflectionUI, src, dst, deeply, value -> null);
+	}
+
+	public static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply,
+			Function<Pair<ITypeInfo, IFieldInfo>, Function<Object, Object>> customCopierByContext) {
+		copyFieldValuesAccordingInfos(reflectionUI, src, dst, deeply, customCopierByContext,
+				new ArrayList<Pair<Object, Object>>());
 	}
 
 	private static void copyFieldValuesAccordingInfos(ReflectionUI reflectionUI, Object src, Object dst, boolean deeply,
+			Function<Pair<ITypeInfo, IFieldInfo>, Function<Object, Object>> customCopierByContext,
 			List<Pair<Object, Object>> alreadyCopied) {
 		alreadyCopied.add(new Pair<Object, Object>(src, dst));
 		ITypeInfo srcType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(src));
@@ -526,42 +534,57 @@ public class ReflectionUIUtils {
 				continue;
 			}
 			Object srcFieldValue = srcField.getValue(src);
-			if (srcFieldValue == null) {
-				dstField.setValue(dst, null);
+			Function<Object, Object> customCopier = customCopierByContext
+					.apply(new Pair<ITypeInfo, IFieldInfo>(srcType, srcField));
+			if (customCopier != null) {
+				Object dstFieldValue = customCopier.apply(srcFieldValue);
+				dstField.setValue(dst, dstFieldValue);
 			} else {
-				ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
-				if (deeply && !fieldValueType.isImmutable()) {
-					Object dstFieldValue = null;
-					for (Pair<Object, Object> pair : alreadyCopied) {
-						if (pair.getFirst() == srcFieldValue) {
-							dstFieldValue = pair.getSecond();
-							break;
-						}
-					}
-					if (dstFieldValue == null) {
-						dstFieldValue = copyAccordingInfos(reflectionUI, srcFieldValue, alreadyCopied);
-
-					}
-					dstField.setValue(dst, dstFieldValue);
+				if (srcFieldValue == null) {
+					dstField.setValue(dst, null);
 				} else {
-					dstField.setValue(dst, srcFieldValue);
+					ITypeInfo fieldValueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcFieldValue));
+					if (deeply && !fieldValueType.isImmutable()) {
+						Object dstFieldValue = null;
+						for (Pair<Object, Object> pair : alreadyCopied) {
+							if (pair.getFirst() == srcFieldValue) {
+								dstFieldValue = pair.getSecond();
+								break;
+							}
+						}
+						if (dstFieldValue == null) {
+							dstFieldValue = copyAccordingInfos(reflectionUI, srcFieldValue, customCopierByContext,
+									alreadyCopied);
+
+						}
+						dstField.setValue(dst, dstFieldValue);
+					} else {
+						dstField.setValue(dst, srcFieldValue);
+					}
 				}
 			}
 		}
 	}
 
 	public static Object copyAccordingInfos(ReflectionUI reflectionUI, Object srcValue) {
-		return copyAccordingInfos(reflectionUI, srcValue, new ArrayList<Pair<Object, Object>>());
+		return copyAccordingInfos(reflectionUI, srcValue, value -> null);
+	}
+
+	public static Object copyAccordingInfos(ReflectionUI reflectionUI, Object srcValue,
+			Function<Pair<ITypeInfo, IFieldInfo>, Function<Object, Object>> customCopierByContext) {
+		return copyAccordingInfos(reflectionUI, srcValue, customCopierByContext, new ArrayList<Pair<Object, Object>>());
 	}
 
 	private static Object copyAccordingInfos(ReflectionUI reflectionUI, Object srcValue,
+			Function<Pair<ITypeInfo, IFieldInfo>, Function<Object, Object>> customCopierByContext,
 			List<Pair<Object, Object>> alreadyCopied) {
 		ITypeInfo valueType = reflectionUI.getTypeInfo(reflectionUI.getTypeInfoSource(srcValue));
 		if (valueType instanceof IListTypeInfo) {
 			Object[] srcListRawValue = ((IListTypeInfo) valueType).toArray(srcValue);
 			Object[] dstListRawValue = new Object[srcListRawValue.length];
 			for (int i = 0; i < srcListRawValue.length; i++) {
-				dstListRawValue[i] = copyAccordingInfos(reflectionUI, srcListRawValue[i], alreadyCopied);
+				dstListRawValue[i] = copyAccordingInfos(reflectionUI, srcListRawValue[i], customCopierByContext,
+						alreadyCopied);
 			}
 			DefaultFieldControlData dstListData = new DefaultFieldControlData(reflectionUI) {
 				Object value;
@@ -594,7 +617,7 @@ public class ReflectionUIUtils {
 			return dstListData.getValue();
 		} else {
 			Object dstValue = ReflectionUIUtils.createDefaultInstance(valueType, false);
-			copyFieldValuesAccordingInfos(reflectionUI, srcValue, dstValue, true, alreadyCopied);
+			copyFieldValuesAccordingInfos(reflectionUI, srcValue, dstValue, true, customCopierByContext, alreadyCopied);
 			return dstValue;
 		}
 	}
