@@ -174,7 +174,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 		public static boolean isCompatibleWith(ITypeInfo type) {
 			Class<?> imageClass;
 			try {
-				imageClass = ClassUtils.getCachedClassForName(type.getName());
+				imageClass = ClassUtils.getClassThroughCache(type.getName());
 			} catch (ClassNotFoundException e) {
 				return false;
 			}

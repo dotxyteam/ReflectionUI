@@ -87,7 +87,7 @@ public class EditorPlugin extends StyledTextPlugin {
 			if ((syntaxImplementationClassName == null) || (syntaxImplementationClassName.length() == 0)) {
 				throw new ReflectionUIError("Syntax implementation class name not specified !");
 			}
-			ClassUtils.getCachedClassForName(syntaxImplementationClassName);
+			ClassUtils.getClassThroughCache(syntaxImplementationClassName);
 		}
 
 	}
@@ -181,7 +181,7 @@ public class EditorPlugin extends StyledTextPlugin {
 					String syntaxImplementationClassName = ((EditorConfiguration) getOrLoadControlCustomization()).syntaxImplementationClassName;
 					if ((syntaxImplementationClassName != null) && (syntaxImplementationClassName.length() > 0)) {
 						try {
-							Class<?> editorKitClass = ClassUtils.getCachedClassForName(syntaxImplementationClassName);
+							Class<?> editorKitClass = ClassUtils.getClassThroughCache(syntaxImplementationClassName);
 							((JEditorPane) textComponent).setEditorKit((EditorKit) editorKitClass.newInstance());
 						} catch (Exception e) {
 							throw new ReflectionUIError(e);

@@ -85,7 +85,7 @@ public class SliderPlugin extends AbstractSimpleCustomizableFieldControlPlugin {
 			this.dataUpdateProcess = createDelayedUpdateProcess();
 			setOpaque(false);
 			try {
-				this.numberClass = ClassUtils.getCachedClassForName(input.getControlData().getType().getName());
+				this.numberClass = ClassUtils.getClassThroughCache(input.getControlData().getType().getName());
 				if (this.numberClass.isPrimitive()) {
 					this.numberClass = ClassUtils.primitiveToWrapperClass(numberClass);
 				}
