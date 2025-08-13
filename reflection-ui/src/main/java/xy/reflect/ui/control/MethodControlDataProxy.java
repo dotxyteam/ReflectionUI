@@ -47,6 +47,11 @@ public class MethodControlDataProxy implements IMethodControlData {
 		return base.isControlReturnValueValiditionEnabled();
 	}
 
+	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return base.isLastInvocationDataUsedByDefault();
+	}
+
 	public String getParametersValidationCustomCaption() {
 		return base.getParametersValidationCustomCaption();
 	}

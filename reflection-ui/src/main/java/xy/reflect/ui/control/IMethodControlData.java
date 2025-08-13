@@ -150,6 +150,13 @@ public interface IMethodControlData {
 	boolean isNullReturnValueDistinct();
 
 	/**
+	 * Behaves like {@link IMethodInfo#isLastInvocationDataUsedByDefault()}.
+	 * 
+	 * @return the value corresponding to the behavior described above.
+	 */
+	boolean isLastInvocationDataUsedByDefault();
+
+	/**
 	 * Behaves like {@link IMethodInfo#getIconImagePath()}.
 	 * 
 	 * @return the value corresponding to the behavior described above.

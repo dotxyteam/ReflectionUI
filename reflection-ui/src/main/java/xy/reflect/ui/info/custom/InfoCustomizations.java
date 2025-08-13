@@ -3482,6 +3482,7 @@ public class InfoCustomizations implements Serializable {
 		protected TransactionalRole transactionalRole;
 		protected String enablementStatusFieldName;
 		protected String executionSuccessMessage;
+		protected boolean lastInvocationDataUsageDisabled = false;
 
 		@Override
 		public boolean isInitial() {
@@ -3493,6 +3494,14 @@ public class InfoCustomizations implements Serializable {
 			MethodCustomization defaultMethodCustomization = new MethodCustomization();
 			defaultMethodCustomization.methodSignature = methodSignature;
 			return InfoCustomizations.isSimilar(this, defaultMethodCustomization, "parametersCustomizations");
+		}
+
+		public boolean isLastInvocationDataUsageDisabled() {
+			return lastInvocationDataUsageDisabled;
+		}
+
+		public void setLastInvocationDataUsageDisabled(boolean lastInvocationDataUsageDisabled) {
+			this.lastInvocationDataUsageDisabled = lastInvocationDataUsageDisabled;
 		}
 
 		public String getExecutionSuccessMessage() {

@@ -240,6 +240,11 @@ public class SubMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return theSubMethod.isLastInvocationDataUsedByDefault();
+	}
+
+	@Override
 	public boolean isNullReturnValueDistinct() {
 		return theSubMethod.isNullReturnValueDistinct();
 	}

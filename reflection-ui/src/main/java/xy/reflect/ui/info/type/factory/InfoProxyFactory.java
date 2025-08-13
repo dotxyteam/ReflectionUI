@@ -984,6 +984,16 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 	}
 
 	/**
+	 * @param method     The method information.
+	 * @param objectType The parent type information.
+	 * @return the result of {@link IMethodInfo#isLastInvocationDataUsedByDefault()}
+	 *         unless overridden.
+	 */
+	protected boolean isLastInvocationDataUsedByDefault(IMethodInfo method, ITypeInfo objectType) {
+		return method.isLastInvocationDataUsedByDefault();
+	}
+
+	/**
 	 * Executes {@link IMethodInfo#onControlVisibilityChange(Object, boolean)}
 	 * unless overridden.
 	 * 
@@ -3070,6 +3080,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public boolean isControlReturnValueValiditionEnabled() {
 			return InfoProxyFactory.this.isControlReturnValueValiditionEnabled(base, objectType);
+		}
+
+		@Override
+		public boolean isLastInvocationDataUsedByDefault() {
+			return InfoProxyFactory.this.isLastInvocationDataUsedByDefault(base, objectType);
 		}
 
 		@Override

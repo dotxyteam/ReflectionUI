@@ -47,6 +47,11 @@ public class DynamicListActionProxy implements IDynamicListAction {
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return base.isLastInvocationDataUsedByDefault();
+	}
+
+	@Override
 	public String getParametersValidationCustomCaption() {
 		return base.getParametersValidationCustomCaption();
 	}

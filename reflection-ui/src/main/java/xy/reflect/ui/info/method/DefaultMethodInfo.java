@@ -188,6 +188,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return true;
+	}
+
+	@Override
 	public ITypeInfo getReturnValueType() {
 		if (javaMethod.getReturnType() == void.class) {
 			return null;

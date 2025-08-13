@@ -50,6 +50,11 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return false;
+	}
+
+	@Override
 	public String getConfirmationMessage(Object object, InvocationData invocationData) {
 		return null;
 	}

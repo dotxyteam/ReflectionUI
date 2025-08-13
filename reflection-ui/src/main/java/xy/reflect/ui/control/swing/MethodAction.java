@@ -131,7 +131,8 @@ public class MethodAction extends AbstractAction {
 
 	public InvocationData openMethoExecutionSettingsDialog(final Component activatorComponent) {
 		final InvocationData invocationData;
-		if (swingRenderer.getLastInvocationDataByMethodContext().containsKey(input.getContext())) {
+		if (data.isLastInvocationDataUsedByDefault()
+				&& swingRenderer.getLastInvocationDataByMethodContext().containsKey(input.getContext())) {
 			invocationData = swingRenderer.getLastInvocationDataByMethodContext().get(input.getContext());
 		} else {
 			invocationData = data.createInvocationData();

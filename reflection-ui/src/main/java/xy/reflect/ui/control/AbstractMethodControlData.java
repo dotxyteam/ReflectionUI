@@ -140,6 +140,11 @@ public abstract class AbstractMethodControlData implements IMethodControlData {
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return getMethod().isLastInvocationDataUsedByDefault();
+	}
+
+	@Override
 	public String getCaption() {
 		return getMethod().getCaption();
 	}

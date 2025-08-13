@@ -59,6 +59,11 @@ public class MethodInfoProxy extends AbstractInfoProxy implements IMethodInfo {
 		return base.isControlReturnValueValiditionEnabled();
 	}
 
+	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return base.isLastInvocationDataUsedByDefault();
+	}
+
 	public void onControlVisibilityChange(Object object, boolean visible) {
 		base.onControlVisibilityChange(object, visible);
 	}

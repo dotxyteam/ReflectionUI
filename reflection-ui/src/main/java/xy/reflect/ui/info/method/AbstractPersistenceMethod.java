@@ -68,6 +68,11 @@ public abstract class AbstractPersistenceMethod implements IMethodInfo {
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return true;
+	}
+
+	@Override
 	public IValidationJob getReturnValueAbstractFormValidationJob(Object object, Object returnValue) {
 		return null;
 	}

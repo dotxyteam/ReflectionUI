@@ -2679,6 +2679,14 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 					}
 
 					@Override
+					public boolean isLastInvocationDataUsedByDefault() {
+						if (mc.isLastInvocationDataUsageDisabled()) {
+							return false;
+						}
+						return super.isLastInvocationDataUsedByDefault();
+					}
+
+					@Override
 					public String getNullReturnValueLabel() {
 						if (mc.getNullReturnValueLabel() != null) {
 							return mc.getNullReturnValueLabel();

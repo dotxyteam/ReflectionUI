@@ -108,6 +108,11 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return true;
+	}
+
+	@Override
 	public boolean isReadOnly() {
 		return true;
 	}

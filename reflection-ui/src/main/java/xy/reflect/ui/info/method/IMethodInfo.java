@@ -59,6 +59,11 @@ public interface IMethodInfo extends IInfo {
 		}
 
 		@Override
+		public boolean isLastInvocationDataUsedByDefault() {
+			return true;
+		}
+
+		@Override
 		public void onControlVisibilityChange(Object object, boolean b) {
 		}
 
@@ -288,6 +293,12 @@ public interface IMethodInfo extends IInfo {
 	 * @return true if and only if this method return value should be ignored.
 	 */
 	boolean isReturnValueIgnored();
+
+	/**
+	 * @return true if and only if this last invocation data (parameter values) of
+	 *         this method should be proposed before each execution.
+	 */
+	boolean isLastInvocationDataUsedByDefault();
 
 	/**
 	 * @param object         The object offering this method or null (if the method

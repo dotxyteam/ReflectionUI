@@ -46,6 +46,11 @@ public abstract class AbstractDynamicListAction extends AbstractInfo implements 
 	}
 
 	@Override
+	public boolean isLastInvocationDataUsedByDefault() {
+		return true;
+	}
+
+	@Override
 	public DisplayMode getDisplayMode() {
 		return DisplayMode.TOOLBAR_AND_CONTEXT_MENU;
 	}
