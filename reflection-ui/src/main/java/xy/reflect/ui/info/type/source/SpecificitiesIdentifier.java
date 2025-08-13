@@ -1,7 +1,7 @@
 
-
-
 package xy.reflect.ui.info.type.source;
+
+import xy.reflect.ui.control.FieldContext;
 
 /**
  * This class allows to include a context (typically the reference to the owner
@@ -12,14 +12,10 @@ package xy.reflect.ui.info.type.source;
  * @author olitank
  *
  */
-public class SpecificitiesIdentifier {
-
-	protected String objectTypeName;
-	protected String fieldName;
+public class SpecificitiesIdentifier extends FieldContext {
 
 	public SpecificitiesIdentifier(String objectTypeName, String fieldName) {
-		this.objectTypeName = objectTypeName;
-		this.fieldName = fieldName;
+		super(objectTypeName, fieldName);
 	}
 
 	public String getObjectTypeName() {
@@ -28,37 +24,6 @@ public class SpecificitiesIdentifier {
 
 	public String getFieldName() {
 		return fieldName;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((objectTypeName == null) ? 0 : objectTypeName.hashCode());
-		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SpecificitiesIdentifier other = (SpecificitiesIdentifier) obj;
-		if (objectTypeName == null) {
-			if (other.objectTypeName != null)
-				return false;
-		} else if (!objectTypeName.equals(other.objectTypeName))
-			return false;
-		if (fieldName == null) {
-			if (other.fieldName != null)
-				return false;
-		} else if (!fieldName.equals(other.fieldName))
-			return false;
-		return true;
 	}
 
 	@Override

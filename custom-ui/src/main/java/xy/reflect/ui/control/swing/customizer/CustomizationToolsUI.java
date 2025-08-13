@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.CustomizedUI;
 import xy.reflect.ui.ReflectionUI;
+import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.ColorSpecification;
@@ -294,8 +295,10 @@ public class CustomizationToolsUI extends CustomizedUI {
 					@Override
 					public Object invoke(Object object, InvocationData invocationData) {
 						MethodCustomization mc = (MethodCustomization) object;
-						InvocationData lastInvocationData = swingCustomizer.getLastInvocationDataByMethodSignature()
-								.get(mc.getMethodSignature());
+						TypeCustomization tc = InfoCustomizations
+								.findParentTypeCustomization(swingCustomizer.getInfoCustomizations(), mc);
+						InvocationData lastInvocationData = swingCustomizer.getLastInvocationDataByMethodContext()
+								.get(new MethodContext(tc.getTypeName(), mc.getMethodSignature()));
 						if (lastInvocationData == null) {
 							throw new ReflectionUIError(
 									"Last invocation data not found for the method '" + mc.getMethodSignature() + "'");

@@ -28,6 +28,6 @@ public interface IFieldControlInput {
 	/**
 	 * @return an object identifying the context in which the field is displayed.
 	 */
-	IContext getContext();
+	FieldContext getContext();
 
 }

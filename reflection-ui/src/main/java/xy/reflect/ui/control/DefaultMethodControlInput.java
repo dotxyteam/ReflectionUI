@@ -34,8 +34,8 @@ public class DefaultMethodControlInput implements IMethodControlInput {
 	}
 
 	@Override
-	public IContext getContext() {
-		return IContext.NULL_CONTEXT;
+	public MethodContext getContext() {
+		return MethodContext.NULL_METHOD_CONTEXT;
 	}
 
 }

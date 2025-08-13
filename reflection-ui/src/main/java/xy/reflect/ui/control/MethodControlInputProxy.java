@@ -29,7 +29,7 @@ public class MethodControlInputProxy implements IMethodControlInput {
 		return base.getModificationStack();
 	}
 
-	public IContext getContext() {
+	public MethodContext getContext() {
 		return base.getContext();
 	}
 

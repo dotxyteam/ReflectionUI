@@ -81,6 +81,7 @@ import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
+import xy.reflect.ui.control.MethodContext;
 import xy.reflect.ui.control.swing.ListControl.IItemsVisitor.VisitStatus;
 import xy.reflect.ui.control.swing.builder.AbstractEditorBuilder;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
@@ -2856,24 +2857,21 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		protected IModification createCommittingModification(final Object newItem) {
 			final Object oldItem = bufferedItemPosition.getItem();
 			final List<Object> itemAncestors = ReflectionUIUtils.collectItemAncestors(bufferedItemPosition);
-			IModification structureRefreshing = new RefreshModification(
-					new Accessor<List<BufferedItemPosition>>() {
+			IModification structureRefreshing = new RefreshModification(new Accessor<List<BufferedItemPosition>>() {
 
-						@Override
-						public List<BufferedItemPosition> get() {
-							return ReflectionUIUtils.actualizeItemPositions(
-									Collections.singletonList(bufferedItemPosition), Collections.singletonList(newItem),
-									Collections.singletonList(itemAncestors));
-						}
-					}, new Accessor<List<BufferedItemPosition>>() {
+				@Override
+				public List<BufferedItemPosition> get() {
+					return ReflectionUIUtils.actualizeItemPositions(Collections.singletonList(bufferedItemPosition),
+							Collections.singletonList(newItem), Collections.singletonList(itemAncestors));
+				}
+			}, new Accessor<List<BufferedItemPosition>>() {
 
-						@Override
-						public List<BufferedItemPosition> get() {
-							return ReflectionUIUtils.actualizeItemPositions(
-									Collections.singletonList(bufferedItemPosition), Collections.singletonList(oldItem),
-									Collections.singletonList(itemAncestors));
-						}
-					});
+				@Override
+				public List<BufferedItemPosition> get() {
+					return ReflectionUIUtils.actualizeItemPositions(Collections.singletonList(bufferedItemPosition),
+							Collections.singletonList(oldItem), Collections.singletonList(itemAncestors));
+				}
+			});
 			IModification update = modificationFactory.set(bufferedItemPosition.getIndex(), newItem);
 			return ModificationStack.createCompositeModification(update.getTitle(), UndoOrder.FIFO, update,
 					structureRefreshing);
@@ -3841,9 +3839,15 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 				}
 
 				@Override
-				public IContext getContext() {
-					return new CustomContext("ListDynamicAction [name=" + dynamicAction.getName() + ", listContext="
-							+ input.getContext().getIdentifier() + "]");
+				public MethodContext getContext() {
+					return new MethodContext(null, dynamicAction.getSignature()) {
+
+						@Override
+						public String getIdentifier() {
+							return "ListDynamicAction [name=" + dynamicAction.getName() + ", listContext="
+									+ input.getContext().getIdentifier() + "]";
+						}
+					};
 				}
 
 				@Override

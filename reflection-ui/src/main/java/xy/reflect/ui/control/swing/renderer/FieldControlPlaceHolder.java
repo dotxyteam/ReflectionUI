@@ -243,10 +243,10 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	}
 
 	@Override
-	public IContext getContext() {
+	public FieldContext getContext() {
 		ITypeInfo objectType = this.swingRenderer.reflectionUI
 				.getTypeInfo(this.swingRenderer.reflectionUI.getTypeInfoSource(getObject()));
-		return new FieldContext(objectType, field);
+		return new FieldContext(objectType.getName(), field.getName());
 	}
 
 	@Override

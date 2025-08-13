@@ -1,10 +1,7 @@
 
-
-
 package xy.reflect.ui.control;
 
-import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Context that builds its identifier from the given method and its containing
@@ -15,21 +12,27 @@ import xy.reflect.ui.info.type.ITypeInfo;
  */
 public class MethodContext implements IContext {
 
-	protected ITypeInfo objectType;
-	protected IMethodInfo method;
+	public static final MethodContext NULL_METHOD_CONTEXT = new MethodContext(null, null) {
+		@Override
+		public String getIdentifier() {
+			return "NULL_METHOD_CONTEXT";
+		}
+	};
 
-	public MethodContext(ITypeInfo objectType, IMethodInfo method) {
-		this.objectType = objectType;
-		this.method = method;
+	protected String objectTypeName;
+	protected String methodSignature;
+
+	public MethodContext(String objectTypeName, String methodSignature) {
+		this.objectTypeName = objectTypeName;
+		this.methodSignature = methodSignature;
 	}
 
 	@Override
 	public String getIdentifier() {
-		if (method.getName().length() == 0) {
-			return "ContructorContext [type=" + objectType.getName() + ", signature=" + method.getSignature() + "]";
+		if (ReflectionUIUtils.extractMethodNameFromSignature(methodSignature).length() == 0) {
+			return "ContructorContext [type=" + objectTypeName + ", signature=" + methodSignature + "]";
 		} else {
-			return "MethodContext [methodSignature=" + method.getSignature() + ", objectType="
-					+ objectType.getName() + "]";
+			return "MethodContext [methodSignature=" + methodSignature + ", objectType=" + objectTypeName + "]";
 		}
 	}
 
@@ -37,8 +40,8 @@ public class MethodContext implements IContext {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
-		result = prime * result + ((method == null) ? 0 : method.hashCode());
+		result = prime * result + ((methodSignature == null) ? 0 : methodSignature.hashCode());
+		result = prime * result + ((objectTypeName == null) ? 0 : objectTypeName.hashCode());
 		return result;
 	}
 
@@ -51,22 +54,22 @@ public class MethodContext implements IContext {
 		if (getClass() != obj.getClass())
 			return false;
 		MethodContext other = (MethodContext) obj;
-		if (objectType == null) {
-			if (other.objectType != null)
+		if (methodSignature == null) {
+			if (other.methodSignature != null)
 				return false;
-		} else if (!objectType.equals(other.objectType))
+		} else if (!methodSignature.equals(other.methodSignature))
 			return false;
-		if (method == null) {
-			if (other.method != null)
+		if (objectTypeName == null) {
+			if (other.objectTypeName != null)
 				return false;
-		} else if (!method.equals(other.method))
+		} else if (!objectTypeName.equals(other.objectTypeName))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "MethodContext [objectType=" + objectType + ", method=" + method + "]";
+		return getIdentifier();
 	}
 
 }

@@ -1,9 +1,6 @@
 
 package xy.reflect.ui.control;
 
-import xy.reflect.ui.info.field.IFieldInfo;
-import xy.reflect.ui.info.type.ITypeInfo;
-
 /**
  * Context that builds its identifier from the given field and its containing
  * type.
@@ -13,25 +10,32 @@ import xy.reflect.ui.info.type.ITypeInfo;
  */
 public class FieldContext implements IContext {
 
-	protected ITypeInfo objectType;
-	protected IFieldInfo field;
+	public static final FieldContext NULL_FIELD_CONTEXT = new FieldContext(null, null) {
+		@Override
+		public String getIdentifier() {
+			return "NULL_FIELD_CONTEXT";
+		}
+	};
 
-	public FieldContext(ITypeInfo objectType, IFieldInfo field) {
-		this.objectType = objectType;
-		this.field = field;
+	protected String objectTypeName;
+	protected String fieldName;
+
+	public FieldContext(String objectTypeName, String fieldName) {
+		this.objectTypeName = objectTypeName;
+		this.fieldName = fieldName;
 	}
 
 	@Override
 	public String getIdentifier() {
-		return "FieldContext [fieldName=" + field.getName() + ", objectType=" + objectType.getName() + "]";
+		return "FieldContext [fieldName=" + fieldName + ", objectType=" + objectTypeName + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((objectType == null) ? 0 : objectType.hashCode());
-		result = prime * result + ((field == null) ? 0 : field.hashCode());
+		result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
+		result = prime * result + ((objectTypeName == null) ? 0 : objectTypeName.hashCode());
 		return result;
 	}
 
@@ -44,22 +48,22 @@ public class FieldContext implements IContext {
 		if (getClass() != obj.getClass())
 			return false;
 		FieldContext other = (FieldContext) obj;
-		if (objectType == null) {
-			if (other.objectType != null)
+		if (fieldName == null) {
+			if (other.fieldName != null)
 				return false;
-		} else if (!objectType.equals(other.objectType))
+		} else if (!fieldName.equals(other.fieldName))
 			return false;
-		if (field == null) {
-			if (other.field != null)
+		if (objectTypeName == null) {
+			if (other.objectTypeName != null)
 				return false;
-		} else if (!field.equals(other.field))
+		} else if (!objectTypeName.equals(other.objectTypeName))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "FieldContext [field=" + field + ", objectType=" + objectType + "]";
+		return getIdentifier();
 	}
 
 }

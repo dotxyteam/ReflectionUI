@@ -11,7 +11,6 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import xy.reflect.ui.control.AbstractMethodControlData;
-import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
@@ -145,10 +144,10 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 	}
 
 	@Override
-	public IContext getContext() {
+	public MethodContext getContext() {
 		ITypeInfo objectType = this.swingRenderer.getReflectionUI()
 				.getTypeInfo(this.swingRenderer.getReflectionUI().getTypeInfoSource(getObject()));
-		return new MethodContext(objectType, method);
+		return new MethodContext(objectType.getName(), method.getSignature());
 	}
 
 	public IMethodInfo getMethod() {

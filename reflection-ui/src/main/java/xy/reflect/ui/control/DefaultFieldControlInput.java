@@ -41,8 +41,8 @@ public class DefaultFieldControlInput implements IFieldControlInput {
 	}
 
 	@Override
-	public IContext getContext() {
-		return IContext.NULL_CONTEXT;
+	public FieldContext getContext() {
+		return FieldContext.NULL_FIELD_CONTEXT;
 	}
 
 }

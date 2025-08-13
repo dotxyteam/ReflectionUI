@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
 import xy.reflect.ui.control.DefaultMethodControlData;
-import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
@@ -99,10 +98,10 @@ public class MethodActionMenuItem extends AbstractMenuItem {
 						}
 
 						@Override
-						public IContext getContext() {
+						public MethodContext getContext() {
 							ITypeInfo objectType = swingRenderer.getReflectionUI().getTypeInfo(
 									swingRenderer.getReflectionUI().getTypeInfoSource(getContextForm().getObject()));
-							return new MethodContext(objectType, menuItemInfo.getMethod());
+							return new MethodContext(objectType.getName(), menuItemInfo.getMethod().getSignature());
 						}
 
 						@Override

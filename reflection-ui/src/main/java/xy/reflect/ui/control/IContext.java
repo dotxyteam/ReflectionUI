@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.control;
 
 import xy.reflect.ui.info.type.ITypeInfo;
@@ -14,13 +12,6 @@ import xy.reflect.ui.info.type.ITypeInfo;
  *
  */
 public interface IContext {
-
-	IContext NULL_CONTEXT = new IContext() {
-		@Override
-		public String getIdentifier() {
-			return "NULL_CONTEXT";
-		}
-	};
 
 	/**
 	 * @return the identifier of the current context.

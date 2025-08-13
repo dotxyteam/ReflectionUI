@@ -29,7 +29,7 @@ public class FieldControlInputProxy implements IFieldControlInput {
 		return base.getModificationStack();
 	}
 
-	public IContext getContext() {
+	public FieldContext getContext() {
 		return base.getContext();
 	}
 

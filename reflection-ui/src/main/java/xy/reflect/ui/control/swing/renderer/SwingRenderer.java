@@ -35,7 +35,6 @@ import org.jdesktop.swingx.JXBusyLabel;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultMethodControlData;
-import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IMethodControlData;
 import xy.reflect.ui.control.IMethodControlInput;
 import xy.reflect.ui.control.MethodContext;
@@ -152,7 +151,7 @@ public class SwingRenderer {
 	}
 
 	protected ReflectionUI reflectionUI;
-	protected Map<String, InvocationData> lastInvocationDataByMethodSignature = new HashMap<String, InvocationData>();
+	protected Map<MethodContext, InvocationData> lastInvocationDataByMethodContext = new HashMap<MethodContext, InvocationData>();
 
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
@@ -202,11 +201,11 @@ public class SwingRenderer {
 	}
 
 	/**
-	 * @return the last parameters that were used to invoke methods identified by
-	 *         their signature.
+	 * @return a map containing the last parameters that were used to invoke each
+	 *         method represented by a method context identifier.
 	 */
-	public Map<String, InvocationData> getLastInvocationDataByMethodSignature() {
-		return lastInvocationDataByMethodSignature;
+	public Map<MethodContext, InvocationData> getLastInvocationDataByMethodContext() {
+		return lastInvocationDataByMethodContext;
 	}
 
 	/**
@@ -447,8 +446,8 @@ public class SwingRenderer {
 			}
 
 			@Override
-			public IContext getContext() {
-				return new MethodContext(objectType, method);
+			public MethodContext getContext() {
+				return new MethodContext(objectType.getName(), method.getSignature());
 			}
 
 			@Override

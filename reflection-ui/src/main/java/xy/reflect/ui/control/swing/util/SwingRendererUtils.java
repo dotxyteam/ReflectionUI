@@ -72,8 +72,8 @@ import javax.swing.text.DefaultFormatter;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.DefaultFieldControlData;
+import xy.reflect.ui.control.FieldContext;
 import xy.reflect.ui.control.IAdvancedFieldControl;
-import xy.reflect.ui.control.IContext;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
@@ -821,8 +821,8 @@ public class SwingRendererUtils {
 				}
 
 				@Override
-				public IContext getContext() {
-					return IContext.NULL_CONTEXT;
+				public FieldContext getContext() {
+					return FieldContext.NULL_FIELD_CONTEXT;
 				}
 			};
 			TextControl textControl = MiscUtils.isHTMLText(msg)

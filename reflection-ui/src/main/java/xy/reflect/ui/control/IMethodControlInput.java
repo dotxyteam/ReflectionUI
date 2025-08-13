@@ -29,5 +29,5 @@ public interface IMethodControlInput {
 	 * @return an object identifying the context in which the method will be
 	 *         invoked.
 	 */
-	IContext getContext();
+	MethodContext getContext();
 }
