@@ -139,7 +139,7 @@ public class MethodAction extends AbstractAction {
 		StandardEditorBuilder editorBuilder = new StandardEditorBuilder(swingRenderer, activatorComponent,
 				data.createParametersObject(invocationData, input.getContext().getIdentifier())) {
 			@Override
-			protected String getEditorWindowTitle() {
+			protected String getCapsuleTypeCaption() {
 				return MethodAction.this.getTitle();
 			}
 
