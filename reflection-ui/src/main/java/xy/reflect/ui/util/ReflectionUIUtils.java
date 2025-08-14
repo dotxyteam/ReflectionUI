@@ -974,22 +974,13 @@ public class ReflectionUIUtils {
 		return true;
 	}
 
-	public static String formatMethodControlCaption(String methodCaption, List<IParameterInfo> methodParameters) {
-		if (methodCaption.length() > 0) {
-			if (requiresParameterValue(methodParameters)) {
-				methodCaption += "...";
-			}
-		}
-		return methodCaption;
-	}
-
 	public static String formatMethodControlTooltipText(String methodCaption, String methodOnlineHelp,
 			List<IParameterInfo> methodParameters) {
 		if (methodOnlineHelp != null) {
 			return methodOnlineHelp;
 		} else {
 			if (ReflectionUIUtils.requiresParameterValue(methodParameters)) {
-				String toolTipText = formatMethodControlCaption(methodCaption, methodParameters);
+				String toolTipText = methodCaption;
 				if (toolTipText.length() > 0) {
 					toolTipText += "\n";
 				}

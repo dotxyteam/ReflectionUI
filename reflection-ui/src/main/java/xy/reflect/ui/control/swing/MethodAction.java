@@ -334,6 +334,15 @@ public class MethodAction extends AbstractAction {
 		}
 
 		@Override
+		protected String getCapsuleTypeCaption() {
+			if (!data.isReturnValueDetached()) {
+				return ReflectionUIUtils.composeMessage(data.getCaption(), "Result");
+			} else {
+				return super.getCapsuleTypeCaption();
+			}
+		}
+
+		@Override
 		protected IValidationJob getValueAbstractFormValidationJob() {
 			return data.getReturnValueAbstractFormValidationJob(returnValue);
 		}

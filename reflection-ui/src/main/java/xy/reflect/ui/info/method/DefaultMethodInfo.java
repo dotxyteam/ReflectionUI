@@ -133,6 +133,11 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 			if (index > 0) {
 				caption += " (" + (index + 1) + ")";
 			}
+			if (caption.length() > 0) {
+				if (ReflectionUIUtils.requiresParameterValue(getParameters())) {
+					caption += "...";
+				}
+			}
 		}
 		return caption;
 	}

@@ -4059,7 +4059,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 
 		@Override
 		protected String getActionTitle() {
-			return dynamicProperty.getCaption() + "...";
+			return dynamicProperty.getCaption();
 		}
 
 		@Override

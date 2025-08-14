@@ -88,8 +88,7 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 
 	@Override
 	public String retrieveText() {
-		return swingRenderer.prepareMessageToDisplay(
-				ReflectionUIUtils.formatMethodControlCaption(data.getCaption(), data.getParameters()));
+		return swingRenderer.prepareMessageToDisplay(data.getCaption());
 	}
 
 	@Override

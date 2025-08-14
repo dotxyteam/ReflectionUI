@@ -1,11 +1,8 @@
 
-
-
 package xy.reflect.ui.info.menu;
 
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.info.method.IMethodInfo;
-import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * This class represents a menu item that will be used to execute a given
@@ -19,8 +16,7 @@ public class MethodActionMenuItemInfo extends AbstractActionMenuItemInfo {
 	protected IMethodInfo method;
 
 	public MethodActionMenuItemInfo(ReflectionUI reflectionUI, IMethodInfo method) {
-		super(ReflectionUIUtils.formatMethodControlCaption(method.getCaption(), method.getParameters()),
-				method.getIconImagePath());
+		super(method.getCaption(), method.getIconImagePath());
 		this.method = method;
 	}
 
