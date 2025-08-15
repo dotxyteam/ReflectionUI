@@ -155,18 +155,16 @@ public class SwingRenderer {
 
 	protected List<Form> allDisplayedForms = new ArrayList<Form>();
 
-	protected static final String BUSY_DIALOG_JOB_EXECUTOR_NAME = SwingRenderer.class.getName()
-			+ ".busyDialogJobExecutor";
+	protected static final String BUSY_DIALOG_JOB_EXECUTOR_NAME = "BusyDialogJobExecutor";
 	protected ExecutorService busyDialogJobExecutor = MiscUtils.newExecutor(BUSY_DIALOG_JOB_EXECUTOR_NAME, 1);
 
-	protected static final String BUSY_DIALOG_CLOSER_NAME = SwingRenderer.class.getName() + ".busyDialogCloser";
+	protected static final String BUSY_DIALOG_CLOSER_NAME = "BusyDialogCloser";
 	protected ExecutorService busyDialogCloser = MiscUtils.newExecutor(BUSY_DIALOG_CLOSER_NAME, 1);
 
-	protected static final String FORM_VALIDATOR_NAME = SwingRenderer.class.getName() + ".formValidator";
+	protected static final String FORM_VALIDATOR_NAME = "FormValidator";
 	protected ExecutorService formValidator = MiscUtils.newExecutor(FORM_VALIDATOR_NAME, 1);
 
-	protected static final String DELAYED_UPDATE_EXECUTOR_NAME = SwingRenderer.class.getName()
-			+ ".delayedUpdateExecutor";
+	protected static final String DELAYED_UPDATE_EXECUTOR_NAME = "DelayedUpdateExecutor";
 	protected ExecutorService delayedUpdateExecutor = MiscUtils.newExecutor(DELAYED_UPDATE_EXECUTOR_NAME, 1);
 
 	/**
