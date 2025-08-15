@@ -233,10 +233,6 @@ public class IOUtils {
 		}
 	}
 
-	public static boolean absolutelyEquals(File file1, File file2) {
-		return file1.getAbsoluteFile().equals(file2.getAbsoluteFile());
-	}
-
 	public static void delete(File file) throws Exception {
 		delete(file, null, null);
 	}
@@ -289,7 +285,7 @@ public class IOUtils {
 			if (mayBeAncestor == null) {
 				return false;
 			}
-			if (absolutelyEquals(mayBeAncestor, ancestor)) {
+			if (canonicallyEquals(mayBeAncestor, ancestor)) {
 				return true;
 			}
 			mayBeAncestor = mayBeAncestor.getParentFile();
