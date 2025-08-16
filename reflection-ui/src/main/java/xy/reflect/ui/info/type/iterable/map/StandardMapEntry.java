@@ -19,6 +19,9 @@ public class StandardMapEntry implements Comparable<StandardMapEntry> {
 	protected Object value;
 	protected Class<?>[] genericTypeParameters;
 
+	public StandardMapEntry() {
+	}
+
 	public StandardMapEntry(Object key, Object value, Class<?>[] genericTypeParameters) {
 		this.key = key;
 		this.value = value;
@@ -84,6 +87,10 @@ public class StandardMapEntry implements Comparable<StandardMapEntry> {
 
 	public Class<?>[] getGenericTypeParameters() {
 		return genericTypeParameters;
+	}
+
+	public void setGenericTypeParameters(Class<?>[] genericTypeParameters) {
+		this.genericTypeParameters = genericTypeParameters;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

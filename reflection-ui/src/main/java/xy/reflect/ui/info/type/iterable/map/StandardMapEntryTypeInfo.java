@@ -3,6 +3,7 @@ package xy.reflect.ui.info.type.iterable.map;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -184,7 +185,8 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 
 	@Override
 	public List<IMethodInfo> getConstructors() {
-		return Collections.singletonList(new StandardMapEntryConstructorInfo());
+		return Arrays.asList(ReflectionUIUtils.getZeroParameterMethod(super.getConstructors()),
+				new StandardMapEntryConstructorInfo());
 	}
 
 	protected Constructor<?> getStandardMapEntryJavaConstructor() {
@@ -310,11 +312,11 @@ public class StandardMapEntryTypeInfo extends DefaultTypeInfo implements IMapEnt
 					}
 
 					@Override
-					public Object getDefaultValue(Object ignore) {
+					public Object getDefaultValue(Object object) {
 						if (ReflectionUIUtils.canCreateDefaultInstance(getType(), true)) {
 							return ReflectionUIUtils.createDefaultInstance(getType(), true);
 						}
-						return super.getDefaultValue(ignore);
+						return super.getDefaultValue(object);
 					}
 
 				});
