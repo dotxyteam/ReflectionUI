@@ -5,7 +5,7 @@ package xy.reflect.ui.control.swing.menu;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
 
 /**
  * Menu item that allows to save an object state to a different file.
@@ -17,7 +17,7 @@ public class SaveAsMenuItem extends AbstractSaveMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public SaveAsMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+	public SaveAsMenuItem(SwingRenderer swingRenderer, Form form, StandardActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, form, menuItemInfo);
 	}
 

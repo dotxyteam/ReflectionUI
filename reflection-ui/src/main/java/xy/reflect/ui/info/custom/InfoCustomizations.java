@@ -48,7 +48,6 @@ import javax.xml.stream.util.StreamReaderDelegate;
 import javax.xml.transform.stream.StreamSource;
 
 import xy.reflect.ui.ReflectionUI;
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
 import xy.reflect.ui.info.ColorSpecification;
 import xy.reflect.ui.info.IInfo;
 import xy.reflect.ui.info.InfoCategory;
@@ -60,6 +59,7 @@ import xy.reflect.ui.info.field.MethodReturnValueAsFieldInfo;
 import xy.reflect.ui.info.field.ParameterAsFieldInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.IMenuItemContainerInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo.FileBrowserConfiguration;
 import xy.reflect.ui.info.method.DefaultConstructorInfo;
 import xy.reflect.ui.info.method.DefaultMethodInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
@@ -1142,6 +1142,7 @@ public class InfoCustomizations implements Serializable {
 		}
 
 	}
+
 
 	public static abstract class AbstractSaveMenuItemCustomization extends AbstractFileMenuItemCustomization {
 

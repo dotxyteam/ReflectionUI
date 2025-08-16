@@ -5,7 +5,7 @@ import java.io.File;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
 
 /**
  * Menu item that allows to save an object state to a file.
@@ -17,7 +17,7 @@ public class SaveMenuItem extends AbstractSaveMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public SaveMenuItem(SwingRenderer swingRenderer, Form form, StandradActionMenuItemInfo menuItemInfo) {
+	public SaveMenuItem(SwingRenderer swingRenderer, Form form, StandardActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, form, menuItemInfo);
 	}
 

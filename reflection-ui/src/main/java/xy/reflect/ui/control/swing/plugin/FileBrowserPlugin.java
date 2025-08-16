@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -202,6 +203,16 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 		public String actionTitle = "Select";
 		public SelectionModeConfiguration selectionMode = SelectionModeConfiguration.FILES_AND_DIRECTORIES;
 
+		public FileBrowserConfiguration() {
+		}
+
+		public FileBrowserConfiguration(xy.reflect.ui.info.menu.StandardActionMenuItemInfo.FileBrowserConfiguration c) {
+			this.fileNameFilters.addAll(
+					c.fileNameFilters.stream().map(FileNameFilterConfiguration::new).collect(Collectors.toList()));
+			this.actionTitle = c.actionTitle;
+			this.selectionMode = SelectionModeConfiguration.valueOf(c.selectionMode.name());
+		}
+
 		@Override
 		public String toString() {
 			return "FilecontrolConfiguration [fileNameFilters=" + fileNameFilters + ", actionTitle=" + actionTitle
@@ -215,6 +226,15 @@ public class FileBrowserPlugin extends AbstractSimpleCustomizableFieldControlPlu
 
 		public String description = "";
 		public List<String> extensions = new ArrayList<String>();
+
+		public FileNameFilterConfiguration() {
+		}
+
+		public FileNameFilterConfiguration(
+				xy.reflect.ui.info.menu.StandardActionMenuItemInfo.FileNameFilterConfiguration c) {
+			this.description = c.description;
+			this.extensions.addAll(c.extensions);
+		}
 
 		public void validate() {
 			if (description.length() == 0) {

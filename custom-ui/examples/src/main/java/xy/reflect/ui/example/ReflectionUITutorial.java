@@ -22,9 +22,6 @@ import javax.swing.SwingUtilities;
 import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.IFieldControlData;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileNameFilterConfiguration;
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.SelectionModeConfiguration;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin;
 import xy.reflect.ui.control.swing.plugin.OptionButtonsPlugin.OptionButtonsConfiguration;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
@@ -42,7 +39,10 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MenuModel;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo.FileBrowserConfiguration;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo.FileNameFilterConfiguration;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo.SelectionModeConfiguration;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
 import xy.reflect.ui.info.method.MethodInfoProxy;
@@ -478,7 +478,7 @@ public class ReflectionUITutorial {
 									/*
 									 * Some standards menu items are provided by the framework (open file, save
 									 * file, quit, undo, redo, ...). See the
-									 * 'xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type' enum for more
+									 * 'xy.reflect.ui.info.menu.StandardActionMenuItemInfo.Type' enum for more
 									 * information. The menu item categories allow to distinctly separate groups of
 									 * menu items.
 									 * 
@@ -499,19 +499,19 @@ public class ReflectionUITutorial {
 											}
 											fileBrowserConfiguration.fileNameFilters.add(fileNameFilterConfiguration);
 										}
-										persistenceCategory.addItem(new StandradActionMenuItemInfo(
-												"Open Hello World File...", null, StandradActionMenuItemInfo.Type.OPEN,
+										persistenceCategory.addItem(new StandardActionMenuItemInfo(
+												"Open Hello World File...", null, StandardActionMenuItemInfo.Type.OPEN,
 												null, fileBrowserConfiguration));
 										persistenceCategory
-												.addItem(new StandradActionMenuItemInfo("Save Hello World File As...",
-														null, StandradActionMenuItemInfo.Type.SAVE_AS, null,
+												.addItem(new StandardActionMenuItemInfo("Save Hello World File As...",
+														null, StandardActionMenuItemInfo.Type.SAVE_AS, null,
 														fileBrowserConfiguration));
 										fileMenu.addItemCategory(persistenceCategory);
 									}
 									MenuItemCategory lifeCycleCategory = new MenuItemCategory("Life Cycle");
 									{
-										lifeCycleCategory.addItem(new StandradActionMenuItemInfo("Quit", null,
-												StandradActionMenuItemInfo.Type.EXIT, null));
+										lifeCycleCategory.addItem(new StandardActionMenuItemInfo("Quit", null,
+												StandardActionMenuItemInfo.Type.EXIT, null));
 										fileMenu.addItemCategory(lifeCycleCategory);
 									}
 								}

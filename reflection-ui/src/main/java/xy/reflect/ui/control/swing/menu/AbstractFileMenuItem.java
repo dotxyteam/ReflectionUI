@@ -17,7 +17,7 @@ import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfigura
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.JavaTypeInfoSource;
@@ -43,9 +43,11 @@ public abstract class AbstractFileMenuItem extends AbstractStandardActionMenuIte
 	protected abstract void persist(SwingRenderer swingRenderer, Form form, File file);
 
 	public AbstractFileMenuItem(SwingRenderer swingRenderer, Form menuBarOwner,
-			StandradActionMenuItemInfo menuItemInfo) {
+			StandardActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner, menuItemInfo);
-		fileBrowserConfiguration = menuItemInfo.getFileBrowserConfiguration();
+		fileBrowserConfiguration = (menuItemInfo.getFileBrowserConfiguration() != null)
+				? new FileBrowserConfiguration(menuItemInfo.getFileBrowserConfiguration())
+				: null;
 		check();
 	}
 

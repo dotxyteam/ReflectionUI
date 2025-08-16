@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
 
 /**
  * Menu item that allows to close the current window.
@@ -21,7 +21,7 @@ public class CloseWindowMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	public CloseWindowMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+	public CloseWindowMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandardActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 

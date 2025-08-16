@@ -3,7 +3,7 @@ package xy.reflect.ui.control.swing.menu;
 
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.ReflectionUIError;
 import xy.reflect.ui.util.ReflectionUIUtils;
@@ -18,7 +18,7 @@ public class HelpMenuItem extends AbstractStandardActionMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	public HelpMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+	public HelpMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandardActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 

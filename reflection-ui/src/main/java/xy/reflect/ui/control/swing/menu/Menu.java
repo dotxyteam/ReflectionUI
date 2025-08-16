@@ -16,8 +16,8 @@ import xy.reflect.ui.info.menu.CustomActionMenuItemInfo;
 import xy.reflect.ui.info.menu.MenuInfo;
 import xy.reflect.ui.info.menu.MenuItemCategory;
 import xy.reflect.ui.info.menu.MethodActionMenuItemInfo;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo.Type;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo.Type;
 import xy.reflect.ui.util.KeyboardKey;
 import xy.reflect.ui.util.ReflectionUIError;
 
@@ -115,8 +115,8 @@ public class Menu extends JMenu {
 	}
 
 	protected JMenuItem createMenuItem(AbstractMenuItemInfo itemInfo) {
-		if (itemInfo instanceof StandradActionMenuItemInfo) {
-			return createActionMenuItem((StandradActionMenuItemInfo) itemInfo);
+		if (itemInfo instanceof StandardActionMenuItemInfo) {
+			return createActionMenuItem((StandardActionMenuItemInfo) itemInfo);
 		} else if (itemInfo instanceof MethodActionMenuItemInfo) {
 			return createActionMenuItem((MethodActionMenuItemInfo) itemInfo);
 		} else if (itemInfo instanceof CustomActionMenuItemInfo) {
@@ -136,7 +136,7 @@ public class Menu extends JMenu {
 		return new MethodActionMenuItem(swingRenderer, menuBarOwner, actionMenuItemInfo);
 	}
 
-	protected JMenuItem createActionMenuItem(final StandradActionMenuItemInfo menuItemInfo) {
+	protected JMenuItem createActionMenuItem(final StandardActionMenuItemInfo menuItemInfo) {
 		if (menuItemInfo.getType() == Type.NEW) {
 			return new RenewMenuItem(swingRenderer, menuBarOwner, menuItemInfo);
 		} else if (menuItemInfo.getType() == Type.OPEN) {

@@ -1,9 +1,13 @@
 
 package xy.reflect.ui.info.menu;
 
-import xy.reflect.ui.control.swing.plugin.FileBrowserPlugin.FileBrowserConfiguration;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import xy.reflect.ui.info.ResourcePath;
 import xy.reflect.ui.util.KeyboardShortcut;
+import xy.reflect.ui.util.ReflectionUIError;
 
 /**
  * This class represents a standard menu item (eg: open, save, undo, ...)..
@@ -11,12 +15,12 @@ import xy.reflect.ui.util.KeyboardShortcut;
  * @author olitank
  *
  */
-public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
+public class StandardActionMenuItemInfo extends AbstractActionMenuItemInfo {
 
 	private Type type;
 	private FileBrowserConfiguration fileBrowserConfiguration;
 
-	public StandradActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
+	public StandardActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
 			KeyboardShortcut keyboardShortcut, FileBrowserConfiguration fileBrowserConfiguration) {
 		super(name, iconImagePath);
 		this.type = type;
@@ -24,7 +28,7 @@ public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 		this.fileBrowserConfiguration = fileBrowserConfiguration;
 	}
 
-	public StandradActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
+	public StandardActionMenuItemInfo(String name, ResourcePath iconImagePath, Type type,
 			KeyboardShortcut keyboardShortcut) {
 		this(name, iconImagePath, type, keyboardShortcut, null);
 	}
@@ -66,7 +70,7 @@ public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StandradActionMenuItemInfo other = (StandradActionMenuItemInfo) obj;
+		StandardActionMenuItemInfo other = (StandardActionMenuItemInfo) obj;
 		if (fileBrowserConfiguration == null) {
 			if (other.fileBrowserConfiguration != null)
 				return false;
@@ -80,6 +84,49 @@ public class StandradActionMenuItemInfo extends AbstractActionMenuItemInfo {
 	@Override
 	public String toString() {
 		return "StandradActionMenuItem [type=" + type + ", name=" + caption + "]";
+	}
+
+	public static class FileBrowserConfiguration implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		public List<FileNameFilterConfiguration> fileNameFilters = new ArrayList<FileNameFilterConfiguration>();
+		public String actionTitle = "Select";
+		public SelectionModeConfiguration selectionMode = SelectionModeConfiguration.FILES_AND_DIRECTORIES;
+
+		@Override
+		public String toString() {
+			return "FilecontrolConfiguration [fileNameFilters=" + fileNameFilters + ", actionTitle=" + actionTitle
+					+ ", selectionMode=" + selectionMode + "]";
+		}
+
+	}
+
+	public static class FileNameFilterConfiguration implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		public String description = "";
+		public List<String> extensions = new ArrayList<String>();
+
+		public void validate() {
+			if (description.length() == 0) {
+				throw new ReflectionUIError("Description is mandatory");
+			}
+			if (extensions.size() == 0) {
+				throw new ReflectionUIError("At least 1 extension is mandatory");
+			}
+		}
+
+		@Override
+		public String toString() {
+			return "FileNameFilter [description=" + description + ", extensions=" + extensions + "]";
+		}
+	}
+
+	public static enum SelectionModeConfiguration {
+		FILES_AND_DIRECTORIES, FILES_ONLY, DIRECTORIES_ONLY
+
 	}
 
 }

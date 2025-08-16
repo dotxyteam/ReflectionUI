@@ -4,7 +4,7 @@ package xy.reflect.ui.control.swing.menu;
 import java.io.File;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.util.IOUtils;
 import xy.reflect.ui.util.ReflectionUIError;
@@ -20,7 +20,7 @@ public class RenewMenuItem extends AbstractFileMenuItem {
 
 	protected static final long serialVersionUID = 1L;
 
-	public RenewMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandradActionMenuItemInfo menuItemInfo) {
+	public RenewMenuItem(SwingRenderer swingRenderer, Form menuBarOwner, StandardActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner, menuItemInfo);
 	}
 

@@ -14,7 +14,7 @@ import javax.swing.KeyStroke;
 import xy.reflect.ui.control.swing.renderer.Form;
 import xy.reflect.ui.control.swing.renderer.SwingRenderer;
 import xy.reflect.ui.control.swing.util.SwingRendererUtils;
-import xy.reflect.ui.info.menu.StandradActionMenuItemInfo;
+import xy.reflect.ui.info.menu.StandardActionMenuItemInfo;
 import xy.reflect.ui.util.KeyboardShortcut;
 
 /**
@@ -27,14 +27,14 @@ public abstract class AbstractStandardActionMenuItem extends AbstractMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	protected StandradActionMenuItemInfo menuItemInfo;
+	protected StandardActionMenuItemInfo menuItemInfo;
 
 	protected abstract void execute();
 
 	protected abstract boolean isActive();
 
 	public AbstractStandardActionMenuItem(SwingRenderer swingRenderer, Form menuBarOwner,
-			StandradActionMenuItemInfo menuItemInfo) {
+			StandardActionMenuItemInfo menuItemInfo) {
 		super(swingRenderer, menuBarOwner);
 		this.menuItemInfo = menuItemInfo;
 		configure();
@@ -56,7 +56,7 @@ public abstract class AbstractStandardActionMenuItem extends AbstractMenuItem {
 		return (Form) menuItemInfo.getSpecificProperties().get(Form.ACTION_MENU_ITEM_CONTEXT_FORM);
 	}
 
-	public StandradActionMenuItemInfo getMenuItemInfo() {
+	public StandardActionMenuItemInfo getMenuItemInfo() {
 		return menuItemInfo;
 	}
 
