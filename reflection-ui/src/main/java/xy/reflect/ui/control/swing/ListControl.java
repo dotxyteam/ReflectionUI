@@ -158,7 +158,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected static List<Object> clipboard = new ArrayList<Object>();
 	protected Map<ItemNode, Map<Integer, String>> valuesByNode = new HashMap<ItemNode, Map<Integer, String>>();
 	protected ExecutorService itemValidationErrorsCollectingExecutor = MiscUtils
-			.newExecutor("ListValidationErrorsCollector",0);
+			.newExecutor("ListValidationErrorsCollector", 0);
 
 	protected JPanel detailsArea;
 	protected Form detailsControl;
@@ -173,9 +173,13 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 	protected IFieldControlData selectionTargetData;
 	protected boolean selectionTargetListenerEnabled = true;
 
-	protected static AbstractAction SEPARATOR_ACTION=new AbstractAction(""){protected static final long serialVersionUID=1L;
+	protected static AbstractAction SEPARATOR_ACTION = new AbstractAction("") {
+		protected static final long serialVersionUID = 1L;
 
-	@Override public void actionPerformed(ActionEvent e){}};
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		}
+	};
 	protected boolean initialized = false;
 
 	public ListControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
@@ -1798,7 +1802,9 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 							scrollTo(detailsControlItemPosition);
 						}
 						if (isShowing()) {
-							detailsControl.validateFormInBackgroundAndReportOnStatusBar();
+							if (detailsControl != null) {
+								detailsControl.validateFormInBackgroundAndReportOnStatusBar();
+							}
 						}
 					}
 				});

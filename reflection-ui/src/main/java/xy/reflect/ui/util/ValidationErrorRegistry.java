@@ -3,6 +3,7 @@ package xy.reflect.ui.util;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.function.Consumer;
 
 import xy.reflect.ui.info.ValidationSession;
 import xy.reflect.ui.info.type.ITypeInfo.IValidationJob;
@@ -95,7 +96,7 @@ public class ValidationErrorRegistry {
 	 *         validation cancellation status is taken into account and may lead to
 	 *         skipping the error attribution update.
 	 */
-	public IValidationJob attributing(Object object, IValidationJob validationJob) {
+	public IValidationJob attributing(Object object, IValidationJob validationJob, Consumer<Exception> onAttribution) {
 		return (sessionArg) -> {
 			try {
 				validationJob.validate(sessionArg);
@@ -108,6 +109,7 @@ public class ValidationErrorRegistry {
 				}
 				if (t instanceof Exception) {
 					attribute(object, (Exception) t, sessionArg);
+					onAttribution.accept((Exception)t);
 					throw (Exception) t;
 				}
 				throw new Error(t);

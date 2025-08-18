@@ -41,9 +41,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -755,26 +758,10 @@ public class SwingRendererUtils {
 	}
 
 	public static List<Window> getFrontWindows() {
-		List<Window> result = new ArrayList<Window>();
-		for (Window window : Window.getWindows()) {
-			if (window.isVisible()) {
-				Window[] ownedWindows = window.getOwnedWindows();
-				if ((ownedWindows == null) || (ownedWindows.length == 0)) {
-					result.add(window);
-				}
-				boolean allOwnedWindowInvisible = true;
-				for (Window ownedWindow : ownedWindows) {
-					if (ownedWindow.isVisible()) {
-						allOwnedWindowInvisible = false;
-						break;
-					}
-				}
-				if (allOwnedWindowInvisible) {
-					result.add(window);
-				}
-			}
-		}
-		return result;
+		List<Window> visibleWindows = Arrays.stream(Window.getWindows()).filter(Window::isVisible)
+				.collect(Collectors.toList());
+		return visibleWindows.stream().filter(window -> !visibleWindows.contains(window.getParent()))
+				.collect(Collectors.toList());
 	}
 
 	public static List<Window> getOwnerHierarchy(Window window) {

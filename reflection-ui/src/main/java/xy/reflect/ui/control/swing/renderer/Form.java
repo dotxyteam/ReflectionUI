@@ -162,7 +162,7 @@ public class Form extends ImagePanel {
 					objectType.onFormCreation(object, false);
 				}
 			}, swingRenderer.getObjectTitle(object) + " - Setting up...");
-			
+
 		}
 	}
 
@@ -462,7 +462,7 @@ public class Form extends ImagePanel {
 						}
 					}
 				}
-			}).validate(session);
+			}, validationError -> swingRenderer.getReflectionUI().logDebug(validationError)).validate(session);
 			if (!swingRenderer.getReflectionUI().getValidationErrorRegistry()
 					.isValidationCancelled(Thread.currentThread())) {
 				for (IFormListener l : listeners) {
@@ -492,7 +492,7 @@ public class Form extends ImagePanel {
 						try {
 							validateForm(new ValidationSession());
 						} catch (Exception e) {
-							swingRenderer.getReflectionUI().logDebug(e);
+							return;
 						} catch (Throwable t) {
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override

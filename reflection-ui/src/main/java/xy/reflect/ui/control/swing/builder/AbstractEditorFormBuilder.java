@@ -675,7 +675,8 @@ public abstract class AbstractEditorFormBuilder {
 			 * automatically through a concrete form validation.
 			 */
 			validationJob = swingRenderer.getReflectionUI().getValidationErrorRegistry().attributing(getCurrentValue(),
-					abstractFormValidationJob);
+					abstractFormValidationJob,
+					validationError -> swingRenderer.getReflectionUI().logDebug(validationError));
 		} else {
 			Form[] form = new Form[1];
 			try {
