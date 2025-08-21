@@ -760,7 +760,8 @@ public class SwingRendererUtils {
 	public static List<Window> getFrontWindows() {
 		List<Window> visibleWindows = Arrays.stream(Window.getWindows()).filter(Window::isVisible)
 				.collect(Collectors.toList());
-		return visibleWindows.stream().filter(window -> !visibleWindows.contains(window.getParent()))
+		return visibleWindows.stream()
+				.filter(window -> Arrays.stream(window.getOwnedWindows()).noneMatch(visibleWindows::contains))
 				.collect(Collectors.toList());
 	}
 
