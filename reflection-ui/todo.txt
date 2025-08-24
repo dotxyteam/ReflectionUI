@@ -1,3 +1,6 @@
+- propose a customizations refactoring/cleaning tool that will:
+	. detect type/field/method/parameters/etc references that become invalid
+	. allow to fix (rename, delete, ...) them globally 
 - prevent from:
 	. creating a capsule field
 	. generating a new member from this capsule field
