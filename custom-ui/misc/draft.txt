@@ -1,38 +1,36 @@
-Comment nommer le principe de développement qu'outille ReflectionUI-CustomUI ?
-Pour cela on pourrait s'inspirer de principes similaires déjà bien identifiés.
+How should we name the development principle used by ReflectionUI-CustomUI?
+To do this, we could draw inspiration from similar, already well-identified 
+principles.
 
-L'ORM s'en approche dans le sens où il permet de produire automatiquement la
-tuyauterie de la persistance (adapter selon le DDD), puis de la personnaliser
-avec la contrainte de s'interfacer avec un schéma de BD souvent déjà existant.   
-C'est cette contrainte d'interfaçage avec 1 schéma de BD qui fait qu'on utilise le
-terme "mapping", car il y a en effet un modèle source (les classes) et un modèle
-cible (la BD) qui diffèrent par nature. Avec ReflectionUI-CustomUI il n'y a pas vraiment de 
-modèle cible, hormis d'éventuelles maquettes très peu contraignantes qui permettent 
-juste d'orienter les développements. On ne peut donc pas parler de "mapping", juste
-d'adaptation technique et de personnalisation. A noter aussi que contrairement
-à l'UI, la persistance que facilite l'ORM est plus un moyen qu'une fin, ce qui permet 
-(théoriquement) de négligemment limiter voire supprimer dans des cas simples la 
-personnalisation. Hors, avec ReflectionUI-CustomUI la personnalisation est capitale.
-Il faut en tenir compte dans la formulation. On pourrait alors parler de "développement
-orienté configuration/personnalisation combinatoire" ou "NoCode" pour le front ou l'UI/UX de 
-façon générale. 
+ORMs are similar in that they allow the automatic production of the persistence 
+logic ("adapters" according to the DDD), then its customization, with the 
+constraint of interfacing with a database schema that often already exists.
+It is this constraint of interfacing with a database schema that leads to use 
+the term "mapping," because there is indeed a source model (the classes) and a 
+target model (the database), which are inherently different. With 
+ReflectionUI-CustomUI, there is no real target model, apart from possible, very 
+flexible screen mockups that simply guide the development. We therefore cannot 
+speak of "mapping", only technical adaptation and customization. It should also 
+be noted that unlike the UI, the persistence facilitated by the ORM is more of 
+a means than an end, which allows (theoretically) customization to be carelessly 
+limited or even eliminated in simple cases. However, with ReflectionUI-CustomUI, 
+customization is essential. This must be taken into account in the formulation. 
+We could then speak of "configuration-oriented development" or "NoCode" for the 
+front-end and UI/UX in general.
 
-Mais ça ne ferait pas ressortir le fait que le développeur aura 
-insidieusement tendance à refactorer le modèle de classes de son domaine pour le
-faire ressembler à l'UI finale qu'il souhaite obtenir. En effet ReflectionUI-CustomUI
-pousse à ça car bien que les options de personnalisation offrent beaucoup de 
-possibilités, ces dernières ne sont pas illimitées, et on a plutôt intérêt à
-avoir un modèle de classes qui requerra le moins de personnalisations possibles
-pour arrviver au résultat graphique voulu. Le développeur aura aussi la possibilité
-d'émuler directement dans les classes métiers, des comportements de composants
-graphiques complexes et il ne s'en privera pas. Typiquement un lecteur video pourra être émulé graĉe à un
-object ayant simplement une propriété "image courante" affichéé avec rafraîchissement
-péridique, et des méthodes de contrôle de la lecture (lancement, arrêt, avance rapide, etc).
-Il est également à noter qu'une forme de navigation dans l'UI pourra être émulée et
-contrôlée depuis le modèle/controlleur directement, plutôt que dans la vue. En fait on
-pourrait litérallement émuler un navigateur Internet.
-La façon d'aborder le développement d'une UI changera donc sensiblement, et des modèles de
-classes graphiques mais abstraits (indépendants de tout framework graphique) apparaîtront.
-Toutes ces classes dont la forme va se rapprocher de l'UI peuvent amener à parler de 
-"modélisation/développement orienté End-User-Interface".
-
+But this would not highlight the fact that the developer will tend to refactor 
+the class model of its domain to make it resemble the final UI. Indeed, 
+ReflectionUI-CustomUI encourages this because, although the customization options 
+offer many possibilities, they are not unlimited, and it is better to have a 
+class model that will require as little customization as possible to achieve 
+the desired graphical result. Developers will also have the ability to directly 
+emulate complex graphical component behaviors in business classes, and they will 
+not hesitate to do so. Typically, a video player can be emulated using an object 
+with a simple "current frame" property, displayed with periodic refresh, and 
+playback control methods (start, stop, fast-forward, etc.). It should also be 
+noted that a form of navigation in the UI can be emulated and controlled directly 
+from the model/controller, rather than in the view. In fact, one could literally 
+emulate a web browser. The approach to UI development will therefore change 
+significantly, and class models adapted to this reflective graphical approach 
+will emerge. All these can lead to the term "reflective UI-driven development" 
+(RUIDD).
