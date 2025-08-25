@@ -276,7 +276,7 @@ https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/mai
 
 When using ReflectionUI, developers may tend to refactor their model/controller classes to make them more like the final user interface. ReflectionUI encourages this because, while the customization options offer many possibilities, theses possibilities are not unlimited. Therefore, it is preferable to have a class model that requires as little customization as possible to achieve the desired interface.
 
-Developers also have the ability to emulate the behavior of complex graphical components directly in the model/controller classes. This would offer more flexibility. For example, a video player could be emulated by reflectively rendering a simple object having a periodically refreshed "current frame" field and some playback control methods (start, stop, fast-forward, etc).
+Developers also have the ability to emulate the behavior of complex graphical components directly in their model/controller classes. This would provide greater flexibility, which is desirable in certain circumstances. For example, a video player could be emulated by reflectively rendering a simple object having a periodically refreshed "current frame" image field and some playback control methods (start, stop, fast-forward, etc).
 
 The approaches leading to the production of user interfaces may therefore evolve slightly, and class models adapted to this way of producing user interfaces (via reflection) may become more widespread. This is why the term *Reflective User Interface driven Development* is mentioned.
 
