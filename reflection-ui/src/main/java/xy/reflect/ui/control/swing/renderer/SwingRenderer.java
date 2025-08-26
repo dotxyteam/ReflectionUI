@@ -71,6 +71,7 @@ import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.menu.AbstractActionMenuItemInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.method.InvocationData;
+import xy.reflect.ui.info.method.ProvidedParameterValueMethodInfoProxy;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
@@ -495,6 +496,21 @@ public class SwingRenderer {
 						if (ctor.isHidden()) {
 							continue;
 						}
+
+						ITypeInfo parentType = (ITypeInfo) type.getSpecificProperties()
+								.get(ITypeInfo.PARENT_TYPE_PROPERTY_KEY);
+						if (parentType != null) {
+							if (ctor.getParameters().size() > 0) {
+								if (ctor.getParameters().get(0).getType().getName().equals(parentType.getName())) {
+									Object parent = SwingRendererUtils.findCurrentObject(parentType, activatorComponent,
+											this);
+									if (parent != null) {
+										ctor = new ProvidedParameterValueMethodInfoProxy(ctor, "fromParent", 0, parent);
+									}
+								}
+							}
+						}
+
 						constructors.add(ctor);
 					}
 				}

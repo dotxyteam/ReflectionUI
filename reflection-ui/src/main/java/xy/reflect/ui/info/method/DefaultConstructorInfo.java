@@ -3,7 +3,6 @@ package xy.reflect.ui.info.method;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +40,6 @@ public class DefaultConstructorInfo extends AbstractConstructorInfo {
 	}
 
 	public static boolean isCompatibleWith(Constructor<?> constructor, Class<?> objectJavaClass) {
-		if (objectJavaClass.getEnclosingClass() != null) {
-			if (!Modifier.isStatic(objectJavaClass.getModifiers())) {
-				return false;
-			}
-		}
 		return true;
 	}
 

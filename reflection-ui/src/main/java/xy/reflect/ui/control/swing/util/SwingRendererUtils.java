@@ -82,6 +82,7 @@ import xy.reflect.ui.control.IFieldControlInput;
 import xy.reflect.ui.control.plugin.ICustomizableFieldControlPlugin;
 import xy.reflect.ui.control.plugin.IFieldControlPlugin;
 import xy.reflect.ui.control.swing.TextControl;
+import xy.reflect.ui.control.swing.builder.DialogBuilder.RenderedDialog;
 import xy.reflect.ui.control.swing.plugin.HtmlPlugin;
 import xy.reflect.ui.control.swing.renderer.FieldControlPlaceHolder;
 import xy.reflect.ui.control.swing.renderer.Form;
@@ -234,6 +235,15 @@ public class SwingRendererUtils {
 			component = ancestor;
 		}
 		return result;
+	}
+
+	public static Form findAncestorFormOfType(Component component, ITypeInfo type, SwingRenderer swingRenderer) {
+		for (Form form : findAncestorForms(component, swingRenderer)) {
+			if (type.supports(form.getObject())) {
+				return form;
+			}
+		}
+		return null;
 	}
 
 	public static Form findAncestorFormOfType(Component component, String typeName, SwingRenderer swingRenderer) {
@@ -1302,6 +1312,29 @@ public class SwingRendererUtils {
 			}
 		}
 		return true;
+	}
+
+	public static Object findCurrentObject(ITypeInfo type, Component currentComponent, SwingRenderer swingRenderer) {
+		if (currentComponent instanceof Form) {
+			if (type.supports(((Form) currentComponent).getObject())) {
+				return ((Form) currentComponent).getObject();
+			}
+		}
+		Form currentObjectForm = findAncestorFormOfType(currentComponent, type, swingRenderer);
+		if (currentObjectForm != null) {
+			return currentObjectForm.getObject();
+		}
+		Window currentWindow = getWindowAncestorOrSelf(currentComponent);
+		if (currentWindow instanceof RenderedDialog) {
+			Component ownerComponent = ((RenderedDialog) currentWindow).getDialogBuilder().getOwnerComponent();
+			if (ownerComponent != null) {
+				Object currentObjectFromParentWindow = findCurrentObject(type, ownerComponent, swingRenderer);
+				if (currentObjectFromParentWindow != null) {
+					return currentObjectFromParentWindow;
+				}
+			}
+		}
+		return null;
 	}
 
 }

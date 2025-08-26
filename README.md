@@ -4,7 +4,7 @@ ReflectionUI
 ![ExamplesImage](/custom-ui/examples/misc/screenshots/multiple-examples.png?raw=true)
 
 # Overview
-**ReflectionUI** is a free (open source) Java GUI builder/generator library based on reflection. It allows to practice a kind of [Reflective User Interface driven Development](#ruid-philosophy).
+**ReflectionUI** is a free (open source) Java GUI builder/generator library allowing to build *Reflected Graphical User Interfaces* (based on [reflection](https://en.wikipedia.org/wiki/Reflective_programming)).
 
 The generation of the GUI (graphical user interface) requires no other information that the object itself. Its structure is discovered at run-time through Java reflection.The generated GUI can be customized in a non-intrusive way by overriding some key methods of the generator objects.
 
@@ -272,13 +272,13 @@ CustomUI tutorial: <DISTRIBUTION_DIRECTORY>/examples/src/main/java/xy/reflect/ui
 
 https://github.com/dotxyteam/ReflectionUI/blob/master/custom-ui/examples/src/main/java/xy/reflect/ui/example/CustomUITutorial.java
 
-# RUID Philosophy
+# DRUIM Philosophy
 
-When using ReflectionUI, developers may tend to refactor their model/controller classes to make them more like the final user interface. ReflectionUI encourages this because, while the customization options offer many possibilities, theses possibilities are not unlimited. Therefore, it is preferable to have a class model that requires as little customization as possible to achieve the desired interface.
+When using a reflected UI builder (like ReflectionUI), developers may tend to refactor their model/controller classes to make them more like the final user interface. ReflectionUI encourages this because, while the customization options offer many possibilities, these possibilities are not unlimited. Therefore, it is preferable to have a base class model that requires as little customization as possible to achieve the desired interface.
 
-Developers also have the ability to emulate the behavior of complex graphical components directly in their model/controller classes. This would provide greater flexibility, which is desirable in certain circumstances. For example, a video player could be emulated by reflectively rendering a simple object having a periodically refreshed "current frame" image field and some playback control methods (start, stop, fast-forward, etc).
+Developers also have the ability to emulate the behavior of complex graphical components directly in their model/controller classes. This would provide greater flexibility, which is desirable in certain circumstances. For example, a video player could be emulated by reflectively rendering a simple object having a periodically refreshed "current frame" image field, and some playback control methods (start, stop, fast-forward, etc).
 
-The approaches leading to the production of user interfaces may therefore evolve slightly, and class models adapted to this way of producing user interfaces (via reflection) may become more widespread. This is why the term *Reflective User Interface driven Development* is mentioned.
+The approaches leading to the production of user interfaces may therefore evolve slightly, and class models adapted to this way of producing user interfaces (via reflection) may become more widespread. This is why the term *DRUIM (Domain-Reflective User Interface Modeling)* is proposed here.
 
 # Support
 
