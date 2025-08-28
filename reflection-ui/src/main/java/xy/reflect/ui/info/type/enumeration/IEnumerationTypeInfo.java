@@ -38,6 +38,11 @@ public interface IEnumerationTypeInfo extends ITypeInfo {
 		}
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public Object[] getValues() {
 			return new Object[0];
 		}

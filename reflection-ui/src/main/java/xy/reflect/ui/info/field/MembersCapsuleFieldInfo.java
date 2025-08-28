@@ -374,6 +374,11 @@ public class MembersCapsuleFieldInfo extends AbstractInfo implements IFieldInfo 
 		}
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public ITransaction createTransaction(Object object) {
 			return null;
 		}

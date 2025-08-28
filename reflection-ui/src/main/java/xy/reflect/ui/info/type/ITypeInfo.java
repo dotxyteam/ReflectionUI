@@ -39,6 +39,11 @@ public interface ITypeInfo extends IInfo {
 		}
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public Map<String, Object> getSpecificProperties() {
 			return Collections.emptyMap();
 		}
@@ -272,16 +277,15 @@ public interface ITypeInfo extends IInfo {
 	};
 
 	/**
-	 * Property key of the parent type (enclosing type to which the current type
-	 * holds implicitly a reference) to use with the map returned by
-	 * {@link #getSpecificProperties()}.
-	 */
-	public static String PARENT_TYPE_PROPERTY_KEY = ITypeInfo.class.getName() + ".PARENT_TYPE";
-
-	/**
 	 * Default value returned by {@link #getFormSpacing()}.
 	 */
 	public int DEFAULT_FORM_SPACING = 10;
+
+	/**
+	 * @return the current type parent (enclosing type to which the current type
+	 *         holds implicitly a reference).
+	 */
+	public ITypeInfo getParent();
 
 	/**
 	 * @return true if and only if successful validation is required to authorize

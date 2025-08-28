@@ -74,7 +74,7 @@ public interface IMethodInfo extends IInfo {
 
 		@Override
 		public String getParametersValidationCustomCaption() {
-			return null;
+			return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
 		}
 
 		@Override

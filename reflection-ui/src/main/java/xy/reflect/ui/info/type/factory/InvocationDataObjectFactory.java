@@ -161,6 +161,11 @@ public class InvocationDataObjectFactory {
 		}
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public boolean isValidationRequired() {
 			return false;
 		}

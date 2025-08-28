@@ -66,7 +66,7 @@ public class FieldAsSetterInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getParametersValidationCustomCaption() {
-		return null;
+		return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -391,15 +390,18 @@ public class DefaultTypeInfo extends AbstractInfo implements ITypeInfo {
 	}
 
 	@Override
-	public Map<String, Object> getSpecificProperties() {
-		Map<String, Object> result = new HashMap<String, Object>();
+	public ITypeInfo getParent() {
 		if (source.getJavaType().getEnclosingClass() != null) {
 			if (!Modifier.isStatic(source.getJavaType().getModifiers())) {
-				result.put(ITypeInfo.PARENT_TYPE_PROPERTY_KEY, reflectionUI
-						.getTypeInfo(new JavaTypeInfoSource(source.getJavaType().getEnclosingClass(), null)));
+				return reflectionUI.getTypeInfo(new JavaTypeInfoSource(source.getJavaType().getEnclosingClass(), null));
 			}
 		}
-		return result;
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getSpecificProperties() {
+		return Collections.emptyMap();
 	}
 
 	@Override

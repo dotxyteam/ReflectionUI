@@ -36,7 +36,7 @@ public interface IFieldControlPlugin {
 
 	/**
 	 * @return whether the current plugin control can handle (display distinctly and
-	 *         allow to set) the null value.
+	 *         allow to set/unset) the null value.
 	 */
 	boolean canDisplayDistinctNullValue();
 

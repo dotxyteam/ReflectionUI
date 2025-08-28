@@ -421,6 +421,11 @@ public class EncapsulatedObjectFactory {
 		protected List<IMethodInfo> constructors;
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(TypeInfo.this, null);
 		}

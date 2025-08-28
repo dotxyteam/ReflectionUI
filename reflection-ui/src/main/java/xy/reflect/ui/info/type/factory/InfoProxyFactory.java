@@ -1644,6 +1644,14 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 
 	/**
 	 * @param type The type information.
+	 * @return the result of {@link ITypeInfo#getParent()} unless overridden.
+	 */
+	protected ITypeInfo getParent(final ITypeInfo type) {
+		return type.getParent();
+	}
+
+	/**
+	 * @param type The type information.
 	 * @return the result of {@link ITypeInfo#getCategoriesStyle()} unless
 	 *         overridden.
 	 */
@@ -2322,6 +2330,11 @@ public class InfoProxyFactory implements IInfoProxyFactory {
 		@Override
 		public String getName() {
 			return InfoProxyFactory.this.getName(base);
+		}
+
+		@Override
+		public ITypeInfo getParent() {
+			return InfoProxyFactory.this.getParent(base);
 		}
 
 		@Override

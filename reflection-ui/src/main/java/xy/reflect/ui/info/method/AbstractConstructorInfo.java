@@ -1,6 +1,4 @@
 
-
-
 package xy.reflect.ui.info.method;
 
 import java.util.Collections;
@@ -79,7 +77,7 @@ public abstract class AbstractConstructorInfo extends AbstractInfo implements IM
 
 	@Override
 	public String getParametersValidationCustomCaption() {
-		return null;
+		return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
 	}
 
 	@Override

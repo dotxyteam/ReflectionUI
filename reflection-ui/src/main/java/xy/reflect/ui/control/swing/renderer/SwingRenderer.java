@@ -497,8 +497,7 @@ public class SwingRenderer {
 							continue;
 						}
 
-						ITypeInfo parentType = (ITypeInfo) type.getSpecificProperties()
-								.get(ITypeInfo.PARENT_TYPE_PROPERTY_KEY);
+						ITypeInfo parentType = type.getParent();
 						if (parentType != null) {
 							if (ctor.getParameters().size() > 0) {
 								if (ctor.getParameters().get(0).getType().getName().equals(parentType.getName())) {

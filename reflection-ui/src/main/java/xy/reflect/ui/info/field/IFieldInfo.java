@@ -280,10 +280,10 @@ public interface IFieldInfo extends IInfo {
 	List<IMethodInfo> getAlternativeListItemConstructors(Object object);
 
 	/**
-	 * @return true if and only if this field control must distinctly display and
-	 *         allow to set the null value. This is usually needed if a null value
-	 *         has a special meaning different from "empty/default value" for the
-	 *         developer. Note that the null value may be returned by
+	 * @return true if and only if the current field control must distinctly display
+	 *         and allow to set/unset the null value. This is usually needed if a
+	 *         null value has a special meaning different from "empty/default value"
+	 *         for the developer. Note that the null value may be returned by
 	 *         {@link #getValue(Object)} even if it is not required to be distinctly
 	 *         displayed (false returned by the current method).
 	 */

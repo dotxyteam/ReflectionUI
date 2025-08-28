@@ -214,6 +214,11 @@ public class GenericEnumerationFactory {
 	public class TypeInfo extends AbstractInfo implements IEnumerationTypeInfo {
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public ITypeInfoSource getSource() {
 			return new PrecomputedTypeInfoSource(TypeInfo.this, null);
 		}

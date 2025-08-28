@@ -281,31 +281,6 @@ public class ReflectionUIUtils {
 		return null;
 	}
 
-	public static String formatRequiredParameterList(List<IParameterInfo> parameters) {
-		StringBuilder result = new StringBuilder();
-		int iRequiredParam = 0;
-		for (IParameterInfo param : parameters) {
-			if (param.isHidden()) {
-				continue;
-			}
-			if (iRequiredParam > 0) {
-				if (iRequiredParam == parameters.size() - 1) {
-					result.append(" AND ");
-				} else {
-					result.append(", ");
-				}
-			}
-			String paramCaption = param.getCaption();
-			if (paramCaption.length() > 0) {
-				result.append(paramCaption);
-			} else {
-				result.append(param.getType().getCaption());
-			}
-			iRequiredParam++;
-		}
-		return result.toString();
-	}
-
 	public static <M extends Member> M findJavaMemberByName(M[] members, String memberName) {
 		for (M member : members) {
 			if (member.getName().equals(memberName)) {
@@ -972,6 +947,57 @@ public class ReflectionUIUtils {
 			}
 		}
 		return true;
+	}
+
+	public static String formatMethodCaption(IMethodInfo method, String baseName, int duplicateSignatureIndex) {
+		String result = ReflectionUIUtils.identifierToCaption(baseName);
+		if (method.getReturnValueType() != null) {
+			result = result.replaceAll("^Get ", "Show ");
+		}
+		if (duplicateSignatureIndex > 0) {
+			result += " (" + (duplicateSignatureIndex + 1) + ")";
+		}
+		if (result.length() > 0) {
+			if (ReflectionUIUtils.requiresParameterValue(method.getParameters())) {
+				result += "...";
+			}
+		}
+		return result;
+	}
+
+	public static String formatMethodParametersValidationCaption(IMethodInfo method) {
+		String result = method.getCaption();
+		if (ReflectionUIUtils.requiresParameterValue(method.getParameters())) {
+			if (result.endsWith("...")) {
+				result = result.substring(0, result.length() - 3);
+			}
+		}
+		return result;
+	}
+
+	public static String formatRequiredParameterList(List<IParameterInfo> parameters) {
+		StringBuilder result = new StringBuilder();
+		int iRequiredParam = 0;
+		for (IParameterInfo param : parameters) {
+			if (param.isHidden()) {
+				continue;
+			}
+			if (iRequiredParam > 0) {
+				if (iRequiredParam == parameters.size() - 1) {
+					result.append(" AND ");
+				} else {
+					result.append(", ");
+				}
+			}
+			String paramCaption = param.getCaption();
+			if (paramCaption.length() > 0) {
+				result.append(paramCaption);
+			} else {
+				result.append(param.getType().getCaption());
+			}
+			iRequiredParam++;
+		}
+		return result.toString();
 	}
 
 	public static String formatMethodControlTooltipText(String methodCaption, String methodOnlineHelp,

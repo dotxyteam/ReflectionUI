@@ -125,19 +125,8 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public String getCaption() {
 		if (caption == null) {
-			caption = ReflectionUIUtils.identifierToCaption(javaMethod.getName());
-			if (getReturnValueType() != null) {
-				caption = caption.replaceAll("^Get ", "Show ");
-			}
-			int index = obtainDuplicateSignatureIndex();
-			if (index > 0) {
-				caption += " (" + (index + 1) + ")";
-			}
-			if (caption.length() > 0) {
-				if (ReflectionUIUtils.requiresParameterValue(getParameters())) {
-					caption += "...";
-				}
-			}
+			caption = ReflectionUIUtils.formatMethodCaption(this, javaMethod.getName(),
+					obtainDuplicateSignatureIndex());
 		}
 		return caption;
 	}
@@ -164,7 +153,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 
 	@Override
 	public String getParametersValidationCustomCaption() {
-		return null;
+		return ReflectionUIUtils.formatMethodParametersValidationCaption(this);
 	}
 
 	@Override

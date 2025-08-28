@@ -459,6 +459,11 @@ public class ImplicitListFieldInfo extends AbstractInfo implements IFieldInfo {
 	public class ValueTypeInfo extends AbstractInfo implements IListTypeInfo {
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public IValidationJob getListItemAbstractFormValidationJob(ItemPosition itemPosition) {
 			return null;
 		}

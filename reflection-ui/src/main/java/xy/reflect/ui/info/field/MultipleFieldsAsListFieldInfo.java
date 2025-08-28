@@ -389,6 +389,11 @@ public class MultipleFieldsAsListFieldInfo extends AbstractInfo implements IFiel
 		}
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public boolean isValidationRequired() {
 			return false;
 		}

@@ -60,6 +60,11 @@ public interface IListTypeInfo extends ITypeInfo {
 		}
 
 		@Override
+		public ITypeInfo getParent() {
+			return null;
+		}
+
+		@Override
 		public ITypeInfo getItemType() {
 			return null;
 		}
