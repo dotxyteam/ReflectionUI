@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.border.Border;
 
+import xy.reflect.ui.ReflectionUI;
 import xy.reflect.ui.control.BufferedFieldControlData;
 import xy.reflect.ui.control.CustomContext;
 import xy.reflect.ui.control.ErrorHandlingFieldControlData;
@@ -75,7 +76,14 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 	protected Map<ITypeInfo, Object> subTypeInstanceCache = new HashMap<ITypeInfo, Object>();
 	protected Throwable currentError;
 
+	public static boolean isCompatibleWith(ITypeInfo type, ReflectionUI reflectionUI) {
+		return new PolymorphicTypeOptionsFactory(reflectionUI, type).getConcreteTypeOptions().size() >= 2;
+	}
+
 	public PolymorphicControl(final SwingRenderer swingRenderer, IFieldControlInput input) {
+		if (!isCompatibleWith(input.getControlData().getType(), swingRenderer.getReflectionUI())) {
+			throw new RejectedFieldControlInputException();
+		}
 		try {
 			this.swingRenderer = swingRenderer;
 			input = new FieldControlInputProxy(input) {
@@ -100,9 +108,6 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			this.polymorphicType = input.getControlData().getType();
 			this.typeOptionsFactory = new PolymorphicTypeOptionsFactory(swingRenderer.getReflectionUI(),
 					polymorphicType);
-			if(typeOptionsFactory.getTypeOptions().size() < 2) {
-				throw new RejectedFieldControlInputException();
-			}
 			setLayout(new BorderLayout());
 			refreshUI(true);
 		} catch (RecursivePolymorphismDetectionException e) {
@@ -185,7 +190,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			result = typeOptionsFactory.guessSubType(instance);
 			if (result == null) {
 				throw new ReflectionUIError("Failed to find a compatible sub-type for '" + instance
-						+ "'. Sub-type options: " + typeOptionsFactory.getTypeOptions());
+						+ "'. Sub-type options: " + typeOptionsFactory.getConcreteTypeOptions());
 			}
 			subTypeInstanceCache.put(result, instance);
 		}
@@ -212,9 +217,10 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 				throw new ReflectionUIError(t);
 			}
 		};
-		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, this, input, PolymorphicTypeOptionsFactory
-				.preventPolymorphismRecursivity(swingRenderer.getReflectionUI(), polymorphicType),
-				commitExceptionHandler);
+		ITypeInfo nonRecursivelyPolymorphicInstanceType = typeOptionsFactory.getConcreteTypeOptions().stream()
+				.filter(type -> type.getName().equals(instanceType.getName())).findFirst().get();
+		dynamicControlBuilder = new DynamicControlBuilder(swingRenderer, this, input,
+				nonRecursivelyPolymorphicInstanceType, commitExceptionHandler);
 		return dynamicControlBuilder.createEditorForm(true, false);
 	}
 

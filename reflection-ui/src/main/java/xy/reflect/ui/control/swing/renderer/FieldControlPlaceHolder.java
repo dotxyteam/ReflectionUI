@@ -596,7 +596,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 				} catch (RejectedFieldControlInputException e) {
 				}
 			}
-			if (ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlInput.getControlData().getType())) {
+			if (PolymorphicControl.isCompatibleWith(controlInput.getControlData().getType(),
+					swingRenderer.getReflectionUI())) {
 				try {
 					return new PolymorphicControl(swingRenderer, controlInput);
 				} catch (RejectedFieldControlInputException e) {
@@ -718,7 +719,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 	protected Map<String, Object> getFieldControlSelectionCriteria(IFieldControlData controlData) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("typeName", controlData.getType().getName());
-		result.put("polymorphic", ReflectionUIUtils.hasPolymorphicInstanceSubTypes(controlData.getType()));
+		result.put("polymorphic",
+				PolymorphicControl.isCompatibleWith(controlData.getType(), swingRenderer.getReflectionUI()));
 		result.put("fieldControlPluginIdentifier",
 				ReflectionUIUtils.getFieldControlPluginIdentifier(controlData.getType().getSpecificProperties()));
 		result.put("nullValueDistinct", controlData.isNullValueDistinct());

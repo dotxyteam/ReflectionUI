@@ -88,11 +88,7 @@ public class DefaultMethodInfo extends AbstractInfo implements IMethodInfo {
 	@Override
 	public String getName() {
 		if (name == null) {
-			name = javaMethod.getName();
-			int index = obtainDuplicateSignatureIndex();
-			if (index > 0) {
-				name += "." + Integer.toString(index);
-			}
+			name = ReflectionUIUtils.formatMethodName(javaMethod.getName(), obtainDuplicateSignatureIndex());
 		}
 		return name;
 	}

@@ -30,8 +30,8 @@ import xy.reflect.ui.util.ReflectionUIUtils;
  */
 public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
-	protected static final String POLYMORPHISM_EXPLORED_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class.getName()
-			+ ".POLYMORPHISM_EXPLORED_PROPERTY_KEY";
+	protected static final String POLYMORPHISM_EXPLORED_WITH_PROPERTY_KEY = PolymorphicTypeOptionsFactory.class
+			.getName() + ".POLYMORPHISM_EXPLORED_PROPERTY_KEY";
 
 	protected ITypeInfo polymorphicType;
 
@@ -59,8 +59,8 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	public static ITypeInfo preventPolymorphismRecursivity(ReflectionUI reflectionUI, final ITypeInfo type) {
-		if (isPolymorphismRecursivityDetected(type)) {
+	protected static ITypeInfo preventPolymorphismRecursivity(ReflectionUI reflectionUI, final ITypeInfo type) {
+		if (isPolymorphismRecursivityDetected(type, reflectionUI)) {
 			throw new RecursivePolymorphismDetectionException();
 		}
 		final ITypeInfoSource typeSource = type.getSource();
@@ -75,7 +75,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 			@Override
 			protected Map<String, Object> getSpecificProperties(ITypeInfo type) {
 				Map<String, Object> result = new HashMap<String, Object>(super.getSpecificProperties(type));
-				result.put(POLYMORPHISM_EXPLORED_PROPERTY_KEY, Boolean.TRUE);
+				result.put(POLYMORPHISM_EXPLORED_WITH_PROPERTY_KEY, reflectionUI);
 				return result;
 			}
 
@@ -95,11 +95,11 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 		return result;
 	}
 
-	public static boolean isPolymorphismRecursivityDetected(ITypeInfo type) {
-		return Boolean.TRUE.equals(type.getSpecificProperties().get(POLYMORPHISM_EXPLORED_PROPERTY_KEY));
+	protected static boolean isPolymorphismRecursivityDetected(ITypeInfo type, ReflectionUI reflectionUI) {
+		return reflectionUI.equals(type.getSpecificProperties().get(POLYMORPHISM_EXPLORED_WITH_PROPERTY_KEY));
 	}
 
-	public List<ITypeInfo> getTypeOptions() {
+	public List<ITypeInfo> getConcreteTypeOptions() {
 		List<ITypeInfo> result = new ArrayList<ITypeInfo>();
 		for (Object item : getOrLoadItems()) {
 			result.add((ITypeInfo) item);
@@ -109,7 +109,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 
 	/**
 	 * @param instance The instance to analyze.
-	 * @return the type information among {@link #getTypeOptions()} that best fits
+	 * @return the type information among {@link #getConcreteTypeOptions()} that best fits
 	 *         the given instance. Note that the base polymorphic type may be a
 	 *         valid option (because it is a concrete type for instance). Descendant
 	 *         types have precedence over their ancestors. The actual instance type
@@ -117,7 +117,7 @@ public class PolymorphicTypeOptionsFactory extends GenericEnumerationFactory {
 	 * @throws ReflectionUIError If any ambiguity or inconsistency is detected.
 	 */
 	public ITypeInfo guessSubType(Object instance) throws ReflectionUIError {
-		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getTypeOptions());
+		List<ITypeInfo> options = new ArrayList<ITypeInfo>(getConcreteTypeOptions());
 		ITypeInfo polymorphicTypeAsValidOption = null;
 		ITypeInfo validSubType = null;
 		for (ITypeInfo type : options) {

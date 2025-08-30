@@ -71,7 +71,6 @@ import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationItemInfo;
 import xy.reflect.ui.info.type.enumeration.IEnumerationTypeInfo;
-import xy.reflect.ui.info.type.factory.PolymorphicTypeOptionsFactory;
 import xy.reflect.ui.info.type.iterable.IListTypeInfo;
 import xy.reflect.ui.info.type.iterable.item.ItemPosition;
 import xy.reflect.ui.info.type.iterable.item.ItemPositionFactory;
@@ -447,9 +446,6 @@ public class ReflectionUIUtils {
 	}
 
 	public static boolean hasPolymorphicInstanceSubTypes(ITypeInfo type) {
-		if (PolymorphicTypeOptionsFactory.isPolymorphismRecursivityDetected(type)) {
-			return false;
-		}
 		List<ITypeInfo> polyTypes = type.getPolymorphicInstanceSubTypes();
 		return polyTypes.size() > 0;
 	}
@@ -947,6 +943,14 @@ public class ReflectionUIUtils {
 			}
 		}
 		return true;
+	}
+
+	public static String formatMethodName(String baseName, int duplicateSignatureIndex) {
+		String result = baseName;
+		if (duplicateSignatureIndex > 0) {
+			result += "." + Integer.toString(duplicateSignatureIndex);
+		}
+		return result;
 	}
 
 	public static String formatMethodCaption(IMethodInfo method, String baseName, int duplicateSignatureIndex) {
