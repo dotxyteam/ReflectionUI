@@ -127,6 +127,7 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 			SwingRendererUtils.handleComponentSizeChange(this);
 			subTypeInstanceCache.clear();
 			dynamicControlCache.clear();
+			typeOptionsFactory.resetItemCache();
 		}
 		Object value = data.getValue();
 		data.returningValue(value, new Runnable() {

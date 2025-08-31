@@ -94,6 +94,10 @@ public class GenericEnumerationFactory {
 		return bufferedItems;
 	}
 
+	public void resetItemCache() {
+		bufferedItems = null;
+	}
+
 	public Object getItemInstance(Object item) {
 		if (item == null) {
 			if (!getOrLoadItems().contains(null)) {
@@ -454,7 +458,7 @@ public class GenericEnumerationFactory {
 		@Override
 		public Object[] getValues() {
 			List<Object> result = new ArrayList<Object>();
-			bufferedItems = null;
+			resetItemCache();
 			for (Object item : getOrLoadItems()) {
 				result.add(new Instance(item));
 			}
