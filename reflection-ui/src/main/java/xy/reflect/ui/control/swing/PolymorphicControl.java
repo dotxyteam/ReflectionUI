@@ -540,6 +540,20 @@ public class PolymorphicControl extends ControlPanel implements IAdvancedFieldCo
 		}
 
 		@Override
+		protected String getCapsuleTypeName() {
+			/*
+			 * Provide a unified type name (which will be the same regardless of the actual
+			 * instance subtype) to allow easy sharing of customizations between subtypes.
+			 */
+			if (instanceType == ownerComponent.polymorphicType) {
+				return super.getCapsuleTypeName();
+			} else {
+				return new DynamicControlBuilder(swingRenderer, ownerComponent, input, ownerComponent.polymorphicType,
+						commitExceptionHandler).getCapsuleTypeName();
+			}
+		}
+
+		@Override
 		protected boolean isEncapsulatedFormEmbedded() {
 			return data.isFormControlEmbedded();
 		}
