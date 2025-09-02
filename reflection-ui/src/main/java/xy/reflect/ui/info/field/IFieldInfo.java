@@ -187,7 +187,7 @@ public interface IFieldInfo extends IInfo {
 
 		@Override
 		public String toString() {
-			return "NULL_FIELD_INFO";
+			return getName();
 		}
 
 		@Override

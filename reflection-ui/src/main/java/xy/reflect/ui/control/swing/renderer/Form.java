@@ -118,7 +118,7 @@ public class Form extends ImagePanel {
 
 	protected Container categoriesControl;
 	protected MinimalListUpdater<InfoCategory> categoriesVisibilityUpdater;
-	protected ControlPanel scrollPane;
+	protected JScrollPane scrollPane;
 	protected IModificationListener fieldsUpdateListener = createFieldsUpdateListener();
 	protected boolean visibilityEventsDisabled = false;
 	protected List<IFormListener> listeners = new ArrayList<IFormListener>();
@@ -651,11 +651,7 @@ public class Form extends ImagePanel {
 
 	protected JScrollPane createMainScrollPane(Component content) {
 		ControlScrollPane result = new ControlScrollPane(content);
-		Color borderColor = getControlsBorderColor();
-		if (borderColor != null) {
-			SwingRendererUtils.removeScrollPaneBorder(result);
-			result.setBorder(BorderFactory.createLineBorder(borderColor));
-		}
+		SwingRendererUtils.removeScrollPaneBorder(result);
 		return result;
 	}
 
@@ -667,7 +663,7 @@ public class Form extends ImagePanel {
 			ControlPanel contentPanel = new ControlPanel();
 			{
 				membersPanel.setLayout(new BorderLayout());
-				membersPanel.add(createMainScrollPane(scrollPane = contentPanel), BorderLayout.CENTER);
+				membersPanel.add(scrollPane = createMainScrollPane(contentPanel), BorderLayout.CENTER);
 			}
 			membersPanel = contentPanel;
 		} else {
@@ -1232,7 +1228,7 @@ public class Form extends ImagePanel {
 	 * @return the scroll pane that contains the form controls, or null if the
 	 *         form's contents are not scrollable.
 	 */
-	public ControlPanel getScrollPane() {
+	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
 
@@ -1434,6 +1430,13 @@ public class Form extends ImagePanel {
 			setOpaque((backgroundColor != null) && (image == null));
 			Color borderColor = getControlsBorderColor();
 			{
+				if (scrollPane != null) {
+					if (borderColor != null) {
+						scrollPane.setBorder(BorderFactory.createLineBorder(borderColor));
+					} else {
+						scrollPane.setBorder(new JScrollPane().getBorder());
+					}
+				}
 				menuBar.setBackground(backgroundColor);
 				menuBar.setOpaque(backgroundColor != null);
 				menuBar.setForeground(foregroundColor);
