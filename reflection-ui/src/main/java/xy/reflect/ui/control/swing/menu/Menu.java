@@ -64,11 +64,26 @@ public class Menu extends JMenu {
 			}
 		}
 		if (menuInfo.getItems().size() > 0) {
-			if (getSubElements().length > 0) {
+			if (menuInfo.getItemCategories().size() > 0) {
 				add(createSeparator());
 			}
 			for (AbstractMenuItemInfo item : menuInfo.getItems()) {
 				add(createMenuItem(item));
+			}
+		}
+		for (int i = 0; i < getMenuComponentCount(); i++) {
+			// remove useless separators
+			if (getMenuComponent(i) instanceof MenuItemSeparator) {
+				if ((i == 0) || (i == getMenuComponentCount())) {
+					remove(i);
+					i--;
+					continue;
+				}
+				if ((i > 0) && (getMenuComponent(i - 1) instanceof MenuItemSeparator)) {
+					remove(i);
+					i--;
+					continue;
+				}
 			}
 		}
 		int mnemonic = computeMnemonic();
