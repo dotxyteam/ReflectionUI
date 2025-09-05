@@ -670,7 +670,8 @@ public class SwingRendererUtils {
 		return new ResourcePath(imagePathSpecification);
 	}
 
-	public static Image loadImageThroughCache(ResourcePath imagePath, Listener<String> errorMessageListener) {
+	public static Image loadImageThroughCache(ResourcePath imagePath, Listener<String> errorMessageListener,
+			SwingRenderer swingRenderer) {
 		if (imagePath == null) {
 			return null;
 		}
@@ -684,7 +685,7 @@ public class SwingRendererUtils {
 				if (imagePath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
 					String classPathResourceLocation = ResourcePath
 							.extractClassPathResourceLocation(imagePath.getSpecification());
-					imageUrl = SwingRendererUtils.class.getClassLoader().getResource(classPathResourceLocation);
+					imageUrl = swingRenderer.getClassPathLoader().getResource(classPathResourceLocation);
 					if (imageUrl == null) {
 						throw new ReflectionUIError(
 								"Class path resource not found: '" + classPathResourceLocation + "'");
@@ -711,7 +712,8 @@ public class SwingRendererUtils {
 		return result;
 	}
 
-	public static Font loadFontThroughCache(ResourcePath fontPath, Listener<String> errorMessageListener) {
+	public static Font loadFontThroughCache(ResourcePath fontPath, Listener<String> errorMessageListener,
+			SwingRenderer swingRenderer) {
 		if (fontPath == null) {
 			return null;
 		}
@@ -725,7 +727,7 @@ public class SwingRendererUtils {
 				if (fontPath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
 					String classPathResourceLocation = ResourcePath
 							.extractClassPathResourceLocation(fontPath.getSpecification());
-					imageUrl = SwingRendererUtils.class.getClassLoader().getResource(classPathResourceLocation);
+					imageUrl = swingRenderer.getClassPathLoader().getResource(classPathResourceLocation);
 					if (imageUrl == null) {
 						throw new ReflectionUIError(
 								"Class path resource not found: '" + classPathResourceLocation + "'");
@@ -949,7 +951,7 @@ public class SwingRendererUtils {
 			if (fieldControlData.getLabelCustomFontResourcePath() != null) {
 				((TitledBorder) borderComponent.getBorder()).setTitleFont(SwingRendererUtils
 						.loadFontThroughCache(fieldControlData.getLabelCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 						.deriveFont(((TitledBorder) borderComponent.getBorder()).getTitleFont().getStyle(),
 								((TitledBorder) borderComponent.getBorder()).getTitleFont().getSize()));
 			}

@@ -66,7 +66,7 @@ public class CheckBoxControl extends JCheckBox implements IAdvancedFieldControl 
 			if (data.getLabelCustomFontResourcePath() != null) {
 				setFont(SwingRendererUtils
 						.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 						.deriveFont(getFont().getStyle(), getFont().getSize()));
 			} else {
 				setFont(new JCheckBox().getFont());

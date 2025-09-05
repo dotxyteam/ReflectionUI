@@ -123,8 +123,6 @@ public class CustomizationTools {
 		return new CustomizationToolsRenderer(toolsUI);
 	}
 
-	
-
 	protected CustomizationToolsUI createToolsUI() {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		try {
@@ -1242,7 +1240,7 @@ public class CustomizationTools {
 		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
 				? SwingRendererUtils
 						.loadFontThroughCache(toolsUI.getApplicationInfo().getLabelCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(toolsUI))
+								ReflectionUIUtils.getErrorLogListener(toolsUI), toolsRenderer)
 						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
 				: null;
 		if (awtBackgroundColor != null) {
@@ -1269,7 +1267,7 @@ public class CustomizationTools {
 		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
 				? SwingRendererUtils
 						.loadFontThroughCache(toolsUI.getApplicationInfo().getLabelCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(toolsUI))
+								ReflectionUIUtils.getErrorLogListener(toolsUI), toolsRenderer)
 						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
 				: null;
 		if (backgroundColor != null) {
@@ -1297,7 +1295,7 @@ public class CustomizationTools {
 		Font labelCustomFont = (toolsUI.getApplicationInfo().getLabelCustomFontResourcePath() != null)
 				? SwingRendererUtils
 						.loadFontThroughCache(toolsUI.getApplicationInfo().getLabelCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(toolsUI))
+								ReflectionUIUtils.getErrorLogListener(toolsUI), toolsRenderer)
 						.deriveFont(result.getFont().getStyle(), result.getFont().getSize())
 				: null;
 		if (backgroundColor != null) {

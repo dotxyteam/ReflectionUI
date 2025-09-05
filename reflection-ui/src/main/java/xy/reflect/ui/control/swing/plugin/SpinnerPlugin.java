@@ -303,8 +303,9 @@ public class SpinnerPlugin extends AbstractSimpleCustomizableFieldControlPlugin 
 								.setFont(
 										SwingRendererUtils
 												.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
-														ReflectionUIUtils
-																.getErrorLogListener(swingRenderer.getReflectionUI()))
+														ReflectionUIUtils.getErrorLogListener(
+																swingRenderer.getReflectionUI()),
+														swingRenderer)
 												.deriveFont(getEditor().getComponent(0).getFont().getStyle(),
 														getEditor().getComponent(0).getFont().getSize()));
 					} else {

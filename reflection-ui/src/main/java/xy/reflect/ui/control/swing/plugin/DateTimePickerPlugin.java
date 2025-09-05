@@ -445,8 +445,9 @@ public class DateTimePickerPlugin extends AbstractSimpleCustomizableFieldControl
 								.setFont(
 										SwingRendererUtils
 												.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
-														ReflectionUIUtils
-																.getErrorLogListener(swingRenderer.getReflectionUI()))
+														ReflectionUIUtils.getErrorLogListener(
+																swingRenderer.getReflectionUI()),
+														swingRenderer)
 												.deriveFont(getEditor().getFont().getStyle(),
 														getEditor().getFont().getSize()));
 					} else {

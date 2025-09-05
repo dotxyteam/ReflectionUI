@@ -169,7 +169,7 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 				return null;
 			} else {
 				return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
-						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 			}
 		}
 
@@ -179,7 +179,7 @@ public class ToggleButtonPlugin extends AbstractSimpleCustomizableFieldControlPl
 				return null;
 			} else {
 				return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
-						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 			}
 		}
 

@@ -368,8 +368,9 @@ public class DatePickerPlugin extends AbstractSimpleCustomizableFieldControlPlug
 								.setFont(
 										SwingRendererUtils
 												.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
-														ReflectionUIUtils
-																.getErrorLogListener(swingRenderer.getReflectionUI()))
+														ReflectionUIUtils.getErrorLogListener(
+																swingRenderer.getReflectionUI()),
+														swingRenderer)
 												.deriveFont(getEditor().getFont().getStyle(),
 														getEditor().getFont().getSize()));
 					} else {

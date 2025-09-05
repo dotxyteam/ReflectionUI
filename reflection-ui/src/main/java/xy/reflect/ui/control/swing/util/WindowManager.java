@@ -277,7 +277,7 @@ public class WindowManager extends WindowAdapter {
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getMainBackgroundImagePath() != null) {
 			return SwingRendererUtils.loadImageThroughCache(appInfo.getMainBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+					ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 		} else {
 			return null;
 		}
@@ -338,7 +338,7 @@ public class WindowManager extends WindowAdapter {
 		IApplicationInfo appInfo = reflectionUI.getApplicationInfo();
 		if (appInfo.getTitleCustomFontResourcePath() != null) {
 			return SwingRendererUtils.loadFontThroughCache(appInfo.getTitleCustomFontResourcePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+					ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 		} else {
 			return null;
 		}

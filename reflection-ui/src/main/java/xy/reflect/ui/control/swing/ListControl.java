@@ -445,7 +445,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return null;
 				} else {
 					return SwingRendererUtils.loadImageThroughCache(listData.getButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 				}
 			}
 
@@ -455,7 +455,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 					return null;
 				} else {
 					return SwingRendererUtils.loadFontThroughCache(listData.getButtonCustomFontResourcePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 				}
 			}
 
@@ -2149,12 +2149,10 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			treeTableComponent.setForeground(new JXTreeTable().getForeground());
 		}
 		if (listData.getEditorCustomFontResourcePath() != null) {
-			treeTableComponent
-					.setFont(SwingRendererUtils
-							.loadFontThroughCache(listData.getEditorCustomFontResourcePath(),
-									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
-							.deriveFont(treeTableComponent.getFont().getStyle(),
-									treeTableComponent.getFont().getSize()));
+			treeTableComponent.setFont(SwingRendererUtils
+					.loadFontThroughCache(listData.getEditorCustomFontResourcePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
+					.deriveFont(treeTableComponent.getFont().getStyle(), treeTableComponent.getFont().getSize()));
 		} else {
 			treeTableComponent.setFont(new JXTreeTable().getFont());
 		}
@@ -2175,9 +2173,8 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 		}
 		if (listData.getLabelCustomFontResourcePath() != null) {
 			treeTableComponent.getTableHeader()
-					.setFont(SwingRendererUtils
-							.loadFontThroughCache(listData.getLabelCustomFontResourcePath(),
-									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+					.setFont(SwingRendererUtils.loadFontThroughCache(listData.getLabelCustomFontResourcePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 							.deriveFont(treeTableComponent.getTableHeader().getFont().getStyle(),
 									treeTableComponent.getTableHeader().getFont().getSize()));
 		} else {
@@ -2594,7 +2591,7 @@ public class ListControl extends ControlPanel implements IAdvancedFieldControl {
 			if (listData.getEditorCustomFontResourcePath() != null) {
 				component.setFont(SwingRendererUtils
 						.loadFontThroughCache(listData.getEditorCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 						.deriveFont(component.getFont().getStyle(), component.getFont().getSize()));
 			}
 			component.setOpaque(false);

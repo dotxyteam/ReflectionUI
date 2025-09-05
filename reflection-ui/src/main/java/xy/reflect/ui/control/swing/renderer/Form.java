@@ -1068,7 +1068,7 @@ public class Form extends ImagePanel {
 		if (reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath() != null) {
 			return SwingRendererUtils.loadFontThroughCache(
 					reflectionUI.getApplicationInfo().getLabelCustomFontResourcePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+					ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 		} else {
 			return null;
 		}
@@ -1116,7 +1116,7 @@ public class Form extends ImagePanel {
 			return null;
 		} else {
 			return SwingRendererUtils.loadImageThroughCache(type.getFormBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(reflectionUI));
+					ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 		}
 	}
 
@@ -2020,7 +2020,7 @@ public class Form extends ImagePanel {
 					return null;
 				} else {
 					return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 				}
 			}
 
@@ -2030,7 +2030,7 @@ public class Form extends ImagePanel {
 					return null;
 				} else {
 					return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 				}
 			}
 
@@ -2105,12 +2105,12 @@ public class Form extends ImagePanel {
 			public Image retrieveBackgroundImage() {
 				if (type.getFormButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(type.getFormButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+							ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 				}
 				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(
 							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+							ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 				}
 				return null;
 			}
@@ -2122,7 +2122,7 @@ public class Form extends ImagePanel {
 				} else {
 					return SwingRendererUtils.loadFontThroughCache(
 							reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 				}
 			}
 
@@ -2197,7 +2197,7 @@ public class Form extends ImagePanel {
 		if (data.getLabelCustomFontResourcePath() != null) {
 			result.setFont(SwingRendererUtils
 					.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 					.deriveFont(result.getFont().getStyle(), result.getFont().getSize()));
 		}
 		result.setName("captionControl [field=" + fieldControlPlaceHolder.getField().getName() + ", parent="

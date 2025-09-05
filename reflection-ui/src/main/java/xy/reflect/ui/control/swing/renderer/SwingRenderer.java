@@ -179,6 +179,14 @@ public class SwingRenderer {
 	}
 
 	/**
+	 * @return the class loader used to retrieve class-path based resources (icons,
+	 *         fonts, ...).
+	 */
+	public ClassLoader getClassPathLoader() {
+		return getClass().getClassLoader();
+	}
+
+	/**
 	 * @return the abstract UI model generator use by this renderer.
 	 */
 	public ReflectionUI getReflectionUI() {
@@ -358,7 +366,7 @@ public class SwingRenderer {
 	 */
 	public Image getIconImage(ResourcePath iconImagePath) {
 		return SwingRendererUtils.loadImageThroughCache(iconImagePath,
-				ReflectionUIUtils.getErrorLogListener(reflectionUI));
+				ReflectionUIUtils.getErrorLogListener(reflectionUI), this);
 	}
 
 	/**
@@ -838,7 +846,7 @@ public class SwingRenderer {
 				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(
 							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+							ReflectionUIUtils.getErrorLogListener(reflectionUI), SwingRenderer.this);
 				}
 				return null;
 			}
@@ -848,7 +856,7 @@ public class SwingRenderer {
 				if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() != null) {
 					return SwingRendererUtils.loadFontThroughCache(
 							reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+							ReflectionUIUtils.getErrorLogListener(reflectionUI), SwingRenderer.this);
 				}
 				return null;
 			}
@@ -1188,7 +1196,7 @@ public class SwingRenderer {
 				if (appInfo.getLabelCustomFontResourcePath() != null) {
 					busyLabel.setFont(SwingRendererUtils
 							.loadFontThroughCache(appInfo.getLabelCustomFontResourcePath(),
-									ReflectionUIUtils.getErrorLogListener(reflectionUI))
+									ReflectionUIUtils.getErrorLogListener(reflectionUI), this)
 							.deriveFont(busyLabel.getFont().getStyle(), busyLabel.getFont().getSize()));
 				}
 				busyLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1275,13 +1283,13 @@ public class SwingRenderer {
 			if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
 				setClosingButtonBackgroundImage(SwingRendererUtils.loadImageThroughCache(
 						reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
-						ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+						ReflectionUIUtils.getErrorLogListener(reflectionUI), getSwingRenderer()));
 			}
 
 			if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() != null) {
 				setClosingButtonCustomFont(SwingRendererUtils.loadFontThroughCache(
 						reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
-						ReflectionUIUtils.getErrorLogListener(reflectionUI)));
+						ReflectionUIUtils.getErrorLogListener(reflectionUI), getSwingRenderer()));
 			}
 		}
 

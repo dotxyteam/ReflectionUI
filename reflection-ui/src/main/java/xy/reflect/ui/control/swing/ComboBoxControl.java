@@ -229,7 +229,7 @@ public class ComboBoxControl extends ControlPanel implements IAdvancedFieldContr
 			if (data.getEditorCustomFontResourcePath() != null) {
 				comboBox.setFont(SwingRendererUtils
 						.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 						.deriveFont(comboBox.getFont().getStyle(), comboBox.getFont().getSize()));
 			} else {
 				comboBox.setFont(new JComboBox().getFont());

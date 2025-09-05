@@ -195,9 +195,8 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 				result.setOpaque(false);
 				result.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 				if (data.getLabelCustomFontResourcePath() != null) {
-					result.setFont(SwingRendererUtils
-							.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+					result.setFont(SwingRendererUtils.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 							.deriveFont(result.getFont().getStyle(), result.getFont().getSize()));
 				} else {
 					result.setFont(new JRadioButton().getFont());
@@ -226,7 +225,8 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 							return null;
 						} else {
 							return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
-									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
+									swingRenderer);
 						}
 					}
 
@@ -236,7 +236,8 @@ public class OptionButtonsPlugin extends AbstractSimpleCustomizableFieldControlP
 							return null;
 						} else {
 							return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
-									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+									ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()),
+									swingRenderer);
 						}
 					}
 

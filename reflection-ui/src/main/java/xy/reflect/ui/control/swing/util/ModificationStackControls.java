@@ -70,12 +70,12 @@ public class ModificationStackControls {
 			public Image retrieveBackgroundImage() {
 				if (type.getFormButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(type.getFormButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+							ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 				}
 				if (reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath() != null) {
 					return SwingRendererUtils.loadImageThroughCache(
 							reflectionUI.getApplicationInfo().getMainButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+							ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 				}
 				return null;
 			}
@@ -85,7 +85,7 @@ public class ModificationStackControls {
 				if (reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath() != null) {
 					return SwingRendererUtils.loadFontThroughCache(
 							reflectionUI.getApplicationInfo().getButtonCustomFontResourcePath(),
-							ReflectionUIUtils.getErrorLogListener(reflectionUI));
+							ReflectionUIUtils.getErrorLogListener(reflectionUI), swingRenderer);
 				}
 				return null;
 			}

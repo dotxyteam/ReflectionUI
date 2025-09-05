@@ -200,8 +200,9 @@ public class NullableControl extends ControlPanel implements IAdvancedFieldContr
 		if (refreshStructure) {
 			nullStatusControl.setForeground(SwingRendererUtils.getColor(data.getLabelForegroundColor()));
 			if (data.getLabelCustomFontResourcePath() != null) {
-				nullStatusControl.setFont(SwingRendererUtils.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
-						ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+				nullStatusControl.setFont(SwingRendererUtils
+						.loadFontThroughCache(data.getLabelCustomFontResourcePath(),
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 						.deriveFont(nullStatusControl.getFont().getStyle(), nullStatusControl.getFont().getSize()));
 			} else {
 				nullStatusControl.setFont(new JCheckBox().getFont());

@@ -304,7 +304,7 @@ public class TextControl extends ControlPanel implements IAdvancedFieldControl {
 			if (data.getEditorCustomFontResourcePath() != null) {
 				textComponent.setFont(SwingRendererUtils
 						.loadFontThroughCache(data.getEditorCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()))
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer)
 						.deriveFont(textComponent.getFont().getStyle(), textComponent.getFont().getSize()));
 			} else {
 				textComponent.setFont(new JTextField().getFont());

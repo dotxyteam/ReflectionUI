@@ -143,7 +143,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 					return null;
 				} else {
 					return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 				}
 			}
 
@@ -153,7 +153,7 @@ public class DialogAccessControl extends ControlPanel implements IAdvancedFieldC
 					return null;
 				} else {
 					return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
-							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+							ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 				}
 			}
 

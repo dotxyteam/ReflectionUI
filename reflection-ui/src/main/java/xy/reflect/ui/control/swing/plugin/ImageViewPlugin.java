@@ -411,7 +411,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						return null;
 					} else {
 						return SwingRendererUtils.loadImageThroughCache(imageView.data.getButtonBackgroundImagePath(),
-								ReflectionUIUtils.getErrorLogListener(imageView.swingRenderer.getReflectionUI()));
+								ReflectionUIUtils.getErrorLogListener(imageView.swingRenderer.getReflectionUI()), null);
 					}
 				}
 
@@ -421,7 +421,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						return null;
 					} else {
 						return SwingRendererUtils.loadFontThroughCache(imageView.data.getButtonCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(imageView.swingRenderer.getReflectionUI()));
+								ReflectionUIUtils.getErrorLogListener(imageView.swingRenderer.getReflectionUI()), null);
 					}
 				}
 
@@ -543,7 +543,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						return null;
 					} else {
 						return SwingRendererUtils.loadImageThroughCache(data.getButtonBackgroundImagePath(),
-								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 					}
 				}
 
@@ -553,7 +553,7 @@ public class ImageViewPlugin extends AbstractSimpleCustomizableFieldControlPlugi
 						return null;
 					} else {
 						return SwingRendererUtils.loadFontThroughCache(data.getButtonCustomFontResourcePath(),
-								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+								ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 					}
 				}
 

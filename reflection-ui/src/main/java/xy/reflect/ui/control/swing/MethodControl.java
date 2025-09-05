@@ -63,7 +63,7 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 			return null;
 		} else {
 			return SwingRendererUtils.loadImageThroughCache(data.getBackgroundImagePath(),
-					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class MethodControl extends AbstractControlButton implements IAdvancedMet
 			return null;
 		} else {
 			return SwingRendererUtils.loadFontThroughCache(data.getCustomFontResourcePath(),
-					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()));
+					ReflectionUIUtils.getErrorLogListener(swingRenderer.getReflectionUI()), swingRenderer);
 		}
 	}
 
