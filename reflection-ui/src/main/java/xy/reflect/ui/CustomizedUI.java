@@ -9,6 +9,7 @@ import xy.reflect.ui.info.field.IFieldInfo;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.parameter.IParameterInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
+import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
 import xy.reflect.ui.info.type.factory.InfoCustomizationsFactory;
 import xy.reflect.ui.info.type.factory.InfoProxyFactory;
 import xy.reflect.ui.info.type.source.ITypeInfoSource;
@@ -120,7 +121,7 @@ public class CustomizedUI extends ReflectionUI {
 	 *         before calling {@link #getTypeInfoAfterCustomizations(ITypeInfo)} |
 	 *         {@link #getApplicationInfoAfterCustomizations(IApplicationInfo)}.
 	 */
-	public InfoCustomizationsFactory getInfoCustomizationsFactory() {
+	public IInfoProxyFactory getInfoCustomizationsFactory() {
 		return new InfoCustomizationsFactory(this) {
 
 			@Override
@@ -201,7 +202,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * @param type The UI-oriented type information.
 	 * @return a potentially proxied version of the input argument.
 	 */
-	protected ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
+	public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
 		return type;
 	}
 
@@ -214,7 +215,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * @param type The UI-oriented type information.
 	 * @return a potentially proxied version of the input argument.
 	 */
-	protected ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
+	public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
 		return type;
 	}
 
@@ -225,7 +226,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * @param appInfo The UI-oriented application information.
 	 * @return a potentially proxied version of the input argument.
 	 */
-	protected IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
+	public IApplicationInfo getApplicationInfoAfterCustomizations(IApplicationInfo appInfo) {
 		return appInfo;
 	}
 
@@ -236,7 +237,7 @@ public class CustomizedUI extends ReflectionUI {
 	 * @param appInfo The UI-oriented application information.
 	 * @return a potentially proxied version of the input argument.
 	 */
-	protected IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
+	public IApplicationInfo getApplicationInfoBeforeCustomizations(IApplicationInfo appInfo) {
 		return appInfo;
 	}
 

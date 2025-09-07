@@ -97,7 +97,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 	}
 
 	@Override
-	protected ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
+	public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
 		type = new InfoProxyFactory() {
 
 			@Override
@@ -508,7 +508,7 @@ public class CustomizationToolsUI extends CustomizedUI {
 	}
 
 	@Override
-	protected ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
+	public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
 		type = new InfoProxyFactory() {
 
 			@Override

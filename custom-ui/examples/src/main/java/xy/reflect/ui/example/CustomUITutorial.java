@@ -79,7 +79,7 @@ public class CustomUITutorial {
 		CustomizedUI customizedUI = new CustomizedUI() {
 
 			@Override
-			protected ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
+			public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
 				return new InfoProxyFactory() {
 
 					@Override
@@ -91,7 +91,7 @@ public class CustomUITutorial {
 			}
 
 			@Override
-			protected ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
+			public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
 				return new InfoProxyFactory() {
 
 					@Override

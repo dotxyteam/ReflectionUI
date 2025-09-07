@@ -31,7 +31,7 @@ public class AudioPlayerTest {
 		InfoCustomizations infoCustomizations = new InfoCustomizations();
 		CustomizedUI reflectionUI = new CustomizedUI(infoCustomizations) {
 			@Override
-			protected ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
+			public ITypeInfo getTypeInfoBeforeCustomizations(ITypeInfo type) {
 				ITypeInfo result = type;
 				return new InfoProxyFactory() {
 

@@ -512,7 +512,7 @@ public class Form extends ImagePanel {
 						}
 					}
 				});
-		swingRenderer.getFormValidator().submit(currentValidationTask);
+		swingRenderer.getFormValidatorService().submit(currentValidationTask);
 	}
 
 	protected Icon getOngoingValidationIcon() {
