@@ -1295,4 +1295,15 @@ public class SwingRenderer {
 
 	}
 
+	public boolean isRenderedForm(Component c) {
+		if (!(c instanceof Form)) {
+			return false;
+		}
+		Form form = (Form) c;
+		if (form.getSwingRenderer() != this) {
+			return false;
+		}
+		return true;
+	}
+
 }

@@ -212,7 +212,7 @@ public class WindowManager extends WindowAdapter {
 		layoutContentPane(contentPane);
 		form = null;
 		if (content != null) {
-			if (SwingRendererUtils.isForm(content, swingRenderer)) {
+			if (swingRenderer.isRenderedForm(content)) {
 				form = (Form) content;
 				layoutMenuBar(form.getMenuBar());
 				form.updateMenuBar();

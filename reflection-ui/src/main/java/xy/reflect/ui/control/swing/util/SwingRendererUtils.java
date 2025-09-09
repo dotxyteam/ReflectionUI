@@ -219,7 +219,7 @@ public class SwingRendererUtils {
 	public static Form findParentForm(Component component, SwingRenderer swingRenderer) {
 		Component candidate = component.getParent();
 		while (candidate != null) {
-			if (isForm(candidate, swingRenderer)) {
+			if (swingRenderer.isRenderedForm(candidate)) {
 				return (Form) candidate;
 			}
 			candidate = candidate.getParent();
@@ -268,7 +268,7 @@ public class SwingRendererUtils {
 	public static List<Form> findDescendantForms(Container container, SwingRenderer swingRenderer) {
 		List<Form> result = new ArrayList<Form>();
 		for (Component childComponent : container.getComponents()) {
-			if (isForm(childComponent, swingRenderer)) {
+			if (swingRenderer.isRenderedForm(childComponent)) {
 				result.add((Form) childComponent);
 			}
 			if (childComponent instanceof Container) {
@@ -507,17 +507,6 @@ public class SwingRendererUtils {
 			}
 		}
 		return result;
-	}
-
-	public static boolean isForm(Component c, SwingRenderer swingRenderer) {
-		if (!(c instanceof Form)) {
-			return false;
-		}
-		Form form = (Form) c;
-		if (form.getSwingRenderer() != swingRenderer) {
-			return false;
-		}
-		return true;
 	}
 
 	public static void handleComponentSizeChange(Component c) {
@@ -860,7 +849,7 @@ public class SwingRendererUtils {
 		if (c instanceof IAdvancedFieldControl) {
 			return ((IAdvancedFieldControl) c).requestCustomFocus();
 		}
-		if (isForm(c, swingRenderer)) {
+		if (swingRenderer.isRenderedForm(c)) {
 			return ((Form) c).requestFormFocus();
 		}
 		if (!c.isEnabled()) {

@@ -1,6 +1,7 @@
 
 package xy.reflect.ui.control.swing.customizer;
 
+import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -42,16 +43,18 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	protected SubSwingCustomizer switchSubCustomizer(SubSwingCustomizer current, Object object) {
 		String switchIdentifier = subCustomizationsSwitchSelector.apply(object);
 		if (switchIdentifier == null) {
-			return (current != null) ? current : switchSubCustomizer(null, SWITCH_TO_MAIN_CUSTOMIZER);
-		}
-		synchronized (this) {
-			SubSwingCustomizer result = subCustomizerBySwitch.get(object);
-			if (result == null) {
-				result = createSubCustomizer(switchIdentifier);
-				subCustomizerBySwitch.put(switchIdentifier, result);
+			if (current != null) {
+				return current;
+			} else {
+				switchIdentifier = SWITCH_TO_MAIN_CUSTOMIZER;
 			}
-			return result;
 		}
+		SubSwingCustomizer result = subCustomizerBySwitch.get(object);
+		if (result == null) {
+			result = createSubCustomizer(switchIdentifier);
+			subCustomizerBySwitch.put(switchIdentifier, result);
+		}
+		return result;
 	}
 
 	protected SubSwingCustomizer createSubCustomizer(String switchIdentifier) {
@@ -75,6 +78,19 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		return switchSubCustomizer(null, object).createForm(object, infoFilter);
 	}
 
+	@Override
+	public boolean isRenderedForm(Component c) {
+		if (super.isRenderedForm(c)) {
+			return true;
+		}
+		for (SubSwingCustomizer subCustomizer : subCustomizerBySwitch.values()) {
+			if (subCustomizer.isSubRenderedForm(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	protected class SubSwingCustomizer extends SwingCustomizer {
 
 		public SubSwingCustomizer(String switchIdentifier) {
@@ -85,6 +101,15 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		@Override
 		public CustomizingForm createForm(Object object, IInfoFilter infoFilter) {
 			return switchSubCustomizer(this, object).createForm(object, infoFilter);
+		}
+
+		public boolean isSubRenderedForm(Component c) {
+			return super.isRenderedForm(c);
+		}
+
+		@Override
+		public boolean isRenderedForm(Component c) {
+			return MultiSwingCustomizer.this.isRenderedForm(c);
 		}
 
 	}
