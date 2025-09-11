@@ -149,8 +149,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 							public void run() {
 								FieldControlPlaceHolder.this.field.onControlVisibilityChange(getObject(), true);
 							}
-						}, FieldControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
-								+ FieldControlPlaceHolder.this.field.getCaption() + " - Setting up...");
+						}, ReflectionUIUtils.composeMessage(FieldControlPlaceHolder.this.field.getCaption(),
+								"Setting up..."));
 				ancestorVisible = true;
 				updateAutoRefeshState();
 			}
@@ -163,8 +163,8 @@ public class FieldControlPlaceHolder extends ControlPanel implements IFieldContr
 							public void run() {
 								FieldControlPlaceHolder.this.field.onControlVisibilityChange(getObject(), false);
 							}
-						}, FieldControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
-								+ FieldControlPlaceHolder.this.field.getCaption() + " - Cleaning up...");
+						}, ReflectionUIUtils.composeMessage(FieldControlPlaceHolder.this.field.getCaption(),
+								"Cleaning up..."));
 				ancestorVisible = false;
 				updateAutoRefeshState();
 			}

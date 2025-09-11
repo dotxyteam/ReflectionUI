@@ -49,7 +49,7 @@ public class MultiSwingCustomizer extends SwingRenderer {
 				switchIdentifier = SWITCH_TO_MAIN_CUSTOMIZER;
 			}
 		}
-		SubSwingCustomizer result = subCustomizerBySwitch.get(object);
+		SubSwingCustomizer result = subCustomizerBySwitch.get(switchIdentifier);
 		if (result == null) {
 			result = createSubCustomizer(switchIdentifier);
 			subCustomizerBySwitch.put(switchIdentifier, result);

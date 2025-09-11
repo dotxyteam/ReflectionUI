@@ -20,6 +20,7 @@ import xy.reflect.ui.control.swing.util.SwingRendererUtils;
 import xy.reflect.ui.info.method.IMethodInfo;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.undo.ModificationStack;
+import xy.reflect.ui.util.ReflectionUIUtils;
 
 /**
  * Instances of this class are method control containers.
@@ -68,8 +69,8 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 							public void run() {
 								MethodControlPlaceHolder.this.method.onControlVisibilityChange(getObject(), true);
 							}
-						}, MethodControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
-								+ MethodControlPlaceHolder.this.method.getCaption() + " - Setting up...");
+						}, ReflectionUIUtils.composeMessage(MethodControlPlaceHolder.this.method.getCaption(),
+								"Setting up..."));
 			}
 
 			@Override
@@ -80,8 +81,8 @@ public class MethodControlPlaceHolder extends ControlPanel implements IMethodCon
 							public void run() {
 								MethodControlPlaceHolder.this.method.onControlVisibilityChange(getObject(), false);
 							}
-						}, MethodControlPlaceHolder.this.swingRenderer.getObjectTitle(getObject()) + " - "
-								+ MethodControlPlaceHolder.this.method.getCaption() + " - Cleaning up...");
+						}, ReflectionUIUtils.composeMessage(MethodControlPlaceHolder.this.method.getCaption(),
+								"Cleaning up..."));
 			}
 
 			@Override

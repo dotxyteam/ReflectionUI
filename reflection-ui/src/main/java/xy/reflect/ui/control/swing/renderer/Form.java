@@ -144,7 +144,7 @@ public class Form extends ImagePanel {
 			public void run() {
 				objectType.onFormCreation(object, true);
 			}
-		}, swingRenderer.getObjectTitle(object) + " - Setting up...");
+		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Setting up..."));
 		try {
 			this.swingRenderer = swingRenderer;
 			setObject(object);
@@ -161,7 +161,7 @@ public class Form extends ImagePanel {
 				public void run() {
 					objectType.onFormCreation(object, false);
 				}
-			}, swingRenderer.getObjectTitle(object) + " - Setting up...");
+			}, ReflectionUIUtils.composeMessage( swingRenderer.getObjectTitle(object), "Setting up..."));
 
 		}
 	}
@@ -582,7 +582,7 @@ public class Form extends ImagePanel {
 			public void run() {
 				Form.this.filteredObjectType.onFormVisibilityChange(object, true);
 			}
-		}, swingRenderer.getObjectTitle(object) + " - Setting up...");
+		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Setting up..."));
 	}
 
 	protected void formHidden() {
@@ -593,7 +593,7 @@ public class Form extends ImagePanel {
 			public void run() {
 				Form.this.filteredObjectType.onFormVisibilityChange(object, false);
 			}
-		}, swingRenderer.getObjectTitle(object) + " - Cleaning up...");
+		}, ReflectionUIUtils.composeMessage(swingRenderer.getObjectTitle(object), "Cleaning up..."));
 	}
 
 	protected boolean isModificationStackSlave() {

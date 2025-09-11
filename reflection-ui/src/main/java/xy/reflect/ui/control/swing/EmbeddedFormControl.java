@@ -198,7 +198,7 @@ public class EmbeddedFormControl extends ControlPanel implements IAdvancedFieldC
 								subForm.setObject(newSubFormObject);
 								newSubFormObjectType.onFormVisibilityChange(newSubFormObject, true);
 							}
-						}, "Refreshing " + swingRenderer.getObjectTitle(newSubFormObject) + "...");
+						}, "Refreshing " + data.getCaption() + "...");
 					} else {
 						subForm.setObject(newSubFormObject);
 					}

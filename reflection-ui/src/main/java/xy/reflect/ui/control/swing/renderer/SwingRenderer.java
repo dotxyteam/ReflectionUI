@@ -182,7 +182,7 @@ public class SwingRenderer {
 	 * @return the class loader used to retrieve class-path based resources (icons,
 	 *         fonts, ...).
 	 */
-	public ClassLoader getClassPathLoader() {
+	public ClassLoader getClassPathResourceLoader() {
 		return getClass().getClassLoader();
 	}
 

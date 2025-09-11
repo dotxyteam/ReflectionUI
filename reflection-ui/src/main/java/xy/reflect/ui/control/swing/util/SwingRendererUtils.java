@@ -674,7 +674,7 @@ public class SwingRendererUtils {
 				if (imagePath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
 					String classPathResourceLocation = ResourcePath
 							.extractClassPathResourceLocation(imagePath.getSpecification());
-					imageUrl = swingRenderer.getClassPathLoader().getResource(classPathResourceLocation);
+					imageUrl = swingRenderer.getClassPathResourceLoader().getResource(classPathResourceLocation);
 					if (imageUrl == null) {
 						throw new ReflectionUIError(
 								"Class path resource not found: '" + classPathResourceLocation + "'");
@@ -716,7 +716,7 @@ public class SwingRendererUtils {
 				if (fontPath.getPathKind() == PathKind.CLASS_PATH_RESOURCE) {
 					String classPathResourceLocation = ResourcePath
 							.extractClassPathResourceLocation(fontPath.getSpecification());
-					imageUrl = swingRenderer.getClassPathLoader().getResource(classPathResourceLocation);
+					imageUrl = swingRenderer.getClassPathResourceLoader().getResource(classPathResourceLocation);
 					if (imageUrl == null) {
 						throw new ReflectionUIError(
 								"Class path resource not found: '" + classPathResourceLocation + "'");
