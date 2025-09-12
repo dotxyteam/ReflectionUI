@@ -14,7 +14,6 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -262,12 +261,6 @@ public class WindowManager extends WindowAdapter {
 		backgroundPane.setOpaque((backgroundColor != null) && (backgroundImage == null));
 		if (alternativeDecorationsPanel != null) {
 			alternativeDecorationsPanel.repaint();
-		}
-		Color borderColor = getMainBorderColor();
-		if (borderColor != null) {
-			buttonBar.setBorder(BorderFactory.createLineBorder(borderColor));
-		} else {
-			buttonBar.setBorder(BorderFactory.createRaisedBevelBorder());
 		}
 		SwingRendererUtils.handleComponentSizeChange(window);
 	}

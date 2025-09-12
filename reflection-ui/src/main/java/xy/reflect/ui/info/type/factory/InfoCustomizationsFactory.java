@@ -133,14 +133,16 @@ public abstract class InfoCustomizationsFactory extends InfoProxyFactory {
 
 	public abstract String getIdentifier();
 
-	public abstract InfoCustomizations getInfoCustomizations();
-
 	public InfoCustomizationsFactory(CustomizedUI customizedUI) {
 		this.customizedUI = customizedUI;
 	}
 
 	public CustomizedUI getCustomizedUI() {
 		return customizedUI;
+	}
+
+	public InfoCustomizations getInfoCustomizations() {
+		return customizedUI.getInfoCustomizations();
 	}
 
 	protected void traceActiveCustomizations(Map<String, Object> specificProperties) {

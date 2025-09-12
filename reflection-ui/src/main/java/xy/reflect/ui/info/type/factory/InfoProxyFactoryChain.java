@@ -16,12 +16,16 @@ import xy.reflect.ui.info.type.ITypeInfo;
  * @author olitank
  *
  */
-public class InfoProxyFactorChain implements IInfoProxyFactory {
+public class InfoProxyFactoryChain implements IInfoProxyFactory {
 
 	protected List<IInfoProxyFactory> factories = new ArrayList<IInfoProxyFactory>();
 
-	public InfoProxyFactorChain(IInfoProxyFactory... factories) {
+	public InfoProxyFactoryChain(IInfoProxyFactory... factories) {
 		this.factories.addAll(Arrays.asList(factories));
+	}
+
+	public List<IInfoProxyFactory> accessFactories() {
+		return factories;
 	}
 
 	@Override

@@ -129,10 +129,6 @@ public class CustomizedUI extends ReflectionUI {
 				return "CustomizationsFactory [of=" + CustomizedUI.this.toString() + "]";
 			}
 
-			@Override
-			public InfoCustomizations getInfoCustomizations() {
-				return infoCustomizations;
-			}
 		};
 	}
 

@@ -13,6 +13,7 @@ import xy.reflect.ui.info.app.IApplicationInfo;
 import xy.reflect.ui.info.filter.IInfoFilter;
 import xy.reflect.ui.info.type.ITypeInfo;
 import xy.reflect.ui.info.type.factory.IInfoProxyFactory;
+import xy.reflect.ui.info.type.factory.InfoProxyFactoryChain;
 
 public class MultiSwingCustomizer extends SwingRenderer {
 
@@ -70,7 +71,11 @@ public class MultiSwingCustomizer extends SwingRenderer {
 
 	protected CustomizedUI obtainSubCustomizerUI(String switchIdentifier) {
 		return (switchIdentifier == SWITCH_TO_MAIN_CUSTOMIZER) ? MultiSwingCustomizer.this.getReflectionUI()
-				: new SubCustomizedUI();
+				: createSubCustomizedUI(switchIdentifier);
+	}
+
+	protected SubCustomizedUI createSubCustomizedUI(String switchIdentifier) {
+		return new SubCustomizedUI(switchIdentifier);
 	}
 
 	@Override
@@ -98,9 +103,13 @@ public class MultiSwingCustomizer extends SwingRenderer {
 					MultiSwingCustomizer.this.getSubInfoCustomizationsOutputFilePath(switchIdentifier));
 		}
 
+		protected CustomizingForm subCreateForm(Object object, IInfoFilter infoFilter) {
+			return super.createForm(object, infoFilter);
+		}
+
 		@Override
-		public CustomizingForm createForm(Object object, IInfoFilter infoFilter) {
-			return switchSubCustomizer(this, object).createForm(object, infoFilter);
+		public final CustomizingForm createForm(Object object, IInfoFilter infoFilter) {
+			return switchSubCustomizer(this, object).subCreateForm(object, infoFilter);
 		}
 
 		public boolean isSubRenderedForm(Component c) {
@@ -115,6 +124,12 @@ public class MultiSwingCustomizer extends SwingRenderer {
 	}
 
 	protected class SubCustomizedUI extends CustomizedUI {
+
+		protected String switchIdentifier;
+
+		public SubCustomizedUI(String switchIdentifier) {
+			this.switchIdentifier = switchIdentifier;
+		}
 
 		@Override
 		public ITypeInfo getTypeInfoAfterCustomizations(ITypeInfo type) {
@@ -137,41 +152,19 @@ public class MultiSwingCustomizer extends SwingRenderer {
 		}
 
 		@Override
-		public IInfoProxyFactory getInfoCustomizationsFactory() {
-			return new IInfoProxyFactory() {
-				IInfoProxyFactory mainFactory = MultiSwingCustomizer.this.getReflectionUI()
-						.getInfoCustomizationsFactory();
-				IInfoProxyFactory subFactory = SubCustomizedUI.super.getInfoCustomizationsFactory();
+		public InfoProxyFactoryChain getInfoCustomizationsFactory() {
+			return new InfoProxyFactoryChain(MultiSwingCustomizer.this.getReflectionUI().getInfoCustomizationsFactory(),
+					getSubInfoCustomizationsFactory());
 
-				@Override
-				public ITypeInfo wrapTypeInfo(ITypeInfo type) {
-					type = mainFactory.wrapTypeInfo(type);
-					type = subFactory.wrapTypeInfo(type);
-					return type;
-				}
+		}
 
-				@Override
-				public IApplicationInfo wrapApplicationInfo(IApplicationInfo appInfo) {
-					appInfo = mainFactory.wrapApplicationInfo(appInfo);
-					appInfo = subFactory.wrapApplicationInfo(appInfo);
-					return appInfo;
-				}
+		protected IInfoProxyFactory getSubInfoCustomizationsFactory() {
+			return super.getInfoCustomizationsFactory();
+		}
 
-				@Override
-				public ITypeInfo unwrapTypeInfo(ITypeInfo type) {
-					type = subFactory.unwrapTypeInfo(type);
-					type = mainFactory.unwrapTypeInfo(type);
-					return type;
-				}
-
-				@Override
-				public IApplicationInfo unwrapApplicationInfo(IApplicationInfo appInfo) {
-					appInfo = subFactory.unwrapApplicationInfo(appInfo);
-					appInfo = mainFactory.unwrapApplicationInfo(appInfo);
-					return appInfo;
-				}
-			};
-
+		@Override
+		public String toString() {
+			return "SubCustomizedUI [of=" + MultiSwingCustomizer.this + ", switchIdentifier=" + switchIdentifier + "]";
 		}
 
 	}
